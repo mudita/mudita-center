@@ -54,7 +54,7 @@ storiesOf("Components|Core/Selection Manager", module).add("Default", () => {
         <Story title="Few items selected">
           <SelectionManager
             message={{
-              id: "view.name.messages.conversations.selectionsNumber",
+              id: "module.messages.conversationsSelectionsNumber",
             }}
             selectedItemsNumber={5}
           />
@@ -62,7 +62,7 @@ storiesOf("Components|Core/Selection Manager", module).add("Default", () => {
         <Story title="All items selected">
           <SelectionManager
             message={{
-              id: "view.name.messages.conversations.selectionsNumber",
+              id: "module.messages.conversationsSelectionsNumber",
             }}
             selectedItemsNumber={5}
             allItemsSelected
@@ -73,7 +73,7 @@ storiesOf("Components|Core/Selection Manager", module).add("Default", () => {
         <Story title="With button">
           <SelectionManager
             message={{
-              id: "view.name.messages.conversations.selectionsNumber",
+              id: "module.messages.conversationsSelectionsNumber",
             }}
             selectedItemsNumber={5}
             buttons={[deleteButton]}
@@ -82,7 +82,7 @@ storiesOf("Components|Core/Selection Manager", module).add("Default", () => {
         <Story title="With two buttons">
           <SelectionManager
             message={{
-              id: "view.name.messages.conversations.selectionsNumber",
+              id: "module.messages.conversationsSelectionsNumber",
             }}
             selectedItemsNumber={5}
             buttons={[exportButton, deleteButton]}
@@ -93,7 +93,7 @@ storiesOf("Components|Core/Selection Manager", module).add("Default", () => {
         <Story title="Styling">
           <CustomSelectionManager
             message={{
-              id: "view.name.messages.conversations.selectionsNumber",
+              id: "module.messages.conversationsSelectionsNumber",
             }}
             selectedItemsNumber={5}
           />
@@ -101,7 +101,7 @@ storiesOf("Components|Core/Selection Manager", module).add("Default", () => {
         <Story title="Checkbox size (small)">
           <SelectionManager
             message={{
-              id: "view.name.messages.conversations.selectionsNumber",
+              id: "module.messages.conversationsSelectionsNumber",
             }}
             selectedItemsNumber={5}
             checkboxSize={Size.Small}
@@ -110,7 +110,7 @@ storiesOf("Components|Core/Selection Manager", module).add("Default", () => {
         <Story title="Checkbox size (medium)">
           <SelectionManager
             message={{
-              id: "view.name.messages.conversations.selectionsNumber",
+              id: "module.messages.conversationsSelectionsNumber",
             }}
             selectedItemsNumber={5}
             checkboxSize={Size.Medium}

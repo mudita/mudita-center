@@ -24,16 +24,16 @@ import Icon from "Renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
   title: {
-    id: "view.name.calendar.modal.synchronizationFailed.title",
+    id: "module.calendar.synchronizationFailedTitle",
   },
   subtitle: {
-    id: "view.name.calendar.modal.synchronizationFailed.subtitle",
+    id: "module.calendar.synchronizationFailedSubtitle",
   },
   body: {
-    id: "view.name.calendar.modal.synchronizationFailed.body",
+    id: "module.calendar.synchronizationFailedBody",
   },
   button: {
-    id: "common.supportButton",
+    id: "component.supportButton",
   },
 })
 

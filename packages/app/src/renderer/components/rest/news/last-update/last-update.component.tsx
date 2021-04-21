@@ -24,10 +24,10 @@ const LastUpdate: FunctionComponent<Props> = ({
     displayStyle={TextDisplayStyle.MediumFadedLightText}
     className={className}
   >
-    {!online && <FormattedMessage id="view.name.news.offlineText" />}{" "}
+    {!online && <FormattedMessage id="module.news.offlineText" />}{" "}
     {date && (
       <>
-        <FormattedMessage id="view.name.news.lastUpdate" />
+        <FormattedMessage id="module.news.lastUpdate" />
         <FormattedDate
           value={new Date(date)}
           year="numeric"

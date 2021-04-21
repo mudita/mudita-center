@@ -45,8 +45,8 @@ const SettingsToggler: FunctionComponent<SettingsTogglerProps> = ({
             key={Number(value)}
             label={intl.formatMessage({
               id: value
-                ? "view.name.settings.onLabel"
-                : "view.name.settings.offLabel",
+                ? "module.settings.onLabel"
+                : "module.settings.offLabel",
             })}
             onClick={changeStatus}
             active={active}

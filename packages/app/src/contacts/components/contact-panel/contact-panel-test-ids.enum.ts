@@ -5,7 +5,7 @@
 
 export enum ContactPanelTestIdsEnum {
   SelectionManager = "selection-manager",
-  ManageButton = "manage-button",
+  ImportButton = "import-button",
   NewButton = "new-contact-button",
   SaveButton = "save-button",
 }

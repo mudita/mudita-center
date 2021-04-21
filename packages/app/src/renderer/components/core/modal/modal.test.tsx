@@ -49,7 +49,7 @@ test("subtitle is rendered when provided", () => {
 })
 
 test("only close button is rendered by default", () => {
-  const closeButtonText = "component.modal.closeButton"
+  const closeButtonText = "component.modalCloseButton"
   const { getByText } = renderer()
   expect(getByText(closeButtonText, { exact: false })).toBeInTheDocument()
   expect(getByText(closeButtonText, { exact: false })).toBeTranslationKey()

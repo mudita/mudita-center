@@ -26,25 +26,25 @@ import {
 
 const messages = defineMessages({
   title: {
-    id: "view.name.calendar.modal.authorizationFailed.title",
+    id: "module.calendar.authorizationFailedTitle",
   },
   subtitle: {
-    id: "view.name.calendar.modal.authorizationFailed.subtitle",
+    id: "module.calendar.authorizationFailedSubtitle",
   },
   body: {
-    id: "view.name.calendar.modal.authorizationFailed.body",
+    id: "module.calendar.authorizationFailedBody",
   },
   button: {
-    id: "view.name.calendar.modal.authorizationFailed.button",
+    id: "module.calendar.authorizationFailedButton",
   },
   google: {
-    id: "common.providers.google",
+    id: "component.modalProvidersGoogle",
   },
   apple: {
-    id: "common.providers.apple",
+    id: "component.modalProvidersApple",
   },
   microsoft: {
-    id: "common.providers.microsoft",
+    id: "component.modalProvidersMicrosoft",
   },
 })
 

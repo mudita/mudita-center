@@ -12,7 +12,7 @@ type MainRoutesKeys = keyof typeof URL_MAIN
 type MainRoutesValues = typeof URL_MAIN[MainRoutesKeys]
 type NestedRoutesKeys = keyof typeof URL_TABS
 type NestedRoutesValues = typeof URL_TABS[NestedRoutesKeys]
-type Values = MainRoutesValues | MainRoutesValues & NestedRoutesValues
+type Values = MainRoutesValues | (MainRoutesValues & NestedRoutesValues)
 
 type Actions = { [key in Values]?: Array<Function> }
 

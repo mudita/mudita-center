@@ -3346,7 +3346,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   <p
     class="c1 c2"
   >
-    [value] view.name.news
+    [value] module.news
   </p>
 </button>
 `;

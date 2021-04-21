@@ -37,7 +37,7 @@ test("Help component renders", () => {
 })
 
 test("render title correctly", () => {
-  const titleText = "view.name.help.title"
+  const titleText = "module.help.title"
   const { getByTestId } = renderer()
   expect(getByTestId(HelpComponentTestIds.Title)).toHaveTextContent(titleText)
 })
