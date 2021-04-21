@@ -25,20 +25,20 @@ import {
 
 const messages = defineMessages({
   filename: {
-    id: "view.generic.filename",
+    id: "component.columnFileName",
   },
   size: {
-    id: "view.generic.size",
+    id: "component.columnSize",
   },
-  cancel: { id: "view.generic.button.cancel" },
+  cancel: { id: "component.cancelButton" },
   title: {
-    id: "view.name.overview.backup.restoreBackupModal.title",
+    id: "module.overview.backupRestoreBackupModalTitle",
   },
   body: {
-    id: "view.name.overview.backup.restoreBackupModal.body",
+    id: "module.overview.backupRestoreBackupModalBody",
   },
   actionButton: {
-    id: "view.name.overview.backup.restoreBackupModal.restoreButton",
+    id: "module.overview.backupRestoreButton",
   },
 })
 
@@ -47,11 +47,9 @@ interface BackupRestorationStartModalProps {
   restoreBackup?: () => void
 }
 
-export const BackupRestorationStartModal: FunctionComponent<BackupRestorationStartModalProps & ComponentProps<typeof PureBackupModal>> = ({
-  items,
-  restoreBackup = noop,
-  ...props
-}) => (
+export const BackupRestorationStartModal: FunctionComponent<
+  BackupRestorationStartModalProps & ComponentProps<typeof PureBackupModal>
+> = ({ items, restoreBackup = noop, ...props }) => (
   <PureBackupModal
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     actionButtonLabel={intl.formatMessage(messages.actionButton)}

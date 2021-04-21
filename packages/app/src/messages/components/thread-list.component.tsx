@@ -277,7 +277,7 @@ const ThreadList: FunctionComponent<Props> = ({
                 >
                   <HiddenButton
                     labelMessage={{
-                      id: "component.dropdown.call",
+                      id: "component.dropdownCall",
                       values: {
                         name: contact?.firstName || thread.id,
                       },
@@ -291,7 +291,7 @@ const ThreadList: FunctionComponent<Props> = ({
                   {isNameAvailable(contact) ? (
                     <ButtonComponent
                       labelMessage={{
-                        id: "view.name.messages.dropdownContactDetails",
+                        id: "module.messages.dropdownContactDetails",
                       }}
                       Icon={Type.Contact}
                       onClick={noop}
@@ -301,7 +301,7 @@ const ThreadList: FunctionComponent<Props> = ({
                   ) : (
                     <ButtonComponent
                       labelMessage={{
-                        id: "view.name.messages.dropdownAddToContacts",
+                        id: "module.messages.dropdownAddToContacts",
                       }}
                       Icon={Type.Contact}
                       onClick={noop}
@@ -315,8 +315,8 @@ const ThreadList: FunctionComponent<Props> = ({
                       <HiddenButton
                         labelMessage={{
                           id: unread
-                            ? "view.name.messages.markAsRead"
-                            : "view.name.messages.markAsUnread",
+                            ? "module.messages.markAsRead"
+                            : "module.messages.markAsUnread",
                         }}
                         Icon={Type.BorderCheckIcon}
                         onClick={toggleReadStatus}
@@ -327,7 +327,7 @@ const ThreadList: FunctionComponent<Props> = ({
 
                       <ButtonComponent
                         labelMessage={{
-                          id: "view.name.messages.dropdownDelete",
+                          id: "module.messages.dropdownDelete",
                         }}
                         Icon={Type.Delete}
                         onClick={emitDeleteClick}

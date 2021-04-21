@@ -40,15 +40,15 @@ import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { Contact } from "App/contacts/store/contacts.type"
 
 const messages = defineMessages({
-  today: { id: "view.name.phone.calls.today" },
-  duration: { id: "view.name.phone.calls.duration" },
-  date: { id: "view.name.phone.calls.date" },
-  type: { id: "view.name.phone.calls.type" },
-  information: { id: "view.name.phone.contacts.details.information" },
-  deleteCallLabel: { id: "view.name.phone.contacts.details.deleteCallLabel" },
-  contactCallLabel: { id: "view.name.phone.contacts.details.contactCallLabel" },
+  today: { id: "module.phone.callsToday" },
+  duration: { id: "module.phone.callsDuration" },
+  date: { id: "module.phone.callsDate" },
+  type: { id: "module.phone.callsType" },
+  information: { id: "module.contacts.information" },
+  deleteCallLabel: { id: "module.contacts.deleteCallLabel" },
+  contactCallLabel: { id: "module.contacts.detailsContactCallLabel" },
   newContactCallLabel: {
-    id: "view.name.phone.contacts.details.newContactCallLabel",
+    id: "module.contacts.newContactCallLabel",
   },
 })
 

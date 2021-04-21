@@ -50,7 +50,7 @@ const UpdateButtonComponent: FunctionComponent<
 > = ({
   onClick = noop,
   updating = false,
-  label = intl.formatMessage({ id: "view.name.news.updateButtonLabel" }),
+  label = intl.formatMessage({ id: "module.news.updateButtonLabel" }),
   ...rest
 }) => {
   return (

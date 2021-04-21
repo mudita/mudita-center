@@ -21,10 +21,10 @@ const createCallType = (icon: IconType, description: Message): CallDetails => {
 }
 
 const messages = defineMessages({
-  conference: { id: "view.name.calls.conference" },
-  incoming: { id: "view.name.calls.incoming" },
-  missed: { id: "view.name.calls.missed" },
-  outgoing: { id: "view.name.calls.outgoing" },
+  conference: { id: "module.calls.conference" },
+  incoming: { id: "module.calls.incoming" },
+  missed: { id: "module.calls.missed" },
+  outgoing: { id: "module.calls.outgoing" },
 })
 
 export const resolveCallType = (type: CallStatus): CallDetails => {

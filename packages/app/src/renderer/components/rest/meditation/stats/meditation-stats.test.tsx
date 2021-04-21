@@ -19,7 +19,7 @@ import {
   MeditationStatsTestIds,
 } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
 
-const mainLabel = "view.name.meditationStats.chart.mainLabel"
+const mainLabel = "module.meditation.statsMainLabel"
 
 const renderMeditationStats = ({
   chartType,

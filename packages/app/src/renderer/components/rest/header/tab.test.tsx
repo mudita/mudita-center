@@ -11,7 +11,7 @@ import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
-const message = mockDefineMessages("view.name.phone")
+const message = mockDefineMessages("module.phone")
 const currentLocation = "/phone"
 
 test("matches snapshot", () => {
@@ -30,5 +30,5 @@ test("has correct text content", () => {
     </MemoryRouter>
   )
   const tabNode = container.firstChild
-  expect(tabNode).toHaveTextContent("view.name.phone")
+  expect(tabNode).toHaveTextContent("module.phone")
 })

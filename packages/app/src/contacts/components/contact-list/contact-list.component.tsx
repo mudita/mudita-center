@@ -87,7 +87,7 @@ const BlockedIcon = styled(Icon).attrs(() => ({
 const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   flex: 1;
   overflow: auto;
-  --columnsTemplate: 4rem 63.8rem 11.5rem 11.5rem auto;
+  --columnsTemplate: 4rem 63rem 11.5rem 11.5rem auto;
   --columnsTemplateWithOpenedSidebar: 4rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
@@ -137,6 +137,12 @@ const ContactList: FunctionComponent<ContactListProps> = ({
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
+  const CategoryLabels = styled(Labels)`
+    align-items: end;
+    > div:last-child {
+      margin-bottom: 1.5rem;
+    }
+  `
 
   useEffect(() => {
     const table = tableRef.current
@@ -164,16 +170,20 @@ const ContactList: FunctionComponent<ContactListProps> = ({
     >
       {newContact && (
         <Group>
-          <Labels>
+          <CategoryLabels>
             <Col />
             <Col>
-              <FormattedMessage id={"view.name.phone.contacts.new.title"} />
+              <FormattedMessage id={"module.contacts.newTitle"} />
             </Col>
-          </Labels>
+          </CategoryLabels>
           <Row active>
             <Col />
             <Col>
-              <InitialsAvatar user={newContact} light size={AvatarSize.Small} />
+              <InitialsAvatar
+                user={newContact}
+                light
+                size={AvatarSize.Medium}
+              />
               {newContact.firstName} {newContact.lastName}
             </Col>
           </Row>
@@ -187,10 +197,10 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           (contactList.length ? (
             contactList.map(({ category, contacts }, categoryIndex) => (
               <Group key={category}>
-                <Labels>
+                <CategoryLabels>
                   <Col />
                   <Col>{category}</Col>
-                </Labels>
+                </CategoryLabels>
                 {contacts.map((contact, index) => {
                   const { selected } = getRowStatus(contact)
                   const onChange = () => toggleRow(contact)
@@ -248,12 +258,16 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                       >
                         <InitialsAvatar
                           user={contact}
-                          light={selected || activeRow === contact}
-                          size={AvatarSize.Small}
+                          light={
+                            selected ||
+                            activeRow === contact ||
+                            editedContact === contact
+                          }
+                          size={AvatarSize.Medium}
                         />
                         {createStyledFullName() ||
                           intl.formatMessage({
-                            id: "view.name.phone.contacts.list.unnamedContact",
+                            id: "module.contacts.listUnnamedContact",
                           })}
                         {contact.blocked && (
                           <BlockedIcon width={1.4} height={1.4} />
@@ -279,7 +293,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             <HiddenButton
                               labelMessage={{
                                 id:
-                                  "view.name.phone.contacts.action.exportAsVcard",
+                                  "module.contacts.exportAsVcard",
                               }}
                               Icon={Type.Upload}
                               onClick={handleExport}
@@ -289,7 +303,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             <HiddenButton
                               labelMessage={{
                                 id:
-                                  "view.name.phone.contacts.action.forwardNamecard",
+                                  "module.contacts.forwardNamecard",
                               }}
                               Icon={Type.Forward}
                               onClick={handleForward}
@@ -299,7 +313,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             {contact.blocked ? (
                               <HiddenButton
                                 labelMessage={{
-                                  id: "view.name.phone.contacts.action.unblock",
+                                  id: "module.contacts.unblock",
                                 }}
                                 Icon={Type.Blocked}
                                 onClick={handleUnblock}
@@ -309,7 +323,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             ) : (
                               <HiddenButton
                                 labelMessage={{
-                                  id: "view.name.phone.contacts.action.block",
+                                  id: "module.contacts.block",
                                 }}
                                 Icon={Type.Blocked}
                                 onClick={handleBlock}
@@ -319,7 +333,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             )}
                             <ButtonComponent
                               labelMessage={{
-                                id: "view.name.phone.contacts.action.delete",
+                                id: "module.contacts.delete",
                               }}
                               Icon={Type.Delete}
                               onClick={handleDelete}
@@ -368,20 +382,20 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             ))
           ) : (
             <EmptyState
-              title={{ id: "view.name.phone.contacts.emptyList.title" }}
+              title={{ id: "module.contacts.emptyListTitle" }}
               description={{
                 id:
-                  "view.name.phone.contacts.emptyList.emptySearch.description",
+                  "module.contacts.emptySearchDescription",
               }}
             />
           ))}
         {resultsState === ResultsState.Empty ||
           (resultsState === ResultsState.Error && (
             <EmptyState
-              title={{ id: "view.name.phone.contacts.emptyList.title" }}
+              title={{ id: "module.contacts.emptyListTitle" }}
               description={{
                 id:
-                  "view.name.phone.contacts.emptyList.emptyPhonebook.description",
+                  "module.contacts.emptyPhonebook",
               }}
             />
           ))}

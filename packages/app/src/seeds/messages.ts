@@ -317,7 +317,25 @@ export const messagesData: Message[] = [
     id: "0dca108c-e665-4d82-857c-6d9a3b70d8b0",
     date: new Date("2020-07-07T03:44:58.056Z"),
     content:
-      "Autem consequatur nobis aperiam deleniti aut. Fuga molestiae sapiente tenetur nesciunt.",
+      "Autem cghch onsequatur nobis aperiam deleniti aut. Fuga molestiae sapiente tenetur nesciunt.",
+    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
+    threadId: "+85102096521",
+    messageType: MessageType.OUTBOX,
+  },
+  {
+    id: "0yca108c-e665-4d82-857c-6d9a3b70d8b0",
+    date: new Date("2020-07-07T03:54:58.056Z"),
+    content:
+      "Autem onsequatur nobis aperiam deleniti aut. Fuga molestiae sapiente tenetur nesciunt.",
+    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
+    threadId: "+85102096521",
+    messageType: MessageType.OUTBOX,
+  },
+  {
+    id: "0yca108c-e665-4d82-857c-6d9a3b70d8b0",
+    date: new Date("2020-07-07T17:23:53.563Z"),
+    content:
+      "Autem cghch onsequatur nobis aperiam deleniti aut. Fuga molestiae sapiente tenetur nesciunt.",
     contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     messageType: MessageType.OUTBOX,
@@ -373,6 +391,15 @@ export const messagesData: Message[] = [
     content:
       "Et beatae dicta ut consequatur aut. Consequuntur odio voluptas sed eligendi repudiandae quo amet.",
     contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
+    threadId: "+85102096521",
+    messageType: MessageType.INBOX,
+  },
+  {
+    id: "e7x105279-24ae-46be-b3a5-5ef38309670b",
+    date: new Date("2020-07-07T17:20:53.563Z"),
+    content:
+      "Et beatae dicta ut consequatur aut. Consequuntur odio voluptas sed eligendi repudiandae quo amet.",
+    contactId: "7173ddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     messageType: MessageType.INBOX,
   },

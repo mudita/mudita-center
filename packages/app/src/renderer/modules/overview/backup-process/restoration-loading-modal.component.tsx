@@ -19,12 +19,12 @@ import theme from "Renderer/styles/theming/theme"
 import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 
 const messages = defineMessages({
-  cancel: { id: "view.generic.button.cancel" },
+  cancel: { id: "component.cancelButton" },
   title: {
-    id: "view.name.overview.backup.restoringBackupModal.title",
+    id: "module.overview.backupRestoringBackupModalTitle",
   },
   body: {
-    id: "view.name.overview.backup.loadingBackupModal.body",
+    id: "module.overview.backupLoadingBackupModalBody",
   },
 })
 
@@ -32,10 +32,9 @@ interface BackupRestorationLoadingModalProps {
   progress?: number
 }
 
-export const BackupRestorationLoadingModal: FunctionComponent<BackupRestorationLoadingModalProps & ComponentProps<typeof PureBackupModal>> = ({
-  progress = 0,
-  ...props
-}) => (
+export const BackupRestorationLoadingModal: FunctionComponent<
+  BackupRestorationLoadingModalProps & ComponentProps<typeof PureBackupModal>
+> = ({ progress = 0, ...props }) => (
   <PureBackupModal
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     closeable={false}

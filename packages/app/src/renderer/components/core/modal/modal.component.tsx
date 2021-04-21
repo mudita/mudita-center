@@ -78,7 +78,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   children,
   closeable = true,
   closeButton = true,
-  closeButtonLabel = intl.formatMessage({ id: "component.modal.closeButton" }),
+  closeButtonLabel = intl.formatMessage({ id: "component.modalCloseButton" }),
   onClose = noop,
   onCloseButton = noop,
   size = ModalSize.Large,

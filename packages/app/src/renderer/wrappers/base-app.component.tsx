@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { connect, Provider } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
@@ -25,7 +25,6 @@ import registerHotkeys from "Renderer/register-hotkeys"
 import registerAppContextMenu from "Renderer/register-app-context-menu"
 import appContextMenu from "./app-context-menu"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
-import RootWrapper from "Renderer/wrappers/root-wrapper"
 import CollectingModal from "App/collecting-data-modal/collecting-modal.component"
 
 interface Props {
@@ -35,9 +34,7 @@ interface Props {
   connected: boolean
 }
 
-const BaseApp: FunctionComponent<
-  Props & ComponentProps<typeof RootWrapper>
-> = ({
+const BaseApp: FunctionComponent<Props> = ({
   connected,
   toggleDisconnectedDevice,
   store,
@@ -97,7 +94,7 @@ const BaseApp: FunctionComponent<
   return (
     <Provider store={store}>
       <NetworkStatusChecker />
-      <CollectingModal/>
+      <CollectingModal />
       <Router history={history}>
         <BaseRoutes />
       </Router>

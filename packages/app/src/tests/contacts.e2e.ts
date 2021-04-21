@@ -10,7 +10,7 @@ import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/c
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
-import { Application } from "spectron";
+import { Application } from "spectron"
 
 let app: Application
 const shortNumber = "1234"
@@ -52,7 +52,7 @@ test("contact details are evoked when a user clicks on any contact", async () =>
 
 test("modal opens new window", async () => {
   await app.client
-    .$(`*[data-testid=${ContactPanelTestIdsEnum.ManageButton}]`)
+    .$(`*[data-testid=${ContactPanelTestIdsEnum.ImportButton}]`)
     .click()
   await app.client
     .$(`*[data-testid=${SyncContactsModalTestIds.GoogleButton}]`)
@@ -371,7 +371,7 @@ test("user can save the contact after providing a Note", async () => {
 
 test("outlook button opens new window", async () => {
   await app.client
-    .$(`*[data-testid=${ContactPanelTestIdsEnum.ManageButton}]`)
+    .$(`*[data-testid=${ContactPanelTestIdsEnum.ImportButton}]`)
     .click()
   await app.client
     .$(`*[data-testid=${SyncContactsModalTestIds.OutlookButton}]`)

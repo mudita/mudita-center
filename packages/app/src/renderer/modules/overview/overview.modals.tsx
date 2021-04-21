@@ -86,106 +86,106 @@ const CenteredText = styled(Text)`
 
 const messages = defineMessages({
   muditaOsUpdateTitle: {
-    id: "view.name.overview.system.modal.muditaOsUpdate.title",
+    id: "module.overview.muditaOsUpdateTitle",
   },
   checkingForUpdatesMessage: {
-    id: "view.name.overview.system.modal.checkingForUpdates.message",
+    id: "module.overview.checkingForUpdatesMessage",
   },
   checkingForUpdatesCloseButton: {
-    id: "view.name.overview.system.modal.checkingForUpdates.closeButton",
+    id: "module.overview.checkingForUpdatesCloseButton",
   },
   updateAvailableMessage: {
-    id: "view.name.overview.system.modal.updateAvailable.message",
+    id: "module.overview.updateAvailableMessage",
   },
   updateAvailableDescription: {
-    id: "view.name.overview.system.modal.updateAvailable.description",
+    id: "module.overview.updateAvailableDescription",
   },
   updateAvailableButton: {
-    id: "view.name.overview.system.modal.updateAvailable.button",
+    id: "module.overview.updateAvailableButton",
   },
   updateNotAvailableMessage: {
-    id: "view.name.overview.system.modal.updateNotAvailable.message",
+    id: "module.overview.updateNotAvailableMessage",
   },
   updateNotAvailableDescription: {
-    id: "view.name.overview.system.modal.updateNotAvailable.description",
+    id: "module.overview.updateAvailableDescription",
   },
   downloadingUpdateMessage: {
-    id: "view.name.overview.system.modal.downloadingUpdate.message",
+    id: "module.overview.downloadingUpdateMessage",
   },
   downloadingUpdateDescriptionStarting: {
     id:
-      "view.name.overview.system.modal.downloadingUpdate.description.starting",
+      "module.overview.downloadingUpdateStarting",
   },
   downloadingUpdateDescriptionDownloading: {
     id:
-      "view.name.overview.system.modal.downloadingUpdate.description.downloading",
+      "module.overview.downloadingUpdateDownloading",
   },
   downloadingUpdateDescriptionFinishing: {
     id:
-      "view.name.overview.system.modal.downloadingUpdate.description.finishing",
+      "vmodule.overview.downloadingUpdateFinishing",
   },
   downloadingUpdateButton: {
-    id: "view.name.overview.system.modal.downloadingUpdate.button",
+    id: "module.overview.downloadingUpdateButton",
   },
   downloadCompletedMessage: {
-    id: "view.name.overview.system.modal.downloadCompleted.message",
+    id: "module.overview.downloadCompletedMessage",
   },
   downloadCompletedDescription: {
-    id: "view.name.overview.system.modal.downloadCompleted.description",
+    id: "module.overview.downloadCompletedDescription",
   },
   downloadCompletedButton: {
-    id: "view.name.overview.system.modal.downloadCompleted.button",
+    id: "module.overview.downloadCompletedButton",
   },
   downloadCompletedCloseButton: {
-    id: "view.name.overview.system.modal.downloadCompleted.closeButton",
+    id: "module.overview.downloadCompletedCloseButton",
   },
   checkingUpdateFailedMessage: {
-    id: "view.name.overview.system.modal.checkingUpdateFailed.message",
+    id: "module.overview.checkingUpdateFailedMessage",
   },
   checkingUpdateFailedDescription: {
-    id: "view.name.overview.system.modal.checkingUpdateFailed.description",
+    id: "module.overview.checkingUpdateFailedDescription",
   },
   checkingUpdateFailedButton: {
-    id: "view.name.overview.system.modal.checkingUpdateFailed.button",
+    id: "module.overview.checkingUpdateFailedButton",
   },
   downloadingFailedMessage: {
-    id: "view.name.overview.system.modal.downloadingFailed.message",
+    id: "module.overview.downloadingFailedMessage",
   },
   downloadingFailedDescription: {
-    id: "view.name.overview.system.modal.downloadingFailed.description",
+    id: "module.overview.downloadingFailedDescription",
   },
   downloadingFailedButton: {
-    id: "view.name.overview.system.modal.downloadingFailed.button",
+    id: "module.overview.downloadingFailedButton",
   },
   downloadingCancelledMessage: {
-    id: "view.name.overview.system.modal.downloadingCancelled.message",
+    id: "module.overview.downloadingCancelledMessage",
   },
   updatingProgressTitle: {
-    id: "view.name.overview.system.modal.updating.progress.title",
+    id: "module.overview.updatingProgressTitle",
   },
   updatingProgressDescription: {
-    id: "view.name.overview.system.modal.updating.progress.description",
+    id: "module.overview.updatingProgressDescription",
   },
   updatingSuccessTitle: {
-    id: "view.name.overview.system.modal.updating.success.title",
+    id: "module.overview.updatingSuccessTitle",
   },
   updatingSuccessDescription: {
-    id: "view.name.overview.system.modal.updating.success.description",
+    id: "module.overview.updatingSuccessDescription",
   },
   updatingFailedTitle: {
-    id: "view.name.overview.system.modal.updatingFailed.title",
+    id: "module.overview.updatingFailedTitle",
   },
   updatingFailedDescription: {
-    id: "view.name.overview.system.modal.updatingFailed.description",
+    id: "module.overview.updatingFailedDescription",
   },
   updatingFailedOnlySupportDescription: {
-    id: "view.name.overview.system.modal.updatingFailed.onlySupportDescription",
+    id: "module.overview.updatingFailedOnlySupportDescription",
   },
   updatingFailedSupportButton: {
-    id: "view.name.overview.system.modal.updatingFailed.supportButton",
+    id: "module.overview.updatingFailedSupportButton",
   },
   updatingFailedHelpButton: {
-    id: "view.name.overview.system.modal.updatingFailed.helpButton",
+    id: "module.overview.updatingFailedHelpButton",
   },
 })
 

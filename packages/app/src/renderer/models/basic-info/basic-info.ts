@@ -184,11 +184,7 @@ const basicInfo = createModel<RootModel>({
         models.basicInfo.resultsState,
         models.basicInfo.disconnectedDevice,
         models.basicInfo.updatingDevice,
-        (
-          basicInfoResultsState,
-          disconnectedDevice,
-          updatingDevice
-        ) => {
+        (basicInfoResultsState, disconnectedDevice, updatingDevice) => {
           return (
             (basicInfoResultsState === ResultsState.Loaded &&
               !disconnectedDevice) ||

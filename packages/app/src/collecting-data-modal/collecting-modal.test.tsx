@@ -27,27 +27,24 @@ const renderer = () => {
 }
 
 describe("when user has no settings regarding collection of data", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     jest
       .spyOn(appSettingsRequest, "getAppSettings")
       .mockImplementation(() => Promise.resolve(fakeAppSettings))
-  })
-  afterEach(() => jest.resetAllMocks())
-  test("modal is rendered", async () => {
     await act(async () => {
       renderer()
     })
+  })
+  afterEach(() => jest.resetAllMocks())
+  test("modal is rendered", async () => {
     expect(screen.getByRole("dialog")).toBeInTheDocument()
   })
   describe("when user clicks cancel button", () => {
     test("collecting data setting is set to false", async () => {
-      await act(async () => {
-        renderer()
-      })
       jest.spyOn(store.dispatch.settings, "setCollectingData")
       fireEvent.click(
         screen.getByRole("button", {
-          name: "[value] app.collecting.data.modal.cancel",
+          name: "[value] component.collectingDataModalCancel",
         })
       )
       expect(store.dispatch.settings.setCollectingData).toHaveBeenCalledWith(
@@ -58,13 +55,10 @@ describe("when user has no settings regarding collection of data", () => {
   })
   describe("when user clicks agree button", () => {
     test("collecting data setting is set to true", async () => {
-      await act(async () => {
-        renderer()
-      })
       jest.spyOn(store.dispatch.settings, "setCollectingData")
       fireEvent.click(
         screen.getByRole("button", {
-          name: "[value] app.collecting.data.modal.agree",
+          name: "[value] component.collectingDataModalAgree",
         })
       )
       expect(store.dispatch.settings.setCollectingData).toHaveBeenCalledWith(
@@ -96,25 +90,22 @@ describe.each([
 })
 
 describe("correct translations are applied", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     jest
       .spyOn(appSettingsRequest, "getAppSettings")
       .mockImplementation(() => Promise.resolve(fakeAppSettings))
-  })
-  test("to subtitle", async () => {
     await act(async () => {
       renderer()
     })
+  })
+  test("to subtitle", async () => {
     expect(screen.getByTestId(CollectingDataModalTestIds.Subtitle)).toHaveTextContent(
-      "[value] app.collecting.data.modal.text"
+      "[value] component.collectingDataModalText"
     )
   })
   test("to body", async () => {
-    await act(async () => {
-      renderer()
-    })
     expect(screen.getByTestId(CollectingDataModalTestIds.Body)).toHaveTextContent(
-      "[value] app.collecting.data.modal.body"
+      "[value] component.collectingDataModalBody"
     )
   })
 })

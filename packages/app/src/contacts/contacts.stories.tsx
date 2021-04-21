@@ -79,6 +79,7 @@ const ContactsComponent = ({
     speedDialContacts={[]}
     deleteContacts={asyncNoop}
     authorize={asyncNoop}
+    editedContact={undefined}
   />
 )
 

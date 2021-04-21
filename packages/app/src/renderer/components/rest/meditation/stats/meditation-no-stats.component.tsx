@@ -17,8 +17,8 @@ import { defineMessages } from "react-intl"
 import { MeditationNoStatsTestIdsEnum } from "Renderer/components/rest/meditation/stats/meditation-no-stats-test-ids.enum"
 
 const messages = defineMessages({
-  title: { id: "view.name.meditation.noStatsTitle" },
-  subtitle: { id: "view.name.meditation.noStatsSubtitle" },
+  title: { id: "module.meditation.noStatsTitle" },
+  subtitle: { id: "module.meditation.noStatsSubtitle" },
 })
 
 const MeditationNoStats: FunctionComponent = () => (

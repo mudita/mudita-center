@@ -34,19 +34,19 @@ import { CallsHeaderTestIds } from "Renderer/components/rest/calls/calls-header-
 const toggleState = [
   {
     label: intl.formatMessage({
-      id: "view.name.phone.calls.allCallTypes",
+      id: "module.phone.callsAllCallTypes",
     }),
     visibilityFilter: VisibilityFilter.All,
   },
   {
     label: intl.formatMessage({
-      id: "view.name.phone.calls.receivedCalls",
+      id: "module.phone.callsReceivedCalls",
     }),
     visibilityFilter: VisibilityFilter.Received,
   },
   {
     label: intl.formatMessage({
-      id: "view.name.phone.calls.missedCalls",
+      id: "module.phone.callsMissedCalls",
     }),
     visibilityFilter: VisibilityFilter.Missed,
   },
@@ -127,14 +127,14 @@ const CallsHeader: FunctionComponent<Props> = ({
       {selectionMode ? (
         <CallsSelectionManager
           selectedItemsNumber={selectedCalls.length}
-          message={{ id: "view.name.phone.calls.selectionsNumber" }}
+          message={{ id: "module.phone.callsSelectionsNumber" }}
           onToggle={toggleAll}
           allItemsSelected={allRowsSelected}
           buttons={[
             <ButtonComponent
               key="delete"
               label={intl.formatMessage({
-                id: "view.name.messages.templates.deleteButton",
+                id: "module.templates.deleteButton",
               })}
               displayStyle={DisplayStyle.Link1}
               Icon={Type.Delete}

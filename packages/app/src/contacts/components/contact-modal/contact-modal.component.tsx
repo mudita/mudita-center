@@ -38,29 +38,29 @@ import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.comp
 
 const messages = defineMessages({
   actionButton: {
-    id: "component.modal.support.actionButton",
+    id: "component.supportModalActionButton",
   },
   actionButtonProgress: {
-    id: "component.modal.support.actionButtonProgress",
+    id: "component.supportModalActionButtonProgress",
   },
   title: {
-    id: "component.modal.support.title",
+    id: "component.supportModalTitle",
   },
   description: {
-    id: "component.modal.support.description",
+    id: "component.supportModalDescription",
   },
-  emailLabel: { id: "component.modal.support.form.email.label" },
-  emailPlaceholder: { id: "component.modal.support.form.email.placeholder" },
-  messageLabel: { id: "component.modal.support.form.message.label" },
+  emailLabel: { id: "component.supportModalFormEmailLabel" },
+  emailPlaceholder: { id: "component.supportModalFormEmailPlaceholder" },
+  messageLabel: { id: "component.supportModalFormMessageLabel" },
   messagePlaceholder: {
-    id: "component.modal.support.form.message.placeholder",
+    id: "component.supportModalFormMessagePlaceholder",
   },
-  filesLabel: { id: "component.modal.support.form.files.label" },
-  detailsLabel: { id: "component.modal.support.form.details.label" },
-  detailsShowButton: { id: "component.modal.support.form.details.showButton" },
-  detailsHideButton: { id: "component.modal.support.form.details.hideButton" },
-  optional: { id: "component.modal.support.form.optional" },
-  emailRequiredError: { id: "form.error.requiredEmail" },
+  filesLabel: { id: "component.supportModalFormFilesLabel" },
+  detailsLabel: { id: "component.supportModalFormDetailsLabel" },
+  detailsShowButton: { id: "component.supportModalFormDetailsShowButton" },
+  detailsHideButton: { id: "component.supportModalFormDetailsHideButton" },
+  optional: { id: "component.supportModalFormOptional" },
+  emailRequiredError: { id: "component.formErrorRequiredEmail" },
 })
 
 const MessageInput = styled(InputComponent)<InputComponentProps>`
@@ -206,7 +206,12 @@ const ContactModal: FunctionComponent<
   const [showingDetails, showDetails] = useState(false)
   let logRef: HTMLPreElement | null
 
-  const { register, errors, handleSubmit, setValue } = useForm({
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+  } = useForm({
     mode: "onChange",
   })
 
@@ -248,16 +253,14 @@ const ContactModal: FunctionComponent<
           label={intl.formatMessage(messages.emailPlaceholder)}
           outlined
           condensed
-          name="email"
-          inputRef={register(emailValidator)}
+          {...register("email", emailValidator)}
           errorMessage={errors.email?.message}
         />
         <FormInputLabel label={messages.messageLabel} optional />
         <MessageInput
           type="textarea"
           label={intl.formatMessage(messages.messagePlaceholder)}
-          name="message"
-          inputRef={register}
+          {...register("message")}
           maxRows={3}
         />
         <FormInputLabel label={messages.filesLabel} optional />
