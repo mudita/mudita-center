@@ -22,9 +22,8 @@ interface ContactSupportOutput {
   openModal: Record<ContactSupportModalKind, boolean>
   sendForm: (formData: SupportFormData) => Promise<void>
   sending: boolean
-  closeModal: (
-    payload: Partial<Record<ContactSupportModalKind, boolean>>
-  ) => void
+  closeSuccessModal: () => void
+  closeFailModal: () => void
   openContactSupportModal: () => void
 }
 
@@ -116,10 +115,15 @@ export const useContactSupport = (): ContactSupportOutput => {
     sendForm,
     sending,
     log,
-    closeModal: (payload: {}) =>
+    closeSuccessModal: () =>
       setOpenModal((prevState) => ({
         ...prevState,
-        ...payload,
+        [ContactSupportModalKind.Success]: false,
+      })),
+    closeFailModal: () =>
+      setOpenModal((prevState) => ({
+        ...prevState,
+        [ContactSupportModalKind.Fail]: false,
       })),
   }
 }

@@ -7,10 +7,7 @@ import { noop } from "Renderer/utils/noop"
 import RecoveryModeUI from "Renderer/modules/recovery-mode/recovery-mode-ui.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React from "react"
-import {
-  ContactSupportModalKind,
-  useContactSupport,
-} from "Renderer/utils/contact-support/use-contact-support"
+import { useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
 import ContactSupportModalFlow from "App/contacts/components/contact-modal/contact-support-modal-flow.component"
 
 const RecoveryMode: FunctionComponent<{}> = () => {
@@ -20,18 +17,9 @@ const RecoveryMode: FunctionComponent<{}> = () => {
     sendForm,
     sending,
     log,
-    closeModal,
+    closeSuccessModal,
+    closeFailModal,
   } = useContactSupport()
-  const closeSuccessModal = () => {
-    closeModal({
-      [ContactSupportModalKind.Success]: false,
-    })
-  }
-  const closeFailModal = () => {
-    closeModal({
-      [ContactSupportModalKind.Fail]: false,
-    })
-  }
   return (
     <>
       <ContactSupportModalFlow
