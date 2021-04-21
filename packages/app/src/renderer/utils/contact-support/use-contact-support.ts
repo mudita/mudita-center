@@ -11,18 +11,33 @@ import axios from "axios"
 import logger from "App/main/utils/logger"
 import { useEffect, useState } from "react"
 
-export const useContactSupport = () => {
+export enum ContactSupportModalKind {
+  Contact,
+  Success,
+  Fail,
+}
+
+interface ContactSupportOutput {
+  log: string
+  openModal: Record<ContactSupportModalKind, boolean>
+  sendForm: (formData: SupportFormData) => Promise<void>
+  sending: boolean
+  closeModal: (payload: Record<ContactSupportModalKind, boolean>) => void
+  openContactSupportModal: () => void
+}
+
+export const useContactSupport = (): ContactSupportOutput => {
   const [openModal, setOpenModal] = useState({
-    contactModal: false,
-    successModal: false,
-    failModal: false,
+    [ContactSupportModalKind.Contact]: false,
+    [ContactSupportModalKind.Success]: false,
+    [ContactSupportModalKind.Fail]: false,
   })
   const [sending, setSending] = useState(false)
   const [log, setLog] = useState("")
   const openContactSupportModal = () => {
     setOpenModal((prevState) => ({
       ...prevState,
-      contactModal: true,
+      [ContactSupportModalKind.Contact]: true,
     }))
   }
   useEffect(() => {
@@ -73,8 +88,8 @@ export const useContactSupport = () => {
       })
       setOpenModal((prevState) => ({
         ...prevState,
-        contactModal: false,
-        successModal: true,
+        [ContactSupportModalKind.Contact]: false,
+        [ContactSupportModalKind.Success]: true,
       }))
     } catch (error) {
       const { log, ...errorBody } = JSON.parse(error.config.data)
@@ -87,8 +102,8 @@ export const useContactSupport = () => {
       logger.error(`Contact support error: ${JSON.stringify(simpleError)}`)
       setOpenModal((prevState) => ({
         ...prevState,
-        contactModal: false,
-        failModal: true,
+        [ContactSupportModalKind.Contact]: false,
+        [ContactSupportModalKind.Fail]: true,
       }))
     }
   }

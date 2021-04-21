@@ -1,5 +1,10 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { renderHook, act } from "@testing-library/react-hooks"
-import { useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
+import { ContactSupportModalKind, useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
 import { ipcRenderer } from "electron-better-ipc"
 import { AppLogsEvents } from "App/main/functions/register-app-logs-listener"
 import MockAdapter from "axios-mock-adapter"
@@ -18,9 +23,9 @@ test("initially all modals are closed", async () => {
   const { result, waitForNextUpdate } = renderHook(() => useContactSupport())
   await act(waitForNextUpdate)
   expect(result.current.openModal).toStrictEqual({
-    contactModal: false,
-    successModal: false,
-    failModal: false,
+    [ContactSupportModalKind.Contact]: false,
+    [ContactSupportModalKind.Success]: false,
+    [ContactSupportModalKind.Fail]: false,
   })
 })
 
@@ -40,7 +45,7 @@ test("success modal is opened when request is successful", async () => {
       message: "Some message",
     })
   })
-  expect(result.current.openModal.successModal).toBeTruthy()
+  expect(result.current.openModal[ContactSupportModalKind.Success]).toBeTruthy()
 })
 
 test("fail modal is opened when request failed", async () => {
@@ -52,5 +57,5 @@ test("fail modal is opened when request failed", async () => {
       message: "Some message",
     })
   })
-  expect(result.current.openModal.failModal).toBeTruthy()
+  expect(result.current.openModal[ContactSupportModalKind.Fail]).toBeTruthy()
 })
