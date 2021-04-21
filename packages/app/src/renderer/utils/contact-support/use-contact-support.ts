@@ -12,9 +12,9 @@ import logger from "App/main/utils/logger"
 import { useEffect, useState } from "react"
 
 export enum ContactSupportModalKind {
-  Contact,
-  Success,
-  Fail,
+  Contact = "contact",
+  Success = "success",
+  Fail = "fail",
 }
 
 interface ContactSupportOutput {
@@ -22,7 +22,9 @@ interface ContactSupportOutput {
   openModal: Record<ContactSupportModalKind, boolean>
   sendForm: (formData: SupportFormData) => Promise<void>
   sending: boolean
-  closeModal: (payload: Record<ContactSupportModalKind, boolean>) => void
+  closeModal: (
+    payload: Partial<Record<ContactSupportModalKind, boolean>>
+  ) => void
   openContactSupportModal: () => void
 }
 

@@ -12,7 +12,8 @@ interface Properties {
   sendForm: (formData: SupportFormData) => Promise<void>
   sending?: boolean
   log?: string
-  closeModal: (payload: any) => void
+  closeSuccessModal: () => void
+  closeFailModal: () => void
 }
 
 const ContactSupportModalFlow: FunctionComponent<Properties> = ({
@@ -20,18 +21,9 @@ const ContactSupportModalFlow: FunctionComponent<Properties> = ({
   sendForm,
   sending,
   log,
-  closeModal,
+  closeSuccessModal,
+  closeFailModal,
 }) => {
-  const closeSuccessModal = () => {
-    closeModal({
-      [ContactSupportModalKind.Success]: false,
-    })
-  }
-  const closeFailModal = () => {
-    closeModal({
-      [ContactSupportModalKind.Fail]: false,
-    })
-  }
   return (
     <>
       <ContactModal

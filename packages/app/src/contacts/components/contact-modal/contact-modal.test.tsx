@@ -16,7 +16,6 @@ import { intl } from "Renderer/utils/intl"
 import { ContactSupportFailed } from "App/contacts/components/contact-modal/contact-modal-failed.component"
 import { ContactSupportSuccess } from "App/contacts/components/contact-modal/contact-modal-success.component"
 import { screen, fireEvent, waitFor } from "@testing-library/react"
-// import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 
 const logText = "Some example log text"
 
