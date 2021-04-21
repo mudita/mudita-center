@@ -44,7 +44,7 @@ describe("when user has no settings regarding collection of data", () => {
       jest.spyOn(store.dispatch.settings, "setCollectingData")
       fireEvent.click(
         screen.getByRole("button", {
-          name: "[value] app.collecting.data.modal.cancel",
+          name: "[value] component.collectingDataModalCancel",
         })
       )
       expect(store.dispatch.settings.setCollectingData).toHaveBeenCalledWith(
@@ -58,7 +58,7 @@ describe("when user has no settings regarding collection of data", () => {
       jest.spyOn(store.dispatch.settings, "setCollectingData")
       fireEvent.click(
         screen.getByRole("button", {
-          name: "[value] app.collecting.data.modal.agree",
+          name: "[value] component.collectingDataModalAgree",
         })
       )
       expect(store.dispatch.settings.setCollectingData).toHaveBeenCalledWith(
@@ -100,12 +100,12 @@ describe("correct translations are applied", () => {
   })
   test("to subtitle", async () => {
     expect(screen.getByTestId(CollectingDataModalTestIds.Subtitle)).toHaveTextContent(
-      "[value] app.collecting.data.modal.text"
+      "[value] component.collectingDataModalText"
     )
   })
   test("to body", async () => {
     expect(screen.getByTestId(CollectingDataModalTestIds.Body)).toHaveTextContent(
-      "[value] app.collecting.data.modal.body"
+      "[value] component.collectingDataModalBody"
     )
   })
 })
