@@ -26,22 +26,22 @@ import { IconSize } from "App/renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
   title: {
-    id: "view.name.phone.contacts.syncModalTitle",
+    id: "module.contacts.syncModalTitle",
   },
   text: {
-    id: "view.name.phone.contacts.syncModalText",
+    id: "module.contacts.syncModalText",
   },
   googleButtonText: {
-    id: "view.name.phone.contacts.googleButtonText",
+    id: "module.contacts.googleButtonText",
   },
   outlookButtonText: {
-    id: "view.name.phone.contacts.outlookButtonText",
+    id: "module.contacts.outlookButtonText",
   },
   appleButtonText: {
-    id: "view.name.phone.contacts.appleButtonText",
+    id: "module.contacts.appleButtonText",
   },
   manualImportText: {
-    id: "view.name.phone.contacts.manualImportText",
+    id: "module.contacts.manualImportText",
   },
 })
 

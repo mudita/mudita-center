@@ -149,7 +149,7 @@ const ProductCard: FunctionComponent<Props> = ({
           width={2.1}
         />
         <Text displayStyle={TextDisplayStyle.LargeText}>
-          <FormattedMessage id="view.name.news.productCardNotification" />
+          <FormattedMessage id="module.news.productCardNotification" />
         </Text>
       </ProductCardNotification>
     )}

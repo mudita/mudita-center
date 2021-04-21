@@ -34,19 +34,19 @@ import { productionEnvironment } from "Renderer/constants/menu-elements"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 
 const messages = defineMessages({
-  favourites: { id: "view.name.phone.contacts.details.favourites" },
-  speedDial: { id: "view.name.phone.contacts.details.speedDial" },
-  blocked: { id: "view.name.phone.contacts.details.blocked" },
-  information: { id: "view.name.phone.contacts.details.information" },
-  address: { id: "view.name.phone.contacts.details.address" },
-  notes: { id: "view.name.phone.contacts.details.notes" },
-  noPhoneNumber: { id: "view.name.phone.contacts.details.noPhoneNumber" },
-  noPrimaryNumber: { id: "view.name.phone.contacts.details.noPrimaryNumber" },
-  noSecondNumber: { id: "view.name.phone.contacts.details.noSecondNumber" },
-  noEmail: { id: "view.name.phone.contacts.details.noEmail" },
-  noAddress: { id: "view.name.phone.contacts.details.noAddress" },
-  noNotes: { id: "view.name.phone.contacts.details.noNotes" },
-  ice: { id: "view.name.phone.contacts.details.ice" },
+  favourites: { id: "module.contacts.favourites" },
+  speedDial: { id: "module.contacts.speedDial" },
+  blocked: { id: "module.contacts.detailsBlocked" },
+  information: { id: "module.contacts.information" },
+  address: { id: "module.contacts.detailsAddress" },
+  notes: { id: "module.contacts.notes" },
+  noPhoneNumber: { id: "module.contacts.noPhoneNumber" },
+  noPrimaryNumber: { id: "module.phone.noPrimaryNumber" },
+  noSecondNumber: { id: "module.phone.noSecondaryNumber" },
+  noEmail: { id: "module.contacts.noEmail" },
+  noAddress: { id: "module.contacts.noAddress" },
+  noNotes: { id: "module.contacts.noNotes" },
+  ice: { id: "module.contacts.ice" },
 })
 
 export interface ContactActions {

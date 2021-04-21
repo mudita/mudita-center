@@ -32,9 +32,9 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 
 const messages = defineMessages({
-  battery: { id: "view.name.overview.phone.battery" },
-  noConnection: { id: "view.name.overview.phone.noConnection" },
-  phoneDescription: { id: "view.name.overview.phone.phoneDescription" },
+  battery: { id: "module.overview.phoneBattery" },
+  noConnection: { id: "module.overview.phoneNoConnection" },
+  phoneDescription: { id: "module.overview.phoneDescription" },
 })
 
 const Phone: FunctionComponent<PhoneProps> = ({
@@ -97,7 +97,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
         <CardActionButton
           active
           label={intl.formatMessage({
-            id: "view.name.overview.phone.disconnectAction",
+            id: "module.overview.phoneDisconnectAction",
           })}
           onClick={handleDisconnect}
           data-testid={PhoneTestIds.DisconnectButton}

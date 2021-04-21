@@ -293,7 +293,7 @@ exports[`matches snapshot 1`] = `
       <p
         class="c2 c3"
       >
-        [value] view.name.settings.description
+        [value] module.settings.description
       </p>
     </div>
     <div
@@ -306,7 +306,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c7 c8 c9"
         >
-          [value] view.name.settings.autostartLabel
+          [value] module.settings.autostartLabel
         </p>
       </div>
       <div
@@ -324,7 +324,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c16 c17"
             >
-              [value] view.name.settings.offLabel
+              [value] module.settings.offLabel
             </p>
           </button>
           <button
@@ -336,7 +336,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c16 c17"
             >
-              [value] view.name.settings.onLabel
+              [value] module.settings.onLabel
             </p>
           </button>
         </section>
@@ -352,7 +352,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c7 c8 c9"
         >
-          [value] view.name.settings.collectingdata
+          [value] module.settings.collectingData
         </p>
       </div>
       <div
@@ -370,7 +370,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c16 c17"
             >
-              [value] view.name.settings.offLabel
+              [value] module.settings.offLabel
             </p>
           </button>
           <button
@@ -382,7 +382,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c16 c17"
             >
-              [value] view.name.settings.onLabel
+              [value] module.settings.onLabel
             </p>
           </button>
         </section>

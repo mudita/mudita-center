@@ -20,7 +20,7 @@ import { rrulestr } from "rrule"
 
 const messages = defineMessages({
   unnamedEvent: {
-    id: "view.name.calendar.unnamedEvent",
+    id: "module.calendar.unnamedEvent",
   },
 })
 

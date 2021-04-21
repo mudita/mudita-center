@@ -15,7 +15,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 
 const messages = defineMessages({
-  errorBody: { id: "view.name.errorBody" },
+  errorBody: { id: "module.errorBody" },
 })
 
 interface Props {

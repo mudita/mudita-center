@@ -24,17 +24,17 @@ import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
   filename: {
-    id: "view.generic.filename",
+    id: "component.columnFileName",
   },
   size: {
-    id: "view.generic.size",
+    id: "component.columnSize",
   },
-  ok: { id: "view.generic.button.ok" },
+  ok: { id: "component.okButton" },
   title: {
-    id: "view.name.overview.backup.finishedBackupModal.title",
+    id: "module.overview.backupFinishedBackupModalTitle",
   },
   body: {
-    id: "view.name.overview.backup.finishedBackupModal.body",
+    id: "module.overview.backupFinishedBackupModalTitle",
   },
 })
 

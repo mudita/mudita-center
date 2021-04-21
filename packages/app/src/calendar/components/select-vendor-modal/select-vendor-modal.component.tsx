@@ -30,22 +30,22 @@ import { IconSize } from "App/renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
   title: {
-    id: "view.name.calendar.modal.selectVendor.title",
+    id: "module.calendar.selectVendorTitle",
   },
   subtitle: {
-    id: "view.name.calendar.modal.selectVendor.subtitle",
+    id: "module.calendar.selectVendorSubtitle",
   },
   body: {
-    id: "view.name.calendar.modal.selectVendor.body",
+    id: "module.calendar.selectVendorBody",
   },
   buttonGoogle: {
-    id: "common.loginGoogleButton",
+    id: "component.loginGoogleButton",
   },
   buttonOutlook: {
-    id: "common.loginOutlookButton",
+    id: "component.loginOutlookButton",
   },
   manualImportButton: {
-    id: "view.name.calendar.manualImportText",
+    id: "module.calendar.manualImportText",
   },
 })
 

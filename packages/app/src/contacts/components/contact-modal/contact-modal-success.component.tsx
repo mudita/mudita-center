@@ -19,8 +19,8 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 
 const messages = defineMessages({
-  title: { id: "component.modal.support.success.title" },
-  body: { id: "component.modal.support.success.body" },
+  title: { id: "component.supportModalSuccessTitle" },
+  body: { id: "component.supportModalSuccessBody" },
 })
 
 export const ContactSupportSuccess: FunctionComponent = ({ ...props }) => (

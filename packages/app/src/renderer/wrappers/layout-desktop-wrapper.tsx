@@ -76,7 +76,7 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
             <HeaderButton
               Icon={Type.ExternalLink}
               label={intl.formatMessage({
-                id: "view.name.news.moreNewsButtonLabel",
+                id: "module.news.moreNewsButtonLabel",
               })}
               href={"https://www.mudita.com/#news"}
               target="_blank"

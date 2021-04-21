@@ -173,7 +173,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           <CategoryLabels>
             <Col />
             <Col>
-              <FormattedMessage id={"view.name.phone.contacts.new.title"} />
+              <FormattedMessage id={"module.contacts.newTitle"} />
             </Col>
           </CategoryLabels>
           <Row active>
@@ -267,7 +267,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                         />
                         {createStyledFullName() ||
                           intl.formatMessage({
-                            id: "view.name.phone.contacts.list.unnamedContact",
+                            id: "module.contacts.listUnnamedContact",
                           })}
                         {contact.blocked && (
                           <BlockedIcon width={1.4} height={1.4} />
@@ -293,7 +293,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             <HiddenButton
                               labelMessage={{
                                 id:
-                                  "view.name.phone.contacts.action.exportAsVcard",
+                                  "module.contacts.exportAsVcard",
                               }}
                               Icon={Type.Upload}
                               onClick={handleExport}
@@ -303,7 +303,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             <HiddenButton
                               labelMessage={{
                                 id:
-                                  "view.name.phone.contacts.action.forwardNamecard",
+                                  "module.contacts.forwardNamecard",
                               }}
                               Icon={Type.Forward}
                               onClick={handleForward}
@@ -313,7 +313,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             {contact.blocked ? (
                               <HiddenButton
                                 labelMessage={{
-                                  id: "view.name.phone.contacts.action.unblock",
+                                  id: "module.contacts.unblock",
                                 }}
                                 Icon={Type.Blocked}
                                 onClick={handleUnblock}
@@ -323,7 +323,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             ) : (
                               <HiddenButton
                                 labelMessage={{
-                                  id: "view.name.phone.contacts.action.block",
+                                  id: "module.contacts.block",
                                 }}
                                 Icon={Type.Blocked}
                                 onClick={handleBlock}
@@ -333,7 +333,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             )}
                             <ButtonComponent
                               labelMessage={{
-                                id: "view.name.phone.contacts.action.delete",
+                                id: "module.contacts.delete",
                               }}
                               Icon={Type.Delete}
                               onClick={handleDelete}
@@ -382,20 +382,20 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             ))
           ) : (
             <EmptyState
-              title={{ id: "view.name.phone.contacts.emptyList.title" }}
+              title={{ id: "module.contacts.emptyListTitle" }}
               description={{
                 id:
-                  "view.name.phone.contacts.emptyList.emptySearch.description",
+                  "module.contacts.emptySearchDescription",
               }}
             />
           ))}
         {resultsState === ResultsState.Empty ||
           (resultsState === ResultsState.Error && (
             <EmptyState
-              title={{ id: "view.name.phone.contacts.emptyList.title" }}
+              title={{ id: "module.contacts.emptyListTitle" }}
               description={{
                 id:
-                  "view.name.phone.contacts.emptyList.emptyPhonebook.description",
+                  "module.contacts.emptyPhonebook",
               }}
             />
           ))}

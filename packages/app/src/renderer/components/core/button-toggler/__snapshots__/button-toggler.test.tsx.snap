@@ -198,12 +198,12 @@ exports[`matches snapshot 1`] = `
       <p
         class="c5 c6"
       >
-        [value] view.name.news
+        [value] module.news
       </p>
       <p
         class="c7"
       >
-        [value] view.name.news
+        [value] module.news
       </p>
     </div>
     <button

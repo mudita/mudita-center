@@ -18,9 +18,9 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 
 const translations = defineMessages({
   errorText: {
-    id: "view.name.messages.modal.loadingThreadError.body",
+    id: "module.messages.loadingThreadModalErrorBody",
   },
-  tryAgainButtonText: { id: "component.modal.data.errorWithRetry.button" },
+  tryAgainButtonText: { id: "component.dataModalErrorWithRetryButton" },
 })
 
 interface Properties {

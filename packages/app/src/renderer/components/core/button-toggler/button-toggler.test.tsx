@@ -96,6 +96,6 @@ test("renders tooltip", () => {
 test("tooltip has correct text", () => {
   const { getByTestId } = renderButtonToggler(twoStateToggler)
   expect(getByTestId(ButtonTogglerTestIds.Tooltip)).toHaveTextContent(
-    "[value] view.name.news[value] view.name.news"
+    "[value] module.news[value] module.news"
   )
 })

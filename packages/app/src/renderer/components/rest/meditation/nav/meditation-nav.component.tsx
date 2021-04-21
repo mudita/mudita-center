@@ -53,8 +53,8 @@ const intlDateFormat = (show: DateFormatItems[]) => {
 }
 
 const messages = defineMessages({
-  thisWeek: { id: "component.meditation.nav.thisWeek" },
-  goToToday: { id: "component.meditation.nav.goToToday" },
+  thisWeek: { id: "module.meditation.navigationThisWeek" },
+  goToToday: { id: "module.meditation.navigationGoToToday" },
 })
 
 const MeditationNav: FunctionComponent<MeditationNavProps> = ({

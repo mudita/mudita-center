@@ -47,40 +47,40 @@ interface SafeModeOption {
 
 const messages = defineMessages({
   title: {
-    id: "view.name.recoveryMode.title",
+    id: "module.recoveryMode.title",
   },
   description: {
-    id: "view.name.recoveryMode.description",
+    id: "module.recoveryMode.description",
   },
   backupTitle: {
-    id: "view.name.recoveryMode.backupTitle",
+    id: "module.recoveryMode.backupTitle",
   },
   backupDescription: {
-    id: "view.name.recoveryMode.backupDescription",
+    id: "module.recoveryMode.backupDescription",
   },
   rebootOsTitle: {
-    id: "view.name.recoveryMode.rebootOsTitle",
+    id: "module.recoveryMode.rebootOsTitle",
   },
   rebootOsDescription: {
-    id: "view.name.recoveryMode.rebootOsDescription",
+    id: "module.recoveryMode.rebootOsDescription",
   },
   restoreTitle: {
-    id: "view.name.recoveryMode.restoreTitle",
+    id: "module.recoveryMode.restoreTitle",
   },
   restoreDescription: {
-    id: "view.name.recoveryMode.restoreDescription",
+    id: "module.recoveryMode.restoreDescription",
   },
   factoryResetTitle: {
-    id: "view.name.recoveryMode.factoryResetTitle",
+    id: "module.recoveryMode.factoryResetTitle",
   },
   factoryResetDescription: {
-    id: "view.name.recoveryMode.factoryResetDescription",
+    id: "module.recoveryMode.factoryResetDescription",
   },
   supportMessage: {
-    id: "view.name.recoveryMode.supportMessage",
+    id: "module.recoveryMode.supportMessage",
   },
   supportButtonText: {
-    id: "view.name.onboarding.troubleshooting.support.button",
+    id: "module.onboarding.supportButton",
   },
 })
 
