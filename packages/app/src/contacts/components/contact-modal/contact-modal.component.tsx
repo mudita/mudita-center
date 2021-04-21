@@ -42,29 +42,29 @@ import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
   actionButton: {
-    id: "component.modal.support.actionButton",
+    id: "component.supportModalActionButton",
   },
   actionButtonProgress: {
-    id: "component.modal.support.actionButtonProgress",
+    id: "component.supportModalActionButtonProgress",
   },
   title: {
-    id: "component.modal.support.title",
+    id: "component.supportModalTitle",
   },
   description: {
-    id: "component.modal.support.description",
+    id: "component.supportModalDescription",
   },
-  emailLabel: { id: "component.modal.support.form.email.label" },
-  emailPlaceholder: { id: "component.modal.support.form.email.placeholder" },
-  messageLabel: { id: "component.modal.support.form.message.label" },
+  emailLabel: { id: "component.supportModalFormEmailLabel" },
+  emailPlaceholder: { id: "component.supportModalFormEmailPlaceholder" },
+  messageLabel: { id: "component.supportModalFormMessageLabel" },
   messagePlaceholder: {
-    id: "component.modal.support.form.message.placeholder",
+    id: "component.supportModalFormMessagePlaceholder",
   },
-  filesLabel: { id: "component.modal.support.form.files.label" },
-  detailsLabel: { id: "component.modal.support.form.details.label" },
-  detailsShowButton: { id: "component.modal.support.form.details.showButton" },
-  detailsHideButton: { id: "component.modal.support.form.details.hideButton" },
-  optional: { id: "component.modal.support.form.optional" },
-  emailRequiredError: { id: "form.error.requiredEmail" },
+  filesLabel: { id: "component.supportModalFormFilesLabel" },
+  detailsLabel: { id: "component.supportModalFormDetailsLabel" },
+  detailsShowButton: { id: "component.supportModalFormDetailsShowButton" },
+  detailsHideButton: { id: "component.supportModalFormDetailsHideButton" },
+  optional: { id: "component.supportModalFormOptional" },
+  emailRequiredError: { id: "component.formErrorRequiredEmail" },
 })
 
 const MessageInput = styled(InputComponent)<InputComponentProps>`

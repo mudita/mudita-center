@@ -11,7 +11,7 @@ import Text, {
 import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
-const exampleMessageId = "view.name.news"
+const exampleMessageId = "module.news"
 const message = mockDefineMessages()
 
 test("should render default case", () => {

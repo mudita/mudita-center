@@ -15,13 +15,13 @@ const renderer = (props = {}) =>
 test("subtitle has correct text", () => {
   const { getByTestId } = renderer()
   expect(getByTestId(ExportErrorModalTestIds.Subtitle)).toHaveTextContent(
-    "[value] view.name.calendar.modal.exportFailed.subtitle"
+    "[value] module.calendar.exportFailedSubtitle"
   )
 })
 
 test("body has correct text", () => {
   const { getByTestId } = renderer()
   expect(getByTestId(ExportErrorModalTestIds.Body)).toHaveTextContent(
-    "[value] view.name.calendar.modal.exportFailed.body"
+    "[value] module.calendar.exportFailedBody"
   )
 })

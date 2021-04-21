@@ -16,7 +16,7 @@ test("calls function passed through props", async () => {
     <UpdateButtonComponent onClick={onUpdating} />
   )
 
-  const button = getByText("view.name.news.updateButtonLabel", { exact: false })
+  const button = getByText("module.news.updateButtonLabel", { exact: false })
 
   fireEvent.click(button)
 

@@ -24,13 +24,13 @@ import { StatBoxesTestIds } from "Renderer/components/rest/tethering/stat-boxes-
 
 const messages = defineMessages({
   timeActive: {
-    id: "view.name.tethering.timeActive",
+    id: "module.tethering.timeActive",
   },
   dataSent: {
-    id: "view.name.tethering.dataSent",
+    id: "module.tethering.dataSent",
   },
   dataReceived: {
-    id: "view.name.tethering.dataReceived",
+    id: "module.tethering.dataReceived",
   },
 })
 

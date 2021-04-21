@@ -34,8 +34,8 @@ import { HighlightContactList } from "App/contacts/components/highlight-contact-
 import Badge from "Renderer/components/core/badge/badge.component"
 
 export const messages = defineMessages({
-  title: { id: "view.name.messages.attachModal.title" },
-  unnamedContact: { id: "view.name.phone.contacts.list.unnamedContact" },
+  title: { id: "module.messagesAttachModalTitle" },
+  unnamedContact: { id: "module.contacts.listUnnamedContact" },
 })
 
 interface Props {
@@ -159,9 +159,9 @@ const AttachContactModal: FunctionComponent<Props> = ({
           })}
         {contactList.length === 0 && (
           <EmptyStateContainer
-            title={{ id: "view.name.messages.attachModal.emptyList.title" }}
+            title={{ id: "module.contacts.panelSearchPlaceholder" }}
             description={{
-              id: "view.name.messages.attachModal.emptyList.description",
+              id: "module.messages.attachModalEmptyList",
             }}
           />
         )}

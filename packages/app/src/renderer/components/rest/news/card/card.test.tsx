@@ -36,7 +36,7 @@ test("header, content and comments text render in card", () => {
   const content =
     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?"
   const headerText = "Lorem ipsum dolor."
-  const commentsText = "view.name.news.cardCommunityComments"
+  const commentsText = "module.news.cardCommunityComments"
   const { getByTestId } = renderWithThemeAndIntl(
     <Card
       title={headerText}

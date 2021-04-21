@@ -19,8 +19,8 @@ import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 
 const messages = defineMessages({
-  cancel: { id: "view.name.messages.templatesDeleteModal.cancel" },
-  delete: { id: "view.name.messages.templatesDeleteModal.action" },
+  cancel: { id: "module.templates.deleteModalCancel" },
+  delete: { id: "module.templates.deleteModalAction" },
 })
 
 interface DeleteTemplateModalProps {

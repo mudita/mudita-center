@@ -54,15 +54,15 @@ const ModalComponent = styled(Modal)`
 `
 
 const messages = defineMessages({
-  title: { id: "view.name.phone.contacts.modal.speedDial.title" },
-  saveButton: { id: "view.name.phone.contacts.modal.speedDial.saveButton" },
-  cancelButton: { id: "view.name.phone.contacts.modal.speedDial.cancelButton" },
+  title: { id: "module.contacts.speedDialTitle" },
+  saveButton: { id: "module.contacts.speedDialSaveButton" },
+  cancelButton: { id: "module.contacts.speedDialCancelButton" },
   speedDialLabel: {
-    id: "view.name.phone.contacts.modal.speedDial.speedDialLabel",
+    id: "module.contacts.speedDialSpeedDialLabel",
   },
-  contactLabel: { id: "view.name.phone.contacts.modal.speedDial.contactLabel" },
+  contactLabel: { id: "module.contacts.speedDialContactLabel" },
   none: {
-    id: "view.name.phone.contacts.edit.speedDialKeyEmptyOption",
+    id: "module.contacts.speedDialKeyEmptyOption",
   },
 })
 

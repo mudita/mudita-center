@@ -22,21 +22,21 @@ const renderer = (extraProps?: {}) => {
 test("apple button calls right function", () => {
   const onAppleButtonClick = jest.fn()
   const { getByText } = renderer({ onAppleButtonClick })
-  getByText("[value] view.name.phone.contacts.appleButtonText").click()
+  getByText("[value] module.contacts.appleButtonText").click()
   expect(onAppleButtonClick).toBeCalled()
 })
 
 test("google button calls right function", () => {
   const onGoogleButtonClick = jest.fn()
   const { getByText } = renderer({ onGoogleButtonClick })
-  getByText("[value] view.name.phone.contacts.googleButtonText").click()
+  getByText("[value] module.contacts.googleButtonText").click()
   expect(onGoogleButtonClick).toBeCalled()
 })
 
 test("manual import button calls right function", () => {
   const onManualImportClick = jest.fn()
   const { getByText, getByTestId } = renderer({ onManualImportClick })
-  getByText("[value] view.name.phone.contacts.manualImportText").click()
+  getByText("[value] module.contacts.manualImportText").click()
   expect(onManualImportClick).toHaveBeenCalledWith(
     getByTestId(SyncContactsModalTestIds.FileInput)
   )
@@ -45,6 +45,6 @@ test("manual import button calls right function", () => {
 test("outlook button calls right function", () => {
   const onOutlookButtonClick = jest.fn()
   const { getByText } = renderer({ onOutlookButtonClick })
-  getByText("[value] view.name.phone.contacts.outlookButtonText").click()
+  getByText("[value] module.contacts.outlookButtonText").click()
   expect(onOutlookButtonClick).toBeCalled()
 })
