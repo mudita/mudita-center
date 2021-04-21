@@ -10,7 +10,6 @@ import { noop } from "Renderer/utils/noop"
 import Cards from "Renderer/components/rest/news/cards/cards.component"
 import { updateNews } from "Renderer/requests/get-news.request"
 import { DefaultNewsItems } from "App/main/default-news-item"
-import ProductCards from "Renderer/components/rest/news/product-cards/product-cards.component"
 import styled from "styled-components"
 import UpdateButtonComponent from "Renderer/components/rest/news/update-button/update-button.component"
 import LastUpdate from "Renderer/components/rest/news/last-update/last-update.component"
@@ -22,7 +21,6 @@ export interface NewsProps {
   lastUpdate?: string
   updating?: boolean
   online?: boolean
-  productCards: any[]
 }
 
 const MuditaNews = styled.section`
@@ -42,17 +40,11 @@ const NewsLastUpdate = styled(LastUpdate)`
   margin-right: 3.2rem;
 `
 
-const NewsProductCards = styled(ProductCards)`
-  margin-top: 5.6rem;
-  margin-bottom: 5.5rem;
-`
-
 const News: FunctionComponent<NewsProps> = ({
   newsItems,
   loadData = noop,
   updateData = noop,
   lastUpdate,
-  productCards,
   updating,
   online,
 }) => {
@@ -72,7 +64,6 @@ const News: FunctionComponent<NewsProps> = ({
         <UpdateButtonComponent onClick={getUpdatedNews} updating={updating} />
       </LastUpdateWrapper>
       <Cards newsItems={newsItems} loadData={loadData} />
-      <NewsProductCards productCards={productCards} />
     </MuditaNews>
   )
 }
