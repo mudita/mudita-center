@@ -24,9 +24,9 @@ const renderContactModal = ({ ...props }: Partial<ContactModalProps> = {}) => {
   return {
     ...outcome,
     form: () => outcome.container.querySelector("form"),
-    getEmailInput: () => screen.getByPlaceholderText("[value] component.modal.support.form.email.placeholder"),
-    getMessageInput: () => screen.getByPlaceholderText("[value] component.modal.support.form.message.placeholder"),
-    getFileInput: () => screen.getByLabelText("[value] form.field.multipleFileUpload.description"),
+    getEmailInput: () => screen.getByPlaceholderText("[value] component.supportModalFormEmailPlaceholder"),
+    getMessageInput: () => screen.getByPlaceholderText("[value] component.supportModalFormMessagePlaceholder"),
+    getFileInput: () => screen.getByLabelText("[value] component.formMultipleFileUpload"),
     getDetailsField: () => screen.getByText(logText),
   }
 }
