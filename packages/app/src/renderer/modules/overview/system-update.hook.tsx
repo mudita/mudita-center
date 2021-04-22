@@ -359,20 +359,23 @@ const useSystemUpdateFlow = (
   const goToHelp = (code: number) => () => {
     ipcRenderer.callMain(HelpActions.OpenWindow, { code })
   }
-
+  const { openContactSupportModal, ...rest } = useContactSupport()
   const displayErrorModal = (code?: number) => {
     if (code && noCriticalErrorCodes.includes(code)) {
       modalService.openModal(
         <UpdatingFailureWithHelpModal
           code={code}
           onHelp={goToHelp(code)}
-          onContact={useContactSupport}
+          onContact={openContactSupportModal}
         />,
         true
       )
     } else {
       modalService.openModal(
-        <UpdatingFailureModal code={code} onContact={useContactSupport} />,
+        <UpdatingFailureModal
+          code={code}
+          onContact={openContactSupportModal}
+        />,
         true
       )
     }
@@ -383,6 +386,7 @@ const useSystemUpdateFlow = (
     check: () => checkForUpdates(),
     download: downloadUpdate,
     install: updatePure,
+    contactSupport: { ...rest },
   }
 }
 
