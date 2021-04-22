@@ -10,7 +10,7 @@ import { AppLogsEvents } from "App/main/functions/register-app-logs-listener"
 import MockAdapter from "axios-mock-adapter"
 import axios from "axios"
 
-let axiosMock = new MockAdapter(axios)
+const axiosMock = new MockAdapter(axios)
 
 const appLogs = "Example mudita app logs"
 beforeEach(() => {

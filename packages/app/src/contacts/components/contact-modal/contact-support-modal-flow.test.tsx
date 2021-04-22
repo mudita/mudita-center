@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React, { ComponentProps } from "react"
 import ContactSupportModalFlow from "App/contacts/components/contact-modal/contact-support-modal-flow.component"
@@ -31,7 +36,7 @@ test("contact support modal is rendered", () => {
       [ContactSupportModalKind.Contact]: true,
     },
   })
-  expect(screen.getAllByRole("dialog")).toHaveLength(1)
+  expect(screen.getByRole("dialog")).toBeInTheDocument()
   expect(
     screen.getByText("[value] component.supportModalTitle")
   ).toBeInTheDocument()
@@ -43,7 +48,7 @@ test("success modal is rendered", () => {
       [ContactSupportModalKind.Success]: true,
     },
   })
-  expect(screen.getAllByRole("dialog")).toHaveLength(1)
+  expect(screen.getByRole("dialog")).toBeInTheDocument()
   expect(
     screen.getByText("[value] component.supportModalSuccessTitle")
   ).toBeInTheDocument()
@@ -56,7 +61,7 @@ test("fail modal is rendered", () => {
     },
   })
 
-  expect(screen.getAllByRole("dialog")).toHaveLength(1)
+  expect(screen.getByRole("dialog")).toBeInTheDocument()
   expect(
     screen.getByText("[value] component.supportModalFailTitle")
   ).toBeInTheDocument()
