@@ -4,19 +4,28 @@
  */
 
 import { renderHook, act } from "@testing-library/react-hooks"
-import { ContactSupportModalKind, useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
+import {
+  ContactSupportModalKind,
+  useContactSupport,
+} from "Renderer/utils/contact-support/use-contact-support"
 import { ipcRenderer } from "electron-better-ipc"
 import { AppLogsEvents } from "App/main/functions/register-app-logs-listener"
 import MockAdapter from "axios-mock-adapter"
 import axios from "axios"
 
 const axiosMock = new MockAdapter(axios)
-
+const OLD_ENV = process.env
 const appLogs = "Example mudita app logs"
 beforeEach(() => {
   ;(ipcRenderer as any).__rendererCalls = {
     [AppLogsEvents.Get]: Promise.resolve(appLogs),
   }
+  jest.resetModules()
+  process.env = { ...OLD_ENV }
+})
+
+afterAll(() => {
+  process.env = OLD_ENV
 })
 
 test("initially all modals are closed", async () => {
@@ -36,9 +45,9 @@ test("logs are appended correctly", async () => {
 })
 
 test("success modal is opened when request is successful", async () => {
+  process.env.CONTACT_SUPPORT_AUTH_KEY = "some-auth-key"
   axiosMock.onPost().reply(200)
   const { result } = renderHook(() => useContactSupport())
-
   await act(async () => {
     await result.current.sendForm({
       email: "hello@mudita.com",
@@ -49,6 +58,7 @@ test("success modal is opened when request is successful", async () => {
 })
 
 test("fail modal is opened when request failed", async () => {
+  process.env.CONTACT_SUPPORT_AUTH_KEY = "some-auth-key"
   axiosMock.onPost().reply(400)
   const { result } = renderHook(() => useContactSupport())
   await act(async () => {
