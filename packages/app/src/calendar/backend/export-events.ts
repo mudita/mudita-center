@@ -5,7 +5,7 @@
 
 import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { app, dialog, shell } from "electron"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
@@ -14,8 +14,8 @@ import path from "path"
 import logger from "App/main/utils/logger"
 
 const messages = defineMessages({
-  dialogTitle: { id: "view.name.calendar.export.saveDialogTitle" },
-  defaultFilename: { id: "view.name.calendar.export.defaultFileName" },
+  dialogTitle: { id: "module.calendar.exportSaveDialogTitle" },
+  defaultFilename: { id: "module.calendar.exportDefaultFileName" },
 })
 
 const registerEventsExportListener = () => {

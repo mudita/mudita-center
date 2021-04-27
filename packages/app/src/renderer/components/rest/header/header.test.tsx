@@ -41,7 +41,7 @@ test("header should render correct pathname", () => {
       <Header />
     </MemoryRouter>
   )
-  expect(getByTestId("location")).toHaveTextContent("view.name.overview")
+  expect(getByTestId("location")).toHaveTextContent("module.overview")
 })
 
 test("button renders on news page", () => {
@@ -55,7 +55,7 @@ test("button renders on news page", () => {
           <HeaderButton
             Icon={Type.ExternalLink}
             label={intl.formatMessage({
-              id: "view.name.news.moreNewsButtonLabel",
+              id: "module.news.moreNewsButtonLabel",
             })}
             href={"https://www.mudita.com/"}
             target="_blank"

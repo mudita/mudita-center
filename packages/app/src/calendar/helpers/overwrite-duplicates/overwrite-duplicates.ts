@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import RRule from "rrule"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
@@ -11,22 +11,22 @@ import moment from "moment"
 
 const messages = defineMessages({
   updatedDescriptionTitle: {
-    id: "view.name.calendar.duplicatedEvent.updatedDescriptionTitle",
+    id: "module.calendar.duplicatedEventTitle",
   },
   name: {
-    id: "view.name.calendar.duplicatedEvent.name",
+    id: "module.calendar.duplicatedEventName",
   },
   startDate: {
-    id: "view.name.calendar.duplicatedEvent.startDate",
+    id: "module.calendar.duplicatedEventStartDate",
   },
   endDate: {
-    id: "view.name.calendar.duplicatedEvent.endDate",
+    id: "module.calendar.duplicatedEventEndDate",
   },
   recurrence: {
-    id: "view.name.calendar.duplicatedEvent.recurrence",
+    id: "module.calendar.duplicatedEventRecurrence",
   },
   description: {
-    id: "view.name.calendar.duplicatedEvent.description",
+    id: "module.calendar.duplicatedEventDescription",
   },
 })
 

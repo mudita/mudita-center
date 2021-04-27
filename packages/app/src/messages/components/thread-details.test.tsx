@@ -29,7 +29,7 @@ const contact: Contact = {
   firstName: "John",
   lastName: "Doe",
   primaryPhoneNumber: phoneNumberId,
-  email: "hello@mudita.com",
+  email: "example@mudita.com",
   note: "",
   firstAddressLine: "",
 }
@@ -122,13 +122,6 @@ test("left part of sidebar displays details correctly", () => {
   )
 })
 
-test("correct amount of message bubbles is displayed", () => {
-  const { getAllByTestId } = renderer({
-    getMessagesResultMapStateByThreadId: jest.fn(() => ResultState.Loaded),
-  })
-  expect(getAllByTestId("message-content")).toHaveLength(messages.length)
-})
-
 test("message from unknown person displays only phone number", () => {
   const { getByTestId } = renderer({
     thread: threadFromUnknownCaller,
@@ -184,9 +177,7 @@ test("error text renders with retry button when thread won't load", () => {
 })
 
 test("loader renders when thread is loading", () => {
-  const getMessagesResultMapStateByThreadId = jest.fn(
-    () => ResultState.Loading
-  )
+  const getMessagesResultMapStateByThreadId = jest.fn(() => ResultState.Loading)
   const { getByTestId } = renderer({
     getMessagesResultMapStateByThreadId,
   })
@@ -200,7 +191,7 @@ test("retry button tries to load thread again after initial call", () => {
   const { getByTestId } = renderer({
     openErrorModal,
     getMessagesResultMapStateByThreadId,
-    loadMessagesByThreadId
+    loadMessagesByThreadId,
   })
   getByTestId(ThreadDetailsTestIds.RetryButton).click()
   expect(loadMessagesByThreadId).toBeCalledWith(phoneNumberId)

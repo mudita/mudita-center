@@ -22,34 +22,40 @@ import {
 } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 import { defineMessages } from "react-intl"
+import { IconSize } from "App/renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
   title: {
-    id: "view.name.phone.contacts.syncModalTitle",
+    id: "module.contacts.syncModalTitle",
   },
   text: {
-    id: "view.name.phone.contacts.syncModalText",
+    id: "module.contacts.syncModalText",
   },
   googleButtonText: {
-    id: "view.name.phone.contacts.googleButtonText",
+    id: "module.contacts.googleButtonText",
+  },
+  outlookButtonText: {
+    id: "module.contacts.outlookButtonText",
   },
   appleButtonText: {
-    id: "view.name.phone.contacts.appleButtonText",
+    id: "module.contacts.appleButtonText",
   },
   manualImportText: {
-    id: "view.name.phone.contacts.manualImportText",
+    id: "module.contacts.manualImportText",
   },
 })
 
 interface SyncContactsModal extends ModalProps {
-  onGoogleButtonClick?: () => void
+  onGoogleButtonClick: () => void
+  onOutlookButtonClick: () => void
   onAppleButtonClick?: () => void
-  onManualImportClick?: (inputElement: HTMLInputElement) => void
+  onManualImportClick: (inputElement: HTMLInputElement) => void
 }
 
 const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
   onClose = noop,
   onAppleButtonClick,
+  onOutlookButtonClick,
   onGoogleButtonClick,
   onManualImportClick,
 }) => {
@@ -69,46 +75,52 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
       onClose={onClose}
     >
       <ModalText
-        displayStyle={TextDisplayStyle.MediumLightText}
+        displayStyle={TextDisplayStyle.MediumFadedLightText}
         message={messages.text}
       />
       <ButtonsContainer>
         <ButtonWrapper>
-          {onGoogleButtonClick && (
-            <SyncButton
-              displayStyle={DisplayStyle.Primary}
-              label={intl.formatMessage(messages.googleButtonText)}
-              Icon={Type.Google}
-              onClick={onGoogleButtonClick}
-              data-testid={SyncContactsModalTestIds.GoogleButton}
-            />
-          )}
+          <SyncButton
+            displayStyle={DisplayStyle.Primary}
+            label={intl.formatMessage(messages.googleButtonText)}
+            Icon={Type.Google}
+            iconSize={IconSize.Medium}
+            onClick={onGoogleButtonClick}
+            data-testid={SyncContactsModalTestIds.GoogleButton}
+          />
+
+          <SyncButton
+            displayStyle={DisplayStyle.Primary}
+            label={intl.formatMessage(messages.outlookButtonText)}
+            Icon={Type.Outlook}
+            iconSize={IconSize.Medium}
+            onClick={onOutlookButtonClick}
+            data-testid={SyncContactsModalTestIds.OutlookButton}
+          />
           {onAppleButtonClick && (
             <SyncButton
               displayStyle={DisplayStyle.Primary}
               label={intl.formatMessage(messages.appleButtonText)}
               Icon={Type.Apple}
+              iconSize={IconSize.Medium}
               onClick={onAppleButtonClick}
             />
           )}
-          {onManualImportClick && (
-            <>
-              <SyncButton
-                displayStyle={DisplayStyle.Primary}
-                label={intl.formatMessage(messages.manualImportText)}
-                Icon={Type.Upload}
-                onClick={handleManualImportClick}
-              />
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".vcf"
-                hidden
-                multiple
-                data-testid={SyncContactsModalTestIds.FileInput}
-              />
-            </>
-          )}
+          <SyncButton
+            displayStyle={DisplayStyle.Primary}
+            label={intl.formatMessage(messages.manualImportText)}
+            Icon={Type.Upload}
+            iconSize={IconSize.Medium}
+            onClick={handleManualImportClick}
+          />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".vcf"
+            hidden
+            multiple
+            data-testid={SyncContactsModalTestIds.FileInput}
+          />
         </ButtonWrapper>
       </ButtonsContainer>
     </Modal>

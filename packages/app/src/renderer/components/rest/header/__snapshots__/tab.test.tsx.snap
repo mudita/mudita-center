@@ -112,7 +112,7 @@ exports[`matches snapshot 1`] = `
   href="/phone"
   size="2"
 >
-  <i
+  <span
     class="c1 c2"
     data-testid="icon-Check"
     height="2.8"
@@ -121,11 +121,11 @@ exports[`matches snapshot 1`] = `
     <test-file-stub
       image="test-file-stub"
     />
-  </i>
+  </span>
   <p
     class="c3 c4"
   >
-    [value] view.name.phone
+    [value] module.phone
   </p>
 </a>
 `;

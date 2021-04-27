@@ -15,7 +15,7 @@ test("should render offline text by default", () => {
   )
 
   expect(container).toHaveTextContent(
-    intl.formatMessage({ id: "view.name.news.offlineText" })
+    intl.formatMessage({ id: "module.news.offlineText" })
   )
 })
 
@@ -24,13 +24,13 @@ test("date is passed correctly and renders with correct format", () => {
     <LastUpdate online date="2019-10-19T11:27:15.256Z" />
   )
 
-  expect(container).toHaveTextContent("view.name.news.lastUpdate")
+  expect(container).toHaveTextContent("module.news.lastUpdate")
 })
 
 test("when date is not provided, formatted date is not displayed", () => {
   const { container } = renderWithThemeAndIntl(<LastUpdate />)
   expect(container).toHaveTextContent(
-    intl.formatMessage({ id: "view.name.news.offlineText" })
+    intl.formatMessage({ id: "module.news.offlineText" })
   )
-  expect(container).not.toHaveTextContent("view.name.news.lastUpdate")
+  expect(container).not.toHaveTextContent("module.news.lastUpdate")
 })

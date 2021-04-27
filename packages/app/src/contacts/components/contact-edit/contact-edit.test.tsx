@@ -16,17 +16,17 @@ const renderer = (extraProps?: {}) => {
     onSave: noop,
   }
   return renderWithThemeAndIntl(
-    // @ts-ignore
     <ContactEdit
       contact={contactsSeed.db[0]}
       {...defaultProps}
       {...extraProps}
+      speedDialChosenList={[0]}
     />
   )
 }
 
 test("cancel is called", () => {
-  const cancelButtonText = "[value] view.name.phone.contacts.edit.cancel"
+  const cancelButtonText = "[value] module.contacts.cancelEdit"
   const onCancel = jest.fn()
   const { getByText } = renderer({ onCancel })
   const cancelButton = getByText(cancelButtonText)

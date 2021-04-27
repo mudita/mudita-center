@@ -17,7 +17,7 @@ test("displays loading info when comments are unknown", () => {
   )
   expect(container).toHaveTextContent(
     intl.formatMessage({
-      id: "view.name.news.cardCommunityCommentsLoading",
+      id: "module.news.cardCommunityCommentsLoading",
     })
   )
 })
@@ -26,7 +26,7 @@ test("displays the singular comment when count equals 1", () => {
   const { container } = renderWithThemeAndIntl(
     <CommunityCommentsCount count={1} communityLink={communityLink} />
   )
-  expect(container).toHaveTextContent("view.name.news.cardCommunityComments")
+  expect(container).toHaveTextContent("module.news.cardCommunityComments")
 })
 
 test("displays the plural comment when count is > 1", () => {
@@ -40,7 +40,7 @@ test("displays the plural comment when count is > 1", () => {
   expect(container).toHaveTextContent(
     intl.formatMessage(
       {
-        id: "view.name.news.cardCommunityComments",
+        id: "module.news.cardCommunityComments",
       },
       { count }
     )
@@ -55,7 +55,7 @@ test("displays the lack of comments when there's none", () => {
   expect(container).toHaveTextContent(
     intl.formatMessage(
       {
-        id: "view.name.news.cardCommunityComments",
+        id: "module.news.cardCommunityComments",
       },
       { count }
     )

@@ -225,13 +225,13 @@ exports[`matches snapshot 1`] = `
         <span
           class="c4"
         >
-          [value] view.name.overview.system.version
+          [value] module.overview.systemVersion
         </span>
       </div>
       <p
         class="c5 c6"
       >
-        [value] view.name.overview.system.lastUpdate
+        [value] module.overview.systemLastUpdate
       </p>
     </div>
     <section
@@ -242,7 +242,7 @@ exports[`matches snapshot 1`] = `
         size="2"
         type="button"
       >
-        <i
+        <span
           class="c12 c13"
           data-testid="icon-Reload"
           height="2.8"
@@ -251,11 +251,11 @@ exports[`matches snapshot 1`] = `
           <test-file-stub
             image="test-file-stub"
           />
-        </i>
+        </span>
         <p
           class="c4 c14"
         >
-          [value] view.name.overview.system.checkForUpdates
+          [value] module.overview.systemCheckForUpdates
         </p>
       </button>
     </section>

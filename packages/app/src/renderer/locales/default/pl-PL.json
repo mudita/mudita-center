@@ -1,8 +1,8 @@
 {
   "view.generic.today": "Dzisiaj",
-  "view.name.calendar": "Kalendarz",
-  "view.name.help.backLinkText": "Powrót",
-  "view.name.meditation.dataBox.averageSessionLength": "średni czas trwania sesji",
+  "module.calendar": "Kalendarz",
+  "module.help.backLinkText": "Powrót",
+  "module.meditation.averageSessionLength": "średni czas trwania sesji",
   "view.name.overview": "Przegląd",
   "view.name.overview.network.name": "Sieć",
   "view.name.overview.phone.battery": "Bateria",

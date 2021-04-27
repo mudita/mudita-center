@@ -11,6 +11,10 @@ import {
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
+import { TitleOrder } from "Renderer/components/core/modal/modal.interface"
+import { getHeaderTemplate } from "Renderer/components/core/modal/modal.helpers"
+import Text from "Renderer/components/core/text/text.component"
+import Button from "Renderer/components/core/button/button.component"
 
 export const fadeAnimation = css`
   @keyframes fadeIn {
@@ -80,4 +84,37 @@ export const StoryModalWrapper = styled.section`
   box-shadow: 0 0.2rem 3rem 0 rgba(0, 0, 0, 0.08);
 
   ${fadeAnimation};
+`
+
+
+export const Header = styled.div<{ titleOrder: TitleOrder; subtitleGap: boolean }>`
+  display: grid;
+  grid-template-columns: 1fr 5rem;
+  grid-row-gap: ${({ subtitleGap }) => (subtitleGap ? "1rem" : "initial")};
+  ${({ titleOrder }) => getHeaderTemplate(titleOrder)};
+  box-sizing: border-box;
+  padding-bottom: 3.2rem;
+`
+
+export const ModalTitle = styled(Text)<{ subTitle?: string }>`
+  grid-area: Title;
+`
+
+export const ModalSubTitle = styled(Text)`
+  grid-area: Subtitle;
+`
+
+export const Close = styled(Button)`
+  margin-top: -0.6rem;
+  margin-right: -0.8rem;
+  grid-area: Close;
+  justify-self: end;
+`
+
+export const CloseButton = styled(Button)<{ actionButton?: boolean }>`
+  ${({ actionButton }) =>
+  actionButton &&
+  css`
+      margin-right: 1.5rem;
+    `};
 `

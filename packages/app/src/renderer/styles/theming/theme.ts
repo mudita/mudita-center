@@ -10,7 +10,7 @@ const blue1 = "#3e6988"
 const blue2 = "#6d9bbc"
 const blue4 = "#e3f3ff"
 const blue5 = "#f3f8fc"
-const blue6 = "#f3f7f9"
+const blue6 = "#aebec9"
 const messageBlue = "#f2f7fa"
 
 const black = "#000000"
@@ -25,6 +25,7 @@ const grey7 = "#fbfbfb"
 const grey8 = "#e9e9e9"
 const grey9 = "#e6e8eb"
 const grey10 = "rgba(0, 0, 0, 0.08)"
+const grey11 = "rgba(0, 0, 0, 0.3)"
 const transparentGrey1 = "rgba(188,188,188,0.5)"
 const transparentGrey2 = "rgba(214, 214, 214, 0.5)"
 const transparentBlue1 = "rgba(148,162,174,0.2)"
@@ -45,6 +46,7 @@ const theme = {
       primary: black,
       secondary: grey2,
       iconBody: white,
+      iconUser: blue6,
     },
     background: {
       activity: blue2,
@@ -64,7 +66,7 @@ const theme = {
       chartAxisLine: transparentBlue1,
       chartTooltip: white,
       modal: white,
-      bannerBackground: blue6,
+      modalBackdrop: grey11,
       error: red1,
       lightIcon: white,
     },

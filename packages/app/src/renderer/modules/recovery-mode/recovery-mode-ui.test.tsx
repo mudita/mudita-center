@@ -21,32 +21,32 @@ const renderer = () => {
 
 test("backup action is performed", () => {
   const { getByText } = renderer()
-  getByText("[value] view.name.recoveryMode.backupTitle").click()
+  getByText("[value] module.recoveryMode.backupTitle").click()
   expect(defaultProps.onBackupClick).toBeCalled()
 })
 
 test("reboot os action is performed", () => {
   const { getByText } = renderer()
-  getByText("[value] view.name.recoveryMode.rebootOsTitle").click()
+  getByText("[value] module.recoveryMode.rebootOsTitle").click()
   expect(defaultProps.onRebootOsClick).toBeCalled()
 })
 
 test("restore action is performed", () => {
   const { getByText } = renderer()
-  getByText("[value] view.name.recoveryMode.restoreTitle").click()
+  getByText("[value] module.recoveryMode.restoreTitle").click()
   expect(defaultProps.onRestoreClick).toBeCalled()
 })
 
 test("factory reset action is performed", () => {
   const { getByText } = renderer()
-  getByText("[value] view.name.recoveryMode.factoryResetTitle").click()
+  getByText("[value] module.recoveryMode.factoryResetTitle").click()
   expect(defaultProps.onFactoryResetClick).toBeCalled()
 })
 
 test("support button works correctly", () => {
   const { getByText } = renderer()
   getByText(
-    "[value] view.name.onboarding.troubleshooting.support.button"
+    "[value] module.onboarding.supportButton"
   ).click()
   expect(defaultProps.onSupportButtonClick).toBeCalled()
 })

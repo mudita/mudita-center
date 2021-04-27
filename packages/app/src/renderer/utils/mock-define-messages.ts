@@ -5,7 +5,7 @@
 
 import { defineMessages } from "react-intl"
 
-export const mockDefineMessages = (id = "view.name.news") => {
+export const mockDefineMessages = (id = "module.news") => {
   const messages = defineMessages({
     exampleMessage: { id },
   })

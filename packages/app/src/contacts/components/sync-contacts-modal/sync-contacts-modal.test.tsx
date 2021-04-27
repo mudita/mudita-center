@@ -10,6 +10,10 @@ import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-
 
 const renderer = (extraProps?: {}) => {
   const props = {
+    onAppleButtonClick: jest.fn(),
+    onGoogleButtonClick: jest.fn(),
+    onManualImportClick: jest.fn(),
+    onOutlookButtonClick: jest.fn(),
     ...extraProps,
   }
   return renderWithThemeAndIntl(<SyncContactsModal {...props} />)
@@ -18,22 +22,29 @@ const renderer = (extraProps?: {}) => {
 test("apple button calls right function", () => {
   const onAppleButtonClick = jest.fn()
   const { getByText } = renderer({ onAppleButtonClick })
-  getByText("[value] view.name.phone.contacts.appleButtonText").click()
+  getByText("[value] module.contacts.appleButtonText").click()
   expect(onAppleButtonClick).toBeCalled()
 })
 
 test("google button calls right function", () => {
   const onGoogleButtonClick = jest.fn()
   const { getByText } = renderer({ onGoogleButtonClick })
-  getByText("[value] view.name.phone.contacts.googleButtonText").click()
+  getByText("[value] module.contacts.googleButtonText").click()
   expect(onGoogleButtonClick).toBeCalled()
 })
 
 test("manual import button calls right function", () => {
   const onManualImportClick = jest.fn()
   const { getByText, getByTestId } = renderer({ onManualImportClick })
-  getByText("[value] view.name.phone.contacts.manualImportText").click()
+  getByText("[value] module.contacts.manualImportText").click()
   expect(onManualImportClick).toHaveBeenCalledWith(
     getByTestId(SyncContactsModalTestIds.FileInput)
   )
+})
+
+test("outlook button calls right function", () => {
+  const onOutlookButtonClick = jest.fn()
+  const { getByText } = renderer({ onOutlookButtonClick })
+  getByText("[value] module.contacts.outlookButtonText").click()
+  expect(onOutlookButtonClick).toBeCalled()
 })

@@ -74,7 +74,7 @@ exports[`matches snapshot 1`] = `
   background-color: #f4f5f6;
 }
 
-.c4:hover .sc-iqHYGH {
+.c4:hover .sc-iqsfdx {
   opacity: 1;
   visibility: visible;
 }
@@ -253,6 +253,10 @@ exports[`matches snapshot 1`] = `
   border-bottom: solid 0.1rem #d2d6db;
 }
 
+.c5:hover {
+  background-color: transparent;
+}
+
 .c6 {
   grid-area: Checkbox;
   -webkit-align-self: center;
@@ -289,7 +293,7 @@ exports[`matches snapshot 1`] = `
       <p
         class="c2 c3"
       >
-        [value] view.name.settings.description
+        [value] module.settings.description
       </p>
     </div>
     <div
@@ -302,7 +306,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c7 c8 c9"
         >
-          [value] view.name.settings.autostartLabel
+          [value] module.settings.autostartLabel
         </p>
       </div>
       <div
@@ -320,7 +324,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c16 c17"
             >
-              [value] view.name.settings.offLabel
+              [value] module.settings.offLabel
             </p>
           </button>
           <button
@@ -332,7 +336,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c16 c17"
             >
-              [value] view.name.settings.onLabel
+              [value] module.settings.onLabel
             </p>
           </button>
         </section>
@@ -348,7 +352,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c7 c8 c9"
         >
-          [value] view.name.settings.collectingdata
+          [value] module.settings.collectingData
         </p>
       </div>
       <div
@@ -366,7 +370,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c16 c17"
             >
-              [value] view.name.settings.offLabel
+              [value] module.settings.offLabel
             </p>
           </button>
           <button
@@ -378,7 +382,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c16 c17"
             >
-              [value] view.name.settings.onLabel
+              [value] module.settings.onLabel
             </p>
           </button>
         </section>

@@ -28,8 +28,8 @@
     "app:prerelease": "lerna run --scope @mudita/mudita-center-app prerelease",
     "app:storybook:serve": "lerna run --scope @mudita/mudita-center-app storybook:serve --",
     "app:storybook:build": "lerna run --scope @mudita/mudita-center-app storybook:build --",
-    "app:dist": "lerna run --scope @mudita/mudita-center-app dist --",
-    "app:dist:all": "lerna run --scope @mudita/mudita-center-app dist:all --",
+    "app:dist": "lerna run --scope @mudita/mudita-center-app dist",
+    "app:dist:all": "lerna run --scope @mudita/mudita-center-app dist:all",
     "app:electron:rebuild-serialport": "lerna run --scope app electron:rebuild-serialport --",
     "PURE COMMANDS": "========================================================",
     "pure:build": "lerna run --scope @mudita/pure build",
@@ -38,7 +38,12 @@
     "pure:test:coverage": "lerna run --scope @mudita/pure test:coverage",
     "pure:command": "lerna run --scope @mudita/pure command --",
     "DESIGN SYSTEM COMMANDS": "========================================================",
-    "design-system:prerelease": "lerna run --scope @mudita/mudita-center-design-system prerelease"
+    "design-system:prerelease": "lerna run --scope @mudita/mudita-center-design-system prerelease",
+    "CONTRACT TEST COMMANDS": "========================================================",
+    "contract:test": "lerna run --scope @mudita/contract-test test",
+    "contract:build": "lerna run --scope @mudita/contract-test build",
+    "contract:lint": "lerna run --scope @mudita/contract-test lint",
+    "contract:lint:typecheck": "lerna run --scope @mudita/contract-test lint:typecheck"
   },
   "repository": {
     "type": "git",
@@ -60,7 +65,7 @@
     "lerna": "^4.0.0",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.4"
   },
   "engines": {
     "node": "12.18.4",

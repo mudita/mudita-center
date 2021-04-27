@@ -52,25 +52,25 @@ export const RoundIconWrapper = styled.div`
 `
 
 const messages = defineMessages({
-  appUpdateTitle: { id: "app.update.modal.title" },
-  availableUpdateMessage: { id: "app.update.available.modal.message" },
-  availableUpdateButton: { id: "app.update.available.modal.button" },
-  downloadedUpdateMessage: { id: "app.update.downloaded.modal.message" },
+  appUpdateTitle: { id: "component.updateModalTitle" },
+  availableUpdateMessage: { id: "component.updateAvailableModalMessage" },
+  availableUpdateButton: { id: "component.updateAvailableModalButton" },
+  downloadedUpdateMessage: { id: "component.updateDownloadedModalMessage" },
   downloadedUpdateDescription: {
-    id: "app.update.downloaded.modal.description",
+    id: "component.updateDownloadedModalDescription",
   },
   downloadedUpdateWarning: {
-    id: "app.update.downloaded.modal.warning",
+    id: "component.updateDownloadedModalWarning",
   },
-  downloadedUpdateButton: { id: "app.update.downloaded.modal.button" },
+  downloadedUpdateButton: { id: "component.updateDownloadedModalButton" },
   downloadedUpdateCloseButton: {
-    id: "app.update.downloaded.modal.closeButton",
+    id: "component.updateDownloadedModalCloseButton",
   },
   errorUpdateMessage: {
-    id: "app.update.error.modal.message",
+    id: "component.updateErrorModalMessage",
   },
   errorUpdateDescription: {
-    id: "app.update.error.modal.description",
+    id: "component.updateErrorModalDescription",
   },
 })
 

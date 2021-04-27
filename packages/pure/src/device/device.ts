@@ -6,7 +6,9 @@
 import BaseDevice from "./base-device"
 import {
   CreateDevice,
+  DeviceUpdateRequestPayload,
   Endpoint,
+  FileUploadRequestPayload,
   Method,
   RequestConfig,
   Response,
@@ -14,20 +16,20 @@ import {
 } from "./device.types"
 import {
   Contact,
-  CountBodyResponse,
   DeviceInfo,
   DeviceUpdateErrorResponse,
   DeviceUpdateResponse,
+  GetThreadResponseBody,
 } from "../endpoints"
 import { Formatter } from "../formatter/formatter"
 import { FormatterFactory } from "../formatter/formatter-factory"
+import { GetThreadsBody, Thread } from "../endpoints/messages.types"
 
 class Device extends BaseDevice {
-  #formatter: Formatter
+  #formatter: Formatter = FormatterFactory.create()
 
   constructor(path: string) {
     super(path)
-    this.#formatter = FormatterFactory.create()
   }
 
   public async connect(): Promise<Response> {
@@ -53,13 +55,12 @@ class Device extends BaseDevice {
   public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
-    body: { count: true }
-  }): Promise<Response<CountBodyResponse>>
+  }): Promise<Response<{ entries: Contact[]; totalCount: number }>>
   public request(config: {
-    endpoint: Endpoint.Contacts
+    endpoint: Endpoint.Messages
     method: Method.Get
-    body: { count: number }
-  }): Promise<Response<Contact[]>>
+    body: GetThreadsBody
+  }): Promise<Response<GetThreadResponseBody>>
   public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
@@ -75,25 +76,14 @@ class Device extends BaseDevice {
     method: Method.Delete
     body: Contact["id"]
   }): Promise<Response<string>>
-  public request(config: {
-    endpoint: Endpoint.DeviceUpdate
-    method: Method.Post
-    filePath: string
-  }): Promise<DeviceUpdateResponse | DeviceUpdateErrorResponse>
-  public request(config: {
-    endpoint: Endpoint.FileUpload
-    method: Method.Post
-    filePath: string
-  }): Promise<Response>
+  public request(
+    config: DeviceUpdateRequestPayload
+  ): Promise<DeviceUpdateResponse | DeviceUpdateErrorResponse>
+  public request(config: FileUploadRequestPayload): Promise<Response>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
-    try {
-      const formattedConfig = this.#formatter.formatRequestConfig(config)
-      const response = await super.request(formattedConfig)
-      return this.#formatter.formatResponse(config.method, response)
-    } catch (error) {
-      return error
-    }
+    const response = await super.request(config)
+    return this.#formatter.formatResponse(config.method, response)
   }
 }
 

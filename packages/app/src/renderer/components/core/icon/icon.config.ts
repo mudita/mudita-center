@@ -111,6 +111,8 @@ import MuditaDarkLogo from "Renderer/svg/mudita-dark-logo.svg"
 import ContactGoogle from "Renderer/svg/contact-google.svg"
 import Manage from "Renderer/svg/manage.svg"
 import MuditaLogoBg from "Renderer/svg/muditalogo-bg.svg"
+import Outlook from "Renderer/svg/outlook.svg"
+import ContactFilled from "Renderer/svg/contact-filled.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -223,6 +225,8 @@ export enum Type {
   ContactGoogle,
   Manage,
   MuditaLogoBg,
+  Outlook,
+  ContactFilled,
 }
 
 const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
@@ -333,11 +337,16 @@ const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
   [Type.ContactGoogle]: ContactGoogle,
   [Type.MuditaLogoBg]: MuditaLogoBg,
   [Type.Manage]: Manage,
+  [Type.Outlook]: Outlook,
+  [Type.ContactFilled]: ContactFilled,
 }
 
 export const getIconType = (
   icon: Type = Type.Message
 ): FunctionComponent<ImageInterface> => typeToIcon[icon] || Message
 
-export const getEnumName = (type?: Type) =>
-  type !== undefined ? Type[type] : null
+export function getEnumName(type: Type): string
+export function getEnumName(type?: Type): null
+export function getEnumName(type?: Type): string | null {
+  return type !== undefined ? Type[type] : null
+}

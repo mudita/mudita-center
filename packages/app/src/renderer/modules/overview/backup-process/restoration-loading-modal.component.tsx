@@ -7,42 +7,38 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import React from "react"
+import React, { ComponentProps } from "react"
 import {
   LoadingBar,
   PureBackupModal,
 } from "Renderer/modules/overview/backup-process/modals.styled"
 import { defineMessages } from "react-intl"
-import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
-import { ModalProps } from "Renderer/components/core/modal/modal.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import theme from "Renderer/styles/theming/theme"
 import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 
 const messages = defineMessages({
-  cancel: { id: "view.generic.button.cancel" },
+  cancel: { id: "component.cancelButton" },
   title: {
-    id: "view.name.overview.backup.restoringBackupModal.title",
+    id: "module.overview.backupRestoringBackupModalTitle",
   },
   body: {
-    id: "view.name.overview.backup.loadingBackupModal.body",
+    id: "module.overview.backupLoadingBackupModalBody",
   },
 })
 
-interface BackupRestorationLoadingModalProps
-  extends Pick<ModalProps, "onClose"> {
+interface BackupRestorationLoadingModalProps {
   progress?: number
 }
 
-export const BackupRestorationLoadingModal: FunctionComponent<BackupRestorationLoadingModalProps> = ({
-  onClose = noop,
-  progress = 0,
-}) => (
+export const BackupRestorationLoadingModal: FunctionComponent<
+  BackupRestorationLoadingModalProps & ComponentProps<typeof PureBackupModal>
+> = ({ progress = 0, ...props }) => (
   <PureBackupModal
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     closeable={false}
-    onClose={onClose}
+    {...props}
   >
     <Text
       message={messages.title}

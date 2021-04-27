@@ -3,44 +3,23 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React, { useEffect, ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
-import { AppSettings } from "App/main/store/settings.interface"
 import { noop } from "Renderer/utils/noop"
 
-export interface SettingsProps {
-  appAutostart: boolean
-  appTethering: boolean
-  appCollectingData: boolean
-  setAutostart?: (option: AppSettings["appAutostart"]) => void
-  setTethering?: (option: AppSettings["appTethering"]) => void
-  setCollectingData?: (option: AppSettings["appCollectingData"]) => void
+interface Properties extends ComponentProps<typeof SettingsUI> {
   checkAutostartValue?: () => Promise<boolean>
 }
 
-const Settings: FunctionComponent<SettingsProps> = ({
-  appAutostart,
-  appTethering,
-  setAutostart = noop,
-  setTethering = noop,
+const Settings: FunctionComponent<Properties> = ({
   checkAutostartValue = noop,
-  appCollectingData,
-  setCollectingData = noop,
+  ...uiComponentProperties
 }) => {
   useEffect(() => {
     checkAutostartValue()
   }, [])
-  return (
-    <SettingsUI
-      appCollectingData={appCollectingData}
-      setCollectingData={setCollectingData}
-      appAutostart={appAutostart}
-      appTethering={appTethering}
-      setAutostart={setAutostart}
-      setTethering={setTethering}
-    />
-  )
+  return <SettingsUI {...uiComponentProperties} />
 }
 
 export default Settings

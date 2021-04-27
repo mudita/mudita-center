@@ -191,7 +191,7 @@ export const parseData = async (data: any): Promise<any> => {
   })
 }
 
-export function getNewUUID() {
+export function getNewUUID(): number {
   return Math.floor(Math.random() * 10000)
 }
 /* eslint-enable */

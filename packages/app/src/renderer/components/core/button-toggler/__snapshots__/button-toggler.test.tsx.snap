@@ -181,7 +181,7 @@ exports[`matches snapshot 1`] = `
   <section
     class="c0"
   >
-    <i
+    <span
       class="c1 c2"
       data-testid="icon-Tooltip"
       height="1.6"
@@ -190,7 +190,7 @@ exports[`matches snapshot 1`] = `
       <test-file-stub
         image="test-file-stub"
       />
-    </i>
+    </span>
     <div
       class="c3 c4"
       data-testid="tooltip"
@@ -198,12 +198,12 @@ exports[`matches snapshot 1`] = `
       <p
         class="c5 c6"
       >
-        [value] view.name.news
+        [value] module.news
       </p>
       <p
         class="c7"
       >
-        [value] view.name.news
+        [value] module.news
       </p>
     </div>
     <button

@@ -18,6 +18,7 @@ const defaultProps = {
   resetRows: jest.fn(),
   deleteContacts: jest.fn(),
   selectedContacts: [],
+  editedContact: undefined,
   contacts: [
     {
       id: "0",
@@ -25,7 +26,7 @@ const defaultProps = {
       lastName: "Borewicz",
       primaryPhoneNumber: "+71 195 069 214",
       secondaryPhoneNumber: "",
-      email: "milicjant@buziaczek.pl",
+      email: "example@mudita.com",
       note: "sapiente rem dignissimos sunt",
       ice: false,
       favourite: false,
@@ -101,4 +102,11 @@ test("selection manager is displayed when there is at least one contact selected
   expect(
     getByTestId(ContactPanelTestIdsEnum.SelectionManager)
   ).toBeInTheDocument()
+})
+
+test("Block New contact button while editing contact", () => {
+  const { getByTestId } = renderer({
+    editedContact: [defaultProps.contacts[0]],
+  })
+  expect(getByTestId(ContactPanelTestIdsEnum.NewButton)).toBeDisabled()
 })

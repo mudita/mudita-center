@@ -61,48 +61,48 @@ import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 
 const messages = defineMessages({
   searchPlaceholder: {
-    id: "view.name.tools.notes.searchPlaceholder",
+    id: "module.tools.notesSearchPlaceholder",
   },
   searchNotes: {
-    id: "view.name.tools.notes.searchNotes",
+    id: "module.tools.notesSearchNotes",
   },
   emptyListTitle: {
-    id: "view.name.tools.notes.emptyList.title",
+    id: "module.tools.notesEmptyListTitle",
   },
   emptyListNoNotes: {
-    id: "view.name.tools.notes.emptyList.noNotes",
+    id: "module.tools.notesEmptyListNoNotes",
   },
   emptyListNotFound: {
-    id: "view.name.tools.notes.emptyList.notFound",
+    id: "module.tools.notesEmptyListNotFound",
   },
   newNote: {
-    id: "view.name.tools.notes.newNote",
+    id: "module.tools.notesNewNote",
   },
   unsavedNote: {
-    id: "view.name.tools.notes.unsavedNote",
+    id: "module.tools.notesUnsavedNote",
   },
   note: {
-    id: "view.name.tools.notes.note",
+    id: "module.tools.notesNote",
   },
   edited: {
-    id: "view.name.tools.notes.edited",
+    id: "module.tools.notesEdited",
   },
   today: {
-    id: "view.generic.today",
+    id: "component.textToday",
   },
   selectionsNumber: {
-    id: "view.name.tools.notes.selectionsNumber",
+    id: "module.tools.notesSelectionsNumber",
   },
   newButton: {
-    id: "view.name.tools.notes.newButton",
+    id: "module.tools.notesNewButton",
   },
   deleteButton: {
-    id: "view.name.tools.notes.deleteButton",
+    id: "module.tools.notesDeleteButton",
   },
-  charactersNumber: { id: "view.name.tools.notes.editor.charactersNumber" },
-  emptyNoteText: { id: "view.name.tools.notes.emptyNote" },
-  deleteModalTitle: { id: "view.name.tools.notes.deleteModal.title" },
-  deleteModalThreadText: { id: "view.name.tools.notes.deleteModal.threadText" },
+  charactersNumber: { id: "module.tools.notesEditorCharactersNumber" },
+  emptyNoteText: { id: "module.tools.notesEmptyNote" },
+  deleteModalTitle: { id: "module.tools.notesDeleteModalTitle" },
+  deleteModalThreadText: { id: "module.tools.notesDeleteModalThreadText" },
 })
 
 export interface Note {

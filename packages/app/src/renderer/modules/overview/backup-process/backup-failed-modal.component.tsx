@@ -7,21 +7,23 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import React from "react"
+import React, { ComponentProps } from "react"
 import { PureBackupModal } from "Renderer/modules/overview/backup-process/modals.styled"
 import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
   title: {
-    id: "view.name.overview.backup.failedBackupModal.title",
+    id: "module.overview.backup.failedBackupModalTitle",
   },
   body: {
-    id: "view.name.overview.backup.failedBackupModal.body",
+    id: "module.overview.backupFailedBackupModalBody",
   },
 })
 
-export const BackupFailedModal: FunctionComponent = () => (
-  <PureBackupModal>
+export const BackupFailedModal: FunctionComponent<
+  ComponentProps<typeof PureBackupModal>
+> = ({ ...props }) => (
+  <PureBackupModal {...props}>
     <Text
       message={messages.title}
       displayStyle={TextDisplayStyle.LargeBoldText}

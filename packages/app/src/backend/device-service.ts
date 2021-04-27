@@ -13,8 +13,9 @@ import {
   RequestConfig,
   ResponseStatus,
   Contact,
-  CountBodyResponse,
   DeviceInfo,
+  GetThreadResponseBody,
+  GetThreadsBody,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
@@ -49,13 +50,13 @@ class DeviceService {
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
-    body: { count: true }
-  }): Promise<DeviceResponse<CountBodyResponse>>
-  async request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
     body: { count: number }
-  }): Promise<DeviceResponse<Contact[]>>
+  }): Promise<DeviceResponse<{ entries: Contact[]; totalCount: number }>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Get
+    body: GetThreadsBody
+  }): Promise<DeviceResponse<GetThreadResponseBody>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post

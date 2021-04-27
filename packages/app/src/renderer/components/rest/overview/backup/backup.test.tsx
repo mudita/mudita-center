@@ -10,8 +10,12 @@ import { BackupProps } from "Renderer/components/rest/overview/backup/backup.int
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
-import { lastBackup } from "Renderer/components/rest/overview/backup/backup.stories"
-import { fireEvent, waitFor } from "@testing-library/react"
+import { fireEvent } from "@testing-library/react"
+
+const lastBackup = {
+  createdAt: "2020-01-15T07:35:01.562Z",
+  size: 102400,
+}
 
 const renderBackup = ({
   onBackupCreate = noop,
@@ -24,11 +28,11 @@ const renderBackup = ({
     ...outcome,
     createButton: () =>
       outcome.getByText(
-        intl.formatMessage({ id: "view.name.overview.backup.createAction" })
+        intl.formatMessage({ id: "module.overview.backupCreateAction" })
       ),
     restoreButton: () =>
       outcome.getByText(
-        intl.formatMessage({ id: "view.name.overview.backup.restoreAction" })
+        intl.formatMessage({ id: "module.overview.backupRestoreAction" })
       ),
   }
 }
@@ -37,7 +41,7 @@ test("renders no backup info properly", () => {
   const { getByText, createButton } = renderBackup()
   expect(
     getByText(
-      intl.formatMessage({ id: "view.name.overview.backup.createFirst" })
+      intl.formatMessage({ id: "module.overview.backupCreateFirst" })
     )
   ).toBeInTheDocument()
   expect(createButton()).toBeInTheDocument()
@@ -48,13 +52,13 @@ test("renders available backup info properly", () => {
     lastBackup,
   })
   expect(
-    getByText("view.name.overview.backup.lastBackup", { exact: false })
+    getByText("module.overview.backupLastBackup", { exact: false })
   ).toBeInTheDocument()
   expect(restoreButton()).toBeInTheDocument()
   expect(createButton()).toBeInTheDocument()
 })
 
-test("backup creation button works properly", async () => {
+test("backup creation button works properly", () => {
   const onBackupCreate = jest.fn()
 
   const { createButton } = renderBackup({
@@ -63,12 +67,10 @@ test("backup creation button works properly", async () => {
 
   fireEvent.click(createButton())
 
-  await waitFor(() => {
-    expect(onBackupCreate).toHaveBeenCalled()
-  })
+  expect(onBackupCreate).toHaveBeenCalled()
 })
 
-test("backup restore button works properly", async () => {
+test("backup restore button works properly", () => {
   const onBackupRestore = jest.fn()
 
   const { restoreButton } = renderBackup({
@@ -78,7 +80,5 @@ test("backup restore button works properly", async () => {
 
   fireEvent.click(restoreButton())
 
-  await waitFor(() => {
-    expect(onBackupRestore).toHaveBeenCalled()
-  })
+  expect(onBackupRestore).toHaveBeenCalled()
 })

@@ -10,9 +10,9 @@ import { Release } from "App/main/functions/register-pure-os-update-listener"
 const osUpdateAlreadyDownloadedCheck = (
   file: Release["file"]
 ): Promise<boolean> => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     try {
-      const data = await ipcRenderer.callMain<Release["file"], boolean>(
+      const data = ipcRenderer.callMain<Release["file"], boolean>(
         osUpdateAlreadyDownloadedChannel,
         file
       )

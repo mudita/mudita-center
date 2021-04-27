@@ -7,20 +7,12 @@ import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { SystemProps } from "Renderer/components/rest/overview/system/system.interface"
-import getFakeAdapters from "App/tests/get-fake-adapters"
 import { intl } from "Renderer/utils/intl"
 import System from "Renderer/components/rest/overview/system/system.component"
 import { fireEvent } from "@testing-library/dom"
-import { waitFor } from "@testing-library/react"
 
-const fakeSystemInfo = getFakeAdapters().purePhone
 const fakeLastUpdate = "2020-01-14T11:31:08.244Z"
-let fakeOsVersion: string
-
-beforeEach(async () => {
-  const { data } = await fakeSystemInfo.getOsVersion()
-  fakeOsVersion = data ?? ""
-})
+const fakeOsVersion = "release-0.55.1"
 
 const renderSystem = ({
   osVersion = fakeOsVersion,
@@ -41,7 +33,7 @@ test("renders os version properly", () => {
   const { getByText } = renderSystem()
   expect(getByText(fakeOsVersion)).toBeInTheDocument()
   expect(
-    getByText(intl.formatMessage({ id: "view.name.overview.system.version" }))
+    getByText(intl.formatMessage({ id: "module.overview.systemVersion" }))
   ).toBeInTheDocument()
 })
 
@@ -50,7 +42,7 @@ test("renders last update info properly", () => {
   expect(
     getByText(
       intl.formatMessage(
-        { id: "view.name.overview.system.lastUpdate" },
+        { id: "module.overview.systemLastUpdate" },
         { date: fakeLastUpdate }
       )
     )
@@ -61,7 +53,7 @@ test("renders available update info properly", () => {
   const { getByText } = renderSystem({ updateAvailable: true })
   expect(
     getByText(
-      intl.formatMessage({ id: "view.name.overview.system.updateAvailable" })
+      intl.formatMessage({ id: "module.overview.systemUpdateAvailable" })
     )
   ).toBeInTheDocument()
 })
@@ -69,18 +61,18 @@ test("renders available update info properly", () => {
 test("renders 'check for updates' button properly", () => {
   const { queryByRole } = renderSystem()
   expect(queryByRole("button")).toHaveTextContent(
-    intl.formatMessage({ id: "view.name.overview.system.checkForUpdates" })
+    intl.formatMessage({ id: "module.overview.systemCheckForUpdates" })
   )
 })
 
 test("renders 'update now' button properly", () => {
   const { queryByRole } = renderSystem({ updateAvailable: true })
   expect(queryByRole("button")).toHaveTextContent(
-    intl.formatMessage({ id: "view.name.overview.system.downloadAction" })
+    intl.formatMessage({ id: "module.overview.systemDownloadAction" })
   )
 })
 
-test("checks for update after button click", async () => {
+test("checks for update after button click", () => {
   const onUpdateCheck = jest.fn()
 
   const { getByRole } = renderSystem({
@@ -89,12 +81,10 @@ test("checks for update after button click", async () => {
 
   fireEvent.click(getByRole("button"))
 
-  await waitFor(() => {
-    expect(onUpdateCheck).toHaveBeenCalled()
-  })
+  expect(onUpdateCheck).toHaveBeenCalled()
 })
 
-test("triggers download after button click", async () => {
+test("triggers download after button click", () => {
   const onDownload = jest.fn()
 
   const { getByRole } = renderSystem({
@@ -104,12 +94,10 @@ test("triggers download after button click", async () => {
 
   fireEvent.click(getByRole("button"))
 
-  await waitFor(() => {
-    expect(onDownload).toHaveBeenCalled()
-  })
+  expect(onDownload).toHaveBeenCalled()
 })
 
-test("triggers update after button click", async () => {
+test("triggers update after button click", () => {
   const onUpdate = jest.fn()
 
   const { getByRole } = renderSystem({
@@ -120,7 +108,5 @@ test("triggers update after button click", async () => {
 
   fireEvent.click(getByRole("button"))
 
-  await waitFor(() => {
-    expect(onUpdate).toHaveBeenCalled()
-  })
+  expect(onUpdate).toHaveBeenCalled()
 })

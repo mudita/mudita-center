@@ -24,6 +24,8 @@ import { RootState } from "Renderer/store"
 import registerHotkeys from "Renderer/register-hotkeys"
 import registerAppContextMenu from "Renderer/register-app-context-menu"
 import appContextMenu from "./app-context-menu"
+import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
+import CollectingModal from "App/collecting-data-modal/collecting-modal.component"
 
 interface Props {
   store: Store
@@ -70,6 +72,13 @@ const BaseApp: FunctionComponent<Props> = ({
     appContextMenu.init()
   }, [])
 
+  useRouterListener(history, {
+    [URL_MAIN.contacts]: [store.dispatch.contacts.loadData],
+    [URL_MAIN.phone]: [store.dispatch.contacts.loadData],
+    [URL_MAIN.overview]: [store.dispatch.basicInfo.loadData],
+    [URL_MAIN.messages]: [store.dispatch.messages.loadData],
+  })
+
   useEffect(() => {
     if (!connected && !pureNeverConnected) {
       history.push(URL_MAIN.news)
@@ -85,6 +94,7 @@ const BaseApp: FunctionComponent<Props> = ({
   return (
     <Provider store={store}>
       <NetworkStatusChecker />
+      <CollectingModal />
       <Router history={history}>
         <BaseRoutes />
       </Router>

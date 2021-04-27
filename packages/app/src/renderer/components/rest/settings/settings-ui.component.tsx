@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppSettings } from "App/main/store/settings.interface"
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
@@ -13,17 +14,20 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
-import { SettingsProps } from "Renderer/modules/settings/settings.component"
 import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
 
 export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 15rem;
   border-bottom: solid 0.1rem ${borderColor("list")};
+  &:hover {
+    background-color: transparent;
+  }
 `
 
 export const Data = styled.div`
@@ -48,13 +52,22 @@ export const SettingsWrapper = styled.section`
   padding-top: 3.2rem;
 `
 
-const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
+interface Properties {
+  appAutostart: boolean
+  appTethering: boolean
+  appCollectingData: boolean
+  setAutostart?: (option: AppSettings["appAutostart"]) => void
+  setTethering?: (option: AppSettings["appTethering"]) => void
+  setCollectingData?: (option: AppSettings["appCollectingData"]) => void
+}
+
+const SettingsUI: FunctionComponent<Properties> = ({
   appAutostart,
-  setAutostart,
+  setAutostart = noop,
   appTethering,
-  setTethering,
+  setTethering = noop,
   appCollectingData,
-  setCollectingData,
+  setCollectingData = noop,
 }) => {
   return (
     <SettingsWrapper data-testid={SettingsTestIds.Wrapper}>
@@ -62,7 +75,7 @@ const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
         <SettingsDescription
           displayStyle={TextDisplayStyle.MediumFadedLightText}
         >
-          <FormattedMessage id="view.name.settings.description" />
+          <FormattedMessage id="module.settings.description" />
         </SettingsDescription>
       </SettingsDescriptionWrapper>
       <SettingsTableRow
@@ -71,7 +84,7 @@ const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
       >
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.autostartLabel" />
+            <FormattedMessage id="module.settings.autostartLabel" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
@@ -86,7 +99,7 @@ const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
         >
           <Data>
             <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-              <FormattedMessage id="view.name.settings.tetheringLabel" />
+              <FormattedMessage id="module.settings.tetheringLabel" />
             </SettingsLabel>
           </Data>
           <ActionsWrapper>
@@ -103,7 +116,7 @@ const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
       >
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.collectingdata" />
+            <FormattedMessage id="module.settings.collectingData" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>

@@ -270,14 +270,14 @@ exports[`matches snapshot 1`] = `
     <div
       class="c1"
     >
-      <i
+      <span
         class="c2 c3"
         data-testid="icon-MuditaLogoWithText"
       >
         <test-file-stub
           image="test-file-stub"
         />
-      </i>
+      </span>
     </div>
     <div
       class="c4"
@@ -288,7 +288,7 @@ exports[`matches snapshot 1`] = `
         href="#/news"
         size="2"
       >
-        <i
+        <span
           class="c6 c7"
           data-testid="icon-MenuNews"
           height="3.2"
@@ -297,22 +297,22 @@ exports[`matches snapshot 1`] = `
           <test-file-stub
             image="test-file-stub"
           />
-        </i>
+        </span>
         <p
           class="c8 c9"
         >
-          [value] view.name.news
+          [value] module.news
         </p>
       </a>
     </div>
     <div
       class="c10"
-      data-testid="menu.header.desktopApp"
+      data-testid="component.menuHeaderDesktopApp"
     >
       <p
         class="c11"
       >
-        [value] menu.header.desktopApp
+        [value] component.menuHeaderDesktopApp
       </p>
     </div>
     <div
@@ -325,7 +325,7 @@ exports[`matches snapshot 1`] = `
         href="#/tethering"
         size="2"
       >
-        <i
+        <span
           class="c6 c7"
           data-testid="icon-MenuTethering"
           height="3.2"
@@ -334,11 +334,11 @@ exports[`matches snapshot 1`] = `
           <test-file-stub
             image="test-file-stub"
           />
-        </i>
+        </span>
         <p
           class="c8 c9"
         >
-          [value] view.name.tethering
+          [value] module.tethering
         </p>
       </a>
     </div>
@@ -351,7 +351,7 @@ exports[`matches snapshot 1`] = `
         href="#/settings"
         size="2"
       >
-        <i
+        <span
           class="c6 c7"
           data-testid="icon-MenuSettings"
           height="3.2"
@@ -360,11 +360,11 @@ exports[`matches snapshot 1`] = `
           <test-file-stub
             image="test-file-stub"
           />
-        </i>
+        </span>
         <p
           class="c8 c9"
         >
-          [value] view.name.settings
+          [value] module.settings
         </p>
       </a>
     </div>
@@ -377,7 +377,7 @@ exports[`matches snapshot 1`] = `
         size="2"
         type="button"
       >
-        <i
+        <span
           class="c6 c7"
           data-testid="icon-MenuHelp"
           height="3.2"
@@ -386,11 +386,11 @@ exports[`matches snapshot 1`] = `
           <test-file-stub
             image="test-file-stub"
           />
-        </i>
+        </span>
         <p
           class="c8 c9"
         >
-          [value] view.name.help
+          [value] module.help
         </p>
       </button>
     </div>

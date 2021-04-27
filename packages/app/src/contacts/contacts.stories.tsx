@@ -79,6 +79,7 @@ const ContactsComponent = ({
     speedDialContacts={[]}
     deleteContacts={asyncNoop}
     authorize={asyncNoop}
+    editedContact={undefined}
   />
 )
 
@@ -115,7 +116,7 @@ const singleContact = ({
   lastName: "Doe",
   primaryPhoneNumber: "+40 211 456 285",
   secondaryPhoneNumber: "+37 030 922 283",
-  email: "jondoe@gmail.com",
+  email: "example@mudita.com",
   note: "Lorem ipsum dolor sit amet.",
   firstAddressLine: "50856 Mabelle Motorway",
   secondAddressLine: "USA",

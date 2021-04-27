@@ -25,15 +25,15 @@ import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
 export const messages = defineMessages({
-  clickToEdit: { id: "component.textEditor.status.clickToEdit" },
-  editMode: { id: "component.textEditor.status.editMode" },
-  autoSaving: { id: "component.textEditor.status.autosave.saving" },
-  autoSaved: { id: "component.textEditor.status.autosave.saved" },
-  unsaved: { id: "component.textEditor.status.save.unsaved" },
-  saveButton: { id: "component.textEditor.button.save" },
-  savingButton: { id: "component.textEditor.button.saving" },
-  cancelButton: { id: "component.textEditor.button.cancel" },
-  savedToPhone: { id: "component.textEditor.status.saved" },
+  clickToEdit: { id: "component.textEditorStatusClickToEdit" },
+  editMode: { id: "component.textEditorStatusEditMode" },
+  autoSaving: { id: "component.textEditorStatusSaving" },
+  autoSaved: { id: "component.textEditorStatusSavedTemporarily" },
+  unsaved: { id: "component.textEditorStatusUnsaved" },
+  saveButton: { id: "component.textEditorSaveButton" },
+  savingButton: { id: "component.textEditorSavingButton" },
+  cancelButton: { id: "component.textEditorCancelButton" },
+  savedToPhone: { id: "component.textEditorStatusSaved" },
 })
 
 export enum SaveStatus {

@@ -45,13 +45,13 @@ const DevSign = styled.span`
   color: ${textColor("secondary")};
 `
 
-export interface MenuProps {
+interface Properties {
   deviceConnected?: boolean
   openHelpWindow?: () => void
   devModeEnabled?: DevMode["enabled"]
 }
 
-const Menu: FunctionComponent<MenuProps> = ({
+const Menu: FunctionComponent<Properties> = ({
   deviceConnected,
   devModeEnabled,
 }) => {
@@ -68,7 +68,7 @@ const Menu: FunctionComponent<MenuProps> = ({
       <LogoWrapper>
         <SvgMuditaLogo type={Type.MuditaLogoWithText} />
         {devModeEnabled && (
-          <DevSign>{intl.formatMessage({ id: "dev.view.header" })}</DevSign>
+          <DevSign>{intl.formatMessage({ id: "component.devModeHeader" })}</DevSign>
         )}
       </LogoWrapper>
       {links}

@@ -10,7 +10,6 @@ import { PhoneProps } from "Renderer/components/rest/overview/phone/phone.interf
 import Phone from "Renderer/components/rest/overview/phone/phone.component"
 import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
-import { waitFor } from "@testing-library/react"
 import { intl } from "Renderer/utils/intl"
 import { Router } from "react-router"
 import { createMemoryHistory } from "history"
@@ -41,7 +40,7 @@ test("phone info renders properly", () => {
   expect(getByText("75 %")).toBeInTheDocument()
   expect(getByText("Play")).toBeInTheDocument()
   expect(
-    getByText(intl.formatMessage({ id: "view.name.overview.phone.battery" }))
+    getByText(intl.formatMessage({ id: "module.overview.phoneBattery" }))
   ).toBeInTheDocument()
   expect(disconnectButton()).toBeInTheDocument()
 })
@@ -53,7 +52,5 @@ test("disconnect button works properly", async () => {
 
   fireEvent.click(disconnectButton())
 
-  await waitFor(() => {
-    expect(onDisconnect).toHaveBeenCalled()
-  })
+  expect(onDisconnect).toHaveBeenCalled()
 })

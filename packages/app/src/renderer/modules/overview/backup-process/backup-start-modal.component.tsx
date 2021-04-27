@@ -7,12 +7,14 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import React from "react"
-import { FileList } from "Renderer/modules/overview/backup-process/modals.styled"
+import React, { ComponentProps } from "react"
+import {
+  FileList,
+  PureBackupModal,
+} from "Renderer/modules/overview/backup-process/modals.styled"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import { defineMessages } from "react-intl"
-import Modal from "Renderer/components/core/modal/modal.component"
 import {
   Col,
   Labels,
@@ -22,23 +24,24 @@ import { BackupItem } from "Renderer/modules/overview/backup-process/modals.inte
 import moment from "moment"
 import styled from "styled-components"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   filename: {
-    id: "view.generic.filename",
+    id: "component.columnFileName",
   },
   size: {
-    id: "view.generic.size",
+    id: "component.columnSize",
   },
   lastBackup: {
-    id: "view.generic.lastBackup",
+    id: "component.columnLastBackup",
   },
-  cancel: { id: "view.generic.button.cancel" },
+  cancel: { id: "component.cancelButton" },
   title: {
-    id: "view.name.overview.backup.createBackupModal.title",
+    id: "module.overview.backupCreateBackupModalTitle",
   },
   total: {
-    id: "view.name.overview.backup.createBackupModal.total",
+    id: "module.overview.createBackupModalTotal",
   },
 })
 
@@ -66,20 +69,20 @@ interface BackupStartModalProps {
   date?: string
   total?: string
   items: BackupItem[]
+  open: boolean
 }
 
-export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
-  startBackup = noop,
-  date,
-  total,
-  items,
-}) => (
-  <Modal
+export const BackupStartModal: FunctionComponent<
+  BackupStartModalProps & ComponentProps<typeof PureBackupModal>
+> = ({ startBackup = noop, date, total, items, open, ...props }) => (
+  <ModalDialog
     title={intl.formatMessage(messages.title)}
     onActionButtonClick={startBackup}
     actionButtonLabel={intl.formatMessage(messages.title)}
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     size={ModalSize.Medium}
+    open={open}
+    {...props}
   >
     <BackupFileList>
       <Labels>
@@ -107,5 +110,5 @@ export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
         <Text displayStyle={TextDisplayStyle.MediumText}>{total}</Text>
       </SizeColumn>
     </TotalTextWrapper>
-  </Modal>
+  </ModalDialog>
 )

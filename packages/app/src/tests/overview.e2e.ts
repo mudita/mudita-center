@@ -8,8 +8,9 @@ import { PhoneTestIds } from "Renderer/components/rest/overview/phone/phone-test
 import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
+import { Application } from "spectron";
 
-let app: any
+let app: Application
 
 beforeEach(async () => {
   app = await startApp(true)
@@ -30,11 +31,11 @@ test("app starts on the correct page", async () => {
 
 test("after clicking disconnect button, part of menu is not displayed", async () => {
   expect(
-    await app.client.isExisting("*[data-testid='menu.header.yourPure']")
+    await app.client.isExisting("*[data-testid='component.menuHeaderYourPure']")
   ).toBeTruthy()
   await app.client.$(`*[data-testid=${PhoneTestIds.DisconnectButton}]`).click()
   expect(
-    await app.client.isExisting("*[data-testid='menu.header.yourPure']")
+    await app.client.isExisting("*[data-testid='component.menuHeaderYourPure']")
   ).toBeFalsy()
 })
 

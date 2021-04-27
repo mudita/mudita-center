@@ -19,7 +19,7 @@ exports[`matches snapshot 1`] = `
   line-height: 1.05;
 }
 
-.c14 {
+.c15 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -92,7 +92,7 @@ exports[`matches snapshot 1`] = `
   background-color: #f4f5f6;
 }
 
-.c4:hover .sc-iqHYGH {
+.c4:hover .sc-iqsfdx {
   opacity: 1;
   visibility: visible;
 }
@@ -135,7 +135,7 @@ exports[`matches snapshot 1`] = `
   fill: #ffffff;
 }
 
-.c15 {
+.c16 {
   white-space: nowrap;
 }
 
@@ -168,6 +168,10 @@ exports[`matches snapshot 1`] = `
   width: fit-content;
 }
 
+.c14 {
+  padding: 0;
+}
+
 <div>
   <section
     class="c0"
@@ -178,7 +182,7 @@ exports[`matches snapshot 1`] = `
       <p
         class="c2 c3"
       >
-        [value] view.name.settings.backup.description
+        [value] module.settings.backupDescription
       </p>
     </div>
     <div
@@ -190,7 +194,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          [value] view.name.settings.backup.label
+          [value] module.settings.backupLabel
         </p>
         <p
           class="c2 c10"
@@ -203,14 +207,14 @@ exports[`matches snapshot 1`] = `
         class="c11 c12"
       >
         <button
-          class="c13"
+          class="c13 c14"
           size="2"
           type="button"
         >
           <p
-            class="c14 c15"
+            class="c15 c16"
           >
-            [value] view.name.settings.backup.buttonLabel
+            [value] module.settings.backupButtonLabel
           </p>
         </button>
       </div>

@@ -6,7 +6,7 @@
 import {
   Calendar,
   CalendarEvent,
-} from "Renderer/models/calendar/calendar.interfaces"
+} from "App/calendar/store/calendar.interfaces"
 import {
   GoogleCalendar,
   GoogleContactResourceItem,
@@ -20,7 +20,7 @@ import { rrulestr } from "rrule"
 
 const messages = defineMessages({
   unnamedEvent: {
-    id: "view.name.calendar.unnamedEvent",
+    id: "module.calendar.unnamedEvent",
   },
 })
 

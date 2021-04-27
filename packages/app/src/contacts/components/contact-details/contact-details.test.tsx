@@ -15,7 +15,7 @@ const contactRich = {
   lastName: "Borewicz",
   primaryPhoneNumber: "+71 195 069 214",
   secondaryPhoneNumber: "",
-  email: "milicjant@buziaczek.pl",
+  email: "example@mudita.com",
   note: "sapiente rem dignissimos sunt",
   ice: true,
   favourite: false,
@@ -39,9 +39,9 @@ const contactBasic = {
   secondAddressLine: "",
 }
 
-const noAddress = "[value] view.name.phone.contacts.details.noAddress"
-const noEmail = "[value] view.name.phone.contacts.details.noEmail"
-const noNotes = "[value] view.name.phone.contacts.details.noNotes"
+const noAddress = "[value] module.contacts.noAddress"
+const noEmail = "[value] module.contacts.noEmail"
+const noNotes = "[value] module.contacts.noNotes"
 
 const renderer = (props: {}) => {
   const defaultProps = {

@@ -32,17 +32,17 @@ import { Thread, VisibilityFilter } from "App/messages/store/messages.interface"
 
 const toggleState = [
   intl.formatMessage({
-    id: "view.name.messages.allMessages",
+    id: "module.messages.allMessages",
   }),
   intl.formatMessage({
-    id: "view.name.messages.unreadOnly",
+    id: "module.messages.unreadOnly",
   }),
 ] as const
 
 const messages = defineMessages({
-  markAsReadButton: { id: "view.name.messages.markAsRead" },
+  markAsReadButton: { id: "module.messages.markAsRead" },
   deleteButton: {
-    id: "view.name.messages.deleteButton",
+    id: "module.messages.deleteButton",
   },
 })
 
@@ -105,29 +105,32 @@ const MessagesPanel: FunctionComponent<Props> = ({
     <MessageFiltersWrapper selectionMode={selectionMode}>
       {!selectionMode && (
         <UnreadFilters data-testid={MessagePanelTestIds.FilterButtons}>
-          <ButtonToggler>
-            {toggleState.map((label, i) => {
-              const toggle = () => {
-                i === 0 ? showAllMessages() : hideReadMessages()
-                setActiveLabel(label)
-              }
-              return (
-                <MessagesButtonTogglerItem
-                  key={i}
-                  label={label}
-                  onClick={toggle}
-                  active={activeLabel === label}
-                />
-              )
-            })}
-          </ButtonToggler>
+          {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
+          {process.env.NODE_ENV !== "production" && (
+            <ButtonToggler>
+              {toggleState.map((label, i) => {
+                const toggle = () => {
+                  i === 0 ? showAllMessages() : hideReadMessages()
+                  setActiveLabel(label)
+                }
+                return (
+                  <MessagesButtonTogglerItem
+                    key={i}
+                    label={label}
+                    onClick={toggle}
+                    active={activeLabel === label}
+                  />
+                )
+              })}
+            </ButtonToggler>
+          )}
         </UnreadFilters>
       )}
       {selectionMode ? (
         <MessageSelectionManager
           selectedItemsNumber={selectedConversations.length}
           allItemsSelected={Boolean(allItemsSelected)}
-          message={{ id: "view.name.messages.conversations.selectionsNumber" }}
+          message={{ id: "module.messages.conversationsSelectionsNumber" }}
           checkboxSize={Size.Large}
           onToggle={toggleAll}
           buttons={
@@ -141,7 +144,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
         <SearchInput
           type={"search"}
           label={intl.formatMessage({
-            id: "view.name.messages.search",
+            id: "module.messages.search",
           })}
           outlined
           defaultValue={searchValue}
@@ -155,7 +158,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
       {/*    displayStyle={DisplayStyle.Primary}*/}
       {/*    size={ButtonSize.FixedBig}*/}
       {/*    label={intl.formatMessage({*/}
-      {/*      id: "view.name.messages.newMessage",*/}
+      {/*      id: "module.messages.newMessage",*/}
       {/*    })}*/}
       {/*    onClick={noop}*/}
       {/*    Icon={Type.PlusSign}*/}
