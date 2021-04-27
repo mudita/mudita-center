@@ -27,7 +27,7 @@ import EventsListDate from "App/calendar/components/events-list-date/events-list
 
 const messages = defineMessages({
   unnamedEvent: {
-    id: "view.name.calendar.unnamedEvent",
+    id: "module.calendar.unnamedEvent",
   },
 })
 

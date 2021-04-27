@@ -46,7 +46,7 @@ export interface MeditationStatsProps {
 
 const messages = defineMessages({
   mainLabel: {
-    id: "view.name.meditationStats.chart.mainLabel",
+    id: "module.meditation.statsMainLabel",
   },
 })
 

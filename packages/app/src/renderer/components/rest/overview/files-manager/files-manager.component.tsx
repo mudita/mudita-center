@@ -78,7 +78,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   ]
 
   const buttonLabel = intl.formatMessage({
-    id: "view.name.overview.filesManager.openFilesManager",
+    id: "module.overview.filesManagerOpenFilesManager",
   })
   return (
     <Card className={className}>
@@ -92,7 +92,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           </Text>
         </SpaceData>
         <Text displayStyle={TextDisplayStyle.SmallFadedText}>
-          <FormattedMessage id="view.name.overview.filesManager.usedSpace" />
+          <FormattedMessage id="module.overview.filesManagerUsedSpace" />
         </Text>
         <BarChart chartData={stackedBarData} displayStyle={DisplayStyle.Thin} />
       </TextInfo>

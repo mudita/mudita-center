@@ -20,12 +20,12 @@ import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
-  cancel: { id: "view.generic.button.cancel" },
+  cancel: { id: "component.cancelButton" },
   title: {
-    id: "view.name.overview.backup.loadingBackupModal.title",
+    id: "module.overview.backupLoadingBackupModalTitle",
   },
   body: {
-    id: "view.name.overview.backup.loadingBackupModal.body",
+    id: "module.overview.backupLoadingBackupModalBody",
   },
 })
 
@@ -34,11 +34,9 @@ interface BackupLoadingModalProps {
   open: boolean
 }
 
-export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps & ComponentProps<typeof PureBackupModal>> = ({
-  onClose = noop,
-  progress = 0,
-  ...props
-}) => (
+export const BackupLoadingModal: FunctionComponent<
+  BackupLoadingModalProps & ComponentProps<typeof PureBackupModal>
+> = ({ onClose = noop, progress = 0, ...props }) => (
   <PureBackupModal
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     closeable={false}

@@ -24,16 +24,16 @@ import Modal, {
 
 const messages = defineMessages({
   title: {
-    id: "view.name.calendar.modal.synchronizationFinished.title",
+    id: "module.calendar.synchronizationFinishedTitle",
   },
   subtitle: {
-    id: "view.name.calendar.modal.synchronizationFinished.subtitle",
+    id: "module.calendar.synchronizationFinishedSubtitle",
   },
   body: {
-    id: "view.name.calendar.modal.synchronizationFinished.body",
+    id: "module.calendar.synchronizationFinishedBody",
   },
   button: {
-    id: "view.generic.button.ok",
+    id: "component.okButton",
   },
 })
 

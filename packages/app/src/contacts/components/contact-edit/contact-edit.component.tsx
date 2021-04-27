@@ -47,28 +47,28 @@ import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/c
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
 
 const messages = defineMessages({
-  editTitle: { id: "view.name.phone.contacts.edit.title" },
-  newTitle: { id: "view.name.phone.contacts.new.title" },
-  firstName: { id: "view.name.phone.contacts.edit.firstName" },
-  secondName: { id: "view.name.phone.contacts.edit.secondName" },
-  primaryNumber: { id: "view.name.phone.contacts.edit.primaryNumber" },
-  secondaryNumber: { id: "view.name.phone.contacts.edit.secondaryNumber" },
-  email: { id: "view.name.phone.contacts.edit.email" },
+  editTitle: { id: "module.contacts.editTitle" },
+  newTitle: { id: "module.contacts.newTitle" },
+  firstName: { id: "module.contacts.firstName" },
+  secondName: { id: "module.contacts.secondName" },
+  primaryNumber: { id: "module.contacts.primaryNumber" },
+  secondaryNumber: { id: "module.contacts.secondaryNumber" },
+  email: { id: "module.contacts.email" },
   speedDialKeyEmptyOption: {
-    id: "view.name.phone.contacts.edit.speedDialKeyEmptyOption",
+    id: "module.contacts.speedDialKeyEmptyOption",
   },
   speedDialKeySelect: {
-    id: "view.name.phone.contacts.edit.speedDialKeySelect",
+    id: "module.contacts.speedDialKeySelect",
   },
-  speedDialKey: { id: "view.name.phone.contacts.edit.speedDialKey" },
-  speedDialSettings: { id: "view.name.phone.contacts.edit.speedDialSettings" },
-  addToFavourites: { id: "view.name.phone.contacts.edit.addToFavourites" },
-  iceContact: { id: "view.name.phone.contacts.edit.iceContact" },
-  firstAddressLine: { id: "view.name.phone.contacts.edit.firstAddressLine" },
-  secondAddressLine: { id: "view.name.phone.contacts.edit.secondAddressLine" },
-  notes: { id: "view.name.phone.contacts.edit.notes" },
-  cancel: { id: "view.name.phone.contacts.edit.cancel" },
-  save: { id: "view.name.phone.contacts.edit.save" },
+  speedDialKey: { id: "module.contacts.speedDialKey" },
+  speedDialSettings: { id: "module.contacts.speedDialSettings" },
+  addToFavourites: { id: "module.contacts.addToFavourites" },
+  iceContact: { id: "module.contacts.iceContact" },
+  firstAddressLine: { id: "module.contacts.firstAddressLine" },
+  secondAddressLine: { id: "module.contacts.secondAddressLine" },
+  notes: { id: "module.contacts.editNotes" },
+  cancel: { id: "module.contacts.cancelEdit" },
+  save: { id: "module.contacts.editSave" },
 })
 
 export const defaultContact = {
@@ -108,7 +108,13 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   saving,
   ...rest
 }) => {
-  const { register, handleSubmit, watch, errors, setValue } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+  } = useForm({
     defaultValues: contact,
     mode: "onChange",
   })
@@ -188,8 +194,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.firstName)}
-              name="firstName"
-              ref={register}
+              {...register("firstName")}
               errorMessage={errors.firstName?.message}
               onBlur={handleUsernameBlur}
               data-testid={ContactEditTestIdsEnum.FirstName}
@@ -197,8 +202,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.secondName)}
-              name="lastName"
-              ref={register}
+              {...register("lastName")}
               errorMessage={errors.lastName?.message}
               onBlur={handleUsernameBlur}
               data-testid={ContactEditTestIdsEnum.SecondName}
@@ -206,25 +210,22 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="tel"
               label={intl.formatMessage(messages.primaryNumber)}
-              name="primaryPhoneNumber"
-              ref={register(phoneNumberValidator)}
+              {...register("primaryPhoneNumber", phoneNumberValidator)}
               errorMessage={errors.primaryPhoneNumber?.message}
               data-testid={ContactEditTestIdsEnum.PrimaryNumber}
             />
             <Input
               type="tel"
               label={intl.formatMessage(messages.secondaryNumber)}
-              name="secondaryPhoneNumber"
-              ref={register(phoneNumberValidator)}
+              {...register("secondaryPhoneNumber", phoneNumberValidator)}
               errorMessage={errors.secondaryPhoneNumber?.message}
               data-testid={ContactEditTestIdsEnum.SecondaryNumber}
             />
             <Input
               type="email"
-              name="email"
               label={intl.formatMessage(messages.email)}
               defaultValue={contact?.email}
-              ref={register(emailValidator)}
+              {...register("email", emailValidator)}
               errorMessage={errors.email?.message}
               data-testid={ContactEditTestIdsEnum.Email}
             />
@@ -232,8 +233,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           <div>
             <SpeedDial>
               <InputSelect
-                name="speedDial"
-                ref={register}
+                {...register("speedDial")}
                 disabled={!speedDialAssignPossible}
                 items={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
                 disabledItems={speedDialChosenList}
@@ -258,8 +258,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <CustomCheckbox>
               <InputCheckbox
                 size={Size.Medium}
-                name="favourite"
-                ref={register}
+                {...register("favourite")}
                 defaultChecked={contact?.favourite}
               />
               <Text displayStyle={TextDisplayStyle.SmallText}>
@@ -270,8 +269,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <CustomCheckbox>
               <InputCheckbox
                 size={Size.Medium}
-                name="ice"
-                ref={register}
+                {...register("ice")}
                 defaultChecked={contact?.ice}
               />
               <Text displayStyle={TextDisplayStyle.SmallText}>
@@ -282,8 +280,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.firstAddressLine)}
-              name="firstAddressLine"
-              ref={register}
+              {...register("firstAddressLine")}
               errorMessage={errors.firstAddressLine?.message}
               maxLength={30}
               onBlur={trimInputValue}
@@ -292,8 +289,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.secondAddressLine)}
-              name="secondAddressLine"
-              ref={register}
+              {...register("secondAddressLine")}
               errorMessage={errors.secondAddressLine?.message}
               maxLength={30}
               onBlur={trimInputValue}
@@ -303,8 +299,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               type="text"
               label={"Note"}
               defaultValue={contact?.note}
-              name="note"
-              ref={register}
+              {...register("note")}
               errorMessage={errors.note?.message}
               maxLength={30}
               onBlur={trimInputValue}

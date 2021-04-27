@@ -108,7 +108,7 @@ const Help: FunctionComponent<HelpProps> = ({
       <HelpPanel>
         <Text
           message={{
-            id: "view.name.help.title",
+            id: "module.help.title",
             values: textFormatters,
           }}
           displayStyle={TextDisplayStyle.SecondaryHeading}
@@ -117,7 +117,7 @@ const Help: FunctionComponent<HelpProps> = ({
         <SearchInput
           type={"search"}
           label={intl.formatMessage({
-            id: "view.name.messages.search",
+            id: "module.messages.search",
           })}
           outlined
           onChange={search}

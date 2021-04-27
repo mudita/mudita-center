@@ -13,18 +13,18 @@ import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 
 const messages = defineMessages({
-  ok: { id: "view.generic.button.ok" },
+  ok: { id: "component.okButton" },
   title: {
-    id: "view.name.overview.backup.restoredBackupModal.title",
+    id: "module.overview.backupRestoredBackupModalTitle",
   },
   body: {
-    id: "view.name.overview.backup.restoredBackupModal.body",
+    id: "module.overview.backupRestoredBackupModalBody",
   },
 })
 
-export const BackupRestorationFinishedModal: FunctionComponent<ComponentProps<typeof PureBackupModal>> = ({
-  ...props
-}) => (
+export const BackupRestorationFinishedModal: FunctionComponent<
+  ComponentProps<typeof PureBackupModal>
+> = ({ ...props }) => (
   <PureBackupModal
     actionButtonLabel={intl.formatMessage(messages.ok)}
     {...props}

@@ -35,7 +35,7 @@ const ProductCards: FunctionComponent<Props> = ({
   <div className={className}>
     <ProductCardsTitle displayStyle={TextDisplayStyle.TertiaryBoldHeading}>
       {intl.formatMessage({
-        id: "view.name.news.productCardsTitle",
+        id: "module.news.productCardsTitle",
       })}
     </ProductCardsTitle>
     <ProductCardsContainer>

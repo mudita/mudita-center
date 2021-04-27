@@ -154,7 +154,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
       }
       headerRight={icons}
       onClose={onClose}
-      appColorSidebarHeader
+      withBottomBorder
       padded={false}
     >
       <MessagesWrapper>
@@ -175,7 +175,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
             leadingIcons={leadingIcons}
             trailingIcons={trailingIcon}
             label={intl.formatMessage({
-              id: "view.name.messages.textAreaPlaceholder",
+              id: "module.messages.textAreaPlaceholder",
             })}
           />
         </TextareaWrapper>

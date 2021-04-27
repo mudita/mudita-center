@@ -10,19 +10,19 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 const productionEnvironment = process.env.NODE_ENV === "production"
 
 const messages = defineMessages({
-  conversations: { id: "view.name.messages.conversations" },
-  templates: { id: "view.name.messages.templates" },
-  contacts: { id: "view.name.phone.contacts" },
-  calls: { id: "view.name.phone.calls" },
-  dial: { id: "view.name.phone.dial" },
-  allSongs: { id: "view.name.music.allSongs" },
-  playlist: { id: "view.name.music.playlist" },
-  notes: { id: "view.name.tools.notes" },
-  voiceRecorder: { id: "view.name.tools.voiceRecorder" },
-  connection: { id: "view.name.settings.connection" },
-  notifications: { id: "view.name.settings.notifications" },
-  audioConversion: { id: "view.name.settings.audioConversion" },
-  backup: { id: "view.name.settings.backup" },
+  conversations: { id: "module.messages.conversations" },
+  templates: { id: "module.templates" },
+  contacts: { id: "module.contacts" },
+  calls: { id: "module.phone.calls" },
+  dial: { id: "module.dial" },
+  allSongs: { id: "module.music.allSongs" },
+  playlist: { id: "module.playlist" },
+  notes: { id: "module.tools.notes" },
+  voiceRecorder: { id: "module.tools.voiceRecorder" },
+  connection: { id: "module.settings.connection" },
+  notifications: { id: "module.settings.notifications" },
+  audioConversion: { id: "module.settings.audioConversion" },
+  backup: { id: "module.settings.backup" },
 })
 
 interface Tab {

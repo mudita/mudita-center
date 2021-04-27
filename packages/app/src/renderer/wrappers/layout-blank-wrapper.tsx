@@ -78,7 +78,7 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
         <Icon type={Type.MuditaLogoWithText} width={8.6} height={2} />
         <MainTitle
           displayStyle={TextDisplayStyle.LargeFadedText}
-          message={{ id: "view.name.onboarding.mainTitle" }}
+          message={{ id: "module.onboarding.mainTitle" }}
         />
         {!recoveryMode && (
           <Link to={URL_MAIN.news} onClick={onClose}>
