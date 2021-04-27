@@ -35,3 +35,7 @@ export type PhoneProps = ContactActions &
     deleteContacts: (ids: ContactID[]) => Promise<string | void>
     loadContacts: (provider: Provider) => Promise<Contact[]>
   } & Store
+
+export interface NewContactResponse extends NewContact {
+  successfulAdded: boolean
+}
