@@ -19,6 +19,7 @@ const renderer = (extraProps?: {}) => {
     sendForm: jest.fn(),
     closeSuccessModal: jest.fn(),
     closeFailModal: jest.fn(),
+    closeContactModal: jest.fn(),
   }
   return renderWithThemeAndIntl(
     <ContactSupportModalFlow {...defaultProps} {...extraProps} />
