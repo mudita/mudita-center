@@ -7,9 +7,9 @@ import axios from "axios"
 
 export const getCommentsCount = async (discussionId: string) => {
   const {
-    data: { posts_count },
+    data: { posts_count, created_at },
   } = await axios.get(
     `${process.env.MUDITA_COMMUNITY_URL}/t/${discussionId}.json`
   )
-  return posts_count
+  return { posts_count, created_at }
 }

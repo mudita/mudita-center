@@ -31,11 +31,14 @@ const muditaNews = createModel<RootModel>({
         _: any,
         rootState: { networkStatus: { online: boolean } }
       ) {
+        console.log("load data")
         if (rootState.networkStatus.online) {
+          console.log("aaab")
           const data = await initNews()
           dispatch.muditaNews.update(data)
         } else {
-          const defaultNews: DefaultNewsItems = await getNews()
+          console.log("aaa")
+          const defaultNews: any = await getNews()
           dispatch.muditaNews.update(defaultNews)
         }
       },

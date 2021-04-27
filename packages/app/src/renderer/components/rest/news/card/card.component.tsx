@@ -15,6 +15,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import Image from "Renderer/components/core/image/image.component"
 import CommunityCommentsCount from "Renderer/components/rest/news/card/community-comments-count.component"
+import moment from "moment"
 
 const CardContainer = styled.div`
   max-width: 27.5rem;
@@ -55,6 +56,7 @@ export interface Props {
   imageSource?: string
   imageAlt?: string
   url: string
+  date?: string
 }
 
 const Card: FunctionComponent<Props> = ({
@@ -65,6 +67,7 @@ const Card: FunctionComponent<Props> = ({
   imageSource,
   imageAlt,
   url,
+  date,
 }) => {
   return (
     <CardContainer data-testid="news-card">
@@ -81,6 +84,7 @@ const Card: FunctionComponent<Props> = ({
           <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
             {title}
           </Text>
+          <Text>{moment(date).format("ll")}</Text>
         </a>
         <CardDescription
           displayStyle={TextDisplayStyle.MediumFadedLightText}
