@@ -19,6 +19,7 @@ interface Properties {
   log?: string
   closeSuccessModal: () => void
   closeFailModal: () => void
+  closeContactModal: () => void
 }
 
 const ContactSupportModalFlow: FunctionComponent<Properties> = ({
@@ -28,11 +29,13 @@ const ContactSupportModalFlow: FunctionComponent<Properties> = ({
   log,
   closeSuccessModal,
   closeFailModal,
+  closeContactModal,
 }) => {
   return (
     <>
       <ContactModal
         open={config[ContactSupportModalKind.Contact]}
+        closeModal={closeContactModal}
         onSend={sendForm}
         sending={sending}
         log={log}

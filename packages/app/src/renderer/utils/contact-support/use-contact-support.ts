@@ -22,6 +22,7 @@ interface ContactSupportOutput {
   openModal: Record<ContactSupportModalKind, boolean>
   sendForm: (formData: SupportFormData) => Promise<void>
   sending: boolean
+  closeContactModal: () => void
   closeSuccessModal: () => void
   closeFailModal: () => void
   openContactSupportModal: () => void
@@ -115,6 +116,11 @@ export const useContactSupport = (): ContactSupportOutput => {
     sendForm,
     sending,
     log,
+    closeContactModal: () =>
+      setOpenModal((prevState) => ({
+        ...prevState,
+        [ContactSupportModalKind.Contact]: false,
+      })),
     closeSuccessModal: () =>
       setOpenModal((prevState) => ({
         ...prevState,

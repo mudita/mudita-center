@@ -18,6 +18,7 @@ const Troubleshooting = () => {
     sendForm,
     sending,
     log,
+    closeContactModal,
     closeSuccessModal,
     closeFailModal,
   } = useContactSupport()
@@ -34,6 +35,7 @@ const Troubleshooting = () => {
         sendForm={sendForm}
         sending={sending}
         log={log}
+        closeContactModal={closeContactModal}
         closeSuccessModal={closeSuccessModal}
         closeFailModal={closeFailModal}
       />

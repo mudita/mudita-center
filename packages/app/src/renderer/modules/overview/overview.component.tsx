@@ -83,6 +83,7 @@ const Overview: FunctionComponent<
       sendForm,
       sending,
       log,
+      closeContactModal,
       closeSuccessModal,
       closeFailModal,
     },
@@ -189,6 +190,7 @@ const Overview: FunctionComponent<
         sendForm={sendForm}
         sending={sending}
         log={log}
+        closeContactModal={closeContactModal}
         closeSuccessModal={closeSuccessModal}
         closeFailModal={closeFailModal}
       />

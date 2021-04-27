@@ -17,6 +17,7 @@ const RecoveryMode: FunctionComponent<{}> = () => {
     sendForm,
     sending,
     log,
+    closeContactModal,
     closeSuccessModal,
     closeFailModal,
   } = useContactSupport()
@@ -27,6 +28,7 @@ const RecoveryMode: FunctionComponent<{}> = () => {
         sendForm={sendForm}
         sending={sending}
         log={log}
+        closeContactModal={closeContactModal}
         closeSuccessModal={closeSuccessModal}
         closeFailModal={closeFailModal}
       />
