@@ -56,7 +56,7 @@ import {
   DeviceUpdateError,
   deviceUpdateErrorCodeMap,
 } from "Backend/adapters/pure-phone/pure-phone.adapter"
-import { contactSupport } from "Renderer/utils/contact-support/contact-support"
+import { useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
 import { HelpActions } from "Common/enums/help-actions.enum"
 
 const onOsDownloadCancel = () => {
@@ -359,20 +359,29 @@ const useSystemUpdateFlow = (
   const goToHelp = (code: number) => () => {
     ipcRenderer.callMain(HelpActions.OpenWindow, { code })
   }
-
+  const { openContactSupportModal, ...rest } = useContactSupport()
+  const callActionAfterCloseModal = (action: () => void): () => void => {
+    return () => {
+      modalService.closeModal()
+      action()
+    }
+  }
   const displayErrorModal = (code?: number) => {
     if (code && noCriticalErrorCodes.includes(code)) {
       modalService.openModal(
         <UpdatingFailureWithHelpModal
           code={code}
-          onHelp={goToHelp(code)}
-          onContact={contactSupport}
+          onHelp={callActionAfterCloseModal(goToHelp(code))}
+          onContact={callActionAfterCloseModal(openContactSupportModal)}
         />,
         true
       )
     } else {
       modalService.openModal(
-        <UpdatingFailureModal code={code} onContact={contactSupport} />,
+        <UpdatingFailureModal
+          code={code}
+          onContact={callActionAfterCloseModal(openContactSupportModal)}
+        />,
         true
       )
     }
@@ -383,6 +392,7 @@ const useSystemUpdateFlow = (
     check: () => checkForUpdates(),
     download: downloadUpdate,
     install: updatePure,
+    contactSupport: { ...rest },
   }
 }
 

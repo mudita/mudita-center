@@ -15,17 +15,19 @@ import {
 import { intl } from "Renderer/utils/intl"
 import { ContactSupportFailed } from "App/contacts/components/contact-modal/contact-modal-failed.component"
 import { ContactSupportSuccess } from "App/contacts/components/contact-modal/contact-modal-success.component"
-import { fireEvent, waitFor } from "@testing-library/react"
+import { screen, fireEvent, waitFor } from "@testing-library/react"
+
+const logText = "Some example log text"
 
 const renderContactModal = ({ ...props }: Partial<ContactModalProps> = {}) => {
-  const outcome = renderWithThemeAndIntl(<ContactModal {...props} />)
+  const outcome = renderWithThemeAndIntl(<ContactModal open log={logText} {...props} />)
   return {
     ...outcome,
     form: () => outcome.container.querySelector("form"),
-    getEmailInput: () => outcome.container.querySelector("input[type='text']"),
-    getMessageInput: () => outcome.container.querySelector("textarea"),
-    getFileInput: () => outcome.container.querySelector("input[type='file']"),
-    getDetailsField: () => outcome.container.querySelector("pre"),
+    getEmailInput: () => screen.getByPlaceholderText("[value] component.supportModalFormEmailPlaceholder"),
+    getMessageInput: () => screen.getByPlaceholderText("[value] component.supportModalFormMessagePlaceholder"),
+    getFileInput: () => screen.getByLabelText("[value] component.formMultipleFileUpload"),
+    getDetailsField: () => screen.getByText(logText),
   }
 }
 
@@ -36,7 +38,6 @@ test("contact modal form renders properly", () => {
     getFileInput,
     getDetailsField,
   } = renderContactModal()
-
   expect(getEmailInput()).toBeInTheDocument()
   expect(getMessageInput()).toBeInTheDocument()
   expect(getFileInput()).toBeInTheDocument()
@@ -52,7 +53,7 @@ describe("contact modal details", () => {
   })
 
   test("toggles properly", () => {
-    const { getDetailsField, getByText } = renderContactModal()
+    const { getDetailsField } = renderContactModal()
 
     const testDetailsField = (expanded = false) => {
       expect(getDetailsField()).toHaveStyleRule(
@@ -67,7 +68,7 @@ describe("contact modal details", () => {
 
     const clickToggleButton = (toggled = false) => {
       fireEvent.click(
-        getByText(
+        screen.getByText(
           intl.formatMessage({
             id: `component.supportModalFormDetails${
               toggled ? "HideButton" : "ShowButton"
@@ -146,7 +147,7 @@ test("contact modal form validation works properly", async () => {
 })
 
 test("failed modal renders properly", () => {
-  const { getByText } = renderWithThemeAndIntl(<ContactSupportFailed />)
+  const { getByText } = renderWithThemeAndIntl(<ContactSupportFailed open />)
 
   expect(
     getByText("component.supportModalFailTitle", { exact: false })
@@ -157,7 +158,7 @@ test("failed modal renders properly", () => {
 })
 
 test("success modal renders properly", () => {
-  const { getByText } = renderWithThemeAndIntl(<ContactSupportSuccess />)
+  const { getByText } = renderWithThemeAndIntl(<ContactSupportSuccess open />)
 
   expect(
     getByText("component.supportModalSuccessTitle", { exact: false })
