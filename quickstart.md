@@ -132,14 +132,14 @@ To fix that, `settings.json` file should be updated manually according to change
 
 `settings.json` is located in:
 
-- Windows: `C:\Users\<username>\AppData\Roaming\@mudita\mudita-center`
-- Linux: `~/.config/@mudita/mudita-center`
-- macOS: `~/Library/Application Support/@mudita/mudita-center`
+- Windows: `C:\Users\<username>\AppData\Roaming\@mudita\mudita-center-app`
+- Linux: `~/.config/@mudita/mudita-center-app`
+- macOS: `~/Library/Application Support/@mudita/mudita-center-app`
 
 ### How to get logs from the built application
 
 Logs are saved in file logs folder. The file format is `mc-YYYY-MM-DD`.
 
-- Windows: `C:\Users\<username>\AppData\Roaming\@mudita\mudita-center\logs`
-- Linux: `~/.config/@mudita/mudita-center/logs`
-- macOS: `~/Library/Application Support/@mudita/mudita-center/logs`
+- Windows: `C:\Users\<username>\AppData\Roaming\@mudita\mudita-center-app\logs`
+- Linux: `~/.config/@mudita/mudita-center-app/logs`
+- macOS: `~/Library/Application Support/@mudita/mudita-center-app/logs`
