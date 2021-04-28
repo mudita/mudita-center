@@ -17,6 +17,7 @@ import { AppSettings } from "App/main/store/settings.interface"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 import logger from "App/main/utils/logger"
 import BackupModalFlow from "Renderer/components/rest/overview/backup/backup-modal-flow.component"
+import ContactSupportModalFlow from "App/contacts/components/contact-modal/contact-support-modal-flow.component"
 
 export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
@@ -72,13 +73,28 @@ const Overview: FunctionComponent<
   })
   const [progress, setProgress] = useState(0)
 
-  const { initialCheck, check, download, install } = useSystemUpdateFlow(
+  const {
+    initialCheck,
+    check,
+    download,
+    install,
+    contactSupport: {
+      openModal: openModalConfig,
+      sendForm,
+      sending,
+      log,
+      closeContactModal,
+      closeSuccessModal,
+      closeFailModal,
+    },
+  } = useSystemUpdateFlow(
     osUpdateDate,
     osVersion,
     updatePhoneOsInfo,
     updateBasicInfo,
     toggleUpdatingDevice
   )
+
 
   useEffect(() => {
     if (osVersion) {
@@ -169,6 +185,15 @@ const Overview: FunctionComponent<
 
   return (
     <>
+      <ContactSupportModalFlow
+        config={openModalConfig}
+        sendForm={sendForm}
+        sending={sending}
+        log={log}
+        closeContactModal={closeContactModal}
+        closeSuccessModal={closeSuccessModal}
+        closeFailModal={closeFailModal}
+      />
       <BackupModalFlow
         openBackupStartModal={openModal.backupStartModal}
         openBackupLoadingModal={openModal.loadingModal}
