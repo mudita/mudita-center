@@ -494,16 +494,16 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
             total={contacts.length}
           />
         )
-        return [...value, { ...contact, successfulAdded: !error }]
+        return [...value, { ...contact, successfullyAdded: !error }]
       },
       Promise.resolve<NewContactResponse[]>([])
     )
 
-    const filedNewContacts: NewContact[] = newContactResponses.filter(
-      ({ successfulAdded }) => !successfulAdded
+    const failedNewContacts: NewContact[] = newContactResponses.filter(
+      ({ successfullyAdded }) => !successfullyAdded
     )
 
-    const successfulItemsCount = contacts.length - filedNewContacts.length
+    const successfulItemsCount = contacts.length - failedNewContacts.length
 
     if (successfulItemsCount === contacts.length) {
       await closeModal()
@@ -511,7 +511,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     } else {
       await closeModal()
       showFailedFinishedSynchronizationModal(
-        filedNewContacts,
+        failedNewContacts,
         successfulItemsCount
       )
     }

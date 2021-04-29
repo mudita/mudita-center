@@ -37,5 +37,5 @@ export type PhoneProps = ContactActions &
   } & Store
 
 export interface NewContactResponse extends NewContact {
-  successfulAdded: boolean
+  successfullyAdded: boolean
 }
