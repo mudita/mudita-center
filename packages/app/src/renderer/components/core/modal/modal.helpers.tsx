@@ -53,6 +53,7 @@ export const getTitleStyle = (size: ModalSize) => {
 export const getSubtitleStyle = (size: ModalSize) => {
   switch (size) {
     case ModalSize.Small:
+    case ModalSize.Medium:
       return TextDisplayStyle.SmallFadedText
     case ModalSize.Large:
       return TextDisplayStyle.MediumText

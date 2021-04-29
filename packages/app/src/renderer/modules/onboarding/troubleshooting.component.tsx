@@ -7,10 +7,21 @@ import React from "react"
 import { useHistory } from "react-router"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboarding-troubleshooting.component"
-import { contactSupport } from "Renderer/utils/contact-support/contact-support"
+import { useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
+import ContactSupportModalFlow from "App/contacts/components/contact-modal/contact-support-modal-flow.component"
 
 const Troubleshooting = () => {
   const history = useHistory()
+  const {
+    openModal,
+    openContactSupportModal,
+    sendForm,
+    sending,
+    log,
+    closeContactModal,
+    closeSuccessModal,
+    closeFailModal,
+  } = useContactSupport()
 
   const onRetry = () => {
     // TODO: do some logic to retry connection
@@ -18,7 +29,21 @@ const Troubleshooting = () => {
   }
 
   return (
-    <OnboardingTroubleshooting onRetry={onRetry} onContact={contactSupport} />
+    <>
+      <ContactSupportModalFlow
+        config={openModal}
+        sendForm={sendForm}
+        sending={sending}
+        log={log}
+        closeContactModal={closeContactModal}
+        closeSuccessModal={closeSuccessModal}
+        closeFailModal={closeFailModal}
+      />
+      <OnboardingTroubleshooting
+        onRetry={onRetry}
+        onContact={openContactSupportModal}
+      />
+    </>
   )
 }
 

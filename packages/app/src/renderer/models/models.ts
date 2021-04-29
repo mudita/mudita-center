@@ -10,7 +10,6 @@ import devMode from "App/dev-mode/store/dev-mode"
 import filesManager from "Renderer/models/files-manager/files-manager"
 import messages from "App/messages/store/messages"
 import muditaNews from "Renderer/models/mudita-news/mudita-news"
-import muditaProductCards from "Renderer/models/mudita-product-cards/mudita-product-cards"
 import networkStatus from "Renderer/models/network-status/network-status"
 import notes from "Renderer/models/notes/notes"
 import contacts from "App/contacts/store/contacts"
@@ -27,7 +26,6 @@ export interface RootModel {
   filesManager: typeof filesManager
   messages: typeof messages
   muditaNews: typeof muditaNews
-  muditaProductCards: typeof muditaProductCards
   networkStatus: typeof networkStatus
   notes: typeof notes
   contacts: typeof contacts
@@ -45,7 +43,6 @@ export const models: RootModel = {
   filesManager,
   messages,
   muditaNews,
-  muditaProductCards,
   networkStatus,
   notes,
   contacts,
