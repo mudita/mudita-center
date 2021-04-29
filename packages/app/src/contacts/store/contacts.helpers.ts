@@ -246,7 +246,7 @@ export const getSortedContactList = ({ collection, db }: PhoneContacts) => {
     })
   }
 
-  if (anonymousContacts.length) {
+  if (anonymousContacts.length || uncategorizedContacts.length) {
     labeledContacts.push({
       category: "#",
       contacts: [...uncategorizedContacts, ...anonymousContacts],

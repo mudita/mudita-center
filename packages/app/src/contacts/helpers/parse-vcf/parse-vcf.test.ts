@@ -82,6 +82,45 @@ test("parsing multiple vCard contacts works properly", async () => {
   ])
 })
 
+test("reading vcf file encoded works properly", async () => {
+  expect(
+    await readFile(
+      createFile(path.join(__dirname, "./single-encoded-contact.vcf"))
+    )
+  ).toMatchInlineSnapshot(`
+    "BEGIN:VCARD
+    VERSION:3.0
+    PRODID:-//Apple Inc.//macOS 11.0.1//EN
+    N;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:J=C3=BCrgen;=E6=98=AF;;;
+    EMAIL;type=INTERNET;type=HOME;type=pref:example@mudita.com
+    TEL;type=CELL;type=VOICE;type=pref:123 456 789
+    TEL;type=HOME;type=VOICE:32 123 44 55
+    ADR;type=HOME;type=pref;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:;;=D8=A7=D9=84=D8=B9=D8=B1=D8=A8=D9=8A=D8=A9;Saudi Arabia;;11564;Arabia
+    NOTE;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:=D8=A7=D9=83=D8=AA=D8=B4=D9=81
+    END:VCARD
+    "
+  `)
+})
+
+test("parsing encoded vCard works properly", async () => {
+  expect(
+    await parseVcf([
+      createFile(path.join(__dirname, "./single-encoded-contact.vcf")),
+    ])
+  ).toStrictEqual([
+    {
+      firstName: "是",
+      lastName: "Jürgen",
+      email: "example@mudita.com",
+      primaryPhoneNumber: "123 456 789",
+      secondaryPhoneNumber: "32 123 44 55",
+      firstAddressLine: "Saudi Arabia, 11564, Arabia",
+      secondAddressLine: "",
+      note: "اكتشف",
+    },
+  ])
+})
+
 test("parsing multiple vcf files works properly", async () => {
   expect(
     await parseVcf([
