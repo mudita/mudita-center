@@ -3,24 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useRef, useState } from "react"
+import React, { ComponentProps, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Modal, {
-  ModalProps,
-} from "Renderer/components/core/modal/modal.component"
 import styled, { css, keyframes } from "styled-components"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Text, {
-  mediumTextSharedStyles,
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import {
   backgroundColor,
   borderRadius,
-  textColor,
 } from "Renderer/styles/theming/theme-getters"
 import { InputComponent } from "Renderer/components/core/input-text/input-text.component"
 import { Message } from "Renderer/interfaces/message.interface"
@@ -39,6 +34,7 @@ import { emailValidator } from "Renderer/utils/form-validators"
 import { getModalButtonsSize } from "Renderer/components/core/modal/modal.helpers"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   actionButton: {
@@ -120,39 +116,20 @@ const ButtonWrapper = styled.div`
   margin-top: 4rem;
 `
 
-const ModalComponent = styled(Modal)<{ sending?: boolean }>`
-  h2 {
-    ~ p {
-      ${mediumTextSharedStyles};
-      color: ${textColor("secondary")};
-    }
+const ButtonWithRotatingIcon = styled(Button)<{ sending?: boolean }>`
+  svg {
+    fill: ${backgroundColor("lightIcon")};
   }
+  ${({ sending }) =>
+    sending &&
+    css`
+      pointer-events: none;
+      ${disabledPrimaryStyles};
 
-  > div {
-    &:first-of-type {
-      grid-row-gap: 1.6rem;
-    }
-
-    &:last-of-type {
-      justify-content: flex-start;
-    }
-  }
-
-  button[type="submit"] {
-    svg {
-      fill: ${backgroundColor("lightIcon")};
-    }
-    ${({ sending }) =>
-      sending &&
-      css`
-        pointer-events: none;
-        ${disabledPrimaryStyles};
-
-        svg {
-          animation: ${iconAnimation} 1s infinite linear;
-        }
-      `};
-  }
+      svg {
+        animation: ${iconAnimation} 1s infinite linear;
+      }
+    `};
 `
 
 const Log = styled.pre<{ enabled?: boolean }>`
@@ -216,21 +193,18 @@ export interface SupportFormData {
   attachments?: File[]
 }
 
-export interface ContactModalProps extends ModalProps {
+export interface ContactModalProps {
   onSend?: (data: SupportFormData) => void
   log?: string
   sending?: boolean
 }
 
-const ContactModal: FunctionComponent<ContactModalProps> = ({
-  onSend = noop,
-  log,
-  sending,
-  ...rest
-}) => {
+const ContactModal: FunctionComponent<
+  ContactModalProps & ComponentProps<typeof ModalDialog>
+> = ({ onSend = noop, log, sending, ...rest }) => {
   const [moreDetailsEnabled, enableMoreDetails] = useState(false)
   const [showingDetails, showDetails] = useState(false)
-  const logRef = useRef<HTMLPreElement>(null)
+  let logRef: HTMLPreElement | null
 
   const {
     register,
@@ -251,28 +225,25 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
     onSend(data)
   })
 
-  useEffect(() => {
-    if (logRef.current) {
-      if (logRef.current.scrollHeight > 38) {
+  const handleOnAfterOpenModal = () => {
+    if (logRef) {
+      if (logRef.scrollHeight > 38) {
         enableMoreDetails(true)
       }
     }
-  }, [logRef])
-
-  useEffect(() => {
-    if (!showingDetails && logRef.current) {
-      logRef.current.scrollTop = 0
+    if (!showingDetails && logRef) {
+      logRef.scrollTop = 0
     }
-  }, [showingDetails])
+  }
 
   return (
-    <ModalComponent
+    <ModalDialog
       closeButton={false}
       size={ModalSize.Medium}
       title={intl.formatMessage(messages.title)}
       subtitle={intl.formatMessage(messages.description)}
+      onAfterOpen={handleOnAfterOpenModal}
       {...rest}
-      sending={sending}
     >
       <Form onSubmit={sendEmail}>
         <FormInputLabel label={messages.emailLabel} />
@@ -309,12 +280,12 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
           )}
         </DetailsLabel>
         <LogWrapper>
-          <Log enabled={showingDetails} ref={logRef}>
+          <Log enabled={showingDetails} ref={(_logRef) => (logRef = _logRef)}>
             {log}
           </Log>
         </LogWrapper>
         <ButtonWrapper>
-          <Button
+          <ButtonWithRotatingIcon
             displayStyle={DisplayStyle.Primary}
             size={getModalButtonsSize(ModalSize.Medium)}
             label={intl.formatMessage(
@@ -324,10 +295,11 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
             iconSize={IconSize.Small}
             Icon={sending ? IconType.Refresh : IconType.SendButton}
             type={Type.Submit}
+            sending={sending}
           />
         </ButtonWrapper>
       </Form>
-    </ModalComponent>
+    </ModalDialog>
   )
 }
 

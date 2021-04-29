@@ -35,6 +35,7 @@ storiesOf("Components|Rest/Contact Modal", module)
     <Story transparentMode>
       <StoryModalWrapper>
         <ContactModal
+          open
           onClose={action("Close")}
           onSend={action("Send")}
           log={log}
@@ -46,7 +47,7 @@ storiesOf("Components|Rest/Contact Modal", module)
     <StoryContainer column>
       <Story transparentMode title="Default">
         <StoryModalWrapper>
-          <ContactSupportSuccess />
+          <ContactSupportSuccess open />
         </StoryModalWrapper>
       </Story>
     </StoryContainer>
@@ -55,7 +56,7 @@ storiesOf("Components|Rest/Contact Modal", module)
     <StoryContainer>
       <Story transparentMode title="Default">
         <StoryModalWrapper>
-          <ContactSupportFailed />
+          <ContactSupportFailed open />
         </StoryModalWrapper>
       </Story>
     </StoryContainer>
