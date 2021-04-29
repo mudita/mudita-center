@@ -42,7 +42,7 @@ import ContactImportModal, {
   ModalType,
 } from "App/contacts/components/contact-import/contact-import-modal.component"
 import { ExternalService, FileService } from "App/contacts/contacts.interface"
-import { PhoneProps } from "App/contacts/contacts.type"
+import { NewContactResponse, PhoneProps } from "App/contacts/contacts.type"
 import ImportingContactsModal from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import ErrorModal from "App/contacts/components/error-modal/error-modal.component"
@@ -478,56 +478,70 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   // Synchronization, step 5: sending contacts to phone
   const sendContactsToPhone = async (contacts: NewContact[]) => {
-    let failed = false
-
     await closeModal()
     modalService.openModal(
       <ImportingContactsModal count={0} total={contacts.length} />
     )
 
-    for (const contact of contacts) {
-      const index = contacts.indexOf(contact)
+    const newContactResponses = await contacts.reduce(
+      async (lastPromise, contact, index) => {
+        const value = await lastPromise
+        const error = await addNewContact(contact)
+        const currentContactIndex = index + 1
+        modalService.rerenderModal(
+          <ImportingContactsModal
+            count={currentContactIndex}
+            total={contacts.length}
+          />
+        )
+        return [...value, { ...contact, successfullyAdded: !error }]
+      },
+      Promise.resolve<NewContactResponse[]>([])
+    )
 
-      const error = await addNewContact(contact)
-      if (error) {
-        failed = true
-      }
+    const failedNewContacts: NewContact[] = newContactResponses.filter(
+      ({ successfullyAdded }) => !successfullyAdded
+    )
 
-      if (failed || (syncShouldFail && index > contacts.length / 2)) {
-        await closeModal()
-        showFinishedSynchronizationModal(contacts.slice(index), index)
-        break
-      }
+    const successfulItemsCount = contacts.length - failedNewContacts.length
 
-      const currentContactIndex = contacts.indexOf(contact) + 1
-      modalService.rerenderModal(
-        <ImportingContactsModal
-          count={currentContactIndex}
-          total={contacts.length}
-        />
+    if (successfulItemsCount === contacts.length) {
+      await closeModal()
+      showSuccessfulFinishedSynchronizationModal(contacts)
+    } else {
+      await closeModal()
+      showFailedFinishedSynchronizationModal(
+        failedNewContacts,
+        successfulItemsCount
       )
-
-      if (currentContactIndex === contacts.length) {
-        await closeModal()
-        showFinishedSynchronizationModal(contacts)
-      }
     }
   }
 
   // Synchronization, step 6: import summary / failure handling
-  const showFinishedSynchronizationModal = async (
-    contacts: NewContact[],
-    successfulItemsNumber?: number
+  const showSuccessfulFinishedSynchronizationModal = async (
+    contacts: NewContact[]
   ) => {
-    const failed = successfulItemsNumber !== undefined
-
     await closeModal()
     modalService.openModal(
       <ContactImportModal
         contacts={contacts}
-        onActionButtonClick={failed ? sendContactsToPhone : closeModal}
-        modalType={failed ? ModalType.Fail : ModalType.Success}
-        successfulItemsCount={successfulItemsNumber}
+        onActionButtonClick={closeModal}
+        modalType={ModalType.Success}
+      />
+    )
+  }
+
+  const showFailedFinishedSynchronizationModal = async (
+    contacts: NewContact[],
+    successfulItemsCount: number
+  ) => {
+    await closeModal()
+    modalService.openModal(
+      <ContactImportModal
+        contacts={contacts}
+        onActionButtonClick={sendContactsToPhone}
+        modalType={ModalType.Fail}
+        successfulItemsCount={successfulItemsCount}
       />
     )
   }
