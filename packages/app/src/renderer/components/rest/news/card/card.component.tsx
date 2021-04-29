@@ -22,6 +22,7 @@ const CardContainer = styled.div`
   box-sizing: border-box;
   border-radius: ${borderRadius("medium")};
   overflow: hidden;
+  margin-bottom: 4rem;
 `
 
 const CardImage = styled(Image)`
@@ -46,6 +47,12 @@ const CardDescription = styled(Text)`
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   /* stylelint-enable */
+`
+
+const CardDate = styled(Text)`
+  margin-top: 0.4rem;
+  font-weight: 300;
+  text-transform: uppercase;
 `
 
 export interface Props {
@@ -84,7 +91,9 @@ const Card: FunctionComponent<Props> = ({
           <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
             {title}
           </Text>
-          <Text>{moment(date).format("ll")}</Text>
+          <CardDate displayStyle={TextDisplayStyle.SmallFadedText}>
+            {moment(date).format("ll")}
+          </CardDate>
         </a>
         <CardDescription
           displayStyle={TextDisplayStyle.MediumFadedLightText}

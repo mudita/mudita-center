@@ -8,6 +8,7 @@ import { name } from "../../../package.json"
 import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
 import getDefaultNewsItems from "App/main/default-news-item"
+import { normalizeContentfulData } from "Renderer/models/mudita-news/normalize-contentful-data"
 import { EntryCollection } from "contentful"
 import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 import logger from "App/main/utils/logger"
@@ -25,6 +26,7 @@ const registerNewsListener = () => {
   const newsFilePath = `${app.getPath(
     "appData"
   )}/${name}/default-news-items.json`
+
   const checkForUpdateAndGetNewData = async (): Promise<
     boolean | EntryCollection<NewsEntry>
   > => {
@@ -34,7 +36,7 @@ const registerNewsListener = () => {
     )
     try {
       const client = createClient()
-      const data: any = await client.getNews({
+      const data: EntryCollection<NewsEntry> = await client.getNews({
         limit: 6,
       })
 
@@ -53,10 +55,12 @@ const registerNewsListener = () => {
 
   const getUpdatedNews = async () => {
     const updatedNews = await checkForUpdateAndGetNewData()
-    console.log("getUpdatedNews", updatedNews)
     if (updatedNews) {
-      await fs.writeJson(newsFilePath, updatedNews)
-      return updatedNews
+      const newsData = await normalizeContentfulData(
+        updatedNews as EntryCollection<NewsEntry>
+      )
+      await fs.writeJson(newsFilePath, newsData)
+      return newsData
     }
     return null
   }
