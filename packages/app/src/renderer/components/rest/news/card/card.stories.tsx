@@ -30,6 +30,7 @@ storiesOf("News/Card", module)
           content={content}
           count={30}
           communityLink={"https://www.google.com/"}
+          date={"2021-04-27T08:45:32.815Z"}
         />
       </Container>
     )
