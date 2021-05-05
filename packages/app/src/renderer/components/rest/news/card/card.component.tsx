@@ -63,7 +63,7 @@ export interface Props {
   imageSource?: string
   imageAlt?: string
   url: string
-  date?: string
+  date: string
 }
 
 const Card: FunctionComponent<Props> = ({
