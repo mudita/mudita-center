@@ -5,8 +5,8 @@
 
 import { Asset, Entry, EntryCollection } from "contentful"
 import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
-import { getBase64 } from "Renderer/models/mudita-news/get-base-64"
-import { getCommentsCount } from "Renderer/models/mudita-news/get-comments-count"
+import { getBase64 } from "./get-base-64"
+import { getCommentsCount } from "./get-comments-count"
 
 export const normalizeContentfulData = async (
   data: EntryCollection<NewsEntry>
