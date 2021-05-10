@@ -11,12 +11,12 @@ import { Router } from "react-router"
 import BaseRoutes from "Renderer/routes/base-routes"
 import { select, Store } from "Renderer/store"
 import { History } from "history"
-import registerDisconnectedDeviceListener, {
-  removeDisconnectedDeviceListener,
-} from "Renderer/listeners/register-disconnected-device.listener"
-import registerConnectedDeviceListener, {
-  removeConnectedDeviceListener,
-} from "Renderer/listeners/register-connected-device.listener"
+import registerDeviceDisconnectedListener, {
+  removeDeviceDisconnectedListener,
+} from "Renderer/listeners/register-device-disconnected.listener"
+import registerDeviceConnectedListener, {
+  removeDeviceConnectedListener,
+} from "Renderer/listeners/register-device-connected.listener"
 import { getAppSettings } from "Renderer/requests/app-settings.request"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
@@ -45,16 +45,16 @@ const BaseApp: FunctionComponent<Props> = ({
     const listener = () => {
       toggleDeviceConnected(false)
     }
-    registerDisconnectedDeviceListener(listener)
-    return () => removeDisconnectedDeviceListener(listener)
+    registerDeviceDisconnectedListener(listener)
+    return () => removeDeviceDisconnectedListener(listener)
   })
 
   useEffect(() => {
     const listener = () => {
       toggleDeviceConnected(true)
     }
-    registerConnectedDeviceListener(listener)
-    return () => removeConnectedDeviceListener(listener)
+    registerDeviceConnectedListener(listener)
+    return () => removeDeviceConnectedListener(listener)
   })
 
   useEffect(() => {
