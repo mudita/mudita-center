@@ -26,10 +26,16 @@ import { createModel } from "@rematch/core"
 import { RootState } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 
-const initialState = {
+const initialState: StoreValues = {
   disconnectedDevice: true,
   updatingDevice: false,
   resultsState: ResultsState.Empty,
+  batteryLevel: 0,
+  memorySpace: { free: 0, full: 0 },
+  networkName: "",
+  osUpdateDate: "",
+  osVersion: "",
+  simCards: [],
 }
 
 const basicInfo = createModel<RootModel>({

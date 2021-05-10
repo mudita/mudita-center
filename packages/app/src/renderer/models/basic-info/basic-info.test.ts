@@ -33,8 +33,17 @@ test("store returns initial state", () => {
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "basicInfo": Object {
+        "batteryLevel": 0,
         "disconnectedDevice": true,
+        "memorySpace": Object {
+          "free": 0,
+          "full": 0,
+        },
+        "networkName": "",
+        "osUpdateDate": "",
+        "osVersion": "",
         "resultsState": 2,
+        "simCards": Array [],
         "updatingDevice": false,
       },
     }
@@ -64,6 +73,7 @@ test("mock calls update state", async () => {
           "free": 99999999999999,
           "full": 9001,
         },
+        "networkName": "",
         "osUpdateDate": "12-12-2003",
         "osVersion": "0.123v",
         "resultsState": 1,
@@ -106,8 +116,17 @@ test("disconnect returns true and updates state", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "basicInfo": Object {
+        "batteryLevel": 0,
         "disconnectedDevice": true,
+        "memorySpace": Object {
+          "free": 0,
+          "full": 0,
+        },
+        "networkName": "",
+        "osUpdateDate": "",
+        "osVersion": "",
         "resultsState": 2,
+        "simCards": Array [],
         "updatingDevice": false,
       },
     }
@@ -148,6 +167,7 @@ test("change sim switches active property on sim cards", async () => {
           "free": 99999999999999,
           "full": 9001,
         },
+        "networkName": "",
         "osUpdateDate": "12-12-2003",
         "osVersion": "0.123v",
         "resultsState": 1,
