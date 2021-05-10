@@ -30,20 +30,20 @@ import CollectingModal from "App/collecting-data-modal/collecting-modal.componen
 interface Props {
   store: Store
   history: History
-  toggleDisconnectedDevice: (disconnectedDevice: boolean) => void
+  toggleDeviceConnected: (deviceConnected: boolean) => void
   pureFeaturesVisible: boolean
 }
 
 const BaseApp: FunctionComponent<Props> = ({
   pureFeaturesVisible,
-  toggleDisconnectedDevice,
+  toggleDeviceConnected,
   store,
   history,
 }) => {
   const [pureNeverConnected, setPureNeverConnected] = useState(false)
   useEffect(() => {
     const listener = () => {
-      toggleDisconnectedDevice(true)
+      toggleDeviceConnected(false)
     }
     registerDisconnectedDeviceListener(listener)
     return () => removeDisconnectedDeviceListener(listener)
@@ -51,7 +51,7 @@ const BaseApp: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const listener = () => {
-      toggleDisconnectedDevice(false)
+      toggleDeviceConnected(true)
     }
     registerConnectedDeviceListener(listener)
     return () => removeConnectedDeviceListener(listener)
@@ -113,7 +113,7 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = ({ basicInfo }: any) => ({
-  toggleDisconnectedDevice: basicInfo.toggleDisconnectedDevice,
+  toggleDeviceConnected: basicInfo.toggleDeviceConnected,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)

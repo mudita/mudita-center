@@ -27,7 +27,7 @@ import { RootState } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 
 const initialState: StoreValues = {
-  disconnectedDevice: true,
+  deviceConnected: false,
   updatingDevice: false,
   resultsState: ResultsState.Empty,
   batteryLevel: 0,
@@ -129,7 +129,7 @@ const basicInfo = createModel<RootModel>({
 
         if (status === DeviceResponseStatus.Ok) {
           dispatch.basicInfo.update({
-            disconnectedDevice: false,
+            deviceConnected: true,
           })
 
           await dispatch.basicInfo.loadData()
@@ -142,17 +142,17 @@ const basicInfo = createModel<RootModel>({
         const disconnectInfo = await disconnectDevice()
         if (disconnectInfo.status === DeviceResponseStatus.Ok) {
           dispatch.basicInfo.update({
-            disconnectedDevice: true,
+            deviceConnected: false,
           })
         }
       },
-      async toggleDisconnectedDevice(
-        disconnectedDevice: boolean,
+      async toggleDeviceConnected(
+        deviceConnected: boolean,
         rootState: { basicInfo: { updatingDevice: boolean } }
       ) {
-        dispatch.basicInfo.update({ disconnectedDevice })
+        dispatch.basicInfo.update({ deviceConnected })
 
-        if (!disconnectedDevice && !rootState.basicInfo.updatingDevice) {
+        if (deviceConnected && !rootState.basicInfo.updatingDevice) {
           await dispatch.basicInfo.loadData()
           await dispatch.contacts.loadData()
         }
@@ -169,8 +169,8 @@ const basicInfo = createModel<RootModel>({
     resultsState() {
       return slice(({ resultsState }) => resultsState)
     },
-    disconnectedDevice() {
-      return slice(({ disconnectedDevice }) => disconnectedDevice)
+    deviceConnected() {
+      return slice(({ deviceConnected }) => deviceConnected)
     },
     updatingDevice() {
       return slice(({ updatingDevice }) => updatingDevice)
@@ -188,12 +188,12 @@ const basicInfo = createModel<RootModel>({
     pureFeaturesVisible(models: StoreSelectors<any>) {
       return createSelector(
         models.basicInfo.resultsState,
-        models.basicInfo.disconnectedDevice,
+        models.basicInfo.deviceConnected,
         models.basicInfo.updatingDevice,
-        (basicInfoResultsState, disconnectedDevice, updatingDevice) => {
+        (basicInfoResultsState, deviceConnected, updatingDevice) => {
           return (
             (basicInfoResultsState === ResultsState.Loaded &&
-              !disconnectedDevice) ||
+              deviceConnected) ||
             updatingDevice
           )
         }

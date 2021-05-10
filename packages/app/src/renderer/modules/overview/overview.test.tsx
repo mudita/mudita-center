@@ -61,7 +61,7 @@ const renderer = (extraProps?: {}) => {
     batteryLevel: 0,
     changeSim: jest.fn(),
     disconnectDevice: jest.fn(),
-    disconnectedDevice: false,
+    deviceConnected: true,
     language: "en-US",
     loadData: jest.fn(),
     networkName: "network name",

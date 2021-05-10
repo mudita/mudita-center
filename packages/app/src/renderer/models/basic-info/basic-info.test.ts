@@ -34,7 +34,7 @@ test("store returns initial state", () => {
     Object {
       "basicInfo": Object {
         "batteryLevel": 0,
-        "disconnectedDevice": true,
+        "deviceConnected": false,
         "memorySpace": Object {
           "free": 0,
           "full": 0,
@@ -64,7 +64,7 @@ test("mock calls update state", async () => {
     Object {
       "basicInfo": Object {
         "batteryLevel": 9001,
-        "disconnectedDevice": true,
+        "deviceConnected": false,
         "lastBackup": Object {
           "createdAt": "20-11-15T07:35:01.562Z20",
           "size": 99999,
@@ -117,7 +117,7 @@ test("disconnect returns true and updates state", async () => {
     Object {
       "basicInfo": Object {
         "batteryLevel": 0,
-        "disconnectedDevice": true,
+        "deviceConnected": false,
         "memorySpace": Object {
           "free": 0,
           "full": 0,
@@ -158,7 +158,7 @@ test("change sim switches active property on sim cards", async () => {
     Object {
       "basicInfo": Object {
         "batteryLevel": 9001,
-        "disconnectedDevice": true,
+        "deviceConnected": false,
         "lastBackup": Object {
           "createdAt": "20-11-15T07:35:01.562Z20",
           "size": 99999,
