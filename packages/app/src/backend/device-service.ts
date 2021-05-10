@@ -140,6 +140,34 @@ class DeviceService {
     }
   }
 
+  public async disconnect(): Promise<DeviceResponse> {
+    if (!this.device) {
+      return {
+        status: DeviceResponseStatus.Ok,
+      }
+    }
+
+    const [device] = await this.deviceManager.getDevices()
+
+    if (device) {
+      const { status } = await device.disconnect()
+      if (status === ResponseStatus.Ok) {
+        this.clearSubscriptions()
+        return {
+          status: DeviceResponseStatus.Ok,
+        }
+      } else {
+        return {
+          status: DeviceResponseStatus.Error,
+        }
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+  }
+
   public on(eventName: DeviceServiceEventName, listener: () => void): void {
     this.eventEmitter.on(eventName, listener)
   }
@@ -185,11 +213,15 @@ class DeviceService {
   private registerDeviceDisconnectedListener() {
     if (this.device) {
       this.device.on(DeviceEventName.Disconnected, () => {
-        this.device = undefined
-        this.eventEmitter.emit(DeviceServiceEventName.DeviceDisconnected)
-        this.ipcMain.sendToRenderers(IpcEmitter.DeviceDisconnected)
+        this.clearSubscriptions()
       })
     }
+  }
+
+  private clearSubscriptions(): void {
+    this.device = undefined
+    this.eventEmitter.emit(DeviceServiceEventName.DeviceDisconnected)
+    this.ipcMain.sendToRenderers(IpcEmitter.DeviceDisconnected)
   }
 }
 

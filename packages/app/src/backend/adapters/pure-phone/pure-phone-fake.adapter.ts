@@ -36,7 +36,7 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     return "1UB13213MN14K1"
   }
 
-  public disconnectDevice(): DeviceResponse {
+  public async disconnectDevice(): Promise<DeviceResponse> {
     return {
       status: DeviceResponseStatus.Ok,
     }
