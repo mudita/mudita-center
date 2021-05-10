@@ -35,6 +35,7 @@ test("store returns initial state", () => {
       "basicInfo": Object {
         "batteryLevel": 0,
         "deviceConnected": false,
+        "deviceUpdating": false,
         "memorySpace": Object {
           "free": 0,
           "full": 0,
@@ -44,7 +45,6 @@ test("store returns initial state", () => {
         "osVersion": "",
         "resultsState": 2,
         "simCards": Array [],
-        "updatingDevice": false,
       },
     }
   `)
@@ -65,6 +65,7 @@ test("mock calls update state", async () => {
       "basicInfo": Object {
         "batteryLevel": 9001,
         "deviceConnected": false,
+        "deviceUpdating": false,
         "lastBackup": Object {
           "createdAt": "20-11-15T07:35:01.562Z20",
           "size": 99999,
@@ -93,7 +94,6 @@ test("mock calls update state", async () => {
             "slot": 2,
           },
         ],
-        "updatingDevice": false,
       },
     }
   `)
@@ -118,6 +118,7 @@ test("disconnect returns true and updates state", async () => {
       "basicInfo": Object {
         "batteryLevel": 0,
         "deviceConnected": false,
+        "deviceUpdating": false,
         "memorySpace": Object {
           "free": 0,
           "full": 0,
@@ -127,7 +128,6 @@ test("disconnect returns true and updates state", async () => {
         "osVersion": "",
         "resultsState": 2,
         "simCards": Array [],
-        "updatingDevice": false,
       },
     }
   `)
@@ -159,6 +159,7 @@ test("change sim switches active property on sim cards", async () => {
       "basicInfo": Object {
         "batteryLevel": 9001,
         "deviceConnected": false,
+        "deviceUpdating": false,
         "lastBackup": Object {
           "createdAt": "20-11-15T07:35:01.562Z20",
           "size": 99999,
@@ -187,7 +188,6 @@ test("change sim switches active property on sim cards", async () => {
             "slot": 2,
           },
         ],
-        "updatingDevice": false,
       },
     }
   `)

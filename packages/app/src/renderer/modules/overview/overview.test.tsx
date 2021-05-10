@@ -81,9 +81,9 @@ const renderer = (extraProps?: {}) => {
         slot: 1,
       },
     ],
-    toggleUpdatingDevice: jest.fn(),
+    toggleDeviceUpdating: jest.fn(),
     updatePhoneOsInfo: jest.fn(),
-    updatingDevice: false,
+    deviceUpdating: false,
     memorySpace: {
       free: 100,
       full: 200,

@@ -28,7 +28,7 @@ import { RootModel } from "Renderer/models/models"
 
 const initialState: StoreValues = {
   deviceConnected: false,
-  updatingDevice: false,
+  deviceUpdating: false,
   resultsState: ResultsState.Empty,
   batteryLevel: 0,
   memorySpace: { free: 0, full: 0 },
@@ -63,11 +63,11 @@ const basicInfo = createModel<RootModel>({
       ]
       return { ...state, simCards: newSim }
     },
-    toggleUpdatingDevice(
+    toggleDeviceUpdating(
       state: StoreValues,
-      updatingDevice: boolean
+      deviceUpdating: boolean
     ): StoreValues {
-      return { ...state, updatingDevice }
+      return { ...state, deviceUpdating }
     },
   },
   effects: (d: any) => {
@@ -148,11 +148,11 @@ const basicInfo = createModel<RootModel>({
       },
       async toggleDeviceConnected(
         deviceConnected: boolean,
-        rootState: { basicInfo: { updatingDevice: boolean } }
+        rootState: { basicInfo: { deviceUpdating: boolean } }
       ) {
         dispatch.basicInfo.update({ deviceConnected })
 
-        if (deviceConnected && !rootState.basicInfo.updatingDevice) {
+        if (deviceConnected && !rootState.basicInfo.deviceUpdating) {
           await dispatch.basicInfo.loadData()
           await dispatch.contacts.loadData()
         }
@@ -172,8 +172,8 @@ const basicInfo = createModel<RootModel>({
     deviceConnected() {
       return slice(({ deviceConnected }) => deviceConnected)
     },
-    updatingDevice() {
-      return slice(({ updatingDevice }) => updatingDevice)
+    deviceUpdating() {
+      return slice(({ deviceUpdating }) => deviceUpdating)
     },
     activeSimNetworkName() {
       return slice((state: { simCards?: SimCard[] }) => {
@@ -189,12 +189,12 @@ const basicInfo = createModel<RootModel>({
       return createSelector(
         models.basicInfo.resultsState,
         models.basicInfo.deviceConnected,
-        models.basicInfo.updatingDevice,
-        (basicInfoResultsState, deviceConnected, updatingDevice) => {
+        models.basicInfo.deviceUpdating,
+        (basicInfoResultsState, deviceConnected, deviceUpdating) => {
           return (
             (basicInfoResultsState === ResultsState.Loaded &&
               deviceConnected) ||
-            updatingDevice
+            deviceUpdating
           )
         }
       )

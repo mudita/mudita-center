@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch.phoneUpdate.update(updateInfo),
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) =>
     dispatch.basicInfo.update(updateInfo),
-  toggleUpdatingDevice: dispatch.basicInfo.toggleUpdatingDevice,
+  toggleDeviceUpdating: dispatch.basicInfo.toggleDeviceUpdating,
   loadData: () => dispatch.basicInfo.loadData(),
 })
 
