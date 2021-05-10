@@ -31,11 +31,11 @@ interface Props {
   store: Store
   history: History
   toggleDisconnectedDevice: (disconnectedDevice: boolean) => void
-  connected: boolean
+  pureFeaturesVisible: boolean
 }
 
 const BaseApp: FunctionComponent<Props> = ({
-  connected,
+  pureFeaturesVisible,
   toggleDisconnectedDevice,
   store,
   history,
@@ -80,16 +80,16 @@ const BaseApp: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
-    if (!connected && !pureNeverConnected) {
+    if (!pureFeaturesVisible && !pureNeverConnected) {
       history.push(URL_MAIN.news)
-    } else if (!connected && pureNeverConnected) {
+    } else if (!pureFeaturesVisible && pureNeverConnected) {
       history.push(URL_ONBOARDING.root)
-    } else if (connected && pureNeverConnected) {
+    } else if (pureFeaturesVisible && pureNeverConnected) {
       history.push(URL_ONBOARDING.connecting)
-    } else if (connected && !pureNeverConnected) {
+    } else if (pureFeaturesVisible && !pureNeverConnected) {
       history.push(URL_MAIN.overview)
     }
-  }, [connected, pureNeverConnected])
+  }, [pureFeaturesVisible, pureNeverConnected])
 
   return (
     <Provider store={store}>
@@ -103,12 +103,12 @@ const BaseApp: FunctionComponent<Props> = ({
 }
 
 const selection = select((models: any) => ({
-  connected: models.basicInfo.isConnected,
+  pureFeaturesVisible: models.basicInfo.pureFeaturesVisible,
 }))
 
 const mapStateToProps = (state: RootState) => {
   return {
-    ...(selection(state, null) as { connected: boolean }),
+    ...(selection(state, null) as { pureFeaturesVisible: boolean }),
   }
 }
 

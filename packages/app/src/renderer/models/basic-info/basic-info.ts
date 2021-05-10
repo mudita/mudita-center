@@ -179,7 +179,7 @@ const basicInfo = createModel<RootModel>({
         return getActiveNetworkLevelFromSim(state.simCards)
       })
     },
-    isConnected(models: StoreSelectors<any>) {
+    pureFeaturesVisible(models: StoreSelectors<any>) {
       return createSelector(
         models.basicInfo.resultsState,
         models.basicInfo.disconnectedDevice,
