@@ -40,7 +40,7 @@ import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/con
 import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
 import { Contacts } from "App/contacts/store/contacts.interface"
-import { ResultsState } from "Renderer/models/basic-info/basic-info.typings"
+import { ResultsState } from "App/contacts/store/contacts.enum"
 import { productionEnvironment } from "Renderer/constants/menu-elements"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 
@@ -292,8 +292,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                           >
                             <HiddenButton
                               labelMessage={{
-                                id:
-                                  "module.contacts.exportAsVcard",
+                                id: "module.contacts.exportAsVcard",
                               }}
                               Icon={Type.Upload}
                               onClick={handleExport}
@@ -302,8 +301,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             />
                             <HiddenButton
                               labelMessage={{
-                                id:
-                                  "module.contacts.forwardNamecard",
+                                id: "module.contacts.forwardNamecard",
                               }}
                               Icon={Type.Forward}
                               onClick={handleForward}
@@ -384,8 +382,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             <EmptyState
               title={{ id: "module.contacts.emptyListTitle" }}
               description={{
-                id:
-                  "module.contacts.emptySearchDescription",
+                id: "module.contacts.emptySearchDescription",
               }}
             />
           ))}
@@ -394,8 +391,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             <EmptyState
               title={{ id: "module.contacts.emptyListTitle" }}
               description={{
-                id:
-                  "module.contacts.emptyPhonebook",
+                id: "module.contacts.emptyPhonebook",
               }}
             />
           ))}

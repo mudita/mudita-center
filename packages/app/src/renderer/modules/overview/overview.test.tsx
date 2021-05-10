@@ -9,7 +9,7 @@ import Overview, {
   UpdateBasicInfo,
 } from "Renderer/modules/overview/overview.component"
 import {
-  ResultsState,
+  DataState,
   Store as BasicInfoInitialState,
 } from "Renderer/models/basic-info/basic-info.typings"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
@@ -70,7 +70,8 @@ const renderer = (extraProps?: {}) => {
     pureNeverConnected: false,
     pureOsBackupLocation: "path/location/backup",
     pureOsDownloadLocation: "path/location/download",
-    resultsState: ResultsState.Empty,
+    basicInfoDataState: DataState.Empty,
+    initialDataLoaded: false,
     setCollectingData: jest.fn(),
     simCards: [
       {

@@ -18,7 +18,7 @@ import changeSimRequest from "Renderer/requests/change-sim.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
 import {
-  ResultsState,
+  DataState,
   SimCard,
   StoreValues,
 } from "Renderer/models/basic-info/basic-info.typings"
@@ -29,7 +29,8 @@ import { RootModel } from "Renderer/models/models"
 const initialState: StoreValues = {
   deviceConnected: false,
   deviceUpdating: false,
-  resultsState: ResultsState.Empty,
+  initialDataLoaded: false,
+  basicInfoDataState: DataState.Empty,
   batteryLevel: 0,
   memorySpace: { free: 0, full: 0 },
   networkName: "",
@@ -41,11 +42,11 @@ const initialState: StoreValues = {
 const basicInfo = createModel<RootModel>({
   state: initialState,
   reducers: {
-    setResultsState(
+    setBasicInfoDataState(
       state: StoreValues,
-      resultsState: ResultsState
+      basicInfoDataState: DataState
     ): StoreValues {
-      return { ...state, resultsState }
+      return { ...state, basicInfoDataState }
     },
     update(state: StoreValues, payload: any): StoreValues {
       return { ...state, ...payload }
@@ -72,15 +73,29 @@ const basicInfo = createModel<RootModel>({
   },
   effects: (d: any) => {
     const dispatch = (d as unknown) as RootState
-    let loading = false
+    let basicInfoDataLoading = false
+    let initialDataLoading = false
 
     return {
-      async loadData(_: any) {
-        if (loading) {
+      async loadInitialData(_: any) {
+        if (initialDataLoading) {
           return
         }
-        loading = true
-        dispatch.basicInfo.setResultsState(ResultsState.Loading)
+        initialDataLoading = true
+
+        await dispatch.basicInfo.loadBasicInfoData()
+
+        initialDataLoading = false
+        dispatch.basicInfo.update({
+          initialDataLoaded: true,
+        })
+      },
+      async loadBasicInfoData(_: any) {
+        if (basicInfoDataLoading) {
+          return
+        }
+        basicInfoDataLoading = true
+        dispatch.basicInfo.setBasicInfoDataState(DataState.Loading)
         const responses = await Promise.all([
           getDeviceInfo(),
           getNetworkInfo(),
@@ -88,6 +103,8 @@ const basicInfo = createModel<RootModel>({
           getBatteryInfo(),
           getBackupsInfo(),
         ])
+
+        basicInfoDataLoading = false
 
         if (
           responses.every(
@@ -119,9 +136,9 @@ const basicInfo = createModel<RootModel>({
             lastBackup,
             osUpdateDate: info.data!.osUpdateDate,
           })
-          dispatch.basicInfo.setResultsState(ResultsState.Loaded)
+          dispatch.basicInfo.setBasicInfoDataState(DataState.Loaded)
         } else {
-          dispatch.basicInfo.setResultsState(ResultsState.Error)
+          dispatch.basicInfo.setBasicInfoDataState(DataState.Error)
         }
       },
       async connect() {
@@ -132,10 +149,7 @@ const basicInfo = createModel<RootModel>({
             deviceConnected: true,
           })
 
-          await dispatch.basicInfo.loadData()
-          await dispatch.contacts.loadData()
-          await dispatch.calendar.loadData()
-          await dispatch.messages.loadData()
+          await dispatch.basicInfo.loadInitialData()
         }
       },
       async disconnect() {
@@ -143,6 +157,7 @@ const basicInfo = createModel<RootModel>({
         if (disconnectInfo.status === DeviceResponseStatus.Ok) {
           dispatch.basicInfo.update({
             deviceConnected: false,
+            initialDataLoaded: false,
           })
         }
       },
@@ -150,11 +165,17 @@ const basicInfo = createModel<RootModel>({
         deviceConnected: boolean,
         rootState: { basicInfo: { deviceUpdating: boolean } }
       ) {
-        dispatch.basicInfo.update({ deviceConnected })
+        if (deviceConnected) {
+          dispatch.basicInfo.update({ deviceConnected })
+        } else {
+          dispatch.basicInfo.update({
+            deviceConnected,
+            initialDataLoaded: false,
+          })
+        }
 
         if (deviceConnected && !rootState.basicInfo.deviceUpdating) {
-          await dispatch.basicInfo.loadData()
-          await dispatch.contacts.loadData()
+          await dispatch.basicInfo.loadInitialData()
         }
       },
       async changeSim(simCard: SimCard) {
@@ -166,8 +187,8 @@ const basicInfo = createModel<RootModel>({
     }
   },
   selectors: (slice: Slicer<typeof initialState>) => ({
-    resultsState() {
-      return slice(({ resultsState }) => resultsState)
+    initialDataLoaded() {
+      return slice(({ initialDataLoaded }) => initialDataLoaded)
     },
     deviceConnected() {
       return slice(({ deviceConnected }) => deviceConnected)
@@ -187,15 +208,11 @@ const basicInfo = createModel<RootModel>({
     },
     pureFeaturesVisible(models: StoreSelectors<any>) {
       return createSelector(
-        models.basicInfo.resultsState,
+        models.basicInfo.initialDataLoaded,
         models.basicInfo.deviceConnected,
         models.basicInfo.deviceUpdating,
-        (basicInfoResultsState, deviceConnected, deviceUpdating) => {
-          return (
-            (basicInfoResultsState === ResultsState.Loaded &&
-              deviceConnected) ||
-            deviceUpdating
-          )
+        (initialDataLoaded, deviceConnected, deviceUpdating) => {
+          return (initialDataLoaded && deviceConnected) || deviceUpdating
         }
       )
     },
