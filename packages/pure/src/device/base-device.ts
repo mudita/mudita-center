@@ -35,7 +35,7 @@ import log, { LogConfig } from "../logger/log-decorator"
 class BaseDevice implements PureDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
-  #portBlocked = true
+  #portBlocked = false
   #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
   constructor(private path: string) {}
@@ -90,7 +90,7 @@ class BaseDevice implements PureDevice {
   public request(config: RequestConfig): Promise<Response<{ version: number }>>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
-    if (this.#port === undefined || !this.#portBlocked) {
+    if (this.#port === undefined || this.#portBlocked) {
       return { status: ResponseStatus.ConnectionError }
     } else {
       return this.writeRequest(this.#port, config)
@@ -132,7 +132,7 @@ class BaseDevice implements PureDevice {
     { filePath, uuid }: FileUploadRequestPayload
   ): Promise<Response<any>> {
     return new Promise((resolve) => {
-      this.#portBlocked = false
+      this.#portBlocked = true
 
       const listener = (response: any) => {
         if (response.status === ResponseStatus.ParserError) {
@@ -159,11 +159,11 @@ class BaseDevice implements PureDevice {
             })
 
             readStream.on("end", () => {
-              this.#portBlocked = true
+              this.#portBlocked = false
             })
           } else {
             this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-            this.#portBlocked = true
+            this.#portBlocked = false
             resolve(response)
           }
         } else if (
@@ -171,6 +171,7 @@ class BaseDevice implements PureDevice {
           response.status === ResponseStatus.Accepted
         ) {
           this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
+          this.#portBlocked = false
           resolve(response)
         }
       }
@@ -200,16 +201,18 @@ class BaseDevice implements PureDevice {
     { filePath, uuid }: DeviceUpdateRequestPayload
   ): Promise<Response<any>> {
     return new Promise((resolve) => {
-      this.#portBlocked = false
+      this.#portBlocked = true
 
       const listener = (response: any) => {
         if (response.status === ResponseStatus.ParserError) {
           this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
+          this.#portBlocked = false
           resolve(response)
         }
 
         if (response.endpoint === Endpoint.Update) {
           if (response.status === ResponseStatus.InternalServerError) {
+            this.#portBlocked = false
             resolve({
               status: ResponseStatus.Ok,
               error: {
@@ -221,6 +224,7 @@ class BaseDevice implements PureDevice {
 
           if (response.body.status === UpdateResponseStatus.Ok) {
             this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
+            this.#portBlocked = false
             resolve({ status: ResponseStatus.Ok })
           }
         }
