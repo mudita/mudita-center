@@ -25,8 +25,8 @@ import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { MainProcessIpc } from "electron-better-ipc"
 
 export enum DeviceServiceEventName {
-  ConnectedDevice = "connectedDevice",
-  DisconnectedDevice = "disconnectedDevice",
+  DeviceConnected = "deviceConnected",
+  DeviceDisconnected = "deviceDisconnected",
 }
 
 class DeviceService {
@@ -158,8 +158,8 @@ class DeviceService {
         const { status } = await this.deviceConnect(device)
 
         if (status === DeviceResponseStatus.Ok) {
-          this.eventEmitter.emit(DeviceServiceEventName.ConnectedDevice)
-          this.ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
+          this.eventEmitter.emit(DeviceServiceEventName.DeviceConnected)
+          this.ipcMain.sendToRenderers(IpcEmitter.DeviceConnected)
         }
       }
     })
@@ -170,7 +170,7 @@ class DeviceService {
     if (status === ResponseStatus.Ok) {
       this.device = device
 
-      this.registerDisconnectedDeviceListener()
+      this.registerDeviceDisconnectedListener()
 
       return {
         status: DeviceResponseStatus.Ok,
@@ -182,12 +182,12 @@ class DeviceService {
     }
   }
 
-  private registerDisconnectedDeviceListener() {
+  private registerDeviceDisconnectedListener() {
     if (this.device) {
       this.device.on(DeviceEventName.Disconnected, () => {
         this.device = undefined
-        this.eventEmitter.emit(DeviceServiceEventName.DisconnectedDevice)
-        this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice)
+        this.eventEmitter.emit(DeviceServiceEventName.DeviceDisconnected)
+        this.ipcMain.sendToRenderers(IpcEmitter.DeviceDisconnected)
       })
     }
   }

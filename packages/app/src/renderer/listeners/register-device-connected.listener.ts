@@ -6,16 +6,16 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 
-const registerConnectedDeviceListener = (
+const registerDeviceConnectedListener = (
   listener: (event: any, props: any) => void
 ): void => {
-  ipcRenderer.on(IpcEmitter.ConnectedDevice, listener)
+  ipcRenderer.on(IpcEmitter.DeviceConnected, listener)
 }
 
-export const removeConnectedDeviceListener = (
+export const removeDeviceConnectedListener = (
   listener: (event: any, props: any) => void
 ): void => {
-  ipcRenderer.removeListener(IpcEmitter.ConnectedDevice, listener)
+  ipcRenderer.removeListener(IpcEmitter.DeviceConnected, listener)
 }
 
-export default registerConnectedDeviceListener
+export default registerDeviceConnectedListener

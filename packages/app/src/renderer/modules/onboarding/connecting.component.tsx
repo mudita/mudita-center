@@ -16,18 +16,18 @@ export const registerFirstPhoneConnection = async () => {
   updateAppSettings({ key: "pureNeverConnected", value: false })
 }
 
-const Connecting: FunctionComponent<{ connected: boolean }> = ({
-  connected,
+const Connecting: FunctionComponent<{ pureFeaturesVisible: boolean }> = ({
+  pureFeaturesVisible,
 }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (connected) {
+      if (pureFeaturesVisible) {
         history.push(URL_MAIN.overview)
       }
     }, 500)
 
     return () => clearTimeout(timeout)
-  }, [connected])
+  }, [pureFeaturesVisible])
 
   const history = useHistory()
 
@@ -42,7 +42,7 @@ const Connecting: FunctionComponent<{ connected: boolean }> = ({
 }
 
 const selection = select((models: any) => ({
-  connected: models.basicInfo.isConnected,
+  pureFeaturesVisible: models.basicInfo.pureFeaturesVisible,
 }))
 
 const mapStateToProps = (state: RootState) => {

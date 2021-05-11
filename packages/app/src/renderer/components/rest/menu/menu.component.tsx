@@ -46,18 +46,18 @@ const DevSign = styled.span`
 `
 
 interface Properties {
-  deviceConnected?: boolean
+  pureFeaturesVisible?: boolean
   openHelpWindow?: () => void
   devModeEnabled?: DevMode["enabled"]
 }
 
 const Menu: FunctionComponent<Properties> = ({
-  deviceConnected,
+  pureFeaturesVisible,
   devModeEnabled,
 }) => {
   const links = menuElements
     .filter(({ connectedPhoneOnly }) =>
-      deviceConnected ? true : !connectedPhoneOnly
+      pureFeaturesVisible ? true : !connectedPhoneOnly
     )
     .filter(({ devModeOnly }) => (devModeEnabled ? true : !devModeOnly))
     .map(({ connectedPhoneOnly, ...props }, indexMenu) => {
@@ -68,7 +68,9 @@ const Menu: FunctionComponent<Properties> = ({
       <LogoWrapper>
         <SvgMuditaLogo type={Type.MuditaLogoWithText} />
         {devModeEnabled && (
-          <DevSign>{intl.formatMessage({ id: "component.devModeHeader" })}</DevSign>
+          <DevSign>
+            {intl.formatMessage({ id: "component.devModeHeader" })}
+          </DevSign>
         )}
       </LogoWrapper>
       {links}

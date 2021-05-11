@@ -85,7 +85,7 @@ class PurePhone extends PurePhoneAdapter {
       let step = 0
       let cancelTimeout = noop
 
-      const connectedDeviceListener = () => {
+      const deviceConnectedListener = () => {
         if (step === PurePhone.osUpdateRestartStep) {
           resolve({
             status: DeviceResponseStatus.Ok,
@@ -93,7 +93,7 @@ class PurePhone extends PurePhoneAdapter {
         }
       }
 
-      const disconnectedDeviceListener = () => {
+      const deviceDisconnectedListener = () => {
         const [promise, cancel] = timeout(30000)
         cancelTimeout = cancel
 
@@ -123,24 +123,24 @@ class PurePhone extends PurePhoneAdapter {
 
       unregisterListeners = () => {
         this.deviceService.off(
-          DeviceServiceEventName.ConnectedDevice,
-          connectedDeviceListener
+          DeviceServiceEventName.DeviceConnected,
+          deviceConnectedListener
         )
         this.deviceService.off(
-          DeviceServiceEventName.DisconnectedDevice,
-          disconnectedDeviceListener
+          DeviceServiceEventName.DeviceDisconnected,
+          deviceDisconnectedListener
         )
         cancelTimeout()
       }
 
       this.deviceService.on(
-        DeviceServiceEventName.DisconnectedDevice,
-        disconnectedDeviceListener
+        DeviceServiceEventName.DeviceDisconnected,
+        deviceDisconnectedListener
       )
 
       this.deviceService.on(
-        DeviceServiceEventName.ConnectedDevice,
-        connectedDeviceListener
+        DeviceServiceEventName.DeviceConnected,
+        deviceConnectedListener
       )
 
       const fileResponse = await this.deviceService.request({
@@ -165,8 +165,8 @@ class PurePhone extends PurePhoneAdapter {
         if (pureUpdateResponse.status === DeviceResponseStatus.Ok) {
           ++step
           this.deviceService.off(
-            DeviceServiceEventName.DisconnectedDevice,
-            disconnectedDeviceListener
+            DeviceServiceEventName.DeviceDisconnected,
+            deviceDisconnectedListener
           )
 
           this.deviceService.sendToRenderers(progressChannel, {

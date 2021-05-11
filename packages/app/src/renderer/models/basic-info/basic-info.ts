@@ -26,10 +26,16 @@ import { createModel } from "@rematch/core"
 import { RootState } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 
-const initialState = {
-  disconnectedDevice: true,
-  updatingDevice: false,
+const initialState: StoreValues = {
+  deviceConnected: false,
+  deviceUpdating: false,
   resultsState: ResultsState.Empty,
+  batteryLevel: 0,
+  memorySpace: { free: 0, full: 0 },
+  networkName: "",
+  osUpdateDate: "",
+  osVersion: "",
+  simCards: [],
 }
 
 const basicInfo = createModel<RootModel>({
@@ -57,11 +63,11 @@ const basicInfo = createModel<RootModel>({
       ]
       return { ...state, simCards: newSim }
     },
-    toggleUpdatingDevice(
+    toggleDeviceUpdating(
       state: StoreValues,
-      updatingDevice: boolean
+      deviceUpdating: boolean
     ): StoreValues {
-      return { ...state, updatingDevice }
+      return { ...state, deviceUpdating }
     },
   },
   effects: (d: any) => {
@@ -123,7 +129,7 @@ const basicInfo = createModel<RootModel>({
 
         if (status === DeviceResponseStatus.Ok) {
           dispatch.basicInfo.update({
-            disconnectedDevice: false,
+            deviceConnected: true,
           })
 
           await dispatch.basicInfo.loadData()
@@ -136,17 +142,17 @@ const basicInfo = createModel<RootModel>({
         const disconnectInfo = await disconnectDevice()
         if (disconnectInfo.status === DeviceResponseStatus.Ok) {
           dispatch.basicInfo.update({
-            disconnectedDevice: true,
+            deviceConnected: false,
           })
         }
       },
-      async toggleDisconnectedDevice(
-        disconnectedDevice: boolean,
-        rootState: { basicInfo: { updatingDevice: boolean } }
+      async toggleDeviceConnected(
+        deviceConnected: boolean,
+        rootState: { basicInfo: { deviceUpdating: boolean } }
       ) {
-        dispatch.basicInfo.update({ disconnectedDevice })
+        dispatch.basicInfo.update({ deviceConnected })
 
-        if (!disconnectedDevice && !rootState.basicInfo.updatingDevice) {
+        if (deviceConnected && !rootState.basicInfo.deviceUpdating) {
           await dispatch.basicInfo.loadData()
           await dispatch.contacts.loadData()
         }
@@ -163,11 +169,11 @@ const basicInfo = createModel<RootModel>({
     resultsState() {
       return slice(({ resultsState }) => resultsState)
     },
-    disconnectedDevice() {
-      return slice(({ disconnectedDevice }) => disconnectedDevice)
+    deviceConnected() {
+      return slice(({ deviceConnected }) => deviceConnected)
     },
-    updatingDevice() {
-      return slice(({ updatingDevice }) => updatingDevice)
+    deviceUpdating() {
+      return slice(({ deviceUpdating }) => deviceUpdating)
     },
     activeSimNetworkName() {
       return slice((state: { simCards?: SimCard[] }) => {
@@ -179,16 +185,16 @@ const basicInfo = createModel<RootModel>({
         return getActiveNetworkLevelFromSim(state.simCards)
       })
     },
-    isConnected(models: StoreSelectors<any>) {
+    pureFeaturesVisible(models: StoreSelectors<any>) {
       return createSelector(
         models.basicInfo.resultsState,
-        models.basicInfo.disconnectedDevice,
-        models.basicInfo.updatingDevice,
-        (basicInfoResultsState, disconnectedDevice, updatingDevice) => {
+        models.basicInfo.deviceConnected,
+        models.basicInfo.deviceUpdating,
+        (basicInfoResultsState, deviceConnected, deviceUpdating) => {
           return (
             (basicInfoResultsState === ResultsState.Loaded &&
-              !disconnectedDevice) ||
-            updatingDevice
+              deviceConnected) ||
+            deviceUpdating
           )
         }
       )

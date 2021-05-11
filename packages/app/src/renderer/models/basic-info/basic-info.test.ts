@@ -33,9 +33,18 @@ test("store returns initial state", () => {
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "basicInfo": Object {
-        "disconnectedDevice": true,
+        "batteryLevel": 0,
+        "deviceConnected": false,
+        "deviceUpdating": false,
+        "memorySpace": Object {
+          "free": 0,
+          "full": 0,
+        },
+        "networkName": "",
+        "osUpdateDate": "",
+        "osVersion": "",
         "resultsState": 2,
-        "updatingDevice": false,
+        "simCards": Array [],
       },
     }
   `)
@@ -55,7 +64,8 @@ test("mock calls update state", async () => {
     Object {
       "basicInfo": Object {
         "batteryLevel": 9001,
-        "disconnectedDevice": true,
+        "deviceConnected": false,
+        "deviceUpdating": false,
         "lastBackup": Object {
           "createdAt": "20-11-15T07:35:01.562Z20",
           "size": 99999,
@@ -64,6 +74,7 @@ test("mock calls update state", async () => {
           "free": 99999999999999,
           "full": 9001,
         },
+        "networkName": "",
         "osUpdateDate": "12-12-2003",
         "osVersion": "0.123v",
         "resultsState": 1,
@@ -83,7 +94,6 @@ test("mock calls update state", async () => {
             "slot": 2,
           },
         ],
-        "updatingDevice": false,
       },
     }
   `)
@@ -106,9 +116,18 @@ test("disconnect returns true and updates state", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "basicInfo": Object {
-        "disconnectedDevice": true,
+        "batteryLevel": 0,
+        "deviceConnected": false,
+        "deviceUpdating": false,
+        "memorySpace": Object {
+          "free": 0,
+          "full": 0,
+        },
+        "networkName": "",
+        "osUpdateDate": "",
+        "osVersion": "",
         "resultsState": 2,
-        "updatingDevice": false,
+        "simCards": Array [],
       },
     }
   `)
@@ -139,7 +158,8 @@ test("change sim switches active property on sim cards", async () => {
     Object {
       "basicInfo": Object {
         "batteryLevel": 9001,
-        "disconnectedDevice": true,
+        "deviceConnected": false,
+        "deviceUpdating": false,
         "lastBackup": Object {
           "createdAt": "20-11-15T07:35:01.562Z20",
           "size": 99999,
@@ -148,6 +168,7 @@ test("change sim switches active property on sim cards", async () => {
           "free": 99999999999999,
           "full": 9001,
         },
+        "networkName": "",
         "osUpdateDate": "12-12-2003",
         "osVersion": "0.123v",
         "resultsState": 1,
@@ -167,7 +188,6 @@ test("change sim switches active property on sim cards", async () => {
             "slot": 2,
           },
         ],
-        "updatingDevice": false,
       },
     }
   `)

@@ -11,12 +11,12 @@ import { Router } from "react-router"
 import BaseRoutes from "Renderer/routes/base-routes"
 import { select, Store } from "Renderer/store"
 import { History } from "history"
-import registerDisconnectedDeviceListener, {
-  removeDisconnectedDeviceListener,
-} from "Renderer/listeners/register-disconnected-device.listener"
-import registerConnectedDeviceListener, {
-  removeConnectedDeviceListener,
-} from "Renderer/listeners/register-connected-device.listener"
+import registerDeviceDisconnectedListener, {
+  removeDeviceDisconnectedListener,
+} from "Renderer/listeners/register-device-disconnected.listener"
+import registerDeviceConnectedListener, {
+  removeDeviceConnectedListener,
+} from "Renderer/listeners/register-device-connected.listener"
 import { getAppSettings } from "Renderer/requests/app-settings.request"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
@@ -30,31 +30,31 @@ import CollectingModal from "App/collecting-data-modal/collecting-modal.componen
 interface Props {
   store: Store
   history: History
-  toggleDisconnectedDevice: (disconnectedDevice: boolean) => void
-  connected: boolean
+  toggleDeviceConnected: (deviceConnected: boolean) => void
+  pureFeaturesVisible: boolean
 }
 
 const BaseApp: FunctionComponent<Props> = ({
-  connected,
-  toggleDisconnectedDevice,
+  pureFeaturesVisible,
+  toggleDeviceConnected,
   store,
   history,
 }) => {
   const [pureNeverConnected, setPureNeverConnected] = useState(false)
   useEffect(() => {
     const listener = () => {
-      toggleDisconnectedDevice(true)
+      toggleDeviceConnected(false)
     }
-    registerDisconnectedDeviceListener(listener)
-    return () => removeDisconnectedDeviceListener(listener)
+    registerDeviceDisconnectedListener(listener)
+    return () => removeDeviceDisconnectedListener(listener)
   })
 
   useEffect(() => {
     const listener = () => {
-      toggleDisconnectedDevice(false)
+      toggleDeviceConnected(true)
     }
-    registerConnectedDeviceListener(listener)
-    return () => removeConnectedDeviceListener(listener)
+    registerDeviceConnectedListener(listener)
+    return () => removeDeviceConnectedListener(listener)
   })
 
   useEffect(() => {
@@ -80,16 +80,16 @@ const BaseApp: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
-    if (!connected && !pureNeverConnected) {
+    if (!pureFeaturesVisible && !pureNeverConnected) {
       history.push(URL_MAIN.news)
-    } else if (!connected && pureNeverConnected) {
+    } else if (!pureFeaturesVisible && pureNeverConnected) {
       history.push(URL_ONBOARDING.root)
-    } else if (connected && pureNeverConnected) {
+    } else if (pureFeaturesVisible && pureNeverConnected) {
       history.push(URL_ONBOARDING.connecting)
-    } else if (connected && !pureNeverConnected) {
+    } else if (pureFeaturesVisible && !pureNeverConnected) {
       history.push(URL_MAIN.overview)
     }
-  }, [connected, pureNeverConnected])
+  }, [pureFeaturesVisible, pureNeverConnected])
 
   return (
     <Provider store={store}>
@@ -103,17 +103,17 @@ const BaseApp: FunctionComponent<Props> = ({
 }
 
 const selection = select((models: any) => ({
-  connected: models.basicInfo.isConnected,
+  pureFeaturesVisible: models.basicInfo.pureFeaturesVisible,
 }))
 
 const mapStateToProps = (state: RootState) => {
   return {
-    ...(selection(state, null) as { connected: boolean }),
+    ...(selection(state, null) as { pureFeaturesVisible: boolean }),
   }
 }
 
 const mapDispatchToProps = ({ basicInfo }: any) => ({
-  toggleDisconnectedDevice: basicInfo.toggleDisconnectedDevice,
+  toggleDeviceConnected: basicInfo.toggleDeviceConnected,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)
