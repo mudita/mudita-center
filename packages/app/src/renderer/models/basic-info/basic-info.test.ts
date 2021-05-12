@@ -9,7 +9,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import {
   SimCard,
-  ResultsState,
+  DataState,
 } from "Renderer/models/basic-info/basic-info.typings"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import {
@@ -33,9 +33,11 @@ test("store returns initial state", () => {
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "basicInfo": Object {
+        "basicInfoDataState": 2,
         "batteryLevel": 0,
         "deviceConnected": false,
         "deviceUpdating": false,
+        "initialDataLoaded": false,
         "memorySpace": Object {
           "free": 0,
           "full": 0,
@@ -43,7 +45,6 @@ test("store returns initial state", () => {
         "networkName": "",
         "osUpdateDate": "",
         "osVersion": "",
-        "resultsState": 2,
         "simCards": Array [],
       },
     }
@@ -58,14 +59,16 @@ test("mock calls update state", async () => {
     ...commonCalls,
   }
 
-  await store.dispatch.basicInfo.loadData()
+  await store.dispatch.basicInfo.loadBasicInfoData()
 
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "basicInfo": Object {
+        "basicInfoDataState": 1,
         "batteryLevel": 9001,
         "deviceConnected": false,
         "deviceUpdating": false,
+        "initialDataLoaded": false,
         "lastBackup": Object {
           "createdAt": "20-11-15T07:35:01.562Z20",
           "size": 99999,
@@ -77,7 +80,6 @@ test("mock calls update state", async () => {
         "networkName": "",
         "osUpdateDate": "12-12-2003",
         "osVersion": "0.123v",
-        "resultsState": 1,
         "simCards": Array [
           Object {
             "active": true,
@@ -116,9 +118,11 @@ test("disconnect returns true and updates state", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "basicInfo": Object {
+        "basicInfoDataState": 2,
         "batteryLevel": 0,
         "deviceConnected": false,
         "deviceUpdating": false,
+        "initialDataLoaded": false,
         "memorySpace": Object {
           "free": 0,
           "full": 0,
@@ -126,8 +130,62 @@ test("disconnect returns true and updates state", async () => {
         "networkName": "",
         "osUpdateDate": "",
         "osVersion": "",
-        "resultsState": 2,
         "simCards": Array [],
+      },
+    }
+  `)
+})
+
+test("initial data is fetched after successful connection ", async () => {
+  const store = init({
+    models: { basicInfo },
+  })
+  ;(ipcRenderer as any).__rendererCalls = {
+    ...commonCalls,
+    [IpcRequest.ConnectDevice]: Promise.resolve({
+      status: DeviceResponseStatus.Ok,
+    }),
+  }
+
+  await store.dispatch.basicInfo.connect()
+
+  const state = store.getState()
+  expect(state.basicInfo.initialDataLoaded).toBe(true)
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "basicInfo": Object {
+        "basicInfoDataState": 1,
+        "batteryLevel": 9001,
+        "deviceConnected": true,
+        "deviceUpdating": false,
+        "initialDataLoaded": true,
+        "lastBackup": Object {
+          "createdAt": "20-11-15T07:35:01.562Z20",
+          "size": 99999,
+        },
+        "memorySpace": Object {
+          "free": 99999999999999,
+          "full": 9001,
+        },
+        "networkName": "",
+        "osUpdateDate": "12-12-2003",
+        "osVersion": "0.123v",
+        "simCards": Array [
+          Object {
+            "active": true,
+            "network": "Y-Mobile",
+            "networkLevel": 0.5,
+            "number": 12345678,
+            "slot": 1,
+          },
+          Object {
+            "active": false,
+            "network": "X-Mobile",
+            "networkLevel": 0.69,
+            "number": 7001234523,
+            "slot": 2,
+          },
+        ],
       },
     }
   `)
@@ -151,15 +209,17 @@ test("change sim switches active property on sim cards", async () => {
     active: false,
   }
 
-  await store.dispatch.basicInfo.loadData()
+  await store.dispatch.basicInfo.loadBasicInfoData()
   await store.dispatch.basicInfo.changeSim(simCard)
 
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "basicInfo": Object {
+        "basicInfoDataState": 1,
         "batteryLevel": 9001,
         "deviceConnected": false,
         "deviceUpdating": false,
+        "initialDataLoaded": false,
         "lastBackup": Object {
           "createdAt": "20-11-15T07:35:01.562Z20",
           "size": 99999,
@@ -171,7 +231,6 @@ test("change sim switches active property on sim cards", async () => {
         "networkName": "",
         "osUpdateDate": "12-12-2003",
         "osVersion": "0.123v",
-        "resultsState": 1,
         "simCards": Array [
           Object {
             "active": false,
@@ -251,6 +310,6 @@ test("sets the error result when one of the requests fails", async () => {
     }),
     [IpcRequest.GetBatteryInfo]: makeErrorDeviceResponse(),
   }
-  await store.dispatch.basicInfo.loadData()
-  expect(store.getState().basicInfo.resultsState).toBe(ResultsState.Error)
+  await store.dispatch.basicInfo.loadBasicInfoData()
+  expect(store.getState().basicInfo.basicInfoDataState).toBe(DataState.Error)
 })
