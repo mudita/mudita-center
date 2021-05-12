@@ -49,6 +49,9 @@ const basicInfo = createModel<RootModel>({
     ): StoreValues {
       return { ...state, basicInfoDataState }
     },
+    setInitialState() {
+      return initialState
+    },
     update(state: StoreValues, payload: any): StoreValues {
       return { ...state, ...payload }
     },
@@ -149,33 +152,24 @@ const basicInfo = createModel<RootModel>({
           dispatch.basicInfo.update({
             deviceConnected: true,
           })
-
-          await dispatch.basicInfo.loadInitialData()
         }
       },
       async disconnect() {
         const disconnectInfo = await disconnectDevice()
         if (disconnectInfo.status === DeviceResponseStatus.Ok) {
-          dispatch.basicInfo.update({
-            deviceConnected: false,
-            initialDataLoaded: false,
-          })
+          dispatch.basicInfo.setInitialState()
         }
       },
-      async toggleDeviceConnected(
-        deviceConnected: boolean,
-        rootState: { basicInfo: { deviceUpdating: boolean } }
-      ) {
+      async toggleDeviceConnected(deviceConnected: boolean) {
         if (deviceConnected) {
           dispatch.basicInfo.update({ deviceConnected })
         } else {
-          dispatch.basicInfo.update({
-            deviceConnected,
-            initialDataLoaded: false,
-          })
+          dispatch.basicInfo.setInitialState()
         }
-
-        if (deviceConnected && !rootState.basicInfo.deviceUpdating) {
+      },
+      async toggleDeviceUnblocked(deviceUnblocked: boolean) {
+        dispatch.basicInfo.update({ deviceUnblocked })
+        if (deviceUnblocked) {
           await dispatch.basicInfo.loadInitialData()
         }
       },
@@ -194,6 +188,9 @@ const basicInfo = createModel<RootModel>({
     deviceConnected() {
       return slice(({ deviceConnected }) => deviceConnected)
     },
+    deviceUnblocked() {
+      return slice(({ deviceUnblocked }) => deviceUnblocked)
+    },
     deviceUpdating() {
       return slice(({ deviceUpdating }) => deviceUpdating)
     },
@@ -207,13 +204,32 @@ const basicInfo = createModel<RootModel>({
         return getActiveNetworkLevelFromSim(state.simCards)
       })
     },
+    deviceConnecting(models: StoreSelectors<any>) {
+      return createSelector(
+        models.basicInfo.initialDataLoaded,
+        models.basicInfo.deviceConnected,
+        models.basicInfo.deviceUnblocked,
+        (initialDataLoaded, deviceConnected, deviceUnblocked) => {
+          return !initialDataLoaded && deviceConnected && !deviceUnblocked
+        }
+      )
+    },
     pureFeaturesVisible(models: StoreSelectors<any>) {
       return createSelector(
         models.basicInfo.initialDataLoaded,
         models.basicInfo.deviceConnected,
+        models.basicInfo.deviceUnblocked,
         models.basicInfo.deviceUpdating,
-        (initialDataLoaded, deviceConnected, deviceUpdating) => {
-          return (initialDataLoaded && deviceConnected) || deviceUpdating
+        (
+          initialDataLoaded,
+          deviceConnected,
+          deviceUnblocked,
+          deviceUpdating
+        ) => {
+          return (
+            (initialDataLoaded && deviceConnected && deviceUnblocked) ||
+            deviceUpdating
+          )
         }
       )
     },
