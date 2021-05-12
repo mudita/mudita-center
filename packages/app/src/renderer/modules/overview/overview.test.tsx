@@ -123,7 +123,6 @@ const renderer = (extraProps?: {}) => {
     UpdateBasicInfo &
     AppSettings &
     DevMode = {
-    deviceConnecting: false,
     deviceUnblocked: undefined,
     appAutostart: false,
     appCollectingData: undefined,

@@ -29,7 +29,6 @@ export interface StoreValues {
   readonly deviceConnected: boolean
   readonly deviceUpdating: boolean
   readonly deviceUnblocked: boolean | undefined
-  readonly deviceConnecting: boolean
   readonly batteryLevel: number
   readonly networkName: string
   readonly osVersion: string

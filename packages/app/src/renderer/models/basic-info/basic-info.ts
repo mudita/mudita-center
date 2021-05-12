@@ -26,11 +26,10 @@ import { createModel } from "@rematch/core"
 import { RootState } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 
-const initialState: StoreValues = {
+export const initialState: StoreValues = {
   deviceConnected: false,
   deviceUpdating: false,
   deviceUnblocked: undefined,
-  deviceConnecting: false,
   initialDataLoaded: false,
   basicInfoDataState: DataState.Empty,
   batteryLevel: 0,
