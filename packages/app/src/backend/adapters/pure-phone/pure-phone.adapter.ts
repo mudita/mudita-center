@@ -66,10 +66,8 @@ class PurePhone extends PurePhoneAdapter {
     return "1UB13213MN14K1"
   }
 
-  public disconnectDevice(): DeviceResponse {
-    return {
-      status: DeviceResponseStatus.Ok,
-    }
+  public disconnectDevice(): Promise<DeviceResponse> {
+    return this.deviceService.disconnect()
   }
 
   public connectDevice(): Promise<DeviceResponse> {

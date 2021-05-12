@@ -70,7 +70,7 @@ class BaseDevice implements PureDevice {
     })
   }
 
-  // @log("==== serial port: disconnect ====")
+  @log("==== serial port: disconnect ====")
   public disconnect(): Promise<Response> {
     return new Promise((resolve) => {
       if (this.#port === undefined) {
