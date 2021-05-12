@@ -5,37 +5,136 @@
 
 import { init } from "@rematch/core"
 import basicInfo from "./basic-info"
-import { ipcRenderer } from "electron-better-ipc"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
 import {
   SimCard,
   DataState,
 } from "Renderer/models/basic-info/basic-info.typings"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import {
-  commonCalls,
-  makeErrorDeviceResponse,
-  makeSuccessDeviceResponse,
-} from "Renderer/models/basic-info/utils/test-helpers"
+import getDeviceInfo from "Renderer/requests/get-device-info.request"
+import Mock = jest.Mock
 
-afterEach(() => {
-  for (const property in (ipcRenderer as any).__rendererCalls) {
-    if ((ipcRenderer as any).__rendererCalls.hasOwnProperty(property)) {
-      delete (ipcRenderer as any).__rendererCalls[property]
-    }
-  }
+jest.mock("Renderer/requests/get-device-info.request", () =>
+  jest.fn(() => ({
+    status: DeviceResponseStatus.Ok,
+    data: {
+      name: "Ziemniaczek",
+      modelName: "U12300000",
+      modelNumber: "A1239999",
+      serilaNumber: "a-b-3d",
+      osVersion: "0.123v",
+      osUpdateDate: "12-12-2003",
+    },
+  }))
+)
+
+jest.mock("Renderer/requests/get-network-info.request", () =>
+  jest.fn(() => ({
+    status: DeviceResponseStatus.Ok,
+    data: {
+      simCards: [
+        {
+          active: true,
+          network: "Y-Mobile",
+          networkLevel: 0.5,
+          number: 12345678,
+          slot: 1,
+        },
+        {
+          active: false,
+          network: "X-Mobile",
+          networkLevel: 0.69,
+          number: 7001234523,
+          slot: 2,
+        },
+      ],
+    },
+  }))
+)
+
+jest.mock("Renderer/requests/get-storage-info.request", () =>
+  jest.fn(() => ({
+    status: DeviceResponseStatus.Ok,
+    data: {
+      capacity: 9001,
+      available: 99999999999999,
+      categories: [
+        { label: "music", filesCount: 1233333, size: 999999999 },
+        { label: "storage", filesCount: 100000, size: 999999999 },
+      ],
+    },
+  }))
+)
+
+jest.mock("Renderer/requests/get-battery-info.request", () =>
+  jest.fn(() => ({
+    status: DeviceResponseStatus.Ok,
+    data: {
+      level: 9001,
+      charging: false,
+      maximumCapacity: 99999,
+    },
+  }))
+)
+
+jest.mock("Renderer/requests/get-backups-info.request", () =>
+  jest.fn(() => ({
+    status: DeviceResponseStatus.Ok,
+    data: {
+      backups: [
+        {
+          createdAt: "20-11-15T07:35:01.562Z20",
+          size: 99999,
+        },
+        {
+          createdAt: "20-01-30T07:35:01.562Z20",
+          size: 1234567,
+        },
+      ],
+    },
+  }))
+)
+
+jest.mock("Renderer/requests/disconnect-device.request", () =>
+  jest.fn(() => ({
+    status: DeviceResponseStatus.Ok,
+  }))
+)
+
+jest.mock("Renderer/requests/connect-device.request", () =>
+  jest.fn(() => ({
+    status: DeviceResponseStatus.Ok,
+  }))
+)
+
+jest.mock("Renderer/requests/change-sim.request", () =>
+  jest.fn(() => ({
+    status: DeviceResponseStatus.Ok,
+  }))
+)
+
+const storeConfig = {
+  models: { basicInfo },
+  redux: {
+    initialState: {},
+  },
+}
+
+let store = init(storeConfig)
+
+beforeEach(() => {
+  store = init(storeConfig)
+  jest.resetModules()
 })
 
 test("store returns initial state", () => {
-  const store = init({
-    models: { basicInfo },
-  })
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
         "deviceConnected": false,
+        "deviceConnecting": false,
+        "deviceUnblocked": undefined,
         "deviceUpdating": false,
         "initialDataLoaded": false,
         "memorySpace": Object {
@@ -52,13 +151,6 @@ test("store returns initial state", () => {
 })
 
 test("mock calls update state", async () => {
-  const store = init({
-    models: { basicInfo },
-  })
-  ;(ipcRenderer as any).__rendererCalls = {
-    ...commonCalls,
-  }
-
   await store.dispatch.basicInfo.loadBasicInfoData()
 
   expect(store.getState()).toMatchInlineSnapshot(`
@@ -67,6 +159,8 @@ test("mock calls update state", async () => {
         "basicInfoDataState": 1,
         "batteryLevel": 9001,
         "deviceConnected": false,
+        "deviceConnecting": false,
+        "deviceUnblocked": undefined,
         "deviceUpdating": false,
         "initialDataLoaded": false,
         "lastBackup": Object {
@@ -102,15 +196,6 @@ test("mock calls update state", async () => {
 })
 
 test("disconnect returns true and updates state", async () => {
-  const store = init({
-    models: { basicInfo },
-  })
-  ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.DisconnectDevice]: Promise.resolve({
-      status: DeviceResponseStatus.Ok,
-    }),
-  }
-
   await store.dispatch.basicInfo.disconnect()
 
   const state = store.getState()
@@ -121,6 +206,8 @@ test("disconnect returns true and updates state", async () => {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
         "deviceConnected": false,
+        "deviceConnecting": false,
+        "deviceUnblocked": undefined,
         "deviceUpdating": false,
         "initialDataLoaded": false,
         "memorySpace": Object {
@@ -136,18 +223,8 @@ test("disconnect returns true and updates state", async () => {
   `)
 })
 
-test("initial data is fetched after successful connection ", async () => {
-  const store = init({
-    models: { basicInfo },
-  })
-  ;(ipcRenderer as any).__rendererCalls = {
-    ...commonCalls,
-    [IpcRequest.ConnectDevice]: Promise.resolve({
-      status: DeviceResponseStatus.Ok,
-    }),
-  }
-
-  await store.dispatch.basicInfo.connect()
+test("initial data is fetched after device unblocked ", async () => {
+  await store.dispatch.basicInfo.toggleDeviceUnblocked(true)
 
   const state = store.getState()
   expect(state.basicInfo.initialDataLoaded).toBe(true)
@@ -156,7 +233,9 @@ test("initial data is fetched after successful connection ", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 1,
         "batteryLevel": 9001,
-        "deviceConnected": true,
+        "deviceConnected": false,
+        "deviceConnecting": false,
+        "deviceUnblocked": true,
         "deviceUpdating": false,
         "initialDataLoaded": true,
         "lastBackup": Object {
@@ -192,15 +271,6 @@ test("initial data is fetched after successful connection ", async () => {
 })
 
 test("change sim switches active property on sim cards", async () => {
-  const store = init({
-    models: { basicInfo },
-  })
-  ;(ipcRenderer as any).__rendererCalls = {
-    ...commonCalls,
-    [IpcRequest.ChangeSim]: Promise.resolve({
-      status: DeviceResponseStatus.Ok,
-    }),
-  }
   const simCard: SimCard = {
     network: "X-Mobile",
     networkLevel: 0.5,
@@ -218,6 +288,8 @@ test("change sim switches active property on sim cards", async () => {
         "basicInfoDataState": 1,
         "batteryLevel": 9001,
         "deviceConnected": false,
+        "deviceConnecting": false,
+        "deviceUnblocked": undefined,
         "deviceUpdating": false,
         "initialDataLoaded": false,
         "lastBackup": Object {
@@ -253,63 +325,9 @@ test("change sim switches active property on sim cards", async () => {
 })
 
 test("sets the error result when one of the requests fails", async () => {
-  const store = init({
-    models: { basicInfo },
+  ;(getDeviceInfo as Mock).mockReturnValue({
+    status: DeviceResponseStatus.Error,
   })
-  ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetDeviceInfo]: makeSuccessDeviceResponse({
-      name: "Ziemniaczek",
-      modelName: "U12300000",
-      modelNumber: "A1239999",
-      serilaNumber: "a-b-3d",
-      osVersion: "0.123v",
-      osUpdateDate: "12-12-2003",
-    }),
-    [IpcRequest.GetNetworkInfo]: makeSuccessDeviceResponse({
-      simCards: [
-        {
-          active: true,
-          network: "Y-Mobile",
-          networkLevel: 0.5,
-          number: 12345678,
-          slot: 1,
-        },
-        {
-          active: false,
-          network: "X-Mobile",
-          networkLevel: 0.69,
-          number: 7001234523,
-          slot: 2,
-        },
-      ],
-    }),
-    [IpcRequest.GetStorageInfo]: makeSuccessDeviceResponse({
-      capacity: 9001,
-      available: 99999999999999,
-      categories: [
-        { label: "music", filesCount: 1233333, size: 999999999 },
-        { label: "storage", filesCount: 100000, size: 999999999 },
-      ],
-    }),
-    [IpcRequest.GetBatteryInfo]: makeSuccessDeviceResponse({
-      level: 9001,
-      charging: false,
-      maximumCapacity: 99999,
-    }),
-    [IpcRequest.GetBackupsInfo]: makeSuccessDeviceResponse({
-      backups: [
-        {
-          createdAt: "20-11-15T07:35:01.562Z20",
-          size: 99999,
-        },
-        {
-          createdAt: "20-01-30T07:35:01.562Z20",
-          size: 1234567,
-        },
-      ],
-    }),
-    [IpcRequest.GetBatteryInfo]: makeErrorDeviceResponse(),
-  }
   await store.dispatch.basicInfo.loadBasicInfoData()
   expect(store.getState().basicInfo.basicInfoDataState).toBe(DataState.Error)
 })
