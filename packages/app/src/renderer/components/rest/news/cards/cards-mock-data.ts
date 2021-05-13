@@ -19,6 +19,7 @@ export const newsItems = [
     discussionId: "299",
     imageSource:
       "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
+    date: "2021-02-26T11:56:59.782Z",
   },
   {
     category: "Blog",
@@ -36,6 +37,7 @@ export const newsItems = [
     commentsCount: 11,
     imageSource:
       "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
+    date: "2021-02-26T11:56:59.782Z",
   },
   {
     category: "Blog",
@@ -52,5 +54,6 @@ export const newsItems = [
     commentsCount: 11,
     imageSource:
       "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
+    date: "2021-02-26T11:56:59.782Z",
   },
 ]

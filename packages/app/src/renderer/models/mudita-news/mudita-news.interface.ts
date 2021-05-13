@@ -21,6 +21,7 @@ export interface NewsEntry {
   imageSource?: string
   imageAlt?: string
   commentsCount?: number
+  date: string
 }
 
 export interface DownloadError {

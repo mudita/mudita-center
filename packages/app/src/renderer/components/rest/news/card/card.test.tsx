@@ -22,6 +22,7 @@ test("should render links with passed urls", () => {
       content={content}
       count={30}
       communityLink={commuityUrl}
+      date={"2021-04-27T08:45:32.815Z"}
     />
   )
   const imageLink = getByTestId("image-link")
@@ -45,6 +46,7 @@ test("header, content and comments text render in card", () => {
       content={content}
       count={30}
       communityLink={"https://mudita.com/"}
+      date={"2021-04-27T08:45:32.815Z"}
     />
   )
 
