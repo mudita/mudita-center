@@ -28,6 +28,7 @@ export enum DataState {
 export interface StoreValues {
   readonly deviceConnected: boolean
   readonly deviceUpdating: boolean
+  readonly deviceUnlocked: boolean | undefined
   readonly batteryLevel: number
   readonly networkName: string
   readonly osVersion: string

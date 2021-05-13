@@ -65,6 +65,7 @@ const OverviewUI: FunctionComponent<
     | "basicInfoDataState"
     | "deviceUpdating"
     | "deviceConnected"
+    | "deviceUnlocked"
     | "initialDataLoaded"
   > &
     PhoneUpdate &

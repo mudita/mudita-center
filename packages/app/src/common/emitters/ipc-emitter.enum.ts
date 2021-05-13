@@ -6,5 +6,7 @@
 export enum IpcEmitter {
   DeviceDisconnected = "device-disconnected",
   DeviceConnected = "device-connected",
+  DeviceLocked = "locked-device",
+  DeviceUnlocked = "unlocked-device",
   OsUpdateProgress = "os-update-progress",
 }
