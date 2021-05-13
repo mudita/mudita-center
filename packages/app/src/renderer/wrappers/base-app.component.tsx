@@ -17,6 +17,12 @@ import registerDeviceDisconnectedListener, {
 import registerDeviceConnectedListener, {
   removeDeviceConnectedListener,
 } from "Renderer/listeners/register-device-connected.listener"
+import registerDeviceBlockedListener, {
+  removeDeviceBlockedListener,
+} from "Renderer/listeners/register-device-blocked.listener"
+import registerDeviceUnblockedListener, {
+  removeDeviceUnblockedListener,
+} from "Renderer/listeners/register-device-unblocked.listener"
 import { getAppSettings } from "Renderer/requests/app-settings.request"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
@@ -31,12 +37,16 @@ interface Props {
   store: Store
   history: History
   toggleDeviceConnected: (deviceConnected: boolean) => void
+  toggleDeviceUnblocked: (deviceUnblocked: boolean) => void
   pureFeaturesVisible: boolean
+  deviceConnecting?: boolean
 }
 
 const BaseApp: FunctionComponent<Props> = ({
   pureFeaturesVisible,
+  deviceConnecting,
   toggleDeviceConnected,
+  toggleDeviceUnblocked,
   store,
   history,
 }) => {
@@ -55,6 +65,22 @@ const BaseApp: FunctionComponent<Props> = ({
     }
     registerDeviceConnectedListener(listener)
     return () => removeDeviceConnectedListener(listener)
+  })
+
+  useEffect(() => {
+    const listener = () => {
+      toggleDeviceUnblocked(false)
+    }
+    registerDeviceBlockedListener(listener)
+    return () => removeDeviceBlockedListener(listener)
+  })
+
+  useEffect(() => {
+    const listener = () => {
+      toggleDeviceUnblocked(true)
+    }
+    registerDeviceUnblockedListener(listener)
+    return () => removeDeviceUnblockedListener(listener)
   })
 
   useEffect(() => {
@@ -80,16 +106,16 @@ const BaseApp: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
-    if (!pureFeaturesVisible && !pureNeverConnected) {
+    if (deviceConnecting && !pureNeverConnected) {
+      history.push(URL_ONBOARDING.connecting)
+    } else if (!pureFeaturesVisible && !pureNeverConnected) {
       history.push(URL_MAIN.news)
     } else if (!pureFeaturesVisible && pureNeverConnected) {
       history.push(URL_ONBOARDING.root)
-    } else if (pureFeaturesVisible && pureNeverConnected) {
-      history.push(URL_ONBOARDING.connecting)
     } else if (pureFeaturesVisible && !pureNeverConnected) {
       history.push(URL_MAIN.overview)
     }
-  }, [pureFeaturesVisible, pureNeverConnected])
+  }, [pureFeaturesVisible, pureNeverConnected, deviceConnecting])
 
   return (
     <Provider store={store}>
@@ -104,16 +130,21 @@ const BaseApp: FunctionComponent<Props> = ({
 
 const selection = select((models: any) => ({
   pureFeaturesVisible: models.basicInfo.pureFeaturesVisible,
+  deviceConnecting: models.basicInfo.deviceConnecting,
 }))
 
 const mapStateToProps = (state: RootState) => {
   return {
-    ...(selection(state, null) as { pureFeaturesVisible: boolean }),
+    ...(selection(state, null) as {
+      pureFeaturesVisible: boolean
+      deviceConnecting: boolean
+    }),
   }
 }
 
 const mapDispatchToProps = ({ basicInfo }: any) => ({
   toggleDeviceConnected: basicInfo.toggleDeviceConnected,
+  toggleDeviceUnblocked: basicInfo.toggleDeviceUnblocked,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)

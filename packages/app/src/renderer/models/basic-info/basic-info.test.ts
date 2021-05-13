@@ -133,6 +133,7 @@ test("store returns initial state", () => {
         "deviceUnblocked": undefined,
         "deviceUpdating": false,
         "initialDataLoaded": false,
+        "lastBackup": undefined,
         "memorySpace": Object {
           "free": 0,
           "full": 0,

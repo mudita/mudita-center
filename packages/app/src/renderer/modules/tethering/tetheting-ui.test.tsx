@@ -24,7 +24,7 @@ const renderer = (props = {}) =>
   )
 
 describe("Pure disconnected screen tests", () => {
-  const props: ComponentProps<typeof TetheringUI>  = { pureFeaturesVisible: false }
+  const props: ComponentProps<typeof TetheringUI> = { deviceUnblocked: false }
   test("disabled screen is shown", () => {
     const { getByTestId, queryByTestId } = renderer(props)
     expect(getByTestId(TetheringTestIds.DisconnectedWrapper)).toBeVisible()
@@ -64,9 +64,9 @@ describe("Pure disconnected screen tests", () => {
 })
 
 describe("Enabled tethering tests", () => {
-  const props: ComponentProps<typeof TetheringUI>  = {
+  const props: ComponentProps<typeof TetheringUI> = {
     tetheringEnabled: true,
-    pureFeaturesVisible: true,
+    deviceUnblocked: true,
   }
   test("enabled screen is shown", () => {
     const { getByTestId, queryByTestId } = renderer(props)
@@ -90,7 +90,10 @@ describe("Enabled tethering tests", () => {
 })
 
 describe("Disabled tethering tests", () => {
-  const props: ComponentProps<typeof TetheringUI> = { tetheringEnabled: false, pureFeaturesVisible: true }
+  const props: ComponentProps<typeof TetheringUI> = {
+    tetheringEnabled: false,
+    deviceUnblocked: true,
+  }
   test("disabled screen is shown", () => {
     const { getByTestId, queryByTestId } = renderer(props)
     expect(getByTestId(TetheringTestIds.DisabledWrapper)).toBeVisible()

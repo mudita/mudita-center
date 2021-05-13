@@ -38,6 +38,7 @@ export const initialState: StoreValues = {
   osUpdateDate: "",
   osVersion: "",
   simCards: [],
+  lastBackup: undefined,
 }
 
 const basicInfo = createModel<RootModel>({
@@ -48,9 +49,6 @@ const basicInfo = createModel<RootModel>({
       basicInfoDataState: DataState
     ): StoreValues {
       return { ...state, basicInfoDataState }
-    },
-    setInitialState() {
-      return initialState
     },
     update(state: StoreValues, payload: any): StoreValues {
       return { ...state, ...payload }
@@ -157,19 +155,39 @@ const basicInfo = createModel<RootModel>({
       async disconnect() {
         const disconnectInfo = await disconnectDevice()
         if (disconnectInfo.status === DeviceResponseStatus.Ok) {
-          dispatch.basicInfo.setInitialState()
+          dispatch.basicInfo.update(initialState)
         }
       },
-      async toggleDeviceConnected(deviceConnected: boolean) {
+      async toggleDeviceConnected(
+        deviceConnected: boolean,
+        rootState: { basicInfo: { deviceUpdating: boolean } }
+      ) {
         if (deviceConnected) {
           dispatch.basicInfo.update({ deviceConnected })
         } else {
-          dispatch.basicInfo.setInitialState()
+          if (!rootState.basicInfo.deviceUpdating) {
+            dispatch.basicInfo.update(initialState)
+          } else {
+            dispatch.basicInfo.update({
+              deviceConnected: false,
+              deviceUnblocked: undefined,
+              initialDataLoaded: false,
+            })
+          }
         }
       },
-      async toggleDeviceUnblocked(deviceUnblocked: boolean) {
+      async toggleDeviceUnblocked(
+        deviceUnblocked: boolean,
+        rootState: {
+          basicInfo: { initialDataLoaded: boolean; deviceUnblocked: boolean }
+        }
+      ) {
+        if (deviceUnblocked === rootState.basicInfo.deviceUnblocked) {
+          return
+        }
+
         dispatch.basicInfo.update({ deviceUnblocked })
-        if (deviceUnblocked) {
+        if (deviceUnblocked && !rootState.basicInfo.initialDataLoaded) {
           await dispatch.basicInfo.loadInitialData()
         }
       },
@@ -216,20 +234,11 @@ const basicInfo = createModel<RootModel>({
     },
     pureFeaturesVisible(models: StoreSelectors<any>) {
       return createSelector(
-        models.basicInfo.initialDataLoaded,
         models.basicInfo.deviceConnected,
         models.basicInfo.deviceUnblocked,
         models.basicInfo.deviceUpdating,
-        (
-          initialDataLoaded,
-          deviceConnected,
-          deviceUnblocked,
-          deviceUpdating
-        ) => {
-          return (
-            (initialDataLoaded && deviceConnected && deviceUnblocked) ||
-            deviceUpdating
-          )
+        (deviceConnected, deviceUnblocked, deviceUpdating) => {
+          return (deviceConnected && deviceUnblocked) || deviceUpdating
         }
       )
     },

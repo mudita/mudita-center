@@ -4,18 +4,18 @@
  */
 
 import {
-  PureDevice,
-  PureDeviceManager,
-  Response,
-  Endpoint,
-  DeviceEventName,
-  Method,
-  RequestConfig,
-  ResponseStatus,
   Contact,
+  DeviceEventName,
   DeviceInfo,
+  Endpoint,
   GetThreadResponseBody,
   GetThreadsBody,
+  Method,
+  PureDevice,
+  PureDeviceManager,
+  RequestConfig,
+  Response,
+  ResponseStatus,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
@@ -31,6 +31,7 @@ export enum DeviceServiceEventName {
 
 class DeviceService {
   device: PureDevice | undefined
+  private blockedInterval: NodeJS.Timeout | undefined
   private eventEmitter = new EventEmitter()
 
   constructor(
@@ -38,7 +39,7 @@ class DeviceService {
     private ipcMain: MainProcessIpc
   ) {}
 
-  public init() {
+  public init(): DeviceService {
     this.registerAttachDeviceListener()
     return this
   }
@@ -82,43 +83,32 @@ class DeviceService {
     method: Method.Post
     filePath: string
   }): Promise<DeviceResponse>
-  async request(config: RequestConfig): Promise<DeviceResponse<any>>
-  async request(config: RequestConfig) {
-    return new Promise(async (resolve) => {
-      if (!this.device) {
-        return resolve({
-          status: DeviceResponseStatus.Error,
+  async request(config: RequestConfig): Promise<DeviceResponse<unknown>> {
+    if (!this.device) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+
+    const eventName = JSON.stringify(config)
+
+    if (!this.eventEmitter.eventNames().includes(eventName)) {
+      void this.device
+        .request(config)
+        .then((response) => DeviceService.mapToDeviceResponse(response))
+        .then((response) => {
+          this.eventEmitter.emit(eventName, response)
+          this.emitDeviceUnblockedEvent(response)
         })
-      }
+    }
 
-      const eventName = JSON.stringify(config)
-
-      const listener = (response: Response<any>) => {
+    return new Promise((resolve) => {
+      const listener = (response: DeviceResponse<unknown>) => {
         this.eventEmitter.off(eventName, listener)
-        const { status, body: data, error } = response
-        if (
-          status === ResponseStatus.Ok ||
-          status === ResponseStatus.Accepted
-        ) {
-          resolve({
-            data,
-            status: DeviceResponseStatus.Ok,
-          })
-        } else {
-          resolve({
-            error,
-            status: DeviceResponseStatus.Error,
-          })
-        }
+        resolve(response)
       }
 
-      if (this.eventEmitter.eventNames().includes(eventName)) {
-        this.eventEmitter.on(eventName, listener)
-      } else {
-        this.eventEmitter.on(eventName, listener)
-        const response = await this.device.request(config)
-        this.eventEmitter.emit(eventName, response)
-      }
+      this.eventEmitter.on(eventName, listener)
     })
   }
 
@@ -180,6 +170,13 @@ class DeviceService {
     this.ipcMain.sendToRenderers(eventName, data)
   }
 
+  private getUnblockedStatusRequest(): Promise<DeviceResponse<any>> {
+    return this.request({
+      endpoint: Endpoint.DeviceInfo,
+      method: Method.Get,
+    })
+  }
+
   private registerAttachDeviceListener(): void {
     this.deviceManager.onAttachDevice(async (device) => {
       if (!this.device) {
@@ -199,6 +196,7 @@ class DeviceService {
       this.device = device
 
       this.registerDeviceDisconnectedListener()
+      this.registerDeviceBlockedListener()
 
       return {
         status: DeviceResponseStatus.Ok,
@@ -210,7 +208,15 @@ class DeviceService {
     }
   }
 
-  private registerDeviceDisconnectedListener() {
+  private registerDeviceBlockedListener(): void {
+    void this.getUnblockedStatusRequest()
+    this.blockedInterval = setInterval(
+      () => void this.getUnblockedStatusRequest(),
+      10000
+    )
+  }
+
+  private registerDeviceDisconnectedListener(): void {
     if (this.device) {
       this.device.on(DeviceEventName.Disconnected, () => {
         this.clearSubscriptions()
@@ -220,15 +226,48 @@ class DeviceService {
 
   private clearSubscriptions(): void {
     this.device = undefined
+    this.blockedInterval && clearInterval(this.blockedInterval)
     this.eventEmitter.emit(DeviceServiceEventName.DeviceDisconnected)
     this.ipcMain.sendToRenderers(IpcEmitter.DeviceDisconnected)
+  }
+
+  private emitDeviceUnblockedEvent({ status }: DeviceResponse<unknown>): void {
+    if (status === DeviceResponseStatus.Error) {
+      return
+    }
+
+    status !== DeviceResponseStatus.PhoneBlocked
+      ? this.ipcMain.sendToRenderers(IpcEmitter.DeviceUnblocked)
+      : this.ipcMain.sendToRenderers(IpcEmitter.DeviceBlocked)
+  }
+
+  private static mapToDeviceResponse(
+    response: Response<unknown>
+  ): DeviceResponse<unknown> {
+    const { status, body: data, error } = response
+    if (status === ResponseStatus.Ok || status === ResponseStatus.Accepted) {
+      return {
+        data,
+        status: DeviceResponseStatus.Ok,
+      }
+    } else if (status === ResponseStatus.PhoneLocked) {
+      return {
+        error,
+        status: DeviceResponseStatus.PhoneBlocked,
+      }
+    } else {
+      return {
+        error,
+        status: DeviceResponseStatus.Error,
+      }
+    }
   }
 }
 
 export const createDeviceService = (
   deviceManager: PureDeviceManager,
   ipcMain: MainProcessIpc
-) => {
+): DeviceService => {
   return new DeviceService(deviceManager, ipcMain).init()
 }
 
