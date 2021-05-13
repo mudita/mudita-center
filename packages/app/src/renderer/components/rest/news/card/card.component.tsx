@@ -15,12 +15,14 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import Image from "Renderer/components/core/image/image.component"
 import CommunityCommentsCount from "Renderer/components/rest/news/card/community-comments-count.component"
+import moment from "moment"
 
 const CardContainer = styled.div`
   max-width: 27.5rem;
   box-sizing: border-box;
   border-radius: ${borderRadius("medium")};
   overflow: hidden;
+  margin-bottom: 4rem;
 `
 
 const CardImage = styled(Image)`
@@ -47,6 +49,12 @@ const CardDescription = styled(Text)`
   /* stylelint-enable */
 `
 
+const CardDate = styled(Text)`
+  margin-top: 0.4rem;
+  font-weight: 300;
+  text-transform: uppercase;
+`
+
 export interface Props {
   content: string
   communityLink: string
@@ -55,6 +63,7 @@ export interface Props {
   imageSource?: string
   imageAlt?: string
   url: string
+  date: string
 }
 
 const Card: FunctionComponent<Props> = ({
@@ -65,6 +74,7 @@ const Card: FunctionComponent<Props> = ({
   imageSource,
   imageAlt,
   url,
+  date,
 }) => {
   return (
     <CardContainer data-testid="news-card">
@@ -81,6 +91,9 @@ const Card: FunctionComponent<Props> = ({
           <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
             {title}
           </Text>
+          <CardDate displayStyle={TextDisplayStyle.SmallFadedText}>
+            {moment(date).format("ll")}
+          </CardDate>
         </a>
         <CardDescription
           displayStyle={TextDisplayStyle.MediumFadedLightText}
