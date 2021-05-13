@@ -6,16 +6,16 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 
-const registerDeviceUnblockedListener = (
+const registerDeviceUnlockedListener = (
   listener: (event: any) => void
 ): void => {
-  ipcRenderer.on(IpcEmitter.DeviceUnblocked, listener)
+  ipcRenderer.on(IpcEmitter.DeviceUnlocked, listener)
 }
 
-export const removeDeviceUnblockedListener = (
+export const removeDeviceUnlockedListener = (
   listener: (event: any) => void
 ): void => {
-  ipcRenderer.removeListener(IpcEmitter.DeviceUnblocked, listener)
+  ipcRenderer.removeListener(IpcEmitter.DeviceUnlocked, listener)
 }
 
-export default registerDeviceUnblockedListener
+export default registerDeviceUnlockedListener

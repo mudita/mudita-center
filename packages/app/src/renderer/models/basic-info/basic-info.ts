@@ -29,7 +29,7 @@ import { RootModel } from "Renderer/models/models"
 export const initialState: StoreValues = {
   deviceConnected: false,
   deviceUpdating: false,
-  deviceUnblocked: undefined,
+  deviceUnlocked: undefined,
   initialDataLoaded: false,
   basicInfoDataState: DataState.Empty,
   batteryLevel: 0,
@@ -170,24 +170,24 @@ const basicInfo = createModel<RootModel>({
           } else {
             dispatch.basicInfo.update({
               deviceConnected: false,
-              deviceUnblocked: undefined,
+              deviceUnlocked: undefined,
               initialDataLoaded: false,
             })
           }
         }
       },
-      async toggleDeviceUnblocked(
-        deviceUnblocked: boolean,
+      async toggleDeviceUnlocked(
+        deviceUnlocked: boolean,
         rootState: {
-          basicInfo: { initialDataLoaded: boolean; deviceUnblocked: boolean }
+          basicInfo: { initialDataLoaded: boolean; deviceUnlocked: boolean }
         }
       ) {
-        if (deviceUnblocked === rootState.basicInfo.deviceUnblocked) {
+        if (deviceUnlocked === rootState.basicInfo.deviceUnlocked) {
           return
         }
 
-        dispatch.basicInfo.update({ deviceUnblocked })
-        if (deviceUnblocked && !rootState.basicInfo.initialDataLoaded) {
+        dispatch.basicInfo.update({ deviceUnlocked })
+        if (deviceUnlocked && !rootState.basicInfo.initialDataLoaded) {
           await dispatch.basicInfo.loadInitialData()
         }
       },
@@ -206,8 +206,8 @@ const basicInfo = createModel<RootModel>({
     deviceConnected() {
       return slice(({ deviceConnected }) => deviceConnected)
     },
-    deviceUnblocked() {
-      return slice(({ deviceUnblocked }) => deviceUnblocked)
+    deviceUnlocked() {
+      return slice(({ deviceUnlocked }) => deviceUnlocked)
     },
     deviceUpdating() {
       return slice(({ deviceUpdating }) => deviceUpdating)
@@ -226,19 +226,19 @@ const basicInfo = createModel<RootModel>({
       return createSelector(
         models.basicInfo.initialDataLoaded,
         models.basicInfo.deviceConnected,
-        models.basicInfo.deviceUnblocked,
-        (initialDataLoaded, deviceConnected, deviceUnblocked) => {
-          return !initialDataLoaded && deviceConnected && !deviceUnblocked
+        models.basicInfo.deviceUnlocked,
+        (initialDataLoaded, deviceConnected, deviceUnlocked) => {
+          return !initialDataLoaded && deviceConnected && !deviceUnlocked
         }
       )
     },
     pureFeaturesVisible(models: StoreSelectors<any>) {
       return createSelector(
         models.basicInfo.deviceConnected,
-        models.basicInfo.deviceUnblocked,
+        models.basicInfo.deviceUnlocked,
         models.basicInfo.deviceUpdating,
-        (deviceConnected, deviceUnblocked, deviceUpdating) => {
-          return (deviceConnected && deviceUnblocked) || deviceUpdating
+        (deviceConnected, deviceUnlocked, deviceUpdating) => {
+          return (deviceConnected && deviceUnlocked) || deviceUpdating
         }
       )
     },

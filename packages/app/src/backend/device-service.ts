@@ -31,7 +31,7 @@ export enum DeviceServiceEventName {
 
 class DeviceService {
   device: PureDevice | undefined
-  private blockedInterval: NodeJS.Timeout | undefined
+  private lockedInterval: NodeJS.Timeout | undefined
   private eventEmitter = new EventEmitter()
 
   constructor(
@@ -83,7 +83,8 @@ class DeviceService {
     method: Method.Post
     filePath: string
   }): Promise<DeviceResponse>
-  async request(config: RequestConfig): Promise<DeviceResponse<unknown>> {
+  async request(config: RequestConfig): Promise<DeviceResponse<any>>
+  async request(config: RequestConfig){
     if (!this.device) {
       return {
         status: DeviceResponseStatus.Error,
@@ -98,7 +99,7 @@ class DeviceService {
         .then((response) => DeviceService.mapToDeviceResponse(response))
         .then((response) => {
           this.eventEmitter.emit(eventName, response)
-          this.emitDeviceUnblockedEvent(response)
+          this.emitDeviceUnlockedEvent(response)
         })
     }
 
@@ -170,7 +171,7 @@ class DeviceService {
     this.ipcMain.sendToRenderers(eventName, data)
   }
 
-  private getUnblockedStatusRequest(): Promise<DeviceResponse<any>> {
+  private getUnlockedStatusRequest(): Promise<DeviceResponse<any>> {
     return this.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
@@ -196,7 +197,7 @@ class DeviceService {
       this.device = device
 
       this.registerDeviceDisconnectedListener()
-      this.registerDeviceBlockedListener()
+      this.registerDeviceLockedListener()
 
       return {
         status: DeviceResponseStatus.Ok,
@@ -208,10 +209,10 @@ class DeviceService {
     }
   }
 
-  private registerDeviceBlockedListener(): void {
-    void this.getUnblockedStatusRequest()
-    this.blockedInterval = setInterval(
-      () => void this.getUnblockedStatusRequest(),
+  private registerDeviceLockedListener(): void {
+    void this.getUnlockedStatusRequest()
+    this.lockedInterval = setInterval(
+      () => void this.getUnlockedStatusRequest(),
       10000
     )
   }
@@ -226,19 +227,19 @@ class DeviceService {
 
   private clearSubscriptions(): void {
     this.device = undefined
-    this.blockedInterval && clearInterval(this.blockedInterval)
+    this.lockedInterval && clearInterval(this.lockedInterval)
     this.eventEmitter.emit(DeviceServiceEventName.DeviceDisconnected)
     this.ipcMain.sendToRenderers(IpcEmitter.DeviceDisconnected)
   }
 
-  private emitDeviceUnblockedEvent({ status }: DeviceResponse<unknown>): void {
+  private emitDeviceUnlockedEvent({ status }: DeviceResponse<unknown>): void {
     if (status === DeviceResponseStatus.Error) {
       return
     }
 
-    status !== DeviceResponseStatus.PhoneBlocked
-      ? this.ipcMain.sendToRenderers(IpcEmitter.DeviceUnblocked)
-      : this.ipcMain.sendToRenderers(IpcEmitter.DeviceBlocked)
+    status !== DeviceResponseStatus.PhoneLocked
+      ? this.ipcMain.sendToRenderers(IpcEmitter.DeviceUnlocked)
+      : this.ipcMain.sendToRenderers(IpcEmitter.DeviceLocked)
   }
 
   private static mapToDeviceResponse(
@@ -253,7 +254,7 @@ class DeviceService {
     } else if (status === ResponseStatus.PhoneLocked) {
       return {
         error,
-        status: DeviceResponseStatus.PhoneBlocked,
+        status: DeviceResponseStatus.PhoneLocked,
       }
     } else {
       return {

@@ -130,7 +130,7 @@ test("store returns initial state", () => {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
         "deviceConnected": false,
-        "deviceUnblocked": undefined,
+        "deviceUnlocked": undefined,
         "deviceUpdating": false,
         "initialDataLoaded": false,
         "lastBackup": undefined,
@@ -179,7 +179,7 @@ describe("disconnect connected device", () => {
     await store.dispatch.basicInfo.update({
       deviceConnected: true,
       deviceUpdating: false,
-      deviceUnblocked: true,
+      deviceUnlocked: true,
       initialDataLoaded: true,
       basicInfoDataState: DataState.Loaded,
       batteryLevel: 9001,
@@ -225,7 +225,7 @@ describe("fetching basic info data", () => {
         "basicInfoDataState": 1,
         "batteryLevel": 9001,
         "deviceConnected": false,
-        "deviceUnblocked": undefined,
+        "deviceUnlocked": undefined,
         "deviceUpdating": false,
         "initialDataLoaded": false,
         "lastBackup": Object {
@@ -301,7 +301,7 @@ describe("connected event", () => {
     await store.dispatch.basicInfo.update({
       deviceConnected: true,
       deviceUpdating: false,
-      deviceUnblocked: true,
+      deviceUnlocked: true,
       initialDataLoaded: true,
       basicInfoDataState: DataState.Loaded,
       batteryLevel: 9001,
@@ -334,43 +334,43 @@ describe("connected event", () => {
   })
 })
 
-describe("unblocked event", () => {
-  test("deviceUnblocked state is undefined as default", async () => {
-    expect(store.getState().basicInfo.deviceUnblocked).toBe(undefined)
+describe("unlocked event", () => {
+  test("deviceUnlocked state is undefined as default", async () => {
+    expect(store.getState().basicInfo.deviceUnlocked).toBe(undefined)
   })
 
-  test("unblocked event trigger fetching initial data", async () => {
+  test("unlocked event trigger fetching initial data", async () => {
     await store.dispatch.basicInfo.toggleDeviceConnected(true)
     expect(store.getState().basicInfo.deviceConnected).toBe(true)
-    expect(store.getState().basicInfo.deviceUnblocked).toBe(undefined)
+    expect(store.getState().basicInfo.deviceUnlocked).toBe(undefined)
     expect(store.getState().basicInfo.initialDataLoaded).toBe(false)
 
-    await store.dispatch.basicInfo.toggleDeviceUnblocked(true)
-    expect(store.getState().basicInfo.deviceUnblocked).toBe(true)
+    await store.dispatch.basicInfo.toggleDeviceUnlocked(true)
+    expect(store.getState().basicInfo.deviceUnlocked).toBe(true)
     expect(store.getState().basicInfo.initialDataLoaded).toBe(true)
   })
 })
 
-describe("blocked event", () => {
-  test("blocked event set deviceUnblocked properly", async () => {
+describe("locked event", () => {
+  test("locked event set deviceUnlocked properly", async () => {
     await store.dispatch.basicInfo.toggleDeviceConnected(true)
     expect(store.getState().basicInfo.deviceConnected).toBe(true)
-    expect(store.getState().basicInfo.deviceUnblocked).toBe(undefined)
+    expect(store.getState().basicInfo.deviceUnlocked).toBe(undefined)
     expect(store.getState().basicInfo.initialDataLoaded).toBe(false)
 
-    await store.dispatch.basicInfo.toggleDeviceUnblocked(false)
-    expect(store.getState().basicInfo.deviceUnblocked).toBe(false)
+    await store.dispatch.basicInfo.toggleDeviceUnlocked(false)
+    expect(store.getState().basicInfo.deviceUnlocked).toBe(false)
   })
 
-  test("blocked event doesn't have impact on rest properties", async () => {
+  test("locked event doesn't have impact on rest properties", async () => {
     const {
-      deviceUnblocked: prevDeviceUnblocked,
+      deviceUnlocked: prevDeviceUnlocked,
       ...prevRest
     } = store.getState().basicInfo
-    await store.dispatch.basicInfo.toggleDeviceUnblocked(false)
+    await store.dispatch.basicInfo.toggleDeviceUnlocked(false)
 
-    const { deviceUnblocked, ...rest } = store.getState().basicInfo
-    expect(deviceUnblocked).toBe(false)
+    const { deviceUnlocked, ...rest } = store.getState().basicInfo
+    expect(deviceUnlocked).toBe(false)
     expect(rest).toStrictEqual(prevRest)
   })
 })
@@ -391,23 +391,23 @@ describe("deviceConnecting selector", () => {
     expect(deviceConnecting).toBe(true)
   })
 
-  test("deviceConnecting return false when device is unblocked and init data is loaded", async () => {
+  test("deviceConnecting return false when device is unlocked and init data is loaded", async () => {
     await store.dispatch.basicInfo.toggleDeviceConnected(true)
-    await store.dispatch.basicInfo.toggleDeviceUnblocked(true)
+    await store.dispatch.basicInfo.toggleDeviceUnlocked(true)
     const deviceConnecting = store.select.basicInfo.deviceConnecting(
       store.getState()
     )
     expect(deviceConnecting).toBe(false)
   })
 
-  test("deviceConnecting return true only to first unblocked", async () => {
+  test("deviceConnecting return true only to first unlocked", async () => {
     let deviceConnecting: boolean
     await store.dispatch.basicInfo.toggleDeviceConnected(true)
-    await store.dispatch.basicInfo.toggleDeviceUnblocked(true)
+    await store.dispatch.basicInfo.toggleDeviceUnlocked(true)
     deviceConnecting = store.select.basicInfo.deviceConnecting(store.getState())
     expect(deviceConnecting).toBe(false)
 
-    await store.dispatch.basicInfo.toggleDeviceUnblocked(false)
+    await store.dispatch.basicInfo.toggleDeviceUnlocked(false)
     deviceConnecting = store.select.basicInfo.deviceConnecting(store.getState())
     expect(deviceConnecting).toBe(false)
 
@@ -434,7 +434,7 @@ describe("pureFeaturesVisible selector", () => {
     expect(pureFeaturesVisible).toBe(true)
   })
 
-  test("pureFeaturesVisible return true if device is unblocked and init data is loaded", async () => {
+  test("pureFeaturesVisible return true if device is unlocked and init data is loaded", async () => {
     await store.dispatch.basicInfo.toggleDeviceUpdating(true)
     const pureFeaturesVisible = store.select.basicInfo.pureFeaturesVisible(
       store.getState()

@@ -123,7 +123,7 @@ const renderer = (extraProps?: {}) => {
     UpdateBasicInfo &
     AppSettings &
     DevMode = {
-    deviceUnblocked: undefined,
+    deviceUnlocked: undefined,
     appAutostart: false,
     appCollectingData: undefined,
     appConversionFormat: ConversionFormat.FLAC,

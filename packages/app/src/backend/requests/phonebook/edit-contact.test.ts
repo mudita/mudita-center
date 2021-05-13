@@ -31,7 +31,7 @@ const contact: Contact = {
 jest.mock("Backend/device-service")
 
 test("edit contact properly", async () => {
-  ;(DeviceService as jest.Mock).mockImplementation(() => {
+  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: () => ({
         data: { id: pureContactId },

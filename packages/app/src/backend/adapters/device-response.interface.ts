@@ -10,7 +10,7 @@ export type ResponseError = PureDeviceUpdateError | DeviceUpdateError
 
 export enum DeviceResponseStatus {
   Ok = "ok",
-  PhoneBlocked = "phone-blocked",
+  PhoneLocked = "phone-locked",
   Error = "error",
 }
 

@@ -17,12 +17,12 @@ import registerDeviceDisconnectedListener, {
 import registerDeviceConnectedListener, {
   removeDeviceConnectedListener,
 } from "Renderer/listeners/register-device-connected.listener"
-import registerDeviceBlockedListener, {
-  removeDeviceBlockedListener,
-} from "Renderer/listeners/register-device-blocked.listener"
-import registerDeviceUnblockedListener, {
-  removeDeviceUnblockedListener,
-} from "Renderer/listeners/register-device-unblocked.listener"
+import registerDeviceLockedListener, {
+  removeDeviceLockedListener,
+} from "Renderer/listeners/register-device-locked.listener"
+import registerDeviceUnlockedListener, {
+  removeDeviceUnlockedListener,
+} from "Renderer/listeners/register-device-unlocked.listener"
 import { getAppSettings } from "Renderer/requests/app-settings.request"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
@@ -37,7 +37,7 @@ interface Props {
   store: Store
   history: History
   toggleDeviceConnected: (deviceConnected: boolean) => void
-  toggleDeviceUnblocked: (deviceUnblocked: boolean) => void
+  toggleDeviceUnlocked: (deviceUnlocked: boolean) => void
   pureFeaturesVisible: boolean
   deviceConnecting?: boolean
 }
@@ -46,7 +46,7 @@ const BaseApp: FunctionComponent<Props> = ({
   pureFeaturesVisible,
   deviceConnecting,
   toggleDeviceConnected,
-  toggleDeviceUnblocked,
+  toggleDeviceUnlocked,
   store,
   history,
 }) => {
@@ -69,18 +69,18 @@ const BaseApp: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const listener = () => {
-      toggleDeviceUnblocked(false)
+      toggleDeviceUnlocked(false)
     }
-    registerDeviceBlockedListener(listener)
-    return () => removeDeviceBlockedListener(listener)
+    registerDeviceLockedListener(listener)
+    return () => removeDeviceLockedListener(listener)
   })
 
   useEffect(() => {
     const listener = () => {
-      toggleDeviceUnblocked(true)
+      toggleDeviceUnlocked(true)
     }
-    registerDeviceUnblockedListener(listener)
-    return () => removeDeviceUnblockedListener(listener)
+    registerDeviceUnlockedListener(listener)
+    return () => removeDeviceUnlockedListener(listener)
   })
 
   useEffect(() => {
@@ -144,7 +144,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = ({ basicInfo }: any) => ({
   toggleDeviceConnected: basicInfo.toggleDeviceConnected,
-  toggleDeviceUnblocked: basicInfo.toggleDeviceUnblocked,
+  toggleDeviceUnlocked: basicInfo.toggleDeviceUnlocked,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)
