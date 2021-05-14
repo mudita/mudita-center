@@ -26,6 +26,7 @@ const registerNewsListener = () => {
   const newsFilePath = `${app.getPath(
     "appData"
   )}/${name}/default-news-items.json`
+
   const checkForUpdateAndGetNewData = async (): Promise<
     boolean | EntryCollection<NewsEntry>
   > => {
@@ -36,8 +37,9 @@ const registerNewsListener = () => {
     try {
       const client = createClient()
       const data: EntryCollection<NewsEntry> = await client.getNews({
-        limit: 3,
+        limit: 6,
       })
+
       const newestOnlineItemDate = Math.max(
         ...data.items.map((item: any) => new Date(item.sys.updatedAt).getTime())
       )

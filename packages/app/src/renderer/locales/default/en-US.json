@@ -244,7 +244,7 @@
   "module.contacts.synchronizingModalBody": "This might take a few minutes, please wait.",
   "module.contacts.synchronizingModalTitle": "Synchronising contacts…",
   "module.contacts.syncModalText": "Log in to allow Mudita Center to synchronize contacts between your device and Google or iCloud accounts",
-  "module.contacts.syncModalTitle": "Synchronize contacts",
+  "module.contacts.syncModalTitle": "Import contacts",
   "module.contacts.unblock": "Unblock",
   "module.dial": "Dial",
   "module.error": "Error",
