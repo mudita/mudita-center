@@ -21,8 +21,7 @@ export enum NewsEvents {
   Init = "init-news-items",
 }
 
-const registerNewsListener = () => {
-  const defaultNews = getDefaultNewsItems()
+const registerNewsListener = async () => {
   const newsFilePath = `${app.getPath(
     "appData"
   )}/${name}/default-news-items.json`
@@ -66,6 +65,7 @@ const registerNewsListener = () => {
   }
 
   if (!fs.readJsonSync(newsFilePath, { throws: false })) {
+    const defaultNews = await getDefaultNewsItems()
     fs.writeJsonSync(newsFilePath, defaultNews)
   }
 
