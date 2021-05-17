@@ -49,6 +49,10 @@ class Device extends BaseDevice {
   }
 
   public request(config: {
+    endpoint: Endpoint.Security
+    method: Method.Get
+  }): Promise<Response>
+  public request(config: {
     endpoint: Endpoint.DeviceInfo
     method: Method.Get
   }): Promise<Response<DeviceInfo>>

@@ -45,6 +45,10 @@ class DeviceService {
   }
 
   async request(config: {
+    endpoint: Endpoint.Security
+    method: Method.Get
+  }): Promise<DeviceResponse>
+  async request(config: {
     endpoint: Endpoint.DeviceInfo
     method: Method.Get
   }): Promise<DeviceResponse<DeviceInfo>>
@@ -84,7 +88,7 @@ class DeviceService {
     filePath: string
   }): Promise<DeviceResponse>
   async request(config: RequestConfig): Promise<DeviceResponse<any>>
-  async request(config: RequestConfig){
+  async request(config: RequestConfig) {
     if (!this.device) {
       return {
         status: DeviceResponseStatus.Error,
@@ -173,7 +177,7 @@ class DeviceService {
 
   private getUnlockedStatusRequest(): Promise<DeviceResponse<any>> {
     return this.request({
-      endpoint: Endpoint.DeviceInfo,
+      endpoint: Endpoint.Security,
       method: Method.Get,
     })
   }

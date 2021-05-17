@@ -57,6 +57,7 @@ export enum Endpoint {
   Contacts = 7,
   Messages = 8,
   CallLog = 9,
+  Security = 13,
 
   // lib endpoint
   FileUpload = 100,
