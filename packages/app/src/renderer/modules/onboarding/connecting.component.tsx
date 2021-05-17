@@ -29,7 +29,6 @@ const Connecting: FunctionComponent<{
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (deviceUnlocked) {
-        registerFirstPhoneConnection()
         history.push(URL_MAIN.overview)
       }
     }, 500)
@@ -40,6 +39,10 @@ const Connecting: FunctionComponent<{
 
     return () => clearTimeout(timeout)
   }, [deviceUnlocked])
+
+  useEffect(() => {
+    registerFirstPhoneConnection()
+  }, [])
 
   const history = useHistory()
 

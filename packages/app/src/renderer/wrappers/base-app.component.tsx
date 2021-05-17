@@ -106,7 +106,7 @@ const BaseApp: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
-    if (deviceConnecting && !pureNeverConnected) {
+    if (deviceConnecting) {
       history.push(URL_ONBOARDING.connecting)
     } else if (!pureFeaturesVisible && !pureNeverConnected) {
       history.push(URL_MAIN.news)
