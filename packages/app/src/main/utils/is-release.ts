@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const isPrerelease = (tagName: string): boolean => {
-  return tagName.replace(/(release-[\d]*\.[\d]*\.[\d]*)/i, "") !== ""
+export const isRelease = (tagName: string): boolean => {
+  return /^release-(\d+\.){2}\d+$/i.test(tagName)
 }

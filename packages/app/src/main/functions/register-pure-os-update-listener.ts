@@ -6,7 +6,7 @@
 import { ipcMain } from "electron-better-ipc"
 import axios from "axios"
 import logger from "App/main/utils/logger"
-import { isPrerelease } from "App/main/utils/is-prerelease"
+import { isRelease } from "App/main/utils/is-release"
 
 export enum OsUpdateChannel {
   Request = "os-update-request",
@@ -92,7 +92,7 @@ const registerPureOsUpdateListener = () => {
             return {
               version: tag_name,
               date: published_at || created_at,
-              prerelease: isPrerelease(tag_name),
+              prerelease: !isRelease(tag_name),
               file: {
                 url: asset.browser_download_url,
                 size: asset.size,
