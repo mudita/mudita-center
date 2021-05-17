@@ -99,8 +99,12 @@ const commonWindowOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
+    enableRemoteModule: true,
   },
 }
+
+app.allowRendererProcessReuse = false
+
 const getWindowOptions = (
   extendedWindowOptions?: BrowserWindowConstructorOptions
 ) => ({
