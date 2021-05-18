@@ -4,8 +4,9 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
-import logger from "App/main/utils/logger"
 import axios from "axios"
+import logger from "App/main/utils/logger"
+import { isRelease } from "App/main/utils/is-release"
 
 export enum OsUpdateChannel {
   Request = "os-update-request",
@@ -39,7 +40,7 @@ const osUpdateServerUrl = process.env.OS_UPDATE_SERVER
 
 // It's required only for development when API rate limits may exceed
 // https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting
-const githubToken = process.env.GITHUB_ACCESS_TOKEN
+const githubToken = process.env.OS_UPDATE_SERVER_ACCESS_TOKEN
 
 const releasesRequest = async (
   page = 1,
@@ -83,14 +84,7 @@ const registerPureOsUpdateListener = () => {
 
       return releases
         .map((release): Release | null => {
-          const {
-            assets,
-            tag_name,
-            draft,
-            prerelease,
-            created_at,
-            published_at,
-          } = release
+          const { assets, tag_name, draft, created_at, published_at } = release
           const asset = assets.find(
             (asset) => asset.content_type === "application/x-tar"
           )
@@ -98,7 +92,7 @@ const registerPureOsUpdateListener = () => {
             return {
               version: tag_name,
               date: published_at || created_at,
-              prerelease,
+              prerelease: !isRelease(tag_name),
               file: {
                 url: asset.browser_download_url,
                 size: asset.size,
