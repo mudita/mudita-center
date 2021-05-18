@@ -61,3 +61,6 @@ tmp/
 
 packages/app/src/renderer/fonts/main/**/*
 !packages/app/src/renderer/fonts/main/.gitkeep
+
+# Fetched news
+packages/app/src/main/default-news.json
