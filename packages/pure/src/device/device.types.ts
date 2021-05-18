@@ -17,6 +17,7 @@ export enum ResponseStatus {
   Ok = 200,
   Accepted = 202,
   BadRequest = 400,
+  PhoneLocked = 403,
   NotAcceptable = 406,
   InternalServerError = 500,
 
@@ -56,6 +57,7 @@ export enum Endpoint {
   Contacts = 7,
   Messages = 8,
   CallLog = 9,
+  Security = 13,
 
   // lib endpoint
   FileUpload = 100,
