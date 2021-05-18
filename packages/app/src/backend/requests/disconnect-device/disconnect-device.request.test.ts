@@ -8,9 +8,10 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 import registerDisconnectDeviceRequest from "./disconnect-device.request"
 
-test("returns disconnected info", () => {
+test("returns disconnected info", async() => {
   registerDisconnectDeviceRequest(getFakeAdapters())
-  const [result] = (ipcMain as any)._flush(IpcRequest.DisconnectDevice)
+  const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.DisconnectDevice)
+  const result = await pendingResponse
   expect(result).toMatchInlineSnapshot(`
     Object {
       "status": "ok",

@@ -18,7 +18,7 @@ export interface MemorySpace {
   readonly full: number
 }
 
-export enum ResultsState {
+export enum DataState {
   Loading,
   Loaded,
   Empty,
@@ -26,8 +26,9 @@ export enum ResultsState {
 }
 
 export interface StoreValues {
-  readonly disconnectedDevice: boolean
-  readonly updatingDevice: boolean
+  readonly deviceConnected: boolean
+  readonly deviceUpdating: boolean
+  readonly deviceUnlocked: boolean | undefined
   readonly batteryLevel: number
   readonly networkName: string
   readonly osVersion: string
@@ -35,7 +36,8 @@ export interface StoreValues {
   readonly memorySpace: MemorySpace
   readonly lastBackup?: BackupItemInfo
   readonly simCards: SimCard[]
-  readonly resultsState: ResultsState
+  readonly basicInfoDataState: DataState
+  readonly initialDataLoaded: boolean
 }
 
 export interface StoreEffects {

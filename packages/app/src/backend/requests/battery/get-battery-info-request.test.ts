@@ -32,7 +32,7 @@ const mockDeviceInfo: DeviceInfo = ({
 jest.mock("Backend/device-service")
 
 test("returns required battery info", async () => {
-  ;(DeviceService as jest.Mock).mockImplementation(() => {
+  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: () => ({
         data: mockDeviceInfo,

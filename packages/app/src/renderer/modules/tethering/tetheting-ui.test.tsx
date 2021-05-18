@@ -4,7 +4,7 @@
  */
 
 import "@testing-library/jest-dom"
-import React from "react"
+import React, { ComponentProps } from "react"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
@@ -24,7 +24,7 @@ const renderer = (props = {}) =>
   )
 
 describe("Pure disconnected screen tests", () => {
-  const props = { deviceConnected: false }
+  const props: ComponentProps<typeof TetheringUI> = { deviceUnlocked: false }
   test("disabled screen is shown", () => {
     const { getByTestId, queryByTestId } = renderer(props)
     expect(getByTestId(TetheringTestIds.DisconnectedWrapper)).toBeVisible()
@@ -64,9 +64,9 @@ describe("Pure disconnected screen tests", () => {
 })
 
 describe("Enabled tethering tests", () => {
-  const props = {
+  const props: ComponentProps<typeof TetheringUI> = {
     tetheringEnabled: true,
-    deviceConnected: true,
+    deviceUnlocked: true,
   }
   test("enabled screen is shown", () => {
     const { getByTestId, queryByTestId } = renderer(props)
@@ -90,7 +90,10 @@ describe("Enabled tethering tests", () => {
 })
 
 describe("Disabled tethering tests", () => {
-  const props = { tetheringEnabled: false, deviceConnected: true }
+  const props: ComponentProps<typeof TetheringUI> = {
+    tetheringEnabled: false,
+    deviceUnlocked: true,
+  }
   test("disabled screen is shown", () => {
     const { getByTestId, queryByTestId } = renderer(props)
     expect(getByTestId(TetheringTestIds.DisabledWrapper)).toBeVisible()

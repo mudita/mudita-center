@@ -12,7 +12,7 @@ export default abstract class PurePhoneAdapter {
   public abstract getSerialNumber(): string
   public abstract getOsVersion(): Promise<DeviceResponse<string>>
   public abstract getOsUpdateDate(): string
-  public abstract disconnectDevice(): DeviceResponse
+  public abstract disconnectDevice(): Promise<DeviceResponse>
   public abstract connectDevice(): Promise<DeviceResponse>
   public abstract updateOs(
     filePath: string,

@@ -32,5 +32,6 @@ export const togglePhoneSimulation = () => {
   } else {
     store.dispatch.devMode.enablePhoneSimulation()
     store.dispatch.basicInfo.connect()
+    store.dispatch.basicInfo.toggleDeviceUnlocked(true)
   }
 }

@@ -113,16 +113,13 @@ const messages = defineMessages({
     id: "module.overview.downloadingUpdateMessage",
   },
   downloadingUpdateDescriptionStarting: {
-    id:
-      "module.overview.downloadingUpdateStarting",
+    id: "module.overview.downloadingUpdateStarting",
   },
   downloadingUpdateDescriptionDownloading: {
-    id:
-      "module.overview.downloadingUpdateDownloading",
+    id: "module.overview.downloadingUpdateDownloading",
   },
   downloadingUpdateDescriptionFinishing: {
-    id:
-      "vmodule.overview.downloadingUpdateFinishing",
+    id: "module.overview.downloadingUpdateFinishing",
   },
   downloadingUpdateButton: {
     id: "module.overview.downloadingUpdateButton",
