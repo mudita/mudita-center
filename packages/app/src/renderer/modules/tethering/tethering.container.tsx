@@ -8,7 +8,7 @@ import Tethering from "Renderer/modules/tethering/tethering.component"
 import { RootState, select } from "Renderer/store"
 
 const selection = select((models: any) => ({
-  deviceConnected: models.basicInfo.isConnected,
+  deviceUnlocked: models.basicInfo.deviceUnlocked,
 }))
 
 const mapStateToProps = (state: RootState) => ({

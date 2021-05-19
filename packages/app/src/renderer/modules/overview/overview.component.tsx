@@ -21,7 +21,7 @@ import ContactSupportModalFlow from "App/contacts/components/contact-modal/conta
 
 export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
-  toggleUpdatingDevice: (option: boolean) => void
+  toggleDeviceUpdating: (option: boolean) => void
   setCollectingData: (option: AppSettings["appCollectingData"]) => void
 }
 
@@ -57,7 +57,7 @@ const Overview: FunctionComponent<
   networkName,
   networkLevel,
   updateBasicInfo = noop,
-  toggleUpdatingDevice,
+  toggleDeviceUpdating,
   language,
   pureOsBackupLocation,
 }) => {
@@ -92,9 +92,8 @@ const Overview: FunctionComponent<
     osVersion,
     updatePhoneOsInfo,
     updateBasicInfo,
-    toggleUpdatingDevice
+    toggleDeviceUpdating
   )
-
 
   useEffect(() => {
     if (osVersion) {

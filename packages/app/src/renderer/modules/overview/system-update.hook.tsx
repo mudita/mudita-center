@@ -83,7 +83,7 @@ const useSystemUpdateFlow = (
   osVersion: string,
   onUpdate: (updateInfo: PhoneUpdate) => void,
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
-  toggleUpdatingDevice: (option: boolean) => void
+  toggleDeviceUpdating: (option: boolean) => void
 ) => {
   const [releaseToInstall, setReleaseToInstall] = useState<Release>()
 
@@ -313,7 +313,7 @@ const useSystemUpdateFlow = (
 
     modalService.openModal(<UpdatingProgressModal progressValue={0} />, true)
 
-    toggleUpdatingDevice(true)
+    toggleDeviceUpdating(true)
 
     const listener: OsUpdateProgressListener = async (_, { progress }) => {
       modalService.rerenderModal(
@@ -332,7 +332,7 @@ const useSystemUpdateFlow = (
       modalService.rerenderModal(<UpdatingProgressModal progressValue={100} />)
     }
 
-    toggleUpdatingDevice(false)
+    toggleDeviceUpdating(false)
 
     if (!releaseToInstall?.devMode) {
       await onUpdate({
@@ -360,7 +360,7 @@ const useSystemUpdateFlow = (
     ipcRenderer.callMain(HelpActions.OpenWindow, { code })
   }
   const { openContactSupportModal, ...rest } = useContactSupport()
-  const callActionAfterCloseModal = (action: () => void): () => void => {
+  const callActionAfterCloseModal = (action: () => void): (() => void) => {
     return () => {
       modalService.closeModal()
       action()

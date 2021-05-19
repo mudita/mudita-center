@@ -8,7 +8,7 @@ import Menu from "Renderer/components/rest/menu/menu.component"
 import { RootState, select } from "Renderer/store"
 
 const selection = select((models: any) => ({
-  deviceConnected: models.basicInfo.isConnected,
+  pureFeaturesVisible: models.basicInfo.pureFeaturesVisible,
 }))
 
 const mapStateToProps = (state: RootState) => ({
