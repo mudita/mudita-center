@@ -21,7 +21,7 @@ interface GithubRelease {
   assets: {
     content_type: string
     size: number
-    browser_download_url: string
+    url: string
   }[]
 }
 
@@ -94,7 +94,7 @@ const registerPureOsUpdateListener = () => {
               date: published_at || created_at,
               prerelease: !isRelease(tag_name),
               file: {
-                url: asset.browser_download_url,
+                url: asset.url,
                 size: asset.size,
               },
             }
