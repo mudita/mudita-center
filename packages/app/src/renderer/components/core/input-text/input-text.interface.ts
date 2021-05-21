@@ -42,5 +42,15 @@ export interface TextareaProps
   inputRef?: Ref<HTMLTextAreaElement>
   type?: "textarea"
 }
+export interface InputPasscodeProps
+  extends TextareaHTMLAttributes<HTMLInputElement>,
+    BasicProps {
+  type: "password"
+  inputRef?: Ref<HTMLInputElement>
+  error: boolean
+}
 
-export type InputComponentProps = InputProps | TextareaProps
+export type InputComponentProps =
+  | InputProps
+  | TextareaProps
+  | InputPasscodeProps

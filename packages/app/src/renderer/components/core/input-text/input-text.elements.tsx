@@ -8,6 +8,7 @@ import {
   InputIconsProps,
   InputProps,
   TextareaProps,
+  InputPasscodeProps,
 } from "Renderer/components/core/input-text/input-text.interface"
 import Text, {
   getTextStyles,
@@ -187,6 +188,37 @@ const TextInput = styled.input<{ type: string }>`
         display: block;
       }
     `};
+`
+const disabledPasscodeStyles = css`
+  border: solid 1px ${backgroundColor("minor")};
+  background-color: ${backgroundColor("minor")};
+  color: ${textColor("primary")};
+`
+
+const errorPasscodeStyles = css`
+  border: solid 1px ${borderColor("error")};
+  color: ${textColor("error")};
+`
+
+const PasscodeInput = styled.input<{
+  disabled?: boolean
+  error: boolean
+}>`
+  border: solid 1px ${borderColor("secondary")};
+  border-radius: 4px;
+  width: 4.6rem;
+  height: 7.6rem;
+  margin: 4rem 1.2rem 1rem;
+  padding-left: 3rem;
+  font-family: caption;
+  font-size: 5rem;
+  line-height: 5.5rem;
+  :focus {
+    border: solid 1px ${borderColor("primary")};
+    outline: none;
+  }
+  ${({ disabled }) => disabled && disabledPasscodeStyles};
+  ${({ error }) => error && errorPasscodeStyles};
 `
 
 interface InputWrapperProps {
@@ -467,5 +499,33 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
       <InputError visible={Boolean(errorMessage)}>{errorMessage}</InputError>
     </TextareaWrapper>
+  )
+}
+
+export const InputPasscode: FunctionComponent<InputPasscodeProps> = ({
+  className,
+  disabled,
+  inputRef,
+  value,
+  error,
+  onChange = noop,
+  focusable,
+  ...rest
+}) => {
+  return (
+    <PasscodeInput
+      {...rest}
+      placeholder={" "}
+      maxLength={1}
+      ref={inputRef}
+      disabled={disabled}
+      onChange={onChange}
+      error={error}
+      onKeyPress={(event) => {
+        if (!/[0-9]/.test(event.key)) {
+          event.preventDefault()
+        }
+      }}
+    />
   )
 }
