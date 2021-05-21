@@ -9,8 +9,8 @@ const githubToken = process.env.OS_UPDATE_SERVER_ACCESS_TOKEN ?? ""
 const osUpdateServerUrl = process.env.OS_UPDATE_SERVER ?? ""
 
 const registerPureOsDownloadProxy = () => {
-  // Modify the user agent for all requests to the following urls.
-  //https://github.com/electron/electron/blob/master/docs/api/web-request.md#class-webrequest
+  // Modify the headers for all requests to the following urls.
+  // https://github.com/electron/electron/blob/master/docs/api/web-request.md#class-webrequest
   const filter = {
     urls: [`${osUpdateServerUrl}/assets/*`],
   }
