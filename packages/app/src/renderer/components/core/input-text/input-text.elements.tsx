@@ -34,6 +34,7 @@ import composeRefs from "@seznam/compose-react-refs"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import CloseImage from "Renderer/images/close.png"
+import { InputTextTestIds } from "./input-text-test-ids.enum"
 
 export const searchIcon = (
   <Icon type={Type.Magnifier} height={2.8} width={2.8} />
@@ -200,6 +201,9 @@ const errorPasscodeStyles = css`
   border: solid 0.1rem ${borderColor("error")};
   background-color: ${backgroundColor("modal")};
   color: ${textColor("error")};
+  :focus {
+    border: solid 0.1rem ${borderColor("error")};
+  }
 `
 
 const PasscodeInput = styled.input<{
@@ -522,7 +526,7 @@ export const InputPasscode: FunctionComponent<InputPasscodeProps> = ({
       ref={inputRef}
       disabled={disabled}
       onChange={onChange}
-      data-testid="passcode-input"
+      data-testid={InputTextTestIds.PasscodeInput}
       error={error}
       onKeyPress={(event) => {
         if (!/[0-9]/.test(event.key)) {

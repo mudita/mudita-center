@@ -8,6 +8,7 @@ import React from "react"
 import InputText from "Renderer/components/core/input-text/input-text.component"
 import { Icon } from "Renderer/components/core/input-text/input-text.stories"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { InputTextTestIds } from "./input-text-test-ids.enum"
 
 test("renders standard input properly", () => {
   const { getByRole, getByLabelText } = renderWithThemeAndIntl(
@@ -184,13 +185,13 @@ test("renders textarea input error properly", () => {
 test("renders password input properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(<InputText type="password" />)
 
-  expect(getByTestId("passcode-input")).toBeInTheDocument()
+  expect(getByTestId(InputTextTestIds.PasscodeInput)).toBeInTheDocument()
 })
 test("renders disabled password input properly", () => {
   const { getByTestId, container } = renderWithThemeAndIntl(
     <InputText type="password" disabled />
   )
-  expect(getByTestId("passcode-input")).toBeInTheDocument()
+  expect(getByTestId(InputTextTestIds.PasscodeInput)).toBeInTheDocument()
   expect(container.querySelector("input")).toHaveStyle(
     `background-color: #f4f5f6;`
   )
@@ -199,7 +200,7 @@ test("renders disabled error password input properly", () => {
   const { getByTestId, container } = renderWithThemeAndIntl(
     <InputText type="password" disabled error />
   )
-  expect(getByTestId("passcode-input")).toBeInTheDocument()
+  expect(getByTestId(InputTextTestIds.PasscodeInput)).toBeInTheDocument()
   expect(container.querySelector("input")).toHaveStyle(
     `background-color: #fff; color: #e96a6a`
   )
