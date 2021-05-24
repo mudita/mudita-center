@@ -21,6 +21,7 @@ import {
   backgroundColor,
   borderColor,
   borderRadius,
+  font,
   lineHeight,
   textColor,
   transitionTime,
@@ -190,13 +191,14 @@ const TextInput = styled.input<{ type: string }>`
     `};
 `
 const disabledPasscodeStyles = css`
-  border: solid 1px ${backgroundColor("minor")};
+  border: solid 0.1rem ${backgroundColor("minor")};
   background-color: ${backgroundColor("minor")};
   color: ${textColor("primary")};
 `
 
 const errorPasscodeStyles = css`
-  border: solid 1px ${borderColor("error")};
+  border: solid 0.1rem ${borderColor("error")};
+  background-color: ${backgroundColor("modal")};
   color: ${textColor("error")};
 `
 
@@ -204,17 +206,17 @@ const PasscodeInput = styled.input<{
   disabled?: boolean
   error: boolean
 }>`
-  border: solid 1px ${borderColor("secondary")};
-  border-radius: 4px;
+  border: solid 0.1rem ${borderColor("secondary")};
+  border-radius: 0.4rem;
   width: 4.6rem;
   height: 7.6rem;
   margin: 4rem 1.2rem 1rem;
   padding-left: 3rem;
-  font-family: caption;
+  font-family: ${font("helper")};
   font-size: 5rem;
   line-height: 5.5rem;
   :focus {
-    border: solid 1px ${borderColor("primary")};
+    border: solid 0.1rem ${borderColor("primary")};
     outline: none;
   }
   ${({ disabled }) => disabled && disabledPasscodeStyles};
@@ -520,6 +522,7 @@ export const InputPasscode: FunctionComponent<InputPasscodeProps> = ({
       ref={inputRef}
       disabled={disabled}
       onChange={onChange}
+      data-testid="passcode-input"
       error={error}
       onKeyPress={(event) => {
         if (!/[0-9]/.test(event.key)) {
