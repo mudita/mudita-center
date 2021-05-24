@@ -8,7 +8,7 @@ import {
   InputIconsProps,
   InputProps,
   TextareaProps,
-  InputPasscodeProps,
+  InputPasswordProps,
 } from "Renderer/components/core/input-text/input-text.interface"
 import Text, {
   getTextStyles,
@@ -191,13 +191,13 @@ const TextInput = styled.input<{ type: string }>`
       }
     `};
 `
-const disabledPasscodeStyles = css`
+const disabledPasswordStyles = css`
   border: solid 0.1rem ${backgroundColor("minor")};
   background-color: ${backgroundColor("minor")};
   color: ${textColor("primary")};
 `
 
-const errorPasscodeStyles = css`
+const errorPasswordStyles = css`
   border: solid 0.1rem ${borderColor("error")};
   background-color: ${backgroundColor("modal")};
   color: ${textColor("error")};
@@ -206,7 +206,7 @@ const errorPasscodeStyles = css`
   }
 `
 
-const PasscodeInput = styled.input<{
+const PasswordInput = styled.input<{
   disabled?: boolean
   error: boolean
 }>`
@@ -223,8 +223,8 @@ const PasscodeInput = styled.input<{
     border: solid 0.1rem ${borderColor("primary")};
     outline: none;
   }
-  ${({ disabled }) => disabled && disabledPasscodeStyles};
-  ${({ error }) => error && errorPasscodeStyles};
+  ${({ disabled }) => disabled && disabledPasswordStyles};
+  ${({ error }) => error && errorPasswordStyles};
 `
 
 interface InputWrapperProps {
@@ -508,7 +508,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   )
 }
 
-export const InputPasscode: FunctionComponent<InputPasscodeProps> = ({
+export const InputPassword: FunctionComponent<InputPasswordProps> = ({
   className,
   disabled,
   inputRef,
@@ -519,20 +519,14 @@ export const InputPasscode: FunctionComponent<InputPasscodeProps> = ({
   ...rest
 }) => {
   return (
-    <PasscodeInput
+    <PasswordInput
       {...rest}
-      placeholder={" "}
       maxLength={1}
       ref={inputRef}
       disabled={disabled}
       onChange={onChange}
-      data-testid={InputTextTestIds.PasscodeInput}
+      data-testid={InputTextTestIds.PasswordInput}
       error={error}
-      onKeyPress={(event) => {
-        if (!/[0-9]/.test(event.key)) {
-          event.preventDefault()
-        }
-      }}
     />
   )
 }

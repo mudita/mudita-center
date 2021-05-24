@@ -200,7 +200,7 @@ storiesOf("Components|Core/Text input", module)
     </>
   ))
 
-storiesOf("Components|Core/Text input/Passcode", module).add("Default", () => (
+storiesOf("Components|Core/Text input/Password", module).add("Default", () => (
   <>
     <StoryContainer title="Themes">
       <Story title="Default">
