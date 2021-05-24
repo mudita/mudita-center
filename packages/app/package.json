@@ -72,6 +72,7 @@
       "entitlements": "./entitlements.mac.plist"
     },
     "win": {
+      "publisherName": "DigiCert, Inc.",
       "target": "nsis",
       "icon": "./icons/win/icon.ico"
     },
