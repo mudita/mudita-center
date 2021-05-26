@@ -62,7 +62,6 @@ const ButtonContainer = styled.div`
     height: auto;
   }
 `
-
 export interface PasscodeModalProps {
   openModal: boolean
   close: () => void
@@ -102,7 +101,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
           setError(false)
           setPasscode("")
           setActiveInput(0)
-        }, 1500)
+        }, 2000)
       }
     } else {
       setError(false)
@@ -141,6 +140,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
     }
     changePasscode(e.target.value, number)
   }
+
   const onKeyDownHandler = (e: {
     key: string
     code: string
@@ -156,6 +156,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       e.preventDefault()
     }
   }
+
   const renderInputs = () => {
     const inputs = []
     for (let i = 0; i < inputsNumber; i++) {
