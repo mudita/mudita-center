@@ -55,6 +55,7 @@ import registerAutoLaunchListener from "App/main/functions/register-auto-launch-
 import { Scope } from "Renderer/models/external-providers/google/google.interface"
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/calendar/backend/export-events"
+import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import { OutlookAuthActions } from "Common/enums/outlook-auth-actions.enum"
 import {
   clientId,
@@ -136,6 +137,7 @@ const createWindow = async () => {
   registerAutoLaunchListener()
   registerContactsExportListener()
   registerEventsExportListener()
+  registerPureOsDownloadProxy()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)
