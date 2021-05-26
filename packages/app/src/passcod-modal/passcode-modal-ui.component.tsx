@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState, useRef, useEffect, useLayoutEffect } from "react"
+import React, { createRef, useEffect, RefObject, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { ModalContent } from "App/collecting-data-modal/collecting-data-modal.styled"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
@@ -12,7 +12,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { fontWeight } from "Renderer/styles/theming/theme-getters"
-import { InputComponent } from "App/renderer/components/core/input-text/input-text.component"
+import InputText from "App/renderer/components/core/input-text/input-text.component"
 import Icon, {
   IconSize,
 } from "App/renderer/components/core/icon/icon.component"
@@ -26,6 +26,7 @@ const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 10.6rem;
+
   span {
     width: 8.1rem;
     height: 5.6rem;
@@ -46,6 +47,7 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
   button {
     margin-left: 0.4rem;
     padding: 0.4rem;
@@ -66,16 +68,21 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   inputsNumber,
   ...props
 }) => {
-  const [activeInput, setActiveInput] = useState(0)
+  const [activeInput, setActiveInput] = useState<number>()
   const [passcode, setPasscode] = useState("")
-  const inputRef = useRef<HTMLInputElement[]>([])
+  const inputRefMap: RefObject<HTMLInputElement & HTMLTextAreaElement>[] = []
+
+  for (let i = 0; i < inputsNumber; i++) {
+    inputRefMap[i] = createRef<HTMLInputElement & HTMLTextAreaElement>()
+  }
 
   useEffect(() => {
-    inputRef.current = new Array(inputsNumber)
-  }, [])
-
-  useLayoutEffect(() => {
-    inputRef.current[activeInput].focus()
+    //check if it is not the first useEffect call
+    if (activeInput !== undefined) {
+      inputRefMap[activeInput].current?.focus()
+    } else {
+      setActiveInput(0)
+    }
   }, [activeInput])
 
   const muditaLogo = (
@@ -89,52 +96,64 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   )
 
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
+
+  const changePasscode = (value: string, number: number) => {
+    const passcodeArray = passcode.split("")
+    passcodeArray[number] = value
+    const newPascode = passcodeArray.join("")
+    setPasscode(newPascode)
+  }
+
   const onChangeHandler = (number: number) => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const passcodeArray = passcode.split("")
-    passcodeArray[number] = e.target.value
-    const newPascode = passcodeArray.join("")
-    setPasscode(newPascode)
+    const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
+    if (
+      activeInput !== undefined &&
+      activeInput < inputsNumber &&
+      !backspaceEdgeCase
+    ) {
+      setActiveInput(activeInput + 1)
+    }
+    changePasscode(e.target.value, number)
+  }
+  const onKeyDownHandler = (e: {
+    key: string
+    code: string
+    preventDefault: () => void
+  }) => {
+    if (/[0-9]/.test(e.key)) {
+      return
+    } else if (e.code === "Backspace") {
+      if (activeInput !== undefined && activeInput > 0) {
+        setActiveInput(activeInput - 1)
+      }
+    } else {
+      e.preventDefault()
+    }
   }
   const renderInputs = () => {
     const inputs = []
     for (let i = 0; i < inputsNumber; i++) {
       inputs.push(
-        <InputComponent
+        <InputText
           type="password"
           key={i}
           error={false}
-          onKeyPress={(event: { key: string; preventDefault: () => void }) => {
-            if (!/[0-9]/.test(event.key)) {
-              event.preventDefault()
-            }
-          }}
-          inputRef={(el: HTMLInputElement) => (inputRef.current[i] = el)}
+          onKeyDown={onKeyDownHandler}
+          ref={inputRefMap[i]}
           onFocus={(e: { target: { select: () => void } }) => {
             setActiveInput(i)
             e.target.select()
           }}
+          onClick={(e: { preventDefault: () => any }) => e.preventDefault()}
           onChange={onChangeHandler(i)}
         />
       )
     }
     return inputs
   }
-  // const focusInput = (input: number) => {
-  //     const activeInput = Math.max(Math.min(inputsNumber - 1, input), 0);
 
-  //     setActiveInput(activeInput);
-  // };
-
-  // const focusNextInput = () => {
-  //     focusInput(activeInput + 1);
-  // }
-
-  // Focus on previous input
-  // const focusPrevInput = () => {
-  //     focusInput(activeInput - 1);
-  //   }
   return (
     <ModalDialog
       {...props}
