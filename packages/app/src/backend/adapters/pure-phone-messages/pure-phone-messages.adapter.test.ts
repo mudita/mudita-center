@@ -50,7 +50,7 @@ const mockPureMessageData: PureMessage[] = [
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     messageID: 1,
     messageType: PureMessageType.INBOX,
-    sentAt: 1547465101,
+    createdAt: 1547465101,
     threadID: 1,
   },
   {
@@ -58,7 +58,7 @@ const mockPureMessageData: PureMessage[] = [
     messageBody: "Nulla itaque?",
     messageID: 2,
     messageType: PureMessageType.OUTBOX,
-    sentAt: 1547468701,
+    createdAt: 1547468701,
     threadID: 1,
   },
 ]

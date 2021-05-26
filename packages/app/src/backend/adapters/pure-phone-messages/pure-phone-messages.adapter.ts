@@ -152,12 +152,12 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       messageBody,
       messageID,
       messageType,
-      sentAt,
+      createdAt,
       threadID,
     } = pureMessage
     return {
       id: String(messageID),
-      date: new Date(sentAt),
+      date: new Date(createdAt),
       content: messageBody,
       contactId: String(contactID),
       threadId: String(threadID),
