@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
+import React, {
   InputHTMLAttributes,
   ReactElement,
   ReactNode,
@@ -48,6 +48,7 @@ export interface InputPasswordProps
   type: "password"
   inputRef?: Ref<HTMLInputElement>
   error: boolean
+  onChange: React.ChangeEventHandler<HTMLInputElement> | any
 }
 
 export type InputComponentProps =

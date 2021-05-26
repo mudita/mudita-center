@@ -201,7 +201,7 @@ const errorPasswordStyles = css`
   border: solid 0.1rem ${borderColor("error")};
   background-color: ${backgroundColor("modal")};
   color: ${textColor("error")};
-  :focus {
+  &:focus {
     border: solid 0.1rem ${borderColor("error")};
   }
 `
@@ -214,12 +214,12 @@ const PasswordInput = styled.input<{
   border-radius: 0.4rem;
   width: 4.6rem;
   height: 7.6rem;
-  margin: 4rem 1.2rem 1rem;
+  margin: 0 1.2rem;
   padding-left: 3rem;
   font-family: ${font("helper")};
   font-size: 5rem;
   line-height: 5.5rem;
-  :focus {
+  &:focus {
     border: solid 0.1rem ${borderColor("primary")};
     outline: none;
   }
