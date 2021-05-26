@@ -11,7 +11,7 @@ import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { fontWeight } from "Renderer/styles/theming/theme-getters"
+import { fontWeight, textColor } from "Renderer/styles/theming/theme-getters"
 import InputText from "App/renderer/components/core/input-text/input-text.component"
 import Icon, {
   IconSize,
@@ -36,12 +36,19 @@ export const Title = styled(Text)`
   font-size: 3rem;
   font-weight: ${fontWeight("default")};
 `
-const InputContainer = styled.div`
+const InputContainer = styled.div<{
+  error: boolean
+}>`
   width: 100%;
   margin: 4rem 0 20rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
+  ${({ error }) => error && "margin: 4rem 0 2rem;"};
+`
+const ErrorMessage = styled(Text)`
+  color: ${textColor("error")};
+  margin-bottom: 16.6rem;
 `
 const ButtonContainer = styled.div`
   display: flex;
@@ -69,7 +76,8 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   ...props
 }) => {
   const [activeInput, setActiveInput] = useState<number>()
-  const [passcode, setPasscode] = useState("")
+  const [passcode, setPasscode] = useState<string>("")
+  const [error, setError] = useState<boolean>(false)
   const inputRefMap: RefObject<HTMLInputElement & HTMLTextAreaElement>[] = []
 
   for (let i = 0; i < inputsNumber; i++) {
@@ -84,6 +92,22 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       setActiveInput(0)
     }
   }, [activeInput])
+
+  useEffect(() => {
+    if (passcode.length === inputsNumber) {
+      //send password
+      if (passcode !== "3333") {
+        setError(true)
+        setTimeout(() => {
+          setError(false)
+          setPasscode("")
+          setActiveInput(0)
+        }, 1500)
+      }
+    } else {
+      setError(false)
+    }
+  }, [passcode])
 
   const muditaLogo = (
     <LogoWrapper>
@@ -110,7 +134,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
     const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
     if (
       activeInput !== undefined &&
-      activeInput < inputsNumber &&
+      activeInput < inputsNumber - 1 &&
       !backspaceEdgeCase
     ) {
       setActiveInput(activeInput + 1)
@@ -139,14 +163,16 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
         <InputText
           type="password"
           key={i}
-          error={false}
+          error={error}
+          value={i}
           onKeyDown={onKeyDownHandler}
           ref={inputRefMap[i]}
           onFocus={(e: { target: { select: () => void } }) => {
             setActiveInput(i)
             e.target.select()
           }}
-          onClick={(e: { preventDefault: () => any }) => e.preventDefault()}
+          //   onMouseDown={(e: { preventDefault: () => any }) => e.preventDefault()}
+          //   onBlur={(e: { stopPropagation: () => any }) => e.stopPropagation()}
           onChange={onChangeHandler(i)}
         />
       )
@@ -169,7 +195,13 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
             id: "component.passcodeModalTitle",
           }}
         />
-        <InputContainer>{renderInputs()}</InputContainer>
+        <InputContainer error={error}>{renderInputs()}</InputContainer>
+        {error && (
+          <ErrorMessage
+            displayStyle={TextDisplayStyle.SmallText}
+            message={{ id: "wrong passcode" }}
+          />
+        )}
         <ButtonContainer>
           <ButtonComponent
             displayStyle={DisplayStyle.Link3}
