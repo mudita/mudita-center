@@ -18,8 +18,6 @@ import Icon, {
 import { Type } from "Renderer/components/core/icon/icon.config"
 import ButtonComponent from "App/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
-import { ipcRenderer } from "electron-better-ipc"
-import { HelpActions } from "App/common/enums/help-actions.enum"
 import { PasscodeInputs } from "./components/PasscodeInputs.component"
 
 const LogoWrapper = styled.div`
@@ -52,13 +50,19 @@ const ButtonContainer = styled.div`
 export interface PasscodeModalProps {
   openModal: boolean
   close: () => void
-  inputsNumber: number
+  valueList: string[]
+  error: boolean
+  updateValueList: (number: number, value: string) => void
+  openHelpWindow: () => void
 }
 
 const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   openModal,
   close,
-  inputsNumber,
+  valueList,
+  error,
+  updateValueList,
+  openHelpWindow,
   ...props
 }) => {
   const muditaLogo = (
@@ -70,8 +74,6 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       />
     </LogoWrapper>
   )
-
-  const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
 
   return (
     <ModalDialog
@@ -88,7 +90,11 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
             id: "component.passcodeModalTitle",
           }}
         />
-        <PasscodeInputs inputsNumber={inputsNumber} />
+        <PasscodeInputs
+          valueList={valueList}
+          error={error}
+          updateValueList={updateValueList}
+        />
         <ButtonContainer>
           <ButtonComponent
             displayStyle={DisplayStyle.Link3}

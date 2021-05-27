@@ -28,16 +28,17 @@ const ErrorMessage = styled(Text)`
 `
 
 interface PasscodeInputsProps {
-  inputsNumber: number
+  valueList: string[]
+  error: boolean
+  updateValueList: (number: number, value: string) => void
 }
 
 export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
-  inputsNumber,
+  valueList,
+  error,
+  updateValueList,
 }) => {
   const [activeInput, setActiveInput] = useState<number>()
-  const [passcode, setPasscode] = useState<string>("")
-  const [error, setError] = useState<boolean>(false)
-  const [valueList, setValueList] = useState<string[]>(["", "", "", ""])
   const inputRefMap: RefObject<HTMLInputElement & HTMLTextAreaElement>[] = []
 
   for (let i = 0; i < valueList.length; i++) {
@@ -46,50 +47,14 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
 
   useEffect(() => {
     //check if it is not the first useEffect call
-    if (activeInput !== undefined) {
+    if (activeInput !== undefined && activeInput === valueList.length) {
+      return
+    } else if (activeInput !== undefined && activeInput < valueList.length) {
       inputRefMap[activeInput].current?.focus()
-    } else {
+    } else if (activeInput === undefined) {
       setActiveInput(0)
     }
   }, [activeInput])
-
-  useEffect(() => {
-    if (passcode.length === inputsNumber) {
-      //send password
-      const newPascode = valueList.join("")
-      setPasscode(newPascode)
-      if (passcode !== "3333") {
-        setError(true)
-        setTimeout(() => {
-          setError(false)
-          setPasscode("")
-          setActiveInput(0)
-        }, 2000)
-      }
-    } else {
-      setError(false)
-    }
-  }, [passcode])
-
-  const updateValueList = (number: number, value: string) => {
-    const newValue = [...valueList]
-    newValue[number] = value
-    setValueList(newValue)
-  }
-
-  const onChangeHandler = (number: number) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
-    if (
-      activeInput !== undefined &&
-      activeInput < inputsNumber - 1 &&
-      !backspaceEdgeCase
-    ) {
-      setActiveInput(activeInput + 1)
-    }
-    updateValueList(number, e.target.value)
-  }
 
   const onKeyDownHandler = (number: number) => (e: {
     key: string
@@ -108,11 +73,27 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
     }
   }
 
+  const onChangeHandler = (number: number) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
+    if (
+      activeInput !== undefined &&
+      activeInput < valueList.length &&
+      !backspaceEdgeCase
+    ) {
+      setActiveInput(activeInput + 1)
+    }
+    updateValueList(number, e.target.value)
+  }
+
   const inputs = valueList.map((value, i) => {
     const isFilled =
-      activeInput !== undefined &&
-      inputRefMap[activeInput].current?.value !== "" &&
-      i < activeInput
+      (activeInput !== undefined &&
+        activeInput < valueList.length &&
+        inputRefMap[activeInput].current?.value !== "" &&
+        i < activeInput) ||
+      activeInput === valueList.length
     const isDisabled = i !== activeInput || error
     return (
       <InputText

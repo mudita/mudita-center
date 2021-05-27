@@ -56,7 +56,7 @@ const Connecting: FunctionComponent<{
   }
   return (
     <>
-      <PasscodeModal openModal={dialogOpen} close={close} inputsNumber={4} />
+      <PasscodeModal openModal={dialogOpen} close={close} />
       <OnboardingConnecting onCancel={onCancel} />
     </>
   )

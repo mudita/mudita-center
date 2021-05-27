@@ -4,25 +4,54 @@
  */
 
 import { FunctionComponent } from "App/renderer/types/function-component.interface"
-import React from "react"
+import React, { useState, useEffect } from "react"
 import PasscodeModalUI from "./passcode-modal-ui.component"
+import { ipcRenderer } from "electron-better-ipc"
+import { HelpActions } from "App/common/enums/help-actions.enum"
 
 export interface PasscodeModalProps {
   openModal: boolean
   close: () => void
-  inputsNumber: number
 }
 
 const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
   openModal,
-  inputsNumber,
   close,
 }) => {
+  const [error, setError] = useState<boolean>(false)
+  const [valueList, setValueList] = useState<string[]>(["", "", "", ""])
+
+  const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
+
+  const updateValueList = (number: number, value: string) => {
+    const newValue = [...valueList]
+    newValue[number] = value
+    setValueList(newValue)
+  }
+
+  useEffect(() => {
+    if (valueList[valueList.length - 1] !== "") {
+      //send password
+      const passcode = valueList.join("")
+      if (passcode == "3333") {
+        setError(true)
+        setTimeout(() => {
+          setError(false)
+        }, 1500)
+      }
+    } else {
+      setError(false)
+    }
+  }, [valueList])
+
   return (
     <PasscodeModalUI
-      inputsNumber={inputsNumber}
       openModal={openModal}
       close={close}
+      error={error}
+      valueList={valueList}
+      updateValueList={updateValueList}
+      openHelpWindow={openHelpWindow}
     />
   )
 }
