@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { connect, Provider } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
@@ -23,7 +23,7 @@ import registerDeviceLockedListener, {
 import registerDeviceUnlockedListener, {
   removeDeviceUnlockedListener,
 } from "Renderer/listeners/register-device-unlocked.listener"
-import { getAppSettings } from "Renderer/requests/app-settings.request"
+import checkAppUpdateRequest from "Renderer/requests/check-app-update.request"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { RootState } from "Renderer/store"
@@ -31,26 +31,55 @@ import registerHotkeys from "Renderer/register-hotkeys"
 import registerAppContextMenu from "Renderer/register-app-context-menu"
 import appContextMenu from "./app-context-menu"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
-import CollectingModal from "App/collecting-data-modal/collecting-modal.component"
+import CollectingDataModal from "Renderer/wrappers/collecting-data-modal/collecting-data-modal.component"
+import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
+import registerAvailableAppUpdateListener from "App/main/functions/register-avaible-app-update-listener"
+import registerNotAvailableAppUpdateListener from "App/main/functions/register-not-avaible-app-update-listener"
 
 interface Props {
   store: Store
   history: History
+  pureFeaturesVisible?: boolean
+  deviceConnecting?: boolean
+  pureNeverConnected?: boolean
+  appUpdateAvailable?: boolean
+  settingsLoaded?: boolean
+  appCollectingData?: boolean
+  appUpdateStepModalDisplayed?: boolean
   toggleDeviceConnected: (deviceConnected: boolean) => void
   toggleDeviceUnlocked: (deviceUnlocked: boolean) => void
-  pureFeaturesVisible: boolean
-  deviceConnecting?: boolean
+  toggleAppUpdateAvailable: (appUpdateAvailable: boolean) => void
+  toggleAppCollectingData: (appCollectingData: boolean) => void
+  setAppUpdateStepModalDisplayed: () => void
+  loadSettings: () => Promise<void>
 }
 
 const BaseApp: FunctionComponent<Props> = ({
-  pureFeaturesVisible,
-  deviceConnecting,
-  toggleDeviceConnected,
-  toggleDeviceUnlocked,
   store,
   history,
+  pureFeaturesVisible,
+  deviceConnecting,
+  pureNeverConnected,
+  appUpdateAvailable,
+  settingsLoaded,
+  appCollectingData,
+  appUpdateStepModalDisplayed,
+  toggleDeviceConnected,
+  toggleDeviceUnlocked,
+  toggleAppUpdateAvailable,
+  toggleAppCollectingData,
+  setAppUpdateStepModalDisplayed,
+  loadSettings,
 }) => {
-  const [pureNeverConnected, setPureNeverConnected] = useState(false)
+  const appUpdateStepModalVisible =
+    !!settingsLoaded &&
+    !!appUpdateAvailable &&
+    !appUpdateStepModalDisplayed &&
+    appCollectingData !== undefined
+
+  const collectingDataModalVisible =
+    !!settingsLoaded && appCollectingData === undefined
+
   useEffect(() => {
     const listener = () => {
       toggleDeviceConnected(false)
@@ -84,10 +113,25 @@ const BaseApp: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
-    ;(async () => {
-      const response = await getAppSettings()
-      setPureNeverConnected(response.pureNeverConnected)
-    })()
+    const unregister = registerAvailableAppUpdateListener(() => {
+      toggleAppUpdateAvailable(true)
+    })
+
+    return () => unregister()
+  })
+
+  useEffect(() => {
+    const unregister = registerNotAvailableAppUpdateListener(() => {
+      setAppUpdateStepModalDisplayed()
+      toggleAppUpdateAvailable(false)
+    })
+
+    return () => unregister()
+  })
+
+  useEffect(() => {
+    void loadSettings()
+    void checkAppUpdateRequest()
 
     // Register hotkeys
     registerHotkeys()
@@ -117,10 +161,29 @@ const BaseApp: FunctionComponent<Props> = ({
     }
   }, [pureFeaturesVisible, pureNeverConnected, deviceConnecting])
 
+  const allowToAppCollectingData = (): void => {
+    toggleAppCollectingData(true)
+  }
+
+  const disallowToAppCollectingData = (): void => {
+    toggleAppCollectingData(false)
+  }
+
+  const closeAppUpdateStepModal = (): void => {
+    setAppUpdateStepModalDisplayed()
+  }
+
   return (
     <Provider store={store}>
       <NetworkStatusChecker />
-      <CollectingModal />
+      <CollectingDataModal
+        open={collectingDataModalVisible}
+        onActionButtonClick={allowToAppCollectingData}
+        closeModal={disallowToAppCollectingData}
+      />
+      {appUpdateStepModalVisible && (
+        <AppUpdateStepModal closeModal={closeAppUpdateStepModal} />
+      )}
       <Router history={history}>
         <BaseRoutes />
       </Router>
@@ -139,12 +202,21 @@ const mapStateToProps = (state: RootState) => {
       pureFeaturesVisible: boolean
       deviceConnecting: boolean
     }),
+    pureNeverConnected: state.settings.pureNeverConnected,
+    appUpdateAvailable: state.settings.appUpdateAvailable,
+    appCollectingData: state.settings.appCollectingData,
+    settingsLoaded: state.settings.settingsLoaded,
+    appUpdateStepModalDisplayed: state.settings.appUpdateStepModalVisible,
   }
 }
 
-const mapDispatchToProps = ({ basicInfo }: any) => ({
+const mapDispatchToProps = ({ basicInfo, settings }: any) => ({
   toggleDeviceConnected: basicInfo.toggleDeviceConnected,
   toggleDeviceUnlocked: basicInfo.toggleDeviceUnlocked,
+  toggleAppUpdateAvailable: settings.toggleAppUpdateAvailable,
+  toggleAppCollectingData: settings.toggleAppCollectingData,
+  setAppUpdateStepModalDisplayed: settings.setAppUpdateStepModalDisplayed,
+  loadSettings: settings.loadSettings,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)
