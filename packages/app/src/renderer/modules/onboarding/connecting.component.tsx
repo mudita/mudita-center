@@ -52,6 +52,7 @@ const Connecting: FunctionComponent<{
 
   const close = () => {
     setDialogOpen(false)
+    history.push(URL_MAIN.news)
   }
   return (
     <>
