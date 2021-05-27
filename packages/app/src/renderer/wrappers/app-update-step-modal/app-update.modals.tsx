@@ -3,12 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
-import styled from "styled-components"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import Modal, {
-  ModalProps,
-} from "Renderer/components/core/modal/modal.component"
+import React, { ComponentProps } from "react"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
@@ -18,38 +14,12 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import Loader from "Renderer/components/core/loader/loader.component"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import {
-  AvailableAppUpdateInterface,
-  DownloadedAppUpdateInterface,
-} from "Renderer/components/rest/app-update/app-update.interface"
-import { noop } from "Renderer/utils/noop"
-
-export const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  p {
-    text-align: center;
-    line-height: 1.4;
-    white-space: pre-wrap;
-  }
-
-  p + p {
-    margin-top: 1.2rem;
-  }
-`
-
-export const RoundIconWrapper = styled.div`
-  width: 12rem;
-  height: 12rem;
-  border-radius: 50%;
-  background-color: ${backgroundColor("icon")};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 3.2rem;
-`
+  ModalContent,
+  RoundIconWrapper,
+} from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 
 const messages = defineMessages({
   appUpdateTitle: { id: "component.updateModalTitle" },
@@ -74,11 +44,11 @@ const messages = defineMessages({
   },
 })
 
-const AppUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
+const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   children,
   ...props
 }) => (
-  <Modal
+  <ModalDialog
     size={ModalSize.Small}
     title={intl.formatMessage(messages.appUpdateTitle)}
     {...props}
@@ -89,15 +59,15 @@ const AppUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
       </RoundIconWrapper>
       {children}
     </ModalContent>
-  </Modal>
+  </ModalDialog>
 )
 
-export const AppUpdateAvailable: FunctionComponent<AvailableAppUpdateInterface> = ({
-  onDownload = noop,
-}) => (
+export const AppUpdateAvailable: FunctionComponent<
+  ComponentProps<typeof ModalDialog>
+> = (props) => (
   <AppUpdateModal
-    onActionButtonClick={onDownload}
     actionButtonLabel={intl.formatMessage(messages.availableUpdateButton)}
+    {...props}
   >
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
@@ -106,8 +76,10 @@ export const AppUpdateAvailable: FunctionComponent<AvailableAppUpdateInterface> 
   </AppUpdateModal>
 )
 
-export const AppUpdateError: FunctionComponent = () => (
-  <AppUpdateModal>
+export const AppUpdateError: FunctionComponent<
+  ComponentProps<typeof ModalDialog>
+> = (props) => (
+  <AppUpdateModal {...props}>
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
       message={messages.errorUpdateMessage}
@@ -119,13 +91,13 @@ export const AppUpdateError: FunctionComponent = () => (
   </AppUpdateModal>
 )
 
-export const AppUpdateDownloaded: FunctionComponent<DownloadedAppUpdateInterface> = ({
-  onInstall = noop,
-}) => (
+export const AppUpdateDownloaded: FunctionComponent<
+  ComponentProps<typeof ModalDialog>
+> = (props) => (
   <AppUpdateModal
-    onActionButtonClick={onInstall}
     actionButtonLabel={intl.formatMessage(messages.downloadedUpdateButton)}
     closeButtonLabel={intl.formatMessage(messages.downloadedUpdateCloseButton)}
+    {...props}
   >
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
@@ -148,4 +120,22 @@ export const AppUpdateDownloaded: FunctionComponent<DownloadedAppUpdateInterface
       }}
     />
   </AppUpdateModal>
+)
+
+export const AppUpdateProgress: FunctionComponent<
+  ComponentProps<typeof ModalDialog>
+> = ({ ...props }) => (
+  <ModalDialog
+    size={ModalSize.Small}
+    title={intl.formatMessage(messages.appUpdateTitle)}
+    closeButton={false}
+    closeable={false}
+    {...props}
+  >
+    <ModalContent>
+      <RoundIconWrapper>
+        <Loader type={LoaderType.Spinner} />
+      </RoundIconWrapper>
+    </ModalContent>
+  </ModalDialog>
 )
