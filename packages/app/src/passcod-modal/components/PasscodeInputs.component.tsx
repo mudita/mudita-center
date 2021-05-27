@@ -40,7 +40,7 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
   const [valueList, setValueList] = useState<string[]>(["", "", "", ""])
   const inputRefMap: RefObject<HTMLInputElement & HTMLTextAreaElement>[] = []
 
-  for (let i = 0; i < inputsNumber; i++) {
+  for (let i = 0; i < valueList.length; i++) {
     inputRefMap[i] = createRef<HTMLInputElement & HTMLTextAreaElement>()
   }
 
@@ -71,6 +71,12 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
     }
   }, [passcode])
 
+  const updateValueList = (number: number, value: string) => {
+    const newValue = [...valueList]
+    newValue[number] = value
+    setValueList(newValue)
+  }
+
   const onChangeHandler = (number: number) => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -82,12 +88,10 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
     ) {
       setActiveInput(activeInput + 1)
     }
-    const newValue = [...valueList]
-    newValue[number] = e.target.value
-    setValueList(newValue)
+    updateValueList(number, e.target.value)
   }
 
-  const onKeyDownHandler = (e: {
+  const onKeyDownHandler = (number: number) => (e: {
     key: string
     code: string
     preventDefault: () => void
@@ -97,6 +101,7 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
     } else if (e.code === "Backspace") {
       if (activeInput !== undefined && activeInput > 0) {
         setActiveInput(activeInput - 1)
+        updateValueList(number, "")
       }
     } else {
       e.preventDefault()
@@ -104,18 +109,20 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
   }
 
   const inputs = valueList.map((value, i) => {
-    const isDisabled =
+    const isFilled =
       activeInput !== undefined &&
       inputRefMap[activeInput].current?.value !== "" &&
       i < activeInput
+    const isDisabled = i !== activeInput || error
     return (
       <InputText
         type="password"
         key={i}
         error={error}
         value={value}
+        filled={isFilled}
         disabled={isDisabled}
-        onKeyDown={onKeyDownHandler}
+        onKeyDown={onKeyDownHandler(i)}
         ref={inputRefMap[i]}
         onFocus={(e: { target: { select: () => void } }) => {
           setActiveInput(i)

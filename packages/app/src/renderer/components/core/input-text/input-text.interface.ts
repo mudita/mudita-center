@@ -48,7 +48,7 @@ export interface InputPasswordProps
   type: "password"
   inputRef?: Ref<HTMLInputElement>
   error: boolean
-  onChange: React.ChangeEventHandler<HTMLInputElement> | any
+  filled: boolean
 }
 
 export type InputComponentProps =
