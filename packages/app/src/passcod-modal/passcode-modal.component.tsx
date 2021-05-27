@@ -58,6 +58,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
       mockPasscodeRequest()
         .then(() => {
           history.push(URL_MAIN.overview)
+          //add phoneSimulation if no phone
         })
         .catch(() => {
           setError(true)
@@ -72,6 +73,36 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     }
   }, [valueList])
 
+  const onKeyDownHandler = (number: number) => (e: {
+    key: string
+    code: string
+    preventDefault: () => void
+  }) => {
+    if (/[0-9]/.test(e.key)) {
+      return
+    } else if (e.code === "Backspace") {
+      if (activeInput !== undefined && activeInput > 0) {
+        setActiveInput(activeInput - 1)
+        updateValueList(number, "")
+      }
+    } else {
+      e.preventDefault()
+    }
+  }
+
+  const onChangeHandler = (number: number) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
+    if (
+      activeInput !== undefined &&
+      activeInput < valueList.length &&
+      !backspaceEdgeCase
+    ) {
+      setActiveInput(activeInput + 1)
+    }
+    updateValueList(number, e.target.value)
+  }
   return (
     <PasscodeModalUI
       openModal={openModal}
@@ -82,6 +113,8 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
       openHelpWindow={openHelpWindow}
       activeInput={activeInput}
       setActiveInput={setActiveInput}
+      onKeyDownHandler={onKeyDownHandler}
+      onChangeHandler={onChangeHandler}
     />
   )
 }

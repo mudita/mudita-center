@@ -56,6 +56,12 @@ export interface PasscodeModalProps {
   openHelpWindow: () => void
   activeInput: number | undefined
   setActiveInput: React.Dispatch<React.SetStateAction<number | undefined>>
+  onKeyDownHandler: (
+    number: number
+  ) => (e: { key: string; code: string; preventDefault: () => void }) => void
+  onChangeHandler: (
+    number: number
+  ) => (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
@@ -67,6 +73,8 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   openHelpWindow,
   activeInput,
   setActiveInput,
+  onKeyDownHandler,
+  onChangeHandler,
   ...props
 }) => {
   const muditaLogo = (
@@ -100,6 +108,8 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
           updateValueList={updateValueList}
           activeInput={activeInput}
           setActiveInput={setActiveInput}
+          onKeyDownHandler={onKeyDownHandler}
+          onChangeHandler={onChangeHandler}
         />
         <ButtonContainer>
           <ButtonComponent
