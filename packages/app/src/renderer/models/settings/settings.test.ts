@@ -44,10 +44,12 @@ test("loads settings", async () => {
         "appOsUpdates": false,
         "appTethering": false,
         "appTray": true,
+        "appUpdateStepModalDisplayed": false,
         "language": "en-US",
         "pureNeverConnected": true,
         "pureOsBackupLocation": "fake/path/pure/phone/backups/",
         "pureOsDownloadLocation": "fake/path/pure/os/downloads/",
+        "settingsLoaded": true,
       },
     }
   `)
@@ -64,6 +66,8 @@ test("updates autostart setting", async () => {
     Object {
       "settings": Object {
         "appAutostart": true,
+        "appUpdateStepModalDisplayed": false,
+        "settingsLoaded": false,
       },
     }
   `)
@@ -80,6 +84,8 @@ test("updates tethering setting", async () => {
     Object {
       "settings": Object {
         "appTethering": true,
+        "appUpdateStepModalDisplayed": false,
+        "settingsLoaded": false,
       },
     }
   `)
@@ -96,6 +102,8 @@ test("updates incoming calls setting", async () => {
     Object {
       "settings": Object {
         "appIncomingCalls": true,
+        "appUpdateStepModalDisplayed": false,
+        "settingsLoaded": false,
       },
     }
   `)
@@ -112,6 +120,8 @@ test("updates incoming messages setting", async () => {
     Object {
       "settings": Object {
         "appIncomingMessages": true,
+        "appUpdateStepModalDisplayed": false,
+        "settingsLoaded": false,
       },
     }
   `)
@@ -128,6 +138,8 @@ test("updates low battery setting", async () => {
     Object {
       "settings": Object {
         "appLowBattery": true,
+        "appUpdateStepModalDisplayed": false,
+        "settingsLoaded": false,
       },
     }
   `)
@@ -144,6 +156,8 @@ test("updates os updates setting", async () => {
     Object {
       "settings": Object {
         "appOsUpdates": true,
+        "appUpdateStepModalDisplayed": false,
+        "settingsLoaded": false,
       },
     }
   `)
@@ -154,12 +168,14 @@ test("updates collecting data setting to true", async () => {
     models: { settings },
   })
   mockIpc()
-  await store.dispatch.settings.setCollectingData(true)
+  await store.dispatch.settings.toggleAppCollectingData(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
         "appCollectingData": true,
+        "appUpdateStepModalDisplayed": false,
+        "settingsLoaded": false,
       },
     }
   `)
@@ -170,12 +186,14 @@ test("updates collecting data setting to false", async () => {
     models: { settings },
   })
   mockIpc()
-  await store.dispatch.settings.setCollectingData(false)
+  await store.dispatch.settings.toggleAppCollectingData(false)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
         "appCollectingData": false,
+        "appUpdateStepModalDisplayed": false,
+        "settingsLoaded": false,
       },
     }
   `)
@@ -192,6 +210,8 @@ test("updates os audio files conversion setting", async () => {
     Object {
       "settings": Object {
         "appNonStandardAudioFilesConversion": true,
+        "appUpdateStepModalDisplayed": false,
+        "settingsLoaded": false,
       },
     }
   `)
@@ -208,6 +228,8 @@ test("updates convert setting", async () => {
     Object {
       "settings": Object {
         "appConvert": "Convert automatically",
+        "appUpdateStepModalDisplayed": false,
+        "settingsLoaded": false,
       },
     }
   `)
@@ -224,6 +246,8 @@ test("updates conversion format setting", async () => {
     Object {
       "settings": Object {
         "appConversionFormat": "WAV",
+        "appUpdateStepModalDisplayed": false,
+        "settingsLoaded": false,
       },
     }
   `)
@@ -240,6 +264,8 @@ test("updates tray setting", async () => {
     Object {
       "settings": Object {
         "appTray": true,
+        "appUpdateStepModalDisplayed": false,
+        "settingsLoaded": false,
       },
     }
   `)
@@ -255,7 +281,9 @@ test("updates PureOS backup location setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appUpdateStepModalDisplayed": false,
         "pureOsBackupLocation": "some/fake/location",
+        "settingsLoaded": false,
       },
     }
   `)
@@ -271,7 +299,9 @@ test("updates PureOS download location setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appUpdateStepModalDisplayed": false,
         "pureOsDownloadLocation": "some/fake/location",
+        "settingsLoaded": false,
       },
     }
   `)
@@ -287,7 +317,9 @@ test("updates language setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appUpdateStepModalDisplayed": false,
         "language": "de-DE",
+        "settingsLoaded": false,
       },
     }
   `)
