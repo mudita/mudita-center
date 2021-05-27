@@ -99,7 +99,7 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
       {error && (
         <ErrorMessage
           displayStyle={TextDisplayStyle.SmallText}
-          message={{ id: "wrong passcode" }}
+          message={{ id: "component.passcodeModalError" }}
         />
       )}
     </>
