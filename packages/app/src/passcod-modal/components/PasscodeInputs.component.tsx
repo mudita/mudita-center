@@ -31,14 +31,17 @@ interface PasscodeInputsProps {
   valueList: string[]
   error: boolean
   updateValueList: (number: number, value: string) => void
+  activeInput: number | undefined
+  setActiveInput: React.Dispatch<React.SetStateAction<number | undefined>>
 }
 
 export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
   valueList,
   error,
   updateValueList,
+  activeInput,
+  setActiveInput,
 }) => {
-  const [activeInput, setActiveInput] = useState<number>()
   const inputRefMap: RefObject<HTMLInputElement & HTMLTextAreaElement>[] = []
 
   for (let i = 0; i < valueList.length; i++) {
