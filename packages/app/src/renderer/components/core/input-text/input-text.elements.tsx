@@ -512,7 +512,6 @@ export const InputPassword: FunctionComponent<InputPasswordProps> = ({
   className,
   disabled,
   inputRef,
-  value,
   error,
   onChange = noop,
   focusable,

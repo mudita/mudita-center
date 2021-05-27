@@ -37,11 +37,39 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
   const [activeInput, setActiveInput] = useState<number>()
   const [passcode, setPasscode] = useState<string>("")
   const [error, setError] = useState<boolean>(false)
+  const [valueList, setValueList] = useState<string[]>(["", "", "", ""])
   const inputRefMap: RefObject<HTMLInputElement & HTMLTextAreaElement>[] = []
-  const inputs = []
+
   for (let i = 0; i < inputsNumber; i++) {
     inputRefMap[i] = createRef<HTMLInputElement & HTMLTextAreaElement>()
   }
+
+  useEffect(() => {
+    //check if it is not the first useEffect call
+    if (activeInput !== undefined) {
+      inputRefMap[activeInput].current?.focus()
+    } else {
+      setActiveInput(0)
+    }
+  }, [activeInput])
+
+  useEffect(() => {
+    if (passcode.length === inputsNumber) {
+      //send password
+      const newPascode = valueList.join("")
+      setPasscode(newPascode)
+      if (passcode !== "3333") {
+        setError(true)
+        setTimeout(() => {
+          setError(false)
+          setPasscode("")
+          setActiveInput(0)
+        }, 2000)
+      }
+    } else {
+      setError(false)
+    }
+  }, [passcode])
 
   const onChangeHandler = (number: number) => (
     e: React.ChangeEvent<HTMLInputElement>
@@ -54,7 +82,9 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
     ) {
       setActiveInput(activeInput + 1)
     }
-    changePasscode(e.target.value, number)
+    const newValue = [...valueList]
+    newValue[number] = e.target.value
+    setValueList(newValue)
   }
 
   const onKeyDownHandler = (e: {
@@ -73,17 +103,17 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
     }
   }
 
-  for (let i = 0; i < inputsNumber; i++) {
+  const inputs = valueList.map((value, i) => {
     const isDisabled =
-      activeInput &&
+      activeInput !== undefined &&
       inputRefMap[activeInput].current?.value !== "" &&
       i < activeInput
-    inputs.push(
+    return (
       <InputText
         type="password"
         key={i}
         error={error}
-        value={i}
+        value={value}
         disabled={isDisabled}
         onKeyDown={onKeyDownHandler}
         ref={inputRefMap[i]}
@@ -91,43 +121,10 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
           setActiveInput(i)
           e.target.select()
         }}
-        //   onMouseDown={(e: { preventDefault: () => any }) => e.preventDefault()}
-        //   onBlur={(e: { stopPropagation: () => any }) => e.stopPropagation()}
         onChange={onChangeHandler(i)}
       />
     )
-  }
-  useEffect(() => {
-    //check if it is not the first useEffect call
-    if (activeInput !== undefined) {
-      inputRefMap[activeInput].current?.focus()
-    } else {
-      setActiveInput(0)
-    }
-  }, [activeInput])
-
-  useEffect(() => {
-    if (passcode.length === inputsNumber) {
-      //send password
-      if (passcode !== "3333") {
-        setError(true)
-        setTimeout(() => {
-          setError(false)
-          setPasscode("")
-          setActiveInput(0)
-        }, 2000)
-      }
-    } else {
-      setError(false)
-    }
-  }, [passcode])
-
-  const changePasscode = (value: string, number: number) => {
-    const passcodeArray = passcode.split("")
-    passcodeArray[number] = value
-    const newPascode = passcodeArray.join("")
-    setPasscode(newPascode)
-  }
+  })
 
   return (
     <>
