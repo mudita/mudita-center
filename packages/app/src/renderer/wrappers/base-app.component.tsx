@@ -72,13 +72,13 @@ const BaseApp: FunctionComponent<Props> = ({
   loadSettings,
 }) => {
   const appUpdateStepModalVisible =
-    !!settingsLoaded &&
-    !!appUpdateAvailable &&
+    Boolean(settingsLoaded) &&
+    Boolean(appUpdateAvailable) &&
     !appUpdateStepModalDisplayed &&
     appCollectingData !== undefined
 
   const collectingDataModalVisible =
-    !!settingsLoaded && appCollectingData === undefined
+    Boolean(settingsLoaded) && appCollectingData === undefined
 
   useEffect(() => {
     const listener = () => {
