@@ -11,6 +11,7 @@ import { textColor } from "Renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { PasscodeModalTestIds } from "../passcode-modal-test-ids.enum"
 
 const InputContainer = styled.div<{
   error: boolean
@@ -95,7 +96,12 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
 
   return (
     <>
-      <InputContainer error={error}>{inputs}</InputContainer>
+      <InputContainer
+        error={error}
+        data-testid={PasscodeModalTestIds.PasscodeInputs}
+      >
+        {inputs}
+      </InputContainer>
       {error && (
         <ErrorMessage
           displayStyle={TextDisplayStyle.SmallText}
