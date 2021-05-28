@@ -187,9 +187,9 @@ test("renders password input properly", () => {
 
   expect(getByTestId(InputTextTestIds.PasswordInput)).toBeInTheDocument()
 })
-test("renders disabled password input properly", () => {
+test("renders filled password input properly", () => {
   const { getByTestId, container } = renderWithThemeAndIntl(
-    <InputText type="password" disabled />
+    <InputText type="password" filled disabled />
   )
   expect(getByTestId(InputTextTestIds.PasswordInput)).toBeInTheDocument()
   expect(container.querySelector("input")).toHaveStyle(
@@ -198,7 +198,7 @@ test("renders disabled password input properly", () => {
 })
 test("renders disabled error password input properly", () => {
   const { getByTestId, container } = renderWithThemeAndIntl(
-    <InputText type="password" disabled error />
+    <InputText type="password" filled disabled error />
   )
   expect(getByTestId(InputTextTestIds.PasswordInput)).toBeInTheDocument()
   expect(container.querySelector("input")).toHaveStyle(

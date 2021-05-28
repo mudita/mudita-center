@@ -191,7 +191,7 @@ const TextInput = styled.input<{ type: string }>`
       }
     `};
 `
-const disabledPasswordStyles = css`
+const filledPasswordStyles = css`
   border: solid 0.1rem ${backgroundColor("minor")};
   background-color: ${backgroundColor("minor")};
   color: ${textColor("primary")};
@@ -207,14 +207,14 @@ const errorPasswordStyles = css`
 `
 
 const PasswordInput = styled.input<{
-  disabled?: boolean
   error: boolean
+  filled: boolean
 }>`
   border: solid 0.1rem ${borderColor("secondary")};
   border-radius: 0.4rem;
   width: 4.6rem;
   height: 7.6rem;
-  margin: 4rem 1.2rem 1rem;
+  margin: 0 1.2rem;
   padding-left: 3rem;
   font-family: ${font("helper")};
   font-size: 5rem;
@@ -223,7 +223,7 @@ const PasswordInput = styled.input<{
     border: solid 0.1rem ${borderColor("primary")};
     outline: none;
   }
-  ${({ disabled }) => disabled && disabledPasswordStyles};
+  ${({ filled }) => filled && filledPasswordStyles};
   ${({ error }) => error && errorPasswordStyles};
 `
 
@@ -510,12 +510,11 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
 
 export const InputPassword: FunctionComponent<InputPasswordProps> = ({
   className,
-  disabled,
   inputRef,
-  value,
   error,
   onChange = noop,
   focusable,
+  filled,
   ...rest
 }) => {
   return (
@@ -523,7 +522,7 @@ export const InputPassword: FunctionComponent<InputPasswordProps> = ({
       {...rest}
       maxLength={1}
       ref={inputRef}
-      disabled={disabled}
+      filled={filled}
       onChange={onChange}
       data-testid={InputTextTestIds.PasswordInput}
       error={error}

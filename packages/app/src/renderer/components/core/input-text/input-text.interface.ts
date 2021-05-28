@@ -48,6 +48,7 @@ export interface InputPasswordProps
   type: "password"
   inputRef?: Ref<HTMLInputElement>
   error: boolean
+  filled: boolean
 }
 
 export type InputComponentProps =
