@@ -28,10 +28,10 @@ const ErrorMessage = styled(Text)`
   margin-bottom: 16.6rem;
 `
 
-interface PasscodeInputsProps {
-  valueList: string[]
+interface Props {
+  values: string[]
   error: boolean
-  updateValueList: (number: number, value: string) => void
+  updateValues: (number: number, value: string) => void
   activeInput: number | undefined
   setActiveInput: React.Dispatch<React.SetStateAction<number | undefined>>
   onKeyDownHandler: (
@@ -42,8 +42,8 @@ interface PasscodeInputsProps {
   ) => (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
-  valueList,
+export const PasscodeInputs: FunctionComponent<Props> = ({
+  values,
   error,
   activeInput,
   setActiveInput,
@@ -52,47 +52,20 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
 }) => {
   const inputRefMap: RefObject<HTMLInputElement & HTMLTextAreaElement>[] = []
 
-  for (let i = 0; i < valueList.length; i++) {
+  for (let i = 0; i < values.length; i++) {
     inputRefMap[i] = createRef<HTMLInputElement & HTMLTextAreaElement>()
   }
 
   useEffect(() => {
     //check if it is not the first useEffect call
-    if (activeInput !== undefined && activeInput === valueList.length) {
+    if (activeInput !== undefined && activeInput === values.length) {
       return
-    } else if (activeInput !== undefined && activeInput < valueList.length) {
+    } else if (activeInput !== undefined && activeInput < values.length) {
       inputRefMap[activeInput].current?.focus()
     } else if (activeInput === undefined) {
       setActiveInput(0)
     }
   }, [activeInput])
-
-  const inputs = valueList.map((value, i) => {
-    const isFilled =
-      (activeInput !== undefined &&
-        activeInput < valueList.length &&
-        inputRefMap[activeInput].current?.value !== "" &&
-        i < activeInput) ||
-      activeInput === valueList.length
-    const isDisabled = i !== activeInput || error
-    return (
-      <InputText
-        type="password"
-        key={i}
-        error={error}
-        value={value}
-        filled={isFilled}
-        disabled={isDisabled}
-        onKeyDown={onKeyDownHandler(i)}
-        ref={inputRefMap[i]}
-        onFocus={(e: { target: { select: () => void } }) => {
-          setActiveInput(i)
-          e.target.select()
-        }}
-        onChange={onChangeHandler(i)}
-      />
-    )
-  })
 
   return (
     <>
@@ -100,7 +73,32 @@ export const PasscodeInputs: FunctionComponent<PasscodeInputsProps> = ({
         error={error}
         data-testid={PasscodeModalTestIds.PasscodeInputs}
       >
-        {inputs}
+        {values.map((value, i) => {
+          const filled =
+            (activeInput !== undefined &&
+              activeInput < values.length &&
+              inputRefMap[activeInput].current?.value !== "" &&
+              i < activeInput) ||
+            activeInput === values.length
+          const disabled = i !== activeInput || error
+          return (
+            <InputText
+              type="password"
+              key={i}
+              error={error}
+              value={value}
+              filled={filled}
+              disabled={disabled}
+              onKeyDown={onKeyDownHandler(i)}
+              ref={inputRefMap[i]}
+              onFocus={(e: { target: { select: () => void } }) => {
+                setActiveInput(i)
+                e.target.select()
+              }}
+              onChange={onChangeHandler(i)}
+            />
+          )
+        })}
       </InputContainer>
       {error && (
         <ErrorMessage

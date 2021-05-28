@@ -20,20 +20,20 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
 }) => {
   const initValue = ["", "", "", ""]
   const [error, setError] = useState<boolean>(false)
-  const [valueList, setValueList] = useState<string[]>(initValue)
+  const [values, setValues] = useState<string[]>(initValue)
   const [activeInput, setActiveInput] = useState<number>()
 
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
 
-  const updateValueList = (number: number, value: string) => {
-    const newValue = [...valueList]
+  const updateValues = (number: number, value: string) => {
+    const newValue = [...values]
     newValue[number] = value
-    setValueList(newValue)
+    setValues(newValue)
   }
 
   const mockPasscodeRequest = () => {
     return new Promise((resolve, reject) => {
-      const passcode = valueList.join("")
+      const passcode = values.join("")
       if (passcode == "3333") {
         resolve({
           endpoint: 13,
@@ -50,7 +50,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     })
   }
   useEffect(() => {
-    if (valueList[valueList.length - 1] !== "") {
+    if (values[values.length - 1] !== "") {
       mockPasscodeRequest()
         .then(() => {
           //request success
@@ -59,14 +59,14 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
           setError(true)
           setTimeout(() => {
             setError(false)
-            setValueList(initValue)
+            setValues(initValue)
             setActiveInput(0)
           }, 1500)
         })
     } else {
       setError(false)
     }
-  }, [valueList])
+  }, [values])
 
   const onKeyDownHandler = (number: number) => (e: {
     key: string
@@ -78,7 +78,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     } else if (e.code === "Backspace") {
       if (activeInput !== undefined && activeInput > 0) {
         setActiveInput(activeInput - 1)
-        updateValueList(number, "")
+        updateValues(number, "")
       }
     } else {
       e.preventDefault()
@@ -91,20 +91,20 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
     if (
       activeInput !== undefined &&
-      activeInput < valueList.length &&
+      activeInput < values.length &&
       !backspaceEdgeCase
     ) {
       setActiveInput(activeInput + 1)
     }
-    updateValueList(number, e.target.value)
+    updateValues(number, e.target.value)
   }
   return (
     <PasscodeModalUI
       openModal={openModal}
       close={close}
       error={error}
-      valueList={valueList}
-      updateValueList={updateValueList}
+      values={values}
+      updateValues={updateValues}
       openHelpWindow={openHelpWindow}
       activeInput={activeInput}
       setActiveInput={setActiveInput}

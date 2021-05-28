@@ -18,7 +18,7 @@ import Icon, {
 import { Type } from "Renderer/components/core/icon/icon.config"
 import ButtonComponent from "App/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
-import { PasscodeInputs } from "./components/PasscodeInputs.component"
+import { PasscodeInputs } from "./components/passcode-inputs.component"
 
 const LogoWrapper = styled.div`
   display: flex;
@@ -50,9 +50,9 @@ const ButtonContainer = styled.div`
 export interface PasscodeModalProps {
   openModal: boolean
   close: () => void
-  valueList: string[]
+  values: string[]
   error: boolean
-  updateValueList: (number: number, value: string) => void
+  updateValues: (number: number, value: string) => void
   openHelpWindow: () => void
   activeInput: number | undefined
   setActiveInput: React.Dispatch<React.SetStateAction<number | undefined>>
@@ -67,9 +67,9 @@ export interface PasscodeModalProps {
 const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   openModal,
   close,
-  valueList,
+  values,
   error,
-  updateValueList,
+  updateValues,
   openHelpWindow,
   activeInput,
   setActiveInput,
@@ -103,9 +103,9 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
           }}
         />
         <PasscodeInputs
-          valueList={valueList}
+          values={values}
           error={error}
-          updateValueList={updateValueList}
+          updateValues={updateValues}
           activeInput={activeInput}
           setActiveInput={setActiveInput}
           onKeyDownHandler={onKeyDownHandler}

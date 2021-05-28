@@ -20,7 +20,7 @@ export const registerFirstPhoneConnection = async () => {
 const Connecting: FunctionComponent<{
   deviceUnlocked: boolean | undefined
 }> = ({ deviceUnlocked }) => {
-  const [dialogOpen, setDialogOpen] = useState(true)
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
