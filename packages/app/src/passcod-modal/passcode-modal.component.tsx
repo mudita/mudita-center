@@ -5,11 +5,9 @@
 
 import { FunctionComponent } from "App/renderer/types/function-component.interface"
 import React, { useState, useEffect } from "react"
-import { useHistory } from "react-router"
 import PasscodeModalUI from "./passcode-modal-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/common/enums/help-actions.enum"
-import { URL_MAIN } from "Renderer/constants/urls"
 
 export interface PasscodeModalProps {
   openModal: boolean
@@ -24,8 +22,6 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
   const [error, setError] = useState<boolean>(false)
   const [valueList, setValueList] = useState<string[]>(initValue)
   const [activeInput, setActiveInput] = useState<number>()
-
-  const history = useHistory()
 
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
 
@@ -47,7 +43,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
       } else {
         reject({
           endpoint: 13,
-          status: 404,
+          status: 403,
           uuid: 123,
         })
       }
@@ -57,8 +53,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     if (valueList[valueList.length - 1] !== "") {
       mockPasscodeRequest()
         .then(() => {
-          history.push(URL_MAIN.overview)
-          //add phoneSimulation if no phone
+          //request success
         })
         .catch(() => {
           setError(true)
