@@ -200,6 +200,24 @@ storiesOf("Components|Core/Text input", module)
     </>
   ))
 
+storiesOf("Components|Core/Text input/Password", module).add("Default", () => (
+  <>
+    <StoryContainer title="Themes">
+      <Story title="Default">
+        <InputComponent type="password" />
+      </Story>
+    </StoryContainer>
+    <StoryContainer title="Modifiers">
+      <Story title="Disabled with value">
+        <InputComponent type="password" disabled defaultValue="3" />
+      </Story>
+      <Story title="With error">
+        <InputComponent defaultValue="3" type="password" error />
+      </Story>
+    </StoryContainer>
+  </>
+))
+
 storiesOf("Components|Core/Text input/Text area", module)
   .add("Default", () => (
     <>

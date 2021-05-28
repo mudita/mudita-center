@@ -11,11 +11,7 @@ import { updateAppSettings } from "Renderer/requests/app-settings.request"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { RootState, select } from "Renderer/store"
 import { connect } from "react-redux"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import PasscodeModal from "App/passcod-modal/passcode-modal.component"
 
 export const registerFirstPhoneConnection = (): void => {
   void updateAppSettings({ key: "pureNeverConnected", value: false })
@@ -55,24 +51,13 @@ const Connecting: FunctionComponent<{
     history.push(URL_ONBOARDING.troubleshooting)
   }
 
-  const onActionButtonClick = () => {
+  const close = () => {
     setDialogOpen(false)
+    history.push(URL_MAIN.news)
   }
-
   return (
     <>
-      <ModalDialog
-        open={dialogOpen}
-        closeButton={false}
-        onActionButtonClick={onActionButtonClick}
-        actionButtonLabel={"ok"}
-        title={"Pure is locked"}
-        size={ModalSize.VerySmall}
-      >
-        <Text displayStyle={TextDisplayStyle.LargeText}>
-          Unlock your Pure to successfully connection
-        </Text>
-      </ModalDialog>
+      <PasscodeModal openModal={dialogOpen} close={close} />
       <OnboardingConnecting onCancel={onCancel} />
     </>
   )

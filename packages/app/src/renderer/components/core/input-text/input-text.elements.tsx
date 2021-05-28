@@ -8,6 +8,7 @@ import {
   InputIconsProps,
   InputProps,
   TextareaProps,
+  InputPasswordProps,
 } from "Renderer/components/core/input-text/input-text.interface"
 import Text, {
   getTextStyles,
@@ -20,6 +21,7 @@ import {
   backgroundColor,
   borderColor,
   borderRadius,
+  font,
   lineHeight,
   textColor,
   transitionTime,
@@ -32,6 +34,7 @@ import composeRefs from "@seznam/compose-react-refs"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import CloseImage from "Renderer/images/close.png"
+import { InputTextTestIds } from "./input-text-test-ids.enum"
 
 export const searchIcon = (
   <Icon type={Type.Magnifier} height={2.8} width={2.8} />
@@ -187,6 +190,41 @@ const TextInput = styled.input<{ type: string }>`
         display: block;
       }
     `};
+`
+const filledPasswordStyles = css`
+  border: solid 0.1rem ${backgroundColor("minor")};
+  background-color: ${backgroundColor("minor")};
+  color: ${textColor("primary")};
+`
+
+const errorPasswordStyles = css`
+  border: solid 0.1rem ${borderColor("error")};
+  background-color: ${backgroundColor("modal")};
+  color: ${textColor("error")};
+  &:focus {
+    border: solid 0.1rem ${borderColor("error")};
+  }
+`
+
+const PasswordInput = styled.input<{
+  error: boolean
+  filled: boolean
+}>`
+  border: solid 0.1rem ${borderColor("secondary")};
+  border-radius: 0.4rem;
+  width: 4.6rem;
+  height: 7.6rem;
+  margin: 0 1.2rem;
+  padding-left: 3rem;
+  font-family: ${font("helper")};
+  font-size: 5rem;
+  line-height: 5.5rem;
+  &:focus {
+    border: solid 0.1rem ${borderColor("primary")};
+    outline: none;
+  }
+  ${({ filled }) => filled && filledPasswordStyles};
+  ${({ error }) => error && errorPasswordStyles};
 `
 
 interface InputWrapperProps {
@@ -467,5 +505,27 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
       <InputError visible={Boolean(errorMessage)}>{errorMessage}</InputError>
     </TextareaWrapper>
+  )
+}
+
+export const InputPassword: FunctionComponent<InputPasswordProps> = ({
+  className,
+  inputRef,
+  error,
+  onChange = noop,
+  focusable,
+  filled,
+  ...rest
+}) => {
+  return (
+    <PasswordInput
+      {...rest}
+      maxLength={1}
+      ref={inputRef}
+      filled={filled}
+      onChange={onChange}
+      data-testid={InputTextTestIds.PasswordInput}
+      error={error}
+    />
   )
 }
