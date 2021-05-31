@@ -323,8 +323,7 @@ const useSystemUpdateFlow = (
 
     registerOsUpdateProgressListener(listener)
 
-    const fileName = file.url.split("/").pop() as string
-    const response = await updateOs(fileName, IpcEmitter.OsUpdateProgress)
+    const response = await updateOs(file.name, IpcEmitter.OsUpdateProgress)
 
     removeOsUpdateProgressListener(listener)
 

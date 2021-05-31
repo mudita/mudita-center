@@ -178,21 +178,24 @@ class BaseDevice implements PureDevice {
 
       this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
 
-      const fileName = path.basename(filePath)
-      const fileSize = fs.lstatSync(filePath).size
+      try {
+        const fileName = path.basename(filePath)
+        const fileSize = fs.lstatSync(filePath).size
 
-      const payload = {
-        uuid,
-        endpoint: Endpoint.FileSystemUpload,
-        method: Method.Post,
-        body: {
-          fileName,
-          fileSize,
-          command: BodyCommand.Download,
-        },
+        const payload = {
+          uuid,
+          endpoint: Endpoint.FileSystemUpload,
+          method: Method.Post,
+          body: {
+            fileName,
+            fileSize,
+            command: BodyCommand.Download,
+          },
+        }
+        this.portWrite(port, payload)
+      } catch {
+        resolve({ status: ResponseStatus.ParserError })
       }
-
-      this.portWrite(port, payload)
     })
   }
 
