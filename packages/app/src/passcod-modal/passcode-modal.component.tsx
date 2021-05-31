@@ -36,9 +36,12 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     const unlockDeviceRequest = async (code: string) => {
       const { status } = await unlockDevice(code)
       if (status !== DeviceResponseStatus.Ok) {
-        setError(false)
-        setValues(initValue)
-        setActiveInput(0)
+        setError(true)
+        setTimeout(() => {
+          setError(false)
+          setValues(initValue)
+          setActiveInput(0)
+        }, 1500)
       }
     }
 
