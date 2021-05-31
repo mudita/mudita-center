@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { createRef, useEffect, RefObject } from "react"
+import React, { createRef, useEffect, RefObject, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import InputText from "App/renderer/components/core/input-text/input-text.component"
@@ -32,17 +32,14 @@ interface Props {
   values: string[]
   error: boolean
   updateValues: (number: number, value: string) => void
-  activeInput: number | undefined
-  setActiveInput: React.Dispatch<React.SetStateAction<number | undefined>>
 }
 
 export const PasscodeInputs: FunctionComponent<Props> = ({
   values,
   error,
-  activeInput,
-  setActiveInput,
   updateValues,
 }) => {
+  const [activeInput, setActiveInput] = useState<number>()
   const inputRefMap: RefObject<HTMLInputElement & HTMLTextAreaElement>[] = []
 
   for (let i = 0; i < values.length; i++) {
@@ -55,10 +52,16 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
       return
     } else if (activeInput !== undefined && activeInput < values.length) {
       inputRefMap[activeInput].current?.focus()
-    } else if (activeInput === undefined) {
-      setActiveInput(0)
     }
   }, [activeInput])
+
+  const firstEmptyStringIndex = (values: string[]) => {
+    return values.indexOf("")
+  }
+
+  useEffect(() => {
+    setActiveInput(firstEmptyStringIndex(values))
+  }, [values])
 
   const onKeyDownHandler = (number: number) => (e: {
     key: string
@@ -69,7 +72,6 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
       return
     } else if (e.code === "Backspace") {
       if (activeInput !== undefined && activeInput > 0) {
-        setActiveInput(activeInput - 1)
         updateValues(number, "")
       }
     } else {
@@ -80,14 +82,14 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
   const onChangeHandler = (number: number) => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
-    if (
-      activeInput !== undefined &&
-      activeInput < values.length &&
-      !backspaceEdgeCase
-    ) {
-      setActiveInput(activeInput + 1)
-    }
+    // const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
+    // if (
+    //   activeInput !== undefined &&
+    //   activeInput < values.length &&
+    //   !backspaceEdgeCase
+    // ) {
+    //   setActiveInput(activeInput + 1)
+    // }
     updateValues(number, e.target.value)
   }
 

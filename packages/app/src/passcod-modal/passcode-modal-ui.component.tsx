@@ -54,8 +54,6 @@ export interface PasscodeModalProps {
   error: boolean
   updateValues: (number: number, value: string) => void
   openHelpWindow: () => void
-  activeInput: number | undefined
-  setActiveInput: React.Dispatch<React.SetStateAction<number | undefined>>
 }
 
 const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
@@ -65,8 +63,6 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   error,
   updateValues,
   openHelpWindow,
-  activeInput,
-  setActiveInput,
   ...props
 }) => {
   const muditaLogo = (
@@ -98,8 +94,6 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
           values={values}
           error={error}
           updateValues={updateValues}
-          activeInput={activeInput}
-          setActiveInput={setActiveInput}
         />
         <ButtonContainer>
           <ButtonComponent
