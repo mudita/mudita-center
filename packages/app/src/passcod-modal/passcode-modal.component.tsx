@@ -4,10 +4,12 @@
  */
 
 import { FunctionComponent } from "App/renderer/types/function-component.interface"
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import PasscodeModalUI from "./passcode-modal-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/common/enums/help-actions.enum"
+import unlockDevice from "Renderer/requests/unlock-device.request"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 
 export interface PasscodeModalProps {
   openModal: boolean
@@ -30,39 +32,18 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     newValue[number] = value
     setValues(newValue)
   }
-
-  const mockPasscodeRequest = () => {
-    return new Promise((resolve, reject) => {
-      const passcode = values.join("")
-      if (passcode == "3333") {
-        resolve({
-          endpoint: 13,
-          status: 200,
-          uuid: 123,
-        })
-      } else {
-        reject({
-          endpoint: 13,
-          status: 403,
-          uuid: 123,
-        })
-      }
-    })
-  }
   useEffect(() => {
+    const unlockDeviceRequest = async (code: string) => {
+      const { status } = await unlockDevice(code)
+      if (status !== DeviceResponseStatus.Ok) {
+        setError(false)
+        setValues(initValue)
+        setActiveInput(0)
+      }
+    }
+
     if (values[values.length - 1] !== "") {
-      mockPasscodeRequest()
-        .then(() => {
-          //request success
-        })
-        .catch(() => {
-          setError(true)
-          setTimeout(() => {
-            setError(false)
-            setValues(initValue)
-            setActiveInput(0)
-          }, 1500)
-        })
+      void unlockDeviceRequest(values.join(""))
     } else {
       setError(false)
     }
