@@ -41,7 +41,7 @@ export interface Message {
   messageBody: string
   messageID: number
   messageType: MessageType
-  sentAt: number
+  createdAt: number
   threadID: number
 }
 

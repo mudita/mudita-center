@@ -10,6 +10,7 @@ import ThreadDetailsMessages from "App/messages/components/thread-details-messag
 import { Contact } from "App/contacts/store/contacts.type"
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
 import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
+import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn()
 
@@ -20,6 +21,7 @@ const contact: Contact = {
   firstName: "John",
   lastName: "Doe",
   primaryPhoneNumber: "123 456 789",
+  secondaryPhoneNumber: "123 456 788",
   email: "example@mudita.com",
   note: "",
   firstAddressLine: "",
@@ -28,7 +30,7 @@ const contact: Contact = {
 const messages: Message[] = [
   {
     id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-    date: new Date("2019-10-18T11:27:15.256Z"),
+    date: new Date(),
     content:
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
     threadId: contact.secondaryPhoneNumber!,
@@ -79,4 +81,10 @@ test("avatar renders in thread details properly", () => {
   expect(textAvatar).toBeVisible()
   expect(iconAvatar).toBeVisible()
   expect(textAvatar).toHaveTextContent("JD")
+})
+
+test("Message date tag is displayed even if message list has only single message", () => {
+  const { getByTestId } = renderer({ messages: [messages[0]] })
+  const messageDayBubble = getByTestId(MessageDayBubbleTestIds.Date)
+  expect(messageDayBubble).toHaveTextContent("[value] component.textToday")
 })
