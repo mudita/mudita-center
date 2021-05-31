@@ -34,12 +34,6 @@ interface Props {
   updateValues: (number: number, value: string) => void
   activeInput: number | undefined
   setActiveInput: React.Dispatch<React.SetStateAction<number | undefined>>
-  onKeyDownHandler: (
-    number: number
-  ) => (e: { key: string; code: string; preventDefault: () => void }) => void
-  onChangeHandler: (
-    number: number
-  ) => (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export const PasscodeInputs: FunctionComponent<Props> = ({
@@ -47,8 +41,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
   error,
   activeInput,
   setActiveInput,
-  onKeyDownHandler,
-  onChangeHandler,
+  updateValues,
 }) => {
   const inputRefMap: RefObject<HTMLInputElement & HTMLTextAreaElement>[] = []
 
@@ -66,6 +59,37 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
       setActiveInput(0)
     }
   }, [activeInput])
+
+  const onKeyDownHandler = (number: number) => (e: {
+    key: string
+    code: string
+    preventDefault: () => void
+  }) => {
+    if (/[0-9]/.test(e.key)) {
+      return
+    } else if (e.code === "Backspace") {
+      if (activeInput !== undefined && activeInput > 0) {
+        setActiveInput(activeInput - 1)
+        updateValues(number, "")
+      }
+    } else {
+      e.preventDefault()
+    }
+  }
+
+  const onChangeHandler = (number: number) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
+    if (
+      activeInput !== undefined &&
+      activeInput < values.length &&
+      !backspaceEdgeCase
+    ) {
+      setActiveInput(activeInput + 1)
+    }
+    updateValues(number, e.target.value)
+  }
 
   return (
     <>

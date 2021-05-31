@@ -52,36 +52,6 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     }
   }, [values])
 
-  const onKeyDownHandler = (number: number) => (e: {
-    key: string
-    code: string
-    preventDefault: () => void
-  }) => {
-    if (/[0-9]/.test(e.key)) {
-      return
-    } else if (e.code === "Backspace") {
-      if (activeInput !== undefined && activeInput > 0) {
-        setActiveInput(activeInput - 1)
-        updateValues(number, "")
-      }
-    } else {
-      e.preventDefault()
-    }
-  }
-
-  const onChangeHandler = (number: number) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
-    if (
-      activeInput !== undefined &&
-      activeInput < values.length &&
-      !backspaceEdgeCase
-    ) {
-      setActiveInput(activeInput + 1)
-    }
-    updateValues(number, e.target.value)
-  }
   return (
     <PasscodeModalUI
       openModal={openModal}
@@ -92,8 +62,6 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
       openHelpWindow={openHelpWindow}
       activeInput={activeInput}
       setActiveInput={setActiveInput}
-      onKeyDownHandler={onKeyDownHandler}
-      onChangeHandler={onChangeHandler}
     />
   )
 }
