@@ -74,6 +74,16 @@ class PurePhone extends PurePhoneAdapter {
     return this.deviceService.connect()
   }
 
+  public async unlockDevice(code: string): Promise<DeviceResponse> {
+    return await this.deviceService.request({
+      endpoint: Endpoint.Security,
+      method: Method.Put,
+      body: {
+        phoneLockCode: code,
+      },
+    })
+  }
+
   public async updateOs(
     filePath: string,
     progressChannel: string
