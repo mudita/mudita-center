@@ -27,3 +27,20 @@ test("unlock device returns properly value", async () => {
   const { status } = await purePhoneAdapter.unlockDevice("3333")
   expect(status).toEqual(DeviceResponseStatus.Ok)
 })
+
+test("get unlock device status returns properly value", async () => {
+  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+    return {
+      request: () => {
+        return {
+          status: DeviceResponseStatus.Ok,
+        }
+      },
+    }
+  })
+  const purePhoneAdapter = createPurePhoneAdapter(
+    new DeviceService(PureDeviceManager, ipcMain)
+  )
+  const { status } = await purePhoneAdapter.getUnlockDeviceStatus()
+  expect(status).toEqual(DeviceResponseStatus.Ok)
+})
