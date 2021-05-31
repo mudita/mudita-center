@@ -22,6 +22,7 @@ interface GithubRelease {
     content_type: string
     size: number
     url: string
+    name: string
   }[]
 }
 
@@ -31,6 +32,7 @@ export interface Release {
   prerelease: boolean
   file: {
     url: string
+    name: string
     size: number
   }
   devMode?: boolean
@@ -96,6 +98,7 @@ const registerPureOsUpdateListener = () => {
               file: {
                 url: asset.url,
                 size: asset.size,
+                name: asset.name,
               },
             }
           } else {
