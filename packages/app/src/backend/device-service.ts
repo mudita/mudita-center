@@ -18,7 +18,9 @@ import {
   ResponseStatus,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
-import DeviceResponse, { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { MainProcessIpc } from "electron-better-ipc"
 
@@ -34,9 +36,8 @@ class DeviceService {
 
   constructor(
     private deviceManager: PureDeviceManager,
-    private ipcMain: MainProcessIpc,
-  ) {
-  }
+    private ipcMain: MainProcessIpc
+  ) {}
 
   public init(): DeviceService {
     this.registerAttachDeviceListener()
@@ -107,7 +108,12 @@ class DeviceService {
         .then((response) => DeviceService.mapToDeviceResponse(response))
         .then((response) => {
           this.eventEmitter.emit(eventName, response)
-          if (config.endpoint !== Endpoint.Security && config.method !== Method.Put) {
+          if (
+            !(
+              config.endpoint === Endpoint.Security &&
+              config.method === Method.Put
+            )
+          ) {
             this.emitDeviceUnlockedEvent(response)
           }
         })
@@ -223,7 +229,7 @@ class DeviceService {
     void this.getUnlockedStatusRequest()
     this.lockedInterval = setInterval(
       () => void this.getUnlockedStatusRequest(),
-      10000,
+      10000
     )
   }
 
@@ -253,7 +259,7 @@ class DeviceService {
   }
 
   private static mapToDeviceResponse(
-    response: Response<unknown>,
+    response: Response<unknown>
   ): DeviceResponse<unknown> {
     const { status, body: data, error } = response
     if (status === ResponseStatus.Ok || status === ResponseStatus.Accepted) {
@@ -277,7 +283,7 @@ class DeviceService {
 
 export const createDeviceService = (
   deviceManager: PureDeviceManager,
-  ipcMain: MainProcessIpc,
+  ipcMain: MainProcessIpc
 ): DeviceService => {
   return new DeviceService(deviceManager, ipcMain).init()
 }
