@@ -34,16 +34,29 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     setValues(newValue)
   }
   useEffect(() => {
+    let timeoutId1: NodeJS.Timeout
+    let timeoutId2: NodeJS.Timeout
+
     const unlockDeviceRequest = async (code: string) => {
       await unlockDevice(code)
-      const { status } = await getUnlockDeviceStatus()
-      if (status !== DeviceResponseStatus.Ok) {
-        setError(true)
-        setTimeout(() => {
-          setError(false)
-          setValues(initValue)
-          setActiveInput(0)
-        }, 1500)
+      timeoutId1 = setTimeout(async () => {
+        const { status } = await getUnlockDeviceStatus()
+
+        if (status !== DeviceResponseStatus.Ok) {
+          setError(true)
+          timeoutId2 = setTimeout(() => {
+            setError(false)
+            setValues(initValue)
+            setActiveInput(0)
+
+          }, 1500)
+        }
+
+      }, 1000)
+
+      return () => {
+        clearTimeout(timeoutId1)
+        clearTimeout(timeoutId2)
       }
     }
 
