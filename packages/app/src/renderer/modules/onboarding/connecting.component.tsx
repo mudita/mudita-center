@@ -13,13 +13,14 @@ import { RootState, select } from "Renderer/store"
 import { connect } from "react-redux"
 import PasscodeModal from "App/passcod-modal/passcode-modal.component"
 
-export const registerFirstPhoneConnection = async () => {
-  updateAppSettings({ key: "pureNeverConnected", value: false })
+export const registerFirstPhoneConnection = (): void => {
+  void updateAppSettings({ key: "pureNeverConnected", value: false })
 }
 
 const Connecting: FunctionComponent<{
   deviceUnlocked: boolean | undefined
-}> = ({ deviceUnlocked }) => {
+  initialModalsShowed: boolean
+}> = ({ deviceUnlocked, initialModalsShowed }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
   useEffect(() => {
@@ -29,12 +30,12 @@ const Connecting: FunctionComponent<{
       }
     }, 500)
 
-    if (deviceUnlocked === false) {
+    if (deviceUnlocked === false && initialModalsShowed) {
       setDialogOpen(true)
     }
 
     return () => clearTimeout(timeout)
-  }, [deviceUnlocked])
+  }, [deviceUnlocked, initialModalsShowed])
 
   useEffect(() => {
     registerFirstPhoneConnection()
@@ -64,6 +65,7 @@ const Connecting: FunctionComponent<{
 
 const selection = select((models: any) => ({
   deviceUnlocked: models.basicInfo.deviceUnlocked,
+  initialModalsShowed: models.settings.initialModalsShowed,
 }))
 
 const mapStateToProps = (state: RootState) => {
