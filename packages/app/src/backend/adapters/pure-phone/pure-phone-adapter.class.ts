@@ -14,7 +14,6 @@ export default abstract class PurePhoneAdapter {
   public abstract getOsUpdateDate(): string
   public abstract disconnectDevice(): Promise<DeviceResponse>
   public abstract connectDevice(): Promise<DeviceResponse>
-  public abstract connectDevice(): Promise<DeviceResponse>
   public abstract unlockDevice(code: string): Promise<DeviceResponse>
   public abstract updateOs(
     filePath: string,
