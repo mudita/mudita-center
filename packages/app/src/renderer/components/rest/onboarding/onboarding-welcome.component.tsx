@@ -23,8 +23,6 @@ import {
   OnboardingWrapper,
   Title,
 } from "Renderer/components/rest/onboarding/onboarding.elements"
-import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
-import { OnboardingWelcomeTestIds } from "./onboarding-welcome-test-ids.enum"
 
 const InstructionText = styled(Text)`
   margin-bottom: 1.3rem;
@@ -120,13 +118,6 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
           })}
           onClick={onContinue}
         />
-        {process.env.simulatePhoneConnection && (
-          <ButtonComponent
-            data-testid={OnboardingWelcomeTestIds.SimulatePhoneButton}
-            onClick={togglePhoneSimulation}
-            label={"Simulate phone connection"}
-          />
-        )}
       </footer>
     </OnboardingWrapper>
   )

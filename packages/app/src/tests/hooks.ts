@@ -6,7 +6,7 @@
 import { Application } from "spectron"
 import path from "path"
 import electron from "electron"
-import { OnboardingWelcomeTestIds } from "Renderer/components/rest/onboarding/onboarding-welcome-test-ids.enum"
+import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 
 export const startApp = async (simulatePhoneConnection = false) => {
   return await new Application({
@@ -27,7 +27,5 @@ export const stopApp = async (app: any) => {
 }
 
 export const enablePhoneSimulation = async (app: any) => {
-  await app.client
-    .$(`*[data-testid=${OnboardingWelcomeTestIds.SimulatePhoneButton}]`)
-    .click()
+  await app.client.$(`*[data-testid=${MenuGroupTestIds.Connecting}]`).click()
 }
