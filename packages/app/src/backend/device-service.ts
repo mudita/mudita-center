@@ -201,7 +201,7 @@ class DeviceService {
       this.device = device
 
       this.registerDeviceDisconnectedListener()
-      this.registerDeviceLockedListener()
+      this.registerDeviceUnlockedListener()
 
       return {
         status: DeviceResponseStatus.Ok,
@@ -213,7 +213,7 @@ class DeviceService {
     }
   }
 
-  private registerDeviceLockedListener(): void {
+  private registerDeviceUnlockedListener(): void {
     void this.getUnlockedStatusRequest()
     this.lockedInterval = setInterval(
       () => void this.getUnlockedStatusRequest(),
