@@ -50,7 +50,7 @@ const mockPureMessageData: PureMessage[] = [
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     messageID: 1,
     messageType: PureMessageType.INBOX,
-    sentAt: 1547465101,
+    createdAt: 1547465101,
     threadID: 1,
   },
   {
@@ -58,7 +58,7 @@ const mockPureMessageData: PureMessage[] = [
     messageBody: "Nulla itaque?",
     messageID: 2,
     messageType: PureMessageType.OUTBOX,
-    sentAt: 1547468701,
+    createdAt: 1547468701,
     threadID: 1,
   },
 ]
@@ -67,7 +67,7 @@ const threads: Thread[] = [
   {
     id: "1",
     contactId: "1",
-    lastUpdatedAt: new Date(1617089558),
+    lastUpdatedAt: new Date(1617089558 * 1000),
     messageSnippet:
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     unread: true,
@@ -75,7 +75,7 @@ const threads: Thread[] = [
   {
     id: "2",
     contactId: "1",
-    lastUpdatedAt: new Date(1615089558),
+    lastUpdatedAt: new Date(1615089558 * 1000),
     messageSnippet:
       "Et beatae dicta ut consequatur aut. Consequuntur odio voluptas sed eligendi repudiandae quo amet.",
     unread: true,
@@ -85,7 +85,7 @@ const threads: Thread[] = [
 const messages: Message[] = [
   {
     id: "1",
-    date: new Date(1547465101),
+    date: new Date(1547465101 * 1000),
     content:
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     contactId: "1",
@@ -94,7 +94,7 @@ const messages: Message[] = [
   },
   {
     id: "2",
-    date: new Date(1547468701),
+    date: new Date(1547468701 * 1000),
     content: "Nulla itaque?",
     contactId: "1",
     threadId: "1",
