@@ -35,7 +35,6 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
   useEffect(() => {
     const unlockDeviceRequest = async (code: string) => {
       const { status } = await unlockDevice(code)
-      console.log("status: ", )
       if (status !== DeviceResponseStatus.Ok) {
         setError(false)
         setValues(initValue)
