@@ -332,7 +332,7 @@ describe("Contract tests", () => {
         expect(entry.messageID).toBeNumber()
         expect(entry.messageType).toBeNumber()
         expect(entry.receivedAt).toBeNumber()
-        expect(entry.sentAt).toBeNumber()
+        expect(entry.createdAt).toBeNumber()
         expect(entry.threadID).toBeNumber()
       })
     })

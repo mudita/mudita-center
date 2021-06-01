@@ -108,7 +108,14 @@ class DeviceService {
         .then((response) => DeviceService.mapToDeviceResponse(response))
         .then((response) => {
           this.eventEmitter.emit(eventName, response)
-          this.emitDeviceUnlockedEvent(response)
+          if (
+            !(
+              config.endpoint === Endpoint.Security &&
+              config.method === Method.Put
+            )
+          ) {
+            this.emitDeviceUnlockedEvent(response)
+          }
         })
     }
 

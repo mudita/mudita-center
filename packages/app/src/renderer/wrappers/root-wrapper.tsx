@@ -117,7 +117,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     const listener = () => {
-      store.dispatch.settings.toggleDeviceUnlocked(true)
+      store.dispatch.basicInfo.toggleDeviceUnlocked(true)
     }
     registerDeviceUnlockedListener(listener)
     return () => removeDeviceUnlockedListener(listener)

@@ -12,6 +12,7 @@ export enum IpcRequest {
   ConnectDevice = "connect-device",
   DisconnectDevice = "disconnect-device",
   UnlockDevice = "unlock-device",
+  GetUnlockDeviceStatus = "get-unlock-device-status",
   ChangeSim = "change-sim",
   GetContacts = "get-contacts",
   AddContact = "add-contact",

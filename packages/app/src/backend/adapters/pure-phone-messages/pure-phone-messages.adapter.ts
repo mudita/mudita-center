@@ -102,7 +102,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       unread: process.env.NODE_ENV !== "production" ? isUnread : false,
       id: String(threadID),
       contactId: String(contactID),
-      lastUpdatedAt: new Date(lastUpdatedAt),
+      lastUpdatedAt: new Date(lastUpdatedAt * 1000),
     }
   }
 
@@ -152,12 +152,12 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       messageBody,
       messageID,
       messageType,
-      sentAt,
+      createdAt,
       threadID,
     } = pureMessage
     return {
       id: String(messageID),
-      date: new Date(sentAt),
+      date: new Date(createdAt * 1000),
       content: messageBody,
       contactId: String(contactID),
       threadId: String(threadID),

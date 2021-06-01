@@ -10,6 +10,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/common/enums/help-actions.enum"
 import unlockDevice from "Renderer/requests/unlock-device.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import getUnlockDeviceStatus from "Renderer/requests/get-unlock-device-status.request"
 
 export interface PasscodeModalProps {
   openModal: boolean
@@ -32,14 +33,26 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     setValues(newValue)
   }
   useEffect(() => {
+    let timeoutId1: NodeJS.Timeout
+    let timeoutId2: NodeJS.Timeout
+
     const unlockDeviceRequest = async (code: string) => {
-      const { status } = await unlockDevice(code)
-      if (status !== DeviceResponseStatus.Ok) {
-        setError(true)
-        setTimeout(() => {
-          setError(false)
-          setValues(initValue)
-        }, 1500)
+      await unlockDevice(code)
+      timeoutId1 = setTimeout(async () => {
+        const { status } = await getUnlockDeviceStatus()
+
+        if (status !== DeviceResponseStatus.Ok) {
+          setError(true)
+          timeoutId2 = setTimeout(() => {
+            setError(false)
+            setValues(initValue)
+          }, 1500)
+        }
+      }, 1000)
+
+      return () => {
+        clearTimeout(timeoutId1)
+        clearTimeout(timeoutId2)
       }
     }
 
