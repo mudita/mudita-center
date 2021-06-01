@@ -52,16 +52,10 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
       return
     } else if (activeInput !== undefined && activeInput < values.length) {
       inputRefMap[activeInput].current?.focus()
+    } else if (activeInput === undefined) {
+      setActiveInput(0)
     }
   }, [activeInput])
-
-  const firstEmptyStringIndex = (values: string[]) => {
-    return values.indexOf("")
-  }
-
-  useEffect(() => {
-    setActiveInput(firstEmptyStringIndex(values))
-  }, [values])
 
   const onKeyDownHandler = (number: number) => (e: {
     key: string
@@ -72,6 +66,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
       return
     } else if (e.code === "Backspace") {
       if (activeInput !== undefined && activeInput > 0) {
+        setActiveInput(activeInput - 1)
         updateValues(number, "")
       }
     } else {
@@ -82,14 +77,14 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
   const onChangeHandler = (number: number) => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    // const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
-    // if (
-    //   activeInput !== undefined &&
-    //   activeInput < values.length &&
-    //   !backspaceEdgeCase
-    // ) {
-    //   setActiveInput(activeInput + 1)
-    // }
+    const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
+    if (
+      activeInput !== undefined &&
+      activeInput < values.length &&
+      !backspaceEdgeCase
+    ) {
+      setActiveInput(activeInput + 1)
+    }
     updateValues(number, e.target.value)
   }
 
