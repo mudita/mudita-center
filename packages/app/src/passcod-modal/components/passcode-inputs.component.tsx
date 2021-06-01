@@ -57,6 +57,12 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     }
   }, [activeInput])
 
+  useEffect(() => {
+    if (values[0] === "") {
+      setActiveInput(0)
+    }
+  }, [values])
+
   const onKeyDownHandler = (number: number) => (e: {
     key: string
     code: string
