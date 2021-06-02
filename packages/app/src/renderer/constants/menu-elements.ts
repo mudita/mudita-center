@@ -100,10 +100,21 @@ export interface MenuElement {
   icons?: Type[]
   connectedPhoneOnly?: boolean
   devModeOnly?: boolean
+  simulatePhoneConnection?: boolean
   openHelpWindow?: () => void
 }
 
 export const menuElements: MenuElement[] = [
+  {
+    items: [
+      {
+        button: views[View.Connecting],
+        icon: Type.Send,
+        testId: MenuGroupTestIds.Connecting,
+      },
+    ],
+    simulatePhoneConnection: true,
+  },
   {
     items: [{ button: views[View.Onboarding], icon: Type.Send }],
     devModeOnly: true,

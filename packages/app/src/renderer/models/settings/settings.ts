@@ -19,6 +19,9 @@ import { createModel } from "@rematch/core"
 import { SettingsActions } from "Common/enums/settings-actions.enum"
 import { RootModel } from "Renderer/models/models"
 import logger from "App/main/utils/logger"
+import e2eSettings from "Renderer/models/settings/e2e-settings.json"
+
+const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 const settings = createModel<RootModel>({
   state: {
@@ -36,7 +39,16 @@ const settings = createModel<RootModel>({
     return {
       async loadSettings() {
         const appSettings = await getAppSettings()
-        dispatch.settings.update({ ...appSettings, settingsLoaded: true })
+        if (simulatePhoneConnectionEnabled) {
+          dispatch.settings.update({
+            ...appSettings,
+            ...e2eSettings,
+            settingsLoaded: true,
+          })
+        } else {
+          dispatch.settings.update({ ...appSettings, settingsLoaded: true })
+        }
+
         appSettings.appCollectingData
           ? logger.enableRollbar()
           : logger.disableRollbar()

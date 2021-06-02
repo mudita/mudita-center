@@ -13,6 +13,7 @@ export enum MenuGroupTestIds {
   Tools = "tools-link",
   Tethering = "tethering-link",
   Overview = "overview-link",
+  Connecting = "connecting-link",
   Calendar = "calendar-link",
   Meditation = "meditation-link",
   Backup = "backup-and-recovery-link",

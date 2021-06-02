@@ -50,6 +50,7 @@ interface Properties {
   openHelpWindow?: () => void
   devModeEnabled?: DevMode["enabled"]
 }
+const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 const Menu: FunctionComponent<Properties> = ({
   pureFeaturesVisible,
@@ -60,6 +61,9 @@ const Menu: FunctionComponent<Properties> = ({
       pureFeaturesVisible ? true : !connectedPhoneOnly
     )
     .filter(({ devModeOnly }) => (devModeEnabled ? true : !devModeOnly))
+    .filter(({ simulatePhoneConnection }) =>
+      simulatePhoneConnectionEnabled ? true : !simulatePhoneConnection
+    )
     .map(({ connectedPhoneOnly, ...props }, indexMenu) => {
       return <MenuGroup {...props} key={indexMenu} />
     })
