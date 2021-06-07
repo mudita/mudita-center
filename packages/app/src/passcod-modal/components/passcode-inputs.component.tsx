@@ -40,6 +40,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
   updateValues,
 }) => {
   const [activeInput, setActiveInput] = useState<number>()
+  const [fromBlur, setFromBlur] = useState<boolean>(false)
   const inputRefMap: RefObject<HTMLInputElement & HTMLTextAreaElement>[] = []
 
   for (let i = 0; i < values.length; i++) {
@@ -50,7 +51,11 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     //check if it is not the first useEffect call
     if (activeInput !== undefined && activeInput === values.length) {
       return
-    } else if (activeInput !== undefined && activeInput < values.length) {
+    } else if (
+      activeInput !== undefined &&
+      activeInput < values.length &&
+      !fromBlur
+    ) {
       inputRefMap[activeInput].current?.focus()
     } else if (activeInput === undefined) {
       setActiveInput(0)
@@ -74,6 +79,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
       if (activeInput !== undefined && activeInput > 0) {
         setActiveInput(activeInput - 1)
         updateValues(number, "")
+        setFromBlur(false)
       }
     } else {
       e.preventDefault()
@@ -91,9 +97,13 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     ) {
       setActiveInput(activeInput + 1)
     }
+    setFromBlur(false)
     updateValues(number, e.target.value)
   }
-
+  const onBlurHandler = () => {
+    setActiveInput(values.indexOf(""))
+    setFromBlur(true)
+  }
   return (
     <>
       <InputContainer
@@ -122,6 +132,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
                 setActiveInput(i)
                 e.target.select()
               }}
+              onBlur={onBlurHandler}
               onChange={onChangeHandler(i)}
             />
           )
