@@ -400,7 +400,7 @@ describe("deviceConnecting selector", () => {
     expect(deviceConnecting).toBe(false)
   })
 
-  test("deviceConnecting return true only to first unlocked", async () => {
+  test("deviceConnecting return true for each locked phone", async () => {
     let deviceConnecting: boolean
     await store.dispatch.basicInfo.toggleDeviceConnected(true)
     await store.dispatch.basicInfo.toggleDeviceUnlocked(true)
@@ -409,7 +409,7 @@ describe("deviceConnecting selector", () => {
 
     await store.dispatch.basicInfo.toggleDeviceUnlocked(false)
     deviceConnecting = store.select.basicInfo.deviceConnecting(store.getState())
-    expect(deviceConnecting).toBe(false)
+    expect(deviceConnecting).toBe(true)
 
     await store.dispatch.basicInfo.toggleDeviceConnected(false)
     await store.dispatch.basicInfo.toggleDeviceConnected(true)
