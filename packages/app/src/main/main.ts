@@ -152,7 +152,7 @@ const createWindow = async () => {
   } else {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
     win.loadURL(`http://localhost:2003`)
-    mockAutoupdate()
+    mockAutoupdate(win)
   }
 
   win.webContents.on("new-window", (event, href) => {

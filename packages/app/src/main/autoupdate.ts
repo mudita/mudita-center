@@ -21,13 +21,13 @@ export enum AppUpdateAction {
   Install = "app-update-install",
 }
 
-export const mockAutoupdate = (): void => {
+export const mockAutoupdate = (win: BrowserWindow): void => {
   ipcMain.answerRenderer(AppUpdateAction.Check, () => {
-    void ipcMain.callFocusedRenderer(AppUpdateEvent.NotAvailable)
+    void ipcMain.callRenderer(win, AppUpdateEvent.NotAvailable)
   })
 }
 
-export default (win: BrowserWindow) => {
+export default (win: BrowserWindow): void => {
   autoUpdater.setFeedURL({
     private: true,
     provider: "github",
@@ -40,20 +40,20 @@ export default (win: BrowserWindow) => {
   autoUpdater.autoInstallOnAppQuit = true
 
   autoUpdater.on("update-available", () => {
-    void ipcMain.callFocusedRenderer(AppUpdateEvent.Available)
+    void ipcMain.callRenderer(win, AppUpdateEvent.Available)
   })
   autoUpdater.on("update-not-available", () => {
-    void ipcMain.callFocusedRenderer(AppUpdateEvent.NotAvailable)
+    void ipcMain.callRenderer(win, AppUpdateEvent.NotAvailable)
   })
   autoUpdater.on("error", (error) => {
-    void ipcMain.callFocusedRenderer(AppUpdateEvent.Error, error)
+    void ipcMain.callRenderer(win, AppUpdateEvent.Error, error)
     win.setProgressBar(-1)
   })
-  autoUpdater.on("download-progress", (progressObj) => {
-    win.setProgressBar(progressObj.percent / 100)
+  autoUpdater.on("download-progress", ({ percent }) => {
+    win.setProgressBar(percent / 100)
   })
   autoUpdater.on("update-downloaded", () => {
-    void ipcMain.callFocusedRenderer(AppUpdateEvent.Downloaded)
+    void ipcMain.callRenderer(win, AppUpdateEvent.Downloaded)
     win.setProgressBar(-1)
   })
   ipcMain.answerRenderer(AppUpdateAction.Download, () => {

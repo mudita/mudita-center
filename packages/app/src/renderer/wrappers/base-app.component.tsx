@@ -118,7 +118,7 @@ const mapStateToProps = (state: RootState) => {
     appUpdateAvailable: state.settings.appUpdateAvailable,
     appCollectingData: state.settings.appCollectingData,
     settingsLoaded: state.settings.settingsLoaded,
-    appUpdateStepModalDisplayed: state.settings.appUpdateStepModalVisible,
+    appUpdateStepModalDisplayed: state.settings.appUpdateStepModalDisplayed,
   }
 }
 
