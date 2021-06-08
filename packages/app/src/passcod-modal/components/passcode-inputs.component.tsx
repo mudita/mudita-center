@@ -151,6 +151,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
       {error && (
         <ErrorMessage
           displayStyle={TextDisplayStyle.SmallText}
+          data-testid={PasscodeModalTestIds.ErrorMessage}
           message={{
             id: inputsError
               ? "component.passcodeModalError"
