@@ -54,6 +54,7 @@ export interface PasscodeModalProps {
   error: boolean
   updateValues: (number: number, value: string) => void
   openHelpWindow: () => void
+  setError: (error: boolean) => void
 }
 
 const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
@@ -63,6 +64,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   error,
   updateValues,
   openHelpWindow,
+  setError,
   ...props
 }) => {
   const muditaLogo = (
@@ -93,6 +95,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
         <PasscodeInputs
           values={values}
           error={error}
+          setError={setError}
           updateValues={updateValues}
         />
         <ButtonContainer>

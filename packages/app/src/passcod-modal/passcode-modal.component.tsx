@@ -71,6 +71,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
       values={values}
       updateValues={updateValues}
       openHelpWindow={openHelpWindow}
+      setError={setError}
     />
   )
 }

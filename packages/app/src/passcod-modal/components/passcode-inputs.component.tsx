@@ -32,12 +32,14 @@ interface Props {
   values: string[]
   error: boolean
   updateValues: (number: number, value: string) => void
+  setError: (error: boolean) => void
 }
 
 export const PasscodeInputs: FunctionComponent<Props> = ({
   values,
   error,
   updateValues,
+  setError,
 }) => {
   const [activeInput, setActiveInput] = useState<number>()
   const [fromBlur, setFromBlur] = useState<boolean>(false)
@@ -60,7 +62,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     } else if (activeInput === undefined) {
       setActiveInput(0)
     }
-  }, [activeInput])
+  }, [activeInput, error])
 
   useEffect(() => {
     if (values[0] === "") {
@@ -74,6 +76,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     preventDefault: () => void
   }) => {
     if (/[0-9]/.test(e.key)) {
+      setError(false)
       return
     } else if (e.code === "Backspace") {
       if (activeInput !== undefined && activeInput > 0) {
@@ -82,6 +85,11 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
         setFromBlur(false)
       }
     } else {
+      setError(true)
+      setTimeout(() => {
+        setError(false)
+      }, 1500)
+
       e.preventDefault()
     }
   }
@@ -104,6 +112,8 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     setActiveInput(values.indexOf(""))
     setFromBlur(true)
   }
+
+  const inputsError = error && values[values.length - 1] !== ""
   return (
     <>
       <InputContainer
@@ -117,12 +127,12 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
               inputRefMap[activeInput].current?.value !== "" &&
               i < activeInput) ||
             activeInput === values.length
-          const disabled = i !== activeInput || error
+          const disabled = i !== activeInput || inputsError
           return (
             <InputText
               type="password"
               key={i}
-              error={error}
+              error={inputsError}
               value={value}
               filled={filled}
               disabled={disabled}
@@ -141,7 +151,11 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
       {error && (
         <ErrorMessage
           displayStyle={TextDisplayStyle.SmallText}
-          message={{ id: "component.passcodeModalError" }}
+          message={{
+            id: inputsError
+              ? "component.passcodeModalError"
+              : "component.passcodeModalErrorTyping",
+          }}
         />
       )}
     </>
