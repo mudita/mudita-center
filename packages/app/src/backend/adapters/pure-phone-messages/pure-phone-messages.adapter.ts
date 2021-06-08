@@ -124,7 +124,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
         [...pureMessages, ...data.entries],
         {
           ...initGetMessagesBody,
-          limit: limit,
+          limit,
           offset: data.nextPage.offset,
         }
       )
