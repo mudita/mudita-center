@@ -6,7 +6,7 @@
 import { startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
-import { Application } from "spectron";
+import { Application } from "spectron"
 
 let app: Application
 
@@ -22,7 +22,8 @@ afterEach(async () => {
   await stopApp(app)
 })
 
-test("help takes user to correct location", async () => {
+// FIXME: skipped until fix https://appnroll.atlassian.net/browse/CP-155
+test.skip("help takes user to correct location", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Help}]`).click()
   // @ts-ignore FIXME: windowHandles is deprecated and returns `never`.
   app.client.windowHandles().then((handles: any) => {
@@ -33,7 +34,7 @@ test("help takes user to correct location", async () => {
   })
 })
 
-test("help link opens new window", async () => {
+test.skip("help link opens new window", async () => {
   await app.client.waitUntilWindowLoaded()
   const initialWindowCount = await app.client.getWindowCount()
   expect(initialWindowCount).toEqual(1)

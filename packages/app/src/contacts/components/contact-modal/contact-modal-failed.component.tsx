@@ -11,7 +11,7 @@ import React, { ComponentProps } from "react"
 import {
   ModalContent as SimpleModal,
   RoundIconWrapper,
-} from "Renderer/components/rest/app-update/app-update.modals"
+} from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 import { defineMessages } from "react-intl"
 import Text, {
   TextDisplayStyle,

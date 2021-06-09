@@ -185,8 +185,15 @@ const basicInfo = createModel<RootModel>({
         if (deviceUnlocked === rootState.basicInfo.deviceUnlocked) {
           return
         }
+        if (!deviceUnlocked) {
+          dispatch.basicInfo.update({
+            deviceUnlocked,
+            initialDataLoaded: false,
+          })
+        } else {
+          dispatch.basicInfo.update({ deviceUnlocked })
+        }
 
-        dispatch.basicInfo.update({ deviceUnlocked })
         if (deviceUnlocked && !rootState.basicInfo.initialDataLoaded) {
           await dispatch.basicInfo.loadInitialData()
         }
