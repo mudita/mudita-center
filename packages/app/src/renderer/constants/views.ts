@@ -9,6 +9,7 @@ import { URL_MAIN, URL_ONBOARDING, URL_RECOVERY_MODE } from "./urls"
 
 const messages = defineMessages({
   onboarding: { id: "module.onboarding" },
+  connecting: { id: "module.connecting" },
   recoveryMode: { id: "module.recoveryMode" },
   contacts: { id: "module.contacts" },
   news: { id: "module.news" },
@@ -28,6 +29,7 @@ const messages = defineMessages({
 
 export enum View {
   Onboarding = "onboarding",
+  Connecting = "connecting",
   RecoveryMode = "recoveryMode",
   News = "news",
   Overview = "overview",
@@ -59,6 +61,10 @@ export const views: Views = {
   [View.Onboarding]: {
     label: messages.onboarding,
     url: URL_ONBOARDING.root,
+  },
+  [View.Connecting]: {
+    label: messages.connecting,
+    url: URL_ONBOARDING.connecting,
   },
   [View.RecoveryMode]: {
     label: messages.recoveryMode,

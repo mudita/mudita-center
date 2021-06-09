@@ -8,18 +8,26 @@ import { ipcMain } from "electron-better-ipc"
 import { BrowserWindow } from "electron"
 import logger from "App/main/utils/logger"
 
-export enum AppUpdateStatus {
+export enum AppUpdateEvent {
   Available = "app-update-available",
+  NotAvailable = "app-update-not-available",
   Error = "app-update-error",
   Downloaded = "app-update-downloaded",
 }
 
-export enum AppUpdateActions {
+export enum AppUpdateAction {
+  Check = "app-update-check",
   Download = "app-update-download",
   Install = "app-update-install",
 }
 
-export default (win: BrowserWindow) => {
+export const mockAutoupdate = (win: BrowserWindow): void => {
+  ipcMain.answerRenderer(AppUpdateAction.Check, () => {
+    void ipcMain.callRenderer(win, AppUpdateEvent.NotAvailable)
+  })
+}
+
+export default (win: BrowserWindow): void => {
   autoUpdater.setFeedURL({
     private: true,
     provider: "github",
@@ -32,27 +40,29 @@ export default (win: BrowserWindow) => {
   autoUpdater.autoInstallOnAppQuit = true
 
   autoUpdater.on("update-available", () => {
-    ipcMain.callFocusedRenderer(AppUpdateStatus.Available)
+    void ipcMain.callRenderer(win, AppUpdateEvent.Available)
+  })
+  autoUpdater.on("update-not-available", () => {
+    void ipcMain.callRenderer(win, AppUpdateEvent.NotAvailable)
   })
   autoUpdater.on("error", (error) => {
-    ipcMain.callFocusedRenderer(AppUpdateStatus.Error, error)
+    void ipcMain.callRenderer(win, AppUpdateEvent.Error, error)
     win.setProgressBar(-1)
   })
-  autoUpdater.on("download-progress", (progressObj) => {
-    win.setProgressBar(progressObj.percent / 100)
+  autoUpdater.on("download-progress", ({ percent }) => {
+    win.setProgressBar(percent / 100)
   })
   autoUpdater.on("update-downloaded", () => {
-    ipcMain.callFocusedRenderer(AppUpdateStatus.Downloaded)
+    void ipcMain.callRenderer(win, AppUpdateEvent.Downloaded)
     win.setProgressBar(-1)
   })
-
-  ipcMain.answerRenderer(AppUpdateActions.Download, () => {
-    autoUpdater.downloadUpdate()
+  ipcMain.answerRenderer(AppUpdateAction.Download, () => {
+    void autoUpdater.downloadUpdate()
   })
-
-  ipcMain.answerRenderer(AppUpdateActions.Install, () => {
+  ipcMain.answerRenderer(AppUpdateAction.Install, () => {
     autoUpdater.quitAndInstall(true, true)
   })
-
-  return autoUpdater.checkForUpdatesAndNotify()
+  ipcMain.answerRenderer(AppUpdateAction.Check, () => {
+    void autoUpdater.checkForUpdatesAndNotify()
+  })
 }
