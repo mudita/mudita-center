@@ -86,7 +86,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
         />
       )}
       <SidebarHeaderButton
-        Icon={Type.Contact}
+        Icon={Type.NewContact}
         onClick={handleContactClick}
         iconSize={IconSize.Big}
       />

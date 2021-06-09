@@ -303,7 +303,7 @@ const ThreadList: FunctionComponent<Props> = ({
                       labelMessage={{
                         id: "module.messages.dropdownAddToContacts",
                       }}
-                      Icon={Type.Contact}
+                      Icon={Type.NewContact}
                       onClick={noop}
                       displayStyle={DisplayStyle.Dropdown}
                       data-testid="dropdown-add-to-contacts"
