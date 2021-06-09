@@ -11,7 +11,7 @@ import registerUnlockDeviceRequest from "./unlock-device.request"
 test("unlock device returns properly value", async () => {
   registerUnlockDeviceRequest(getFakeAdapters())
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.UnlockDevice, {
-    code: "3333",
+    code: [3, 3, 3, 3],
   })
   const result = await pendingResponse
   expect(result).toMatchInlineSnapshot(`
