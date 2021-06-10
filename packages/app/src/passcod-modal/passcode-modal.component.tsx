@@ -33,11 +33,11 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
   }
   let timeoutId3: NodeJS.Timeout
   const onNotAllowedKeyDown = () => {
+    clearTimeout(timeoutId3)
     setTypingError(true)
     timeoutId3 = setTimeout(() => {
       setTypingError(false)
     }, 1500)
-    return () => clearTimeout(timeoutId3)
   }
   const getErrorMessage = () => {
     if (error) {
@@ -85,7 +85,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     <PasscodeModalUI
       openModal={openModal}
       close={close}
-      errorMessage={getErrorMessage}
+      errorMessage={getErrorMessage()}
       values={values}
       updateValues={updateValues}
       openHelpWindow={openHelpWindow}

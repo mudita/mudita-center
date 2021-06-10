@@ -54,7 +54,7 @@ export interface PasscodeModalProps {
   updateValues: (values: string[]) => void
   openHelpWindow: () => void
   onNotAllowedKeyDown: () => void
-  errorMessage: () => string
+  errorMessage: string
 }
 
 const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({

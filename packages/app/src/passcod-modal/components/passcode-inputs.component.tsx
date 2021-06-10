@@ -14,14 +14,14 @@ import Text, {
 import { PasscodeModalTestIds } from "../passcode-modal-test-ids.enum"
 
 const InputContainer = styled.div<{
-  errorMessage: () => string
+  errorMessage: string
 }>`
   width: 100%;
   margin: 4rem 0 20rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  ${({ errorMessage }) => errorMessage() !== "" && "margin: 4rem 0 2rem;"};
+  ${({ errorMessage }) => errorMessage !== "" && "margin: 4rem 0 2rem;"};
 `
 const ErrorMessage = styled(Text)`
   color: ${textColor("error")};
@@ -32,7 +32,7 @@ interface Props {
   values: string[]
   updateValues: (values: string[]) => void
   onNotAllowedKeyDown: () => void
-  errorMessage: () => string
+  errorMessage: string
 }
 
 export const PasscodeInputs: FunctionComponent<Props> = ({
@@ -129,13 +129,12 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
               i < activeInput) ||
             activeInput === values.length
           const disabled =
-            i !== activeInput ||
-            errorMessage() === "component.passcodeModalError"
+            i !== activeInput || errorMessage === "component.passcodeModalError"
           return (
             <InputText
               type="password"
               key={i}
-              error={errorMessage() === "component.passcodeModalError"}
+              error={errorMessage === "component.passcodeModalError"}
               value={value}
               filled={filled}
               disabled={disabled}
@@ -151,11 +150,11 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
           )
         })}
       </InputContainer>
-      {errorMessage() !== "" && (
+      {errorMessage !== "" && (
         <ErrorMessage
           displayStyle={TextDisplayStyle.SmallText}
           data-testid={PasscodeModalTestIds.ErrorMessage}
-          message={{ id: errorMessage() }}
+          message={{ id: errorMessage }}
         />
       )}
     </>
