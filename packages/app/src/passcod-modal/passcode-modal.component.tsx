@@ -16,6 +16,7 @@ export interface PasscodeModalProps {
   openModal: boolean
   close: () => void
 }
+let timeoutId3: NodeJS.Timeout
 
 const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
   openModal,
@@ -31,7 +32,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
   const updateValues = (values: string[]) => {
     setValues(values)
   }
-  let timeoutId3: NodeJS.Timeout
+
   const onNotAllowedKeyDown = () => {
     clearTimeout(timeoutId3)
     setTypingError(true)
@@ -39,6 +40,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
       setTypingError(false)
     }, 1500)
   }
+
   const getErrorMessage = () => {
     if (error) {
       return "component.passcodeModalError"
