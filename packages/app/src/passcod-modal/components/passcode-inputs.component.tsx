@@ -31,15 +31,15 @@ const ErrorMessage = styled(Text)`
 interface Props {
   values: string[]
   error: boolean
-  updateValues: (number: number, value: string) => void
-  setError: (error: boolean) => void
+  updateValues: (values: string[]) => void
+  onNotAllowedKeyDown: () => void
 }
 
 export const PasscodeInputs: FunctionComponent<Props> = ({
   values,
   error,
   updateValues,
-  setError,
+  onNotAllowedKeyDown,
 }) => {
   const [activeInput, setActiveInput] = useState<number>()
   const [fromBlur, setFromBlur] = useState<boolean>(false)
@@ -70,25 +70,27 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     }
   }, [values])
 
+  const updateInputValue = (number: number, value: string) => {
+    const newValue = [...values]
+    newValue[number] = value
+    updateValues(newValue)
+  }
+
   const onKeyDownHandler = (number: number) => (e: {
     key: string
     code: string
     preventDefault: () => void
   }) => {
     if (/[0-9]/.test(e.key)) {
-      setError(false)
       return
     } else if (e.code === "Backspace") {
       if (activeInput !== undefined && activeInput > 0) {
         setActiveInput(activeInput - 1)
-        updateValues(number, "")
+        updateInputValue(number, "")
         setFromBlur(false)
       }
     } else {
-      setError(true)
-      setTimeout(() => {
-        setError(false)
-      }, 1500)
+      onNotAllowedKeyDown()
 
       e.preventDefault()
     }
@@ -106,7 +108,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
       setActiveInput(activeInput + 1)
     }
     setFromBlur(false)
-    updateValues(number, e.target.value)
+    updateInputValue(number, e.target.value)
   }
   const onBlurHandler = () => {
     setActiveInput(values.indexOf(""))

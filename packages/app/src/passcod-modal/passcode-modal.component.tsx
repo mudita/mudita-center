@@ -27,10 +27,15 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
 
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
 
-  const updateValues = (number: number, value: string) => {
-    const newValue = [...values]
-    newValue[number] = value
-    setValues(newValue)
+  const updateValues = (values: string[]) => {
+    setValues(values)
+  }
+
+  const onNotAllowedKeyDown = () => {
+    setError(true)
+    setTimeout(() => {
+      setError(false)
+    }, 1500)
   }
   useEffect(() => {
     let timeoutId1: NodeJS.Timeout
@@ -71,7 +76,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
       values={values}
       updateValues={updateValues}
       openHelpWindow={openHelpWindow}
-      setError={setError}
+      onNotAllowedKeyDown={onNotAllowedKeyDown}
     />
   )
 }
