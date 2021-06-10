@@ -85,11 +85,19 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
           iconSize={IconSize.Big}
         />
       )}
-      <SidebarHeaderButton
-        Icon={Type.NewContact}
-        onClick={handleContactClick}
-        iconSize={IconSize.Big}
-      />
+      {isNameAvailable(contact) ? (
+        <SidebarHeaderButton
+          Icon={Type.Contact}
+          onClick={handleContactClick}
+          iconSize={IconSize.Big}
+        />
+      ) : (
+        <SidebarHeaderButton
+          Icon={Type.NewContact}
+          onClick={handleContactClick}
+          iconSize={IconSize.Big}
+        />
+      )}
       {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
       {process.env.NODE_ENV !== "production" && (
         <>

@@ -142,7 +142,7 @@ test("mark massage as unread", () => {
 
 test("open contacts", () => {
   const { getByTestId } = renderer()
-  fireEvent.click(getByTestId("icon-NewContact"))
+  fireEvent.click(getByTestId("icon-Contact"))
   expect(defaultProps.onContactClick).toBeCalled()
 })
 

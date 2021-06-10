@@ -176,6 +176,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
           getContact={getContact}
           onDeleteClick={removeSingleConversation}
           onToggleReadStatus={toggleReadStatus}
+          onContactClick={contactClick}
           language={language}
           {...rest}
         />
