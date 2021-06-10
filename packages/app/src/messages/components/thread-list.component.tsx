@@ -176,6 +176,7 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
   onToggleReadStatus: (ids: string[]) => void
   getContact: (contactId: string) => Contact
   onContactClick: (phoneNumber: string) => void
+  isContactCreated: (phoneNumber: string) => boolean
 }
 
 const ThreadList: FunctionComponent<Props> = ({
@@ -190,6 +191,7 @@ const ThreadList: FunctionComponent<Props> = ({
   language,
   getContact,
   onContactClick,
+  isContactCreated,
 }) => {
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
@@ -291,7 +293,7 @@ const ThreadList: FunctionComponent<Props> = ({
                     data-testid="dropdown-call"
                     hide={productionEnvironment}
                   />
-                  {isNameAvailable(contact) ? (
+                  {isContactCreated(thread.id) ? (
                     <ButtonComponent
                       labelMessage={{
                         id: "module.messages.dropdownContactDetails",

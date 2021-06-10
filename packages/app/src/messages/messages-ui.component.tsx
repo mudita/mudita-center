@@ -51,6 +51,7 @@ export interface MessagesProps
   getContact: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
+  isContactCreated: (phoneNumber: string) => boolean
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({
@@ -69,6 +70,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   attachContactFlatList,
   loadMessagesByThreadId,
   getMessagesResultMapStateByThreadId,
+  isContactCreated,
 }) => {
   const {
     openSidebar,
@@ -177,6 +179,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
           onDeleteClick={removeSingleConversation}
           onToggleReadStatus={toggleReadStatus}
           onContactClick={contactClick}
+          isContactCreated={isContactCreated}
           language={language}
           {...rest}
         />
@@ -194,6 +197,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onClose={closeSidebar}
             onContactClick={contactClick}
             onAttachContactClick={openAttachContactModal}
+            isContactCreated={isContactCreated}
           />
         )}
       </TableWithSidebarWrapper>

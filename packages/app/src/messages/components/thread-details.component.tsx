@@ -45,6 +45,7 @@ export interface ThreadDetailsProps {
   getMessagesByThreadId: (threadId: string) => Message[]
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
+  isContactCreated: (phoneNumber: string) => boolean
 }
 
 const trailingIcon = [
@@ -62,6 +63,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   loadMessagesByThreadId,
   getContact,
   getMessagesResultMapStateByThreadId,
+  isContactCreated,
 }) => {
   const resultState = getMessagesResultMapStateByThreadId(thread.id)
   const messages = getMessagesByThreadId(thread.id)
@@ -85,7 +87,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
           iconSize={IconSize.Big}
         />
       )}
-      {isNameAvailable(contact) ? (
+      {isContactCreated(thread.id) ? (
         <SidebarHeaderButton
           Icon={Type.Contact}
           onClick={handleContactClick}
