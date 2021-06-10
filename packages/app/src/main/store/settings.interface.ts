@@ -30,3 +30,9 @@ export interface AppSettings extends Record<string, any> {
   pureNeverConnected: boolean
   appCollectingData: boolean | undefined
 }
+
+export interface StoreValues extends AppSettings {
+  appUpdateAvailable: boolean | undefined
+  appUpdateStepModalDisplayed: boolean
+  settingsLoaded: boolean
+}

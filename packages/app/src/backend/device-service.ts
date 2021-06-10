@@ -49,6 +49,11 @@ class DeviceService {
     method: Method.Get
   }): Promise<DeviceResponse>
   async request(config: {
+    endpoint: Endpoint.Security
+    method: Method.Put
+    body: { phoneLockCode: string }
+  }): Promise<DeviceResponse>
+  async request(config: {
     endpoint: Endpoint.DeviceInfo
     method: Method.Get
   }): Promise<DeviceResponse<DeviceInfo>>
@@ -103,7 +108,14 @@ class DeviceService {
         .then((response) => DeviceService.mapToDeviceResponse(response))
         .then((response) => {
           this.eventEmitter.emit(eventName, response)
-          this.emitDeviceUnlockedEvent(response)
+          if (
+            !(
+              config.endpoint === Endpoint.Security &&
+              config.method === Method.Put
+            )
+          ) {
+            this.emitDeviceUnlockedEvent(response)
+          }
         })
     }
 
@@ -201,7 +213,7 @@ class DeviceService {
       this.device = device
 
       this.registerDeviceDisconnectedListener()
-      this.registerDeviceLockedListener()
+      this.registerDeviceUnlockedListener()
 
       return {
         status: DeviceResponseStatus.Ok,
@@ -213,7 +225,7 @@ class DeviceService {
     }
   }
 
-  private registerDeviceLockedListener(): void {
+  private registerDeviceUnlockedListener(): void {
     void this.getUnlockedStatusRequest()
     this.lockedInterval = setInterval(
       () => void this.getUnlockedStatusRequest(),
