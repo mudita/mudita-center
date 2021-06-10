@@ -43,7 +43,6 @@ import { InView } from "react-intersection-observer"
 import Avatar, {
   AvatarSize,
 } from "Renderer/components/core/avatar/avatar.component"
-import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
 import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
@@ -176,7 +175,7 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
   onToggleReadStatus: (ids: string[]) => void
   getContact: (contactId: string) => Contact
   onContactClick: (phoneNumber: string) => void
-  isContactCreated: (phoneNumber: string) => boolean
+  isContactCreated: (id: string) => boolean
 }
 
 const ThreadList: FunctionComponent<Props> = ({
@@ -293,7 +292,7 @@ const ThreadList: FunctionComponent<Props> = ({
                     data-testid="dropdown-call"
                     hide={productionEnvironment}
                   />
-                  {isContactCreated(thread.id) ? (
+                  {isContactCreated(thread.contactId) ? (
                     <ButtonComponent
                       labelMessage={{
                         id: "module.messages.dropdownContactDetails",

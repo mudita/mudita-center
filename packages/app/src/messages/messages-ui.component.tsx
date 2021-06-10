@@ -51,7 +51,7 @@ export interface MessagesProps
   getContact: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
-  isContactCreated: (phoneNumber: string) => boolean
+  isContactCreated: (id: string) => boolean
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({

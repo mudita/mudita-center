@@ -56,7 +56,7 @@ interface ContactDetailsProps {
   calls: Details[]
   onClose: () => void
   isThreadOpened: (phoneNumber: string) => boolean
-  isContactCreated: (phoneNumber: string) => boolean
+  isContactCreatedDeprecated: (phoneNumber: string) => boolean
   getContact: (contactId: string) => Contact
   onDeleteClick: (id: string) => void
 }
@@ -66,7 +66,7 @@ export const CallDetails = ({
   onClose,
   onDeleteClick,
   isThreadOpened,
-  isContactCreated,
+  isContactCreatedDeprecated,
   getContact,
 }: ContactDetailsProps) => {
   const history = useHistory()
@@ -100,7 +100,9 @@ export const CallDetails = ({
           )
         }
 
-        const contactCreated = isContactCreated(details.caller.phoneNumber)
+        const contactCreated = isContactCreatedDeprecated(
+          details.caller.phoneNumber
+        )
 
         const emitDeleteClick = () => onDeleteClick(details.id)
         const contact = getContact(details.caller.id)
