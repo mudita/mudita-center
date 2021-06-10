@@ -11,7 +11,6 @@ import { defaultLanguage } from "App/translations.config.json"
 import history from "Renderer/routes/history"
 import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
-import appUpdate from "./components/rest/app-update/app-update.service"
 import Modal from "react-modal"
 
 try {
@@ -41,6 +40,3 @@ modalService.setDefaultLocale(defaultLanguage)
 
 // Load settings
 store.dispatch.settings.loadSettings()
-
-// Initialize app update
-appUpdate()

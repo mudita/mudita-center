@@ -24,6 +24,24 @@ import { HelpActions } from "Common/enums/help-actions.enum"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { useEffect, useState } from "react"
 import { getTranslation } from "Renderer/requests/get-translation.request"
+import registerDeviceConnectedListener, {
+  removeDeviceConnectedListener,
+} from "Renderer/listeners/register-device-connected.listener"
+import registerDeviceDisconnectedListener, {
+  removeDeviceDisconnectedListener,
+} from "Renderer/listeners/register-device-disconnected.listener"
+import checkAppUpdateRequest from "Renderer/requests/check-app-update.request"
+import registerHotkeys from "Renderer/register-hotkeys"
+import registerAppContextMenu from "Renderer/register-app-context-menu"
+import appContextMenu from "Renderer/wrappers/app-context-menu"
+import registerDeviceLockedListener, {
+  removeDeviceLockedListener,
+} from "Renderer/listeners/register-device-locked.listener"
+import registerDeviceUnlockedListener, {
+  removeDeviceUnlockedListener,
+} from "Renderer/listeners/register-device-unlocked.listener"
+import registerAvailableAppUpdateListener from "App/main/functions/register-avaible-app-update-listener"
+import registerNotAvailableAppUpdateListener from "App/main/functions/register-not-avaible-app-update-listener"
 
 interface Props {
   store: Store
@@ -71,6 +89,68 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     store.dispatch.basicInfo.connect()
+  }, [])
+
+  useEffect(() => {
+    const listener = () => {
+      store.dispatch.basicInfo.toggleDeviceConnected(false)
+    }
+    registerDeviceDisconnectedListener(listener)
+    return () => removeDeviceDisconnectedListener(listener)
+  })
+
+  useEffect(() => {
+    const listener = () => {
+      store.dispatch.basicInfo.toggleDeviceConnected(true)
+    }
+    registerDeviceConnectedListener(listener)
+    return () => removeDeviceConnectedListener(listener)
+  })
+
+  useEffect(() => {
+    const listener = () => {
+      store.dispatch.basicInfo.toggleDeviceUnlocked(false)
+    }
+    registerDeviceLockedListener(listener)
+    return () => removeDeviceLockedListener(listener)
+  })
+
+  useEffect(() => {
+    const listener = () => {
+      store.dispatch.basicInfo.toggleDeviceUnlocked(true)
+    }
+    registerDeviceUnlockedListener(listener)
+    return () => removeDeviceUnlockedListener(listener)
+  })
+
+  useEffect(() => {
+    const unregister = registerAvailableAppUpdateListener(() => {
+      store.dispatch.settings.toggleAppUpdateAvailable(true)
+    })
+
+    return () => unregister()
+  })
+
+  useEffect(() => {
+    const unregister = registerNotAvailableAppUpdateListener(() => {
+      store.dispatch.settings.setAppUpdateStepModalDisplayed()
+      store.dispatch.settings.toggleAppUpdateAvailable(false)
+    })
+
+    return () => unregister()
+  })
+
+  useEffect(() => {
+    void store.dispatch.settings.loadSettings()
+    void checkAppUpdateRequest()
+
+    // Register hotkeys
+    registerHotkeys()
+
+    // Register context menu
+
+    registerAppContextMenu(appContextMenu)
+    appContextMenu.init()
   }, [])
 
   return (

@@ -19,7 +19,7 @@ import {
   HELP_WINDOW_SIZE,
   WINDOW_SIZE,
 } from "./config"
-import autoupdate from "./autoupdate"
+import autoupdate, { mockAutoupdate } from "./autoupdate"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerPureOsUpdateListener from "App/main/functions/register-pure-os-update-listener"
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
@@ -152,6 +152,7 @@ const createWindow = async () => {
   } else {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
     win.loadURL(`http://localhost:2003`)
+    mockAutoupdate(win)
   }
 
   win.webContents.on("new-window", (event, href) => {

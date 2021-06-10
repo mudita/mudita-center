@@ -11,19 +11,25 @@ import { updateAppSettings } from "Renderer/requests/app-settings.request"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { RootState, select } from "Renderer/store"
 import { connect } from "react-redux"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import PasscodeModal from "App/passcod-modal/passcode-modal.component"
+import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
 
-export const registerFirstPhoneConnection = async () => {
-  updateAppSettings({ key: "pureNeverConnected", value: false })
+export const registerFirstPhoneConnection = (): void => {
+  void updateAppSettings({ key: "pureNeverConnected", value: false })
 }
+
+const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 const Connecting: FunctionComponent<{
   deviceUnlocked: boolean | undefined
-}> = ({ deviceUnlocked }) => {
+  initialModalsShowed: boolean
+}> = ({ deviceUnlocked, initialModalsShowed }) => {
+  useEffect(() => {
+    if (simulatePhoneConnectionEnabled) {
+      togglePhoneSimulation()
+    }
+  }, [simulatePhoneConnectionEnabled])
+
   const [dialogOpen, setDialogOpen] = useState(false)
 
   useEffect(() => {
@@ -33,12 +39,12 @@ const Connecting: FunctionComponent<{
       }
     }, 500)
 
-    if (deviceUnlocked === false) {
+    if (deviceUnlocked === false && initialModalsShowed) {
       setDialogOpen(true)
     }
 
     return () => clearTimeout(timeout)
-  }, [deviceUnlocked])
+  }, [deviceUnlocked, initialModalsShowed])
 
   useEffect(() => {
     registerFirstPhoneConnection()
@@ -54,24 +60,13 @@ const Connecting: FunctionComponent<{
     history.push(URL_ONBOARDING.troubleshooting)
   }
 
-  const onActionButtonClick = () => {
+  const close = () => {
     setDialogOpen(false)
+    history.push(URL_MAIN.news)
   }
-
   return (
     <>
-      <ModalDialog
-        open={dialogOpen}
-        closeButton={false}
-        onActionButtonClick={onActionButtonClick}
-        actionButtonLabel={"ok"}
-        title={"Pure is locked"}
-        size={ModalSize.VerySmall}
-      >
-        <Text displayStyle={TextDisplayStyle.LargeText}>
-          Unlock your Pure to successfully connection
-        </Text>
-      </ModalDialog>
+      <PasscodeModal openModal={dialogOpen} close={close} />
       <OnboardingConnecting onCancel={onCancel} />
     </>
   )
@@ -79,6 +74,7 @@ const Connecting: FunctionComponent<{
 
 const selection = select((models: any) => ({
   deviceUnlocked: models.basicInfo.deviceUnlocked,
+  initialModalsShowed: models.settings.initialModalsShowed,
 }))
 
 const mapStateToProps = (state: RootState) => {

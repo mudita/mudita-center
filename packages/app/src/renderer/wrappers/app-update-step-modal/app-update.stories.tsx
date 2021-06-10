@@ -9,7 +9,7 @@ import {
   AppUpdateAvailable,
   AppUpdateDownloaded,
   AppUpdateError,
-} from "Renderer/components/rest/app-update/app-update.modals"
+} from "Renderer/wrappers/app-update-step-modal/app-update.modals"
 import {
   ModalBackdrop,
   ModalWrapper,
@@ -21,7 +21,7 @@ storiesOf("App/Update", module)
       <div>
         <ModalBackdrop />
         <ModalWrapper>
-          <AppUpdateAvailable />
+          <AppUpdateAvailable open />
         </ModalWrapper>
       </div>
     )
@@ -31,7 +31,7 @@ storiesOf("App/Update", module)
       <div>
         <ModalBackdrop />
         <ModalWrapper>
-          <AppUpdateDownloaded />
+          <AppUpdateDownloaded open />
         </ModalWrapper>
       </div>
     )
@@ -41,7 +41,7 @@ storiesOf("App/Update", module)
       <div>
         <ModalBackdrop />
         <ModalWrapper>
-          <AppUpdateError />
+          <AppUpdateError open />
         </ModalWrapper>
       </div>
     )
