@@ -23,6 +23,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
 }) => {
   const initValue = ["", "", "", ""]
   const [error, setError] = useState<boolean>(false)
+  const [typingError, setTypingError] = useState<boolean>(false)
   const [values, setValues] = useState<string[]>(initValue)
 
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
@@ -30,12 +31,22 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
   const updateValues = (values: string[]) => {
     setValues(values)
   }
-
+  let timeoutId3: NodeJS.Timeout
   const onNotAllowedKeyDown = () => {
-    setError(true)
-    setTimeout(() => {
-      setError(false)
+    setTypingError(true)
+    timeoutId3 = setTimeout(() => {
+      setTypingError(false)
     }, 1500)
+    return () => clearTimeout(timeoutId3)
+  }
+  const getErrorMessage = () => {
+    if (error) {
+      return "component.passcodeModalError"
+    } else if (typingError) {
+      return "component.passcodeModalErrorTyping"
+    } else {
+      return ""
+    }
   }
   useEffect(() => {
     let timeoutId1: NodeJS.Timeout
@@ -61,6 +72,8 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
       }
     }
 
+    setTypingError(false)
+
     if (values[values.length - 1] !== "") {
       void unlockDeviceRequest(values.join(""))
     } else {
@@ -72,7 +85,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     <PasscodeModalUI
       openModal={openModal}
       close={close}
-      error={error}
+      errorMessage={getErrorMessage}
       values={values}
       updateValues={updateValues}
       openHelpWindow={openHelpWindow}

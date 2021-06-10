@@ -51,20 +51,20 @@ export interface PasscodeModalProps {
   openModal: boolean
   close: () => void
   values: string[]
-  error: boolean
   updateValues: (values: string[]) => void
   openHelpWindow: () => void
   onNotAllowedKeyDown: () => void
+  errorMessage: () => string
 }
 
 const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   openModal,
   close,
   values,
-  error,
   updateValues,
   openHelpWindow,
   onNotAllowedKeyDown,
+  errorMessage,
   ...props
 }) => {
   const muditaLogo = (
@@ -94,7 +94,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
         />
         <PasscodeInputs
           values={values}
-          error={error}
+          errorMessage={errorMessage}
           onNotAllowedKeyDown={onNotAllowedKeyDown}
           updateValues={updateValues}
         />

@@ -14,14 +14,14 @@ import Text, {
 import { PasscodeModalTestIds } from "../passcode-modal-test-ids.enum"
 
 const InputContainer = styled.div<{
-  error: boolean
+  errorMessage: () => string
 }>`
   width: 100%;
   margin: 4rem 0 20rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  ${({ error }) => error && "margin: 4rem 0 2rem;"};
+  ${({ errorMessage }) => errorMessage() !== "" && "margin: 4rem 0 2rem;"};
 `
 const ErrorMessage = styled(Text)`
   color: ${textColor("error")};
@@ -30,16 +30,16 @@ const ErrorMessage = styled(Text)`
 
 interface Props {
   values: string[]
-  error: boolean
   updateValues: (values: string[]) => void
   onNotAllowedKeyDown: () => void
+  errorMessage: () => string
 }
 
 export const PasscodeInputs: FunctionComponent<Props> = ({
   values,
-  error,
   updateValues,
   onNotAllowedKeyDown,
+  errorMessage,
 }) => {
   const [activeInput, setActiveInput] = useState<number>()
   const [fromBlur, setFromBlur] = useState<boolean>(false)
@@ -62,7 +62,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     } else if (activeInput === undefined) {
       setActiveInput(0)
     }
-  }, [activeInput, error])
+  }, [activeInput])
 
   useEffect(() => {
     if (values[0] === "") {
@@ -115,11 +115,10 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     setFromBlur(true)
   }
 
-  const inputsError = error && values[values.length - 1] !== ""
   return (
     <>
       <InputContainer
-        error={error}
+        errorMessage={errorMessage}
         data-testid={PasscodeModalTestIds.PasscodeInputs}
       >
         {values.map((value, i) => {
@@ -129,12 +128,14 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
               inputRefMap[activeInput].current?.value !== "" &&
               i < activeInput) ||
             activeInput === values.length
-          const disabled = i !== activeInput || inputsError
+          const disabled =
+            i !== activeInput ||
+            errorMessage() === "component.passcodeModalError"
           return (
             <InputText
               type="password"
               key={i}
-              error={inputsError}
+              error={errorMessage() === "component.passcodeModalError"}
               value={value}
               filled={filled}
               disabled={disabled}
@@ -150,15 +151,11 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
           )
         })}
       </InputContainer>
-      {error && (
+      {errorMessage() !== "" && (
         <ErrorMessage
           displayStyle={TextDisplayStyle.SmallText}
           data-testid={PasscodeModalTestIds.ErrorMessage}
-          message={{
-            id: inputsError
-              ? "component.passcodeModalError"
-              : "component.passcodeModalErrorTyping",
-          }}
+          message={{ id: errorMessage() }}
         />
       )}
     </>
