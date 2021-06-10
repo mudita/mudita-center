@@ -14,7 +14,6 @@ import {
   DeviceUpdateRequestPayload,
   Endpoint,
   FileResponseStatus,
-  FileUploadRequestPayload,
   Method,
   PureDevice,
   RequestConfig,
@@ -27,10 +26,11 @@ import { createValidRequest, getNewUUID, parseData } from "../parser"
 import {
   isApiRequestPayload,
   isDeviceUpdateRequestPayload,
-  isFileUploadPayload,
+  isUploadUpdateFileSystemPayload,
 } from "./device-helper"
 import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator"
+import { UploadUpdateFileSystemRequestPayload } from "../endpoints"
 
 class BaseDevice implements PureDevice {
   #port: SerialPort | undefined
@@ -114,8 +114,8 @@ class BaseDevice implements PureDevice {
       const payload: RequestPayload = { ...config, uuid }
 
       this.#requestsQueue.add(async () => {
-        if (isFileUploadPayload(payload)) {
-          resolve(await this.fileUploadRequest(port, payload))
+        if (isUploadUpdateFileSystemPayload(payload)) {
+          resolve(await this.uploadUpdateFileRequest(port, payload))
         } else if (isDeviceUpdateRequestPayload(payload)) {
           resolve(await this.deviceUpdateRequest(port, payload))
         } else if (isApiRequestPayload(payload)) {
@@ -127,9 +127,9 @@ class BaseDevice implements PureDevice {
     })
   }
 
-  private fileUploadRequest(
+  private uploadUpdateFileRequest(
     port: SerialPort,
-    { filePath, uuid }: FileUploadRequestPayload
+    { filePath, uuid }: UploadUpdateFileSystemRequestPayload
   ): Promise<Response<any>> {
     return new Promise((resolve) => {
       this.#portBlocked = true
@@ -167,7 +167,7 @@ class BaseDevice implements PureDevice {
             resolve(response)
           }
         } else if (
-          response.endpoint === Endpoint.FileSystemUpload &&
+          response.endpoint === Endpoint.FileSystem &&
           response.status === ResponseStatus.Accepted
         ) {
           this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
@@ -184,7 +184,7 @@ class BaseDevice implements PureDevice {
 
         const payload = {
           uuid,
-          endpoint: Endpoint.FileSystemUpload,
+          endpoint: Endpoint.FileSystem,
           method: Method.Post,
           body: {
             fileName,
@@ -282,12 +282,12 @@ class BaseDevice implements PureDevice {
     })
   }
 
-  private portWrite(port: SerialPort, payload: RequestPayload): void {
+  private portWrite(port: SerialPort, payload: RequestPayload<any>): void {
     port.write(this.mapPayloadToRequest(payload))
   }
 
   @log("==== serial port: create valid request ====", LogConfig.Args)
-  private mapPayloadToRequest(payload: RequestPayload): string {
+  private mapPayloadToRequest(payload: RequestPayload<any>): string {
     return createValidRequest(payload)
   }
 

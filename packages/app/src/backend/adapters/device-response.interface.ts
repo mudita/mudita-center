@@ -20,7 +20,7 @@ interface DeviceResponseError<DataType> {
   data?: DataType
 }
 
-export default interface DeviceResponse<DataType = Record<string, string>> {
+export default interface DeviceResponse<DataType = undefined> {
   status: DeviceResponseStatus
   data?: DataType
   error?: DeviceResponseError<DataType>

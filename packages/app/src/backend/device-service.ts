@@ -7,7 +7,9 @@ import {
   Contact,
   DeviceEventName,
   DeviceInfo,
+  DownloadFileSystemRequestPayload,
   Endpoint,
+  GetFileSystemRequestPayload,
   GetThreadResponseBody,
   GetThreadsBody,
   Method,
@@ -88,12 +90,31 @@ class DeviceService {
     filePath: string
   }): Promise<DeviceResponse>
   async request(config: {
-    endpoint: Endpoint.FileUpload
+    endpoint: Endpoint.UploadUpdateFileSystem
     method: Method.Post
     filePath: string
   }): Promise<DeviceResponse>
-  async request(config: RequestConfig): Promise<DeviceResponse<any>>
-  async request(config: RequestConfig) {
+  public request(
+    config: GetFileSystemRequestPayload
+  ): Promise<
+    DeviceResponse<{
+      rxID: string
+      fileSize: number
+      chunkSize: number
+    }>
+  >
+  public request(
+    config: DownloadFileSystemRequestPayload
+  ): Promise<
+    DeviceResponse<{
+      rxID: string
+      chunkNo: number
+      data: string
+    }>
+  >
+  async request(
+    config: RequestConfig<any>
+  ): Promise<DeviceResponse<unknown> | DeviceResponse<undefined>> {
     if (!this.device) {
       return {
         status: DeviceResponseStatus.Error,

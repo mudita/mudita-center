@@ -7,10 +7,10 @@ import {
   ApiRequestPayload,
   DeviceUpdateRequestPayload,
   Endpoint,
-  FileUploadRequestPayload,
   Method,
   RequestPayload,
 } from "./device.types"
+import { UploadUpdateFileSystemRequestPayload } from "../endpoints"
 
 export const isApiRequestPayload = (
   config: RequestPayload
@@ -18,11 +18,11 @@ export const isApiRequestPayload = (
   return config.endpoint === Endpoint.ApiVersion && config.method === Method.Get
 }
 
-export const isFileUploadPayload = (
+export const isUploadUpdateFileSystemPayload = (
   config: RequestPayload
-): config is FileUploadRequestPayload => {
+): config is UploadUpdateFileSystemRequestPayload => {
   return (
-    config.endpoint === Endpoint.FileUpload &&
+    config.endpoint === Endpoint.UploadUpdateFileSystem &&
     config.method === Method.Post &&
     Boolean(config.filePath)
   )

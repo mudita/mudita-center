@@ -159,7 +159,7 @@ class PurePhone extends PurePhoneAdapter {
       )
 
       const fileResponse = await this.deviceService.request({
-        endpoint: Endpoint.FileUpload,
+        endpoint: Endpoint.UploadUpdateFileSystem,
         method: Method.Post,
         filePath,
       })

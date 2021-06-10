@@ -8,7 +8,6 @@ import {
   CreateDevice,
   DeviceUpdateRequestPayload,
   Endpoint,
-  FileUploadRequestPayload,
   Method,
   RequestConfig,
   Response,
@@ -19,11 +18,20 @@ import {
   DeviceInfo,
   DeviceUpdateErrorResponse,
   DeviceUpdateResponse,
+  UploadUpdateFileSystemRequestPayload,
   GetThreadResponseBody,
 } from "../endpoints"
 import { Formatter } from "../formatter/formatter"
 import { FormatterFactory } from "../formatter/formatter-factory"
-import { GetThreadsBody, Thread } from "../endpoints/messages.types"
+import { GetThreadsBody } from "../endpoints/messages.types"
+import {
+  DownloadFileSystemErrorResponse,
+  DownloadFileSystemRequestPayload,
+  DownloadFileSystemResponse,
+  GetFileSystemErrorResponse,
+  GetFileSystemRequestPayload,
+  GetFileSystemResponse,
+} from "../endpoints/file-system"
 
 class Device extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
@@ -51,6 +59,11 @@ class Device extends BaseDevice {
   public request(config: {
     endpoint: Endpoint.Security
     method: Method.Get
+  }): Promise<Response>
+  async request(config: {
+    endpoint: Endpoint.Security
+    method: Method.Put
+    body: { phoneLockCode: string }
   }): Promise<Response>
   public request(config: {
     endpoint: Endpoint.DeviceInfo
@@ -83,9 +96,17 @@ class Device extends BaseDevice {
   public request(
     config: DeviceUpdateRequestPayload
   ): Promise<DeviceUpdateResponse | DeviceUpdateErrorResponse>
-  public request(config: FileUploadRequestPayload): Promise<Response>
-  public request(config: RequestConfig): Promise<Response<any>>
-  public async request(config: RequestConfig): Promise<Response<any>> {
+  public request(
+    config: GetFileSystemRequestPayload
+  ): Promise<GetFileSystemResponse | GetFileSystemErrorResponse>
+  public request(
+    config: DownloadFileSystemRequestPayload
+  ): Promise<DownloadFileSystemResponse | DownloadFileSystemErrorResponse>
+  public request(
+    config: UploadUpdateFileSystemRequestPayload
+  ): Promise<Response>
+  public request(config: RequestConfig<any>): Promise<Response<any>>
+  public async request(config: RequestConfig<any>): Promise<Response<any>> {
     const response = await super.request(config)
     return this.#formatter.formatResponse(config.method, response)
   }
