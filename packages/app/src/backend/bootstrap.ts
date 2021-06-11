@@ -12,6 +12,8 @@ import registerChangeSimCardRequest from "Backend/requests/change-sim/change-sim
 import registerDeviceInfoRequest from "Backend/requests/device-info/get-device-info.request"
 import registerConnectDeviceRequest from "Backend/requests/connect-device/connect-device.request"
 import registerDisconnectDeviceRequest from "Backend/requests/disconnect-device/disconnect-device.request"
+import registerUnlockDeviceRequest from "Backend/requests/unlock-device/unlock-device.request"
+import registerGetUnlockDeviceStatus from "Backend/requests/get-unlock-device-status/get-unlock-device-status.request"
 import registerNetworkInfoRequest from "Backend/requests/network/get-network-info.request"
 import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storage-info.request"
 import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.request"
@@ -64,6 +66,8 @@ const bootstrap = (
     registerBatteryInfoRequest,
     registerConnectDeviceRequest,
     registerDisconnectDeviceRequest,
+    registerUnlockDeviceRequest,
+    registerGetUnlockDeviceStatus,
     registerChangeSimCardRequest,
     registerGetContactsRequest,
     registerAddContactRequest,

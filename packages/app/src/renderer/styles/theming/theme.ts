@@ -122,6 +122,7 @@ const theme = {
   },
   font: {
     primary: "GT Pressura, Roboto Condensed, sans-serif",
+    helper: "caption",
   },
   grid: {
     columnWidth,
