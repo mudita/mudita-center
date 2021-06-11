@@ -100,7 +100,7 @@ class PurePhone extends PurePhoneAdapter {
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
       body: {
-        fileName: "path/example.txt",
+        fileName: "/sys/user/MuditaOS.log",
       },
     })
 
@@ -112,9 +112,8 @@ class PurePhone extends PurePhoneAdapter {
     }
 
     const { rxID, fileSize, chunkSize } = data
-    const chunkNo = fileSize / chunkSize - 1
-
-    const downloadFileResponse = await this.downloadEncodedFile(rxID, chunkNo)
+    const chunkLength = fileSize > chunkSize ? (fileSize / chunkSize) : 1
+    const downloadFileResponse = await this.downloadEncodedFile(rxID, chunkLength)
 
     if (
       downloadFileResponse.status === DeviceResponseStatus.Ok &&
@@ -248,7 +247,8 @@ class PurePhone extends PurePhoneAdapter {
 
   private async downloadEncodedFile(
     rxID: string,
-    chunkNo: number,
+    chunkLength: number,
+    chunkNo = 1,
     chunkedString = ""
   ): Promise<DeviceResponse<string>> {
     const { status, data } = await this.deviceService.request({
@@ -269,8 +269,8 @@ class PurePhone extends PurePhoneAdapter {
 
     const string = `${chunkedString}${data.data}`
 
-    if (chunkNo !== 0) {
-      return this.downloadEncodedFile(rxID, chunkNo - 1, string)
+    if (chunkNo < chunkLength) {
+      return this.downloadEncodedFile(rxID, chunkLength, chunkNo + 1, string)
     } else {
       return {
         status,
