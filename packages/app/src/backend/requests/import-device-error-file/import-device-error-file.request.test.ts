@@ -33,7 +33,7 @@ test("ImportDeviceErrorFile request works properly", (done) => {
             data: { rxID: "1", fileSize: 1, chunkSize: 1 },
           }
         } else if (
-          (config as DownloadFileSystemRequestPayload).body?.chunkNo === 0
+          (config as DownloadFileSystemRequestPayload).body?.chunkNo === 1
         ) {
           return {
             status: DeviceResponseStatus.Ok,
