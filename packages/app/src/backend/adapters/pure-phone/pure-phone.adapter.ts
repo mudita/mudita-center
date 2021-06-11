@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import * as fs from "fs"
+import { PathLike, WriteFileOptions } from "fs"
 import { Endpoint, Method } from "@mudita/pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
@@ -89,6 +91,46 @@ class PurePhone extends PurePhoneAdapter {
       endpoint: Endpoint.Security,
       method: Method.Get,
     })
+  }
+
+  public async importDeviceErrorFile(
+    filePath: string
+  ): Promise<DeviceResponse> {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.FileSystem,
+      method: Method.Get,
+      body: {
+        fileName: filePath,
+      },
+    })
+
+    if (status !== DeviceResponseStatus.Ok || data === undefined) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Something went wrong" },
+      }
+    }
+
+    const { rxID, fileSize, chunkSize } = data
+    const chunkNo = fileSize / chunkSize - 1
+
+    const downloadFileResponse = await this.downloadEncodedFile(rxID, chunkNo)
+
+    if (
+      downloadFileResponse.status === DeviceResponseStatus.Ok &&
+      downloadFileResponse.data !== undefined
+    ) {
+      this.writeFileSync(filePath, downloadFileResponse.data, "base64")
+
+      return {
+        status: DeviceResponseStatus.Ok,
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Something went wrong" },
+      }
+    }
   }
 
   public async updateOs(
@@ -202,6 +244,47 @@ class PurePhone extends PurePhoneAdapter {
       unregisterListeners()
       return response
     })
+  }
+
+  private async downloadEncodedFile(
+    rxID: string,
+    chunkNo: number,
+    chunkedString = ""
+  ): Promise<DeviceResponse<string>> {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.FileSystem,
+      method: Method.Get,
+      body: {
+        rxID,
+        chunkNo,
+      },
+    })
+
+    if (status !== DeviceResponseStatus.Ok || data === undefined) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Something went wrong" },
+      }
+    }
+
+    const string = `${chunkedString}${data.data}`
+
+    if (chunkNo !== 0) {
+      return this.downloadEncodedFile(rxID, chunkNo - 1, string)
+    } else {
+      return {
+        status,
+        data: string,
+      }
+    }
+  }
+
+  private writeFileSync(
+    path: PathLike,
+    data: string | NodeJS.ArrayBufferView,
+    options?: WriteFileOptions
+  ): void {
+    fs.writeFileSync(path, data, options)
   }
 
   private static getUpdateOsProgress(step: number): number {
