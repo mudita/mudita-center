@@ -6,7 +6,7 @@
 export interface PureDevice {
   connect(): Promise<Response>
   disconnect(): Promise<Response>
-  request(config: RequestConfig): Promise<Response<any>>
+  request(config: RequestConfig<any>): Promise<Response<any>>
   on(eventName: DeviceEventName, listener: () => void): void
   off(eventName: DeviceEventName, listener: () => void): void
 }
