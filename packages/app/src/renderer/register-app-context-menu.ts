@@ -12,7 +12,7 @@ import importDeviceErrorFile from "Renderer/requests/import-device-error-file.re
 import { remote } from "electron"
 import { name } from "../../package.json"
 
-const filePath = `${remote.app.getPath("appData")}/${name}/pure-logs`
+const filePath = `${remote.app.getPath("appData")}/${name}/pure-logs.txt`
 
 const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Device", [
