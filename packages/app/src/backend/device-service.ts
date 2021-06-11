@@ -10,6 +10,8 @@ import {
   DownloadFileSystemRequestPayload,
   Endpoint,
   GetFileSystemRequestPayload,
+  GetMessageResponseBody,
+  GetMessagesBody,
   GetThreadResponseBody,
   GetThreadsBody,
   Method,
@@ -62,8 +64,12 @@ class DeviceService {
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
-    body: { count: number }
   }): Promise<DeviceResponse<{ entries: Contact[]; totalCount: number }>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Get
+    body: GetMessagesBody
+  }): Promise<DeviceResponse<GetMessageResponseBody>>
   public request(config: {
     endpoint: Endpoint.Messages
     method: Method.Get
@@ -82,7 +88,9 @@ class DeviceService {
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Delete
-    body: Contact["id"]
+    body: {
+      id: Contact["id"]
+    }
   }): Promise<DeviceResponse<string>>
   async request(config: {
     endpoint: Endpoint.DeviceUpdate
