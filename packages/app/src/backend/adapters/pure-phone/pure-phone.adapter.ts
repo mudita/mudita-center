@@ -100,7 +100,7 @@ class PurePhone extends PurePhoneAdapter {
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
       body: {
-        fileName: filePath,
+        fileName: "path/example.txt",
       },
     })
 
