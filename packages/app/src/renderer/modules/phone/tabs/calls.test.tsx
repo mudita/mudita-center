@@ -15,7 +15,7 @@ import { Caller } from "Renderer/models/calls/calls.interface"
 const defaultProps: CallsProps = {
   calls: mockData,
   isThreadOpened: jest.fn(),
-  isContactCreatedDeprecated: jest.fn(),
+  isContactCreated: jest.fn(),
   getContact: jest.fn(),
 }
 

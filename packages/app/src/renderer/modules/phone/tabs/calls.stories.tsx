@@ -10,13 +10,13 @@ import Calls from "Renderer/modules/phone/tabs/calls.component"
 import { Contact } from "App/contacts/store/contacts.type"
 
 const isThreadOpened = () => true
-const isContactCreatedDeprecated = () => true
+const isContactCreated = () => true
 const getContact = (contactId: string) => ({} as Contact)
 
 storiesOf("Views/Calls", module).add("Calls", () => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Calls
-      isContactCreatedDeprecated={isContactCreatedDeprecated}
+      isContactCreated={isContactCreated}
       isThreadOpened={isThreadOpened}
       getContact={getContact}
       calls={calls}
