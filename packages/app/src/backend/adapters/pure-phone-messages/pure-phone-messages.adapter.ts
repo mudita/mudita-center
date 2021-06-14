@@ -118,12 +118,14 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     })
 
     if (data?.nextPage !== undefined) {
+      const limit: number = data.totalCount - data.nextPage.offset
       return this.loadAllMessagesInSingleRequest(
         threadId,
         [...pureMessages, ...data.entries],
         {
           ...initGetMessagesBody,
-          ...data.nextPage,
+          limit,
+          offset: data.nextPage.offset,
         }
       )
     } else if (

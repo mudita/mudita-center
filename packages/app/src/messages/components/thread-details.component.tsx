@@ -45,6 +45,7 @@ export interface ThreadDetailsProps {
   getMessagesByThreadId: (threadId: string) => Message[]
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
+  isContactCreated: (id: string) => boolean
 }
 
 const trailingIcon = [
@@ -62,6 +63,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   loadMessagesByThreadId,
   getContact,
   getMessagesResultMapStateByThreadId,
+  isContactCreated,
 }) => {
   const resultState = getMessagesResultMapStateByThreadId(thread.id)
   const messages = getMessagesByThreadId(thread.id)
@@ -85,11 +87,19 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
           iconSize={IconSize.Big}
         />
       )}
-      <SidebarHeaderButton
-        Icon={Type.Contact}
-        onClick={handleContactClick}
-        iconSize={IconSize.Big}
-      />
+      {isContactCreated(thread.contactId) ? (
+        <SidebarHeaderButton
+          Icon={Type.Contact}
+          onClick={handleContactClick}
+          iconSize={IconSize.Big}
+        />
+      ) : (
+        <SidebarHeaderButton
+          Icon={Type.NewContact}
+          onClick={handleContactClick}
+          iconSize={IconSize.Big}
+        />
+      )}
       {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
       {process.env.NODE_ENV !== "production" && (
         <>

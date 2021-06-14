@@ -89,6 +89,7 @@ const defaultProps: ThreadDetailsProps = {
   getContact: jest.fn().mockReturnValue(contact),
   loadMessagesByThreadId: jest.fn(),
   getMessagesResultMapStateByThreadId: jest.fn(),
+  isContactCreated: jest.fn().mockReturnValue(true),
   thread,
 }
 

@@ -8,6 +8,7 @@ import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
 import {
   Message,
+  MessageIdsInThreadMap,
   MessageMap,
   MessagesState,
   ResultState,
@@ -70,15 +71,12 @@ const messages = createModel<RootModel>({
     updateMessages(state: MessagesState, messages: Message[]): MessagesState {
       return {
         ...state,
-        messageMap: messages.reduce(
-          (prevMessageMap, message) => {
-            prevMessageMap[message.id] = message
-            return prevMessageMap
-          },
-          { ...state.messageMap }
-        ),
+        messageMap: messages.reduce((prevMessageMap: MessageMap, message) => {
+          prevMessageMap[message.id] = message
+          return prevMessageMap
+        }, {}),
         messageIdsInThreadMap: messages.reduce(
-          (prev, message) => {
+          (prev: MessageIdsInThreadMap, message) => {
             const messageIds = prev[message.threadId] ?? []
             prev[message.threadId] = messageIds.find((id) => id === message.id)
               ? messageIds
@@ -86,7 +84,7 @@ const messages = createModel<RootModel>({
 
             return prev
           },
-          { ...state.messageIdsInThreadMap }
+          {}
         ),
       }
     },

@@ -71,6 +71,27 @@ const mockMessage: Message = {
   messageType: MessageType.INBOX,
 }
 
+const mockMessages: Message[] = [
+  {
+    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+    date: new Date("2019-10-18T11:27:15.256Z"),
+    content:
+      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+    threadId: contact.primaryPhoneNumber!,
+    contactId: contact.id,
+    messageType: MessageType.INBOX,
+  },
+  {
+    id: "38a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+    date: new Date("2019-10-18T12:27:15.256Z"),
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    threadId: contact.primaryPhoneNumber!,
+    contactId: contact.id,
+    messageType: MessageType.INBOX,
+  },
+]
+
 const storeConfig = {
   models: { messages, contacts },
   plugins: [selectPlugin()],
@@ -374,4 +395,18 @@ test("is thread opened selector return value properly", () => {
   const isThreadOpened = store.select.messages.isThreadOpened(store.getState())
   expect(isThreadOpened(contact.secondaryPhoneNumber)).toStrictEqual(true)
   expect(isThreadOpened(contact.primaryPhoneNumber)).toStrictEqual(false)
+})
+
+test("clear the previous state for thread messages", () => {
+  store.dispatch.messages.updateMessages(mockMessages)
+  expect(Object.keys(store.getState().messages.messageMap)).toHaveLength(2)
+  expect(
+    store.getState().messages.messageIdsInThreadMap[contact.primaryPhoneNumber!]
+  ).toHaveLength(2)
+  //open messages after deleting one message on Pure
+  store.dispatch.messages.updateMessages([mockMessage])
+  expect(Object.keys(store.getState().messages.messageMap)).toHaveLength(1)
+  expect(
+    store.getState().messages.messageIdsInThreadMap[contact.primaryPhoneNumber!]
+  ).toHaveLength(1)
 })

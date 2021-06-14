@@ -79,6 +79,7 @@ const defaultProps: MessagesProps = {
   getMessagesByThreadId: jest.fn().mockReturnValue(messages),
   getMessagesResultMapStateByThreadId: jest.fn(),
   loadMessagesByThreadId: jest.fn(),
+  isContactCreated: jest.fn().mockReturnValue(true),
   attachContactList: [
     {
       category: contact.lastName?.charAt(0) ?? "#",
@@ -181,6 +182,7 @@ test("displays correct amount of dropdown add to contacts buttons for person tha
       lastName: unknownContact.lastName,
       primaryPhoneNumber: unknownContact.primaryPhoneNumber,
     }),
+    isContactCreated: jest.fn().mockReturnValue(false),
   })
   mockAllIsIntersecting(true)
   expect(queryAllByTestId("dropdown-add-to-contacts")[0]).toBeInTheDocument()

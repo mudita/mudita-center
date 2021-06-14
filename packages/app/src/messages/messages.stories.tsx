@@ -96,6 +96,7 @@ export const attachContactListData: ContactCategory[] = [
 const getContact = () => attachContactFlatListData[0]
 const getMessagesByThreadId = () => rowMessages
 const getMessagesResultsMapStateByThreadId = () => ResultState.Loaded
+const isContactCreated = () => true
 
 storiesOf("Views|Messages", module).add("Messages", () => (
   <div style={{ maxWidth: "97.5rem" }}>
@@ -108,6 +109,7 @@ storiesOf("Views|Messages", module).add("Messages", () => (
       getContact={getContact}
       getMessagesByThreadId={getMessagesByThreadId}
       getMessagesResultMapStateByThreadId={getMessagesResultsMapStateByThreadId}
+      isContactCreated={isContactCreated}
     />
   </div>
 ))

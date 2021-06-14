@@ -14,14 +14,14 @@ import Text, {
 import { PasscodeModalTestIds } from "../passcode-modal-test-ids.enum"
 
 const InputContainer = styled.div<{
-  error: boolean
+  errorMessage: string
 }>`
   width: 100%;
   margin: 4rem 0 20rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  ${({ error }) => error && "margin: 4rem 0 2rem;"};
+  ${({ errorMessage }) => errorMessage !== "" && "margin: 4rem 0 2rem;"};
 `
 const ErrorMessage = styled(Text)`
   color: ${textColor("error")};
@@ -30,14 +30,16 @@ const ErrorMessage = styled(Text)`
 
 interface Props {
   values: string[]
-  error: boolean
-  updateValues: (number: number, value: string) => void
+  updateValues: (values: string[]) => void
+  onNotAllowedKeyDown: () => void
+  errorMessage: string
 }
 
 export const PasscodeInputs: FunctionComponent<Props> = ({
   values,
-  error,
   updateValues,
+  onNotAllowedKeyDown,
+  errorMessage,
 }) => {
   const [activeInput, setActiveInput] = useState<number>()
   const [fromBlur, setFromBlur] = useState<boolean>(false)
@@ -68,6 +70,12 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     }
   }, [values])
 
+  const updateInputValue = (number: number, value: string) => {
+    const newValue = [...values]
+    newValue[number] = value
+    updateValues(newValue)
+  }
+
   const onKeyDownHandler = (number: number) => (e: {
     key: string
     code: string
@@ -78,10 +86,12 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     } else if (e.code === "Backspace") {
       if (activeInput !== undefined && activeInput > 0) {
         setActiveInput(activeInput - 1)
-        updateValues(number, "")
+        updateInputValue(number, "")
         setFromBlur(false)
       }
     } else {
+      onNotAllowedKeyDown()
+
       e.preventDefault()
     }
   }
@@ -98,16 +108,17 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
       setActiveInput(activeInput + 1)
     }
     setFromBlur(false)
-    updateValues(number, e.target.value)
+    updateInputValue(number, e.target.value)
   }
   const onBlurHandler = () => {
     setActiveInput(values.indexOf(""))
     setFromBlur(true)
   }
+
   return (
     <>
       <InputContainer
-        error={error}
+        errorMessage={errorMessage}
         data-testid={PasscodeModalTestIds.PasscodeInputs}
       >
         {values.map((value, i) => {
@@ -117,12 +128,13 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
               inputRefMap[activeInput].current?.value !== "" &&
               i < activeInput) ||
             activeInput === values.length
-          const disabled = i !== activeInput || error
+          const disabled =
+            i !== activeInput || errorMessage === "component.passcodeModalError"
           return (
             <InputText
               type="password"
               key={i}
-              error={error}
+              error={errorMessage === "component.passcodeModalError"}
               value={value}
               filled={filled}
               disabled={disabled}
@@ -138,10 +150,11 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
           )
         })}
       </InputContainer>
-      {error && (
+      {errorMessage !== "" && (
         <ErrorMessage
           displayStyle={TextDisplayStyle.SmallText}
-          message={{ id: "component.passcodeModalError" }}
+          data-testid={PasscodeModalTestIds.ErrorMessage}
+          message={{ id: errorMessage }}
         />
       )}
     </>

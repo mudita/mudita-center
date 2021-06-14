@@ -16,6 +16,7 @@ export interface PasscodeModalProps {
   openModal: boolean
   close: () => void
 }
+let timeoutId3: NodeJS.Timeout
 
 const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
   openModal,
@@ -23,20 +24,37 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
 }) => {
   const initValue = ["", "", "", ""]
   const [error, setError] = useState<boolean>(false)
+  const [typingError, setTypingError] = useState<boolean>(false)
   const [values, setValues] = useState<string[]>(initValue)
 
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
 
-  const updateValues = (number: number, value: string) => {
-    const newValue = [...values]
-    newValue[number] = value
-    setValues(newValue)
+  const updateValues = (values: string[]) => {
+    setValues(values)
+  }
+
+  const onNotAllowedKeyDown = () => {
+    clearTimeout(timeoutId3)
+    setTypingError(true)
+    timeoutId3 = setTimeout(() => {
+      setTypingError(false)
+    }, 1500)
+  }
+
+  const getErrorMessage = () => {
+    if (error) {
+      return "component.passcodeModalError"
+    } else if (typingError) {
+      return "component.passcodeModalErrorTyping"
+    } else {
+      return ""
+    }
   }
   useEffect(() => {
     let timeoutId1: NodeJS.Timeout
     let timeoutId2: NodeJS.Timeout
 
-    const unlockDeviceRequest = async (code: string) => {
+    const unlockDeviceRequest = async (code: number[]) => {
       await unlockDevice(code)
       timeoutId1 = setTimeout(async () => {
         const { status } = await getUnlockDeviceStatus()
@@ -56,8 +74,11 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
       }
     }
 
+    setTypingError(false)
+
     if (values[values.length - 1] !== "") {
-      void unlockDeviceRequest(values.join(""))
+      const code = values.map((value) => parseInt(value))
+      void unlockDeviceRequest(code)
     } else {
       setError(false)
     }
@@ -67,10 +88,11 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     <PasscodeModalUI
       openModal={openModal}
       close={close}
-      error={error}
+      errorMessage={getErrorMessage()}
       values={values}
       updateValues={updateValues}
       openHelpWindow={openHelpWindow}
+      onNotAllowedKeyDown={onNotAllowedKeyDown}
     />
   )
 }
