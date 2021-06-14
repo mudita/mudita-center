@@ -267,6 +267,10 @@ class DeviceService {
         data,
         status: DeviceResponseStatus.Ok,
       }
+    } else if (status === ResponseStatus.NoContent) {
+      return {
+        status: DeviceResponseStatus.Ok,
+      }
     } else if (status === ResponseStatus.PhoneLocked) {
       return {
         error,

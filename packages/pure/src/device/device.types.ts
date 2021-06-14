@@ -16,6 +16,7 @@ export type CreateDevice = (path: string) => PureDevice
 export enum ResponseStatus {
   Ok = 200,
   Accepted = 202,
+  NoContent = 204,
   BadRequest = 400,
   PhoneLocked = 403,
   NotAcceptable = 406,
