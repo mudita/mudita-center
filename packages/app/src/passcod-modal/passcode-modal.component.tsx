@@ -54,7 +54,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     let timeoutId1: NodeJS.Timeout
     let timeoutId2: NodeJS.Timeout
 
-    const unlockDeviceRequest = async (code: string) => {
+    const unlockDeviceRequest = async (code: number[]) => {
       await unlockDevice(code)
       timeoutId1 = setTimeout(async () => {
         const { status } = await getUnlockDeviceStatus()
@@ -77,7 +77,8 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     setTypingError(false)
 
     if (values[values.length - 1] !== "") {
-      void unlockDeviceRequest(values.join(""))
+      const code = values.map((value) => parseInt(value))
+      void unlockDeviceRequest(code)
     } else {
       setError(false)
     }
