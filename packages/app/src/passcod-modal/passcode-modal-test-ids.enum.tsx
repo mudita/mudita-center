@@ -5,4 +5,5 @@
 
 export enum PasscodeModalTestIds {
   PasscodeInputs = "passcode-inputs",
+  ErrorMessage = "passcode-error-message",
 }
