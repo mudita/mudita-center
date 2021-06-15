@@ -198,13 +198,22 @@ const contacts = createModel<RootModel>({
     getContactMap() {
       return slice((state) => state.db)
     },
-    isContactCreated(models: StoreSelectors<PhoneContacts>) {
+    //FIXME: uses old model of data when phone number was required
+    isContactCreatedDeprecated(models: StoreSelectors<PhoneContacts>) {
       return (state: PhoneContacts) => {
         const contacts: Contact[] = models.contacts.flatList(state)
         return (phoneNumber: string) => {
           return contacts.some((contact) =>
             isContactMatchingPhoneNumber(contact, phoneNumber)
           )
+        }
+      }
+    },
+    isContactCreated(models: StoreSelectors<PhoneContacts>) {
+      return (state: PhoneContacts) => {
+        const contacts: Contact[] = models.contacts.flatList(state)
+        return (id: string) => {
+          return contacts.some((contact) => contact.id === id)
         }
       }
     },

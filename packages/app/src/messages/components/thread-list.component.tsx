@@ -43,7 +43,6 @@ import { InView } from "react-intersection-observer"
 import Avatar, {
   AvatarSize,
 } from "Renderer/components/core/avatar/avatar.component"
-import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
 import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
@@ -175,6 +174,8 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
   onDeleteClick: (id: string) => void
   onToggleReadStatus: (ids: string[]) => void
   getContact: (contactId: string) => Contact
+  onContactClick: (phoneNumber: string) => void
+  isContactCreated: (id: string) => boolean
 }
 
 const ThreadList: FunctionComponent<Props> = ({
@@ -188,6 +189,8 @@ const ThreadList: FunctionComponent<Props> = ({
   noneRowsSelected,
   language,
   getContact,
+  onContactClick,
+  isContactCreated,
 }) => {
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
@@ -212,6 +215,7 @@ const ThreadList: FunctionComponent<Props> = ({
         const active = activeThread?.id === thread.id
         const emitDeleteClick = () => onDeleteClick(id)
         const toggleReadStatus = () => onToggleReadStatus([id])
+        const handleContactClick = () => onContactClick(id)
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <ThreadRow ref={ref} selected={selected} active={active}>
             <AvatarCol>
@@ -288,13 +292,13 @@ const ThreadList: FunctionComponent<Props> = ({
                     data-testid="dropdown-call"
                     hide={productionEnvironment}
                   />
-                  {isNameAvailable(contact) ? (
+                  {isContactCreated(thread.contactId) ? (
                     <ButtonComponent
                       labelMessage={{
                         id: "module.messages.dropdownContactDetails",
                       }}
                       Icon={Type.Contact}
-                      onClick={noop}
+                      onClick={handleContactClick}
                       displayStyle={DisplayStyle.Dropdown}
                       data-testid="dropdown-contact-details"
                     />
@@ -303,8 +307,8 @@ const ThreadList: FunctionComponent<Props> = ({
                       labelMessage={{
                         id: "module.messages.dropdownAddToContacts",
                       }}
-                      Icon={Type.Contact}
-                      onClick={noop}
+                      Icon={Type.NewContact}
+                      onClick={handleContactClick}
                       displayStyle={DisplayStyle.Dropdown}
                       data-testid="dropdown-add-to-contacts"
                     />

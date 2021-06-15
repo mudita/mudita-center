@@ -18,6 +18,7 @@ const selector = select(({ messages, contacts }) => ({
     messages.getMessagesResultMapStateByThreadId,
   attachContactList: contacts.contactList,
   attachContactFlatList: contacts.flatList,
+  isContactCreated: contacts.isContactCreated,
 }))
 
 const mapStateToProps = (state: RootModel) => ({

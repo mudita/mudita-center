@@ -7,7 +7,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import PasscodeModal from "./passcode-modal.component"
 import React from "react"
 import { PasscodeModalTestIds } from "./passcode-modal-test-ids.enum"
-import { fireEvent } from "@testing-library/dom"
+import { fireEvent, waitFor } from "@testing-library/dom"
 import { InputTextTestIds } from "App/renderer/components/core/input-text/input-text-test-ids.enum"
 
 const defaultProps = {
@@ -24,6 +24,7 @@ const renderer = () => {
     inputsContainer: () =>
       modal.queryByTestId(PasscodeModalTestIds.PasscodeInputs),
     inputsList: () => modal.queryAllByTestId(InputTextTestIds.PasswordInput),
+    errorMessage: () => modal.queryByTestId(PasscodeModalTestIds.ErrorMessage),
   }
 }
 
@@ -37,4 +38,19 @@ test("Passcode inputs are disabled when filled", () => {
   fireEvent.change(inputsList()[0] as Element, { target: { value: "2" } })
   expect(inputsList()[0]).toHaveProperty("disabled")
   expect(inputsList()[0]).toHaveStyleRule("background-color", "#f4f5f6")
+})
+
+test("Show typing error message", async () => {
+  const { inputsList, errorMessage } = renderer()
+  fireEvent.keyDown(inputsList()[0] as Element, {
+    key: "a",
+    code: "a",
+    keyCode: 97,
+    charCode: 97,
+  })
+  await waitFor(() =>
+    expect(errorMessage()).toHaveTextContent(
+      "[value] component.passcodeModalErrorTyping"
+    )
+  )
 })
