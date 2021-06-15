@@ -6,4 +6,6 @@
 export * from "./device-update.types"
 export * from "./contact.types"
 export * from "./device-info.types"
+export * from "./file-system"
 export * from "./messages.types"
+export * from "./update-file-system"

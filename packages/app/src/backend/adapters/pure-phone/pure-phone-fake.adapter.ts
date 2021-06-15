@@ -60,6 +60,12 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
+  public async importDeviceErrorFile(): Promise<DeviceResponse> {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
+  }
+
   public async updateOs(): Promise<DeviceResponse> {
     return {
       status: DeviceResponseStatus.Ok,

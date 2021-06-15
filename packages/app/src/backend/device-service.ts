@@ -7,7 +7,11 @@ import {
   Contact,
   DeviceEventName,
   DeviceInfo,
+  DownloadFileSystemRequestPayload,
   Endpoint,
+  GetFileSystemRequestPayload,
+  GetMessageResponseBody,
+  GetMessagesBody,
   GetThreadResponseBody,
   GetThreadsBody,
   Method,
@@ -60,8 +64,12 @@ class DeviceService {
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
-    body: { count: number }
   }): Promise<DeviceResponse<{ entries: Contact[]; totalCount: number }>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Get
+    body: GetMessagesBody
+  }): Promise<DeviceResponse<GetMessageResponseBody>>
   public request(config: {
     endpoint: Endpoint.Messages
     method: Method.Get
@@ -80,7 +88,9 @@ class DeviceService {
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Delete
-    body: Contact["id"]
+    body: {
+      id: Contact["id"]
+    }
   }): Promise<DeviceResponse<string>>
   async request(config: {
     endpoint: Endpoint.DeviceUpdate
@@ -88,12 +98,31 @@ class DeviceService {
     filePath: string
   }): Promise<DeviceResponse>
   async request(config: {
-    endpoint: Endpoint.FileUpload
+    endpoint: Endpoint.UploadUpdateFileSystem
     method: Method.Post
     filePath: string
   }): Promise<DeviceResponse>
-  async request(config: RequestConfig): Promise<DeviceResponse<any>>
-  async request(config: RequestConfig) {
+  public request(
+    config: GetFileSystemRequestPayload
+  ): Promise<
+    DeviceResponse<{
+      rxID: string
+      fileSize: number
+      chunkSize: number
+    }>
+  >
+  public request(
+    config: DownloadFileSystemRequestPayload
+  ): Promise<
+    DeviceResponse<{
+      rxID: string
+      chunkNo: number
+      data: string
+    }>
+  >
+  async request(
+    config: RequestConfig<any>
+  ): Promise<DeviceResponse<unknown> | DeviceResponse<undefined>> {
     if (!this.device) {
       return {
         status: DeviceResponseStatus.Error,

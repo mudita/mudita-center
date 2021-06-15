@@ -6,7 +6,7 @@
 export interface PureDevice {
   connect(): Promise<Response>
   disconnect(): Promise<Response>
-  request(config: RequestConfig): Promise<Response<any>>
+  request(config: RequestConfig<any>): Promise<Response<any>>
   on(eventName: DeviceEventName, listener: () => void): void
   off(eventName: DeviceEventName, listener: () => void): void
 }
@@ -18,6 +18,7 @@ export enum ResponseStatus {
   Accepted = 202,
   NoContent = 204,
   BadRequest = 400,
+  NotFound = 404,
   PhoneLocked = 403,
   NotAcceptable = 406,
   InternalServerError = 500,
@@ -51,7 +52,7 @@ export enum Endpoint {
   Invalid = 0,
   DeviceInfo = 1,
   Update = 2,
-  FileSystemUpload = 3,
+  FileSystem = 3,
   Backup = 4,
   Restore = 5,
   Factory = 6,
@@ -61,7 +62,7 @@ export enum Endpoint {
   Security = 13,
 
   // lib endpoint
-  FileUpload = 100,
+  UploadUpdateFileSystem = 100,
   DeviceUpdate = 101,
 
   // api version (mocked)
@@ -84,26 +85,20 @@ export interface ApiRequestPayload extends RequestPayload {
   method: Method.Get
 }
 
-export interface FileUploadRequestPayload extends RequestPayload {
-  endpoint: Endpoint.FileUpload
-  method: Method.Post
-  filePath: string
-}
-
 export interface DeviceUpdateRequestPayload extends RequestPayload {
   endpoint: Endpoint.DeviceUpdate
   method: Method.Post
   filePath: string
 }
 
-export interface RequestPayload extends RequestConfig {
+export interface RequestPayload<T = undefined> extends RequestConfig<T> {
   uuid: number
 }
 
-export interface RequestConfig {
+export interface RequestConfig<Body = undefined> {
   endpoint: Endpoint
   method: Method
-  body?: any
+  body?: Body
   filePath?: string
 }
 
