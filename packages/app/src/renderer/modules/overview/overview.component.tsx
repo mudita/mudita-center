@@ -17,7 +17,7 @@ import { AppSettings } from "App/main/store/settings.interface"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 import logger from "App/main/utils/logger"
 import BackupModalFlow from "Renderer/components/rest/overview/backup/backup-modal-flow.component"
-import ContactModalFlow from "App/contacts/components/contact-modal/contact-modal-flow.component"
+import ContactSupportModalFlow from "App/contacts/components/contact-support-modal/contact-support-modal-flow.component"
 
 export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
@@ -184,7 +184,7 @@ const Overview: FunctionComponent<
 
   return (
     <>
-      <ContactModalFlow
+      <ContactSupportModalFlow
         config={openModalConfig}
         sendForm={sendForm}
         sending={sending}
