@@ -36,6 +36,8 @@ import theme from "Renderer/styles/theming/theme"
 import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import useDynamicProgressValue from "Renderer/utils/hooks/use-dynamic-progress-value.hook"
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
+import Loader from "Renderer/components/core/loader/loader.component"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 
 const ModalContent = styled.div`
   display: flex;
@@ -397,6 +399,24 @@ export const UpdatingProgressModal: FunctionComponent<{
       <ProgressText displayStyle={TextDisplayStyle.MediumLightText}>
         {value}%
       </ProgressText>
+    </OSUpdateModal>
+  )
+}
+
+export const UpdatingSpinnerModal: FunctionComponent = () => {
+  return (
+    <OSUpdateModal closeButton={false} closeable={false}>
+      <RoundIconWrapper>
+        <Loader type={LoaderType.Spinner} size={6} />
+      </RoundIconWrapper>
+      <ModalText
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={messages.updatingProgressTitle}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.MediumFadedText}
+        message={messages.updatingProgressDescription}
+      />
     </OSUpdateModal>
   )
 }
