@@ -407,7 +407,7 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
   return (
     <OSUpdateModal closeButton={false} closeable={false}>
       <RoundIconWrapper>
-        <Icon type={Type.MuditaDarkLogo} width={8} />
+        <Loader type={LoaderType.Spinner} size={6} />
       </RoundIconWrapper>
       <ModalText
         displayStyle={TextDisplayStyle.LargeBoldText}
@@ -424,7 +424,7 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
 export const UpdatingSuccessModal = () => (
   <OSUpdateModal data-testid={OverviewTestIds.UpdatingSuccessModal}>
     <RoundIconWrapper>
-      <Loader type={LoaderType.Spinner} size={6} />
+      <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
