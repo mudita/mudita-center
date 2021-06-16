@@ -56,7 +56,7 @@ import {
   DeviceUpdateError,
   deviceUpdateErrorCodeMap,
 } from "Backend/adapters/pure-phone/pure-phone.adapter"
-import { useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
+import { useContactSupport } from "Renderer/utils/use-contact-support/use-contact-support"
 import { HelpActions } from "Common/enums/help-actions.enum"
 
 const onOsDownloadCancel = () => {
@@ -359,7 +359,7 @@ const useSystemUpdateFlow = (
     ipcRenderer.callMain(HelpActions.OpenWindow, { code })
   }
   const { openContactSupportModal, ...rest } = useContactSupport()
-  const callActionAfterCloseModal = (action: () => void): () => void => {
+  const callActionAfterCloseModal = (action: () => void): (() => void) => {
     return () => {
       modalService.closeModal()
       action()

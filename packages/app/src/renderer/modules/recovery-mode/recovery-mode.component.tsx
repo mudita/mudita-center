@@ -7,7 +7,7 @@ import { noop } from "Renderer/utils/noop"
 import RecoveryModeUI from "Renderer/modules/recovery-mode/recovery-mode-ui.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React from "react"
-import { useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
+import { useContactSupport } from "Renderer/utils/use-contact-support/use-contact-support"
 import ContactModalFlow from "App/contacts/components/contact-modal/contact-modal-flow.component"
 
 const RecoveryMode: FunctionComponent<{}> = () => {

@@ -5,16 +5,17 @@
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React, { ComponentProps } from "react"
-import ContactModalFlow from "App/contacts/components/contact-modal/contact-modal-flow.component"
-import { ContactSupportModalKind } from "Renderer/utils/contact-support/use-contact-support"
+import ContactModalFlow, {
+  ContactModalFlowState,
+} from "App/contacts/components/contact-modal/contact-modal-flow.component"
 import { screen } from "@testing-library/react"
 
 const renderer = (extraProps?: {}) => {
   const defaultProps: ComponentProps<typeof ContactModalFlow> = {
     config: {
-      [ContactSupportModalKind.Contact]: false,
-      [ContactSupportModalKind.Success]: false,
-      [ContactSupportModalKind.Fail]: false,
+      [ContactModalFlowState.Contact]: false,
+      [ContactModalFlowState.Success]: false,
+      [ContactModalFlowState.Fail]: false,
     },
     sendForm: jest.fn(),
     closeSuccessModal: jest.fn(),
@@ -34,7 +35,7 @@ test("initially no modal is opened", () => {
 test("contact support modal is rendered", () => {
   renderer({
     config: {
-      [ContactSupportModalKind.Contact]: true,
+      [ContactModalFlowState.Contact]: true,
     },
   })
   expect(screen.getByRole("dialog")).toBeInTheDocument()
@@ -46,7 +47,7 @@ test("contact support modal is rendered", () => {
 test("success modal is rendered", () => {
   renderer({
     config: {
-      [ContactSupportModalKind.Success]: true,
+      [ContactModalFlowState.Success]: true,
     },
   })
   expect(screen.getByRole("dialog")).toBeInTheDocument()
@@ -58,7 +59,7 @@ test("success modal is rendered", () => {
 test("fail modal is rendered", () => {
   renderer({
     config: {
-      [ContactSupportModalKind.Fail]: true,
+      [ContactModalFlowState.Fail]: true,
     },
   })
 
@@ -72,7 +73,7 @@ test("fail modal can be closed", () => {
   const closeFailModal = jest.fn()
   renderer({
     config: {
-      [ContactSupportModalKind.Fail]: true,
+      [ContactModalFlowState.Fail]: true,
     },
     closeFailModal,
   })
@@ -84,7 +85,7 @@ test("success modal can be closed", () => {
   const closeSuccessModal = jest.fn()
   renderer({
     config: {
-      [ContactSupportModalKind.Success]: true,
+      [ContactModalFlowState.Success]: true,
     },
     closeSuccessModal,
   })

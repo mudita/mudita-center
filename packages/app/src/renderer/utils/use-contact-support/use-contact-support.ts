@@ -10,16 +10,11 @@ import hmacSHA256 from "crypto-js/hmac-sha256"
 import axios from "axios"
 import logger from "App/main/utils/logger"
 import { useEffect, useState } from "react"
-
-export enum ContactSupportModalKind {
-  Contact = "contact",
-  Success = "success",
-  Fail = "fail",
-}
+import { ContactModalFlowState } from "App/contacts/components/contact-modal/contact-modal-flow.component"
 
 interface ContactSupportOutput {
   log: string
-  openModal: Record<ContactSupportModalKind, boolean>
+  openModal: Record<ContactModalFlowState, boolean>
   sendForm: (formData: SupportFormData) => Promise<void>
   sending: boolean
   closeContactModal: () => void
@@ -30,16 +25,16 @@ interface ContactSupportOutput {
 
 export const useContactSupport = (): ContactSupportOutput => {
   const [openModal, setOpenModal] = useState({
-    [ContactSupportModalKind.Contact]: false,
-    [ContactSupportModalKind.Success]: false,
-    [ContactSupportModalKind.Fail]: false,
+    [ContactModalFlowState.Contact]: false,
+    [ContactModalFlowState.Success]: false,
+    [ContactModalFlowState.Fail]: false,
   })
   const [sending, setSending] = useState(false)
   const [log, setLog] = useState("")
   const openContactSupportModal = () => {
     setOpenModal((prevState) => ({
       ...prevState,
-      [ContactSupportModalKind.Contact]: true,
+      [ContactModalFlowState.Contact]: true,
     }))
   }
   useEffect(() => {
@@ -90,8 +85,8 @@ export const useContactSupport = (): ContactSupportOutput => {
       })
       setOpenModal((prevState) => ({
         ...prevState,
-        [ContactSupportModalKind.Contact]: false,
-        [ContactSupportModalKind.Success]: true,
+        [ContactModalFlowState.Contact]: false,
+        [ContactModalFlowState.Success]: true,
       }))
     } catch (error) {
       const { log, ...errorBody } = JSON.parse(error.config.data)
@@ -104,8 +99,8 @@ export const useContactSupport = (): ContactSupportOutput => {
       logger.error(`Contact support error: ${JSON.stringify(simpleError)}`)
       setOpenModal((prevState) => ({
         ...prevState,
-        [ContactSupportModalKind.Contact]: false,
-        [ContactSupportModalKind.Fail]: true,
+        [ContactModalFlowState.Contact]: false,
+        [ContactModalFlowState.Fail]: true,
       }))
     }
   }
@@ -119,17 +114,17 @@ export const useContactSupport = (): ContactSupportOutput => {
     closeContactModal: () =>
       setOpenModal((prevState) => ({
         ...prevState,
-        [ContactSupportModalKind.Contact]: false,
+        [ContactModalFlowState.Contact]: false,
       })),
     closeSuccessModal: () =>
       setOpenModal((prevState) => ({
         ...prevState,
-        [ContactSupportModalKind.Success]: false,
+        [ContactModalFlowState.Success]: false,
       })),
     closeFailModal: () =>
       setOpenModal((prevState) => ({
         ...prevState,
-        [ContactSupportModalKind.Fail]: false,
+        [ContactModalFlowState.Fail]: false,
       })),
   }
 }

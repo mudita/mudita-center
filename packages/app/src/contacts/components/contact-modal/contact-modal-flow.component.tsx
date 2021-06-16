@@ -8,12 +8,17 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ContactModal, {
   SupportFormData,
 } from "App/contacts/components/contact-modal/contact-modal.component"
-import { ContactSupportSuccess } from "App/contacts/components/contact-modal/contact-modal-success.component"
-import { ContactSupportFailed } from "App/contacts/components/contact-modal/contact-modal-failed.component"
-import { ContactSupportModalKind } from "Renderer/utils/contact-support/use-contact-support"
+import ContactModalSuccess from "App/contacts/components/contact-modal/contact-modal-success.component"
+import ContactModalFailed from "App/contacts/components/contact-modal/contact-modal-failed.component"
+
+export enum ContactModalFlowState {
+  Contact = "contact",
+  Success = "success",
+  Fail = "fail",
+}
 
 interface Properties {
-  config: Record<ContactSupportModalKind, boolean>
+  config: Record<ContactModalFlowState, boolean>
   sendForm: (formData: SupportFormData) => Promise<void>
   sending?: boolean
   log?: string
@@ -34,18 +39,18 @@ const ContactModalFlow: FunctionComponent<Properties> = ({
   return (
     <>
       <ContactModal
-        open={config[ContactSupportModalKind.Contact]}
+        open={config[ContactModalFlowState.Contact]}
         closeModal={closeContactModal}
         onSend={sendForm}
         sending={sending}
         log={log}
       />
-      <ContactSupportSuccess
-        open={config[ContactSupportModalKind.Success]}
+      <ContactModalSuccess
+        open={config[ContactModalFlowState.Success]}
         closeModal={closeSuccessModal}
       />
-      <ContactSupportFailed
-        open={config[ContactSupportModalKind.Fail]}
+      <ContactModalFailed
+        open={config[ContactModalFlowState.Fail]}
         closeModal={closeFailModal}
       />
     </>

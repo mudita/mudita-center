@@ -4,14 +4,12 @@
  */
 
 import { renderHook, act } from "@testing-library/react-hooks"
-import {
-  ContactSupportModalKind,
-  useContactSupport,
-} from "Renderer/utils/contact-support/use-contact-support"
+import { useContactSupport } from "Renderer/utils/use-contact-support/use-contact-support"
 import { ipcRenderer } from "electron-better-ipc"
 import { AppLogsEvents } from "App/main/functions/register-app-logs-listener"
 import MockAdapter from "axios-mock-adapter"
 import axios from "axios"
+import { ContactModalFlowState } from "App/contacts/components/contact-modal/contact-modal-flow.component"
 
 const axiosMock = new MockAdapter(axios)
 const OLD_ENV = process.env
@@ -32,9 +30,9 @@ test("initially all modals are closed", async () => {
   const { result, waitForNextUpdate } = renderHook(() => useContactSupport())
   await act(waitForNextUpdate)
   expect(result.current.openModal).toStrictEqual({
-    [ContactSupportModalKind.Contact]: false,
-    [ContactSupportModalKind.Success]: false,
-    [ContactSupportModalKind.Fail]: false,
+    [ContactModalFlowState.Contact]: false,
+    [ContactModalFlowState.Success]: false,
+    [ContactModalFlowState.Fail]: false,
   })
 })
 
@@ -54,7 +52,7 @@ test("success modal is opened when request is successful", async () => {
       message: "Some message",
     })
   })
-  expect(result.current.openModal[ContactSupportModalKind.Success]).toBeTruthy()
+  expect(result.current.openModal[ContactModalFlowState.Success]).toBeTruthy()
 })
 
 test("fail modal is opened when request failed", async () => {
@@ -67,5 +65,5 @@ test("fail modal is opened when request failed", async () => {
       message: "Some message",
     })
   })
-  expect(result.current.openModal[ContactSupportModalKind.Fail]).toBeTruthy()
+  expect(result.current.openModal[ContactModalFlowState.Fail]).toBeTruthy()
 })

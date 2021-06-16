@@ -7,7 +7,7 @@ import React from "react"
 import { useHistory } from "react-router"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboarding-troubleshooting.component"
-import { useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
+import { useContactSupport } from "Renderer/utils/use-contact-support/use-contact-support"
 import ContactModalFlow from "App/contacts/components/contact-modal/contact-modal-flow.component"
 
 const Troubleshooting = () => {

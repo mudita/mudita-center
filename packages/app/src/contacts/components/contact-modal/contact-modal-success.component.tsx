@@ -23,7 +23,7 @@ const messages = defineMessages({
   body: { id: "component.supportModalSuccessBody" },
 })
 
-export const ContactSupportSuccess: FunctionComponent<
+const ContactModalSuccess: FunctionComponent<
   ComponentProps<typeof ModalDialog>
 > = ({ ...props }) => (
   <ModalDialog size={ModalSize.Small} {...props}>
@@ -42,3 +42,5 @@ export const ContactSupportSuccess: FunctionComponent<
     </SimpleModal>
   </ModalDialog>
 )
+
+export default ContactModalSuccess
