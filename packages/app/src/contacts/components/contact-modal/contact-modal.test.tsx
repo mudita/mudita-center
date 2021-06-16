@@ -20,13 +20,22 @@ import { screen, fireEvent, waitFor } from "@testing-library/react"
 const logText = "Some example log text"
 
 const renderContactModal = ({ ...props }: Partial<ContactModalProps> = {}) => {
-  const outcome = renderWithThemeAndIntl(<ContactModal open log={logText} {...props} />)
+  const outcome = renderWithThemeAndIntl(
+    <ContactModal open log={logText} {...props} />
+  )
   return {
     ...outcome,
     form: () => outcome.container.querySelector("form"),
-    getEmailInput: () => screen.getByPlaceholderText("[value] component.supportModalFormEmailPlaceholder"),
-    getMessageInput: () => screen.getByPlaceholderText("[value] component.supportModalFormMessagePlaceholder"),
-    getFileInput: () => screen.getByLabelText("[value] component.formMultipleFileUpload"),
+    getEmailInput: () =>
+      screen.getByPlaceholderText(
+        "[value] component.contactModalFormEmailPlaceholder"
+      ),
+    getMessageInput: () =>
+      screen.getByPlaceholderText(
+        "[value] component.contactModalFormMessagePlaceholder"
+      ),
+    getFileInput: () =>
+      screen.getByLabelText("[value] component.formMultipleFileUpload"),
     getDetailsField: () => screen.getByText(logText),
   }
 }
@@ -70,7 +79,7 @@ describe("contact modal details", () => {
       fireEvent.click(
         screen.getByText(
           intl.formatMessage({
-            id: `component.supportModalFormDetails${
+            id: `component.contactModalFormDetails${
               toggled ? "HideButton" : "ShowButton"
             }`,
           })
@@ -150,10 +159,10 @@ test("failed modal renders properly", () => {
   const { getByText } = renderWithThemeAndIntl(<ContactSupportFailed open />)
 
   expect(
-    getByText("component.supportModalFailTitle", { exact: false })
+    getByText("component.contactModalFailTitle", { exact: false })
   ).toBeInTheDocument()
   expect(
-    getByText("component.supportModalFailBody", { exact: false })
+    getByText("component.contactModalFailBody", { exact: false })
   ).toBeInTheDocument()
 })
 
@@ -161,9 +170,9 @@ test("success modal renders properly", () => {
   const { getByText } = renderWithThemeAndIntl(<ContactSupportSuccess open />)
 
   expect(
-    getByText("component.supportModalSuccessTitle", { exact: false })
+    getByText("component.contactModalSuccessTitle", { exact: false })
   ).toBeInTheDocument()
   expect(
-    getByText("component.supportModalSuccessBody", { exact: false })
+    getByText("component.contactModalSuccessBody", { exact: false })
   ).toBeInTheDocument()
 })

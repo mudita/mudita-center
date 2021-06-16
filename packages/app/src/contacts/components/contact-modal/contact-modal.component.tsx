@@ -38,28 +38,28 @@ import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.comp
 
 const messages = defineMessages({
   actionButton: {
-    id: "component.supportModalActionButton",
+    id: "component.contactModalActionButton",
   },
   actionButtonProgress: {
-    id: "component.supportModalActionButtonProgress",
+    id: "component.contactModalActionButtonProgress",
   },
   title: {
-    id: "component.supportModalTitle",
+    id: "component.contactModalTitle",
   },
   description: {
-    id: "component.supportModalDescription",
+    id: "component.contactModalDescription",
   },
-  emailLabel: { id: "component.supportModalFormEmailLabel" },
-  emailPlaceholder: { id: "component.supportModalFormEmailPlaceholder" },
-  messageLabel: { id: "component.supportModalFormMessageLabel" },
+  emailLabel: { id: "component.contactModalFormEmailLabel" },
+  emailPlaceholder: { id: "component.contactModalFormEmailPlaceholder" },
+  messageLabel: { id: "component.contactModalFormMessageLabel" },
   messagePlaceholder: {
-    id: "component.supportModalFormMessagePlaceholder",
+    id: "component.contactModalFormMessagePlaceholder",
   },
-  filesLabel: { id: "component.supportModalFormFilesLabel" },
-  detailsLabel: { id: "component.supportModalFormDetailsLabel" },
-  detailsShowButton: { id: "component.supportModalFormDetailsShowButton" },
-  detailsHideButton: { id: "component.supportModalFormDetailsHideButton" },
-  optional: { id: "component.supportModalFormOptional" },
+  filesLabel: { id: "component.contactModalFormFilesLabel" },
+  detailsLabel: { id: "component.contactModalFormDetailsLabel" },
+  detailsShowButton: { id: "component.contactModalFormDetailsShowButton" },
+  detailsHideButton: { id: "component.contactModalFormDetailsHideButton" },
+  optional: { id: "component.contactModalFormOptional" },
   emailRequiredError: { id: "component.formErrorRequiredEmail" },
 })
 

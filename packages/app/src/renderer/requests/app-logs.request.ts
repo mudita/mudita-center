@@ -12,10 +12,10 @@ import { AppLogsEvents } from "App/main/functions/register-app-logs-listener"
 
 const messages = defineMessages({
   appVersion: {
-    id: "component.supportModalDetailsAppVersion",
+    id: "component.contactModalDetailsAppVersion",
   },
   os: {
-    id: "component.supportModalDetailsOs",
+    id: "component.contactModalDetailsOs",
   },
 })
 

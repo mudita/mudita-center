@@ -40,7 +40,7 @@ test("contact support modal is rendered", () => {
   })
   expect(screen.getByRole("dialog")).toBeInTheDocument()
   expect(
-    screen.getByText("[value] component.supportModalTitle")
+    screen.getByText("[value] component.contactModalTitle")
   ).toBeInTheDocument()
 })
 
@@ -52,7 +52,7 @@ test("success modal is rendered", () => {
   })
   expect(screen.getByRole("dialog")).toBeInTheDocument()
   expect(
-    screen.getByText("[value] component.supportModalSuccessTitle")
+    screen.getByText("[value] component.contactModalSuccessTitle")
   ).toBeInTheDocument()
 })
 
@@ -65,7 +65,7 @@ test("fail modal is rendered", () => {
 
   expect(screen.getByRole("dialog")).toBeInTheDocument()
   expect(
-    screen.getByText("[value] component.supportModalFailTitle")
+    screen.getByText("[value] component.contactModalFailTitle")
   ).toBeInTheDocument()
 })
 

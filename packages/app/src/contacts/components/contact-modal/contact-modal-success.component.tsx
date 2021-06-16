@@ -19,8 +19,8 @@ import Text, {
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
-  title: { id: "component.supportModalSuccessTitle" },
-  body: { id: "component.supportModalSuccessBody" },
+  title: { id: "component.contactModalSuccessTitle" },
+  body: { id: "component.contactModalSuccessBody" },
 })
 
 const ContactModalSuccess: FunctionComponent<
