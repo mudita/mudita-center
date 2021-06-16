@@ -23,7 +23,6 @@ import {
   UpdateServerError,
   UpdatingFailureModal,
   UpdatingFailureWithHelpModal,
-  UpdatingProgressModal,
   UpdatingSpinnerModal,
   UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
@@ -144,11 +143,6 @@ storiesOf("Views|Overview/Modals", module)
   .add("Downloading interrupted", () => (
     <ModalStory>
       <DownloadingUpdateInterruptedModal />
-    </ModalStory>
-  ))
-  .add("Updating progress", () => (
-    <ModalStory>
-      <UpdatingProgressModal progressValue={80} />
     </ModalStory>
   ))
   .add("Updating spinner progress", () => (
