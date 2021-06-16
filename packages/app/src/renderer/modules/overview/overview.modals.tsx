@@ -31,6 +31,10 @@ import {
   ErrorWithRetryDataModal,
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
+import { LoadingBar } from "Renderer/modules/overview/backup-process/modals.styled"
+import theme from "Renderer/styles/theming/theme"
+import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
+import useDynamicProgressValue from "Renderer/utils/hooks/use-dynamic-progress-value.hook"
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
@@ -71,6 +75,10 @@ const DownloadBar = styled.div`
     background-color: ${backgroundColor("activity")};
     transition: width ${transitionTime("faster")} ease-in-out;
   }
+`
+
+const ProgressText = styled(ModalText)`
+  margin-bottom: 6.8rem;
 `
 
 const CenteredText = styled(Text)`
@@ -356,11 +364,15 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
   />
 )
 
-export const UpdatingProgressModal: FunctionComponent = () => {
+export const UpdatingProgressModal: FunctionComponent<{
+  progressValue: number
+}> = ({ progressValue }) => {
+  const value = useDynamicProgressValue(progressValue)
+
   return (
     <OSUpdateModal closeButton={false} closeable={false}>
       <RoundIconWrapper>
-        <Loader type={LoaderType.Spinner} size={6} />
+        <Icon type={Type.MuditaDarkLogo} width={8} />
       </RoundIconWrapper>
       <ModalText
         displayStyle={TextDisplayStyle.LargeBoldText}
@@ -370,6 +382,23 @@ export const UpdatingProgressModal: FunctionComponent = () => {
         displayStyle={TextDisplayStyle.MediumFadedText}
         message={messages.updatingProgressDescription}
       />
+      <LoadingBar
+        chartData={[
+          {
+            value,
+            color: backgroundColor("chartBar")({ theme }),
+          },
+          {
+            value: 100 - value,
+            color: backgroundColor("minor")({ theme }),
+          },
+        ]}
+        displayStyle={DisplayStyle.Thin}
+      />
+
+      <ProgressText displayStyle={TextDisplayStyle.MediumLightText}>
+        {value}%
+      </ProgressText>
     </OSUpdateModal>
   )
 }
@@ -378,7 +407,7 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
   return (
     <OSUpdateModal closeButton={false} closeable={false}>
       <RoundIconWrapper>
-        <Loader type={LoaderType.Spinner} size={6} />
+        <Icon type={Type.MuditaDarkLogo} width={8} />
       </RoundIconWrapper>
       <ModalText
         displayStyle={TextDisplayStyle.LargeBoldText}
@@ -395,7 +424,7 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
 export const UpdatingSuccessModal = () => (
   <OSUpdateModal data-testid={OverviewTestIds.UpdatingSuccessModal}>
     <RoundIconWrapper>
-      <Icon type={Type.Pure} width={4} />
+      <Loader type={LoaderType.Spinner} size={6} />
     </RoundIconWrapper>
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}

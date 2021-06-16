@@ -18,8 +18,8 @@ import {
   UpdateServerError,
   UpdatingFailureModal,
   UpdatingFailureWithHelpModal,
+  UpdatingProgressModal,
   UpdatingSuccessModal,
-  UpdatingSpinnerModal,
 } from "Renderer/modules/overview/overview.modals"
 import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
 import downloadOsUpdateRequest, {
@@ -41,6 +41,10 @@ import {
 import { isEqual } from "lodash"
 import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
 import logger from "App/main/utils/logger"
+import registerOsUpdateProgressListener, {
+  OsUpdateProgressListener,
+  removeOsUpdateProgressListener,
+} from "Renderer/listeners/register-os-update-progress.listener"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-pure-os-update-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
@@ -307,14 +311,24 @@ const useSystemUpdateFlow = (
   const updatePure = async () => {
     const { file, version } = releaseToInstall as Release
 
-    modalService.openModal(<UpdatingSpinnerModal />, true)
+    modalService.openModal(<UpdatingProgressModal progressValue={0} />, true)
 
     toggleDeviceUpdating(true)
 
+    const listener: OsUpdateProgressListener = async (_, { progress }) => {
+      modalService.rerenderModal(
+        <UpdatingProgressModal progressValue={progress} />
+      )
+    }
+
+    registerOsUpdateProgressListener(listener)
+
     const response = await updateOs(file.name, IpcEmitter.OsUpdateProgress)
 
+    removeOsUpdateProgressListener(listener)
+
     if (response.status === DeviceResponseStatus.Ok) {
-      modalService.rerenderModal(<UpdatingSpinnerModal />)
+      modalService.rerenderModal(<UpdatingProgressModal progressValue={100} />)
     }
 
     toggleDeviceUpdating(false)

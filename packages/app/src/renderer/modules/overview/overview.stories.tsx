@@ -24,8 +24,8 @@ import {
   UpdatingFailureModal,
   UpdatingFailureWithHelpModal,
   UpdatingProgressModal,
-  UpdatingSuccessModal,
   UpdatingSpinnerModal,
+  UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
@@ -148,10 +148,10 @@ storiesOf("Views|Overview/Modals", module)
   ))
   .add("Updating progress", () => (
     <ModalStory>
-      <UpdatingProgressModal />
+      <UpdatingProgressModal progressValue={80} />
     </ModalStory>
   ))
-  .add("Updating progress spinner", () => (
+  .add("Updating spinner progress", () => (
     <ModalStory>
       <UpdatingSpinnerModal />
     </ModalStory>
