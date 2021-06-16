@@ -5,12 +5,12 @@
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React, { ComponentProps } from "react"
-import ContactSupportModalFlow from "App/contacts/components/contact-modal/contact-support-modal-flow.component"
+import ContactModalFlow from "App/contacts/components/contact-modal/contact-modal-flow.component"
 import { ContactSupportModalKind } from "Renderer/utils/contact-support/use-contact-support"
 import { screen } from "@testing-library/react"
 
 const renderer = (extraProps?: {}) => {
-  const defaultProps: ComponentProps<typeof ContactSupportModalFlow> = {
+  const defaultProps: ComponentProps<typeof ContactModalFlow> = {
     config: {
       [ContactSupportModalKind.Contact]: false,
       [ContactSupportModalKind.Success]: false,
@@ -22,7 +22,7 @@ const renderer = (extraProps?: {}) => {
     closeContactModal: jest.fn(),
   }
   return renderWithThemeAndIntl(
-    <ContactSupportModalFlow {...defaultProps} {...extraProps} />
+    <ContactModalFlow {...defaultProps} {...extraProps} />
   )
 }
 

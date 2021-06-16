@@ -8,7 +8,7 @@ import { useHistory } from "react-router"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboarding-troubleshooting.component"
 import { useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
-import ContactSupportModalFlow from "App/contacts/components/contact-modal/contact-support-modal-flow.component"
+import ContactModalFlow from "App/contacts/components/contact-modal/contact-modal-flow.component"
 
 const Troubleshooting = () => {
   const history = useHistory()
@@ -30,7 +30,7 @@ const Troubleshooting = () => {
 
   return (
     <>
-      <ContactSupportModalFlow
+      <ContactModalFlow
         config={openModal}
         sendForm={sendForm}
         sending={sending}

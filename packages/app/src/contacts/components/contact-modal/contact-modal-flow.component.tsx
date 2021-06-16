@@ -22,7 +22,7 @@ interface Properties {
   closeContactModal: () => void
 }
 
-const ContactSupportModalFlow: FunctionComponent<Properties> = ({
+const ContactModalFlow: FunctionComponent<Properties> = ({
   config,
   sendForm,
   sending,
@@ -52,4 +52,4 @@ const ContactSupportModalFlow: FunctionComponent<Properties> = ({
   )
 }
 
-export default ContactSupportModalFlow
+export default ContactModalFlow
