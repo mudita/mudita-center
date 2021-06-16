@@ -147,7 +147,7 @@ storiesOf("Views|Overview/Modals", module)
   ))
   .add("Updating progress", () => (
     <ModalStory>
-      <UpdatingProgressModal progressValue={80} />
+      <UpdatingProgressModal />
     </ModalStory>
   ))
   .add("Updating success", () => (
