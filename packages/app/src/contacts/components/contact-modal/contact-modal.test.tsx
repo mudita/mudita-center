@@ -4,6 +4,8 @@
  */
 
 import React from "react"
+import { screen, fireEvent, waitFor } from "@testing-library/react"
+import { intl } from "Renderer/utils/intl"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import ContactModal, {
   ContactModalProps,
@@ -12,10 +14,10 @@ import {
   mockEvent,
   mockJpg,
 } from "Renderer/components/core/input-file/input-file.test"
-import { intl } from "Renderer/utils/intl"
-import { ContactSupportFailed } from "App/contacts/components/contact-modal/contact-modal-failed.component"
-import { ContactSupportSuccess } from "App/contacts/components/contact-modal/contact-modal-success.component"
-import { screen, fireEvent, waitFor } from "@testing-library/react"
+import ContactSupportFailed from "App/contacts/components/contact-modal/contact-modal-failed.component"
+import ContactSupportSuccess from "App/contacts/components/contact-modal/contact-modal-success.component"
+import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
+import { noop } from "Renderer/utils/noop"
 
 const logText = "Some example log text"
 
@@ -115,7 +117,7 @@ test("contact modal form sending works properly", async () => {
     target: { value: "Example message" },
   })
   fireEvent.change(getFileInput() as Element, mockEvent(file))
-  fireEvent.click(getByTestId("modal-action-button"))
+  fireEvent.click(getByTestId(ModalTestIds.ModalActionButton))
 
   await waitFor(() => {
     expect(onSend).toBeCalledWith({
@@ -126,7 +128,21 @@ test("contact modal form sending works properly", async () => {
   })
 })
 
-test("contact modal email validation works properly", async () => {
+test("contact modal email validation works properly - email field empty", async () => {
+  const onSend = jest.fn()
+  const { getByTestId } = renderContactModal({
+    onSend,
+  })
+
+  fireEvent.click(getByTestId(ModalTestIds.ModalActionButton))
+
+  await waitFor(noop)
+  await waitFor(() => {
+    expect(onSend).not.toBeCalled()
+  })
+})
+
+test("contact modal email validation works properly - wrong email", async () => {
   const onSend = jest.fn()
   const { getEmailInput, getByTestId } = renderContactModal({
     onSend,
@@ -135,7 +151,7 @@ test("contact modal email validation works properly", async () => {
   fireEvent.change(getEmailInput() as Element, {
     target: { value: "wrongEmail" },
   })
-  fireEvent.click(getByTestId("modal-action-button"))
+  fireEvent.click(getByTestId(ModalTestIds.ModalActionButton))
 
   await waitFor(() => {
     expect(onSend).not.toBeCalled()
@@ -148,7 +164,7 @@ test("contact modal form validation works properly", async () => {
     onSend,
   })
 
-  fireEvent.click(getByTestId("modal-action-button"))
+  fireEvent.click(getByTestId(ModalTestIds.ModalActionButton))
 
   await waitFor(() => {
     expect(onSend).toBeCalled()

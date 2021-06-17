@@ -17,7 +17,7 @@ import {
   backgroundColor,
   borderRadius,
 } from "Renderer/styles/theming/theme-getters"
-import { InputComponent } from "Renderer/components/core/input-text/input-text.component"
+import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import { Message } from "Renderer/interfaces/message.interface"
 import InputFile from "Renderer/components/core/input-file/input-file.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
