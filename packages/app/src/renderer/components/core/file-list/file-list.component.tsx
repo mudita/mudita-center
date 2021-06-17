@@ -16,6 +16,7 @@ import {
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
+import { FileListTestIds } from "Renderer/components/core/file-list/file-list-test-ids.enum"
 
 const File = styled.li`
   display: flex;
@@ -64,9 +65,13 @@ interface Props {
 
 // TODO: Add test
 
-const FileList: FunctionComponent<Props> = ({ files, onRemoveClick }) => {
+const FileList: FunctionComponent<Props> = ({
+  files,
+  onRemoveClick,
+  ...props
+}) => {
   return (
-    <Container>
+    <Container {...props}>
       {files.map((file, index) => {
         const onClick = onRemoveClick
           ? () => {
@@ -75,7 +80,7 @@ const FileList: FunctionComponent<Props> = ({ files, onRemoveClick }) => {
           : undefined
 
         return (
-          <File key={index}>
+          <File key={index} data-testid={FileListTestIds.File}>
             <Icon type={Type.Attachment} height={1.6} />
             <Text displayStyle={TextDisplayStyle.MediumFadedText}>
               {file.name}
