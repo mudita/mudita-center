@@ -27,6 +27,12 @@ const defaultDependency = ({
   createFreshdeskTicket: mockCreateFreshdeskTicket,
 } as unknown) as DependencyUseCreateBugTicket
 
+const data = {
+  email: "mudita@center.com",
+  subject: "Error - UpdateOS_1000",
+  description: "description",
+}
+
 const build = (extraDependency?: Partial<DependencyUseCreateBugTicket>) => {
   return useCreateBugTicketBuilder({ ...defaultDependency, ...extraDependency })
 }
@@ -37,11 +43,7 @@ test("request works properly", async () => {
   const {
     result: { current },
   } = renderHook<undefined, CreateBugTicket>(() => useCreateBugTicket())
-  const response = await current.sendRequest({
-    email: "mudita@center.com",
-    subject: "Error - UpdateOS_1000",
-    description: "description",
-  })
+  const response = await current.sendRequest(data)
 
   expect(response).toMatchInlineSnapshot(`
     Object {
@@ -50,7 +52,26 @@ test("request works properly", async () => {
   `)
 })
 
-test("request works properly - error", async () => {
+test("request works properly even getDeviceLogs throw error", async () => {
+  const useCreateBugTicket = build({
+    getDeviceLogs: jest
+      .fn()
+      .mockReturnValue(Promise.resolve({ status: DeviceResponseStatus.Error })),
+  })
+
+  const {
+    result: { current },
+  } = renderHook<undefined, CreateBugTicket>(() => useCreateBugTicket())
+  const response = await current.sendRequest(data)
+
+  expect(response).toMatchInlineSnapshot(`
+    Object {
+      "status": "ok",
+    }
+  `)
+})
+
+test("request return error when createFreshdeskTicket throw error", async () => {
   const useCreateBugTicket = build({
     createFreshdeskTicket: jest
       .fn()
@@ -61,11 +82,7 @@ test("request works properly - error", async () => {
     result: { current },
     waitForNextUpdate,
   } = renderHook<undefined, CreateBugTicket>(() => useCreateBugTicket())
-  const pendingResponse = current.sendRequest({
-    email: "mudita@center.com",
-    subject: "Error - UpdateOS_1000",
-    description: "description",
-  })
+  const pendingResponse = current.sendRequest(data)
   await act(waitForNextUpdate)
   const response = await pendingResponse
 
@@ -80,6 +97,56 @@ test("request works properly - error", async () => {
           },
         ],
         "message": "Validation failed",
+      },
+      "status": "error",
+    }
+  `)
+  expect(response).toMatchObject(current.error || {})
+})
+
+test("request return properly error in WriteFileSync error", async () => {
+  const useCreateBugTicket = build({
+    writeFile: jest.fn().mockReturnValue(Promise.resolve(false)),
+  })
+
+  const {
+    result: { current },
+    waitForNextUpdate,
+  } = renderHook<undefined, CreateBugTicket>(() => useCreateBugTicket())
+  const pendingResponse = current.sendRequest(data)
+  await act(waitForNextUpdate)
+  const response = await pendingResponse
+
+  expect(response).toMatchInlineSnapshot(`
+    Object {
+      "error": Object {
+        "message": "Create Bug Ticket - WriteFileSync error",
+      },
+      "status": "error",
+    }
+  `)
+  expect(response).toMatchObject(current.error || {})
+})
+
+test("request return properly error when createFile throw error", async () => {
+  const useCreateBugTicket = build({
+    createFile: jest.fn().mockImplementation(() => {
+      throw new Error()
+    }),
+  })
+
+  const {
+    result: { current },
+    waitForNextUpdate,
+  } = renderHook<undefined, CreateBugTicket>(() => useCreateBugTicket())
+  const pendingResponse = current.sendRequest(data)
+  await act(waitForNextUpdate)
+  const response = await pendingResponse
+
+  expect(response).toMatchInlineSnapshot(`
+    Object {
+      "error": Object {
+        "message": "Create Bug Ticket - bug in creates attachments",
       },
       "status": "error",
     }

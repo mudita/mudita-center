@@ -16,19 +16,21 @@ export enum CreateBugTicketResponseStatus {
   Error = "error",
 }
 
+interface CreateBugTicketResponseError {
+  message: string
+  data?: unknown
+}
+
 interface CreateBugTicketResponse {
   status: CreateBugTicketResponseStatus
-  error?: {
-    message: string
-    data?: unknown
-  }
+  error?: CreateBugTicketResponseError
 }
 
 export interface CreateBugTicket {
   sendRequest: (
     data: Omit<FreshdeskTicketData, "type" | "attachments">
   ) => Promise<CreateBugTicketResponse>
-  error: Pick<CreateBugTicketResponse, "error"> | null
+  error: CreateBugTicketResponseError | undefined
 }
 
 const todayFormatDate = formatDate(new Date())
@@ -42,7 +44,7 @@ const useCreateBugTicketBuilder = ({
   createFile,
   createFreshdeskTicket,
 }: DependencyUseCreateBugTicket) => (): CreateBugTicket => {
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<CreateBugTicketResponseError>()
   const sendRequest = async ({
     email,
     subject,
@@ -51,34 +53,60 @@ const useCreateBugTicketBuilder = ({
     FreshdeskTicketData,
     "type" | "attachments"
   >): Promise<CreateBugTicketResponse> => {
-    // TODO: bugs handle
     const appLogs = await getAppLogs()
-    const { data: deviceLogs = "test" } = await getDeviceLogs()
+    const { data: deviceLogs = "" } = await getDeviceLogs()
     const filePath = `${getAppPath()}/tmp-${todayFormatDate}`
 
     const mcFileName = `mc-${todayFormatDate}.txt`
-    await writeFile({
+    const mcWriteResponse = await writeFile({
       filePath,
       data: appLogs,
       fileName: mcFileName,
     })
 
+    if (!mcWriteResponse) {
+      const response = returnResponseError(
+        "Create Bug Ticket - WriteFileSync error"
+      )
+      setError(response.error)
+      return response
+    }
+
     const pureFileName = `pure-${todayFormatDate}.txt`
-    await writeFile({
+    const pureWriteResponse = await writeFile({
       filePath,
       data: deviceLogs,
       fileName: pureFileName,
     })
 
+    if (!pureWriteResponse) {
+      const response = returnResponseError(
+        "Create Bug Ticket - WriteFileSync error"
+      )
+      setError(response.error)
+      return response
+    }
+
+    let attachments = []
+    try {
+      attachments = [
+        createFile(`${filePath}/${mcFileName}`),
+        createFile(`${filePath}/${pureFileName}`),
+      ]
+    } catch {
+      const response = returnResponseError(
+        "Create Bug Ticket - bug in creates attachments"
+      )
+      setError(response.error)
+      return response
+    }
+
     const data = {
       email,
       subject,
       description,
+      attachments,
       type: FreshdeskTicketDataType.Problem,
-      attachments: [
-        createFile(`${filePath}/${mcFileName}`),
-        createFile(`${filePath}/${pureFileName}`),
-      ],
     }
 
     try {
@@ -97,16 +125,25 @@ const useCreateBugTicketBuilder = ({
           },
         }
       } else {
-        return {
-          status: CreateBugTicketResponseStatus.Error,
-          error: {
-            message: "Create Bug Ticket - Bad Request",
-          },
-        }
+        return returnResponseError("Create Bug Ticket - Bad Request")
       }
     }
   }
   return { sendRequest, error }
+}
+
+const returnResponseError = (
+  message: string
+): {
+  status: CreateBugTicketResponseStatus.Error
+  error: CreateBugTicketResponseError
+} => {
+  return {
+    status: CreateBugTicketResponseStatus.Error,
+    error: {
+      message,
+    },
+  }
 }
 
 export default useCreateBugTicketBuilder
