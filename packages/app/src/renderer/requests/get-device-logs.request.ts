@@ -7,10 +7,8 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
-const importDeviceErrorFile = async (
-  filePath: string
-): Promise<DeviceResponse> => {
-  return ipcRenderer.callMain(IpcRequest.ImportDeviceErrorFile, filePath)
+const getDeviceLogs = async (): Promise<DeviceResponse<string>> => {
+  return ipcRenderer.callMain(IpcRequest.GetDeviceLogs)
 }
 
-export default importDeviceErrorFile
+export default getDeviceLogs

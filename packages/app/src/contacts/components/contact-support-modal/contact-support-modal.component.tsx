@@ -125,7 +125,7 @@ enum FieldKeys {
   Description = "description",
 }
 
-interface ContactSupportFieldValues extends FieldValues {
+export interface ContactSupportFieldValues extends FieldValues {
   [FieldKeys.Email]: string
   [FieldKeys.Description]: string
 }

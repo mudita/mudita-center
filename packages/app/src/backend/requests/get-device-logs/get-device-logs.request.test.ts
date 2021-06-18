@@ -6,7 +6,7 @@
 import { ipcMain } from "electron-better-ipc"
 import Adapters from "Backend/adapters/adapters.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import registerImportDeviceErrorFile from "Backend/requests/import-device-error-file/import-device-error-file.request"
+import registerGetDeviceLogs from "Backend/requests/get-device-logs/get-device-logs.request"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -19,7 +19,7 @@ import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapt
 
 jest.mock("Backend/device-service")
 
-test("ImportDeviceErrorFile request works properly", (done) => {
+test("GetDeviceLogs request works properly", (done) => {
   ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: (
@@ -38,7 +38,7 @@ test("ImportDeviceErrorFile request works properly", (done) => {
           return {
             status: DeviceResponseStatus.Ok,
             data: {
-              data: `SGVsbG8sIFdvcmxk`,
+              data: "SGVsbG8sIFdvcmxk",
             },
           }
         } else {
@@ -53,18 +53,14 @@ test("ImportDeviceErrorFile request works properly", (done) => {
     new DeviceService(PureDeviceManager, ipcMain)
   )
 
-  jest.spyOn<any, any>(purePhone, "writeFileSync")
-
-  registerImportDeviceErrorFile(({
+  registerGetDeviceLogs(({
     purePhone,
   } as unknown) as Adapters)
-  const [promise] = (ipcMain as any)._flush(
-    IpcRequest.ImportDeviceErrorFile,
-    "error-fixture.txt"
-  )
+  const [promise] = (ipcMain as any)._flush(IpcRequest.GetDeviceLogs)
   promise.then((result: DeviceResponse) => {
     expect(result).toMatchInlineSnapshot(`
     Object {
+      "data": "Hello, World",
       "status": "ok",
     }
   `)
