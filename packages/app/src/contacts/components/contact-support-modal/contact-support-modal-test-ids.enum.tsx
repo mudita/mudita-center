@@ -4,7 +4,7 @@
  */
 
 export enum ContactSupportModalTestIds {
-  MessageInput = "message-input",
+  DescriptionInput = "description-input",
   EmailInput = "email-input",
   FileList = "file-list",
   SubmitButton = "submit-button",

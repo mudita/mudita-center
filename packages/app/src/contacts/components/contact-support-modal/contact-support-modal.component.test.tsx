@@ -26,7 +26,9 @@ const render = (extraProps?: Partial<Props>) => {
   return {
     ...outcome,
     emailInput: outcome.getByTestId(ContactSupportModalTestIds.EmailInput),
-    messageInput: outcome.getByTestId(ContactSupportModalTestIds.MessageInput),
+    descriptionInput: outcome.getByTestId(
+      ContactSupportModalTestIds.DescriptionInput
+    ),
     fileList: outcome.getByTestId(ContactSupportModalTestIds.FileList),
     submitButton: outcome.getByTestId(ContactSupportModalTestIds.SubmitButton),
   }
@@ -43,13 +45,13 @@ const renderWithWaitFor = async (extraProps?: Partial<Props>) => {
 test("form renders properly", async () => {
   const {
     emailInput,
-    messageInput,
+    descriptionInput,
     fileList,
     queryByTestId,
   } = await renderWithWaitFor()
 
   expect(emailInput).toBeInTheDocument()
-  expect(messageInput).toBeInTheDocument()
+  expect(descriptionInput).toBeInTheDocument()
   expect(fileList).toBeInTheDocument()
   expect(queryByTestId(FileListTestIds.File)).toEqual(null)
 })

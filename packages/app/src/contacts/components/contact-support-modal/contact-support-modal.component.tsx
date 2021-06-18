@@ -50,8 +50,8 @@ const messages = defineMessages({
   emailLabel: { id: "component.contactSupportModalFormEmailLabel" },
   emailPlaceholder: { id: "component.contactSupportModalFormEmailPlaceholder" },
   messageLabel: { id: "component.contactSupportModalFormMessageLabel" },
-  messagePlaceholder: {
-    id: "component.contactSupportModalFormMessagePlaceholder",
+  descriptionPlaceholder: {
+    id: "component.contactSupportModalFormDescriptionPlaceholder",
   },
   filesLabel: { id: "component.contactSupportModalFormFilesLabel" },
   filesLabelDescription: {
@@ -60,7 +60,7 @@ const messages = defineMessages({
   optional: { id: "component.contactSupportModalFormOptional" },
 })
 
-const MessageInput = styled(InputComponent)<InputComponentProps>`
+const DescriptionInput = styled(InputComponent)<InputComponentProps>`
   min-height: 8rem;
   align-items: flex-start;
   padding: 0 1.2rem;
@@ -122,12 +122,12 @@ const FormInputLabel = styled(FormInputLabelComponent)`
 
 enum FieldKeys {
   Email = "email",
-  Message = "message",
+  Description = "description",
 }
 
 interface ContactSupportFieldValues extends FieldValues {
   [FieldKeys.Email]: string
-  [FieldKeys.Message]: string
+  [FieldKeys.Description]: string
 }
 
 interface Props
@@ -181,12 +181,12 @@ const ContactSupportModal: FunctionComponent<Props> = ({
           {...register(FieldKeys.Email, emailValidator)}
         />
         <FormInputLabel optional label={messages.messageLabel} />
-        <MessageInput
+        <DescriptionInput
           type="textarea"
           maxRows={3}
-          label={intl.formatMessage(messages.messagePlaceholder)}
-          data-testid={ContactSupportModalTestIds.MessageInput}
-          {...register(FieldKeys.Message)}
+          label={intl.formatMessage(messages.descriptionPlaceholder)}
+          data-testid={ContactSupportModalTestIds.DescriptionInput}
+          {...register(FieldKeys.Description)}
         />
         <FormInputLabel label={messages.filesLabel} />
         <Text
