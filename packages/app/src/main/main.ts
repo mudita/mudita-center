@@ -62,6 +62,8 @@ import {
   redirectUrl,
 } from "Renderer/models/external-providers/outlook/outlook.constants"
 import { TokenRequester } from "Renderer/models/external-providers/outlook/token-requester"
+import registerWriteFileListener from "App/main/functions/register-write-file-listener"
+import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 
 require("dotenv").config()
 
@@ -137,6 +139,8 @@ const createWindow = async () => {
   registerAutoLaunchListener()
   registerContactsExportListener()
   registerEventsExportListener()
+  registerWriteFileListener()
+  registerWriteGzipListener()
   registerPureOsDownloadProxy()
 
   if (productionEnvironment) {

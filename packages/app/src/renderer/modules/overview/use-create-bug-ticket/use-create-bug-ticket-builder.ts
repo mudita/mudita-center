@@ -42,6 +42,7 @@ const useCreateBugTicketBuilder = ({
   getAppLogs,
   getDeviceLogs,
   createFile,
+  writeGzip,
   createFreshdeskTicket,
 }: DependencyUseCreateBugTicket) => (): CreateBugTicket => {
   const [error, setError] = useState<CreateBugTicketResponseError>()
@@ -87,12 +88,20 @@ const useCreateBugTicketBuilder = ({
       return response
     }
 
+    const writeGzipResponse = await writeGzip({ filePath })
+    const gzipFilePath = `${filePath}.zip`
+
+    if (!writeGzipResponse) {
+      const response = returnResponseError(
+        "Create Bug Ticket - writeGzip error"
+      )
+      setError(response.error)
+      return response
+    }
+
     let attachments = []
     try {
-      attachments = [
-        createFile(`${filePath}/${mcFileName}`),
-        createFile(`${filePath}/${pureFileName}`),
-      ]
+      attachments = [createFile(gzipFilePath)]
     } catch {
       const response = returnResponseError(
         "Create Bug Ticket - bug in creates attachments"

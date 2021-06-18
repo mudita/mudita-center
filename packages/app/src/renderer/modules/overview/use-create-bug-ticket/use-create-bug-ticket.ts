@@ -3,22 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AxiosResponse } from "axios"
+import getAppPath from "App/main/utils/get-app-path"
+import createFile from "Renderer/modules/overview/use-create-bug-ticket/create-file"
+import writeFile from "Renderer/requests/write-file.request"
+import writeGzip from "Renderer/requests/write-gzip.request"
 import getAppLogs from "Renderer/requests/get-app-logs.request"
 import getDeviceLogs from "Renderer/requests/get-device-logs.request"
-import writeFile from "Renderer/requests/write-file.request"
-import getAppPath from "App/main/utils/get-app-path"
+import { WriteData } from "App/main/functions/register-write-file-listener"
+import DeviceResponse from "Backend/adapters/device-response.interface"
 import createFreshdeskTicket, {
   FreshdeskTicketData,
 } from "Renderer/modules/overview/create-freshdesk-ticket/create-freshdesk-ticket"
-import { WriteData } from "App/main/functions/register-write-file-listener"
-import DeviceResponse from "Backend/adapters/device-response.interface"
-import { AxiosResponse } from "axios"
 import useCreateBugTicketBuilder from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket-builder"
-import createFile from "Renderer/modules/overview/use-create-bug-ticket/create-file"
+import { WriteGzipData } from "App/main/functions/register-write-gzip-listener"
 
 export interface DependencyUseCreateBugTicket {
   getAppPath: () => string
   writeFile: (data: WriteData) => Promise<boolean>
+  writeGzip: (data: WriteGzipData) => Promise<boolean>
   getAppLogs: () => Promise<string>
   getDeviceLogs: () => Promise<DeviceResponse<string>>
   createFile: (filePath: string) => File
@@ -30,6 +33,7 @@ export interface DependencyUseCreateBugTicket {
 export default useCreateBugTicketBuilder({
   getAppPath,
   writeFile,
+  writeGzip,
   createFile,
   getAppLogs,
   getDeviceLogs,

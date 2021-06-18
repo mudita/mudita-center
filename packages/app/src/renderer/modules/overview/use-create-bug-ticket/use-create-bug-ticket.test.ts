@@ -16,6 +16,7 @@ import { DependencyUseCreateBugTicket } from "Renderer/modules/overview/use-crea
 
 const defaultDependency = ({
   writeFile: jest.fn().mockReturnValue(Promise.resolve(true)),
+  writeGzip: jest.fn().mockReturnValue(Promise.resolve(true)),
   getAppPath: jest.fn().mockReturnValue(""),
   getAppLogs: jest.fn().mockReturnValue(Promise.resolve("")),
   getDeviceLogs: jest
@@ -147,6 +148,30 @@ test("request return properly error when createFile throw error", async () => {
     Object {
       "error": Object {
         "message": "Create Bug Ticket - bug in creates attachments",
+      },
+      "status": "error",
+    }
+  `)
+  expect(response).toMatchObject(current.error || {})
+})
+
+test("request return properly error in writeGzip error", async () => {
+  const useCreateBugTicket = build({
+    writeGzip: jest.fn().mockReturnValue(Promise.resolve(false)),
+  })
+
+  const {
+    result: { current },
+    waitForNextUpdate,
+  } = renderHook<undefined, CreateBugTicket>(() => useCreateBugTicket())
+  const pendingResponse = current.sendRequest(data)
+  await act(waitForNextUpdate)
+  const response = await pendingResponse
+
+  expect(response).toMatchInlineSnapshot(`
+    Object {
+      "error": Object {
+        "message": "Create Bug Ticket - writeGzip error",
       },
       "status": "error",
     }
