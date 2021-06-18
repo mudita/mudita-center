@@ -18,7 +18,7 @@ import {
   UpdateServerError,
   UpdatingFailureModal,
   UpdatingFailureWithHelpModal,
-  UpdatingProgressModal,
+  UpdatingSpinnerModal,
   UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
 import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
@@ -41,10 +41,6 @@ import {
 import { isEqual } from "lodash"
 import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
 import logger from "App/main/utils/logger"
-import registerOsUpdateProgressListener, {
-  OsUpdateProgressListener,
-  removeOsUpdateProgressListener,
-} from "Renderer/listeners/register-os-update-progress.listener"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-pure-os-update-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
@@ -311,24 +307,14 @@ const useSystemUpdateFlow = (
   const updatePure = async () => {
     const { file, version } = releaseToInstall as Release
 
-    modalService.openModal(<UpdatingProgressModal progressValue={0} />, true)
+    modalService.openModal(<UpdatingSpinnerModal />, true)
 
     toggleDeviceUpdating(true)
 
-    const listener: OsUpdateProgressListener = async (_, { progress }) => {
-      modalService.rerenderModal(
-        <UpdatingProgressModal progressValue={progress} />
-      )
-    }
-
-    registerOsUpdateProgressListener(listener)
-
     const response = await updateOs(file.name, IpcEmitter.OsUpdateProgress)
 
-    removeOsUpdateProgressListener(listener)
-
     if (response.status === DeviceResponseStatus.Ok) {
-      modalService.rerenderModal(<UpdatingProgressModal progressValue={100} />)
+      modalService.rerenderModal(<UpdatingSpinnerModal />)
     }
 
     toggleDeviceUpdating(false)
@@ -359,7 +345,7 @@ const useSystemUpdateFlow = (
     ipcRenderer.callMain(HelpActions.OpenWindow, { code })
   }
   const { openContactSupportModal, ...rest } = useContactSupport()
-  const callActionAfterCloseModal = (action: () => void): () => void => {
+  const callActionAfterCloseModal = (action: () => void): (() => void) => {
     return () => {
       modalService.closeModal()
       action()
