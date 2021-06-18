@@ -27,7 +27,7 @@ import { noop } from "Renderer/utils/noop"
 import { InputError } from "Renderer/components/core/input-text/input-text.elements"
 import { convertBytes } from "Renderer/utils/convert-bytes"
 import { defineMessages } from "react-intl"
-import FileList from "Renderer/components/core/file-list/file-list"
+import FileList from "Renderer/components/core/file-list/file-list.component"
 
 const Message = styled(Text)<{ dragging?: boolean }>`
   position: relative;
