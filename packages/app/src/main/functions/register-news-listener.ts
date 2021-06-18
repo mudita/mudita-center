@@ -21,7 +21,7 @@ export enum NewsEvents {
   Init = "init-news-items",
 }
 
-const registerNewsListener = async () => {
+const registerNewsListener = async (): Promise<void> => {
   const newsFilePath = `${app.getPath(
     "appData"
   )}/${name}/default-news-items.json`

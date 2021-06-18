@@ -5,10 +5,11 @@
 
 import { useState } from "react"
 import { formatDate } from "Renderer/modules/overview/format-date"
-import createFreshdeskTicket, {
+import {
   FreshdeskTicketData,
   FreshdeskTicketDataType,
 } from "Renderer/modules/overview/create-freshdesk-ticket/create-freshdesk-ticket"
+import { DependencyUseCreateBugTicket } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
 
 export enum CreateBugTicketResponseStatus {
   Ok = "ok",
@@ -33,9 +34,15 @@ export interface CreateBugTicket {
 const todayFormatDate = formatDate(new Date())
 export const attachedFileName = `tmp-${todayFormatDate}.zip`
 
-const useCreateBugTicket = (): CreateBugTicket => {
+const useCreateBugTicketBuilder = ({
+  getAppPath,
+  writeFile,
+  getAppLogs,
+  getDeviceLogs,
+  createFile,
+  createFreshdeskTicket,
+}: DependencyUseCreateBugTicket) => (): CreateBugTicket => {
   const [error, setError] = useState(null)
-
   const sendRequest = async ({
     email,
     subject,
@@ -44,12 +51,34 @@ const useCreateBugTicket = (): CreateBugTicket => {
     FreshdeskTicketData,
     "type" | "attachments"
   >): Promise<CreateBugTicketResponse> => {
+    // TODO: bugs handle
+    const appLogs = await getAppLogs()
+    const { data: deviceLogs = "test" } = await getDeviceLogs()
+    const filePath = `${getAppPath()}/tmp-${todayFormatDate}`
+
+    const mcFileName = `mc-${todayFormatDate}.txt`
+    await writeFile({
+      filePath,
+      data: appLogs,
+      fileName: mcFileName,
+    })
+
+    const pureFileName = `pure-${todayFormatDate}.txt`
+    await writeFile({
+      filePath,
+      data: deviceLogs,
+      fileName: pureFileName,
+    })
+
     const data = {
       email,
       subject,
       description,
       type: FreshdeskTicketDataType.Problem,
-      attachments: [],
+      attachments: [
+        createFile(`${filePath}/${mcFileName}`),
+        createFile(`${filePath}/${pureFileName}`),
+      ],
     }
 
     try {
@@ -80,4 +109,4 @@ const useCreateBugTicket = (): CreateBugTicket => {
   return { sendRequest, error }
 }
 
-export default useCreateBugTicket
+export default useCreateBugTicketBuilder
