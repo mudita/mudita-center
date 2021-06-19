@@ -20,24 +20,17 @@ import BackupModalFlow from "Renderer/components/rest/overview/backup/backup-mod
 import ContactSupportModalFlow, {
   ContactSupportModalFlowState,
 } from "App/contacts/components/contact-support-modal/contact-support-modal-flow.component"
-import {
-  attachedFileName,
-  CreateBugTicketResponseStatus,
-} from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket-builder"
+import { CreateBugTicketResponseStatus } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket-builder"
 import { ContactSupportFieldValues } from "App/contacts/components/contact-support-modal/contact-support-modal.component"
-import useCreateBugTicket from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
+import useCreateBugTicket, {
+  files,
+} from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
 
 export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
   toggleDeviceUpdating: (option: boolean) => void
   setCollectingData: (option: AppSettings["appCollectingData"]) => void
 }
-
-const files = [
-  {
-    name: attachedFileName,
-  },
-]
 
 const Overview: FunctionComponent<
   BasicInfoInitialState &
@@ -93,7 +86,7 @@ const Overview: FunctionComponent<
   const [sendBugTicketRequest, sending] = useCreateBugTicket()
   const [bugTicketSubject, setBugTicketSubject] = useState("")
 
-  const openContactSupportOpen = (code?: number) => {
+  const openContactSupportModalFlow = (code?: number) => {
     setBugTicketSubject(`Error - UpdateOS_${code}`)
     setContactSupportOpenState(ContactSupportModalFlowState.Form)
   }
@@ -125,7 +118,7 @@ const Overview: FunctionComponent<
     updatePhoneOsInfo,
     updateBasicInfo,
     toggleDeviceUpdating,
-    openContactSupportOpen
+    openContactSupportModalFlow
   )
 
   useEffect(() => {

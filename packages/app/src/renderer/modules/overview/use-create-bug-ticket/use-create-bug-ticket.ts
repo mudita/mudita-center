@@ -15,8 +15,16 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 import createFreshdeskTicket, {
   FreshdeskTicketData,
 } from "Renderer/modules/overview/create-freshdesk-ticket/create-freshdesk-ticket"
-import useCreateBugTicketBuilder from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket-builder"
+import useCreateBugTicketBuilder, {
+  attachedFileName,
+} from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket-builder"
 import { WriteGzipData } from "App/main/functions/register-write-gzip-listener"
+
+export const files = [
+  {
+    name: attachedFileName,
+  },
+]
 
 export interface DependencyUseCreateBugTicket {
   getAppPath: () => string
