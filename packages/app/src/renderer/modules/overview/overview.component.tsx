@@ -90,7 +90,7 @@ const Overview: FunctionComponent<
     contactSupportOpenState,
     setContactSupportOpenState,
   ] = useState<ContactSupportModalFlowState>()
-  const { sendRequest } = useCreateBugTicket()
+  const [sendBugTicketRequest, sending] = useCreateBugTicket()
 
   const openContactSupportOpen = () => {
     setContactSupportOpenState(ContactSupportModalFlowState.Form)
@@ -100,11 +100,11 @@ const Overview: FunctionComponent<
     setContactSupportOpenState(undefined)
   }
 
-  const sendForm = async ({
+  const sendBugTicket = async ({
     email,
     description,
   }: ContactSupportFieldValues) => {
-    const response = await sendRequest({
+    const response = await sendBugTicketRequest({
       email,
       description,
       subject: "Error - UpdateOS_1000",
@@ -219,8 +219,8 @@ const Overview: FunctionComponent<
         <ContactSupportModalFlow
           openState={contactSupportOpenState}
           files={files}
-          onSubmit={sendForm}
-          sending={false}
+          onSubmit={sendBugTicket}
+          sending={sending}
           closeModal={closeContactSupportModalFlow}
         />
       )}

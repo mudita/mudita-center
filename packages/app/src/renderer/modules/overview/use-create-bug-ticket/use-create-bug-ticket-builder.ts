@@ -21,17 +21,18 @@ interface CreateBugTicketResponseError {
   data?: unknown
 }
 
-interface CreateBugTicketResponse {
+export interface CreateBugTicketResponse {
   status: CreateBugTicketResponseStatus
   error?: CreateBugTicketResponseError
 }
 
-export interface CreateBugTicket {
+export type CreateBugTicket = [
   sendRequest: (
     data: Omit<FreshdeskTicketData, "type" | "attachments">
-  ) => Promise<CreateBugTicketResponse>
+  ) => Promise<CreateBugTicketResponse>,
+  load: boolean,
   error: CreateBugTicketResponseError | undefined
-}
+]
 
 const todayFormatDate = formatDate(new Date())
 export const attachedFileName = `tmp-${todayFormatDate}.zip`
@@ -46,6 +47,8 @@ const useCreateBugTicketBuilder = ({
   createFreshdeskTicket,
 }: DependencyUseCreateBugTicket) => (): CreateBugTicket => {
   const [error, setError] = useState<CreateBugTicketResponseError>()
+  const [load, setLoad] = useState(false)
+
   const sendRequest = async ({
     email,
     subject,
@@ -54,6 +57,7 @@ const useCreateBugTicketBuilder = ({
     FreshdeskTicketData,
     "type" | "attachments"
   >): Promise<CreateBugTicketResponse> => {
+    setLoad(true)
     const appLogs = await getAppLogs()
     const { data: deviceLogs = "" } = await getDeviceLogs()
     const filePath = `${getAppPath()}/tmp-${todayFormatDate}`
@@ -123,22 +127,29 @@ const useCreateBugTicketBuilder = ({
       return {
         status: CreateBugTicketResponseStatus.Ok,
       }
-    } catch (error) {
-      setError(error)
-      if (error?.response?.data) {
+    } catch (e) {
+      if (e?.response?.data) {
+        const error = {
+          message: e.response.data.description,
+          data: e.response.data.errors,
+        }
+
+        setError(error)
         return {
+          error,
           status: CreateBugTicketResponseStatus.Error,
-          error: {
-            message: error.response.data.description,
-            data: error.response.data.errors,
-          },
         }
       } else {
-        return returnResponseError("Create Bug Ticket - Bad Request")
+        const response = returnResponseError("Create Bug Ticket - Bad Request")
+        setError(response.error)
+        return response
       }
+    } finally {
+      setLoad(false)
     }
   }
-  return { sendRequest, error }
+
+  return [sendRequest, load, error]
 }
 
 const returnResponseError = (

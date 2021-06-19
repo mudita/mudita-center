@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { renderHook } from "@testing-library/react-hooks"
-import { act } from "react-dom/test-utils"
+import { renderHook, act } from "@testing-library/react-hooks"
 import useCreateBugTicketBuilder, {
   CreateBugTicket,
+  CreateBugTicketResponse,
 } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket-builder"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import mockCreateFreshdeskTicket, {
@@ -34,18 +34,31 @@ const data = {
   description: "description",
 }
 
+enum ResultKey {
+  SendRequest,
+  Load,
+  Error,
+}
+
 const build = (extraDependency?: Partial<DependencyUseCreateBugTicket>) => {
   return useCreateBugTicketBuilder({ ...defaultDependency, ...extraDependency })
 }
 
 test("request works properly", async () => {
+  let pendingResponse = Promise.resolve({} as CreateBugTicketResponse)
   const useCreateBugTicket = build()
+  const { result, waitForNextUpdate } = renderHook<undefined, CreateBugTicket>(
+    () => useCreateBugTicket()
+  )
 
-  const {
-    result: { current },
-  } = renderHook<undefined, CreateBugTicket>(() => useCreateBugTicket())
-  const response = await current.sendRequest(data)
+  act(() => {
+    pendingResponse = result.current[ResultKey.SendRequest](data)
+  })
+  expect(result.current[ResultKey.Load]).toBeTruthy()
+  await waitForNextUpdate()
+  const response = await pendingResponse
 
+  expect(result.current[ResultKey.Load]).toBeFalsy()
   expect(response).toMatchInlineSnapshot(`
     Object {
       "status": "ok",
@@ -54,16 +67,21 @@ test("request works properly", async () => {
 })
 
 test("request works properly even getDeviceLogs throw error", async () => {
+  let pendingResponse = Promise.resolve({} as CreateBugTicketResponse)
   const useCreateBugTicket = build({
     getDeviceLogs: jest
       .fn()
       .mockReturnValue(Promise.resolve({ status: DeviceResponseStatus.Error })),
   })
 
-  const {
-    result: { current },
-  } = renderHook<undefined, CreateBugTicket>(() => useCreateBugTicket())
-  const response = await current.sendRequest(data)
+  const { result, waitForNextUpdate } = renderHook<undefined, CreateBugTicket>(
+    () => useCreateBugTicket()
+  )
+  act(() => {
+    pendingResponse = result.current[ResultKey.SendRequest](data)
+  })
+  await waitForNextUpdate()
+  const response = await pendingResponse
 
   expect(response).toMatchInlineSnapshot(`
     Object {
@@ -73,18 +91,20 @@ test("request works properly even getDeviceLogs throw error", async () => {
 })
 
 test("request return error when createFreshdeskTicket throw error", async () => {
+  let pendingResponse = Promise.resolve({} as CreateBugTicketResponse)
   const useCreateBugTicket = build({
     createFreshdeskTicket: jest
       .fn()
       .mockReturnValue(Promise.reject({ response: errorResponse })),
   })
 
-  const {
-    result: { current },
-    waitForNextUpdate,
-  } = renderHook<undefined, CreateBugTicket>(() => useCreateBugTicket())
-  const pendingResponse = current.sendRequest(data)
-  await act(waitForNextUpdate)
+  const { result, waitForNextUpdate } = renderHook<undefined, CreateBugTicket>(
+    () => useCreateBugTicket()
+  )
+  act(() => {
+    pendingResponse = result.current[ResultKey.SendRequest](data)
+  })
+  await waitForNextUpdate()
   const response = await pendingResponse
 
   expect(response).toMatchInlineSnapshot(`
@@ -102,20 +122,22 @@ test("request return error when createFreshdeskTicket throw error", async () => 
       "status": "error",
     }
   `)
-  expect(response).toMatchObject(current.error || {})
+  expect(response.error).toMatchObject(result.current[ResultKey.Error] || {})
 })
 
 test("request return properly error in WriteFileSync error", async () => {
+  let pendingResponse = Promise.resolve({} as CreateBugTicketResponse)
   const useCreateBugTicket = build({
     writeFile: jest.fn().mockReturnValue(Promise.resolve(false)),
   })
 
-  const {
-    result: { current },
-    waitForNextUpdate,
-  } = renderHook<undefined, CreateBugTicket>(() => useCreateBugTicket())
-  const pendingResponse = current.sendRequest(data)
-  await act(waitForNextUpdate)
+  const { result, waitForNextUpdate } = renderHook<undefined, CreateBugTicket>(
+    () => useCreateBugTicket()
+  )
+  act(() => {
+    pendingResponse = result.current[ResultKey.SendRequest](data)
+  })
+  await waitForNextUpdate()
   const response = await pendingResponse
 
   expect(response).toMatchInlineSnapshot(`
@@ -126,22 +148,24 @@ test("request return properly error in WriteFileSync error", async () => {
       "status": "error",
     }
   `)
-  expect(response).toMatchObject(current.error || {})
+  expect(response.error).toMatchObject(result.current[ResultKey.Error] || {})
 })
 
 test("request return properly error when createFile throw error", async () => {
+  let pendingResponse = Promise.resolve({} as CreateBugTicketResponse)
   const useCreateBugTicket = build({
     createFile: jest.fn().mockImplementation(() => {
       throw new Error()
     }),
   })
 
-  const {
-    result: { current },
-    waitForNextUpdate,
-  } = renderHook<undefined, CreateBugTicket>(() => useCreateBugTicket())
-  const pendingResponse = current.sendRequest(data)
-  await act(waitForNextUpdate)
+  const { result, waitForNextUpdate } = renderHook<undefined, CreateBugTicket>(
+    () => useCreateBugTicket()
+  )
+  act(() => {
+    pendingResponse = result.current[ResultKey.SendRequest](data)
+  })
+  await waitForNextUpdate()
   const response = await pendingResponse
 
   expect(response).toMatchInlineSnapshot(`
@@ -152,20 +176,22 @@ test("request return properly error when createFile throw error", async () => {
       "status": "error",
     }
   `)
-  expect(response).toMatchObject(current.error || {})
+  expect(response.error).toMatchObject(result.current[ResultKey.Error] || {})
 })
 
 test("request return properly error in writeGzip error", async () => {
+  let pendingResponse = Promise.resolve({} as CreateBugTicketResponse)
   const useCreateBugTicket = build({
     writeGzip: jest.fn().mockReturnValue(Promise.resolve(false)),
   })
 
-  const {
-    result: { current },
-    waitForNextUpdate,
-  } = renderHook<undefined, CreateBugTicket>(() => useCreateBugTicket())
-  const pendingResponse = current.sendRequest(data)
-  await act(waitForNextUpdate)
+  const { result, waitForNextUpdate } = renderHook<undefined, CreateBugTicket>(
+    () => useCreateBugTicket()
+  )
+  act(() => {
+    pendingResponse = result.current[ResultKey.SendRequest](data)
+  })
+  await waitForNextUpdate()
   const response = await pendingResponse
 
   expect(response).toMatchInlineSnapshot(`
@@ -176,5 +202,5 @@ test("request return properly error in writeGzip error", async () => {
       "status": "error",
     }
   `)
-  expect(response).toMatchObject(current.error || {})
+  expect(response.error).toMatchObject(result.current[ResultKey.Error] || {})
 })
