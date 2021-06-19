@@ -83,7 +83,7 @@ const useSystemUpdateFlow = (
   onUpdate: (updateInfo: PhoneUpdate) => void,
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
   toggleDeviceUpdating: (option: boolean) => void,
-  onContact: () => void
+  onContact: (code?: number) => void
 ) => {
   const [releaseToInstall, setReleaseToInstall] = useState<Release>()
 
@@ -355,14 +355,16 @@ const useSystemUpdateFlow = (
     }
   }
 
-  const goToHelp = (code: number) => () => {
+  const goToHelp = (code: number) => {
     ipcRenderer.callMain(HelpActions.OpenWindow, { code })
   }
 
-  const callActionAfterCloseModal = (action: () => void): (() => void) => {
-    return () => {
+  const callActionAfterCloseModal = <T extends unknown>(
+    action: (props: T) => void
+  ): ((props: T) => void) => {
+    return (props) => {
       modalService.closeModal()
-      action()
+      action(props)
     }
   }
   const displayErrorModal = (code?: number) => {
@@ -370,7 +372,7 @@ const useSystemUpdateFlow = (
       modalService.openModal(
         <UpdatingFailureWithHelpModal
           code={code}
-          onHelp={callActionAfterCloseModal(goToHelp(code))}
+          onHelp={callActionAfterCloseModal(goToHelp)}
           onContact={callActionAfterCloseModal(onContact)}
         />,
         true

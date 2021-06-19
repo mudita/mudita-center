@@ -91,8 +91,10 @@ const Overview: FunctionComponent<
     setContactSupportOpenState,
   ] = useState<ContactSupportModalFlowState>()
   const [sendBugTicketRequest, sending] = useCreateBugTicket()
+  const [bugTicketSubject, setBugTicketSubject] = useState("")
 
-  const openContactSupportOpen = () => {
+  const openContactSupportOpen = (code?: number) => {
+    setBugTicketSubject(`Error - UpdateOS_${code}`)
     setContactSupportOpenState(ContactSupportModalFlowState.Form)
   }
 
@@ -107,7 +109,7 @@ const Overview: FunctionComponent<
     const response = await sendBugTicketRequest({
       email,
       description,
-      subject: "Error - UpdateOS_1000",
+      subject: bugTicketSubject,
     })
     if (response.status === CreateBugTicketResponseStatus.Ok) {
       setContactSupportOpenState(ContactSupportModalFlowState.Success)
