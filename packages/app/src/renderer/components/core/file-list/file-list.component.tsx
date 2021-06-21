@@ -63,8 +63,6 @@ interface Props {
   onRemoveClick?: (index: number) => void
 }
 
-// TODO: Add test
-
 const FileList: FunctionComponent<Props> = ({
   files,
   onRemoveClick,
@@ -86,7 +84,11 @@ const FileList: FunctionComponent<Props> = ({
               {file.name}
             </Text>
             {onClick && (
-              <Remove onClick={onClick} role="button">
+              <Remove
+                onClick={onClick}
+                role="button"
+                data-testid={FileListTestIds.RemoveFileButton}
+              >
                 <Icon type={Type.Remove} width={1.6} />
               </Remove>
             )}

@@ -4,5 +4,6 @@
  */
 
 export enum FileListTestIds {
-  File = "file",
+  File = "file-list-file",
+  RemoveFileButton = "file-list-remove-file-button",
 }
