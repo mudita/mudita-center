@@ -4,7 +4,6 @@
  */
 
 import PureDeviceManager from "@mudita/pure"
-import startBackend from "Backend/bootstrap"
 import { check as checkPort } from "tcp-port-used"
 import {
   app,
@@ -12,24 +11,23 @@ import {
   BrowserWindowConstructorOptions,
   shell,
 } from "electron"
+import { ipcMain } from "electron-better-ipc"
 import * as path from "path"
 import * as url from "url"
-import {
-  GOOGLE_AUTH_WINDOW_SIZE,
-  HELP_WINDOW_SIZE,
-  WINDOW_SIZE,
-} from "./config"
-import autoupdate, { mockAutoupdate } from "./autoupdate"
-import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerPureOsUpdateListener from "App/main/functions/register-pure-os-update-listener"
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
-import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
-import { ipcMain } from "electron-better-ipc"
-import { URL_MAIN } from "Renderer/constants/urls"
-import { Mode } from "Common/enums/mode.enum"
-import { HelpActions } from "Common/enums/help-actions.enum"
+import registerTranslationListener from "App/main/functions/register-translation-listener"
+import registerAutoLaunchListener from "App/main/functions/register-auto-launch-listener"
+import registerContactsExportListener from "App/contacts/backend/export-contacts"
+import registerEventsExportListener from "App/calendar/backend/export-events"
+import registerWriteFileListener from "App/main/functions/register-write-file-listener"
+import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
+import registerRmdirListener from "App/main/functions/register-rmdir-listener"
+import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
+import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
+import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
 import {
   registerDownloadHelpHandler,
   removeDownloadHelpHandler,
@@ -42,7 +40,6 @@ import {
   registerGetHelpStoreHandler,
   removeGetHelpStoreHandler,
 } from "App/main/functions/get-help-store-handler"
-import registerTranslationListener from "App/main/functions/register-translation-listener"
 import updateTranslations from "App/main/functions/update-translations"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
 import {
@@ -51,19 +48,23 @@ import {
   killAuthServer,
 } from "App/main/auth-server"
 import logger from "App/main/utils/logger"
-import registerAutoLaunchListener from "App/main/functions/register-auto-launch-listener"
 import { Scope } from "Renderer/models/external-providers/google/google.interface"
-import registerContactsExportListener from "App/contacts/backend/export-contacts"
-import registerEventsExportListener from "App/calendar/backend/export-events"
-import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import { OutlookAuthActions } from "Common/enums/outlook-auth-actions.enum"
 import {
   clientId,
   redirectUrl,
 } from "Renderer/models/external-providers/outlook/outlook.constants"
 import { TokenRequester } from "Renderer/models/external-providers/outlook/token-requester"
-import registerWriteFileListener from "App/main/functions/register-write-file-listener"
-import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
+import {
+  GOOGLE_AUTH_WINDOW_SIZE,
+  HELP_WINDOW_SIZE,
+  WINDOW_SIZE,
+} from "./config"
+import autoupdate, { mockAutoupdate } from "./autoupdate"
+import startBackend from "Backend/bootstrap"
+import { URL_MAIN } from "Renderer/constants/urls"
+import { Mode } from "Common/enums/mode.enum"
+import { HelpActions } from "Common/enums/help-actions.enum"
 
 require("dotenv").config()
 
@@ -140,6 +141,7 @@ const createWindow = async () => {
   registerContactsExportListener()
   registerEventsExportListener()
   registerWriteFileListener()
+  registerRmdirListener()
   registerWriteGzipListener()
   registerPureOsDownloadProxy()
 

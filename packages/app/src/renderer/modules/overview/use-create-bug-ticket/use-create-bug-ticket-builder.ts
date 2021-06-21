@@ -43,11 +43,16 @@ const useCreateBugTicketBuilder = ({
   getAppLogs,
   getDeviceLogs,
   createFile,
+  rmdir,
   writeGzip,
   createFreshdeskTicket,
 }: DependencyUseCreateBugTicket) => (): CreateBugTicket => {
   const [error, setError] = useState<CreateBugTicketResponseError>()
   const [load, setLoad] = useState(false)
+
+  const removeTmpFiles = (filePath: string): Promise<boolean> => {
+    return rmdir({ filePath, options: { recursive: true } })
+  }
 
   const sendRequest = async ({
     email,
@@ -96,6 +101,7 @@ const useCreateBugTicketBuilder = ({
     const gzipFilePath = `${filePath}.zip`
 
     if (!writeGzipResponse) {
+      await removeTmpFiles(filePath)
       const response = returnResponseError(
         "Create Bug Ticket - writeGzip error"
       )
@@ -107,6 +113,8 @@ const useCreateBugTicketBuilder = ({
     try {
       attachments = [createFile(gzipFilePath)]
     } catch {
+      await removeTmpFiles(gzipFilePath)
+      await removeTmpFiles(filePath)
       const response = returnResponseError(
         "Create Bug Ticket - bug in creates attachments"
       )
@@ -145,6 +153,8 @@ const useCreateBugTicketBuilder = ({
         return response
       }
     } finally {
+      await removeTmpFiles(gzipFilePath)
+      await removeTmpFiles(filePath)
       setLoad(false)
     }
   }

@@ -5,9 +5,10 @@
 
 import { AxiosResponse } from "axios"
 import getAppPath from "App/main/utils/get-app-path"
-import createFile from "Renderer/modules/overview/use-create-bug-ticket/create-file"
 import writeFile from "Renderer/requests/write-file.request"
 import writeGzip from "Renderer/requests/write-gzip.request"
+import rmdir from "Renderer/requests/rmdir.request"
+import createFile from "Renderer/modules/overview/use-create-bug-ticket/create-file"
 import getAppLogs from "Renderer/requests/get-app-logs.request"
 import getDeviceLogs from "Renderer/requests/get-device-logs.request"
 import { WriteData } from "App/main/functions/register-write-file-listener"
@@ -19,6 +20,7 @@ import useCreateBugTicketBuilder, {
   attachedFileName,
 } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket-builder"
 import { WriteGzipData } from "App/main/functions/register-write-gzip-listener"
+import { RmdirProps } from "App/main/functions/register-rmdir-listener"
 
 export const files = [
   {
@@ -33,6 +35,7 @@ export interface DependencyUseCreateBugTicket {
   getAppLogs: () => Promise<string>
   getDeviceLogs: () => Promise<DeviceResponse<string>>
   createFile: (filePath: string) => File
+  rmdir: (props: RmdirProps) => Promise<boolean>
   createFreshdeskTicket: (
     data: FreshdeskTicketData
   ) => Promise<AxiosResponse<unknown>>
@@ -43,6 +46,7 @@ export default useCreateBugTicketBuilder({
   writeFile,
   writeGzip,
   createFile,
+  rmdir,
   getAppLogs,
   getDeviceLogs,
   createFreshdeskTicket,

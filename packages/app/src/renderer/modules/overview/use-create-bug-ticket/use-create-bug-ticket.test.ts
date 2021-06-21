@@ -25,6 +25,7 @@ const defaultDependency = ({
       Promise.resolve({ status: DeviceResponseStatus.Ok, data: "" })
     ),
   createFile: jest.fn().mockReturnValue({} as File),
+  rmdir: jest.fn().mockReturnValue(Promise.resolve(true)),
   createFreshdeskTicket: mockCreateFreshdeskTicket,
 } as unknown) as DependencyUseCreateBugTicket
 
@@ -92,7 +93,9 @@ test("request works properly even getDeviceLogs throw error", async () => {
 
 test("request return error when createFreshdeskTicket throw error", async () => {
   let pendingResponse = Promise.resolve({} as CreateBugTicketResponse)
+  const rmdir = jest.fn()
   const useCreateBugTicket = build({
+    rmdir,
     createFreshdeskTicket: jest
       .fn()
       .mockReturnValue(Promise.reject({ response: errorResponse })),
@@ -123,6 +126,7 @@ test("request return error when createFreshdeskTicket throw error", async () => 
     }
   `)
   expect(response.error).toMatchObject(result.current[ResultKey.Error] || {})
+  expect(rmdir).toBeCalledTimes(2)
 })
 
 test("request return properly error in WriteFileSync error", async () => {
@@ -153,7 +157,9 @@ test("request return properly error in WriteFileSync error", async () => {
 
 test("request return properly error when createFile throw error", async () => {
   let pendingResponse = Promise.resolve({} as CreateBugTicketResponse)
+  const rmdir = jest.fn()
   const useCreateBugTicket = build({
+    rmdir,
     createFile: jest.fn().mockImplementation(() => {
       throw new Error()
     }),
@@ -177,11 +183,14 @@ test("request return properly error when createFile throw error", async () => {
     }
   `)
   expect(response.error).toMatchObject(result.current[ResultKey.Error] || {})
+  expect(rmdir).toBeCalledTimes(2)
 })
 
 test("request return properly error in writeGzip error", async () => {
   let pendingResponse = Promise.resolve({} as CreateBugTicketResponse)
+  const rmdir = jest.fn()
   const useCreateBugTicket = build({
+    rmdir,
     writeGzip: jest.fn().mockReturnValue(Promise.resolve(false)),
   })
 
@@ -203,4 +212,5 @@ test("request return properly error in writeGzip error", async () => {
     }
   `)
   expect(response.error).toMatchObject(result.current[ResultKey.Error] || {})
+  expect(rmdir).toBeCalledTimes(1)
 })
