@@ -27,11 +27,11 @@ export interface CreateBugTicketResponse {
 }
 
 export type CreateBugTicket = [
-  sendRequest: (
+  (
     data: Omit<FreshdeskTicketData, "type" | "attachments">
   ) => Promise<CreateBugTicketResponse>,
-  load: boolean,
-  error: CreateBugTicketResponseError | undefined
+  boolean,
+  CreateBugTicketResponseError | undefined
 ]
 
 const todayFormatDate = formatDate(new Date())
