@@ -26,7 +26,6 @@ const registerWriteFileListener = (): void => {
             recursive: true,
           })
         }
-        console.log("WriteData: ", fileName)
         fs.writeFileSync(`${filePath}/${fileName}`, data)
         return true
       } catch {

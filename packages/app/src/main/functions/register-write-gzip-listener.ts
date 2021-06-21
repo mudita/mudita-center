@@ -54,8 +54,6 @@ const registerWriteGzipListener = (): void => {
 
         archive.pipe(output)
 
-        console.log("filePath: ", filePath)
-
         archive.directory(`${filePath}/`, false)
 
         void archive.finalize()
