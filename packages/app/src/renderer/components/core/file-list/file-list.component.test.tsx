@@ -29,7 +29,7 @@ test("component renders properly", () => {
     files: [{ name: "mudita.logs" }],
   })
 
-  expect(queryAllByTestId(FileListTestIds.File)).toHaveLength(1)
+  expect(queryByTestId(FileListTestIds.File)).toBeInTheDocument()
   expect(queryByTestId(FileListTestIds.RemoveFileButton)).toEqual(null)
 })
 
