@@ -153,7 +153,9 @@ const ContactSupportModal: FunctionComponent<Props> = ({
     mode: "onChange",
   })
 
-  const sendEmail = handleSubmit(onSubmit)
+  const sendEmail = handleSubmit((data) => {
+    onSubmit(data)
+  })
 
   const handleCloseModal = () => {
     reset()

@@ -97,6 +97,9 @@ test("form trigger onSubmit when form is valid", async () => {
   fireEvent.click(submitButton)
 
   await waitFor(() => {
-    expect(onSubmit).toBeCalledWith({ email: "mudita@center.com", message: "" })
+    expect(onSubmit).toBeCalledWith({
+      email: "mudita@center.com",
+      description: "",
+    })
   })
 })
