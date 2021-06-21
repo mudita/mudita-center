@@ -25,7 +25,7 @@ const render = (extraProps?: Partial<Props>) => {
 }
 
 test("component renders properly", () => {
-  const { queryByTestId, queryAllByTestId } = render({
+  const { queryByTestId } = render({
     files: [{ name: "mudita.logs" }],
   })
 
