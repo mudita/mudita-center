@@ -79,6 +79,7 @@ const useCreateBugTicketBuilder = ({
         "Create Bug Ticket - WriteFileSync error"
       )
       setError(response.error)
+      setLoad(false)
       return response
     }
 
@@ -94,6 +95,7 @@ const useCreateBugTicketBuilder = ({
         "Create Bug Ticket - WriteFileSync error"
       )
       setError(response.error)
+      setLoad(false)
       return response
     }
 
@@ -106,6 +108,7 @@ const useCreateBugTicketBuilder = ({
         "Create Bug Ticket - writeGzip error"
       )
       setError(response.error)
+      setLoad(false)
       return response
     }
 
@@ -119,6 +122,7 @@ const useCreateBugTicketBuilder = ({
         "Create Bug Ticket - bug in creates attachments"
       )
       setError(response.error)
+      setLoad(false)
       return response
     }
 

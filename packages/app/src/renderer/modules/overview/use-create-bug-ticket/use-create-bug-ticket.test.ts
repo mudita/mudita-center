@@ -89,6 +89,7 @@ test("request works properly even getDeviceLogs throw error", async () => {
       "status": "ok",
     }
   `)
+  expect(result.current[ResultKey.Load]).toBeFalsy()
 })
 
 test("request return error when createFreshdeskTicket throw error", async () => {
@@ -127,6 +128,7 @@ test("request return error when createFreshdeskTicket throw error", async () => 
   `)
   expect(response.error).toMatchObject(result.current[ResultKey.Error] || {})
   expect(rmdir).toBeCalledTimes(2)
+  expect(result.current[ResultKey.Load]).toBeFalsy()
 })
 
 test("request return properly error in WriteFileSync error", async () => {
@@ -153,6 +155,7 @@ test("request return properly error in WriteFileSync error", async () => {
     }
   `)
   expect(response.error).toMatchObject(result.current[ResultKey.Error] || {})
+  expect(result.current[ResultKey.Load]).toBeFalsy()
 })
 
 test("request return properly error when createFile throw error", async () => {
@@ -184,6 +187,7 @@ test("request return properly error when createFile throw error", async () => {
   `)
   expect(response.error).toMatchObject(result.current[ResultKey.Error] || {})
   expect(rmdir).toBeCalledTimes(2)
+  expect(result.current[ResultKey.Load]).toBeFalsy()
 })
 
 test("request return properly error in writeGzip error", async () => {
@@ -213,4 +217,5 @@ test("request return properly error in writeGzip error", async () => {
   `)
   expect(response.error).toMatchObject(result.current[ResultKey.Error] || {})
   expect(rmdir).toBeCalledTimes(1)
+  expect(result.current[ResultKey.Load]).toBeFalsy()
 })
