@@ -46,7 +46,7 @@ const Troubleshooting = () => {
       setContactSupportOpenState(ContactSupportModalFlowState.Success)
     } else {
       setContactSupportOpenState(ContactSupportModalFlowState.Fail)
-      logger.error(response)
+      logger.error(response.error?.message)
     }
   }
 
