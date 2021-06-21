@@ -16,7 +16,7 @@ export interface WriteGzipData {
 }
 
 const archive = archiver("zip", {
-  zlib: { level: 9 }, // Sets the compression level.
+  zlib: { level: 9 },
 })
 
 const registerWriteGzipListener = (): void => {
@@ -27,29 +27,11 @@ const registerWriteGzipListener = (): void => {
         const output = fs.createWriteStream(`${filePath}.zip`)
 
         output.on("close", function () {
-          console.log(archive.pointer() + " total bytes")
-          console.log(
-            "archiver has been finalized and the output file descriptor has closed."
-          )
           resolve(true)
         })
 
-        output.on("end", function () {
-          console.log("Data has been drained")
-        })
-
-        archive.on("warning", function (err) {
-          if (err.code === "ENOENT") {
-            // log warning
-          } else {
-            // throw error
-            throw err
-          }
-        })
-
-        // good practice to catch this error explicitly
-        archive.on("error", function (err) {
-          throw err
+        archive.on("error", function () {
+          resolve(false)
         })
 
         archive.pipe(output)
