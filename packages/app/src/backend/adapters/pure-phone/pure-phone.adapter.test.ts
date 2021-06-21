@@ -54,7 +54,7 @@ test("get unlock device status returns properly value", async () => {
   expect(status).toEqual(DeviceResponseStatus.Ok)
 })
 
-test("get device file handle properly chunks data", async () => {
+test("get device logs handle properly chunks data", async () => {
   ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: (
@@ -101,7 +101,7 @@ test("get device file handle properly chunks data", async () => {
   expect(data).toEqual(`${firstsPartDecodeLog}${secondsPartDecodeLog}`)
 })
 
-test("get device file handle properly chunks data if fileSize is less than chunkSize", async () => {
+test("get device logs handle properly chunks data if fileSize is less than chunkSize", async () => {
   ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: (
@@ -139,7 +139,7 @@ test("get device file handle properly chunks data if fileSize is less than chunk
   expect(data).toEqual(firstsPartDecodeLog)
 })
 
-test("get device file return error when part of the chunks data is broken", async () => {
+test("get device logs return error when part of the chunks data is broken", async () => {
   ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: (
@@ -184,7 +184,7 @@ test("get device file return error when part of the chunks data is broken", asyn
   expect(data).toEqual(undefined)
 })
 
-test("get device file returns error properly", async () => {
+test("get device logs returns error properly", async () => {
   ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
