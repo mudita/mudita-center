@@ -108,14 +108,22 @@ const google = createModel<ExternalProvidersModels>({
             rootState
           )
         } else {
-          logger.error(error)
+          logger.error(
+            `Google Client: get refresh token fail. Data: ${JSON.stringify(
+              error
+            )}`
+          )
 
           try {
             logger.info("Reauthorizing Google account")
             await dispatch.google.authorize(scope)
             return await request()
           } catch (authorizeError) {
-            logger.error(authorizeError)
+            logger.error(
+              `Google Client: authorize fail. Data: ${JSON.stringify(
+                authorizeError
+              )}`
+            )
             throw authorizeError
           }
         }
@@ -246,7 +254,11 @@ const google = createModel<ExternalProvidersModels>({
 
         return mapEvents(events, calendarId)
       } catch (error) {
-        logger.error(error)
+        logger.error(
+          `Google Client: get events request fail. Data: ${JSON.stringify(
+            error
+          )}`
+        )
         throw error
       }
     }

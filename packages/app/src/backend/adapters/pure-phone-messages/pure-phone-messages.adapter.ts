@@ -83,7 +83,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     } else {
       return {
         status: DeviceResponseStatus.Error,
-        error: { message: "Something went wrong" },
+        error: { message: "Get messages by threadId: Something went wrong" },
       }
     }
   }
@@ -141,7 +141,9 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     } else {
       return {
         status: DeviceResponseStatus.Error,
-        error: { message: "Something went wrong" },
+        error: {
+          message: "Load all messages in single request: Something went wrong",
+        },
       }
     }
   }

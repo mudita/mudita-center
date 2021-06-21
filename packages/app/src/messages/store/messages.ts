@@ -189,7 +189,9 @@ const messages = createModel<RootModel>({
         const { data = [], error } = await getThreads()
 
         if (error) {
-          logger.error(error)
+          logger.error(
+            `Messages: loads data fails. Data: ${JSON.stringify(error)}`
+          )
           dispatch.messages.setResultState(ResultState.Error)
         } else {
           dispatch.messages.setThreadMap(data)
@@ -214,7 +216,11 @@ const messages = createModel<RootModel>({
 
         const { data = [], error } = await getMessagesByThreadId(threadId)
         if (error) {
-          logger.error(error)
+          logger.error(
+            `Messages: loads messages by thread fails. Data: ${JSON.stringify(
+              error
+            )}`
+          )
 
           dispatch.messages.setMessagesResultsMapState({
             resultState: ResultState.Error,

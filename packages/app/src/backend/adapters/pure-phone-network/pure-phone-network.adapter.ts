@@ -37,7 +37,7 @@ class PurePhoneNetwork extends PurePhoneNetworkAdapter {
         ],
       }
     } else {
-      return { status, error: { message: "Something went wrong" } }
+      return { status, error: { message: "GetSimCards: Something went wrong" } }
     }
   }
 

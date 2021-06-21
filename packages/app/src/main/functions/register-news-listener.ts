@@ -46,8 +46,12 @@ const registerNewsListener = async (): Promise<void> => {
         return data
       }
       return false
-    } catch (e) {
-      logger.error(e)
+    } catch (error) {
+      logger.error(
+        `News: fetch news from mudita-center-server. Data: ${JSON.stringify(
+          error
+        )}`
+      )
       return false
     }
   }

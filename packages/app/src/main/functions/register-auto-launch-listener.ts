@@ -20,7 +20,9 @@ const registerAutoLaunchListener = () => {
       try {
         return await autoLaunch.isEnabled()
       } catch (error) {
-        logger.error(error)
+        logger.error(
+          `Autostart: Get autostart value. Data: ${JSON.stringify(error)}`
+        )
         return false
       }
     })
@@ -33,7 +35,9 @@ const registerAutoLaunchListener = () => {
         }
         return true
       } catch (error) {
-        logger.error(error)
+        logger.error(
+          `Autostart: enable/disable autostart. Data: ${JSON.stringify(error)}`
+        )
         return false
       }
     })

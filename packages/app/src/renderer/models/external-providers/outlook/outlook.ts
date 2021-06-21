@@ -173,14 +173,22 @@ const outlook = createModel<ExternalProvidersModels>({
           })
           return await fetchCalendars(regeneratedTokens.accessToken)
         } else {
-          logger.error(error)
+          logger.error(
+            `Outlook Client: fetch calendar request fail. Data: ${JSON.stringify(
+              error
+            )}`
+          )
 
           try {
             logger.info("Reauthorizing Outlook account")
             await dispatch.outlook.authorize(OutLookScope.Calendars)
             return await fetchCalendars(accessToken)
           } catch (authorizeError) {
-            logger.error(authorizeError)
+            logger.error(
+              `Outlook Client: authorize fail. Data: ${JSON.stringify(
+                authorizeError
+              )}`
+            )
             throw authorizeError
           }
         }

@@ -108,7 +108,7 @@ const Overview: FunctionComponent<
       setContactSupportOpenState(ContactSupportModalFlowState.Success)
     } else {
       setContactSupportOpenState(ContactSupportModalFlowState.Fail)
-      logger.error(response.error?.message)
+      logger.error(`Overview: ${response.error?.message}`)
     }
   }
 

@@ -49,7 +49,11 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
     try {
       return await loadCalendars(provider)
     } catch (error) {
-      logger.error(error)
+      logger.error(
+        `Calendar: Load calendars from provider ${provider}. Data: ${JSON.stringify(
+          error
+        )}`
+      )
       openAuthorizationFailedModal()
     }
   }
@@ -124,7 +128,9 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
       )
     } catch (error) {
       openSynchronizationFailedModal()
-      logger.error(error)
+      logger.error(
+        `Calendar: selection vendor throw error. Data: ${JSON.stringify(error)}`
+      )
       return error
     }
   }
@@ -146,7 +152,9 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
       openSynchronizationFinishedModal(newEvents.length)
     } catch (error) {
       openSynchronizationFailedModal()
-      logger.error(error)
+      logger.error(
+        `Calendar: synchronize throw error. Data: ${JSON.stringify(error)}`
+      )
       return error
     }
   }

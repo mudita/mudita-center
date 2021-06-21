@@ -42,7 +42,9 @@ const registerEventsExportListener = () => {
         try {
           await calendar.saveToFile(filePath)
         } catch (error) {
-          logger.error(error)
+          logger.error(
+            `Export Events: save to ical file. Data: ${JSON.stringify(error)}`
+          )
         }
         shell.showItemInFolder(filePath)
         return true

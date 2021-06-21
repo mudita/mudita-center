@@ -22,7 +22,9 @@ export const useTemporaryStorage = <T = any>(
     try {
       storage.setItem(key, JSON.stringify(value))
     } catch (error) {
-      logger.error(error)
+      logger.error(
+        `Temporary storage: saving fails. Data: ${JSON.stringify(error)}`
+      )
     }
   }
 
@@ -31,7 +33,9 @@ export const useTemporaryStorage = <T = any>(
       const item = storage.getItem(key)
       return item ? JSON.parse(item) : originalValue
     } catch (error) {
-      logger.error(error)
+      logger.error(
+        `Temporary storage: reading fails. Data: ${JSON.stringify(error)}`
+      )
     }
   }
 

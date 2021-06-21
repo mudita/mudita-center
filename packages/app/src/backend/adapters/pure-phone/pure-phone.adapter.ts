@@ -58,7 +58,10 @@ class PurePhone extends PurePhoneAdapter {
         data: data.gitTag,
       }
     } else {
-      return { status, error: { message: "Something went wrong" } }
+      return {
+        status,
+        error: { message: "Get os version: Something went wrong" },
+      }
     }
   }
 
@@ -103,7 +106,10 @@ class PurePhone extends PurePhoneAdapter {
     if (status !== DeviceResponseStatus.Ok || data === undefined) {
       return {
         status: DeviceResponseStatus.Error,
-        error: { message: "Something went wrong" },
+        error: {
+          message:
+            "Get device logs: Something went wrong in init downloading request",
+        },
       }
     }
 
@@ -127,7 +133,10 @@ class PurePhone extends PurePhoneAdapter {
     } else {
       return {
         status: DeviceResponseStatus.Error,
-        error: { message: "Something went wrong" },
+        error: {
+          message:
+            "Get device logs: Something went wrong in downloading request",
+        },
       }
     }
   }
@@ -263,7 +272,7 @@ class PurePhone extends PurePhoneAdapter {
     if (status !== DeviceResponseStatus.Ok || data === undefined) {
       return {
         status: DeviceResponseStatus.Error,
-        error: { message: "Something went wrong" },
+        error: { message: "Download encoded file: Something went wrong" },
       }
     }
 

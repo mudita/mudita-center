@@ -34,7 +34,7 @@ class Phonebook extends PhonebookAdapter {
     } else {
       return {
         status: DeviceResponseStatus.Error,
-        error: { message: "Something went wrong" },
+        error: { message: "Get contacts: Something went wrong" },
       }
     }
   }
@@ -56,7 +56,7 @@ class Phonebook extends PhonebookAdapter {
         },
       }
     } else {
-      return { status, error: { message: "Something went wrong" } }
+      return { status, error: { message: "Add contact: Something went wrong" } }
     }
   }
 
@@ -70,7 +70,10 @@ class Phonebook extends PhonebookAdapter {
     if (status === DeviceResponseStatus.Ok) {
       return { status, data: contact }
     } else {
-      return { status, error: { message: "Something went wrong" } }
+      return {
+        status,
+        error: { message: "Edit contact: Something went wrong" },
+      }
     }
   }
 
@@ -95,7 +98,7 @@ class Phonebook extends PhonebookAdapter {
       return {
         status: DeviceResponseStatus.Error,
         error: {
-          message: "Something went wrong",
+          message: "Delete contact: Something went wrong",
           data: errorResponses.map(({ id }) => id),
         },
       }
