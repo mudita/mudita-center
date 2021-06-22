@@ -210,7 +210,9 @@ export const fetchEvents = async (
 
     return mapEvents(events, id)
   } catch (error) {
-    logger.error(error)
+    logger.error(
+      `Outlook Client: get events request fail. Data: ${JSON.stringify(error)}`
+    )
     throw error
   }
 }

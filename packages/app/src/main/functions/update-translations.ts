@@ -31,7 +31,11 @@ const updateTranslations = async () => {
     translationStores[language].store = data
     logger.info(`Translation for language "${language}" applied successfully`)
   } catch (error) {
-    logger.error(error)
+    logger.error(
+      `Translation: fetch translation from phrase api. Data: ${JSON.stringify(
+        error
+      )}`
+    )
   }
 }
 

@@ -25,7 +25,9 @@ const registerAppLogsListeners = (): void => {
         }
       }
     } catch (error) {
-      logger.error(error)
+      logger.error(
+        `Application Logs: getting logs fail. Data: ${JSON.stringify(error)}`
+      )
     }
     return logs.join("\n")
   })

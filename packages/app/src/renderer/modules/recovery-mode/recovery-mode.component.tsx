@@ -45,7 +45,7 @@ const RecoveryMode: FunctionComponent<{}> = () => {
       setContactSupportOpenState(ContactSupportModalFlowState.Success)
     } else {
       setContactSupportOpenState(ContactSupportModalFlowState.Fail)
-      logger.error(response.error?.message)
+      logger.error(`Recovery mode: ${response.error?.message}`)
     }
   }
 

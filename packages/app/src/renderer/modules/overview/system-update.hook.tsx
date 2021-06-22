@@ -250,7 +250,9 @@ const useSystemUpdateFlow = (
         if (!silent) {
           await openCheckingForUpdatesFailedModal(() => checkForUpdates())
         }
-        logger.error(error)
+        logger.error(
+          `Overview: check for updates fail. Data: ${JSON.stringify(error)}`
+        )
       }
     }
   }
@@ -337,7 +339,9 @@ const useSystemUpdateFlow = (
     } else {
       const responseCode = response.error?.code
       displayErrorModal(responseCode)
-      logger.error(response)
+      logger.error(
+        `Overview: updating pure fails. Data: ${JSON.stringify(response.error)}`
+      )
     }
   }
 
