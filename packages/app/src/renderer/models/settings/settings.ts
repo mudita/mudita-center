@@ -49,10 +49,6 @@ const settings = createModel<RootModel>({
           dispatch.settings.update({ ...appSettings, settingsLoaded: true })
         }
 
-        console.log(
-          "appSettings.appCollectingData: ",
-          appSettings.appCollectingData
-        )
         appSettings.appCollectingData
           ? logger.enableRollbar()
           : logger.disableRollbar()
