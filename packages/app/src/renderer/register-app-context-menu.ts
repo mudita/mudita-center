@@ -8,14 +8,13 @@ import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
 import ContextMenu from "App/context-menu/context-menu"
 import contactsContextMenu from "App/contacts/helpers/context-menu/context-menu"
-import logger from "App/main/utils/logger"
-// import importDeviceLogsFile from "Renderer/requests/import-device-logs-file.request"
-// import { remote } from "electron"
-// import { name } from "../../package.json"
+import importDeviceLogsFile from "Renderer/requests/import-device-logs-file.request"
+import { remote } from "electron"
+import { name } from "../../package.json"
 
-// const filePath = `${remote.app.getPath(
-//   "appData"
-// )}/${name}/pure-logs/pure-logs.txt`
+const filePath = `${remote.app.getPath(
+  "appData"
+)}/${name}/pure-logs/pure-logs.txt`
 
 const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Device", [
@@ -30,10 +29,7 @@ const registerAppContextMenu = (menu: ContextMenu) => {
     },
     {
       label: "Download logs file",
-      click: () => {
-        logger.error("test")
-        // importDeviceLogsFile(filePath)
-      },
+      click: () => importDeviceLogsFile(filePath),
     },
   ])
 
