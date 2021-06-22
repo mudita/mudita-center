@@ -15,15 +15,15 @@ export interface WriteGzipData {
   filePath: string
 }
 
-const archive = archiver("zip", {
-  zlib: { level: 9 },
-})
-
 const registerWriteGzipListener = (): void => {
   ipcMain.answerRenderer<WriteGzipData, boolean>(
     WriteGzipEvents.Write,
     async ({ filePath }) => {
       return new Promise((resolve) => {
+        const archive = archiver("zip", {
+          zlib: { level: 9 },
+        })
+
         const output = fs.createWriteStream(`${filePath}.zip`)
 
         output.on("close", function () {
