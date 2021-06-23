@@ -73,7 +73,6 @@ const OverviewUI: FunctionComponent<
   onUpdateCheck,
   onUpdateDownload,
   onUpdateInstall,
-  osUpdateDate,
   osVersion,
   pureOsAvailable,
   pureOsDownloaded,
@@ -93,7 +92,6 @@ const OverviewUI: FunctionComponent<
       updateDownloaded={pureOsDownloaded}
       updateAvailable={pureOsAvailable}
       osVersion={osVersion}
-      lastUpdate={osUpdateDate}
       onUpdateCheck={onUpdateCheck}
       onDownload={onUpdateDownload}
       onUpdate={onUpdateInstall}
