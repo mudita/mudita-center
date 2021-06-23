@@ -17,6 +17,7 @@ import Card, {
   CardAction,
   CardActionButton,
   CardText,
+  CardContent,
 } from "Renderer/components/rest/overview/card.elements"
 import { noop } from "Renderer/utils/noop"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
@@ -89,21 +90,27 @@ const Network: FunctionComponent<NetworkProps> = ({
           </Text>
         )}
       </TextInfo>
-      <CardAction
-        tooltipTitle={messages.tooltipTitle}
-        tooltipDescription={messages.tooltipDescription}
-      >
-        {simCards.length ? (
-          simCards.map((simCard) => {
-            const onClick = () => onSimChange(simCard)
-            return (
-              <SimButton key={simCard.number} {...simCard} onClick={onClick} />
-            )
-          })
-        ) : (
-          <NoSimButton />
-        )}
-      </CardAction>
+      <CardContent>
+        <CardAction
+          tooltipTitle={messages.tooltipTitle}
+          tooltipDescription={messages.tooltipDescription}
+        >
+          {simCards.length ? (
+            simCards.map((simCard) => {
+              const onClick = () => onSimChange(simCard)
+              return (
+                <SimButton
+                  key={simCard.number}
+                  {...simCard}
+                  onClick={onClick}
+                />
+              )
+            })
+          ) : (
+            <NoSimButton />
+          )}
+        </CardAction>
+      </CardContent>
     </Card>
   )
 }

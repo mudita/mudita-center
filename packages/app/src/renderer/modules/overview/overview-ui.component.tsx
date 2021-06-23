@@ -11,7 +11,6 @@ import Phone from "Renderer/components/rest/overview/phone/phone.component"
 import Network from "Renderer/components/rest/overview/network/network.component"
 import System from "Renderer/components/rest/overview/system/system.component"
 import FilesManager from "Renderer/components/rest/overview/files-manager/files-manager.component"
-import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import { AppSettings } from "App/main/store/settings.interface"
@@ -29,15 +28,11 @@ const FileManagerInfo = styled(FilesManager)`
   display: none; /* TODO: Remove when feature becomes available */
 `
 
-const BackupInfo = styled(Backup)`
-  grid-area: Backup;
-`
-
 const OverviewWrapper = styled.div`
   display: grid;
   grid-template-columns: minmax(27rem, 1fr) minmax(59rem, 1fr);
   /* TODO: Change to grid-template-rows: repeat(4, 1fr) when Files Manager will be available */
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   grid-column-gap: 4rem;
   grid-row-gap: 4rem;
   height: 100%;
@@ -45,16 +40,13 @@ const OverviewWrapper = styled.div`
   grid-template-areas:
     "Phone Network"
     "Phone System"
-    /*"Phone FilesManager" TODO: Uncomment when feature is done */
-    "Phone Backup";
+    /*"Phone FilesManager" TODO: Uncomment when feature is done */;
 `
 
 interface OverviewUIProps {
   readonly onUpdateCheck: () => void
   readonly onUpdateDownload: () => void
   readonly onUpdateInstall: () => void
-  readonly onOpenBackupModal: () => void
-  readonly onOpenBackupRestorationModal: () => void
   toggleDevMode?: () => void
 }
 
@@ -75,13 +67,9 @@ const OverviewUI: FunctionComponent<
   batteryLevel,
   changeSim,
   disconnectDevice,
-  language,
-  lastBackup,
   memorySpace,
   networkName,
   networkLevel,
-  onOpenBackupModal,
-  onOpenBackupRestorationModal,
   onUpdateCheck,
   onUpdateDownload,
   onUpdateInstall,
@@ -114,12 +102,6 @@ const OverviewUI: FunctionComponent<
       usedSpace={memorySpace.full - memorySpace.free}
       maxSpace={memorySpace.full}
       onFilesOpen={noop}
-    />
-    <BackupInfo
-      lastBackup={lastBackup}
-      onBackupCreate={onOpenBackupModal}
-      onBackupRestore={onOpenBackupRestorationModal}
-      language={language}
     />
   </OverviewWrapper>
 )
