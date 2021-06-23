@@ -10,11 +10,16 @@ export enum LogConfig {
   ReturnValue,
 }
 
+const noop = (args: any): unknown => {
+  return args
+}
+
 const logger = LoggerFactory.getInstance()
 
 export default function log(
   message: string,
-  logConfig = LogConfig.ReturnValue
+  logConfig = LogConfig.ReturnValue,
+  scrub = noop
 ) {
   return function (
     target: unknown,
@@ -32,9 +37,9 @@ export default function log(
         logger.info(message)
 
         if (logConfig === LogConfig.ReturnValue) {
-          logger.info(JSON.stringify(value, null, 2))
+          logger.info(JSON.stringify(scrub(value), null, 2))
         } else {
-          logger.info(JSON.stringify(args, null, 2))
+          logger.info(JSON.stringify(scrub(args), null, 2))
         }
       })
 
