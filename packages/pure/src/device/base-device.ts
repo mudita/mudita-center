@@ -27,7 +27,6 @@ import {
   isApiRequestPayload,
   isDeviceUpdateRequestPayload,
   isUploadUpdateFileSystemPayload,
-  responseScrub,
 } from "./device-helper"
 import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator"
@@ -287,11 +286,7 @@ class BaseDevice implements PureDevice {
     port.write(this.mapPayloadToRequest(payload))
   }
 
-  @log(
-    "==== serial port: create valid request ====",
-    LogConfig.Args,
-    responseScrub
-  )
+  @log("==== serial port: create valid request ====", LogConfig.Args)
   private mapPayloadToRequest(payload: RequestPayload<any>): string {
     return createValidRequest(payload)
   }
@@ -301,7 +296,7 @@ class BaseDevice implements PureDevice {
     this.#eventEmitter.emit(DeviceEventName.Disconnected, event)
   }
 
-  @log("==== serial port: data received ====", LogConfig.Args, responseScrub)
+  @log("==== serial port: data received ====", LogConfig.Args)
   private emitDataReceivedEvent(event: unknown): void {
     this.#eventEmitter.emit(DeviceEventName.DataReceived, event)
   }

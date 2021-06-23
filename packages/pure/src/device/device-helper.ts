@@ -12,13 +12,6 @@ import {
 } from "./device.types"
 import { UploadUpdateFileSystemRequestPayload } from "../endpoints"
 
-interface ResponseScrubProps {
-  body?: unknown
-  endpoint: number
-  status: number
-  uuid: number
-}
-
 export const isApiRequestPayload = (
   config: RequestPayload
 ): config is ApiRequestPayload => {
@@ -43,15 +36,4 @@ export const isDeviceUpdateRequestPayload = (
     config.method === Method.Post &&
     Boolean(config.filePath)
   )
-}
-
-export const responseScrub = (resp: ResponseScrubProps[]) => {
-  const scrubbed = resp.map((item) => {
-    if (item.body) {
-      return { ...item, body: "scrubbed" }
-    } else {
-      return item
-    }
-  })
-  return scrubbed
 }
