@@ -5,6 +5,7 @@
 
 import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
 
+//if params contains sensitive data, they should be added to scrubFields array in logger.ts
 const createRouterPath = (
   link:
     | typeof URL_MAIN[keyof typeof URL_MAIN]

@@ -39,7 +39,7 @@ You can quickstart the project by going through the ["Quickstart" article](./qui
 
 ## Scripts
 
-Take a look at the list of available npm [Scripts](./SCRIPTS.md). 
+Take a look at the list of available npm [Scripts](./SCRIPTS.md).
 
 ## Contributing
 
@@ -64,3 +64,7 @@ The [Mudita Center changelog](https://github.com/Mudita/mudita-center/releases) 
 ## License
 
 Mudita Center is licensed under [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/).
+
+## Hiding sensitive data
+
+As a Mudita we take care of the security of your data. All data we are collecting are hidden. If you will add a new query in request path, that contains sensitive data, you need to add it to scrubFields array in logger.ts
