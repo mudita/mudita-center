@@ -45,7 +45,7 @@ const AvailableUpdate = styled(Text)`
   text-transform: none;
   display: inline-box;
   padding: 0.3rem 0.5rem;
-  border-radius: 4px;
+  border-radius: 0.4rem;
   letter-spacing: ${letterSpacing("small")}rem;
   background-color: ${backgroundColor("minor")};
 `
