@@ -12,13 +12,13 @@ exports[`matches snapshot 1`] = `
   letter-spacing: -0.06rem;
 }
 
-.c10 {
+.c11 {
   margin: 0;
   font-size: 1.4rem;
   line-height: 1.05;
 }
 
-.c12 {
+.c13 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -30,7 +30,7 @@ exports[`matches snapshot 1`] = `
   font-weight: 300;
 }
 
-.c16 {
+.c17 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -41,7 +41,7 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.1rem;
 }
 
-.c6 {
+.c7 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -60,12 +60,12 @@ exports[`matches snapshot 1`] = `
   font-style: normal;
 }
 
-.c6 svg {
+.c7 svg {
   width: 100%;
   height: 100%;
 }
 
-.c13 {
+.c14 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -96,23 +96,23 @@ exports[`matches snapshot 1`] = `
   color: #6a6a6a;
 }
 
-.c13 g {
+.c14 g {
   fill: #000000;
 }
 
-.c13 g {
+.c14 g {
   fill: #cdcecf;
 }
 
-.c13:hover {
+.c14:hover {
   border-color: #000000;
 }
 
-.c17 {
+.c18 {
   white-space: nowrap;
 }
 
-.c4 {
+.c5 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -123,7 +123,7 @@ exports[`matches snapshot 1`] = `
   position: relative;
 }
 
-.c14 {
+.c15 {
   --radius: 0.5rem;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -132,37 +132,37 @@ exports[`matches snapshot 1`] = `
   pointer-events: all;
 }
 
-.c14:disabled {
+.c15:disabled {
   pointer-events: none;
 }
 
-.c14:hover {
+.c15:hover {
   z-index: 2;
 }
 
-.c14:not(:hover) {
+.c15:not(:hover) {
   border: 0.1rem solid #cdcecf;
   color: #6a6a6a;
 }
 
-.c14:not(:hover) g {
+.c15:not(:hover) g {
   fill: #cdcecf;
 }
 
-.c14:not(:first-of-type) {
+.c15:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c14:first-of-type:not(:last-of-type) {
+.c15:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c14:last-of-type:not(:first-of-type) {
+.c15:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.c9 {
+.c10 {
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
@@ -178,32 +178,32 @@ exports[`matches snapshot 1`] = `
   box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
 }
 
-.c7 {
+.c8 {
   position: absolute;
   top: -0.8rem;
   left: -0.8rem;
   z-index: 4;
 }
 
-.c7:hover + .c8 {
+.c8:hover + .c9 {
   visibility: visible;
   opacity: 1;
   z-index: 4;
 }
 
-.c11 {
+.c12 {
   margin-bottom: 0.8rem;
 }
 
 .c0 {
-  display: grid;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  grid-template-areas: "Text Buttons";
-  grid-template-columns: auto minmax(18rem,1fr);
-  padding: 0 4.8rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 4rem;
   box-sizing: border-box;
   border-radius: 0.5rem;
   background-color: #ffffff;
@@ -213,18 +213,37 @@ exports[`matches snapshot 1`] = `
   grid-area: Text;
 }
 
-.c5 {
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  margin-top: auto;
+}
+
+.c6 {
   grid-area: Buttons;
   justify-self: end;
   min-width: 18rem;
 }
 
-.c15 {
+.c16 {
   padding: 0 1.6rem;
   width: 50%;
 }
 
-.c15 svg {
+.c16 svg {
   height: initial;
   width: initial;
 }
@@ -251,47 +270,51 @@ exports[`matches snapshot 1`] = `
         [value] module.overview.networkName
       </h2>
     </div>
-    <section
-      class="c4 c5"
+    <div
+      class="c4"
     >
-      <span
-        class="c6 c7"
-        data-testid="icon-Tooltip"
-        height="1.6"
-        width="1.6"
+      <section
+        class="c5 c6"
       >
-        <test-file-stub
-          image="test-file-stub"
-        />
-      </span>
-      <div
-        class="c8 c9"
-        data-testid="tooltip"
-      >
-        <p
-          class="c10 c11"
+        <span
+          class="c7 c8"
+          data-testid="icon-Tooltip"
+          height="1.6"
+          width="1.6"
         >
-          [value] module.overview.networkTooltipTitle
-        </p>
-        <p
-          class="c12"
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </span>
+        <div
+          class="c9 c10"
+          data-testid="tooltip"
         >
-          [value] module.overview.networkTooltipDescription
-        </p>
-      </div>
-      <button
-        class="c13 c14 c15"
-        disabled=""
-        size="2"
-        type="button"
-      >
-        <p
-          class="c16 c17"
+          <p
+            class="c11 c12"
+          >
+            [value] module.overview.networkTooltipTitle
+          </p>
+          <p
+            class="c13"
+          >
+            [value] module.overview.networkTooltipDescription
+          </p>
+        </div>
+        <button
+          class="c14 c15 c16"
+          disabled=""
+          size="2"
+          type="button"
         >
-          [value] module.overview.networkNoSimInserted
-        </p>
-      </button>
-    </section>
+          <p
+            class="c17 c18"
+          >
+            [value] module.overview.networkNoSimInserted
+          </p>
+        </button>
+      </section>
+    </div>
   </section>
 </div>
 `;

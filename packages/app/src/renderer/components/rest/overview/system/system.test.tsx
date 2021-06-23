@@ -10,18 +10,15 @@ import { SystemProps } from "Renderer/components/rest/overview/system/system.int
 import { intl } from "Renderer/utils/intl"
 import System from "Renderer/components/rest/overview/system/system.component"
 import { fireEvent } from "@testing-library/dom"
+import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 
-const fakeLastUpdate = "2020-01-14T11:31:08.244Z"
 const fakeOsVersion = "release-0.55.1"
 
 const renderSystem = ({
   osVersion = fakeOsVersion,
-  lastUpdate = fakeLastUpdate,
   ...props
 }: Partial<SystemProps> = {}) => {
-  return renderWithThemeAndIntl(
-    <System osVersion={osVersion} lastUpdate={lastUpdate} {...props} />
-  )
+  return renderWithThemeAndIntl(<System osVersion={osVersion} {...props} />)
 }
 
 test("matches snapshot", () => {
@@ -30,23 +27,10 @@ test("matches snapshot", () => {
 })
 
 test("renders os version properly", () => {
-  const { getByText } = renderSystem()
-  expect(getByText(fakeOsVersion)).toBeInTheDocument()
-  expect(
-    getByText(intl.formatMessage({ id: "module.overview.systemVersion" }))
-  ).toBeInTheDocument()
-})
-
-test("renders last update info properly", () => {
-  const { getByText } = renderSystem()
-  expect(
-    getByText(
-      intl.formatMessage(
-        { id: "module.overview.systemLastUpdate" },
-        { date: fakeLastUpdate }
-      )
-    )
-  ).toBeInTheDocument()
+  const { getByTestId } = renderSystem()
+  expect(getByTestId(OverviewTestIds.OsVersion)).toHaveTextContent(
+    "[value] module.overview.muditaOsUpdateTitle 0.55.1"
+  )
 })
 
 test("renders available update info properly", () => {
@@ -54,6 +38,15 @@ test("renders available update info properly", () => {
   expect(
     getByText(
       intl.formatMessage({ id: "module.overview.systemUpdateAvailable" })
+    )
+  ).toBeInTheDocument()
+})
+
+test("renders You're up to date info properly", () => {
+  const { getByText } = renderSystem({ updateAvailable: false })
+  expect(
+    getByText(
+      intl.formatMessage({ id: "module.overview.systemUpdateUpToDate" })
     )
   ).toBeInTheDocument()
 })
