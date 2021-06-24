@@ -13,9 +13,6 @@ import StoryContainer from "Renderer/components/storybook/story-container.compon
 import Story from "Renderer/components/storybook/story.component"
 
 const fakeSystemInfo = getFakeAdapters().purePhone
-const updated = new Date(fakeSystemInfo.getOsUpdateDate()).toLocaleDateString(
-  "en-US"
-)
 
 const storyStyle = css`
   > * {
