@@ -12,13 +12,18 @@ exports[`matches snapshot 1`] = `
   letter-spacing: -0.06rem;
 }
 
-.c11 {
+.c8 {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   line-height: 1.05;
+  font-weight: 700;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
 }
 
-.c13 {
+.c9 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -27,18 +32,6 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
-  font-weight: 300;
-}
-
-.c17 {
-  margin: 0;
-  font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
-  -webkit-letter-spacing: 0.1rem;
-  -moz-letter-spacing: 0.1rem;
-  -ms-letter-spacing: 0.1rem;
-  letter-spacing: 0.1rem;
 }
 
 .c7 {
@@ -54,8 +47,8 @@ exports[`matches snapshot 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.6rem;
-  width: 1.6rem;
+  height: 2.4rem;
+  width: 2.4rem;
   position: relative;
   font-style: normal;
 }
@@ -63,136 +56,6 @@ exports[`matches snapshot 1`] = `
 .c7 svg {
   width: 100%;
   height: 100%;
-}
-
-.c14 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  cursor: pointer;
-  outline: none;
-  box-sizing: border-box;
-  width: 17rem;
-  pointer-events: none;
-  height: 4rem;
-  border-radius: 0.5rem;
-  border: 0.1rem solid #3b3f42;
-  border: 0.1rem solid #cdcecf;
-  color: #6a6a6a;
-}
-
-.c14 g {
-  fill: #000000;
-}
-
-.c14 g {
-  fill: #cdcecf;
-}
-
-.c14:hover {
-  border-color: #000000;
-}
-
-.c18 {
-  white-space: nowrap;
-}
-
-.c5 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  position: relative;
-}
-
-.c15 {
-  --radius: 0.5rem;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  z-index: 1;
-  pointer-events: all;
-}
-
-.c15:disabled {
-  pointer-events: none;
-}
-
-.c15:hover {
-  z-index: 2;
-}
-
-.c15:not(:hover) {
-  border: 0.1rem solid #cdcecf;
-  color: #6a6a6a;
-}
-
-.c15:not(:hover) g {
-  fill: #cdcecf;
-}
-
-.c15:not(:first-of-type) {
-  border-radius: 0;
-  margin-left: -0.1rem;
-}
-
-.c15:first-of-type:not(:last-of-type) {
-  border-radius: var(--radius) 0 0 var(--radius);
-}
-
-.c15:last-of-type:not(:first-of-type) {
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.c10 {
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-  max-width: 24.3rem;
-  background-color: #ffffff;
-  padding: 1.6rem;
-  position: absolute;
-  top: 1rem;
-  left: 0;
-  opacity: 0;
-  -webkit-transition: opacity 0.3s ease-in-out;
-  transition: opacity 0.3s ease-in-out;
-  box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
-}
-
-.c8 {
-  position: absolute;
-  top: -0.8rem;
-  left: -0.8rem;
-  z-index: 4;
-}
-
-.c8:hover + .c9 {
-  visibility: visible;
-  opacity: 1;
-  z-index: 4;
-}
-
-.c12 {
-  margin-bottom: 0.8rem;
 }
 
 .c0 {
@@ -232,22 +95,6 @@ exports[`matches snapshot 1`] = `
   margin-top: auto;
 }
 
-.c6 {
-  grid-area: Buttons;
-  justify-self: end;
-  min-width: 18rem;
-}
-
-.c16 {
-  padding: 0 1.6rem;
-  width: 50%;
-}
-
-.c16 svg {
-  height: initial;
-  width: initial;
-}
-
 .c2 p {
   margin-top: 1.2rem;
   -webkit-letter-spacing: 0.04rem;
@@ -255,6 +102,34 @@ exports[`matches snapshot 1`] = `
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
   color: #6a6a6a;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c5 p {
+  margin-top: 0.4rem;
+}
+
+.c5:not(:last-child) {
+  margin-bottom: 1.6rem;
+}
+
+.c6 {
+  background-color: #fbfbfb;
+  margin-right: 1.6rem;
+  padding: 0.8rem;
 }
 
 <div>
@@ -267,53 +142,77 @@ exports[`matches snapshot 1`] = `
       <h2
         class="c3"
       >
-        [value] module.overview.networkName
+        [value] module.overview.networkTitle
       </h2>
     </div>
     <div
       class="c4"
     >
-      <section
-        class="c5 c6"
-      >
-        <span
-          class="c7 c8"
-          data-testid="icon-Tooltip"
-          height="1.6"
-          width="1.6"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </span>
+      <div>
         <div
-          class="c9 c10"
-          data-testid="tooltip"
+          class="c5"
         >
-          <p
-            class="c11 c12"
+          <div
+            class="c6"
           >
-            [value] module.overview.networkTooltipTitle
-          </p>
-          <p
-            class="c13"
-          >
-            [value] module.overview.networkTooltipDescription
-          </p>
+            <span
+              class="c7"
+              data-testid="icon-HighBattery"
+              height="2.4"
+              width="2.4"
+            >
+              <test-file-stub
+                image="test-file-stub"
+              />
+            </span>
+          </div>
+          <div>
+            <h2
+              class="c8"
+              data-testid="battery-level"
+            >
+              75
+               %
+            </h2>
+            <p
+              class="c9"
+            >
+              [value] module.overview.phoneBattery
+            </p>
+          </div>
         </div>
-        <button
-          class="c14 c15 c16"
-          disabled=""
-          size="2"
-          type="button"
+        <div
+          class="c5"
         >
-          <p
-            class="c17 c18"
+          <div
+            class="c6"
           >
-            [value] module.overview.networkNoSimInserted
-          </p>
-        </button>
-      </section>
+            <span
+              class="c7"
+              data-testid="icon-HighRange"
+              height="2.4"
+              width="2.4"
+            >
+              <test-file-stub
+                image="test-file-stub"
+              />
+            </span>
+          </div>
+          <div>
+            <p
+              class="c8"
+              data-testid="network-name"
+            >
+              Play
+            </p>
+            <p
+              class="c9"
+            >
+              [value] module.overview.networkName
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </div>

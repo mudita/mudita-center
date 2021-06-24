@@ -19,6 +19,7 @@ import Card, {
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 const TextInfo = styled(CardText)`
   p {
@@ -27,28 +28,23 @@ const TextInfo = styled(CardText)`
     color: ${textColor("secondary")};
   }
 `
-const BatteryStats = styled.div`
-  margin-top: 2.5rem;
+const Stats = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  h2 {
-    margin-top: 0.8rem;
-    margin-bottom: 0.4rem;
-  }
-`
-
-const SignalStats = styled.div`
-  margin-top: 2.4rem;
-  margin-bottom: 6rem;
-  display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 
   p {
-    margin-top: 0.8rem;
+    margin-top: 0.4rem;
   }
+  &:not(:last-child) {
+    margin-bottom: 1.6rem;
+  }
+`
+
+const IconContainer = styled.div`
+  background-color: ${backgroundColor("main")};
+  margin-right: 1.6rem;
+  padding: 0.8rem;
 `
 
 export const messages = defineMessages({
@@ -56,63 +52,68 @@ export const messages = defineMessages({
   tooltipDescription: { id: "module.overview.networkTooltipDescription" },
   battery: { id: "module.overview.phoneBattery" },
   noConnection: { id: "module.overview.phoneNoConnection" },
+  network: { id: "module.overview.networkName" },
 })
 
 const Network: FunctionComponent<NetworkProps> = ({
   className,
-  simCards = [],
   batteryLevel,
   network,
   networkLevel = 0,
 }) => {
-  const noActiveCard = simCards.every(({ active }) => !active)
-  const activatingAvailable =
-    (simCards.length && noActiveCard) || simCards.length > 1
-
   const strength = Math.round(networkLevel * 100)
   return (
     <Card className={className}>
       <TextInfo>
         <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-          <FormattedMessage id="module.overview.networkName" />
+          <FormattedMessage id="module.overview.networkTitle" />
         </Text>
-        {activatingAvailable && (
-          <Text displayStyle={TextDisplayStyle.SmallFadedText}>
-            <FormattedMessage id="module.overview.networkDescription" />
-          </Text>
-        )}
       </TextInfo>
       <CardContent>
-        <BatteryStats>
-          <BatteryIcon width={2.4} level={batteryLevel} />
-          <Text
-            displayStyle={TextDisplayStyle.LargeBoldText}
-            element={"h2"}
-            data-testid={OverviewTestIds.BatteryLevel}
-          >
-            {Math.round(batteryLevel * 100)} %
-          </Text>
-          <Text
-            displayStyle={TextDisplayStyle.SmallFadedText}
-            message={messages.battery}
-          />
-        </BatteryStats>
-        <SignalStats>
-          <RangeIcon strength={strength} height={2.4} width={2.4} />
-          {network ? (
-            <Text
-              displayStyle={TextDisplayStyle.LargeBoldText}
-              data-testid={OverviewTestIds.NetworkName}
-            >
-              {network}
-            </Text>
-          ) : (
-            <Text
-              displayStyle={TextDisplayStyle.LargeBoldText}
-              message={messages.noConnection}
-            />
-          )}
-        </SignalStats>
+        <div>
+          <Stats>
+            <IconContainer>
+              <BatteryIcon width={2.4} level={batteryLevel} />
+            </IconContainer>
+            <div>
+              <Text
+                displayStyle={TextDisplayStyle.LargeBoldText}
+                element={"h2"}
+                data-testid={OverviewTestIds.BatteryLevel}
+              >
+                {Math.round(batteryLevel * 100)} %
+              </Text>
+              <Text
+                displayStyle={TextDisplayStyle.SmallFadedText}
+                message={messages.battery}
+              />
+            </div>
+          </Stats>
+          <Stats>
+            <IconContainer>
+              <RangeIcon strength={strength} height={2.4} width={2.4} />
+            </IconContainer>
+            {network ? (
+              <div>
+                <Text
+                  displayStyle={TextDisplayStyle.LargeBoldText}
+                  data-testid={OverviewTestIds.NetworkName}
+                >
+                  {network}
+                </Text>
+                <Text
+                  displayStyle={TextDisplayStyle.SmallFadedText}
+                  message={messages.network}
+                />
+              </div>
+            ) : (
+              <Text
+                displayStyle={TextDisplayStyle.LargeBoldText}
+                message={messages.noConnection}
+              />
+            )}
+          </Stats>
+        </div>
       </CardContent>
     </Card>
   )

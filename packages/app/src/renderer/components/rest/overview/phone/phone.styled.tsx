@@ -13,11 +13,13 @@ export const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
   grid-template-columns: 1fr;
   height: auto;
-  padding: 6rem 0 6.4rem 0;
+  padding: 8rem 5.3rem 4rem;
   justify-items: center;
-
   ${CardAction} {
     justify-self: center;
+    display: flex;
+    align-items: flex-end;
+    margin-top: auto;
   }
 `
 
@@ -26,6 +28,6 @@ export const PhoneInfo = styled(CardText)`
   flex-direction: column;
   align-items: center;
   img {
-    height: 24rem;
+    height: 29.7rem;
   }
 `

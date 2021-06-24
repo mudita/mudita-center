@@ -401,6 +401,7 @@
   "module.overview.networkName": "Network",
   "module.overview.networkNoSimInserted": "No SIM card inserted",
   "module.overview.networkSimInfo": "SIM {slot} ({phone})",
+  "module.overview.networkTitle": "Pure Status",
   "module.overview.networkTooltipDescription": "You can activate this SIM card by going to the network settings on your phone",
   "module.overview.networkTooltipTitle": "Activate card",
   "module.overview.phoneBattery": "Battery",

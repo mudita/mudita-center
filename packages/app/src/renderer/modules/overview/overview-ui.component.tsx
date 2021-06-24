@@ -65,7 +65,6 @@ const OverviewUI: FunctionComponent<
     Partial<AppSettings>
 > = ({
   batteryLevel,
-  changeSim,
   disconnectDevice,
   memorySpace,
   networkName,
@@ -76,13 +75,11 @@ const OverviewUI: FunctionComponent<
   osVersion,
   pureOsAvailable,
   pureOsDownloaded,
-  simCards,
   toggleDevMode,
 }) => (
   <OverviewWrapper>
     <PhoneInfo onClick={toggleDevMode} onDisconnect={disconnectDevice} />
     <NetworkInfo
-      simCards={simCards}
       batteryLevel={batteryLevel}
       network={networkName}
       networkLevel={networkLevel}
