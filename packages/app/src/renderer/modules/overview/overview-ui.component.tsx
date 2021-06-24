@@ -83,7 +83,6 @@ const OverviewUI: FunctionComponent<
     <PhoneInfo onClick={toggleDevMode} onDisconnect={disconnectDevice} />
     <NetworkInfo
       simCards={simCards}
-      onSimChange={changeSim}
       batteryLevel={batteryLevel}
       network={networkName}
       networkLevel={networkLevel}

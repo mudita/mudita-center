@@ -11,17 +11,11 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { defineMessages, FormattedMessage } from "react-intl"
 import styled from "styled-components"
-import { intl } from "Renderer/utils/intl"
 import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
 import Card, {
-  CardAction,
-  CardActionButton,
   CardText,
   CardContent,
 } from "Renderer/components/rest/overview/card.elements"
-import { noop } from "Renderer/utils/noop"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
-import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
@@ -57,40 +51,6 @@ const SignalStats = styled.div`
   }
 `
 
-const SimButton: FunctionComponent<SimCard & { onClick: () => void }> = ({
-  slot,
-  number: phone,
-  active,
-  onClick,
-}) => {
-  const label = intl.formatMessage(
-    {
-      id: "module.overview.networkSimInfo",
-    },
-    { slot, phone }
-  )
-  return (
-    <CardActionButton
-      label={label}
-      active={active}
-      onClick={onClick}
-      data-state={
-        active
-          ? ButtonTogglerTestIds.ActiveState
-          : ButtonTogglerTestIds.InactiveState
-      }
-    />
-  )
-}
-
-const NoSimButton = () => {
-  const label = intl.formatMessage({
-    id: "module.overview.networkNoSimInserted",
-  })
-
-  return <CardActionButton label={label} disabled />
-}
-
 export const messages = defineMessages({
   tooltipTitle: { id: "module.overview.networkTooltipTitle" },
   tooltipDescription: { id: "module.overview.networkTooltipDescription" },
@@ -101,7 +61,6 @@ export const messages = defineMessages({
 const Network: FunctionComponent<NetworkProps> = ({
   className,
   simCards = [],
-  onSimChange = noop,
   batteryLevel,
   network,
   networkLevel = 0,
@@ -154,25 +113,6 @@ const Network: FunctionComponent<NetworkProps> = ({
             />
           )}
         </SignalStats>
-        <CardAction
-          tooltipTitle={messages.tooltipTitle}
-          tooltipDescription={messages.tooltipDescription}
-        >
-          {simCards.length ? (
-            simCards.map((simCard) => {
-              const onClick = () => onSimChange(simCard)
-              return (
-                <SimButton
-                  key={simCard.number}
-                  {...simCard}
-                  onClick={onClick}
-                />
-              )
-            })
-          ) : (
-            <NoSimButton />
-          )}
-        </CardAction>
       </CardContent>
     </Card>
   )
