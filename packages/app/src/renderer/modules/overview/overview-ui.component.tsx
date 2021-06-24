@@ -80,14 +80,14 @@ const OverviewUI: FunctionComponent<
   toggleDevMode,
 }) => (
   <OverviewWrapper>
-    <PhoneInfo
-      onClick={toggleDevMode}
+    <PhoneInfo onClick={toggleDevMode} onDisconnect={disconnectDevice} />
+    <NetworkInfo
+      simCards={simCards}
+      onSimChange={changeSim}
       batteryLevel={batteryLevel}
       network={networkName}
       networkLevel={networkLevel}
-      onDisconnect={disconnectDevice}
     />
-    <NetworkInfo simCards={simCards} onSimChange={changeSim} />
     <System
       updateDownloaded={pureOsDownloaded}
       updateAvailable={pureOsAvailable}

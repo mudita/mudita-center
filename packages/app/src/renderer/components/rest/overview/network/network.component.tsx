@@ -22,12 +22,38 @@ import Card, {
 import { noop } from "Renderer/utils/noop"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
+import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
+import RangeIcon from "Renderer/components/core/icon/range-icon.component"
+import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 
 const TextInfo = styled(CardText)`
   p {
     margin-top: 1.2rem;
     letter-spacing: ${letterSpacing("small")}rem;
     color: ${textColor("secondary")};
+  }
+`
+const BatteryStats = styled.div`
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    margin-top: 0.8rem;
+    margin-bottom: 0.4rem;
+  }
+`
+
+const SignalStats = styled.div`
+  margin-top: 2.4rem;
+  margin-bottom: 6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    margin-top: 0.8rem;
   }
 `
 
@@ -68,16 +94,23 @@ const NoSimButton = () => {
 export const messages = defineMessages({
   tooltipTitle: { id: "module.overview.networkTooltipTitle" },
   tooltipDescription: { id: "module.overview.networkTooltipDescription" },
+  battery: { id: "module.overview.phoneBattery" },
+  noConnection: { id: "module.overview.phoneNoConnection" },
 })
 
 const Network: FunctionComponent<NetworkProps> = ({
   className,
   simCards = [],
   onSimChange = noop,
+  batteryLevel,
+  network,
+  networkLevel = 0,
 }) => {
   const noActiveCard = simCards.every(({ active }) => !active)
   const activatingAvailable =
     (simCards.length && noActiveCard) || simCards.length > 1
+
+  const strength = Math.round(networkLevel * 100)
   return (
     <Card className={className}>
       <TextInfo>
@@ -91,6 +124,36 @@ const Network: FunctionComponent<NetworkProps> = ({
         )}
       </TextInfo>
       <CardContent>
+        <BatteryStats>
+          <BatteryIcon width={2.4} level={batteryLevel} />
+          <Text
+            displayStyle={TextDisplayStyle.LargeBoldText}
+            element={"h2"}
+            data-testid={OverviewTestIds.BatteryLevel}
+          >
+            {Math.round(batteryLevel * 100)} %
+          </Text>
+          <Text
+            displayStyle={TextDisplayStyle.SmallFadedText}
+            message={messages.battery}
+          />
+        </BatteryStats>
+        <SignalStats>
+          <RangeIcon strength={strength} height={2.4} width={2.4} />
+          {network ? (
+            <Text
+              displayStyle={TextDisplayStyle.LargeBoldText}
+              data-testid={OverviewTestIds.NetworkName}
+            >
+              {network}
+            </Text>
+          ) : (
+            <Text
+              displayStyle={TextDisplayStyle.LargeBoldText}
+              message={messages.noConnection}
+            />
+          )}
+        </SignalStats>
         <CardAction
           tooltipTitle={messages.tooltipTitle}
           tooltipDescription={messages.tooltipDescription}
