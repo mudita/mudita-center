@@ -205,7 +205,7 @@ exports[`matches snapshot 1`] = `
   display: -webkit-inline-box;
   display: inline-box;
   padding: 0.3rem 0.5rem;
-  border-radius: 4px;
+  border-radius: 0.4rem;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
