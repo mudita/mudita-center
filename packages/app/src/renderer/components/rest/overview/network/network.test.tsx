@@ -9,16 +9,18 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { NetworkProps } from "Renderer/components/rest/overview/network/network.interface"
 import Network from "Renderer/components/rest/overview/network/network.component"
 import { intl } from "Renderer/utils/intl"
-import getFakeAdapters from "App/tests/get-fake-adapters"
-import { fireEvent } from "@testing-library/dom"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 
 const renderNetwork = ({
-  simCards = [],
-  onSimChange,
+  batteryLevel = 0.75,
+  network = "Play",
+  networkLevel = 0.75,
 }: Partial<NetworkProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
-    <Network simCards={simCards} onSimChange={onSimChange} />
+    <Network
+      batteryLevel={batteryLevel}
+      network={network}
+      networkLevel={networkLevel}
+    />
   )
   return {
     ...outcome,
@@ -30,11 +32,14 @@ const renderNetwork = ({
   }
 }
 
-let fakeSimCards: SimCard[] = []
-
-beforeEach(async () => {
-  const { data } = await getFakeAdapters().pureNetwork.getSimCards()
-  fakeSimCards = data ?? []
+test("phone info renders properly", () => {
+  const { getByText, getByTestId } = renderNetwork()
+  expect(getByText("75 %")).toBeInTheDocument()
+  expect(getByText("Play")).toBeInTheDocument()
+  expect(
+    getByText(intl.formatMessage({ id: "module.overview.phoneBattery" }))
+  ).toBeInTheDocument()
+  expect(getByTestId("icon-HighRange")).toBeInTheDocument()
 })
 
 test("matches snapshot", () => {
@@ -42,83 +47,9 @@ test("matches snapshot", () => {
   expect(container).toMatchSnapshot()
 })
 
-test("renders card name properly", () => {
+test("renders card title properly", () => {
   const { queryByText } = renderNetwork()
   expect(
-    queryByText(intl.formatMessage({ id: "module.overview.networkName" }))
+    queryByText(intl.formatMessage({ id: "module.overview.networkTitle" }))
   ).toBeInTheDocument()
-})
-
-test("renders 'no sim card' state properly", () => {
-  const { getButtons, getDescription } = renderNetwork()
-  expect(getButtons()).toHaveLength(1)
-  expect(getButtons()[0]).toHaveTextContent(
-    intl.formatMessage({ id: "module.overview.networkNoSimInserted" })
-  )
-  expect(getDescription()).not.toBeInTheDocument()
-})
-
-test("renders single active sim card info properly", () => {
-  const simCard = fakeSimCards[0]
-  const { getButtons, getDescription } = renderNetwork({
-    simCards: [simCard],
-  })
-  expect(getButtons()).toHaveLength(1)
-  expect(getButtons()[0]).toHaveTextContent(
-    intl.formatMessage(
-      {
-        id: "module.overview.networkSimInfo",
-      },
-      { slot: simCard.slot, phone: simCard.number }
-    )
-  )
-  expect(getDescription()).not.toBeInTheDocument()
-})
-
-test("renders single inactive sim card info properly", () => {
-  const simCard = fakeSimCards[1]
-  const { getButtons, getDescription } = renderNetwork({
-    simCards: [simCard],
-  })
-  expect(getButtons()).toHaveLength(1)
-  expect(getButtons()[0]).toHaveTextContent(
-    intl.formatMessage(
-      {
-        id: "module.overview.networkSimInfo",
-      },
-      { slot: simCard.slot, phone: simCard.number }
-    )
-  )
-  expect(getDescription()).toBeInTheDocument()
-})
-
-test("renders two sim cards info properly", () => {
-  const { getButtons, getDescription } = renderNetwork({
-    simCards: fakeSimCards,
-  })
-  expect(getButtons()).toHaveLength(2)
-  fakeSimCards.forEach((simCard, index) => {
-    expect(getButtons()[index]).toHaveTextContent(
-      intl.formatMessage(
-        {
-          id: "module.overview.networkSimInfo",
-        },
-        { slot: simCard.slot, phone: simCard.number }
-      )
-    )
-  })
-  expect(getDescription()).toBeInTheDocument()
-})
-
-test("returns a SIM info after its activation", () => {
-  const onSimChange = jest.fn()
-
-  const { getButtons } = renderNetwork({
-    simCards: fakeSimCards,
-    onSimChange,
-  })
-
-  fireEvent.click(getButtons()[1])
-
-  expect(onSimChange).toHaveBeenCalledWith(fakeSimCards[1])
 })

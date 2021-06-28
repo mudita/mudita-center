@@ -35,7 +35,6 @@ const Overview: FunctionComponent<
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
-  lastBackup,
   osVersion,
   osUpdateDate,
   pureOsAvailable,
@@ -95,7 +94,6 @@ const Overview: FunctionComponent<
     toggleDeviceUpdating
   )
 
-
   useEffect(() => {
     if (osVersion) {
       initialCheck()
@@ -145,13 +143,6 @@ const Overview: FunctionComponent<
     setOpenModal((prevState) => ({
       ...prevState,
       loadingModal: true,
-    }))
-  }
-
-  const openBackupStartModal = () => {
-    setOpenModal((prevState) => ({
-      ...prevState,
-      backupStartModal: true,
     }))
   }
 
@@ -212,7 +203,6 @@ const Overview: FunctionComponent<
         batteryLevel={batteryLevel}
         changeSim={changeSim}
         disconnectDevice={disconnectDevice}
-        lastBackup={lastBackup}
         osVersion={osVersion}
         osUpdateDate={osUpdateDate}
         memorySpace={memorySpace}
@@ -224,9 +214,6 @@ const Overview: FunctionComponent<
         onUpdateCheck={check}
         onUpdateInstall={install}
         onUpdateDownload={download}
-        onOpenBackupModal={openBackupStartModal}
-        onOpenBackupRestorationModal={noop}
-        language={language}
       />
     </>
   )
