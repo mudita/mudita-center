@@ -13,35 +13,16 @@ import {
 import { intl } from "Renderer/utils/intl"
 import Image from "Renderer/components/core/image/image.component"
 import PureImage from "Renderer/images/pure-render.png"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import { defineMessages } from "react-intl"
 import { useHistory } from "react-router"
-import RangeIcon from "Renderer/components/core/icon/range-icon.component"
-import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import { PhoneTestIds } from "Renderer/components/rest/overview/phone/phone-test-ids.enum"
 import {
-  BatteryStats,
   PhoneCard,
   PhoneInfo,
-  SignalStats,
-  PhoneDescription,
 } from "Renderer/components/rest/overview/phone/phone.styled"
 import { URL_MAIN } from "Renderer/constants/urls"
-import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
-
-const messages = defineMessages({
-  battery: { id: "module.overview.phoneBattery" },
-  noConnection: { id: "module.overview.phoneNoConnection" },
-  phoneDescription: { id: "module.overview.phoneDescription" },
-})
 
 const Phone: FunctionComponent<PhoneProps> = ({
-  batteryLevel,
   className,
-  network,
-  networkLevel = 0,
   onDisconnect,
   onClick,
 }) => {
@@ -51,47 +32,10 @@ const Phone: FunctionComponent<PhoneProps> = ({
     history.push(URL_MAIN.news)
   }
 
-  const strength = Math.round(networkLevel * 100)
-
   return (
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
         <Image src={PureImage} />
-        <PhoneDescription
-          displayStyle={TextDisplayStyle.LargeBoldText}
-          element={"h2"}
-          message={messages.phoneDescription}
-        />
-        <BatteryStats>
-          <BatteryIcon width={2.4} level={batteryLevel} />
-          <Text
-            displayStyle={TextDisplayStyle.LargeBoldText}
-            element={"h2"}
-            data-testid={OverviewTestIds.BatteryLevel}
-          >
-            {Math.round(batteryLevel * 100)} %
-          </Text>
-          <Text
-            displayStyle={TextDisplayStyle.SmallFadedText}
-            message={messages.battery}
-          />
-        </BatteryStats>
-        <SignalStats>
-          <RangeIcon strength={strength} height={2.4} width={2.4} />
-          {network ? (
-            <Text
-              displayStyle={TextDisplayStyle.LargeBoldText}
-              data-testid={OverviewTestIds.NetworkName}
-            >
-              {network}
-            </Text>
-          ) : (
-            <Text
-              displayStyle={TextDisplayStyle.LargeBoldText}
-              message={messages.noConnection}
-            />
-          )}
-        </SignalStats>
       </PhoneInfo>
       <CardAction>
         <CardActionButton
