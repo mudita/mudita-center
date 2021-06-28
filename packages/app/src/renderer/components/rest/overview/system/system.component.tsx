@@ -41,7 +41,7 @@ const Version = styled.div`
 `
 
 const AvailableUpdate = styled(Text)`
-  margin-top: 1.6rem;
+  margin-top: 0.8rem;
   text-transform: none;
   display: inline-box;
   padding: 0.3rem 0.5rem;
