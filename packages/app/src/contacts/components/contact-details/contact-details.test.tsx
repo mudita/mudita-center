@@ -40,8 +40,6 @@ const contactBasic = {
 }
 
 const noAddress = "[value] module.contacts.noAddress"
-const noEmail = "[value] module.contacts.noEmail"
-const noNotes = "[value] module.contacts.noNotes"
 
 const renderer = (props: {}) => {
   const defaultProps = {
@@ -59,16 +57,6 @@ const renderer = (props: {}) => {
   return renderWithThemeAndIntl(<ContactDetails {...defaultProps} {...props} />)
 }
 
-test("contact with ICE displays ICE icon", () => {
-  const { getByTestId } = renderer({ contact: contactRich })
-  expect(getByTestId("icon-Ice")).toBeInTheDocument()
-})
-
-test("contact with out ICE displays no ICE info", () => {
-  const { queryByTestId } = renderer({ contact: contactBasic })
-  expect(queryByTestId("icon-Ice")).not.toBeInTheDocument()
-})
-
 test("contact with address displays the address", () => {
   const { getByText } = renderer({ contact: contactRich })
   expect(getByText(contactRich.firstAddressLine)).toBeInTheDocument()
@@ -77,26 +65,6 @@ test("contact with address displays the address", () => {
 test("contact without address displays no address info", () => {
   const { getByText } = renderer({ contact: contactBasic })
   expect(getByText(noAddress)).toBeInTheDocument()
-})
-
-test("contact with email displays the email", () => {
-  const { getByText } = renderer({ contact: contactRich })
-  expect(getByText(contactRich.email)).toBeInTheDocument()
-})
-
-test("contact without email displays no email info", () => {
-  const { getByText } = renderer({ contact: contactBasic })
-  expect(getByText(noEmail)).toBeInTheDocument()
-})
-
-test("contact with note displays the note", () => {
-  const { getByText } = renderer({ contact: contactRich })
-  expect(getByText(contactRich.note)).toBeInTheDocument()
-})
-
-test("contact without note displays no note info", () => {
-  const { getByText } = renderer({ contact: contactBasic })
-  expect(getByText(noNotes)).toBeInTheDocument()
 })
 
 test("export button performs export action", () => {
