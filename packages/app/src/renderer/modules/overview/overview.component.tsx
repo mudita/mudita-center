@@ -42,7 +42,6 @@ const Overview: FunctionComponent<
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
-  lastBackup,
   osVersion,
   osUpdateDate,
   pureOsAvailable,
@@ -173,13 +172,6 @@ const Overview: FunctionComponent<
     }))
   }
 
-  const openBackupStartModal = () => {
-    setOpenModal((prevState) => ({
-      ...prevState,
-      backupStartModal: true,
-    }))
-  }
-
   const closeBackupStartModal = () => {
     setOpenModal((prevState) => ({
       ...prevState,
@@ -237,7 +229,6 @@ const Overview: FunctionComponent<
         batteryLevel={batteryLevel}
         changeSim={changeSim}
         disconnectDevice={disconnectDevice}
-        lastBackup={lastBackup}
         osVersion={osVersion}
         osUpdateDate={osUpdateDate}
         memorySpace={memorySpace}
@@ -249,9 +240,6 @@ const Overview: FunctionComponent<
         onUpdateCheck={check}
         onUpdateInstall={install}
         onUpdateDownload={download}
-        onOpenBackupModal={openBackupStartModal}
-        onOpenBackupRestorationModal={noop}
-        language={language}
       />
     </>
   )

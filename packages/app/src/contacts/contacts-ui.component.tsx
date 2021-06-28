@@ -112,7 +112,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   )
   const [editedContact, setEditedContact] = useState<Contact>()
 
-  const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
+  const [selectedContact] = useState<Contact | null>(null)
 
   const {
     selectedRows,
@@ -342,11 +342,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     modalService.openModal(<SpeedDialModal onSave={closeModal} />)
   }
 
-  const handleContactSelect = (contact: Contact) => {
-    setSelectedContact(contact)
-    openSidebar(contact)
-  }
-
   // Synchronization, dev mode: toggle contacts saving failure
   const [syncShouldFail, setSyncFailure] = useState(false)
 
@@ -560,7 +555,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     <>
       <ContactSection>
         <ContactPanel
-          onContactSelect={handleContactSelect}
           onManageButtonClick={showSynchronizationSourceSelectModal}
           onNewButtonClick={handleAddingContact}
           selectedContacts={selectedRows}
@@ -568,7 +562,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
           toggleAll={toggleAll}
           deleteContacts={deleteContacts}
           resetRows={resetRows}
-          contacts={flatList}
           editedContact={editedContact}
         />
         <TableWithSidebarWrapper>

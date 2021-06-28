@@ -10,23 +10,14 @@ import { PhoneProps } from "Renderer/components/rest/overview/phone/phone.interf
 import Phone from "Renderer/components/rest/overview/phone/phone.component"
 import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
-import { intl } from "Renderer/utils/intl"
 import { Router } from "react-router"
 import { createMemoryHistory } from "history"
 
-const renderPhone = ({
-  onDisconnect = noop,
-  batteryLevel = 0.75,
-  network = "Play",
-}: Partial<PhoneProps> = {}) => {
+const renderPhone = ({ onDisconnect = noop }: Partial<PhoneProps> = {}) => {
   const history = createMemoryHistory()
   const outcome = renderWithThemeAndIntl(
     <Router history={history}>
-      <Phone
-        onDisconnect={onDisconnect}
-        batteryLevel={batteryLevel}
-        network={network}
-      />
+      <Phone onDisconnect={onDisconnect} />
     </Router>
   )
   return {
@@ -34,16 +25,6 @@ const renderPhone = ({
     disconnectButton: () => outcome.getByRole("button"),
   }
 }
-
-test("phone info renders properly", () => {
-  const { disconnectButton, getByText } = renderPhone()
-  expect(getByText("75 %")).toBeInTheDocument()
-  expect(getByText("Play")).toBeInTheDocument()
-  expect(
-    getByText(intl.formatMessage({ id: "module.overview.phoneBattery" }))
-  ).toBeInTheDocument()
-  expect(disconnectButton()).toBeInTheDocument()
-})
 
 test("disconnect button works properly", async () => {
   const onDisconnect = jest.fn()

@@ -32,7 +32,7 @@ class PurePhoneNetwork extends PurePhoneNetworkAdapter {
             active: true,
             number: 12345678,
             network: "Y-Mobile",
-            networkLevel: Number((Number(data.signalStrength) / 5).toFixed(2)),
+            networkLevel: Number((Number(data.signalStrength) / 4).toFixed(2)),
           },
         ],
       }

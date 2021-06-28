@@ -6,7 +6,6 @@
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
 import ContactPanel from "App/contacts/components/contact-panel/contact-panel.component"
-import { fireEvent } from "@testing-library/dom"
 import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/contact-panel-test-ids.enum"
 import { Contact } from "App/contacts/store/contacts.type"
 import { InputSelectTestIds } from "Renderer/components/core/input-select/input-select.component"
@@ -63,37 +62,6 @@ const renderer = (extraProps?: {}) => {
       outcome.queryAllByTestId(InputSelectTestIds.ListItem),
   }
 }
-
-test("search input dropdown shows after writing at least 3 chars", () => {
-  const { selectInput, selectList } = renderer()
-
-  selectInput().focus()
-
-  for (let i = 0; i < 4; i++) {
-    const value = defaultProps.contacts[0].firstName?.substr(0, i)
-    fireEvent.change(selectInput(), {
-      target: { value },
-    })
-    if (i < 3) {
-      expect(selectList()).not.toBeInTheDocument()
-    } else {
-      expect(selectList()).toBeInTheDocument()
-      expect(selectList()).toBeVisible()
-    }
-  }
-})
-
-test("clicking on searched option returns given item properly", () => {
-  const onContactSelect = jest.fn()
-  const { selectInput, selectListItems } = renderer({ onContactSelect })
-
-  fireEvent.focus(selectInput())
-  fireEvent.change(selectInput(), {
-    target: { value: defaultProps.contacts[1].firstName?.substr(0, 3) },
-  })
-  fireEvent.click(selectListItems()[0])
-  expect(onContactSelect).toBeCalledWith(defaultProps.contacts[1])
-})
 
 test("selection manager is displayed when there is at least one contact selected", () => {
   const { getByTestId } = renderer({

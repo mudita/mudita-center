@@ -22,13 +22,7 @@ import InputCheckbox, {
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { useForm } from "react-hook-form"
-import {
-  emailValidator,
-  phoneNumberValidator,
-} from "Renderer/utils/form-validators"
-import InputSelect, {
-  RenderInputSelectListItem,
-} from "Renderer/components/core/input-select/input-select.component"
+import { phoneNumberValidator } from "Renderer/utils/form-validators"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { noop } from "Renderer/utils/noop"
@@ -38,10 +32,6 @@ import {
   Content,
   CustomCheckbox,
   Input,
-  SpeedDial,
-  SpeedDialListItem,
-  speedDialListStyles,
-  SpeedDialSettings,
 } from "App/contacts/components/contact-edit/contact-edit.styled"
 import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/contact-panel-test-ids.enum"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
@@ -142,10 +132,6 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     handleSpeedDialSelect(contact?.speedDial)
   }, [contact?.speedDial])
 
-  const speedDialAssignPossible =
-    (fields.primaryPhoneNumber && !errors.primaryPhoneNumber) ||
-    (fields.secondaryPhoneNumber && !errors.secondaryPhoneNumber)
-
   const savingPossible =
     fields.firstName?.trim() ||
     fields.lastName?.trim() ||
@@ -168,11 +154,6 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   const handleSpeedDialSelect = (value: number | undefined) => {
     setValue("speedDial", value)
   }
-
-  const speedDialListItemRenderer: RenderInputSelectListItem<number> = ({
-    item,
-    props,
-  }) => <SpeedDialListItem {...props}>{item}</SpeedDialListItem>
 
   const headerLeft = (
     <Text
@@ -221,40 +202,8 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               errorMessage={errors.secondaryPhoneNumber?.message}
               data-testid={ContactEditTestIdsEnum.SecondaryNumber}
             />
-            <Input
-              type="email"
-              label={intl.formatMessage(messages.email)}
-              defaultValue={contact?.email}
-              {...register("email", emailValidator)}
-              errorMessage={errors.email?.message}
-              data-testid={ContactEditTestIdsEnum.Email}
-            />
           </div>
           <div>
-            <SpeedDial>
-              <InputSelect
-                {...register("speedDial")}
-                disabled={!speedDialAssignPossible}
-                items={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
-                disabledItems={speedDialChosenList}
-                label={intl.formatMessage(messages.speedDialKey)}
-                emptyItemValue={intl.formatMessage(
-                  messages.speedDialKeyEmptyOption
-                )}
-                onSelect={handleSpeedDialSelect}
-                selectedItem={
-                  fields.speedDial ||
-                  intl.formatMessage(messages.speedDialKeySelect)
-                }
-                listStyles={speedDialListStyles}
-                renderListItem={speedDialListItemRenderer}
-              />
-              <SpeedDialSettings
-                displayStyle={DisplayStyle.Link3}
-                labelMessage={messages.speedDialSettings}
-                onClick={onSpeedDialSettingsOpen}
-              />
-            </SpeedDial>
             <CustomCheckbox>
               <InputCheckbox
                 size={Size.Medium}
@@ -265,17 +214,6 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
                 {intl.formatMessage(messages.addToFavourites)}
               </Text>
               <Icon type={IconType.Favourites} height={1} />
-            </CustomCheckbox>
-            <CustomCheckbox>
-              <InputCheckbox
-                size={Size.Medium}
-                {...register("ice")}
-                defaultChecked={contact?.ice}
-              />
-              <Text displayStyle={TextDisplayStyle.SmallText}>
-                {intl.formatMessage(messages.iceContact)}
-              </Text>
-              <Icon type={IconType.Ice} height={1} />
             </CustomCheckbox>
             <Input
               type="text"
@@ -294,16 +232,6 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               maxLength={30}
               onBlur={trimInputValue}
               data-testid={ContactEditTestIdsEnum.SecondAddressLine}
-            />
-            <Input
-              type="text"
-              label={"Note"}
-              defaultValue={contact?.note}
-              {...register("note")}
-              errorMessage={errors.note?.message}
-              maxLength={30}
-              onBlur={trimInputValue}
-              data-testid={ContactEditTestIdsEnum.Note}
             />
           </div>
         </Content>
