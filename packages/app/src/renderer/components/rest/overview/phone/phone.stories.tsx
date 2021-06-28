@@ -20,11 +20,7 @@ storiesOf("Views|Overview/Phone", module).add("Phone", () => {
   return (
     <div style={{ maxWidth: "31.5rem" }}>
       <Part>
-        <Phone
-          onDisconnect={action("disconnect phone")}
-          batteryLevel={0.75}
-          network={"Play"}
-        />
+        <Phone onDisconnect={action("disconnect phone")} />
       </Part>
     </div>
   )

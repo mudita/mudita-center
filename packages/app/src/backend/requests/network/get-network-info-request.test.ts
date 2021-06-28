@@ -55,7 +55,7 @@ test("returns required network info", async () => {
         Object {
           "active": true,
           "network": "Y-Mobile",
-          "networkLevel": 0.2,
+          "networkLevel": 0.25,
           "number": 12345678,
           "slot": 1,
         },

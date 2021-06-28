@@ -8,22 +8,19 @@ import Card, {
   CardAction,
   CardText,
 } from "Renderer/components/rest/overview/card.elements"
-import Text from "Renderer/components/core/text/text.component"
 
 export const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
   grid-template-columns: 1fr;
   height: auto;
-  padding: 6rem 0 6.4rem 0;
+  padding: 8rem 5.3rem 4rem;
   justify-items: center;
-
   ${CardAction} {
     justify-self: center;
+    display: flex;
+    align-items: flex-end;
+    margin-top: auto;
   }
-`
-
-export const PhoneDescription = styled(Text)`
-  margin-top: 2.4rem;
 `
 
 export const PhoneInfo = styled(CardText)`
@@ -31,30 +28,6 @@ export const PhoneInfo = styled(CardText)`
   flex-direction: column;
   align-items: center;
   img {
-    height: 24rem;
-  }
-`
-
-export const BatteryStats = styled.div`
-  margin-top: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  h2 {
-    margin-top: 0.8rem;
-    margin-bottom: 0.4rem;
-  }
-`
-
-export const SignalStats = styled.div`
-  margin-top: 2.4rem;
-  margin-bottom: 6rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  p {
-    margin-top: 0.8rem;
+    height: 29.7rem;
   }
 `
