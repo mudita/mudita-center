@@ -11,7 +11,7 @@ import {
 } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { Contact } from "App/contacts/store/contacts.type"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
+import Icon from "Renderer/components/core/icon/icon.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl } from "Renderer/utils/intl"
@@ -26,7 +26,6 @@ import {
   ContactDetailsWrapper,
   InfoItem,
   InfoItemName,
-  InfoItemSpeedDialNumber,
   Input,
   Name,
 } from "App/contacts/components/contact-details/contact-details.styled"
@@ -172,26 +171,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               <InfoItemName message={messages.favourites} />
             </InfoItem>
           )}
-          {Boolean(contact.speedDial) && (
-            <InfoItem>
-              <InfoItemSpeedDialNumber>
-                {contact.speedDial}
-              </InfoItemSpeedDialNumber>
-              <InfoItemName message={messages.speedDial} />
-            </InfoItem>
-          )}
-          {contact.blocked && (
-            <InfoItem>
-              <Icon type={Type.Blocked} size={IconSize.Bigger} />
-              <InfoItemName message={messages.blocked} />
-            </InfoItem>
-          )}
-          {contact.ice && (
-            <InfoItem>
-              <Icon type={Type.Ice} />
-              <InfoItemName message={messages.ice} />
-            </InfoItem>
-          )}
         </BasicInfo>
         <AdditionalInfo>
           <div>
@@ -237,13 +216,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   />
                 </div>
               )}
-              {contact.email ? (
-                <ContactDetailsInfo>{contact.email}</ContactDetailsInfo>
-              ) : (
-                <ContactDetailsLabel>
-                  {intl.formatMessage(messages.noEmail)}
-                </ContactDetailsLabel>
-              )}
             </AdditionalInfoItem>
           </div>
           <div>
@@ -256,16 +228,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               ) : (
                 <ContactDetailsLabel>
                   {intl.formatMessage(messages.noAddress)}
-                </ContactDetailsLabel>
-              )}
-            </AdditionalInfoItem>
-            <AdditionalInfoItem>
-              <InfoItemName message={messages.notes} />
-              {contact.note ? (
-                <ContactDetailsInfo>{contact.note}</ContactDetailsInfo>
-              ) : (
-                <ContactDetailsLabel>
-                  {intl.formatMessage(messages.noNotes)}
                 </ContactDetailsLabel>
               )}
             </AdditionalInfoItem>
