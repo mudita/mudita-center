@@ -59,7 +59,7 @@ const createDownloadListenerRegistrar = (win: BrowserWindow) => ({
 }: DownloadListener): Promise<DownloadFinished> => {
   return new Promise((resolve, reject) => {
     try {
-      const willDownloadListener = async (event: Event, item: DownloadItem) => {
+      const willDownloadListener = (event: Event, item: DownloadItem) => {
         item.setSavePath(path.join(savePath, item.getFilename()))
 
         const onDownloadCancel = (interrupt = false) => {
