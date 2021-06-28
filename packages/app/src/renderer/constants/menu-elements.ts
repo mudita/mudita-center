@@ -53,6 +53,7 @@ const YOUR_PURE_BUTTONS = [
     button: views.calendar,
     icon: Type.Calendar,
     testId: MenuGroupTestIds.Calendar,
+    hidden: productionEnvironment,
   },
   {
     button: views.meditation,
