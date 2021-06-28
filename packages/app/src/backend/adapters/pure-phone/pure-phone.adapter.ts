@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import * as fs from "fs"
-import { PathLike, WriteFileOptions } from "fs"
 import { Endpoint, Method } from "@mudita/pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
@@ -60,7 +58,10 @@ class PurePhone extends PurePhoneAdapter {
         data: data.gitTag,
       }
     } else {
-      return { status, error: { message: "Something went wrong" } }
+      return {
+        status,
+        error: { message: "Get os version: Something went wrong" },
+      }
     }
   }
 
@@ -93,9 +94,7 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  public async importDeviceErrorFile(
-    filePath: string
-  ): Promise<DeviceResponse> {
+  public async getDeviceLogs(): Promise<DeviceResponse<string>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
@@ -107,27 +106,37 @@ class PurePhone extends PurePhoneAdapter {
     if (status !== DeviceResponseStatus.Ok || data === undefined) {
       return {
         status: DeviceResponseStatus.Error,
-        error: { message: "Something went wrong" },
+        error: {
+          message:
+            "Get device logs: Something went wrong in init downloading request",
+        },
       }
     }
 
     const { rxID, fileSize, chunkSize } = data
-    const chunkLength = fileSize > chunkSize ? (fileSize / chunkSize) : 1
-    const downloadFileResponse = await this.downloadEncodedFile(rxID, chunkLength)
+    const chunkLength = fileSize > chunkSize ? fileSize / chunkSize : 1
+    const downloadFileResponse = await this.downloadEncodedFile(
+      rxID,
+      chunkLength
+    )
 
     if (
       downloadFileResponse.status === DeviceResponseStatus.Ok &&
       downloadFileResponse.data !== undefined
     ) {
-      this.writeFileSync(filePath, downloadFileResponse.data, "base64")
+      const buffer = Buffer.from(downloadFileResponse.data, "base64")
 
       return {
         status: DeviceResponseStatus.Ok,
+        data: buffer.toString(),
       }
     } else {
       return {
         status: DeviceResponseStatus.Error,
-        error: { message: "Something went wrong" },
+        error: {
+          message:
+            "Get device logs: Something went wrong in downloading request",
+        },
       }
     }
   }
@@ -263,7 +272,7 @@ class PurePhone extends PurePhoneAdapter {
     if (status !== DeviceResponseStatus.Ok || data === undefined) {
       return {
         status: DeviceResponseStatus.Error,
-        error: { message: "Something went wrong" },
+        error: { message: "Download encoded file: Something went wrong" },
       }
     }
 
@@ -277,14 +286,6 @@ class PurePhone extends PurePhoneAdapter {
         data: string,
       }
     }
-  }
-
-  private writeFileSync(
-    path: PathLike,
-    data: string | NodeJS.ArrayBufferView,
-    options?: WriteFileOptions
-  ): void {
-    fs.writeFileSync(path, data, options)
   }
 
   private static getUpdateOsProgress(step: number): number {

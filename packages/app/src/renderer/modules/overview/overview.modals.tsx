@@ -395,17 +395,25 @@ export const UpdatingFailureModal = ({
   onContact,
 }: {
   code?: number
-  onContact: () => void
-}) => (
-  <ErrorDataModal
-    closeButton={false}
-    onActionButtonClick={onContact}
-    title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-    actionButtonLabel={intl.formatMessage(messages.updatingFailedSupportButton)}
-    textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
-    descriptionMessage={messages.updatingFailedOnlySupportDescription}
-  />
-)
+  onContact: (code?: number) => void
+}) => {
+  const handleOnActionButtonClick = (): void => {
+    onContact(code)
+  }
+
+  return (
+    <ErrorDataModal
+      closeButton={false}
+      onActionButtonClick={handleOnActionButtonClick}
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+      actionButtonLabel={intl.formatMessage(
+        messages.updatingFailedSupportButton
+      )}
+      textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
+      descriptionMessage={messages.updatingFailedOnlySupportDescription}
+    />
+  )
+}
 
 export const UpdatingFailureWithHelpModal = ({
   code,
@@ -413,20 +421,30 @@ export const UpdatingFailureWithHelpModal = ({
   onHelp,
 }: {
   code: number
-  onHelp: () => void
-  onContact: () => void
-}) => (
-  <ErrorDataModal
-    closeButton
-    onCloseButton={onContact}
-    closeButtonLabel={intl.formatMessage(messages.updatingFailedSupportButton)}
-    onActionButtonClick={onHelp}
-    title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-    actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
-    textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
-    descriptionMessage={messages.updatingFailedDescription}
-  />
-)
+  onHelp: (code: number) => void
+  onContact: (code: number) => void
+}) => {
+  const handleOnActionButtonClick = (): void => {
+    onHelp(code)
+  }
+  const handleOnCloseButton = (): void => {
+    onContact(code)
+  }
+  return (
+    <ErrorDataModal
+      closeButton
+      onCloseButton={handleOnCloseButton}
+      closeButtonLabel={intl.formatMessage(
+        messages.updatingFailedSupportButton
+      )}
+      onActionButtonClick={handleOnActionButtonClick}
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+      actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
+      textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
+      descriptionMessage={messages.updatingFailedDescription}
+    />
+  )
+}
 
 export const DevUpdate = ({
   action = noop,

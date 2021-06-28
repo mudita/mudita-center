@@ -24,11 +24,10 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
-import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { InputError } from "Renderer/components/core/input-text/input-text.elements"
 import { convertBytes } from "Renderer/utils/convert-bytes"
 import { defineMessages } from "react-intl"
+import FileList from "Renderer/components/core/file-list/file-list.component"
 
 const Message = styled(Text)<{ dragging?: boolean }>`
   position: relative;
@@ -113,46 +112,6 @@ const Label = styled.label`
     top: 0;
     left: 0;
   }
-`
-
-const Remove = styled.span`
-  cursor: pointer;
-  opacity: 0.6;
-  transition: opacity ${transitionTime("quick")}
-    ${transitionTimingFunction("smooth")};
-
-  &:hover {
-    opacity: 1;
-  }
-`
-
-const File = styled.li`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  overflow: hidden;
-  width: calc(50% - 2rem);
-  margin-bottom: 0.8rem;
-  user-select: none;
-
-  p {
-    user-select: none;
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: ${textColor("secondary")};
-    margin: 0 2rem 0 0.5rem;
-    white-space: nowrap;
-  }
-`
-
-const FilesList = styled.ul`
-  padding: 0;
-  list-style-type: none;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
 `
 
 const messages = defineMessages({
@@ -353,6 +312,13 @@ const InputFile: FunctionComponent<InputFileProps> = ({
 
   useEffect(() => () => removeTimeoutHandler(), [])
 
+  const removeAttachment = (index: number) => {
+    const tempFiles = [...files]
+    tempFiles.splice(index, 1)
+    setFiles(tempFiles)
+    resetError()
+  }
+
   return (
     <InputFileWrapper className={className}>
       <Label
@@ -381,27 +347,7 @@ const InputFile: FunctionComponent<InputFileProps> = ({
         />
       </Label>
       <InputError visible={Boolean(errorMessage)}>{errorMessage}</InputError>
-      <FilesList>
-        {files.map((file, index) => {
-          const removeAttachment = () => {
-            const tempFiles = [...files]
-            tempFiles.splice(index, 1)
-            setFiles(tempFiles)
-            resetError()
-          }
-          return (
-            <File key={index}>
-              <Icon type={Type.Attachment} height={1.6} />
-              <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-                {file.name}
-              </Text>
-              <Remove onClick={removeAttachment} role="button">
-                <Icon type={Type.Remove} width={1.6} />
-              </Remove>
-            </File>
-          )
-        })}
-      </FilesList>
+      <FileList files={files} onRemoveClick={removeAttachment} />
     </InputFileWrapper>
   )
 }

@@ -12,14 +12,14 @@ import { AppLogsEvents } from "App/main/functions/register-app-logs-listener"
 
 const messages = defineMessages({
   appVersion: {
-    id: "component.supportModalDetailsAppVersion",
+    id: "component.contactModalDetailsAppVersion",
   },
   os: {
-    id: "component.supportModalDetailsOs",
+    id: "component.contactModalDetailsOs",
   },
 })
 
-export const getAppLogs = async (): Promise<string> => {
+const getAppLogs = async (): Promise<string> => {
   const appLogs = await ipcRenderer.callMain(AppLogsEvents.Get)
 
   const logParts = [
@@ -32,3 +32,5 @@ export const getAppLogs = async (): Promise<string> => {
 
   return logParts.join("\n")
 }
+
+export default getAppLogs

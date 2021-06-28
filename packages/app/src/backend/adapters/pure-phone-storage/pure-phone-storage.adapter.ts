@@ -28,7 +28,10 @@ class PurePhoneStorage extends PurePhoneStorageAdapter {
         data: Number(data.fsFree),
       }
     } else {
-      return { status, error: { message: "Something went wrong" } }
+      return {
+        status,
+        error: { message: "Get available space: Something went wrong" },
+      }
     }
   }
 
@@ -44,7 +47,10 @@ class PurePhoneStorage extends PurePhoneStorageAdapter {
         data: Number(data.fsTotal),
       }
     } else {
-      return { status, error: { message: "Something went wrong" } }
+      return {
+        status,
+        error: { message: "Get capacity: Something went wrong" },
+      }
     }
   }
 

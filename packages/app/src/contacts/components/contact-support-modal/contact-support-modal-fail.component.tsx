@@ -3,16 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import React, { ComponentProps } from "react"
+import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import React, { ComponentProps } from "react"
 import {
   ModalContent as SimpleModal,
   RoundIconWrapper,
 } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
-import { defineMessages } from "react-intl"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -23,7 +23,7 @@ const messages = defineMessages({
   body: { id: "component.supportModalFailBody" },
 })
 
-export const ContactSupportFailed: FunctionComponent<
+const ContactSupportModalFail: FunctionComponent<
   ComponentProps<typeof ModalDialog>
 > = (props) => (
   <ModalDialog size={ModalSize.Small} {...props}>
@@ -42,3 +42,5 @@ export const ContactSupportFailed: FunctionComponent<
     </SimpleModal>
   </ModalDialog>
 )
+
+export default ContactSupportModalFail

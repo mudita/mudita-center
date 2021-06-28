@@ -248,7 +248,9 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       cancelEditingContact(contact)
       openSidebar(contact)
     } catch (error) {
-      logger.error(error)
+      logger.error(
+        `Contacts: editing process throw error. Data: ${JSON.stringify(error)}`
+      )
     }
   }
 
@@ -293,7 +295,11 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     try {
       await editContactWithRetry(unblockedContact)
     } catch (error) {
-      logger.error(error)
+      logger.error(
+        `Contacts: editing (unblock) process throw error. Data: ${JSON.stringify(
+          error
+        )}`
+      )
     }
 
     if (detailsEnabled) {
@@ -315,7 +321,11 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       try {
         await editContactWithRetry(blockedContact)
       } catch (error) {
-        logger.error(error)
+        logger.error(
+          `Contacts: editing process (block) throw error. Data: ${JSON.stringify(
+            error
+          )}`
+        )
       }
 
       if (detailsEnabled) {

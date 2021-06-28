@@ -8,7 +8,7 @@ import { session } from "electron"
 const githubToken = process.env.OS_UPDATE_SERVER_ACCESS_TOKEN ?? ""
 const osUpdateServerUrl = process.env.OS_UPDATE_SERVER ?? ""
 
-const registerPureOsDownloadProxy = () => {
+const registerPureOsDownloadProxy = (): void => {
   // Modify the headers for all requests to the following urls.
   // https://github.com/electron/electron/blob/master/docs/api/web-request.md#class-webrequest
   const filter = {

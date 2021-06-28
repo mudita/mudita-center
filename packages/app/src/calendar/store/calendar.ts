@@ -88,7 +88,9 @@ const calendar = createModel<RootModel>({
         dispatch.calendar.setResultState(ResultsState.Loading)
         const { error, data = [] } = await getEvents()
         if (error) {
-          logger.error(error)
+          logger.error(
+            `Calendar: loads data fails. Data: ${JSON.stringify(error)}`
+          )
           dispatch.calendar.setResultState(ResultsState.Error)
         } else {
           dispatch.calendar.setEvents(data)

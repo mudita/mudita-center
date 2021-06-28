@@ -16,9 +16,7 @@ export default abstract class PurePhoneAdapter {
   public abstract connectDevice(): Promise<DeviceResponse>
   public abstract unlockDevice(code: string): Promise<DeviceResponse>
   public abstract getUnlockDeviceStatus(): Promise<DeviceResponse>
-  public abstract importDeviceErrorFile(
-    filePath: string
-  ): Promise<DeviceResponse>
+  public abstract getDeviceLogs(): Promise<DeviceResponse<string>>
   public abstract updateOs(
     filePath: string,
     progressChannel: string
