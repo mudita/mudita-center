@@ -14,6 +14,9 @@ import {
 } from "Renderer/interfaces/file-download.interface"
 import transferProgress from "Renderer/utils/transfer-progress"
 import path from "path"
+import fs from "fs-extra"
+import getAppSettingsMain from "./get-app-settings"
+import logger from "App/main/utils/logger"
 
 const registeredChannels: string[] = []
 
@@ -34,6 +37,21 @@ export const createDownloadChannels = (uniqueKey: string): DownloadChannel => {
   }
 }
 
+const removeOldDownloadFiles = async (filename: string) => {
+  const { pureOsDownloadLocation } = await getAppSettingsMain()
+  fs.readdir(pureOsDownloadLocation, (error, files) => {
+    if (error) {
+      logger.error(error)
+    }
+    files.forEach((file) => {
+      const fileDir = path.join(pureOsDownloadLocation, file)
+      if (file !== filename) {
+        fs.unlinkSync(fileDir)
+      }
+    })
+  })
+}
+
 const createDownloadListenerRegistrar = (win: BrowserWindow) => ({
   url,
   savePath,
@@ -41,7 +59,7 @@ const createDownloadListenerRegistrar = (win: BrowserWindow) => ({
 }: DownloadListener): Promise<DownloadFinished> => {
   return new Promise((resolve, reject) => {
     try {
-      const willDownloadListener = (event: Event, item: DownloadItem) => {
+      const willDownloadListener = async (event: Event, item: DownloadItem) => {
         item.setSavePath(path.join(savePath, item.getFilename()))
 
         const onDownloadCancel = (interrupt = false) => {
@@ -95,6 +113,8 @@ const createDownloadListenerRegistrar = (win: BrowserWindow) => ({
             directory: item.savePath,
             totalBytes: item.getTotalBytes(),
           }
+
+          removeOldDownloadFiles(item.getFilename())
 
           resolve(finished)
 
