@@ -200,7 +200,7 @@ exports[`matches snapshot 1`] = `
 }
 
 .c8 {
-  margin-top: 1.6rem;
+  margin-top: 0.8rem;
   text-transform: none;
   display: -webkit-inline-box;
   display: inline-box;
