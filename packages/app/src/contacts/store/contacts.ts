@@ -153,7 +153,9 @@ const contacts = createModel<RootModel>({
 
         const { data = [], error } = await getContacts()
         if (error) {
-          logger.error(error)
+          logger.error(
+            `Contacts: loads data fails. Data: ${JSON.stringify(error)}`
+          )
           dispatch.contacts.setResultsState(ResultsState.Error)
         } else {
           dispatch.contacts.setContacts(contactDatabaseFactory(data))

@@ -17,7 +17,14 @@ import { AppSettings } from "App/main/store/settings.interface"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 import logger from "App/main/utils/logger"
 import BackupModalFlow from "Renderer/components/rest/overview/backup/backup-modal-flow.component"
-import ContactSupportModalFlow from "App/contacts/components/contact-modal/contact-support-modal-flow.component"
+import ContactSupportModalFlow, {
+  ContactSupportModalFlowState,
+} from "App/contacts/components/contact-support-modal/contact-support-modal-flow.component"
+import { CreateBugTicketResponseStatus } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket-builder"
+import { ContactSupportFieldValues } from "App/contacts/components/contact-support-modal/contact-support-modal.component"
+import useCreateBugTicket, {
+  files,
+} from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
 
 export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
@@ -35,7 +42,6 @@ const Overview: FunctionComponent<
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
-  lastBackup,
   osVersion,
   osUpdateDate,
   pureOsAvailable,
@@ -72,29 +78,47 @@ const Overview: FunctionComponent<
     failedModal: false,
   })
   const [progress, setProgress] = useState(0)
+  const [
+    contactSupportOpenState,
+    setContactSupportOpenState,
+  ] = useState<ContactSupportModalFlowState>()
+  const [sendBugTicketRequest, sending] = useCreateBugTicket()
+  const [bugTicketSubject, setBugTicketSubject] = useState("")
 
-  const {
-    initialCheck,
-    check,
-    download,
-    install,
-    contactSupport: {
-      openModal: openModalConfig,
-      sendForm,
-      sending,
-      log,
-      closeContactModal,
-      closeSuccessModal,
-      closeFailModal,
-    },
-  } = useSystemUpdateFlow(
+  const openContactSupportModalFlow = (code?: number) => {
+    setBugTicketSubject(`Error - UpdateOS_${code}`)
+    setContactSupportOpenState(ContactSupportModalFlowState.Form)
+  }
+
+  const closeContactSupportModalFlow = () => {
+    setContactSupportOpenState(undefined)
+  }
+
+  const sendBugTicket = async ({
+    email,
+    description,
+  }: ContactSupportFieldValues) => {
+    const response = await sendBugTicketRequest({
+      email,
+      description,
+      subject: bugTicketSubject,
+    })
+    if (response.status === CreateBugTicketResponseStatus.Ok) {
+      setContactSupportOpenState(ContactSupportModalFlowState.Success)
+    } else {
+      setContactSupportOpenState(ContactSupportModalFlowState.Fail)
+      logger.error(`Overview: ${response.error?.message}`)
+    }
+  }
+
+  const { initialCheck, check, download, install } = useSystemUpdateFlow(
     osUpdateDate,
     osVersion,
     updatePhoneOsInfo,
     updateBasicInfo,
-    toggleDeviceUpdating
+    toggleDeviceUpdating,
+    openContactSupportModalFlow
   )
-
 
   useEffect(() => {
     if (osVersion) {
@@ -148,13 +172,6 @@ const Overview: FunctionComponent<
     }))
   }
 
-  const openBackupStartModal = () => {
-    setOpenModal((prevState) => ({
-      ...prevState,
-      backupStartModal: true,
-    }))
-  }
-
   const closeBackupStartModal = () => {
     setOpenModal((prevState) => ({
       ...prevState,
@@ -185,15 +202,15 @@ const Overview: FunctionComponent<
 
   return (
     <>
-      <ContactSupportModalFlow
-        config={openModalConfig}
-        sendForm={sendForm}
-        sending={sending}
-        log={log}
-        closeContactModal={closeContactModal}
-        closeSuccessModal={closeSuccessModal}
-        closeFailModal={closeFailModal}
-      />
+      {contactSupportOpenState && (
+        <ContactSupportModalFlow
+          openState={contactSupportOpenState}
+          files={files}
+          onSubmit={sendBugTicket}
+          sending={sending}
+          closeModal={closeContactSupportModalFlow}
+        />
+      )}
       <BackupModalFlow
         openBackupStartModal={openModal.backupStartModal}
         openBackupLoadingModal={openModal.loadingModal}
@@ -212,7 +229,6 @@ const Overview: FunctionComponent<
         batteryLevel={batteryLevel}
         changeSim={changeSim}
         disconnectDevice={disconnectDevice}
-        lastBackup={lastBackup}
         osVersion={osVersion}
         osUpdateDate={osUpdateDate}
         memorySpace={memorySpace}
@@ -224,9 +240,6 @@ const Overview: FunctionComponent<
         onUpdateCheck={check}
         onUpdateInstall={install}
         onUpdateDownload={download}
-        onOpenBackupModal={openBackupStartModal}
-        onOpenBackupRestorationModal={noop}
-        language={language}
       />
     </>
   )

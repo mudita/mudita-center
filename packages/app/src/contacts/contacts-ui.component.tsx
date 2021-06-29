@@ -112,7 +112,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   )
   const [editedContact, setEditedContact] = useState<Contact>()
 
-  const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
+  const [selectedContact] = useState<Contact | null>(null)
 
   const {
     selectedRows,
@@ -248,7 +248,9 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       cancelEditingContact(contact)
       openSidebar(contact)
     } catch (error) {
-      logger.error(error)
+      logger.error(
+        `Contacts: editing process throw error. Data: ${JSON.stringify(error)}`
+      )
     }
   }
 
@@ -293,7 +295,11 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     try {
       await editContactWithRetry(unblockedContact)
     } catch (error) {
-      logger.error(error)
+      logger.error(
+        `Contacts: editing (unblock) process throw error. Data: ${JSON.stringify(
+          error
+        )}`
+      )
     }
 
     if (detailsEnabled) {
@@ -315,7 +321,11 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       try {
         await editContactWithRetry(blockedContact)
       } catch (error) {
-        logger.error(error)
+        logger.error(
+          `Contacts: editing process (block) throw error. Data: ${JSON.stringify(
+            error
+          )}`
+        )
       }
 
       if (detailsEnabled) {
@@ -330,11 +340,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   const openSpeedDialModal = () => {
     modalService.openModal(<SpeedDialModal onSave={closeModal} />)
-  }
-
-  const handleContactSelect = (contact: Contact) => {
-    setSelectedContact(contact)
-    openSidebar(contact)
   }
 
   // Synchronization, dev mode: toggle contacts saving failure
@@ -550,7 +555,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     <>
       <ContactSection>
         <ContactPanel
-          onContactSelect={handleContactSelect}
           onManageButtonClick={showSynchronizationSourceSelectModal}
           onNewButtonClick={handleAddingContact}
           selectedContacts={selectedRows}
@@ -558,7 +562,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
           toggleAll={toggleAll}
           deleteContacts={deleteContacts}
           resetRows={resetRows}
-          contacts={flatList}
           editedContact={editedContact}
         />
         <TableWithSidebarWrapper>

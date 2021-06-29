@@ -11,16 +11,15 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { defineMessages, FormattedMessage } from "react-intl"
 import styled from "styled-components"
-import { intl } from "Renderer/utils/intl"
 import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
 import Card, {
-  CardAction,
-  CardActionButton,
   CardText,
+  CardContent,
 } from "Renderer/components/rest/overview/card.elements"
-import { noop } from "Renderer/utils/noop"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
-import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
+import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
+import RangeIcon from "Renderer/components/core/icon/range-icon.component"
+import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 const TextInfo = styled(CardText)`
   p {
@@ -29,81 +28,93 @@ const TextInfo = styled(CardText)`
     color: ${textColor("secondary")};
   }
 `
+const Stats = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
-const SimButton: FunctionComponent<SimCard & { onClick: () => void }> = ({
-  slot,
-  number: phone,
-  active,
-  onClick,
-}) => {
-  const label = intl.formatMessage(
-    {
-      id: "module.overview.networkSimInfo",
-    },
-    { slot, phone }
-  )
-  return (
-    <CardActionButton
-      label={label}
-      active={active}
-      onClick={onClick}
-      data-state={
-        active
-          ? ButtonTogglerTestIds.ActiveState
-          : ButtonTogglerTestIds.InactiveState
-      }
-    />
-  )
-}
+  p {
+    margin-top: 0.4rem;
+  }
+  &:not(:last-child) {
+    margin-bottom: 1.6rem;
+  }
+`
 
-const NoSimButton = () => {
-  const label = intl.formatMessage({
-    id: "module.overview.networkNoSimInserted",
-  })
-
-  return <CardActionButton label={label} disabled />
-}
+const IconContainer = styled.div`
+  background-color: ${backgroundColor("main")};
+  margin-right: 1.6rem;
+  padding: 0.8rem;
+`
 
 export const messages = defineMessages({
   tooltipTitle: { id: "module.overview.networkTooltipTitle" },
   tooltipDescription: { id: "module.overview.networkTooltipDescription" },
+  battery: { id: "module.overview.phoneBattery" },
+  noConnection: { id: "module.overview.phoneNoConnection" },
+  network: { id: "module.overview.networkName" },
 })
 
 const Network: FunctionComponent<NetworkProps> = ({
   className,
-  simCards = [],
-  onSimChange = noop,
+  batteryLevel,
+  network,
+  networkLevel = 0,
 }) => {
-  const noActiveCard = simCards.every(({ active }) => !active)
-  const activatingAvailable =
-    (simCards.length && noActiveCard) || simCards.length > 1
+  const strength = Math.round(networkLevel * 100)
   return (
     <Card className={className}>
       <TextInfo>
         <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-          <FormattedMessage id="module.overview.networkName" />
+          <FormattedMessage id="module.overview.networkTitle" />
         </Text>
-        {activatingAvailable && (
-          <Text displayStyle={TextDisplayStyle.SmallFadedText}>
-            <FormattedMessage id="module.overview.networkDescription" />
-          </Text>
-        )}
       </TextInfo>
-      <CardAction
-        tooltipTitle={messages.tooltipTitle}
-        tooltipDescription={messages.tooltipDescription}
-      >
-        {simCards.length ? (
-          simCards.map((simCard) => {
-            const onClick = () => onSimChange(simCard)
-            return (
-              <SimButton key={simCard.number} {...simCard} onClick={onClick} />
-            )
-          })
-        ) : (
-          <NoSimButton />
-        )}
-      </CardAction>
+      <CardContent>
+        <div>
+          <Stats>
+            <IconContainer>
+              <BatteryIcon width={2.4} level={batteryLevel} />
+            </IconContainer>
+            <div>
+              <Text
+                displayStyle={TextDisplayStyle.LargeBoldText}
+                element={"h2"}
+                data-testid={OverviewTestIds.BatteryLevel}
+              >
+                {Math.round(batteryLevel * 100)} %
+              </Text>
+              <Text
+                displayStyle={TextDisplayStyle.SmallFadedText}
+                message={messages.battery}
+              />
+            </div>
+          </Stats>
+          <Stats>
+            <IconContainer>
+              <RangeIcon strength={strength} height={2.4} width={2.4} />
+            </IconContainer>
+            {network ? (
+              <div>
+                <Text
+                  displayStyle={TextDisplayStyle.LargeBoldText}
+                  data-testid={OverviewTestIds.NetworkName}
+                >
+                  {network}
+                </Text>
+                <Text
+                  displayStyle={TextDisplayStyle.SmallFadedText}
+                  message={messages.network}
+                />
+              </div>
+            ) : (
+              <Text
+                displayStyle={TextDisplayStyle.LargeBoldText}
+                message={messages.noConnection}
+              />
+            )}
+          </Stats>
+        </div>
+      </CardContent>
     </Card>
   )
 }

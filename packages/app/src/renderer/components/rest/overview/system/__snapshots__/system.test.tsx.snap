@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.c3 {
+.c1 {
   margin: 0;
   font-size: 2.4rem;
   line-height: 0.8;
@@ -12,18 +12,25 @@ exports[`matches snapshot 1`] = `
   letter-spacing: -0.06rem;
 }
 
-.c4 {
+.c5 {
   margin: 0;
-  font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
-  -webkit-letter-spacing: 0.1rem;
-  -moz-letter-spacing: 0.1rem;
-  -ms-letter-spacing: 0.1rem;
-  letter-spacing: 0.1rem;
+  font-size: 1.4rem;
+  line-height: 1.05;
+  color: #6a6a6a;
+  font-weight: 300;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
 }
 
-.c5 {
+.c6 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+}
+
+.c7 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -34,31 +41,18 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.04rem;
 }
 
-.c12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  height: 2.8rem;
-  width: 2.8rem;
-  position: relative;
-  font-style: normal;
+.c14 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
 }
 
-.c12 svg {
-  width: 100%;
-  height: 100%;
-}
-
-.c9 {
+.c11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -88,23 +82,19 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c9:hover {
+.c11:hover {
   background: #232426;
 }
 
-.c9 g {
+.c11 g {
   fill: #ffffff;
 }
 
-.c13 {
-  margin: 0 0.8rem 0 0;
-}
-
-.c14 {
+.c15 {
   white-space: nowrap;
 }
 
-.c7 {
+.c9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -115,7 +105,7 @@ exports[`matches snapshot 1`] = `
   position: relative;
 }
 
-.c10 {
+.c12 {
   --radius: 0.5rem;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -125,59 +115,43 @@ exports[`matches snapshot 1`] = `
   z-index: 3;
 }
 
-.c10:disabled {
+.c12:disabled {
   pointer-events: none;
 }
 
-.c10:hover {
+.c12:hover {
   z-index: 2;
 }
 
-.c10:not(:first-of-type) {
+.c12:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c10:first-of-type:not(:last-of-type) {
+.c12:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c10:last-of-type:not(:first-of-type) {
+.c12:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .c0 {
-  display: grid;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  grid-template-areas: "Text Buttons";
-  grid-template-columns: auto minmax(18rem,1fr);
-  padding: 0 4.8rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 4rem;
   box-sizing: border-box;
   border-radius: 0.5rem;
   background-color: #ffffff;
 }
 
-.c1 {
+.c3 {
   grid-area: Text;
-}
-
-.c8 {
-  grid-area: Buttons;
-  justify-self: end;
-  min-width: 18rem;
-}
-
-.c11 {
-  padding: 0 1.6rem;
-  width: 50%;
-}
-
-.c11 svg {
-  height: initial;
-  width: initial;
 }
 
 .c2 {
@@ -185,80 +159,115 @@ exports[`matches snapshot 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-align-items: baseline;
-  -webkit-box-align: baseline;
-  -ms-flex-align: baseline;
-  align-items: baseline;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  margin-top: auto;
 }
 
-.c2 span {
+.c10 {
+  grid-area: Buttons;
+  justify-self: end;
+  min-width: 18rem;
+}
+
+.c13 {
+  padding: 0 1.6rem;
+  width: 50%;
+}
+
+.c13 svg {
+  height: initial;
+  width: initial;
+}
+
+.c4 span {
   margin-left: 0.8rem;
   font-weight: 300;
   text-transform: none;
 }
 
-.c6 {
-  margin-top: 1.2rem;
+.c4 p {
+  margin-bottom: 0.8rem;
+}
+
+.c8 {
+  margin-top: 0.8rem;
+  text-transform: none;
+  display: -webkit-inline-box;
+  display: inline-box;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.4rem;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
-  color: #6a6a6a;
+  background-color: #f4f5f6;
 }
 
 <div>
   <section
     class="c0"
   >
+    <div>
+      <h2
+        class="c1"
+      >
+        [value] module.overview.muditaOsUpdateTitle
+      </h2>
+    </div>
     <div
-      class="c1"
+      class="c2"
     >
       <div
-        class="c2"
+        class="c3"
       >
-        <h2
-          class="c3"
-          data-testid="os-version"
-        >
-          release-0.55.1
-        </h2>
-        <span
+        <div
           class="c4"
         >
-          [value] module.overview.systemVersion
-        </span>
-      </div>
-      <p
-        class="c5 c6"
-      >
-        [value] module.overview.systemLastUpdate
-      </p>
-    </div>
-    <section
-      class="c7 c8"
-    >
-      <button
-        class="c9 c10 c11"
-        size="2"
-        type="button"
-      >
-        <span
-          class="c12 c13"
-          data-testid="icon-Reload"
-          height="2.8"
-          width="2.8"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </span>
+          <p
+            class="c5"
+          >
+            Current version:
+          </p>
+          <p
+            class="c6"
+            data-testid="os-version"
+          >
+            [value] module.overview.muditaOsUpdateTitle
+             0.55.1
+          </p>
+        </div>
         <p
-          class="c4 c14"
+          class="c7 c8"
         >
-          [value] module.overview.systemCheckForUpdates
+          [value] module.overview.systemUpdateUpToDate
         </p>
-      </button>
-    </section>
+      </div>
+      <section
+        class="c9 c10"
+      >
+        <button
+          class="c11 c12 c13"
+          size="2"
+          type="button"
+        >
+          <p
+            class="c14 c15"
+          >
+            [value] module.overview.systemCheckForUpdates
+          </p>
+        </button>
+      </section>
+    </div>
   </section>
 </div>
 `;

@@ -34,4 +34,5 @@ export const emailValidator: RegisterOptions = {
     value: /^\S+@\S+(\.\S+)+$/im,
     message: intl.formatMessage({ id: "component.formErrorInvalidEmail" }),
   },
+  required: intl.formatMessage({ id: "component.formErrorRequiredEmail" }),
 }

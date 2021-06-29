@@ -3,25 +3,28 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { createLogger, format, transports, Logger } from "winston"
-import { name } from "../../../package.json"
+import { createLogger, format, Logger, transports } from "winston"
 import path from "path"
+import getAppPath, {
+  AppResolver,
+  AppType,
+  resolve,
+} from "App/main/utils/get-app-path"
+
 const DailyRotateFile = require("winston-daily-rotate-file")
 const RollbarTransport = require("winston-transport-rollbar-3")
 const testing = process.env.NODE_ENV === "test"
 const { combine, timestamp, printf, colorize, simple } = format
-type AppType = "main" | "renderer"
-type AppResolver = () => {
-  type: AppType
-  app: { getPath: (arg0: string) => string }
-}
+
 // TODO: This type should only have some of the log methods instead of using the full Winston’s interface.
 type AppLogger = Logger & {
   enableRollbar: () => void
   disableRollbar: () => void
 }
 
-const createDailyRotateFileTransport = (getPath: string, type: AppType) => {
+export const logsPath = path.join(getAppPath(), "logs")
+
+const createDailyRotateFileTransport = (type: AppType) => {
   const format = combine(
     timestamp(),
     printf(({ level, message, timestamp }) => {
@@ -31,7 +34,7 @@ const createDailyRotateFileTransport = (getPath: string, type: AppType) => {
     })
   )
   return new DailyRotateFile({
-    dirname: path.join(getPath, name, "logs"),
+    dirname: logsPath,
     filename: "mc-%DATE%",
     extension: ".log",
     datePattern: "YYYY-MM-DD",
@@ -46,24 +49,12 @@ const consoleTransport = new transports.Console({
   silent: testing,
   format: combine(colorize(), simple()),
 })
-const resolve: AppResolver = () => {
-  const isRenderer = require("is-electron-renderer")
-  const app = isRenderer
-    ? require("electron").remote.app
-    : require("electron").app
-  const type = isRenderer ? "renderer" : "main"
-  return {
-    app,
-    type,
-  }
-}
+
 // TODO: test this. https://appnroll.atlassian.net/browse/PDA-764
 export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
   const { app, type } = resolveApp()
   const transports = [
-    ...(app
-      ? [createDailyRotateFileTransport(app.getPath("appData"), type)]
-      : []),
+    ...(app ? [createDailyRotateFileTransport(type)] : []),
     consoleTransport,
   ]
 

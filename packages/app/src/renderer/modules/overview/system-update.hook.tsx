@@ -18,7 +18,7 @@ import {
   UpdateServerError,
   UpdatingFailureModal,
   UpdatingFailureWithHelpModal,
-  UpdatingProgressModal,
+  UpdatingSpinnerModal,
   UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
 import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
@@ -41,10 +41,6 @@ import {
 import { isEqual } from "lodash"
 import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
 import logger from "App/main/utils/logger"
-import registerOsUpdateProgressListener, {
-  OsUpdateProgressListener,
-  removeOsUpdateProgressListener,
-} from "Renderer/listeners/register-os-update-progress.listener"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-pure-os-update-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
@@ -56,7 +52,6 @@ import {
   DeviceUpdateError,
   deviceUpdateErrorCodeMap,
 } from "Backend/adapters/pure-phone/pure-phone.adapter"
-import { useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
 import { HelpActions } from "Common/enums/help-actions.enum"
 
 const onOsDownloadCancel = () => {
@@ -83,7 +78,8 @@ const useSystemUpdateFlow = (
   osVersion: string,
   onUpdate: (updateInfo: PhoneUpdate) => void,
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
-  toggleDeviceUpdating: (option: boolean) => void
+  toggleDeviceUpdating: (option: boolean) => void,
+  onContact: (code?: number) => void
 ) => {
   const [releaseToInstall, setReleaseToInstall] = useState<Release>()
 
@@ -254,7 +250,9 @@ const useSystemUpdateFlow = (
         if (!silent) {
           await openCheckingForUpdatesFailedModal(() => checkForUpdates())
         }
-        logger.error(error)
+        logger.error(
+          `Overview: check for updates fail. Data: ${JSON.stringify(error)}`
+        )
       }
     }
   }
@@ -311,24 +309,14 @@ const useSystemUpdateFlow = (
   const updatePure = async () => {
     const { file, version } = releaseToInstall as Release
 
-    modalService.openModal(<UpdatingProgressModal progressValue={0} />, true)
+    modalService.openModal(<UpdatingSpinnerModal />, true)
 
     toggleDeviceUpdating(true)
 
-    const listener: OsUpdateProgressListener = async (_, { progress }) => {
-      modalService.rerenderModal(
-        <UpdatingProgressModal progressValue={progress} />
-      )
-    }
-
-    registerOsUpdateProgressListener(listener)
-
     const response = await updateOs(file.name, IpcEmitter.OsUpdateProgress)
 
-    removeOsUpdateProgressListener(listener)
-
     if (response.status === DeviceResponseStatus.Ok) {
-      modalService.rerenderModal(<UpdatingProgressModal progressValue={100} />)
+      modalService.rerenderModal(<UpdatingSpinnerModal />)
     }
 
     toggleDeviceUpdating(false)
@@ -351,27 +339,32 @@ const useSystemUpdateFlow = (
     } else {
       const responseCode = response.error?.code
       displayErrorModal(responseCode)
-      logger.error(response)
+      logger.error(
+        `Overview: updating pure fails. Data: ${JSON.stringify(response.error)}`
+      )
     }
   }
 
-  const goToHelp = (code: number) => () => {
+  const goToHelp = (code: number) => {
     ipcRenderer.callMain(HelpActions.OpenWindow, { code })
   }
-  const { openContactSupportModal, ...rest } = useContactSupport()
-  const callActionAfterCloseModal = (action: () => void): () => void => {
-    return () => {
+
+  const callActionAfterCloseModal = <T extends unknown>(
+    action: (props: T) => void
+  ): ((props: T) => void) => {
+    return (props) => {
       modalService.closeModal()
-      action()
+      action(props)
     }
   }
+
   const displayErrorModal = (code?: number) => {
     if (code && noCriticalErrorCodes.includes(code)) {
       modalService.openModal(
         <UpdatingFailureWithHelpModal
           code={code}
-          onHelp={callActionAfterCloseModal(goToHelp(code))}
-          onContact={callActionAfterCloseModal(openContactSupportModal)}
+          onHelp={callActionAfterCloseModal(goToHelp)}
+          onContact={callActionAfterCloseModal(onContact)}
         />,
         true
       )
@@ -379,7 +372,7 @@ const useSystemUpdateFlow = (
       modalService.openModal(
         <UpdatingFailureModal
           code={code}
-          onContact={callActionAfterCloseModal(openContactSupportModal)}
+          onContact={callActionAfterCloseModal(onContact)}
         />,
         true
       )
@@ -391,7 +384,6 @@ const useSystemUpdateFlow = (
     check: () => checkForUpdates(),
     download: downloadUpdate,
     install: updatePure,
-    contactSupport: { ...rest },
   }
 }
 

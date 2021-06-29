@@ -51,7 +51,9 @@ export class TokenRequester implements TokenRequesterInterface {
         refreshToken: data.refresh_token,
       }
     } catch (error) {
-      logger.error(error)
+      logger.error(
+        `Outlook Client: get token fail. Data: ${JSON.stringify(error)}`
+      )
       throw error
     }
   }
@@ -83,7 +85,9 @@ export class TokenRequester implements TokenRequesterInterface {
         refreshToken: data.refresh_token,
       }
     } catch (error) {
-      logger.error(error)
+      logger.error(
+        `Outlook Client: get refresh token fail. Data: ${JSON.stringify(error)}`
+      )
       throw error
     }
   }

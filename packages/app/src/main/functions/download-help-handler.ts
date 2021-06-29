@@ -29,7 +29,11 @@ export const registerDownloadHelpHandler = () => {
     try {
       return normalizeHelpData(await client.getHelp(helpQuery), locale)
     } catch (error) {
-      logger.error(error)
+      logger.error(
+        `Help: loads data from from mudita-center-server fails. Data: ${JSON.stringify(
+          error
+        )}`
+      )
       return false
     }
   })

@@ -23,7 +23,7 @@ import {
   UpdateServerError,
   UpdatingFailureModal,
   UpdatingFailureWithHelpModal,
-  UpdatingProgressModal,
+  UpdatingSpinnerModal,
   UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
 import { Router } from "react-router"
@@ -145,9 +145,9 @@ storiesOf("Views|Overview/Modals", module)
       <DownloadingUpdateInterruptedModal />
     </ModalStory>
   ))
-  .add("Updating progress", () => (
+  .add("Updating spinner progress", () => (
     <ModalStory>
-      <UpdatingProgressModal progressValue={80} />
+      <UpdatingSpinnerModal />
     </ModalStory>
   ))
   .add("Updating success", () => (

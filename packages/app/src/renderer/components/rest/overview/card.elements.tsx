@@ -13,11 +13,9 @@ import ButtonToggler, {
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 
 const Card = styled.section`
-  display: grid;
-  align-items: center;
-  grid-template-areas: "Text Buttons";
-  grid-template-columns: auto minmax(18rem, 1fr);
-  padding: 0 4.8rem;
+  display: flex;
+  flex-direction: column;
+  padding: 4rem;
   box-sizing: border-box;
   border-radius: ${borderRadius("medium")};
   background-color: ${backgroundColor("row")};
@@ -25,6 +23,13 @@ const Card = styled.section`
 
 export const CardText = styled.div`
   grid-area: Text;
+`
+export const CardContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto;
 `
 
 export const CardAction = styled(ButtonToggler)`

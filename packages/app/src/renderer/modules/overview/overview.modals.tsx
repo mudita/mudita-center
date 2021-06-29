@@ -31,11 +31,9 @@ import {
   ErrorWithRetryDataModal,
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
-import { LoadingBar } from "Renderer/modules/overview/backup-process/modals.styled"
-import theme from "Renderer/styles/theming/theme"
-import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import useDynamicProgressValue from "Renderer/utils/hooks/use-dynamic-progress-value.hook"
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
+import Loader from "Renderer/components/core/loader/loader.component"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 
 const ModalContent = styled.div`
   display: flex;
@@ -73,10 +71,6 @@ const DownloadBar = styled.div`
     background-color: ${backgroundColor("activity")};
     transition: width ${transitionTime("faster")} ease-in-out;
   }
-`
-
-const ProgressText = styled(ModalText)`
-  margin-bottom: 6.8rem;
 `
 
 const CenteredText = styled(Text)`
@@ -362,15 +356,11 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
   />
 )
 
-export const UpdatingProgressModal: FunctionComponent<{
-  progressValue: number
-}> = ({ progressValue }) => {
-  const value = useDynamicProgressValue(progressValue)
-
+export const UpdatingSpinnerModal: FunctionComponent = () => {
   return (
     <OSUpdateModal closeButton={false} closeable={false}>
       <RoundIconWrapper>
-        <Icon type={Type.MuditaDarkLogo} width={8} />
+        <Loader type={LoaderType.Spinner} size={6} />
       </RoundIconWrapper>
       <ModalText
         displayStyle={TextDisplayStyle.LargeBoldText}
@@ -380,23 +370,6 @@ export const UpdatingProgressModal: FunctionComponent<{
         displayStyle={TextDisplayStyle.MediumFadedText}
         message={messages.updatingProgressDescription}
       />
-      <LoadingBar
-        chartData={[
-          {
-            value,
-            color: backgroundColor("chartBar")({ theme }),
-          },
-          {
-            value: 100 - value,
-            color: backgroundColor("minor")({ theme }),
-          },
-        ]}
-        displayStyle={DisplayStyle.Thin}
-      />
-
-      <ProgressText displayStyle={TextDisplayStyle.MediumLightText}>
-        {value}%
-      </ProgressText>
     </OSUpdateModal>
   )
 }
@@ -422,17 +395,25 @@ export const UpdatingFailureModal = ({
   onContact,
 }: {
   code?: number
-  onContact: () => void
-}) => (
-  <ErrorDataModal
-    closeButton={false}
-    onActionButtonClick={onContact}
-    title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-    actionButtonLabel={intl.formatMessage(messages.updatingFailedSupportButton)}
-    textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
-    descriptionMessage={messages.updatingFailedOnlySupportDescription}
-  />
-)
+  onContact: (code?: number) => void
+}) => {
+  const handleOnActionButtonClick = (): void => {
+    onContact(code)
+  }
+
+  return (
+    <ErrorDataModal
+      closeButton={false}
+      onActionButtonClick={handleOnActionButtonClick}
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+      actionButtonLabel={intl.formatMessage(
+        messages.updatingFailedSupportButton
+      )}
+      textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
+      descriptionMessage={messages.updatingFailedOnlySupportDescription}
+    />
+  )
+}
 
 export const UpdatingFailureWithHelpModal = ({
   code,
@@ -440,20 +421,30 @@ export const UpdatingFailureWithHelpModal = ({
   onHelp,
 }: {
   code: number
-  onHelp: () => void
-  onContact: () => void
-}) => (
-  <ErrorDataModal
-    closeButton
-    onCloseButton={onContact}
-    closeButtonLabel={intl.formatMessage(messages.updatingFailedSupportButton)}
-    onActionButtonClick={onHelp}
-    title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-    actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
-    textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
-    descriptionMessage={messages.updatingFailedDescription}
-  />
-)
+  onHelp: (code: number) => void
+  onContact: (code: number) => void
+}) => {
+  const handleOnActionButtonClick = (): void => {
+    onHelp(code)
+  }
+  const handleOnCloseButton = (): void => {
+    onContact(code)
+  }
+  return (
+    <ErrorDataModal
+      closeButton
+      onCloseButton={handleOnCloseButton}
+      closeButtonLabel={intl.formatMessage(
+        messages.updatingFailedSupportButton
+      )}
+      onActionButtonClick={handleOnActionButtonClick}
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+      actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
+      textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
+      descriptionMessage={messages.updatingFailedDescription}
+    />
+  )
+}
 
 export const DevUpdate = ({
   action = noop,

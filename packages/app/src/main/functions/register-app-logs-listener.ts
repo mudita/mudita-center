@@ -5,31 +5,29 @@
 
 import fs from "fs-extra"
 import { ipcMain } from "electron-better-ipc"
-import { name } from "../../../package.json"
-import { app } from "electron"
-import logger from "App/main/utils/logger"
 import path from "path"
+import logger, { logsPath } from "App/main/utils/logger"
 
 export enum AppLogsEvents {
   Get = "get-app-logs",
 }
 
-const registerAppLogsListeners = () => {
+const registerAppLogsListeners = (): void => {
   ipcMain.answerRenderer(AppLogsEvents.Get, async () => {
     const logs: string[] = []
     try {
-      const logsPath = `${app.getPath("appData")}/${name}/logs`
       const files = await fs.readdir(logsPath)
-
       for (const fileName of files) {
-        if (/^pda-.*\.log$/.test(fileName)) {
+        if (/^mc-.*\.log$/.test(fileName)) {
           const log = await fs.readFile(path.join(logsPath, fileName), "utf-8")
           logs.push(`========== ${fileName} ==========`)
           logs.push(log + "\n")
         }
       }
     } catch (error) {
-      logger.error(error)
+      logger.error(
+        `Application Logs: getting logs fail. Data: ${JSON.stringify(error)}`
+      )
     }
     return logs.join("\n")
   })

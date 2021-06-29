@@ -60,9 +60,10 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async importDeviceErrorFile(): Promise<DeviceResponse> {
+  public async getDeviceLogs(): Promise<DeviceResponse<string>> {
     return {
       status: DeviceResponseStatus.Ok,
+      data: "Hello, World",
     }
   }
 

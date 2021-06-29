@@ -27,7 +27,10 @@ class PurePhoneBatteryService extends PurePhoneBatteryServiceAdapter {
         data: Number((Number(data.batteryLevel) / 100).toFixed(2)),
       }
     } else {
-      return { status, error: { message: "Something went wrong" } }
+      return {
+        status,
+        error: { message: "Get battery level: Something went wrong" },
+      }
     }
   }
 
