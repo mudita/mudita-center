@@ -76,6 +76,7 @@ export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
         connectivity: false,
         contentSecurityPolicy: false,
         errorOnContentSecurityPolicy: false,
+        scrubFields: ["phoneNumber"],
       },
       captureIp: "anonymize",
     },
