@@ -65,6 +65,7 @@ import startBackend from "Backend/bootstrap"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
 import { HelpActions } from "Common/enums/help-actions.enum"
+import { LicenseActions } from "App/common/enums/license-actions.enum"
 
 require("dotenv").config()
 
@@ -74,6 +75,7 @@ let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
 let googleAuthWindow: BrowserWindow | null = null
 let outlookAuthWindow: BrowserWindow | null = null
+let licenseWindow: BrowserWindow | null = null
 
 // Disables CORS in Electron 9
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
@@ -232,6 +234,39 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
   })
 
   helpWindow.on("page-title-updated", (event) => {
+    // prevent window name change to "Webpack App"
+    event.preventDefault()
+  })
+})
+
+ipcMain.answerRenderer(LicenseActions.OpenWindow, () => {
+  if (licenseWindow === null) {
+    licenseWindow = new BrowserWindow(
+      getWindowOptions({
+        width: HELP_WINDOW_SIZE.width,
+        height: HELP_WINDOW_SIZE.height,
+      })
+    )
+    licenseWindow.loadURL(
+      developmentEnvironment
+        ? `http://localhost:2003/?mode=${Mode.License}#${URL_MAIN.license}`
+        : url.format({
+            pathname: path.join(__dirname, "index.html"),
+            protocol: "file:",
+            slashes: true,
+            hash: URL_MAIN.license,
+            search: `?mode=${Mode.License}`,
+          })
+    )
+  } else {
+    licenseWindow.show()
+  }
+
+  licenseWindow.on("closed", () => {
+    licenseWindow = null
+  })
+
+  licenseWindow.on("page-title-updated", (event) => {
     // prevent window name change to "Webpack App"
     event.preventDefault()
   })

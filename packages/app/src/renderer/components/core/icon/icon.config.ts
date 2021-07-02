@@ -38,6 +38,7 @@ import MenuTethering from "Renderer/svg/menu-tethering.svg"
 import MenuTools from "Renderer/svg/menu-tools.svg"
 import ExternalLink from "Renderer/svg/external-link.svg"
 import MuditaLogo from "Renderer/svg/mudita.svg"
+import MuditaLogoDark from "Renderer/svg/mudita-dark-logo.svg"
 import MuditaLogoWithText from "Renderer/svg/mudita_logo.svg"
 import MuditaLogoVertical from "Renderer/svg/mudita-logo-vertical.svg"
 import NoBattery from "Renderer/svg/no-battery.svg"
@@ -153,6 +154,7 @@ export enum Type {
   Message,
   ExternalLink,
   MuditaLogo,
+  MuditaLogoDark,
   MuditaLogoWithText,
   MuditaLogoVertical,
   MediumBattery,
@@ -268,6 +270,7 @@ const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
   [Type.Message]: Message,
   [Type.ExternalLink]: ExternalLink,
   [Type.MuditaLogo]: MuditaLogo,
+  [Type.MuditaLogoDark]: MuditaDarkLogo,
   [Type.MuditaLogoWithText]: MuditaLogoWithText,
   [Type.MuditaLogoVertical]: MuditaLogoVertical,
   [Type.NoBattery]: NoBattery,

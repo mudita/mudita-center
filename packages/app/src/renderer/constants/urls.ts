@@ -19,6 +19,7 @@ export const URL_MAIN = {
   settings: "/settings",
   help: "/help",
   error: "/error",
+  license: "/license",
 } as const
 
 export const URL_TABS = {
@@ -32,6 +33,7 @@ export const URL_TABS = {
   notifications: "/notifications",
   audioConversion: "/audio-conversion",
   backup: "/backup",
+  about: "/about",
 } as const
 
 export const URL_ONBOARDING = {
