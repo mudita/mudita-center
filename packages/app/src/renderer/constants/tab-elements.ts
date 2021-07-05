@@ -132,7 +132,7 @@ export const tabElements: TabElement[] = [
       {
         label: messages.about,
         url: `${URL_MAIN.settings}${URL_TABS.about}`,
-        icon: Type.MuditaLogoDark,
+        icon: Type.MuditaDarkLogo,
       },
     ],
   },

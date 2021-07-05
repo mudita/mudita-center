@@ -11,6 +11,7 @@ import Text, {
 
 import styled from "styled-components"
 import licenseEn from "../../../../../../../resources/license_en"
+import { LicenseComponentTestIds } from "./license-ui.enum"
 
 const LicenseContainer = styled.div`
   margin: 4.2rem 21rem 3.4rem;
@@ -40,8 +41,11 @@ const LightTextNested = styled(Text)`
 const LicenseUI: FunctionComponent = () => {
   const licenseArray = licenseEn.split(/\n/).filter((item) => item !== "")
   return (
-    <LicenseContainer>
-      <LicenseHeader displayStyle={TextDisplayStyle.SecondaryHeading}>
+    <LicenseContainer data-testid={LicenseComponentTestIds.Wrapper}>
+      <LicenseHeader
+        displayStyle={TextDisplayStyle.SecondaryHeading}
+        data-testid={LicenseComponentTestIds.Title}
+      >
         {licenseArray[0]}
       </LicenseHeader>
       <LightText displayStyle={TextDisplayStyle.MediumFadedTextUppercased}>
