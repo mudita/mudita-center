@@ -356,6 +356,10 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
   />
 )
 
+export const UpdatingForceModal: FunctionComponent = () => {
+  return <></>
+}
+
 export const UpdatingSpinnerModal: FunctionComponent = () => {
   return (
     <OSUpdateModal closeButton={false} closeable={false}>
