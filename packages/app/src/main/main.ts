@@ -59,6 +59,7 @@ import {
   GOOGLE_AUTH_WINDOW_SIZE,
   HELP_WINDOW_SIZE,
   WINDOW_SIZE,
+  LICENSE_WINDOW_SIZE,
 } from "./config"
 import autoupdate, { mockAutoupdate } from "./autoupdate"
 import startBackend from "Backend/bootstrap"
@@ -204,8 +205,8 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({
-        width: HELP_WINDOW_SIZE.width,
-        height: HELP_WINDOW_SIZE.height,
+        width: LICENSE_WINDOW_SIZE.width,
+        height: LICENSE_WINDOW_SIZE.height,
       })
     )
     helpWindow.loadURL(

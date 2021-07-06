@@ -18,7 +18,7 @@ import {
   SettingsTableRow,
   SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
-import { AboutTestIds } from "./about.enum"
+import { AboutTestIds } from "Renderer/modules/settings/tabs/about/about.enum"
 
 interface AboutProps {
   openLicense: () => void
