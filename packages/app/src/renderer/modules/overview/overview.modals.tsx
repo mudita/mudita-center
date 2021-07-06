@@ -151,6 +151,15 @@ const messages = defineMessages({
   downloadingCancelledMessage: {
     id: "module.overview.downloadingCancelledMessage",
   },
+  updatingForceActionButton: {
+    id: "module.overview.updatingForceActionButton",
+  },
+  updatingForceTitle: {
+    id: "module.overview.updatingForceTitle",
+  },
+  updatingForceDescription: {
+    id: "module.overview.updatingForceDescription",
+  },
   updatingProgressTitle: {
     id: "module.overview.updatingProgressTitle",
   },
@@ -356,8 +365,31 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
   />
 )
 
-export const UpdatingForceModal: FunctionComponent = () => {
-  return <></>
+export const UpdatingForceModal: FunctionComponent<Partial<ModalProps>> = (
+  props
+) => {
+  return (
+    <OSUpdateModal
+      closeButton={false}
+      closeable={false}
+      actionButtonLabel={intl.formatMessage(
+        messages.updatingForceActionButton
+      )}
+      {...props}
+    >
+      <RoundIconWrapper>
+        <Icon type={Type.Pure} width={4} />
+      </RoundIconWrapper>
+      <ModalText
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={messages.updatingForceTitle}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.MediumFadedText}
+        message={messages.updatingForceDescription}
+      />
+    </OSUpdateModal>
+  )
 }
 
 export const UpdatingSpinnerModal: FunctionComponent = () => {
