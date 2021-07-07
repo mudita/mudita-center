@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
-import { AppSettings } from "App/main/store/settings.interface"
+import { AppSettings, SettingsState } from "App/main/store/settings.interface"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 import logger from "App/main/utils/logger"
 import BackupModalFlow from "Renderer/components/rest/overview/backup/backup-modal-flow.component"
@@ -25,6 +25,8 @@ import { ContactSupportFieldValues } from "App/contacts/components/contact-suppo
 import useCreateBugTicket, {
   files,
 } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
+import isOsVersionSupported from "Renderer/modules/overview/is-os-version-supported"
+import { UpdatingForceModal } from "Renderer/modules/overview/overview.modals"
 
 export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
@@ -36,7 +38,7 @@ const Overview: FunctionComponent<
   BasicInfoInitialState &
     PhoneUpdateStore &
     UpdateBasicInfo &
-    AppSettings &
+    SettingsState &
     DevMode
 > = ({
   batteryLevel = 0,
@@ -64,12 +66,14 @@ const Overview: FunctionComponent<
   networkLevel,
   updateBasicInfo = noop,
   toggleDeviceUpdating,
-  language,
-  pureOsBackupLocation,
+  language = "",
+  pureOsBackupLocation = "",
+  lowestSupportedOsVersion = "0.0.0",
 }) => {
   /**
    * Temporary state to demo failure
    */
+  const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [backups, setBackup] = useState(0)
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
@@ -119,6 +123,16 @@ const Overview: FunctionComponent<
     toggleDeviceUpdating,
     openContactSupportModalFlow
   )
+
+  useEffect(() => {
+    try {
+      setOsVersionSupported(
+        isOsVersionSupported(osVersion, lowestSupportedOsVersion)
+      )
+    } catch (error) {
+      logger.error(`Overview: ${error.message}`)
+    }
+  }, [osVersion, lowestSupportedOsVersion])
 
   useEffect(() => {
     if (osVersion) {
@@ -200,8 +214,16 @@ const Overview: FunctionComponent<
     }))
   }
 
+  const runUpdate = async () => {
+    await download()
+  }
+
   return (
     <>
+      <UpdatingForceModal
+        open={!osVersionSupported}
+        onActionButtonClick={runUpdate}
+      />
       {contactSupportOpenState && (
         <ContactSupportModalFlow
           openState={contactSupportOpenState}
