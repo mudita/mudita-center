@@ -23,6 +23,7 @@ import {
   UpdateServerError,
   UpdatingFailureModal,
   UpdatingFailureWithHelpModal,
+  UpdatingForceModal,
   UpdatingSpinnerModal,
   UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
@@ -143,6 +144,11 @@ storiesOf("Views|Overview/Modals", module)
   .add("Downloading interrupted", () => (
     <ModalStory>
       <DownloadingUpdateInterruptedModal />
+    </ModalStory>
+  ))
+  .add("Updating force ", () => (
+    <ModalStory>
+      <UpdatingForceModal onActionButtonClick={action("Run Update")} />
     </ModalStory>
   ))
   .add("Updating spinner progress", () => (
