@@ -59,8 +59,6 @@ const System: FunctionComponent<SystemProps> = ({
   onUpdate = noop,
   onDownload = noop,
 }) => {
-  const releaseNumber = osVersion.slice(8)
-
   return (
     <Card className={className}>
       <div>
@@ -79,7 +77,7 @@ const System: FunctionComponent<SystemProps> = ({
               data-testid={OverviewTestIds.OsVersion}
             >
               <FormattedMessage id="module.overview.muditaOsUpdateTitle" />
-              {" " + releaseNumber}
+              {" " + osVersion}
             </Text>
           </Version>
           {updateAvailable ? (
