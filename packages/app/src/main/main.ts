@@ -205,8 +205,8 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({
-        width: LICENSE_WINDOW_SIZE.width,
-        height: LICENSE_WINDOW_SIZE.height,
+        width: HELP_WINDOW_SIZE.width,
+        height: HELP_WINDOW_SIZE.height,
       })
     )
     helpWindow.loadURL(
@@ -244,8 +244,8 @@ ipcMain.answerRenderer(LicenseActions.OpenWindow, () => {
   if (licenseWindow === null) {
     licenseWindow = new BrowserWindow(
       getWindowOptions({
-        width: HELP_WINDOW_SIZE.width,
-        height: HELP_WINDOW_SIZE.height,
+        width: LICENSE_WINDOW_SIZE.width,
+        height: LICENSE_WINDOW_SIZE.height,
       })
     )
     licenseWindow.loadURL(
