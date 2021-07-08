@@ -120,7 +120,7 @@ const mapStateToProps = (state: RootState) => {
   }
 }
 
-const mapDispatchToProps = ({ basicInfo, settings }: any) => ({
+const mapDispatchToProps = ({ settings }: any) => ({
   toggleAppCollectingData: settings.toggleAppCollectingData,
   setAppUpdateStepModalDisplayed: settings.setAppUpdateStepModalDisplayed,
 })
