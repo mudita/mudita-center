@@ -68,8 +68,6 @@ const BaseApp: FunctionComponent<Props> = ({
       history.push(URL_MAIN.news)
     } else if (!pureFeaturesVisible && pureNeverConnected) {
       history.push(URL_ONBOARDING.root)
-    } else if (pureFeaturesVisible && !pureNeverConnected) {
-      history.push(URL_MAIN.overview)
     }
   }, [pureFeaturesVisible, pureNeverConnected, deviceConnecting])
 
@@ -122,7 +120,7 @@ const mapStateToProps = (state: RootState) => {
   }
 }
 
-const mapDispatchToProps = ({ basicInfo, settings }: any) => ({
+const mapDispatchToProps = ({ settings }: any) => ({
   toggleAppCollectingData: settings.toggleAppCollectingData,
   setAppUpdateStepModalDisplayed: settings.setAppUpdateStepModalDisplayed,
 })

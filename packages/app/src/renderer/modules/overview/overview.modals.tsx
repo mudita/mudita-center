@@ -10,7 +10,7 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import React from "react"
+import React, { ComponentProps } from "react"
 import styled from "styled-components"
 import { noop } from "Renderer/utils/noop"
 import {
@@ -34,6 +34,7 @@ import {
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const ModalContent = styled.div`
   display: flex;
@@ -365,30 +366,32 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
   />
 )
 
-export const UpdatingForceModal: FunctionComponent<Partial<ModalProps>> = (
-  props
-) => {
+export const UpdatingForceModal: FunctionComponent<
+  ComponentProps<typeof ModalDialog>
+> = (props) => {
   return (
-    <OSUpdateModal
+    <ModalDialog
+      size={ModalSize.Small}
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
       closeButton={false}
       closeable={false}
-      actionButtonLabel={intl.formatMessage(
-        messages.updatingForceActionButton
-      )}
+      actionButtonLabel={intl.formatMessage(messages.updatingForceActionButton)}
       {...props}
     >
-      <RoundIconWrapper>
-        <Icon type={Type.Pure} width={4} />
-      </RoundIconWrapper>
-      <ModalText
-        displayStyle={TextDisplayStyle.LargeBoldText}
-        message={messages.updatingForceTitle}
-      />
-      <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
-        message={messages.updatingForceDescription}
-      />
-    </OSUpdateModal>
+      <ModalContent>
+        <RoundIconWrapper>
+          <Icon type={Type.Pure} width={4} />
+        </RoundIconWrapper>
+        <ModalText
+          displayStyle={TextDisplayStyle.LargeBoldText}
+          message={messages.updatingForceTitle}
+        />
+        <ModalText
+          displayStyle={TextDisplayStyle.MediumFadedText}
+          message={messages.updatingForceDescription}
+        />
+      </ModalContent>
+    </ModalDialog>
   )
 }
 

@@ -148,7 +148,7 @@ storiesOf("Views|Overview/Modals", module)
   ))
   .add("Updating force ", () => (
     <ModalStory>
-      <UpdatingForceModal onActionButtonClick={action("Run Update")} />
+      <UpdatingForceModal open onActionButtonClick={action("Run Update")} />
     </ModalStory>
   ))
   .add("Updating spinner progress", () => (

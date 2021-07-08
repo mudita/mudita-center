@@ -11,7 +11,7 @@ import {
 import {
   AppSettings,
   SettingsUpdateOption,
-  StoreValues,
+  SettingsState,
 } from "App/main/store/settings.interface"
 import { ipcRenderer } from "electron-better-ipc"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
@@ -23,13 +23,17 @@ import e2eSettings from "Renderer/models/settings/e2e-settings.json"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
+export const initialState: SettingsState = {
+  appUpdateAvailable: undefined,
+  lowestSupportedOsVersion: undefined,
+  appUpdateStepModalDisplayed: false,
+  settingsLoaded: false,
+}
+
 const settings = createModel<RootModel>({
-  state: {
-    settingsLoaded: false,
-    appUpdateStepModalDisplayed: false,
-  },
+  state: initialState,
   reducers: {
-    update(state: StoreValues, payload: Partial<StoreValues>) {
+    update(state: SettingsState, payload: Partial<SettingsState>) {
       return { ...state, ...payload }
     },
   },
@@ -121,7 +125,7 @@ const settings = createModel<RootModel>({
       },
     }
   },
-  selectors: (slice: Slicer<StoreValues>) => ({
+  selectors: (slice: Slicer<SettingsState>) => ({
     appCollectingData() {
       return slice(({ appCollectingData }) => appCollectingData)
     },

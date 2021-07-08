@@ -4,37 +4,42 @@
  */
 
 import "@testing-library/jest-dom/extend-expect"
-import React from "react"
+import React, {ComponentProps} from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { SystemProps } from "Renderer/components/rest/overview/system/system.interface"
 import { intl } from "Renderer/utils/intl"
 import System from "Renderer/components/rest/overview/system/system.component"
 import { fireEvent } from "@testing-library/dom"
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 
-const fakeOsVersion = "release-0.55.1"
 
-const renderSystem = ({
-  osVersion = fakeOsVersion,
-  ...props
-}: Partial<SystemProps> = {}) => {
-  return renderWithThemeAndIntl(<System osVersion={osVersion} {...props} />)
+type Props = ComponentProps<typeof System>
+
+const defaultProps: Props = {
+  osVersion: "0.55.1",
+}
+
+const render = (extraProps?: Partial<Props>) => {
+  const props = {
+    ...defaultProps,
+    ...extraProps,
+  }
+  return renderWithThemeAndIntl(<System {...props} />)
 }
 
 test("matches snapshot", () => {
-  const { container } = renderSystem()
+  const { container } = render()
   expect(container).toMatchSnapshot()
 })
 
 test("renders os version properly", () => {
-  const { getByTestId } = renderSystem()
+  const { getByTestId } = render()
   expect(getByTestId(OverviewTestIds.OsVersion)).toHaveTextContent(
     "[value] module.overview.muditaOsUpdateTitle 0.55.1"
   )
 })
 
 test("renders available update info properly", () => {
-  const { getByText } = renderSystem({ updateAvailable: true })
+  const { getByText } = render({ updateAvailable: true })
   expect(
     getByText(
       intl.formatMessage({ id: "module.overview.systemUpdateAvailable" })
@@ -43,7 +48,7 @@ test("renders available update info properly", () => {
 })
 
 test("renders You're up to date info properly", () => {
-  const { getByText } = renderSystem({ updateAvailable: false })
+  const { getByText } = render({ updateAvailable: false })
   expect(
     getByText(
       intl.formatMessage({ id: "module.overview.systemUpdateUpToDate" })
@@ -52,14 +57,14 @@ test("renders You're up to date info properly", () => {
 })
 
 test("renders 'check for updates' button properly", () => {
-  const { queryByRole } = renderSystem()
+  const { queryByRole } = render()
   expect(queryByRole("button")).toHaveTextContent(
     intl.formatMessage({ id: "module.overview.systemCheckForUpdates" })
   )
 })
 
 test("renders 'update now' button properly", () => {
-  const { queryByRole } = renderSystem({ updateAvailable: true })
+  const { queryByRole } = render({ updateAvailable: true })
   expect(queryByRole("button")).toHaveTextContent(
     intl.formatMessage({ id: "module.overview.systemDownloadAction" })
   )
@@ -68,7 +73,7 @@ test("renders 'update now' button properly", () => {
 test("checks for update after button click", () => {
   const onUpdateCheck = jest.fn()
 
-  const { getByRole } = renderSystem({
+  const { getByRole } = render({
     onUpdateCheck,
   })
 
@@ -80,7 +85,7 @@ test("checks for update after button click", () => {
 test("triggers download after button click", () => {
   const onDownload = jest.fn()
 
-  const { getByRole } = renderSystem({
+  const { getByRole } = render({
     updateAvailable: true,
     onDownload,
   })
@@ -93,7 +98,7 @@ test("triggers download after button click", () => {
 test("triggers update after button click", () => {
   const onUpdate = jest.fn()
 
-  const { getByRole } = renderSystem({
+  const { getByRole } = render({
     updateAvailable: true,
     updateDownloaded: true,
     onUpdate,
