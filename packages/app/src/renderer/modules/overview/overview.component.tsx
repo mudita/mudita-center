@@ -34,13 +34,13 @@ export interface UpdateBasicInfo {
   setCollectingData: (option: AppSettings["appCollectingData"]) => void
 }
 
-const Overview: FunctionComponent<
-  BasicInfoInitialState &
-    PhoneUpdateStore &
-    UpdateBasicInfo &
-    SettingsState &
-    DevMode
-> = ({
+type Props = BasicInfoInitialState &
+  PhoneUpdateStore &
+  UpdateBasicInfo &
+  SettingsState &
+  DevMode
+
+const Overview: FunctionComponent<Props> = ({
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
