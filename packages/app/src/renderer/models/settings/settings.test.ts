@@ -44,8 +44,10 @@ test("loads settings", async () => {
         "appOsUpdates": false,
         "appTethering": false,
         "appTray": true,
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "language": "en-US",
+        "lowestSupportedOsVersion": undefined,
         "pureNeverConnected": true,
         "pureOsBackupLocation": "fake/path/pure/phone/backups/",
         "pureOsDownloadLocation": "fake/path/pure/os/downloads/",
@@ -66,7 +68,9 @@ test("updates autostart setting", async () => {
     Object {
       "settings": Object {
         "appAutostart": true,
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
@@ -84,7 +88,9 @@ test("updates tethering setting", async () => {
     Object {
       "settings": Object {
         "appTethering": true,
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
@@ -102,7 +108,9 @@ test("updates incoming calls setting", async () => {
     Object {
       "settings": Object {
         "appIncomingCalls": true,
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
@@ -120,7 +128,9 @@ test("updates incoming messages setting", async () => {
     Object {
       "settings": Object {
         "appIncomingMessages": true,
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
@@ -138,7 +148,9 @@ test("updates low battery setting", async () => {
     Object {
       "settings": Object {
         "appLowBattery": true,
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
@@ -156,7 +168,9 @@ test("updates os updates setting", async () => {
     Object {
       "settings": Object {
         "appOsUpdates": true,
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
@@ -174,7 +188,9 @@ test("updates collecting data setting to true", async () => {
     Object {
       "settings": Object {
         "appCollectingData": true,
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
@@ -192,7 +208,9 @@ test("updates collecting data setting to false", async () => {
     Object {
       "settings": Object {
         "appCollectingData": false,
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
@@ -210,7 +228,9 @@ test("updates os audio files conversion setting", async () => {
     Object {
       "settings": Object {
         "appNonStandardAudioFilesConversion": true,
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
@@ -228,7 +248,9 @@ test("updates convert setting", async () => {
     Object {
       "settings": Object {
         "appConvert": "Convert automatically",
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
@@ -246,7 +268,9 @@ test("updates conversion format setting", async () => {
     Object {
       "settings": Object {
         "appConversionFormat": "WAV",
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
@@ -264,7 +288,9 @@ test("updates tray setting", async () => {
     Object {
       "settings": Object {
         "appTray": true,
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
@@ -281,7 +307,9 @@ test("updates PureOS backup location setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "pureOsBackupLocation": "some/fake/location",
         "settingsLoaded": false,
       },
@@ -299,7 +327,9 @@ test("updates PureOS download location setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedOsVersion": undefined,
         "pureOsDownloadLocation": "some/fake/location",
         "settingsLoaded": false,
       },
@@ -317,8 +347,10 @@ test("updates language setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "language": "de-DE",
+        "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
     }
