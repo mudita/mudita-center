@@ -20,7 +20,7 @@ const registerGetLowestSupportedOsVersionListener = (): void => {
   ipcMain.answerRenderer<undefined, string>(
     GetLowestSupportedOsVersionEvents.Request,
     async () => {
-      const url = `${process.env.MUDITA_CENTER_SERVER_URL}/configuration-os-version`
+      const url = `${process.env.MUDITA_CENTER_SERVER_URL}/app-configuration`
 
       try {
         const { status, data } = await axios.get<{ osVersion: string }>(url)
