@@ -20,6 +20,7 @@ import { SettingsActions } from "Common/enums/settings-actions.enum"
 import { RootModel } from "Renderer/models/models"
 import logger from "App/main/utils/logger"
 import e2eSettings from "Renderer/models/settings/e2e-settings.json"
+import getLowestSupportedOsVersion from "Renderer/requests/get-lowest-supported-os-version.request"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -43,14 +44,20 @@ const settings = createModel<RootModel>({
     return {
       async loadSettings() {
         const appSettings = await getAppSettings()
+        const lowestSupportedOsVersion = await getLowestSupportedOsVersion()
         if (simulatePhoneConnectionEnabled) {
           dispatch.settings.update({
+            lowestSupportedOsVersion,
             ...appSettings,
             ...e2eSettings,
             settingsLoaded: true,
           })
         } else {
-          dispatch.settings.update({ ...appSettings, settingsLoaded: true })
+          dispatch.settings.update({
+            lowestSupportedOsVersion,
+            ...appSettings,
+            settingsLoaded: true,
+          })
         }
 
         appSettings.appCollectingData

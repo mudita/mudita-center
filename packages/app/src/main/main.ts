@@ -25,8 +25,9 @@ import registerEventsExportListener from "App/calendar/backend/export-events"
 import registerWriteFileListener from "App/main/functions/register-write-file-listener"
 import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
-import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
+import registerGetLowestSupportedOsVersionListener from "App/main/functions/register-get-lowest-supported-os-version-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
+import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
 import {
   registerDownloadHelpHandler,
@@ -143,6 +144,7 @@ const createWindow = async () => {
   registerWriteFileListener()
   registerRmdirListener()
   registerWriteGzipListener()
+  registerGetLowestSupportedOsVersionListener()
   registerPureOsDownloadProxy()
 
   if (productionEnvironment) {
