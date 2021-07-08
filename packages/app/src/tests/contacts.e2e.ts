@@ -15,15 +15,12 @@ import { Application } from "spectron"
 let app: Application
 const shortNumber = "1234"
 const incorrectNumber = "mudita"
-const incorrectEmail = "mudita.com"
 const firstName = "Mudita"
 const secondName = "Center"
 const primaryNumber = "123456"
 const secondaryNumber = "654321"
-const email = "mudita@center.com"
 const firstAddressLine = "mudita"
 const secondAddressLine = "center"
-const note = "mudita center"
 
 beforeEach(async () => {
   app = await startApp(true)
@@ -184,29 +181,6 @@ test("user can see correct error when a user enters a secondary number that does
   ).toBe(false)
 })
 
-test("user can see correct error when a user enters an incorrect email format", async () => {
-  await app.client
-    .$(`*[data-testid=${ContactPanelTestIdsEnum.NewButton}]`)
-    .click()
-  expect(
-    await app.client.isExisting(`*[data-testid=${TableTestIds.Sidebar}]`)
-  ).toBe(true)
-  await app.client
-    .$(`*[data-testid=${ContactEditTestIdsEnum.Email}]`)
-    .setValue(incorrectEmail)
-  await app.client
-    .$(`*[data-testid=${ContactEditTestIdsEnum.PrimaryNumber}]`)
-    .click()
-  expect(await app.client.isExisting(`//*[text()="Email is invalid"]`)).toBe(
-    true
-  )
-  expect(
-    await app.client
-      .$(`*[data-testid=${ContactPanelTestIdsEnum.SaveButton}]`)
-      .isEnabled()
-  ).toBe(false)
-})
-
 test("user can see add a new favorite contact", async () => {
   await app.client
     .$(`*[data-testid=${ContactPanelTestIdsEnum.NewButton}]`)
@@ -301,23 +275,6 @@ test("user can save the contact after providing a Secondary Number", async () =>
   ).toBe(true)
 })
 
-test("user can save the contact after providing an Email", async () => {
-  await app.client
-    .$(`*[data-testid=${ContactPanelTestIdsEnum.NewButton}]`)
-    .click()
-  expect(
-    await app.client.isExisting(`*[data-testid=${TableTestIds.Sidebar}]`)
-  ).toBe(true)
-  await app.client
-    .$(`*[data-testid=${ContactEditTestIdsEnum.Email}]`)
-    .setValue(email)
-  expect(
-    await app.client
-      .$(`*[data-testid=${ContactPanelTestIdsEnum.SaveButton}]`)
-      .isEnabled()
-  ).toBe(true)
-})
-
 test("user can save the contact after providing a First Address Line ", async () => {
   await app.client
     .$(`*[data-testid=${ContactPanelTestIdsEnum.NewButton}]`)
@@ -345,23 +302,6 @@ test("user can save the contact after providing a Second Address Line", async ()
   await app.client
     .$(`*[data-testid=${ContactEditTestIdsEnum.SecondAddressLine}]`)
     .setValue(secondAddressLine)
-  expect(
-    await app.client
-      .$(`*[data-testid=${ContactPanelTestIdsEnum.SaveButton}]`)
-      .isEnabled()
-  ).toBe(true)
-})
-
-test("user can save the contact after providing a Note", async () => {
-  await app.client
-    .$(`*[data-testid=${ContactPanelTestIdsEnum.NewButton}]`)
-    .click()
-  expect(
-    await app.client.isExisting(`*[data-testid=${TableTestIds.Sidebar}]`)
-  ).toBe(true)
-  await app.client
-    .$(`*[data-testid=${ContactEditTestIdsEnum.Note}]`)
-    .setValue(note)
   expect(
     await app.client
       .$(`*[data-testid=${ContactPanelTestIdsEnum.SaveButton}]`)

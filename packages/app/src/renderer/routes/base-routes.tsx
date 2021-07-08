@@ -35,6 +35,7 @@ import LayoutBlankWrapper from "Renderer/wrappers/layout-blank-wrapper"
 import Backup from "Renderer/modules/settings/tabs/backup/backup-container.component"
 import Notifications from "Renderer/modules/settings/tabs/notifications/notifications.container"
 import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.container"
+import About from "../modules/settings/tabs/about/about.component"
 import RecoveryMode from "Renderer/modules/recovery-mode/recovery-mode.component"
 
 export default () => (
@@ -92,6 +93,10 @@ export default () => (
         <Route
           path={`${URL_MAIN.settings}${URL_TABS.backup}`}
           component={Backup}
+        />
+        <Route
+          path={`${URL_MAIN.settings}${URL_TABS.about}`}
+          component={About}
         />
         <Route path={URL_MAIN.tethering} component={Tethering} />
         <Route path={URL_MAIN.tools} component={Notes} exact />
