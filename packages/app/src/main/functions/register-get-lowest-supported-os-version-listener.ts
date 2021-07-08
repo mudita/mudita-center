@@ -14,7 +14,9 @@ let defaultData = { osVersion: "0.0.0" }
 
 try {
   defaultData = require("../app-configuration.json")
-} catch {}
+} catch {
+  console.error("read app-configuration.json is failed")
+}
 
 const registerGetLowestSupportedOsVersionListener = (): void => {
   ipcMain.answerRenderer<undefined, string>(

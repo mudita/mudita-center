@@ -13,7 +13,9 @@ let data: DefaultNewsItems = { newsItems: [] }
 
 try {
   data = require("./default-news.json") as DefaultNewsItems
-} catch {}
+} catch {
+  console.error("read default-news.json is failed")
+}
 
 const getDefaultNewsItems = (): DefaultNewsItems => {
   return data
