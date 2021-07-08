@@ -11,7 +11,7 @@ const isOsVersionSupported = (v1: string, v2: string): boolean => {
   if (!isVersionMatch(v1)) {
     throw new Error(`v1 argument isn't semantic version: ${v1}`)
   } else if (!isVersionMatch(v2)) {
-    throw new Error(`v1 argument isn't semantic version: ${v2}`)
+    throw new Error(`v2 argument isn't semantic version: ${v2}`)
   } else {
     return semver.gte(v1, v2)
   }
