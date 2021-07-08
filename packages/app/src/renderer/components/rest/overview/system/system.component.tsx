@@ -5,7 +5,6 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { SystemProps } from "Renderer/components/rest/overview/system/system.interface"
 import Card, {
   CardAction,
   CardActionButton,
@@ -50,7 +49,17 @@ const AvailableUpdate = styled(Text)`
   background-color: ${backgroundColor("minor")};
 `
 
-const System: FunctionComponent<SystemProps> = ({
+interface Props {
+  osVersion: string
+  onUpdateCheck?: () => void
+  onUpdate?: () => void
+  onDownload?: () => void
+  updateAvailable?: boolean
+  updateDownloaded?: boolean
+}
+
+
+const System: FunctionComponent<Props> = ({
   className,
   osVersion,
   updateAvailable,
