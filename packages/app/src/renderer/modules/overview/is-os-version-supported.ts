@@ -3,18 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import semver from "semver/preload";
+import semver from "semver/preload"
 
-const isVersionMatch = (version= ""): boolean => semver.valid(version) !== null
+const isVersionMatch = (version = ""): boolean => semver.valid(version) !== null
 
-const isOsVersionSupported = (
-  osVersion: string,
-  lowestSupportedOsVersion: string
-): boolean => {
-  if(!isVersionMatch(osVersion) || !isVersionMatch(lowestSupportedOsVersion)){
-    throw new Error("One of the passed argument isn't semantic version")
+const isOsVersionSupported = (v1: string, v2: string): boolean => {
+  if (!isVersionMatch(v1)) {
+    throw new Error(`v1 argument isn't semantic version: ${v1}`)
+  } else if (!isVersionMatch(v2)) {
+    throw new Error(`v1 argument isn't semantic version: ${v2}`)
   } else {
-    return semver.gte(osVersion, lowestSupportedOsVersion)
+    return semver.gte(v1, v2)
   }
 }
 
