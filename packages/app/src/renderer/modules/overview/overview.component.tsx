@@ -19,9 +19,9 @@ import logger from "App/main/utils/logger"
 import BackupModalFlow from "Renderer/components/rest/overview/backup/backup-modal-flow.component"
 import ContactSupportModalFlow, {
   ContactSupportModalFlowState,
-} from "App/contacts/components/contact-support-modal/contact-support-modal-flow.component"
+} from "App/renderer/components/rest/contact-support-modal/contact-support-modal-flow.component"
 import { CreateBugTicketResponseStatus } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket-builder"
-import { ContactSupportFieldValues } from "App/contacts/components/contact-support-modal/contact-support-modal.component"
+import { ContactSupportFieldValues } from "App/renderer/components/rest/contact-support-modal/contact-support-modal.component"
 import useCreateBugTicket, {
   files,
 } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
