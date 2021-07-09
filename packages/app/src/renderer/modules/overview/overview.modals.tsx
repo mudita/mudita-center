@@ -375,6 +375,7 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
   )
 }
 
+// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingSuccessModal = () => (
   <OSUpdateModal data-testid={OverviewTestIds.UpdatingSuccessModal}>
     <RoundIconWrapper>

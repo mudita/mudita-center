@@ -54,6 +54,12 @@ const messages = defineMessages({
   updatingFailedOnlySupportDescription: {
     id: "module.overview.updatingFailedOnlySupportDescription",
   },
+  updatingSuccessTitle: {
+    id: "module.overview.updatingSuccessTitle",
+  },
+  updatingSuccessDescription: {
+    id: "module.overview.updatingSuccessDescription",
+  },
 })
 
 const ModalContent = styled.div`
@@ -160,6 +166,26 @@ export const UpdatingFailureModal = ({
       <Text
         displayStyle={TextDisplayStyle.MediumFadedText}
         message={messages.updatingFailedOnlySupportDescription}
+      />
+    </OSUpdateModal>
+  )
+}
+
+export const UpdatingSuccessModal: FunctionComponent<
+  ComponentProps<typeof ModalDialog>
+> = (props) => {
+  return (
+    <OSUpdateModal {...props}>
+      <RoundIconWrapper>
+        <Icon type={Type.Pure} width={4} />
+      </RoundIconWrapper>
+      <Text
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={messages.updatingSuccessTitle}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.MediumFadedText}
+        message={messages.updatingSuccessDescription}
       />
     </OSUpdateModal>
   )

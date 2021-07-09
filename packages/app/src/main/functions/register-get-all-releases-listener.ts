@@ -60,9 +60,13 @@ const releasesRequest = async (
     })
     return response.data
   } catch (error) {
-    logger.error(
-      `Checking for OS updated failed with code ${error.response.status}: ${error.response.statusText}`
-    )
+    if (error.response) {
+      logger.error(
+        `Checking for OS updated failed with code ${error.response.status}: ${error.response.statusText}`
+      )
+    } else {
+      logger.error(`Checking for OS updated failed: ${error.message}`)
+    }
     return []
   }
 }

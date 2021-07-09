@@ -11,9 +11,14 @@ import {
   UpdatingForceModal,
   UpdatingSpinnerModal,
   UpdatingFailureModal,
+  UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modal-dialogs"
 import getAllReleases from "Renderer/requests/get-all-releases.request"
 import isVersionGreater from "Renderer/modules/overview/is-version-greater"
+import downloadOsUpdateRequest from "Renderer/requests/download-os-update.request"
+import { DownloadStatus } from "Renderer/interfaces/file-download.interface"
+import updateOs from "Renderer/requests/update-os.request"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 
 export enum UpdatingForceModalFlowState {
   Info = "Info",
@@ -31,6 +36,7 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
   open,
   osVersion,
   onContact,
+  closeModal,
 }) => {
   const [
     updatingForceOpenState,
@@ -64,7 +70,21 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
       return
     }
 
-    updateOS(latestRelease)
+    const downloadOSSuccess = await downloadOS(latestRelease)
+
+    if (!downloadOSSuccess) {
+      setUpdatingForceOpenState(UpdatingForceModalFlowState.Fail)
+      return
+    }
+
+    const response = await updateOs(latestRelease.file.name)
+
+    if (response.status !== DeviceResponseStatus.Ok) {
+      setUpdatingForceOpenState(UpdatingForceModalFlowState.Fail)
+      return
+    }
+
+    setUpdatingForceOpenState(UpdatingForceModalFlowState.Success)
   }
 
   const isNewestPureOsAvailable = (
@@ -76,8 +96,13 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
       : false
   }
 
-  const updateOS = (release: Release) => {
-    console.log("updateOS started ", release)
+  const downloadOS = async (release: Release): Promise<boolean> => {
+    try {
+      const response = await downloadOsUpdateRequest(release.file.url)
+      return response.status === DownloadStatus.Completed
+    } catch {
+      return false
+    }
   }
 
   return (
@@ -92,6 +117,10 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
       <UpdatingFailureModal
         onContact={onContact}
         open={updatingForceOpenState === UpdatingForceModalFlowState.Fail}
+      />
+      <UpdatingSuccessModal
+        open={updatingForceOpenState === UpdatingForceModalFlowState.Success}
+        closeModal={closeModal}
       />
     </>
   )
