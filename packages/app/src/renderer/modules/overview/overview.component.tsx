@@ -25,7 +25,7 @@ import { ContactSupportFieldValues } from "App/renderer/components/rest/contact-
 import useCreateBugTicket, {
   files,
 } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
-import isOsVersionSupported from "Renderer/modules/overview/is-os-version-supported"
+import isVersionGreater from "Renderer/modules/overview/is-version-greater"
 import UpdatingForceModalFlow from "Renderer/modules/overview/updating-force-modal-flow/updating-force-modal-flow"
 
 export interface UpdateBasicInfo {
@@ -46,7 +46,7 @@ const Overview: FunctionComponent<Props> = ({
   disconnectDevice = noop,
   osVersion,
   osUpdateDate,
-  pureOsAvailable,
+  lastAvailableOsVersion,
   pureOsDownloaded,
   updatePhoneOsInfo = noop,
   memorySpace = {
@@ -68,7 +68,7 @@ const Overview: FunctionComponent<Props> = ({
   toggleDeviceUpdating,
   language = "",
   pureOsBackupLocation = "",
-  lowestSupportedOsVersion = "0.0.0",
+  lowestSupportedOsVersion,
 }) => {
   /**
    * Temporary state to demo failure
@@ -127,9 +127,13 @@ const Overview: FunctionComponent<Props> = ({
 
   useEffect(() => {
     try {
-      setOsVersionSupported(
-        isOsVersionSupported(osVersion, lowestSupportedOsVersion)
-      )
+      if (!osVersion || !lowestSupportedOsVersion) {
+        setOsVersionSupported(false)
+      } else {
+        setOsVersionSupported(
+          isVersionGreater(osVersion, lowestSupportedOsVersion)
+        )
+      }
     } catch (error) {
       logger.error(`Overview: ${error.message}`)
     }
@@ -219,11 +223,25 @@ const Overview: FunctionComponent<Props> = ({
     setUpdatingForceOpen(false)
   }
 
+  const isPureOsAvailable = (): boolean => {
+    if (!osVersion || !lastAvailableOsVersion) {
+      return false
+    } else {
+      return !isVersionGreater(osVersion, lastAvailableOsVersion)
+    }
+  }
+
   return (
     <>
       <UpdatingForceModalFlow
-        open={!osVersionSupported && updatingForceOpen}
+        open={
+          !osVersionSupported &&
+          updatingForceOpen &&
+          contactSupportOpenState === undefined
+        }
+        osVersion={osVersion}
         closeModal={closeUpdatingForceModalFlow}
+        onContact={openContactSupportModalFlow}
       />
       {contactSupportOpenState && (
         <ContactSupportModalFlow
@@ -258,7 +276,7 @@ const Overview: FunctionComponent<Props> = ({
         simCards={simCards}
         networkName={networkName}
         networkLevel={networkLevel}
-        pureOsAvailable={pureOsAvailable}
+        pureOsAvailable={isPureOsAvailable()}
         pureOsDownloaded={pureOsDownloaded}
         onUpdateCheck={check}
         onUpdateInstall={install}

@@ -21,7 +21,7 @@ import {
   UpdatingSpinnerModal,
   UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
-import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
+import getAllReleases from "Renderer/requests/get-all-releases.request"
 import downloadOsUpdateRequest, {
   cancelOsDownload,
 } from "Renderer/requests/download-os-update.request"
@@ -42,7 +42,7 @@ import { isEqual } from "lodash"
 import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
 import logger from "App/main/utils/logger"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
-import { Release } from "App/main/functions/register-pure-os-update-listener"
+import { Release } from "App/main/functions/register-get-all-releases-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import {
   DeviceUpdateError as PureDeviceUpdateError,
@@ -53,6 +53,7 @@ import {
   deviceUpdateErrorCodeMap,
 } from "Backend/adapters/pure-phone/pure-phone.adapter"
 import { HelpActions } from "Common/enums/help-actions.enum"
+import isVersionGreater from "Renderer/modules/overview/is-version-greater"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -75,7 +76,7 @@ const noCriticalErrorCodes: number[] = [
 
 const useSystemUpdateFlow = (
   osUpdateDate: string,
-  osVersion: string,
+  osVersion: string | undefined,
   onUpdate: (updateInfo: PhoneUpdate) => void,
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
   toggleDeviceUpdating: (option: boolean) => void,
@@ -218,17 +219,18 @@ const useSystemUpdateFlow = (
 
     if (osVersion) {
       try {
-        const { latestRelease, allReleases } = await availableOsUpdateRequest(
-          osVersion
-        )
+        const { latestRelease, allReleases } = await getAllReleases()
 
         setDevReleases(allReleases)
 
-        if (latestRelease) {
+        if (
+          latestRelease &&
+          !isVersionGreater(osVersion, latestRelease.version)
+        ) {
           setReleaseToInstall(latestRelease)
 
           onUpdate({
-            pureOsAvailable: true,
+            lastAvailableOsVersion: latestRelease.version,
             pureOsFileUrl: latestRelease.file.url,
           })
 
@@ -240,7 +242,7 @@ const useSystemUpdateFlow = (
             openAvailableUpdateModal()
           }
         } else {
-          onUpdate({ pureOsAvailable: false })
+          onUpdate({ lastAvailableOsVersion: latestRelease?.version })
 
           if (!silent) {
             openNotAvailableUpdateModal()
@@ -325,7 +327,7 @@ const useSystemUpdateFlow = (
       await onUpdate({
         pureOsFileUrl: "",
         pureOsDownloaded: false,
-        pureOsAvailable: false,
+        lastAvailableOsVersion: undefined,
       })
 
       await updateBasicInfo({

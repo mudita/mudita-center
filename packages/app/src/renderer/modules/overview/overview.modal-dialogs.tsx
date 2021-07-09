@@ -12,7 +12,9 @@ import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.comp
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
 import Loader from "Renderer/components/core/loader/loader.component"
@@ -36,6 +38,21 @@ const messages = defineMessages({
   },
   updatingProgressDescription: {
     id: "module.overview.updatingProgressDescription",
+  },
+  updatingFailedTitle: {
+    id: "module.overview.updatingFailedTitle",
+  },
+  updatingFailedDescription: {
+    id: "module.overview.updatingFailedDescription",
+  },
+  updatingFailedSupportButton: {
+    id: "module.overview.updatingFailedSupportButton",
+  },
+  updatingFailedHelpButton: {
+    id: "module.overview.updatingFailedHelpButton",
+  },
+  updatingFailedOnlySupportDescription: {
+    id: "module.overview.updatingFailedOnlySupportDescription",
   },
 })
 
@@ -90,7 +107,7 @@ export const UpdatingForceModal: FunctionComponent<
 
 export const UpdatingSpinnerModal: FunctionComponent<
   ComponentProps<typeof ModalDialog>
-  > = (props) => {
+> = (props) => {
   return (
     <OSUpdateModal closeButton={false} closeable={false} {...props}>
       <RoundIconWrapper>
@@ -103,6 +120,46 @@ export const UpdatingSpinnerModal: FunctionComponent<
       <ModalText
         displayStyle={TextDisplayStyle.MediumFadedText}
         message={messages.updatingProgressDescription}
+      />
+    </OSUpdateModal>
+  )
+}
+
+interface UpdatingFailureModalProps extends ComponentProps<typeof ModalDialog> {
+  code?: number
+  onContact: (code?: number) => void
+}
+
+export const UpdatingFailureModal = ({
+  code,
+  onContact,
+  ...props
+}: UpdatingFailureModalProps) => {
+  const handleOnActionButtonClick = (): void => {
+    onContact(code)
+  }
+
+  return (
+    <OSUpdateModal
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+      closeButton={false}
+      onActionButtonClick={handleOnActionButtonClick}
+      actionButtonLabel={intl.formatMessage(
+        messages.updatingFailedSupportButton
+      )}
+      {...props}
+    >
+      <RoundIconWrapper>
+        <Icon type={Type.Fail} width={4} />
+      </RoundIconWrapper>
+      <Text
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={{ ...messages.updatingFailedTitle, values: { code } }}
+      />
+
+      <Text
+        displayStyle={TextDisplayStyle.MediumFadedText}
+        message={messages.updatingFailedOnlySupportDescription}
       />
     </OSUpdateModal>
   )

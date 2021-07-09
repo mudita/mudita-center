@@ -8,8 +8,8 @@ import axios from "axios"
 import logger from "App/main/utils/logger"
 import { isRelease } from "App/main/utils/is-release"
 
-export enum OsUpdateChannel {
-  Request = "os-update-request",
+export enum GetAllReleasesEvents {
+  Request = "get-all-releases-request",
 }
 
 interface GithubRelease {
@@ -67,9 +67,9 @@ const releasesRequest = async (
   }
 }
 
-const registerPureOsUpdateListener = () => {
+const registerGetAllReleasesListener = () => {
   if (osUpdateServerUrl) {
-    ipcMain.answerRenderer(OsUpdateChannel.Request, async () => {
+    ipcMain.answerRenderer(GetAllReleasesEvents.Request, async () => {
       let releases: GithubRelease[] = []
       let retry = true
       let page = 1
@@ -121,4 +121,4 @@ const registerPureOsUpdateListener = () => {
   }
 }
 
-export default registerPureOsUpdateListener
+export default registerGetAllReleasesListener

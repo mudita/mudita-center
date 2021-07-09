@@ -50,7 +50,7 @@ const AvailableUpdate = styled(Text)`
 `
 
 interface Props {
-  osVersion: string
+  osVersion?: string
   onUpdateCheck?: () => void
   onUpdate?: () => void
   onDownload?: () => void
@@ -58,10 +58,9 @@ interface Props {
   updateDownloaded?: boolean
 }
 
-
 const System: FunctionComponent<Props> = ({
   className,
-  osVersion,
+  osVersion = "",
   updateAvailable,
   updateDownloaded,
   onUpdateCheck = noop,
