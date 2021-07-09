@@ -10,7 +10,7 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import React, { ComponentProps } from "react"
+import React from "react"
 import styled from "styled-components"
 import { noop } from "Renderer/utils/noop"
 import {
@@ -34,7 +34,6 @@ import {
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const ModalContent = styled.div`
   display: flex;
@@ -151,15 +150,6 @@ const messages = defineMessages({
   },
   downloadingCancelledMessage: {
     id: "module.overview.downloadingCancelledMessage",
-  },
-  updatingForceActionButton: {
-    id: "module.overview.updatingForceActionButton",
-  },
-  updatingForceTitle: {
-    id: "module.overview.updatingForceTitle",
-  },
-  updatingForceDescription: {
-    id: "module.overview.updatingForceDescription",
   },
   updatingProgressTitle: {
     id: "module.overview.updatingProgressTitle",
@@ -365,35 +355,6 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
     descriptionMessage={messages.downloadingFailedDescription}
   />
 )
-
-export const UpdatingForceModal: FunctionComponent<
-  ComponentProps<typeof ModalDialog>
-> = (props) => {
-  return (
-    <ModalDialog
-      size={ModalSize.Small}
-      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-      closeButton={false}
-      closeable={false}
-      actionButtonLabel={intl.formatMessage(messages.updatingForceActionButton)}
-      {...props}
-    >
-      <ModalContent>
-        <RoundIconWrapper>
-          <Icon type={Type.Pure} width={4} />
-        </RoundIconWrapper>
-        <ModalText
-          displayStyle={TextDisplayStyle.LargeBoldText}
-          message={messages.updatingForceTitle}
-        />
-        <ModalText
-          displayStyle={TextDisplayStyle.MediumFadedText}
-          message={messages.updatingForceDescription}
-        />
-      </ModalContent>
-    </ModalDialog>
-  )
-}
 
 export const UpdatingSpinnerModal: FunctionComponent = () => {
   return (

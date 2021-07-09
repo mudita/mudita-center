@@ -26,7 +26,7 @@ import useCreateBugTicket, {
   files,
 } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
 import isOsVersionSupported from "Renderer/modules/overview/is-os-version-supported"
-import { UpdatingForceModal } from "Renderer/modules/overview/overview.modals"
+import UpdatingForceModalFlow from "Renderer/modules/overview/updating-force-modal-flow/updating-force-modal-flow"
 
 export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
