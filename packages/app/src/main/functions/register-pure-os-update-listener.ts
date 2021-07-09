@@ -91,10 +91,12 @@ const registerPureOsUpdateListener = () => {
             (asset) => asset.content_type === "application/x-tar"
           )
           if (asset && !draft) {
+            // slice 'release-' prefix from tag_name
+            const version = tag_name.slice(8)
             return {
-              version: tag_name,
+              version,
               date: published_at || created_at,
-              prerelease: !isRelease(tag_name),
+              prerelease: !isRelease(version),
               file: {
                 url: asset.url,
                 size: asset.size,

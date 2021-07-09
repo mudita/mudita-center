@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const isRelease = (tagName: string): boolean => {
-  return /^release-(\d+\.){2}\d+$/i.test(tagName)
+export const isRelease = (version: string): boolean => {
+  return /(\d+\.){2}\d+$/i.test(version)
 }
