@@ -74,6 +74,7 @@ const Overview: FunctionComponent<Props> = ({
    * Temporary state to demo failure
    */
   const [osVersionSupported, setOsVersionSupported] = useState(true)
+  const [updatingForceOpen, setUpdatingForceOpen] = useState(true)
   const [backups, setBackup] = useState(0)
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
@@ -214,15 +215,15 @@ const Overview: FunctionComponent<Props> = ({
     }))
   }
 
-  const runUpdate = async () => {
-    await download()
+  const closeUpdatingForceModalFlow = async () => {
+    setUpdatingForceOpen(false)
   }
 
   return (
     <>
-      <UpdatingForceModal
-        open={!osVersionSupported}
-        onActionButtonClick={runUpdate}
+      <UpdatingForceModalFlow
+        open={!osVersionSupported && updatingForceOpen}
+        closeModal={closeUpdatingForceModalFlow}
       />
       {contactSupportOpenState && (
         <ContactSupportModalFlow

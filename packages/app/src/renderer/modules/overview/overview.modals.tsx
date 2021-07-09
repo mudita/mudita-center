@@ -356,6 +356,7 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
   />
 )
 
+// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingSpinnerModal: FunctionComponent = () => {
   return (
     <OSUpdateModal closeButton={false} closeable={false}>
