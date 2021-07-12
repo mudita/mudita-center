@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ipcRenderer } from "electron-better-ipc"
+import { HelpActions } from "Common/enums/help-actions.enum"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   Store as BasicInfoInitialState,
@@ -116,13 +118,18 @@ const Overview: FunctionComponent<Props> = ({
     }
   }
 
+  const goToHelp = (code: number): void => {
+    void ipcRenderer.callMain(HelpActions.OpenWindow, { code })
+  }
+
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     osUpdateDate,
     osVersion,
     updatePhoneOsInfo,
     updateBasicInfo,
     toggleDeviceUpdating,
-    openContactSupportModalFlow
+    openContactSupportModalFlow,
+    goToHelp
   )
 
   useEffect(() => {
@@ -242,6 +249,7 @@ const Overview: FunctionComponent<Props> = ({
         osVersion={osVersion}
         closeModal={closeUpdatingForceModalFlow}
         onContact={openContactSupportModalFlow}
+        onHelp={goToHelp}
       />
       {contactSupportOpenState && (
         <ContactSupportModalFlow

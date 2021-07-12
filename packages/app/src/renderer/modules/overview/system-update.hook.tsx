@@ -44,35 +44,15 @@ import logger from "App/main/utils/logger"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-get-all-releases-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
-import {
-  DeviceUpdateError as PureDeviceUpdateError,
-  deviceUpdateErrorCodeMap as pureDeviceUpdateErrorCodeMap,
-} from "@mudita/pure"
-import {
-  DeviceUpdateError,
-  deviceUpdateErrorCodeMap,
-} from "Backend/adapters/pure-phone/pure-phone.adapter"
-import { HelpActions } from "Common/enums/help-actions.enum"
 import isVersionGreater from "Renderer/modules/overview/is-version-greater"
+import {
+  errorCodeMap,
+  noCriticalErrorCodes,
+} from "Renderer/modules/overview/updating-force-modal-flow/no-critical-errors-codes.const"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
 }
-
-const errorCodeMap = {
-  ...pureDeviceUpdateErrorCodeMap,
-  ...deviceUpdateErrorCodeMap,
-}
-
-const noCriticalErrorCodes: number[] = [
-  errorCodeMap[PureDeviceUpdateError.VerifyChecksumsFailure],
-  errorCodeMap[PureDeviceUpdateError.VerifyVersionFailure],
-  errorCodeMap[PureDeviceUpdateError.CantOpenUpdateFile],
-  errorCodeMap[PureDeviceUpdateError.NoBootloaderFile],
-  errorCodeMap[PureDeviceUpdateError.CantOpenBootloaderFile],
-  errorCodeMap[DeviceUpdateError.RestartTimedOut],
-  errorCodeMap[DeviceUpdateError.DeviceDisconnectionBeforeDone],
-]
 
 const useSystemUpdateFlow = (
   osUpdateDate: string,
@@ -80,7 +60,8 @@ const useSystemUpdateFlow = (
   onUpdate: (updateInfo: PhoneUpdate) => void,
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
   toggleDeviceUpdating: (option: boolean) => void,
-  onContact: (code?: number) => void
+  onContact: (code?: number) => void,
+  onHelp: (code: number) => void
 ) => {
   const [releaseToInstall, setReleaseToInstall] = useState<Release>()
 
@@ -347,10 +328,6 @@ const useSystemUpdateFlow = (
     }
   }
 
-  const goToHelp = (code: number) => {
-    ipcRenderer.callMain(HelpActions.OpenWindow, { code })
-  }
-
   const callActionAfterCloseModal = <T extends unknown>(
     action: (props: T) => void
   ): ((props: T) => void) => {
@@ -365,7 +342,7 @@ const useSystemUpdateFlow = (
       modalService.openModal(
         <UpdatingFailureWithHelpModal
           code={code}
-          onHelp={callActionAfterCloseModal(goToHelp)}
+          onHelp={callActionAfterCloseModal(onHelp)}
           onContact={callActionAfterCloseModal(onContact)}
         />,
         true

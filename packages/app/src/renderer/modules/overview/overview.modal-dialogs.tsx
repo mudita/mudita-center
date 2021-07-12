@@ -171,6 +171,55 @@ export const UpdatingFailureModal = ({
   )
 }
 
+interface UpdatingFailureWithHelpModalProps
+  extends ComponentProps<typeof ModalDialog> {
+  code: number
+  onContact: (code: number) => void
+  onHelp: (code: number) => void
+}
+
+// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
+export const UpdatingFailureWithHelpModal = ({
+  code,
+  onContact,
+  onHelp,
+  ...props
+}: UpdatingFailureWithHelpModalProps) => {
+  const handleOnActionButtonClick = (): void => {
+    onHelp(code)
+  }
+  const handleOnCloseButton = (): void => {
+    onContact(code)
+  }
+
+  return (
+    <OSUpdateModal
+      closeButton
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+      onCloseButton={handleOnCloseButton}
+      closeButtonLabel={intl.formatMessage(
+        messages.updatingFailedSupportButton
+      )}
+      onActionButtonClick={handleOnActionButtonClick}
+      actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
+      {...props}
+    >
+      <RoundIconWrapper>
+        <Icon type={Type.Fail} width={4} />
+      </RoundIconWrapper>
+      <Text
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={{ ...messages.updatingFailedTitle, values: { code } }}
+      />
+
+      <Text
+        displayStyle={TextDisplayStyle.MediumFadedText}
+        message={messages.updatingFailedDescription}
+      />
+    </OSUpdateModal>
+  )
+}
+
 export const UpdatingSuccessModal: FunctionComponent<
   ComponentProps<typeof ModalDialog>
 > = (props) => {
