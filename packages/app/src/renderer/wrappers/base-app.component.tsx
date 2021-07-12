@@ -30,6 +30,9 @@ interface Props {
   appUpdateStepModalDisplayed?: boolean
   toggleAppCollectingData: (appCollectingData: boolean) => void
   setAppUpdateStepModalDisplayed: () => void
+  setAppVersion: (appVersion: string) => void
+  appVersion: string | undefined
+  appLatestVersion?: string
 }
 
 const BaseApp: FunctionComponent<Props> = ({
@@ -44,6 +47,9 @@ const BaseApp: FunctionComponent<Props> = ({
   appUpdateStepModalDisplayed,
   toggleAppCollectingData,
   setAppUpdateStepModalDisplayed,
+  setAppVersion,
+  appVersion,
+  appLatestVersion,
 }) => {
   const appUpdateStepModalVisible =
     Boolean(settingsLoaded) &&
@@ -118,6 +124,7 @@ const mapStateToProps = (state: RootState) => {
     appUpdateAvailable: state.settings.appUpdateAvailable,
     appCollectingData: state.settings.appCollectingData,
     settingsLoaded: state.settings.settingsLoaded,
+    appVersion: state.settings.appVersion,
     appUpdateStepModalDisplayed: state.settings.appUpdateStepModalDisplayed,
   }
 }
@@ -125,6 +132,7 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = ({ basicInfo, settings }: any) => ({
   toggleAppCollectingData: settings.toggleAppCollectingData,
   setAppUpdateStepModalDisplayed: settings.setAppUpdateStepModalDisplayed,
+  setAppVersion: settings.setAppVersion,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)
