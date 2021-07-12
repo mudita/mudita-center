@@ -31,6 +31,9 @@ const messages = defineMessages({
   availableUpdateMessage: { id: "component.updateAvailableModalMessage" },
   availableUpdateAppVersion: { id: "component.updateAvailableModalVersion" },
   availableUpdateButton: { id: "component.updateAvailableModalButton" },
+  availableUpdateDescription: {
+    id: "component.updateAvailableModalDescription",
+  },
   downloadedUpdateMessage: { id: "component.updateDownloadedModalMessage" },
   downloadedUpdateDescription: {
     id: "component.updateDownloadedModalDescription",
@@ -96,6 +99,10 @@ export const AppUpdateAvailable: FunctionComponent<
         ...messages.availableUpdateAppVersion,
         values: { version: appLatestVersion },
       }}
+    />
+    <Text
+      displayStyle={TextDisplayStyle.MediumFadedLightText}
+      message={messages.availableUpdateDescription}
     />
   </AppUpdateModal>
 )
