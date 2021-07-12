@@ -3,11 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { storiesOf } from "@storybook/react"
 import React from "react"
-import OverviewUI from "Renderer/modules/overview/overview-ui.component"
+import { storiesOf } from "@storybook/react"
+import { action } from "@storybook/addon-actions"
+import { Router } from "react-router"
+import history from "Renderer/routes/history"
 import { noop } from "Renderer/utils/noop"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
+import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import {
   ModalBackdrop,
   ModalWrapper,
@@ -23,13 +26,10 @@ import {
   UpdateServerError,
   UpdatingFailureModal,
   UpdatingFailureWithHelpModal,
-  UpdatingForceModal,
   UpdatingSpinnerModal,
   UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
-import { Router } from "react-router"
-import history from "Renderer/routes/history"
-import { action } from "@storybook/addon-actions"
+import { UpdatingForceModal } from "Renderer/modules/overview/overview.modal-dialogs"
 
 const fakeState = {
   batteryLevel: 0,

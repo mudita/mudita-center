@@ -14,7 +14,7 @@ import {
 import { ipcMain } from "electron-better-ipc"
 import * as path from "path"
 import * as url from "url"
-import registerPureOsUpdateListener from "App/main/functions/register-pure-os-update-listener"
+import registerGetAllReleasesListener from "App/main/functions/register-get-all-releases-listener"
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
@@ -133,7 +133,7 @@ const createWindow = async () => {
 
   startBackend(PureDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
-  registerPureOsUpdateListener()
+  registerGetAllReleasesListener()
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()

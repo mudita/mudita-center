@@ -143,7 +143,7 @@ class PurePhone extends PurePhoneAdapter {
 
   public async updateOs(
     filePath: string,
-    progressChannel: string
+    progressChannel = ""
   ): Promise<DeviceResponse> {
     let unregisterListeners = noop
     return new Promise<DeviceResponse>(async (resolve) => {

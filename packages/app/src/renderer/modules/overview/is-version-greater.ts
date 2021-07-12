@@ -7,7 +7,7 @@ import semver from "semver/preload"
 
 const isVersionMatch = (version = ""): boolean => semver.valid(version) !== null
 
-const isOsVersionSupported = (v1: string, v2: string): boolean => {
+const isVersionGreater = (v1: string, v2: string): boolean => {
   if (!isVersionMatch(v1)) {
     throw new Error(`v1 argument isn't semantic version: ${v1}`)
   } else if (!isVersionMatch(v2)) {
@@ -17,4 +17,4 @@ const isOsVersionSupported = (v1: string, v2: string): boolean => {
   }
 }
 
-export default isOsVersionSupported
+export default isVersionGreater

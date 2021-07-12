@@ -10,7 +10,7 @@ export enum GetLowestSupportedOsVersionEvents {
   Request = "get-lowest-supported-os-version-request",
 }
 
-let defaultData = { osVersion: "0.0.0" }
+let defaultData = { osVersion: "0.72.1" }
 
 try {
   defaultData = require("../app-configuration.json")
