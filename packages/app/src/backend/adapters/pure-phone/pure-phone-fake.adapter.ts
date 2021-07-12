@@ -7,6 +7,7 @@ import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.cla
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
+import { osVersion } from "App/main/default-app-configuration.json"
 
 class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {
@@ -28,7 +29,7 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public async getOsVersion(): Promise<DeviceResponse<string>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: "0.55.1",
+      data: osVersion,
     }
   }
 

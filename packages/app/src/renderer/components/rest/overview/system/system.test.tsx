@@ -10,12 +10,12 @@ import { intl } from "Renderer/utils/intl"
 import System from "Renderer/components/rest/overview/system/system.component"
 import { fireEvent } from "@testing-library/dom"
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
-
+import { osVersion } from "App/main/default-app-configuration.json"
 
 type Props = ComponentProps<typeof System>
 
 const defaultProps: Props = {
-  osVersion: "0.55.1",
+  osVersion
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -34,7 +34,7 @@ test("matches snapshot", () => {
 test("renders os version properly", () => {
   const { getByTestId } = render()
   expect(getByTestId(OverviewTestIds.OsVersion)).toHaveTextContent(
-    "[value] module.overview.muditaOsUpdateTitle 0.55.1"
+    `[value] module.overview.muditaOsUpdateTitle ${osVersion}`
   )
 })
 

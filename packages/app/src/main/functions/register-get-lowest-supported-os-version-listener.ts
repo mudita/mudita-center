@@ -5,12 +5,13 @@
 
 import axios from "axios"
 import { ipcMain } from "electron-better-ipc"
+import { osVersion } from "App/main/default-app-configuration.json"
 
 export enum GetLowestSupportedOsVersionEvents {
   Request = "get-lowest-supported-os-version-request",
 }
 
-let defaultData = { osVersion: "0.72.1" }
+let defaultData = { osVersion }
 
 try {
   defaultData = require("../app-configuration.json")
