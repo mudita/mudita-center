@@ -13,6 +13,7 @@ import {
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { fakeAppSettings } from "Backend/adapters/app-settings/app-settings-fake.adapter"
 import { SettingsActions } from "Common/enums/settings-actions.enum"
+import { GetLowestSupportedOsVersionEvents } from "App/main/functions/register-get-lowest-supported-os-version-listener"
 
 const mockIpc = () => {
   ;(ipcRenderer as any).__rendererCalls = {
@@ -27,6 +28,7 @@ test("loads settings", async () => {
   })
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
+    [GetLowestSupportedOsVersionEvents.Request]: Promise.resolve("0.0.0"),
   }
   await store.dispatch.settings.loadSettings()
   const state = store.getState()
@@ -47,7 +49,7 @@ test("loads settings", async () => {
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "language": "en-US",
-        "lowestSupportedOsVersion": undefined,
+        "lowestSupportedOsVersion": "0.0.0",
         "pureNeverConnected": true,
         "pureOsBackupLocation": "fake/path/pure/phone/backups/",
         "pureOsDownloadLocation": "fake/path/pure/os/downloads/",

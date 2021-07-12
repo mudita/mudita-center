@@ -37,6 +37,3 @@ ReactDOM.render(
 // Setup modal service
 modalService.bindStore(store)
 modalService.setDefaultLocale(defaultLanguage)
-
-// Load settings
-store.dispatch.settings.loadSettings()
