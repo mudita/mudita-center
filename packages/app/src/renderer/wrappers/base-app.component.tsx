@@ -123,7 +123,7 @@ const mapStateToProps = (state: RootState) => {
     appUpdateAvailable: state.settings.appUpdateAvailable,
     appCollectingData: state.settings.appCollectingData,
     settingsLoaded: state.settings.settingsLoaded,
-    appVersion: state.settings.appVersion,
+    appLatestVersion: state.settings.appLatestVersion,
     appUpdateStepModalDisplayed: state.settings.appUpdateStepModalDisplayed,
   }
 }
@@ -131,7 +131,7 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = ({ basicInfo, settings }: any) => ({
   toggleAppCollectingData: settings.toggleAppCollectingData,
   setAppUpdateStepModalDisplayed: settings.setAppUpdateStepModalDisplayed,
-  setAppVersion: settings.setAppVersion,
+  setAppLatestVersion: settings.setAppLatestVersion,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)

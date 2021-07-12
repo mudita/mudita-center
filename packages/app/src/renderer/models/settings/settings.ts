@@ -120,9 +120,6 @@ const settings = createModel<RootModel>({
       toggleAppUpdateAvailable(appUpdateAvailable: boolean) {
         dispatch.settings.update({ appUpdateAvailable })
       },
-      setAppVersion(value: AppSettings["appVersion"]) {
-        this.updateSettings({ key: "appVersion", value })
-      },
       setAppLatestVersion(appLatestVersion: string) {
         dispatch.settings.update({ appLatestVersion })
       },
