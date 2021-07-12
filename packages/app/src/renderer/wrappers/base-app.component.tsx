@@ -30,8 +30,6 @@ interface Props {
   appUpdateStepModalDisplayed?: boolean
   toggleAppCollectingData: (appCollectingData: boolean) => void
   setAppUpdateStepModalDisplayed: () => void
-  setAppVersion: (appVersion: string) => void
-  appVersion: string | undefined
   appLatestVersion?: string
 }
 
@@ -47,8 +45,6 @@ const BaseApp: FunctionComponent<Props> = ({
   appUpdateStepModalDisplayed,
   toggleAppCollectingData,
   setAppUpdateStepModalDisplayed,
-  setAppVersion,
-  appVersion,
   appLatestVersion,
 }) => {
   const appUpdateStepModalVisible =
@@ -100,7 +96,10 @@ const BaseApp: FunctionComponent<Props> = ({
         closeModal={disallowToAppCollectingData}
       />
       {appUpdateStepModalVisible && (
-        <AppUpdateStepModal closeModal={closeAppUpdateStepModal} />
+        <AppUpdateStepModal
+          appLatestVersion={appLatestVersion}
+          closeModal={closeAppUpdateStepModal}
+        />
       )}
       <Router history={history}>
         <BaseRoutes />
