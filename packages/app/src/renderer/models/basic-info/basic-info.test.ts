@@ -140,7 +140,7 @@ test("store returns initial state", () => {
         },
         "networkName": "",
         "osUpdateDate": "",
-        "osVersion": "",
+        "osVersion": undefined,
         "simCards": Array [],
       },
     }
