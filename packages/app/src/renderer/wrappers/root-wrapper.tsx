@@ -42,6 +42,7 @@ import registerDeviceUnlockedListener, {
 } from "Renderer/listeners/register-device-unlocked.listener"
 import registerAvailableAppUpdateListener from "App/main/functions/register-avaible-app-update-listener"
 import registerNotAvailableAppUpdateListener from "App/main/functions/register-not-avaible-app-update-listener"
+import LicenseApp from "./license-app.component"
 
 interface Props {
   store: Store
@@ -68,6 +69,10 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
           getStoreData={getStoreData}
         />
       )
+    }
+
+    if (params.get("mode") === Mode.License) {
+      return <LicenseApp history={history} />
     }
 
     return <BaseApp store={store} history={history} />

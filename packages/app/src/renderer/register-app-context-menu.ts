@@ -12,9 +12,8 @@ import importDeviceLogsFile from "Renderer/requests/import-device-logs-file.requ
 import { remote } from "electron"
 import { name } from "../../package.json"
 
-const filePath = `${remote.app.getPath(
-  "appData"
-)}/${name}/pure-logs/pure-logs.txt`
+const filePath = `${remote.app.getPath("appData")}/${name}/pure-logs`
+const fileName = "pure-logs.txt"
 
 const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Device", [
@@ -29,7 +28,7 @@ const registerAppContextMenu = (menu: ContextMenu) => {
     },
     {
       label: "Download logs file",
-      click: () => importDeviceLogsFile(filePath),
+      click: () => importDeviceLogsFile({ filePath, fileName }),
     },
   ])
 

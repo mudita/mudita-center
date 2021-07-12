@@ -3,8 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum Mode {
-  Help = "help",
-  ServerError = "server-error",
-  License = "license",
+export enum LicenseComponentTestIds {
+  Wrapper = "License-component-wrapper",
+  Title = "license-component-title",
 }

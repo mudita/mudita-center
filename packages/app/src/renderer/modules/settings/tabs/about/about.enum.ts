@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum Mode {
-  Help = "help",
-  ServerError = "server-error",
-  License = "license",
+export enum AboutTestIds {
+  Wrapper = "about-wrapper",
+  Description = "about-description",
+  TableRow = "about-tablerow",
 }

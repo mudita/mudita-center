@@ -23,6 +23,7 @@ const messages = defineMessages({
   notifications: { id: "module.settings.notifications" },
   audioConversion: { id: "module.settings.audioConversion" },
   backup: { id: "module.settings.backup" },
+  about: { id: "module.settings.about" },
 })
 
 interface Tab {
@@ -127,6 +128,11 @@ export const tabElements: TabElement[] = [
         label: messages.backup,
         url: `${URL_MAIN.settings}${URL_TABS.backup}`,
         icon: Type.BackupFolder,
+      },
+      {
+        label: messages.about,
+        url: `${URL_MAIN.settings}${URL_TABS.about}`,
+        icon: Type.MuditaDarkLogo,
       },
     ],
   },
