@@ -6,7 +6,7 @@ require("dotenv").config({
   path: path.join(__dirname, "../../../.env"),
 })
 
-let defaultData = { osVersion: "0.0.0" }
+let defaultData = { osVersion: "0.72.1" }
 
 ;(async () => {
   const jsonPath = path.join("src", "main", "app-configuration.json")
