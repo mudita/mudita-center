@@ -17,3 +17,8 @@ export const GOOGLE_AUTH_WINDOW_SIZE = {
   width: 520,
   height: 680,
 }
+
+export const LICENSE_WINDOW_SIZE = {
+  width: 1010,
+  height: 600,
+}
