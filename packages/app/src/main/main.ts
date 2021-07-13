@@ -123,7 +123,12 @@ const createWindow = async () => {
   }
 
   win = new BrowserWindow(
-    getWindowOptions({ width: WINDOW_SIZE.width, height: WINDOW_SIZE.height })
+    getWindowOptions({
+      minWidth: WINDOW_SIZE.minWidth,
+      width: WINDOW_SIZE.width,
+      minHeight: WINDOW_SIZE.minHeight,
+      height: WINDOW_SIZE.height,
+    })
   )
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
