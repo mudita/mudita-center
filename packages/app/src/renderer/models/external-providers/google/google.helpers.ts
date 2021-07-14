@@ -3,10 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Calendar,
-  CalendarEvent,
-} from "App/calendar/store/calendar.interfaces"
+import { Calendar, CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import {
   GoogleCalendar,
   GoogleContactResourceItem,

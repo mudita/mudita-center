@@ -37,10 +37,10 @@ test("form renders properly", async () => {
   ).toBeInTheDocument()
   expect(
     queryByTestId(ContactSupportModalFlowTestIds.ContactSupportModalSuccess)
-  ).toEqual(null)
+  ).not.toBeInTheDocument()
   expect(
     queryByTestId(ContactSupportModalFlowTestIds.ContactSupportModalFail)
-  ).toEqual(null)
+  ).not.toBeInTheDocument()
 })
 
 test("ContactSupportModalSuccess renders properly", async () => {
@@ -54,10 +54,10 @@ test("ContactSupportModalSuccess renders properly", async () => {
   ).toBeInTheDocument()
   expect(
     queryByTestId(ContactSupportModalFlowTestIds.ContactSupportModal)
-  ).toEqual(null)
+  ).not.toBeInTheDocument()
   expect(
     queryByTestId(ContactSupportModalFlowTestIds.ContactSupportModalFail)
-  ).toEqual(null)
+  ).not.toBeInTheDocument()
 })
 
 test("ContactSupportModalFail renders properly", async () => {
@@ -71,8 +71,8 @@ test("ContactSupportModalFail renders properly", async () => {
   ).toBeInTheDocument()
   expect(
     queryByTestId(ContactSupportModalFlowTestIds.ContactSupportModal)
-  ).toEqual(null)
+  ).not.toBeInTheDocument()
   expect(
     queryByTestId(ContactSupportModalFlowTestIds.ContactSupportModalSuccess)
-  ).toEqual(null)
+  ).not.toBeInTheDocument()
 })
