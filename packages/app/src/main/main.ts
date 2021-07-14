@@ -100,7 +100,7 @@ const installExtensions = async () => {
 const developmentEnvironment = process.env.NODE_ENV === "development"
 const productionEnvironment = process.env.NODE_ENV === "production"
 const commonWindowOptions = {
-  resizable: developmentEnvironment,
+  resizable: true,
   fullscreen: false,
   useContentSize: true,
   webPreferences: {
