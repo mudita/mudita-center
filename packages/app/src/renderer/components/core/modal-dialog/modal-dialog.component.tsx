@@ -96,8 +96,12 @@ const ModalDialog: FunctionComponent<Properties> = ({
   ...props
 }) => {
   const closeModalByButtonClick = () => {
-    onCloseButton && onCloseButton()
-    closeModal && closeModal()
+    if (closeModal) {
+      closeModal()
+    }
+    if (onCloseButton) {
+      onCloseButton()
+    }
   }
 
   return (

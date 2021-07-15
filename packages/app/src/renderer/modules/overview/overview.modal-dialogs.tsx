@@ -193,7 +193,9 @@ export const UpdatingFailureWithHelpModal = ({
   }
 
   const handleOnClose = (): void => {
-    onClose && onClose()
+    if (onClose) {
+      onClose()
+    }
   }
 
   return (
