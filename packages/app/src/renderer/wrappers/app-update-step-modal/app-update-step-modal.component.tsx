@@ -22,8 +22,7 @@ interface Properties {
 
 enum AppUpdateStep {
   Available,
-  Downloading,
-  Downloaded,
+  Updating,
   Error,
 }
 
@@ -37,7 +36,7 @@ const AppUpdateStepModal: FunctionComponent<Properties> = ({
 
   useEffect(() => {
     const unregister = registerDownloadedAppUpdateListener(() => {
-      setAppUpdateStep(AppUpdateStep.Downloaded)
+      void installAppUpdateRequest()
     })
 
     return () => unregister()
@@ -51,13 +50,8 @@ const AppUpdateStepModal: FunctionComponent<Properties> = ({
   })
 
   const download = () => {
-    setAppUpdateStep(AppUpdateStep.Downloading)
+    setAppUpdateStep(AppUpdateStep.Updating)
     void downloadAppUpdateRequest()
-    install()
-  }
-
-  const install = () => {
-    void installAppUpdateRequest()
   }
 
   return (
@@ -68,12 +62,7 @@ const AppUpdateStepModal: FunctionComponent<Properties> = ({
         onActionButtonClick={download}
         appLatestVersion={appLatestVersion}
       />
-      <AppUpdateProgress
-        open={
-          appUpdateStep === AppUpdateStep.Downloading ||
-          appUpdateStep === AppUpdateStep.Downloaded
-        }
-      />
+      <AppUpdateProgress open={appUpdateStep === AppUpdateStep.Updating} />
       <AppUpdateError
         open={appUpdateStep === AppUpdateStep.Error}
         closeModal={closeModal}
