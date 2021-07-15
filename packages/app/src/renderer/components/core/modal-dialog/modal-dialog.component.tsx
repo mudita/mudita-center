@@ -76,6 +76,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
   title,
   subtitle,
   closeModal,
+  onCloseButton,
   closeButton = true,
   onClose,
   close = (
@@ -94,6 +95,11 @@ const ModalDialog: FunctionComponent<Properties> = ({
   theme = muditaTheme,
   ...props
 }) => {
+  const closeModalByButtonClick = () => {
+    onCloseButton && onCloseButton()
+    closeModal && closeModal()
+  }
+
   return (
     <Modal
       isOpen={open}
@@ -150,7 +156,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
                 displayStyle={DisplayStyle.Secondary}
                 size={getModalButtonsSize(size)}
                 label={closeButtonLabel}
-                onClick={closeModal}
+                onClick={closeModalByButtonClick}
                 data-testid={ModalTestIds.CloseBottomButton}
               />
             )}

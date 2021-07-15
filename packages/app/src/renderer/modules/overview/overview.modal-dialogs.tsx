@@ -178,11 +178,11 @@ interface UpdatingFailureWithHelpModalProps
   onHelp: (code: number) => void
 }
 
-// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingFailureWithHelpModal = ({
   code,
   onContact,
   onHelp,
+  onClose,
   ...props
 }: UpdatingFailureWithHelpModalProps) => {
   const handleOnActionButtonClick = (): void => {
@@ -190,6 +190,10 @@ export const UpdatingFailureWithHelpModal = ({
   }
   const handleOnCloseButton = (): void => {
     onContact(code)
+  }
+
+  const handleOnClose = (): void => {
+    onClose && onClose()
   }
 
   return (
@@ -202,6 +206,7 @@ export const UpdatingFailureWithHelpModal = ({
       )}
       onActionButtonClick={handleOnActionButtonClick}
       actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
+      onClose={handleOnClose}
       {...props}
     >
       <RoundIconWrapper>
