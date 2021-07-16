@@ -26,6 +26,7 @@ import {
   ApplicationUpdateErrorCodeMap,
   noCriticalErrorCodes,
 } from "Renderer/modules/overview/updating-force-modal-flow/no-critical-errors-codes.const"
+import { UpdatingForceModalFlowTestIds } from "Renderer/modules/overview/updating-force-modal-flow/updating-force-modal-flow-test-ids.component"
 
 export enum UpdatingForceModalFlowState {
   Info = "Info",
@@ -62,7 +63,7 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
   }, [open])
 
   const runUpdateProcess = async () => {
-    if (!osVersion) {
+    if (osVersion === undefined) {
       handleUpdateOsFailed(
         ApplicationUpdateErrorCodeMap[
           ApplicationUpdateError.UnableReadOSVersion
@@ -138,14 +139,17 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
   return (
     <>
       <UpdatingForceModal
+        testId={UpdatingForceModalFlowTestIds.UpdatingForceInfoModal}
         open={updatingForceOpenState === UpdatingForceModalFlowState.Info}
         onActionButtonClick={runUpdateProcess}
       />
       <UpdatingSpinnerModal
+        testId={UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal}
         open={updatingForceOpenState === UpdatingForceModalFlowState.Updating}
       />
       {code && noCriticalErrorCodes.includes(code) ? (
         <UpdatingFailureWithHelpModal
+          testId={UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal}
           code={code}
           onContact={onContact}
           onHelp={onHelp}
@@ -154,12 +158,14 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
         />
       ) : (
         <UpdatingFailureModal
+          testId={UpdatingForceModalFlowTestIds.UpdatingForceFailureModal}
           onContact={onContact}
           closeModal={closeFailureModal}
           open={updatingForceOpenState === UpdatingForceModalFlowState.Fail}
         />
       )}
       <UpdatingSuccessModal
+        testId={UpdatingForceModalFlowTestIds.UpdatingSuccessModal}
         open={updatingForceOpenState === UpdatingForceModalFlowState.Success}
         closeModal={closeModal}
       />

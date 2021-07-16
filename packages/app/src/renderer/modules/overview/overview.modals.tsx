@@ -418,6 +418,7 @@ export const UpdatingFailureModal = ({
   )
 }
 
+// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingFailureWithHelpModal = ({
   code,
   onContact,
