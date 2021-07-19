@@ -51,25 +51,6 @@ export const InstructionText = styled(Text)`
   font-weight: ${fontWeight("default")};
 `
 
-export const Autostart = styled.div`
-  margin-top: 4.8rem;
-  margin-bottom: 1.6rem;
-  display: flex;
-  align-items: center;
-  label {
-    margin-bottom: 1.2rem;
-  }
-`
-
-export const AutostartLabel = styled.div`
-  margin-left: 1.3rem;
-`
-
-export const AutostartSubText = styled(Text)`
-  text-align: left;
-  margin-top: 0.4rem;
-`
-
 export const WelcomeButton = styled(ButtonComponent)`
   margin-top: 3.9rem;
 `

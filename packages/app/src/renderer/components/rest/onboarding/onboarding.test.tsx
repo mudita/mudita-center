@@ -31,22 +31,6 @@ test("onboarding: phone doesn't show up button works properly button works prope
   expect(onTroubleshooting).toBeCalled()
 })
 
-test("onboarding: welcome autostart checkbox works properly", async () => {
-  const setAutostartOption = jest.fn()
-  const { getByRole } = renderWithThemeAndIntl(
-    <OnboardingWelcome
-      onAutostartChange={setAutostartOption}
-      autostartEnabled={false}
-    />
-  )
-
-  fireEvent.click(getByRole("checkbox"))
-  expect(setAutostartOption).toBeCalledWith(true)
-
-  fireEvent.click(getByRole("checkbox"))
-  expect(setAutostartOption).toBeCalledWith(false)
-})
-
 test("onboarding: connecting cancel button works properly", async () => {
   const onCancel = jest.fn()
   const { getByRole } = renderWithThemeAndIntl(
