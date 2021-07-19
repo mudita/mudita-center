@@ -59,6 +59,7 @@ const OverviewUI: FunctionComponent<
     | "deviceConnected"
     | "deviceUnlocked"
     | "initialDataLoaded"
+    | "serialNumber"
   > &
     PhoneUpdate &
     OverviewUIProps &
