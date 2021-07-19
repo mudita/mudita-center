@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@mudita/stylelint-config": "^1.0.4",
-    "@serialport/binding-mock": "^9.0.2",
+    "@serialport/binding-mock": "^9.0.7",
     "@types/jest": "^26.0.15",
     "@types/serialport": "^8.0.1",
     "@types/usb": "^1.5.2",
@@ -33,8 +33,8 @@
   },
   "dependencies": {
     "p-queue": "^6.6.2",
-    "serialport": "^9.0.2",
-    "usb": "^1.6.3"
+    "serialport": "^9.2.0",
+    "usb": "^1.6.5"
   },
   "engines": {
     "node": "12.18.4",
