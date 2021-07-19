@@ -32,7 +32,6 @@ const Welcome: FunctionComponent<Props> = () => {
   }
 
   const onTroubleshooting = () => {
-    // TODO: do some logic to start connecting to the phone, add error handling
     history.push(URL_ONBOARDING.troubleshooting)
   }
 
