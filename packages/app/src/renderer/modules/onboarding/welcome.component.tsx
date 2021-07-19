@@ -43,6 +43,11 @@ const Welcome: FunctionComponent<Props> = ({
     setAutostart(Boolean(enabled))
   }
 
+  const onTroubleshooting = () => {
+    // TODO: do some logic to start connecting to the phone, add error handling
+    history.push(URL_ONBOARDING.troubleshooting)
+  }
+
   useEffect(() => {
     ;(async () => {
       setAutostartStatus(await checkAutostartValue())
@@ -55,6 +60,7 @@ const Welcome: FunctionComponent<Props> = ({
         onContinue={onContinue}
         onAutostartChange={onAutostartChange}
         autostartEnabled={autostartStatus}
+        onTroubleshooting={onTroubleshooting}
       />
     </>
   )

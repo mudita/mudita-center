@@ -25,6 +25,7 @@ storiesOf("Components/Onboarding", module)
         <OnboardingWelcome
           onContinue={action("Continue")}
           onAutostartChange={action("Autostart")}
+          onTroubleshooting={action("TroubleshootingInfo")}
         />
       </Wrapper>
     )
