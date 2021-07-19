@@ -28,8 +28,10 @@ interface Props {
   settingsLoaded?: boolean
   appCollectingData?: boolean
   appUpdateStepModalDisplayed?: boolean
+  deviceParred?: boolean
   toggleAppCollectingData: (appCollectingData: boolean) => void
   setAppUpdateStepModalDisplayed: () => void
+  sendDiagnosticData: () => void
 }
 
 const BaseApp: FunctionComponent<Props> = ({
@@ -42,8 +44,10 @@ const BaseApp: FunctionComponent<Props> = ({
   settingsLoaded,
   appCollectingData,
   appUpdateStepModalDisplayed,
+  deviceParred,
   toggleAppCollectingData,
   setAppUpdateStepModalDisplayed,
+  sendDiagnosticData,
 }) => {
   const appUpdateStepModalVisible =
     Boolean(settingsLoaded) &&
@@ -72,6 +76,12 @@ const BaseApp: FunctionComponent<Props> = ({
       history.push(URL_MAIN.overview)
     }
   }, [pureFeaturesVisible, pureNeverConnected, deviceConnecting])
+
+  useEffect(() => {
+    if (deviceParred) {
+      sendDiagnosticData()
+    }
+  }, [deviceParred])
 
   const allowToAppCollectingData = (): void => {
     toggleAppCollectingData(true)
@@ -106,6 +116,7 @@ const BaseApp: FunctionComponent<Props> = ({
 const selection = select((models: any) => ({
   pureFeaturesVisible: models.basicInfo.pureFeaturesVisible,
   deviceConnecting: models.basicInfo.deviceConnecting,
+  deviceParred: models.basicInfo.deviceParred,
 }))
 
 const mapStateToProps = (state: RootState) => {
@@ -122,9 +133,10 @@ const mapStateToProps = (state: RootState) => {
   }
 }
 
-const mapDispatchToProps = ({ basicInfo, settings }: any) => ({
+const mapDispatchToProps = ({ settings }: any) => ({
   toggleAppCollectingData: settings.toggleAppCollectingData,
   setAppUpdateStepModalDisplayed: settings.setAppUpdateStepModalDisplayed,
+  sendDiagnosticData: settings.sendDiagnosticData,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)
