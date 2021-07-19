@@ -133,6 +133,9 @@ const settings = createModel<RootModel>({
         const { serialNumber } = state.basicInfo
 
         if (serialNumber === undefined) {
+          logger.error(
+            `Send Diagnostic Data: device logs fail. SerialNumber is undefined.`
+          )
           return
         }
         if (!appCollectingData) {
