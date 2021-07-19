@@ -10,7 +10,6 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 
 export const Title = styled(Text)`
   font-size: 3rem;
-  font-weight: ${fontWeight("light")};
   margin-bottom: 1.6rem;
   font-weight: ${fontWeight("default")};
 `
