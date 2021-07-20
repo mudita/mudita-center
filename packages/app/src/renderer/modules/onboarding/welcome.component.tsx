@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState } from "react"
+import React from "react"
 import OnboardingWelcome from "Renderer/components/rest/onboarding/onboarding-welcome.component"
 import { useHistory } from "react-router"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
@@ -19,42 +19,27 @@ const mapStateToProps = (state: RootModel) => {
 const mapDispatchToProps = (dispatch: any) => dispatch.settings
 
 interface Props {
-  setAutostart: (option: AppSettings["appAutostart"]) => void
-  checkAutostartValue?: any
   setCollectingData: (option: AppSettings["appCollectingData"]) => void
   appCollectingData: boolean | undefined
 }
 
-const Welcome: FunctionComponent<Props> = ({
-  setAutostart,
-  checkAutostartValue,
-}) => {
+const Welcome: FunctionComponent<Props> = () => {
   const history = useHistory()
-  const [autostartStatus, setAutostartStatus] = useState<
-    AppSettings["appAutostart"] | undefined
-  >()
 
   const onContinue = () => {
     // TODO: do some logic to start connecting to the phone, add error handling
     history.push(URL_ONBOARDING.connecting)
   }
 
-  const onAutostartChange = async (enabled?: boolean) => {
-    setAutostart(Boolean(enabled))
+  const onTroubleshooting = () => {
+    history.push(URL_ONBOARDING.troubleshooting)
   }
-
-  useEffect(() => {
-    ;(async () => {
-      setAutostartStatus(await checkAutostartValue())
-    })()
-  }, [])
 
   return (
     <>
       <OnboardingWelcome
         onContinue={onContinue}
-        onAutostartChange={onAutostartChange}
-        autostartEnabled={autostartStatus}
+        onTroubleshooting={onTroubleshooting}
       />
     </>
   )

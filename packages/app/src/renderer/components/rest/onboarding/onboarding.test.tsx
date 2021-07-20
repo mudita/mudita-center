@@ -13,28 +13,22 @@ import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboa
 
 test("onboarding: welcome continue button works properly", async () => {
   const onContinue = jest.fn()
-  const { getByRole } = renderWithThemeAndIntl(
+  const { getByText } = renderWithThemeAndIntl(
     <OnboardingWelcome onContinue={onContinue} />
   )
 
-  fireEvent.click(getByRole("button"))
+  fireEvent.click(getByText("[value] module.onboarding.welcomeButton"))
   expect(onContinue).toBeCalled()
 })
 
-test("onboarding: welcome autostart checkbox works properly", async () => {
-  const setAutostartOption = jest.fn()
-  const { getByRole } = renderWithThemeAndIntl(
-    <OnboardingWelcome
-      onAutostartChange={setAutostartOption}
-      autostartEnabled={false}
-    />
+test("onboarding: phone doesn't show up button works properly button works properly", async () => {
+  const onTroubleshooting = jest.fn()
+  const { getByText } = renderWithThemeAndIntl(
+    <OnboardingWelcome onTroubleshooting={onTroubleshooting} />
   )
 
-  fireEvent.click(getByRole("checkbox"))
-  expect(setAutostartOption).toBeCalledWith(true)
-
-  fireEvent.click(getByRole("checkbox"))
-  expect(setAutostartOption).toBeCalledWith(false)
+  fireEvent.click(getByText("[value] module.onboarding.welcomeTroubleshootingButton"))
+  expect(onTroubleshooting).toBeCalled()
 })
 
 test("onboarding: connecting cancel button works properly", async () => {
