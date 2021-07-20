@@ -21,20 +21,20 @@
   },
   "devDependencies": {
     "@mudita/stylelint-config": "^1.0.4",
-    "@serialport/binding-mock": "^9.0.2",
-    "@types/jest": "^26.0.15",
+    "@serialport/binding-mock": "^9.0.7",
+    "@types/jest": "^26.0.24",
     "@types/serialport": "^8.0.1",
     "@types/usb": "^1.5.2",
     "jest": "^26.6.3",
-    "ts-jest": "^26.4.3",
+    "ts-jest": "^26.5.6",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5",
     "yargs": "^16.1.1"
   },
   "dependencies": {
     "p-queue": "^6.6.2",
-    "serialport": "^9.0.2",
-    "usb": "^1.6.3"
+    "serialport": "^9.2.0",
+    "usb": "^1.6.5"
   },
   "engines": {
     "node": "12.18.4",
