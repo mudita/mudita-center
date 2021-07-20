@@ -112,7 +112,7 @@
   "component.textToday": "Today",
   "component.textWeekly": "Weekly",
   "component.textYearly": "Yearly",
-  "component.updateAvailableModalButton": "Download",
+  "component.updateAvailableModalButton": "Update now",
   "component.updateAvailableModalDescription": "Lorem ipsum dolor sit amet elit un",
   "component.updateAvailableModalMessage": "New update is available",
   "component.updateAvailableModalVersion": "Mudita Center {version}",
