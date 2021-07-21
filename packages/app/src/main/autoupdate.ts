@@ -37,10 +37,10 @@ export default (win: BrowserWindow): void => {
   })
   autoUpdater.logger = logger
   autoUpdater.autoDownload = false
-  autoUpdater.autoInstallOnAppQuit = true
+  autoUpdater.autoInstallOnAppQuit = false
 
-  autoUpdater.on("update-available", () => {
-    void ipcMain.callRenderer(win, AppUpdateEvent.Available)
+  autoUpdater.on("update-available", ({ version }) => {
+    void ipcMain.callRenderer(win, AppUpdateEvent.Available, version)
   })
   autoUpdater.on("update-not-available", () => {
     void ipcMain.callRenderer(win, AppUpdateEvent.NotAvailable)

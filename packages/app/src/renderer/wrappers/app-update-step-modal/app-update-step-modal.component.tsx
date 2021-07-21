@@ -7,7 +7,6 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React, { useEffect, useState } from "react"
 import {
   AppUpdateAvailable,
-  AppUpdateDownloaded,
   AppUpdateError,
   AppUpdateProgress,
 } from "Renderer/wrappers/app-update-step-modal/app-update.modals"
@@ -18,23 +17,26 @@ import downloadAppUpdateRequest from "Renderer/requests/download-app-update.requ
 
 interface Properties {
   closeModal?: () => void
+  appLatestVersion?: string
 }
 
 enum AppUpdateStep {
   Available,
-  Downloading,
-  Downloaded,
+  Updating,
   Error,
 }
 
-const AppUpdateStepModal: FunctionComponent<Properties> = ({ closeModal }) => {
+const AppUpdateStepModal: FunctionComponent<Properties> = ({
+  closeModal,
+  appLatestVersion,
+}) => {
   const [appUpdateStep, setAppUpdateStep] = useState<AppUpdateStep>(
     AppUpdateStep.Available
   )
 
   useEffect(() => {
     const unregister = registerDownloadedAppUpdateListener(() => {
-      setAppUpdateStep(AppUpdateStep.Downloaded)
+      void installAppUpdateRequest()
     })
 
     return () => unregister()
@@ -48,12 +50,8 @@ const AppUpdateStepModal: FunctionComponent<Properties> = ({ closeModal }) => {
   })
 
   const download = () => {
-    setAppUpdateStep(AppUpdateStep.Downloading)
+    setAppUpdateStep(AppUpdateStep.Updating)
     void downloadAppUpdateRequest()
-  }
-
-  const install = () => {
-    void installAppUpdateRequest()
   }
 
   return (
@@ -62,13 +60,9 @@ const AppUpdateStepModal: FunctionComponent<Properties> = ({ closeModal }) => {
         open={appUpdateStep === AppUpdateStep.Available}
         closeModal={closeModal}
         onActionButtonClick={download}
+        appLatestVersion={appLatestVersion}
       />
-      <AppUpdateProgress open={appUpdateStep === AppUpdateStep.Downloading} />
-      <AppUpdateDownloaded
-        open={appUpdateStep === AppUpdateStep.Downloaded}
-        closeModal={closeModal}
-        onActionButtonClick={install}
-      />
+      <AppUpdateProgress open={appUpdateStep === AppUpdateStep.Updating} />
       <AppUpdateError
         open={appUpdateStep === AppUpdateStep.Error}
         closeModal={closeModal}

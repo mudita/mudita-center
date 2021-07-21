@@ -6,6 +6,8 @@
 export const WINDOW_SIZE = {
   width: 1280,
   height: 800,
+  minWidth: 1080,
+  minHeight: 500,
 }
 
 export const HELP_WINDOW_SIZE = {
