@@ -62,6 +62,7 @@ export interface DeviceInfo {
   gitTag: string
   selectedSim: SIM
   signalStrength: SignalStrength
+  networkOperatorName: string
   trayState: Tray
   accessTechnology: AccessTechnology
   networkStatus: NetworkStatus
