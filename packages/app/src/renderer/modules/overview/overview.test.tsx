@@ -151,6 +151,7 @@ const renderer = (extraProps?: {}) => {
     basicInfoDataState: DataState.Empty,
     serialNumber: undefined,
     initialDataLoaded: false,
+    appVersion: undefined,
     setCollectingData: jest.fn(),
     simCards: [
       {

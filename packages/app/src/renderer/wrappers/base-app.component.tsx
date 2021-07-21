@@ -32,6 +32,7 @@ interface Props {
   toggleAppCollectingData: (appCollectingData: boolean) => void
   setAppUpdateStepModalDisplayed: () => void
   sendDiagnosticData: () => void
+  appLatestVersion?: string
 }
 
 const BaseApp: FunctionComponent<Props> = ({
@@ -48,6 +49,7 @@ const BaseApp: FunctionComponent<Props> = ({
   toggleAppCollectingData,
   setAppUpdateStepModalDisplayed,
   sendDiagnosticData,
+  appLatestVersion,
 }) => {
   const appUpdateStepModalVisible =
     Boolean(settingsLoaded) &&
@@ -104,7 +106,10 @@ const BaseApp: FunctionComponent<Props> = ({
         closeModal={disallowToAppCollectingData}
       />
       {appUpdateStepModalVisible && (
-        <AppUpdateStepModal closeModal={closeAppUpdateStepModal} />
+        <AppUpdateStepModal
+          appLatestVersion={appLatestVersion}
+          closeModal={closeAppUpdateStepModal}
+        />
       )}
       <Router history={history}>
         <BaseRoutes />
@@ -129,6 +134,7 @@ const mapStateToProps = (state: RootState) => {
     appUpdateAvailable: state.settings.appUpdateAvailable,
     appCollectingData: state.settings.appCollectingData,
     settingsLoaded: state.settings.settingsLoaded,
+    appLatestVersion: state.settings.appLatestVersion,
     appUpdateStepModalDisplayed: state.settings.appUpdateStepModalDisplayed,
   }
 }
@@ -137,6 +143,7 @@ const mapDispatchToProps = ({ settings }: any) => ({
   toggleAppCollectingData: settings.toggleAppCollectingData,
   setAppUpdateStepModalDisplayed: settings.setAppUpdateStepModalDisplayed,
   sendDiagnosticData: settings.sendDiagnosticData,
+  setAppLatestVersion: settings.setAppLatestVersion,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)

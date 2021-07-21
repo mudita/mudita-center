@@ -36,4 +36,5 @@ export interface StoreValues extends AppSettings {
   appUpdateAvailable: boolean | undefined
   appUpdateStepModalDisplayed: boolean
   settingsLoaded: boolean
+  appLatestVersion: string
 }

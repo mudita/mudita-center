@@ -20,11 +20,20 @@ import {
   ModalContent,
   RoundIconWrapper,
 } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
+import { Size } from "Renderer/components/core/button/button.config"
+
+export interface AppUpdateAvailableProps {
+  appLatestVersion?: string
+}
 
 const messages = defineMessages({
   appUpdateTitle: { id: "component.updateModalTitle" },
   availableUpdateMessage: { id: "component.updateAvailableModalMessage" },
+  availableUpdateAppVersion: { id: "component.updateAvailableModalVersion" },
   availableUpdateButton: { id: "component.updateAvailableModalButton" },
+  availableUpdateDescription: {
+    id: "component.updateAvailableModalDescription",
+  },
   downloadedUpdateMessage: { id: "component.updateDownloadedModalMessage" },
   downloadedUpdateDescription: {
     id: "component.updateDownloadedModalDescription",
@@ -42,6 +51,15 @@ const messages = defineMessages({
   errorUpdateDescription: {
     id: "component.updateErrorModalDescription",
   },
+  downloadUpdateCloseButton: {
+    id: "component.updateDownloadCloseButton",
+  },
+  progressUpdateTitle: {
+    id: "component.updateProgressModalTitle",
+  },
+  progressUpdateDescription: {
+    id: "component.updateProgressModalDescription",
+  },
 })
 
 const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
@@ -55,7 +73,7 @@ const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   >
     <ModalContent>
       <RoundIconWrapper>
-        <Icon type={Type.MuditaLogo} width={4} />
+        <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
       {children}
     </ModalContent>
@@ -63,15 +81,28 @@ const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
 )
 
 export const AppUpdateAvailable: FunctionComponent<
-  ComponentProps<typeof ModalDialog>
-> = (props) => (
+  ComponentProps<typeof ModalDialog> & AppUpdateAvailableProps
+> = ({ appLatestVersion, ...props }) => (
   <AppUpdateModal
     actionButtonLabel={intl.formatMessage(messages.availableUpdateButton)}
+    closeButton={false}
+    actionButtonSize={Size.FixedBig}
     {...props}
   >
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
       message={messages.availableUpdateMessage}
+    />
+    <Text
+      displayStyle={TextDisplayStyle.MediumFadedLightText}
+      message={{
+        ...messages.availableUpdateAppVersion,
+        values: { version: appLatestVersion },
+      }}
+    />
+    <Text
+      displayStyle={TextDisplayStyle.MediumFadedLightText}
+      message={messages.availableUpdateDescription}
     />
   </AppUpdateModal>
 )
@@ -96,7 +127,8 @@ export const AppUpdateDownloaded: FunctionComponent<
 > = (props) => (
   <AppUpdateModal
     actionButtonLabel={intl.formatMessage(messages.downloadedUpdateButton)}
-    closeButtonLabel={intl.formatMessage(messages.downloadedUpdateCloseButton)}
+    closeButton={false}
+    actionButtonSize={Size.FixedBig}
     {...props}
   >
     <Text
@@ -105,19 +137,11 @@ export const AppUpdateDownloaded: FunctionComponent<
     />
     <Text
       displayStyle={TextDisplayStyle.MediumFadedText}
-      message={messages.downloadedUpdateDescription}
+      message={messages.appUpdateTitle}
     />
     <Text
-      displayStyle={TextDisplayStyle.MediumBoldText}
-      message={{
-        ...messages.downloadedUpdateWarning,
-        values: {
-          // On macOS the app can't automatically start after update (so it just quits),
-          // while linux and windows supports that feature (so the app restarts in fact).
-          // That's why there must be a distinction in translation depending on current OS.
-          osxPlatform: process?.platform === "darwin",
-        },
-      }}
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={messages.downloadedUpdateDescription}
     />
   </AppUpdateModal>
 )
@@ -136,6 +160,14 @@ export const AppUpdateProgress: FunctionComponent<
       <RoundIconWrapper>
         <Loader type={LoaderType.Spinner} />
       </RoundIconWrapper>
+      <Text
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={messages.progressUpdateTitle}
+      />
+      <Text
+        displayStyle={TextDisplayStyle.MediumFadedText}
+        message={messages.progressUpdateDescription}
+      />
     </ModalContent>
   </ModalDialog>
 )

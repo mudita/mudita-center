@@ -104,6 +104,7 @@ test("loads settings", async () => {
         "appConvert": "Convert automatically",
         "appIncomingCalls": false,
         "appIncomingMessages": false,
+        "appLatestVersion": "",
         "appLowBattery": false,
         "appNonStandardAudioFilesConversion": false,
         "appOsUpdates": false,
@@ -147,6 +148,7 @@ test("updates autostart setting", async () => {
       },
       "settings": Object {
         "appAutostart": true,
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -179,6 +181,7 @@ test("updates tethering setting", async () => {
         "simCards": Array [],
       },
       "settings": Object {
+        "appLatestVersion": "",
         "appTethering": true,
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
@@ -213,6 +216,7 @@ test("updates incoming calls setting", async () => {
       },
       "settings": Object {
         "appIncomingCalls": true,
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -246,6 +250,7 @@ test("updates incoming messages setting", async () => {
       },
       "settings": Object {
         "appIncomingMessages": true,
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -278,6 +283,7 @@ test("updates low battery setting", async () => {
         "simCards": Array [],
       },
       "settings": Object {
+        "appLatestVersion": "",
         "appLowBattery": true,
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
@@ -311,6 +317,7 @@ test("updates os updates setting", async () => {
         "simCards": Array [],
       },
       "settings": Object {
+        "appLatestVersion": "",
         "appOsUpdates": true,
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
@@ -345,6 +352,7 @@ test("updates collecting data setting to true", async () => {
       },
       "settings": Object {
         "appCollectingData": true,
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -378,6 +386,7 @@ test("updates collecting data setting to false", async () => {
       },
       "settings": Object {
         "appCollectingData": false,
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -410,6 +419,7 @@ test("updates os audio files conversion setting", async () => {
         "simCards": Array [],
       },
       "settings": Object {
+        "appLatestVersion": "",
         "appNonStandardAudioFilesConversion": true,
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
@@ -444,6 +454,7 @@ test("updates convert setting", async () => {
       },
       "settings": Object {
         "appConvert": "Convert automatically",
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -477,6 +488,7 @@ test("updates conversion format setting", async () => {
       },
       "settings": Object {
         "appConversionFormat": "WAV",
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -509,6 +521,7 @@ test("updates tray setting", async () => {
         "simCards": Array [],
       },
       "settings": Object {
+        "appLatestVersion": "",
         "appTray": true,
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
@@ -542,6 +555,7 @@ test("updates PureOS backup location setting", async () => {
         "simCards": Array [],
       },
       "settings": Object {
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "pureOsBackupLocation": "some/fake/location",
         "settingsLoaded": false,
@@ -575,6 +589,7 @@ test("updates PureOS download location setting", async () => {
         "simCards": Array [],
       },
       "settings": Object {
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "pureOsDownloadLocation": "some/fake/location",
         "settingsLoaded": false,
@@ -608,6 +623,7 @@ test("updates language setting", async () => {
         "simCards": Array [],
       },
       "settings": Object {
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "language": "de-DE",
         "settingsLoaded": false,

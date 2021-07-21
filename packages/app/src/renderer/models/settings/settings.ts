@@ -31,6 +31,7 @@ const settings = createModel<RootModel>({
   state: {
     settingsLoaded: false,
     appUpdateStepModalDisplayed: false,
+    appLatestVersion: "",
   },
   reducers: {
     update(state: StoreValues, payload: Partial<StoreValues>) {
@@ -164,6 +165,9 @@ const settings = createModel<RootModel>({
         } catch {
           logger.error(`Send Diagnostic Data: send diagnostic data request.`)
         }
+      },
+      setAppLatestVersion(appLatestVersion: string) {
+        dispatch.settings.update({ appLatestVersion })
       },
     }
   },
