@@ -39,6 +39,7 @@ test("loads settings", async () => {
         "appConvert": "Convert automatically",
         "appIncomingCalls": false,
         "appIncomingMessages": false,
+        "appLatestVersion": "",
         "appLowBattery": false,
         "appNonStandardAudioFilesConversion": false,
         "appOsUpdates": false,
@@ -66,6 +67,7 @@ test("updates autostart setting", async () => {
     Object {
       "settings": Object {
         "appAutostart": true,
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -83,6 +85,7 @@ test("updates tethering setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appTethering": true,
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
@@ -102,6 +105,7 @@ test("updates incoming calls setting", async () => {
     Object {
       "settings": Object {
         "appIncomingCalls": true,
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -120,6 +124,7 @@ test("updates incoming messages setting", async () => {
     Object {
       "settings": Object {
         "appIncomingMessages": true,
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -137,6 +142,7 @@ test("updates low battery setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appLowBattery": true,
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
@@ -155,6 +161,7 @@ test("updates os updates setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appOsUpdates": true,
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
@@ -174,6 +181,7 @@ test("updates collecting data setting to true", async () => {
     Object {
       "settings": Object {
         "appCollectingData": true,
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -192,6 +200,7 @@ test("updates collecting data setting to false", async () => {
     Object {
       "settings": Object {
         "appCollectingData": false,
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -209,6 +218,7 @@ test("updates os audio files conversion setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appNonStandardAudioFilesConversion": true,
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
@@ -228,6 +238,7 @@ test("updates convert setting", async () => {
     Object {
       "settings": Object {
         "appConvert": "Convert automatically",
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -246,6 +257,7 @@ test("updates conversion format setting", async () => {
     Object {
       "settings": Object {
         "appConversionFormat": "WAV",
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
       },
@@ -263,6 +275,7 @@ test("updates tray setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appTray": true,
         "appUpdateStepModalDisplayed": false,
         "settingsLoaded": false,
@@ -281,6 +294,7 @@ test("updates PureOS backup location setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "pureOsBackupLocation": "some/fake/location",
         "settingsLoaded": false,
@@ -299,6 +313,7 @@ test("updates PureOS download location setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "pureOsDownloadLocation": "some/fake/location",
         "settingsLoaded": false,
@@ -317,6 +332,7 @@ test("updates language setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appUpdateStepModalDisplayed": false,
         "language": "de-DE",
         "settingsLoaded": false,

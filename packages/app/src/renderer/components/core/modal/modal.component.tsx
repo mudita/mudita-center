@@ -5,7 +5,10 @@
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import * as React from "react"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import {
+  DisplayStyle,
+  Size,
+} from "Renderer/components/core/button/button.config"
 import styled from "styled-components"
 import Button, {
   Props as ButtonProps,
@@ -57,6 +60,7 @@ export const ButtonWrapper = styled.div`
 export interface ModalProps {
   actionButtonLabel?: ButtonProps["label"]
   actionButtonIcon?: ButtonProps["Icon"]
+  actionButtonSize?: Size | undefined
   actionButtonDisabled?: boolean
   onActionButtonClick?: () => void
   closeable?: boolean
@@ -82,6 +86,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   onClose = noop,
   onCloseButton = noop,
   size = ModalSize.Large,
+  actionButtonSize = getModalButtonsSize(size),
   subtitle,
   title,
   titleOrder = TitleOrder.TitleFirst,
@@ -135,7 +140,7 @@ const Modal: FunctionComponent<ModalProps> = ({
               <CloseButton
                 actionButton={Boolean(actionButtonLabel)}
                 displayStyle={DisplayStyle.Secondary}
-                size={getModalButtonsSize(size)}
+                size={actionButtonSize}
                 label={closeButtonLabel}
                 onClick={closeModalByButtonClick}
                 data-testid={ModalTestIds.CloseBottomButton}
@@ -144,7 +149,7 @@ const Modal: FunctionComponent<ModalProps> = ({
             {actionButtonLabel && onActionButtonClick && (
               <Button
                 displayStyle={DisplayStyle.Primary}
-                size={getModalButtonsSize(size)}
+                size={actionButtonSize}
                 label={actionButtonLabel}
                 onClick={onActionButtonClick}
                 data-testid={ModalTestIds.ModalActionButton}

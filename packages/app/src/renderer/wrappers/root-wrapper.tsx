@@ -129,8 +129,9 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   })
 
   useEffect(() => {
-    const unregister = registerAvailableAppUpdateListener(() => {
+    const unregister = registerAvailableAppUpdateListener((version) => {
       store.dispatch.settings.toggleAppUpdateAvailable(true)
+      store.dispatch.settings.setAppLatestVersion(version)
     })
 
     return () => unregister()
