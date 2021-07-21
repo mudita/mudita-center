@@ -42,7 +42,7 @@ class Phonebook extends PhonebookAdapter {
   public async addContact(contact: Contact): Promise<DeviceResponse<Contact>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
-      method: Method.Put,
+      method: Method.Post,
       body: mapToPureContact(contact),
     })
 
@@ -63,7 +63,7 @@ class Phonebook extends PhonebookAdapter {
   public async editContact(contact: Contact): Promise<DeviceResponse<Contact>> {
     const { status } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
-      method: Method.Post,
+      method: Method.Put,
       body: mapToPureContact(contact),
     })
 
