@@ -4,7 +4,7 @@
  */
 
 export interface OnboardingWelcomeProps {
-  onContinue?: () => void
+  onCancel?: () => void
   onTroubleshooting?: () => void
 }
 

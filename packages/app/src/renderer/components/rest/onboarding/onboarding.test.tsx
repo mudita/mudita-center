@@ -11,14 +11,14 @@ import { fireEvent } from "@testing-library/dom"
 import OnboardingConnecting from "Renderer/components/rest/onboarding/onboarding-connecting.component"
 import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboarding-troubleshooting.component"
 
-test("onboarding: welcome continue button works properly", async () => {
-  const onContinue = jest.fn()
+test("onboarding: welcome Not now button works properly", async () => {
+  const onCancel = jest.fn()
   const { getByText } = renderWithThemeAndIntl(
-    <OnboardingWelcome onContinue={onContinue} />
+    <OnboardingWelcome onCancel={onCancel} />
   )
 
   fireEvent.click(getByText("[value] module.onboarding.welcomeButton"))
-  expect(onContinue).toBeCalled()
+  expect(onCancel).toBeCalled()
 })
 
 test("onboarding: phone doesn't show up button works properly button works properly", async () => {
