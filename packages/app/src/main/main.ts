@@ -100,7 +100,7 @@ const installExtensions = async () => {
 const developmentEnvironment = process.env.NODE_ENV === "development"
 const productionEnvironment = process.env.NODE_ENV === "production"
 const commonWindowOptions = {
-  resizable: developmentEnvironment,
+  resizable: true,
   fullscreen: false,
   useContentSize: true,
   webPreferences: {
@@ -123,7 +123,12 @@ const createWindow = async () => {
   }
 
   win = new BrowserWindow(
-    getWindowOptions({ width: WINDOW_SIZE.width, height: WINDOW_SIZE.height })
+    getWindowOptions({
+      minWidth: WINDOW_SIZE.minWidth,
+      width: WINDOW_SIZE.width,
+      minHeight: WINDOW_SIZE.minHeight,
+      height: WINDOW_SIZE.height,
+    })
   )
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)

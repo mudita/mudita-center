@@ -27,6 +27,7 @@ const settings = createModel<RootModel>({
   state: {
     settingsLoaded: false,
     appUpdateStepModalDisplayed: false,
+    appLatestVersion: "",
   },
   reducers: {
     update(state: StoreValues, payload: Partial<StoreValues>) {
@@ -118,6 +119,9 @@ const settings = createModel<RootModel>({
       },
       toggleAppUpdateAvailable(appUpdateAvailable: boolean) {
         dispatch.settings.update({ appUpdateAvailable })
+      },
+      setAppLatestVersion(appLatestVersion: string) {
+        dispatch.settings.update({ appLatestVersion })
       },
     }
   },
