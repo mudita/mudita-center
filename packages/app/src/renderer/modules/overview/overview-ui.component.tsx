@@ -72,10 +72,10 @@ const OverviewUI: FunctionComponent<
   onUpdateCheck,
   onUpdateDownload,
   onUpdateInstall,
-  osVersion,
   pureOsAvailable,
   pureOsDownloaded,
   toggleDevMode,
+  osVersion,
 }) => (
   <OverviewWrapper>
     <PhoneInfo onClick={toggleDevMode} onDisconnect={disconnectDevice} />

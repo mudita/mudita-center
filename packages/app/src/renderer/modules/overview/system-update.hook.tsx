@@ -74,7 +74,6 @@ const noCriticalErrorCodes: number[] = [
 ]
 
 const useSystemUpdateFlow = (
-  osUpdateDate: string,
   osVersion: string,
   onUpdate: (updateInfo: PhoneUpdate) => void,
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
@@ -206,7 +205,7 @@ const useSystemUpdateFlow = (
 
   const openNotAvailableUpdateModal = () => {
     return modalService.openModal(
-      <UpdateNotAvailable version={osVersion} date={osUpdateDate} />,
+      <UpdateNotAvailable version={osVersion} />,
       true
     )
   }

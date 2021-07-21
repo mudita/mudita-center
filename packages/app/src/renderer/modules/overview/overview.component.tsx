@@ -112,7 +112,6 @@ const Overview: FunctionComponent<
   }
 
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
-    osUpdateDate,
     osVersion,
     updatePhoneOsInfo,
     updateBasicInfo,
