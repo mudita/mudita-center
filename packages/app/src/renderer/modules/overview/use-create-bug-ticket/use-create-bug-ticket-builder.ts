@@ -54,14 +54,9 @@ const useCreateBugTicketBuilder = ({
     return rmdir({ filePath, options: { recursive: true } })
   }
 
-  const sendRequest = async ({
-    email,
-    subject,
-    description,
-  }: Omit<
-    FreshdeskTicketData,
-    "type" | "attachments"
-  >): Promise<CreateBugTicketResponse> => {
+  const sendRequest = async (
+    freshdeskTicketData: Omit<FreshdeskTicketData, "type" | "attachments">
+  ): Promise<CreateBugTicketResponse> => {
     setLoad(true)
     const appLogs = await getAppLogs()
     const { data: deviceLogs = "" } = await getDeviceLogs()
@@ -127,10 +122,8 @@ const useCreateBugTicketBuilder = ({
     }
 
     const data = {
-      email,
-      subject,
-      description,
       attachments,
+      ...freshdeskTicketData,
       type: FreshdeskTicketDataType.Problem,
     }
 

@@ -13,6 +13,7 @@ import mockCreateFreshdeskTicket, {
   errorResponse,
 } from "Renderer/modules/overview/create-freshdesk-ticket/mock-create-freshdesk-ticket"
 import { DependencyUseCreateBugTicket } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
+import { FreshdeskTicketData } from "Renderer/modules/overview/create-freshdesk-ticket/create-freshdesk-ticket"
 
 const defaultDependency = ({
   writeFile: jest.fn().mockReturnValue(Promise.resolve(true)),
@@ -29,7 +30,7 @@ const defaultDependency = ({
   createFreshdeskTicket: mockCreateFreshdeskTicket,
 } as unknown) as DependencyUseCreateBugTicket
 
-const data = {
+const data: Omit<FreshdeskTicketData, "type" | "attachments"> = {
   email: "mudita@center.com",
   subject: "Error - UpdateOS_1000",
   description: "description",
