@@ -60,3 +60,11 @@ test("onboarding: troubleshooting contact button works properly", async () => {
   fireEvent.click(getByTestId("contact-support"))
   expect(onContact).toBeCalled()
 })
+
+test("onboarding: troubleshooting more instructions button works properly", async () => {
+  const { getByTestId } = renderWithThemeAndIntl(
+    <OnboardingTroubleshooting />
+  )
+  fireEvent.click(getByTestId("more-instructions"))
+  expect(getByTestId("more-steps")).toBeInTheDocument()
+})

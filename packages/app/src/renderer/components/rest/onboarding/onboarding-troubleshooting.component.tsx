@@ -60,6 +60,16 @@ export const OnboardingTroubleshootingWrapper = styled.section`
   }
 `
 
+const MoreSteps = styled.ul`
+  list-style-type: '- ';
+  text-align: left;
+  li {
+    color: ${textColor("primary")};
+    margin-bottom: 0.8rem;
+    font-weight: ${fontWeight("light")};
+  }
+`
+
 const Steps = styled.ol`
   min-width: 38rem;
   text-align: left;
@@ -115,15 +125,7 @@ const AccordionButton = styled.button<{openMore?: boolean}>`
     }
   }
 `
-const MoreSteps = styled.ul`
-  list-style-type: '- ';
-  text-align: left;
-  li {
-    color: ${textColor("primary")};
-    margin-bottom: 0.8rem;
-    font-weight: ${fontWeight("light")};
-  }
-`
+
 const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProps> = ({
   onRetry = noop,
   onContact = noop,
@@ -174,7 +176,7 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
             message={{ id: "module.onboarding.troubleshootingSteps4" }}
           />
         </Steps>
-        <AccordionButton onClick={handleClick} openMore={openMore}>
+        <AccordionButton onClick={handleClick} openMore={openMore} data-testid="more-instructions">
           <Text
             displayStyle={TextDisplayStyle.SmallSupplementaryText}
             message={{
@@ -183,7 +185,7 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
           />
           <Icon type={Type.Arrow} size={IconSize.Small} />
         </AccordionButton>
-        {openMore && <MoreSteps>
+        {openMore && <MoreSteps data-testid="more-steps">
             <Text
               element={"li"}
               displayStyle={TextDisplayStyle.SmallFadedText}
