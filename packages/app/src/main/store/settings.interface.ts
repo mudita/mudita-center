@@ -39,4 +39,5 @@ export interface SettingsState extends Partial<AppSettings>, AppConfiguration {
   appUpdateAvailable: boolean | undefined
   appUpdateStepModalDisplayed: boolean
   settingsLoaded: boolean
+  appLatestVersion: string
 }

@@ -10,10 +10,9 @@ import { ipcRenderer } from "electron-better-ipc"
 import { LicenseActions } from "App/common/enums/license-actions.enum"
 
 const About: FunctionComponent = () => {
-  const openLicenseWindow = () => ipcRenderer.callMain(LicenseActions.OpenWindow)
-  return (
-    <AboutUI openLicense={openLicenseWindow }/>
-  )
+  const openLicenseWindow = () =>
+    ipcRenderer.callMain(LicenseActions.OpenWindow)
+  return <AboutUI openLicense={openLicenseWindow} />
 }
 
 export default About

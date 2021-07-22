@@ -41,6 +41,7 @@ test("loads settings", async () => {
         "appConvert": "Convert automatically",
         "appIncomingCalls": false,
         "appIncomingMessages": false,
+        "appLatestVersion": "",
         "appLowBattery": false,
         "appNonStandardAudioFilesConversion": false,
         "appOsUpdates": false,
@@ -70,6 +71,7 @@ test("updates autostart setting", async () => {
     Object {
       "settings": Object {
         "appAutostart": true,
+        "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "lowestSupportedOsVersion": undefined,
@@ -89,6 +91,7 @@ test("updates tethering setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appTethering": true,
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
@@ -110,6 +113,7 @@ test("updates incoming calls setting", async () => {
     Object {
       "settings": Object {
         "appIncomingCalls": true,
+        "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "lowestSupportedOsVersion": undefined,
@@ -130,6 +134,7 @@ test("updates incoming messages setting", async () => {
     Object {
       "settings": Object {
         "appIncomingMessages": true,
+        "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "lowestSupportedOsVersion": undefined,
@@ -149,6 +154,7 @@ test("updates low battery setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appLowBattery": true,
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
@@ -169,6 +175,7 @@ test("updates os updates setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appOsUpdates": true,
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
@@ -190,6 +197,7 @@ test("updates collecting data setting to true", async () => {
     Object {
       "settings": Object {
         "appCollectingData": true,
+        "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "lowestSupportedOsVersion": undefined,
@@ -210,6 +218,7 @@ test("updates collecting data setting to false", async () => {
     Object {
       "settings": Object {
         "appCollectingData": false,
+        "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "lowestSupportedOsVersion": undefined,
@@ -229,6 +238,7 @@ test("updates os audio files conversion setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appNonStandardAudioFilesConversion": true,
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
@@ -250,6 +260,7 @@ test("updates convert setting", async () => {
     Object {
       "settings": Object {
         "appConvert": "Convert automatically",
+        "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "lowestSupportedOsVersion": undefined,
@@ -270,6 +281,7 @@ test("updates conversion format setting", async () => {
     Object {
       "settings": Object {
         "appConversionFormat": "WAV",
+        "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "lowestSupportedOsVersion": undefined,
@@ -289,6 +301,7 @@ test("updates tray setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appTray": true,
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
@@ -309,6 +322,7 @@ test("updates PureOS backup location setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "lowestSupportedOsVersion": undefined,
@@ -329,6 +343,7 @@ test("updates PureOS download location setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "lowestSupportedOsVersion": undefined,
@@ -349,6 +364,7 @@ test("updates language setting", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
+        "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateStepModalDisplayed": false,
         "language": "de-DE",

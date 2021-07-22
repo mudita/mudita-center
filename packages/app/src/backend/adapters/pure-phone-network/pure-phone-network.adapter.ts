@@ -31,7 +31,7 @@ class PurePhoneNetwork extends PurePhoneNetworkAdapter {
             slot: data.selectedSim === SIM.One ? 1 : 2,
             active: true,
             number: 12345678,
-            network: "Y-Mobile",
+            network: data.networkOperatorName,
             networkLevel: Number((Number(data.signalStrength) / 4).toFixed(2)),
           },
         ],

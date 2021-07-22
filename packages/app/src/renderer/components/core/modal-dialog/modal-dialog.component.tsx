@@ -24,7 +24,6 @@ import {
 } from "Renderer/components/core/modal/modal.styled.elements"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import {
-  getModalButtonsSize,
   getSubtitleStyle,
   getTitleStyle,
 } from "Renderer/components/core/modal/modal.helpers"
@@ -91,6 +90,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
   actionButtonLabel,
   onActionButtonClick,
   actionButtonIcon,
+  actionButtonSize,
   actionButtonDisabled,
   theme = muditaTheme,
   ...props
@@ -158,7 +158,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
               <CloseButton
                 actionButton={Boolean(actionButtonLabel)}
                 displayStyle={DisplayStyle.Secondary}
-                size={getModalButtonsSize(size)}
+                size={actionButtonSize}
                 label={closeButtonLabel}
                 onClick={closeModalByButtonClick}
                 data-testid={ModalTestIds.CloseBottomButton}
@@ -167,7 +167,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
             {actionButtonLabel && onActionButtonClick && (
               <Button
                 displayStyle={DisplayStyle.Primary}
-                size={getModalButtonsSize(size)}
+                size={actionButtonSize}
                 label={actionButtonLabel}
                 onClick={onActionButtonClick}
                 data-testid={ModalTestIds.ModalActionButton}

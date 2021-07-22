@@ -143,6 +143,7 @@ const renderer = (extraProps?: {}) => {
     pureOsDownloadLocation: "path/location/download",
     basicInfoDataState: DataState.Empty,
     initialDataLoaded: false,
+    appVersion: undefined,
     setCollectingData: jest.fn(),
     simCards: [
       {

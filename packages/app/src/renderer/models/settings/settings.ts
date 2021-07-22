@@ -29,6 +29,7 @@ export const initialState: SettingsState = {
   lowestSupportedOsVersion: undefined,
   appUpdateStepModalDisplayed: false,
   settingsLoaded: false,
+  appLatestVersion: "",
 }
 
 const settings = createModel<RootModel>({
@@ -129,6 +130,9 @@ const settings = createModel<RootModel>({
       },
       toggleAppUpdateAvailable(appUpdateAvailable: boolean) {
         dispatch.settings.update({ appUpdateAvailable })
+      },
+      setAppLatestVersion(appLatestVersion: string) {
+        dispatch.settings.update({ appLatestVersion })
       },
     }
   },
