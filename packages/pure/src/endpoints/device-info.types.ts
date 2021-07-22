@@ -62,6 +62,7 @@ export interface DeviceInfo {
   version: string
   selectedSim: SIM
   signalStrength: SignalStrength
+  networkOperatorName: string
   trayState: Tray
   accessTechnology: AccessTechnology
   networkStatus: NetworkStatus
