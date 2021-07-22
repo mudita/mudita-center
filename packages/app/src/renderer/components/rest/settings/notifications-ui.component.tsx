@@ -6,6 +6,7 @@
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
 import { ActionsWrapper } from "Renderer/components/rest/messages/threads-table.component"
 import React from "react"
 import {
@@ -14,10 +15,13 @@ import {
   SettingsDescriptionWrapper,
   SettingsLabel,
   SettingsTableRow,
-  SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { noop } from "Renderer/utils/noop"
+
+export const SettingsWrapper = styled.section`
+  padding-top: 3.2rem;
+`
 
 interface Props {
   appIncomingCalls?: boolean

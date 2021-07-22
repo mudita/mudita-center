@@ -21,11 +21,6 @@ test("renders wrapper properly", () => {
   expect(queryByTestId(AboutTestIds.Wrapper)).toBeInTheDocument()
 })
 
-test("renders description properly", () => {
-  const { queryByTestId } = renderer()
-  expect(queryByTestId(AboutTestIds.Description)).toBeInTheDocument()
-})
-
 test("renders at least one table row", () => {
   const { queryAllByTestId } = renderer()
   expect(queryAllByTestId(AboutTestIds.TableRow).length).toBeGreaterThanOrEqual(
