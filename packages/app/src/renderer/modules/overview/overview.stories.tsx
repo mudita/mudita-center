@@ -104,7 +104,7 @@ storiesOf("Views|Overview/Modals", module)
   ))
   .add("Mudita OS is up to date", () => (
     <ModalStory>
-      <UpdateNotAvailable release={fakeState.osVersion} />
+      <UpdateNotAvailable version={fakeState.osVersion} />
     </ModalStory>
   ))
   .add("Checking for update failed", () => (
