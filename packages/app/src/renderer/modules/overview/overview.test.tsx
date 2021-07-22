@@ -4,17 +4,9 @@
  */
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import React from "react"
-import Overview, {
-  UpdateBasicInfo,
-} from "Renderer/modules/overview/overview.component"
-import {
-  DataState,
-  Store as BasicInfoInitialState,
-} from "Renderer/models/basic-info/basic-info.typings"
-import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
-import { AppSettings } from "App/main/store/settings.interface"
-import { DevMode } from "App/dev-mode/store/dev-mode.interface"
+import React, { ComponentProps } from "react"
+import Overview from "Renderer/modules/overview/overview.component"
+import { DataState } from "Renderer/models/basic-info/basic-info.typings"
 import {
   ConversionFormat,
   Convert,
@@ -25,6 +17,8 @@ import { Router } from "react-router"
 import history from "Renderer/routes/history"
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+
+type Props = ComponentProps<typeof Overview>
 
 jest.mock("electron", () => ({
   remote: {
@@ -118,11 +112,12 @@ jest.mock("Renderer/requests/get-backups-info.request", () =>
 )
 
 const renderer = (extraProps?: {}) => {
-  const defaultProps: BasicInfoInitialState &
-    PhoneUpdateStore &
-    UpdateBasicInfo &
-    AppSettings &
-    DevMode = {
+  const defaultProps: Props = {
+    appLatestVersion: "",
+    appUpdateAvailable: undefined,
+    appUpdateStepModalDisplayed: false,
+    lowestSupportedOsVersion: undefined,
+    settingsLoaded: false,
     deviceUnlocked: undefined,
     appAutostart: false,
     appCollectingData: undefined,
@@ -167,7 +162,7 @@ const renderer = (extraProps?: {}) => {
       free: 100,
       full: 200,
     },
-    ...extraProps,
+    ...extraProps
   }
   return renderWithThemeAndIntl(
     <Router history={history}>

@@ -36,7 +36,7 @@ export const initialState: StoreValues = {
   memorySpace: { free: 0, full: 0 },
   networkName: "",
   osUpdateDate: "",
-  osVersion: "",
+  osVersion: undefined,
   simCards: [],
   lastBackup: undefined,
 }

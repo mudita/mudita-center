@@ -21,9 +21,10 @@ export const registerFirstPhoneConnection = (): void => {
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 const Connecting: FunctionComponent<{
+  initialDataLoaded: boolean
   deviceUnlocked: boolean | undefined
   initialModalsShowed: boolean
-}> = ({ deviceUnlocked, initialModalsShowed }) => {
+}> = ({ initialDataLoaded, deviceUnlocked, initialModalsShowed }) => {
   useEffect(() => {
     if (simulatePhoneConnectionEnabled) {
       togglePhoneSimulation()
@@ -34,7 +35,7 @@ const Connecting: FunctionComponent<{
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (deviceUnlocked) {
+      if (deviceUnlocked && initialDataLoaded) {
         history.push(URL_MAIN.overview)
       }
     }, 500)
@@ -44,7 +45,7 @@ const Connecting: FunctionComponent<{
     }
 
     return () => clearTimeout(timeout)
-  }, [deviceUnlocked, initialModalsShowed])
+  }, [deviceUnlocked, initialModalsShowed, initialDataLoaded])
 
   useEffect(() => {
     registerFirstPhoneConnection()
@@ -74,6 +75,7 @@ const Connecting: FunctionComponent<{
 
 const selection = select((models: any) => ({
   deviceUnlocked: models.basicInfo.deviceUnlocked,
+  initialDataLoaded: models.basicInfo.initialDataLoaded,
   initialModalsShowed: models.settings.initialModalsShowed,
 }))
 

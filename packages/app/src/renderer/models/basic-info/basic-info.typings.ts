@@ -31,7 +31,7 @@ export interface StoreValues {
   readonly deviceUnlocked: boolean | undefined
   readonly batteryLevel: number
   readonly networkName: string
-  readonly osVersion: string
+  readonly osVersion: string | undefined
   readonly osUpdateDate: string
   readonly memorySpace: MemorySpace
   readonly lastBackup?: BackupItemInfo

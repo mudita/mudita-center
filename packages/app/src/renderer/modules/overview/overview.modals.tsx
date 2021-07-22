@@ -351,6 +351,7 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
   />
 )
 
+// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingSpinnerModal: FunctionComponent = () => {
   return (
     <OSUpdateModal closeButton={false} closeable={false}>
@@ -369,6 +370,7 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
   )
 }
 
+// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingSuccessModal = () => (
   <OSUpdateModal data-testid={OverviewTestIds.UpdatingSuccessModal}>
     <RoundIconWrapper>
@@ -385,6 +387,7 @@ export const UpdatingSuccessModal = () => (
   </OSUpdateModal>
 )
 
+// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingFailureModal = ({
   code,
   onContact,
@@ -410,6 +413,7 @@ export const UpdatingFailureModal = ({
   )
 }
 
+// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingFailureWithHelpModal = ({
   code,
   onContact,

@@ -59,7 +59,7 @@ export interface DeviceInfo {
   fsTotal: string
   gitBranch: string
   gitRevision: string
-  gitTag: string
+  version: string
   selectedSim: SIM
   signalStrength: SignalStrength
   trayState: Tray
