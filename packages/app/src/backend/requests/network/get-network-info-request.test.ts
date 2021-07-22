@@ -23,6 +23,7 @@ const mockDeviceInfo: DeviceInfo = ({
   gitBranch: "EGD-4318_enable_service_desktop",
   gitRevision: "4973bab",
   gitTag: "release-0.46.1-33-g4973babd",
+  networkOperatorName: "Y-Mobile",
   networkStatus: "2",
   selectedSim: "0",
   signalStrength: "1",
