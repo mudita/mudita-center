@@ -98,6 +98,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     const listener = () => {
+      modalService.closeModal(true)
       store.dispatch.basicInfo.toggleDeviceConnected(false)
     }
     registerDeviceDisconnectedListener(listener)

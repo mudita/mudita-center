@@ -19,6 +19,8 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import ButtonComponent from "App/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { PasscodeInputs } from "./components/passcode-inputs.component"
+import { zIndex } from "Renderer/styles/theming/theme-getters"
+import muditaTheme from "Renderer/styles/theming/theme"
 
 const LogoWrapper = styled.div`
   display: flex;
@@ -67,6 +69,10 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   errorMessage,
   ...props
 }) => {
+  const calculateZIndex = () =>
+    document.querySelectorAll("[data-modal]").length +
+    zIndex("modalBackdrop")({ theme: muditaTheme })
+
   const muditaLogo = (
     <LogoWrapper>
       <Icon
@@ -84,6 +90,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       closeButton={false}
       closeModal={close}
       title={muditaLogo}
+      zIndex={calculateZIndex()}
     >
       <ModalContent>
         <Title

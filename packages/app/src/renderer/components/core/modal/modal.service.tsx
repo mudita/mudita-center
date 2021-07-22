@@ -219,7 +219,7 @@ export class ModalService {
                 messages={localeEn}
               >
                 <Router history={history}>
-                  <ModalWrapper>{modal}</ModalWrapper>
+                  <ModalWrapper data-modal>{modal}</ModalWrapper>
                 </Router>
               </IntlProvider>
             </ThemeProvider>
