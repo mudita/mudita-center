@@ -71,7 +71,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
 }) => {
   const calculateZIndex = () =>
     document.querySelectorAll("[data-modal]").length +
-    zIndex("modalBackdrop")({ theme: muditaTheme })
+    zIndex("passCodeModal")({ theme: muditaTheme })
 
   const muditaLogo = (
     <LogoWrapper>
