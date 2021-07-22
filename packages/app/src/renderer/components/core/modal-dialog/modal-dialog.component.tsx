@@ -32,10 +32,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Button from "Renderer/components/core/button/button.component"
 import { intl } from "Renderer/utils/intl"
 import { withTheme } from "styled-components"
-import {
-  backgroundColor,
-  zIndex as themeZIndex,
-} from "Renderer/styles/theming/theme-getters"
+import { backgroundColor, zIndex } from "Renderer/styles/theming/theme-getters"
 import muditaTheme, { Theme } from "Renderer/styles/theming/theme"
 
 const getModalSize = (size: ModalSize) => {
@@ -68,7 +65,6 @@ interface Properties extends Omit<Props, "isOpen">, ModalProps {
   closeModal?: () => void
   theme?: Theme
   open: boolean
-  zIndex?: number
 }
 
 const ModalDialog: FunctionComponent<Properties> = ({
@@ -81,7 +77,6 @@ const ModalDialog: FunctionComponent<Properties> = ({
   closeModal,
   closeButton = true,
   onClose,
-  zIndex,
   close = (
     <Close
       displayStyle={DisplayStyle.IconOnly2}
@@ -105,7 +100,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
       style={{
         overlay: {
           backgroundColor: backgroundColor("modalBackdrop")({ theme }),
-          zIndex: zIndex ? zIndex : themeZIndex("modalBackdrop")({ theme }),
+          zIndex: zIndex("modalBackdrop")({ theme }),
         },
         content: {
           boxSizing: "border-box",
