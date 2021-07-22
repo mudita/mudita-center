@@ -6,7 +6,7 @@
 import React from "react"
 import OnboardingWelcome from "Renderer/components/rest/onboarding/onboarding-welcome.component"
 import { useHistory } from "react-router"
-import { URL_ONBOARDING } from "Renderer/constants/urls"
+import { URL_ONBOARDING, URL_MAIN } from "Renderer/constants/urls"
 import { AppSettings } from "App/main/store/settings.interface"
 import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
@@ -26,9 +26,9 @@ interface Props {
 const Welcome: FunctionComponent<Props> = () => {
   const history = useHistory()
 
-  const onContinue = () => {
+  const onCancel = () => {
     // TODO: do some logic to start connecting to the phone, add error handling
-    history.push(URL_ONBOARDING.connecting)
+    history.push(URL_MAIN.news)
   }
 
   const onTroubleshooting = () => {
@@ -38,7 +38,7 @@ const Welcome: FunctionComponent<Props> = () => {
   return (
     <>
       <OnboardingWelcome
-        onContinue={onContinue}
+        onCancel={onCancel}
         onTroubleshooting={onTroubleshooting}
       />
     </>

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { OnboardingTroubleshootingProps } from "Renderer/components/rest/onboarding/onboarding.interface"
 import Text, {
@@ -17,55 +17,69 @@ import {
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import {
-  OnboardingWrapper,
   Title,
 } from "Renderer/components/rest/onboarding/onboarding.elements"
 import styled from "styled-components"
 import {
   backgroundColor,
   fontWeight,
+  textColor
 } from "Renderer/styles/theming/theme-getters"
+import { Type } from "../../core/icon/icon.config"
+import Icon, { IconSize } from "../../core/icon/icon.component"
+
+export const OnboardingTroubleshootingWrapper = styled.section`
+  display: grid;
+  grid-template-areas: "Header" "Main" "Footer";
+  grid-row-gap: 0;
+  grid-template-rows: 12.7rem 1fr 14rem;
+
+  header,
+  main,
+  footer {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header {
+    grid-area: Header;
+
+    p {
+      font-weight: ${fontWeight("light")};
+    }
+  }
+
+  main {
+    grid-area: Main;
+  }
+
+  footer {
+    grid-area: Footer;
+  }
+`
+
+const MoreSteps = styled.ul`
+  list-style-type: '- ';
+  text-align: left;
+  li {
+    color: ${textColor("primary")};
+    margin-bottom: 0.8rem;
+    font-weight: ${fontWeight("light")};
+  }
+`
 
 const Steps = styled.ol`
-  min-width: 59rem;
+  min-width: 38rem;
   text-align: left;
-  list-style: none;
-  counter-reset: custom-counter;
-
-  > li {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    counter-increment: custom-counter;
-
-    &::before {
-      content: counter(custom-counter);
-      width: 3.2rem;
-      height: 3.2rem;
-      margin-right: 3.2rem;
-      display: flex;
-      border-radius: 50%;
-      align-items: center;
-      justify-content: center;
-      background-color: ${backgroundColor("icon")};
-      box-shadow: 0 0.5rem 1rem 0 #00000019;
-    }
-
-    + ul {
-      padding-left: 3.2rem;
-      margin-left: 3.2rem;
-      list-style-type: disc;
-
-      li {
-        margin-left: 1.6rem;
-        padding-left: 0;
-        margin-top: 0.8rem;
-        line-height: 2.4rem;
-      }
-    }
-
+  background-color: ${backgroundColor("main")};
+  padding: 2.4rem;
+  margin: 0;
+  > li { margin-left: 1.6rem;
+    
     &:not(:first-of-type) {
-      margin-top: 3.2rem;
+      margin-top: 1.6rem;
     }
   }
 `
@@ -84,14 +98,49 @@ const Support = styled.div`
     height: auto;
   }
 `
+const TextSorry = styled(Text)`
+  margin-bottom: 0.8rem;
+`
+
+const Instruction = styled(Text)`
+  margin-bottom: 2.4rem;
+  margin-top: 1.6rem;
+`
+const AccordionButton = styled.button<{openMore?: boolean}>`
+  border: none;
+  background: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  margin-top: 2.9rem;
+  margin-bottom: 1.9rem;
+  &:focus {
+    outline: none;
+  }
+  span {
+    margin-left: 0.8rem;
+    svg {
+      transform: rotate(${({ openMore}) => (openMore ? 270 : 90)}deg);
+    }
+  }
+`
 
 const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProps> = ({
   onRetry = noop,
   onContact = noop,
 }) => {
+  const [openMore, setOpenMore] = useState(false)
+  const handleClick: () => void = () => {
+    setOpenMore(openMore => !openMore)
+  }
   return (
-    <OnboardingWrapper>
+    <OnboardingTroubleshootingWrapper>
       <header>
+        <TextSorry
+          displayStyle={TextDisplayStyle.MediumText}
+          message={{ id: "module.onboarding.troubleshootingSorry" }}
+        />
         <Title
           displayStyle={TextDisplayStyle.PrimaryHeading}
           message={{
@@ -99,7 +148,7 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
             values: textFormatters,
           }}
         />
-        <Text
+        <Instruction
           displayStyle={TextDisplayStyle.LargeFadedText}
           message={{ id: "module.onboarding.troubleshootingInstruction" }}
         />
@@ -126,24 +175,38 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
             displayStyle={TextDisplayStyle.LargeText}
             message={{ id: "module.onboarding.troubleshootingSteps4" }}
           />
-          <ul>
-            <Text
-              element={"li"}
-              displayStyle={TextDisplayStyle.MediumFadedText}
-              message={{ id: "module.onboarding.troubleshootingSteps4a" }}
-            />
-            <Text
-              element={"li"}
-              displayStyle={TextDisplayStyle.MediumFadedText}
-              message={{ id: "module.onboarding.troubleshootingSteps4b" }}
-            />
-          </ul>
-          <Text
-            element={"li"}
-            displayStyle={TextDisplayStyle.LargeText}
-            message={{ id: "module.onboarding.troubleshootingSteps5" }}
-          />
         </Steps>
+        <AccordionButton onClick={handleClick} openMore={openMore} data-testid="more-instructions">
+          <Text
+            displayStyle={TextDisplayStyle.SmallSupplementaryText}
+            message={{
+              id: "module.onboarding.troubleshootingMoreInstructions",
+            }}
+          />
+          <Icon type={Type.Arrow} size={IconSize.Small} />
+        </AccordionButton>
+        {openMore && <MoreSteps data-testid="more-steps">
+            <Text
+              element={"li"}
+              displayStyle={TextDisplayStyle.SmallFadedText}
+              message={{ id: "module.onboarding.troubleshootingMoreSteps1" }}
+            />
+            <Text
+              element={"li"}
+              displayStyle={TextDisplayStyle.SmallFadedText}
+              message={{ id: "module.onboarding.troubleshootingMoreSteps2" }}
+            />
+            <Text
+              element={"li"}
+              displayStyle={TextDisplayStyle.SmallFadedText}
+              message={{ id: "module.onboarding.troubleshootingMoreSteps3" }}
+            />
+            <Text
+              element={"li"}
+              displayStyle={TextDisplayStyle.SmallFadedText}
+              message={{ id: "module.onboarding.troubleshootingMoreSteps4" }}
+            />
+          </MoreSteps>}
       </main>
       <footer>
         <ButtonComponent
@@ -171,7 +234,7 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
           />
         </Support>
       </footer>
-    </OnboardingWrapper>
+    </OnboardingTroubleshootingWrapper>
   )
 }
 

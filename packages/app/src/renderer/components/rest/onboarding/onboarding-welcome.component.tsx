@@ -23,7 +23,7 @@ import {
 } from "Renderer/components/rest/onboarding/onboarding.elements"
 
 const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
-  onContinue = noop,
+  onCancel = noop,
   onTroubleshooting = noop
 }) => (
   <OnboardingWrapper>
@@ -50,7 +50,7 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
         label={intl.formatMessage({
           id: "module.onboarding.welcomeButton",
         })}
-        onClick={onContinue}
+        onClick={onCancel}
         displayStyle={DisplayStyle.Secondary}
       />
       <TroubleshootingButton

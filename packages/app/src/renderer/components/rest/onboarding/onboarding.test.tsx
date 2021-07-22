@@ -8,17 +8,16 @@ import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import OnboardingWelcome from "Renderer/components/rest/onboarding/onboarding-welcome.component"
 import { fireEvent } from "@testing-library/dom"
-import OnboardingConnecting from "Renderer/components/rest/onboarding/onboarding-connecting.component"
 import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboarding-troubleshooting.component"
 
-test("onboarding: welcome continue button works properly", async () => {
-  const onContinue = jest.fn()
+test("onboarding: welcome Not now button works properly", async () => {
+  const onCancel = jest.fn()
   const { getByText } = renderWithThemeAndIntl(
-    <OnboardingWelcome onContinue={onContinue} />
+    <OnboardingWelcome onCancel={onCancel} />
   )
 
   fireEvent.click(getByText("[value] module.onboarding.welcomeButton"))
-  expect(onContinue).toBeCalled()
+  expect(onCancel).toBeCalled()
 })
 
 test("onboarding: phone doesn't show up button works properly button works properly", async () => {
@@ -29,16 +28,6 @@ test("onboarding: phone doesn't show up button works properly button works prope
 
   fireEvent.click(getByText("[value] module.onboarding.welcomeTroubleshootingButton"))
   expect(onTroubleshooting).toBeCalled()
-})
-
-test("onboarding: connecting cancel button works properly", async () => {
-  const onCancel = jest.fn()
-  const { getByRole } = renderWithThemeAndIntl(
-    <OnboardingConnecting onCancel={onCancel} />
-  )
-
-  fireEvent.click(getByRole("button"))
-  expect(onCancel).toBeCalled()
 })
 
 test("onboarding: troubleshooting retry button works properly", async () => {
@@ -59,4 +48,12 @@ test("onboarding: troubleshooting contact button works properly", async () => {
 
   fireEvent.click(getByTestId("contact-support"))
   expect(onContact).toBeCalled()
+})
+
+test("onboarding: troubleshooting more instructions button works properly", async () => {
+  const { getByTestId } = renderWithThemeAndIntl(
+    <OnboardingTroubleshooting />
+  )
+  fireEvent.click(getByTestId("more-instructions"))
+  expect(getByTestId("more-steps")).toBeInTheDocument()
 })
