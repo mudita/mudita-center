@@ -11,6 +11,7 @@ import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapt
 import DeviceService from "Backend/device-service"
 import Adapters from "Backend/adapters/adapters.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import DeviceFileSystemService from "Backend/device-file-system-service"
 
 const mockDeviceInfo: DeviceInfo = ({
   accessTechnology: "255",
@@ -40,9 +41,13 @@ test("returns required device info", async () => {
       }),
     }
   })
+  const deviceService = new DeviceService(PureDeviceManager, ipcMain)
+  const deviceFileSystemService = new DeviceFileSystemService(deviceService)
+
   registerDeviceInfoRequest(({
     purePhone: createPurePhoneAdapter(
-      new DeviceService(PureDeviceManager, ipcMain)
+      deviceService,
+      deviceFileSystemService
     ),
   } as unknown) as Adapters)
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetDeviceInfo)
