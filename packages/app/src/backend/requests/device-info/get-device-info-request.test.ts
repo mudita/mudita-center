@@ -11,7 +11,7 @@ import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapt
 import DeviceService from "Backend/device-service"
 import Adapters from "Backend/adapters/adapters.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import DeviceFileSystemService from "Backend/device-file-system-service"
+import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 
 const mockDeviceInfo: DeviceInfo = ({
   accessTechnology: "255",

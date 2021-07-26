@@ -8,10 +8,10 @@ import DeviceService from "Backend/device-service"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import PureDeviceManager from "@mudita/pure"
-import DeviceFileSystemService from "Backend/device-file-system-service"
+import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 
 jest.mock("Backend/device-service")
-jest.mock("Backend/device-file-system-service")
+jest.mock("Backend/device-file-system-service/device-file-system-service")
 
 test("unlock device returns properly value", async () => {
   ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {

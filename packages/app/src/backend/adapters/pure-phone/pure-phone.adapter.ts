@@ -11,7 +11,7 @@ import DeviceResponse, {
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
 import timeout from "Backend/timeout"
-import DeviceFileSystemService from "Backend/device-file-system-service"
+import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 
 export enum DeviceUpdateError {
   RestartTimedOut = "RestartTimedOut",
