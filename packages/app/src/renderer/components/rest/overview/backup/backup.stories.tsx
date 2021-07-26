@@ -10,7 +10,7 @@ import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 import { css } from "styled-components"
-import { Story as StoryInterface } from "@storybook/react/dist/client/preview/types-6-0"
+import { Story as StoryInterface } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 
 const lastBackup: BackupItemInfo = {

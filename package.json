@@ -30,7 +30,7 @@
     "app:storybook:build": "lerna run --scope @mudita/mudita-center-app storybook:build --",
     "app:dist": "lerna run --scope @mudita/mudita-center-app dist",
     "app:dist:all": "lerna run --scope @mudita/mudita-center-app dist:all",
-    "app:electron:rebuild-serialport": "lerna run --scope app electron:rebuild-serialport --",
+    "app:electron:rebuild-serialport": "lerna run --scope @mudita/mudita-center-app electron:rebuild-serialport --",
     "PURE COMMANDS": "========================================================",
     "pure:build": "lerna run --scope @mudita/pure build",
     "pure:lint": "lerna run --scope @mudita/pure lint",
@@ -60,6 +60,7 @@
   "homepage": "https://github.com/Mudita/mudita-center",
   "devDependencies": {
     "@mudita/eslint-config": "^1.0.14",
+    "@types/react-syntax-highlighter": "^13.5.2",
     "eslint-plugin-license-header": "^0.2.0",
     "husky": "^4.3.8",
     "lerna": "^4.0.0",
@@ -68,7 +69,7 @@
     "typescript": "^4.2.4"
   },
   "engines": {
-    "node": "12.18.4",
-    "npm": "6.14.6"
+    "node": "14.17.3",
+    "npm": "6.14.13"
   }
 }

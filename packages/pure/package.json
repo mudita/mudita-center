@@ -20,24 +20,24 @@
     "command": "ts-node scripts/index.ts"
   },
   "devDependencies": {
-    "@serialport/binding-mock": "^9.0.2",
     "@mudita/stylelint-config": "^1.0.4",
-    "@types/jest": "^26.0.15",
+    "@serialport/binding-mock": "^9.0.7",
+    "@types/jest": "^26.0.24",
     "@types/serialport": "^8.0.1",
     "@types/usb": "^1.5.2",
     "jest": "^26.6.3",
-    "ts-jest": "^26.4.3",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.5",
-    "yargs": "^16.1.1"
+    "ts-jest": "^26.5.6",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5",
+    "yargs": "^16.2.0"
   },
   "dependencies": {
     "p-queue": "^6.6.2",
     "serialport": "^9.0.2",
-    "usb": "^1.6.3"
+    "usb": "^1.6.5"
   },
   "engines": {
-    "node": "12.18.4",
-    "npm": "6.14.6"
+    "node": "14.17.3",
+    "npm": "6.14.13"
   }
 }
