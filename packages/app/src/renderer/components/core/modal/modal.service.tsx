@@ -35,7 +35,6 @@ enum ModalError {
   NoModalToClose = "Close modal action cannot be performed. There is no modal opened.",
   ClosingForbidden = "Cannot close current modal. If you really want to close it, use force parameter or call allowClosingModal(true) method.",
   AnotherModalOpened = "Another modal is already opened. Modal added to queue.",
-  OpeningDisallowed = "Modal opening is disallowed",
 }
 
 const logError = (message: ModalError) => {
@@ -61,7 +60,6 @@ export class ModalService {
   private backdropClosingAllowed = true
   private eventListeners: EventListeners[] = []
   private modalsQueue: ReactElement[] = []
-  public canOpen = true
 
   public bindStore(value: Store) {
     if (!this.store) {
@@ -132,11 +130,6 @@ export class ModalService {
   }
 
   public async openModal(modal: ReactElement, force = false) {
-    if (!this.canOpen) {
-      logError(ModalError.OpeningDisallowed)
-      return
-    }
-
     if (this.isModalOpen()) {
       if (force) {
         this.backdropClosingAllowed = false
