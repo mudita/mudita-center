@@ -18,7 +18,6 @@ import {
   SettingsDescriptionWrapper,
   SettingsLabel,
   SettingsTableRow,
-  SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import AudioConversionRadioGroup from "Renderer/components/rest/settings/audio-conversion-radio-group.component"
@@ -42,6 +41,10 @@ const ConversionFormatWrapper = styled.div`
 const ConversionFormatRadioGroup = styled(AudioConversionRadioGroup)`
   margin-top: 3.4rem;
   flex-direction: column;
+`
+
+export const SettingsWrapper = styled.section`
+  padding-top: 3.2rem;
 `
 
 interface Props {

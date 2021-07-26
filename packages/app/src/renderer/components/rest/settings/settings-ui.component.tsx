@@ -48,9 +48,7 @@ export const SettingsDescription = styled(Text)`
   margin-bottom: 3.2rem;
 `
 
-export const SettingsWrapper = styled.section`
-  padding-top: 3.2rem;
-`
+export const SettingsWrapper = styled.section``
 
 interface Properties {
   appAutostart: boolean
@@ -71,13 +69,6 @@ const SettingsUI: FunctionComponent<Properties> = ({
 }) => {
   return (
     <SettingsWrapper data-testid={SettingsTestIds.Wrapper}>
-      <SettingsDescriptionWrapper data-testid={SettingsTestIds.Description}>
-        <SettingsDescription
-          displayStyle={TextDisplayStyle.MediumFadedLightText}
-        >
-          <FormattedMessage id="module.settings.description" />
-        </SettingsDescription>
-      </SettingsDescriptionWrapper>
       <SettingsTableRow
         checkMode={false}
         data-testid={SettingsTestIds.TableRow}

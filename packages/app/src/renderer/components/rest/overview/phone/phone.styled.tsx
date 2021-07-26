@@ -12,7 +12,7 @@ import Card, {
 export const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
   grid-template-columns: 1fr;
-  height: auto;
+  height: 56rem;
   padding: 8rem 5.3rem 4rem;
   justify-items: center;
   ${CardAction} {

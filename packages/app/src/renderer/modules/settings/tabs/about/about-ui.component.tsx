@@ -12,8 +12,6 @@ import ButtonComponent from "App/renderer/components/core/button/button.componen
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import {
   Data,
-  SettingsDescription,
-  SettingsDescriptionWrapper,
   SettingsLabel,
   SettingsTableRow,
   SettingsWrapper,
@@ -26,11 +24,6 @@ interface AboutProps {
 
 const AboutUI: FunctionComponent<AboutProps> = ({ openLicense }) => (
   <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
-    <SettingsDescriptionWrapper data-testid={AboutTestIds.Description}>
-      <SettingsDescription displayStyle={TextDisplayStyle.MediumFadedLightText}>
-        <FormattedMessage id="module.settings.aboutDescription" />
-      </SettingsDescription>
-    </SettingsDescriptionWrapper>
     <SettingsTableRow checkMode={false} data-testid={AboutTestIds.TableRow}>
       <Data>
         <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
