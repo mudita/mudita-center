@@ -7,6 +7,7 @@ import { Application } from "spectron"
 import path from "path"
 import electron from "electron"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
+import { LayoutBlankWrapperTestIds } from "Renderer/wrappers/wrappers-test-ids.enum"
 
 export const startApp = async (simulatePhoneConnection = false) => {
   return await new Application({
@@ -27,5 +28,6 @@ export const stopApp = async (app: any) => {
 }
 
 export const enablePhoneSimulation = async (app: any) => {
+  await app.client.$(`*[data-testid=${LayoutBlankWrapperTestIds.Close}]`).click()
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Connecting}]`).click()
 }
