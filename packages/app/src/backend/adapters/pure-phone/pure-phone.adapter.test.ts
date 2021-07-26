@@ -8,8 +8,8 @@ import DeviceService from "Backend/device-service"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import PureDeviceManager, {
-  DownloadFileSystemRequestPayload,
-  GetFileSystemRequestPayload,
+  DownloadFileSystemRequestConfig,
+  GetFileSystemRequestConfig,
 } from "@mudita/pure"
 import {
   firstsPartDecodeLog,
@@ -58,17 +58,17 @@ test("get device logs handle properly chunks data", async () => {
   ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: (
-        config: GetFileSystemRequestPayload | DownloadFileSystemRequestPayload
+        config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
       ) => {
         if (
-          (config as GetFileSystemRequestPayload).body?.fileName !== undefined
+          (config as GetFileSystemRequestConfig).body?.fileName !== undefined
         ) {
           return {
             status: DeviceResponseStatus.Ok,
             data: { rxID: "1", fileSize: 2, chunkSize: 1 },
           }
         } else if (
-          (config as DownloadFileSystemRequestPayload).body?.chunkNo === 1
+          (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
         ) {
           return {
             status: DeviceResponseStatus.Ok,
@@ -77,7 +77,7 @@ test("get device logs handle properly chunks data", async () => {
             },
           }
         } else if (
-          (config as DownloadFileSystemRequestPayload).body?.chunkNo === 2
+          (config as DownloadFileSystemRequestConfig).body?.chunkNo === 2
         ) {
           return {
             status: DeviceResponseStatus.Ok,
@@ -105,17 +105,17 @@ test("get device logs handle properly chunks data if fileSize is less than chunk
   ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: (
-        config: GetFileSystemRequestPayload | DownloadFileSystemRequestPayload
+        config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
       ) => {
         if (
-          (config as GetFileSystemRequestPayload).body?.fileName !== undefined
+          (config as GetFileSystemRequestConfig).body?.fileName !== undefined
         ) {
           return {
             status: DeviceResponseStatus.Ok,
             data: { rxID: "1", fileSize: 0.5, chunkSize: 1 },
           }
         } else if (
-          (config as DownloadFileSystemRequestPayload).body?.chunkNo === 1
+          (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
         ) {
           return {
             status: DeviceResponseStatus.Ok,
@@ -143,17 +143,17 @@ test("get device logs return error when part of the chunks data is broken", asyn
   ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: (
-        config: GetFileSystemRequestPayload | DownloadFileSystemRequestPayload
+        config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
       ) => {
         if (
-          (config as GetFileSystemRequestPayload).body?.fileName !== undefined
+          (config as GetFileSystemRequestConfig).body?.fileName !== undefined
         ) {
           return {
             status: DeviceResponseStatus.Ok,
             data: { rxID: "1", fileSize: 2, chunkSize: 1 },
           }
         } else if (
-          (config as DownloadFileSystemRequestPayload).body?.chunkNo === 1
+          (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
         ) {
           return {
             status: DeviceResponseStatus.Ok,
@@ -162,7 +162,7 @@ test("get device logs return error when part of the chunks data is broken", asyn
             },
           }
         } else if (
-          (config as DownloadFileSystemRequestPayload).body?.chunkNo === 2
+          (config as DownloadFileSystemRequestConfig).body?.chunkNo === 2
         ) {
           return {
             status: DeviceResponseStatus.Ok,

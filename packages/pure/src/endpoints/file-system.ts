@@ -11,7 +11,59 @@ import {
   ResponseStatus,
 } from "../device"
 
-export interface GetFileSystemRequestPayload
+export interface PutFileSystemRequestConfig
+  extends RequestConfig<{
+    fileName: string
+    fileSize: number
+    fileCrc32: string
+  }> {
+  endpoint: Endpoint.FileSystem
+  method: Method.Put
+}
+
+export interface PutFileSystemResponse
+  extends Response<{
+    txID: string
+    chunkSize: number
+  }> {
+  status: ResponseStatus
+}
+
+export interface PutFileSystemErrorResponse
+  extends Response<{
+    reason: string
+  }> {
+  status: ResponseStatus
+}
+
+export interface SendFileSystemRequestConfig
+  extends RequestConfig<{
+    txID: string
+    chunkNo: number
+    data: string
+  }> {
+  endpoint: Endpoint.FileSystem
+  method: Method.Put
+}
+
+export interface SendFileSystemResponse
+  extends Response<{
+    txID: string
+    chunkNo: number
+  }> {
+  status: ResponseStatus
+}
+
+export interface SendFileSystemErrorResponse
+  extends Response<{
+    txID: string
+    reason: string
+  }> {
+  status: ResponseStatus
+}
+
+
+export interface GetFileSystemRequestConfig
   extends RequestConfig<{
     fileName: string
   }> {
@@ -25,17 +77,17 @@ export interface GetFileSystemResponse
     fileSize: number
     chunkSize: number
   }> {
-  status: ResponseStatus.Ok
+  status: ResponseStatus
 }
 
 export interface GetFileSystemErrorResponse
   extends Response<{
     reason: string
   }> {
-  status: ResponseStatus.NotFound
+  status: ResponseStatus
 }
 
-export interface DownloadFileSystemRequestPayload
+export interface DownloadFileSystemRequestConfig
   extends RequestConfig<{
     rxID: string
     chunkNo: number
@@ -50,7 +102,7 @@ export interface DownloadFileSystemResponse
     chunkNo: number
     data: string
   }> {
-  status: ResponseStatus.Ok
+  status: ResponseStatus
 }
 
 export interface DownloadFileSystemErrorResponse
@@ -58,5 +110,5 @@ export interface DownloadFileSystemErrorResponse
     rxID: string
     reason: string
   }> {
-  status: ResponseStatus.NotFound
+  status: ResponseStatus
 }

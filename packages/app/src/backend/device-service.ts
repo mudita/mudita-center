@@ -7,9 +7,11 @@ import {
   Contact,
   DeviceEventName,
   DeviceInfo,
-  DownloadFileSystemRequestPayload,
   Endpoint,
-  GetFileSystemRequestPayload,
+  DownloadFileSystemRequestConfig,
+  GetFileSystemRequestConfig,
+  PutFileSystemRequestConfig,
+  SendFileSystemRequestConfig,
   GetMessageResponseBody,
   GetMessagesBody,
   GetThreadResponseBody,
@@ -93,17 +95,15 @@ class DeviceService {
     }
   }): Promise<DeviceResponse<string>>
   async request(config: {
-    endpoint: Endpoint.DeviceUpdate
+    endpoint: Endpoint.Update
     method: Method.Post
-    filePath: string
-  }): Promise<DeviceResponse>
-  async request(config: {
-    endpoint: Endpoint.UploadUpdateFileSystem
-    method: Method.Post
-    filePath: string
+    body: {
+      update: boolean,
+      reboot: boolean
+    }
   }): Promise<DeviceResponse>
   public request(
-    config: GetFileSystemRequestPayload
+    config: GetFileSystemRequestConfig
   ): Promise<
     DeviceResponse<{
       rxID: string
@@ -112,12 +112,28 @@ class DeviceService {
     }>
   >
   public request(
-    config: DownloadFileSystemRequestPayload
+    config: DownloadFileSystemRequestConfig
   ): Promise<
     DeviceResponse<{
       rxID: string
       chunkNo: number
       data: string
+    }>
+  >
+  public request(
+    config: SendFileSystemRequestConfig
+  ): Promise<
+    DeviceResponse<{
+      txID: string
+      chunkNo: number
+    }>
+  >
+  public request(
+    config: PutFileSystemRequestConfig
+  ): Promise<
+    DeviceResponse<{
+      txID: string
+      chunkSize: number
     }>
   >
   async request(

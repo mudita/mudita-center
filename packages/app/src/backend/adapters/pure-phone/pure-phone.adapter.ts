@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import * as fs from "fs"
+import * as CRC32 from "crc-32"
 import { Endpoint, Method } from "@mudita/pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
@@ -208,11 +210,7 @@ class PurePhone extends PurePhoneAdapter {
         deviceConnectedListener
       )
 
-      const fileResponse = await this.deviceService.request({
-        endpoint: Endpoint.UploadUpdateFileSystem,
-        method: Method.Post,
-        filePath,
-      })
+      const fileResponse = await this.uploadOsUpdatePackage(filePath)
 
       if (fileResponse.status === DeviceResponseStatus.Ok) {
         ++step
@@ -222,9 +220,12 @@ class PurePhone extends PurePhoneAdapter {
         })
 
         const pureUpdateResponse = await this.deviceService.request({
-          endpoint: Endpoint.DeviceUpdate,
+          endpoint: Endpoint.Update,
           method: Method.Post,
-          filePath,
+          body: {
+            update: true,
+            reboot: true,
+          },
         })
 
         if (pureUpdateResponse.status === DeviceResponseStatus.Ok) {
@@ -252,6 +253,97 @@ class PurePhone extends PurePhoneAdapter {
       unregisterListeners()
       return response
     })
+  }
+
+  private async uploadOsUpdatePackage(
+    filePath: string
+  ): Promise<DeviceResponse> {
+    try {
+      const fileSize = fs.lstatSync(filePath).size
+      const fileBuffer = fs.readFileSync(filePath)
+      const fileCrc32 = CRC32.buf(fileBuffer).toString(16)
+
+      const { status, data } = await this.deviceService.request({
+        endpoint: Endpoint.FileSystem,
+        method: Method.Put,
+        body: {
+          fileSize,
+          fileCrc32,
+          fileName: "/sys/user/update.tar",
+        },
+      })
+
+      if (status !== DeviceResponseStatus.Ok || data === undefined) {
+        return {
+          status: DeviceResponseStatus.Error,
+          error: {
+            message:
+              "Upload OS update package: Something went wrong in init sending request",
+          },
+        }
+      }
+
+      const { txID, chunkSize } = data
+      const fd = fs.openSync(filePath, "r")
+      return this.sendFile(fd, txID, chunkSize)
+    } catch {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message:
+            "Upload OS update package: Something went wrong in open file",
+        },
+      }
+    }
+  }
+
+  private async sendFile(fd: number, txID: string, chunkSize: number, chunkNo = 1): Promise<DeviceResponse>  {
+    try {
+      const buffer = Buffer.alloc(chunkSize)
+      const nread = fs.readSync(fd, buffer, 0, chunkSize, null)
+
+      if (nread === 0) {
+        fs.closeSync(fd)
+        return {
+          status: DeviceResponseStatus.Ok,
+        }
+      }
+
+      const lastChunk = nread < chunkSize
+      const dataBuffer = lastChunk ? buffer.slice(0, nread) : buffer
+
+      const response = await this.deviceService.request({
+        endpoint: Endpoint.FileSystem,
+        method: Method.Put,
+        body: {
+          txID,
+          chunkNo,
+          data: dataBuffer.toString("base64"),
+        },
+      })
+
+      if (response.status !== DeviceResponseStatus.Ok) {
+        fs.closeSync(fd)
+
+        return {
+          status: DeviceResponseStatus.Error,
+          error: {
+            message:
+              "Upload OS update package: Something went wrong in sent chunk fie.",
+          },
+        }
+      } else {
+        return this.sendFile(fd, txID, chunkSize, chunkNo + 1)
+      }
+    } catch {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message:
+            "Upload OS update package: Something went wrong in read file",
+        },
+      }
+    }
   }
 
   private async downloadEncodedFile(
