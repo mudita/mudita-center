@@ -11,7 +11,8 @@ import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { fontWeight } from "Renderer/styles/theming/theme-getters"
+import theme from "App/renderer/styles/theming/theme"
+import { fontWeight, zIndex } from "Renderer/styles/theming/theme-getters"
 import Icon, {
   IconSize,
 } from "App/renderer/components/core/icon/icon.component"
@@ -84,6 +85,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       closeButton={false}
       closeModal={close}
       title={muditaLogo}
+      zIndex={zIndex("passCodeModal")({ theme })}
     >
       <ModalContent>
         <Title
