@@ -8,12 +8,14 @@ import DeviceService from "Backend/device-service"
 import PureDeviceManager, {
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
-  PutFileSystemRequestConfig, SendFileSystemRequestConfig,
+  PutFileSystemRequestConfig,
+  SendFileSystemRequestConfig,
 } from "@mudita/pure"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import {
   firstsPartDecodeLog,
-  firstsPartEncodeLog, secondsPartDecodeLog,
+  firstsPartEncodeLog,
+  secondsPartDecodeLog,
   secondsPartEncodeLog,
 } from "Backend/adapters/pure-phone/mock-data-logs"
 
@@ -32,7 +34,12 @@ test("downloading file handle properly chunks data", async () => {
         ) {
           return {
             status: DeviceResponseStatus.Ok,
-            data: { rxID: "1", fileSize: 2, chunkSize: 1 },
+            data: {
+              rxID: "1",
+              fileSize: 2,
+              chunkSize: 1,
+              fileCrc32: "30898FA4",
+            },
           }
         } else if (
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
@@ -63,7 +70,9 @@ test("downloading file handle properly chunks data", async () => {
   const deviceFileSystemService = createDeviceFileSystemService(
     new DeviceService(PureDeviceManager, ipcMain)
   )
-  const { status, data } = await deviceFileSystemService.downloadFile("/sys/user/mock-file-name.log")
+  const { status, data } = await deviceFileSystemService.downloadFile(
+    "/sys/user/mock-file-name.log"
+  )
   expect(status).toEqual(DeviceResponseStatus.Ok)
   expect(data).toEqual(`${firstsPartDecodeLog}${secondsPartDecodeLog}`)
 })
@@ -79,7 +88,12 @@ test("downloading file handle properly chunks data if fileSize is less than chun
         ) {
           return {
             status: DeviceResponseStatus.Ok,
-            data: { rxID: "1", fileSize: 0.5, chunkSize: 1 },
+            data: {
+              rxID: "1",
+              fileSize: 0.5,
+              chunkSize: 1,
+              fileCrc32: "-6E39CB33",
+            },
           }
         } else if (
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
@@ -101,7 +115,9 @@ test("downloading file handle properly chunks data if fileSize is less than chun
   const deviceFileSystemService = createDeviceFileSystemService(
     new DeviceService(PureDeviceManager, ipcMain)
   )
-  const { status, data } = await deviceFileSystemService.downloadFile("/sys/user/mock-file-name.log")
+  const { status, data } = await deviceFileSystemService.downloadFile(
+    "/sys/user/mock-file-name.log"
+  )
   expect(status).toEqual(DeviceResponseStatus.Ok)
   expect(data).toEqual(firstsPartDecodeLog)
 })
@@ -146,7 +162,9 @@ test("downloading file return error when part of the chunks data is broken", asy
   const deviceFileSystemService = createDeviceFileSystemService(
     new DeviceService(PureDeviceManager, ipcMain)
   )
-  const { status, data } = await deviceFileSystemService.downloadFile("/sys/user/mock-file-name.log")
+  const { status, data } = await deviceFileSystemService.downloadFile(
+    "/sys/user/mock-file-name.log"
+  )
   expect(status).toEqual(DeviceResponseStatus.Error)
   expect(data).toEqual(undefined)
 })
@@ -164,7 +182,9 @@ test("downloading file returns error properly", async () => {
   const deviceFileSystemService = createDeviceFileSystemService(
     new DeviceService(PureDeviceManager, ipcMain)
   )
-  const { status } = await deviceFileSystemService.downloadFile("/sys/user/mock-file-name.log")
+  const { status } = await deviceFileSystemService.downloadFile(
+    "/sys/user/mock-file-name.log"
+  )
   expect(status).toEqual(DeviceResponseStatus.Error)
 })
 
@@ -207,6 +227,9 @@ test("upload file file handle properly chunks data", async () => {
     new DeviceService(PureDeviceManager, ipcMain)
   )
   const filePath = path.join(__dirname, "./mock-file.txt")
-  const { status } = await deviceFileSystemService.uploadFile(filePath, "/sys/user")
+  const { status } = await deviceFileSystemService.uploadFile(
+    filePath,
+    "/sys/user"
+  )
   expect(status).toEqual(DeviceResponseStatus.Ok)
 })

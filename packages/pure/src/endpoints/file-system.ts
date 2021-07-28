@@ -76,6 +76,7 @@ export interface GetFileSystemResponse
     rxID: string
     fileSize: number
     chunkSize: number
+    fileCrc32: string
   }> {
   status: ResponseStatus
 }

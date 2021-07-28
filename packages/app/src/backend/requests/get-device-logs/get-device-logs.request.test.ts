@@ -31,7 +31,7 @@ test("GetDeviceLogs request works properly", (done) => {
         ) {
           return {
             status: DeviceResponseStatus.Ok,
-            data: { rxID: "1", fileSize: 1, chunkSize: 1 },
+            data: { rxID: "1", fileSize: 1, chunkSize: 1, fileCrc32: "265B86C6" },
           }
         } else if (
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
