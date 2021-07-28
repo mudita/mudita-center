@@ -59,14 +59,14 @@ import {
   GOOGLE_AUTH_WINDOW_SIZE,
   HELP_WINDOW_SIZE,
   WINDOW_SIZE,
-  LICENSE_WINDOW_SIZE,
+  ABOUT_WINDOWS_SIZE,
 } from "./config"
 import autoupdate, { mockAutoupdate } from "./autoupdate"
 import startBackend from "Backend/bootstrap"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
 import { HelpActions } from "Common/enums/help-actions.enum"
-import { LicenseActions } from "App/common/enums/license-actions.enum"
+import { AboutActions } from "App/common/enums/license-actions.enum"
 
 require("dotenv").config()
 
@@ -77,6 +77,8 @@ let helpWindow: BrowserWindow | null = null
 let googleAuthWindow: BrowserWindow | null = null
 let outlookAuthWindow: BrowserWindow | null = null
 let licenseWindow: BrowserWindow | null = null
+let termsWindow: BrowserWindow | null = null
+let policyWindow: BrowserWindow | null = null
 
 // Disables CORS in Electron 9
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
@@ -243,38 +245,46 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
   })
 })
 
-ipcMain.answerRenderer(LicenseActions.OpenWindow, () => {
-  if (licenseWindow === null) {
-    licenseWindow = new BrowserWindow(
-      getWindowOptions({
-        width: LICENSE_WINDOW_SIZE.width,
-        height: LICENSE_WINDOW_SIZE.height,
-      })
-    )
-    licenseWindow.loadURL(
-      developmentEnvironment
-        ? `http://localhost:2003/?mode=${Mode.License}#${URL_MAIN.license}`
-        : url.format({
-            pathname: path.join(__dirname, "index.html"),
-            protocol: "file:",
-            slashes: true,
-            hash: URL_MAIN.license,
-            search: `?mode=${Mode.License}`,
-          })
-    )
-  } else {
-    licenseWindow.show()
-  }
-
-  licenseWindow.on("closed", () => {
-    licenseWindow = null
+const openSettingsAboutWindow = (channel: string, mode: string, urlMain: string, newWindow: BrowserWindow | null = null ) => {
+  ipcMain.answerRenderer(channel, async () => {
+    if (newWindow === null) {
+      newWindow = await new BrowserWindow(
+        getWindowOptions({
+          width: ABOUT_WINDOWS_SIZE.width,
+          height: ABOUT_WINDOWS_SIZE.height,
+        })
+      )
+      await newWindow.loadURL(
+        developmentEnvironment
+          ? `http://localhost:2003/?mode=${mode}#${urlMain}`
+          : url.format({
+              pathname: path.join(__dirname, "index.html"),
+              protocol: "file:",
+              slashes: true,
+              hash: urlMain,
+              search: `?mode=${mode}`,
+            })
+      )
+    } else {
+      newWindow.show()
+    }
+  
+    newWindow.on("closed", () => {
+      newWindow= null
+    })
+  
+    newWindow.on("page-title-updated", (event) => {
+      // prevent window name change to "Webpack App"
+      event.preventDefault()
+    })
   })
+}
 
-  licenseWindow.on("page-title-updated", (event) => {
-    // prevent window name change to "Webpack App"
-    event.preventDefault()
-  })
-})
+openSettingsAboutWindow(AboutActions.LicenseOpenWindow, Mode.License, URL_MAIN.license, licenseWindow)
+
+openSettingsAboutWindow(AboutActions.TermsOpenWindow, Mode.TermsOfService, URL_MAIN.termsOfService, termsWindow)
+
+openSettingsAboutWindow(AboutActions.PolicyOpenWindow, Mode.PrivacyPolicy, URL_MAIN.privacyPolicy, policyWindow)
 
 const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
   return await googleAuthWindow.loadURL(

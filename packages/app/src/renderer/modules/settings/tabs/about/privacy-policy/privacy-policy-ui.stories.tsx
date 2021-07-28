@@ -7,12 +7,12 @@ import { storiesOf } from "@storybook/react"
 import React from "react"
 import history from "Renderer/routes/history"
 import { Router } from "react-router"
-import {LicenseUI} from "./license-ui.component"
+import PrivacyPolicyUI from "./privacy-policy-ui.component"
 
 storiesOf("Views/License", module).add("License", () => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Router history={history}>
-      <LicenseUI />
+      <PrivacyPolicyUI />
     </Router>
   </div>
 ))

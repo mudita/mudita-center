@@ -5,45 +5,17 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import  { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import { PrivacyPolicyComponentTestIds } from "./privacy-policy-ui.enum"
+import {WindowContainer, WindowHeader, WindowTitle, LightText, LightTextNested } from "Renderer/modules/settings/tabs/about/license/license-ui.component"
 
-import styled from "styled-components"
-import { LicenseComponentTestIds } from "./license-ui.enum"
-
-export const WindowContainer = styled.div`
-  margin: 4.2rem 21rem 3.4rem;
-  min-width: 5.9rem;
-`
-export const WindowHeader = styled(Text)`
-  font-weight: normal;
-  margin-bottom: 4rem;
-`
-export const WindowTitle = styled(Text)`
-  margin: 1.8rem 0 1.6rem;
-`
-
-export const LightText = styled(Text)`
-  font-weight: 300;
-  line-height: 1.57;
-  margin-bottom: 1.6rem;
-`
-
-export const LightTextNested = styled(Text)`
-  font-weight: 300;
-  line-height: 1.57;
-  margin-bottom: 1.6rem;
-  margin-left: 3rem;
-`
-
-export const LicenseUI: FunctionComponent = () => (
-  <WindowContainer data-testid={LicenseComponentTestIds.Wrapper}>
+const PrivacyPolicyUI: FunctionComponent = () => (
+  <WindowContainer data-testid={PrivacyPolicyComponentTestIds.Wrapper}>
     <WindowHeader
       displayStyle={TextDisplayStyle.SecondaryHeading}
-      data-testid={LicenseComponentTestIds.Title}
+      data-testid={PrivacyPolicyComponentTestIds.Title}
     >
-      Mudita Center Software – Terms of Use
+      Privacy policy
     </WindowHeader>
     <LightText displayStyle={TextDisplayStyle.MediumFadedTextUppercased}>
       NOTE: BY USING THE MUDITA CENTER SOFTWARE, YOU AGREE TO COMPLY WITH THE
@@ -180,3 +152,5 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
   </WindowContainer>
 )
+
+export default PrivacyPolicyUI
