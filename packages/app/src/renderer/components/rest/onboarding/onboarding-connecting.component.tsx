@@ -9,13 +9,6 @@ import { OnboardingConnectingProps } from "Renderer/components/rest/onboarding/o
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import {
-  DisplayStyle,
-  Type as ButtonType,
-} from "Renderer/components/core/button/button.config"
-import { intl } from "Renderer/utils/intl"
-import { noop } from "Renderer/utils/noop"
 import { OnboardingWrapper } from "Renderer/components/rest/onboarding/onboarding.elements"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
@@ -33,9 +26,7 @@ const LoaderWrapper = styled.div`
   margin-bottom: 4rem;
 `
 
-const OnboardingConnecting: FunctionComponent<OnboardingConnectingProps> = ({
-  onCancel = noop,
-}) => {
+const OnboardingConnecting: FunctionComponent<OnboardingConnectingProps> = () => {
   return (
     <OnboardingWrapper>
       <main>
@@ -47,16 +38,6 @@ const OnboardingConnecting: FunctionComponent<OnboardingConnectingProps> = ({
           message={{ id: "module.onboarding.connectingMessage" }}
         />
       </main>
-      <footer>
-        <ButtonComponent
-          type={ButtonType.Button}
-          displayStyle={DisplayStyle.Secondary}
-          label={intl.formatMessage({
-            id: "module.onboarding.connectingButton",
-          })}
-          onClick={onCancel}
-        />
-      </footer>
     </OnboardingWrapper>
   )
 }

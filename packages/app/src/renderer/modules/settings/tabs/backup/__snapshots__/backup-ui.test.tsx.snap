@@ -1,7 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.c2 {
+.c4 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+}
+
+.c6 {
   margin: 0;
   font-size: 1.4rem;
   line-height: 1.05;
@@ -13,13 +19,7 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.04rem;
 }
 
-.c8 {
-  margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.05;
-}
-
-.c15 {
+.c12 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -30,7 +30,7 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.1rem;
 }
 
-.c9 {
+.c5 {
   grid-area: Name;
   -webkit-align-self: end;
   -ms-flex-item-align: end;
@@ -38,7 +38,7 @@ exports[`matches snapshot 1`] = `
   margin-bottom: 0.4rem;
 }
 
-.c10 {
+.c7 {
   grid-area: Message;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -49,7 +49,7 @@ exports[`matches snapshot 1`] = `
   margin-top: 0.4rem;
 }
 
-.c11 {
+.c8 {
   grid-area: Actions;
   display: -webkit-box;
   display: -webkit-flex;
@@ -66,14 +66,14 @@ exports[`matches snapshot 1`] = `
   width: 9rem;
 }
 
-.c6 {
+.c2 {
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: 2.4rem 2.4rem;
   grid-template-areas: "Name Time" "Message Message";
 }
 
-.c4 {
+.c0 {
   display: grid;
   grid-template-columns: 11rem 1fr 9rem;
   grid-template-areas: "Checkbox . Actions";
@@ -88,16 +88,16 @@ exports[`matches snapshot 1`] = `
   transition: background-color 0.15s ease-in-out;
 }
 
-.c4:hover {
+.c0:hover {
   background-color: #f4f5f6;
 }
 
-.c4:hover .sc-iqAclL {
+.c0:hover .sc-iqAclL {
   opacity: 1;
   visibility: visible;
 }
 
-.c13 {
+.c10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -127,92 +127,70 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c13:hover {
+.c10:hover {
   background: #232426;
 }
 
-.c13 g {
+.c10 g {
   fill: #ffffff;
 }
 
-.c16 {
+.c13 {
   white-space: nowrap;
 }
 
-.c5 {
+.c1 {
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 20rem;
   border-bottom: solid 0.1rem #d2d6db;
 }
 
-.c1 {
-  border-bottom: solid 0.1rem #d2d6db;
-}
-
 .c3 {
   margin-left: 4rem;
-  margin-bottom: 3.2rem;
 }
 
-.c0 {
-  padding-top: 3.2rem;
-}
-
-.c7 {
-  margin-left: 4rem;
-}
-
-.c12 {
+.c9 {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
 }
 
-.c14 {
+.c11 {
   padding: 0;
 }
 
 <div>
   <section
-    class="c0"
+    class=""
   >
     <div
-      class="c1"
-    >
-      <p
-        class="c2 c3"
-      >
-        [value] module.settings.backupDescription
-      </p>
-    </div>
-    <div
-      class="c4 c5"
+      class="c0 c1"
     >
       <div
-        class="c6 c7"
+        class="c2 c3"
       >
         <p
-          class="c8 c9"
+          class="c4 c5"
         >
           [value] module.settings.backupLabel
         </p>
         <p
-          class="c2 c10"
+          class="c6 c7"
           data-testid="backup-location"
         >
           C:/MuditaOs
         </p>
       </div>
       <div
-        class="c11 c12"
+        class="c8 c9"
       >
         <button
-          class="c13 c14"
+          class="c10 c11"
           size="2"
           type="button"
         >
           <p
-            class="c15 c16"
+            class="c12 c13"
           >
             [value] module.settings.backupButtonLabel
           </p>

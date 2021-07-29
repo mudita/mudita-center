@@ -27,11 +27,6 @@ test("renders wrapper properly", () => {
   expect(queryByTestId(SettingsTestIds.Wrapper)).toBeInTheDocument()
 })
 
-test("renders description properly", () => {
-  const { queryByTestId } = renderer()
-  expect(queryByTestId(SettingsTestIds.Description)).toBeInTheDocument()
-})
-
 test("renders at least one table row", () => {
   const { queryAllByTestId } = renderer()
   expect(

@@ -38,7 +38,6 @@ const BaseApp: FunctionComponent<Props> = ({
   history,
   pureFeaturesVisible,
   deviceConnecting,
-  pureNeverConnected,
   appUpdateAvailable,
   settingsLoaded,
   appCollectingData,
@@ -66,12 +65,10 @@ const BaseApp: FunctionComponent<Props> = ({
   useEffect(() => {
     if (deviceConnecting) {
       history.push(URL_ONBOARDING.connecting)
-    } else if (!pureFeaturesVisible && !pureNeverConnected) {
-      history.push(URL_MAIN.news)
-    } else if (!pureFeaturesVisible && pureNeverConnected) {
+    } else if (!pureFeaturesVisible) {
       history.push(URL_ONBOARDING.root)
     }
-  }, [pureFeaturesVisible, pureNeverConnected, deviceConnecting])
+  }, [pureFeaturesVisible, deviceConnecting])
 
   const allowToAppCollectingData = (): void => {
     toggleAppCollectingData(true)
