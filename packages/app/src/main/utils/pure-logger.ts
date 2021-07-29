@@ -13,31 +13,31 @@ export interface ScrubProps {
   uuid: number
 }
 
-const scrub = (message: string): string => {
-  try {
-    const messageParsed = JSON.parse(message) as ScrubProps[]
-    if (messageParsed[0].body) {
-      return JSON.stringify(
-        [{ ...messageParsed[0], body: "scrubbed" }],
-        null,
-        2
-      )
-    } else {
-      return message
-    }
-  } catch {
-    return message
-  }
-}
-
 class PureLogger implements ConsoleLogger {
   scrubbed = process.env.LOGS_SCRUBBED !== "false"
 
   info(message: string): void {
     if (this.scrubbed) {
-      logger.info(scrub(message))
+      logger.info(this.scrub(message))
     } else {
       logger.info(message)
+    }
+  }
+
+  private scrub(message: string): string {
+    try {
+      const messageParsed = JSON.parse(message) as ScrubProps[]
+      if (messageParsed[0].body) {
+        return JSON.stringify(
+          [{ ...messageParsed[0], body: "scrubbed" }],
+          null,
+          2
+        )
+      } else {
+        return message
+      }
+    } catch {
+      return message
     }
   }
 }
