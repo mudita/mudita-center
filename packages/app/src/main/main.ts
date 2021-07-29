@@ -87,6 +87,7 @@ process.on("uncaughtException", (error) => {
   // TODO: Add contact support modal
 })
 
+
 const installExtensions = async () => {
   const installer = require("electron-devtools-installer")
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS
