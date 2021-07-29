@@ -7,7 +7,7 @@ import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
-import LicenseUI from "./license-ui.component"
+import { LicenseUI } from "./license-ui.component"
 import { LicenseComponentTestIds } from "./license-ui.enum"
 
 const renderer = () => {

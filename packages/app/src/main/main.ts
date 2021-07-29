@@ -76,9 +76,9 @@ let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
 let googleAuthWindow: BrowserWindow | null = null
 let outlookAuthWindow: BrowserWindow | null = null
-let licenseWindow: BrowserWindow | null = null
-let termsWindow: BrowserWindow | null = null
-let policyWindow: BrowserWindow | null = null
+const licenseWindow: BrowserWindow | null = null
+const termsWindow: BrowserWindow | null = null
+const policyWindow: BrowserWindow | null = null
 
 // Disables CORS in Electron 9
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
