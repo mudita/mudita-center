@@ -96,10 +96,6 @@ export const phoneActions = (
   ]
 }
 
-const buildInputKey = (id: string, prefix = ""): string => {
-  return [prefix, id].join("-")
-}
-
 const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   contact,
   onEdit,
@@ -177,20 +173,16 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             </InfoItem>
           )}
         </BasicInfo>
-        <AdditionalInfo>
+        <AdditionalInfo key={contact.id}>
           <div>
             <AdditionalInfoItem>
               <InfoItemName message={messages.information} />
               {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber ? (
-                <Input
-                  key={buildInputKey(contact.id, "number")}
-                  label={intl.formatMessage(messages.noPhoneNumber)}
-                />
+                <Input label={intl.formatMessage(messages.noPhoneNumber)} />
               ) : (
                 <div>
                   <Input
                     data-testid={ContactDetailsTestIds.PrimaryPhoneInput}
-                    key={buildInputKey(contact.id, "primary-number")}
                     defaultValue={contact.primaryPhoneNumber}
                     label={intl.formatMessage(messages.noPrimaryNumber)}
                     // TODO: Remove productionEnvironment along with associated logic when features become available
@@ -209,7 +201,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   />
                   <Input
                     data-testid={ContactDetailsTestIds.SecondaryPhoneInput}
-                    key={buildInputKey(contact.id, "secondary-number")}
                     defaultValue={contact.secondaryPhoneNumber}
                     label={intl.formatMessage(messages.noSecondNumber)}
                     // TODO: Remove productionEnvironment along with associated logic when features become available
@@ -231,7 +222,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             </AdditionalInfoItem>
           </div>
           <div>
-            <AdditionalInfoItem key={buildInputKey(contact.id, "address")}>
+            <AdditionalInfoItem>
               <InfoItemName message={messages.address} />
               {fullAddress.length ? (
                 <ContactDetailsInfo
