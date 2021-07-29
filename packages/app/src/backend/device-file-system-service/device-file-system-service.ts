@@ -33,7 +33,7 @@ class DeviceFileSystemService {
       }
     }
 
-    const { rxID, fileSize, chunkSize } = data
+    const { rxID, fileSize, chunkSize, fileCrc32 } = data
     const chunkLength = fileSize > chunkSize ? fileSize / chunkSize : 1
     const downloadFileResponse = await this.downloadEncodedFile(
       rxID,
@@ -45,10 +45,22 @@ class DeviceFileSystemService {
       downloadFileResponse.data !== undefined
     ) {
       const buffer = Buffer.from(downloadFileResponse.data, "base64")
+      const receivedFileCrc32 = parseInt(fileCrc32, 16)
+      const countedFileCrc32 = CRC32.buf(buffer)
 
-      return {
-        status: DeviceResponseStatus.Ok,
-        data: buffer.toString(),
+      if(receivedFileCrc32 === countedFileCrc32){
+        return {
+          status: DeviceResponseStatus.Ok,
+          data: buffer.toString(),
+        }
+      } else {
+        return {
+          status: DeviceResponseStatus.Error,
+          error: {
+            message:
+              "Get device logs: File CRC32 mismatch",
+          },
+        }
       }
     } else {
       return {

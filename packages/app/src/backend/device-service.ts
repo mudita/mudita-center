@@ -107,6 +107,7 @@ class DeviceService {
   ): Promise<
     DeviceResponse<{
       rxID: string
+      fileCrc32: string
       fileSize: number
       chunkSize: number
     }>
