@@ -6,11 +6,8 @@
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React, { ComponentProps } from "react"
 import Overview from "Renderer/modules/overview/overview.component"
-import { DataState } from "Renderer/models/basic-info/basic-info.typings"
-import {
-  ConversionFormat,
-  Convert,
-} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
+import { DataState, UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
+import { ConversionFormat, Convert } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 import { Provider } from "react-redux"
 import store from "Renderer/store"
 import { Router } from "react-router"
@@ -157,7 +154,7 @@ const renderer = (extraProps?: {}) => {
     ],
     toggleDeviceUpdating: jest.fn(),
     updatePhoneOsInfo: jest.fn(),
-    deviceUpdating: false,
+    updatingState: UpdatingState.Standby,
     memorySpace: {
       free: 100,
       full: 200,

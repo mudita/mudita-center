@@ -6,7 +6,9 @@
 import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { noop } from "Renderer/utils/noop"
-import UpdatingForceModalFlow from "Renderer/modules/overview/updating-force-modal-flow/updating-force-modal-flow.component"
+import UpdatingForceModalFlow, {
+  UpdatingForceModalFlowState,
+} from "Renderer/modules/overview/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowTestIds } from "Renderer/modules/overview/updating-force-modal-flow/updating-force-modal-flow-test-ids.component"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { ipcRenderer } from "electron-better-ipc"
@@ -16,20 +18,16 @@ import {
 } from "App/main/functions/register-get-all-releases-listener"
 import { waitFor } from "@testing-library/dom"
 import { PureOsDownloadChannels } from "App/main/functions/register-pure-os-download-listener"
-import {
-  DownloadFinished,
-  DownloadStatus,
-} from "Renderer/interfaces/file-download.interface"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { DownloadStatus } from "Renderer/interfaces/file-download.interface"
 
 type Props = ComponentProps<typeof UpdatingForceModalFlow>
 
 const defaultProps: Props = {
-  open: true,
+  state: UpdatingForceModalFlowState.Info,
   osVersion: "0.72.1",
   onContact: jest.fn(),
   onHelp: jest.fn(),
+  updateOs: jest.fn(),
 }
 
 const releases: Release[] = [
@@ -44,12 +42,6 @@ const releases: Release[] = [
     },
   },
 ]
-
-const DownloadOsUpdateData: DownloadFinished = {
-  status: DownloadStatus.Completed,
-  directory: "some/directory/",
-  totalBytes: 26214400,
-}
 
 const render = (extraProps?: Partial<Props>) => {
   const props = {
@@ -226,70 +218,6 @@ test("failure modal is display if failure download os", async () => {
   ).toBeInTheDocument()
 })
 
-test("failure modal is display if update os fails", async () => {
-  ;(ipcRenderer as any).__rendererCalls = {
-    [GetAllReleasesEvents.Request]: releases,
-
-    [PureOsDownloadChannels.start]: DownloadOsUpdateData,
-    [IpcRequest.UpdateOs]: {
-      status: DeviceResponseStatus.Error,
-    },
-  }
-  const { getByTestId, queryByTestId } = render()
-
-  getByTestId(ModalTestIds.ModalActionButton).click()
-
-  expect(
-    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
-  ).toBeInTheDocument()
-  expect(
-    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceFailureModal)
-  ).toEqual(null)
-
-  await waitFor(noop)
-  await waitFor(noop)
-  await waitFor(noop)
-
-  expect(
-    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
-  ).toEqual(null)
-  expect(
-    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceFailureModal)
-  ).toBeInTheDocument()
-})
-
-test("success modal is display if whole process pass properly", async () => {
-  ;(ipcRenderer as any).__rendererCalls = {
-    [GetAllReleasesEvents.Request]: releases,
-
-    [PureOsDownloadChannels.start]: DownloadOsUpdateData,
-    [IpcRequest.UpdateOs]: {
-      status: DeviceResponseStatus.Ok,
-    },
-  }
-  const { getByTestId, queryByTestId } = render()
-
-  getByTestId(ModalTestIds.ModalActionButton).click()
-
-  expect(
-    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
-  ).toBeInTheDocument()
-  expect(
-    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingSuccessModal)
-  ).toEqual(null)
-
-  await waitFor(noop)
-  await waitFor(noop)
-  await waitFor(noop)
-
-  expect(
-    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
-  ).toEqual(null)
-  expect(
-    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingSuccessModal)
-  ).toBeInTheDocument()
-})
-
 test("onHelp is called from the failure modal source", () => {
   const onHelp = jest.fn()
   const { getByTestId, queryByTestId } = render({
@@ -326,40 +254,4 @@ test("onContact is called from the failure modal source", () => {
 
   getByTestId(ModalTestIds.CloseBottomButton).click()
   expect(onContact).toHaveBeenCalled()
-})
-
-test("onClose is called from the success modal source", async () => {
-  const closeModal = jest.fn()
-  ;(ipcRenderer as any).__rendererCalls = {
-    [GetAllReleasesEvents.Request]: releases,
-
-    [PureOsDownloadChannels.start]: DownloadOsUpdateData,
-    [IpcRequest.UpdateOs]: {
-      status: DeviceResponseStatus.Ok,
-    },
-  }
-  const { getByTestId, queryByTestId } = render({ closeModal })
-
-  getByTestId(ModalTestIds.ModalActionButton).click()
-
-  expect(
-    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
-  ).toBeInTheDocument()
-  expect(
-    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingSuccessModal)
-  ).toEqual(null)
-
-  await waitFor(noop)
-  await waitFor(noop)
-  await waitFor(noop)
-
-  expect(
-    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
-  ).toEqual(null)
-  expect(
-    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingSuccessModal)
-  ).toBeInTheDocument()
-
-  getByTestId(ModalTestIds.CloseBottomButton).click()
-  expect(closeModal).toHaveBeenCalled()
 })

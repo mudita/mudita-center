@@ -19,8 +19,6 @@ import getAllReleases from "Renderer/requests/get-all-releases.request"
 import isVersionGreater from "Renderer/modules/overview/is-version-greater"
 import downloadOsUpdateRequest from "Renderer/requests/download-os-update.request"
 import { DownloadStatus } from "Renderer/interfaces/file-download.interface"
-import updateOs from "Renderer/requests/update-os.request"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import {
   ApplicationUpdateError,
   ApplicationUpdateErrorCodeMap,
@@ -35,32 +33,30 @@ export enum UpdatingForceModalFlowState {
   Fail = "fail",
 }
 
-interface Props extends ComponentProps<typeof ModalDialog> {
+interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
+  state: UpdatingForceModalFlowState | undefined
   osVersion: string | undefined
   onContact: (code?: number) => void
   onHelp: (code: number) => void
+  updateOs: (fileName: string) => void
 }
 
 const UpdatingForceModalFlow: FunctionComponent<Props> = ({
-  open,
+  state,
   osVersion,
   onContact,
   onHelp,
   closeModal,
+  updateOs,
 }) => {
-  const [
-    updatingForceOpenState,
-    setUpdatingForceOpenState,
-  ] = useState<UpdatingForceModalFlowState>()
+  const [updatingForceOpenState, setUpdatingForceOpenState] = useState<
+    UpdatingForceModalFlowState | undefined
+  >(state)
   const [code, setCode] = useState<number>()
 
   useEffect(() => {
-    if (open) {
-      setUpdatingForceOpenState(UpdatingForceModalFlowState.Info)
-    } else {
-      setUpdatingForceOpenState(undefined)
-    }
-  }, [open])
+    setUpdatingForceOpenState(state)
+  }, [state])
 
   const runUpdateProcess = async () => {
     if (osVersion === undefined) {
@@ -98,14 +94,7 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
       return
     }
 
-    const response = await updateOs(latestRelease.file.name)
-
-    if (response.status !== DeviceResponseStatus.Ok) {
-      handleUpdateOsFailed(response.error?.code)
-      return
-    }
-
-    setUpdatingForceOpenState(UpdatingForceModalFlowState.Success)
+    await updateOs(latestRelease.file.name)
   }
 
   const handleUpdateOsFailed = (code?: number): void => {
@@ -149,7 +138,9 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
       />
       {code && noCriticalErrorCodes.includes(code) ? (
         <UpdatingFailureWithHelpModal
-          testId={UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal}
+          testId={
+            UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal
+          }
           code={code}
           onContact={onContact}
           onHelp={onHelp}

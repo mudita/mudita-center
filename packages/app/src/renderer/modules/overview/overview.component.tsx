@@ -9,6 +9,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   Store as BasicInfoInitialState,
   StoreValues as BasicInfoValues,
+  UpdatingState,
 } from "Renderer/models/basic-info/basic-info.typings"
 import { DevMode } from "App/dev-mode/store/dev-mode.interface"
 import React, { useEffect, useState } from "react"
@@ -28,7 +29,9 @@ import useCreateBugTicket, {
   files,
 } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
 import isVersionGreater from "Renderer/modules/overview/is-version-greater"
-import UpdatingForceModalFlow from "Renderer/modules/overview/updating-force-modal-flow/updating-force-modal-flow.component"
+import UpdatingForceModalFlow, {
+  UpdatingForceModalFlowState,
+} from "Renderer/modules/overview/updating-force-modal-flow/updating-force-modal-flow.component"
 
 export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
@@ -67,16 +70,17 @@ const Overview: FunctionComponent<Props> = ({
   networkName,
   networkLevel,
   updateBasicInfo = noop,
-  toggleDeviceUpdating,
   language = "",
   pureOsBackupLocation = "",
   lowestSupportedOsVersion,
+  updatingState,
+  updateOs,
+  updateUpdatingState,
 }) => {
   /**
    * Temporary state to demo failure
    */
   const [osVersionSupported, setOsVersionSupported] = useState(true)
-  const [updatingForceOpen, setUpdatingForceOpen] = useState(true)
   const [backups, setBackup] = useState(0)
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
@@ -120,6 +124,15 @@ const Overview: FunctionComponent<Props> = ({
 
   const goToHelp = (code: number): void => {
     void ipcRenderer.callMain(HelpActions.OpenWindow, { code })
+  }
+
+  // FIXME: tmp solution until useSystemUpdateFlow exist
+  const toggleDeviceUpdating = (option: boolean) => {
+    if (option) {
+      updateUpdatingState(UpdatingState.Updating)
+    } else {
+      updateUpdatingState(UpdatingState.Standby)
+    }
   }
 
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
@@ -226,7 +239,7 @@ const Overview: FunctionComponent<Props> = ({
   }
 
   const closeUpdatingForceModalFlow = async () => {
-    setUpdatingForceOpen(false)
+    updateUpdatingState(UpdatingState.Standby)
   }
 
   const isPureOsAvailable = (): boolean => {
@@ -237,14 +250,25 @@ const Overview: FunctionComponent<Props> = ({
     }
   }
 
+  const getUpdatingForceModalFlowState = ():
+    | UpdatingForceModalFlowState
+    | undefined => {
+    if (updatingState === UpdatingState.Success) {
+      return UpdatingForceModalFlowState.Success
+    } else if (updatingState === UpdatingState.Fail) {
+      return UpdatingForceModalFlowState.Fail
+    } else if (!osVersionSupported && contactSupportOpenState === undefined) {
+      return UpdatingForceModalFlowState.Info
+    } else {
+      return undefined
+    }
+  }
+
   return (
     <>
       <UpdatingForceModalFlow
-        open={
-          !osVersionSupported &&
-          updatingForceOpen &&
-          contactSupportOpenState === undefined
-        }
+        state={getUpdatingForceModalFlowState()}
+        updateOs={updateOs}
         osVersion={osVersion}
         closeModal={closeUpdatingForceModalFlow}
         onContact={openContactSupportModalFlow}
