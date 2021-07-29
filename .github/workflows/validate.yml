@@ -25,6 +25,16 @@ jobs:
         run: |
           npm run lint
           npm run lint:typecheck
-          npm run test:coverage
         env:
           CI: true
+      - name: Test
+        run: npm run test:coverage
+        env:
+          CI: true
+          NODE_OPTIONS: '--max_old_space_size=8192'
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./packages/pure/coverage/lcov.info,./packages/app/coverage/lcov.info
+          fail_ci_if_error: true
