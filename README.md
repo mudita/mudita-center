@@ -39,6 +39,7 @@ If you would like to help us create Mudita Center as a full-time job - **[we're 
   - [Changelog](#changelog)
   - [License](#license)
   - [Hiding sensitive data](#hiding-sensitive-data)
+  - [Services](#services)
 
 ## Quickstart
 
@@ -75,3 +76,11 @@ Mudita Center is licensed under [GNU GPLv3](https://choosealicense.com/licenses/
 ## Hiding sensitive data
 
 As a Mudita we take care of the security of your data. All data we are collecting are hidden. If you will add a new query in request path, that contains sensitive data, you need to add it to scrubFields array in logger.ts
+
+## Services
+
+You'll need access to the following services in order to develop the app.
+
+| Service | Description                                       | URL                 |
+| ------- | ------------------------------------------------- | ------------------- |
+| Codecov | Code coverage reporter and static code validator. | https://codecov.io/ |
