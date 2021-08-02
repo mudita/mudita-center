@@ -163,7 +163,9 @@ const settings = createModel<RootModel>({
               `Send Diagnostic Data: send diagnostic data request. Status: ${status}`
             )
           }
-          await dispatch.settings.setDiagnosticSentTimestamp(Date.now())
+          const nowTimestamp = Date.now()
+          await dispatch.settings.setDiagnosticSentTimestamp(nowTimestamp)
+          logger.info(`Send Diagnostic Data: data was sent successfully at ${nowTimestamp}, serialNumber: ${serialNumber}`)
         } catch {
           logger.error(`Send Diagnostic Data: send diagnostic data request.`)
         }
