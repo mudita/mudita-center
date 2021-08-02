@@ -14,9 +14,7 @@ import {
   TableRow,
 } from "Renderer/components/rest/messages/threads-table.component"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import ButtonComponent from "App/renderer/components/core/button/button.component"
@@ -28,18 +26,7 @@ const BackupTableRow = styled(TableRow)`
   border-bottom: solid 0.1rem ${borderColor("list")};
 `
 
-const BackupDescriptionWrapper = styled.div`
-  border-bottom: solid 0.1rem ${borderColor("list")};
-`
-
-const BackupDescription = styled(Text)`
-  margin-left: 4rem;
-  margin-bottom: 3.2rem;
-`
-
-const BackupWrapper = styled.section`
-  padding-top: 3.2rem;
-`
+const BackupWrapper = styled.section``
 
 const BackupDataWrapper = styled(DataWrapper)`
   margin-left: 4rem;
@@ -59,11 +46,6 @@ interface Props {
 
 const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => (
   <BackupWrapper>
-    <BackupDescriptionWrapper>
-      <BackupDescription displayStyle={TextDisplayStyle.MediumFadedLightText}>
-        <FormattedMessage id="module.settings.backupDescription" />
-      </BackupDescription>
-    </BackupDescriptionWrapper>
     <BackupTableRow checkMode={false}>
       <BackupDataWrapper>
         <Name displayStyle={TextDisplayStyle.LargeText}>

@@ -98,10 +98,14 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     const listener = () => {
+      modalService.closeModal(true)
       store.dispatch.basicInfo.toggleDeviceConnected(false)
     }
+    const unregister = () => {
+      removeDeviceDisconnectedListener(listener)
+    }
     registerDeviceDisconnectedListener(listener)
-    return () => removeDeviceDisconnectedListener(listener)
+    return () => unregister()
   })
 
   useEffect(() => {
@@ -116,8 +120,11 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
     const listener = () => {
       store.dispatch.basicInfo.toggleDeviceUnlocked(false)
     }
+    const unregister = () => {
+      removeDeviceLockedListener(listener)
+    }
     registerDeviceLockedListener(listener)
-    return () => removeDeviceLockedListener(listener)
+    return () => unregister()
   })
 
   useEffect(() => {
