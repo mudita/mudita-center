@@ -18,6 +18,7 @@ import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import {
   ModalContent,
+  ModalContentWithoutMargin,
   RoundIconWrapper,
 } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 import { Size } from "Renderer/components/core/button/button.config"
@@ -25,6 +26,11 @@ import { AppUpdateStepModalTestIds } from "Renderer/wrappers/app-update-step-mod
 
 export interface AppUpdateAvailableProps {
   appLatestVersion?: string
+}
+
+export interface AppUpdateForcedProps {
+  appLatestVersion?: string
+  appCurrentVersion?: string
 }
 
 const messages = defineMessages({
@@ -35,6 +41,10 @@ const messages = defineMessages({
   availableUpdateDescription: {
     id: "component.updateAvailableModalDescription",
   },
+  updateForcedModalMessage: { id: "component.updateForcedModalMessage" },
+  updateForcedModalVersion: { id: "component.updateForcedModalVersion" },
+  updateForcedModalDescription: { id: "component.updateForcedModalDescription" },
+  updateForcedModalCurrentVersion: { id: "component.updateForcedModalCurrentVersion" },
   downloadedUpdateMessage: { id: "component.updateDownloadedModalMessage" },
   downloadedUpdateDescription: {
     id: "component.updateDownloadedModalDescription",
@@ -108,6 +118,48 @@ export const AppUpdateAvailable: FunctionComponent<
       message={messages.availableUpdateDescription}
     />
   </AppUpdateModal>
+)
+
+export const AppUpdateForced: FunctionComponent<
+  ComponentProps<typeof ModalDialog> & AppUpdateForcedProps
+> = ({ appLatestVersion, appCurrentVersion, ...props }) => (
+  <ModalDialog
+    size={ModalSize.Small}
+    title={intl.formatMessage(messages.appUpdateTitle)}
+    actionButtonLabel={intl.formatMessage(messages.availableUpdateButton)}
+    closeButton={false}
+    actionButtonSize={Size.FixedBig}
+    {...props}
+  >
+    <ModalContentWithoutMargin>
+      <RoundIconWrapper>
+        <Icon type={Type.Pure} width={4} />
+      </RoundIconWrapper>
+      <Text
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={messages.updateForcedModalMessage}
+      />
+      <br />
+      <Text
+        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        message={{
+          ...messages.updateForcedModalVersion,
+          values: { version: appLatestVersion },
+        }}
+      />
+      <Text
+        displayStyle={TextDisplayStyle.MediumText}
+        message={messages.updateForcedModalDescription}
+      />
+      <Text
+        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        message={{
+          ...messages.updateForcedModalCurrentVersion,
+          values: { version: appCurrentVersion },
+        }}
+      />
+    </ModalContentWithoutMargin>
+  </ModalDialog>
 )
 
 export const AppUpdateError: FunctionComponent<

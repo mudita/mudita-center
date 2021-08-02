@@ -25,7 +25,7 @@ import registerEventsExportListener from "App/calendar/backend/export-events"
 import registerWriteFileListener from "App/main/functions/register-write-file-listener"
 import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
-import registerGetLowestSupportedOsVersionListener from "App/main/functions/register-get-lowest-supported-os-version-listener"
+import registerGetApplicationConfigurationListener from "App/main/functions/register-get-application-configuration-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
@@ -156,7 +156,7 @@ const createWindow = async () => {
   registerWriteFileListener()
   registerRmdirListener()
   registerWriteGzipListener()
-  registerGetLowestSupportedOsVersionListener()
+  registerGetApplicationConfigurationListener()
   registerPureOsDownloadProxy()
 
   if (productionEnvironment) {
@@ -200,7 +200,7 @@ const createWindow = async () => {
 app.on("ready", createWindow)
 
 app.on("window-all-closed", () => {
-    app.quit()
+  app.quit()
 })
 
 app.on("activate", () => {
