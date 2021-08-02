@@ -140,10 +140,12 @@ const settings = createModel<RootModel>({
           return
         }
         if (!appCollectingData) {
+          logger.info("Send Diagnostic Data: user no allowed sent data")
           return
         }
 
         if (isToday(new Date(diagnosticSentTimestamp))) {
+          logger.info(`Send Diagnostic Data: data was sent at ${diagnosticSentTimestamp}`)
           return
         }
         const { status, data = "", error } = await getDeviceLogs()
