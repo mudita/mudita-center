@@ -10,7 +10,7 @@ import { CreateDevice, createDevice, PureDevice } from "./device"
 import log, { LogConfig } from "./logger/log-decorator"
 import { LoggerFactory } from "./logger/logger-factory"
 import { ConsoleLogger, PureLogger } from "./logger/logger"
-import DevicePortInfo from "./default-device-port-info"
+import DevicePortInfo from "./device-port-info"
 
 const logger: PureLogger = LoggerFactory.getInstance()
 

@@ -8,7 +8,7 @@ export * from "./logger"
 export * from "./endpoints"
 export * from "./formatter"
 export * from "./device-manager"
-export * from "./default-device-port-info"
+export * from "./device-port-info"
 
 import PureNode from "./device-manager"
 export default PureNode

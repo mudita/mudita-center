@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DevicePortInfo from "./default-device-port-info"
+import DevicePortInfo from "./device-port-info"
 
 test("isVendorId function works properly", () => {
   expect(DevicePortInfo.isVendorId({vendorId: "3310"})).toBeTruthy()
