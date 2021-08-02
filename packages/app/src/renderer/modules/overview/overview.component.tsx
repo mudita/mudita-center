@@ -66,6 +66,7 @@ const Overview: FunctionComponent<
   toggleDeviceUpdating,
   language,
   pureOsBackupLocation,
+  serialNumber,
 }) => {
   /**
    * Temporary state to demo failure
@@ -101,6 +102,7 @@ const Overview: FunctionComponent<
     const response = await sendBugTicketRequest({
       email,
       description,
+      serialNumber,
       subject: bugTicketSubject,
     })
     if (response.status === CreateBugTicketResponseStatus.Ok) {
