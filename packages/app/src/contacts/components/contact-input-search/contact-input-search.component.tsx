@@ -48,8 +48,8 @@ const renderName = (contact: Contact) => createFullName(contact)
 
 const isItemMatching = (contact: Contact, search: string) => {
   const query: string[] = ["firstName", "lastName", "primaryPhoneNumber", "secondaryPhoneNumber", "email", "firstAddressLine", "secondAddressLine" ]
-  for (let key of query) {
-    let param: string | boolean | number | undefined = contact[key as keyof typeof contact]
+  for (const key of query) {
+    const param: string | boolean | number | undefined = contact[key as keyof typeof contact]
     if (param !== undefined && typeof param === "string" &&  param.toLowerCase().includes(search.toLowerCase())) {
       return true;
     }

@@ -68,7 +68,7 @@ const SelectInputWrapper = styled.div<{
 export type ListItemProps = {
   onClick: (item: any) => void
   onMouseDown: (event: MouseEvent) => void
-  onMouseEnter?: (index: number) => void
+  onMouseEnter: (event: MouseEvent) => void
   selected: boolean
   disabled: boolean
   "data-testid"?: string
@@ -207,6 +207,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   const handleSelect = (item: typeof items[number]) => {
     onSelect(item)
     resetSearchValue()
+    setActiveItem(0)
   }
 
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
@@ -247,24 +248,37 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
     }
     return ""
   }
+
   const onKeyDown = (event: KeyboardEvent) => {
     interface KeysType {
       [key: string]: () => void;
     }
-    const handleArrowDown = () => setActiveItem(prevState => prevState + 1)
-    const handleArrowUp = () => setActiveItem(prevState => prevState - 1)
+    const handleArrowDown = () => {
+      const maxListLength = filteredItems.length < 6 ? filteredItems.length : 6
+      if (activeItem <= maxListLength ) {
+        setActiveItem(prevState => prevState + 1)
+      }
+    }
+    const handleArrowUp = () => {
+      if (activeItem > 0) {
+        setActiveItem(prevState => prevState - 1)
+      }
+    }
     const handleEnter = () => {
       setActiveItem(0)
       setFocus(false)
       handleSelect(filteredItems[activeItem])
+      
     }
     const keys: KeysType = {
       "ArrowDown": handleArrowDown,
       "ArrowUp": handleArrowUp,
       "Enter" : handleEnter
     }
-    return keys[event.key]()
+    console.log("activeItem", activeItem)
+    return keys[event.key] && keys[event.key]()
   }
+
   const handleMouseEnter = (itemIndex: number) => {
     setActiveItem(itemIndex)
   }

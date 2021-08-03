@@ -87,3 +87,21 @@ test("labels color is transparent with initiallTransparentBorder prop", () => {
   const { label } = renderInputSelect({ initialTransparentBorder: true })
   expect(label()).toHaveStyleRule("border-color", "transparent")
 })
+
+test("select input by enter returns selected list item", () => {
+  const onSelect = jest.fn()
+  const { input } = renderInputSelect({ onSelect })
+  fireEvent.keyDown(input(), {
+    key: "ArrowDown",
+    code: "ArrowDown",
+    keyCode: 40,
+    charCode: 40
+  })
+  fireEvent.keyDown(input(), {
+    key: "Enter",
+    code: "Enter",
+    keyCode: 13,
+    charCode: 13
+  })
+  expect(onSelect).toBeCalledWith(basicItems[1])
+})
