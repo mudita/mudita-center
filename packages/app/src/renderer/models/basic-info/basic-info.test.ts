@@ -141,6 +141,7 @@ test("store returns initial state", () => {
         "networkName": "",
         "osUpdateDate": "",
         "osVersion": "",
+        "serialNumber": undefined,
         "simCards": Array [],
       },
     }
@@ -220,44 +221,45 @@ describe("fetching basic info data", () => {
   test("successful fetch request transform responses properly ", async () => {
     await store.dispatch.basicInfo.loadBasicInfoData()
     expect(store.getState()).toMatchInlineSnapshot(`
-    Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 1,
-        "batteryLevel": 9001,
-        "deviceConnected": false,
-        "deviceUnlocked": undefined,
-        "deviceUpdating": false,
-        "initialDataLoaded": false,
-        "lastBackup": Object {
-          "createdAt": "20-11-15T07:35:01.562Z20",
-          "size": 99999,
-        },
-        "memorySpace": Object {
-          "free": 99999999999999,
-          "full": 9001,
-        },
-        "networkName": "",
-        "osUpdateDate": "12-12-2003",
-        "osVersion": "0.123v",
-        "simCards": Array [
-          Object {
-            "active": true,
-            "network": "Y-Mobile",
-            "networkLevel": 0.5,
-            "number": 12345678,
-            "slot": 1,
+      Object {
+        "basicInfo": Object {
+          "basicInfoDataState": 1,
+          "batteryLevel": 9001,
+          "deviceConnected": false,
+          "deviceUnlocked": undefined,
+          "deviceUpdating": false,
+          "initialDataLoaded": false,
+          "lastBackup": Object {
+            "createdAt": "20-11-15T07:35:01.562Z20",
+            "size": 99999,
           },
-          Object {
-            "active": false,
-            "network": "X-Mobile",
-            "networkLevel": 0.69,
-            "number": 7001234523,
-            "slot": 2,
+          "memorySpace": Object {
+            "free": 99999999999999,
+            "full": 9001,
           },
-        ],
-      },
-    }
-  `)
+          "networkName": "",
+          "osUpdateDate": "12-12-2003",
+          "osVersion": "0.123v",
+          "serialNumber": undefined,
+          "simCards": Array [
+            Object {
+              "active": true,
+              "network": "Y-Mobile",
+              "networkLevel": 0.5,
+              "number": 12345678,
+              "slot": 1,
+            },
+            Object {
+              "active": false,
+              "network": "X-Mobile",
+              "networkLevel": 0.69,
+              "number": 7001234523,
+              "slot": 2,
+            },
+          ],
+        },
+      }
+    `)
   })
 })
 

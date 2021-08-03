@@ -38,6 +38,7 @@ export interface StoreValues {
   readonly simCards: SimCard[]
   readonly basicInfoDataState: DataState
   readonly initialDataLoaded: boolean
+  readonly serialNumber: string | undefined
 }
 
 export interface StoreEffects {

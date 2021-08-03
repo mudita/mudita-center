@@ -24,6 +24,7 @@ test("resets app settings properly", async () => {
       "appOsUpdates": false,
       "appTethering": false,
       "appTray": true,
+      "diagnosticSentTimestamp": 0,
       "language": "en-US",
       "pureNeverConnected": true,
       "pureOsBackupLocation": "fake/path/pure/phone/backups/",

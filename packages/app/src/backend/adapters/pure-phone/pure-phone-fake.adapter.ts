@@ -32,8 +32,11 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public getSerialNumber(): string {
-    return "1UB13213MN14K1"
+  public async getSerialNumber(): Promise<DeviceResponse<string>>  {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: "1UB13213MN14K1",
+    }
   }
 
   public async disconnectDevice(): Promise<DeviceResponse> {

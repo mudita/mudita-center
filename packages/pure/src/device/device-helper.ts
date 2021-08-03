@@ -9,6 +9,7 @@ import {
   Endpoint,
   Method,
   RequestPayload,
+  SerialNumberRequestPayload,
 } from "./device.types"
 import { UploadUpdateFileSystemRequestPayload } from "../endpoints"
 
@@ -35,5 +36,13 @@ export const isDeviceUpdateRequestPayload = (
     config.endpoint === Endpoint.DeviceUpdate &&
     config.method === Method.Post &&
     Boolean(config.filePath)
+  )
+}
+
+export const isSerialNumberRequestPayload = (
+  config: RequestPayload
+): config is SerialNumberRequestPayload => {
+  return (
+    config.endpoint === Endpoint.SerialNumber && config.method === Method.Get
   )
 }
