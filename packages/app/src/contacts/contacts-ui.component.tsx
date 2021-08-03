@@ -112,8 +112,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   )
   const [editedContact, setEditedContact] = useState<Contact>()
 
-  const [selectedContact] = useState<Contact | null>(null)
-
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
+  
   const {
     selectedRows,
     allRowsSelected,
@@ -551,10 +551,16 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
+  const handleContactSelect = (contact: Contact) => {
+    setSelectedContact(contact)
+    openSidebar(contact)
+  }
+
   return (
     <>
       <ContactSection>
         <ContactPanel
+          onContactSelect={handleContactSelect}
           onManageButtonClick={showSynchronizationSourceSelectModal}
           onNewButtonClick={handleAddingContact}
           selectedContacts={selectedRows}
@@ -562,6 +568,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
           toggleAll={toggleAll}
           deleteContacts={deleteContacts}
           resetRows={resetRows}
+          contacts={flatList}
           editedContact={editedContact}
         />
         <TableWithSidebarWrapper>

@@ -8,6 +8,7 @@ import React, {
   ComponentProps,
   FocusEvent,
   Fragment,
+  KeyboardEvent,
   MouseEvent,
   useRef,
   useState,
@@ -67,9 +68,11 @@ const SelectInputWrapper = styled.div<{
 export type ListItemProps = {
   onClick: (item: any) => void
   onMouseDown: (event: MouseEvent) => void
+  onMouseEnter?: (index: number) => void
   selected: boolean
   disabled: boolean
   "data-testid"?: string
+  active?: boolean
 }
 
 export type RenderInputSelectListItem<T> = RenderListItem<T, ListItemProps>
@@ -85,6 +88,8 @@ interface InputSelectListProps {
   onEmptyItemValueClick: (event: MouseEvent) => void
   onItemClick: (item: any) => void
   renderListItem?: RenderInputSelectListItem<any>
+  activeItem?: number
+  handleMouseEnter?: (itemIndex: number) => void
 }
 
 const InputSelectList: FunctionComponent<InputSelectListProps> = ({
@@ -95,7 +100,9 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
   emptyItemValue,
   onEmptyItemValueClick,
   onItemClick,
+  handleMouseEnter = noop,
   renderListItem = renderListItemSearchable,
+  activeItem,
   ...props
 }) => {
   return (
@@ -119,6 +126,8 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
             event.preventDefault()
           }
         }
+        const onMouseEnter = () => handleMouseEnter(index)
+        const active = activeItem === index
         return (
           <Fragment key={index}>
             {renderListItem({
@@ -128,7 +137,9 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
                 onClick,
                 selected,
                 disabled,
+                active,
                 onMouseDown,
+                onMouseEnter,
                 "data-testid": InputSelectTestIds.ListItem,
               },
             })}
@@ -152,6 +163,7 @@ export interface InputSelectProps extends Partial<InputProps> {
   searchable?: boolean
   minCharsToShowResults?: number
   clearOnBlur?: boolean
+  active?: boolean
 }
 
 const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
@@ -172,10 +184,12 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   onBlur = noop,
   onFocus = noop,
   type = "text",
+  active,
   ...rest
 }) => {
   const [focus, setFocus] = useState(false)
   const [searchValue, setSearchValue] = useState<string | null>(null)
+  const [activeItem, setActiveItem] = useState<number>(0)
   const selectRef = useRef<HTMLInputElement>(null)
 
   const resetSelection = () => onSelect("")
@@ -233,7 +247,28 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
     }
     return ""
   }
-
+  const onKeyDown = (event: KeyboardEvent) => {
+    interface KeysType {
+      [key: string]: () => void;
+    }
+    const handleArrowDown = () => setActiveItem(prevState => prevState + 1)
+    const handleArrowUp = () => setActiveItem(prevState => prevState - 1)
+    const handleEnter = () => {
+      setActiveItem(0)
+      setFocus(false)
+      handleSelect(filteredItems[activeItem])
+    }
+    const keys: KeysType = {
+      "ArrowDown": handleArrowDown,
+      "ArrowUp": handleArrowUp,
+      "Enter" : handleEnter
+    }
+    return keys[event.key]()
+  }
+  const handleMouseEnter = (itemIndex: number) => {
+    setActiveItem(itemIndex)
+  }
+  
   const toggleIcon = (
     <ToggleIcon
       rotated={focus}
@@ -255,6 +290,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onKeyDown={onKeyDown}
         inputRef={composeRefs(selectRef, inputRef)}
         readOnly={!searchable}
         focusable
@@ -268,6 +304,8 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
           renderListItem={renderListItem}
           searchString={searchValue || ""}
           expanded={focus}
+          activeItem={activeItem}
+          handleMouseEnter={handleMouseEnter}
           onTransitionEnd={clearOnBlur ? resetSearchValue : noop}
           onEmptyItemValueClick={resetSelection}
           onItemClick={handleSelect}
