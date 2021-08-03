@@ -33,16 +33,15 @@ const ContactListItem = styled(ListItem)<{
 
 const renderListItem: RenderListItem<Contact> = ({
   item,
-  searchString, 
+  searchString,
   props,
-}) =>  {
-  return (
+}) =>  (
   <ContactListItem {...props}>
     <span>
       <SearchableText text={createFullName(item)} search={searchString} />
     </span>
   </ContactListItem>
-)}
+)
 
 const renderName = (contact: Contact) => createFullName(contact)
 

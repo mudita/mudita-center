@@ -275,7 +275,6 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
       "ArrowUp": handleArrowUp,
       "Enter" : handleEnter
     }
-    console.log("activeItem", activeItem)
     return keys[event.key] && keys[event.key]()
   }
 
