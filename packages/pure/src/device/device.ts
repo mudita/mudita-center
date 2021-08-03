@@ -36,8 +36,8 @@ import {
 class Device extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
 
-  constructor(path: string) {
-    super(path)
+  constructor(path: string, serialNumber: string) {
+    super(path, serialNumber)
   }
 
   public async connect(): Promise<Response> {
@@ -112,4 +112,7 @@ class Device extends BaseDevice {
   }
 }
 
-export const createDevice: CreateDevice = (path: string) => new Device(path)
+export const createDevice: CreateDevice = (
+  path: string,
+  serialNumber: string
+) => new Device(path, serialNumber)

@@ -123,6 +123,7 @@ const renderer = (extraProps?: {}) => {
     UpdateBasicInfo &
     AppSettings &
     DevMode = {
+    diagnosticSentTimestamp: 0,
     deviceUnlocked: undefined,
     appAutostart: false,
     appCollectingData: undefined,
@@ -148,6 +149,7 @@ const renderer = (extraProps?: {}) => {
     pureOsBackupLocation: "path/location/backup",
     pureOsDownloadLocation: "path/location/download",
     basicInfoDataState: DataState.Empty,
+    serialNumber: undefined,
     initialDataLoaded: false,
     appVersion: undefined,
     setCollectingData: jest.fn(),
@@ -167,7 +169,7 @@ const renderer = (extraProps?: {}) => {
       free: 100,
       full: 200,
     },
-    ...extraProps,
+    ...extraProps
   }
   return renderWithThemeAndIntl(
     <Router history={history}>

@@ -11,7 +11,7 @@ export interface PureDevice {
   off(eventName: DeviceEventName, listener: () => void): void
 }
 
-export type CreateDevice = (path: string) => PureDevice
+export type CreateDevice = (path: string, serialNumber: string) => PureDevice
 
 export enum ResponseStatus {
   Ok = 200,
@@ -65,6 +65,9 @@ export enum Endpoint {
   UploadUpdateFileSystem = 100,
   DeviceUpdate = 101,
 
+  // mocked ENPOINT until the backend implements serialNumber in deviceInfo
+  SerialNumber = 102,
+
   // api version (mocked)
   ApiVersion = 1000,
 }
@@ -88,6 +91,12 @@ export interface ApiRequestPayload extends RequestPayload {
 export interface DeviceUpdateRequestPayload extends RequestPayload {
   endpoint: Endpoint.DeviceUpdate
   method: Method.Post
+  filePath: string
+}
+
+export interface SerialNumberRequestPayload extends RequestPayload {
+  endpoint: Endpoint.SerialNumber
+  method: Method.Get
   filePath: string
 }
 
