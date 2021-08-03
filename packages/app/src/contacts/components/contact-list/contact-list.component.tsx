@@ -4,7 +4,7 @@
  */
 
 import React, { createRef, Ref, useEffect } from "react"
-import { Contact, NewContact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/store/contacts.type"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -29,7 +29,6 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
-import { FormattedMessage } from "react-intl"
 import { createFullName } from "App/contacts/store/contacts.helpers"
 import { intl } from "Renderer/utils/intl"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
@@ -113,8 +112,7 @@ export interface ContactListProps extends Contacts, ContactActions, SelectHook {
   activeRow?: Contact
   selectedContact: Contact | null
   onSelect: (contact: Contact) => void
-  newContact?: NewContact
-  editedContact?: Contact
+  editMode?: boolean
   resultsState: ResultsState
 }
 
@@ -128,9 +126,8 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   onBlock,
   onUnblock,
   onDelete,
-  newContact,
   resultsState,
-  editedContact,
+  editMode,
   getRowStatus,
   toggleRow,
   noneRowsSelected,
@@ -147,48 +144,22 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   useEffect(() => {
     const table = tableRef.current
     if (table) {
-      if (newContact) {
-        table.scrollTop = 0
-        disableScroll()
-      } else if (editedContact) {
+      if (editMode) {
         disableScroll()
       } else {
         enableScroll()
       }
     }
-  }, [newContact, editedContact])
+  }, [editMode])
 
   return (
     <SelectableContacts
       hideableColumnsIndexes={[2, 3, 4]}
-      hideColumns={
-        Boolean(activeRow) || Boolean(newContact) || Boolean(editedContact)
-      }
-      scrollable={scrollable && !newContact}
-      mouseLock={Boolean(newContact || editedContact)}
+      hideColumns={Boolean(activeRow) || editMode}
+      scrollable={scrollable}
+      mouseLock={editMode}
       ref={tableRef}
     >
-      {newContact && (
-        <Group>
-          <CategoryLabels>
-            <Col />
-            <Col>
-              <FormattedMessage id={"module.contacts.newTitle"} />
-            </Col>
-          </CategoryLabels>
-          <Row active>
-            <Col />
-            <Col>
-              <InitialsAvatar
-                user={newContact}
-                light
-                size={AvatarSize.Medium}
-              />
-              {newContact.firstName} {newContact.lastName}
-            </Col>
-          </Row>
-        </Group>
-      )}
       <HighlightContactList
         contactList={contactList}
         selectedContact={selectedContact}
@@ -241,7 +212,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                   const interactiveRow = (ref: Ref<HTMLDivElement>) => (
                     <Row
                       selected={selected}
-                      active={(activeRow || editedContact)?.id === contact.id}
+                      active={activeRow?.id === contact.id}
                       ref={ref}
                     >
                       <Col>
@@ -258,11 +229,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                       >
                         <InitialsAvatar
                           user={contact}
-                          light={
-                            selected ||
-                            activeRow === contact ||
-                            editedContact === contact
-                          }
+                          light={selected || activeRow === contact}
                           size={AvatarSize.Medium}
                         />
                         {createStyledFullName() ||

@@ -25,7 +25,6 @@ import { useForm } from "react-hook-form"
 import { phoneNumberValidator } from "Renderer/utils/form-validators"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import { noop } from "Renderer/utils/noop"
 import {
   Buttons,
   ContactDetailsWrapper,
@@ -76,15 +75,12 @@ export const defaultContact = {
   ice: false,
 } as NewContact
 
-type NameUpdateProps = Pick<Contact, "firstName" | "lastName">
-
 interface ContactEditProps {
   contact?: Contact
   speedDialChosenList: number[]
   onCancel: (contact?: Contact) => void
   onSpeedDialSettingsOpen: () => void
   onSave: (contact: Contact) => void
-  onNameUpdate?: ({ firstName, lastName }: NameUpdateProps) => void
   saving?: boolean
 }
 
@@ -94,7 +90,6 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   onCancel,
   onSave,
   onSpeedDialSettingsOpen,
-  onNameUpdate = noop,
   saving,
   ...rest
 }) => {
@@ -148,7 +143,6 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
 
   const handleUsernameBlur = (event: FocusEvent<HTMLInputElement>) => {
     trimInputValue(event)
-    onNameUpdate({ firstName: fields.firstName, lastName: fields.lastName })
   }
 
   const handleSpeedDialSelect = (value: number | undefined) => {
