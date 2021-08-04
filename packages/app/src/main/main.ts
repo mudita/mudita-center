@@ -267,6 +267,10 @@ const openSettingsAboutWindow = (channel: string, mode: string, urlMain: string,
               search: `?mode=${mode}`,
             })
       )
+      newWindow.webContents.on("new-window", (event, href) => {
+        event.preventDefault()
+        shell.openExternal(href)
+      })
     } else {
       newWindow.show()
     }
