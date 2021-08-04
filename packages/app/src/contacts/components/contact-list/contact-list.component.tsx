@@ -155,7 +155,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   return (
     <SelectableContacts
       hideableColumnsIndexes={[2, 3, 4]}
-      hideColumns={Boolean(activeRow) || editMode}
+      hideColumns={Boolean(activeRow || editMode)}
       scrollable={scrollable}
       mouseLock={editMode}
       ref={tableRef}
@@ -164,148 +164,170 @@ const ContactList: FunctionComponent<ContactListProps> = ({
         contactList={contactList}
         selectedContact={selectedContact}
       >
-        {resultsState === ResultsState.Loaded &&
-          (contactList.length ? (
-            contactList.map(({ category, contacts }, categoryIndex) => (
-              <Group key={category}>
-                <CategoryLabels>
-                  <Col />
-                  <Col>{category}</Col>
-                </CategoryLabels>
-                {contacts.map((contact, index) => {
-                  const { selected } = getRowStatus(contact)
-                  const onChange = () => toggleRow(contact)
-                  const handleExport = () => onExport([contact])
-                  const handleForward = () => onForward(contact)
-                  const handleBlock = () => onBlock(contact)
-                  const handleUnblock = () => onUnblock(contact)
-                  const handleDelete = () => onDelete(contact)
-                  const handleSelect = () => onSelect(contact)
+        {resultsState === ResultsState.Loaded && contactList.length ? (
+          contactList.map(({ category, contacts }, categoryIndex) => (
+            <Group
+              key={category}
+              data-testid={ContactListTestIdsEnum.ContactListGroup}
+            >
+              <CategoryLabels>
+                <Col />
+                <Col>{category}</Col>
+              </CategoryLabels>
+              {contacts.map((contact, index) => {
+                const { selected } = getRowStatus(contact)
+                const onChange = () => toggleRow(contact)
+                const handleExport = () => onExport([contact])
+                const handleForward = () => onForward(contact)
+                const handleBlock = () => onBlock(contact)
+                const handleUnblock = () => onUnblock(contact)
+                const handleDelete = () => onDelete(contact)
+                const handleSelect = () => onSelect(contact)
 
-                  const fullName = createFullName(contact)
-                  const createStyledFullName = () => {
-                    const { firstName, lastName } = contact
-                    if (!firstName && !lastName) {
-                      return null
-                    }
-                    if (firstName && lastName) {
-                      return (
-                        <span>
-                          {firstName} <strong>{lastName}</strong>
-                        </span>
-                      )
-                    }
+                const fullName = createFullName(contact)
+                const createStyledFullName = () => {
+                  const { firstName, lastName } = contact
+                  if (!firstName && !lastName) {
+                    return null
+                  }
+                  if (firstName && lastName) {
                     return (
                       <span>
-                        <strong>{firstName || lastName}</strong>
+                        {firstName} <strong>{lastName}</strong>
                       </span>
                     )
                   }
-                  const phoneNumber =
-                    contact.primaryPhoneNumber || contact.secondaryPhoneNumber
-                  const nextContact = contacts[index + 1]
-                    ? contacts[index + 1]
-                    : contactList[categoryIndex + 1]?.contacts[0]
-                  const scrollActive =
-                    (nextContact || contacts[index]).id === activeRow?.id
+                  return (
+                    <span>
+                      <strong>{firstName || lastName}</strong>
+                    </span>
+                  )
+                }
+                const phoneNumber =
+                  contact.primaryPhoneNumber || contact.secondaryPhoneNumber
+                const nextContact = contacts[index + 1]
+                  ? contacts[index + 1]
+                  : contactList[categoryIndex + 1]?.contacts[0]
+                const scrollActive =
+                  (nextContact || contacts[index]).id === activeRow?.id
 
-                  const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-                    <Row
-                      selected={selected}
-                      active={activeRow?.id === contact.id}
-                      ref={ref}
+                const interactiveRow = (ref: Ref<HTMLDivElement>) => (
+                  <Row
+                    selected={selected}
+                    active={activeRow?.id === contact.id}
+                    ref={ref}
+                  >
+                    <Col>
+                      <Checkbox
+                        checked={selected}
+                        onChange={onChange}
+                        size={Size.Small}
+                        visible={!noneRowsSelected}
+                      />
+                    </Col>
+                    <ClickableCol
+                      onClick={handleSelect}
+                      data-testid={ContactListTestIdsEnum.ContactRow}
                     >
+                      <InitialsAvatar
+                        user={contact}
+                        light={selected || activeRow === contact}
+                        size={AvatarSize.Medium}
+                      />
+                      {createStyledFullName() ||
+                        intl.formatMessage({
+                          id: "module.contacts.listUnnamedContact",
+                        })}
+                      {contact.blocked && (
+                        <BlockedIcon width={1.4} height={1.4} />
+                      )}
+                    </ClickableCol>
+                    <Col>{phoneNumber}</Col>
+                    <Col>
+                      {contact.primaryPhoneNumber &&
+                        contact.secondaryPhoneNumber &&
+                        contact.secondaryPhoneNumber}
+                    </Col>
+                    <Col>
+                      <Actions>
+                        <Dropdown
+                          toggler={
+                            <ActionsButton>
+                              <Icon type={Type.More} />
+                            </ActionsButton>
+                          }
+                          onOpen={disableScroll}
+                          onClose={enableScroll}
+                        >
+                          <HiddenButton
+                            labelMessage={{
+                              id: "module.contacts.exportAsVcard",
+                            }}
+                            Icon={Type.Upload}
+                            onClick={handleExport}
+                            displayStyle={DisplayStyle.Dropdown}
+                            hide={productionEnvironment}
+                          />
+                          <HiddenButton
+                            labelMessage={{
+                              id: "module.contacts.forwardNamecard",
+                            }}
+                            Icon={Type.Forward}
+                            onClick={handleForward}
+                            displayStyle={DisplayStyle.Dropdown}
+                            hide={productionEnvironment}
+                          />
+                          {contact.blocked ? (
+                            <HiddenButton
+                              labelMessage={{
+                                id: "module.contacts.unblock",
+                              }}
+                              Icon={Type.Blocked}
+                              onClick={handleUnblock}
+                              displayStyle={DisplayStyle.Dropdown}
+                              hide={productionEnvironment}
+                            />
+                          ) : (
+                            <HiddenButton
+                              labelMessage={{
+                                id: "module.contacts.block",
+                              }}
+                              Icon={Type.Blocked}
+                              onClick={handleBlock}
+                              displayStyle={DisplayStyle.Dropdown}
+                              hide={productionEnvironment}
+                            />
+                          )}
+                          <ButtonComponent
+                            labelMessage={{
+                              id: "module.contacts.delete",
+                            }}
+                            Icon={Type.Delete}
+                            onClick={handleDelete}
+                            displayStyle={DisplayStyle.Dropdown}
+                          />
+                        </Dropdown>
+                      </Actions>
+                    </Col>
+                    <ScrollAnchorContainer
+                      key={contact.id}
+                      active={scrollActive}
+                    />
+                  </Row>
+                )
+
+                const placeholderRow = (ref: Ref<HTMLDivElement>) => {
+                  return (
+                    <Row ref={ref}>
+                      <Col />
                       <Col>
-                        <Checkbox
-                          checked={selected}
-                          onChange={onChange}
-                          size={Size.Small}
-                          visible={!noneRowsSelected}
-                        />
+                        <AvatarPlaceholder />
+                        <TextPlaceholder charsCount={fullName.length} />
                       </Col>
-                      <ClickableCol
-                        onClick={handleSelect}
-                        data-testid={ContactListTestIdsEnum.ContactRow}
-                      >
-                        <InitialsAvatar
-                          user={contact}
-                          light={selected || activeRow === contact}
-                          size={AvatarSize.Medium}
-                        />
-                        {createStyledFullName() ||
-                          intl.formatMessage({
-                            id: "module.contacts.listUnnamedContact",
-                          })}
-                        {contact.blocked && (
-                          <BlockedIcon width={1.4} height={1.4} />
+                      <Col>
+                        {phoneNumber && (
+                          <TextPlaceholder charsCount={phoneNumber.length} />
                         )}
-                      </ClickableCol>
-                      <Col>{phoneNumber}</Col>
-                      <Col>
-                        {contact.primaryPhoneNumber &&
-                          contact.secondaryPhoneNumber &&
-                          contact.secondaryPhoneNumber}
-                      </Col>
-                      <Col>
-                        <Actions>
-                          <Dropdown
-                            toggler={
-                              <ActionsButton>
-                                <Icon type={Type.More} />
-                              </ActionsButton>
-                            }
-                            onOpen={disableScroll}
-                            onClose={enableScroll}
-                          >
-                            <HiddenButton
-                              labelMessage={{
-                                id: "module.contacts.exportAsVcard",
-                              }}
-                              Icon={Type.Upload}
-                              onClick={handleExport}
-                              displayStyle={DisplayStyle.Dropdown}
-                              hide={productionEnvironment}
-                            />
-                            <HiddenButton
-                              labelMessage={{
-                                id: "module.contacts.forwardNamecard",
-                              }}
-                              Icon={Type.Forward}
-                              onClick={handleForward}
-                              displayStyle={DisplayStyle.Dropdown}
-                              hide={productionEnvironment}
-                            />
-                            {contact.blocked ? (
-                              <HiddenButton
-                                labelMessage={{
-                                  id: "module.contacts.unblock",
-                                }}
-                                Icon={Type.Blocked}
-                                onClick={handleUnblock}
-                                displayStyle={DisplayStyle.Dropdown}
-                                hide={productionEnvironment}
-                              />
-                            ) : (
-                              <HiddenButton
-                                labelMessage={{
-                                  id: "module.contacts.block",
-                                }}
-                                Icon={Type.Blocked}
-                                onClick={handleBlock}
-                                displayStyle={DisplayStyle.Dropdown}
-                                hide={productionEnvironment}
-                              />
-                            )}
-                            <ButtonComponent
-                              labelMessage={{
-                                id: "module.contacts.delete",
-                              }}
-                              Icon={Type.Delete}
-                              onClick={handleDelete}
-                              displayStyle={DisplayStyle.Dropdown}
-                            />
-                          </Dropdown>
-                        </Actions>
                       </Col>
                       <ScrollAnchorContainer
                         key={contact.id}
@@ -313,56 +335,42 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                       />
                     </Row>
                   )
+                }
 
-                  const placeholderRow = (ref: Ref<HTMLDivElement>) => {
-                    return (
-                      <Row ref={ref}>
-                        <Col />
-                        <Col>
-                          <AvatarPlaceholder />
-                          <TextPlaceholder charsCount={fullName.length} />
-                        </Col>
-                        <Col>
-                          {phoneNumber && (
-                            <TextPlaceholder charsCount={phoneNumber.length} />
-                          )}
-                        </Col>
-                        <ScrollAnchorContainer
-                          key={contact.id}
-                          active={scrollActive}
-                        />
-                      </Row>
-                    )
-                  }
-
-                  return (
-                    <InView key={contact.id}>
-                      {({ inView, ref }) =>
-                        inView ? interactiveRow(ref) : placeholderRow(ref)
-                      }
-                    </InView>
-                  )
-                })}
-              </Group>
-            ))
-          ) : (
-            <EmptyState
-              title={{ id: "module.contacts.emptyListTitle" }}
-              description={{
-                id: "module.contacts.emptySearchDescription",
-              }}
-            />
-          ))}
-        {resultsState === ResultsState.Empty ||
-          (resultsState === ResultsState.Error && (
-            <EmptyState
-              title={{ id: "module.contacts.emptyListTitle" }}
-              description={{
-                id: "module.contacts.emptyPhonebook",
-              }}
-            />
-          ))}
-        {resultsState === ResultsState.Loading && <LoadingState />}
+                return (
+                  <InView key={contact.id}>
+                    {({ inView, ref }) =>
+                      inView ? interactiveRow(ref) : placeholderRow(ref)
+                    }
+                  </InView>
+                )
+              })}
+            </Group>
+          ))
+        ) : (
+          <EmptyState
+            data-testid={ContactListTestIdsEnum.ContactListNoResult}
+            title={{ id: "module.contacts.emptyListTitle" }}
+            description={{
+              id: "module.contacts.emptySearchDescription",
+            }}
+          />
+        )}
+        {(resultsState === ResultsState.Empty ||
+          resultsState === ResultsState.Error) && (
+          <EmptyState
+            data-testid={ContactListTestIdsEnum.ContactListEmpty}
+            title={{ id: "module.contacts.emptyListTitle" }}
+            description={{
+              id: "module.contacts.emptyPhonebook",
+            }}
+          />
+        )}
+        {resultsState === ResultsState.Loading && (
+          <LoadingState
+            data-testid={ContactListTestIdsEnum.ContactListLoading}
+          />
+        )}
       </HighlightContactList>
     </SelectableContacts>
   )
