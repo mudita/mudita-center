@@ -29,6 +29,7 @@ export const fakeAppSettings: AppSettings = {
   language: "en-US",
   pureNeverConnected: true,
   appCollectingData: undefined,
+  diagnosticSentTimestamp: 0,
 }
 
 class AppSettingsFake extends AppSettingsAdapter {
