@@ -160,9 +160,10 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
         {...rest}
         show
         headerRight={productionEnvironment ? prodIcons : icons}
+        data-testid={ContactDetailsTestIds.Details}
       >
         <BasicInfo>
-          <Name>
+          <Name data-testid={ContactDetailsTestIds.Name}>
             {contact.firstName} {contact.lastName}
           </Name>
           {contact.favourite && (
@@ -172,7 +173,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             </InfoItem>
           )}
         </BasicInfo>
-        <AdditionalInfo>
+        <AdditionalInfo key={contact.id}>
           <div>
             <AdditionalInfoItem>
               <InfoItemName message={messages.information} />
@@ -181,6 +182,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               ) : (
                 <div>
                   <Input
+                    data-testid={ContactDetailsTestIds.PrimaryPhoneInput}
                     defaultValue={contact.primaryPhoneNumber}
                     label={intl.formatMessage(messages.noPrimaryNumber)}
                     // TODO: Remove productionEnvironment along with associated logic when features become available
@@ -198,6 +200,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                     }
                   />
                   <Input
+                    data-testid={ContactDetailsTestIds.SecondaryPhoneInput}
                     defaultValue={contact.secondaryPhoneNumber}
                     label={intl.formatMessage(messages.noSecondNumber)}
                     // TODO: Remove productionEnvironment along with associated logic when features become available
@@ -222,7 +225,9 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             <AdditionalInfoItem>
               <InfoItemName message={messages.address} />
               {fullAddress.length ? (
-                <ContactDetailsInfo>
+                <ContactDetailsInfo
+                  data-testid={ContactDetailsTestIds.AddressDetails}
+                >
                   {fullAddress.join("\n")}
                 </ContactDetailsInfo>
               ) : (
