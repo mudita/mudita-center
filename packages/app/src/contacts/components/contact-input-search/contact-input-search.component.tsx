@@ -46,9 +46,9 @@ const renderListItem: RenderListItem<Contact> = ({
 const renderName = (contact: Contact) => createFullName(contact)
 
 const isItemMatching = (contact: Contact, search: string) => {
-  const query: string[] = ["firstName", "lastName", "primaryPhoneNumber", "secondaryPhoneNumber", "email", "firstAddressLine", "secondAddressLine" ]
+  const query: (keyof Contact)[] = ["firstName", "lastName", "primaryPhoneNumber", "secondaryPhoneNumber", "email", "firstAddressLine", "secondAddressLine" ]
   for (const key of query) {
-    const param: string | boolean | number | undefined = contact[key as keyof typeof contact]
+    const param: typeof contact[keyof typeof contact] = contact[key]
     if (param !== undefined && typeof param === "string" &&  param.toLowerCase().includes(search.toLowerCase())) {
       return true;
     }
