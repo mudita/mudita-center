@@ -54,6 +54,7 @@ const mockIpc = () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcRequest.UpdateAppSettings]: Promise.resolve(),
     [SettingsActions.SetAutostart]: Promise.resolve(),
+    [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
     [GetApplicationConfigurationEvents.Request]: Promise.resolve({
       osVersion: "0.0.0",
       centerVersion: "0.0.0",
@@ -78,13 +79,7 @@ afterEach(() => {
 })
 
 test("loads settings", async () => {
-  ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
-    [GetApplicationConfigurationEvents.Request]: Promise.resolve({
-      osVersion: "0.0.0",
-      centerVersion: "0.0.0",
-    }),
-  }
+  mockIpc()
   await store.dispatch.settings.loadSettings()
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
@@ -723,13 +718,7 @@ test("updates language setting", async () => {
 })
 
 test("sendDiagnosticData effect no generate any side effects if serial number is undefined", async () => {
-  ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
-    [GetApplicationConfigurationEvents.Request]: Promise.resolve({
-      osVersion: "0.0.0",
-      centerVersion: "0.0.0",
-    }),
-  }
+  mockIpc()
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 
@@ -738,13 +727,7 @@ test("sendDiagnosticData effect no generate any side effects if serial number is
 })
 
 test("sendDiagnosticData effect no generate any side effects if diagnostic data isn't set", async () => {
-  ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
-    [GetApplicationConfigurationEvents.Request]: Promise.resolve({
-      osVersion: "0.0.0",
-      centerVersion: "0.0.0",
-    }),
-  }
+  mockIpc()
   await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()

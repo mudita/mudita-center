@@ -55,27 +55,24 @@ const settings = createModel<RootModel>({
       async loadSettings() {
         const appSettings = await getAppSettings()
         const applicationConfiguration = await getApplicationConfiguration()
+
+        const settings = {
+          ...appSettings,
+          lowestSupportedOsVersion: applicationConfiguration.osVersion,
+          appUpdateRequired: isVersionGreater(
+            applicationConfiguration.centerVersion,
+            version
+          ),
+          settingsLoaded: true,
+        }
+
         if (simulatePhoneConnectionEnabled) {
           dispatch.settings.update({
-            lowestSupportedOsVersion: applicationConfiguration.osVersion,
-            ...appSettings,
             ...e2eSettings,
-            settingsLoaded: true,
-            appUpdateRequired: isVersionGreater(
-              applicationConfiguration.centerVersion,
-              version
-            ),
+            ...settings,
           })
         } else {
-          dispatch.settings.update({
-            lowestSupportedOsVersion: applicationConfiguration.osVersion,
-            ...appSettings,
-            settingsLoaded: true,
-            appUpdateRequired: isVersionGreater(
-              applicationConfiguration.centerVersion,
-              version
-            ),
-          })
+          dispatch.settings.update(settings)
         }
 
         appSettings.appCollectingData
