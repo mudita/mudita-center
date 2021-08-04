@@ -10,24 +10,8 @@ export enum LogConfig {
   ReturnValue,
 }
 
-interface ScrubProps {
-  body?: unknown
-  endpoint: number
-  status: number
-  uuid: number
-}
-
 const logger = LoggerFactory.getInstance()
-const scrub = (resp: ScrubProps[]) => {
-  const scrubbed = resp.map((item) => {
-    if (item.body) {
-      return { ...item, body: "scrubbed" }
-    } else {
-      return item
-    }
-  })
-  return scrubbed
-}
+
 export default function log(
   message: string,
   logConfig = LogConfig.ReturnValue
@@ -38,7 +22,7 @@ export default function log(
     descriptor: PropertyDescriptor
   ): PropertyDescriptor {
     const targetMethod = descriptor.value
-    descriptor.value = function (...args: ScrubProps[]) {
+    descriptor.value = function (...args: unknown[]) {
       const valueOrPromise: Promise<unknown> | unknown = targetMethod.apply(
         this,
         args
@@ -50,7 +34,7 @@ export default function log(
         if (logConfig === LogConfig.ReturnValue) {
           logger.info(JSON.stringify(value, null, 2))
         } else {
-          logger.info(JSON.stringify(scrub(args), null, 2))
+          logger.info(JSON.stringify(args, null, 2))
         }
       })
 

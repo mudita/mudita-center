@@ -67,6 +67,7 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { LicenseActions } from "App/common/enums/license-actions.enum"
+import PureLogger from "App/main/utils/pure-logger"
 
 require("dotenv").config()
 
@@ -135,7 +136,7 @@ const createWindow = async () => {
 
   const enabled = process.env.PURE_LOGGER_ENABLED === "true"
 
-  PureDeviceManager.registerLogger(logger)
+  PureDeviceManager.registerLogger(new PureLogger())
   PureDeviceManager.toggleLogs(enabled)
 
   startBackend(PureDeviceManager, ipcMain)

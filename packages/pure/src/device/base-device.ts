@@ -20,12 +20,14 @@ import {
   RequestPayload,
   Response,
   ResponseStatus,
+  SerialNumberRequestPayload,
   UpdateResponseStatus,
 } from "./device.types"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
 import {
   isApiRequestPayload,
   isDeviceUpdateRequestPayload,
+  isSerialNumberRequestPayload,
   isUploadUpdateFileSystemPayload,
 } from "./device-helper"
 import PQueue from "p-queue"
@@ -38,7 +40,7 @@ class BaseDevice implements PureDevice {
   #portBlocked = false
   #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
-  constructor(private path: string) {}
+  constructor(private path: string, private serialNumber: string) {}
 
   @log("==== serial port: connect ====")
   public connect(): Promise<Response> {
@@ -118,6 +120,8 @@ class BaseDevice implements PureDevice {
           resolve(await this.uploadUpdateFileRequest(port, payload))
         } else if (isDeviceUpdateRequestPayload(payload)) {
           resolve(await this.deviceUpdateRequest(port, payload))
+        } else if (isSerialNumberRequestPayload(payload)) {
+          resolve(await this.serialNumberRequest(payload))
         } else if (isApiRequestPayload(payload)) {
           resolve(await this.apiRequest(payload))
         } else {
@@ -257,6 +261,18 @@ class BaseDevice implements PureDevice {
       status: ResponseStatus.Ok,
       body: {
         version: 1,
+      },
+    }
+  }
+
+  private async serialNumberRequest(
+    config: SerialNumberRequestPayload
+  ): Promise<Response<{ serialNumber: string }>> {
+    // mocked response until the backend implements serialNumber in deviceInfo
+    return {
+      status: ResponseStatus.Ok,
+      body: {
+        serialNumber: this.serialNumber,
       },
     }
   }
