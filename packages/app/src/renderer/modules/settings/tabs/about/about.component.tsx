@@ -7,7 +7,7 @@ import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import AboutUI from "Renderer/modules/settings/tabs/about/about-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
-import { AboutActions } from "App/common/enums/license-actions.enum"
+import { AboutActions } from "App/common/enums/about-actions.enum"
 
 const About: FunctionComponent = () => {
   const openLicenseWindow = () =>

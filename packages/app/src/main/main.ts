@@ -66,7 +66,7 @@ import startBackend from "Backend/bootstrap"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
 import { HelpActions } from "Common/enums/help-actions.enum"
-import { AboutActions } from "App/common/enums/license-actions.enum"
+import { AboutActions } from "App/common/enums/about-actions.enum"
 import PureLogger from "App/main/utils/pure-logger"
 
 
