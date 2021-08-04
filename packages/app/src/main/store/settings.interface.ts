@@ -33,6 +33,7 @@ export interface AppSettings extends Record<string, any> {
   language: string
   pureNeverConnected: boolean
   appCollectingData: boolean | undefined
+  diagnosticSentTimestamp: number
 }
 
 export interface SettingsState extends Partial<AppSettings>, AppConfiguration {

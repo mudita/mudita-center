@@ -41,6 +41,7 @@ export const initialState: StoreValues = {
   osVersion: undefined,
   simCards: [],
   lastBackup: undefined,
+  serialNumber: undefined,
 }
 
 const basicInfo = createModel<RootModel>({
@@ -132,6 +133,7 @@ const basicInfo = createModel<RootModel>({
           dispatch.basicInfo.update({
             batteryLevel: batteryInfo.data!.level,
             osVersion: info.data!.osVersion,
+            serialNumber: info.data!.serialNumber,
             simCards: networkInfo.data!.simCards,
             memorySpace: {
               full: storageInfo.data!.capacity,
@@ -240,6 +242,15 @@ const basicInfo = createModel<RootModel>({
       return slice((state: { simCards?: SimCard[] }) => {
         return getActiveNetworkLevelFromSim(state.simCards)
       })
+    },
+    deviceParred(models: StoreSelectors<any>) {
+      return createSelector(
+        models.basicInfo.deviceUnlocked,
+        models.basicInfo.initialDataLoaded,
+        (deviceUnlocked, initialDataLoaded) => {
+          return deviceUnlocked && initialDataLoaded
+        }
+      )
     },
     deviceConnecting(models: StoreSelectors<any>) {
       return createSelector(

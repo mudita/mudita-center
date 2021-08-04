@@ -140,6 +140,7 @@ const renderer = (extraProps?: {}) => {
     pureOsBackupLocation: "path/location/backup",
     pureOsDownloadLocation: "path/location/download",
     basicInfoDataState: DataState.Empty,
+    serialNumber: undefined,
     initialDataLoaded: false,
     appVersion: undefined,
     setCollectingData: jest.fn(),

@@ -5,7 +5,10 @@
 
 import { init } from "@rematch/core"
 import selectPlugin from "@rematch/select"
-import { DataState, UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
+import {
+  DataState,
+  UpdatingState,
+} from "Renderer/models/basic-info/basic-info.typings"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import basicInfo, { initialState } from "./basic-info"
 
@@ -140,6 +143,7 @@ test("store returns initial state", () => {
         "networkName": "",
         "osUpdateDate": "",
         "osVersion": undefined,
+        "serialNumber": undefined,
         "simCards": Array [],
         "updatingState": 0,
       },
@@ -238,6 +242,7 @@ describe("fetching basic info data", () => {
           "networkName": "",
           "osUpdateDate": "12-12-2003",
           "osVersion": "0.123v",
+          "serialNumber": undefined,
           "simCards": Array [
             Object {
               "active": true,

@@ -76,6 +76,7 @@ const Overview: FunctionComponent<Props> = ({
   updatingState,
   updateOs,
   updateUpdatingState,
+                                              serialNumber,
 }) => {
   /**
    * Temporary state to demo failure
@@ -112,6 +113,7 @@ const Overview: FunctionComponent<Props> = ({
     const response = await sendBugTicketRequest({
       email,
       description,
+      serialNumber,
       subject: bugTicketSubject,
     })
     if (response.status === CreateBugTicketResponseStatus.Ok) {

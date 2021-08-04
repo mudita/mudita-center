@@ -20,6 +20,10 @@ import { SettingsActions } from "Common/enums/settings-actions.enum"
 import { RootModel } from "Renderer/models/models"
 import logger from "App/main/utils/logger"
 import e2eSettings from "Renderer/models/settings/e2e-settings.json"
+import { isToday } from "Renderer/utils/is-today"
+import getDeviceLogs from "Renderer/requests/get-device-logs.request"
+import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getLowestSupportedOsVersion from "Renderer/requests/get-lowest-supported-os-version.request"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
@@ -124,12 +128,58 @@ const settings = createModel<RootModel>({
       setAppUpdateStepModalDisplayed() {
         dispatch.settings.update({ appUpdateStepModalDisplayed: true })
       },
+      setDiagnosticSentTimestamp(
+        value: AppSettings["diagnosticSentTimestamp"]
+      ) {
+        this.updateSettings({ key: "diagnosticSentTimestamp", value })
+      },
       toggleAppCollectingData(value: boolean) {
         this.updateSettings({ key: "appCollectingData", value })
         value ? logger.enableRollbar() : logger.disableRollbar()
       },
       toggleAppUpdateAvailable(appUpdateAvailable: boolean) {
         dispatch.settings.update({ appUpdateAvailable })
+      },
+      async sendDiagnosticData(_, state): Promise<void> {
+        const { appCollectingData, diagnosticSentTimestamp } = state.settings
+        const { serialNumber } = state.basicInfo
+
+        if (serialNumber === undefined) {
+          logger.error(
+            `Send Diagnostic Data: device logs fail. SerialNumber is undefined.`
+          )
+          return
+        }
+        if (!appCollectingData) {
+          logger.info("Send Diagnostic Data: user no allowed sent data")
+          return
+        }
+
+        if (isToday(new Date(diagnosticSentTimestamp))) {
+          logger.info(`Send Diagnostic Data: data was sent at ${diagnosticSentTimestamp}`)
+          return
+        }
+        const { status, data = "", error } = await getDeviceLogs()
+        if (status !== DeviceResponseStatus.Ok) {
+          logger.error(
+            `Send Diagnostic Data: device logs fail. Message: ${error?.message}.`
+          )
+          return
+        }
+
+        try {
+          const { status } = await sendDiagnosticDataRequest(data, serialNumber)
+          if (status !== 200) {
+            logger.error(
+              `Send Diagnostic Data: send diagnostic data request. Status: ${status}`
+            )
+          }
+          const nowTimestamp = Date.now()
+          await dispatch.settings.setDiagnosticSentTimestamp(nowTimestamp)
+          logger.info(`Send Diagnostic Data: data was sent successfully at ${nowTimestamp}, serialNumber: ${serialNumber}`)
+        } catch {
+          logger.error(`Send Diagnostic Data: send diagnostic data request.`)
+        }
       },
       setAppLatestVersion(appLatestVersion: string) {
         dispatch.settings.update({ appLatestVersion })

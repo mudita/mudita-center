@@ -15,6 +15,7 @@ export interface FreshdeskTicketData {
   email: string
   subject: string
   description: string
+  serialNumber?: string
   attachments: File[]
 }
 
@@ -27,6 +28,7 @@ const createFreshdeskTicket = ({
   email,
   subject,
   description: tmpDescription,
+  serialNumber,
   attachments,
 }: FreshdeskTicketData): Promise<AxiosResponse<unknown>> => {
   const config: AxiosRequestConfig = {
@@ -52,6 +54,9 @@ const createFreshdeskTicket = ({
   formData.append("source", "100")
   formData.append("priority", "1")
   formData.append("custom_fields[cf_product]", "Mudita Pure")
+  if (serialNumber) {
+    formData.append("custom_fields[cf_serial_number_imei]", serialNumber)
+  }
 
   attachments.forEach((attachment) => {
     formData.append("attachments[]", attachment)
