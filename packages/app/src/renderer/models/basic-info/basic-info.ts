@@ -21,14 +21,16 @@ import {
   DataState,
   SimCard,
   StoreValues,
+  UpdatingState,
 } from "Renderer/models/basic-info/basic-info.typings"
 import { createModel } from "@rematch/core"
 import { RootState } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
+import updateOs from "Renderer/requests/update-os.request"
 
 export const initialState: StoreValues = {
   deviceConnected: false,
-  deviceUpdating: false,
+  updatingState: UpdatingState.Standby,
   deviceUnlocked: undefined,
   initialDataLoaded: false,
   basicInfoDataState: DataState.Empty,
@@ -36,7 +38,7 @@ export const initialState: StoreValues = {
   memorySpace: { free: 0, full: 0 },
   networkName: "",
   osUpdateDate: "",
-  osVersion: "",
+  osVersion: undefined,
   simCards: [],
   lastBackup: undefined,
   serialNumber: undefined,
@@ -67,11 +69,11 @@ const basicInfo = createModel<RootModel>({
       ]
       return { ...state, simCards: newSim }
     },
-    toggleDeviceUpdating(
+    updateUpdatingState(
       state: StoreValues,
-      deviceUpdating: boolean
+      updatingState: UpdatingState
     ): StoreValues {
-      return { ...state, deviceUpdating }
+      return { ...state, updatingState }
     },
   },
   effects: (d: any) => {
@@ -162,12 +164,12 @@ const basicInfo = createModel<RootModel>({
       },
       async toggleDeviceConnected(
         deviceConnected: boolean,
-        rootState: { basicInfo: { deviceUpdating: boolean } }
+        rootState: { basicInfo: { updatingState: UpdatingState } }
       ) {
         if (deviceConnected) {
           dispatch.basicInfo.update({ deviceConnected })
         } else {
-          if (!rootState.basicInfo.deviceUpdating) {
+          if (rootState.basicInfo.updatingState !== UpdatingState.Updating) {
             dispatch.basicInfo.update(initialState)
           } else {
             dispatch.basicInfo.update({
@@ -206,6 +208,16 @@ const basicInfo = createModel<RootModel>({
           dispatch.basicInfo.updateSim(simCard.number)
         }
       },
+      async updateOs(fileName: string) {
+        dispatch.basicInfo.updateUpdatingState(UpdatingState.Updating)
+        const response = await updateOs(fileName)
+
+        if (response.status !== DeviceResponseStatus.Ok) {
+          dispatch.basicInfo.updateUpdatingState(UpdatingState.Fail)
+          return
+        }
+        dispatch.basicInfo.updateUpdatingState(UpdatingState.Success)
+      },
     }
   },
   selectors: (slice: Slicer<typeof initialState>) => ({
@@ -218,8 +230,8 @@ const basicInfo = createModel<RootModel>({
     deviceUnlocked() {
       return slice(({ deviceUnlocked }) => deviceUnlocked)
     },
-    deviceUpdating() {
-      return slice(({ deviceUpdating }) => deviceUpdating)
+    updatingState() {
+      return slice(({ updatingState }) => updatingState)
     },
     activeSimNetworkName() {
       return slice((state: { simCards?: SimCard[] }) => {
@@ -254,9 +266,12 @@ const basicInfo = createModel<RootModel>({
       return createSelector(
         models.basicInfo.deviceConnected,
         models.basicInfo.deviceUnlocked,
-        models.basicInfo.deviceUpdating,
-        (deviceConnected, deviceUnlocked, deviceUpdating) => {
-          return (deviceConnected && deviceUnlocked) || deviceUpdating
+        models.basicInfo.updatingState,
+        (deviceConnected, deviceUnlocked, updatingState) => {
+          return (
+            (deviceConnected && deviceUnlocked) ||
+            updatingState === UpdatingState.Updating
+          )
         }
       )
     },

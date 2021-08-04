@@ -6,9 +6,9 @@
 import React, { ComponentProps } from "react"
 import ContactSupportModalFlow, {
   ContactSupportModalFlowState,
-} from "App/contacts/components/contact-support-modal/contact-support-modal-flow.component"
+} from "Renderer/components/rest/contact-support-modal/contact-support-modal-flow.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { ContactSupportModalFlowTestIds } from "App/contacts/components/contact-support-modal/contact-support-modal-flow-test-ids.component"
+import { ContactSupportModalFlowTestIds } from "Renderer/components/rest/contact-support-modal/contact-support-modal-flow-test-ids.component"
 import { waitFor } from "@testing-library/dom"
 import { noop } from "Renderer/utils/noop"
 

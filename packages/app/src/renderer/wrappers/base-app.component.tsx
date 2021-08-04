@@ -71,8 +71,6 @@ const BaseApp: FunctionComponent<Props> = ({
       history.push(URL_ONBOARDING.connecting)
     } else if (!pureFeaturesVisible) {
       history.push(URL_ONBOARDING.root)
-    } else if (pureFeaturesVisible) {
-      history.push(URL_MAIN.overview)
     }
   }, [pureFeaturesVisible, deviceConnecting])
 

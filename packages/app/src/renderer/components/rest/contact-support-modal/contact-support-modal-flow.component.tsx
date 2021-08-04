@@ -5,10 +5,10 @@
 
 import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import ContactSupportModal from "App/contacts/components/contact-support-modal/contact-support-modal.component"
-import ContactSupportModalSuccess from "App/contacts/components/contact-support-modal/contact-support-modal-success.component"
-import ContactSupportModalFail from "App/contacts/components/contact-support-modal/contact-support-modal-fail.component"
-import { ContactSupportModalFlowTestIds } from "App/contacts/components/contact-support-modal/contact-support-modal-flow-test-ids.component"
+import ContactSupportModal from "Renderer/components/rest/contact-support-modal/contact-support-modal.component"
+import ContactSupportModalSuccess from "Renderer/components/rest/contact-support-modal/contact-support-modal-success.component"
+import ContactSupportModalFail from "Renderer/components/rest/contact-support-modal/contact-support-modal-fail.component"
+import { ContactSupportModalFlowTestIds } from "Renderer/components/rest/contact-support-modal/contact-support-modal-flow-test-ids.component"
 
 export enum ContactSupportModalFlowState {
   Form = "form",

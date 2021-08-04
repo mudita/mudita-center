@@ -9,7 +9,6 @@ import { RootModel } from "Renderer/models/models"
 
 const initialState: PhoneUpdate = {
   pureOsFileUrl: "",
-  pureOsAvailable: false,
   pureOsDownloaded: false,
 }
 

@@ -9,7 +9,7 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const updateOs = async (
   fileName: string,
-  progressChannel: string
+  progressChannel?: string
 ): Promise<DeviceResponse> => {
   return ipcRenderer.callMain(IpcRequest.UpdateOs, {
     fileName,
