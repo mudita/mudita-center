@@ -22,6 +22,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import {
   transitionTime,
   transitionTimingFunction,
+  textColor,
 } from "Renderer/styles/theming/theme-getters"
 import { InputProps } from "Renderer/components/core/input-text/input-text.interface"
 import composeRefs from "@seznam/compose-react-refs/composeRefs"
@@ -33,12 +34,18 @@ import {
   renderListItemSearchable,
 } from "Renderer/components/core/list/list.component"
 import { IsItemMatching } from "Renderer/components/core/utils/is-item-matching"
+import { defineMessages } from "react-intl"
+import { intl } from "Renderer/utils/intl"
 
 export enum InputSelectTestIds {
   Icon = "input-select-icon",
   List = "input-select-list",
   ListItem = "input-select-list-item",
 }
+
+const messages = defineMessages({
+  noResults: { id: "component.inputSelectNoResults" },
+})
 
 const ToggleIcon = styled.span<{ rotated?: boolean }>`
   cursor: pointer;
@@ -63,6 +70,12 @@ const SelectInputWrapper = styled.div<{
     position: absolute;
     ${({ listStyles }) => listStyles};
   }
+`
+
+const NoResultsItem = styled(ListItem)`
+  padding: 5.5rem 0;
+  text-align: center;
+  color: ${textColor("secondary")};
 `
 
 export type ListItemProps = {
@@ -120,36 +133,40 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
           {emptyItemValue}
         </ListItem>
       )}
-      {items.map((item, index) => {
-        const onClick = () => onItemClick(item)
-        const selected = item === selectedItem
-        const disabled = disabledItems.includes(item)
-        const onMouseDown = (event: MouseEvent) => {
-          if (disabled) {
-            event.stopPropagation()
-            event.preventDefault()
+      {items.length > 0 ? (
+        items.map((item, index) => {
+          const onClick = () => onItemClick(item)
+          const selected = item === selectedItem
+          const disabled = disabledItems.includes(item)
+          const onMouseDown = (event: MouseEvent) => {
+            if (disabled) {
+              event.stopPropagation()
+              event.preventDefault()
+            }
           }
-        }
-        const onMouseEnter = () => handleMouseEnter(index)
-        const active = activeItemIndex === index
-        return (
-          <Fragment key={index}>
-            {renderListItem({
-              searchString,
-              item,
-              props: {
-                onClick,
-                selected,
-                disabled,
-                active,
-                onMouseDown,
-                onMouseEnter,
-                "data-testid": InputSelectTestIds.ListItem,
-              },
-            })}
-          </Fragment>
-        )
-      })}
+          const onMouseEnter = () => handleMouseEnter(index)
+          const active = activeItemIndex === index
+          return (
+            <Fragment key={index}>
+              {renderListItem({
+                searchString,
+                item,
+                props: {
+                  onClick,
+                  selected,
+                  disabled,
+                  active,
+                  onMouseDown,
+                  onMouseEnter,
+                  "data-testid": InputSelectTestIds.ListItem,
+                },
+              })}
+            </Fragment>
+          )
+        })
+      ) : (
+        <NoResultsItem>{intl.formatMessage(messages.noResults)}</NoResultsItem>
+      )}
     </List>
   )
 }

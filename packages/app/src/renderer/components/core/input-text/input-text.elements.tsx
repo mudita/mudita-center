@@ -87,7 +87,7 @@ export const InputError = styled(Text)<{ visible: boolean }>`
 
 const outlinedStyles = css`
   height: 4rem;
-  padding: 0 2.4rem;
+  padding: 0 1.6rem;
   border: 0.1rem solid ${borderColor("secondary")};
   border-radius: ${borderRadius("medium")};
 `
@@ -182,11 +182,12 @@ const TextInput = styled.input<{ type: string }>`
       &::-webkit-search-cancel-button {
         -webkit-appearance: none;
         cursor: pointer;
-        height: 14px;
-        width: 14px;
+        height: 10px;
+        width: 10px;
+        margin-left: 2rem;
         background-image: url(${CloseImage});
         background-repeat: no-repeat;
-        background-size: 14px;
+        background-size: 12px;
         display: block;
       }
     `};
