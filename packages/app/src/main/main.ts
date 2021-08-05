@@ -247,7 +247,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
   })
 })
 
-const openSettingsAboutWindow = (channel: string, mode: string, urlMain: string, newWindow: BrowserWindow | null = null ) => {
+const createOpenAboutWindowListener = (channel: string, mode: string, urlMain: string, newWindow: BrowserWindow | null = null ) => {
   ipcMain.answerRenderer(channel, async () => {
     if (newWindow === null) {
       newWindow = await new BrowserWindow(
@@ -286,11 +286,11 @@ const openSettingsAboutWindow = (channel: string, mode: string, urlMain: string,
   })
 }
 
-openSettingsAboutWindow(AboutActions.LicenseOpenWindow, Mode.License, URL_MAIN.license, licenseWindow)
+createOpenAboutWindowListener(AboutActions.LicenseOpenWindow, Mode.License, URL_MAIN.license, licenseWindow)
 
-openSettingsAboutWindow(AboutActions.TermsOpenWindow, Mode.TermsOfService, URL_MAIN.termsOfService, termsWindow)
+createOpenAboutWindowListener(AboutActions.TermsOpenWindow, Mode.TermsOfService, URL_MAIN.termsOfService, termsWindow)
 
-openSettingsAboutWindow(AboutActions.PolicyOpenWindow, Mode.PrivacyPolicy, URL_MAIN.privacyPolicy, policyWindow)
+createOpenAboutWindowListener(AboutActions.PolicyOpenWindow, Mode.PrivacyPolicy, URL_MAIN.privacyPolicy, policyWindow)
 
 const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
   return await googleAuthWindow.loadURL(

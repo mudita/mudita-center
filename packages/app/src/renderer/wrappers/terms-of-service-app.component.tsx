@@ -8,7 +8,7 @@ import { History } from "history"
 import { Route, Router } from "react-router"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { URL_MAIN } from "Renderer/constants/urls"
-import TermsOfServiceUI from "../modules/settings/tabs/about/terms-of-service/terms-of-service-ui.component"
+import TermsOfServiceUI from "../modules/settings/tabs/about/components/terms-of-service/terms-of-service-ui.component"
 interface Props {
   history: History
 }

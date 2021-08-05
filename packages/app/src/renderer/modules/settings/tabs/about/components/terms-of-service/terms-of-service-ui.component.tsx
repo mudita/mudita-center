@@ -7,7 +7,7 @@ import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import  { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { TermsOfServiceComponentTestIds } from "./terms-of-service-ui.enum"
-import {WindowContainer, WindowHeader, WindowTitle, LightText, LightTextNested } from "Renderer/modules/settings/tabs/about/license/license-ui.component"
+import { WindowContainer, WindowHeader, WindowTitle, LightText, LightTextNested } from "Renderer/modules/settings/tabs/about/components/shared"
 
 const TermsOfServiceUI: FunctionComponent = () => (
   <WindowContainer data-testid={TermsOfServiceComponentTestIds.Wrapper}>
