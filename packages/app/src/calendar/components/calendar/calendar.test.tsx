@@ -8,11 +8,11 @@ import { Router } from "react-router"
 import history from "Renderer/routes/history"
 import React from "react"
 import { calendarSeed } from "App/seeds/calendar"
-import { CalendarTestIds } from "App/calendar/calendar-test-ids.enum"
+import { CalendarTestIds } from "App/calendar/components/calendar/calendar-test-ids.enum"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { Provider } from "react-redux"
 import store from "Renderer/store"
-import CalendarUI from "App/calendar/calendar-ui.component"
+import CalendarUI from "App/calendar/components/calendar/calendar.component"
 import { mockedCalendars } from "App/__mocks__/calendars-list"
 
 const defaultProps = {

@@ -20,7 +20,7 @@ import {
   URL_RECOVERY_MODE,
   URL_TABS,
 } from "Renderer/constants/urls"
-import Calendar from "App/calendar/calendar.component"
+import Calendar from "App/calendar/calendar.container"
 import Templates from "App/templates/templates.container"
 import Playlist from "Renderer/modules/music/tabs/playlist.component"
 import Calls from "Renderer/modules/phone/tabs/calls-container.component"

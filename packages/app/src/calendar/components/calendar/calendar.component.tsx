@@ -5,7 +5,7 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { CalendarProps } from "App/calendar/calendar.interface"
+import { CalendarProps } from "App/calendar/components/calendar/calendar.interface"
 import modalService from "Renderer/components/core/modal/modal.service"
 import SelectVendorModal from "App/calendar/components/select-vendor-modal/select-vendor-modal.component"
 import SelectCalendarsModal from "App/calendar/components/select-calendars-modal/select-calendars-modal.component"
