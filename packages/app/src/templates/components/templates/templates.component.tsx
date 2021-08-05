@@ -25,7 +25,7 @@ import {
 } from "App/templates/store/templates"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteTemplateModal from "App/templates/components/delete-template-modal.component"
-import { TemplatesTestIds } from "App/templates/templates.enum"
+import { TemplatesTestIds } from "App/templates/components/templates/templates.enum"
 import { SortOrder } from "Common/enums/sort-order.enum"
 import { Template } from "App/templates/store/templates.interface"
 

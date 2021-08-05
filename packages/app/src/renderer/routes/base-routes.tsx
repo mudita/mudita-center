@@ -21,7 +21,7 @@ import {
   URL_TABS,
 } from "Renderer/constants/urls"
 import Calendar from "App/calendar/calendar.component"
-import Templates from "App/templates/templates.component"
+import Templates from "App/templates/templates.container"
 import Playlist from "Renderer/modules/music/tabs/playlist.component"
 import Calls from "Renderer/modules/phone/tabs/calls-container.component"
 import Dial from "Renderer/modules/phone/tabs/dial.component"
