@@ -25,19 +25,19 @@ const defaultProps = {
 }
 
 test("isItemMatching returns true when search string in email", () => {
-    let searchString: string = "example"
+    const searchString = "example"
     const result = isItemMatching(defaultProps.contact, searchString)
     expect(result).toBe(true)
 })
 
 test("isItemMatching returns true when search string in primaryPhoneNumber", () => {
-    let searchString: string = "069"
+    const searchString = "069"
     const result = isItemMatching(defaultProps.contact, searchString)
     expect(result).toBe(true)
 })
 
 test("isItemMatching returns false when no match ", () => {
-    let searchString: string = "000"
+    const searchString = "000"
     const result = isItemMatching(defaultProps.contact, searchString)
     expect(result).toBe(false)
 })

@@ -255,7 +255,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   }
 
   const onKeyDown = (event: KeyboardEvent) => {
-    const serchResultRows: number = 8
+    const serchResultRows = 8
     const handleArrowDown = () => {
       const maxListLength =
         filteredItems.length <= serchResultRows
