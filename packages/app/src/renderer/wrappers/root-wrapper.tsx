@@ -43,6 +43,8 @@ import registerDeviceUnlockedListener, {
 import registerAvailableAppUpdateListener from "App/main/functions/register-avaible-app-update-listener"
 import registerNotAvailableAppUpdateListener from "App/main/functions/register-not-avaible-app-update-listener"
 import LicenseApp from "./license-app.component"
+import TermsOfServiceApp from "./terms-of-service-app.component"
+import PrivacyPolicyApp from "./privacy-policy-app.component"
 
 interface Props {
   store: Store
@@ -73,6 +75,14 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
     if (params.get("mode") === Mode.License) {
       return <LicenseApp history={history} />
+    }
+
+    if (params.get("mode") === Mode.TermsOfService) {
+      return <TermsOfServiceApp history={history} />
+    }
+
+    if (params.get("mode") === Mode.PrivacyPolicy) {
+      return <PrivacyPolicyApp history={history} />
     }
 
     return <BaseApp store={store} history={history} />
