@@ -5,7 +5,6 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { SystemProps } from "Renderer/components/rest/overview/system/system.interface"
 import Card, {
   CardAction,
   CardActionButton,
@@ -50,17 +49,24 @@ const AvailableUpdate = styled(Text)`
   background-color: ${backgroundColor("minor")};
 `
 
-const System: FunctionComponent<SystemProps> = ({
+interface Props {
+  osVersion?: string
+  onUpdateCheck?: () => void
+  onUpdate?: () => void
+  onDownload?: () => void
+  updateAvailable?: boolean
+  updateDownloaded?: boolean
+}
+
+const System: FunctionComponent<Props> = ({
   className,
-  osVersion,
+  osVersion = "",
   updateAvailable,
   updateDownloaded,
   onUpdateCheck = noop,
   onUpdate = noop,
   onDownload = noop,
 }) => {
-  const releaseNumber = osVersion.slice(8)
-
   return (
     <Card className={className}>
       <div>
@@ -79,7 +85,7 @@ const System: FunctionComponent<SystemProps> = ({
               data-testid={OverviewTestIds.OsVersion}
             >
               <FormattedMessage id="module.overview.muditaOsUpdateTitle" />
-              {" " + releaseNumber}
+              {" " + osVersion}
             </Text>
           </Version>
           {updateAvailable ? (

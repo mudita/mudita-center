@@ -5,7 +5,10 @@
 
 import { init } from "@rematch/core"
 import selectPlugin from "@rematch/select"
-import { DataState } from "Renderer/models/basic-info/basic-info.typings"
+import {
+  DataState,
+  UpdatingState,
+} from "Renderer/models/basic-info/basic-info.typings"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import basicInfo, { initialState } from "./basic-info"
 
@@ -131,7 +134,6 @@ test("store returns initial state", () => {
         "batteryLevel": 0,
         "deviceConnected": false,
         "deviceUnlocked": undefined,
-        "deviceUpdating": false,
         "initialDataLoaded": false,
         "lastBackup": undefined,
         "memorySpace": Object {
@@ -140,8 +142,10 @@ test("store returns initial state", () => {
         },
         "networkName": "",
         "osUpdateDate": "",
-        "osVersion": "",
+        "osVersion": undefined,
+        "serialNumber": undefined,
         "simCards": Array [],
+        "updatingState": 0,
       },
     }
   `)
@@ -178,7 +182,7 @@ describe("disconnect connected device", () => {
   test("disconnect request set initial state properly", async () => {
     await store.dispatch.basicInfo.update({
       deviceConnected: true,
-      deviceUpdating: false,
+      updatingState: UpdatingState.Standby,
       deviceUnlocked: true,
       initialDataLoaded: true,
       basicInfoDataState: DataState.Loaded,
@@ -220,44 +224,45 @@ describe("fetching basic info data", () => {
   test("successful fetch request transform responses properly ", async () => {
     await store.dispatch.basicInfo.loadBasicInfoData()
     expect(store.getState()).toMatchInlineSnapshot(`
-    Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 1,
-        "batteryLevel": 9001,
-        "deviceConnected": false,
-        "deviceUnlocked": undefined,
-        "deviceUpdating": false,
-        "initialDataLoaded": false,
-        "lastBackup": Object {
-          "createdAt": "20-11-15T07:35:01.562Z20",
-          "size": 99999,
-        },
-        "memorySpace": Object {
-          "free": 99999999999999,
-          "full": 9001,
-        },
-        "networkName": "",
-        "osUpdateDate": "12-12-2003",
-        "osVersion": "0.123v",
-        "simCards": Array [
-          Object {
-            "active": true,
-            "network": "Y-Mobile",
-            "networkLevel": 0.5,
-            "number": 12345678,
-            "slot": 1,
+      Object {
+        "basicInfo": Object {
+          "basicInfoDataState": 1,
+          "batteryLevel": 9001,
+          "deviceConnected": false,
+          "deviceUnlocked": undefined,
+          "initialDataLoaded": false,
+          "lastBackup": Object {
+            "createdAt": "20-11-15T07:35:01.562Z20",
+            "size": 99999,
           },
-          Object {
-            "active": false,
-            "network": "X-Mobile",
-            "networkLevel": 0.69,
-            "number": 7001234523,
-            "slot": 2,
+          "memorySpace": Object {
+            "free": 99999999999999,
+            "full": 9001,
           },
-        ],
-      },
-    }
-  `)
+          "networkName": "",
+          "osUpdateDate": "12-12-2003",
+          "osVersion": "0.123v",
+          "serialNumber": undefined,
+          "simCards": Array [
+            Object {
+              "active": true,
+              "network": "Y-Mobile",
+              "networkLevel": 0.5,
+              "number": 12345678,
+              "slot": 1,
+            },
+            Object {
+              "active": false,
+              "network": "X-Mobile",
+              "networkLevel": 0.69,
+              "number": 7001234523,
+              "slot": 2,
+            },
+          ],
+          "updatingState": 0,
+        },
+      }
+    `)
   })
 })
 
@@ -300,7 +305,7 @@ describe("connected event", () => {
   test("disconnect request set initial state properly", async () => {
     await store.dispatch.basicInfo.update({
       deviceConnected: true,
-      deviceUpdating: false,
+      updatingState: UpdatingState.Standby,
       deviceUnlocked: true,
       initialDataLoaded: true,
       basicInfoDataState: DataState.Loaded,
@@ -427,7 +432,7 @@ describe("pureFeaturesVisible selector", () => {
   })
 
   test("pureFeaturesVisible return true in updating process", async () => {
-    await store.dispatch.basicInfo.toggleDeviceUpdating(true)
+    await store.dispatch.basicInfo.updateUpdatingState(UpdatingState.Updating)
     const pureFeaturesVisible = store.select.basicInfo.pureFeaturesVisible(
       store.getState()
     )
@@ -435,7 +440,8 @@ describe("pureFeaturesVisible selector", () => {
   })
 
   test("pureFeaturesVisible return true if device is unlocked and init data is loaded", async () => {
-    await store.dispatch.basicInfo.toggleDeviceUpdating(true)
+    await store.dispatch.basicInfo.toggleDeviceUnlocked(true)
+    await store.dispatch.basicInfo.toggleDeviceConnected(true)
     const pureFeaturesVisible = store.select.basicInfo.pureFeaturesVisible(
       store.getState()
     )

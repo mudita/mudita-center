@@ -235,7 +235,7 @@ export const UpdateAvailable = ({
   </OSUpdateModal>
 )
 
-export const UpdateNotAvailable = ({ version = "", date = "" }) => (
+export const UpdateNotAvailable = ({ version = "" }) => (
   <OSUpdateModal>
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
@@ -250,11 +250,6 @@ export const UpdateNotAvailable = ({ version = "", date = "" }) => (
         ...messages.updateNotAvailableDescription,
         values: {
           version,
-          date: new Date(date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          }),
         },
       }}
     />
@@ -356,6 +351,7 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
   />
 )
 
+// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingSpinnerModal: FunctionComponent = () => {
   return (
     <OSUpdateModal closeButton={false} closeable={false}>
@@ -374,6 +370,7 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
   )
 }
 
+// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingSuccessModal = () => (
   <OSUpdateModal data-testid={OverviewTestIds.UpdatingSuccessModal}>
     <RoundIconWrapper>
@@ -390,6 +387,7 @@ export const UpdatingSuccessModal = () => (
   </OSUpdateModal>
 )
 
+// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingFailureModal = ({
   code,
   onContact,
@@ -415,6 +413,7 @@ export const UpdatingFailureModal = ({
   )
 }
 
+// FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingFailureWithHelpModal = ({
   code,
   onContact,
