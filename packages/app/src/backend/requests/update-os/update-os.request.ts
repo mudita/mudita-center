@@ -12,7 +12,7 @@ import getAppSettingsMain from "App/main/functions/get-app-settings"
 
 const handleUpdateOs = async (
   { purePhone }: Adapters,
-  { fileName, progressChannel }: { fileName: string; progressChannel: string }
+  { fileName, progressChannel }: { fileName: string; progressChannel?: string }
 ): Promise<DeviceResponse> => {
   const { pureOsDownloadLocation } = await getAppSettingsMain()
   const filePath = path.join(pureOsDownloadLocation, fileName)

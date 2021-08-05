@@ -81,6 +81,10 @@ const settingsSchema: Schema<AppSettings> = {
     type: "boolean",
     default: undefined,
   },
+  diagnosticSentTimestamp: {
+    type: "number",
+    default: 0,
+  },
 }
 
 export default settingsSchema

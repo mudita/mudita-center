@@ -15,10 +15,13 @@ const handleDeviceInfoRequest = async ({
   purePhone,
 }: Adapters): Promise<DeviceResponse<DeviceInfo>> => {
   const getOsVersionResponse = await purePhone.getOsVersion()
+  const getSerialNumberResponse = await purePhone.getSerialNumber()
 
   if (
     getOsVersionResponse.status === DeviceResponseStatus.Ok &&
-    getOsVersionResponse.data !== undefined
+    getOsVersionResponse.data !== undefined &&
+    getSerialNumberResponse.status === DeviceResponseStatus.Ok &&
+    getSerialNumberResponse.data !== undefined
   ) {
     return {
       status: DeviceResponseStatus.Ok,
@@ -28,7 +31,7 @@ const handleDeviceInfoRequest = async ({
         name: purePhone.getName(),
         osUpdateDate: purePhone.getOsUpdateDate(),
         osVersion: getOsVersionResponse.data,
-        serialNumber: purePhone.getSerialNumber(),
+        serialNumber: getSerialNumberResponse.data,
       },
     }
   } else {

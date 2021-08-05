@@ -14,7 +14,7 @@ import {
 import { ipcMain } from "electron-better-ipc"
 import * as path from "path"
 import * as url from "url"
-import registerPureOsUpdateListener from "App/main/functions/register-pure-os-update-listener"
+import registerGetAllReleasesListener from "App/main/functions/register-get-all-releases-listener"
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
@@ -25,8 +25,9 @@ import registerEventsExportListener from "App/calendar/backend/export-events"
 import registerWriteFileListener from "App/main/functions/register-write-file-listener"
 import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
-import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
+import registerGetLowestSupportedOsVersionListener from "App/main/functions/register-get-lowest-supported-os-version-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
+import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
 import {
   registerDownloadHelpHandler,
@@ -67,6 +68,7 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { LicenseActions } from "App/common/enums/license-actions.enum"
+import PureLogger from "App/main/utils/pure-logger"
 
 require("dotenv").config()
 
@@ -135,12 +137,12 @@ const createWindow = async () => {
 
   const enabled = process.env.PURE_LOGGER_ENABLED === "true"
 
-  PureDeviceManager.registerLogger(logger)
+  PureDeviceManager.registerLogger(new PureLogger())
   PureDeviceManager.toggleLogs(enabled)
 
   startBackend(PureDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
-  registerPureOsUpdateListener()
+  registerGetAllReleasesListener()
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()
@@ -151,6 +153,7 @@ const createWindow = async () => {
   registerWriteFileListener()
   registerRmdirListener()
   registerWriteGzipListener()
+  registerGetLowestSupportedOsVersionListener()
   registerPureOsDownloadProxy()
 
   if (productionEnvironment) {

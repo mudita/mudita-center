@@ -2,6 +2,8 @@
 
 [![Follow Twitter](https://img.shields.io/twitter/follow/wearemudita?label=Follow%20on%20Twitter&style=social)](https://twitter.com/wearemudita)
 
+[![codecov](https://codecov.io/gh/mudita/mudita-center/branch/master/graph/badge.svg?token=10F4ZOOS5S)](https://codecov.io/gh/mudita/mudita-center)
+
 Mudita Center is written in JavaScript and distributed as an Electron app.
 
 Mudita Center allows you to expand and update the features of Mudita Pure, while using your computer. Update [MuditaOS](https://github.com/mudita/MuditaOS/), synchronise calendar and contacts, upload audio, use Pure as a mobile hotspot. One application for every platform, open-sourced for transparency.
@@ -25,13 +27,19 @@ If you would like to help us create Mudita Center as a full-time job - **[we're 
 
 ## Table of contents
 
-- [Quickstart](#Quickstart)
-- [Scripts](#Scripts)
-- [Contributing](#Contributing)
-  - [Discussions](#Discussions)
-  - [Reporting issues and feature requests](#Reporting-bugs-and-feature-requests)
-  - [Development workflow](#Development-workflow)
-- [License](#license)
+- [Mudita Center](#mudita-center)
+  - [Key features](#key-features)
+  - [Table of contents](#table-of-contents)
+  - [Quickstart](#quickstart)
+  - [Scripts](#scripts)
+  - [Contributing](#contributing)
+    - [Discussions](#discussions)
+    - [Reporting bugs and feature requests](#reporting-bugs-and-feature-requests)
+    - [Development workflow](#development-workflow)
+  - [Changelog](#changelog)
+  - [License](#license)
+  - [Hiding sensitive data](#hiding-sensitive-data)
+  - [Services](#services)
 
 ## Quickstart
 
@@ -68,3 +76,11 @@ Mudita Center is licensed under [GNU GPLv3](https://choosealicense.com/licenses/
 ## Hiding sensitive data
 
 As a Mudita we take care of the security of your data. All data we are collecting are hidden. If you will add a new query in request path, that contains sensitive data, you need to add it to scrubFields array in logger.ts
+
+## Services
+
+You'll need access to the following services in order to develop the app.
+
+| Service | Description                                       | URL                 |
+| ------- | ------------------------------------------------- | ------------------- |
+| Codecov | Code coverage reporter and static code validator. | https://codecov.io/ |
