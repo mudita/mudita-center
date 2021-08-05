@@ -4,7 +4,7 @@
  */
 
 import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
-import { PhoneTestIds } from "Renderer/components/rest/overview/phone/phone-test-ids.enum"
+import { PhoneTestIds } from "Renderer/../overview/components/overview/phone/phone-test-ids.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { Application } from "spectron"

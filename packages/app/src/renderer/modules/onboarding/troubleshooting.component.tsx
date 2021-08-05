@@ -12,9 +12,9 @@ import ContactSupportModalFlow, {
 } from "App/renderer/components/rest/contact-support-modal/contact-support-modal-flow.component"
 import useCreateBugTicket, {
   files,
-} from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
+} from "App/renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket"
 import { ContactSupportFieldValues } from "App/renderer/components/rest/contact-support-modal/contact-support-modal.component"
-import { CreateBugTicketResponseStatus } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket-builder"
+import { CreateBugTicketResponseStatus } from "App/renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
 import logger from "App/main/utils/logger"
 
 const Troubleshooting = () => {

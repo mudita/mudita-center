@@ -3,14 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
+import { defineMessages } from "react-intl"
+import { storiesOf } from "@storybook/react"
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
-import { messages } from "Renderer/components/rest/overview/network/network.component"
+
+const messages = defineMessages({
+  tooltipTitle: { id: "module.overview.networkTooltipTitle" },
+  tooltipDescription: { id: "module.overview.networkTooltipDescription" },
+  battery: { id: "module.overview.phoneBattery" },
+  noConnection: { id: "module.overview.phoneNoConnection" },
+  network: { id: "module.overview.networkName" },
+})
 
 storiesOf("Components|Core/Button Toggler", module)
   .add("Default", () => (

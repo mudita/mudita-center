@@ -8,12 +8,12 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { ErrorModalProps } from "App/contacts/components/error-modal/error-modal.interface"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import styled from "styled-components"
+import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
 
 const ModalContent = styled.div`
   display: flex;
