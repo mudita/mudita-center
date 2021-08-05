@@ -6,7 +6,7 @@
 import { ChangeEvent } from "react"
 import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
-import Messages from "App/messages/messages-ui.component"
+import Messages from "App/messages/components/messages/messages.component"
 import { select } from "Renderer/store"
 import { VisibilityFilter } from "App/messages/store/messages.interface"
 

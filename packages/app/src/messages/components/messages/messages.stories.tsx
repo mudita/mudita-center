@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { storiesOf } from "@storybook/react"
 import React from "react"
-import Messages from "./messages.component"
+import { storiesOf } from "@storybook/react"
+import Messages from "App/messages/components/messages/messages.component"
 import {
   rowMessages,
   rowThreads,
@@ -95,6 +95,7 @@ export const attachContactListData: ContactCategory[] = [
 
 const getContact = () => attachContactFlatListData[0]
 const getMessagesByThreadId = () => rowMessages
+const loadMessagesByThreadId = () => rowMessages
 const getMessagesResultsMapStateByThreadId = () => ResultState.Loaded
 const isContactCreated = () => true
 
@@ -110,7 +111,7 @@ storiesOf("Views|Messages", module).add("Messages", () => (
       getMessagesByThreadId={getMessagesByThreadId}
       getMessagesResultMapStateByThreadId={getMessagesResultsMapStateByThreadId}
       isContactCreated={isContactCreated}
-    />
+      loadMessagesByThreadId={loadMessagesByThreadId}/>
   </div>
 ))
 

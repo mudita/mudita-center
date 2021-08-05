@@ -5,8 +5,8 @@
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
-import React from "react"
-import Messages, { MessagesProps } from "./messages-ui.component"
+import React, { ComponentProps } from "react"
+import Messages from "App/messages/components/messages/messages.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { fireEvent } from "@testing-library/dom"
 import { intl } from "Renderer/utils/intl"
@@ -71,7 +71,9 @@ const messages: Message[] = [
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
-const defaultProps: MessagesProps = {
+type Props = ComponentProps<typeof Messages>
+
+const defaultProps: Props = {
   threads,
   searchValue: "",
   language: "en",
@@ -91,7 +93,7 @@ const defaultProps: MessagesProps = {
 
 const renderer = (extraProps?: {}) => {
   const history = createMemoryHistory()
-  const props: MessagesProps = {
+  const props: Props = {
     ...defaultProps,
     ...extraProps,
   }
