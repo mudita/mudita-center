@@ -5,7 +5,7 @@
 
 import { connect } from "react-redux"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
-import Overview from "App/overview/overview.component"
+import Overview from "App/overview/components/overview/overview.component"
 import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"

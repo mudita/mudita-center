@@ -8,7 +8,7 @@ import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-
 import { URL_MAIN } from "Renderer/constants/urls"
 import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.enum"
 import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
-import { PhoneTestIds } from "Renderer/../overview/components/overview/phone/phone-test-ids.enum"
+import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
 import { Application } from "spectron"
 
 let app: Application
