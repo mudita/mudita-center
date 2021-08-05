@@ -80,7 +80,7 @@ class DeviceFileSystemService {
     try {
       const fileSize = fs.lstatSync(filePath).size
       const fileBuffer = fs.readFileSync(filePath)
-      const fileCrc32 = CRC32.buf(fileBuffer).toString(16)
+      const fileCrc32 = CRC32.buf(fileBuffer).toString(16).padStart(8, '0')
 
       const { status, data } = await this.deviceService.request({
         endpoint: Endpoint.FileSystem,
