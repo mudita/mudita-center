@@ -16,6 +16,7 @@ import {
   ContactID,
   NewContact,
 } from "App/contacts/store/contacts.type"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import addContact from "Renderer/requests/add-contact.request"
 import logger from "App/main/utils/logger"
 import editContact from "Renderer/requests/edit-contact.request"
@@ -30,6 +31,7 @@ import {
   getFlatList,
 } from "App/contacts/store/contacts.helpers"
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
+import { ContactErrorResponse } from "App/contacts/components/contacts/contacts.type"
 
 const selector = select(({ contacts, messages }) => ({
   contactList: contacts.contactList,
@@ -75,28 +77,60 @@ const mapDispatch = ({ contacts, auth }: any) => {
           return getFlatList(contactDatabaseFactory(contacts))
       }
     },
-    addNewContact: async (contact: NewContact): Promise<string | void> => {
-      const { data, error } = await addContact(contact)
+    addNewContact: async (
+      contact: NewContact
+    ): Promise<ContactErrorResponse | void> => {
+      const { data, error, status } = await addContact(contact)
       if (error || !data) {
         logger.error(
           `Contacts: adding new contact throw error. Data: ${JSON.stringify(
             error
           )}`
         )
+
+        return {
+          status,
+          message: error?.message ?? "AddNewContact: Something went wrong",
+        }
+      } else {
+        contacts.addContact(data)
+      }
+    },
+    importContact: async (contact: NewContact): Promise<string | void> => {
+      const { data, error, status } = await addContact(contact)
+
+      // Skipping 409 (Conflict) status code for preventing displaying error about duplicated
+      if (status === DeviceResponseStatus.Duplicated) {
+        contacts.addContact(data)
+        return
+      }
+
+      if (error || !data) {
+        logger.error(
+          `Contacts: adding new contact throw error. Data: ${JSON.stringify(
+            error
+          )}`
+        )
+
         return error?.message ?? "AddNewContact: Something went wrong"
       } else {
         contacts.addContact(data)
       }
     },
-    editContact: async (contact: Contact): Promise<string | void> => {
-      const { data, error } = await editContact(contact)
+    editContact: async (
+      contact: Contact
+    ): Promise<ContactErrorResponse | void> => {
+      const { data, error, status } = await editContact(contact)
       if (error || !data) {
         logger.error(
           `Contacts: editing new contact throw error. Data: ${JSON.stringify(
             error
           )}`
         )
-        return error?.message ?? "EditContact: Something went wrong"
+        return {
+          status,
+          message: error?.message ?? "EditContact: Something went wrong",
+        }
       } else {
         contacts.editContact(data)
       }

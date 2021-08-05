@@ -13,6 +13,7 @@ export enum DeviceResponseStatus {
   PhoneLocked = "phone-locked",
   InternalServerError = "internal-server-error",
   Error = "error",
+  Duplicated = "phone-number-duplicated",
 }
 
 interface DeviceResponseError<DataType> {

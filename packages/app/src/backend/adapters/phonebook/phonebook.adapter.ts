@@ -15,7 +15,7 @@ import {
   mapToPureContact,
 } from "Backend/adapters/phonebook/phonebook-mappers"
 
-class Phonebook extends PhonebookAdapter {
+export class Phonebook extends PhonebookAdapter {
   constructor(private deviceService: DeviceService) {
     super()
   }
