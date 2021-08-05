@@ -9,9 +9,9 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import React from "react"
 import { waitFor, fireEvent } from "@testing-library/dom"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
-import ContactsUI from "App/contacts/contacts-ui.component"
+import Contacts from "App/contacts/components/contacts/contacts.component"
 import { noop } from "Renderer/utils/noop"
-import { PhoneProps } from "App/contacts/contacts.type"
+import { PhoneProps } from "App/contacts/components/contacts/contacts.type"
 import { Contact } from "App/contacts/store/contacts.type"
 import { ResultsState } from "App/contacts/store/contacts.enum"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
@@ -121,7 +121,7 @@ const renderer = (props: {}) => {
     ],
   }
 
-  return renderWithThemeAndIntl(<ContactsUI {...defaultProps} {...props} />)
+  return renderWithThemeAndIntl(<Contacts {...defaultProps} {...props} />)
 }
 
 test("changing contact details preview, when the user switching between contacts", async () => {

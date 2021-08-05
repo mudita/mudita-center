@@ -11,7 +11,7 @@ import Messages from "App/messages/messages.container"
 import Music from "Renderer/modules/music/music.component"
 import News from "Renderer/modules/news/news.component"
 import Overview from "App/overview/overview.container"
-import PhoneContainer from "App/contacts/contacts.component"
+import Contacts from "App/contacts/contacts.container"
 import Settings from "Renderer/modules/settings/settings.container"
 import Tethering from "Renderer/modules/tethering/tethering.container"
 import {
@@ -78,7 +78,7 @@ export default () => (
         <Route path={URL_MAIN.news} component={News} />
         <Route path={URL_MAIN.calendar} component={Calendar} />
         <Route path={URL_MAIN.overview} component={Overview} />
-        <Route path={URL_MAIN.contacts} component={PhoneContainer} exact />
+        <Route path={URL_MAIN.contacts} component={Contacts} exact />
         <Route path={URL_MAIN.phone} component={Calls} />
         <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
         <Route path={URL_MAIN.settings} component={Settings} exact />

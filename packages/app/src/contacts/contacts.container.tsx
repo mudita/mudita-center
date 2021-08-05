@@ -5,7 +5,7 @@
 
 import { connect } from "react-redux"
 import { History, LocationState } from "history"
-import Contacts from "./contacts-ui.component"
+import Contacts from "App/contacts/components/contacts/contacts.component"
 import { noop } from "Renderer/utils/noop"
 import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
