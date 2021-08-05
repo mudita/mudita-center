@@ -11,7 +11,7 @@ import {
 import {
   AppSettings,
   SettingsUpdateOption,
-  StoreValues,
+  SettingsState,
 } from "App/main/store/settings.interface"
 import { ipcRenderer } from "electron-better-ipc"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
@@ -24,17 +24,22 @@ import { isToday } from "Renderer/utils/is-today"
 import getDeviceLogs from "Renderer/requests/get-device-logs.request"
 import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import getLowestSupportedOsVersion from "Renderer/requests/get-lowest-supported-os-version.request"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
+export const initialState: SettingsState = {
+  appUpdateAvailable: undefined,
+  lowestSupportedOsVersion: undefined,
+  appUpdateStepModalDisplayed: false,
+  settingsLoaded: false,
+  appLatestVersion: "",
+}
+
 const settings = createModel<RootModel>({
-  state: {
-    settingsLoaded: false,
-    appUpdateStepModalDisplayed: false,
-    appLatestVersion: "",
-  },
+  state: initialState,
   reducers: {
-    update(state: StoreValues, payload: Partial<StoreValues>) {
+    update(state: SettingsState, payload: Partial<SettingsState>) {
       return { ...state, ...payload }
     },
   },
@@ -44,14 +49,20 @@ const settings = createModel<RootModel>({
     return {
       async loadSettings() {
         const appSettings = await getAppSettings()
+        const lowestSupportedOsVersion = await getLowestSupportedOsVersion()
         if (simulatePhoneConnectionEnabled) {
           dispatch.settings.update({
+            lowestSupportedOsVersion,
             ...appSettings,
             ...e2eSettings,
             settingsLoaded: true,
           })
         } else {
-          dispatch.settings.update({ ...appSettings, settingsLoaded: true })
+          dispatch.settings.update({
+            lowestSupportedOsVersion,
+            ...appSettings,
+            settingsLoaded: true,
+          })
         }
 
         appSettings.appCollectingData
@@ -175,7 +186,7 @@ const settings = createModel<RootModel>({
       },
     }
   },
-  selectors: (slice: Slicer<StoreValues>) => ({
+  selectors: (slice: Slicer<SettingsState>) => ({
     appCollectingData() {
       return slice(({ appCollectingData }) => appCollectingData)
     },

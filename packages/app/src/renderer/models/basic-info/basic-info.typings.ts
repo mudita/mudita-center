@@ -25,13 +25,20 @@ export enum DataState {
   Error,
 }
 
+export enum UpdatingState {
+  Standby,
+  Updating,
+  Success,
+  Fail,
+}
+
 export interface StoreValues {
   readonly deviceConnected: boolean
-  readonly deviceUpdating: boolean
+  readonly updatingState: UpdatingState
   readonly deviceUnlocked: boolean | undefined
   readonly batteryLevel: number
   readonly networkName: string
-  readonly osVersion: string
+  readonly osVersion: string | undefined
   readonly osUpdateDate: string
   readonly memorySpace: MemorySpace
   readonly lastBackup?: BackupItemInfo

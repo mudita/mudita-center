@@ -4,8 +4,8 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
-import { OsUpdateChannel } from "App/main/functions/register-pure-os-update-listener"
+import { GetAllReleasesEvents } from "App/main/functions/register-get-all-releases-listener"
+import getAllReleases from "Renderer/requests/get-all-releases.request"
 
 const releases = [
   {
@@ -39,9 +39,9 @@ const releases = [
 
 test("returns all releases and latestRelease correctly", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [OsUpdateChannel.Request]: releases,
+    [GetAllReleasesEvents.Request]: releases,
   }
-  const { allReleases, latestRelease } = await availableOsUpdateRequest("3")
+  const { allReleases, latestRelease } = await getAllReleases()
   expect(allReleases).toStrictEqual(releases)
   expect(latestRelease).toStrictEqual(releases[0])
 })

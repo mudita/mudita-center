@@ -8,8 +8,8 @@ import axios from "axios"
 import logger from "App/main/utils/logger"
 import { isRelease } from "App/main/utils/is-release"
 
-export enum OsUpdateChannel {
-  Request = "os-update-request",
+export enum GetAllReleasesEvents {
+  Request = "get-all-releases-request",
 }
 
 interface GithubRelease {
@@ -60,16 +60,20 @@ const releasesRequest = async (
     })
     return response.data
   } catch (error) {
-    logger.error(
-      `Checking for OS updated failed with code ${error.response.status}: ${error.response.statusText}`
-    )
+    if (error.response) {
+      logger.error(
+        `Checking for OS updated failed with code ${error.response.status}: ${error.response.statusText}`
+      )
+    } else {
+      logger.error(`Checking for OS updated failed: ${error.message}`)
+    }
     return []
   }
 }
 
-const registerPureOsUpdateListener = () => {
+const registerGetAllReleasesListener = () => {
   if (osUpdateServerUrl) {
-    ipcMain.answerRenderer(OsUpdateChannel.Request, async () => {
+    ipcMain.answerRenderer(GetAllReleasesEvents.Request, async () => {
       let releases: GithubRelease[] = []
       let retry = true
       let page = 1
@@ -91,10 +95,12 @@ const registerPureOsUpdateListener = () => {
             (asset) => asset.content_type === "application/x-tar"
           )
           if (asset && !draft) {
+            // slice 'release-' prefix from tag_name
+            const version = tag_name.slice(8)
             return {
-              version: tag_name,
+              version,
               date: published_at || created_at,
-              prerelease: !isRelease(tag_name),
+              prerelease: !isRelease(version),
               file: {
                 url: asset.url,
                 size: asset.size,
@@ -119,4 +125,4 @@ const registerPureOsUpdateListener = () => {
   }
 }
 
-export default registerPureOsUpdateListener
+export default registerGetAllReleasesListener

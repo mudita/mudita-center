@@ -55,7 +55,7 @@ class PurePhone extends PurePhoneAdapter {
     if (status === DeviceResponseStatus.Ok && data) {
       return {
         status,
-        data: data.gitTag,
+        data: data.version,
       }
     } else {
       return {
@@ -157,7 +157,7 @@ class PurePhone extends PurePhoneAdapter {
 
   public async updateOs(
     filePath: string,
-    progressChannel: string
+    progressChannel = ""
   ): Promise<DeviceResponse> {
     let unregisterListeners = noop
     return new Promise<DeviceResponse>(async (resolve) => {

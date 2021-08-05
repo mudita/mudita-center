@@ -22,7 +22,7 @@ const mockDeviceInfo: DeviceInfo = ({
   fsTotal: "13913",
   gitBranch: "EGD-4318_enable_service_desktop",
   gitRevision: "4973bab",
-  gitTag: "release-0.46.1-33-g4973babd",
+  version: "release-0.46.1-33-g4973babd",
   networkStatus: "2",
   selectedSim: "0",
   signalStrength: "1",
