@@ -88,6 +88,15 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
     return <BaseApp store={store} history={history} />
   }
 
+  const handleAppUpdateAvailableCheck = (): void => {
+    if(!window.navigator.onLine){
+      store.dispatch.settings.setAppUpdateStepModalDisplayed()
+      store.dispatch.settings.toggleAppUpdateAvailable(false)
+    } else {
+      void checkAppUpdateRequest()
+    }
+  }
+
   /**
    * Get translations from store
    */
@@ -165,7 +174,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     void store.dispatch.settings.loadSettings()
-    void checkAppUpdateRequest()
+    handleAppUpdateAvailableCheck()
 
     // Register hotkeys
     registerHotkeys()

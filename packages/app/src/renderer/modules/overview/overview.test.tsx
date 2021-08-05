@@ -4,27 +4,18 @@
  */
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import React from "react"
-import Overview, {
-  UpdateBasicInfo,
-} from "Renderer/modules/overview/overview.component"
-import {
-  DataState,
-  Store as BasicInfoInitialState,
-} from "Renderer/models/basic-info/basic-info.typings"
-import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
-import { AppSettings } from "App/main/store/settings.interface"
-import { DevMode } from "App/dev-mode/store/dev-mode.interface"
-import {
-  ConversionFormat,
-  Convert,
-} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
+import React, { ComponentProps } from "react"
+import Overview from "Renderer/modules/overview/overview.component"
+import { DataState, UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
+import { ConversionFormat, Convert } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 import { Provider } from "react-redux"
 import store from "Renderer/store"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+
+type Props = ComponentProps<typeof Overview>
 
 jest.mock("electron", () => ({
   remote: {
@@ -118,12 +109,12 @@ jest.mock("Renderer/requests/get-backups-info.request", () =>
 )
 
 const renderer = (extraProps?: {}) => {
-  const defaultProps: BasicInfoInitialState &
-    PhoneUpdateStore &
-    UpdateBasicInfo &
-    AppSettings &
-    DevMode = {
-    diagnosticSentTimestamp: 0,
+  const defaultProps: Props = {
+    appLatestVersion: "",
+    appUpdateAvailable: undefined,
+    appUpdateStepModalDisplayed: false,
+    lowestSupportedOsVersion: undefined,
+    settingsLoaded: false,
     deviceUnlocked: undefined,
     appAutostart: false,
     appCollectingData: undefined,
@@ -164,7 +155,7 @@ const renderer = (extraProps?: {}) => {
     ],
     toggleDeviceUpdating: jest.fn(),
     updatePhoneOsInfo: jest.fn(),
-    deviceUpdating: false,
+    updatingState: UpdatingState.Standby,
     memorySpace: {
       free: 100,
       full: 200,
