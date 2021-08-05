@@ -95,13 +95,13 @@ test("select input by enter returns selected list item", () => {
     key: "ArrowDown",
     code: "ArrowDown",
     keyCode: 40,
-    charCode: 40
+    charCode: 40,
   })
   fireEvent.keyDown(input(), {
     key: "Enter",
     code: "Enter",
     keyCode: 13,
-    charCode: 13
+    charCode: 13,
   })
   expect(onSelect).toBeCalledWith(basicItems[1])
 })
@@ -113,13 +113,13 @@ test("select first list item by enter returns first selected list item", () => {
     key: "ArrowUp",
     code: "ArrowUp",
     keyCode: 38,
-    charCode: 38
+    charCode: 38,
   })
   fireEvent.keyDown(input(), {
     key: "Enter",
     code: "Enter",
     keyCode: 13,
-    charCode: 13
+    charCode: 13,
   })
   expect(onSelect).toBeCalledWith(basicItems[0])
 })
@@ -128,25 +128,25 @@ test("select last list item by enter returns last selected list item", () => {
   const onSelect = jest.fn()
   const mockItems = ["1", "2"]
   const { input } = renderInputSelect({ onSelect, items: mockItems })
-  
+
   fireEvent.keyDown(input(), {
     key: "ArrowDown",
     code: "ArrowDown",
     keyCode: 40,
-    charCode: 40
+    charCode: 40,
   })
 
   fireEvent.keyDown(input(), {
     key: "ArrowDown",
     code: "ArrowDown",
     keyCode: 40,
-    charCode: 40
+    charCode: 40,
   })
   fireEvent.keyDown(input(), {
     key: "Enter",
     code: "Enter",
     keyCode: 13,
-    charCode: 13
+    charCode: 13,
   })
   expect(onSelect).toBeCalledWith(mockItems[1])
 })
@@ -156,14 +156,33 @@ test("select list item by enter when hovering on the list", () => {
   const { input, listItems } = renderInputSelect({ onSelect })
   fireEvent.mouseOver(listItems()[2])
   fireEvent.keyDown(input(), {
+    key: "Enter",
+    code: "Enter",
+    keyCode: 13,
+    charCode: 13,
+  })
+  expect(onSelect).toBeCalledWith(basicItems[2])
+})
+
+test("select list item by enter when hovering on the list and navigate on keyboard", () => {
+  const onSelect = jest.fn()
+  const { input, listItems } = renderInputSelect({ onSelect })
+  fireEvent.keyDown(input(), {
     key: "ArrowDown",
-    code: "ArrowDown"
+    code: "ArrowDown",
+  })
+  fireEvent.mouseOver(listItems()[5])
+  fireEvent.keyDown(input(), {
+    key: "ArrowUp",
+    code: "ArrowUp",
+    keyCode: 38,
+    charCode: 38,
   })
   fireEvent.keyDown(input(), {
     key: "Enter",
     code: "Enter",
     keyCode: 13,
-    charCode: 13
+    charCode: 13,
   })
-  expect(onSelect).toBeCalledWith(basicItems[3])
+  expect(onSelect).toBeCalledWith(basicItems[4])
 })

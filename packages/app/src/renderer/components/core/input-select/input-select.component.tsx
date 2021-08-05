@@ -78,7 +78,7 @@ export type ListItemProps = {
 export type RenderInputSelectListItem<T> = RenderListItem<T, ListItemProps>
 
 interface KeysType {
-  [key: string]: () => void;
+  [key: string]: () => void
 }
 
 interface InputSelectListProps {
@@ -255,15 +255,19 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   }
 
   const onKeyDown = (event: KeyboardEvent) => {
+    const serchResultRows: number = 8
     const handleArrowDown = () => {
-      const maxListLength = filteredItems.length <= 8 ? filteredItems.length : 8
-      if (activeItemIndex+1 < maxListLength ) {
-        setActiveItemIndex(prevState => prevState + 1)
+      const maxListLength =
+        filteredItems.length <= serchResultRows
+          ? filteredItems.length
+          : serchResultRows
+      if (activeItemIndex + 1 < maxListLength) {
+        setActiveItemIndex((prevState) => prevState + 1)
       }
     }
     const handleArrowUp = () => {
       if (activeItemIndex > 0) {
-        setActiveItemIndex(prevState => prevState - 1)
+        setActiveItemIndex((prevState) => prevState - 1)
       }
     }
     const handleEnter = () => {
@@ -272,12 +276,11 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         selectRef.current.blur()
       }
       handleSelect(filteredItems[activeItemIndex])
-      
     }
     const keys: KeysType = {
-      "ArrowDown": handleArrowDown,
-      "ArrowUp": handleArrowUp,
-      "Enter" : handleEnter
+      ArrowDown: handleArrowDown,
+      ArrowUp: handleArrowUp,
+      Enter: handleEnter,
     }
     return keys[event.key] && keys[event.key]()
   }
@@ -285,7 +288,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   const handleMouseEnter = (itemIndex: number) => {
     setActiveItemIndex(itemIndex)
   }
-  
+
   const toggleIcon = (
     <ToggleIcon
       rotated={focus}

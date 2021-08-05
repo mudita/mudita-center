@@ -17,7 +17,7 @@ import InputSelect from "Renderer/components/core/input-select/input-select.comp
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { Contact } from "App/contacts/store/contacts.type"
 import { createFullName } from "App/contacts/store/contacts.helpers"
-import { backgroundColor} from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 const messages = defineMessages({
   searchPlaceholder: { id: "module.contacts.panelSearchPlaceholder" },
@@ -28,14 +28,18 @@ const ContactListItem = styled(ListItem)<{
 }>`
   display: flex;
   justify-content: space-between;
-  ${({ active }) => active && css`background-color: ${backgroundColor("minor")};`};
+  ${({ active }) =>
+    active &&
+    css`
+      background-color: ${backgroundColor("minor")};
+    `};
 `
 
 const renderListItem: RenderListItem<Contact> = ({
   item,
   searchString,
   props,
-}) =>  (
+}) => (
   <ContactListItem {...props}>
     <span>
       <SearchableText text={createFullName(item)} search={searchString} />
@@ -45,15 +49,27 @@ const renderListItem: RenderListItem<Contact> = ({
 
 const renderName = (contact: Contact) => createFullName(contact)
 
-const isItemMatching = (contact: Contact, search: string) => {
-  const query: (keyof Contact)[] = ["firstName", "lastName", "primaryPhoneNumber", "secondaryPhoneNumber", "email", "firstAddressLine", "secondAddressLine" ]
+export const isItemMatching = (contact: Contact, search: string) => {
+  const query: (keyof Contact)[] = [
+    "firstName",
+    "lastName",
+    "primaryPhoneNumber",
+    "secondaryPhoneNumber",
+    "email",
+    "firstAddressLine",
+    "secondAddressLine",
+  ]
   for (const key of query) {
     const param: typeof contact[keyof typeof contact] = contact[key]
-    if (param !== undefined && typeof param === "string" &&  param.toLowerCase().includes(search.toLowerCase())) {
-      return true;
+    if (
+      param !== undefined &&
+      typeof param === "string" &&
+      param.toLowerCase().includes(search.toLowerCase())
+    ) {
+      return true
     }
   }
-  return false 
+  return false
 }
 
 export interface ContactInputSelectProps {
