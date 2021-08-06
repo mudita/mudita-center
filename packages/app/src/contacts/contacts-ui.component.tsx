@@ -113,7 +113,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const [editedContact, setEditedContact] = useState<Contact>()
 
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
-  
+
   const {
     selectedRows,
     allRowsSelected,
