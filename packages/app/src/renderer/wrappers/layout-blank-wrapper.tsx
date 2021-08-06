@@ -29,6 +29,7 @@ const Layout = styled.div`
   height: 100vh;
   max-width: ${width("viewWidth")};
   background-color: ${backgroundColor("row")};
+  margin: 0 auto;
 `
 
 const Header = styled.header`
@@ -82,7 +83,11 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
           message={{ id: "module.onboarding.mainTitle" }}
         />
         {!recoveryMode && (
-          <Link to={URL_MAIN.news} onClick={onClose} data-testid={LayoutBlankWrapperTestIds.Close}>
+          <Link
+            to={URL_MAIN.news}
+            onClick={onClose}
+            data-testid={LayoutBlankWrapperTestIds.Close}
+          >
             <Icon type={Type.Close} />
           </Link>
         )}

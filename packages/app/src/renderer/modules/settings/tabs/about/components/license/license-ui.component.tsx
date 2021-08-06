@@ -5,46 +5,18 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-
-import styled from "styled-components"
+import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { LicenseComponentTestIds } from "./license-ui.enum"
+import { WindowContainer, WindowHeader, WindowTitle, LightText, LightTextNested } from "Renderer/modules/settings/tabs/about/components/shared"
 
-const LicenseContainer = styled.div`
-  margin: 4.2rem 21rem 3.4rem;
-  min-width: 5.9rem;
-`
-const LicenseHeader = styled(Text)`
-  font-weight: normal;
-  margin-bottom: 4rem;
-`
-const LicenseTitle = styled(Text)`
-  margin: 1.8rem 0 1.6rem;
-`
-
-const LightText = styled(Text)`
-  font-weight: 300;
-  line-height: 1.57;
-  margin-bottom: 1.6rem;
-`
-
-const LightTextNested = styled(Text)`
-  font-weight: 300;
-  line-height: 1.57;
-  margin-bottom: 1.6rem;
-  margin-left: 3rem;
-`
-
-const LicenseUI: FunctionComponent = () => (
-  <LicenseContainer data-testid={LicenseComponentTestIds.Wrapper}>
-    <LicenseHeader
+export const LicenseUI: FunctionComponent = () => (
+  <WindowContainer data-testid={LicenseComponentTestIds.Wrapper}>
+    <WindowHeader
       displayStyle={TextDisplayStyle.SecondaryHeading}
       data-testid={LicenseComponentTestIds.Title}
     >
       Mudita Center Software – Terms of Use
-    </LicenseHeader>
+    </WindowHeader>
     <LightText displayStyle={TextDisplayStyle.MediumFadedTextUppercased}>
       NOTE: BY USING THE MUDITA CENTER SOFTWARE, YOU AGREE TO COMPLY WITH THE
       TERMS LISTED BELOW. WITHOUT ACCEPTING THEM, YOU WILL NOT ACQUIRE THE RIGHT
@@ -52,9 +24,9 @@ const LicenseUI: FunctionComponent = () => (
       BEFORE INSTALLING MUDITA CENTER. IF YOU DO NOT AGREE WITH THESE TERMS, YOU
       CANNOT OBTAIN AND USE THE SOFTWARE OR DOWNLOAD OR USE ITS UPDATES.
     </LightText>
-    <LicenseTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
       Definitions:
-    </LicenseTitle>
+    </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       "Software" refers to the Mudita Center computer application available on
       computers, used primarily for managing the Mudita Pure device. As of the
@@ -79,9 +51,9 @@ const LicenseUI: FunctionComponent = () => (
       the Terms of Use for the Mudita Center Software and installed the
       Software.
     </LightText>
-    <LicenseTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
       License terms:
-    </LicenseTitle>
+    </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       - Upon your acceptance of these Terms, Mudita will grant you a free
       license to use the Software. When you download an Update, you will
@@ -119,9 +91,9 @@ const LicenseUI: FunctionComponent = () => (
       Software. Upon losing such rights, you should stop using the Software and
       destroy any remaining copies.
     </LightText>
-    <LicenseTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
       Transfer of data:
-    </LicenseTitle>
+    </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       With your permission, Mudita will gain access to information concerning
       errors that may occur while using Mudita Pure and the Software. The aim of
@@ -134,18 +106,18 @@ const LicenseUI: FunctionComponent = () => (
       data will be accessed by Mudita in connection with your use of the
       Software.
     </LightText>
-    <LicenseTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
       Limitation of liability:
-    </LicenseTitle>
+    </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       To the maximum extent permitted by the generally applicable laws that
       apply to the User, Mudita shall not be liable for any losses related to
       the use of the Software, with the exception of situations resulting from
       willful misconduct or gross negligence by Mudita.
     </LightText>
-    <LicenseTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
       Copyright / Third-party services:
-    </LicenseTitle>
+    </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       Mudita holds all copyrights and licenses for the Software. Certain
       elements of the Software use or contain software provided by third parties
@@ -155,9 +127,9 @@ const LicenseUI: FunctionComponent = () => (
       any service, you will be asked to give your permission and accept the
       terms defined by the service’s provider.
     </LightText>
-    <LicenseTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
       Amendments to the Terms:
-    </LicenseTitle>
+    </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       Mudita reserves the right to amend these Terms under justified
       circumstances (such as changes to the applicable law, the Software’s
@@ -167,9 +139,9 @@ const LicenseUI: FunctionComponent = () => (
       information about amendments to the Terms will be deemed to constitute
       acceptance of the changes.
     </LightText>
-    <LicenseTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
       Applicable law:
-    </LicenseTitle>
+    </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       The agreement entered into by accepting these Terms is governed by the
       laws of the Republic of Poland. However, it does not deprive the consumer
@@ -178,7 +150,5 @@ const LicenseUI: FunctionComponent = () => (
       regulations applicable in that country are more beneficial to the consumer
       than the regulations of the Republic of Poland.
     </LightText>
-  </LicenseContainer>
+  </WindowContainer>
 )
-
-export default LicenseUI
