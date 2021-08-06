@@ -78,9 +78,11 @@ const renderListItem: RenderListItem<Contact> = ({
   </ContactListItem>
 )
 
-const renderPhoneNumber = (number: string) => {
+export const renderPhoneNumber = (number: string) => {
   if (number.length === 12) {
     return number.replace(/(.{3})(\d{3})(\d{3})(\d{3})/, "$1 $2 $3 $4")
+  } else if (number.length === 9) {
+    return number.replace(/(.{3})(\d{3})(\d{3})/, "$1 $2 $3")
   }
   return null
 }
@@ -115,6 +117,7 @@ export const secondParam = (contact: Contact, search: string) => {
   } else if (contact.secondaryPhoneNumber) {
     return renderPhoneNumber(contact.secondaryPhoneNumber)
   } else if (contact.email) {
+    console.log("contact.email",contact.email )
     return contact.email
   } else if (contact.firstAddressLine) {
     return contact.firstAddressLine

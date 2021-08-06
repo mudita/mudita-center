@@ -3,9 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { isItemMatching } from "App/contacts/components/contact-input-search/contact-input-search.component"
+import { isItemMatching, secondParam, renderPhoneNumber } from "App/contacts/components/contact-input-search/contact-input-search.component"
 import { Contact } from "App/contacts/store/contacts.type"
-import { secondParam } from "App/contacts/components/contact-input-search/contact-input-search.component"
 
 const defaultProps = {
   contacts: [
@@ -38,7 +37,7 @@ const defaultProps = {
       id: "6e3810c8-c917-45d2-ae17-b83f73127e08",
       firstName: "Oswald",
       lastName: "Bednar",
-      secondaryPhoneNumber: "+62761294266",
+      secondaryPhoneNumber: "761294266",
       email: "oswald.bednar@mudita.com",
       note: "cum aut voluptatem sunt",
       favourite: true,
@@ -125,8 +124,26 @@ test("secondParam returns email when search string match email and address", () 
   expect(result).toBe("oswald.bednar@mudita.com")
 })
 
+test("secondParam returns secondNumber when search string match email and address", () => {
+  const searchString = "bednar"
+  const result = secondParam(defaultProps.contacts[2], searchString)
+  expect(result).toBe("oswald.bednar@mudita.com")
+})
+
 test("secondParam returns no data provided when search string match only name and contact has no other params", () => {
   const searchString = "oswald"
   const result = secondParam(defaultProps.contacts[3], searchString)
   expect(result).toBe("[value] module.contacts.panelSearchListNoData")
+})
+
+test("renderPhoneNumber returns formatted number with area code", () => {
+  const number = "+48123456789"
+  const result = renderPhoneNumber(number)
+  expect(result).toBe("+48 123 456 789")
+})
+
+test("renderPhoneNumber returns formatted number", () => {
+  const number = "123456789"
+  const result = renderPhoneNumber(number)
+  expect(result).toBe("123 456 789")
 })
