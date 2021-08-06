@@ -55,7 +55,11 @@ const ContactListItemName = styled(Text)`
   font-weight: 400;
   margin-bottom: 0.4rem;
 `
-const renderListItem: RenderListItem<Contact> = ({ item, props }) => (
+const renderListItem: RenderListItem<Contact> = ({
+  item,
+  searchString,
+  props,
+}) => (
   <ContactListItem {...props}>
     <span>
       {createFullName(item) ? (
@@ -68,7 +72,7 @@ const renderListItem: RenderListItem<Contact> = ({ item, props }) => (
         </ContactListItemName>
       )}
       <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
-        {secondParam(item)}
+        {secondParam(item, searchString)}
       </Text>
     </span>
   </ContactListItem>
@@ -82,17 +86,40 @@ const renderPhoneNumber = (number: string) => {
 }
 
 const renderName = (contact: Contact) => createFullName(contact)
-export const secondParam = (item: Contact) => {
-  if (item.primaryPhoneNumber) {
-    return renderPhoneNumber(item.primaryPhoneNumber)
-  } else if (item.secondaryPhoneNumber) {
-    return renderPhoneNumber(item.secondaryPhoneNumber)
-  } else if (item.email) {
-    return item.email
-  } else if (item.firstAddressLine) {
-    return `${item.firstAddressLine} ${item.secondAddressLine}`
-  } else if (item.secondAddressLine) {
-    return item.secondAddressLine
+
+export const secondParam = (contact: Contact, search: string) => {
+  const query: (keyof Contact)[] = [
+    "primaryPhoneNumber",
+    "secondaryPhoneNumber",
+    "email",
+    "firstAddressLine",
+    "secondAddressLine",
+  ]
+  for (const key of query) {
+    const param: typeof contact[keyof typeof contact] =
+      contact === undefined ? undefined : contact[key]
+    if (
+      param !== undefined &&
+      typeof param === "string" &&
+      param.toLowerCase().includes(search.toLowerCase())
+    ) {
+      const value =
+        key === "primaryPhoneNumber" || key === "secondaryPhoneNumber"
+          ? renderPhoneNumber(param)
+          : param
+      return value
+    }
+  }
+  if (contact.primaryPhoneNumber) {
+    return renderPhoneNumber(contact.primaryPhoneNumber)
+  } else if (contact.secondaryPhoneNumber) {
+    return renderPhoneNumber(contact.secondaryPhoneNumber)
+  } else if (contact.email) {
+    return contact.email
+  } else if (contact.firstAddressLine) {
+    return contact.firstAddressLine
+  } else if (contact.secondAddressLine) {
+    return contact.secondAddressLine
   }
   return intl.formatMessage(messages.noDataProvided)
 }
