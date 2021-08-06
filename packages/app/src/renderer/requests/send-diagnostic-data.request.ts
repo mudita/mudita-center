@@ -4,7 +4,7 @@
  */
 
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-import { formatDate } from "Renderer/modules/overview/format-date"
+import { formatDate } from "Renderer/utils/format-date"
 import logger from "App/main/utils/logger"
 
 const env = process.env.NODE_ENV

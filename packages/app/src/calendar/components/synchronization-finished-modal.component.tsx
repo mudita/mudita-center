@@ -6,7 +6,6 @@
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { intl, textFormatters } from "Renderer/utils/intl"
-import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
@@ -21,6 +20,7 @@ import {
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
+import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
 
 const messages = defineMessages({
   title: {
