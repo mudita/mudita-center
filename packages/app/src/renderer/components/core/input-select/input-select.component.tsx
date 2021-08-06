@@ -185,6 +185,7 @@ export interface InputSelectProps extends Partial<InputProps> {
   minCharsToShowResults?: number
   clearOnBlur?: boolean
   active?: boolean
+  searchResultRows?: number
 }
 
 const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
@@ -205,6 +206,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   onBlur = noop,
   onFocus = noop,
   type = "text",
+  searchResultRows = 8,
   active,
   ...rest
 }) => {
@@ -272,12 +274,11 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   }
 
   const onKeyDown = (event: KeyboardEvent) => {
-    const serchResultRows = 8
     const handleArrowDown = () => {
       const maxListLength =
-        filteredItems.length <= serchResultRows
+        filteredItems.length <= searchResultRows
           ? filteredItems.length
-          : serchResultRows
+          : searchResultRows
       if (activeItemIndex + 1 < maxListLength) {
         setActiveItemIndex((prevState) => prevState + 1)
       }
