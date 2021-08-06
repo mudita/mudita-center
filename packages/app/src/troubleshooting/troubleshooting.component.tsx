@@ -6,15 +6,15 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
-import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboarding-troubleshooting.component"
+import OnboardingTroubleshooting from "App/troubleshooting/components/onboarding-troubleshooting.component"
 import ContactSupportModalFlow, {
   ContactSupportModalFlowState,
-} from "App/renderer/components/rest/contact-support-modal/contact-support-modal-flow.component"
+} from "Renderer/components/rest/contact-support-modal/contact-support-modal-flow.component"
 import useCreateBugTicket, {
   files,
-} from "App/renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket"
-import { ContactSupportFieldValues } from "App/renderer/components/rest/contact-support-modal/contact-support-modal.component"
-import { CreateBugTicketResponseStatus } from "App/renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
+} from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket"
+import { ContactSupportFieldValues } from "Renderer/components/rest/contact-support-modal/contact-support-modal.component"
+import { CreateBugTicketResponseStatus } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
 import logger from "App/main/utils/logger"
 
 const Troubleshooting = () => {

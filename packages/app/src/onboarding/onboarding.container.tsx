@@ -3,14 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
-import OnboardingWelcome from "Renderer/components/rest/onboarding/onboarding-welcome.component"
-import { useHistory } from "react-router"
-import { URL_ONBOARDING, URL_MAIN } from "Renderer/constants/urls"
-import { AppSettings } from "App/main/store/settings.interface"
 import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { useHistory } from "react-router"
+import { URL_MAIN, URL_ONBOARDING } from "Renderer/constants/urls"
+import OnboardingWelcome from "App/onboarding/components/onboarding-welcome.component"
+import React from "react"
+import { AppSettings } from "App/main/store/settings.interface"
 
 const mapStateToProps = (state: RootModel) => {
   return state.settings
@@ -23,7 +23,7 @@ interface Props {
   appCollectingData: boolean | undefined
 }
 
-const Welcome: FunctionComponent<Props> = () => {
+const Onboarding: FunctionComponent<Props> = () => {
   const history = useHistory()
 
   const onCancel = () => {
@@ -36,13 +36,11 @@ const Welcome: FunctionComponent<Props> = () => {
   }
 
   return (
-    <>
-      <OnboardingWelcome
-        onCancel={onCancel}
-        onTroubleshooting={onTroubleshooting}
-      />
-    </>
+    <OnboardingWelcome
+      onCancel={onCancel}
+      onTroubleshooting={onTroubleshooting}
+    />
   )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Welcome)
+export default connect(mapStateToProps, mapDispatchToProps)(Onboarding)

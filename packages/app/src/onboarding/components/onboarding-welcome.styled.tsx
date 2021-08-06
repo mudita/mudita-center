@@ -8,12 +8,6 @@ import Text from "Renderer/components/core/text/text.component"
 import { fontWeight } from "Renderer/styles/theming/theme-getters"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 
-export const Title = styled(Text)`
-  font-size: 3rem;
-  margin-bottom: 1.6rem;
-  font-weight: ${fontWeight("default")};
-`
-
 export const OnboardingWrapper = styled.section`
   display: grid;
   grid-template-areas: "Header" "Main" "Footer";

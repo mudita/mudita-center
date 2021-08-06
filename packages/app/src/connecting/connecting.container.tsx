@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { URL_MAIN, URL_ONBOARDING } from "Renderer/constants/urls"
-import OnboardingConnecting from "Renderer/components/rest/onboarding/onboarding-connecting.component"
+import ConnectingContent from "App/connecting/connecting.component"
 import { updateAppSettings } from "Renderer/requests/app-settings.request"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { RootState, select } from "Renderer/store"
@@ -68,7 +68,7 @@ const Connecting: FunctionComponent<{
   return (
     <>
       <PasscodeModal openModal={dialogOpen} close={close} />
-      <OnboardingConnecting onCancel={onCancel} />
+      <ConnectingContent onCancel={onCancel} />
     </>
   )
 }

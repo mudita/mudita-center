@@ -5,15 +5,30 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { OnboardingConnectingProps } from "Renderer/components/rest/onboarding/onboarding.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { OnboardingWrapper } from "Renderer/components/rest/onboarding/onboarding.elements"
+
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import styled from "styled-components"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+
+export const Container = styled.section`
+  display: grid;
+  grid-template-areas: "Header" "Main" "Footer";
+  grid-row-gap: 0;
+  grid-template-rows: 6.5rem 1fr 14rem;
+
+  main {
+    grid-area: Main;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+`
 
 const LoaderWrapper = styled.div`
   width: 20rem;
@@ -26,9 +41,13 @@ const LoaderWrapper = styled.div`
   margin-bottom: 4rem;
 `
 
-const OnboardingConnecting: FunctionComponent<OnboardingConnectingProps> = () => {
+interface Props {
+  onCancel?: () => void
+}
+// OnboardingWrapper
+const Connecting: FunctionComponent<Props> = () => {
   return (
-    <OnboardingWrapper>
+    <Container>
       <main>
         <LoaderWrapper>
           <Loader type={LoaderType.Spinner} size={6} />
@@ -38,8 +57,8 @@ const OnboardingConnecting: FunctionComponent<OnboardingConnectingProps> = () =>
           message={{ id: "module.onboarding.connectingMessage" }}
         />
       </main>
-    </OnboardingWrapper>
+    </Container>
   )
 }
 
-export default OnboardingConnecting
+export default Connecting

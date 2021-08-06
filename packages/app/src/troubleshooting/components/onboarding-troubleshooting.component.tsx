@@ -5,7 +5,6 @@
 
 import React, { useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { OnboardingTroubleshootingProps } from "Renderer/components/rest/onboarding/onboarding.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -16,17 +15,15 @@ import {
 } from "Renderer/components/core/button/button.config"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
-import {
-  Title,
-} from "Renderer/components/rest/onboarding/onboarding.elements"
 import styled from "styled-components"
 import {
   backgroundColor,
   fontWeight,
-  textColor
+  textColor,
 } from "Renderer/styles/theming/theme-getters"
-import { Type } from "../../core/icon/icon.config"
-import Icon, { IconSize } from "../../core/icon/icon.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
+import { Title } from "Renderer/components/core/text/title-text.styled"
 
 export const OnboardingTroubleshootingWrapper = styled.section`
   display: grid;
@@ -61,7 +58,7 @@ export const OnboardingTroubleshootingWrapper = styled.section`
 `
 
 const MoreSteps = styled.ul`
-  list-style-type: '- ';
+  list-style-type: "- ";
   text-align: left;
   li {
     color: ${textColor("primary")};
@@ -76,8 +73,9 @@ const Steps = styled.ol`
   background-color: ${backgroundColor("main")};
   padding: 2.4rem;
   margin: 0;
-  > li { margin-left: 1.6rem;
-    
+  > li {
+    margin-left: 1.6rem;
+
     &:not(:first-of-type) {
       margin-top: 1.6rem;
     }
@@ -106,7 +104,7 @@ const Instruction = styled(Text)`
   margin-bottom: 2.4rem;
   margin-top: 1.6rem;
 `
-const AccordionButton = styled.button<{openMore?: boolean}>`
+const AccordionButton = styled.button<{ openMore?: boolean }>`
   border: none;
   background: none;
   display: flex;
@@ -121,18 +119,24 @@ const AccordionButton = styled.button<{openMore?: boolean}>`
   span {
     margin-left: 0.8rem;
     svg {
-      transform: rotate(${({ openMore}) => (openMore ? 270 : 90)}deg);
+      transform: rotate(${({ openMore }) => (openMore ? 270 : 90)}deg);
     }
   }
 `
 
-const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProps> = ({
+interface Props {
+  onRetry?: () => void
+  onContact?: () => void
+}
+
+
+const OnboardingTroubleshooting: FunctionComponent<Props> = ({
   onRetry = noop,
   onContact = noop,
 }) => {
   const [openMore, setOpenMore] = useState(false)
   const handleClick: () => void = () => {
-    setOpenMore(openMore => !openMore)
+    setOpenMore((openMore) => !openMore)
   }
   return (
     <OnboardingTroubleshootingWrapper>
@@ -176,7 +180,11 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
             message={{ id: "module.onboarding.troubleshootingSteps4" }}
           />
         </Steps>
-        <AccordionButton onClick={handleClick} openMore={openMore} data-testid="more-instructions">
+        <AccordionButton
+          onClick={handleClick}
+          openMore={openMore}
+          data-testid="more-instructions"
+        >
           <Text
             displayStyle={TextDisplayStyle.SmallSupplementaryText}
             message={{
@@ -185,7 +193,8 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
           />
           <Icon type={Type.Arrow} size={IconSize.Small} />
         </AccordionButton>
-        {openMore && <MoreSteps data-testid="more-steps">
+        {openMore && (
+          <MoreSteps data-testid="more-steps">
             <Text
               element={"li"}
               displayStyle={TextDisplayStyle.SmallFadedText}
@@ -206,7 +215,8 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
               displayStyle={TextDisplayStyle.SmallFadedText}
               message={{ id: "module.onboarding.troubleshootingMoreSteps4" }}
             />
-          </MoreSteps>}
+          </MoreSteps>
+        )}
       </main>
       <footer>
         <ButtonComponent

@@ -27,9 +27,9 @@ import Calls from "Renderer/modules/phone/tabs/calls-container.component"
 import Dial from "Renderer/modules/phone/tabs/dial.component"
 import VoiceRecorder from "Renderer/modules/tools/tabs/voice-recorder.component"
 import Notes from "Renderer/modules/tools/tabs/notes.container"
-import Welcome from "Renderer/modules/onboarding/welcome.component"
-import Connecting from "Renderer/modules/onboarding/connecting.component"
-import Troubleshooting from "Renderer/modules/onboarding/troubleshooting.component"
+import Onboarding from "App/onboarding/onboarding.container"
+import Connecting from "App/connecting/connecting.container"
+import Troubleshooting from "App/troubleshooting/troubleshooting.component"
 import LayoutDesktopWrapper from "Renderer/wrappers/layout-desktop-wrapper"
 import LayoutBlankWrapper from "Renderer/wrappers/layout-blank-wrapper"
 import Backup from "Renderer/modules/settings/tabs/backup/backup-container.component"
@@ -45,7 +45,7 @@ export default () => (
 
     <Route exact path={[...Object.values(URL_ONBOARDING)]}>
       <LayoutBlankWrapper>
-        <Route path={URL_ONBOARDING.welcome} component={Welcome} />
+        <Route path={URL_ONBOARDING.welcome} component={Onboarding} />
         <Route path={URL_ONBOARDING.connecting} component={Connecting} />
         <Route
           path={URL_ONBOARDING.troubleshooting}
