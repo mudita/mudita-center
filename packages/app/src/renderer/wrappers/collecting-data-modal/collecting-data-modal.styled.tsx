@@ -5,6 +5,7 @@
 
 import styled from "styled-components"
 import Text from "Renderer/components/core/text/text.component"
+import ButtonComponent from "App/renderer/components/core/button/button.component"
 
 export const ModalContent = styled.div`
   display: flex;
@@ -16,5 +17,16 @@ export const Paragraph = styled(Text)`
   white-space: pre-wrap;
   text-align: center;
   line-height: 2.2rem;
-  margin-top: 3.2rem;
+  margin-top: 1.2rem;
+`
+export const FullAgreementButton = styled(ButtonComponent)`
+  width: auto;
+  height: 2rem;
+  padding: 0;
+  &:hover {
+    background-color: transparent;
+  }
+
+  p {text-transform: none;}
+  
 `
