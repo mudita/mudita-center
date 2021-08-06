@@ -3,28 +3,35 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ipcRenderer } from "electron-better-ipc"
+import { HelpActions } from "Common/enums/help-actions.enum"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   Store as BasicInfoInitialState,
   StoreValues as BasicInfoValues,
+  UpdatingState,
 } from "Renderer/models/basic-info/basic-info.typings"
 import { DevMode } from "App/dev-mode/store/dev-mode.interface"
 import React, { useEffect, useState } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
-import { AppSettings } from "App/main/store/settings.interface"
+import { AppSettings, SettingsState } from "App/main/store/settings.interface"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 import logger from "App/main/utils/logger"
 import BackupModalFlow from "Renderer/components/rest/overview/backup/backup-modal-flow.component"
 import ContactSupportModalFlow, {
   ContactSupportModalFlowState,
-} from "App/contacts/components/contact-support-modal/contact-support-modal-flow.component"
+} from "App/renderer/components/rest/contact-support-modal/contact-support-modal-flow.component"
 import { CreateBugTicketResponseStatus } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket-builder"
-import { ContactSupportFieldValues } from "App/contacts/components/contact-support-modal/contact-support-modal.component"
+import { ContactSupportFieldValues } from "App/renderer/components/rest/contact-support-modal/contact-support-modal.component"
 import useCreateBugTicket, {
   files,
 } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
+import isVersionGreater from "Renderer/modules/overview/is-version-greater"
+import UpdatingForceModalFlow, {
+  UpdatingForceModalFlowState,
+} from "Renderer/modules/overview/updating-force-modal-flow/updating-force-modal-flow.component"
 
 export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
@@ -32,19 +39,19 @@ export interface UpdateBasicInfo {
   setCollectingData: (option: AppSettings["appCollectingData"]) => void
 }
 
-const Overview: FunctionComponent<
-  BasicInfoInitialState &
-    PhoneUpdateStore &
-    UpdateBasicInfo &
-    AppSettings &
-    DevMode
-> = ({
+type Props = BasicInfoInitialState &
+  PhoneUpdateStore &
+  UpdateBasicInfo &
+  SettingsState &
+  DevMode
+
+const Overview: FunctionComponent<Props> = ({
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
   osVersion,
   osUpdateDate,
-  pureOsAvailable,
+  lastAvailableOsVersion,
   pureOsDownloaded,
   updatePhoneOsInfo = noop,
   memorySpace = {
@@ -63,13 +70,18 @@ const Overview: FunctionComponent<
   networkName,
   networkLevel,
   updateBasicInfo = noop,
-  toggleDeviceUpdating,
-  language,
-  pureOsBackupLocation,
+  language = "",
+  pureOsBackupLocation = "",
+  lowestSupportedOsVersion,
+  updatingState,
+  updateOs,
+  updateUpdatingState,
+                                              serialNumber,
 }) => {
   /**
    * Temporary state to demo failure
    */
+  const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [backups, setBackup] = useState(0)
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
@@ -101,6 +113,7 @@ const Overview: FunctionComponent<
     const response = await sendBugTicketRequest({
       email,
       description,
+      serialNumber,
       subject: bugTicketSubject,
     })
     if (response.status === CreateBugTicketResponseStatus.Ok) {
@@ -111,14 +124,41 @@ const Overview: FunctionComponent<
     }
   }
 
+  const goToHelp = (code: number): void => {
+    void ipcRenderer.callMain(HelpActions.OpenWindow, { code })
+  }
+
+  // FIXME: tmp solution until useSystemUpdateFlow exist
+  const toggleDeviceUpdating = (option: boolean) => {
+    if (option) {
+      updateUpdatingState(UpdatingState.Updating)
+    } else {
+      updateUpdatingState(UpdatingState.Standby)
+    }
+  }
+
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
-    osUpdateDate,
     osVersion,
     updatePhoneOsInfo,
     updateBasicInfo,
     toggleDeviceUpdating,
-    openContactSupportModalFlow
+    openContactSupportModalFlow,
+    goToHelp
   )
+
+  useEffect(() => {
+    try {
+      if (!osVersion || !lowestSupportedOsVersion) {
+        setOsVersionSupported(false)
+      } else {
+        setOsVersionSupported(
+          isVersionGreater(osVersion, lowestSupportedOsVersion)
+        )
+      }
+    } catch (error) {
+      logger.error(`Overview: ${error.message}`)
+    }
+  }, [osVersion, lowestSupportedOsVersion])
 
   useEffect(() => {
     if (osVersion) {
@@ -200,8 +240,42 @@ const Overview: FunctionComponent<
     }))
   }
 
+  const closeUpdatingForceModalFlow = async () => {
+    updateUpdatingState(UpdatingState.Standby)
+  }
+
+  const isPureOsAvailable = (): boolean => {
+    if (!osVersion || !lastAvailableOsVersion) {
+      return false
+    } else {
+      return !isVersionGreater(osVersion, lastAvailableOsVersion)
+    }
+  }
+
+  const getUpdatingForceModalFlowState = ():
+    | UpdatingForceModalFlowState
+    | undefined => {
+    if (updatingState === UpdatingState.Success) {
+      return UpdatingForceModalFlowState.Success
+    } else if (updatingState === UpdatingState.Fail) {
+      return UpdatingForceModalFlowState.Fail
+    } else if (!osVersionSupported && contactSupportOpenState === undefined) {
+      return UpdatingForceModalFlowState.Info
+    } else {
+      return undefined
+    }
+  }
+
   return (
     <>
+      <UpdatingForceModalFlow
+        state={getUpdatingForceModalFlowState()}
+        updateOs={updateOs}
+        osVersion={osVersion}
+        closeModal={closeUpdatingForceModalFlow}
+        onContact={openContactSupportModalFlow}
+        onHelp={goToHelp}
+      />
       {contactSupportOpenState && (
         <ContactSupportModalFlow
           openState={contactSupportOpenState}
@@ -235,7 +309,7 @@ const Overview: FunctionComponent<
         simCards={simCards}
         networkName={networkName}
         networkLevel={networkLevel}
-        pureOsAvailable={pureOsAvailable}
+        pureOsAvailable={isPureOsAvailable()}
         pureOsDownloaded={pureOsDownloaded}
         onUpdateCheck={check}
         onUpdateInstall={install}

@@ -7,4 +7,6 @@ export enum Mode {
   Help = "help",
   ServerError = "server-error",
   License = "license",
+  TermsOfService = "terms-of-services",
+  PrivacyPolicy = "privacy-policy"
 }

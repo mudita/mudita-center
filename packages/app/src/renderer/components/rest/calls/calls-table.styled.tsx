@@ -17,6 +17,7 @@ export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
 `
 
 export const BaseSelectableCalls = styled(Table)<{ mouseLock?: boolean }>`
+  min-width: 32rem;
   flex: 1;
   overflow: auto;
   --columnsTemplate: 4rem 53.8rem 19.5rem 11.5rem auto;

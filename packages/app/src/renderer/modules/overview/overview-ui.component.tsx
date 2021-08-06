@@ -30,7 +30,7 @@ const FileManagerInfo = styled(FilesManager)`
 
 const OverviewWrapper = styled.div`
   display: grid;
-  grid-template-columns: minmax(27rem, 1fr) minmax(59rem, 1fr);
+  grid-template-columns: minmax(27rem, 1fr) minmax(39rem, 1fr);
   /* TODO: Change to grid-template-rows: repeat(4, 1fr) when Files Manager will be available */
   grid-template-rows: repeat(2, 1fr);
   grid-column-gap: 4rem;
@@ -54,10 +54,11 @@ const OverviewUI: FunctionComponent<
     BasicInfoInitialState,
     | "loadData"
     | "basicInfoDataState"
-    | "deviceUpdating"
+    | "updatingState"
     | "deviceConnected"
     | "deviceUnlocked"
     | "initialDataLoaded"
+    | "serialNumber"
   > &
     PhoneUpdate &
     OverviewUIProps &
@@ -71,10 +72,10 @@ const OverviewUI: FunctionComponent<
   onUpdateCheck,
   onUpdateDownload,
   onUpdateInstall,
-  osVersion,
   pureOsAvailable,
   pureOsDownloaded,
   toggleDevMode,
+  osVersion,
 }) => (
   <OverviewWrapper>
     <PhoneInfo onClick={toggleDevMode} onDisconnect={disconnectDevice} />

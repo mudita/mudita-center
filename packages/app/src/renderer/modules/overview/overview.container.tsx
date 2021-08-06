@@ -33,7 +33,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch.phoneUpdate.update(updateInfo),
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) =>
     dispatch.basicInfo.update(updateInfo),
-  toggleDeviceUpdating: dispatch.basicInfo.toggleDeviceUpdating,
+  updateUpdatingState: dispatch.basicInfo.updateUpdatingState,
+  updateOs: dispatch.basicInfo.updateOs,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview)

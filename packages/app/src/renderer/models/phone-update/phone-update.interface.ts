@@ -9,7 +9,7 @@ export interface Reducers {
 
 export interface PhoneUpdate {
   pureOsFileUrl?: string
-  pureOsAvailable?: boolean
+  lastAvailableOsVersion?: string
   pureOsDownloaded?: boolean
 }
 
