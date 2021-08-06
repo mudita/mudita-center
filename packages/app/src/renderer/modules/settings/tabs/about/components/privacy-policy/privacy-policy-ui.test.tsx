@@ -7,26 +7,26 @@ import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
-import LicenseUI from "./license-ui.component"
-import { LicenseComponentTestIds } from "./license-ui.enum"
+import TermsOfServiceUI from "./privacy-policy-ui.component"
+import { PrivacyPolicyComponentTestIds } from "./privacy-policy-ui.enum"
 
 const renderer = () => {
   return renderWithThemeAndIntl(
     <Router history={history}>
-      <LicenseUI />
+      <TermsOfServiceUI />
     </Router>
   )
 }
 
 test("License component renders", () => {
   const { getByTestId } = renderer()
-  expect(getByTestId(LicenseComponentTestIds.Wrapper)).toBeInTheDocument()
+  expect(getByTestId(PrivacyPolicyComponentTestIds.Wrapper)).toBeInTheDocument()
 })
 
 test("render title correctly", () => {
-  const titleText = "Mudita Center Software – Terms of Use"
+  const titleText = "Mudita Center Privacy Policy"
   const { getByTestId } = renderer()
-  expect(getByTestId(LicenseComponentTestIds.Title)).toHaveTextContent(
+  expect(getByTestId(PrivacyPolicyComponentTestIds.Title)).toHaveTextContent(
     titleText
   )
 })
