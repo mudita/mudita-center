@@ -17,14 +17,22 @@ import InputSelect from "Renderer/components/core/input-select/input-select.comp
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { Contact } from "App/contacts/store/contacts.type"
 import { createFullName } from "App/contacts/store/contacts.helpers"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 const messages = defineMessages({
   searchPlaceholder: { id: "module.contacts.panelSearchPlaceholder" },
 })
 
-const ContactListItem = styled(ListItem)`
+const ContactListItem = styled(ListItem)<{
+  active: boolean
+}>`
   display: flex;
   justify-content: space-between;
+  ${({ active }) =>
+    active &&
+    css`
+      background-color: ${backgroundColor("minor")};
+    `};
 `
 
 const renderListItem: RenderListItem<Contact> = ({
@@ -41,8 +49,27 @@ const renderListItem: RenderListItem<Contact> = ({
 
 const renderName = (contact: Contact) => createFullName(contact)
 
-const isItemMatching = (contact: Contact, search: string) => {
-  return createFullName(contact).toLowerCase().includes(search.toLowerCase())
+export const isItemMatching = (contact: Contact, search: string) => {
+  const query: (keyof Contact)[] = [
+    "firstName",
+    "lastName",
+    "primaryPhoneNumber",
+    "secondaryPhoneNumber",
+    "email",
+    "firstAddressLine",
+    "secondAddressLine",
+  ]
+  for (const key of query) {
+    const param: typeof contact[keyof typeof contact] = contact[key]
+    if (
+      param !== undefined &&
+      typeof param === "string" &&
+      param.toLowerCase().includes(search.toLowerCase())
+    ) {
+      return true
+    }
+  }
+  return false
 }
 
 export interface ContactInputSelectProps {
@@ -61,7 +88,7 @@ const ContactInputSearch: FunctionComponent<ContactInputSelectProps> = ({
   const minContactNameLength = Math.min(
     ...filteredContacts.map((contact) => createFullName(contact).length)
   )
-  const minCharsToShowResults = Math.min(3, minContactNameLength)
+  const minCharsToShowResults = Math.min(1, minContactNameLength)
 
   return (
     <InputSelect
@@ -78,7 +105,7 @@ const ContactInputSearch: FunctionComponent<ContactInputSelectProps> = ({
       searchable
       minCharsToShowResults={minCharsToShowResults}
       listStyles={css`
-        max-height: 11.75rem;
+        max-height: 31.33rem;
       `}
     />
   )

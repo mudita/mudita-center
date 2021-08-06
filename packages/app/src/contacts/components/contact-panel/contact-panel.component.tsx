@@ -29,6 +29,7 @@ import {
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 import delayResponse from "@appnroll/delay-response"
+import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 
 const messages = defineMessages({
@@ -40,6 +41,7 @@ const messages = defineMessages({
 })
 
 export interface ContactPanelProps {
+  onContactSelect: (contact: Contact) => void
   onManageButtonClick: () => void
   onNewButtonClick: () => void
   selectedContacts: Contact[]
@@ -47,10 +49,12 @@ export interface ContactPanelProps {
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
   deleteContacts: (ids: ContactID[]) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
+  contacts: Contact[]
   editedContact: Contact | undefined
 }
 
 const ContactPanel: FunctionComponent<ContactPanelProps> = ({
+  onContactSelect,
   onManageButtonClick,
   onNewButtonClick,
   selectedContacts,
@@ -58,6 +62,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   toggleAll = noop,
   deleteContacts,
   resetRows,
+  contacts,
   editedContact,
 }) => {
   const selectedItemsCount = selectedContacts.length
@@ -105,7 +110,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   }
   return (
     <Panel selectionMode={selectionMode}>
-      {selectionMode && (
+      {selectionMode ? (
         <ContactSelectionManager
           selectedItemsNumber={selectedItemsCount}
           allItemsSelected={Boolean(allItemsSelected)}
@@ -129,6 +134,11 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
             />,
           ]}
           data-testid={ContactPanelTestIdsEnum.SelectionManager}
+        />
+      ) : (
+        <ContactInputSearch
+          contacts={contacts}
+          onContactSelect={onContactSelect}
         />
       )}
       <Buttons>

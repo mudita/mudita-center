@@ -32,10 +32,6 @@ export const ListItem = styled.li<{
     border-bottom: solid ${borderColor("list")} 0.1rem;
   }
 
-  &:hover {
-    background-color: ${backgroundColor("minor")};
-  }
-
   ${({ empty }) =>
     empty &&
     css`

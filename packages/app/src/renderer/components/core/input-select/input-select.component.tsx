@@ -8,6 +8,7 @@ import React, {
   ComponentProps,
   FocusEvent,
   Fragment,
+  KeyboardEvent,
   MouseEvent,
   useRef,
   useState,
@@ -67,12 +68,18 @@ const SelectInputWrapper = styled.div<{
 export type ListItemProps = {
   onClick: (item: any) => void
   onMouseDown: (event: MouseEvent) => void
+  onMouseEnter: (event: MouseEvent) => void
   selected: boolean
   disabled: boolean
   "data-testid"?: string
+  active?: boolean
 }
 
 export type RenderInputSelectListItem<T> = RenderListItem<T, ListItemProps>
+
+interface KeysType {
+  [key: string]: () => void
+}
 
 interface InputSelectListProps {
   expanded: boolean
@@ -85,6 +92,8 @@ interface InputSelectListProps {
   onEmptyItemValueClick: (event: MouseEvent) => void
   onItemClick: (item: any) => void
   renderListItem?: RenderInputSelectListItem<any>
+  activeItemIndex?: number
+  handleMouseEnter?: (itemIndex: number) => void
 }
 
 const InputSelectList: FunctionComponent<InputSelectListProps> = ({
@@ -95,7 +104,9 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
   emptyItemValue,
   onEmptyItemValueClick,
   onItemClick,
+  handleMouseEnter = noop,
   renderListItem = renderListItemSearchable,
+  activeItemIndex,
   ...props
 }) => {
   return (
@@ -119,6 +130,8 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
             event.preventDefault()
           }
         }
+        const onMouseEnter = () => handleMouseEnter(index)
+        const active = activeItemIndex === index
         return (
           <Fragment key={index}>
             {renderListItem({
@@ -128,7 +141,9 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
                 onClick,
                 selected,
                 disabled,
+                active,
                 onMouseDown,
+                onMouseEnter,
                 "data-testid": InputSelectTestIds.ListItem,
               },
             })}
@@ -152,6 +167,8 @@ export interface InputSelectProps extends Partial<InputProps> {
   searchable?: boolean
   minCharsToShowResults?: number
   clearOnBlur?: boolean
+  active?: boolean
+  searchResultRows?: number
 }
 
 const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
@@ -172,10 +189,13 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   onBlur = noop,
   onFocus = noop,
   type = "text",
+  searchResultRows = 8,
+  active,
   ...rest
 }) => {
   const [focus, setFocus] = useState(false)
   const [searchValue, setSearchValue] = useState<string | null>(null)
+  const [activeItemIndex, setActiveItemIndex] = useState<number>(0)
   const selectRef = useRef<HTMLInputElement>(null)
 
   const resetSelection = () => onSelect("")
@@ -193,6 +213,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   const handleSelect = (item: typeof items[number]) => {
     onSelect(item)
     resetSearchValue()
+    setActiveItemIndex(0)
   }
 
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
@@ -202,6 +223,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value)
+    setActiveItemIndex(0)
   }
 
   const filteredItems = searchable
@@ -234,6 +256,40 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
     return ""
   }
 
+  const onKeyDown = (event: KeyboardEvent) => {
+    const handleArrowDown = () => {
+      const maxListLength =
+        filteredItems.length <= searchResultRows
+          ? filteredItems.length
+          : searchResultRows
+      if (activeItemIndex + 1 < maxListLength) {
+        setActiveItemIndex((prevState) => prevState + 1)
+      }
+    }
+    const handleArrowUp = () => {
+      if (activeItemIndex > 0) {
+        setActiveItemIndex((prevState) => prevState - 1)
+      }
+    }
+    const handleEnter = () => {
+      setActiveItemIndex(0)
+      if (selectRef.current) {
+        selectRef.current.blur()
+      }
+      handleSelect(filteredItems[activeItemIndex])
+    }
+    const keys: KeysType = {
+      ArrowDown: handleArrowDown,
+      ArrowUp: handleArrowUp,
+      Enter: handleEnter,
+    }
+    return keys[event.key] && keys[event.key]()
+  }
+
+  const handleMouseEnter = (itemIndex: number) => {
+    setActiveItemIndex(itemIndex)
+  }
+
   const toggleIcon = (
     <ToggleIcon
       rotated={focus}
@@ -255,6 +311,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onKeyDown={onKeyDown}
         inputRef={composeRefs(selectRef, inputRef)}
         readOnly={!searchable}
         focusable
@@ -268,6 +325,8 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
           renderListItem={renderListItem}
           searchString={searchValue || ""}
           expanded={focus}
+          activeItemIndex={activeItemIndex}
+          handleMouseEnter={handleMouseEnter}
           onTransitionEnd={clearOnBlur ? resetSearchValue : noop}
           onEmptyItemValueClick={resetSelection}
           onItemClick={handleSelect}
