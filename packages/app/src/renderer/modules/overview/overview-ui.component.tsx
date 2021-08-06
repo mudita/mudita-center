@@ -54,10 +54,11 @@ const OverviewUI: FunctionComponent<
     BasicInfoInitialState,
     | "loadData"
     | "basicInfoDataState"
-    | "deviceUpdating"
+    | "updatingState"
     | "deviceConnected"
     | "deviceUnlocked"
     | "initialDataLoaded"
+    | "serialNumber"
   > &
     PhoneUpdate &
     OverviewUIProps &
@@ -71,10 +72,10 @@ const OverviewUI: FunctionComponent<
   onUpdateCheck,
   onUpdateDownload,
   onUpdateInstall,
-  osVersion,
   pureOsAvailable,
   pureOsDownloaded,
   toggleDevMode,
+  osVersion,
 }) => (
   <OverviewWrapper>
     <PhoneInfo onClick={toggleDevMode} onDisconnect={disconnectDevice} />

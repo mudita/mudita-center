@@ -5,7 +5,7 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { osUpdateAlreadyDownloadedChannel } from "App/main/functions/register-os-update-already-downloaded-checker"
-import { Release } from "App/main/functions/register-pure-os-update-listener"
+import { Release } from "App/main/functions/register-get-all-releases-listener"
 
 const osUpdateAlreadyDownloadedCheck = (
   file: Release["file"]
