@@ -16,7 +16,6 @@ const logger: PureLogger = LoggerFactory.getInstance()
 export const productId = "0622"
 export const vendorId = "045e"
 export const manufacturer = "Mudita"
-export const defaultSerialNumber = "00000000000000"
 
 enum DeviceManagerEventName {
   AttachedDevice = "AttachedDevice",
@@ -58,9 +57,7 @@ class DeviceManager implements PureDeviceManager {
           portInfo.productId?.toLowerCase() === productId &&
           portInfo.vendorId?.toLowerCase() === vendorId
       )
-      .map(({ path, serialNumber = defaultSerialNumber }) =>
-        this.createDevice(path, serialNumber)
-      )
+      .map(({ path }) => this.createDevice(path))
   }
 
   public onAttachDevice(
@@ -97,8 +94,7 @@ class DeviceManager implements PureDeviceManager {
           )
 
           if (port) {
-            const serialNumber = port.serialNumber ?? defaultSerialNumber
-            const device = this.createDevice(port.path, serialNumber)
+            const device = this.createDevice(port.path)
             this.emitAttachedDeviceEvent(device)
 
             break
