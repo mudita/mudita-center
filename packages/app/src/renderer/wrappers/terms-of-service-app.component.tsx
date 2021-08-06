@@ -8,19 +8,19 @@ import { History } from "history"
 import { Route, Router } from "react-router"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { URL_MAIN } from "Renderer/constants/urls"
-import {LicenseUI} from "../modules/settings/tabs/about/components/license/license-ui.component"
+import TermsOfServiceUI from "../modules/settings/tabs/about/components/terms-of-service/terms-of-service-ui.component"
 interface Props {
   history: History
 }
 
-const LicenseApp: FunctionComponent<Props> = ({ history }) => {
+const TermsOfServiceApp: FunctionComponent<Props> = ({ history }) => {
   return (
     <Router history={history}>
-      <Route path={URL_MAIN.license}>
-        <LicenseUI />
+      <Route path={URL_MAIN.termsOfService}>
+        <TermsOfServiceUI />
       </Route>
     </Router>
   )
 }
 
-export default LicenseApp
+export default TermsOfServiceApp

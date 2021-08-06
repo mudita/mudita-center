@@ -28,7 +28,6 @@ const Layout = styled.div`
   grid-template-areas: "Menu Header" "Menu View";
   max-width: ${width("viewWidth")};
   margin: 0 auto;
-  overflow: hidden;
 `
 
 const MenuWrapper = styled.div`
@@ -61,6 +60,7 @@ const ViewWrapper = styled.div`
   grid-area: View;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 `
 
 const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {

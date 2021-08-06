@@ -6,12 +6,13 @@
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { OnboardingWelcomeProps } from "Renderer/components/rest/onboarding/onboarding.interface"
-import  {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import Image from "Renderer/components/core/image/image.component"
 import Infographic from "Renderer/images/onboarding/infographic.png"
-import { Type as ButtonType, DisplayStyle } from "Renderer/components/core/button/button.config"
+import {
+  Type as ButtonType,
+  DisplayStyle,
+} from "Renderer/components/core/button/button.config"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import {
@@ -19,12 +20,12 @@ import {
   Title,
   InstructionText,
   WelcomeButton,
-  TroubleshootingButton
+  TroubleshootingButton,
 } from "Renderer/components/rest/onboarding/onboarding.elements"
 
 const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
   onCancel = noop,
-  onTroubleshooting = noop
+  onTroubleshooting = noop,
 }) => (
   <OnboardingWrapper>
     <header>
@@ -42,7 +43,7 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
     </header>
 
     <main>
-      <Image src={Infographic} width={1280} />
+      <Image src={Infographic} width={"100%"} />
     </main>
     <footer>
       <WelcomeButton
