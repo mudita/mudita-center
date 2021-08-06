@@ -60,6 +60,7 @@ const PureDisconnected: FunctionComponent = () => (
     </Text>
     <TetheringImageWrapper data-testid={TetheringTestIds.DisconnectedImage}>
       <Image
+        width={"100%"}
         src={NoTethering}
         alt={intl.formatMessage(tetheringMessages.notConnected)}
         title={intl.formatMessage(tetheringMessages.notConnected)}

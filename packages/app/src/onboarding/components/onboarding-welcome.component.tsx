@@ -47,7 +47,7 @@ const OnboardingWelcome: FunctionComponent<Props> = ({
     </header>
 
     <main>
-      <Image src={Infographic} width={1280} />
+      <Image src={Infographic} width={"100%"} />
     </main>
     <footer>
       <WelcomeButton
