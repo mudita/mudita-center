@@ -20,6 +20,8 @@ export const URL_MAIN = {
   help: "/help",
   error: "/error",
   license: "/license",
+  termsOfService: "/terms-of-service",
+  privacyPolicy: "/privacy-policy"
 } as const
 
 export const URL_TABS = {

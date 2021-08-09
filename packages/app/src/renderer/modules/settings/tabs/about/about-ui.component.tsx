@@ -20,14 +20,48 @@ import { AboutTestIds } from "Renderer/modules/settings/tabs/about/about.enum"
 
 interface AboutProps {
   openLicense: () => void
+  openTermsOfService: () => void
+  openPrivacyPolicy: () => void
 }
 
-const AboutUI: FunctionComponent<AboutProps> = ({ openLicense }) => (
+const AboutUI: FunctionComponent<AboutProps> = ({ openLicense, openTermsOfService, openPrivacyPolicy }) => (
   <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
-    <SettingsTableRow checkMode={false} data-testid={AboutTestIds.TableRow}>
+    <SettingsTableRow checkMode={false} >
       <Data>
         <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
           <FormattedMessage id="module.settings.aboutTermsOfService" />
+        </SettingsLabel>
+      </Data>
+      <ActionsWrapper>
+        <ButtonComponent
+          displayStyle={DisplayStyle.Link3}
+          labelMessage={{
+            id: "module.settings.aboutLearnMore",
+          }}
+          onClick={openTermsOfService}
+        />
+      </ActionsWrapper>
+    </SettingsTableRow>
+    <SettingsTableRow checkMode={false}>
+      <Data>
+        <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+          <FormattedMessage id="module.settings.aboutPrivacyPolicy" />
+        </SettingsLabel>
+      </Data>
+      <ActionsWrapper>
+        <ButtonComponent
+          displayStyle={DisplayStyle.Link3}
+          labelMessage={{
+            id: "module.settings.aboutLearnMore",
+          }}
+          onClick={openPrivacyPolicy}
+        />
+      </ActionsWrapper>
+    </SettingsTableRow>
+    <SettingsTableRow checkMode={false} data-testid={AboutTestIds.TableRow}>
+      <Data>
+        <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+          <FormattedMessage id="module.settings.aboutLicense" />
         </SettingsLabel>
       </Data>
       <ActionsWrapper>

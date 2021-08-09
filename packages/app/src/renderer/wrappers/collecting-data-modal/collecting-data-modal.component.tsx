@@ -13,10 +13,14 @@ import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { CollectingDataModalTestIds } from "Renderer/wrappers/collecting-data-modal/collecting-data-modal-test-ids.enum"
 import {
+  FullAgreementButton,
   ModalContent,
   Paragraph,
 } from "Renderer/wrappers/collecting-data-modal/collecting-data-modal.styled"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { DisplayStyle } from "App/renderer/components/core/button/button.config"
+import { ipcRenderer } from "electron-better-ipc"
+import { AboutActions } from "App/common/enums/about-actions.enum"
 
 const messages = defineMessages({
   title: { id: "component.collectingDataModalTitle" },
@@ -34,6 +38,8 @@ type Properties = Required<
 >
 
 const CollectingDataModal: FunctionComponent<Properties> = (props) => {
+  const openPrivacyPolicy = () =>
+    ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
   return (
     <ModalDialog
       title={intl.formatMessage(messages.title)}
@@ -51,8 +57,15 @@ const CollectingDataModal: FunctionComponent<Properties> = (props) => {
         />
         <Paragraph
           data-testid={CollectingDataModalTestIds.Body}
-          displayStyle={TextDisplayStyle.MediumText}
+          displayStyle={TextDisplayStyle.MediumFadedText}
           message={messages.body}
+        />
+        <FullAgreementButton
+          displayStyle={DisplayStyle.Link3}
+          labelMessage={{
+            id: "component.collectingDataModalFullAgreement",
+          }}
+          onClick={openPrivacyPolicy}
         />
       </ModalContent>
     </ModalDialog>

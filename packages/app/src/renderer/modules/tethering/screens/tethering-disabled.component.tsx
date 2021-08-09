@@ -72,6 +72,7 @@ const TetheringDisabled: FunctionComponent<TetheringDisabledProps> = ({
     </InfoText>
     <TetheringImageWrapper data-testid={TetheringTestIds.DisabledImage}>
       <Image
+        width={"100%"}
         src={TetheringOff}
         alt={intl.formatMessage(tetheringMessages.notConnected)}
         title={intl.formatMessage(tetheringMessages.notConnected)}

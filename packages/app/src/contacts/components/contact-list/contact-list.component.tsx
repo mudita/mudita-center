@@ -84,6 +84,7 @@ const BlockedIcon = styled(Icon).attrs(() => ({
 `
 
 const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
+  min-width: 32rem;
   flex: 1;
   overflow: auto;
   --columnsTemplate: 4rem 63rem 11.5rem 11.5rem auto;

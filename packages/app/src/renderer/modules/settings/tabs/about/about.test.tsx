@@ -13,6 +13,8 @@ import { AboutTestIds } from "./about.enum"
 const renderer = (
   config = {
     openLicense: noop,
+    openTermsOfService: noop,
+    openPrivacyPolicy: noop
   }
 ) => renderWithThemeAndIntl(<AboutUI {...config} />)
 

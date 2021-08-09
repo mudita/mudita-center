@@ -30,6 +30,7 @@ import {
   ContactDetailsWrapper,
   Content,
   CustomCheckbox,
+  Form,
   Input,
 } from "App/contacts/components/contact-edit/contact-edit.styled"
 import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/contact-panel-test-ids.enum"
@@ -163,7 +164,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
       onClose={handleCancel}
       headerLeft={headerLeft}
     >
-      <form onSubmit={handleSave}>
+      <Form onSubmit={handleSave}>
         <Content>
           <div>
             <Input
@@ -250,7 +251,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             data-testid={ContactPanelTestIdsEnum.SaveButton}
           />
         </Buttons>
-      </form>
+      </Form>
     </ContactDetailsWrapper>
   )
 }
