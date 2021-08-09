@@ -7,11 +7,11 @@ import * as React from "react"
 import { Redirect, Route, Switch } from "react-router"
 import FilesManager from "Renderer/modules/filesManager/files-manager.component"
 import Meditation from "Renderer/modules/meditation/meditation.component"
-import Messages from "App/messages/messages.component"
+import Messages from "App/messages/messages.container"
 import Music from "Renderer/modules/music/music.component"
 import News from "Renderer/modules/news/news.component"
-import OverviewContainer from "Renderer/modules/overview/overview.container"
-import PhoneContainer from "App/contacts/contacts.component"
+import Overview from "App/overview/overview.container"
+import Contacts from "App/contacts/contacts.container"
 import Settings from "Renderer/modules/settings/settings.container"
 import Tethering from "Renderer/modules/tethering/tethering.container"
 import {
@@ -20,16 +20,16 @@ import {
   URL_RECOVERY_MODE,
   URL_TABS,
 } from "Renderer/constants/urls"
-import Calendar from "App/calendar/calendar.component"
-import Templates from "App/templates/templates.component"
+import Calendar from "App/calendar/calendar.container"
+import Templates from "App/templates/templates.container"
 import Playlist from "Renderer/modules/music/tabs/playlist.component"
 import Calls from "Renderer/modules/phone/tabs/calls-container.component"
 import Dial from "Renderer/modules/phone/tabs/dial.component"
 import VoiceRecorder from "Renderer/modules/tools/tabs/voice-recorder.component"
 import Notes from "Renderer/modules/tools/tabs/notes.container"
-import Welcome from "Renderer/modules/onboarding/welcome.component"
-import Connecting from "Renderer/modules/onboarding/connecting.component"
-import Troubleshooting from "Renderer/modules/onboarding/troubleshooting.component"
+import Onboarding from "App/onboarding/onboarding.container"
+import Connecting from "App/connecting/connecting.container"
+import Troubleshooting from "App/troubleshooting/troubleshooting.component"
 import LayoutDesktopWrapper from "Renderer/wrappers/layout-desktop-wrapper"
 import LayoutBlankWrapper from "Renderer/wrappers/layout-blank-wrapper"
 import Backup from "Renderer/modules/settings/tabs/backup/backup-container.component"
@@ -45,7 +45,7 @@ export default () => (
 
     <Route exact path={[...Object.values(URL_ONBOARDING)]}>
       <LayoutBlankWrapper>
-        <Route path={URL_ONBOARDING.welcome} component={Welcome} />
+        <Route path={URL_ONBOARDING.welcome} component={Onboarding} />
         <Route path={URL_ONBOARDING.connecting} component={Connecting} />
         <Route
           path={URL_ONBOARDING.troubleshooting}
@@ -77,8 +77,8 @@ export default () => (
         />
         <Route path={URL_MAIN.news} component={News} />
         <Route path={URL_MAIN.calendar} component={Calendar} />
-        <Route path={URL_MAIN.overview} component={OverviewContainer} />
-        <Route path={URL_MAIN.contacts} component={PhoneContainer} exact />
+        <Route path={URL_MAIN.overview} component={Overview} />
+        <Route path={URL_MAIN.contacts} component={Contacts} exact />
         <Route path={URL_MAIN.phone} component={Calls} />
         <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
         <Route path={URL_MAIN.settings} component={Settings} exact />

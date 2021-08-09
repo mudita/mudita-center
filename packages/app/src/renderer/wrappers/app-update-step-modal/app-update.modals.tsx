@@ -21,6 +21,7 @@ import {
   RoundIconWrapper,
 } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 import { Size } from "Renderer/components/core/button/button.config"
+import { AppUpdateStepModalTestIds } from "Renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
 
 export interface AppUpdateAvailableProps {
   appLatestVersion?: string
@@ -64,6 +65,7 @@ const messages = defineMessages({
 
 const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   children,
+  testId,
   ...props
 }) => (
   <ModalDialog
@@ -71,7 +73,7 @@ const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
     title={intl.formatMessage(messages.appUpdateTitle)}
     {...props}
   >
-    <ModalContent>
+    <ModalContent data-testid={testId}>
       <RoundIconWrapper>
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
@@ -84,6 +86,7 @@ export const AppUpdateAvailable: FunctionComponent<
   ComponentProps<typeof ModalDialog> & AppUpdateAvailableProps
 > = ({ appLatestVersion, ...props }) => (
   <AppUpdateModal
+    testId={AppUpdateStepModalTestIds.AppUpdateAvailableModal}
     actionButtonLabel={intl.formatMessage(messages.availableUpdateButton)}
     closeButton={false}
     actionButtonSize={Size.FixedBig}
@@ -110,7 +113,10 @@ export const AppUpdateAvailable: FunctionComponent<
 export const AppUpdateError: FunctionComponent<
   ComponentProps<typeof ModalDialog>
 > = (props) => (
-  <AppUpdateModal {...props}>
+  <AppUpdateModal
+    testId={AppUpdateStepModalTestIds.AppUpdateErrorModal}
+    {...props}
+  >
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
       message={messages.errorUpdateMessage}
@@ -150,6 +156,7 @@ export const AppUpdateProgress: FunctionComponent<
   ComponentProps<typeof ModalDialog>
 > = ({ ...props }) => (
   <ModalDialog
+    testId={AppUpdateStepModalTestIds.AppUpdateProgressModal}
     size={ModalSize.Small}
     title={intl.formatMessage(messages.appUpdateTitle)}
     closeButton={false}
