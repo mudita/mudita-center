@@ -154,26 +154,12 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     return getContact(id)
   }
 
-  const handleNameUpdate = ({
-    firstName,
-    lastName,
-  }: Pick<Contact, "firstName" | "lastName">) => {
-    if (!editedContact) {
-      setNewContact({
-        ...(newContact as Contact),
-        firstName,
-        lastName,
-      })
-    }
-  }
-
   const handleAddingContact = () => {
     closeSidebar()
     setNewContact(defaultContact)
   }
 
   const cancelOrCloseContactHandler = () => {
-    closeSidebar()
     setNewContact(undefined)
   }
 
@@ -203,12 +189,10 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const handleEditingContact = (contact: Contact) => {
-    closeSidebar()
     setEditedContact(contact)
   }
 
   const cancelEditingContact = (contact?: Contact) => {
-    closeSidebar()
     setEditedContact(undefined)
     openSidebar(contact as Contact)
   }
@@ -562,7 +546,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
           toggleAll={toggleAll}
           deleteContacts={deleteContacts}
           resetRows={resetRows}
-          editedContact={editedContact}
+          editMode={Boolean(editedContact || newContact)}
         />
         <TableWithSidebarWrapper>
           <ContactList
@@ -574,8 +558,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
             onUnblock={handleUnblock}
             onBlock={openBlockModal}
             onDelete={openDeleteModal}
-            newContact={newContact}
-            editedContact={editedContact}
+            editMode={Boolean(editedContact || newContact)}
             resultsState={resultsState}
             selectedContact={selectedContact}
             {...rest}
@@ -587,7 +570,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               onCancel={cancelOrCloseContactHandler}
               onSpeedDialSettingsOpen={openSpeedDialModal}
               onSave={saveNewContact}
-              onNameUpdate={handleNameUpdate}
               saving={savingContact}
             />
           )}

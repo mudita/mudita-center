@@ -47,7 +47,7 @@ export interface ContactPanelProps {
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
   deleteContacts: (ids: ContactID[]) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
-  editedContact: Contact | undefined
+  editMode: boolean
 }
 
 const ContactPanel: FunctionComponent<ContactPanelProps> = ({
@@ -58,7 +58,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   toggleAll = noop,
   deleteContacts,
   resetRows,
-  editedContact,
+  editMode,
 }) => {
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
@@ -143,7 +143,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
             id: "module.contacts.panelNewContactButton",
           }}
           onClick={onNewButtonClick}
-          disabled={Boolean(editedContact)}
+          disabled={editMode}
           data-testid={ContactPanelTestIdsEnum.NewButton}
         />
       </Buttons>

@@ -5,21 +5,17 @@
 
 /* eslint-disable @typescript-eslint/no-empty-function */
 
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import React from "react"
+import React, { ComponentProps } from "react"
 import { waitFor, fireEvent } from "@testing-library/dom"
+import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import Contacts from "App/contacts/components/contacts/contacts.component"
-import { noop } from "Renderer/utils/noop"
-import { PhoneProps } from "App/contacts/components/contacts/contacts.type"
 import { Contact } from "App/contacts/store/contacts.type"
-import { ResultsState } from "App/contacts/store/contacts.enum"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
+import { ResultsState } from "App/contacts/store/contacts.enum"
 
-beforeAll(() => {
-  mockAllIsIntersecting(true)
-})
+type Props = ComponentProps<typeof Contacts>
 
 jest.mock("electron", () => ({
   remote: {
@@ -79,50 +75,59 @@ const contactTwo: Contact = {
   secondAddressLine: "",
 }
 
-const renderer = (props: {}) => {
-  const defaultProps: PhoneProps = {
-    onSpeedDialSettingsSave: noop,
-    getContact: (id: string) => {
-      return [contactOne, contactTwo].find((contact) => contact.id === id)!
+const defaultProps: Props = {
+  getContact: (id: string) => {
+    return [contactOne, contactTwo].find((contact) => contact.id === id)!
+  },
+  addNewContact: jest.fn(),
+  authorize: jest.fn(),
+  deleteContacts: jest.fn(),
+  editContact: jest.fn(),
+  loadContacts: jest.fn(),
+  loadData: jest.fn(),
+  isThreadOpened: jest.fn(),
+  onBlock: jest.fn(),
+  onCall: jest.fn(),
+  onDelete: jest.fn(),
+  onEdit: jest.fn(),
+  onExport: jest.fn(),
+  onForward: jest.fn(),
+  onManageButtonClick: jest.fn(),
+  onMessage: jest.fn(),
+  onNewButtonClick: jest.fn(),
+  onSpeedDialSettingsSave: jest.fn(),
+  onUnblock: jest.fn(),
+  resetRows: jest.fn(),
+  setProviderData: jest.fn(),
+  resultsState: ResultsState.Loaded,
+  speedDialChosenList: [],
+  contactList: [
+    {
+      category: "#",
+      contacts: [contactOne, contactTwo],
     },
-    flatList: [],
-    speedDialChosenList: [],
-    setProviderData: noop,
-    onManageButtonClick: async () => {},
-    isThreadOpened: () => false,
-    onMessage: noop,
-    authorize: async () => undefined,
-    addNewContact: async () => {},
-    editContact: async () => {},
-    deleteContacts: async () => {},
-    loadContacts: async () => [],
-    onExport: async () => {},
-    onForward: async () => {},
-    onBlock: async () => {},
-    onUnblock: async () => {},
-    onDelete: async () => {},
-    onNewButtonClick: async () => {},
-    selectedContacts: [],
-    resetRows: async () => {},
-    editedContact: contactOne,
-    onEdit: noop,
-    onCall: noop,
-    loadData: async () => {},
-    inputValue: "",
-    contacts: [],
-    savingContact: true,
-    resultsState: ResultsState.Loaded,
-    speedDialContacts: [],
-    contactList: [
-      {
-        category: "#",
-        contacts: [contactOne, contactTwo],
-      },
-    ],
+  ],
+  contacts: [],
+  flatList: [],
+  selectedContacts: [],
+  speedDialContacts: [],
+  editMode: false,
+  savingContact: false,
+  inputValue: "",
+}
+
+const renderer = (extraProps?: Partial<Props>) => {
+  const props = {
+    ...defaultProps,
+    ...extraProps,
   }
 
   return renderWithThemeAndIntl(<Contacts {...defaultProps} {...props} />)
 }
+
+beforeAll(() => {
+  mockAllIsIntersecting(true)
+})
 
 test("changing contact details preview, when the user switching between contacts", async () => {
   const { getAllByTestId, getByTestId } = renderer({})

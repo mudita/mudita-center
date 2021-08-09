@@ -264,7 +264,6 @@
   "module.contacts.listUnnamedContact": "No name",
   "module.contacts.manualImportText": "Import from vcf file",
   "module.contacts.newContactCallLabel": "Add contact",
-  "module.contacts.newTitle": "New contact",
   "module.contacts.noAddress": "No address",
   "module.contacts.noEmail": "No email address",
   "module.contacts.noNotes": "No notes",
