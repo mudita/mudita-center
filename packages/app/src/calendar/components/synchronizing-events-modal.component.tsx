@@ -6,7 +6,6 @@
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Text, {
@@ -19,6 +18,7 @@ import Modal, {
 import { ModalContent } from "App/calendar/components/calendar-modals.styled"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
+import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
 
 const messages = defineMessages({
   title: {

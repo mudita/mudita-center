@@ -18,7 +18,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { Template } from "App/templates/store/templates.interface"
 import { defineMessages } from "react-intl"
-import { TemplatesTestIds } from "App/templates/templates.enum"
+import { TemplatesTestIds } from "App/templates/components/templates/templates.enum"
 
 export const messages = defineMessages({
   searchPlaceholder: {

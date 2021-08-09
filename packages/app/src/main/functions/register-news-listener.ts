@@ -69,7 +69,7 @@ const registerNewsListener = async (): Promise<void> => {
   }
 
   if (!fs.readJsonSync(newsFilePath, { throws: false })) {
-    const defaultNews = await getDefaultNewsItems()
+    const defaultNews = getDefaultNewsItems()
     fs.writeJsonSync(newsFilePath, defaultNews)
   }
 

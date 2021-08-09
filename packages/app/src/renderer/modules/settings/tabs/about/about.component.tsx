@@ -7,12 +7,14 @@ import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import AboutUI from "Renderer/modules/settings/tabs/about/about-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
-import { LicenseActions } from "App/common/enums/license-actions.enum"
+import { AboutActions } from "App/common/enums/about-actions.enum"
 
 const About: FunctionComponent = () => {
   const openLicenseWindow = () =>
-    ipcRenderer.callMain(LicenseActions.OpenWindow)
-  return <AboutUI openLicense={openLicenseWindow} />
+    ipcRenderer.callMain(AboutActions.LicenseOpenWindow)
+  const openTermsOfServiceWindow = () => ipcRenderer.callMain(AboutActions.TermsOpenWindow)
+  const openPrivacyPolicyWindow = () => ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
+return <AboutUI openLicense={openLicenseWindow} openTermsOfService={openTermsOfServiceWindow} openPrivacyPolicy={openPrivacyPolicyWindow} />
 }
 
 export default About

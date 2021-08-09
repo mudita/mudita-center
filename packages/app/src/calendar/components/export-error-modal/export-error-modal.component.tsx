@@ -11,7 +11,6 @@ import Modal, {
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { defineMessages } from "react-intl"
 import { ModalContent } from "App/calendar/components/calendar-modals.styled"
-import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
@@ -20,22 +19,21 @@ import Text, {
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import React from "react"
 import { ExportErrorModalTestIds } from "App/calendar/components/export-error-modal/export-error-modal-test-ids.enum"
+import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
 
 const messages = defineMessages({
   title: {
     id: "module.calendar.exportFailedTitle",
   },
   subtitle: {
-    id: "module.calendar.exportFailedSubtitle"
+    id: "module.calendar.exportFailedSubtitle",
   },
   body: {
     id: "module.calendar.exportFailedBody",
   },
 })
 
-const ExportErrorModal: FunctionComponent<ModalProps> = ({
-  ...props
-}) => (
+const ExportErrorModal: FunctionComponent<ModalProps> = ({ ...props }) => (
   <Modal
     {...props}
     size={ModalSize.Small}
