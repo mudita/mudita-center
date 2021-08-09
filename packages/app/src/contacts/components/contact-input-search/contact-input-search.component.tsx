@@ -78,18 +78,18 @@ const renderListItem: RenderListItem<Contact> = ({
   </ContactListItem>
 )
 
-export const renderPhoneNumber = (number: string) => {
+export const renderPhoneNumber = (number: string): string => {
   if (number.length === 12) {
     return number.replace(/(.{3})(\d{3})(\d{3})(\d{3})/, "$1 $2 $3 $4")
   } else if (number.length === 9) {
     return number.replace(/(.{3})(\d{3})(\d{3})/, "$1 $2 $3")
   }
-  return null
+  return number
 }
 
 const renderName = (contact: Contact) => createFullName(contact)
 
-export const secondParam = (contact: Contact, search: string) => {
+export const secondParam = (contact: Contact, search: string): string => {
   const query: (keyof Contact)[] = [
     "primaryPhoneNumber",
     "secondaryPhoneNumber",
@@ -117,7 +117,6 @@ export const secondParam = (contact: Contact, search: string) => {
   } else if (contact.secondaryPhoneNumber) {
     return renderPhoneNumber(contact.secondaryPhoneNumber)
   } else if (contact.email) {
-    console.log("contact.email",contact.email )
     return contact.email
   } else if (contact.firstAddressLine) {
     return contact.firstAddressLine
@@ -126,7 +125,7 @@ export const secondParam = (contact: Contact, search: string) => {
   }
   return intl.formatMessage(messages.noDataProvided)
 }
-export const isItemMatching = (contact: Contact, search: string) => {
+export const isItemMatching = (contact: Contact, search: string): boolean => {
   const query: (keyof Contact)[] = [
     "firstName",
     "lastName",
