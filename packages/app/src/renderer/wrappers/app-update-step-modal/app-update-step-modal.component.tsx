@@ -5,6 +5,9 @@
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React, { useEffect, useState } from "react"
+import { shell } from "electron"
+import { EXTERNAL_URLS } from "Renderer/constants/external-urls"
+import { platform } from "Renderer/utils/platform"
 import {
   AppUpdateAvailable,
   AppUpdateError,
@@ -49,9 +52,15 @@ const AppUpdateStepModal: FunctionComponent<Properties> = ({
     return () => unregister()
   })
 
-  const download = () => {
-    setAppUpdateStep(AppUpdateStep.Updating)
-    void downloadAppUpdateRequest()
+  const handleProcessDownload = () => {
+    if (platform.macOs() || platform.linux()) {
+      setAppUpdateStep(AppUpdateStep.Updating)
+      void downloadAppUpdateRequest()
+    }
+
+    if (platform.windows()) {
+      shell.openExternal(EXTERNAL_URLS.windowCenterUpdate)
+    }
   }
 
   return (
@@ -59,7 +68,7 @@ const AppUpdateStepModal: FunctionComponent<Properties> = ({
       <AppUpdateAvailable
         open={appUpdateStep === AppUpdateStep.Available}
         closeModal={closeModal}
-        onActionButtonClick={download}
+        onActionButtonClick={handleProcessDownload}
         appLatestVersion={appLatestVersion}
       />
       <AppUpdateProgress open={appUpdateStep === AppUpdateStep.Updating} />

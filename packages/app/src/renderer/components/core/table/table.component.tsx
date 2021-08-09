@@ -301,8 +301,8 @@ export const EmptyState: FunctionComponent<EmptyStateProps> = ({
 )
 
 /* Loading state */
-export const LoadingState: FunctionComponent = ({ className }) => (
-  <EmptyStateWrapper className={className}>
+export const LoadingState: FunctionComponent = ({ className, ...props }) => (
+  <EmptyStateWrapper className={className} {...props}>
     <Loader type={LoaderType.Logo} width="100" />
   </EmptyStateWrapper>
 )

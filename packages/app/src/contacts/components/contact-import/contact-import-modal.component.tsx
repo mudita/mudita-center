@@ -17,7 +17,6 @@ import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import styled from "styled-components"
 import { NewContact } from "App/contacts/store/contacts.type"
-import { ModalIcon } from "Renderer/modules/overview/backup-process/modals.styled"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
@@ -27,6 +26,7 @@ import { intl, textFormatters } from "Renderer/utils/intl"
 import { createFullName } from "App/contacts/store/contacts.helpers"
 import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
 import { textColor } from "Renderer/styles/theming/theme-getters"
+import { ModalIcon } from "Renderer/components/core/modal-shared/modal-shared"
 
 const messages = defineMessages({
   title: { id: "module.contacts.importTitle" },

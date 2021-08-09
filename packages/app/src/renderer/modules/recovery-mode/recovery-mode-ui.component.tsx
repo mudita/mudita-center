@@ -19,7 +19,7 @@ import {
   SupportText,
   TextWrapper,
 } from "Renderer/components/rest/recovery-mode/recovery-mode.styled"
-import { Title } from "Renderer/components/rest/onboarding/onboarding.elements"
+import { Title } from "Renderer/components/core/text/title-text.styled"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
