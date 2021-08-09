@@ -27,6 +27,7 @@ export const FullAgreementButton = styled(ButtonComponent)`
     background-color: transparent;
   }
 
-  p {text-transform: none;}
-  
+  p {
+    text-transform: none;
+  }
 `
