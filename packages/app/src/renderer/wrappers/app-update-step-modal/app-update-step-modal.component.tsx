@@ -9,6 +9,7 @@ import { shell } from "electron"
 import { EXTERNAL_URLS } from "Renderer/constants/external-urls"
 import { platform } from "Renderer/utils/platform"
 import {
+  AppUpdateForced,
   AppUpdateAvailable,
   AppUpdateError,
   AppUpdateProgress,
@@ -21,6 +22,8 @@ import downloadAppUpdateRequest from "Renderer/requests/download-app-update.requ
 interface Properties {
   closeModal?: () => void
   appLatestVersion?: string
+  appCurrentVersion?: string
+  forced?: boolean
 }
 
 enum AppUpdateStep {
@@ -32,6 +35,8 @@ enum AppUpdateStep {
 const AppUpdateStepModal: FunctionComponent<Properties> = ({
   closeModal,
   appLatestVersion,
+  appCurrentVersion,
+  forced,
 }) => {
   const [appUpdateStep, setAppUpdateStep] = useState<AppUpdateStep>(
     AppUpdateStep.Available
@@ -65,12 +70,22 @@ const AppUpdateStepModal: FunctionComponent<Properties> = ({
 
   return (
     <>
-      <AppUpdateAvailable
-        open={appUpdateStep === AppUpdateStep.Available}
-        closeModal={closeModal}
-        onActionButtonClick={handleProcessDownload}
-        appLatestVersion={appLatestVersion}
-      />
+      {forced ? (
+        <AppUpdateForced
+          open={appUpdateStep === AppUpdateStep.Available}
+          closeModal={closeModal}
+          onActionButtonClick={handleProcessDownload}
+          appLatestVersion={appLatestVersion}
+          appCurrentVersion={appCurrentVersion}
+        />
+      ) : (
+        <AppUpdateAvailable
+          open={appUpdateStep === AppUpdateStep.Available}
+          closeModal={closeModal}
+          onActionButtonClick={handleProcessDownload}
+          appLatestVersion={appLatestVersion}
+        />
+      )}
       <AppUpdateProgress open={appUpdateStep === AppUpdateStep.Updating} />
       <AppUpdateError
         open={appUpdateStep === AppUpdateStep.Error}

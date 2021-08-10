@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { version } from "../../../../package.json"
+import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { RootState } from "Renderer/store"
 import {
   getAppSettings,
@@ -24,15 +26,18 @@ import { isToday } from "Renderer/utils/is-today"
 import getDeviceLogs from "Renderer/requests/get-device-logs.request"
 import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import getLowestSupportedOsVersion from "Renderer/requests/get-lowest-supported-os-version.request"
+import getApplicationConfiguration from "App/renderer/requests/get-application-configuration.request"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 export const initialState: SettingsState = {
   appUpdateAvailable: undefined,
   lowestSupportedOsVersion: undefined,
+  lowestSupportedCenterVersion: undefined,
+  appCurrentVersion: version,
   appUpdateStepModalDisplayed: false,
   settingsLoaded: false,
+  appUpdateRequired: false,
   appLatestVersion: "",
 }
 
@@ -49,20 +54,25 @@ const settings = createModel<RootModel>({
     return {
       async loadSettings() {
         const appSettings = await getAppSettings()
-        const lowestSupportedOsVersion = await getLowestSupportedOsVersion()
+        const applicationConfiguration = await getApplicationConfiguration()
+
+        const settings = {
+          ...appSettings,
+          lowestSupportedOsVersion: applicationConfiguration.osVersion,
+          appUpdateRequired: isVersionGreater(
+            applicationConfiguration.centerVersion,
+            version
+          ),
+          settingsLoaded: true,
+        }
+
         if (simulatePhoneConnectionEnabled) {
           dispatch.settings.update({
-            lowestSupportedOsVersion,
-            ...appSettings,
             ...e2eSettings,
-            settingsLoaded: true,
+            ...settings,
           })
         } else {
-          dispatch.settings.update({
-            lowestSupportedOsVersion,
-            ...appSettings,
-            settingsLoaded: true,
-          })
+          dispatch.settings.update(settings)
         }
 
         appSettings.appCollectingData
