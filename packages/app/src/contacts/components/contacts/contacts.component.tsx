@@ -42,8 +42,15 @@ import logger from "App/main/utils/logger"
 import ContactImportModal, {
   ModalType,
 } from "App/contacts/components/contact-import/contact-import-modal.component"
-import { ExternalService, FileService } from "App/contacts/components/contacts/contacts.interface"
-import { NewContactResponse, PhoneProps, FormError } from "App/contacts/components/contacts/contacts.type"
+import {
+  ExternalService,
+  FileService,
+} from "App/contacts/components/contacts/contacts.interface"
+import {
+  NewContactResponse,
+  PhoneProps,
+  FormError,
+} from "App/contacts/components/contacts/contacts.type"
 import ImportingContactsModal from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import ErrorModal from "App/contacts/components/error-modal/error-modal.component"
@@ -174,6 +181,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const cancelOrCloseContactHandler = () => {
+    setFormErrors([])
     setNewContact(undefined)
   }
 
