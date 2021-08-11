@@ -101,7 +101,11 @@ const mapDispatch = ({ contacts, auth }: any) => {
 
       // Skipping 409 (Conflict) status code for preventing displaying error about duplicated
       if (status === DeviceResponseStatus.Duplicated) {
-        contacts.addContact(data)
+        await editContact({
+          ...contact,
+          id: error!.data.id,
+        } as Contact)
+        contacts.loadData()
         return
       }
 

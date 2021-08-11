@@ -56,12 +56,15 @@ export class Phonebook extends PhonebookAdapter {
         },
       }
     } else {
-      return { status, error: { message: "Add contact: Something went wrong" } }
+      return {
+        status,
+        error: { message: "Add contact: Something went wrong", data },
+      }
     }
   }
 
   public async editContact(contact: Contact): Promise<DeviceResponse<Contact>> {
-    const { status } = await this.deviceService.request({
+    const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
       body: mapToPureContact(contact),
@@ -72,7 +75,7 @@ export class Phonebook extends PhonebookAdapter {
     } else {
       return {
         status,
-        error: { message: "Edit contact: Something went wrong" },
+        error: { message: "Edit contact: Something went wrong", data },
       }
     }
   }

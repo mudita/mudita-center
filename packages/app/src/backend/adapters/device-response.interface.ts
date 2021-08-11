@@ -16,14 +16,14 @@ export enum DeviceResponseStatus {
   Duplicated = "phone-number-duplicated",
 }
 
-interface DeviceResponseError<DataType> {
+interface DeviceResponseError {
   code?: number
   message: string
-  data?: DataType
+  data?: any
 }
 
 export default interface DeviceResponse<DataType = undefined> {
   status: DeviceResponseStatus
   data?: DataType
-  error?: DeviceResponseError<DataType>
+  error?: DeviceResponseError
 }
