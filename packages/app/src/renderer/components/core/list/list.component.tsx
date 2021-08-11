@@ -84,6 +84,7 @@ export const List = styled.ul<{
   transition: all ${transitionTime("veryQuick")}
     ${transitionTimingFunction("smooth")};
   overflow: auto;
+  border: solid 0.1rem ${borderColor("secondary")};
 
   ${({ listStyles }) =>
     css`
