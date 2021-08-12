@@ -4,15 +4,15 @@
  */
 
 import SerialPort = require("serialport")
+import DevicePortInfo from "./device-port-info"
 const MockBinding = require("@serialport/binding-mock")
-import { vendorId, manufacturer, productId } from "./index"
 
 export default function mockSerialPort() {
   SerialPort.Binding = MockBinding
   MockBinding.createPort("/dev/ROBOT", {
-    productId,
-    vendorId,
-    manufacturer,
+    productId: DevicePortInfo.productId,
+    vendorId: DevicePortInfo.vendorId,
+    manufacturer: DevicePortInfo.manufacturer,
     echo: true,
     record: true,
     // serialNumber: 1 <- is default implementation by MockBinding as serialNumber incrementing

@@ -5,6 +5,7 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { init } from "@rematch/core"
+import { version } from "../../../../package.json"
 import settings from "Renderer/models/settings/settings"
 import {
   ConversionFormat,
@@ -13,7 +14,7 @@ import {
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { fakeAppSettings } from "Backend/adapters/app-settings/app-settings-fake.adapter"
 import { SettingsActions } from "Common/enums/settings-actions.enum"
-import { GetLowestSupportedOsVersionEvents } from "App/main/functions/register-get-lowest-supported-os-version-listener"
+import { GetApplicationConfigurationEvents } from "App/main/functions/register-get-application-configuration-listener"
 import getDeviceLogs from "Renderer/requests/get-device-logs.request"
 import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
 import { AxiosResponse } from "axios"
@@ -53,6 +54,11 @@ const mockIpc = () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcRequest.UpdateAppSettings]: Promise.resolve(),
     [SettingsActions.SetAutostart]: Promise.resolve(),
+    [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
+    [GetApplicationConfigurationEvents.Request]: Promise.resolve({
+      osVersion: "0.0.0",
+      centerVersion: "0.0.0",
+    }),
   }
 }
 
@@ -73,10 +79,7 @@ afterEach(() => {
 })
 
 test("loads settings", async () => {
-  ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
-    [GetLowestSupportedOsVersionEvents.Request]: Promise.resolve("0.0.0"),
-  }
+  mockIpc()
   await store.dispatch.settings.loadSettings()
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
@@ -104,6 +107,7 @@ test("loads settings", async () => {
         "appCollectingData": undefined,
         "appConversionFormat": "WAV",
         "appConvert": "Convert automatically",
+        "appCurrentVersion": "${version}",
         "appIncomingCalls": false,
         "appIncomingMessages": false,
         "appLatestVersion": "",
@@ -113,9 +117,11 @@ test("loads settings", async () => {
         "appTethering": false,
         "appTray": true,
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
         "diagnosticSentTimestamp": 0,
         "language": "en-US",
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": "0.0.0",
         "pureNeverConnected": true,
         "pureOsBackupLocation": "fake/path/pure/phone/backups/",
@@ -152,9 +158,12 @@ test("updates autostart setting", async () => {
       },
       "settings": Object {
         "appAutostart": true,
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -187,10 +196,13 @@ test("updates tethering setting", async () => {
         "updatingState": 0,
       },
       "settings": Object {
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appTethering": true,
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -223,10 +235,13 @@ test("updates incoming calls setting", async () => {
         "updatingState": 0,
       },
       "settings": Object {
+        "appCurrentVersion": "${version}",
         "appIncomingCalls": true,
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -259,10 +274,13 @@ test("updates incoming messages setting", async () => {
         "updatingState": 0,
       },
       "settings": Object {
+        "appCurrentVersion": "${version}",
         "appIncomingMessages": true,
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -295,10 +313,13 @@ test("updates low battery setting", async () => {
         "updatingState": 0,
       },
       "settings": Object {
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appLowBattery": true,
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -331,10 +352,13 @@ test("updates os updates setting", async () => {
         "updatingState": 0,
       },
       "settings": Object {
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appOsUpdates": true,
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -368,9 +392,12 @@ test("updates collecting data setting to true", async () => {
       },
       "settings": Object {
         "appCollectingData": true,
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -404,9 +431,12 @@ test("updates collecting data setting to false", async () => {
       },
       "settings": Object {
         "appCollectingData": false,
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -439,10 +469,13 @@ test("updates os audio files conversion setting", async () => {
         "updatingState": 0,
       },
       "settings": Object {
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appNonStandardAudioFilesConversion": true,
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -476,9 +509,12 @@ test("updates convert setting", async () => {
       },
       "settings": Object {
         "appConvert": "Convert automatically",
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -512,9 +548,12 @@ test("updates conversion format setting", async () => {
       },
       "settings": Object {
         "appConversionFormat": "WAV",
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -547,10 +586,13 @@ test("updates tray setting", async () => {
         "updatingState": 0,
       },
       "settings": Object {
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appTray": true,
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -583,9 +625,12 @@ test("updates PureOS backup location setting", async () => {
         "updatingState": 0,
       },
       "settings": Object {
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "pureOsBackupLocation": "some/fake/location",
         "settingsLoaded": false,
@@ -619,9 +664,12 @@ test("updates PureOS download location setting", async () => {
         "updatingState": 0,
       },
       "settings": Object {
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "pureOsDownloadLocation": "some/fake/location",
         "settingsLoaded": false,
@@ -655,10 +703,13 @@ test("updates language setting", async () => {
         "updatingState": 0,
       },
       "settings": Object {
+        "appCurrentVersion": "${version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
         "appUpdateStepModalDisplayed": false,
         "language": "de-DE",
+        "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": undefined,
         "settingsLoaded": false,
       },
@@ -667,10 +718,7 @@ test("updates language setting", async () => {
 })
 
 test("sendDiagnosticData effect no generate any side effects if serial number is undefined", async () => {
-  ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
-    [GetLowestSupportedOsVersionEvents.Request]: Promise.resolve("0.0.0"),
-  }
+  mockIpc()
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 
@@ -679,10 +727,7 @@ test("sendDiagnosticData effect no generate any side effects if serial number is
 })
 
 test("sendDiagnosticData effect no generate any side effects if diagnostic data isn't set", async () => {
-  ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
-    [GetLowestSupportedOsVersionEvents.Request]: Promise.resolve("0.0.0"),
-  }
+  mockIpc()
   await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
@@ -702,7 +747,10 @@ test("sendDiagnosticData effect no generate any side effects if diagnostic data 
       ...fakeAppSettings,
       appCollectingData: false,
     }),
-    [GetLowestSupportedOsVersionEvents.Request]: Promise.resolve("0.0.0"),
+    [GetApplicationConfigurationEvents.Request]: Promise.resolve({
+      osVersion: "0.0.0",
+      centerVersion: "0.0.0",
+    }),
   }
   await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
   await store.dispatch.settings.loadSettings()
@@ -724,7 +772,10 @@ test("sendDiagnosticData effect no generate any side effects if diagnostic data 
       appCollectingData: true,
       diagnosticSentTimestamp: todayTimestamp,
     }),
-    [GetLowestSupportedOsVersionEvents.Request]: Promise.resolve("0.0.0"),
+    [GetApplicationConfigurationEvents.Request]: Promise.resolve({
+      osVersion: "0.0.0",
+      centerVersion: "0.0.0",
+    }),
   }
   await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
   await store.dispatch.settings.loadSettings()
@@ -746,7 +797,10 @@ test("sendDiagnosticData pass successfully if user agree to collecting data and 
       appCollectingData: true,
       diagnosticSentTimestamp: yesterdayTimestamp,
     }),
-    [GetLowestSupportedOsVersionEvents.Request]: Promise.resolve("0.0.0"),
+    [GetApplicationConfigurationEvents.Request]: Promise.resolve({
+      osVersion: "0.0.0",
+      centerVersion: "0.0.0",
+    }),
   }
   await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
   await store.dispatch.settings.loadSettings()
@@ -771,7 +825,10 @@ test("sendDiagnosticData effect no sent requests if getting device logs fails", 
       appCollectingData: true,
       diagnosticSentTimestamp: yesterdayTimestamp,
     }),
-    [GetLowestSupportedOsVersionEvents.Request]: Promise.resolve("0.0.0"),
+    [GetApplicationConfigurationEvents.Request]: Promise.resolve({
+      osVersion: "0.0.0",
+      centerVersion: "0.0.0",
+    }),
   }
   await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
   await store.dispatch.settings.loadSettings()
@@ -797,7 +854,10 @@ test("sendDiagnosticData effect is fails if request no finish successfully", asy
       appCollectingData: true,
       diagnosticSentTimestamp: yesterdayTimestamp,
     }),
-    [GetLowestSupportedOsVersionEvents.Request]: Promise.resolve("0.0.0"),
+    [GetApplicationConfigurationEvents.Request]: Promise.resolve({
+      osVersion: "0.0.0",
+      centerVersion: "0.0.0",
+    }),
   }
   await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
   await store.dispatch.settings.loadSettings()

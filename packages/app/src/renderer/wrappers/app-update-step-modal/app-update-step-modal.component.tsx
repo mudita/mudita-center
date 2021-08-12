@@ -5,7 +5,11 @@
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React, { useEffect, useState } from "react"
+import { shell } from "electron"
+import { EXTERNAL_URLS } from "Renderer/constants/external-urls"
+import { platform } from "Renderer/utils/platform"
 import {
+  AppUpdateForced,
   AppUpdateAvailable,
   AppUpdateError,
   AppUpdateProgress,
@@ -18,6 +22,8 @@ import downloadAppUpdateRequest from "Renderer/requests/download-app-update.requ
 interface Properties {
   closeModal?: () => void
   appLatestVersion?: string
+  appCurrentVersion?: string
+  forced?: boolean
 }
 
 enum AppUpdateStep {
@@ -29,6 +35,8 @@ enum AppUpdateStep {
 const AppUpdateStepModal: FunctionComponent<Properties> = ({
   closeModal,
   appLatestVersion,
+  appCurrentVersion,
+  forced,
 }) => {
   const [appUpdateStep, setAppUpdateStep] = useState<AppUpdateStep>(
     AppUpdateStep.Available
@@ -49,19 +57,35 @@ const AppUpdateStepModal: FunctionComponent<Properties> = ({
     return () => unregister()
   })
 
-  const download = () => {
-    setAppUpdateStep(AppUpdateStep.Updating)
-    void downloadAppUpdateRequest()
+  const handleProcessDownload = () => {
+    if (platform.macOs() || platform.linux()) {
+      setAppUpdateStep(AppUpdateStep.Updating)
+      void downloadAppUpdateRequest()
+    }
+
+    if (platform.windows()) {
+      shell.openExternal(EXTERNAL_URLS.windowCenterUpdate)
+    }
   }
 
   return (
     <>
-      <AppUpdateAvailable
-        open={appUpdateStep === AppUpdateStep.Available}
-        closeModal={closeModal}
-        onActionButtonClick={download}
-        appLatestVersion={appLatestVersion}
-      />
+      {forced ? (
+        <AppUpdateForced
+          open={appUpdateStep === AppUpdateStep.Available}
+          closeModal={closeModal}
+          onActionButtonClick={handleProcessDownload}
+          appLatestVersion={appLatestVersion}
+          appCurrentVersion={appCurrentVersion}
+        />
+      ) : (
+        <AppUpdateAvailable
+          open={appUpdateStep === AppUpdateStep.Available}
+          closeModal={closeModal}
+          onActionButtonClick={handleProcessDownload}
+          appLatestVersion={appLatestVersion}
+        />
+      )}
       <AppUpdateProgress open={appUpdateStep === AppUpdateStep.Updating} />
       <AppUpdateError
         open={appUpdateStep === AppUpdateStep.Error}

@@ -6,16 +6,13 @@
 import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
-import { CreateDevice, PureDevice, createDevice } from "./device"
+import { CreateDevice, createDevice, PureDevice } from "./device"
 import log, { LogConfig } from "./logger/log-decorator"
 import { LoggerFactory } from "./logger/logger-factory"
-import { PureLogger, ConsoleLogger } from "./logger/logger"
+import { ConsoleLogger, PureLogger } from "./logger/logger"
+import DevicePortInfo from "./device-port-info"
 
 const logger: PureLogger = LoggerFactory.getInstance()
-
-export const productId = "0622"
-export const vendorId = "045e"
-export const manufacturer = "Mudita"
 
 enum DeviceManagerEventName {
   AttachedDevice = "AttachedDevice",
@@ -52,11 +49,7 @@ class DeviceManager implements PureDeviceManager {
     const portList = await DeviceManager.getSerialPortList()
 
     return portList
-      .filter(
-        (portInfo) =>
-          portInfo.productId?.toLowerCase() === productId &&
-          portInfo.vendorId?.toLowerCase() === vendorId
-      )
+      .filter(DevicePortInfo.isPortInfoMatch)
       .map(({ path }) => this.createDevice(path))
   }
 
@@ -80,18 +73,12 @@ class DeviceManager implements PureDeviceManager {
     this.usbDetector.onAttachDevice(async (portInfo) => {
       const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
 
-      if (portInfo.vendorId?.toLowerCase() === vendorId) {
+      if (DevicePortInfo.isVendorId(portInfo)) {
         const retryLimit = 20
         for (let i = 0; i < retryLimit; i++) {
           const portList = await DeviceManager.getSerialPortList()
 
-          const port = portList.find(
-            ({ productId, vendorId }) =>
-              // toLowerCase() is needed tu unify the codes as different platforms
-              // shows them in different casing (eg. 045E vs 045e)
-              portInfo.vendorId?.toLowerCase() === vendorId?.toLowerCase() &&
-              portInfo.productId?.toLowerCase() === productId?.toLowerCase()
-          )
+          const port = portList.find(DevicePortInfo.isPortInfoMatch)
 
           if (port) {
             const device = this.createDevice(port.path)
