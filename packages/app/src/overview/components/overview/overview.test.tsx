@@ -121,6 +121,7 @@ const renderer = (extraProps?: {}) => {
     appUpdateAvailable: undefined,
     appUpdateStepModalDisplayed: false,
     lowestSupportedOsVersion: undefined,
+    lowestSupportedCenterVersion: undefined,
     settingsLoaded: false,
     deviceUnlocked: undefined,
     appAutostart: false,
