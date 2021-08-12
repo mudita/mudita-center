@@ -70,7 +70,6 @@ import { HelpActions } from "Common/enums/help-actions.enum"
 import { AboutActions } from "App/common/enums/about-actions.enum"
 import PureLogger from "App/main/utils/pure-logger"
 
-
 require("dotenv").config()
 
 logger.info("Starting the app")
@@ -209,8 +208,7 @@ app.on("activate", () => {
   }
 })
 
-ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
-  const code = props?.code ?? ""
+ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({
@@ -220,7 +218,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
     )
     helpWindow.loadURL(
       developmentEnvironment
-        ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}?code=${code}`
+        ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
         : url.format({
             pathname: path.join(__dirname, "index.html"),
             protocol: "file:",
@@ -249,7 +247,12 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
   })
 })
 
-const createOpenAboutWindowListener = (channel: string, mode: string, urlMain: string, newWindow: BrowserWindow | null = null ) => {
+const createOpenAboutWindowListener = (
+  channel: string,
+  mode: string,
+  urlMain: string,
+  newWindow: BrowserWindow | null = null
+) => {
   ipcMain.answerRenderer(channel, async () => {
     if (newWindow === null) {
       newWindow = await new BrowserWindow(
@@ -276,11 +279,11 @@ const createOpenAboutWindowListener = (channel: string, mode: string, urlMain: s
     } else {
       newWindow.show()
     }
-  
+
     newWindow.on("closed", () => {
-      newWindow= null
+      newWindow = null
     })
-  
+
     newWindow.on("page-title-updated", (event) => {
       // prevent window name change to "Webpack App"
       event.preventDefault()
@@ -288,11 +291,26 @@ const createOpenAboutWindowListener = (channel: string, mode: string, urlMain: s
   })
 }
 
-createOpenAboutWindowListener(AboutActions.LicenseOpenWindow, Mode.License, URL_MAIN.license, licenseWindow)
+createOpenAboutWindowListener(
+  AboutActions.LicenseOpenWindow,
+  Mode.License,
+  URL_MAIN.license,
+  licenseWindow
+)
 
-createOpenAboutWindowListener(AboutActions.TermsOpenWindow, Mode.TermsOfService, URL_MAIN.termsOfService, termsWindow)
+createOpenAboutWindowListener(
+  AboutActions.TermsOpenWindow,
+  Mode.TermsOfService,
+  URL_MAIN.termsOfService,
+  termsWindow
+)
 
-createOpenAboutWindowListener(AboutActions.PolicyOpenWindow, Mode.PrivacyPolicy, URL_MAIN.privacyPolicy, policyWindow)
+createOpenAboutWindowListener(
+  AboutActions.PolicyOpenWindow,
+  Mode.PrivacyPolicy,
+  URL_MAIN.privacyPolicy,
+  policyWindow
+)
 
 const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
   return await googleAuthWindow.loadURL(

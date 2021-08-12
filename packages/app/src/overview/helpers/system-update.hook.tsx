@@ -16,7 +16,6 @@ import {
   UpdateAvailable,
   UpdateNotAvailable,
   UpdateServerError,
-  UpdatingFailureModal,
   UpdatingFailureWithHelpModal,
   UpdatingSpinnerModal,
   UpdatingSuccessModal,
@@ -45,10 +44,7 @@ import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-get-all-releases-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
-import {
-  errorCodeMap,
-  noCriticalErrorCodes,
-} from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
+import { errorCodeMap } from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -59,8 +55,8 @@ const useSystemUpdateFlow = (
   onUpdate: (updateInfo: PhoneUpdate) => void,
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
   toggleDeviceUpdating: (option: boolean) => void,
-  onContact: (code?: number) => void,
-  onHelp: (code: number) => void
+  onContact: () => void,
+  onHelp: () => void
 ) => {
   const [releaseToInstall, setReleaseToInstall] = useState<Release>()
 
@@ -144,8 +140,7 @@ const useSystemUpdateFlow = (
 
   useEffect(() => {
     if (activeResponseError) {
-      const code = errorCodeMap[activeResponseError]
-      displayErrorModal(code)
+      displayErrorModal()
       setResponseError(undefined)
     }
 
@@ -319,42 +314,30 @@ const useSystemUpdateFlow = (
     if (isEqual(response, { status: DeviceResponseStatus.Ok })) {
       modalService.openModal(<UpdatingSuccessModal />, true)
     } else {
-      const responseCode = response.error?.code
-      displayErrorModal(responseCode)
       logger.error(
-        `Overview: updating pure fails. Data: ${JSON.stringify(response.error)}`
+        `Overview: updating pure fails. Code: ${response.error?.code}`
       )
+      displayErrorModal()
     }
   }
 
   const callActionAfterCloseModal = <T extends unknown>(
-    action: (props: T) => void
-  ): ((props: T) => void) => {
-    return (props) => {
+    action: () => void
+  ): (() => void) => {
+    return () => {
       modalService.closeModal()
-      action(props)
+      action()
     }
   }
 
-  const displayErrorModal = (code?: number) => {
-    if (code && noCriticalErrorCodes.includes(code)) {
-      modalService.openModal(
-        <UpdatingFailureWithHelpModal
-          code={code}
-          onHelp={callActionAfterCloseModal(onHelp)}
-          onContact={callActionAfterCloseModal(onContact)}
-        />,
-        true
-      )
-    } else {
-      modalService.openModal(
-        <UpdatingFailureModal
-          code={code}
-          onContact={callActionAfterCloseModal(onContact)}
-        />,
-        true
-      )
-    }
+  const displayErrorModal = () => {
+    modalService.openModal(
+      <UpdatingFailureWithHelpModal
+        onHelp={callActionAfterCloseModal(onHelp)}
+        onContact={callActionAfterCloseModal(onContact)}
+      />,
+      true
+    )
   }
 
   return {
