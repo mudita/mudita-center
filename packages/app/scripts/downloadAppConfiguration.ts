@@ -14,7 +14,10 @@ let defaultData = require("../src/main/default-app-configuration.json")
     await fs.ensureDir(path.resolve(path.join("src", "main")))
 
     const url = `${process.env.MUDITA_CENTER_SERVER_URL}/app-configuration`
-    const { status, data } = await axios.get<{ osVersion: string }>(url)
+    const { status, data } = await axios.get<{
+      osVersion: string
+      centerVersion: string
+    }>(url)
     if (status === 200 && data !== undefined) {
       await fs.writeJson(path.resolve(jsonPath), data)
     } else {

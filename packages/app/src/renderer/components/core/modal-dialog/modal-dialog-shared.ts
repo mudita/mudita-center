@@ -6,6 +6,18 @@
 import styled from "styled-components"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
+export const ModalContentWithoutMargin = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    text-align: center;
+    line-height: 1.4;
+    white-space: pre-wrap;
+  }
+`
+
 export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -21,6 +33,7 @@ export const ModalContent = styled.div`
     margin-top: 1.2rem;
   }
 `
+
 export const RoundIconWrapper = styled.div`
   width: 12rem;
   height: 12rem;

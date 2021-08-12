@@ -25,11 +25,11 @@ import Table, {
 import styled from "styled-components"
 import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { TimeWindow } from "App/calendar/components/time-window.component"
-import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalContent } from "App/calendar/components/calendar-modals.styled"
 import { ImportEventsModalTestIds } from "App/calendar/components/import-events-modal/import-events-modal-test-ids.enum"
+import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
 
 const messages = defineMessages({
   title: {

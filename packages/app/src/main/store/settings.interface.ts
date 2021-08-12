@@ -15,6 +15,7 @@ export interface SettingsUpdateOption {
 
 export interface AppConfiguration extends Record<string, any> {
   lowestSupportedOsVersion: string | undefined
+  lowestSupportedCenterVersion: string | undefined
 }
 
 export interface AppSettings extends Record<string, any> {

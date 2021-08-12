@@ -18,12 +18,19 @@ import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import {
   ModalContent,
+  ModalContentWithoutMargin,
   RoundIconWrapper,
 } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 import { Size } from "Renderer/components/core/button/button.config"
+import { AppUpdateStepModalTestIds } from "Renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
 
 export interface AppUpdateAvailableProps {
   appLatestVersion?: string
+}
+
+export interface AppUpdateForcedProps {
+  appLatestVersion?: string
+  appCurrentVersion?: string
 }
 
 const messages = defineMessages({
@@ -34,6 +41,10 @@ const messages = defineMessages({
   availableUpdateDescription: {
     id: "component.updateAvailableModalDescription",
   },
+  updateForcedModalMessage: { id: "component.updateForcedModalMessage" },
+  updateForcedModalVersion: { id: "component.updateForcedModalVersion" },
+  updateForcedModalDescription: { id: "component.updateForcedModalDescription" },
+  updateForcedModalCurrentVersion: { id: "component.updateForcedModalCurrentVersion" },
   downloadedUpdateMessage: { id: "component.updateDownloadedModalMessage" },
   downloadedUpdateDescription: {
     id: "component.updateDownloadedModalDescription",
@@ -64,6 +75,7 @@ const messages = defineMessages({
 
 const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   children,
+  testId,
   ...props
 }) => (
   <ModalDialog
@@ -71,7 +83,7 @@ const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
     title={intl.formatMessage(messages.appUpdateTitle)}
     {...props}
   >
-    <ModalContent>
+    <ModalContent data-testid={testId}>
       <RoundIconWrapper>
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
@@ -84,6 +96,7 @@ export const AppUpdateAvailable: FunctionComponent<
   ComponentProps<typeof ModalDialog> & AppUpdateAvailableProps
 > = ({ appLatestVersion, ...props }) => (
   <AppUpdateModal
+    testId={AppUpdateStepModalTestIds.AppUpdateAvailableModal}
     actionButtonLabel={intl.formatMessage(messages.availableUpdateButton)}
     closeButton={false}
     actionButtonSize={Size.FixedBig}
@@ -107,10 +120,55 @@ export const AppUpdateAvailable: FunctionComponent<
   </AppUpdateModal>
 )
 
+export const AppUpdateForced: FunctionComponent<
+  ComponentProps<typeof ModalDialog> & AppUpdateForcedProps
+> = ({ appLatestVersion, appCurrentVersion, ...props }) => (
+  <ModalDialog
+    size={ModalSize.Small}
+    title={intl.formatMessage(messages.appUpdateTitle)}
+    actionButtonLabel={intl.formatMessage(messages.availableUpdateButton)}
+    closeButton={false}
+    actionButtonSize={Size.FixedBig}
+    {...props}
+  >
+    <ModalContentWithoutMargin>
+      <RoundIconWrapper>
+        <Icon type={Type.Pure} width={4} />
+      </RoundIconWrapper>
+      <Text
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={messages.updateForcedModalMessage}
+      />
+      <br />
+      <Text
+        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        message={{
+          ...messages.updateForcedModalVersion,
+          values: { version: appLatestVersion },
+        }}
+      />
+      <Text
+        displayStyle={TextDisplayStyle.MediumText}
+        message={messages.updateForcedModalDescription}
+      />
+      <Text
+        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        message={{
+          ...messages.updateForcedModalCurrentVersion,
+          values: { version: appCurrentVersion },
+        }}
+      />
+    </ModalContentWithoutMargin>
+  </ModalDialog>
+)
+
 export const AppUpdateError: FunctionComponent<
   ComponentProps<typeof ModalDialog>
 > = (props) => (
-  <AppUpdateModal {...props}>
+  <AppUpdateModal
+    testId={AppUpdateStepModalTestIds.AppUpdateErrorModal}
+    {...props}
+  >
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
       message={messages.errorUpdateMessage}
@@ -150,6 +208,7 @@ export const AppUpdateProgress: FunctionComponent<
   ComponentProps<typeof ModalDialog>
 > = ({ ...props }) => (
   <ModalDialog
+    testId={AppUpdateStepModalTestIds.AppUpdateProgressModal}
     size={ModalSize.Small}
     title={intl.formatMessage(messages.appUpdateTitle)}
     closeButton={false}
