@@ -176,12 +176,16 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
     void store.dispatch.settings.loadSettings()
     handleAppUpdateAvailableCheck()
 
-    // Register hotkeys
-    registerHotkeys()
+    //Remove this condition to get devMode on production
+    if (process.env.NODE_ENV !== "production") {
+      // Register hotkeys
+      registerHotkeys()
 
-    // Register context menu
-
+      // Register context menu
     registerAppContextMenu(appContextMenu)
+    }
+
+    
     appContextMenu.init()
   }, [])
 

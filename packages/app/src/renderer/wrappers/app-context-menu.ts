@@ -9,9 +9,15 @@ import {
   toggleDevMode,
 } from "App/dev-mode/store/dev-mode.helpers"
 
-const appContextMenu = new ContextMenu({
-  isEnabled: isDevModeEnabled,
-  toggler: toggleDevMode,
-})
+const appContextMenu = new ContextMenu(
+  process.env.NODE_ENV !== "production"
+    ? {
+        isEnabled: isDevModeEnabled,
+        toggler: toggleDevMode,
+      }
+    : {
+        toggler: toggleDevMode,
+      }
+)
 
 export default appContextMenu
