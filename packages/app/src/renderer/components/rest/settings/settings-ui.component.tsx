@@ -54,14 +54,12 @@ interface Properties {
   appAutostart: boolean
   appTethering: boolean
   appCollectingData: boolean
-  setAutostart?: (option: AppSettings["appAutostart"]) => void
   setTethering?: (option: AppSettings["appTethering"]) => void
   setCollectingData?: (option: AppSettings["appCollectingData"]) => void
 }
 
 const SettingsUI: FunctionComponent<Properties> = ({
   appAutostart,
-  setAutostart = noop,
   appTethering,
   setTethering = noop,
   appCollectingData,
@@ -69,19 +67,6 @@ const SettingsUI: FunctionComponent<Properties> = ({
 }) => {
   return (
     <SettingsWrapper data-testid={SettingsTestIds.Wrapper}>
-      <SettingsTableRow
-        checkMode={false}
-        data-testid={SettingsTestIds.TableRow}
-      >
-        <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="module.settings.autostartLabel" />
-          </SettingsLabel>
-        </Data>
-        <ActionsWrapper>
-          <SettingsToggler toggleValue={appAutostart} onToggle={setAutostart} />
-        </ActionsWrapper>
-      </SettingsTableRow>
       {/*TODO: Remove condition below when tethering will be available on phone*/}
       {process.env.NODE_ENV === "development" && (
         <SettingsTableRow
