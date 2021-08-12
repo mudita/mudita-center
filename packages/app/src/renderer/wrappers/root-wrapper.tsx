@@ -89,7 +89,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   }
 
   const handleAppUpdateAvailableCheck = (): void => {
-    if(!window.navigator.onLine){
+    if (!window.navigator.onLine) {
       store.dispatch.settings.setAppUpdateStepModalDisplayed()
       store.dispatch.settings.toggleAppUpdateAvailable(false)
     } else {
@@ -182,10 +182,9 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
       registerHotkeys()
 
       // Register context menu
-    registerAppContextMenu(appContextMenu)
+      registerAppContextMenu(appContextMenu)
     }
 
-    
     appContextMenu.init()
   }, [])
 
