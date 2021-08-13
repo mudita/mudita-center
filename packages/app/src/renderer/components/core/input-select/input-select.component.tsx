@@ -186,6 +186,7 @@ export interface InputSelectProps extends Partial<InputProps> {
   clearOnBlur?: boolean
   active?: boolean
   searchResultRows?: number
+  openSearchResults?: () => void
 }
 
 const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
@@ -207,12 +208,13 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   onFocus = noop,
   type = "text",
   searchResultRows = 8,
+  openSearchResults = noop,
   active,
   ...rest
 }) => {
   const [focus, setFocus] = useState(false)
   const [searchValue, setSearchValue] = useState<string | null>(null)
-  const [activeItemIndex, setActiveItemIndex] = useState<number>(0)
+  const [activeItemIndex, setActiveItemIndex] = useState<number>(-1)
   const selectRef = useRef<HTMLInputElement>(null)
 
   const resetSelection = () => onSelect("")
@@ -230,7 +232,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   const handleSelect = (item: typeof items[number]) => {
     onSelect(item)
     resetSearchValue()
-    setActiveItemIndex(0)
+    setActiveItemIndex(-1)
   }
 
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
@@ -240,7 +242,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value)
-    setActiveItemIndex(0)
+    setActiveItemIndex(-1)
   }
 
   const filteredItems = searchable
@@ -250,7 +252,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   const toggleList = (event: MouseEvent) => {
     event.stopPropagation()
     event.preventDefault()
-
+    setActiveItemIndex(-1)
     if (selectRef.current) {
       focus ? selectRef.current.blur() : selectRef.current.focus()
     }
@@ -272,7 +274,10 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
     }
     return ""
   }
-
+  const searchResults = () => {
+    openSearchResults()
+    setActiveItemIndex(-1)
+  }
   const onKeyDown = (event: KeyboardEvent) => {
     const handleArrowDown = () => {
       const maxListLength =
@@ -284,16 +289,17 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
       }
     }
     const handleArrowUp = () => {
-      if (activeItemIndex > 0) {
+      if (activeItemIndex >= 0) {
         setActiveItemIndex((prevState) => prevState - 1)
       }
     }
     const handleEnter = () => {
-      setActiveItemIndex(0)
       if (selectRef.current) {
         selectRef.current.blur()
       }
-      handleSelect(filteredItems[activeItemIndex])
+      activeItemIndex >= 0
+        ? handleSelect(filteredItems[activeItemIndex])
+        : searchResults()
     }
     const keys: KeysType = {
       ArrowDown: handleArrowDown,

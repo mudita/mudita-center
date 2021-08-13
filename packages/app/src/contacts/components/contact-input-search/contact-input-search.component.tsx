@@ -151,11 +151,13 @@ export const isItemMatching = (contact: Contact, search: string): boolean => {
 export interface ContactInputSelectProps {
   contacts: Contact[]
   onContactSelect: (item: Contact) => void
+  openSearchResults?: () => void
 }
 
 const ContactInputSearch: FunctionComponent<ContactInputSelectProps> = ({
   contacts,
   onContactSelect,
+  openSearchResults,
   ...props
 }) => {
   const minCharsToShowResults = 1
@@ -169,6 +171,7 @@ const ContactInputSearch: FunctionComponent<ContactInputSelectProps> = ({
       renderItemValue={renderName}
       renderListItem={renderListItem}
       isItemMatching={isItemMatching}
+      openSearchResults={openSearchResults}
       type="search"
       outlined
       searchable

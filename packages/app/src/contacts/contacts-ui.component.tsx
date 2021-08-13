@@ -113,7 +113,11 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const [editedContact, setEditedContact] = useState<Contact>()
 
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
+  const [searchResults, setSearchResults] = useState<boolean>(false)
 
+  const openSearchResults = () => {
+    setSearchResults(true)
+  }
   const {
     selectedRows,
     allRowsSelected,
@@ -555,7 +559,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     setSelectedContact(contact)
     openSidebar(contact)
   }
-
   return (
     <>
       <ContactSection>
@@ -570,11 +573,14 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
           resetRows={resetRows}
           contacts={flatList}
           editedContact={editedContact}
+          openSearchResults={openSearchResults}
         />
         <TableWithSidebarWrapper>
           <ContactList
             activeRow={activeRow}
-            contactList={contactList}
+            contactList={
+              searchResults ? [contactList[0], contactList[1]] : contactList
+            }
             onSelect={openSidebar}
             onExport={noop}
             onForward={noop}

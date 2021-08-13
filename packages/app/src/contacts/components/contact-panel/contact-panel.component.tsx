@@ -51,6 +51,7 @@ export interface ContactPanelProps {
   resetRows: UseTableSelect<Contact>["resetRows"]
   contacts: Contact[]
   editedContact: Contact | undefined
+  openSearchResults: () => void
 }
 
 const ContactPanel: FunctionComponent<ContactPanelProps> = ({
@@ -62,6 +63,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   toggleAll = noop,
   deleteContacts,
   resetRows,
+  openSearchResults = noop,
   contacts,
   editedContact,
 }) => {
@@ -139,6 +141,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
         <ContactInputSearch
           contacts={contacts}
           onContactSelect={onContactSelect}
+          openSearchResults={openSearchResults}
         />
       )}
       <Buttons>

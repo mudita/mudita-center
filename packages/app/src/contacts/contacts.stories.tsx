@@ -80,6 +80,7 @@ const ContactsComponent = ({
     deleteContacts={asyncNoop}
     authorize={asyncNoop}
     editedContact={undefined}
+    openSearchResults={noop}
   />
 )
 
