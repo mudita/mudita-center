@@ -309,6 +309,11 @@ class DeviceService {
         error,
         status: DeviceResponseStatus.PhoneLocked,
       }
+    } else if (status === ResponseStatus.InternalServerError) {
+      return {
+        error,
+        status: DeviceResponseStatus.InternalServerError,
+      }
     } else {
       return {
         error,
