@@ -8,7 +8,7 @@ import { MenuItem } from "App/context-menu/context-menu.interface"
 import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 
 interface DevModeProps {
-  isEnabled: () => boolean
+  isEnabled?: () => boolean
   toggler: () => void
 }
 
