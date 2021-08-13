@@ -32,10 +32,6 @@ export const ListItem = styled.li<{
     border-bottom: solid ${borderColor("list")} 0.1rem;
   }
 
-  &:hover {
-    background-color: ${backgroundColor("minor")};
-  }
-
   ${({ empty }) =>
     empty &&
     css`
@@ -88,6 +84,7 @@ export const List = styled.ul<{
   transition: all ${transitionTime("veryQuick")}
     ${transitionTimingFunction("smooth")};
   overflow: auto;
+  border: solid 0.1rem ${borderColor("secondary")};
 
   ${({ listStyles }) =>
     css`
