@@ -15,7 +15,7 @@ const { availableLanguages } = require("../src/translations.config.json")
             return keyA > keyB ? 1 : keyB > keyA ? -1 : 0
           })
           .reduce((object, [key, value]) => ((object[key] = value), object), {})
-        await fs.writeJson(filePath, data)
+        await fs.writeFileSync(filePath, JSON.stringify(data, null, 2))
         console.log(`Translation for ${code} sorted`)
       }
     }
