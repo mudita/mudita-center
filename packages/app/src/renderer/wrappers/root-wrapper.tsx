@@ -184,9 +184,8 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
       // Register context menu
       registerAppContextMenu(appContextMenu)
+      appContextMenu.init()
     }
-
-    appContextMenu.init()
   }, [])
 
   return (
