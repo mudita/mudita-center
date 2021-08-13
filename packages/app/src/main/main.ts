@@ -19,7 +19,6 @@ import registerPureOsDownloadListener from "App/main/functions/register-pure-os-
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
 import registerTranslationListener from "App/main/functions/register-translation-listener"
-import registerAutoLaunchListener from "App/main/functions/register-auto-launch-listener"
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/calendar/backend/export-events"
 import registerWriteFileListener from "App/main/functions/register-write-file-listener"
@@ -149,7 +148,6 @@ const createWindow = async () => {
   registerNewsListener()
   registerAppLogsListeners()
   registerTranslationListener()
-  registerAutoLaunchListener()
   registerContactsExportListener()
   registerEventsExportListener()
   registerWriteFileListener()
