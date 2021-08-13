@@ -6,7 +6,7 @@
 import React from "react"
 import { createIntl } from "react-intl"
 import { defaultLanguage } from "App/translations.config.json"
-import localeEn from "Renderer/locales/default/en-US.json"
+import localeEn from "Renderer/locales/en-US.json"
 import extractLanguageKeys from "Renderer/utils/extract-test-locale"
 
 const testLocale = extractLanguageKeys(localeEn)

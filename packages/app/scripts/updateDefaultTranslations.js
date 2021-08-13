@@ -26,9 +26,7 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
     }
 
     const { data: locales } = await axios.get(localesUrl, axiosConfig)
-    await fs.ensureDir(
-      path.resolve(path.join("src", "renderer", "locales", "default"))
-    )
+    await fs.ensureDir(path.resolve(path.join("src", "renderer", "locales")))
 
     const nonEmptyLocales = locales.filter(
       (locale) => Object.keys(locale).length > 0
@@ -39,7 +37,6 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
         "src",
         "renderer",
         "locales",
-        "default",
         `${code}.json`
       )
       const { data } = await axios.get(`${localesUrl}/${id}/download`, {

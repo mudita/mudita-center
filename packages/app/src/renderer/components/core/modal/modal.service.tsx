@@ -24,7 +24,7 @@ import {
   ModalBackdrop,
   ModalWrapper,
 } from "Renderer/components/core/modal/modal.styled.elements"
-import localeEn from "Renderer/locales/default/en-US.json"
+import localeEn from "Renderer/locales/en-US.json"
 import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
 import { ThemeProvider } from "styled-components"

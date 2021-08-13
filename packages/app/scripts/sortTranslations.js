@@ -5,7 +5,7 @@ const { availableLanguages } = require("../src/translations.config.json")
   console.log("Sorting translations")
   try {
     for (const { code } of availableLanguages) {
-      const filePath = `./src/renderer/locales/default/${code}.json`
+      const filePath = `./src/renderer/locales/${code}.json`
       if (await fs.pathExists(filePath)) {
         let data = await fs.readJson(filePath)
         data = Object.entries(data)

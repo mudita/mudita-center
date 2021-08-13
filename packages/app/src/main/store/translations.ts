@@ -18,7 +18,7 @@ const translationStores: Record<string, Store> = {}
 for (const { code } of availableLanguages) {
   let defaults = {}
   try {
-    defaults = require(`../../renderer/locales/default/${code}.json`)
+    defaults = require(`../../renderer/locales/${code}.json`)
   } catch (error) {
     console.log(`No default translations file for language "${code}"`)
   }

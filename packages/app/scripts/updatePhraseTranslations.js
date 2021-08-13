@@ -22,7 +22,7 @@ const FormData = require("form-data")
 ;(async () => {
   try {
     console.log(`Sending translations to phrase.com`)
-    const localesDir = "./src/renderer/locales/default/"
+    const localesDir = "./src/renderer/locales/"
 
     for (const { code, id } of availableLanguages) {
       const filePath = `${localesDir}${code}.json`

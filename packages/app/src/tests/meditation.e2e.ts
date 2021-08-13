@@ -7,8 +7,8 @@ import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { ChartType } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
-import localeEn from "Renderer/locales/default/en-US.json"
-import { Application } from "spectron";
+import localeEn from "Renderer/locales/en-US.json"
+import { Application } from "spectron"
 
 let app: Application
 
