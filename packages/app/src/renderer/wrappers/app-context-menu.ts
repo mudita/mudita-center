@@ -9,13 +9,16 @@ import {
   toggleDevMode,
 } from "App/dev-mode/store/dev-mode.helpers"
 
+const devModeHidden = process.env.DEVELOPER_MODE_HIDE === "true"
+const productionEnvironment = process.env.NODE_ENV === "production"
+
 const appContextMenu = new ContextMenu(
-  process.env.NODE_ENV !== "production"
+  devModeHidden && productionEnvironment
     ? {
-        isEnabled: isDevModeEnabled,
         toggler: toggleDevMode,
       }
     : {
+        isEnabled: isDevModeEnabled,
         toggler: toggleDevMode,
       }
 )

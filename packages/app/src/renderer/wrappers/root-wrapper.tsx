@@ -175,9 +175,10 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   useEffect(() => {
     void store.dispatch.settings.loadSettings()
     handleAppUpdateAvailableCheck()
-
+    const devModeHidden = process.env.DEVELOPER_MODE_HIDE === "true"
+    const productionEnvironment = process.env.NODE_ENV === "production"
     //Remove this condition to get devMode on production
-    if (process.env.NODE_ENV !== "production") {
+    if (!(devModeHidden && productionEnvironment)) {
       // Register hotkeys
       registerHotkeys()
 
