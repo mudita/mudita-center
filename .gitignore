@@ -67,6 +67,3 @@ packages/app/src/main/default-news.json
 
 # Fetched app configuration
 packages/app/src/main/app-configuration.json
-
-# Fetched translations
-packages/app/src/renderer/locales/*

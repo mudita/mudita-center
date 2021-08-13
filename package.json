@@ -34,6 +34,8 @@
     "app:dist:all:dev": "lerna run --scope @mudita/mudita-center-app dist:all:dev",
     "app:dist:prod": "lerna run --scope @mudita/mudita-center-app dist:prod",
     "app:dist:all:prod": "lerna run --scope @mudita/mudita-center-app dist:all:prod",
+    "app:translation:dev:update": "lerna run --scope @mudita/mudita-center-app translation:dev:update",
+    "app:translation:prod:sync": "lerna run --scope @mudita/mudita-center-app translation:prod:sync",
     "app:electron:rebuild-serialport": "lerna run --scope @mudita/mudita-center-app electron:rebuild-serialport --",
     "PURE COMMANDS": "========================================================",
     "pure:build": "lerna run --scope @mudita/pure build",
