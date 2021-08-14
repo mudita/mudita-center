@@ -28,7 +28,7 @@ class EncoderVCard extends vCard {
   }
 }
 
-const convertContact = (contact: Contact): string => {
+const mapToVCardString = (contact: Contact): string => {
   const {
     id,
     firstName = "",
@@ -97,14 +97,8 @@ const convertContact = (contact: Contact): string => {
   return card.toString("4.0")
 }
 
-const convertContacts = (contacts: Contact[]): string => {
-  const jCards: string[] = []
-
-  contacts.forEach((contact) => {
-    jCards.push(convertContact(contact))
-  })
-
-  return jCards.join("\n")
+const mapContactsToVCardStrings = (contacts: Contact[]): string => {
+  return contacts.map(contact => mapToVCardString(contact)).join("\n")
 }
 
-export default convertContacts
+export default mapContactsToVCardStrings

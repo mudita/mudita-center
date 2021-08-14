@@ -5,9 +5,9 @@
 
 import vCard from "vcf"
 import { Contact } from "App/contacts/store/contacts.type"
-import convertContacts from "App/contacts/helpers/convert-contacts/convert-contacts"
+import mapContactsToVCardStrings from "App/contacts/helpers/convert-contacts/map-contacts-to-v-card-strings"
 
-describe("Convert Contact helper", () => {
+describe("map Contacts to string list helper", () => {
   describe("when just a single contact is converted", () => {
     const contacts: Contact[] = [
       {
@@ -25,7 +25,7 @@ describe("Convert Contact helper", () => {
     ]
 
     test("should return vCard format with a single contact", () => {
-      const result = convertContacts(contacts)
+      const result = mapContactsToVCardStrings(contacts)
       expect(result).toMatchInlineSnapshot(`
         "BEGIN:VCARD
         VERSION:4.0
@@ -45,7 +45,7 @@ describe("Convert Contact helper", () => {
     })
 
     test("a result should allows to be parse by vCard ", () => {
-      const result = convertContacts(contacts)
+      const result = mapContactsToVCardStrings(contacts)
       expect(() => vCard.parse(result)).not.toThrow()
     })
   })
@@ -64,7 +64,7 @@ describe("Convert Contact helper", () => {
     ]
 
     test("should return vCard format with a single contact", () => {
-      const result = convertContacts(contacts)
+      const result = mapContactsToVCardStrings(contacts)
       expect(result).toMatchInlineSnapshot(`
         "BEGIN:VCARD
         VERSION:4.0
@@ -81,7 +81,7 @@ describe("Convert Contact helper", () => {
     })
 
     test("a result should allows to be parse by vCard ", () => {
-      const result = convertContacts(contacts)
+      const result = mapContactsToVCardStrings(contacts)
       expect(() => vCard.parse(result)).not.toThrow()
     })
   })
@@ -111,7 +111,7 @@ describe("Convert Contact helper", () => {
     ]
 
     test("should return vCard format with a contact list", () => {
-      const result = convertContacts(contacts)
+      const result = mapContactsToVCardStrings(contacts)
       expect(result).toMatchInlineSnapshot(`
         "BEGIN:VCARD
         VERSION:4.0
@@ -141,7 +141,7 @@ describe("Convert Contact helper", () => {
     })
 
     test("a result should allows to be parse by vCard ", () => {
-      const result = convertContacts(contacts)
+      const result = mapContactsToVCardStrings(contacts)
       expect(() => vCard.parse(result)).not.toThrow()
     })
   })
@@ -157,7 +157,7 @@ describe("Convert Contact helper", () => {
     ]
 
     test("should convert address field properly", () => {
-      const result = convertContacts(contacts)
+      const result = mapContactsToVCardStrings(contacts)
       expect(result).toMatchInlineSnapshot(`
         "BEGIN:VCARD
         VERSION:4.0
@@ -182,7 +182,7 @@ describe("Convert Contact helper", () => {
     ]
 
     test("should convert address field properly", () => {
-      const result = convertContacts(contacts)
+      const result = mapContactsToVCardStrings(contacts)
       expect(result).toMatchInlineSnapshot(`
         "BEGIN:VCARD
         VERSION:4.0
