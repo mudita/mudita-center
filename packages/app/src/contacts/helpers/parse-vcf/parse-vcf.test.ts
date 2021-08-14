@@ -53,12 +53,10 @@ describe("Parse VCF helper", () => {
       {
         firstName: "是",
         lastName: "Jürgen",
-        email: "example@mudita.com",
-        primaryPhoneNumber: "123 456 789",
-        secondaryPhoneNumber: "32 123 44 55",
+        primaryPhoneNumber: "123456789",
+        secondaryPhoneNumber: "321234455",
         firstAddressLine: "Saudi Arabia, 11564, Arabia",
-        secondAddressLine: "",
-        note: "اكتشف",
+        secondAddressLine: "اكتشف",
       },
     ])
   })

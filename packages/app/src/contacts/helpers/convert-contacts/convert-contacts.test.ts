@@ -36,8 +36,45 @@ describe("Convert Contact helper", () => {
         ADR;TYPE=home;LABEL=\\"4929 Pine Garden Lane Atlanta, GA, 30339, USA\\":;;4929
           Pine Garden Lane;Atlanta; GA; 30339; USA
         EMAIL:example@mudita.com
-        NOTE:Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-          Pellentesque in ipsum id orci porta dapibus.
+        NOTE;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:Vestibulum ac diam sit amet
+          quam vehicula elementum sed sit amet dui. Pelle=ntesque in ipsum id orci
+          porta dapibus.
+        UID:abc-123
+        END:VCARD"
+      `)
+    })
+
+    test("a result should allows to be parse by vCard ", () => {
+      const result = convertContacts(contacts)
+      expect(() => vCard.parse(result)).not.toThrow()
+    })
+  })
+
+  describe("when a single contact has special characters", () => {
+    const contacts: Contact[] = [
+      {
+        id: "abc-123",
+        firstName: "是",
+        lastName: "Jürgen",
+        primaryPhoneNumber: "123456789",
+        secondaryPhoneNumber: "321234455",
+        firstAddressLine: "Saudi Arabia, 11564, Arabia",
+        secondAddressLine: "اكتشف",
+      },
+    ]
+
+    test("should return vCard format with a single contact", () => {
+      const result = convertContacts(contacts)
+      expect(result).toMatchInlineSnapshot(`
+        "BEGIN:VCARD
+        VERSION:4.0
+        N;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:J=C3=BCrgen;=E6=98=AF;;;
+        FN;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:=E6=98=AF J=C3=BCrgen
+        TEL;TYPE=voice:123456789
+        TEL;TYPE=voice:321234455
+        ADR;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE;TYPE=home;LABEL=\\"Saudi Arabia,
+          11564, Arabia اكتشف\\":;;Saudi Arabia; 11564;
+          Arabia;=D8=A7=D9=83=D8=AA=D8=B4=D9=81;
         UID:abc-123
         END:VCARD"
       `)
@@ -85,8 +122,9 @@ describe("Convert Contact helper", () => {
         ADR;TYPE=home;LABEL=\\"4929 Pine Garden Lane Atlanta, GA, 30339, USA\\":;;4929
           Pine Garden Lane;Atlanta; GA; 30339; USA
         EMAIL:example@mudita.com
-        NOTE:Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-          Pellentesque in ipsum id orci porta dapibus.
+        NOTE;CHARSET=UTF-8;ENCODING=QUOTED-PRINTABLE:Vestibulum ac diam sit amet
+          quam vehicula elementum sed sit amet dui. Pelle=ntesque in ipsum id orci
+          porta dapibus.
         UID:abc-123
         END:VCARD
         BEGIN:VCARD
