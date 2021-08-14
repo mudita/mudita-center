@@ -7,18 +7,9 @@ import vCard from "vcf"
 import utf8 from "utf8"
 import quotedPrintable from "quoted-printable"
 import { NewContact } from "App/contacts/store/contacts.type"
+import mapFileToString from "Renderer/utils/map-file-to-string/map-file-to-string"
 
 type vCardContact = Record<string, vCard.Property | vCard.Property[]>
-
-export const readFile = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-
-    reader.onload = (event) => resolve(event.target?.result as string)
-    reader.onerror = (event) => reject(event.target?.error)
-    reader.readAsText(file)
-  })
-}
 
 const parseContact = (contact: vCardContact): NewContact => {
   const [
@@ -100,7 +91,7 @@ const parseVcf = async (files: File[]): Promise<NewContact[]> => {
     const parsedContacts: NewContact[] = []
 
     for (const file of files) {
-      const contacts = vCard.parse(await readFile(file))
+      const contacts = vCard.parse(await mapFileToString(file))
       contacts.forEach(({ data }) => parsedContacts.push(parseContact(data)))
     }
 

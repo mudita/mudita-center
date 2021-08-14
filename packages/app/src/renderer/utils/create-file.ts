@@ -5,12 +5,16 @@
 
 import fs from "fs"
 import path from "path"
+import mime from "mime-types"
 
-const createFile = (filePath: string): File => {
+const createFile = (filePath: string, options?: FilePropertyBag): File => {
   const { mtimeMs: lastModified } = fs.statSync(filePath)
+  const type = mime.lookup(filePath) || ""
+
   return new File([fs.readFileSync(filePath)], path.basename(filePath), {
     lastModified,
-    type: "application/zip",
+    type,
+    ...options
   })
 }
 
