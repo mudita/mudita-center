@@ -11,32 +11,32 @@ import mapFileToString from "Renderer/utils/map-file-to-string/map-file-to-strin
 
 type vCardContact = Record<string, vCard.Property | vCard.Property[]>
 
-const parseContact = (contact: vCardContact): NewContact => {
-  const newContact: NewContact = {}
+const mapToContact = (vContact: vCardContact): NewContact => {
+  const contact: NewContact = {}
   const [
     lastName = "",
     firstName = "",
-  ] = (contact.n?.valueOf() as string).split(";")
-  const fullName = contact.fv?.valueOf() as string
+  ] = (vContact.n?.valueOf() as string).split(";")
+  const fullName = vContact.fv?.valueOf() as string
 
-  if (contact.tel) {
-    if (Array.isArray(contact.tel)) {
-      newContact["primaryPhoneNumber"] = contact.tel[0].valueOf()
-      newContact["secondaryPhoneNumber"] = contact.tel[1].valueOf()
+  if (vContact.tel) {
+    if (Array.isArray(vContact.tel)) {
+      contact["primaryPhoneNumber"] = vContact.tel[0].valueOf()
+      contact["secondaryPhoneNumber"] = vContact.tel[1].valueOf()
     } else {
-      newContact["primaryPhoneNumber"] = contact.tel.valueOf()
+      contact["primaryPhoneNumber"] = vContact.tel.valueOf()
     }
   }
 
-  if (contact.adr) {
+  if (vContact.adr) {
     let address: string
     let firstAddressLine = ""
     let secondAddressLine = ""
 
-    if (Array.isArray(contact.adr)) {
-      address = contact.adr[0].valueOf()
+    if (Array.isArray(vContact.adr)) {
+      address = vContact.adr[0].valueOf()
     } else {
-      address = contact.adr.valueOf()
+      address = vContact.adr.valueOf()
     }
 
     address.split(";").forEach((chunk) => {
@@ -52,22 +52,22 @@ const parseContact = (contact: vCardContact): NewContact => {
       }
     })
 
-    newContact["firstAddressLine"] = firstAddressLine.trim().slice(0, -1)
-    newContact["secondAddressLine"] = secondAddressLine.trim().slice(0, -1)
+    contact["firstAddressLine"] = firstAddressLine.trim().slice(0, -1)
+    contact["secondAddressLine"] = secondAddressLine.trim().slice(0, -1)
   }
 
-  if (contact.note) {
-    newContact["note"] = (contact.note.valueOf() as string).substr(0, 30)
+  if (vContact.note) {
+    contact["note"] = (vContact.note.valueOf() as string).substr(0, 30)
   }
 
-  if (contact.email) {
-    newContact["email"] = contact.email.valueOf() as string
+  if (vContact.email) {
+    contact["email"] = vContact.email.valueOf() as string
   }
 
-  newContact["firstName"] = !firstName && !lastName ? fullName : firstName
-  newContact["lastName"] = lastName
+  contact["firstName"] = !firstName && !lastName ? fullName : firstName
+  contact["lastName"] = lastName
 
-  return decodeObject(newContact)
+  return decodeObject(contact)
 }
 
 const decodeObject = (
@@ -90,19 +90,20 @@ const decodeObject = (
   )
 }
 
-const parseVcf = async (files: File[]): Promise<NewContact[]> => {
+const mapVCFsToContacts = async (files: File[]): Promise<NewContact[]> => {
   try {
-    const parsedContacts: NewContact[] = []
+    const contacts: NewContact[] = []
 
     for (const file of files) {
-      const contacts = vCard.parse(await mapFileToString(file))
-      contacts.forEach(({ data }) => parsedContacts.push(parseContact(data)))
+      const fileString = await mapFileToString(file)
+      const vCards = vCard.parse(fileString)
+      vCards.forEach(({ data }) => contacts.push(mapToContact(data)))
     }
 
-    return parsedContacts
+    return contacts
   } catch (error) {
-    throw Error(error)
+    return []
   }
 }
 
-export default parseVcf
+export default mapVCFsToContacts

@@ -5,9 +5,9 @@
 
 import path from "path"
 import createFile from "Renderer/utils/create-file/create-file"
-import parseVcf from "./parse-vcf"
+import mapVCFsToContacts from "./map-vcfs-to-contacts"
 
-describe("Parse VCF helper", () => {
+describe("map VCF's to Contacts helper", () => {
   const singleContactFile = createFile(
     path.join(__dirname, "./single-contact.vcf")
   )
@@ -20,9 +20,12 @@ describe("Parse VCF helper", () => {
   const noEncodedContactFile = createFile(
     path.join(__dirname, "./no-encoded-contact.vcf")
   )
+  const noVcfFile = createFile(
+    path.join(__dirname, "./no-vcf.txt")
+  )
 
   test("should return list with one contact when is just single record", async () => {
-    const contacts = await parseVcf([singleContactFile])
+    const contacts = await mapVCFsToContacts([singleContactFile])
     expect(contacts).toStrictEqual([
       {
         firstName: "John",
@@ -38,17 +41,17 @@ describe("Parse VCF helper", () => {
   })
 
   test("should return contact list when in a file is multiple records", async () => {
-    const contacts = await parseVcf([multipleContactsFile])
+    const contacts = await mapVCFsToContacts([multipleContactsFile])
     expect(contacts).toHaveLength(2)
   })
 
   test("should handle list of files", async () => {
-    const contacts = await parseVcf([singleContactFile, multipleContactsFile])
+    const contacts = await mapVCFsToContacts([singleContactFile, multipleContactsFile])
     expect(contacts).toHaveLength(3)
   })
 
   test("should decode records file when are encoded", async () => {
-    const contacts = await parseVcf([encodedContactFile])
+    const contacts = await mapVCFsToContacts([encodedContactFile])
     expect(contacts).toStrictEqual([
       {
         firstName: "是",
@@ -62,7 +65,7 @@ describe("Parse VCF helper", () => {
   })
 
   test("should return contact even the record isn't decode properly", async () => {
-    const contacts = await parseVcf([noEncodedContactFile])
+    const contacts = await mapVCFsToContacts([noEncodedContactFile])
     expect(contacts).toStrictEqual([
       {
         firstName: "/",
@@ -73,5 +76,10 @@ describe("Parse VCF helper", () => {
         secondAddressLine: "'C*4A",
       },
     ])
+  })
+
+  test("should return empty list when the file format isn't vcf", async () => {
+    const contacts = await mapVCFsToContacts([noVcfFile])
+    expect(contacts).toStrictEqual([])
   })
 })
