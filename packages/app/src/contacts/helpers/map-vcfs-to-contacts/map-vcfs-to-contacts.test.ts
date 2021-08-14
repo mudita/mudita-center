@@ -21,7 +21,7 @@ describe("map VCF's to Contacts helper", () => {
     path.join(__dirname, "./no-encoded-contact.vcf")
   )
   const noVcfFile = createFile(
-    path.join(__dirname, "./no-vcf.txt")
+    path.join(__dirname, "./no-vcf.png")
   )
 
   test("should return list with one contact when is just single record", async () => {

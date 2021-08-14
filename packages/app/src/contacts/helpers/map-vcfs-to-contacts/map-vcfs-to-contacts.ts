@@ -95,13 +95,16 @@ const mapVCFsToContacts = async (files: File[]): Promise<NewContact[]> => {
     const contacts: NewContact[] = []
 
     for (const file of files) {
-      const fileString = await mapFileToString(file)
+      let fileString = await mapFileToString(file)
+      if (!fileString.includes("\r\n")) {
+        fileString = fileString.replace(/\n/g, "\r\n");
+      }
       const vCards = vCard.parse(fileString)
       vCards.forEach(({ data }) => contacts.push(mapToContact(data)))
     }
 
     return contacts
-  } catch (error) {
+  } catch {
     return []
   }
 }
