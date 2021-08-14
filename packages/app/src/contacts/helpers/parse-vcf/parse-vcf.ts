@@ -12,29 +12,26 @@ import mapFileToString from "Renderer/utils/map-file-to-string/map-file-to-strin
 type vCardContact = Record<string, vCard.Property | vCard.Property[]>
 
 const parseContact = (contact: vCardContact): NewContact => {
+  const newContact: NewContact = {}
   const [
     lastName = "",
     firstName = "",
   ] = (contact.n?.valueOf() as string).split(";")
   const fullName = contact.fv?.valueOf() as string
 
-  let primaryPhoneNumber = ""
-  let secondaryPhoneNumber = ""
-  let firstAddressLine = ""
-  let secondAddressLine = ""
-  let note = ""
-
   if (contact.tel) {
     if (Array.isArray(contact.tel)) {
-      primaryPhoneNumber = contact.tel[0].valueOf()
-      secondaryPhoneNumber = contact.tel[1].valueOf()
+      newContact["primaryPhoneNumber"] = contact.tel[0].valueOf()
+      newContact["secondaryPhoneNumber"] = contact.tel[1].valueOf()
     } else {
-      primaryPhoneNumber = contact.tel.valueOf()
+      newContact["primaryPhoneNumber"] = contact.tel.valueOf()
     }
   }
 
   if (contact.adr) {
     let address: string
+    let firstAddressLine = ""
+    let secondAddressLine = ""
 
     if (Array.isArray(contact.adr)) {
       address = contact.adr[0].valueOf()
@@ -55,34 +52,41 @@ const parseContact = (contact: vCardContact): NewContact => {
       }
     })
 
-    firstAddressLine = firstAddressLine.trim().slice(0, -1)
-    secondAddressLine = secondAddressLine.trim().slice(0, -1)
+    newContact["firstAddressLine"] = firstAddressLine.trim().slice(0, -1)
+    newContact["secondAddressLine"] = secondAddressLine.trim().slice(0, -1)
   }
 
   if (contact.note) {
-    note = (contact.note.valueOf() as string).substr(0, 30)
+    newContact["note"] = (contact.note.valueOf() as string).substr(0, 30)
   }
 
-  return decodeObject({
-    firstName: !firstName && !lastName ? fullName : firstName,
-    lastName,
-    email: contact.email ? (contact.email.valueOf() as string) : "",
-    primaryPhoneNumber,
-    secondaryPhoneNumber,
-    firstAddressLine,
-    secondAddressLine,
-    note,
-  })
+  if (contact.email) {
+    newContact["email"] = contact.email.valueOf() as string
+  }
+
+  newContact["firstName"] = !firstName && !lastName ? fullName : firstName
+  newContact["lastName"] = lastName
+
+  return decodeObject(newContact)
 }
 
 const decodeObject = (
-  object: Record<string, string>
+  object: Record<string, string | number | boolean | undefined>
 ): Record<string, string> => {
   return Object.fromEntries(
-    Object.entries(object).map(([key, val= ""]) => [
-      key,
-      utf8.decode(quotedPrintable.decode(val)),
-    ])
+    Object.entries(object).map(([key, val]) => {
+      if (typeof val === "string") {
+        try {
+          const print = quotedPrintable.decode(val)
+          const decode = utf8.decode(print)
+          return [key, decode]
+        } catch {
+          return [key, val]
+        }
+      } else {
+        return [key, val]
+      }
+    })
   )
 }
 

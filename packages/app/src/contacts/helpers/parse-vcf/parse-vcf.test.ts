@@ -17,6 +17,9 @@ describe("Parse VCF helper", () => {
   const encodedContactFile = createFile(
     path.join(__dirname, "./encoded-contact.vcf")
   )
+  const noEncodedContactFile = createFile(
+    path.join(__dirname, "./no-encoded-contact.vcf")
+  )
 
   test("should return list with one contact when is just single record", async () => {
     const contacts = await parseVcf([singleContactFile])
@@ -56,6 +59,20 @@ describe("Parse VCF helper", () => {
         firstAddressLine: "Saudi Arabia, 11564, Arabia",
         secondAddressLine: "",
         note: "اكتشف",
+      },
+    ])
+  })
+
+  test("should return contact even the record isn't decode properly", async () => {
+    const contacts = await parseVcf([noEncodedContactFile])
+    expect(contacts).toStrictEqual([
+      {
+        firstName: "/",
+        lastName: "Jürgen",
+        primaryPhoneNumber: "123456789",
+        secondaryPhoneNumber: "321234455",
+        firstAddressLine: "Saudi Arabia, 11564, Arabia",
+        secondAddressLine: "'C*4A",
       },
     ])
   })
