@@ -5,7 +5,7 @@
 
 import path from "path"
 import mapFileToString from "Renderer/utils/map-file-to-string/map-file-to-string"
-import createFile from "Renderer/utils/create-file"
+import createFile from "Renderer/utils/create-file/create-file"
 
 describe("Map File to String util", () => {
   test("should map empty File to String", async () => {
