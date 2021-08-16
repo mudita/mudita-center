@@ -28,8 +28,12 @@ interface Props {
   settingsLoaded?: boolean
   appCollectingData?: boolean
   appUpdateStepModalDisplayed?: boolean
+  deviceParred?: boolean
+  appUpdateRequired?: boolean
+  appCurrentVersion?: string
   toggleAppCollectingData: (appCollectingData: boolean) => void
   setAppUpdateStepModalDisplayed: () => void
+  sendDiagnosticData: () => void
   appLatestVersion?: string
 }
 
@@ -38,14 +42,17 @@ const BaseApp: FunctionComponent<Props> = ({
   history,
   pureFeaturesVisible,
   deviceConnecting,
-  pureNeverConnected,
   appUpdateAvailable,
   settingsLoaded,
   appCollectingData,
   appUpdateStepModalDisplayed,
+  deviceParred,
   toggleAppCollectingData,
   setAppUpdateStepModalDisplayed,
+  sendDiagnosticData,
   appLatestVersion,
+  appUpdateRequired,
+  appCurrentVersion,
 }) => {
   const appUpdateStepModalVisible =
     Boolean(settingsLoaded) &&
@@ -66,14 +73,16 @@ const BaseApp: FunctionComponent<Props> = ({
   useEffect(() => {
     if (deviceConnecting) {
       history.push(URL_ONBOARDING.connecting)
-    } else if (!pureFeaturesVisible && !pureNeverConnected) {
-      history.push(URL_MAIN.news)
-    } else if (!pureFeaturesVisible && pureNeverConnected) {
+    } else if (!pureFeaturesVisible) {
       history.push(URL_ONBOARDING.root)
-    } else if (pureFeaturesVisible && !pureNeverConnected) {
-      history.push(URL_MAIN.overview)
     }
-  }, [pureFeaturesVisible, pureNeverConnected, deviceConnecting])
+  }, [pureFeaturesVisible, deviceConnecting])
+
+  useEffect(() => {
+    if (deviceParred) {
+      sendDiagnosticData()
+    }
+  }, [deviceParred])
 
   const allowToAppCollectingData = (): void => {
     toggleAppCollectingData(true)
@@ -95,9 +104,17 @@ const BaseApp: FunctionComponent<Props> = ({
         onActionButtonClick={allowToAppCollectingData}
         closeModal={disallowToAppCollectingData}
       />
-      {appUpdateStepModalVisible && (
+      {appUpdateRequired && (
+        <AppUpdateStepModal
+          forced
+          appLatestVersion={appLatestVersion}
+          appCurrentVersion={appCurrentVersion}
+        />
+      )}
+      {!appUpdateRequired && appUpdateStepModalVisible && (
         <AppUpdateStepModal
           appLatestVersion={appLatestVersion}
+          appCurrentVersion={appCurrentVersion}
           closeModal={closeAppUpdateStepModal}
         />
       )}
@@ -111,6 +128,7 @@ const BaseApp: FunctionComponent<Props> = ({
 const selection = select((models: any) => ({
   pureFeaturesVisible: models.basicInfo.pureFeaturesVisible,
   deviceConnecting: models.basicInfo.deviceConnecting,
+  deviceParred: models.basicInfo.deviceParred,
 }))
 
 const mapStateToProps = (state: RootState) => {
@@ -125,12 +143,15 @@ const mapStateToProps = (state: RootState) => {
     settingsLoaded: state.settings.settingsLoaded,
     appLatestVersion: state.settings.appLatestVersion,
     appUpdateStepModalDisplayed: state.settings.appUpdateStepModalDisplayed,
+    appUpdateRequired: state.settings.appUpdateRequired,
+    appCurrentVersion: state.settings.appCurrentVersion,
   }
 }
 
-const mapDispatchToProps = ({ basicInfo, settings }: any) => ({
+const mapDispatchToProps = ({ settings }: any) => ({
   toggleAppCollectingData: settings.toggleAppCollectingData,
   setAppUpdateStepModalDisplayed: settings.setAppUpdateStepModalDisplayed,
+  sendDiagnosticData: settings.sendDiagnosticData,
   setAppLatestVersion: settings.setAppLatestVersion,
 })
 

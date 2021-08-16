@@ -64,3 +64,6 @@ packages/app/src/renderer/fonts/main/**/*
 
 # Fetched news
 packages/app/src/main/default-news.json
+
+# Fetched app configuration
+packages/app/src/main/app-configuration.json

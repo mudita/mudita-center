@@ -30,10 +30,10 @@
     "url": "https://github.com/Mudita/mudita-center/issues"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.9",
-    "@types/jest": "^26.0.15",
+    "@types/fs-extra": "^9.0.12",
+    "@types/jest": "^26.0.24",
     "jest-extended": "^0.11.5",
-    "ts-jest": "^26.4.3"
+    "ts-jest": "^26.5.6"
   },
   "dependencies": {
     "@mudita/pure": "^1.0.0",

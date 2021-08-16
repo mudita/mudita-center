@@ -13,6 +13,11 @@ export interface SettingsUpdateOption {
   value: unknown
 }
 
+export interface AppConfiguration extends Record<string, any> {
+  lowestSupportedOsVersion: string | undefined
+  lowestSupportedCenterVersion: string | undefined
+}
+
 export interface AppSettings extends Record<string, any> {
   appAutostart: boolean
   appTethering: boolean
@@ -29,9 +34,10 @@ export interface AppSettings extends Record<string, any> {
   language: string
   pureNeverConnected: boolean
   appCollectingData: boolean | undefined
+  diagnosticSentTimestamp: number
 }
 
-export interface StoreValues extends AppSettings {
+export interface SettingsState extends Partial<AppSettings>, AppConfiguration {
   appUpdateAvailable: boolean | undefined
   appUpdateStepModalDisplayed: boolean
   settingsLoaded: boolean

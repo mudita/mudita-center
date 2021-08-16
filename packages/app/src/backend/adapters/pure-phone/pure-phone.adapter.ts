@@ -59,7 +59,7 @@ class PurePhone extends PurePhoneAdapter {
     if (status === DeviceResponseStatus.Ok && data) {
       return {
         status,
-        data: data.gitTag,
+        data: data.version,
       }
     } else {
       return {
@@ -69,8 +69,22 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
-  public getSerialNumber(): string {
-    return "1UB13213MN14K1"
+  public async getSerialNumber(): Promise<DeviceResponse<string>> {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.SerialNumber,
+      method: Method.Get,
+    })
+    if (status === DeviceResponseStatus.Ok && data) {
+      return {
+        status,
+        data: data.serialNumber,
+      }
+    } else {
+      return {
+        status,
+        error: { message: "Get serial number: Something went wrong" },
+      }
+    }
   }
 
   public disconnectDevice(): Promise<DeviceResponse> {
@@ -104,7 +118,7 @@ class PurePhone extends PurePhoneAdapter {
 
   public async updateOs(
     filePath: string,
-    progressChannel: string
+    progressChannel = ""
   ): Promise<DeviceResponse> {
     let unregisterListeners = noop
     return new Promise<DeviceResponse>(async (resolve) => {

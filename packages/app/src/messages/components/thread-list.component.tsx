@@ -141,6 +141,7 @@ const LastMessageText = styled(Message)<{ unread?: boolean }>`
 const Threads = styled(Table)<{
   noneRowsSelected?: boolean
 }>`
+  min-width: 32rem;
   --columnsTemplate: 11.2rem 60.5rem 1fr;
   --columnsTemplateWithOpenedSidebar: 11.2rem 1fr;
   --columnsGap: 0;

@@ -18,6 +18,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { Link } from "react-router-dom"
 import { URL_MAIN } from "Renderer/constants/urls"
+import { LayoutBlankWrapperTestIds } from "Renderer/wrappers/wrappers-test-ids.enum"
 
 const Layout = styled.div`
   display: grid;
@@ -28,6 +29,7 @@ const Layout = styled.div`
   height: 100vh;
   max-width: ${width("viewWidth")};
   background-color: ${backgroundColor("row")};
+  margin: 0 auto;
 `
 
 const Header = styled.header`
@@ -81,7 +83,11 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
           message={{ id: "module.onboarding.mainTitle" }}
         />
         {!recoveryMode && (
-          <Link to={URL_MAIN.news} onClick={onClose}>
+          <Link
+            to={URL_MAIN.news}
+            onClick={onClose}
+            data-testid={LayoutBlankWrapperTestIds.Close}
+          >
             <Icon type={Type.Close} />
           </Link>
         )}

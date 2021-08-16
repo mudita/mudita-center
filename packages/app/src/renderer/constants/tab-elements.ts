@@ -128,6 +128,7 @@ export const tabElements: TabElement[] = [
         label: messages.backup,
         url: `${URL_MAIN.settings}${URL_TABS.backup}`,
         icon: Type.BackupFolder,
+        hidden: productionEnvironment,
       },
       {
         label: messages.about,

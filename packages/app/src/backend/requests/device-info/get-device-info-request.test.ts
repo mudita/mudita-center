@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PureDeviceManager, { DeviceInfo } from "@mudita/pure"
+import PureDeviceManager, { DeviceInfo, Endpoint, RequestConfig } from "@mudita/pure"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 import registerDeviceInfoRequest from "./get-device-info.request"
@@ -23,22 +23,35 @@ const mockDeviceInfo: DeviceInfo = ({
   fsTotal: "13913",
   gitBranch: "EGD-4318_enable_service_desktop",
   gitRevision: "4973bab",
-  gitTag: "release-0.46.1-33-g4973babd",
+  version: "release-0.46.1-33-g4973babd",
   networkStatus: "2",
   selectedSim: "0",
   signalStrength: "1",
   trayState: "1",
 } as unknown) as DeviceInfo
 
+const mockSerialNumber = {
+  serialNumber: "1UB13213MN14K1"
+}
+
 jest.mock("Backend/device-service")
 
 test("returns required device info", async () => {
   ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
-      request: () => ({
-        data: mockDeviceInfo,
-        status: DeviceResponseStatus.Ok,
-      }),
+      request: (config: RequestConfig<any>) => {
+        if(config.endpoint === Endpoint.DeviceInfo) {
+          return ({
+            data: mockDeviceInfo,
+            status: DeviceResponseStatus.Ok,
+          })
+        } else {
+          return ({
+            data: mockSerialNumber,
+            status: DeviceResponseStatus.Ok,
+          })
+        }
+      },
     }
   })
   const deviceService = new DeviceService(PureDeviceManager, ipcMain)

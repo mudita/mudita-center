@@ -9,12 +9,12 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React, { useState } from "react"
 import ContactSupportModalFlow, {
   ContactSupportModalFlowState,
-} from "App/contacts/components/contact-support-modal/contact-support-modal-flow.component"
+} from "App/renderer/components/rest/contact-support-modal/contact-support-modal-flow.component"
 import useCreateBugTicket, {
   files,
-} from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket"
-import { ContactSupportFieldValues } from "App/contacts/components/contact-support-modal/contact-support-modal.component"
-import { CreateBugTicketResponseStatus } from "Renderer/modules/overview/use-create-bug-ticket/use-create-bug-ticket-builder"
+} from "App/renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket"
+import { ContactSupportFieldValues } from "App/renderer/components/rest/contact-support-modal/contact-support-modal.component"
+import { CreateBugTicketResponseStatus } from "App/renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
 import logger from "App/main/utils/logger"
 
 const RecoveryMode: FunctionComponent<{}> = () => {

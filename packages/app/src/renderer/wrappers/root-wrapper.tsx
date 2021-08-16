@@ -43,6 +43,8 @@ import registerDeviceUnlockedListener, {
 import registerAvailableAppUpdateListener from "App/main/functions/register-avaible-app-update-listener"
 import registerNotAvailableAppUpdateListener from "App/main/functions/register-not-avaible-app-update-listener"
 import LicenseApp from "./license-app.component"
+import TermsOfServiceApp from "./terms-of-service-app.component"
+import PrivacyPolicyApp from "./privacy-policy-app.component"
 
 interface Props {
   store: Store
@@ -75,7 +77,24 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
       return <LicenseApp history={history} />
     }
 
+    if (params.get("mode") === Mode.TermsOfService) {
+      return <TermsOfServiceApp history={history} />
+    }
+
+    if (params.get("mode") === Mode.PrivacyPolicy) {
+      return <PrivacyPolicyApp history={history} />
+    }
+
     return <BaseApp store={store} history={history} />
+  }
+
+  const handleAppUpdateAvailableCheck = (): void => {
+    if (!window.navigator.onLine) {
+      store.dispatch.settings.setAppUpdateStepModalDisplayed()
+      store.dispatch.settings.toggleAppUpdateAvailable(false)
+    } else {
+      void checkAppUpdateRequest()
+    }
   }
 
   /**
@@ -98,10 +117,14 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     const listener = () => {
+      modalService.closeModal(true)
       store.dispatch.basicInfo.toggleDeviceConnected(false)
     }
+    const unregister = () => {
+      removeDeviceDisconnectedListener(listener)
+    }
     registerDeviceDisconnectedListener(listener)
-    return () => removeDeviceDisconnectedListener(listener)
+    return () => unregister()
   })
 
   useEffect(() => {
@@ -116,8 +139,11 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
     const listener = () => {
       store.dispatch.basicInfo.toggleDeviceUnlocked(false)
     }
+    const unregister = () => {
+      removeDeviceLockedListener(listener)
+    }
     registerDeviceLockedListener(listener)
-    return () => removeDeviceLockedListener(listener)
+    return () => unregister()
   })
 
   useEffect(() => {
@@ -148,15 +174,18 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     void store.dispatch.settings.loadSettings()
-    void checkAppUpdateRequest()
+    handleAppUpdateAvailableCheck()
+    const devModeHidden = process.env.DEVELOPER_MODE_HIDE === "true"
+    const productionEnvironment = process.env.NODE_ENV === "production"
+    //Remove this condition to get devMode on production
+    if (!(devModeHidden && productionEnvironment)) {
+      // Register hotkeys
+      registerHotkeys()
 
-    // Register hotkeys
-    registerHotkeys()
-
-    // Register context menu
-
-    registerAppContextMenu(appContextMenu)
-    appContextMenu.init()
+      // Register context menu
+      registerAppContextMenu(appContextMenu)
+      appContextMenu.init()
+    }
   }, [])
 
   return (

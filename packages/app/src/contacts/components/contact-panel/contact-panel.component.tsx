@@ -29,6 +29,7 @@ import {
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 import delayResponse from "@appnroll/delay-response"
+import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 
 const messages = defineMessages({
@@ -40,6 +41,7 @@ const messages = defineMessages({
 })
 
 export interface ContactPanelProps {
+  onContactSelect: (contact: Contact) => void
   onManageButtonClick: () => void
   onNewButtonClick: () => void
   selectedContacts: Contact[]
@@ -47,10 +49,12 @@ export interface ContactPanelProps {
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
   deleteContacts: (ids: ContactID[]) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
-  editedContact: Contact | undefined
+  contacts: Contact[]
+  editMode: boolean
 }
 
 const ContactPanel: FunctionComponent<ContactPanelProps> = ({
+  onContactSelect,
   onManageButtonClick,
   onNewButtonClick,
   selectedContacts,
@@ -58,7 +62,8 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   toggleAll = noop,
   deleteContacts,
   resetRows,
-  editedContact,
+  contacts,
+  editMode,
 }) => {
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
@@ -105,7 +110,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   }
   return (
     <Panel selectionMode={selectionMode}>
-      {selectionMode && (
+      {selectionMode ? (
         <ContactSelectionManager
           selectedItemsNumber={selectedItemsCount}
           allItemsSelected={Boolean(allItemsSelected)}
@@ -130,6 +135,11 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
           ]}
           data-testid={ContactPanelTestIdsEnum.SelectionManager}
         />
+      ) : (
+        <ContactInputSearch
+          contacts={contacts}
+          onContactSelect={onContactSelect}
+        />
       )}
       <Buttons>
         <ButtonComponent
@@ -143,7 +153,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
             id: "module.contacts.panelNewContactButton",
           }}
           onClick={onNewButtonClick}
-          disabled={Boolean(editedContact)}
+          disabled={editMode}
           data-testid={ContactPanelTestIdsEnum.NewButton}
         />
       </Buttons>

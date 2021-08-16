@@ -20,7 +20,7 @@ import {
   BaseSelectableCalls,
   Checkbox,
 } from "Renderer/components/rest/calls/calls-table.styled"
-import { CalendarTestIds } from "App/calendar/calendar-test-ids.enum"
+import { CalendarTestIds } from "App/calendar/components/calendar/calendar-test-ids.enum"
 import { List, AutoSizer, ListRowProps } from "react-virtualized"
 import { intl } from "Renderer/utils/intl"
 import EventsListDate from "App/calendar/components/events-list-date/events-list-date.component"

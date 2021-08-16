@@ -13,17 +13,14 @@ import { AboutTestIds } from "./about.enum"
 const renderer = (
   config = {
     openLicense: noop,
+    openTermsOfService: noop,
+    openPrivacyPolicy: noop
   }
 ) => renderWithThemeAndIntl(<AboutUI {...config} />)
 
 test("renders wrapper properly", () => {
   const { queryByTestId } = renderer()
   expect(queryByTestId(AboutTestIds.Wrapper)).toBeInTheDocument()
-})
-
-test("renders description properly", () => {
-  const { queryByTestId } = renderer()
-  expect(queryByTestId(AboutTestIds.Description)).toBeInTheDocument()
 })
 
 test("renders at least one table row", () => {

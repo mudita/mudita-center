@@ -64,6 +64,10 @@ class DeviceService {
     method: Method.Get
   }): Promise<DeviceResponse<DeviceInfo>>
   async request(config: {
+    endpoint: Endpoint.SerialNumber
+    method: Method.Get
+  }): Promise<DeviceResponse<{ serialNumber: string }>>
+  async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
   }): Promise<DeviceResponse<{ entries: Contact[]; totalCount: number }>>
