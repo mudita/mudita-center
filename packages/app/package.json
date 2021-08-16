@@ -223,7 +223,7 @@
     "glob": "^7.1.7",
     "history": "^4.10.1",
     "html-webpack-plugin": "^4.3.0",
-    "ical-generator": "^1.15.4",
+    "ical-generator": "^3.0.0",
     "identity-obj-proxy": "^3.0.0",
     "image-webpack-loader": "^7.0.1",
     "is-electron-renderer": "^2.0.1",
