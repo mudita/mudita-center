@@ -40,15 +40,17 @@ import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/p
 import createPurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.adapter"
 import createCalendarAdapter from "Backend/adapters/calendar/calendar.adapter"
 import Backend from "Backend/backend"
+import { createDeviceFileSystemService } from "Backend/device-file-system-service/device-file-system-service"
 
 const bootstrap = (
   deviceManager: PureDeviceManager,
   ipcMain: MainProcessIpc
 ): void => {
   const deviceService = createDeviceService(deviceManager, ipcMain)
+  const deviceFileSystemService = createDeviceFileSystemService(deviceService)
 
   const adapters = {
-    purePhone: createPurePhoneAdapter(deviceService),
+    purePhone: createPurePhoneAdapter(deviceService, deviceFileSystemService),
     phonebook: createPhonebook(deviceService),
     pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
     pureNetwork: createPurePhoneNetwork(deviceService),
