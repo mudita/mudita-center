@@ -6,7 +6,6 @@
 import BaseDevice from "./base-device"
 import {
   CreateDevice,
-  DeviceUpdateRequestPayload,
   Endpoint,
   Method,
   RequestConfig,
@@ -16,20 +15,23 @@ import {
 import {
   Contact,
   DeviceInfo,
-  DeviceUpdateErrorResponse,
-  DeviceUpdateResponse,
-  UploadUpdateFileSystemRequestPayload,
+  DownloadFileSystemRequestConfig,
+  GetFileSystemRequestConfig,
   GetThreadResponseBody,
+  PutFileSystemErrorResponse,
+  PutFileSystemRequestConfig,
+  PutFileSystemResponse,
+  SendFileSystemErrorResponse,
+  SendFileSystemRequestConfig,
+  SendFileSystemResponse,
 } from "../endpoints"
 import { Formatter } from "../formatter/formatter"
 import { FormatterFactory } from "../formatter/formatter-factory"
 import { GetThreadsBody } from "../endpoints/messages.types"
 import {
   DownloadFileSystemErrorResponse,
-  DownloadFileSystemRequestPayload,
   DownloadFileSystemResponse,
   GetFileSystemErrorResponse,
-  GetFileSystemRequestPayload,
   GetFileSystemResponse,
 } from "../endpoints/file-system"
 
@@ -93,18 +95,26 @@ class Device extends BaseDevice {
     method: Method.Delete
     body: Contact["id"]
   }): Promise<Response<string>>
+  public request(config: {
+    endpoint: Endpoint.Update
+    method: Method.Post
+    body: {
+      update: boolean
+      reboot: boolean
+    }
+  }): Promise<any>
   public request(
-    config: DeviceUpdateRequestPayload
-  ): Promise<DeviceUpdateResponse | DeviceUpdateErrorResponse>
-  public request(
-    config: GetFileSystemRequestPayload
+    config: GetFileSystemRequestConfig
   ): Promise<GetFileSystemResponse | GetFileSystemErrorResponse>
   public request(
-    config: DownloadFileSystemRequestPayload
+    config: DownloadFileSystemRequestConfig
   ): Promise<DownloadFileSystemResponse | DownloadFileSystemErrorResponse>
   public request(
-    config: UploadUpdateFileSystemRequestPayload
-  ): Promise<Response>
+    config: PutFileSystemRequestConfig
+  ): Promise<PutFileSystemResponse | PutFileSystemErrorResponse>
+  public request(
+    config: SendFileSystemRequestConfig
+  ): Promise<SendFileSystemResponse | SendFileSystemErrorResponse>
   public request(config: RequestConfig<any>): Promise<Response<any>>
   public async request(config: RequestConfig<any>): Promise<Response<any>> {
     const response = await super.request(config)
