@@ -200,7 +200,7 @@
     "crypto-js": "^4.1.1",
     "css-loader": "^5.2.4",
     "devtron": "^1.4.0",
-    "dotenv": "^9.0.2",
+    "dotenv": "^10.0.0",
     "electron": "^8.5.0",
     "electron-better-ipc": "^2.0.1",
     "electron-builder": "^22.11.7",
