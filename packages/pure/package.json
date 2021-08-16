@@ -32,7 +32,7 @@
     "yargs": "^17.1.1"
   },
   "dependencies": {
-    "p-queue": "^6.6.2",
+    "p-queue": "^7.1.0",
     "serialport": "^9.0.2",
     "usb": "^1.6.5"
   },
