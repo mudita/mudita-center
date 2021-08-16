@@ -59,7 +59,7 @@
   },
   "homepage": "https://github.com/Mudita/mudita-center",
   "devDependencies": {
-    "@mudita/eslint-config": "^1.0.15",
+    "@mudita/eslint-config": "1.0.14",
     "@types/react-syntax-highlighter": "^13.5.2",
     "eslint-plugin-license-header": "^0.2.0",
     "husky": "^4.3.8",
