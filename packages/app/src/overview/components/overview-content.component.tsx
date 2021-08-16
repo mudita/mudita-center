@@ -22,6 +22,9 @@ const PhoneInfo = styled(Phone)`
 const NetworkInfo = styled(Network)`
   grid-area: Network;
 `
+const SystemInfo = styled(System)`
+  grid-area: System;
+`
 
 const FileManagerInfo = styled(FilesManager)`
   grid-area: FilesManager;
@@ -30,7 +33,7 @@ const FileManagerInfo = styled(FilesManager)`
 
 const OverviewWrapper = styled.div`
   display: grid;
-  grid-template-columns: minmax(27rem, 1fr) minmax(39rem, 1fr);
+  grid-template-columns: minmax(27rem, 1fr) 2fr;
   /* TODO: Change to grid-template-rows: repeat(4, 1fr) when Files Manager will be available */
   grid-template-rows: repeat(2, 1fr);
   grid-column-gap: 4rem;
@@ -84,7 +87,7 @@ const OverviewContent: FunctionComponent<
       network={networkName}
       networkLevel={networkLevel}
     />
-    <System
+    <SystemInfo
       updateDownloaded={pureOsDownloaded}
       updateAvailable={pureOsAvailable}
       osVersion={osVersion}

@@ -17,6 +17,7 @@ import {
 } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
 import { Story as StoryInterface } from "@storybook/react"
+import { Size } from "../button/button.config"
 
 const Template: StoryInterface<
   React.ComponentProps<typeof ModalDialog> & { storyTitle: string }
@@ -81,7 +82,7 @@ MediumWithTitle.args = {
 
 export const MediumWithTitleAndSubtitle = Template.bind({})
 MediumWithTitleAndSubtitle.args = {
-  title: "Title",
+  title: "Tittdyudle",
   subtitle: "Subtitle",
   size: ModalSize.Medium,
 }
@@ -131,6 +132,7 @@ SmallWithActionButton.args = {
   actionButtonLabel: "Done",
   onActionButtonClick: noop,
   size: ModalSize.Small,
+  actionButtonSize: Size.FixedMedium,
 }
 
 export const VerySmallWithTitle = Template.bind({})
@@ -161,4 +163,5 @@ VerySmallWithActionButton.args = {
   actionButtonLabel: "Done",
   onActionButtonClick: noop,
   size: ModalSize.VerySmall,
+  actionButtonSize: Size.FixedSmall,
 }

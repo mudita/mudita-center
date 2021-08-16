@@ -19,6 +19,7 @@ import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-cont
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import { Size } from "App/renderer/components/core/button/button.config"
 
 const messages = defineMessages({
   muditaOsUpdateTitle: {
@@ -209,6 +210,7 @@ export const UpdatingFailureWithHelpModal = ({
       onActionButtonClick={handleOnActionButtonClick}
       actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
       onClose={handleOnClose}
+      actionButtonSize={Size.FixedMedium}
       {...props}
     >
       <RoundIconWrapper>
