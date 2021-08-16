@@ -137,7 +137,7 @@
     "@mudita/stylelint-config": "^1.0.4",
     "@rematch/core": "^1.4.0",
     "@rematch/select": "^2.0.5",
-    "@seznam/compose-react-refs": "^1.0.6",
+    "@seznam/compose-react-refs": "1.0.4",
     "@storybook/addon-actions": "^6.3.7",
     "@storybook/addon-knobs": "^6.3.0",
     "@storybook/addon-links": "^6.3.7",
