@@ -8,7 +8,11 @@ const tsxMain = (production) => ({
       ["@babel/preset-env", { targets: "maintained node versions" }],
       "@babel/preset-typescript",
     ],
-    plugins: [["@babel/plugin-proposal-class-properties", { loose: true }]],
+    plugins: [
+      ["@babel/plugin-proposal-class-properties", { loose: true }],
+      ["@babel/plugin-proposal-private-methods", { loose: true }],
+      ["@babel/plugin-proposal-private-property-in-object", { loose: true }],
+    ],
   },
 })
 
@@ -27,6 +31,8 @@ const tsxRenderer = (production) => ({
       ["@babel/plugin-proposal-class-properties", { loose: true }],
       ["@babel/plugin-proposal-optional-chaining"],
       ["@babel/plugin-proposal-nullish-coalescing-operator"],
+      ["@babel/plugin-proposal-private-methods", { loose: true }],
+      ["@babel/plugin-proposal-private-property-in-object", { loose: true }],
     ],
   },
 })
