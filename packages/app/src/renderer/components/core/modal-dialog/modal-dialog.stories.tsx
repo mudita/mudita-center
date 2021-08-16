@@ -82,7 +82,7 @@ MediumWithTitle.args = {
 
 export const MediumWithTitleAndSubtitle = Template.bind({})
 MediumWithTitleAndSubtitle.args = {
-  title: "Tittdyudle",
+  title: "Title",
   subtitle: "Subtitle",
   size: ModalSize.Medium,
 }
