@@ -407,31 +407,23 @@ export const UpdatingFailureModal = ({
 
 // FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingFailureWithHelpModal = ({
-  code,
   onContact,
   onHelp,
 }: {
-  code: number
-  onHelp: (code: number) => void
-  onContact: (code: number) => void
+  onHelp: () => void
+  onContact: () => void
 }) => {
-  const handleOnActionButtonClick = (): void => {
-    onHelp(code)
-  }
-  const handleOnCloseButton = (): void => {
-    onContact(code)
-  }
   return (
     <ErrorDataModal
       closeButton
-      onCloseButton={handleOnCloseButton}
+      onCloseButton={onContact}
       closeButtonLabel={intl.formatMessage(
         messages.updatingFailedSupportButton
       )}
-      onActionButtonClick={handleOnActionButtonClick}
+      onActionButtonClick={onHelp}
       title={intl.formatMessage(messages.muditaOsUpdateTitle)}
       actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
-      textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
+      textMessage={{ ...messages.updatingFailedTitle }}
       descriptionMessage={messages.updatingFailedDescription}
     />
   )

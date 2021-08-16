@@ -3,14 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  DeviceUpdateError as PureDeviceUpdateError,
-  deviceUpdateErrorCodeMap as pureDeviceUpdateErrorCodeMap,
-} from "@mudita/pure"
-import {
-  DeviceUpdateError,
-  deviceUpdateErrorCodeMap,
-} from "Backend/adapters/pure-phone/pure-phone.adapter"
+import { deviceUpdateErrorCodeMap as pureDeviceUpdateErrorCodeMap } from "@mudita/pure"
+import { deviceUpdateErrorCodeMap } from "Backend/adapters/pure-phone/pure-phone.adapter"
 
 export enum ApplicationUpdateError {
   UnableReadOSVersion = "UnableReadOSVersion",
@@ -32,16 +26,3 @@ export const errorCodeMap = {
   ...deviceUpdateErrorCodeMap,
   ...ApplicationUpdateErrorCodeMap,
 }
-
-export const noCriticalErrorCodes: number[] = [
-  errorCodeMap[PureDeviceUpdateError.VerifyChecksumsFailure],
-  errorCodeMap[PureDeviceUpdateError.VerifyVersionFailure],
-  errorCodeMap[PureDeviceUpdateError.CantOpenUpdateFile],
-  errorCodeMap[PureDeviceUpdateError.NoBootloaderFile],
-  errorCodeMap[PureDeviceUpdateError.CantOpenBootloaderFile],
-  errorCodeMap[DeviceUpdateError.RestartTimedOut],
-  errorCodeMap[DeviceUpdateError.DeviceDisconnectionBeforeDone],
-  errorCodeMap[ApplicationUpdateError.UnableReadOSVersion],
-  errorCodeMap[ApplicationUpdateError.FetchReleaseFromGithub],
-  errorCodeMap[ApplicationUpdateError.DownloadOS],
-]

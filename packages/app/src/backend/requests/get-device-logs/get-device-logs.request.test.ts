@@ -12,10 +12,11 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
 import PureDeviceManager, {
-  DownloadFileSystemRequestPayload,
-  GetFileSystemRequestPayload,
+  DownloadFileSystemRequestConfig,
+  GetFileSystemRequestConfig,
 } from "@mudita/pure"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
+import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 
 jest.mock("Backend/device-service")
 
@@ -23,17 +24,17 @@ test("GetDeviceLogs request works properly", (done) => {
   ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: (
-        config: GetFileSystemRequestPayload | DownloadFileSystemRequestPayload
+        config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
       ) => {
         if (
-          (config as GetFileSystemRequestPayload).body?.fileName !== undefined
+          (config as GetFileSystemRequestConfig).body?.fileName !== undefined
         ) {
           return {
             status: DeviceResponseStatus.Ok,
-            data: { rxID: "1", fileSize: 1, chunkSize: 1 },
+            data: { rxID: "1", fileSize: 1, chunkSize: 1, fileCrc32: "265B86C6" },
           }
         } else if (
-          (config as DownloadFileSystemRequestPayload).body?.chunkNo === 1
+          (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
         ) {
           return {
             status: DeviceResponseStatus.Ok,
@@ -49,8 +50,11 @@ test("GetDeviceLogs request works properly", (done) => {
       },
     }
   })
+  const deviceService = new DeviceService(PureDeviceManager, ipcMain)
+  const deviceFileSystemService = new DeviceFileSystemService(deviceService)
   const purePhone = createPurePhoneAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    deviceService,
+    deviceFileSystemService
   )
 
   registerGetDeviceLogs(({

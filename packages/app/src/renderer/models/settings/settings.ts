@@ -15,10 +15,8 @@ import {
   SettingsUpdateOption,
   SettingsState,
 } from "App/main/store/settings.interface"
-import { ipcRenderer } from "electron-better-ipc"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
 import { createModel } from "@rematch/core"
-import { SettingsActions } from "Common/enums/settings-actions.enum"
 import { RootModel } from "Renderer/models/models"
 import logger from "App/main/utils/logger"
 import e2eSettings from "Renderer/models/settings/e2e-settings.json"
@@ -82,17 +80,6 @@ const settings = createModel<RootModel>({
       async updateSettings(option: SettingsUpdateOption) {
         await updateAppSettings(option)
         dispatch.settings.update({ [option.key]: option.value })
-      },
-      async checkAutostartValue() {
-        const value = await ipcRenderer.callMain(
-          SettingsActions.GetAutostartValue
-        )
-        this.updateSettings({ key: "appAutostart", value })
-        return value
-      },
-      setAutostart(value: AppSettings["appAutostart"]) {
-        ipcRenderer.callMain(SettingsActions.SetAutostart, value)
-        this.updateSettings({ key: "appAutostart", value })
       },
       setTethering(value: AppSettings["appTethering"]) {
         this.updateSettings({ key: "appTethering", value })
@@ -166,7 +153,9 @@ const settings = createModel<RootModel>({
         }
 
         if (isToday(new Date(diagnosticSentTimestamp))) {
-          logger.info(`Send Diagnostic Data: data was sent at ${diagnosticSentTimestamp}`)
+          logger.info(
+            `Send Diagnostic Data: data was sent at ${diagnosticSentTimestamp}`
+          )
           return
         }
         const { status, data = "", error } = await getDeviceLogs()
@@ -186,7 +175,9 @@ const settings = createModel<RootModel>({
           }
           const nowTimestamp = Date.now()
           await dispatch.settings.setDiagnosticSentTimestamp(nowTimestamp)
-          logger.info(`Send Diagnostic Data: data was sent successfully at ${nowTimestamp}, serialNumber: ${serialNumber}`)
+          logger.info(
+            `Send Diagnostic Data: data was sent successfully at ${nowTimestamp}, serialNumber: ${serialNumber}`
+          )
         } catch {
           logger.error(`Send Diagnostic Data: send diagnostic data request.`)
         }

@@ -49,6 +49,8 @@ const defaultProps: Props = {
   resetRows: jest.fn(),
   selectedContacts: [],
   deleteContacts: jest.fn(),
+  contacts: [],
+  onContactSelect: jest.fn()
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
