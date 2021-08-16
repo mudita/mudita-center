@@ -485,6 +485,18 @@ test("contacts are received properly", async () => {
   `)
 })
 
+test("empty list ir returned when no contacts", async () => {
+  axiosMock
+    .onGet(
+      `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses,biographies`
+    )
+    .reply(200, {})
+
+  expect(await store.dispatch.google.getContacts()).toMatchInlineSnapshot(
+    `Array []`
+  )
+})
+
 const commonInput = {
   resourceName: "people/c5420759609842671821",
   etag: "%EgwBAj0FCT4LPxBANy4aBAECBQciDEE1VzVERlU4NjljPQ==",
