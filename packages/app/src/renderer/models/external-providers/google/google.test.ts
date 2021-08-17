@@ -485,7 +485,7 @@ test("contacts are received properly", async () => {
   `)
 })
 
-test("empty list ir returned when no contacts", async () => {
+test("empty list is returned when no contacts", async () => {
   axiosMock
     .onGet(
       `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses,biographies`
