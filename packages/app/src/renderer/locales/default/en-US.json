@@ -81,6 +81,7 @@
   "component.passcodeModalErrorTyping": "Passcode contains numbers only",
   "component.passcodeModalHelp": "Forgot PIN?",
   "component.passcodeModalTitle": "Enter the Passcode to connect your Pure",
+  "component.passcodeModalTryAgain": "Please try again",
   "component.supportButton": "Contact support",
   "component.supportModalActionButton": "Send",
   "component.supportModalActionButtonProgress": "Sending",
@@ -275,6 +276,7 @@
   "module.contacts.panelManageButton": "Manage",
   "module.contacts.panelNewContactButton": "New contact",
   "module.contacts.panelSearchListNoData": "No data provided",
+  "module.contacts.panelSearchListNoName": "No name provided",
   "module.contacts.panelSearchPlaceholder": "Search contacts",
   "module.contacts.parsingFileErrorBody": "Please make sure the file you used is not damaged or contact our support.",
   "module.contacts.parsingFileErrorTitle": "File reading failed",
@@ -446,11 +448,11 @@
   "module.overview.updateAvailableMessage": "New update is available!",
   "module.overview.updateNotAvailableMessage": "Your MuditaOS is up to date!",
   "module.overview.updatingFailDescription": "Updating MuditaOS failed!",
-  "module.overview.updatingFailedDescription": "Please look for a solution in Help or contact support.",
+  "module.overview.updatingFailedDescription": "Look for a solution in Help or contact support",
   "module.overview.updatingFailedHelpButton": "Go to Help",
   "module.overview.updatingFailedOnlySupportDescription": "Please contact support",
   "module.overview.updatingFailedSupportButton": "Go to Support",
-  "module.overview.updatingFailedTitle": "Update failed",
+  "module.overview.updatingFailedTitle": "Update failed. Error #{code}",
   "module.overview.updatingForceActionButton": "Update",
   "module.overview.updatingForceDescription": "Your OS is too old. Please upgrade your OS system to use the Mudita Center",
   "module.overview.updatingForceTitle": "Update your OS",
@@ -574,5 +576,6 @@
   "module.tools.notesSelectionsNumber": "{num, plural, =-1 {All Notes} one {# Note} other {# Notes}} selected",
   "module.tools.notesTemporaryText": "New Note",
   "module.tools.notesUnsavedNote": "unsaved",
-  "module.tools.voiceRecorder": "Voice Recorder"
+  "module.tools.voiceRecorder": "Voice Recorder",
+  "test": "test"
 }
