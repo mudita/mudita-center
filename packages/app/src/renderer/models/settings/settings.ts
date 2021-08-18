@@ -130,6 +130,9 @@ const settings = createModel<RootModel>({
       ) {
         this.updateSettings({ key: "diagnosticSentTimestamp", value })
       },
+      setCollectingData(value: AppSettings["appCollectingData"]) {
+        this.updateSettings({ key: "appCollectingData", value })
+      },
       toggleAppCollectingData(value: boolean) {
         this.updateSettings({ key: "appCollectingData", value })
         value ? logger.enableRollbar() : logger.disableRollbar()

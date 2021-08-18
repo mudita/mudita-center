@@ -20,11 +20,16 @@ import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
+import Tooltip from "Renderer/components/core/tooltip/tooltip.component"
+import { defineMessages } from "react-intl"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 15rem;
   border-bottom: solid 0.1rem ${borderColor("list")};
+  height: 7.2rem;
+  max-height: 7.2rem;
   &:hover {
     background-color: transparent;
   }
@@ -33,10 +38,14 @@ export const SettingsTableRow = styled(TableRow)`
 export const Data = styled.div`
   grid-area: Checkbox;
   align-self: center;
+  display: flex;
+  flex-direction: row;
 `
 
 export const SettingsLabel = styled(Name)`
   margin-left: 4rem;
+  margin-bottom: 0;
+  align-self: center;
 `
 
 export const SettingsDescriptionWrapper = styled.div`
@@ -46,6 +55,10 @@ export const SettingsDescriptionWrapper = styled.div`
 export const SettingsDescription = styled(Text)`
   margin-left: 4rem;
   margin-bottom: 3.2rem;
+`
+
+export const SettingsTooltip = styled(Tooltip)`
+  margin-left: 0.4rem;
 `
 
 export const SettingsWrapper = styled.section``
@@ -58,8 +71,11 @@ interface Properties {
   setCollectingData?: (option: AppSettings["appCollectingData"]) => void
 }
 
+const messages = defineMessages({
+  tooltipDescription: { id: "module.settings.collectingDataTooltip" },
+})
+
 const SettingsUI: FunctionComponent<Properties> = ({
-  appAutostart,
   appTethering,
   setTethering = noop,
   appCollectingData,
@@ -94,12 +110,15 @@ const SettingsUI: FunctionComponent<Properties> = ({
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.collectingData" />
           </SettingsLabel>
+          <SettingsTooltip
+            tooltipDescription={messages.tooltipDescription}
+            tooltipIconType={Type.MenuHelp}
+            iconSize={2.2}
+          />
         </Data>
         <ActionsWrapper>
           <SettingsToggler
-            toggleValue={
-              appCollectingData === undefined ? false : appCollectingData
-            }
+            toggleValue={appCollectingData}
             onToggle={setCollectingData}
           />
         </ActionsWrapper>
