@@ -103,9 +103,14 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
     osVersion: string,
     latestReleaseVersion?: string
   ): boolean => {
-    return latestReleaseVersion
-      ? !isVersionGreater(osVersion, latestReleaseVersion)
-      : false
+    try {
+      return latestReleaseVersion
+        ? !isVersionGreater(osVersion, latestReleaseVersion)
+        : false
+    } catch (error) {
+      logger.error(`Overview: force updating pure. Check that isNewestPureOsAvailable fails ${error.message}`)
+      return false
+    }
   }
 
   const downloadOS = async (release: Release): Promise<boolean> => {
