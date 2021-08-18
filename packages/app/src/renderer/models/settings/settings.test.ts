@@ -13,7 +13,6 @@ import {
 } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { fakeAppSettings } from "Backend/adapters/app-settings/app-settings-fake.adapter"
-import { SettingsActions } from "Common/enums/settings-actions.enum"
 import { GetApplicationConfigurationEvents } from "App/main/functions/register-get-application-configuration-listener"
 import getDeviceLogs from "Renderer/requests/get-device-logs.request"
 import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
@@ -53,7 +52,6 @@ const yesterdayTimestamp = new Date(
 const mockIpc = () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcRequest.UpdateAppSettings]: Promise.resolve(),
-    [SettingsActions.SetAutostart]: Promise.resolve(),
     [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
     [GetApplicationConfigurationEvents.Request]: Promise.resolve({
       osVersion: "0.0.0",
@@ -127,45 +125,6 @@ test("loads settings", async () => {
         "pureOsBackupLocation": "fake/path/pure/phone/backups/",
         "pureOsDownloadLocation": "fake/path/pure/os/downloads/",
         "settingsLoaded": true,
-      },
-    }
-  `)
-})
-
-test("updates autostart setting", async () => {
-  mockIpc()
-  await store.dispatch.settings.setAutostart(true)
-  const state = store.getState()
-  expect(state).toMatchInlineSnapshot(`
-    Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
-        },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
-      },
-      "settings": Object {
-        "appAutostart": true,
-        "appCurrentVersion": "${version}",
-        "appLatestVersion": "",
-        "appUpdateAvailable": undefined,
-        "appUpdateRequired": false,
-        "appUpdateStepModalDisplayed": false,
-        "lowestSupportedCenterVersion": undefined,
-        "lowestSupportedOsVersion": undefined,
-        "settingsLoaded": false,
       },
     }
   `)

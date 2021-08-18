@@ -11,6 +11,7 @@ import DeviceResponse, {
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
 import timeout from "Backend/timeout"
+import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 
 export enum DeviceUpdateError {
   RestartTimedOut = "RestartTimedOut",
@@ -25,7 +26,10 @@ export const deviceUpdateErrorCodeMap: Record<DeviceUpdateError, number> = {
 class PurePhone extends PurePhoneAdapter {
   static osUpdateStepsMax = 3
   static osUpdateRestartStep = PurePhone.osUpdateStepsMax - 1
-  constructor(private deviceService: DeviceService) {
+  constructor(
+    private deviceService: DeviceService,
+    private deviceFileSystemService: DeviceFileSystemService
+  ) {
     super()
   }
 
@@ -109,50 +113,7 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public async getDeviceLogs(): Promise<DeviceResponse<string>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.FileSystem,
-      method: Method.Get,
-      body: {
-        fileName: "/sys/user/MuditaOS.log",
-      },
-    })
-
-    if (status !== DeviceResponseStatus.Ok || data === undefined) {
-      return {
-        status: DeviceResponseStatus.Error,
-        error: {
-          message:
-            "Get device logs: Something went wrong in init downloading request",
-        },
-      }
-    }
-
-    const { rxID, fileSize, chunkSize } = data
-    const chunkLength = fileSize > chunkSize ? fileSize / chunkSize : 1
-    const downloadFileResponse = await this.downloadEncodedFile(
-      rxID,
-      chunkLength
-    )
-
-    if (
-      downloadFileResponse.status === DeviceResponseStatus.Ok &&
-      downloadFileResponse.data !== undefined
-    ) {
-      const buffer = Buffer.from(downloadFileResponse.data, "base64")
-
-      return {
-        status: DeviceResponseStatus.Ok,
-        data: buffer.toString(),
-      }
-    } else {
-      return {
-        status: DeviceResponseStatus.Error,
-        error: {
-          message:
-            "Get device logs: Something went wrong in downloading request",
-        },
-      }
-    }
+    return this.deviceFileSystemService.downloadFile("/sys/user/MuditaOS.log")
   }
 
   public async updateOs(
@@ -222,11 +183,7 @@ class PurePhone extends PurePhoneAdapter {
         deviceConnectedListener
       )
 
-      const fileResponse = await this.deviceService.request({
-        endpoint: Endpoint.UploadUpdateFileSystem,
-        method: Method.Post,
-        filePath,
-      })
+      const fileResponse = await this.deviceFileSystemService.uploadFile(filePath, "/sys/user/update.tar")
 
       if (fileResponse.status === DeviceResponseStatus.Ok) {
         ++step
@@ -236,9 +193,12 @@ class PurePhone extends PurePhoneAdapter {
         })
 
         const pureUpdateResponse = await this.deviceService.request({
-          endpoint: Endpoint.DeviceUpdate,
+          endpoint: Endpoint.Update,
           method: Method.Post,
-          filePath,
+          body: {
+            update: true,
+            reboot: true,
+          },
         })
 
         if (pureUpdateResponse.status === DeviceResponseStatus.Ok) {
@@ -268,47 +228,14 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  private async downloadEncodedFile(
-    rxID: string,
-    chunkLength: number,
-    chunkNo = 1,
-    chunkedString = ""
-  ): Promise<DeviceResponse<string>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.FileSystem,
-      method: Method.Get,
-      body: {
-        rxID,
-        chunkNo,
-      },
-    })
-
-    if (status !== DeviceResponseStatus.Ok || data === undefined) {
-      return {
-        status: DeviceResponseStatus.Error,
-        error: { message: "Download encoded file: Something went wrong" },
-      }
-    }
-
-    const string = `${chunkedString}${data.data}`
-
-    if (chunkNo < chunkLength) {
-      return this.downloadEncodedFile(rxID, chunkLength, chunkNo + 1, string)
-    } else {
-      return {
-        status,
-        data: string,
-      }
-    }
-  }
-
   private static getUpdateOsProgress(step: number): number {
     return Math.round((step / PurePhone.osUpdateStepsMax) * 100)
   }
 }
 
 const createPurePhoneAdapter = (
-  deviceService: DeviceService
-): PurePhoneAdapter => new PurePhone(deviceService)
+  deviceService: DeviceService,
+  deviceFileSystemService: DeviceFileSystemService
+): PurePhoneAdapter => new PurePhone(deviceService, deviceFileSystemService)
 
 export default createPurePhoneAdapter

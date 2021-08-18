@@ -97,8 +97,8 @@ const Overview: FunctionComponent<Props> = ({
   const [sendBugTicketRequest, sending] = useCreateBugTicket()
   const [bugTicketSubject, setBugTicketSubject] = useState("")
 
-  const openContactSupportModalFlow = (code?: number) => {
-    setBugTicketSubject(`Error - UpdateOS_${code}`)
+  const openContactSupportModalFlow = () => {
+    setBugTicketSubject(`Error - UpdateOS`)
     setContactSupportOpenState(ContactSupportModalFlowState.Form)
   }
 
@@ -124,8 +124,8 @@ const Overview: FunctionComponent<Props> = ({
     }
   }
 
-  const goToHelp = (code: number): void => {
-    void ipcRenderer.callMain(HelpActions.OpenWindow, { code })
+  const goToHelp = (): void => {
+    void ipcRenderer.callMain(HelpActions.OpenWindow)
   }
 
   // FIXME: tmp solution until useSystemUpdateFlow exist

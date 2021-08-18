@@ -4,7 +4,7 @@
  */
 
 import React, { ChangeEvent } from "react"
-import { Link, useHistory } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
@@ -24,7 +24,6 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { NormalizedHelpEntry } from "Renderer/utils/contentful/normalize-help-data"
-import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
 
 export interface QuestionAndAnswer {
   collection: string[]
@@ -86,19 +85,6 @@ const Help: FunctionComponent<HelpProps> = ({
   searchQuestion,
   searchValue,
 }) => {
-  const history = useHistory()
-  const searchParams = useURLSearchParams()
-  const code = searchParams.get("code")
-  const questionKey = code
-    ? Object.keys(items).find((key) =>
-        items[key]?.question.includes(`#${code}`)
-      )
-    : undefined
-
-  if (questionKey) {
-    history.push(`${URL_MAIN.help}/${items[questionKey].id}`)
-  }
-
   const search = (event: ChangeEvent<HTMLInputElement>) => {
     searchQuestion(event.target.value)
   }

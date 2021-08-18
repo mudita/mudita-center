@@ -23,7 +23,6 @@ import {
   UpdateAvailable,
   UpdateNotAvailable,
   UpdateServerError,
-  UpdatingFailureModal,
   UpdatingFailureWithHelpModal,
   UpdatingSpinnerModal,
   UpdatingSuccessModal,
@@ -158,15 +157,9 @@ storiesOf("Views|Overview/Modals", module)
       <UpdatingSuccessModal />
     </ModalStory>
   ))
-  .add("Updating failure", () => (
-    <ModalStory>
-      <UpdatingFailureModal code={404} onContact={action("Go to Support")} />
-    </ModalStory>
-  ))
-  .add("Updating failure", () => (
+  .add("Updating failure with help", () => (
     <ModalStory>
       <UpdatingFailureWithHelpModal
-        code={404}
         onContact={action("Go to support")}
         onHelp={action("Go to Help")}
       />

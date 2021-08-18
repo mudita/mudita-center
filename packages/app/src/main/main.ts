@@ -19,7 +19,6 @@ import registerPureOsDownloadListener from "App/main/functions/register-pure-os-
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
 import registerTranslationListener from "App/main/functions/register-translation-listener"
-import registerAutoLaunchListener from "App/main/functions/register-auto-launch-listener"
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/calendar/backend/export-events"
 import registerWriteFileListener from "App/main/functions/register-write-file-listener"
@@ -69,7 +68,6 @@ import { Mode } from "Common/enums/mode.enum"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { AboutActions } from "App/common/enums/about-actions.enum"
 import PureLogger from "App/main/utils/pure-logger"
-
 
 require("dotenv").config()
 
@@ -150,7 +148,6 @@ const createWindow = async () => {
   registerNewsListener()
   registerAppLogsListeners()
   registerTranslationListener()
-  registerAutoLaunchListener()
   registerContactsExportListener()
   registerEventsExportListener()
   registerWriteFileListener()
@@ -209,8 +206,7 @@ app.on("activate", () => {
   }
 })
 
-ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
-  const code = props?.code ?? ""
+ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({
@@ -220,7 +216,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
     )
     helpWindow.loadURL(
       developmentEnvironment
-        ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}?code=${code}`
+        ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
         : url.format({
             pathname: path.join(__dirname, "index.html"),
             protocol: "file:",
@@ -249,7 +245,12 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
   })
 })
 
-const createOpenAboutWindowListener = (channel: string, mode: string, urlMain: string, newWindow: BrowserWindow | null = null ) => {
+const createOpenAboutWindowListener = (
+  channel: string,
+  mode: string,
+  urlMain: string,
+  newWindow: BrowserWindow | null = null
+) => {
   ipcMain.answerRenderer(channel, async () => {
     if (newWindow === null) {
       newWindow = await new BrowserWindow(
@@ -276,11 +277,11 @@ const createOpenAboutWindowListener = (channel: string, mode: string, urlMain: s
     } else {
       newWindow.show()
     }
-  
+
     newWindow.on("closed", () => {
-      newWindow= null
+      newWindow = null
     })
-  
+
     newWindow.on("page-title-updated", (event) => {
       // prevent window name change to "Webpack App"
       event.preventDefault()
@@ -288,11 +289,26 @@ const createOpenAboutWindowListener = (channel: string, mode: string, urlMain: s
   })
 }
 
-createOpenAboutWindowListener(AboutActions.LicenseOpenWindow, Mode.License, URL_MAIN.license, licenseWindow)
+createOpenAboutWindowListener(
+  AboutActions.LicenseOpenWindow,
+  Mode.License,
+  URL_MAIN.license,
+  licenseWindow
+)
 
-createOpenAboutWindowListener(AboutActions.TermsOpenWindow, Mode.TermsOfService, URL_MAIN.termsOfService, termsWindow)
+createOpenAboutWindowListener(
+  AboutActions.TermsOpenWindow,
+  Mode.TermsOfService,
+  URL_MAIN.termsOfService,
+  termsWindow
+)
 
-createOpenAboutWindowListener(AboutActions.PolicyOpenWindow, Mode.PrivacyPolicy, URL_MAIN.privacyPolicy, policyWindow)
+createOpenAboutWindowListener(
+  AboutActions.PolicyOpenWindow,
+  Mode.PrivacyPolicy,
+  URL_MAIN.privacyPolicy,
+  policyWindow
+)
 
 const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
   return await googleAuthWindow.loadURL(
