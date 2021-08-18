@@ -4,11 +4,11 @@
  */
 
 import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
-import ical, { EventData } from "ical-generator"
+import ical, { ICalEventData } from "ical-generator"
 
 interface convertEvents {
   saveToFile: (file: string) => Promise<void>
-  print: () => {prodId: string, events: EventData[]}
+  print: () => {prodId: string, events: ICalEventData[]}
 }
 
 export const convertEventsToICal = (
@@ -17,7 +17,7 @@ export const convertEventsToICal = (
   const cal = ical({
     prodId: { company: "mudita.com", product: "Mudita Center" },
   })
-  const mapCalendarEvents: EventData[] = calendarEvents.map((event) => {
+  const mapCalendarEvents: ICalEventData[] = calendarEvents.map((event) => {
     return {
       id: event.id,
       start: event.startDate,
@@ -31,7 +31,7 @@ export const convertEventsToICal = (
     print: () => cal.toJSON(),
     saveToFile: (filePath) =>
       new Promise((resolve, reject) => {
-        cal.save(filePath, (error: Error) => {
+        cal.save(filePath, (error: NodeJS.ErrnoException | null) => {
           if (error) {
             reject(error)
           } else {
