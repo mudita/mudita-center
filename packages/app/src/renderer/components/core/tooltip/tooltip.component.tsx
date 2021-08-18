@@ -22,13 +22,13 @@ import Text, {
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import { TooltipTestIds } from "Renderer/components/core/tooltip/tooltip.enum"
 
-const TooltipWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   position: relative;
 `
 
-const TooltipText = styled.div`
+const Content = styled.div`
   width: max-content;
   max-width: 24.3rem;
   background-color: ${backgroundColor("row")};
@@ -49,7 +49,7 @@ const TooltipIcon = styled(Icon)`
   &:hover {
     background-color: ${backgroundColor("minor")};
     border-radius: ${borderRadius("small")};
-    + ${TooltipText} {
+    + ${Content} {
       visibility: visible;
       opacity: 1;
       z-index: ${zIndex("tooltip")};
@@ -57,40 +57,41 @@ const TooltipIcon = styled(Icon)`
   }
 `
 
-const TooltipTitle = styled(Text)`
+const Title = styled(Text)`
   margin-bottom: 0.8rem;
 `
 export interface TooltipProps {
   className?: string
-  tooltipTitle?: MessageInterface
-  tooltipDescription?: MessageInterface
-  tooltipIconType?: Type
+  title?: MessageInterface
+  description: MessageInterface
+  iconType?: Type
   iconSize?: number
 }
 
 const Tooltip: FunctionComponent<TooltipProps> = ({
   className,
-  tooltipTitle,
-  tooltipDescription,
-  tooltipIconType = Type.Tooltip,
+  title,
+  description,
+  iconType = Type.Tooltip,
   iconSize = 1.6
 }) => {
   return (
-    <TooltipWrapper className={className}>
-      <TooltipIcon type={tooltipIconType} height={iconSize} width={iconSize} data-testid={TooltipTestIds.Icon} />
-      <TooltipText>
-        <TooltipTitle
+    <Wrapper className={className}>
+      <TooltipIcon type={iconType} height={iconSize} width={iconSize} data-testid={TooltipTestIds.Icon} />
+      <Content>
+        {title && <Title
           displayStyle={TextDisplayStyle.MediumText}
           element={"p"}
-          message={tooltipTitle}
-        />
-        <Text
+          message={title}
+        />}
+        {description && <Text
           displayStyle={TextDisplayStyle.SmallFadedLightText}
           element={"p"}
-          message={tooltipDescription}
-        />
-      </TooltipText>
-    </TooltipWrapper>
+          message={description}
+          data-testid={TooltipTestIds.Description} 
+        />}
+      </Content>
+    </Wrapper>
   )
 }
 

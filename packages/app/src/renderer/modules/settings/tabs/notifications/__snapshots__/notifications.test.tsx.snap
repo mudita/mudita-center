@@ -74,6 +74,11 @@ exports[`matches snapshot 1`] = `
   background-color: #f4f5f6;
 }
 
+.c4:hover .sc-iqAclL {
+  opacity: 1;
+  visibility: visible;
+}
+
 .c13 {
   display: -webkit-box;
   display: -webkit-flex;

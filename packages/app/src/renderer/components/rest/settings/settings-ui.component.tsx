@@ -111,8 +111,8 @@ const SettingsUI: FunctionComponent<Properties> = ({
             <FormattedMessage id="module.settings.collectingData" />
           </SettingsLabel>
           <SettingsTooltip
-            tooltipDescription={messages.tooltipDescription}
-            tooltipIconType={Type.MenuHelp}
+            description={messages.tooltipDescription}
+            iconType={Type.MenuHelp}
             iconSize={2.2}
           />
         </Data>

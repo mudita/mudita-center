@@ -12,24 +12,24 @@ import Tooltip from "Renderer/components/core/tooltip/tooltip.component"
 
 storiesOf("Components|Core/Tooltip", module).add("Default", () => (
   <StoryContainer title="Types">
-    <Story title="With description">
-      <Tooltip tooltipDescription={{ id: "Tooltip description" }} />
+    <Story title="Default">
+      <Tooltip description={{ id: "Tooltip description" }} />
     </Story>
-    <Story title="With description and title">
+    <Story title="With title">
       <Tooltip
-        tooltipDescription={{ id: "Tooltip description" }}
-        tooltipTitle={{ id: "Tooltip title" }}
+        description={{ id: "Tooltip description" }}
+        title={{ id: "Tooltip title" }}
       />
     </Story>
     <Story title="With different icon">
       <Tooltip
-        tooltipDescription={{ id: "Tooltip description" }}
-        tooltipIconType={Type.MuditaFlower}
+        description={{ id: "Tooltip description" }}
+        iconType={Type.MuditaFlower}
       />
     </Story>
     <Story title="With different icon size">
       <Tooltip
-        tooltipDescription={{ id: "Tooltip description" }}
+        description={{ id: "Tooltip description" }}
         iconSize={4}
       />
     </Story>

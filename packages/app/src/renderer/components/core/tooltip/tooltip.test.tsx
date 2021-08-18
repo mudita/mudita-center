@@ -12,10 +12,10 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { TooltipTestIds } from "Renderer/components/core/tooltip/tooltip.enum"
 
 test("should render tooltip description", () => {
-  const tooltipDescription = mockDefineMessages("Example")
+  const description = mockDefineMessages("Example")
   const { getByText, getByTestId } = renderWithThemeAndIntl(
-    <Tooltip tooltipDescription={tooltipDescription} />
+    <Tooltip description={description} />
   )
   fireEvent.mouseOver(getByTestId(TooltipTestIds.Icon))
-  expect(getByText(tooltipDescription.id)).toBeInTheDocument()
+  expect(getByText(description.id)).toBeInTheDocument()
 })

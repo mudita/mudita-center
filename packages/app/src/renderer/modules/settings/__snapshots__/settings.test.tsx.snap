@@ -9,12 +9,6 @@ exports[`matches snapshot 1`] = `
 
 .c12 {
   margin: 0;
-  font-size: 1.4rem;
-  line-height: 1.05;
-}
-
-.c14 {
-  margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
   color: #6a6a6a;
@@ -25,7 +19,7 @@ exports[`matches snapshot 1`] = `
   font-weight: 300;
 }
 
-.c21 {
+.c19 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -68,7 +62,7 @@ exports[`matches snapshot 1`] = `
   margin-bottom: 0.4rem;
 }
 
-.c15 {
+.c13 {
   grid-area: Actions;
   display: -webkit-box;
   display: -webkit-flex;
@@ -104,7 +98,12 @@ exports[`matches snapshot 1`] = `
   background-color: #f4f5f6;
 }
 
-.c18 {
+.c0:hover .sc-iqAclL {
+  opacity: 1;
+  visibility: visible;
+}
+
+.c16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -134,15 +133,15 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c18:hover {
+.c16:hover {
   background: #232426;
 }
 
-.c18 g {
+.c16 g {
   fill: #ffffff;
 }
 
-.c23 {
+.c21 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -170,106 +169,16 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c23 g {
+.c21 g {
   fill: #000000;
 }
 
-.c23:hover {
+.c21:hover {
   border-color: #000000;
 }
 
-.c22 {
-  white-space: nowrap;
-}
-
-.c16 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  position: relative;
-}
-
-.c19 {
-  --radius: 0.5rem;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  z-index: 1;
-  pointer-events: all;
-  z-index: 3;
-}
-
-.c19:disabled {
-  pointer-events: none;
-}
-
-.c19:hover {
-  z-index: 2;
-}
-
-.c19:not(:first-of-type) {
-  border-radius: 0;
-  margin-left: -0.1rem;
-}
-
-.c19:first-of-type:not(:last-of-type) {
-  border-radius: var(--radius) 0 0 var(--radius);
-}
-
-.c19:last-of-type:not(:first-of-type) {
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.c24 {
-  --radius: 0.5rem;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  z-index: 1;
-  pointer-events: all;
-}
-
-.c24:disabled {
-  pointer-events: none;
-}
-
-.c24:hover {
-  z-index: 2;
-}
-
-.c24:not(:hover) {
-  border: 0.1rem solid #cdcecf;
-  color: #6a6a6a;
-}
-
-.c24:not(:hover) g {
-  fill: #cdcecf;
-}
-
-.c24:not(:first-of-type) {
-  border-radius: 0;
-  margin-left: -0.1rem;
-}
-
-.c24:first-of-type:not(:last-of-type) {
-  border-radius: var(--radius) 0 0 var(--radius);
-}
-
-.c24:last-of-type:not(:first-of-type) {
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.c17 {
-  margin-right: 4rem;
-}
-
 .c20 {
-  padding: 0 3.6rem;
-  width: 75%;
+  white-space: nowrap;
 }
 
 .c6 {
@@ -316,8 +225,94 @@ exports[`matches snapshot 1`] = `
   z-index: 4;
 }
 
-.c13 {
-  margin-bottom: 0.8rem;
+.c14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  position: relative;
+}
+
+.c17 {
+  --radius: 0.5rem;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  z-index: 1;
+  pointer-events: all;
+  z-index: 3;
+}
+
+.c17:disabled {
+  pointer-events: none;
+}
+
+.c17:hover {
+  z-index: 2;
+}
+
+.c17:not(:first-of-type) {
+  border-radius: 0;
+  margin-left: -0.1rem;
+}
+
+.c17:first-of-type:not(:last-of-type) {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c17:last-of-type:not(:first-of-type) {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c22 {
+  --radius: 0.5rem;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  z-index: 1;
+  pointer-events: all;
+}
+
+.c22:disabled {
+  pointer-events: none;
+}
+
+.c22:hover {
+  z-index: 2;
+}
+
+.c22:not(:hover) {
+  border: 0.1rem solid #cdcecf;
+  color: #6a6a6a;
+}
+
+.c22:not(:hover) g {
+  fill: #cdcecf;
+}
+
+.c22:not(:first-of-type) {
+  border-radius: 0;
+  margin-left: -0.1rem;
+}
+
+.c22:first-of-type:not(:last-of-type) {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c22:last-of-type:not(:first-of-type) {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c15 {
+  margin-right: 4rem;
+}
+
+.c18 {
+  padding: 0 3.6rem;
+  width: 75%;
 }
 
 .c1 {
@@ -392,10 +387,8 @@ exports[`matches snapshot 1`] = `
             class="c10 c11"
           >
             <p
-              class="c12 c13"
-            />
-            <p
-              class="c14"
+              class="c12"
+              data-testid="tooltip-description"
             >
               [value] module.settings.collectingDataTooltip
             </p>
@@ -403,31 +396,31 @@ exports[`matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="c15"
+        class="c13"
       >
         <section
-          class="c16 c17"
+          class="c14 c15"
         >
           <button
-            class="c18 c19 c20"
+            class="c16 c17 c18"
             data-testid="toggler-active"
             size="2"
             type="button"
           >
             <p
-              class="c21 c22"
+              class="c19 c20"
             >
               [value] module.settings.offLabel
             </p>
           </button>
           <button
-            class="c23 c24 c20"
+            class="c21 c22 c18"
             data-testid="toggler-inactive"
             size="2"
             type="button"
           >
             <p
-              class="c21 c22"
+              class="c19 c20"
             >
               [value] module.settings.onLabel
             </p>
