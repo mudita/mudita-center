@@ -87,9 +87,7 @@ export const Input = styled(InputComponent).attrs<{ label: string }>(
     }
   }
 `
-export const ContactDetailsWrapper = styled(Sidebar)`
-  margin-top: 6.3rem;
-`
+export const ContactDetailsWrapper = styled(Sidebar)``
 
 export const ContactDetailsInfo = styled(Text)`
   ${generalInputStyles};
