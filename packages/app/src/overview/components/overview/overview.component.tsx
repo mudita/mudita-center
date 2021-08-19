@@ -49,7 +49,7 @@ const Overview: FunctionComponent<Props> = ({
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
-  osVersion,
+  osVersion = "",
   osUpdateDate,
   lastAvailableOsVersion,
   pureOsDownloaded,
@@ -72,7 +72,7 @@ const Overview: FunctionComponent<Props> = ({
   updateBasicInfo = noop,
   language = "",
   pureOsBackupLocation = "",
-  lowestSupportedOsVersion,
+  lowestSupportedOsVersion = "",
   updatingState,
   updateOs,
   updateUpdatingState,
@@ -90,10 +90,8 @@ const Overview: FunctionComponent<Props> = ({
     failedModal: false,
   })
   const [progress, setProgress] = useState(0)
-  const [
-    contactSupportOpenState,
-    setContactSupportOpenState,
-  ] = useState<ContactSupportModalFlowState>()
+  const [contactSupportOpenState, setContactSupportOpenState] =
+    useState<ContactSupportModalFlowState>()
   const [sendBugTicketRequest, sending] = useCreateBugTicket()
   const [bugTicketSubject, setBugTicketSubject] = useState("")
 
@@ -148,13 +146,9 @@ const Overview: FunctionComponent<Props> = ({
 
   useEffect(() => {
     try {
-      if (!osVersion || !lowestSupportedOsVersion) {
-        setOsVersionSupported(false)
-      } else {
-        setOsVersionSupported(
-          isVersionGreater(osVersion, lowestSupportedOsVersion)
-        )
-      }
+      setOsVersionSupported(
+        isVersionGreater(osVersion, lowestSupportedOsVersion)
+      )
     } catch (error) {
       logger.error(`Overview: ${error.message}`)
     }
@@ -251,7 +245,7 @@ const Overview: FunctionComponent<Props> = ({
       } else {
         return !isVersionGreater(osVersion, lastAvailableOsVersion)
       }
-    } catch (error){
+    } catch (error) {
       logger.error(`Overview (isPureOsAvailable): ${error.message}`)
       return false
     }
