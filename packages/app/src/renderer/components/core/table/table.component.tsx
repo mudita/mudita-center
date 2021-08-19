@@ -49,7 +49,7 @@ const activeRowStyles = css`
     content: "";
     position: absolute;
     z-index: 0;
-    right: 0;
+    left: 0;
     top: 0;
     width: 0.3rem;
     height: 100%;
