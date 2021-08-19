@@ -22,13 +22,13 @@ import Text, {
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import { TooltipTestIds } from "Renderer/components/core/tooltip/tooltip.enum"
 
-const Wrapper = styled.div`
+const TooltipWrapper = styled.div`
   display: flex;
   flex-direction: row;
   position: relative;
 `
 
-const Content = styled.div`
+const TooltipContent = styled.div`
   width: max-content;
   max-width: 24.3rem;
   background-color: ${backgroundColor("row")};
@@ -49,7 +49,7 @@ const TooltipIcon = styled(Icon)`
   &:hover {
     background-color: ${backgroundColor("minor")};
     border-radius: ${borderRadius("small")};
-    + ${Content} {
+    + ${TooltipContent} {
       visibility: visible;
       opacity: 1;
       z-index: ${zIndex("tooltip")};
@@ -57,7 +57,7 @@ const TooltipIcon = styled(Icon)`
   }
 `
 
-const Title = styled(Text)`
+const TooltipTitle = styled(Text)`
   margin-bottom: 0.8rem;
 `
 interface Props {
@@ -76,10 +76,10 @@ const Tooltip: FunctionComponent<Props> = ({
   iconSize = 1.6
 }) => {
   return (
-    <Wrapper className={className}>
+    <TooltipWrapper className={className}>
       <TooltipIcon type={iconType} height={iconSize} width={iconSize} data-testid={TooltipTestIds.Icon} />
-      <Content>
-        {title && <Title
+      <TooltipContent>
+        {title && <TooltipTitle
           displayStyle={TextDisplayStyle.MediumText}
           element={"p"}
           message={title}
@@ -90,8 +90,8 @@ const Tooltip: FunctionComponent<Props> = ({
           message={description}
           data-testid={TooltipTestIds.Description} 
         />}
-      </Content>
-    </Wrapper>
+      </TooltipContent>
+    </TooltipWrapper>
   )
 }
 
