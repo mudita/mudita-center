@@ -60,7 +60,7 @@ const TooltipIcon = styled(Icon)`
 const Title = styled(Text)`
   margin-bottom: 0.8rem;
 `
-export interface TooltipProps {
+interface Props {
   className?: string
   title?: MessageInterface
   description: MessageInterface
@@ -68,7 +68,7 @@ export interface TooltipProps {
   iconSize?: number
 }
 
-const Tooltip: FunctionComponent<TooltipProps> = ({
+const Tooltip: FunctionComponent<Props> = ({
   className,
   title,
   description,
