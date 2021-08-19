@@ -54,13 +54,23 @@ const settings = createModel<RootModel>({
         const appSettings = await getAppSettings()
         const applicationConfiguration = await getApplicationConfiguration()
 
-        const settings = {
-          ...appSettings,
-          lowestSupportedOsVersion: applicationConfiguration.osVersion,
-          appUpdateRequired: isVersionGreater(
+        let appUpdateRequired = false
+
+        try {
+          appUpdateRequired = isVersionGreater(
             applicationConfiguration.centerVersion,
             version
-          ),
+          )
+        } catch (error) {
+          logger.error(
+            `Settings -> LoadSettings: Check that app update required fails: ${error.message}`
+          )
+        }
+
+        const settings = {
+          ...appSettings,
+          appUpdateRequired,
+          lowestSupportedOsVersion: applicationConfiguration.osVersion,
           settingsLoaded: true,
         }
 
