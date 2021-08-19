@@ -228,7 +228,7 @@ const useSystemUpdateFlow = (
           await openCheckingForUpdatesFailedModal(() => checkForUpdates())
         }
         logger.error(
-          `Overview: check for updates fail. Data: ${JSON.stringify(error)}`
+          `Overview: check for updates fail. Data: ${error.message}`
         )
       }
     }

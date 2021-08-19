@@ -245,10 +245,15 @@ const Overview: FunctionComponent<Props> = ({
   }
 
   const isPureOsAvailable = (): boolean => {
-    if (!osVersion || !lastAvailableOsVersion) {
+    try {
+      if (!osVersion || !lastAvailableOsVersion) {
+        return false
+      } else {
+        return !isVersionGreater(osVersion, lastAvailableOsVersion)
+      }
+    } catch (error){
+      logger.error(`Overview (isPureOsAvailable): ${error.message}`)
       return false
-    } else {
-      return !isVersionGreater(osVersion, lastAvailableOsVersion)
     }
   }
 
