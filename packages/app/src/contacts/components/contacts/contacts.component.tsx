@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useState } from "react"
+import styled from "styled-components"
 import ContactList from "App/contacts/components/contact-list/contact-list.component"
 import ContactPanel from "App/contacts/components/contact-panel/contact-panel.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -52,7 +53,7 @@ import {
 import ImportingContactsModal from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import ErrorModal from "App/contacts/components/error-modal/error-modal.component"
-import styled from "styled-components"
+import InfoModal from "App/contacts/components/info-modal/info-modal.component"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 
 export const messages = defineMessages({
@@ -82,6 +83,15 @@ export const messages = defineMessages({
   },
   parsingFileErrorBody: {
     id: "module.contacts.parsingFileErrorBody",
+  },
+  importingTitle: {
+    id: "module.contacts.importingTitle",
+  },
+  importingNoDataDescription: {
+    id: "module.contacts.importingNoDataDescription",
+  },
+  importingOkButton: {
+    id: "component.okButton",
   },
 })
 
@@ -462,14 +472,27 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   // Synchronization, step 4: selecting contacts
   const showContactsSelectingModal = async (contacts: NewContact[]) => {
-    modalService.openModal(
-      <ContactImportModal
-        contacts={contacts}
-        onActionButtonClick={sendContactsToPhone}
-        modalType={ModalType.Select}
-      />,
-      true
-    )
+    if (contacts.length === 0) {
+      modalService.openModal(
+        <InfoModal
+          title={intl.formatMessage(messages.importingTitle)}
+          body={intl.formatMessage(messages.importingNoDataDescription)}
+          onActionButtonClick={closeModal}
+          actionButtonLabel={intl.formatMessage(messages.importingOkButton)}
+          closeButton={false}
+        />,
+        true
+      )
+    } else {
+      modalService.openModal(
+        <ContactImportModal
+          contacts={contacts}
+          onActionButtonClick={sendContactsToPhone}
+          modalType={ModalType.Select}
+        />,
+        true
+      )
+    }
   }
 
   // Synchronization, step 5: sending contacts to phone

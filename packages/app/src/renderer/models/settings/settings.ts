@@ -47,7 +47,7 @@ const settings = createModel<RootModel>({
     },
   },
   effects: (d) => {
-    const dispatch = (d as unknown) as RootState
+    const dispatch = d as unknown as RootState
 
     return {
       async loadSettings() {
@@ -139,6 +139,9 @@ const settings = createModel<RootModel>({
         value: AppSettings["diagnosticSentTimestamp"]
       ) {
         this.updateSettings({ key: "diagnosticSentTimestamp", value })
+      },
+      setCollectingData(value: AppSettings["appCollectingData"]) {
+        this.updateSettings({ key: "appCollectingData", value })
       },
       toggleAppCollectingData(value: boolean) {
         this.updateSettings({ key: "appCollectingData", value })
