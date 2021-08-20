@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { createRef, Ref, useEffect } from "react"
-import { Contact, NewContact } from "App/contacts/store/contacts.type"
+import React, { createRef, Ref } from "react"
+import { Contact } from "App/contacts/store/contacts.type"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -42,6 +42,7 @@ import { HiddenButton } from "App/contacts/components/contact-list/contact-list.
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { defineMessages } from "react-intl"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -109,14 +110,18 @@ type SelectHook = Pick<
   "getRowStatus" | "toggleRow" | "noneRowsSelected"
 >
 
+const messages = defineMessages({
+  searchResultsTitle: {
+    id: "module.contact.searchResultsTitle",
+  }
+})
 export interface ContactSearchResultsProps extends ContactActions, SelectHook {
   activeRow?: Contact
   selectedContact: Contact | null
   onSelect: (contact: Contact) => void
-  newContact?: NewContact
-  editedContact?: Contact
   resultsState: ResultsState
   results: Contact[]
+  searchValue: string | null
 }
 
 const ContactSearchResults: FunctionComponent<ContactSearchResultsProps> = ({
@@ -128,42 +133,23 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultsProps> = ({
   onBlock,
   onUnblock,
   onDelete,
-  newContact,
   resultsState,
-  editedContact,
   getRowStatus,
   toggleRow,
+  searchValue,
   noneRowsSelected,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
 
-  useEffect(() => {
-    const table = tableRef.current
-    if (table) {
-      if (newContact) {
-        table.scrollTop = 0
-        disableScroll()
-      } else if (editedContact) {
-        disableScroll()
-      } else {
-        enableScroll()
-      }
-    }
-  }, [newContact, editedContact])
-
   return (
     <div>
       <SearchTitle displayStyle={TextDisplayStyle.LargeBoldText}>
-        {intl.formatMessage({ id: "module.contacts.emptyListTitle" })}
+        {intl.formatMessage( messages.searchResultsTitle , {value: searchValue})}
       </SearchTitle>
       <SelectableContacts
         hideableColumnsIndexes={[2, 3, 4]}
-        hideColumns={
-          Boolean(activeRow) || Boolean(newContact) || Boolean(editedContact)
-        }
-        scrollable={scrollable && !newContact}
-        mouseLock={Boolean(newContact || editedContact)}
+        scrollable={scrollable}
         ref={tableRef}
       >
         {resultsState === ResultsState.Loaded &&
@@ -208,7 +194,7 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultsProps> = ({
               const interactiveRow = (ref: Ref<HTMLDivElement>) => (
                 <Row
                   selected={selected}
-                  active={(activeRow || editedContact)?.id === contact.id}
+                  active={(activeRow)?.id === contact.id}
                   ref={ref}
                 >
                   <Col>
@@ -224,8 +210,7 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultsProps> = ({
                       user={contact}
                       light={
                         selected ||
-                        activeRow === contact ||
-                        editedContact === contact
+                        activeRow === contact
                       }
                       size={AvatarSize.Medium}
                     />
@@ -342,7 +327,7 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultsProps> = ({
             })
           ) : (
             <EmptyState
-              title={{ id: "module.contacts.emptyListTitle" }}
+              title={{ id: "module.contacts.emptyResultsListTitle" }}
               description={{
                 id: "module.contacts.emptySearchDescription",
               }}
