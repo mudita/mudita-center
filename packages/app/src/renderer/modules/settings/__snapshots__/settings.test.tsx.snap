@@ -62,11 +62,6 @@ exports[`matches snapshot 1`] = `
   background-color: #f4f5f6;
 }
 
-.c0:hover .sc-iqAclL {
-  opacity: 1;
-  visibility: visible;
-}
-
 .c9 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -261,52 +256,6 @@ exports[`matches snapshot 1`] = `
     class=""
     data-testid="settings-wrapper"
   >
-    <div
-      class="c0 c1"
-      data-testid="settings-tablerow"
-    >
-      <div
-        class="c2"
-      >
-        <p
-          class="c3 c4 c5"
-        >
-          [value] module.settings.autostartLabel
-        </p>
-      </div>
-      <div
-        class="c6"
-      >
-        <section
-          class="c7 c8"
-        >
-          <button
-            class="c9 c10 c11"
-            data-testid="toggler-active"
-            size="2"
-            type="button"
-          >
-            <p
-              class="c12 c13"
-            >
-              [value] module.settings.offLabel
-            </p>
-          </button>
-          <button
-            class="c14 c15 c11"
-            data-testid="toggler-inactive"
-            size="2"
-            type="button"
-          >
-            <p
-              class="c12 c13"
-            >
-              [value] module.settings.onLabel
-            </p>
-          </button>
-        </section>
-      </div>
-    </div>
     <div
       class="c0 c1"
       data-testid="settings-tablerow"

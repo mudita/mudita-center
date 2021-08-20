@@ -19,7 +19,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import StackedBarChart, {
   DisplayStyle,
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
+import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
 
 const messages = defineMessages({
   title: {

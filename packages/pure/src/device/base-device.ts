@@ -5,34 +5,23 @@
 
 import SerialPort from "serialport"
 import { EventEmitter } from "events"
-import path from "path"
-import * as fs from "fs"
 import {
   ApiRequestPayload,
-  BodyCommand,
   DeviceEventName,
-  DeviceUpdateRequestPayload,
-  Endpoint,
-  FileResponseStatus,
-  Method,
   PureDevice,
   RequestConfig,
   RequestPayload,
   Response,
   ResponseStatus,
   SerialNumberRequestPayload,
-  UpdateResponseStatus,
 } from "./device.types"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
 import {
   isApiRequestPayload,
-  isDeviceUpdateRequestPayload,
   isSerialNumberRequestPayload,
-  isUploadUpdateFileSystemPayload,
 } from "./device-helper"
 import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator"
-import { UploadUpdateFileSystemRequestPayload } from "../endpoints"
 
 class BaseDevice implements PureDevice {
   #port: SerialPort | undefined
@@ -116,11 +105,7 @@ class BaseDevice implements PureDevice {
       const payload: RequestPayload = { ...config, uuid }
 
       this.#requestsQueue.add(async () => {
-        if (isUploadUpdateFileSystemPayload(payload)) {
-          resolve(await this.uploadUpdateFileRequest(port, payload))
-        } else if (isDeviceUpdateRequestPayload(payload)) {
-          resolve(await this.deviceUpdateRequest(port, payload))
-        } else if (isSerialNumberRequestPayload(payload)) {
+        if (isSerialNumberRequestPayload(payload)) {
           resolve(await this.serialNumberRequest(payload))
         } else if (isApiRequestPayload(payload)) {
           resolve(await this.apiRequest(payload))
@@ -128,128 +113,6 @@ class BaseDevice implements PureDevice {
           resolve(await this.deviceRequest(port, payload))
         }
       })
-    })
-  }
-
-  private uploadUpdateFileRequest(
-    port: SerialPort,
-    { filePath, uuid }: UploadUpdateFileSystemRequestPayload
-  ): Promise<Response<any>> {
-    return new Promise((resolve) => {
-      this.#portBlocked = true
-
-      const listener = (response: any) => {
-        if (response.status === ResponseStatus.ParserError) {
-          this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-          resolve(response)
-        }
-
-        if (response.uuid === uuid) {
-          if (response.body.status === FileResponseStatus.Ok) {
-            const readStream = fs.createReadStream(filePath, {
-              highWaterMark: 16384,
-            })
-
-            readStream.on("data", (data) => {
-              port.write(data)
-              port.drain()
-
-              // This is a hack for Windows. Writing and draining was too frequent
-              // so the serialport couldn't handle that.
-              readStream.pause()
-              setTimeout(() => {
-                readStream.resume()
-              }, 10)
-            })
-
-            readStream.on("end", () => {
-              this.#portBlocked = false
-            })
-          } else {
-            this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-            this.#portBlocked = false
-            resolve(response)
-          }
-        } else if (
-          response.endpoint === Endpoint.FileSystem &&
-          response.status === ResponseStatus.Accepted
-        ) {
-          this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-          this.#portBlocked = false
-          resolve(response)
-        }
-      }
-
-      this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
-
-      try {
-        const fileName = path.basename(filePath)
-        const fileSize = fs.lstatSync(filePath).size
-
-        const payload = {
-          uuid,
-          endpoint: Endpoint.FileSystem,
-          method: Method.Post,
-          body: {
-            fileName,
-            fileSize,
-            command: BodyCommand.Download,
-          },
-        }
-        this.portWrite(port, payload)
-      } catch {
-        resolve({ status: ResponseStatus.ParserError })
-      }
-    })
-  }
-
-  private deviceUpdateRequest(
-    port: SerialPort,
-    { filePath, uuid }: DeviceUpdateRequestPayload
-  ): Promise<Response<any>> {
-    return new Promise((resolve) => {
-      this.#portBlocked = true
-
-      const listener = (response: any) => {
-        if (response.status === ResponseStatus.ParserError) {
-          this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-          this.#portBlocked = false
-          resolve(response)
-        }
-
-        if (response.endpoint === Endpoint.Update) {
-          if (response.status === ResponseStatus.InternalServerError) {
-            this.#portBlocked = false
-            resolve({
-              status: ResponseStatus.Ok,
-              error: {
-                code: response.body.errorCode,
-                message: response.body.status,
-              },
-            })
-          }
-
-          if (response.body.status === UpdateResponseStatus.Ok) {
-            this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-            this.#portBlocked = false
-            resolve({ status: ResponseStatus.Ok })
-          }
-        }
-      }
-
-      this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
-
-      const fileName = path.basename(filePath)
-      const payload = {
-        uuid,
-        endpoint: Endpoint.Update,
-        method: Method.Post,
-        body: {
-          fileName,
-        },
-      }
-
-      this.portWrite(port, payload)
     })
   }
 

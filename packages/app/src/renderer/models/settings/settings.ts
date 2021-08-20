@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { version } from "../../../../package.json"
+import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { RootState } from "Renderer/store"
 import {
   getAppSettings,
@@ -13,10 +15,8 @@ import {
   SettingsUpdateOption,
   SettingsState,
 } from "App/main/store/settings.interface"
-import { ipcRenderer } from "electron-better-ipc"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
 import { createModel } from "@rematch/core"
-import { SettingsActions } from "Common/enums/settings-actions.enum"
 import { RootModel } from "Renderer/models/models"
 import logger from "App/main/utils/logger"
 import e2eSettings from "Renderer/models/settings/e2e-settings.json"
@@ -24,15 +24,18 @@ import { isToday } from "Renderer/utils/is-today"
 import getDeviceLogs from "Renderer/requests/get-device-logs.request"
 import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import getLowestSupportedOsVersion from "Renderer/requests/get-lowest-supported-os-version.request"
+import getApplicationConfiguration from "App/renderer/requests/get-application-configuration.request"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 export const initialState: SettingsState = {
   appUpdateAvailable: undefined,
   lowestSupportedOsVersion: undefined,
+  lowestSupportedCenterVersion: undefined,
+  appCurrentVersion: version,
   appUpdateStepModalDisplayed: false,
   settingsLoaded: false,
+  appUpdateRequired: false,
   appLatestVersion: "",
 }
 
@@ -49,20 +52,35 @@ const settings = createModel<RootModel>({
     return {
       async loadSettings() {
         const appSettings = await getAppSettings()
-        const lowestSupportedOsVersion = await getLowestSupportedOsVersion()
+        const applicationConfiguration = await getApplicationConfiguration()
+
+        let appUpdateRequired = false
+
+        try {
+          appUpdateRequired = isVersionGreater(
+            applicationConfiguration.centerVersion,
+            version
+          )
+        } catch (error) {
+          logger.error(
+            `Settings -> LoadSettings: Check that app update required fails: ${error.message}`
+          )
+        }
+
+        const settings = {
+          ...appSettings,
+          appUpdateRequired,
+          lowestSupportedOsVersion: applicationConfiguration.osVersion,
+          settingsLoaded: true,
+        }
+
         if (simulatePhoneConnectionEnabled) {
           dispatch.settings.update({
-            lowestSupportedOsVersion,
-            ...appSettings,
             ...e2eSettings,
-            settingsLoaded: true,
+            ...settings,
           })
         } else {
-          dispatch.settings.update({
-            lowestSupportedOsVersion,
-            ...appSettings,
-            settingsLoaded: true,
-          })
+          dispatch.settings.update(settings)
         }
 
         appSettings.appCollectingData
@@ -72,17 +90,6 @@ const settings = createModel<RootModel>({
       async updateSettings(option: SettingsUpdateOption) {
         await updateAppSettings(option)
         dispatch.settings.update({ [option.key]: option.value })
-      },
-      async checkAutostartValue() {
-        const value = await ipcRenderer.callMain(
-          SettingsActions.GetAutostartValue
-        )
-        this.updateSettings({ key: "appAutostart", value })
-        return value
-      },
-      setAutostart(value: AppSettings["appAutostart"]) {
-        ipcRenderer.callMain(SettingsActions.SetAutostart, value)
-        this.updateSettings({ key: "appAutostart", value })
       },
       setTethering(value: AppSettings["appTethering"]) {
         this.updateSettings({ key: "appTethering", value })
@@ -156,7 +163,9 @@ const settings = createModel<RootModel>({
         }
 
         if (isToday(new Date(diagnosticSentTimestamp))) {
-          logger.info(`Send Diagnostic Data: data was sent at ${diagnosticSentTimestamp}`)
+          logger.info(
+            `Send Diagnostic Data: data was sent at ${diagnosticSentTimestamp}`
+          )
           return
         }
         const { status, data = "", error } = await getDeviceLogs()
@@ -176,7 +185,9 @@ const settings = createModel<RootModel>({
           }
           const nowTimestamp = Date.now()
           await dispatch.settings.setDiagnosticSentTimestamp(nowTimestamp)
-          logger.info(`Send Diagnostic Data: data was sent successfully at ${nowTimestamp}, serialNumber: ${serialNumber}`)
+          logger.info(
+            `Send Diagnostic Data: data was sent successfully at ${nowTimestamp}, serialNumber: ${serialNumber}`
+          )
         } catch {
           logger.error(`Send Diagnostic Data: send diagnostic data request.`)
         }

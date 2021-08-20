@@ -29,6 +29,8 @@ interface Props {
   appCollectingData?: boolean
   appUpdateStepModalDisplayed?: boolean
   deviceParred?: boolean
+  appUpdateRequired?: boolean
+  appCurrentVersion?: string
   toggleAppCollectingData: (appCollectingData: boolean) => void
   setAppUpdateStepModalDisplayed: () => void
   sendDiagnosticData: () => void
@@ -49,6 +51,8 @@ const BaseApp: FunctionComponent<Props> = ({
   setAppUpdateStepModalDisplayed,
   sendDiagnosticData,
   appLatestVersion,
+  appUpdateRequired,
+  appCurrentVersion,
 }) => {
   const appUpdateStepModalVisible =
     Boolean(settingsLoaded) &&
@@ -100,9 +104,17 @@ const BaseApp: FunctionComponent<Props> = ({
         onActionButtonClick={allowToAppCollectingData}
         closeModal={disallowToAppCollectingData}
       />
-      {appUpdateStepModalVisible && (
+      {appUpdateRequired && (
+        <AppUpdateStepModal
+          forced
+          appLatestVersion={appLatestVersion}
+          appCurrentVersion={appCurrentVersion}
+        />
+      )}
+      {!appUpdateRequired && appUpdateStepModalVisible && (
         <AppUpdateStepModal
           appLatestVersion={appLatestVersion}
+          appCurrentVersion={appCurrentVersion}
           closeModal={closeAppUpdateStepModal}
         />
       )}
@@ -131,6 +143,8 @@ const mapStateToProps = (state: RootState) => {
     settingsLoaded: state.settings.settingsLoaded,
     appLatestVersion: state.settings.appLatestVersion,
     appUpdateStepModalDisplayed: state.settings.appUpdateStepModalDisplayed,
+    appUpdateRequired: state.settings.appUpdateRequired,
+    appCurrentVersion: state.settings.appCurrentVersion,
   }
 }
 

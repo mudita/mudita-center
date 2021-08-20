@@ -88,7 +88,7 @@ const decodeObject = (
   object: Record<string, string>
 ): Record<string, string> => {
   return Object.fromEntries(
-    Object.entries(object).map(([key, val]) => [
+    Object.entries(object).map(([key, val= ""]) => [
       key,
       utf8.decode(quotedPrintable.decode(val)),
     ])

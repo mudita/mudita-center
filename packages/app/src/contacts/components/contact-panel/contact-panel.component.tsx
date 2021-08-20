@@ -51,12 +51,12 @@ export interface ContactPanelProps {
   deleteContacts: (ids: ContactID[]) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
   contacts: Contact[]
-  editedContact: Contact | undefined
   openSearchResults: () => void
   searchValue: string | null
   setSearchValue: Dispatch<SetStateAction<string | null>>
   isItemMatching?: IsItemMatching
   searchResultsScreen?: boolean
+  editMode: boolean
 }
 
 const ContactPanel: FunctionComponent<ContactPanelProps> = ({
@@ -70,11 +70,11 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   resetRows,
   openSearchResults = noop,
   contacts,
-  editedContact,
   searchValue,
   setSearchValue,
   isItemMatching,
-  searchResultsScreen
+  searchResultsScreen,
+  editMode,
 }) => {
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
@@ -169,7 +169,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
             id: "module.contacts.panelNewContactButton",
           }}
           onClick={onNewButtonClick}
-          disabled={Boolean(editedContact)}
+          disabled={editMode}
           data-testid={ContactPanelTestIdsEnum.NewButton}
         />
       </Buttons>
