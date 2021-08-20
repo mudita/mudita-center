@@ -254,6 +254,7 @@
   "module.contacts.importFailedButton": "Retry",
   "module.contacts.importFailedSubtitle": "Saving failed",
   "module.contacts.importingBody": "Please wait, this may take a while",
+  "module.contacts.importingNoDataDescription": "No contacts to import",
   "module.contacts.importingSubtitle": "Importing contacts...",
   "module.contacts.importingTitle": "Importing contacts",
   "module.contacts.importSubtitle": "Contacts imported",

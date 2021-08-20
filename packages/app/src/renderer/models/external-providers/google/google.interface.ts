@@ -63,7 +63,7 @@ export interface GoogleContactResourceItem {
 }
 
 export interface GoogleContacts {
-  connections: GoogleContactResourceItem[]
+  connections?: GoogleContactResourceItem[]
   totalPeople: number
   totalItems: number
 }
