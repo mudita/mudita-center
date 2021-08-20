@@ -14,8 +14,6 @@ import DevicePortInfo from "./device-port-info"
 
 const logger: PureLogger = LoggerFactory.getInstance()
 
-export const defaultSerialNumber = "00000000000000"
-
 enum DeviceManagerEventName {
   AttachedDevice = "AttachedDevice",
 }
@@ -52,9 +50,7 @@ class DeviceManager implements PureDeviceManager {
 
     return portList
       .filter(DevicePortInfo.isPortInfoMatch)
-      .map(({ path, serialNumber = defaultSerialNumber }) =>
-        this.createDevice(path, serialNumber)
-      )
+      .map(({ path }) => this.createDevice(path))
   }
 
   public onAttachDevice(
@@ -85,8 +81,7 @@ class DeviceManager implements PureDeviceManager {
           const port = portList.find(DevicePortInfo.isPortInfoMatch)
 
           if (port) {
-            const serialNumber = port.serialNumber ?? defaultSerialNumber
-            const device = this.createDevice(port.path, serialNumber)
+            const device = this.createDevice(port.path)
             this.emitAttachedDeviceEvent(device)
 
             break

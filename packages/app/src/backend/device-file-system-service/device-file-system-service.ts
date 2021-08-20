@@ -10,6 +10,7 @@ import DeviceService from "Backend/device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
+import logger from "App/main/utils/logger"
 
 class DeviceFileSystemService {
   constructor(private deviceService: DeviceService) {}
@@ -48,7 +49,11 @@ class DeviceFileSystemService {
       const receivedFileCrc32 = parseInt(fileCrc32, 16)
       const countedFileCrc32 = CRC32.buf(buffer)
 
-      if(receivedFileCrc32 === countedFileCrc32){
+      logger.info(`downloadFile fileCrc32: ${fileCrc32}`)
+      logger.info(`downloadFile receivedFileCrc32: ${receivedFileCrc32}`)
+      logger.info(`downloadFile countedFileCrc32: ${countedFileCrc32}`)
+
+      if(~receivedFileCrc32 === ~countedFileCrc32){
         return {
           status: DeviceResponseStatus.Ok,
           data: buffer.toString(),
