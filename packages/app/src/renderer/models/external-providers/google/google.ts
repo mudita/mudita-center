@@ -64,7 +64,7 @@ const google = createModel<ExternalProvidersModels>({
     },
   },
   effects: (d) => {
-    const dispatch = (d as unknown) as RootState
+    const dispatch = d as unknown as RootState
 
     const requestWrapper = async <ReturnType>(
       payload: RequestWrapperPayload,
@@ -203,8 +203,10 @@ const google = createModel<ExternalProvidersModels>({
         rootState
       )
 
-      return data.connections.map((contact: GoogleContactResourceItem) =>
-        mapContact(contact)
+      return (
+        data.connections?.map((contact: GoogleContactResourceItem) =>
+          mapContact(contact)
+        ) ?? []
       )
     }
 

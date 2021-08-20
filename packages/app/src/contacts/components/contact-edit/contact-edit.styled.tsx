@@ -18,11 +18,11 @@ export const Form = styled.form`
 
 export const Content = styled.div`
   flex: 1;
+  min-height: 28rem;
   height: calc(100% - var(--max-buttons-height));
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 0.3rem;
 
   > div {
     width: calc(50% - 3.2rem);
@@ -86,8 +86,9 @@ export const speedDialListStyles = css`
   }
 `
 export const ContactDetailsWrapper = styled(Sidebar)`
-  margin-top: 6.3rem;
+  border-top: none;
 `
+
 export const CustomCheckbox = styled.label`
   display: flex;
   flex-direction: row;
