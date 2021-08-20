@@ -66,4 +66,5 @@ export interface DeviceInfo {
   trayState: Tray
   accessTechnology: AccessTechnology
   networkStatus: NetworkStatus
+  serialNumber: string
 }
