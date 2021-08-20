@@ -203,9 +203,9 @@ const google = createModel<ExternalProvidersModels>({
         rootState
       )
 
-      return data.connections.map((contact: GoogleContactResourceItem) =>
+      return data.connections?.map((contact: GoogleContactResourceItem) =>
         mapContact(contact)
-      )
+      ) ?? []
     }
 
     const getEvents = async (

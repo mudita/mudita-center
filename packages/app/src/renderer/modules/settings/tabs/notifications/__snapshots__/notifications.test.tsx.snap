@@ -74,11 +74,6 @@ exports[`matches snapshot 1`] = `
   background-color: #f4f5f6;
 }
 
-.c4:hover .sc-iqAclL {
-  opacity: 1;
-  visibility: visible;
-}
-
 .c13 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -251,6 +246,8 @@ exports[`matches snapshot 1`] = `
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 15rem;
   border-bottom: solid 0.1rem #d2d6db;
+  height: 7.2rem;
+  max-height: 7.2rem;
 }
 
 .c5:hover {
@@ -262,10 +259,21 @@ exports[`matches snapshot 1`] = `
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
 }
 
 .c9 {
   margin-left: 4rem;
+  margin-bottom: 0;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
 }
 
 .c1 {

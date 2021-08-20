@@ -35,6 +35,7 @@ import { OverviewModalsTestIds } from "App/overview/components/overview-modals-t
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import { Size } from "App/renderer/components/core/button/button.config"
 
 const ModalContent = styled.div`
   display: flex;
@@ -310,6 +311,7 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
     closeButtonLabel={intl.formatMessage(messages.downloadCompletedCloseButton)}
     onActionButtonClick={onOsUpdate}
     data-testid={OverviewModalsTestIds.DownloadingUpdateFinishedModal}
+    actionButtonSize={Size.FixedMedium}
   >
     <RoundIconWrapper>
       <Icon type={Type.Download} width={4} />
