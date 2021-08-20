@@ -28,10 +28,7 @@ storiesOf("Components|Core/Tooltip", module).add("Default", () => (
       />
     </Story>
     <Story title="With different icon size">
-      <Tooltip
-        description={{ id: "Tooltip description" }}
-        iconSize={4}
-      />
+      <Tooltip description={{ id: "Tooltip description" }} iconSize={4} />
     </Story>
   </StoryContainer>
 ))

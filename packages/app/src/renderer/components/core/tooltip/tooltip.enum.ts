@@ -5,5 +5,5 @@
 
 export enum TooltipTestIds {
   Icon = "tooltip-icon",
-  Description = "tooltip-description"
+  Description = "tooltip-description",
 }

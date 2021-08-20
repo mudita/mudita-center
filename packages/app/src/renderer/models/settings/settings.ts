@@ -47,7 +47,7 @@ const settings = createModel<RootModel>({
     },
   },
   effects: (d) => {
-    const dispatch = (d as unknown) as RootState
+    const dispatch = d as unknown as RootState
 
     return {
       async loadSettings() {

@@ -311,12 +311,14 @@ test("requestWrapper handles 401 error properly", async () => {
     .reply(200, authData)
 
   expect(
-    (((await store.dispatch.google.requestWrapper({
-      scope: Scope.Calendar,
-      axiosProps: {
-        url: `${googleEndpoints.calendars}/users/me/calendarList`,
-      },
-    })) as unknown) as AxiosResponse<GoogleCalendarsSuccess>).data.items
+    (
+      (await store.dispatch.google.requestWrapper({
+        scope: Scope.Calendar,
+        axiosProps: {
+          url: `${googleEndpoints.calendars}/users/me/calendarList`,
+        },
+      })) as unknown as AxiosResponse<GoogleCalendarsSuccess>
+    ).data.items
   ).toHaveLength(mockedGoogleCalendars.length)
 })
 
@@ -330,12 +332,14 @@ test("requestWrapper handles other errors properly", async () => {
     })
 
   expect(
-    (((await store.dispatch.google.requestWrapper({
-      scope: Scope.Calendar,
-      axiosProps: {
-        url: `${googleEndpoints.calendars}/users/me/calendarList`,
-      },
-    })) as unknown) as AxiosResponse<GoogleCalendarsSuccess>).data.items
+    (
+      (await store.dispatch.google.requestWrapper({
+        scope: Scope.Calendar,
+        axiosProps: {
+          url: `${googleEndpoints.calendars}/users/me/calendarList`,
+        },
+      })) as unknown as AxiosResponse<GoogleCalendarsSuccess>
+    ).data.items
   ).toHaveLength(mockedGoogleCalendars.length)
 })
 

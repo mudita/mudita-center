@@ -73,23 +73,32 @@ const Tooltip: FunctionComponent<Props> = ({
   title,
   description,
   iconType = Type.Tooltip,
-  iconSize = 1.6
+  iconSize = 1.6,
 }) => {
   return (
     <TooltipWrapper className={className}>
-      <TooltipIcon type={iconType} height={iconSize} width={iconSize} data-testid={TooltipTestIds.Icon} />
+      <TooltipIcon
+        type={iconType}
+        height={iconSize}
+        width={iconSize}
+        data-testid={TooltipTestIds.Icon}
+      />
       <TooltipContent>
-        {title && <TooltipTitle
-          displayStyle={TextDisplayStyle.MediumText}
-          element={"p"}
-          message={title}
-        />}
-        {description && <Text
-          displayStyle={TextDisplayStyle.SmallFadedLightText}
-          element={"p"}
-          message={description}
-          data-testid={TooltipTestIds.Description} 
-        />}
+        {title && (
+          <TooltipTitle
+            displayStyle={TextDisplayStyle.MediumText}
+            element={"p"}
+            message={title}
+          />
+        )}
+        {description && (
+          <Text
+            displayStyle={TextDisplayStyle.SmallFadedLightText}
+            element={"p"}
+            message={description}
+            data-testid={TooltipTestIds.Description}
+          />
+        )}
       </TooltipContent>
     </TooltipWrapper>
   )

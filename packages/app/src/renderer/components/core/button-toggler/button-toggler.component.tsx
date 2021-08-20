@@ -11,10 +11,7 @@ import {
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { disabledSecondaryStyles } from "Renderer/components/core/button/button.styled.elements"
-import {
-  borderRadius,
-  zIndex,
-} from "Renderer/styles/theming/theme-getters"
+import { borderRadius, zIndex } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Tooltip from "Renderer/components/core/tooltip/tooltip.component"
@@ -66,7 +63,7 @@ export const ButtonTogglerItem = styled(({ filled, active, ...props }) => (
   }
 `
 
-const TooltipWrapper= styled.div`
+const TooltipWrapper = styled.div`
   position: absolute;
   top: -0.8rem;
   left: -0.8rem;
@@ -85,11 +82,13 @@ const ButtonToggler: FunctionComponent<ButtonTogglerProps> = ({
 }) => {
   return (
     <ButtonTogglerWrapper className={className}>
-      {Boolean(tooltipTitle) && Boolean(tooltipDescription) && tooltipDescription &&
-        <TooltipWrapper>
-          <Tooltip description={tooltipDescription} title={tooltipTitle}/>
-        </TooltipWrapper>
-      }
+      {Boolean(tooltipTitle) &&
+        Boolean(tooltipDescription) &&
+        tooltipDescription && (
+          <TooltipWrapper>
+            <Tooltip description={tooltipDescription} title={tooltipTitle} />
+          </TooltipWrapper>
+        )}
       {React.Children.map(children, (child) => {
         return React.cloneElement(child as ReactElement, {
           filled,

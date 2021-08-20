@@ -5,7 +5,9 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Modal, { ModalProps } from "Renderer/components/core/modal/modal.component"
+import Modal, {
+  ModalProps,
+} from "Renderer/components/core/modal/modal.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"

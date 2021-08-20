@@ -31,7 +31,7 @@ export const phoneNumberValidator: RegisterOptions = {
 
 export const emailValidator: RegisterOptions = {
   pattern: {
-    value: /^\S+@\S+(\.\S+)+$/im,
+    value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     message: intl.formatMessage({ id: "component.formErrorInvalidEmail" }),
   },
   required: intl.formatMessage({ id: "component.formErrorRequiredEmail" }),
