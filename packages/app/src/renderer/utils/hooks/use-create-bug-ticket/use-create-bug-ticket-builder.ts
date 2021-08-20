@@ -109,7 +109,7 @@ const useCreateBugTicketBuilder = ({
 
     let attachments = []
     try {
-      attachments = [createFile(gzipFilePath)]
+      attachments = [createFile(gzipFilePath, { type: "application/zip" })]
     } catch {
       await removeTmpFiles(gzipFilePath)
       await removeTmpFiles(filePath)

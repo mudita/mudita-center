@@ -6,12 +6,33 @@
 import vCard from "vcf"
 import { Contact } from "App/contacts/store/contacts.type"
 import { createFullName } from "App/contacts/store/contacts.helpers"
+import utf8 from "utf8"
+import quotedPrintable from "quoted-printable"
 
-const convertContact = (contact: Contact): string => {
+class EncoderVCard extends vCard {
+  add(
+    key: string,
+    value: string,
+    params?: { [key: string]: string | string[] }
+  ): vCard {
+    const encodedValue = quotedPrintable.encode(utf8.encode(value))
+    if (encodedValue === value) {
+      return super.add(key, value, params)
+    } else {
+      return super.add(key, encodedValue, {
+        charset: "UTF-8",
+        encoding: "QUOTED-PRINTABLE",
+        ...params,
+      })
+    }
+  }
+}
+
+const mapToVCardString = (contact: Contact): string => {
   const {
     id,
-    firstName,
-    lastName,
+    firstName = "",
+    lastName = "",
     primaryPhoneNumber,
     secondaryPhoneNumber,
     firstAddressLine = "",
@@ -19,9 +40,9 @@ const convertContact = (contact: Contact): string => {
     email,
     note,
   } = contact
-  const card = new vCard()
+  const card = new EncoderVCard()
 
-  card.add("n", `${lastName || ""};${firstName || ""};;;`)
+  card.add("n", `${lastName};${firstName};;;`)
   card.add("fn", createFullName(contact))
 
   if (primaryPhoneNumber || secondaryPhoneNumber) {
@@ -76,14 +97,8 @@ const convertContact = (contact: Contact): string => {
   return card.toString("4.0")
 }
 
-const convertContacts = (contacts: Contact[]): string => {
-  const jCards: string[] = []
-
-  contacts.forEach((contact) => {
-    jCards.push(convertContact(contact))
-  })
-
-  return jCards.join("\n")
+const mapContactsToVCardStrings = (contacts: Contact[]): string => {
+  return contacts.map(contact => mapToVCardString(contact)).join("\n")
 }
 
-export default convertContacts
+export default mapContactsToVCardStrings

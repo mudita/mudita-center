@@ -37,7 +37,7 @@ import {
   ErrorWithRetryDataModal,
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
-import parseVcf from "App/contacts/helpers/parse-vcf/parse-vcf"
+import mapVCFsToContacts from "App/contacts/helpers/map-vcfs-to-contacts/map-vcfs-to-contacts"
 import logger from "App/main/utils/logger"
 import ContactImportModal, {
   ModalType,
@@ -461,7 +461,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       }
 
       const contacts = await (service.type === "files"
-        ? parseVcf(service.data)
+        ? mapVCFsToContacts(service.data)
         : loadContacts(service.type))
 
       showContactsSelectingModal(contacts)
