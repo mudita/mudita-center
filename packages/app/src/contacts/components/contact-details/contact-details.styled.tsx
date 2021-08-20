@@ -87,7 +87,9 @@ export const Input = styled(InputComponent).attrs<{ label: string }>(
     }
   }
 `
-export const ContactDetailsWrapper = styled(Sidebar)``
+export const ContactDetailsWrapper = styled(Sidebar)`
+  border-top: none;
+`
 
 export const ContactDetailsInfo = styled(Text)`
   ${generalInputStyles};

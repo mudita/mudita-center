@@ -53,6 +53,7 @@ import ImportingContactsModal from "App/contacts/components/importing-contacts-m
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import ErrorModal from "App/contacts/components/error-modal/error-modal.component"
 import styled from "styled-components"
+import { borderColor } from "Renderer/styles/theming/theme-getters"
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -86,6 +87,7 @@ export const messages = defineMessages({
 
 const ContactTable = styled(TableWithSidebarWrapper)`
   margin-top: 6.3rem;
+  border-top: solid 0.1rem ${borderColor("list")};
 `
 
 const Contacts: FunctionComponent<PhoneProps> = (props) => {
