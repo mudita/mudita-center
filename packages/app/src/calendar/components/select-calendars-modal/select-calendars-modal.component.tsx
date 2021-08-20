@@ -60,7 +60,8 @@ const SelectCalendarsModal: FunctionComponent<SelectCalendarsModalProps> = ({
   const [selectedCalendar, setSelectedCalendar] = useState<
     Calendar | undefined
   >(primaryCalendar)
-
+  const [searchValue, setSearchValue] = useState<string | null>(null)
+  
   const renderValue = (item: Calendar) => item.name
 
   const renderListItem: RenderInputSelectListItem<Calendar> = ({
@@ -104,6 +105,8 @@ const SelectCalendarsModal: FunctionComponent<SelectCalendarsModalProps> = ({
           renderItemValue={renderValue}
           renderListItem={renderListItem}
           outlined
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
         />
       </ModalContent>
     </Modal>

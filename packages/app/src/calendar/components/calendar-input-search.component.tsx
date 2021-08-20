@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { Dispatch, SetStateAction } from "react"
 import styled, { css } from "styled-components"
 import { defineMessages, FormattedDate } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -75,11 +75,15 @@ const isItemMatching = (item: CalendarEvent, search: string) => {
 export interface CalendarInputSelectProps {
   events: CalendarEvent[]
   onEventSelect: (item: CalendarEvent) => void
+  searchValue: string | null
+  setSearchValue: Dispatch<SetStateAction<string | null>>
 }
 
 const CalendarInputSearch: FunctionComponent<CalendarInputSelectProps> = ({
   events,
   onEventSelect,
+  searchValue,
+  setSearchValue,
   ...props
 }) => {
   const minEventNameLength = Math.min(
@@ -104,6 +108,8 @@ const CalendarInputSearch: FunctionComponent<CalendarInputSelectProps> = ({
       listStyles={css`
         max-height: 30.5rem;
       `}
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
     />
   )
 }

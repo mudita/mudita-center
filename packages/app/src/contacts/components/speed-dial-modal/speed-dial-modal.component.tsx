@@ -120,6 +120,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
   onClose = noop,
   flatList = [],
 }) => {
+  const [searchValue, setSearchValue] = useState<string | null>(null)
   const [localData, setLocalData] = useState<[ContactID, Contact][]>([])
   const speedDialList = Array.from({ length: 9 })
     .fill(null)
@@ -226,6 +227,8 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                   `}
                   disabledItems={[selectedItem]}
                   initialTransparentBorder
+                  searchValue={searchValue}
+                  setSearchValue={setSearchValue}
                 />
               </Col>
             </Row>

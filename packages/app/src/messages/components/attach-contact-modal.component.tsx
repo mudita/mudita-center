@@ -80,12 +80,14 @@ const AttachContactModal: FunctionComponent<Props> = ({
   contactFlatList,
 }) => {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
-
+  const [searchValue, setSearchValue] = useState<string | null>(null)
   return (
     <Modal title={intl.formatMessage(messages.title)} closeButton={false}>
       <ContactInputSearch
         contacts={contactFlatList}
         onContactSelect={setSelectedContact}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
       />
       <ListWrapper
         contactList={contactList}

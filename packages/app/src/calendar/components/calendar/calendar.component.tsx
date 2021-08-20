@@ -35,6 +35,7 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
   const tableSelectHook = useTableSelect<CalendarEvent>(events)
   const [provider, setProvider] = useState<ExternalProvider | undefined>()
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
+  const [searchValue, setSearchValue] = useState<string | null>(null)
   const highlightActiveEventTimeout = useRef<NodeJS.Timeout>()
 
   const setGoogleProvider = () => setProvider(Provider.Google)
@@ -194,6 +195,8 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
       tableSelectHook={tableSelectHook}
       selectedEventIndex={selectedEvent ? events.indexOf(selectedEvent) : -1}
       onEventSelect={setSelectedEvent}
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
     />
   )
 }

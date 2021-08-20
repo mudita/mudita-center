@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { Dispatch, SetStateAction } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import CalendarInputSearch, {
   CalendarInputSelectProps,
@@ -45,6 +45,8 @@ interface CalendarPanelProps extends CalendarInputSelectProps {
   resetRows: UseTableSelect<CalendarEvent>["resetRows"]
   openModal?: ModalService["openModal"]
   exportCalendarEvents?: (calendarEvents: CalendarEvent[]) => Promise<boolean>
+  searchValue: string | null
+  setSearchValue: Dispatch<SetStateAction<string | null>>
 }
 
 const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
@@ -58,6 +60,8 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
   resetRows,
   openModal = modalService.openModal.bind(modalService),
   exportCalendarEvents = exportEvents,
+  searchValue,
+  setSearchValue
 }) => {
   const selectedEventsCount = selectedEvents.length
   const selectionMode = selectedEventsCount > 0
@@ -99,7 +103,12 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
           data-testid={CalendarPanelTestIds.SelectionManager}
         />
       ) : (
-        <CalendarInputSearch events={events} onEventSelect={onEventSelect} />
+        <CalendarInputSearch
+          events={events}
+          onEventSelect={onEventSelect}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        />
       )}
       <Buttons>
         <ButtonComponent

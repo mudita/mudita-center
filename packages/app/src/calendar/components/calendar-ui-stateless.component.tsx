@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { Dispatch, SetStateAction } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import CalendarPanel from "App/calendar/components/calendar-panel/calendar-panel.component"
 import EventsList from "App/calendar/components/events-list.component"
@@ -26,6 +26,8 @@ interface Props {
   tableSelectHook: UseTableSelect<CalendarEvent>
   selectedEventIndex?: number
   onEventSelect: (item: CalendarEvent) => void
+  searchValue: string | null
+  setSearchValue: Dispatch<SetStateAction<string | null>>
 }
 
 const CalendarUIStateless: FunctionComponent<Props> = ({
@@ -34,6 +36,8 @@ const CalendarUIStateless: FunctionComponent<Props> = ({
   tableSelectHook,
   selectedEventIndex,
   onEventSelect,
+  searchValue,
+  setSearchValue
 }) => {
   return (
     <>
@@ -45,6 +49,8 @@ const CalendarUIStateless: FunctionComponent<Props> = ({
         allEventsSelected={tableSelectHook.allRowsSelected}
         toggleAll={tableSelectHook.toggleAll}
         resetRows={tableSelectHook.resetRows}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
       />
       {events.length > 0 ? (
         <EventsList
