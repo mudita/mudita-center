@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { Dispatch, SetStateAction } from "react"
 import styled, { css } from "styled-components"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -20,6 +20,7 @@ import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { IsItemMatching } from "Renderer/components/core/utils/is-item-matching"
 
 const messages = defineMessages({
   searchPlaceholder: { id: "module.contacts.panelSearchPlaceholder" },
@@ -125,39 +126,25 @@ export const secondParam = (contact: Contact, search: string): string => {
   }
   return intl.formatMessage(messages.noDataProvided)
 }
-export const isItemMatching = (contact: Contact, search: string): boolean => {
-  const query: (keyof Contact)[] = [
-    "firstName",
-    "lastName",
-    "primaryPhoneNumber",
-    "secondaryPhoneNumber",
-    "email",
-    "firstAddressLine",
-    "secondAddressLine",
-  ]
-  for (const key of query) {
-    const param: typeof contact[keyof typeof contact] = contact[key]
-    if (
-      param !== undefined &&
-      typeof param === "string" &&
-      param.toLowerCase().includes(search.toLowerCase())
-    ) {
-      return true
-    }
-  }
-  return false
-}
 
 export interface ContactInputSelectProps {
   contacts: Contact[]
   onContactSelect: (item: Contact) => void
   openSearchResults?: () => void
+  isItemMatching?: IsItemMatching
+  searchValue: string | null
+  setSearchValue: Dispatch<SetStateAction<string | null>>
+  searchResultsScreen?: boolean
 }
 
 const ContactInputSearch: FunctionComponent<ContactInputSelectProps> = ({
   contacts,
   onContactSelect,
   openSearchResults,
+  isItemMatching,
+  searchValue,
+  setSearchValue,
+  searchResultsScreen,
   ...props
 }) => {
   const minCharsToShowResults = 1
@@ -179,6 +166,9 @@ const ContactInputSearch: FunctionComponent<ContactInputSelectProps> = ({
       listStyles={css`
         max-height: 40rem;
       `}
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
+      itemListDisabled={searchResultsScreen}
     />
   )
 }

@@ -12,6 +12,8 @@ import React, {
   MouseEvent,
   useRef,
   useState,
+  Dispatch,
+  SetStateAction
 } from "react"
 import styled, { FlattenSimpleInterpolation } from "styled-components"
 import { noop } from "Renderer/utils/noop"
@@ -187,6 +189,9 @@ export interface InputSelectProps extends Partial<InputProps> {
   active?: boolean
   searchResultRows?: number
   openSearchResults?: () => void
+  searchValue: string | null
+  setSearchValue: Dispatch<SetStateAction<string | null>>
+  itemListDisabled?: boolean
 }
 
 const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
@@ -209,11 +214,13 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   type = "text",
   searchResultRows = 8,
   openSearchResults = noop,
+  searchValue,
   active,
+  setSearchValue,
+  itemListDisabled = false,
   ...rest
 }) => {
   const [focus, setFocus] = useState(false)
-  const [searchValue, setSearchValue] = useState<string | null>(null)
   const [activeItemIndex, setActiveItemIndex] = useState<number>(-1)
   const selectRef = useRef<HTMLInputElement>(null)
 
@@ -339,7 +346,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         readOnly={!searchable}
         focusable
       />
-      {(searchValue?.length || 0) >= minCharsToShowResults && (
+      {!itemListDisabled && (searchValue?.length || 0) >= minCharsToShowResults && (
         <InputSelectList
           selectedItem={selectedItem}
           disabledItems={disabledItems}

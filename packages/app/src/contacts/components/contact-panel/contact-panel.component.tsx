@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { Dispatch, SetStateAction } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
@@ -31,6 +31,7 @@ import {
 import delayResponse from "@appnroll/delay-response"
 import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
+import { IsItemMatching } from "Renderer/components/core/utils/is-item-matching"
 
 const messages = defineMessages({
   title: { id: "module.contacts.deleteTitle" },
@@ -52,6 +53,10 @@ export interface ContactPanelProps {
   contacts: Contact[]
   editedContact: Contact | undefined
   openSearchResults: () => void
+  searchValue: string | null
+  setSearchValue: Dispatch<SetStateAction<string | null>>
+  isItemMatching?: IsItemMatching
+  searchResultsScreen?: boolean
 }
 
 const ContactPanel: FunctionComponent<ContactPanelProps> = ({
@@ -66,6 +71,10 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   openSearchResults = noop,
   contacts,
   editedContact,
+  searchValue,
+  setSearchValue,
+  isItemMatching,
+  searchResultsScreen
 }) => {
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
@@ -142,6 +151,10 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
           contacts={contacts}
           onContactSelect={onContactSelect}
           openSearchResults={openSearchResults}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          isItemMatching={isItemMatching}
+          searchResultsScreen={searchResultsScreen}
         />
       )}
       <Buttons>
