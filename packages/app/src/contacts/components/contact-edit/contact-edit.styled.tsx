@@ -86,8 +86,9 @@ export const speedDialListStyles = css`
   }
 `
 export const ContactDetailsWrapper = styled(Sidebar)`
-  margin-top: 6.3rem;
+  border-top: none;
 `
+
 export const CustomCheckbox = styled.label`
   display: flex;
   flex-direction: row;
