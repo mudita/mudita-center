@@ -8,7 +8,7 @@ import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { Contact } from "App/contacts/store/contacts.type"
 import { app, dialog, shell } from "electron"
-import convertContacts from "App/contacts/helpers/convert-contacts/convert-contacts"
+import mapContactsToVCardStrings from "App/contacts/helpers/convert-contacts/map-contacts-to-v-card-strings"
 import { intl } from "Renderer/utils/intl"
 import path from "path"
 import { defineMessages } from "react-intl"
@@ -40,7 +40,7 @@ const registerContactsExportListener = () => {
       })
 
       if (!canceled && filePath) {
-        await fs.writeFile(filePath, convertContacts(contacts), "utf-8")
+        await fs.writeFile(filePath, mapContactsToVCardStrings(contacts), "utf-8")
         shell.showItemInFolder(filePath)
         return true
       }
