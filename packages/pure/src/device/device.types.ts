@@ -61,10 +61,6 @@ export enum Endpoint {
   CallLog = 9,
   Security = 13,
 
-  // lib endpoint
-  UploadUpdateFileSystem = 100,
-  DeviceUpdate = 101,
-
   // mocked ENPOINT until the backend implements serialNumber in deviceInfo
   SerialNumber = 102,
 
@@ -79,19 +75,9 @@ export enum Method {
   Delete = 4,
 }
 
-export enum BodyCommand {
-  Download = "download",
-}
-
 export interface ApiRequestPayload extends RequestPayload {
   endpoint: Endpoint.ApiVersion
   method: Method.Get
-}
-
-export interface DeviceUpdateRequestPayload extends RequestPayload {
-  endpoint: Endpoint.DeviceUpdate
-  method: Method.Post
-  filePath: string
 }
 
 export interface SerialNumberRequestPayload extends RequestPayload {
@@ -109,12 +95,4 @@ export interface RequestConfig<Body = undefined> {
   method: Method
   body?: Body
   filePath?: string
-}
-
-export enum FileResponseStatus {
-  Ok = "1",
-}
-
-export enum UpdateResponseStatus {
-  Ok = "Ready for reset",
 }

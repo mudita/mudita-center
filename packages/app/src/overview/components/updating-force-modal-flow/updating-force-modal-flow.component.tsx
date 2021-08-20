@@ -11,7 +11,6 @@ import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.comp
 import {
   UpdatingForceModal,
   UpdatingSpinnerModal,
-  UpdatingFailureModal,
   UpdatingSuccessModal,
   UpdatingFailureWithHelpModal,
 } from "App/overview/components/overview.modal-dialogs"
@@ -22,7 +21,6 @@ import { DownloadStatus } from "Renderer/interfaces/file-download.interface"
 import {
   ApplicationUpdateError,
   ApplicationUpdateErrorCodeMap,
-  noCriticalErrorCodes,
 } from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
 import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.component"
 
@@ -36,8 +34,8 @@ export enum UpdatingForceModalFlowState {
 interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
   state: UpdatingForceModalFlowState | undefined
   osVersion: string | undefined
-  onContact: (code?: number) => void
-  onHelp: (code: number) => void
+  onContact: () => void
+  onHelp: () => void
   updateOs: (fileName: string) => void
 }
 
@@ -52,7 +50,6 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
   const [updatingForceOpenState, setUpdatingForceOpenState] = useState<
     UpdatingForceModalFlowState | undefined
   >(state)
-  const [code, setCode] = useState<number>()
 
   useEffect(() => {
     setUpdatingForceOpenState(state)
@@ -99,7 +96,6 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
 
   const handleUpdateOsFailed = (code?: number): void => {
     setUpdatingForceOpenState(UpdatingForceModalFlowState.Fail)
-    setCode(code)
     logger.error(`Overview: force updating pure fails. Code: ${code}`)
   }
 
@@ -107,9 +103,14 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
     osVersion: string,
     latestReleaseVersion?: string
   ): boolean => {
-    return latestReleaseVersion
-      ? !isVersionGreater(osVersion, latestReleaseVersion)
-      : false
+    try {
+      return latestReleaseVersion
+        ? !isVersionGreater(osVersion, latestReleaseVersion)
+        : false
+    } catch (error) {
+      logger.error(`Overview: force updating pure. Check that isNewestPureOsAvailable fails ${error.message}`)
+      return false
+    }
   }
 
   const downloadOS = async (release: Release): Promise<boolean> => {
@@ -136,25 +137,13 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
         testId={UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal}
         open={updatingForceOpenState === UpdatingForceModalFlowState.Updating}
       />
-      {code && noCriticalErrorCodes.includes(code) ? (
-        <UpdatingFailureWithHelpModal
-          testId={
-            UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal
-          }
-          code={code}
-          onContact={onContact}
-          onHelp={onHelp}
-          closeModal={closeFailureModal}
-          open={updatingForceOpenState === UpdatingForceModalFlowState.Fail}
-        />
-      ) : (
-        <UpdatingFailureModal
-          testId={UpdatingForceModalFlowTestIds.UpdatingForceFailureModal}
-          onContact={onContact}
-          closeModal={closeFailureModal}
-          open={updatingForceOpenState === UpdatingForceModalFlowState.Fail}
-        />
-      )}
+      <UpdatingFailureWithHelpModal
+        testId={UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal}
+        onContact={onContact}
+        onHelp={onHelp}
+        closeModal={closeFailureModal}
+        open={updatingForceOpenState === UpdatingForceModalFlowState.Fail}
+      />
       <UpdatingSuccessModal
         testId={UpdatingForceModalFlowTestIds.UpdatingSuccessModal}
         open={updatingForceOpenState === UpdatingForceModalFlowState.Success}

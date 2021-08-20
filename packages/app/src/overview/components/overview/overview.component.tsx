@@ -49,7 +49,7 @@ const Overview: FunctionComponent<Props> = ({
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
-  osVersion,
+  osVersion = "",
   osUpdateDate,
   lastAvailableOsVersion,
   pureOsDownloaded,
@@ -72,7 +72,7 @@ const Overview: FunctionComponent<Props> = ({
   updateBasicInfo = noop,
   language = "",
   pureOsBackupLocation = "",
-  lowestSupportedOsVersion,
+  lowestSupportedOsVersion = "",
   updatingState,
   updateOs,
   updateUpdatingState,
@@ -90,15 +90,13 @@ const Overview: FunctionComponent<Props> = ({
     failedModal: false,
   })
   const [progress, setProgress] = useState(0)
-  const [
-    contactSupportOpenState,
-    setContactSupportOpenState,
-  ] = useState<ContactSupportModalFlowState>()
+  const [contactSupportOpenState, setContactSupportOpenState] =
+    useState<ContactSupportModalFlowState>()
   const [sendBugTicketRequest, sending] = useCreateBugTicket()
   const [bugTicketSubject, setBugTicketSubject] = useState("")
 
-  const openContactSupportModalFlow = (code?: number) => {
-    setBugTicketSubject(`Error - UpdateOS_${code}`)
+  const openContactSupportModalFlow = () => {
+    setBugTicketSubject(`Error - UpdateOS`)
     setContactSupportOpenState(ContactSupportModalFlowState.Form)
   }
 
@@ -124,8 +122,8 @@ const Overview: FunctionComponent<Props> = ({
     }
   }
 
-  const goToHelp = (code: number): void => {
-    void ipcRenderer.callMain(HelpActions.OpenWindow, { code })
+  const goToHelp = (): void => {
+    void ipcRenderer.callMain(HelpActions.OpenWindow)
   }
 
   // FIXME: tmp solution until useSystemUpdateFlow exist
@@ -148,13 +146,9 @@ const Overview: FunctionComponent<Props> = ({
 
   useEffect(() => {
     try {
-      if (!osVersion || !lowestSupportedOsVersion) {
-        setOsVersionSupported(false)
-      } else {
-        setOsVersionSupported(
-          isVersionGreater(osVersion, lowestSupportedOsVersion)
-        )
-      }
+      setOsVersionSupported(
+        isVersionGreater(osVersion, lowestSupportedOsVersion)
+      )
     } catch (error) {
       logger.error(`Overview: ${error.message}`)
     }
@@ -245,10 +239,15 @@ const Overview: FunctionComponent<Props> = ({
   }
 
   const isPureOsAvailable = (): boolean => {
-    if (!osVersion || !lastAvailableOsVersion) {
+    try {
+      if (!osVersion || !lastAvailableOsVersion) {
+        return false
+      } else {
+        return !isVersionGreater(osVersion, lastAvailableOsVersion)
+      }
+    } catch (error) {
+      logger.error(`Overview (isPureOsAvailable): ${error.message}`)
       return false
-    } else {
-      return !isVersionGreater(osVersion, lastAvailableOsVersion)
     }
   }
 

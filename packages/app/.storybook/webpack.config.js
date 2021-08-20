@@ -12,6 +12,8 @@ module.exports = ({ config }) => {
   config.module.rules[0].use[0].options.plugins = [
     // use @babel/plugin-proposal-class-properties for class arrow functions
     require.resolve("@babel/plugin-proposal-class-properties"),
+    require.resolve("@babel/plugin-proposal-private-methods"),
+    require.resolve("@babel/plugin-proposal-private-property-in-object"),
   ]
   // Prefer Gatsby ES6 entrypoint (module) over commonjs (main) entrypoint
   config.resolve.mainFields = ["browser", "module", "main"]
@@ -25,7 +27,11 @@ module.exports = ({ config }) => {
     loader: require.resolve("babel-loader"),
     options: {
       presets: [["react-app", { flow: false, typescript: true }]],
-      plugins: [require.resolve("@babel/plugin-proposal-class-properties")],
+      plugins: [
+        require.resolve("@babel/plugin-proposal-class-properties"),
+        require.resolve("@babel/plugin-proposal-private-methods"),
+        require.resolve("@babel/plugin-proposal-private-property-in-object"),
+      ],
     },
   })
 

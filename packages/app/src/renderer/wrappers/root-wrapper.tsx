@@ -89,7 +89,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   }
 
   const handleAppUpdateAvailableCheck = (): void => {
-    if(!window.navigator.onLine){
+    if (!window.navigator.onLine) {
       store.dispatch.settings.setAppUpdateStepModalDisplayed()
       store.dispatch.settings.toggleAppUpdateAvailable(false)
     } else {
@@ -175,14 +175,17 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   useEffect(() => {
     void store.dispatch.settings.loadSettings()
     handleAppUpdateAvailableCheck()
+    const devModeHidden = process.env.DEVELOPER_MODE_HIDE === "true"
+    const productionEnvironment = process.env.NODE_ENV === "production"
+    //Remove this condition to get devMode on production
+    if (!(devModeHidden && productionEnvironment)) {
+      // Register hotkeys
+      registerHotkeys()
 
-    // Register hotkeys
-    registerHotkeys()
-
-    // Register context menu
-
-    registerAppContextMenu(appContextMenu)
-    appContextMenu.init()
+      // Register context menu
+      registerAppContextMenu(appContextMenu)
+      appContextMenu.init()
+    }
   }, [])
 
   return (

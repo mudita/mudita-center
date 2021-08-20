@@ -26,8 +26,8 @@
     "app:test:coverage": "lerna run --scope @mudita/mudita-center-app test:coverage",
     "app:test:e2e": "lerna run --scope @mudita/mudita-center-app test:e2e",
     "app:prerelease": "lerna run --scope @mudita/mudita-center-app prerelease",
-    "app:storybook:serve": "lerna run --scope @mudita/mudita-center-app storybook:serve --",
-    "app:storybook:build": "lerna run --scope @mudita/mudita-center-app storybook:build --",
+    "app:storybook:serve": "lerna run --scope @mudita/mudita-center-app storybook:serve",
+    "app:storybook:build": "lerna run --scope @mudita/mudita-center-app storybook:build",
     "app:dist": "lerna run --scope @mudita/mudita-center-app dist",
     "app:dist:all": "lerna run --scope @mudita/mudita-center-app dist:all",
     "app:electron:rebuild-serialport": "lerna run --scope @mudita/mudita-center-app electron:rebuild-serialport --",
@@ -59,17 +59,18 @@
   },
   "homepage": "https://github.com/Mudita/mudita-center",
   "devDependencies": {
-    "@mudita/eslint-config": "^1.0.14",
+    "@mudita/eslint-config": "1.0.14",
     "@types/react-syntax-highlighter": "^13.5.2",
     "eslint-plugin-license-header": "^0.2.0",
     "husky": "^4.3.8",
     "lerna": "^4.0.0",
     "lint-staged": "^10.5.4",
-    "prettier": "^2.2.1",
-    "typescript": "^4.2.4"
+    "prettier": "^2.3.2",
+    "typescript": "^4.3.5"
   },
   "engines": {
     "node": "14.17.3",
     "npm": "6.14.13"
-  }
+  },
+  "dependencies": {}
 }

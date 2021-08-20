@@ -21,6 +21,7 @@ import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.comp
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { ipcRenderer } from "electron-better-ipc"
 import { AboutActions } from "App/common/enums/about-actions.enum"
+import { Size } from "Renderer/components/core/button/button.config"
 
 const messages = defineMessages({
   title: { id: "component.collectingDataModalTitle" },
@@ -46,6 +47,7 @@ const CollectingDataModal: FunctionComponent<Properties> = (props) => {
       size={ModalSize.Small}
       actionButtonLabel={intl.formatMessage(messages.agreeButton)}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
+      actionButtonSize={Size.FixedMedium}
       {...props}
     >
       <ModalContent>

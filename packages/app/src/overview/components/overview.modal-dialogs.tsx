@@ -19,6 +19,7 @@ import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-cont
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import { Size } from "App/renderer/components/core/button/button.config"
 
 const messages = defineMessages({
   muditaOsUpdateTitle: {
@@ -131,67 +132,18 @@ export const UpdatingSpinnerModal: FunctionComponent<
   )
 }
 
-interface UpdatingFailureModalProps extends ComponentProps<typeof ModalDialog> {
-  code?: number
-  onContact: (code?: number) => void
-}
-
-export const UpdatingFailureModal = ({
-  code,
-  onContact,
-  ...props
-}: UpdatingFailureModalProps) => {
-  const handleOnActionButtonClick = (): void => {
-    onContact(code)
-  }
-
-  return (
-    <OSUpdateModal
-      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-      closeButton={false}
-      onActionButtonClick={handleOnActionButtonClick}
-      actionButtonLabel={intl.formatMessage(
-        messages.updatingFailedSupportButton
-      )}
-      {...props}
-    >
-      <RoundIconWrapper>
-        <Icon type={Type.Fail} width={4} />
-      </RoundIconWrapper>
-      <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
-        message={{ ...messages.updatingFailedTitle, values: { code } }}
-      />
-
-      <Text
-        displayStyle={TextDisplayStyle.MediumFadedText}
-        message={messages.updatingFailedOnlySupportDescription}
-      />
-    </OSUpdateModal>
-  )
-}
-
 interface UpdatingFailureWithHelpModalProps
   extends ComponentProps<typeof ModalDialog> {
-  code: number
-  onContact: (code: number) => void
-  onHelp: (code: number) => void
+  onContact: () => void
+  onHelp: () => void
 }
 
 export const UpdatingFailureWithHelpModal = ({
-  code,
   onContact,
   onHelp,
   onClose,
   ...props
 }: UpdatingFailureWithHelpModalProps) => {
-  const handleOnActionButtonClick = (): void => {
-    onHelp(code)
-  }
-  const handleOnCloseButton = (): void => {
-    onContact(code)
-  }
-
   const handleOnClose = (): void => {
     if (onClose) {
       onClose()
@@ -202,13 +154,14 @@ export const UpdatingFailureWithHelpModal = ({
     <OSUpdateModal
       closeButton
       title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-      onCloseButton={handleOnCloseButton}
+      onCloseButton={onContact}
       closeButtonLabel={intl.formatMessage(
         messages.updatingFailedSupportButton
       )}
-      onActionButtonClick={handleOnActionButtonClick}
+      onActionButtonClick={onHelp}
       actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
       onClose={handleOnClose}
+      actionButtonSize={Size.FixedMedium}
       {...props}
     >
       <RoundIconWrapper>
@@ -216,9 +169,8 @@ export const UpdatingFailureWithHelpModal = ({
       </RoundIconWrapper>
       <Text
         displayStyle={TextDisplayStyle.LargeBoldText}
-        message={{ ...messages.updatingFailedTitle, values: { code } }}
+        message={messages.updatingFailedTitle}
       />
-
       <Text
         displayStyle={TextDisplayStyle.MediumFadedText}
         message={messages.updatingFailedDescription}

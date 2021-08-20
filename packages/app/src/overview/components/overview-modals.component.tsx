@@ -35,6 +35,7 @@ import { OverviewModalsTestIds } from "App/overview/components/overview-modals-t
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import { Size } from "App/renderer/components/core/button/button.config"
 
 const ModalContent = styled.div`
   display: flex;
@@ -310,6 +311,7 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
     closeButtonLabel={intl.formatMessage(messages.downloadCompletedCloseButton)}
     onActionButtonClick={onOsUpdate}
     data-testid={OverviewModalsTestIds.DownloadingUpdateFinishedModal}
+    actionButtonSize={Size.FixedMedium}
   >
     <RoundIconWrapper>
       <Icon type={Type.Download} width={4} />
@@ -405,31 +407,23 @@ export const UpdatingFailureModal = ({
 
 // FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
 export const UpdatingFailureWithHelpModal = ({
-  code,
   onContact,
   onHelp,
 }: {
-  code: number
-  onHelp: (code: number) => void
-  onContact: (code: number) => void
+  onHelp: () => void
+  onContact: () => void
 }) => {
-  const handleOnActionButtonClick = (): void => {
-    onHelp(code)
-  }
-  const handleOnCloseButton = (): void => {
-    onContact(code)
-  }
   return (
     <ErrorDataModal
       closeButton
-      onCloseButton={handleOnCloseButton}
+      onCloseButton={onContact}
       closeButtonLabel={intl.formatMessage(
         messages.updatingFailedSupportButton
       )}
-      onActionButtonClick={handleOnActionButtonClick}
+      onActionButtonClick={onHelp}
       title={intl.formatMessage(messages.muditaOsUpdateTitle)}
       actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
-      textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
+      textMessage={{ ...messages.updatingFailedTitle }}
       descriptionMessage={messages.updatingFailedDescription}
     />
   )
