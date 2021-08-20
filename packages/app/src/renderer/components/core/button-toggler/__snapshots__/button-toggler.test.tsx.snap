@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.c5 {
+.c7 {
   margin: 0;
   font-size: 1.4rem;
   line-height: 1.05;
 }
 
-.c7 {
+.c9 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -19,7 +19,7 @@ exports[`matches snapshot 1`] = `
   font-weight: 300;
 }
 
-.c10 {
+.c12 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -30,7 +30,7 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.1rem;
 }
 
-.c1 {
+.c3 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -49,12 +49,12 @@ exports[`matches snapshot 1`] = `
   font-style: normal;
 }
 
-.c1 svg {
+.c3 svg {
   width: 100%;
   height: 100%;
 }
 
-.c8 {
+.c10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -82,16 +82,64 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c8 g {
+.c10 g {
   fill: #000000;
 }
 
-.c8:hover {
+.c10:hover {
   border-color: #000000;
 }
 
-.c11 {
+.c13 {
   white-space: nowrap;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  position: relative;
+}
+
+.c6 {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 24.3rem;
+  background-color: #ffffff;
+  padding: 1.6rem;
+  position: absolute;
+  top: 2.7rem;
+  left: 0;
+  opacity: 0;
+  border-radius: 0.5rem;
+  -webkit-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
+}
+
+.c4 {
+  z-index: 4;
+  cursor: pointer;
+}
+
+.c4:hover {
+  background-color: #f4f5f6;
+  border-radius: 0.2rem;
+}
+
+.c4:hover + .c5 {
+  visibility: visible;
+  opacity: 1;
+  z-index: 4;
+}
+
+.c8 {
+  margin-bottom: 0.8rem;
 }
 
 .c0 {
@@ -105,7 +153,7 @@ exports[`matches snapshot 1`] = `
   position: relative;
 }
 
-.c9 {
+.c11 {
   --radius: 0.5rem;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -114,116 +162,102 @@ exports[`matches snapshot 1`] = `
   pointer-events: all;
 }
 
-.c9:disabled {
+.c11:disabled {
   pointer-events: none;
 }
 
-.c9:hover {
+.c11:hover {
   z-index: 2;
 }
 
-.c9:not(:hover) {
+.c11:not(:hover) {
   border: 0.1rem solid #cdcecf;
   color: #6a6a6a;
 }
 
-.c9:not(:hover) g {
+.c11:not(:hover) g {
   fill: #cdcecf;
 }
 
-.c9:not(:first-of-type) {
+.c11:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c9:first-of-type:not(:last-of-type) {
+.c11:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c9:last-of-type:not(:first-of-type) {
+.c11:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.c4 {
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-  max-width: 24.3rem;
-  background-color: #ffffff;
-  padding: 1.6rem;
-  position: absolute;
-  top: 1rem;
-  left: 0;
-  opacity: 0;
-  -webkit-transition: opacity 0.3s ease-in-out;
-  transition: opacity 0.3s ease-in-out;
-  box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
-}
-
-.c2 {
+.c1 {
   position: absolute;
   top: -0.8rem;
   left: -0.8rem;
   z-index: 4;
 }
 
-.c2:hover + .c3 {
-  visibility: visible;
-  opacity: 1;
-  z-index: 4;
-}
-
-.c6 {
-  margin-bottom: 0.8rem;
+.c1:hover {
+  background-color: inherit;
 }
 
 <div>
   <section
     class="c0"
   >
-    <span
-      class="c1 c2"
-      data-testid="icon-Tooltip"
-      height="1.6"
-      width="1.6"
-    >
-      <test-file-stub
-        image="test-file-stub"
-      />
-    </span>
     <div
-      class="c3 c4"
-      data-testid="tooltip"
+      class="c1"
     >
-      <p
-        class="c5 c6"
+      <div
+        class="c2"
       >
-        [value] module.news
-      </p>
-      <p
-        class="c7"
-      >
-        [value] module.news
-      </p>
+        <span
+          class="c3 c4"
+          data-testid="tooltip-icon"
+          height="1.6"
+          width="1.6"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </span>
+        <div
+          class="c5 c6"
+        >
+          <p
+            class="c7 c8"
+          >
+            [value] module.news
+          </p>
+          <p
+            class="c9"
+            data-testid="tooltip-description"
+          >
+            [value] module.news
+          </p>
+        </div>
+      </div>
     </div>
     <button
-      class="c8 c9"
+      class="c10 c11"
       size="2"
       type="button"
     >
       <p
-        class="c10 c11"
+        class="c12 c13"
       >
         On
       </p>
     </button>
     <button
-      class="c8 c9"
+      class="c10 c11"
       size="2"
       type="button"
     >
       <p
-        class="c10 c11"
+        class="c12 c13"
       >
         Off
       </p>

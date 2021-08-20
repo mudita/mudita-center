@@ -11,11 +11,47 @@ exports[`matches snapshot 1`] = `
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
+  color: #6a6a6a;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+  font-weight: 300;
+}
+
+.c19 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
   text-transform: uppercase;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+}
+
+.c8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2.2rem;
+  width: 2.2rem;
+  position: relative;
+  font-style: normal;
+}
+
+.c8 svg {
+  width: 100%;
+  height: 100%;
 }
 
 .c4 {
@@ -26,7 +62,7 @@ exports[`matches snapshot 1`] = `
   margin-bottom: 0.4rem;
 }
 
-.c6 {
+.c13 {
   grid-area: Actions;
   display: -webkit-box;
   display: -webkit-flex;
@@ -62,12 +98,7 @@ exports[`matches snapshot 1`] = `
   background-color: #f4f5f6;
 }
 
-.c0:hover .sc-iqAclL {
-  opacity: 1;
-  visibility: visible;
-}
-
-.c9 {
+.c16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -97,15 +128,15 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c9:hover {
+.c16:hover {
   background: #232426;
 }
 
-.c9 g {
+.c16 g {
   fill: #ffffff;
 }
 
-.c14 {
+.c21 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -133,19 +164,19 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c14 g {
+.c21 g {
   fill: #000000;
 }
 
-.c14:hover {
+.c21:hover {
   border-color: #000000;
 }
 
-.c13 {
+.c20 {
   white-space: nowrap;
 }
 
-.c7 {
+.c6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -156,7 +187,51 @@ exports[`matches snapshot 1`] = `
   position: relative;
 }
 
-.c10 {
+.c11 {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 24.3rem;
+  background-color: #ffffff;
+  padding: 1.6rem;
+  position: absolute;
+  top: 2.7rem;
+  left: 0;
+  opacity: 0;
+  border-radius: 0.5rem;
+  -webkit-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
+}
+
+.c9 {
+  z-index: 4;
+  cursor: pointer;
+}
+
+.c9:hover {
+  background-color: #f4f5f6;
+  border-radius: 0.2rem;
+}
+
+.c9:hover + .c10 {
+  visibility: visible;
+  opacity: 1;
+  z-index: 4;
+}
+
+.c14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  position: relative;
+}
+
+.c17 {
   --radius: 0.5rem;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -166,28 +241,28 @@ exports[`matches snapshot 1`] = `
   z-index: 3;
 }
 
-.c10:disabled {
+.c17:disabled {
   pointer-events: none;
 }
 
-.c10:hover {
+.c17:hover {
   z-index: 2;
 }
 
-.c10:not(:first-of-type) {
+.c17:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c10:first-of-type:not(:last-of-type) {
+.c17:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c10:last-of-type:not(:first-of-type) {
+.c17:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.c15 {
+.c22 {
   --radius: 0.5rem;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -196,41 +271,41 @@ exports[`matches snapshot 1`] = `
   pointer-events: all;
 }
 
-.c15:disabled {
+.c22:disabled {
   pointer-events: none;
 }
 
-.c15:hover {
+.c22:hover {
   z-index: 2;
 }
 
-.c15:not(:hover) {
+.c22:not(:hover) {
   border: 0.1rem solid #cdcecf;
   color: #6a6a6a;
 }
 
-.c15:not(:hover) g {
+.c22:not(:hover) g {
   fill: #cdcecf;
 }
 
-.c15:not(:first-of-type) {
+.c22:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c15:first-of-type:not(:last-of-type) {
+.c22:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c15:last-of-type:not(:first-of-type) {
+.c22:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.c8 {
+.c15 {
   margin-right: 4rem;
 }
 
-.c11 {
+.c18 {
   padding: 0 3.6rem;
   width: 75%;
 }
@@ -239,6 +314,8 @@ exports[`matches snapshot 1`] = `
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 15rem;
   border-bottom: solid 0.1rem #d2d6db;
+  height: 7.2rem;
+  max-height: 7.2rem;
 }
 
 .c1:hover {
@@ -250,10 +327,25 @@ exports[`matches snapshot 1`] = `
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
 }
 
 .c5 {
   margin-left: 4rem;
+  margin-bottom: 0;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c7 {
+  margin-left: 0.4rem;
 }
 
 <div>
@@ -273,33 +365,57 @@ exports[`matches snapshot 1`] = `
         >
           [value] module.settings.collectingData
         </p>
+        <div
+          class="c6 c7"
+        >
+          <span
+            class="c8 c9"
+            data-testid="tooltip-icon"
+            height="2.2"
+            width="2.2"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </span>
+          <div
+            class="c10 c11"
+          >
+            <p
+              class="c12"
+              data-testid="tooltip-description"
+            >
+              [value] module.settings.collectingDataTooltip
+            </p>
+          </div>
+        </div>
       </div>
       <div
-        class="c6"
+        class="c13"
       >
         <section
-          class="c7 c8"
+          class="c14 c15"
         >
           <button
-            class="c9 c10 c11"
+            class="c16 c17 c18"
             data-testid="toggler-active"
             size="2"
             type="button"
           >
             <p
-              class="c12 c13"
+              class="c19 c20"
             >
               [value] module.settings.offLabel
             </p>
           </button>
           <button
-            class="c14 c15 c11"
+            class="c21 c22 c18"
             data-testid="toggler-inactive"
             size="2"
             type="button"
           >
             <p
-              class="c12 c13"
+              class="c19 c20"
             >
               [value] module.settings.onLabel
             </p>

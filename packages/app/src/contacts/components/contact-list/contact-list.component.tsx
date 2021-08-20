@@ -24,7 +24,10 @@ import Avatar, {
   AvatarSize,
   basicAvatarStyles,
 } from "Renderer/components/core/avatar/avatar.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  textColor,
+} from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
@@ -51,8 +54,11 @@ export const lightAvatarStyles = css`
   background-color: ${backgroundColor("row")};
 `
 
-const InitialsAvatar = styled(Avatar)`
+const InitialsAvatar = styled(Avatar)<{ disabled?: boolean }>`
   margin-right: 1.2rem;
+  p {
+    color: ${({ disabled }) => (disabled ? textColor("accent") : "inherit")};
+  }
 `
 
 const ClickableCol = styled(Col)`
@@ -102,6 +108,9 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
       }
     }
   }
+`
+const NameSpan = styled.span<{ disabled?: boolean }>`
+  color: ${({ disabled }) => (disabled ? textColor("disabled") : "inherit")};
 `
 
 type SelectHook = Pick<
@@ -193,15 +202,15 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                   }
                   if (firstName && lastName) {
                     return (
-                      <span>
+                      <NameSpan disabled={editMode}>
                         {firstName} <strong>{lastName}</strong>
-                      </span>
+                      </NameSpan>
                     )
                   }
                   return (
-                    <span>
+                    <NameSpan disabled={editMode}>
                       <strong>{firstName || lastName}</strong>
-                    </span>
+                    </NameSpan>
                   )
                 }
                 const phoneNumber =
@@ -234,6 +243,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                         user={contact}
                         light={selected || activeRow === contact}
                         size={AvatarSize.Medium}
+                        disabled={editMode}
                       />
                       {createStyledFullName() ||
                         intl.formatMessage({

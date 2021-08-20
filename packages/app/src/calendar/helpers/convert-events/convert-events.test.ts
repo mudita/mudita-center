@@ -21,8 +21,8 @@ test("result has correct prodId", () => {
 test("converted event has expected keys and properties", () => {
   const singleEvent = eventsData[0]
   const convertedEvents = convertEventsToICal([singleEvent])
-  const { uid, start, end, summary } = convertedEvents.print().events[0]
-  expect(uid).toEqual(singleEvent.id)
+  const { id, start, end, summary } = convertedEvents.print().events[0]
+  expect(id).toEqual(singleEvent.id)
   expect(start).toEqual(singleEvent.startDate)
   expect(end).toEqual(singleEvent.endDate)
   expect(summary).toEqual(singleEvent.name)

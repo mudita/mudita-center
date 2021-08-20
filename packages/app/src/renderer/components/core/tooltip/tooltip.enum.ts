@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum ButtonTogglerTestIds {
-  ActiveState = "active",
-  InactiveState = "inactive",
+export enum TooltipTestIds {
+  Icon = "tooltip-icon",
+  Description = "tooltip-description"
 }
