@@ -114,6 +114,9 @@ const defaultProps: Props = {
   editMode: false,
   savingContact: false,
   inputValue: "",
+  searchValue: "",
+  setSearchValue: jest.fn(),
+  openSearchResults: () => false
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

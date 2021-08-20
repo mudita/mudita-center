@@ -42,6 +42,8 @@ storiesOf("Views/Calendar/Main view", module)
           openSelectVendorModal={action("open vendor modal")}
           tableSelectHook={tableSelectHook}
           onEventSelect={action("event select")}
+          searchValue={""}
+          setSearchValue={action("set search value")}
         />
       </Wrapper>
     )
@@ -55,6 +57,8 @@ storiesOf("Views/Calendar/Main view", module)
           openSelectVendorModal={action("open vendor modal")}
           tableSelectHook={tableSelectHook}
           onEventSelect={action("event select")}
+          searchValue={""}
+          setSearchValue={action("set search value")}
         />
       </Wrapper>
     )

@@ -11,6 +11,7 @@ import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { InputSelectTestIds } from "Renderer/components/core/input-select/input-select.component"
 import { CalendarPanelTestIds } from "App/calendar/components/calendar-panel/calendar-panel-test-ids.enum"
 import ExportErrorModal from "App/calendar/components/export-error-modal/export-error-modal.component"
+import { noop } from "App/renderer/utils/noop"
 
 const mockedResetRows = jest.fn()
 const defaultProps = {
@@ -33,6 +34,8 @@ const defaultProps = {
       endDate: new Date("2020-01-02 14:00").toISOString(),
     },
   ] as CalendarEvent[],
+  searchValue: "",
+  setSearchValue: noop
 }
 
 afterEach(() => {

@@ -50,7 +50,10 @@ const defaultProps: Props = {
   selectedContacts: [],
   deleteContacts: jest.fn(),
   contacts: [],
-  onContactSelect: jest.fn()
+  onContactSelect: jest.fn(),
+  searchValue: "",
+  setSearchValue: jest.fn(),
+  openSearchResults: () => false
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
