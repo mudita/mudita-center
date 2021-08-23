@@ -254,6 +254,7 @@
   "module.contacts.importFailedButton": "Retry",
   "module.contacts.importFailedSubtitle": "Saving failed",
   "module.contacts.importingBody": "Please wait, this may take a while",
+  "module.contacts.importingNoDataDescription": "No contacts to import",
   "module.contacts.importingSubtitle": "Importing contacts...",
   "module.contacts.importingTitle": "Importing contacts",
   "module.contacts.importSubtitle": "Contacts imported",
@@ -513,6 +514,7 @@
   "module.settings.backupLabel": "Backup Location",
   "module.settings.backupTetheringLabel": "Start tethering",
   "module.settings.collectingData": "Send Mudita Center logs to Mudita",
+  "module.settings.collectingDataTooltip": "Lorem ipsum dolor sit amet, adipiscing elit Nullam quis vulputate dolor, in mattis dolor sit amet elit tortor.",
   "module.settings.connection": "General",
   "module.settings.description": " ",
   "module.settings.notifications": "Notifications",
@@ -576,6 +578,5 @@
   "module.tools.notesSelectionsNumber": "{num, plural, =-1 {All Notes} one {# Note} other {# Notes}} selected",
   "module.tools.notesTemporaryText": "New Note",
   "module.tools.notesUnsavedNote": "unsaved",
-  "module.tools.voiceRecorder": "Voice Recorder",
-  "test": "test"
+  "module.tools.voiceRecorder": "Voice Recorder"
 }

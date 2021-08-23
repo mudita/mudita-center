@@ -1,5 +1,0 @@
-{
-    "include": [
-        "./transform-svg.d.ts"
-    ]
-}

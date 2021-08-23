@@ -47,20 +47,30 @@ const settings = createModel<RootModel>({
     },
   },
   effects: (d) => {
-    const dispatch = (d as unknown) as RootState
+    const dispatch = d as unknown as RootState
 
     return {
       async loadSettings() {
         const appSettings = await getAppSettings()
         const applicationConfiguration = await getApplicationConfiguration()
 
-        const settings = {
-          ...appSettings,
-          lowestSupportedOsVersion: applicationConfiguration.osVersion,
-          appUpdateRequired: isVersionGreater(
+        let appUpdateRequired = false
+
+        try {
+          appUpdateRequired = isVersionGreater(
             applicationConfiguration.centerVersion,
             version
-          ),
+          )
+        } catch (error) {
+          logger.error(
+            `Settings -> LoadSettings: Check that app update required fails: ${error.message}`
+          )
+        }
+
+        const settings = {
+          ...appSettings,
+          appUpdateRequired,
+          lowestSupportedOsVersion: applicationConfiguration.osVersion,
           settingsLoaded: true,
         }
 
@@ -129,6 +139,9 @@ const settings = createModel<RootModel>({
         value: AppSettings["diagnosticSentTimestamp"]
       ) {
         this.updateSettings({ key: "diagnosticSentTimestamp", value })
+      },
+      setCollectingData(value: AppSettings["appCollectingData"]) {
+        this.updateSettings({ key: "appCollectingData", value })
       },
       toggleAppCollectingData(value: boolean) {
         this.updateSettings({ key: "appCollectingData", value })

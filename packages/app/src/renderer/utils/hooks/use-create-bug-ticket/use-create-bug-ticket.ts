@@ -8,7 +8,7 @@ import getAppPath from "App/main/utils/get-app-path"
 import writeFile from "Renderer/requests/write-file.request"
 import writeGzip from "Renderer/requests/write-gzip.request"
 import rmdir from "Renderer/requests/rmdir.request"
-import createFile from "Renderer/utils/hooks/use-create-bug-ticket/create-file"
+import createFile from "Renderer/utils/create-file/create-file"
 import getAppLogs from "Renderer/requests/get-app-logs.request"
 import getDeviceLogs from "Renderer/requests/get-device-logs.request"
 import { WriteData } from "App/main/functions/register-write-file-listener"
@@ -34,7 +34,7 @@ export interface DependencyUseCreateBugTicket {
   writeGzip: (data: WriteGzipData) => Promise<boolean>
   getAppLogs: () => Promise<string>
   getDeviceLogs: () => Promise<DeviceResponse<string>>
-  createFile: (filePath: string) => File
+  createFile: (filePath: string, options?: FilePropertyBag) => File
   rmdir: (props: RmdirProps) => Promise<boolean>
   createFreshdeskTicket: (
     data: FreshdeskTicketData

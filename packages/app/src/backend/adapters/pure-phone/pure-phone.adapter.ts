@@ -71,7 +71,7 @@ class PurePhone extends PurePhoneAdapter {
 
   public async getSerialNumber(): Promise<DeviceResponse<string>> {
     const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.SerialNumber,
+      endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
     if (status === DeviceResponseStatus.Ok && data) {

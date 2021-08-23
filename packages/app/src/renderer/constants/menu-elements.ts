@@ -25,7 +25,7 @@ const YOUR_PURE_BUTTONS = [
     button: views.messages,
     icon: Type.Message,
     testId: MenuGroupTestIds.Messages,
-    hidden: productionEnvironment,
+    // hidden: productionEnvironment,
   },
   {
     button: views.phone,

@@ -12,8 +12,8 @@ import ButtonToggler, {
 import { noop } from "Renderer/utils/noop"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
-import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
 import { waitFor } from "@testing-library/react"
+import { TooltipTestIds } from "Renderer/components/core/tooltip/tooltip.enum"
 
 export const singleStateToggler = ["Turn on"]
 
@@ -90,12 +90,12 @@ test("switches active state properly", async () => {
 
 test("renders tooltip", () => {
   const { getByTestId } = renderButtonToggler(twoStateToggler)
-  expect(getByTestId("icon-Tooltip")).toBeInTheDocument()
+  expect(getByTestId("tooltip-icon")).toBeInTheDocument()
 })
 
 test("tooltip has correct text", () => {
   const { getByTestId } = renderButtonToggler(twoStateToggler)
-  expect(getByTestId(ButtonTogglerTestIds.Tooltip)).toHaveTextContent(
-    "[value] module.news[value] module.news"
+  expect(getByTestId(TooltipTestIds.Description)).toHaveTextContent(
+    "[value] module.news"
   )
 })
