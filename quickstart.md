@@ -34,7 +34,6 @@ Please run the following command to start the Mudita Center dev environment:
 npm run develop
 ```
 
-
 This will start the application with hot-reload so you can instantly start developing it. You can also enable logs by executing:
 
 ```bash
@@ -64,19 +63,31 @@ Using Developer mode you can:
 We use [Electron builder](https://www.electron.build/) to build and package the application. By default, you can run the following to package it for your current platform:
 
 ```bash
-npm run dist
+npm run dist:dev
+```
+
+or
+
+```bash
+npm run dist:prod
 ```
 
 This will create an installer for your platform in the `releases` folder.
 
-You can also build the app for all platforms (Windows, macOS, Linux) by using the `npm run dist:all` command.
+You can also build the app for all platforms (Windows, macOS, Linux) by using the `npm run dist:dev:all` or `npm run dist:prod:all` command.
 
 You can also make builds for a specific platform (or multiple platforms) by using [the CLI options](https://www.electron.build/cli).
 
 For example, building for Windows and Linux:
 
 ```bash
-npm run dist -- -wl
+npm run dist:dev -- -wl
+```
+
+or
+
+```bash
+npm run dist:prod -- -wl
 ```
 
 **Note:** You might not be able to build the app for all platforms one one platform. Read more about it the ["Multi Platform Build" article](https://www.electron.build/multi-platform-build).

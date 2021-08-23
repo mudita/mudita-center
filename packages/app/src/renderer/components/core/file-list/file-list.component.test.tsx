@@ -30,13 +30,13 @@ test("component renders properly", () => {
   })
 
   expect(queryByTestId(FileListTestIds.File)).toBeInTheDocument()
-  expect(queryByTestId(FileListTestIds.RemoveFileButton)).toEqual(null)
+  expect(queryByTestId(FileListTestIds.RemoveFileButton)).not.toBeInTheDocument()
 })
 
 test("component no render any item if files prop is empty", () => {
   const { queryByTestId } = render({ files: [] })
-  expect(queryByTestId(FileListTestIds.File)).toEqual(null)
-  expect(queryByTestId(FileListTestIds.RemoveFileButton)).toEqual(null)
+  expect(queryByTestId(FileListTestIds.File)).not.toBeInTheDocument()
+  expect(queryByTestId(FileListTestIds.RemoveFileButton)).not.toBeInTheDocument()
 })
 
 test("component trigger onRemoveClick event properly", () => {
@@ -47,8 +47,8 @@ test("component trigger onRemoveClick event properly", () => {
   })
   const removeFileButton = queryByTestId(FileListTestIds.RemoveFileButton)
 
-  expect(queryByTestId(FileListTestIds.File)).not.toEqual(null)
-  expect(removeFileButton).not.toEqual(null)
+  expect(queryByTestId(FileListTestIds.File)).toBeInTheDocument()
+  expect(removeFileButton).toBeInTheDocument()
 
   fireEvent.click(removeFileButton as HTMLElement)
 
