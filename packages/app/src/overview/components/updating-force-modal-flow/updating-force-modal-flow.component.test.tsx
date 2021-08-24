@@ -62,18 +62,18 @@ test("form renders properly", () => {
   ).toBeInTheDocument()
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
   expect(
     queryByTestId(
       UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal
     )
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceFailureModal)
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingSuccessModal)
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
 })
 
 test("failure modal is display after runUpdateProcess when osVersion is undefined", () => {
@@ -88,16 +88,16 @@ test("failure modal is display after runUpdateProcess when osVersion is undefine
   ).toBeInTheDocument()
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceFailureModal)
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingSuccessModal)
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceInfoModal)
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
 })
 
 test("Force modal is visible even fail modal was read ", () => {
@@ -119,7 +119,7 @@ test("Force modal is visible even fail modal was read ", () => {
     queryByTestId(
       UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal
     )
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
   expect(
     getByTestId(UpdatingForceModalFlowTestIds.UpdatingForceInfoModal)
   ).toBeInTheDocument()
@@ -140,13 +140,13 @@ test("failure modal is display if no is latestRelease", async () => {
     queryByTestId(
       UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal
     )
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
 
   await waitFor(noop)
 
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
   expect(
     queryByTestId(
       UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal
@@ -171,13 +171,13 @@ test("failure modal is display if latestRelease isn't higher than os", async () 
     queryByTestId(
       UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal
     )
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
 
   await waitFor(noop)
 
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
   expect(
     queryByTestId(
       UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal
@@ -203,14 +203,14 @@ test("failure modal is display if failure download os", async () => {
     queryByTestId(
       UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal
     )
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
 
   await waitFor(noop)
   await waitFor(noop)
 
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
-  ).not.toBeInTheDocument()
+  ).toEqual(null)
   expect(
     queryByTestId(
       UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal

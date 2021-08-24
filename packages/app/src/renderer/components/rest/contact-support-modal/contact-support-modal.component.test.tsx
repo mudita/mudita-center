@@ -53,7 +53,7 @@ test("form renders properly", async () => {
   expect(emailInput).toBeInTheDocument()
   expect(descriptionInput).toBeInTheDocument()
   expect(fileList).toBeInTheDocument()
-  expect(queryByTestId(FileListTestIds.File)).not.toBeInTheDocument()
+  expect(queryByTestId(FileListTestIds.File)).toEqual(null)
 })
 
 test("validation works properly when email field empty", async () => {
