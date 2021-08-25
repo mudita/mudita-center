@@ -9,16 +9,10 @@ namespace SyncTranslation {
     axiosConfig,
     axiosDevConfig,
   } = require("../src/common/configs/phrase")
-  const FormData = require("form-data")
 
   require("dotenv").config({
     path: path.join(__dirname, "../../../.env"),
   })
-
-  interface AvailableLanguage {
-    id: string
-    code: string
-  }
 
   interface ExternalKey {
     id: string
@@ -79,35 +73,21 @@ namespace SyncTranslation {
     }
   }
 
-  const uploadTranslations = async (languageId: string, filePath: string) => {
-    try {
-      await fs.ensureFileSync(path.resolve(filePath))
-
-      const formData = new FormData()
-      formData.append("file_format", "react_simple_json")
-      formData.append("locale_id", languageId)
-      formData.append("file", fs.createReadStream(filePath))
-
-      await axios.post(`${phraseUrl}/uploads`, formData, {
-        headers: {
-          ...axiosDevConfig.headers,
-          ...formData.getHeaders(),
-        },
+  const deleteTranslation = async (ids: string[]) => {
+    for await (const id of ids) {
+      await axios.delete(`${phraseUrl}/keys/${id}`, {
+        ...axiosDevConfig,
       })
-    } catch (error) {
-      console.log(error)
     }
   }
 
-  const deleteTranslation = async (ids: string[]) => {
-    try {
-      ids.forEach(async (id) => {
-        await axios.delete(`${phraseUrl}/keys/${id}`, {
-          ...axiosDevConfig,
-        })
+  const updateTranslation = async (values: ExternalKey[]) => {
+    for await (const item of values) {
+      await axios.patch(`${phraseUrl}/translations/${item.id}`, {
+        content: item.content,
+      }, {
+        ...axiosDevConfig,
       })
-    } catch (error) {
-      console.log(error)
     }
   }
 
@@ -115,16 +95,12 @@ namespace SyncTranslation {
     languageId: string,
     filePath: string
   ) => {
-    try {
-      const { data } = await axios.get(`${localesUrl}/${languageId}/download`, {
-        ...axiosConfig,
-        params: { file_format: "react_simple_json" },
-      })
+    const { data } = await axios.get(`${localesUrl}/${languageId}/download`, {
+      ...axiosConfig,
+      params: { file_format: "react_simple_json" },
+    })
 
-      await fs.writeJson(path.resolve(filePath), data)
-    } catch (error) {
-      console.log(error)
-    }
+    return fs.writeJsonSync(path.resolve(filePath), data)
   }
 
   const script = async () => {
@@ -133,13 +109,24 @@ namespace SyncTranslation {
 
       const localesDir = "./src/renderer/locales/default/"
 
-      availableLanguages.forEach(async (language: AvailableLanguage) => {
+      for await (const language of availableLanguages) {
         const localesJsonPath = path.join(localesDir, `${language.code}.json`)
-
-        await uploadTranslations(language.id, localesJsonPath)
-
         const internalTranslations = await fs.readJsonSync(localesJsonPath)
         const externalTranslations = await getTranslations(language.id)
+
+        const updateDiff = externalTranslations.reduce(
+          (acc: ExternalKey[], value: ExternalKey) => {
+            if (internalTranslations.hasOwnProperty(value.key.name) && internalTranslations[value.key.name] !== value.content) {
+              acc.push({
+                ...value,
+                content: internalTranslations[value.key.name],
+              })
+            }
+
+            return acc
+          },
+          []
+        )
 
         const removedDiff = externalTranslations.reduce(
           (acc: string[], value: ExternalKey) => {
@@ -152,9 +139,10 @@ namespace SyncTranslation {
           []
         )
 
+        await updateTranslation(updateDiff)
         await deleteTranslation(removedDiff)
         await updateInternalTranslations(language.id, localesJsonPath)
-      })
+      }
     } catch (error) {
       console.log(error.response)
     }
