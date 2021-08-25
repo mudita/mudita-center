@@ -14,6 +14,11 @@ namespace SyncTranslation {
     path: path.join(__dirname, "../../../.env"),
   })
 
+  interface InternalNewKey {
+    name: string
+    content: string
+  }
+
   interface ExternalKey {
     id: string
     content: string
@@ -73,6 +78,24 @@ namespace SyncTranslation {
     }
   }
 
+  const addTranslation = async (values: InternalNewKey[], languageId: string) => {
+    for await (const item of values) {
+      const { data: keyData } = await axios.post(`${phraseUrl}/keys`, {
+        name: item.name,
+      }, {
+        ...axiosDevConfig,
+      })
+
+      return axios.post(`${phraseUrl}/translations`, {
+        key_id: keyData.id,
+        locale_id: languageId,
+        content: item.content,
+      }, {
+        ...axiosDevConfig,
+      })
+    }
+  }
+
   const deleteTranslation = async (ids: string[]) => {
     for await (const id of ids) {
       await axios.delete(`${phraseUrl}/keys/${id}`, {
@@ -114,7 +137,17 @@ namespace SyncTranslation {
         const internalTranslations = await fs.readJsonSync(localesJsonPath)
         const externalTranslations = await getTranslations(language.id)
 
-        const updateDiff = externalTranslations.reduce(
+        const addedKeysDiff = Object.keys(internalTranslations).reduce((acc: InternalNewKey[], value: string) => {
+          const externalTranslation = externalTranslations.find((item) => item.key.name === value)
+
+          if (!externalTranslation) {
+            acc.push({ name: value, content: internalTranslations[value] })
+          }
+
+          return acc
+        }, [])
+
+        const updatedKeysDiff = externalTranslations.reduce(
           (acc: ExternalKey[], value: ExternalKey) => {
             if (internalTranslations.hasOwnProperty(value.key.name) && internalTranslations[value.key.name] !== value.content) {
               acc.push({
@@ -128,7 +161,7 @@ namespace SyncTranslation {
           []
         )
 
-        const removedDiff = externalTranslations.reduce(
+        const removedKeysDiff = externalTranslations.reduce(
           (acc: string[], value: ExternalKey) => {
             if (!internalTranslations.hasOwnProperty(value.key.name)) {
               acc.push(value.key.id)
@@ -139,8 +172,9 @@ namespace SyncTranslation {
           []
         )
 
-        await updateTranslation(updateDiff)
-        await deleteTranslation(removedDiff)
+        await addTranslation(addedKeysDiff, language.id)
+        await updateTranslation(updatedKeysDiff)
+        await deleteTranslation(removedKeysDiff)
         await updateInternalTranslations(language.id, localesJsonPath)
       }
     } catch (error) {
