@@ -4,7 +4,6 @@
  */
 
 import {
-  isItemMatching,
   secondParam,
   renderPhoneNumber,
 } from "App/contacts/components/contact-input-search/contact-input-search.component"
@@ -53,30 +52,6 @@ const contacts: Contact[] = [
     lastName: "Bednar",
   },
 ]
-
-test("isItemMatching returns true when search string in email", () => {
-  const searchString = "example"
-  const result = isItemMatching(contacts[0], searchString)
-  expect(result).toBe(true)
-})
-
-test("isItemMatching returns true when search string in primaryPhoneNumber", () => {
-  const searchString = "069"
-  const result = isItemMatching(contacts[0], searchString)
-  expect(result).toBe(true)
-})
-
-test("isItemMatching returns false when no match ", () => {
-  const searchString = "000"
-  const result = isItemMatching(contacts[0], searchString)
-  expect(result).toBe(false)
-})
-
-test("isItemMatching returns true when match and if contact don't have all params ", () => {
-  const searchString = "Bednarów 3"
-  const result = isItemMatching(contacts[3], searchString)
-  expect(result).toBe(false)
-})
 
 test("secondParam returns primaryNumber when search string match only name", () => {
   const searchString = "Sławomir"

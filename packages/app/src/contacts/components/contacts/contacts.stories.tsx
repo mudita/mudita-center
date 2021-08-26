@@ -80,6 +80,9 @@ const ContactsComponent = ({
     deleteContacts={asyncNoop}
     authorize={asyncNoop}
     editMode={false}
+    searchValue={""}
+    onChangeSearchValue={asyncNoop}
+    resultsList={[]}
   />
 )
 
