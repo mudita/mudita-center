@@ -4,8 +4,7 @@
  */
 
 import semver from "semver/preload"
-
-const isVersionMatch = (version = ""): boolean => semver.valid(version) !== null
+import isVersionMatch from "App/overview/helpers/is-version-match"
 
 const isVersionGreater = (v1: string, v2: string): boolean => {
   if (!isVersionMatch(v1)) {
