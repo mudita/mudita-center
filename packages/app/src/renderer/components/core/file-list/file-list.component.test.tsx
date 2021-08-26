@@ -47,8 +47,8 @@ test("component trigger onRemoveClick event properly", () => {
   })
   const removeFileButton = queryByTestId(FileListTestIds.RemoveFileButton)
 
-  expect(queryByTestId(FileListTestIds.File)).not.toEqual(null)
-  expect(removeFileButton).not.toEqual(null)
+  expect(queryByTestId(FileListTestIds.File)).toBeInTheDocument()
+  expect(removeFileButton).toBeInTheDocument()
 
   fireEvent.click(removeFileButton as HTMLElement)
 
