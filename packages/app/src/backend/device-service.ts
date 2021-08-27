@@ -327,6 +327,11 @@ class DeviceService {
         error,
         status: DeviceResponseStatus.InternalServerError,
       }
+    } else if (status === ResponseStatus.Conflict) {
+      return {
+        error,
+        status: DeviceResponseStatus.Duplicated,
+      }
     } else {
       return {
         error,
