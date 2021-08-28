@@ -129,6 +129,10 @@ const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
   }
 `
 
+const MessageBubbleText = styled(Text)`
+  white-space: pre-line;
+`
+
 interface Props {
   id: string
   user: User
@@ -205,9 +209,9 @@ const MessageBubble: FunctionComponent<Props> = ({
             interlocutor={interlocutor}
             data-testid={MessageBubbleTestIds.MessageContent}
           >
-            <Text displayStyle={TextDisplayStyle.MediumLightText}>
+            <MessageBubbleText displayStyle={TextDisplayStyle.MediumLightText}>
               {message}
-            </Text>
+            </MessageBubbleText>
             <MessageDate>
               <Text displayStyle={TextDisplayStyle.SmallFadedText}>
                 {moment(date).format("dd h:mm A")}

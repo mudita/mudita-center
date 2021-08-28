@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ChangeEvent, useEffect, useState } from "react"
+import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -142,7 +142,6 @@ const ThreadDetailsRightHeader: FunctionComponent<ThreadDetailsRightHeaderProps>
 
 interface ThreadDetailsTextAreaProps {
   value: string
-  sendIconVisible: boolean
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   onSendClick: () => void
   onAttachContactClick: () => void
@@ -150,7 +149,6 @@ interface ThreadDetailsTextAreaProps {
 
 const ThreadDetailsTextArea: FunctionComponent<ThreadDetailsTextAreaProps> = ({
   value,
-  sendIconVisible,
   onSendClick,
   onChange,
   onAttachContactClick,
@@ -168,19 +166,27 @@ const ThreadDetailsTextArea: FunctionComponent<ThreadDetailsTextAreaProps> = ({
     ),
   ]
   const trailingIcon = [
-    sendIconVisible && (
+    value.length > 0 && (
       <IconButton key={Type.Send} Icon={Type.Send} onClick={onSendClick} />
     ),
   ]
+
+  const handleKeyDown = (event: KeyboardEvent): void => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault()
+      onSendClick()
+    }
+  }
 
   return (
     <TextareaWrapper>
       <Textarea
         type="textarea"
         value={value}
-        onChange={onChange}
         leadingIcons={leadingIcons}
         trailingIcons={trailingIcon}
+        onChange={onChange}
+        onKeyDown={handleKeyDown}
         label={intl.formatMessage({
           id: "module.messages.textAreaPlaceholder",
         })}
@@ -246,6 +252,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
       number: thread.number,
       content: value,
     })
+    setValue("")
   }
 
   return (
@@ -281,7 +288,6 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
       </MessagesWrapper>
       <ThreadDetailsTextArea
         value={value}
-        sendIconVisible={value.length >= 1}
         onSendClick={handleTextAreaSendClick}
         onChange={handleTextAreaChange}
         onAttachContactClick={onAttachContactClick}
