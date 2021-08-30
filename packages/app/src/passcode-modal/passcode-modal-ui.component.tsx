@@ -3,16 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState } from "react"
+import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { ModalContent } from "Renderer/wrappers/collecting-data-modal/collecting-data-modal.styled"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import styled from "styled-components"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
 import theme from "App/renderer/styles/theming/theme"
-import { fontWeight, zIndex } from "Renderer/styles/theming/theme-getters"
+import { zIndex } from "Renderer/styles/theming/theme-getters"
 import Icon, {
   IconSize,
 } from "App/renderer/components/core/icon/icon.component"
@@ -25,16 +22,11 @@ import PasscodeLocked from "App/passcode-modal/components/PasscodeLocked/passcod
 const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 10.6rem;
-
+  margin-left: 5rem;
   span {
     width: 8.1rem;
     height: 5.6rem;
   }
-`
-export const Title = styled(Text)`
-  font-size: 3rem;
-  font-weight: ${fontWeight("default")};
 `
 
 const ButtonContainer = styled.div`
@@ -49,6 +41,12 @@ const ButtonContainer = styled.div`
     height: auto;
   }
 `
+
+export const PasscodeModalContent = styled(ModalContent)`
+  justify-content: space-between;
+  height: clamp(28rem, 60vh, 46.4rem);
+`
+
 export interface PasscodeModalProps {
   openModal: boolean
   close: () => void
@@ -57,6 +55,8 @@ export interface PasscodeModalProps {
   openHelpWindow: () => void
   onNotAllowedKeyDown: () => void
   errorMessage: string
+  time: string
+  passcodeBlocked?: boolean
 }
 
 const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
@@ -67,9 +67,10 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   openHelpWindow,
   onNotAllowedKeyDown,
   errorMessage,
+  time,
+  passcodeBlocked = false,
   ...props
 }) => {
-  const [isBlocked, setIsBlocked] = useState(true)
   const muditaLogo = (
     <LogoWrapper>
       <Icon
@@ -79,7 +80,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       />
     </LogoWrapper>
   )
-    const exampleTime = "5:00 min"
+
   return (
     <ModalDialog
       {...props}
@@ -89,24 +90,17 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
       title={muditaLogo}
       zIndex={zIndex("passCodeModal")({ theme })}
     >
-      <ModalContent>
-        {isBlocked ? (
-          <PasscodeLocked time={exampleTime} />
+      <PasscodeModalContent>
+        <span></span>
+        {passcodeBlocked ? (
+          <PasscodeLocked time={time} />
         ) : (
-          <>
-            <Title
-              displayStyle={TextDisplayStyle.PrimaryHeading}
-              message={{
-                id: "component.passcodeModalTitle",
-              }}
-            />
-            <PasscodeInputs
-              values={values}
-              errorMessage={errorMessage}
-              onNotAllowedKeyDown={onNotAllowedKeyDown}
-              updateValues={updateValues}
-            />
-          </>
+          <PasscodeInputs
+            values={values}
+            errorMessage={errorMessage}
+            onNotAllowedKeyDown={onNotAllowedKeyDown}
+            updateValues={updateValues}
+          />
         )}
         <ButtonContainer>
           <ButtonComponent
@@ -117,7 +111,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
             onClick={openHelpWindow}
           />
         </ButtonContainer>
-      </ModalContent>
+      </PasscodeModalContent>
     </ModalDialog>
   )
 }

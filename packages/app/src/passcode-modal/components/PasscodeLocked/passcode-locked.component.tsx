@@ -12,20 +12,22 @@ import Text, {
 import { fontWeight } from "Renderer/styles/theming/theme-getters"
 import { defineMessages } from "react-intl"
 
+const PasscodeLockedContainer = styled.div`
+  margin-bottom: 4.2rem;
+`
 export const Title = styled(Text)`
   font-size: 3rem;
   font-weight: ${fontWeight("default")};
   margin-bottom: 1.6rem;
-  margin-top: 5.4rem;
 `
 
 export const TimeText = styled(Text)`
-  margin-bottom: 23.4rem;
+  text-align: center;
 `
 
 export const messages = defineMessages({
   modalLockedTitle: { id: "component.passcodeModalLocked" },
-  modalLockedTime: {id: "component.passcodeModalTryAgainTime"}
+  modalLockedTime: { id: "component.passcodeModalTryAgainTime" },
 })
 
 interface Props {
@@ -34,11 +36,11 @@ interface Props {
 
 const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
   return (
-    <>
+    <PasscodeLockedContainer>
       <Title
         displayStyle={TextDisplayStyle.PrimaryHeading}
         message={{
-        ...messages.modalLockedTitle,
+          ...messages.modalLockedTitle,
         }}
       />
       <TimeText
@@ -48,7 +50,7 @@ const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
           values: { time: time },
         }}
       />
-    </>
+    </PasscodeLockedContainer>
   )
 }
 

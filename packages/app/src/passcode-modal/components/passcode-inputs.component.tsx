@@ -12,22 +12,32 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { PasscodeModalTestIds } from "../passcode-modal-test-ids.enum"
+import { fontWeight } from "Renderer/styles/theming/theme-getters"
 
-const InputContainer = styled.div<{
-  errorMessage: string
-}>`
+const InputContainer = styled.div`
   width: 100%;
-  margin: 4rem 0 20rem;
+  margin-top: 4rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  ${({ errorMessage }) => errorMessage !== "" && "margin: 4rem 0 2rem;"};
 `
 const ErrorMessage = styled(Text)`
   color: ${textColor("error")};
-  margin-bottom: 16.6rem;
+  margin-top: 4rem;
+  text-align: center;
 `
 
+const PasscodeInputsContainer = styled.div<{
+  errorMessage: string
+}>`
+  margin-bottom: ${({ errorMessage }) =>
+    errorMessage !== "" ? "1.4rem" : "6.8rem"};
+`
+
+export const Title = styled(Text)`
+  font-size: 3rem;
+  font-weight: ${fontWeight("default")};
+`
 interface Props {
   values: string[]
   updateValues: (values: string[]) => void
@@ -76,51 +86,51 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     updateValues(newValue)
   }
 
-  const onKeyDownHandler = (number: number) => (e: {
-    key: string
-    code: string
-    preventDefault: () => void
-  }) => {
-    if (/[0-9]/.test(e.key)) {
-      return
-    } else if (e.code === "Backspace") {
-      if (activeInput !== undefined && activeInput > 0) {
-        setActiveInput(activeInput - 1)
-        updateInputValue(number, "")
-        setFromBlur(false)
+  const onKeyDownHandler =
+    (number: number) =>
+    (e: { key: string; code: string; preventDefault: () => void }) => {
+      if (/[0-9]/.test(e.key)) {
+        return
+      } else if (e.code === "Backspace") {
+        if (activeInput !== undefined && activeInput > 0) {
+          setActiveInput(activeInput - 1)
+          updateInputValue(number, "")
+          setFromBlur(false)
+        }
+      } else {
+        onNotAllowedKeyDown()
+
+        e.preventDefault()
       }
-    } else {
-      onNotAllowedKeyDown()
-
-      e.preventDefault()
     }
-  }
 
-  const onChangeHandler = (number: number) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
-    if (
-      activeInput !== undefined &&
-      activeInput < values.length &&
-      !backspaceEdgeCase
-    ) {
-      setActiveInput(activeInput + 1)
+  const onChangeHandler =
+    (number: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
+      if (
+        activeInput !== undefined &&
+        activeInput < values.length &&
+        !backspaceEdgeCase
+      ) {
+        setActiveInput(activeInput + 1)
+      }
+      setFromBlur(false)
+      updateInputValue(number, e.target.value)
     }
-    setFromBlur(false)
-    updateInputValue(number, e.target.value)
-  }
   const onBlurHandler = () => {
     setActiveInput(values.indexOf(""))
     setFromBlur(true)
   }
 
   return (
-    <>
-      <InputContainer
-        errorMessage={errorMessage}
-        data-testid={PasscodeModalTestIds.PasscodeInputs}
-      >
+    <PasscodeInputsContainer errorMessage={errorMessage}>
+      <Title
+        displayStyle={TextDisplayStyle.PrimaryHeading}
+        message={{
+          id: "component.passcodeModalTitle",
+        }}
+      />
+      <InputContainer data-testid={PasscodeModalTestIds.PasscodeInputs}>
         {values.map((value, i) => {
           const filled =
             (activeInput !== undefined &&
@@ -157,6 +167,6 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
           message={{ id: errorMessage }}
         />
       )}
-    </>
+    </PasscodeInputsContainer>
   )
 }
