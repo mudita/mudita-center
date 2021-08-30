@@ -8,8 +8,28 @@ import React from "react"
 import MessagesPanel from "App/messages/components/messages-panel.component"
 import { fireEvent } from "@testing-library/dom"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
-import { mockedUnreadThreads } from "App/__mocks__/mocked-unread-threads"
-import { VisibilityFilter } from "App/messages/store/messages.interface"
+import { Thread, VisibilityFilter } from "App/messages/store/messages.interface"
+
+const mockedUnreadThreads: Thread[] = [
+  {
+    id: "1",
+    number: "+03026752736",
+    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
+    lastUpdatedAt: new Date("2019-08-07T13:29:51.401Z"),
+    messageSnippet:
+      "Sunt autem sed ut aut aspernatur totam modi qui. Atque tenetur est ex totam repudiandae voluptatibus tempora sed.",
+    unread: true,
+  },
+  {
+    id: "2",
+    number: "+03026752716",
+    contactId: "11a62a36da-7203-4ba4-a14a-51e4a3d617be",
+    lastUpdatedAt: new Date("2019-08-07T13:29:51.401Z"),
+    messageSnippet:
+      "Sunt autem sed ut aut aspernatur totam modi qui. Atque tenetur est ex totam repudiandae voluptatibus tempora sed.",
+    unread: true,
+  },
+]
 
 const defaultProps = {
   selectedItemsCount: 0,
@@ -33,7 +53,6 @@ test("filter buttons are rendered when there are no selected checkboxes", () => 
   const { getByTestId } = renderer()
   expect(getByTestId(MessagePanelTestIds.FilterButtons)).toBeInTheDocument()
 })
-
 test("filter buttons are not rendered when there are selected checkboxes", () => {
   const { queryByTestId } = renderer({
     selectedConversations: mockedUnreadThreads,

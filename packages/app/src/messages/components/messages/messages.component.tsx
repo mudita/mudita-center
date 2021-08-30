@@ -132,6 +132,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const history = useHistory()
 
   const contactClick = (phoneNumber: string) => {
+    console.log("phoneNumber: ", phoneNumber)
     history.push(
       createRouterPath(URL_MAIN.contacts, {
         phoneNumber,

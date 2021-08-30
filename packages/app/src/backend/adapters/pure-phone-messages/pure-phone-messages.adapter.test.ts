@@ -27,7 +27,7 @@ const mockPureData: PureThread[] = [
     messageSnippet:
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     messageType: 1,
-    numberID: 1,
+    number: "+48500600700",
     threadID: 1,
   },
   {
@@ -38,7 +38,7 @@ const mockPureData: PureThread[] = [
     messageSnippet:
       "Et beatae dicta ut consequatur aut. Consequuntur odio voluptas sed eligendi repudiandae quo amet.",
     messageType: 2,
-    numberID: 1,
+    number: "+48500600700",
     threadID: 2,
   },
 ]
@@ -52,6 +52,7 @@ const mockPureMessageData: PureMessage[] = [
     messageType: PureMessageType.INBOX,
     createdAt: 1547465101,
     threadID: 1,
+    number: "+48500600700",
   },
   {
     contactID: 1,
@@ -60,12 +61,14 @@ const mockPureMessageData: PureMessage[] = [
     messageType: PureMessageType.OUTBOX,
     createdAt: 1547468701,
     threadID: 1,
+    number: "+48500600700",
   },
 ]
 
 const threads: Thread[] = [
   {
     id: "1",
+    number: "+48500600700",
     contactId: "1",
     lastUpdatedAt: new Date(1617089558 * 1000),
     messageSnippet:
@@ -74,6 +77,7 @@ const threads: Thread[] = [
   },
   {
     id: "2",
+    number: "+48500600700",
     contactId: "1",
     lastUpdatedAt: new Date(1615089558 * 1000),
     messageSnippet:
@@ -90,6 +94,7 @@ const messages: Message[] = [
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     contactId: "1",
     threadId: "1",
+    number: "+48500600700",
     messageType: MessageType.INBOX,
   },
   {
@@ -98,6 +103,7 @@ const messages: Message[] = [
     content: "Nulla itaque?",
     contactId: "1",
     threadId: "1",
+    number: "+48500600700",
     messageType: MessageType.OUTBOX,
   },
 ]

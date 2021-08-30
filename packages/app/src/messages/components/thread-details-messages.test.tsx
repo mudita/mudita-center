@@ -27,21 +27,25 @@ const contact: Contact = {
   firstAddressLine: "",
 }
 
+const threadId = "1"
+
 const messages: Message[] = [
   {
+    threadId,
     id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
     date: new Date(),
     content:
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-    threadId: contact.secondaryPhoneNumber!,
+    number: contact.secondaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.INBOX,
   },
   {
+    threadId,
     id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
     date: new Date("2019-10-18T11:45:35.112Z"),
     content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-    threadId: contact.secondaryPhoneNumber!,
+    number: contact.secondaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.OUTBOX,
   },
@@ -83,7 +87,7 @@ test("avatar renders in thread details properly", () => {
   expect(textAvatar).toHaveTextContent("JD")
 })
 
-test("Message date tag is displayed even if message list has only single message", () => {
+test("message date tag is displayed even if message list has only single message", () => {
   const { getByTestId } = renderer({ messages: [messages[0]] })
   const messageDayBubble = getByTestId(MessageDayBubbleTestIds.Date)
   expect(messageDayBubble).toHaveTextContent("[value] component.textToday")

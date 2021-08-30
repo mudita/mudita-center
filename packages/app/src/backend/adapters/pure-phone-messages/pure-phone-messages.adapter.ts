@@ -89,13 +89,20 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   }
 
   private static mapToThreads(pureThread: PureThread): Thread {
-    const { contactID, isUnread, lastUpdatedAt, messageSnippet, threadID } =
-      pureThread
+    const {
+      contactID,
+      isUnread,
+      lastUpdatedAt,
+      messageSnippet,
+      threadID,
+      number = "",
+    } = pureThread
     return {
       messageSnippet,
       // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
       unread: process.env.NODE_ENV !== "production" ? isUnread : false,
       id: String(threadID),
+      number: String(number),
       contactId: String(contactID),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),
     }
@@ -153,8 +160,10 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       messageType,
       createdAt,
       threadID,
+      number,
     } = pureMessage
     return {
+      number,
       id: String(messageID),
       date: new Date(createdAt * 1000),
       content: messageBody,

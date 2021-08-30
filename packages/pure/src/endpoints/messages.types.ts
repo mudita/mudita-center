@@ -10,7 +10,7 @@ export interface Thread {
   messageCount: number
   messageSnippet: string
   messageType: number
-  numberID: number
+  number: string
   threadID: number
 }
 
@@ -43,6 +43,7 @@ export interface Message {
   messageType: MessageType
   createdAt: number
   threadID: number
+  number: string
 }
 
 export interface GetMessagesBody {

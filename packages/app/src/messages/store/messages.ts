@@ -293,7 +293,9 @@ const messages = createModel<RootModel>({
     },
     isThreadOpened() {
       return (state: { messages: MessagesState }) => {
-        const numbers: string[] = Object.keys(state.messages.threadMap)
+        const numbers: string[] = Object.keys(state.messages.threadMap).map(
+          (key) => state.messages.threadMap[key].number
+        )
         return (phoneNumber: string) => {
           return !numbers.some((number) => number === phoneNumber)
         }

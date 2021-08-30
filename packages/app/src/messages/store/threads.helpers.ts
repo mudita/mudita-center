@@ -17,7 +17,7 @@ export const searchThreads = (
   searchValue: MessagesProps["searchValue"]
 ) => {
   if (searchValue.length) {
-    return threads?.filter(({ contactId, id: phoneNumber }) => {
+    return threads?.filter(({ contactId, number: phoneNumber }) => {
       const search = searchValue.toLowerCase()
       const matchesForename = contactMap[contactId]?.firstName
         ?.toLowerCase()
