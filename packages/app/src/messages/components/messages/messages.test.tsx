@@ -84,6 +84,7 @@ const defaultProps: Props = {
   threads,
   searchValue: "",
   language: "en",
+  addNewMessage: jest.fn(),
   getContact: jest.fn().mockReturnValue(contact),
   getMessagesByThreadId: jest.fn().mockReturnValue(messages),
   getMessagesResultMapStateByThreadId: jest.fn(),
@@ -95,7 +96,7 @@ const defaultProps: Props = {
       contacts: [contact],
     },
   ],
-  attachContactFlatList: [contact],
+  attachContactFlatList: [contact]
 }
 
 const renderer = (extraProps?: {}) => {

@@ -97,7 +97,8 @@ const defaultProps: ThreadDetailsProps = {
   loadMessagesByThreadId: jest.fn(),
   getMessagesResultMapStateByThreadId: jest.fn(),
   isContactCreated: jest.fn().mockReturnValue(true),
-  thread,
+  onAddNewMessage: jest.fn(),
+  thread
 }
 
 const renderer = (extraProps?: {}) => {

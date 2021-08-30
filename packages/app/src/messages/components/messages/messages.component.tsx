@@ -29,8 +29,9 @@ import AttachContactModal from "App/messages/components/attach-contact-modal.com
 import { Contact } from "App/contacts/store/contacts.type"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import {
-  ResultState,
   Thread,
+  NewMessage,
+  ResultState,
   VisibilityFilter,
 } from "App/messages/store/messages.interface"
 import { Message } from "App/messages/store/messages.interface"
@@ -52,6 +53,7 @@ export interface MessagesProps
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
   isContactCreated: (id: string) => boolean
+  addNewMessage: (newMessage: NewMessage) => Promise<void>
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({
@@ -71,6 +73,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   loadMessagesByThreadId,
   getMessagesResultMapStateByThreadId,
   isContactCreated,
+  addNewMessage,
 }) => {
   const {
     openSidebar,
@@ -149,6 +152,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
     )
   }
 
+  const handleAddNewMessage = async (newMessage: NewMessage) => {
+    await addNewMessage(newMessage)
+  }
+
   return (
     <>
       <MessagesPanel
@@ -193,6 +200,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onContactClick={contactClick}
             onAttachContactClick={openAttachContactModal}
             isContactCreated={isContactCreated}
+            onAddNewMessage={handleAddNewMessage}
           />
         )}
       </TableWithSidebarWrapper>

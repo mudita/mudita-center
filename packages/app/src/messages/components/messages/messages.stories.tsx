@@ -18,6 +18,14 @@ import {
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 import { ResultState } from "App/messages/store/messages.interface"
+import { action } from "@storybook/addon-actions"
+
+const promiseAction =
+  (msg: string): ((...args: any[]) => Promise<void>) =>
+  (...args) => {
+    action(msg)(...args)
+    return Promise.resolve()
+  }
 
 export const attachContactFlatListData: Contact[] = [
   {
@@ -112,6 +120,7 @@ storiesOf("Views|Messages", module).add("Messages", () => (
       getMessagesResultMapStateByThreadId={getMessagesResultsMapStateByThreadId}
       isContactCreated={isContactCreated}
       loadMessagesByThreadId={loadMessagesByThreadId}
+      addNewMessage={promiseAction("Add New Message")}
     />
   </div>
 ))

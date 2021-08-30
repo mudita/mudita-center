@@ -8,7 +8,12 @@ import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
 import Messages from "App/messages/components/messages/messages.component"
 import { select } from "Renderer/store"
-import { VisibilityFilter } from "App/messages/store/messages.interface"
+import {
+  NewMessage,
+  VisibilityFilter,
+} from "App/messages/store/messages.interface"
+import addMessage from "Renderer/requests/add-message.request"
+import logger from "App/main/utils/logger"
 
 const selector = select(({ messages, contacts }) => ({
   threads: messages.filteredThreads,
@@ -27,16 +32,29 @@ const mapStateToProps = (state: RootModel) => ({
   ...selector(state, {}),
 })
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = ({ messages }: any) => ({
   changeSearchValue: ({ target }: ChangeEvent<HTMLInputElement>) =>
-    dispatch.messages.changeSearchValue(target.value),
+    messages.changeSearchValue(target.value),
   changeVisibilityFilter: (filter: VisibilityFilter) =>
-    dispatch.messages.changeVisibilityFilter(filter),
-  deleteThreads: (ids: string[]) => dispatch.messages.deleteThreads(ids),
-  markAsRead: (ids: string[]) => dispatch.messages.markAsRead(ids),
-  toggleReadStatus: (ids: string[]) => dispatch.messages.toggleReadStatus(ids),
+    messages.changeVisibilityFilter(filter),
+  deleteThreads: (ids: string[]) => messages.deleteThreads(ids),
+  markAsRead: (ids: string[]) => messages.markAsRead(ids),
+  toggleReadStatus: (ids: string[]) => messages.toggleReadStatus(ids),
   loadMessagesByThreadId: (threadId: string) =>
-    dispatch.messages.loadMessagesByThreadId(threadId),
+    messages.loadMessagesByThreadId(threadId),
+  addNewMessage: async (newMessage: NewMessage): Promise<void> => {
+    const { data, error } = await addMessage(newMessage)
+    if (error || !data) {
+      logger.error(
+        `Messages: editing new message throw error. Data: ${JSON.stringify(
+          error
+        )}`
+      )
+    } else {
+      // messages.loadMessagesByThreadId(data.threadId)
+      await messages.loadMockedMessagesByThreadId(data)
+    }
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

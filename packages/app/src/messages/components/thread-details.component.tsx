@@ -17,6 +17,7 @@ import { isNameAvailable } from "Renderer/components/rest/messages/is-name-avail
 import { intl } from "Renderer/utils/intl"
 import {
   Message,
+  NewMessage,
   ResultState,
   Thread,
 } from "App/messages/store/messages.interface"
@@ -46,6 +47,7 @@ export interface ThreadDetailsProps {
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
   isContactCreated: (id: string) => boolean
+  onAddNewMessage: (newMessage: NewMessage) => void
 }
 
 const trailingIcon = [
@@ -64,6 +66,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   getContact,
   getMessagesResultMapStateByThreadId,
   isContactCreated,
+  onAddNewMessage,
 }) => {
   const resultState = getMessagesResultMapStateByThreadId(thread.id)
   const messages = getMessagesByThreadId(thread.id)
@@ -127,6 +130,13 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
     <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />,
   ]
 
+  const handleTextAreaSendClick = () => {
+    onAddNewMessage({
+      number: thread.number,
+      content: "test content",
+    })
+  }
+
   return (
     <MessagesSidebar
       show
@@ -187,6 +197,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
             label={intl.formatMessage({
               id: "module.messages.textAreaPlaceholder",
             })}
+            onClick={handleTextAreaSendClick}
           />
         </TextareaWrapper>
       )}

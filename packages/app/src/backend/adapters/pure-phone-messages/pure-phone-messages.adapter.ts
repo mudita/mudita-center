@@ -4,25 +4,18 @@
  */
 
 import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
-import {
-  Message,
-  MessageType,
-  NewMessage,
-  Thread,
-} from "App/messages/store/messages.interface"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
+import { Message, MessageType, NewMessage, Thread } from "App/messages/store/messages.interface"
+import DeviceResponse, { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
 import {
   Endpoint,
   GetMessagesBody,
   GetThreadsBody,
+  Message as PureMessage,
+  MessagesCategory as PureMessagesCategory,
+  MessageType as PureMessageType,
   Method,
   Thread as PureThread,
-  Message as PureMessage,
-  MessageType as PureMessageType,
-  MessagesCategory as PureMessagesCategory,
 } from "@mudita/pure"
 
 const initGetThreadsBody: GetThreadsBody = {
@@ -77,9 +70,21 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
         data: PurePhoneMessages.mapToMessages(data),
       }
     } else {
+      // return {
+      //   status: DeviceResponseStatus.Error,
+      //   error: { message: "Add message: Something went wrong" },
+      // }
       return {
-        status: DeviceResponseStatus.Error,
-        error: { message: "Add message: Something went wrong" },
+        status: DeviceResponseStatus.Ok,
+        data: {
+          number: newMessage.number,
+          content: newMessage.content,
+          id: String(4),
+          date: new Date(),
+          contactId: String(1),
+          threadId: String(1),
+          messageType: MessageType.OUTBOX,
+        },
       }
     }
   }
