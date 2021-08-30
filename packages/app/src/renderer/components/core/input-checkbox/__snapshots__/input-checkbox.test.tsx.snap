@@ -21,7 +21,7 @@ exports[`matches snapshot 1`] = `
   -ms-flex-align: center;
   align-items: center;
   height: 1.5rem;
-  width: 0.8rem;
+  width: 2rem;
   position: relative;
   font-style: normal;
 }
@@ -122,7 +122,7 @@ exports[`matches snapshot 1`] = `
         class="c3 c4"
         data-testid="icon-Check"
         height="1.5"
-        width="0.8"
+        width="2"
       >
         <test-file-stub
           image="test-file-stub"
