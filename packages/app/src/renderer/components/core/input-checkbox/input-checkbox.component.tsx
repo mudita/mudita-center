@@ -140,7 +140,7 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
           indeterminate={indeterminate}
         />
       ) : (
-        <CheckIcon type={Type.Check} width={0.8} height={1.5} />
+        <CheckIcon type={Type.Check} width={2} height={1.5} />
       )}
     </InputWrapper>
   )
