@@ -23,7 +23,7 @@ import Text, {
 
 const messages = defineMessages({
   searchPlaceholder: { id: "module.contacts.panelSearchPlaceholder" },
-  noNameProvided: { id: "module.contacts.panelSearchListNoNam " },
+  noNameProvided: { id: "module.contacts.panelSearchListNoName" },
   noDataProvided: { id: "module.contacts.panelSearchListNoData" },
 })
 
