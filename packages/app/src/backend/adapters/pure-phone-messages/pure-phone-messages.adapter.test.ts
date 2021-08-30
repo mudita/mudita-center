@@ -15,6 +15,7 @@ import DeviceService from "Backend/device-service"
 import {
   Message,
   MessageType,
+  NewMessage,
   Thread,
 } from "App/messages/store/messages.interface"
 
@@ -107,6 +108,31 @@ const messages: Message[] = [
     messageType: MessageType.OUTBOX,
   },
 ]
+
+const mockAddedNewMessageData: NewMessage = {
+  content:
+    "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+  number: "+48500600700",
+}
+
+const mockAddedPureMessageData: PureMessage = {
+  contactID: 2,
+  messageBody: mockAddedNewMessageData.content,
+  messageID: 6,
+  messageType: PureMessageType.OUTBOX,
+  createdAt: 1547465101,
+  threadID: 1,
+  number: mockAddedNewMessageData.number,
+}
+const mockAddedMessageData: Message = {
+  id: "6",
+  date: new Date(mockAddedPureMessageData.createdAt * 1000),
+  content: mockAddedNewMessageData.content,
+  contactId: "2",
+  threadId: "1",
+  number: mockAddedNewMessageData.number,
+  messageType: MessageType.OUTBOX,
+}
 
 jest.mock("Backend/device-service")
 
@@ -258,4 +284,25 @@ test("status is error when returned messages data is undefined ", async () => {
     threadId
   )
   expect(status).toEqual(DeviceResponseStatus.Error)
+})
+
+test("status is error when returned messages data is undefined ", async () => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
+    return {
+      request: () => {
+        return {
+          status: DeviceResponseStatus.Ok,
+          data: mockAddedPureMessageData,
+        }
+      },
+    }
+  })
+  const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
+    new DeviceService(PureDeviceManager, ipcMain)
+  )
+  const { status, data } = await purePhoneMessagesAdapter.addMessage(
+    mockAddedNewMessageData
+  )
+  expect(status).toEqual(DeviceResponseStatus.Ok)
+  expect(data).toStrictEqual(mockAddedMessageData)
 })

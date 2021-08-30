@@ -7,6 +7,7 @@ import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-
 import {
   Message,
   MessageType,
+  NewMessage,
   Thread,
 } from "App/messages/store/messages.interface"
 import DeviceResponse, {
@@ -21,14 +22,15 @@ import {
   Thread as PureThread,
   Message as PureMessage,
   MessageType as PureMessageType,
+  MessagesCategory as PureMessagesCategory,
 } from "@mudita/pure"
 
 const initGetThreadsBody: GetThreadsBody = {
-  category: "thread",
+  category: PureMessagesCategory.thread,
   limit: 15,
 }
 const initGetMessagesBody: GetMessagesBody = {
-  category: "message",
+  category: PureMessagesCategory.message,
   limit: 15,
 }
 
@@ -50,6 +52,36 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     threadId: string
   ): Promise<DeviceResponse<Message[]>> {
     return this.loadAllMessagesInSingleRequest(threadId)
+  }
+
+  public async addMessage(
+    newMessage: NewMessage
+  ): Promise<DeviceResponse<Message>> {
+    const { status, data } = await this.deviceService.request({
+      body: {
+        number: newMessage.number,
+        messageBody: newMessage.content,
+        category: PureMessagesCategory.message,
+      },
+      endpoint: Endpoint.Messages,
+      method: Method.Post,
+    })
+
+    if (
+      status === DeviceResponseStatus.Ok &&
+      data !== undefined &&
+      PurePhoneMessages.isAcceptablePureMessageType(data)
+    ) {
+      return {
+        status: DeviceResponseStatus.Ok,
+        data: PurePhoneMessages.mapToMessages(data),
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Add message: Something went wrong" },
+      }
+    }
   }
 
   private async loadAllThreadsInSingleRequest(
