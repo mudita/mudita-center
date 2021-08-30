@@ -71,6 +71,7 @@ const ContactsComponent = ({
     isThreadOpened={isThreadOpened}
     loadData={asyncNoop}
     addNewContact={asyncNoop}
+    importContact={asyncNoop}
     editContact={asyncNoop}
     contacts={contactsSeedInput}
     loadContacts={asyncNoop}

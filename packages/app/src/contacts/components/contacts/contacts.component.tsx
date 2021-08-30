@@ -48,6 +48,7 @@ import {
 import {
   NewContactResponse,
   PhoneProps,
+  FormError,
 } from "App/contacts/components/contacts/contacts.type"
 import ImportingContactsModal from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
@@ -121,6 +122,7 @@ export const isItemMatching = (contact: Contact, search: string): boolean => {
 const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const {
     addNewContact,
+    importContact,
     editContact,
     getContact,
     deleteContacts,
@@ -156,6 +158,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Contact, ContactCategory>(contactList, "contacts")
+  const [formErrors, setFormErrors] = useState<FormError[]>([])
+
   const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
@@ -197,6 +201,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const cancelOrCloseContactHandler = () => {
+    setFormErrors([])
     setNewContact(undefined)
   }
 
@@ -208,6 +213,18 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       )
 
       const error = await delayResponse(addNewContact(contact))
+
+      if (error?.status) {
+        setFormErrors([
+          ...formErrors,
+          {
+            field: "primaryPhoneNumber",
+            error: "component.formErrorNumberUnique",
+          },
+        ])
+        await closeModal()
+        return
+      }
 
       if (error && !retried) {
         modalService.openModal(
@@ -525,7 +542,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     const newContactResponses = await contacts.reduce(
       async (lastPromise, contact, index) => {
         const value = await lastPromise
-        const error = await addNewContact(contact)
+        const error = await importContact(contact)
         const currentContactIndex = index + 1
         modalService.rerenderModal(
           <ImportingContactsModal
@@ -671,6 +688,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               onSpeedDialSettingsOpen={openSpeedDialModal}
               onSave={saveNewContact}
               saving={savingContact}
+              validationError={formErrors}
             />
           )}
           {editedContact && (
@@ -681,6 +699,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               onSpeedDialSettingsOpen={openSpeedDialModal}
               onSave={saveEditedContact}
               saving={savingContact}
+              validationError={formErrors}
             />
           )}
           {detailsEnabled && (
