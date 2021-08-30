@@ -126,7 +126,6 @@ export const secondParam = (contact: Contact, search: string): string => {
   return intl.formatMessage(messages.noDataProvided)
 }
 export interface ContactInputSearchProps {
-  contacts: Contact[]
   onContactSelect: (item: Contact) => void
   openSearchResults: () => void
   showSearchResults?: boolean
@@ -136,7 +135,6 @@ export interface ContactInputSearchProps {
 }
 
 const ContactInputSearch: FunctionComponent<ContactInputSearchProps> = ({
-  contacts,
   onContactSelect,
   openSearchResults,
   showSearchResults = false,
@@ -150,7 +148,7 @@ const ContactInputSearch: FunctionComponent<ContactInputSearchProps> = ({
     <ContactInputSelect
       {...props}
       onSelect={onContactSelect}
-      items={contacts}
+      items={resultsList}
       leadingIcons={[searchIcon]}
       label={intl.formatMessage(messages.searchPlaceholder)}
       renderItemValue={renderName}
@@ -166,7 +164,6 @@ const ContactInputSearch: FunctionComponent<ContactInputSearchProps> = ({
       itemListDisabled={showSearchResults}
       searchValue={searchValue}
       onChangeSearchValue={onChangeSearchValue}
-      resultsList={resultsList}
     />
   )
 }

@@ -192,6 +192,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const handleAddingContact = () => {
     closeSidebar()
     setNewContact(defaultContact)
+    setShowSearchResults(false)
+    setSearchValue(null)
   }
 
   const cancelOrCloseContactHandler = () => {
@@ -625,7 +627,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         toggleAll={toggleAll}
         deleteContacts={deleteContacts}
         resetRows={resetRows}
-        contacts={flatList}
         editMode={Boolean(editedContact || newContact)}
         openSearchResults={openSearchResults}
         searchValue={searchValue}

@@ -188,6 +188,7 @@ export interface InputSelectProps extends Partial<InputProps> {
   searchResultRows?: number
 }
 
+//deprecated in search functionality - please use InputSearchComponent
 const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   className,
   selectedItem,

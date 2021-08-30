@@ -49,12 +49,11 @@ const defaultProps: Props = {
   resetRows: jest.fn(),
   selectedContacts: [],
   deleteContacts: jest.fn(),
-  contacts: [],
   onContactSelect: jest.fn(),
   searchValue: "",
   onChangeSearchValue: jest.fn(),
   openSearchResults: () => false,
-  resultsList: contacts
+  resultsList: contacts,
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
@@ -80,4 +79,14 @@ test("new contact button is blocked while in editing mode", () => {
     editMode: true,
   })
   expect(getByTestId(ContactPanelTestIdsEnum.NewButton)).toBeDisabled()
+})
+
+test("In search results view, contactPanel should render search results title", () => {
+  const { getByTestId } = renderer({
+    showSearchResults: true,
+    searchValue: "test",
+  })
+  expect(getByTestId(ContactPanelTestIdsEnum.SearchTitle)).toHaveTextContent(
+    "[value] module.contacts.searchResultsTitle"
+  )
 })

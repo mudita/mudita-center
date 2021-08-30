@@ -34,6 +34,7 @@ import { InView } from "react-intersection-observer"
 import { ResultsState } from "App/contacts/store/contacts.enum"
 import { productionEnvironment } from "Renderer/constants/menu-elements"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
+import { ContactSearchResultsTestIdsEnum } from "App/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -118,163 +119,172 @@ const ContactSearchResults: FunctionComponent<ContactSearchResultsProps> = ({
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
 
+  const emptyList = () => (
+    <EmptyState
+      title={{ id: "module.contacts.emptyResultsListTitle" }}
+      description={{
+        id: "module.contacts.emptySearchDescription",
+      }}
+      data-testid={ContactSearchResultsTestIdsEnum.Empty}
+    />
+  )
+
   return (
     <SelectableContacts
       hideableColumnsIndexes={[2, 3, 4]}
       scrollable={scrollable}
       ref={tableRef}
+      data-testid={ContactSearchResultsTestIdsEnum.Table}
     >
       {resultsState === ResultsState.Loaded &&
-        (results.length ? (
-          results.map((contact, index) => {
-            const { selected } = getRowStatus(contact)
-            const handleExport = () => onExport([contact])
-            const handleForward = () => onForward(contact)
-            const handleBlock = () => onBlock(contact)
-            const handleUnblock = () => onUnblock(contact)
-            const handleDelete = () => onDelete(contact)
-            const handleSelect = () => onSelect(contact)
+        (results.length
+          ? results.map((contact, index) => {
+              const { selected } = getRowStatus(contact)
+              const handleExport = () => onExport([contact])
+              const handleForward = () => onForward(contact)
+              const handleBlock = () => onBlock(contact)
+              const handleUnblock = () => onUnblock(contact)
+              const handleDelete = () => onDelete(contact)
+              const handleSelect = () => onSelect(contact)
 
-            const fullName = createFullName(contact)
-            const createStyledFullName = () => {
-              const { firstName, lastName } = contact
-              if (!firstName && !lastName) {
-                return null
-              }
-              if (firstName && lastName) {
+              const fullName = createFullName(contact)
+              const createStyledFullName = () => {
+                const { firstName, lastName } = contact
+                if (!firstName && !lastName) {
+                  return null
+                }
+                if (firstName && lastName) {
+                  return (
+                    <span>
+                      {firstName} <strong>{lastName}</strong>
+                    </span>
+                  )
+                }
                 return (
                   <span>
-                    {firstName} <strong>{lastName}</strong>
+                    <strong>{firstName || lastName}</strong>
                   </span>
                 )
               }
-              return (
-                <span>
-                  <strong>{firstName || lastName}</strong>
-                </span>
-              )
-            }
-            const phoneNumber =
-              contact.primaryPhoneNumber || contact.secondaryPhoneNumber
+              const phoneNumber =
+                contact.primaryPhoneNumber || contact.secondaryPhoneNumber
 
-            const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-              <Row selected={selected} ref={ref}>
-                <ClickableCol onClick={handleSelect}>
-                  <InitialsAvatar
-                    user={contact}
-                    light={selected}
-                    size={AvatarSize.Medium}
-                  />
-                  {createStyledFullName() ||
-                    intl.formatMessage({
-                      id: "module.contacts.listUnnamedContact",
-                    })}
-                  {contact.blocked && <BlockedIcon width={1.4} height={1.4} />}
-                </ClickableCol>
-                <Col>{phoneNumber}</Col>
-                <Col>
-                  {contact.primaryPhoneNumber &&
-                    contact.secondaryPhoneNumber &&
-                    contact.secondaryPhoneNumber}
-                </Col>
-                <Col>
-                  <Actions>
-                    <Dropdown
-                      toggler={
-                        <ActionsButton>
-                          <Icon type={Type.More} />
-                        </ActionsButton>
-                      }
-                      onOpen={disableScroll}
-                      onClose={enableScroll}
-                    >
-                      <HiddenButton
-                        labelMessage={{
-                          id: "module.contacts.exportAsVcard",
-                        }}
-                        Icon={Type.Upload}
-                        onClick={handleExport}
-                        displayStyle={DisplayStyle.Dropdown}
-                        hide={productionEnvironment}
-                      />
-                      <HiddenButton
-                        labelMessage={{
-                          id: "module.contacts.forwardNamecard",
-                        }}
-                        Icon={Type.Forward}
-                        onClick={handleForward}
-                        displayStyle={DisplayStyle.Dropdown}
-                        hide={productionEnvironment}
-                      />
-                      {contact.blocked ? (
-                        <HiddenButton
-                          labelMessage={{
-                            id: "module.contacts.unblock",
-                          }}
-                          Icon={Type.Blocked}
-                          onClick={handleUnblock}
-                          displayStyle={DisplayStyle.Dropdown}
-                          hide={productionEnvironment}
-                        />
-                      ) : (
-                        <HiddenButton
-                          labelMessage={{
-                            id: "module.contacts.block",
-                          }}
-                          Icon={Type.Blocked}
-                          onClick={handleBlock}
-                          displayStyle={DisplayStyle.Dropdown}
-                          hide={productionEnvironment}
-                        />
-                      )}
-                      <ButtonComponent
-                        labelMessage={{
-                          id: "module.contacts.delete",
-                        }}
-                        Icon={Type.Delete}
-                        onClick={handleDelete}
-                        displayStyle={DisplayStyle.Dropdown}
-                      />
-                    </Dropdown>
-                  </Actions>
-                </Col>
-              </Row>
-            )
-
-            const placeholderRow = (ref: Ref<HTMLDivElement>) => {
-              return (
-                <Row ref={ref}>
-                  <Col />
+              const interactiveRow = (ref: Ref<HTMLDivElement>) => (
+                <Row selected={selected} ref={ref}>
+                  <ClickableCol onClick={handleSelect}>
+                    <InitialsAvatar
+                      user={contact}
+                      light={selected}
+                      size={AvatarSize.Medium}
+                    />
+                    {createStyledFullName() ||
+                      intl.formatMessage({
+                        id: "module.contacts.listUnnamedContact",
+                      })}
+                    {contact.blocked && (
+                      <BlockedIcon width={1.4} height={1.4} />
+                    )}
+                  </ClickableCol>
+                  <Col>{phoneNumber}</Col>
                   <Col>
-                    <AvatarPlaceholder />
-                    <TextPlaceholder charsCount={fullName.length} />
+                    {contact.primaryPhoneNumber &&
+                      contact.secondaryPhoneNumber &&
+                      contact.secondaryPhoneNumber}
                   </Col>
                   <Col>
-                    {phoneNumber && (
-                      <TextPlaceholder charsCount={phoneNumber.length} />
-                    )}
+                    <Actions>
+                      <Dropdown
+                        toggler={
+                          <ActionsButton>
+                            <Icon type={Type.More} />
+                          </ActionsButton>
+                        }
+                        onOpen={disableScroll}
+                        onClose={enableScroll}
+                      >
+                        <HiddenButton
+                          labelMessage={{
+                            id: "module.contacts.exportAsVcard",
+                          }}
+                          Icon={Type.Upload}
+                          onClick={handleExport}
+                          displayStyle={DisplayStyle.Dropdown}
+                          hide={productionEnvironment}
+                        />
+                        <HiddenButton
+                          labelMessage={{
+                            id: "module.contacts.forwardNamecard",
+                          }}
+                          Icon={Type.Forward}
+                          onClick={handleForward}
+                          displayStyle={DisplayStyle.Dropdown}
+                          hide={productionEnvironment}
+                        />
+                        {contact.blocked ? (
+                          <HiddenButton
+                            labelMessage={{
+                              id: "module.contacts.unblock",
+                            }}
+                            Icon={Type.Blocked}
+                            onClick={handleUnblock}
+                            displayStyle={DisplayStyle.Dropdown}
+                            hide={productionEnvironment}
+                          />
+                        ) : (
+                          <HiddenButton
+                            labelMessage={{
+                              id: "module.contacts.block",
+                            }}
+                            Icon={Type.Blocked}
+                            onClick={handleBlock}
+                            displayStyle={DisplayStyle.Dropdown}
+                            hide={productionEnvironment}
+                          />
+                        )}
+                        <ButtonComponent
+                          labelMessage={{
+                            id: "module.contacts.delete",
+                          }}
+                          Icon={Type.Delete}
+                          onClick={handleDelete}
+                          displayStyle={DisplayStyle.Dropdown}
+                        />
+                      </Dropdown>
+                    </Actions>
                   </Col>
                 </Row>
               )
-            }
 
-            return (
-              <InView key={contact.id}>
-                {({ inView, ref }) =>
-                  inView ? interactiveRow(ref) : placeholderRow(ref)
-                }
-              </InView>
-            )
-          })
-        ) : (
-          <EmptyState
-            title={{ id: "module.contacts.emptyResultsListTitle" }}
-            description={{
-              id: "module.contacts.emptySearchDescription",
-            }}
-          />
-        ))}
-      {resultsState === ResultsState.Loading && <LoadingState />}
+              const placeholderRow = (ref: Ref<HTMLDivElement>) => {
+                return (
+                  <Row ref={ref}>
+                    <Col />
+                    <Col>
+                      <AvatarPlaceholder />
+                      <TextPlaceholder charsCount={fullName.length} />
+                    </Col>
+                    <Col>
+                      {phoneNumber && (
+                        <TextPlaceholder charsCount={phoneNumber.length} />
+                      )}
+                    </Col>
+                  </Row>
+                )
+              }
+
+              return (
+                <InView key={contact.id}>
+                  {({ inView, ref }) =>
+                    inView ? interactiveRow(ref) : placeholderRow(ref)
+                  }
+                </InView>
+              )
+            })
+          : emptyList())}
+      {resultsState === ResultsState.Empty && emptyList()}
+      {resultsState === ResultsState.Loading && (
+        <LoadingState data-testid={ContactSearchResultsTestIdsEnum.Loading} />
+      )}
     </SelectableContacts>
   )
 }

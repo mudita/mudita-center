@@ -37,7 +37,6 @@ import {
 } from "Renderer/components/core/list/list.component"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import { Contact } from "App/contacts/store/contacts.type"
 
 export enum InputSearchTestIds {
   Icon = "input-select-icon",
@@ -191,7 +190,6 @@ export interface InputSearchProps extends Partial<InputProps> {
   itemListDisabled?: boolean
   searchValue: string | null
   onChangeSearchValue: Dispatch<SetStateAction<string | null>>
-  resultsList: Contact[]
 }
 
 const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
@@ -217,7 +215,6 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   itemListDisabled = false,
   searchValue,
   onChangeSearchValue,
-  resultsList,
   ...rest
 }) => {
   const [focus, setFocus] = useState(false)
@@ -286,9 +283,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   const onKeyDown = (event: KeyboardEvent) => {
     const handleArrowDown = () => {
       const maxListLength =
-        resultsList.length <= searchResultRows
-          ? resultsList.length
-          : searchResultRows
+        items.length <= searchResultRows ? items.length : searchResultRows
       if (activeItemIndex + 1 < maxListLength) {
         setActiveItemIndex((prevState) => prevState + 1)
       }
@@ -304,7 +299,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
         selectRef.current.blur()
       }
       activeItemIndex >= 0
-        ? handleSelect(resultsList[activeItemIndex])
+        ? handleSelect(items[activeItemIndex])
         : searchResults()
     }
     const keys: KeysType = {
@@ -351,7 +346,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
             selectedItem={selectedItem}
             disabledItems={disabledItems}
             emptyItemValue={emptyItemValue}
-            items={resultsList}
+            items={items}
             renderListItem={renderListItem}
             searchString={searchValue || ""}
             expanded={focus}

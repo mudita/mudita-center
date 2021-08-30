@@ -65,7 +65,6 @@ export interface ContactPanelProps {
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
   deleteContacts: (ids: ContactID[]) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
-  contacts: Contact[]
   editMode: boolean
   openSearchResults?: () => void
   searchValue: string | null
@@ -83,7 +82,6 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   toggleAll = noop,
   deleteContacts,
   resetRows,
-  contacts,
   editMode,
   openSearchResults = noop,
   searchValue,
@@ -164,7 +162,6 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
           />
         ) : (
           <ContactInputSearch
-            contacts={contacts}
             onContactSelect={onContactSelect}
             openSearchResults={openSearchResults}
             searchValue={searchValue}
@@ -185,13 +182,16 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
               id: "module.contacts.panelNewContactButton",
             }}
             onClick={onNewButtonClick}
-            disabled={editMode || showSearchResults}
+            disabled={editMode}
             data-testid={ContactPanelTestIdsEnum.NewButton}
           />
         </Buttons>
       </Panel>
       {showSearchResults && (
-        <SearchTitle displayStyle={TextDisplayStyle.LargeBoldText}>
+        <SearchTitle
+          displayStyle={TextDisplayStyle.LargeBoldText}
+          data-testid={ContactPanelTestIdsEnum.SearchTitle}
+        >
           {intl.formatMessage(messages.searchResultsTitle, {
             value: searchValue,
           })}

@@ -5,51 +5,76 @@
 
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import InputSelect, {
-  InputSelectProps,
-  InputSelectTestIds,
-} from "Renderer/components/core/input-select/input-select.component"
+import InputSearch, {
+  InputSearchProps,
+  InputSearchTestIds,
+} from "Renderer/components/core/input-search/input-search.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { fireEvent } from "@testing-library/dom"
 import { basicItems } from "Renderer/components/core/list/list.stories"
 
-const renderInputSelect = ({ ...props }: Partial<InputSelectProps> = {}) => {
+const renderInputSearch = ({ ...props }: Partial<InputSearchProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
-    <InputSelect items={basicItems} {...props} />
+    <InputSearch
+      searchValue={"x"}
+      onChangeSearchValue={jest.fn}
+      openSearchResults={jest.fn}
+      items={basicItems}
+      {...props}
+    />
   )
   return {
     ...outcome,
     input: () => outcome.getByRole("textbox"),
-    icon: () => outcome.getByTestId(InputSelectTestIds.Icon),
-    list: () => outcome.queryByTestId(InputSelectTestIds.List),
-    listItems: () => outcome.queryAllByTestId(InputSelectTestIds.ListItem),
+    icon: () => outcome.getByTestId(InputSearchTestIds.Icon),
+    list: () => outcome.queryByTestId(InputSearchTestIds.List),
+    listItems: () => outcome.queryAllByTestId(InputSearchTestIds.ListItem),
     label: () => outcome.container.querySelector("label"),
   }
 }
 
-test("select input focus/blur toggles the list", () => {
-  const { list, input } = renderInputSelect()
-  expect(list()).not.toBeVisible()
-  input().focus()
-  expect(list()).toBeVisible()
-  input().blur()
-  expect(list()).not.toBeVisible()
-})
+describe("select input focus/blur", () => {
+  test("should toggle the list", () => {
+    const { list, input } = renderInputSearch()
+    expect(list()).not.toBeVisible()
+    input().focus()
+    expect(list()).toBeVisible()
+    input().blur()
+    expect(list()).not.toBeVisible()
+  })
 
-test("select input focus/blur toggles the list properly when min chars to show results are set up", () => {
-  const { list, input } = renderInputSelect({ minCharsToShowResults: 3 })
-  expect(list()).not.toBeInTheDocument()
-  input().focus()
-  expect(list()).not.toBeInTheDocument()
-  fireEvent.change(input(), { target: { value: "ap" } })
-  expect(list()).not.toBeInTheDocument()
-  fireEvent.change(input(), { target: { value: "app" } })
-  expect(list()).toBeInTheDocument()
-  expect(list()).toBeVisible()
+  test("should toggle the list properly when min chars to show results are set up", () => {
+    const { list, input } = renderInputSearch({
+      minCharsToShowResults: 3,
+      searchValue: "",
+    })
+    expect(list()).not.toBeInTheDocument()
+    input().focus()
+    expect(list()).not.toBeInTheDocument()
+  })
+
+  test("shouldn't show the list when min chars is bigger than searchValue length", () => {
+    const { list, input } = renderInputSearch({
+      minCharsToShowResults: 3,
+      searchValue: "ab",
+    })
+    input().focus()
+    expect(list()).not.toBeInTheDocument()
+  })
+
+  test("should show the list when min chars is smaller than searchValue length", () => {
+    const { list, input } = renderInputSearch({
+      minCharsToShowResults: 3,
+      searchValue: "abc",
+    })
+    input().focus()
+    expect(list()).toBeInTheDocument()
+    expect(list()).toBeVisible()
+  })
 })
 
 test("select input arrow click toggles the list", () => {
-  const { list, icon } = renderInputSelect()
+  const { list, icon } = renderInputSearch()
   expect(list()).not.toBeVisible()
   fireEvent.click(icon())
   expect(list()).toBeVisible()
@@ -59,14 +84,14 @@ test("select input arrow click toggles the list", () => {
 
 test("select input returns selected list item", () => {
   const onSelect = jest.fn()
-  const { listItems } = renderInputSelect({ onSelect })
+  const { listItems } = renderInputSearch({ onSelect })
   fireEvent.click(listItems()[2])
   expect(onSelect).toBeCalledWith(basicItems[2])
 })
 
 test("select input resets after selecting empty option", () => {
   const onSelect = jest.fn()
-  const { listItems } = renderInputSelect({
+  const { listItems } = renderInputSearch({
     onSelect,
     emptyItemValue: "empty",
   })
@@ -76,7 +101,7 @@ test("select input resets after selecting empty option", () => {
 })
 
 test("Item marked as disabled in `disabledOptions` list should have a `disabled` attribute", () => {
-  const { listItems } = renderInputSelect({
+  const { listItems } = renderInputSearch({
     disabledItems: [basicItems[0]],
   })
   expect(listItems()[0]).toHaveStyleRule("cursor", "not-allowed")
@@ -84,13 +109,13 @@ test("Item marked as disabled in `disabledOptions` list should have a `disabled`
 })
 
 test("labels color is transparent with initiallTransparentBorder prop", () => {
-  const { label } = renderInputSelect({ initialTransparentBorder: true })
+  const { label } = renderInputSearch({ initialTransparentBorder: true })
   expect(label()).toHaveStyleRule("border-color", "transparent")
 })
 
 test("select input by enter returns selected list item", () => {
   const onSelect = jest.fn()
-  const { input } = renderInputSelect({ onSelect })
+  const { input } = renderInputSearch({ onSelect })
   fireEvent.keyDown(input(), {
     key: "ArrowDown",
     code: "ArrowDown",
@@ -103,31 +128,36 @@ test("select input by enter returns selected list item", () => {
     keyCode: 13,
     charCode: 13,
   })
-  expect(onSelect).toBeCalledWith(basicItems[1])
+  expect(onSelect).toBeCalledWith(basicItems[0])
 })
 
-test("select first list item by enter returns first selected list item", () => {
-  const onSelect = jest.fn()
-  const { input } = renderInputSelect({ onSelect })
-  fireEvent.keyDown(input(), {
-    key: "ArrowUp",
-    code: "ArrowUp",
-    keyCode: 38,
-    charCode: 38,
-  })
+test("Enter on search input should open search results", () => {
+  const openSearchResults = jest.fn()
+  const { input } = renderInputSearch({ openSearchResults })
   fireEvent.keyDown(input(), {
     key: "Enter",
     code: "Enter",
     keyCode: 13,
     charCode: 13,
   })
-  expect(onSelect).toBeCalledWith(basicItems[0])
+  expect(openSearchResults).toBeCalled()
+})
+
+test("Open search results should close search dropdown list", () => {
+  const { input, list } = renderInputSearch()
+  fireEvent.keyDown(input(), {
+    key: "Enter",
+    code: "Enter",
+    keyCode: 13,
+    charCode: 13,
+  })
+  expect(list()).not.toBeVisible()
 })
 
 test("select last list item by enter returns last selected list item", () => {
   const onSelect = jest.fn()
   const mockItems = ["1", "2"]
-  const { input } = renderInputSelect({ onSelect, items: mockItems })
+  const { input } = renderInputSearch({ onSelect, items: mockItems })
 
   fireEvent.keyDown(input(), {
     key: "ArrowDown",
@@ -153,7 +183,7 @@ test("select last list item by enter returns last selected list item", () => {
 
 test("select list item by enter when hovering on the list", () => {
   const onSelect = jest.fn()
-  const { input, listItems } = renderInputSelect({ onSelect })
+  const { input, listItems } = renderInputSearch({ onSelect })
   fireEvent.mouseOver(listItems()[2])
   fireEvent.keyDown(input(), {
     key: "Enter",
@@ -166,7 +196,7 @@ test("select list item by enter when hovering on the list", () => {
 
 test("select list item by enter when hovering on the list and navigate on keyboard", () => {
   const onSelect = jest.fn()
-  const { input, listItems } = renderInputSelect({ onSelect })
+  const { input, listItems } = renderInputSearch({ onSelect })
   fireEvent.keyDown(input(), {
     key: "ArrowDown",
     code: "ArrowDown",
