@@ -21,7 +21,6 @@ class DevicePortInfo {
     const id = portInfo.vendorId?.toLowerCase()
     return (
       id === DevicePortInfo.vendorId.toLowerCase() ||
-      id === DevicePortInfo.productIdNonMtp.toLowerCase() ||
       id === DevicePortInfo.tmpVendorId.toLowerCase()
     )
   }
@@ -30,6 +29,7 @@ class DevicePortInfo {
     const id = portInfo.productId?.toLowerCase()
     return (
       id === DevicePortInfo.productId.toLowerCase() ||
+      id === DevicePortInfo.productIdNonMtp.toLowerCase() ||
       id === DevicePortInfo.tmpProductId.toLowerCase()
     )
   }
