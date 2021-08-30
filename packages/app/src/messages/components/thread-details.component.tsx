@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React, { ChangeEvent, useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -22,7 +22,7 @@ import {
   Thread,
 } from "App/messages/store/messages.interface"
 import {
-  LeadingButton,
+  IconButton,
   MessagesSidebar,
   MessagesWrapper,
   NameWrapper,
@@ -35,6 +35,160 @@ import ThreadDetailsLoading from "App/messages/components/thread-details-loading
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 import { Contact } from "App/contacts/store/contacts.type"
 
+const production = process.env.NODE_ENV === "production"
+
+interface ThreadDetailsLeftHeaderProps {
+  prettyCaller: string
+  callerIdentification?: string
+  callerNumber?: string
+}
+
+const ThreadDetailsLeftHeader: FunctionComponent<ThreadDetailsLeftHeaderProps> =
+  ({ prettyCaller, callerIdentification = "", callerNumber = "" }) => {
+    return (
+      <>
+        <NameWrapper>
+          <Text
+            displayStyle={TextDisplayStyle.LargeBoldText}
+            data-testid="sidebar-fullname"
+          >
+            {prettyCaller}
+          </Text>
+          {callerIdentification !== "" && (
+            <Text
+              displayStyle={TextDisplayStyle.LargeFadedText}
+              data-testid="multiple-number"
+            >
+              &nbsp;
+              {callerIdentification}
+            </Text>
+          )}
+        </NameWrapper>
+        {callerNumber !== "" && (
+          <PhoneNumberText
+            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            data-testid="sidebar-phone-number"
+          >
+            {callerNumber}
+          </PhoneNumberText>
+        )}
+      </>
+    )
+  }
+
+interface ThreadDetailsRightHeaderProps {
+  contactCreated: boolean
+  onContactClick: () => void
+  onDeleteClick: () => void
+  onCheckClick: () => void
+}
+
+const getCallerIdentification = (
+  contact: Contact | undefined,
+  number: string
+): string | undefined => {
+  if (Boolean(number) && contact?.secondaryPhoneNumber) {
+    return number.split(" ").join("") ===
+      contact.secondaryPhoneNumber.split(" ").join("")
+      ? "#2"
+      : "#1"
+  } else {
+    return undefined
+  }
+}
+
+const ThreadDetailsRightHeader: FunctionComponent<ThreadDetailsRightHeaderProps> =
+  ({ contactCreated, onContactClick, onDeleteClick, onCheckClick }) => {
+    return (
+      <>
+        {!production && (
+          <SidebarHeaderButton
+            Icon={Type.Calls}
+            onClick={noop}
+            iconSize={IconSize.Big}
+          />
+        )}
+        {contactCreated ? (
+          <SidebarHeaderButton
+            Icon={Type.Contact}
+            onClick={onContactClick}
+            iconSize={IconSize.Big}
+          />
+        ) : (
+          <SidebarHeaderButton
+            Icon={Type.NewContact}
+            onClick={onContactClick}
+            iconSize={IconSize.Big}
+          />
+        )}
+        {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
+        {!production && (
+          <>
+            <SidebarHeaderButton
+              Icon={Type.BorderCheckIcon}
+              onClick={onCheckClick}
+              iconSize={IconSize.Big}
+            />
+            <SidebarHeaderButton
+              Icon={Type.Delete}
+              onClick={onDeleteClick}
+              iconSize={IconSize.Big}
+            />
+          </>
+        )}
+      </>
+    )
+  }
+
+interface ThreadDetailsTextAreaProps {
+  value: string
+  sendIconVisible: boolean
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void
+  onSendClick: () => void
+  onAttachContactClick: () => void
+}
+
+const ThreadDetailsTextArea: FunctionComponent<ThreadDetailsTextAreaProps> = ({
+  value,
+  sendIconVisible,
+  onSendClick,
+  onChange,
+  onAttachContactClick,
+}) => {
+  const leadingIcons = [
+    !production && (
+      <IconButton
+        key={Type.AttachContact}
+        Icon={Type.AttachContact}
+        onClick={onAttachContactClick}
+      />
+    ),
+    !production && (
+      <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />
+    ),
+  ]
+  const trailingIcon = [
+    sendIconVisible && (
+      <IconButton key={Type.Send} Icon={Type.Send} onClick={onSendClick} />
+    ),
+  ]
+
+  return (
+    <TextareaWrapper>
+      <Textarea
+        type="textarea"
+        value={value}
+        onChange={onChange}
+        leadingIcons={leadingIcons}
+        trailingIcons={trailingIcon}
+        label={intl.formatMessage({
+          id: "module.messages.textAreaPlaceholder",
+        })}
+      />
+    </TextareaWrapper>
+  )
+}
+
 export interface ThreadDetailsProps {
   thread: Thread
   onClose?: () => void
@@ -42,17 +196,13 @@ export interface ThreadDetailsProps {
   onUnreadStatus: (ids: string[]) => void
   onContactClick: (phoneNumber: string) => void
   onAttachContactClick: () => void
-  getContact: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact | undefined
   getMessagesByThreadId: (threadId: string) => Message[]
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
   isContactCreated: (id: string) => boolean
   onAddNewMessage: (newMessage: NewMessage) => void
 }
-
-const trailingIcon = [
-  <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
-]
 
 const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   thread,
@@ -68,10 +218,21 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   isContactCreated,
   onAddNewMessage,
 }) => {
+  const [value, setValue] = useState("")
   const resultState = getMessagesResultMapStateByThreadId(thread.id)
   const messages = getMessagesByThreadId(thread.id)
   const contact = getContact(thread.contactId)
   const loadThread = () => loadMessagesByThreadId(thread.id)
+  const handleDeleteClick = () => onDeleteClick(thread.id)
+  const handleContactClick = () => onContactClick(thread.number)
+  const handleTextAreaChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setValue((previousValue) => {
+      return event.target.value.length >= 115
+        ? previousValue
+        : event.target.value
+    })
+  }
+
   useEffect(() => {
     loadThread()
   }, [thread.id])
@@ -79,103 +240,35 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
     onUnreadStatus([thread.id])
     onClose()
   }
-  const handleDeleteClick = () => onDeleteClick(thread.id)
-  const handleContactClick = () => onContactClick(thread.number)
-  const icons = (
-    <>
-      {process.env.NODE_ENV !== "production" && (
-        <SidebarHeaderButton
-          Icon={Type.Calls}
-          onClick={noop}
-          iconSize={IconSize.Big}
-        />
-      )}
-      {isContactCreated(thread.contactId) ? (
-        <SidebarHeaderButton
-          Icon={Type.Contact}
-          onClick={handleContactClick}
-          iconSize={IconSize.Big}
-        />
-      ) : (
-        <SidebarHeaderButton
-          Icon={Type.NewContact}
-          onClick={handleContactClick}
-          iconSize={IconSize.Big}
-        />
-      )}
-      {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
-      {process.env.NODE_ENV !== "production" && (
-        <>
-          <SidebarHeaderButton
-            Icon={Type.BorderCheckIcon}
-            onClick={markAsUnread}
-            iconSize={IconSize.Big}
-          />
-          <SidebarHeaderButton
-            Icon={Type.Delete}
-            onClick={handleDeleteClick}
-            iconSize={IconSize.Big}
-          />
-        </>
-      )}
-    </>
-  )
-
-  const leadingIcons = [
-    <LeadingButton
-      key={Type.AttachContact}
-      Icon={Type.AttachContact}
-      onClick={onAttachContactClick}
-    />,
-    <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />,
-  ]
 
   const handleTextAreaSendClick = () => {
     onAddNewMessage({
       number: thread.number,
-      content: "test content",
+      content: value,
     })
   }
 
   return (
     <MessagesSidebar
       show
-      headerLeft={
-        <>
-          <NameWrapper>
-            <Text
-              displayStyle={TextDisplayStyle.LargeBoldText}
-              data-testid="sidebar-fullname"
-            >
-              {getPrettyCaller(contact, thread.number)}
-            </Text>
-            {Boolean(thread.number && contact?.secondaryPhoneNumber) && (
-              <Text
-                displayStyle={TextDisplayStyle.LargeFadedText}
-                data-testid="multiple-number"
-              >
-                &nbsp;
-                {thread.number.split(" ").join("") ===
-                contact.secondaryPhoneNumber?.split(" ").join("")
-                  ? "#2"
-                  : "#1"}
-              </Text>
-            )}
-          </NameWrapper>
-          {isNameAvailable(contact) && (
-            <PhoneNumberText
-              displayStyle={TextDisplayStyle.MediumFadedLightText}
-              data-testid="sidebar-phone-number"
-            >
-              {thread.number}
-            </PhoneNumberText>
-          )}
-        </>
-      }
-      headerRight={icons}
-      onClose={onClose}
       withBottomBorder
       padded={false}
+      onClose={onClose}
+      headerLeft={
+        <ThreadDetailsLeftHeader
+          prettyCaller={getPrettyCaller(contact, thread.number)}
+          callerIdentification={getCallerIdentification(contact, thread.number)}
+          callerNumber={isNameAvailable(contact) ? thread.number : undefined}
+        />
+      }
+      headerRight={
+        <ThreadDetailsRightHeader
+          contactCreated={isContactCreated(thread.contactId)}
+          onContactClick={handleContactClick}
+          onDeleteClick={handleDeleteClick}
+          onCheckClick={markAsUnread}
+        />
+      }
     >
       <MessagesWrapper>
         {resultState === ResultState.Error && (
@@ -186,21 +279,13 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
           <ThreadDetailsMessages messages={messages} contact={contact} />
         )}
       </MessagesWrapper>
-      {process.env.NODE_ENV !== "production" && (
-        <TextareaWrapper>
-          <Textarea
-            type="textarea"
-            value={""}
-            onChange={noop}
-            leadingIcons={leadingIcons}
-            trailingIcons={trailingIcon}
-            label={intl.formatMessage({
-              id: "module.messages.textAreaPlaceholder",
-            })}
-            onClick={handleTextAreaSendClick}
-          />
-        </TextareaWrapper>
-      )}
+      <ThreadDetailsTextArea
+        value={value}
+        sendIconVisible={value.length >= 1}
+        onSendClick={handleTextAreaSendClick}
+        onChange={handleTextAreaChange}
+        onAttachContactClick={onAttachContactClick}
+      />
     </MessagesSidebar>
   )
 }

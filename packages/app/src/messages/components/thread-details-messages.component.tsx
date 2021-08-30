@@ -13,7 +13,7 @@ import { Contact } from "App/contacts/store/contacts.type"
 
 interface Properties {
   messages: Message[]
-  contact: Contact
+  contact?: Contact
 }
 
 const ThreadDetailsMessages: FunctionComponent<Properties> = ({
@@ -31,7 +31,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
     <MessageBubblesWrapper>
       {messages.map(({ messageType, date, content, id }, index) => {
         const interlocutor = messageType === MessageType.INBOX
-        const user = interlocutor ? contact : {}
+        const user = interlocutor && contact ? contact : {}
         const prevMessage = messages[index - 1]
         const displayAvatar = prevMessage
           ? prevMessage.messageType !== messageType
