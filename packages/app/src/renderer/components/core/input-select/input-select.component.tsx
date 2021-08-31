@@ -360,5 +360,7 @@ const InputSelect = React.forwardRef<
   ComponentProps<typeof InputSelectComponent>
 >((props, ref) => <InputSelectComponent {...props} inputRef={ref} />)
 
-export default deprecated(InputSelect, "If you need an input for search, please use a refactored one: InputSearchComponent")
-
+export default deprecated(
+  InputSelect,
+  "If you need an input for search, please use a refactored one: InputSearchComponent"
+)
