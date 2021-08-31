@@ -11,7 +11,6 @@ import { ExportErrorModalTestIds } from "App/calendar/components/export-error-mo
 const renderer = (props = {}) =>
   renderWithThemeAndIntl(<ExportErrorModal {...props} />)
 
-
 test("subtitle has correct text", () => {
   const { getByTestId } = renderer()
   expect(getByTestId(ExportErrorModalTestIds.Subtitle)).toHaveTextContent(

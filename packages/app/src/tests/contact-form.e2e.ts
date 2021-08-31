@@ -7,7 +7,7 @@ import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-
 import { URL_RECOVERY_MODE } from "Renderer/constants/urls"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
-import { Application } from "spectron";
+import { Application } from "spectron"
 
 let app: Application
 const incorrectEmail = "e2e"

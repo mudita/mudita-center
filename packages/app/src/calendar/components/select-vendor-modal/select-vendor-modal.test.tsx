@@ -38,7 +38,9 @@ const renderModal = ({
 test("select calendar modal renders properly", () => {
   const { googleButton } = renderModal()
 
-  expect(googleButton()).toHaveTextContent("[value] component.loginGoogleButton")
+  expect(googleButton()).toHaveTextContent(
+    "[value] component.loginGoogleButton"
+  )
 })
 
 test("primary calendar is selected by default", () => {

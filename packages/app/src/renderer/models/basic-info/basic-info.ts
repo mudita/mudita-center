@@ -77,7 +77,7 @@ const basicInfo = createModel<RootModel>({
     },
   },
   effects: (d: any) => {
-    const dispatch = (d as unknown) as RootState
+    const dispatch = d as unknown as RootState
     let basicInfoDataLoading = false
     let initialDataLoading = false
 
@@ -117,13 +117,8 @@ const basicInfo = createModel<RootModel>({
               status === DeviceResponseStatus.Ok && data !== undefined
           )
         ) {
-          const [
-            info,
-            networkInfo,
-            storageInfo,
-            batteryInfo,
-            backupsInfo,
-          ] = responses
+          const [info, networkInfo, storageInfo, batteryInfo, backupsInfo] =
+            responses
 
           const [lastBackup] = backupsInfo.data!.backups.sort(
             (a, b) =>

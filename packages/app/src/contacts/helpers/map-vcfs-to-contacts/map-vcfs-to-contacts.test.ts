@@ -20,9 +20,7 @@ describe("map VCF's to Contacts helper", () => {
   const noEncodedContactFile = createFile(
     path.join(__dirname, "./no-encoded-contact.vcf")
   )
-  const noVcfFile = createFile(
-    path.join(__dirname, "./no-vcf.png")
-  )
+  const noVcfFile = createFile(path.join(__dirname, "./no-vcf.png"))
 
   test("should return list with one contact when is just single record", async () => {
     const contacts = await mapVCFsToContacts([singleContactFile])
@@ -46,7 +44,10 @@ describe("map VCF's to Contacts helper", () => {
   })
 
   test("should handle list of files", async () => {
-    const contacts = await mapVCFsToContacts([singleContactFile, multipleContactsFile])
+    const contacts = await mapVCFsToContacts([
+      singleContactFile,
+      multipleContactsFile,
+    ])
     expect(contacts).toHaveLength(3)
   })
 

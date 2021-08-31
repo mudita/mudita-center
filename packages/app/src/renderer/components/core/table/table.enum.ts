@@ -4,5 +4,5 @@
  */
 
 export enum TableTestIds {
- Sidebar = "sidebar",
+  Sidebar = "sidebar",
 }

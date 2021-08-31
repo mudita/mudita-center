@@ -28,7 +28,7 @@ const mockPureData: PureContact[] = [
 jest.mock("Backend/device-service")
 
 test("return response from correctly deleted contact", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => ({
         data: mockPureData[0].id,

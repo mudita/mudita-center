@@ -15,9 +15,7 @@ import {
   ResponseStatus,
 } from "./device.types"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
-import {
-  isApiRequestPayload,
-} from "./device-helper"
+import { isApiRequestPayload } from "./device-helper"
 import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator"
 

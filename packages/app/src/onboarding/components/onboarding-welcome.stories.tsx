@@ -16,14 +16,13 @@ const Wrapper = styled.div`
   justify-items: stretch;
 `
 
-storiesOf("Components/Onboarding", module)
-  .add("Welcome", () => {
-    return (
-      <Wrapper>
-        <OnboardingWelcome
-          onCancel={action("Cancel")}
-          onTroubleshooting={action("TroubleshootingInfo")}
-        />
-      </Wrapper>
-    )
-  })
+storiesOf("Components/Onboarding", module).add("Welcome", () => {
+  return (
+    <Wrapper>
+      <OnboardingWelcome
+        onCancel={action("Cancel")}
+        onTroubleshooting={action("TroubleshootingInfo")}
+      />
+    </Wrapper>
+  )
+})

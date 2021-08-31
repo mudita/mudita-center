@@ -34,10 +34,8 @@ const registerGetApplicationConfigurationListener = (): void => {
       const url = `${process.env.MUDITA_CENTER_SERVER_URL}/app-configuration`
 
       try {
-        const {
-          status,
-          data,
-        } = await axios.get<ApplicationConfigurationResponse>(url)
+        const { status, data } =
+          await axios.get<ApplicationConfigurationResponse>(url)
         if (
           status === 200 &&
           data?.osVersion !== undefined &&
