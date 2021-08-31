@@ -53,7 +53,7 @@ class DeviceFileSystemService {
       logger.info(`downloadFile receivedFileCrc32: ${receivedFileCrc32}`)
       logger.info(`downloadFile countedFileCrc32: ${countedFileCrc32}`)
 
-      if(~receivedFileCrc32 === ~countedFileCrc32){
+      if (~receivedFileCrc32 === ~countedFileCrc32) {
         return {
           status: DeviceResponseStatus.Ok,
           data: buffer.toString(),
@@ -62,8 +62,7 @@ class DeviceFileSystemService {
         return {
           status: DeviceResponseStatus.Error,
           error: {
-            message:
-              "Get device logs: File CRC32 mismatch",
+            message: "Get device logs: File CRC32 mismatch",
           },
         }
       }
@@ -85,7 +84,7 @@ class DeviceFileSystemService {
     try {
       const fileSize = fs.lstatSync(filePath).size
       const fileBuffer = fs.readFileSync(filePath)
-      const fileCrc32 = CRC32.buf(fileBuffer).toString(16).padStart(8, '0')
+      const fileCrc32 = CRC32.buf(fileBuffer).toString(16).padStart(8, "0")
 
       const { status, data } = await this.deviceService.request({
         endpoint: Endpoint.FileSystem,

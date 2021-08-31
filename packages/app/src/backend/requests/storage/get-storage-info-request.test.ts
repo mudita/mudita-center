@@ -12,7 +12,7 @@ import DeviceService from "Backend/device-service"
 import Adapters from "Backend/adapters/adapters.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 
-const mockDeviceInfo: DeviceInfo = ({
+const mockDeviceInfo: DeviceInfo = {
   accessTechnology: "255",
   batteryLevel: "35",
   batteryState: "1",
@@ -27,12 +27,12 @@ const mockDeviceInfo: DeviceInfo = ({
   selectedSim: "0",
   signalStrength: "1",
   trayState: "1",
-} as unknown) as DeviceInfo
+} as unknown as DeviceInfo
 
 jest.mock("Backend/device-service")
 
 test("returns required storage info", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => ({
         data: mockDeviceInfo,
@@ -41,11 +41,11 @@ test("returns required storage info", async () => {
     }
   })
 
-  registerPurePhoneStorageRequest(({
+  registerPurePhoneStorageRequest({
     pureStorage: createPurePhoneStorageAdapter(
       new DeviceService(PureDeviceManager, ipcMain)
     ),
-  } as unknown) as Adapters)
+  } as unknown as Adapters)
 
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetStorageInfo)
   const result = await pendingResponse

@@ -75,10 +75,10 @@ describe("contactFactory tests", () => {
 
   test("creates clean model without empty fields", () => {
     const typeGuardMock = () => true
-    const result = (contactFactory(
+    const result = contactFactory(
       TEST_CONTACT_TO_CLEAN,
       typeGuardMock
-    ) as unknown) as Contact
+    ) as unknown as Contact
     expect(result).toMatchObject({
       id: TEST_CONTACT_TO_CLEAN.id,
       firstName: TEST_CONTACT_TO_CLEAN.firstName,

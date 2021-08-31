@@ -98,7 +98,7 @@ const mapToVCardString = (contact: Contact): string => {
 }
 
 const mapContactsToVCardStrings = (contacts: Contact[]): string => {
-  return contacts.map(contact => mapToVCardString(contact)).join("\n")
+  return contacts.map((contact) => mapToVCardString(contact)).join("\n")
 }
 
 export default mapContactsToVCardStrings

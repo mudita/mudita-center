@@ -12,9 +12,17 @@ import { AboutActions } from "App/common/enums/about-actions.enum"
 const About: FunctionComponent = () => {
   const openLicenseWindow = () =>
     ipcRenderer.callMain(AboutActions.LicenseOpenWindow)
-  const openTermsOfServiceWindow = () => ipcRenderer.callMain(AboutActions.TermsOpenWindow)
-  const openPrivacyPolicyWindow = () => ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
-return <AboutUI openLicense={openLicenseWindow} openTermsOfService={openTermsOfServiceWindow} openPrivacyPolicy={openPrivacyPolicyWindow} />
+  const openTermsOfServiceWindow = () =>
+    ipcRenderer.callMain(AboutActions.TermsOpenWindow)
+  const openPrivacyPolicyWindow = () =>
+    ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
+  return (
+    <AboutUI
+      openLicense={openLicenseWindow}
+      openTermsOfService={openTermsOfServiceWindow}
+      openPrivacyPolicy={openPrivacyPolicyWindow}
+    />
+  )
 }
 
 export default About

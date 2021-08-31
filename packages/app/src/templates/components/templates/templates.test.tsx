@@ -6,7 +6,9 @@
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import Templates, { TemplatesProps } from "App/templates/components/templates/templates.component"
+import Templates, {
+  TemplatesProps,
+} from "App/templates/components/templates/templates.component"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { messages } from "App/templates/components/templates-panel.component"

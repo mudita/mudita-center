@@ -62,13 +62,8 @@ const Templates: FunctionComponent<TemplatesProps> = ({
   changeSortOrder,
   sortOrder,
 }) => {
-  const {
-    selectedRows,
-    allRowsSelected,
-    toggleAll,
-    resetRows,
-    ...rest
-  } = useTableSelect<Template>(templates)
+  const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
+    useTableSelect<Template>(templates)
 
   const sidebarHook = useTableSidebar<Template>()
   const { closeSidebar, activeRow, openSidebar } = sidebarHook

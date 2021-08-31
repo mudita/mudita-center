@@ -12,11 +12,7 @@ import {
 import LoaderSpinner from "Renderer/components/core/loader/loader-spinner.component"
 import LoaderLogo from "Renderer/components/core/loader/loader-logo.component"
 
-const Loader: FunctionComponent<LoaderProps> = ({
-  type,
-  size,
-  ...props
-}) => {
+const Loader: FunctionComponent<LoaderProps> = ({ type, size, ...props }) => {
   return (
     <>
       {type === LoaderType.Logo ? (

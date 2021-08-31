@@ -14,7 +14,7 @@ jest.mock("Backend/device-service")
 jest.mock("Backend/device-file-system-service/device-file-system-service")
 
 test("unlock device returns properly value", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
         return {
@@ -35,7 +35,7 @@ test("unlock device returns properly value", async () => {
 })
 
 test("get unlock device status returns properly value", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
         return {

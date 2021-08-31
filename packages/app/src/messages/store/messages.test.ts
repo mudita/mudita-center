@@ -372,9 +372,8 @@ test("filtered threads selector return value properly", () => {
 test("get messages result map state by thread id selector return value properly", async () => {
   store.dispatch.messages.setThreadMap(mockThreads)
 
-  const getMessagesResultMapStateByThreadId = store.select.messages.getMessagesResultMapStateByThreadId(
-    store.getState()
-  )
+  const getMessagesResultMapStateByThreadId =
+    store.select.messages.getMessagesResultMapStateByThreadId(store.getState())
   expect(getMessagesResultMapStateByThreadId("1")).toBe(ResultState.Empty)
 })
 

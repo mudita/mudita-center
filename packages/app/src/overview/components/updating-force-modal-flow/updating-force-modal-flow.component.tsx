@@ -108,7 +108,9 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
         ? !isVersionGreater(osVersion, latestReleaseVersion)
         : false
     } catch (error) {
-      logger.error(`Overview: force updating pure. Check that isNewestPureOsAvailable fails ${error.message}`)
+      logger.error(
+        `Overview: force updating pure. Check that isNewestPureOsAvailable fails ${error.message}`
+      )
       return false
     }
   }

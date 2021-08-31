@@ -129,7 +129,6 @@ interface Props {
   onContact?: () => void
 }
 
-
 const OnboardingTroubleshooting: FunctionComponent<Props> = ({
   onRetry = noop,
   onContact = noop,

@@ -10,6 +10,6 @@ import { ipcMain } from "electron-better-ipc"
 import Adapters from "Backend/adapters/adapters.interface"
 
 export const getAdapters = () =>
-  (({
+  ({
     phonebook: createPhonebook(new DeviceService(PureDeviceManager, ipcMain)),
-  } as unknown) as Adapters)
+  } as unknown as Adapters)

@@ -185,9 +185,7 @@ export const fetchEvents = async (
   id: string
 ): Promise<CalendarEvent[]> => {
   try {
-    const {
-      data,
-    } = await axios.get(
+    const { data } = await axios.get(
       `${baseGraphUrl}/me/calendars/${id}/calendarView?startDateTime=${moment()
         .startOf("day")
         .toISOString()}&endDateTime=${moment()
