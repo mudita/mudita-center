@@ -3,85 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from "react"
+import React, { ChangeEvent, useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { intl } from "Renderer/utils/intl"
-import {
-  Message,
-  NewMessage,
-  ResultState,
-  Thread,
-} from "App/messages/store/messages.interface"
-import {
-  IconButton,
-  MessagesSidebar,
-  MessagesWrapper,
-  NameWrapper,
-  PhoneNumberText,
-  Textarea,
-  TextareaWrapper,
-} from "App/messages/components/thread-details.styled"
+import { Message, NewMessage, ResultState, Thread } from "App/messages/store/messages.interface"
+import { MessagesSidebar, MessagesWrapper } from "App/messages/components/thread-details.styled"
 import ThreadDetailsError from "App/messages/components/thread-details-error.component"
 import ThreadDetailsLoading from "App/messages/components/thread-details-loading.component"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 import { Contact } from "App/contacts/store/contacts.type"
-
-const production = process.env.NODE_ENV === "production"
-
-interface ThreadDetailsLeftHeaderProps {
-  prettyCaller: string
-  callerIdentification?: string
-  callerNumber?: string
-}
-
-const ThreadDetailsLeftHeader: FunctionComponent<ThreadDetailsLeftHeaderProps> =
-  ({ prettyCaller, callerIdentification = "", callerNumber = "" }) => {
-    return (
-      <>
-        <NameWrapper>
-          <Text
-            displayStyle={TextDisplayStyle.LargeBoldText}
-            data-testid="sidebar-fullname"
-          >
-            {prettyCaller}
-          </Text>
-          {callerIdentification !== "" && (
-            <Text
-              displayStyle={TextDisplayStyle.LargeFadedText}
-              data-testid="multiple-number"
-            >
-              &nbsp;
-              {callerIdentification}
-            </Text>
-          )}
-        </NameWrapper>
-        {callerNumber !== "" && (
-          <PhoneNumberText
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
-            data-testid="sidebar-phone-number"
-          >
-            {callerNumber}
-          </PhoneNumberText>
-        )}
-      </>
-    )
-  }
-
-interface ThreadDetailsRightHeaderProps {
-  contactCreated: boolean
-  onContactClick: () => void
-  onDeleteClick: () => void
-  onCheckClick: () => void
-}
+import ThreadDetailsTextArea from "App/messages/components/thread-details-text-area.component"
+import ThreadDetailsRightHeader from "App/messages/components/thread-details-right-header.component"
+import ThreadDetailsLeftHeader from "App/messages/components/thread-details-left-header.component"
 
 const getCallerIdentification = (
   contact: Contact | undefined,
@@ -97,105 +32,8 @@ const getCallerIdentification = (
   }
 }
 
-const ThreadDetailsRightHeader: FunctionComponent<ThreadDetailsRightHeaderProps> =
-  ({ contactCreated, onContactClick, onDeleteClick, onCheckClick }) => {
-    return (
-      <>
-        {!production && (
-          <SidebarHeaderButton
-            Icon={Type.Calls}
-            onClick={noop}
-            iconSize={IconSize.Big}
-          />
-        )}
-        {contactCreated ? (
-          <SidebarHeaderButton
-            Icon={Type.Contact}
-            onClick={onContactClick}
-            iconSize={IconSize.Big}
-          />
-        ) : (
-          <SidebarHeaderButton
-            Icon={Type.NewContact}
-            onClick={onContactClick}
-            iconSize={IconSize.Big}
-          />
-        )}
-        {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
-        {!production && (
-          <>
-            <SidebarHeaderButton
-              Icon={Type.BorderCheckIcon}
-              onClick={onCheckClick}
-              iconSize={IconSize.Big}
-            />
-            <SidebarHeaderButton
-              Icon={Type.Delete}
-              onClick={onDeleteClick}
-              iconSize={IconSize.Big}
-            />
-          </>
-        )}
-      </>
-    )
-  }
 
-interface ThreadDetailsTextAreaProps {
-  value: string
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
-  onSendClick: () => void
-  onAttachContactClick: () => void
-}
-
-const ThreadDetailsTextArea: FunctionComponent<ThreadDetailsTextAreaProps> = ({
-  value,
-  onSendClick,
-  onChange,
-  onAttachContactClick,
-}) => {
-  const leadingIcons = [
-    !production && (
-      <IconButton
-        key={Type.AttachContact}
-        Icon={Type.AttachContact}
-        onClick={onAttachContactClick}
-      />
-    ),
-    !production && (
-      <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />
-    ),
-  ]
-  const trailingIcon = [
-    value.length > 0 && (
-      <IconButton key={Type.Send} Icon={Type.Send} onClick={onSendClick} />
-    ),
-  ]
-
-  const handleKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault()
-      onSendClick()
-    }
-  }
-
-  return (
-    <TextareaWrapper>
-      <Textarea
-        type="textarea"
-        value={value}
-        leadingIcons={leadingIcons}
-        trailingIcons={trailingIcon}
-        onChange={onChange}
-        onKeyDown={handleKeyDown}
-        label={intl.formatMessage({
-          id: "module.messages.textAreaPlaceholder",
-        })}
-      />
-    </TextareaWrapper>
-  )
-}
-
-export interface ThreadDetailsProps {
+interface Props {
   thread: Thread
   onClose?: () => void
   onDeleteClick: (id: string) => void
@@ -210,7 +48,7 @@ export interface ThreadDetailsProps {
   onAddNewMessage: (newMessage: NewMessage) => void
 }
 
-const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
+const ThreadDetails: FunctionComponent<Props> = ({
   thread,
   onClose = noop,
   onUnreadStatus,
