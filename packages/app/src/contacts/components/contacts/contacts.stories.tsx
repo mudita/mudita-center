@@ -5,7 +5,9 @@
 
 import React from "react"
 import { storiesOf } from "@storybook/react"
-import Contacts, { messages } from "App/contacts/components/contacts/contacts.component"
+import Contacts, {
+  messages,
+} from "App/contacts/components/contacts/contacts.component"
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"

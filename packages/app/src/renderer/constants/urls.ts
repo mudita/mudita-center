@@ -21,7 +21,7 @@ export const URL_MAIN = {
   error: "/error",
   license: "/license",
   termsOfService: "/terms-of-service",
-  privacyPolicy: "/privacy-policy"
+  privacyPolicy: "/privacy-policy",
 } as const
 
 export const URL_TABS = {

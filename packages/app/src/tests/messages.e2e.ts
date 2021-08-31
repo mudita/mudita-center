@@ -7,7 +7,7 @@ import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
-import { Application } from "spectron";
+import { Application } from "spectron"
 
 let app: Application
 

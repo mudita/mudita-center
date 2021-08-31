@@ -13,7 +13,7 @@ import Adapters from "Backend/adapters/adapters.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 
-const mockDeviceInfo: DeviceInfo = ({
+const mockDeviceInfo: DeviceInfo = {
   accessTechnology: "255",
   batteryLevel: "35",
   batteryState: "1",
@@ -28,13 +28,13 @@ const mockDeviceInfo: DeviceInfo = ({
   selectedSim: "0",
   signalStrength: "1",
   trayState: "1",
-  serialNumber: "1UB13213MN14K1"
-} as unknown) as DeviceInfo
+  serialNumber: "1UB13213MN14K1",
+} as unknown as DeviceInfo
 
 jest.mock("Backend/device-service")
 
 test("returns required device info", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => ({
         data: mockDeviceInfo,
@@ -45,12 +45,9 @@ test("returns required device info", async () => {
   const deviceService = new DeviceService(PureDeviceManager, ipcMain)
   const deviceFileSystemService = new DeviceFileSystemService(deviceService)
 
-  registerDeviceInfoRequest(({
-    purePhone: createPurePhoneAdapter(
-      deviceService,
-      deviceFileSystemService
-    ),
-  } as unknown) as Adapters)
+  registerDeviceInfoRequest({
+    purePhone: createPurePhoneAdapter(deviceService, deviceFileSystemService),
+  } as unknown as Adapters)
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetDeviceInfo)
   const result = await pendingResponse
 

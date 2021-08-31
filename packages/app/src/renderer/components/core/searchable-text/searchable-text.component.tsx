@@ -17,7 +17,10 @@ export interface SearchableTextProps {
   search?: string
 }
 
-const SearchableText: FunctionComponent<SearchableTextProps> = ({ text, search = "" }) => {
+const SearchableText: FunctionComponent<SearchableTextProps> = ({
+  text,
+  search = "",
+}) => {
   const substrings = text
     .replace(new RegExp(`(${search})`, "gi"), `/$1/`)
     .split("/")

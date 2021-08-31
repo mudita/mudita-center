@@ -11,7 +11,7 @@ import { LayoutBlankWrapperTestIds } from "Renderer/wrappers/wrappers-test-ids.e
 
 export const startApp = async (simulatePhoneConnection = false) => {
   return await new Application({
-    path: (electron as unknown) as string,
+    path: electron as unknown as string,
     args: [path.join(__dirname, "../..")],
     env: {
       simulatePhoneConnection,
@@ -28,6 +28,8 @@ export const stopApp = async (app: any) => {
 }
 
 export const enablePhoneSimulation = async (app: any) => {
-  await app.client.$(`*[data-testid=${LayoutBlankWrapperTestIds.Close}]`).click()
+  await app.client
+    .$(`*[data-testid=${LayoutBlankWrapperTestIds.Close}]`)
+    .click()
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Connecting}]`).click()
 }

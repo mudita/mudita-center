@@ -1516,6 +1516,5 @@ export const contactsSeedInput: Contact[] = [
   },
 ]
 
-export const contactsSeed: PhoneContacts = contactDatabaseFactory(
-  contactsSeedInput
-)
+export const contactsSeed: PhoneContacts =
+  contactDatabaseFactory(contactsSeedInput)

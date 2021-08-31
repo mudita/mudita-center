@@ -10,6 +10,10 @@ import AboutUI from "./about-ui.component"
 
 storiesOf("Settings/About", module).add("About", () => (
   <div style={{ maxWidth: "63rem" }}>
-    <AboutUI openLicense={noop} openTermsOfService={noop} openPrivacyPolicy={noop}/>
+    <AboutUI
+      openLicense={noop}
+      openTermsOfService={noop}
+      openPrivacyPolicy={noop}
+    />
   </div>
 ))

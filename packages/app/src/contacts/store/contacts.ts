@@ -138,7 +138,7 @@ const contacts = createModel<RootModel>({
    * about phone sync flow at the moment.
    */
   effects: (d) => {
-    const dispatch = (d as unknown) as RootState
+    const dispatch = d as unknown as RootState
 
     return {
       async loadData(

@@ -62,7 +62,7 @@ const outlook = createModel<ExternalProvidersModels>({
     },
   },
   effects: (d) => {
-    const dispatch = (d as unknown) as RootState
+    const dispatch = d as unknown as RootState
 
     const authorize = (
       scope: OutLookScope,

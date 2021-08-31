@@ -8,7 +8,7 @@ import ical, { ICalEventData } from "ical-generator"
 
 interface convertEvents {
   saveToFile: (file: string) => Promise<void>
-  print: () => {prodId: string, events: ICalEventData[]}
+  print: () => { prodId: string; events: ICalEventData[] }
 }
 
 export const convertEventsToICal = (
@@ -23,7 +23,7 @@ export const convertEventsToICal = (
       start: event.startDate,
       end: event.endDate,
       summary: event.name ?? "",
-      description: event.description
+      description: event.description,
     }
   })
   cal.events(mapCalendarEvents)

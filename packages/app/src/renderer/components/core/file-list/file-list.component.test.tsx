@@ -30,13 +30,17 @@ test("component renders properly", () => {
   })
 
   expect(queryByTestId(FileListTestIds.File)).toBeInTheDocument()
-  expect(queryByTestId(FileListTestIds.RemoveFileButton)).not.toBeInTheDocument()
+  expect(
+    queryByTestId(FileListTestIds.RemoveFileButton)
+  ).not.toBeInTheDocument()
 })
 
 test("component no render any item if files prop is empty", () => {
   const { queryByTestId } = render({ files: [] })
   expect(queryByTestId(FileListTestIds.File)).not.toBeInTheDocument()
-  expect(queryByTestId(FileListTestIds.RemoveFileButton)).not.toBeInTheDocument()
+  expect(
+    queryByTestId(FileListTestIds.RemoveFileButton)
+  ).not.toBeInTheDocument()
 })
 
 test("component trigger onRemoveClick event properly", () => {

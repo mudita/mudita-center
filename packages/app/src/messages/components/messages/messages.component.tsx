@@ -80,13 +80,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
     findThreadBySearchParams(useURLSearchParams(), threads)
   )
 
-  const {
-    selectedRows,
-    allRowsSelected,
-    toggleAll,
-    resetRows,
-    ...rest
-  } = useTableSelect<Thread>(threads)
+  const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
+    useTableSelect<Thread>(threads)
 
   const showAllMessages = () => {
     changeVisibilityFilter(VisibilityFilter.All)
