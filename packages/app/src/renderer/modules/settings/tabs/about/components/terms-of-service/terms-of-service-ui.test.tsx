@@ -20,7 +20,9 @@ const renderer = () => {
 
 test("License component renders", () => {
   const { getByTestId } = renderer()
-  expect(getByTestId(TermsOfServiceComponentTestIds.Wrapper)).toBeInTheDocument()
+  expect(
+    getByTestId(TermsOfServiceComponentTestIds.Wrapper)
+  ).toBeInTheDocument()
 })
 
 test("render title correctly", () => {

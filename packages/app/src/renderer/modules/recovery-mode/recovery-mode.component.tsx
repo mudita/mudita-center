@@ -18,10 +18,8 @@ import { CreateBugTicketResponseStatus } from "App/renderer/utils/hooks/use-crea
 import logger from "App/main/utils/logger"
 
 const RecoveryMode: FunctionComponent<{}> = () => {
-  const [
-    contactSupportOpenState,
-    setContactSupportOpenState,
-  ] = useState<ContactSupportModalFlowState>()
+  const [contactSupportOpenState, setContactSupportOpenState] =
+    useState<ContactSupportModalFlowState>()
   const [sendBugTicketRequest, sending] = useCreateBugTicket()
 
   const openContactSupportModalFlow = () => {

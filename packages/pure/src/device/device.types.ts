@@ -21,6 +21,7 @@ export enum ResponseStatus {
   NotFound = 404,
   PhoneLocked = 403,
   NotAcceptable = 406,
+  Conflict = 409,
   InternalServerError = 500,
 
   // lib status

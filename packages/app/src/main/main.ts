@@ -40,7 +40,6 @@ import {
   registerGetHelpStoreHandler,
   removeGetHelpStoreHandler,
 } from "App/main/functions/get-help-store-handler"
-import updateTranslations from "App/main/functions/update-translations"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
 import {
   authServerPort,
@@ -119,8 +118,6 @@ const getWindowOptions = (
 })
 
 const createWindow = async () => {
-  await updateTranslations()
-
   if (developmentEnvironment) {
     await installExtensions()
   }

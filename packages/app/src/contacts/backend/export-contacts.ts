@@ -40,7 +40,11 @@ const registerContactsExportListener = () => {
       })
 
       if (!canceled && filePath) {
-        await fs.writeFile(filePath, mapContactsToVCardStrings(contacts), "utf-8")
+        await fs.writeFile(
+          filePath,
+          mapContactsToVCardStrings(contacts),
+          "utf-8"
+        )
         shell.showItemInFolder(filePath)
         return true
       }

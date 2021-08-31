@@ -41,12 +41,21 @@ class PureLogger implements ConsoleLogger {
     }
   }
 
-  private scrubFileSystemData(message: string): string{
+  private scrubFileSystemData(message: string): string {
     try {
       const messageParsed = JSON.parse(message) as ScrubProps[]
-      if (messageParsed[0].body && messageParsed[0].endpoint === 3 && Boolean(messageParsed[0].body?.data)) {
+      if (
+        messageParsed[0].body &&
+        messageParsed[0].endpoint === 3 &&
+        Boolean(messageParsed[0].body?.data)
+      ) {
         return JSON.stringify(
-          [{ ...messageParsed[0], body: {...messageParsed[0].body, data: "scrubbed"} }],
+          [
+            {
+              ...messageParsed[0],
+              body: { ...messageParsed[0].body, data: "scrubbed" },
+            },
+          ],
           null,
           2
         )

@@ -9,6 +9,7 @@ require("dotenv").config({
 })
 
 const localesUrl = `${process.env.PHRASE_API_URL}/locales`
+const phraseUrl = `${process.env.PHRASE_API_URL}`
 
 const axiosConfig = {
   headers: {
@@ -16,7 +17,15 @@ const axiosConfig = {
   },
 }
 
+const axiosDevConfig = {
+  headers: {
+    Authorization: `token ${process.env.PHRASE_API_KEY_DEV}`,
+  },
+}
+
 module.exports = {
   localesUrl,
+  phraseUrl,
   axiosConfig,
+  axiosDevConfig,
 }

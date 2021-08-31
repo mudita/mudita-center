@@ -140,12 +140,8 @@ const Notes: FunctionComponent<NotesProps> = ({
     selectedRows,
     toggleAll,
   } = useTableSelect<Note>(notes)
-  const {
-    openSidebar,
-    closeSidebar,
-    activeRow,
-    sidebarOpened,
-  } = useTableSidebar<Note>()
+  const { openSidebar, closeSidebar, activeRow, sidebarOpened } =
+    useTableSidebar<Note>()
 
   const { rejectChanges, ...textEditorHook } = useTextEditor(activeRow)
   const {

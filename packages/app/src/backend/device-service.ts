@@ -98,13 +98,11 @@ class DeviceService {
     endpoint: Endpoint.Update
     method: Method.Post
     body: {
-      update: boolean,
+      update: boolean
       reboot: boolean
     }
   }): Promise<DeviceResponse>
-  public request(
-    config: GetFileSystemRequestConfig
-  ): Promise<
+  public request(config: GetFileSystemRequestConfig): Promise<
     DeviceResponse<{
       rxID: string
       fileCrc32: string
@@ -112,26 +110,20 @@ class DeviceService {
       chunkSize: number
     }>
   >
-  public request(
-    config: DownloadFileSystemRequestConfig
-  ): Promise<
+  public request(config: DownloadFileSystemRequestConfig): Promise<
     DeviceResponse<{
       rxID: string
       chunkNo: number
       data: string
     }>
   >
-  public request(
-    config: SendFileSystemRequestConfig
-  ): Promise<
+  public request(config: SendFileSystemRequestConfig): Promise<
     DeviceResponse<{
       txID: string
       chunkNo: number
     }>
   >
-  public request(
-    config: PutFileSystemRequestConfig
-  ): Promise<
+  public request(config: PutFileSystemRequestConfig): Promise<
     DeviceResponse<{
       txID: string
       chunkSize: number
@@ -326,6 +318,11 @@ class DeviceService {
       return {
         error,
         status: DeviceResponseStatus.InternalServerError,
+      }
+    } else if (status === ResponseStatus.Conflict) {
+      return {
+        error,
+        status: DeviceResponseStatus.Duplicated,
       }
     } else {
       return {

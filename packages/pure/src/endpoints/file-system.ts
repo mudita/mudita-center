@@ -62,7 +62,6 @@ export interface SendFileSystemErrorResponse
   status: ResponseStatus
 }
 
-
 export interface GetFileSystemRequestConfig
   extends RequestConfig<{
     fileName: string
