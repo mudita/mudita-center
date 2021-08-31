@@ -13,6 +13,7 @@ import {
   Textarea,
   TextareaWrapper,
 } from "App/messages/components/thread-details.styled"
+import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 
 const production = process.env.NODE_ENV === "production"
 
@@ -29,6 +30,10 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
   onChange,
   onAttachContactClick,
 }) => {
+  const isValueEmpty = (): boolean => {
+    return value.length === 0
+  }
+
   const leadingIcons = [
     !production && (
       <IconButton
@@ -41,16 +46,25 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
       <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />
     ),
   ]
+
   const trailingIcon = [
-    value.length > 0 && (
-      <IconButton key={Type.Send} Icon={Type.Send} onClick={onSendClick} />
+    !isValueEmpty() && (
+      <IconButton
+        data-testid={ThreadDetailsTextAreaTestIds.SendButton}
+        key={Type.Send}
+        Icon={Type.Send}
+        onClick={onSendClick}
+      />
     ),
   ]
 
   const handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault()
-      onSendClick()
+
+      if (!isValueEmpty()) {
+        onSendClick()
+      }
     }
   }
 
@@ -58,6 +72,7 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
     <TextareaWrapper>
       <Textarea
         type="textarea"
+        data-testid={ThreadDetailsTextAreaTestIds.Input}
         value={value}
         leadingIcons={leadingIcons}
         trailingIcons={trailingIcon}
