@@ -7,18 +7,17 @@ import React, { useState } from "react"
 import { storiesOf } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 import { css } from "styled-components"
-import InputSelect from "Renderer/components/core/input-select/input-select.component"
+import InputSearch from "Renderer/components/core/input-search/input-search.component"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 import {
   AdvancedItem,
   advancedItems,
   basicItems,
-  isItemMatching,
   renderCustomListItem,
   getItemName,
 } from "Renderer/components/core/list/list.stories"
-import { isItemValueMatching } from "Renderer/components/core/utils/is-item-matching"
+import { noop } from "App/renderer/utils/noop"
 
 const storyContainerStyles = css`
   main > * {
@@ -26,60 +25,81 @@ const storyContainerStyles = css`
   }
 `
 
-storiesOf("Components|Core/InputSelect", module)
+storiesOf("Components|Core/InputSearch", module)
   .add("Default", () => (
     <>
       <StoryContainer title="Themes" customStyle={storyContainerStyles}>
         <Story title="Default">
-          <InputSelect items={basicItems} label="Fruit type" />
+          <InputSearch
+            items={basicItems}
+            label="Fruit type"
+            searchValue={""}
+            onSearchValueChange={noop}
+          />
         </Story>
         <Story title="Outlined">
-          <InputSelect items={basicItems} outlined label="Fruit type" />
+          <InputSearch
+            items={basicItems}
+            outlined
+            label="Fruit type"
+            searchValue={""}
+            onSearchValueChange={noop}
+          />
         </Story>
         <Story title="Condensed (default)">
-          <InputSelect
+          <InputSearch
             items={basicItems}
             condensed
             label="Fruit type"
             selectedItem={basicItems[1]}
+            searchValue={""}
+            onSearchValueChange={noop}
           />
         </Story>
         <Story title="Condensed (outlined)">
-          <InputSelect
+          <InputSearch
             items={basicItems}
             condensed
             outlined
             label="Fruit type"
+            searchValue={""}
+            onSearchValueChange={noop}
           />
         </Story>
       </StoryContainer>
       <StoryContainer title="Modifiers" customStyle={storyContainerStyles}>
         <Story title="Value (default)">
-          <InputSelect
+          <InputSearch
             items={basicItems}
             selectedItem={basicItems[1]}
             label="Fruit type"
+            searchValue={""}
+            onSearchValueChange={noop}
           />
         </Story>
         <Story title="Value (outlined)">
-          <InputSelect
+          <InputSearch
             items={basicItems}
             label="Fruit type"
             selectedItem={basicItems[1]}
             outlined
+            searchValue={""}
+            onSearchValueChange={noop}
           />
         </Story>
       </StoryContainer>
       <StoryContainer title="Customizations" customStyle={storyContainerStyles}>
         <Story title="Empty option">
-          <InputSelect
+          <InputSearch
             items={basicItems}
             label="Fruit type"
             emptyItemValue="No fruit"
+            searchValue={""}
+            onSearchValueChange={noop}
           />
         </Story>
         <Story title="List items">
-          <InputSelect
+          <InputSearch
             label="Fruit type"
             emptyItemValue="No fruit"
             items={advancedItems}
@@ -88,31 +108,35 @@ storiesOf("Components|Core/InputSelect", module)
             listStyles={css`
               max-height: 19rem;
             `}
+            searchValue={""}
+            onSearchValueChange={noop}
           />
         </Story>
       </StoryContainer>
       <StoryContainer title="Searchable" customStyle={storyContainerStyles}>
         <Story title="Basic list">
-          <InputSelect
+          <InputSearch
             searchable
-            isItemMatching={isItemValueMatching}
             items={basicItems}
             label="Fruit type"
             emptyItemValue="No fruit"
+            searchValue={""}
+            onSearchValueChange={noop}
           />
         </Story>
         <Story title="Custom rendered list">
-          <InputSelect
+          <InputSearch
             searchable
             label="Fruit type"
             emptyItemValue="No fruit"
             items={advancedItems}
             renderItemValue={getItemName}
             renderListItem={renderCustomListItem}
-            isItemMatching={isItemMatching}
             listStyles={css`
               max-height: 19rem;
             `}
+            searchValue={""}
+            onSearchValueChange={noop}
           />
         </Story>
       </StoryContainer>
@@ -137,16 +161,18 @@ storiesOf("Components|Core/InputSelect", module)
       <>
         <StoryContainer title="Basic" customStyle={storyContainerStyles}>
           <Story title="Simple data">
-            <InputSelect
+            <InputSearch
               items={basicItems}
               label="Fruit type"
               emptyItemValue="No fruit"
               onSelect={handleSelect}
               selectedItem={selectedFruit}
+              searchValue={""}
+              onSearchValueChange={noop}
             />
           </Story>
           <Story title="Customized data">
-            <InputSelect
+            <InputSearch
               label="Fruit type"
               emptyItemValue="No fruit"
               items={advancedItems}
@@ -157,53 +183,58 @@ storiesOf("Components|Core/InputSelect", module)
               listStyles={css`
                 max-height: 33rem;
               `}
+              searchValue={""}
+              onSearchValueChange={noop}
             />
           </Story>
         </StoryContainer>
         <StoryContainer title="Searchable" customStyle={storyContainerStyles}>
           <Story title="Simple data">
-            <InputSelect
+            <InputSearch
               items={basicItems}
               label="Fruit type"
               emptyItemValue="No fruit"
               onSelect={handleSelect}
               selectedItem={selectedFruit}
-              isItemMatching={isItemValueMatching}
               searchable
+              searchValue={""}
+              onSearchValueChange={noop}
             />
           </Story>
           <Story title="Customized data">
-            <InputSelect
+            <InputSearch
               searchable
               label="Fruit type"
               emptyItemValue="No fruit"
               items={advancedItems}
               renderItemValue={getItemName}
               renderListItem={renderCustomListItem}
-              isItemMatching={isItemMatching}
               onSelect={handleAdvancedSelect}
               selectedItem={selectedAdvancedFruit}
               listStyles={css`
                 max-height: 19rem;
               `}
+              searchValue={""}
+              onSearchValueChange={noop}
             />
           </Story>
         </StoryContainer>
         <StoryContainer title="Disabled" customStyle={storyContainerStyles}>
           <Story title="Simple data">
-            <InputSelect
+            <InputSearch
               items={basicItems}
               disabledItems={[basicItems[1], basicItems[2]]}
               label="Fruit type"
               emptyItemValue="No fruit"
               onSelect={handleSelect}
               selectedItem={selectedFruit}
-              isItemMatching={isItemValueMatching}
               searchable
+              searchValue={""}
+              onSearchValueChange={noop}
             />
           </Story>
           <Story title="Customized data">
-            <InputSelect
+            <InputSearch
               searchable
               label="Fruit type"
               emptyItemValue="No fruit"
@@ -211,12 +242,13 @@ storiesOf("Components|Core/InputSelect", module)
               disabledItems={[advancedItems[1], advancedItems[2]]}
               renderItemValue={getItemName}
               renderListItem={renderCustomListItem}
-              isItemMatching={isItemMatching}
               onSelect={handleAdvancedSelect}
               selectedItem={selectedAdvancedFruit}
               listStyles={css`
                 max-height: 19rem;
               `}
+              searchValue={""}
+              onSearchValueChange={noop}
             />
           </Story>
         </StoryContainer>

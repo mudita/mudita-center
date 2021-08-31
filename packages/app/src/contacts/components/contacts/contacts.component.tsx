@@ -96,7 +96,10 @@ export const messages = defineMessages({
   },
 })
 
-export const isItemMatching = (contact: Contact, search: string): boolean => {
+export const isContactMatching = (
+  contact: Contact,
+  search: string
+): boolean => {
   const query: (keyof Contact)[] = [
     "firstName",
     "lastName",
@@ -197,7 +200,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     closeSidebar()
     setNewContact(defaultContact)
     setShowSearchResults(false)
-    setSearchValue(null)
+    setSearchValue("")
   }
 
   const cancelOrCloseContactHandler = () => {
@@ -603,7 +606,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const [showSearchResults, setShowSearchResults] = useState<boolean>(false)
-  const [searchValue, setSearchValue] = useState<string | null>(null)
+  const [searchValue, setSearchValue] = useState<string>("")
 
   const handleContactSelect = (contact: Contact) => {
     setSelectedContact(contact)
@@ -612,7 +615,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   }
 
   useEffect(() => {
-    if (searchValue === "" || searchValue === null) {
+    if (searchValue === "") {
       setShowSearchResults(false)
     }
   }, [searchValue])
@@ -629,8 +632,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     setNewContact(undefined)
   }
 
-  const resultsList = flatList.filter((item) =>
-    isItemMatching(item, searchValue || "")
+  const results = flatList.filter((item) =>
+    isContactMatching(item, searchValue || "")
   )
 
   return (
@@ -647,13 +650,13 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         editMode={Boolean(editedContact || newContact)}
         openSearchResults={openSearchResults}
         searchValue={searchValue}
-        onChangeSearchValue={setSearchValue}
-        resultsList={resultsList}
+        onSearchValueChange={setSearchValue}
+        results={results}
         showSearchResults={showSearchResults}
       />
       {showSearchResults ? (
         <ContactSearchResults
-          results={resultsList}
+          results={results}
           onSelect={handleContactSelect}
           onExport={noop}
           onForward={noop}

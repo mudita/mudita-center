@@ -12,8 +12,6 @@ import React, {
   MouseEvent,
   useRef,
   useState,
-  Dispatch,
-  SetStateAction,
 } from "react"
 import styled, { FlattenSimpleInterpolation } from "styled-components"
 import { noop } from "Renderer/utils/noop"
@@ -188,8 +186,8 @@ export interface InputSearchProps extends Partial<InputProps> {
   searchResultRows?: number
   openSearchResults?: () => void
   itemListDisabled?: boolean
-  searchValue: string | null
-  onChangeSearchValue: Dispatch<SetStateAction<string | null>>
+  searchValue: string
+  onSearchValueChange: (value: string) => void
 }
 
 const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
@@ -214,7 +212,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   openSearchResults = noop,
   itemListDisabled = false,
   searchValue,
-  onChangeSearchValue,
+  onSearchValueChange,
   ...rest
 }) => {
   const [focus, setFocus] = useState(false)
@@ -226,12 +224,12 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
     onBlur(event)
     setFocus(false)
-    if (searchValue !== null) {
+    if (searchValue !== "") {
       onSelect("")
     }
   }
 
-  const resetSearchValue = () => onChangeSearchValue(null)
+  const resetSearchValue = () => onSearchValueChange("")
 
   const handleSelect = (item: typeof items[number]) => {
     onSelect(item)
@@ -245,7 +243,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChangeSearchValue(event.target.value)
+    onSearchValueChange(event.target.value)
     setActiveItemIndex(-1)
   }
 
@@ -266,7 +264,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   }
 
   const getInputValue = (): ItemValue => {
-    if (searchValue !== null) {
+    if (searchValue !== "") {
       return searchValue
     }
     if (selectedItem) {

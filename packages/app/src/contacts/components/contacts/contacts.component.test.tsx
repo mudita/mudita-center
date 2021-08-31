@@ -14,7 +14,7 @@ import { Contact } from "App/contacts/store/contacts.type"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 import { ResultsState } from "App/contacts/store/contacts.enum"
-import { isItemMatching } from "App/contacts/components/contacts/contacts.component"
+import { isContactMatching } from "App/contacts/components/contacts/contacts.component"
 
 type Props = ComponentProps<typeof Contacts>
 
@@ -161,8 +161,8 @@ const defaultProps: Props = {
   savingContact: false,
   inputValue: "",
   searchValue: "",
-  onChangeSearchValue: jest.fn(),
-  resultsList: [],
+  onSearchValueChange: jest.fn(),
+  results: [],
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
@@ -212,28 +212,28 @@ test("changing contact details preview, when the user switching between contacts
   })
 })
 
-describe("isItemMatching", () => {
+describe("isContactMatching", () => {
   test("returns true when search string in email", () => {
     const searchString = "example"
-    const result = isItemMatching(contacts[0], searchString)
+    const result = isContactMatching(contacts[0], searchString)
     expect(result).toBe(true)
   })
 
   test("returns true when search string in primaryPhoneNumber", () => {
     const searchString = "069"
-    const result = isItemMatching(contacts[0], searchString)
+    const result = isContactMatching(contacts[0], searchString)
     expect(result).toBe(true)
   })
 
   test("returns false when no match ", () => {
     const searchString = "000"
-    const result = isItemMatching(contacts[0], searchString)
+    const result = isContactMatching(contacts[0], searchString)
     expect(result).toBe(false)
   })
 
   test("returns true when match and if contact don't have all params ", () => {
     const searchString = "Bednarów 3"
-    const result = isItemMatching(contacts[3], searchString)
+    const result = isContactMatching(contacts[3], searchString)
     expect(result).toBe(false)
   })
 })

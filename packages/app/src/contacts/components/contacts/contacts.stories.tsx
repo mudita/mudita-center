@@ -84,8 +84,8 @@ const ContactsComponent = ({
     authorize={asyncNoop}
     editMode={false}
     searchValue={""}
-    onChangeSearchValue={asyncNoop}
-    resultsList={[]}
+    onSearchValueChange={asyncNoop}
+    results={[]}
   />
 )
 

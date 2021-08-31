@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { Dispatch, SetStateAction } from "react"
+import React from "react"
 import styled, { css } from "styled-components"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -125,22 +125,22 @@ export const secondParam = (contact: Contact, search: string): string => {
   }
   return intl.formatMessage(messages.noDataProvided)
 }
-export interface ContactInputSearchProps {
-  onContactSelect: (item: Contact) => void
+interface Props {
+  onContactSelect: (contact: Contact) => void
   openSearchResults: () => void
   showSearchResults?: boolean
-  searchValue: string | null
-  onChangeSearchValue: Dispatch<SetStateAction<string | null>>
-  resultsList: Contact[]
+  searchValue: string
+  onSearchValueChange: (value: string) => void
+  results: Contact[]
 }
 
-const ContactInputSearch: FunctionComponent<ContactInputSearchProps> = ({
+const ContactInputSearch: FunctionComponent<Props> = ({
   onContactSelect,
   openSearchResults,
   showSearchResults = false,
   searchValue,
-  onChangeSearchValue,
-  resultsList,
+  onSearchValueChange,
+  results,
   ...props
 }) => {
   const minCharsToShowResults = 1
@@ -148,7 +148,7 @@ const ContactInputSearch: FunctionComponent<ContactInputSearchProps> = ({
     <ContactInputSelect
       {...props}
       onSelect={onContactSelect}
-      items={resultsList}
+      items={results}
       leadingIcons={[searchIcon]}
       label={intl.formatMessage(messages.searchPlaceholder)}
       renderItemValue={renderName}
@@ -163,7 +163,7 @@ const ContactInputSearch: FunctionComponent<ContactInputSearchProps> = ({
       openSearchResults={openSearchResults}
       itemListDisabled={showSearchResults}
       searchValue={searchValue}
-      onChangeSearchValue={onChangeSearchValue}
+      onSearchValueChange={onSearchValueChange}
     />
   )
 }

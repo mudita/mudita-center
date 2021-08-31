@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { Dispatch, SetStateAction } from "react"
+import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
@@ -56,7 +56,7 @@ const PanelWrapper = styled.div<{ showSearchResults: boolean }>`
 const SearchTitle = styled(Text)`
   padding: 2.7rem 3.2rem 2rem;
 `
-export interface ContactPanelProps {
+interface Props {
   onContactSelect: (contact: Contact) => void
   onManageButtonClick: () => void
   onNewButtonClick: () => void
@@ -67,13 +67,13 @@ export interface ContactPanelProps {
   resetRows: UseTableSelect<Contact>["resetRows"]
   editMode: boolean
   openSearchResults?: () => void
-  searchValue: string | null
-  onChangeSearchValue: Dispatch<SetStateAction<string | null>>
+  searchValue: string
+  onSearchValueChange: (value: string) => void
   showSearchResults?: boolean
-  resultsList: Contact[]
+  results: Contact[]
 }
 
-const ContactPanel: FunctionComponent<ContactPanelProps> = ({
+const ContactPanel: FunctionComponent<Props> = ({
   onContactSelect,
   onManageButtonClick,
   onNewButtonClick,
@@ -85,9 +85,9 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   editMode,
   openSearchResults = noop,
   searchValue,
-  onChangeSearchValue,
+  onSearchValueChange,
   showSearchResults = false,
-  resultsList,
+  results,
 }) => {
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
@@ -165,9 +165,9 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
             onContactSelect={onContactSelect}
             openSearchResults={openSearchResults}
             searchValue={searchValue}
-            onChangeSearchValue={onChangeSearchValue}
+            onSearchValueChange={onSearchValueChange}
             showSearchResults={showSearchResults}
-            resultsList={resultsList}
+            results={results}
           />
         )}
         <Buttons>

@@ -17,7 +17,7 @@ const renderInputSearch = ({ ...props }: Partial<InputSearchProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
     <InputSearch
       searchValue={"x"}
-      onChangeSearchValue={jest.fn}
+      onSearchValueChange={jest.fn}
       openSearchResults={jest.fn}
       items={basicItems}
       {...props}
@@ -33,7 +33,7 @@ const renderInputSearch = ({ ...props }: Partial<InputSearchProps> = {}) => {
   }
 }
 
-describe("select input focus/blur", () => {
+describe("Search input focus/blur", () => {
   test("should toggle the list", () => {
     const { list, input } = renderInputSearch()
     expect(list()).not.toBeVisible()
@@ -73,7 +73,7 @@ describe("select input focus/blur", () => {
   })
 })
 
-test("select input arrow click toggles the list", () => {
+test("Search input arrow click toggles the list", () => {
   const { list, icon } = renderInputSearch()
   expect(list()).not.toBeVisible()
   fireEvent.click(icon())
