@@ -17,8 +17,8 @@ import {
   GetThreadResponseBody,
   GetThreadsBody,
   Method,
-  PureDevice,
-  PureDeviceManager,
+  MuditaDevice,
+  MuditaDeviceManager,
   RequestConfig,
   Response,
   ResponseStatus,
@@ -36,13 +36,13 @@ export enum DeviceServiceEventName {
 }
 
 class DeviceService {
-  public devices: Record<string, PureDevice> = {}
-  public currentDevice: PureDevice | undefined
+  public devices: Record<string, MuditaDevice> = {}
+  public currentDevice: MuditaDevice | undefined
   private lockedInterval: NodeJS.Timeout | undefined
   private eventEmitter = new EventEmitter()
 
   constructor(
-    private deviceManager: PureDeviceManager,
+    private deviceManager: MuditaDeviceManager,
     private ipcMain: MainProcessIpc
   ) {}
 
@@ -248,7 +248,7 @@ class DeviceService {
     })
   }
 
-  private async deviceConnect(device: PureDevice): Promise<DeviceResponse> {
+  private async deviceConnect(device: MuditaDevice): Promise<DeviceResponse> {
     const { status } = await device.connect()
 
     if (status === ResponseStatus.Ok) {
@@ -338,7 +338,7 @@ class DeviceService {
 }
 
 export const createDeviceService = (
-  deviceManager: PureDeviceManager,
+  deviceManager: MuditaDeviceManager,
   ipcMain: MainProcessIpc
 ): DeviceService => {
   return new DeviceService(deviceManager, ipcMain).init()

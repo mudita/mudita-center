@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MuditaDeviceType } from "./constants"
+import { DeviceType } from "./constants"
 
-export interface PureDevice {
+export interface MuditaDevice {
   path: string
-  deviceType: MuditaDeviceType
+  deviceType: DeviceType
   connect(): Promise<Response>
   disconnect(): Promise<Response>
   request(config: RequestConfig<any>): Promise<Response<any>>
@@ -15,10 +15,10 @@ export interface PureDevice {
   off(eventName: DeviceEventName, listener: () => void): void
 }
 
-export type CreateDevice = (
+export type CreateDeviceStrategy = (
   path: string,
-  deviceType: MuditaDeviceType
-) => PureDevice
+  deviceType: DeviceType
+) => MuditaDevice
 
 export enum ResponseStatus {
   Ok = 200,

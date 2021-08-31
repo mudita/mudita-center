@@ -7,11 +7,9 @@ import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
 import {
-  CreateDevice,
-  createDevice,
-  PureDevice,
+  MuditaDevice,
   PortInfoValidator,
-  DeviceTypeResolverService,
+  DeviceResolverService,
 } from "./device"
 import log, { LogConfig } from "./logger/log-decorator"
 import { LoggerFactory } from "./logger/logger-factory"
@@ -23,22 +21,20 @@ enum DeviceManagerEventName {
   AttachedDevice = "AttachedDevice",
 }
 
-export interface PureDeviceManager {
-  getDevices(): Promise<PureDevice[]>
-  onAttachDevice(listener: (event: PureDevice) => void): void
-  offAttachDevice(listener: (event: PureDevice) => void): void
+export interface MuditaDeviceManager {
+  getDevices(): Promise<MuditaDevice[]>
+  onAttachDevice(listener: (event: MuditaDevice) => void): void
+  offAttachDevice(listener: (event: MuditaDevice) => void): void
 }
 
-class DeviceManager implements PureDeviceManager {
+class DeviceManager implements MuditaDeviceManager {
   #eventEmitter = new EventEmitter()
-  #deviceTypeResolver = new DeviceTypeResolverService()
 
-  public currentDevice: PureDevice | null = null
-  public connectedDevices: Record<string, PureDevice> = {}
+  public device: MuditaDevice | null = null
 
   constructor(
-    private createDevice: CreateDevice,
-    private usbDetector: UsbDetector
+    private usbDetector: UsbDetector,
+    private deviceResolver: DeviceResolverService
   ) {}
 
   public init(): DeviceManager {
@@ -54,21 +50,18 @@ class DeviceManager implements PureDeviceManager {
     logger.toggleLogs(enabled)
   }
 
-  public async getDevices(): Promise<PureDevice[]> {
+  public async getDevices(): Promise<MuditaDevice[]> {
     const portList = await DeviceManager.getSerialPortList()
 
     return portList
       .filter(PortInfoValidator.isPortInfoMatch)
       .map(({ path, productId }) => {
-        const deviceDescription = this.#deviceTypeResolver.resolve({
-          productId,
-        })
-        return this.createDevice(path, deviceDescription!.deviceType)
+        return this.deviceResolver.resolve({ productId }, path) as MuditaDevice
       })
   }
 
   public onAttachDevice(
-    listener: (event: PureDevice) => Promise<void> | void
+    listener: (event: MuditaDevice) => Promise<void> | void
   ): void {
     this.#eventEmitter.on(DeviceManagerEventName.AttachedDevice, (event) => {
       void listener(event)
@@ -76,7 +69,7 @@ class DeviceManager implements PureDeviceManager {
   }
 
   public offAttachDevice(
-    listener: (event: PureDevice) => Promise<void> | void
+    listener: (event: MuditaDevice) => Promise<void> | void
   ): void {
     this.#eventEmitter.off(DeviceManagerEventName.AttachedDevice, (event) => {
       void listener(event)
@@ -95,13 +88,14 @@ class DeviceManager implements PureDeviceManager {
           const port = portList.find(PortInfoValidator.isPortInfoMatch)
 
           if (port) {
-            const deviceDescription = this.#deviceTypeResolver.resolve(portInfo)
-            const device = this.createDevice(
-              port.path,
-              deviceDescription!.deviceType
-            )
+            const device = this.deviceResolver.resolve(portInfo, port.path)
+
+            if (!device) {
+              return
+            }
+
+            this.device = device
             this.emitAttachedDeviceEvent(device)
-            this.updateConnectedDevicesList(device, port.path)
 
             break
           }
@@ -117,24 +111,19 @@ class DeviceManager implements PureDeviceManager {
   }
 
   @log("==== serial port: attached device ====", LogConfig.Args)
-  private emitAttachedDeviceEvent(device: PureDevice) {
+  private emitAttachedDeviceEvent(device: MuditaDevice) {
     this.#eventEmitter.emit(DeviceManagerEventName.AttachedDevice, device)
-  }
-
-  private updateConnectedDevicesList(device: PureDevice, path: string) {
-    this.connectedDevices[path] = device
-
-    if (!this.currentDevice) {
-      this.currentDevice = device
-    }
   }
 }
 
 const createDeviceManager = (
-  createDevice: CreateDevice,
-  usbDetector: UsbDetector
+  usbDetector: UsbDetector,
+  deviceResolver: DeviceResolverService
 ) => {
-  return new DeviceManager(createDevice, usbDetector).init()
+  return new DeviceManager(usbDetector, deviceResolver).init()
 }
 
-export default createDeviceManager(createDevice, new UsbDetector().init())
+export default createDeviceManager(
+  new UsbDetector().init(),
+  new DeviceResolverService()
+)

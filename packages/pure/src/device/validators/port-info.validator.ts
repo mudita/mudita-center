@@ -4,10 +4,10 @@
  */
 
 import { PortInfo } from "serialport"
-import { MuditaPureDevice, MuditaHarmonyDevice } from "../descriptors"
+import { MuditaPureDescriptor, MuditaHarmonyDescriptor } from "../descriptors"
 
 export class PortInfoValidator {
-  static eligibleDevices = [MuditaPureDevice, MuditaHarmonyDevice]
+  static eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
 
   static isVendorIdValid(portInfo: Partial<PortInfo>): boolean {
     const id = portInfo.vendorId?.toLowerCase() ?? ""

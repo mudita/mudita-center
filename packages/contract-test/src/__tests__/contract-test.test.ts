@@ -4,14 +4,14 @@
  */
 
 import DeviceManager, {
-  PureDevice,
+  MuditaDevice,
   Contact,
   DeviceInfo,
   Response,
 } from "@mudita/pure"
 
 describe("Contract tests", () => {
-  let device: PureDevice
+  let device: MuditaDevice
   beforeAll(async () => {
     device = (await DeviceManager.getDevices())[0]
     if (!device) {

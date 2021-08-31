@@ -5,4 +5,4 @@
 
 export * from "./mudita-pure.descriptor"
 export * from "./mudita-harmony.descriptor"
-export * from "./device-descriptor.class"
+export * from "./device-descriptor"

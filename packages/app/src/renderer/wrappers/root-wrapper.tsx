@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PureDevice, MuditaDeviceType } from "@mudita/pure"
+import { MuditaDevice, DeviceType } from "@mudita/pure"
 import { History } from "history"
 import React, { useEffect, useState } from "react"
 import { IntlProvider } from "react-intl"
@@ -128,10 +128,10 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   })
 
   useEffect(() => {
-    const listener = (_: any, props: PureDevice) => {
+    const listener = (_: any, props: MuditaDevice) => {
       store.dispatch.basicInfo.toggleDeviceConnected(true)
 
-      if (props.deviceType === MuditaDeviceType.MuditaHarmony) {
+      if (props.deviceType === DeviceType.MuditaHarmony) {
         store.dispatch.basicInfo.toggleDeviceUnlocked(true)
       }
     }

@@ -3,19 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Manufacture,
-  VendorID,
-  ProductID,
-  MuditaDeviceType,
-} from "../constants"
+import { Manufacture, VendorID, ProductID, DeviceType } from "../constants"
+import { HarmonyStrategy } from "../strategies"
 
-export class MuditaHarmonyDevice {
+export class MuditaHarmonyDescriptor {
   static manufacturer = Manufacture.Mudita
-  static deviceType = MuditaDeviceType.MuditaHarmony
+  static deviceType = DeviceType.MuditaHarmony
   static productIds = [
     ProductID.MuditaHarmony,
     ProductID.MuditaHarmonyTemporary,
   ]
   static vendorIds = [VendorID.MuditaHarmony, VendorID.MuditaHarmonyTemporary]
+  static strategy = HarmonyStrategy
 }

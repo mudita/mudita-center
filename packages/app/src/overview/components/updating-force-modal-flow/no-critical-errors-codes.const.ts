@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { deviceUpdateErrorCodeMap as pureDeviceUpdateErrorCodeMap } from "@mudita/pure"
+import { deviceUpdateErrorCodeMap as MuditaDeviceUpdateErrorCodeMap } from "@mudita/pure"
 import { deviceUpdateErrorCodeMap } from "Backend/adapters/pure-phone/pure-phone.adapter"
 
 export enum ApplicationUpdateError {
@@ -22,7 +22,7 @@ export const ApplicationUpdateErrorCodeMap: Record<
 }
 
 export const errorCodeMap = {
-  ...pureDeviceUpdateErrorCodeMap,
+  ...MuditaDeviceUpdateErrorCodeMap,
   ...deviceUpdateErrorCodeMap,
   ...ApplicationUpdateErrorCodeMap,
 }
