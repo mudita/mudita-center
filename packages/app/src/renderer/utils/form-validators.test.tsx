@@ -60,16 +60,16 @@ describe("Form Validators", () => {
       const { queryAllByText } = render()
       expect(
         queryAllByText("[value] component.formErrorInvalidEmail")
-      ).not.toBeInTheDocument()
+      ).toHaveLength(0)
     })
     test("should pass as valid when email value is corrected", () => {
-      const { getByTestId, queryByText } = render()
+      const { getByTestId, queryAllByText } = render()
       fireEvent.change(getByTestId(FormTestIds.Input), {
         target: { value: "mudita@center.com" },
       })
       expect(
-        queryByText("[value] component.formErrorInvalidEmail")
-      ).not.toBeInTheDocument()
+        queryAllByText("[value] component.formErrorInvalidEmail")
+      ).toHaveLength(0)
     })
     test("should pass as invalid when the email is doubled", async () => {
       const { getByTestId, queryAllByText } = render()
@@ -79,7 +79,7 @@ describe("Form Validators", () => {
       await waitFor(() => {
         expect(
           queryAllByText("[value] component.formErrorInvalidEmail")
-        ).toBeInTheDocument()
+        ).toHaveLength(1)
       })
     })
   })
