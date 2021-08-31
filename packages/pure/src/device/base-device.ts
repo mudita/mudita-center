@@ -14,6 +14,7 @@ import {
   Response,
   ResponseStatus,
 } from "./device.types"
+import { MuditaDeviceType } from "./constants"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
 import { isApiRequestPayload } from "./device-helper"
 import PQueue from "p-queue"
@@ -25,7 +26,7 @@ class BaseDevice implements PureDevice {
   #portBlocked = false
   #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
-  constructor(private path: string) {}
+  constructor(public path: string, public deviceType: MuditaDeviceType) {}
 
   @log("==== serial port: connect ====")
   public connect(): Promise<Response> {

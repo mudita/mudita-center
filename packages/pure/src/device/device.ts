@@ -12,6 +12,7 @@ import {
   Response,
   ResponseStatus,
 } from "./device.types"
+import { MuditaDeviceType } from "./constants"
 import {
   Contact,
   DeviceInfo,
@@ -38,8 +39,8 @@ import {
 class Device extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
 
-  constructor(path: string) {
-    super(path)
+  constructor(path: string, public deviceType: MuditaDeviceType) {
+    super(path, deviceType)
   }
 
   public async connect(): Promise<Response> {
@@ -122,4 +123,7 @@ class Device extends BaseDevice {
   }
 }
 
-export const createDevice: CreateDevice = (path: string) => new Device(path)
+export const createDevice: CreateDevice = (
+  path: string,
+  deviceType: MuditaDeviceType
+) => new Device(path, deviceType)

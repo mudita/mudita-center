@@ -6,11 +6,16 @@
 import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
-import { CreateDevice, createDevice, PureDevice } from "./device"
+import {
+  CreateDevice,
+  createDevice,
+  PureDevice,
+  PortInfoValidator,
+  DeviceTypeResolverService,
+} from "./device"
 import log, { LogConfig } from "./logger/log-decorator"
 import { LoggerFactory } from "./logger/logger-factory"
 import { ConsoleLogger, PureLogger } from "./logger/logger"
-import DevicePortInfo from "./device-port-info"
 
 const logger: PureLogger = LoggerFactory.getInstance()
 
@@ -26,6 +31,10 @@ export interface PureDeviceManager {
 
 class DeviceManager implements PureDeviceManager {
   #eventEmitter = new EventEmitter()
+  #deviceTypeResolver = new DeviceTypeResolverService()
+
+  public currentDevice: PureDevice | null = null
+  public connectedDevices: Record<string, PureDevice> = {}
 
   constructor(
     private createDevice: CreateDevice,
@@ -49,8 +58,13 @@ class DeviceManager implements PureDeviceManager {
     const portList = await DeviceManager.getSerialPortList()
 
     return portList
-      .filter(DevicePortInfo.isPortInfoMatch)
-      .map(({ path }) => this.createDevice(path))
+      .filter(PortInfoValidator.isPortInfoMatch)
+      .map(({ path, productId }) => {
+        const deviceDescription = this.#deviceTypeResolver.resolve({
+          productId,
+        })
+        return this.createDevice(path, deviceDescription!.deviceType)
+      })
   }
 
   public onAttachDevice(
@@ -73,16 +87,21 @@ class DeviceManager implements PureDeviceManager {
     this.usbDetector.onAttachDevice(async (portInfo) => {
       const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
 
-      if (DevicePortInfo.isVendorId(portInfo)) {
+      if (PortInfoValidator.isVendorIdValid(portInfo)) {
         const retryLimit = 20
         for (let i = 0; i < retryLimit; i++) {
           const portList = await DeviceManager.getSerialPortList()
 
-          const port = portList.find(DevicePortInfo.isPortInfoMatch)
+          const port = portList.find(PortInfoValidator.isPortInfoMatch)
 
           if (port) {
-            const device = this.createDevice(port.path)
+            const deviceDescription = this.#deviceTypeResolver.resolve(portInfo)
+            const device = this.createDevice(
+              port.path,
+              deviceDescription!.deviceType
+            )
             this.emitAttachedDeviceEvent(device)
+            this.updateConnectedDevicesList(device, port.path)
 
             break
           }
@@ -100,6 +119,14 @@ class DeviceManager implements PureDeviceManager {
   @log("==== serial port: attached device ====", LogConfig.Args)
   private emitAttachedDeviceEvent(device: PureDevice) {
     this.#eventEmitter.emit(DeviceManagerEventName.AttachedDevice, device)
+  }
+
+  private updateConnectedDevicesList(device: PureDevice, path: string) {
+    this.connectedDevices[path] = device
+
+    if (!this.currentDevice) {
+      this.currentDevice = device
+    }
   }
 }
 

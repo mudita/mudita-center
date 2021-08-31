@@ -63,7 +63,7 @@ describe("Form Validators", () => {
       ).toHaveLength(0)
     })
     test("should pass as valid when email value is corrected", () => {
-      const { getByTestId, queryAllByText } = render()
+      const { getByTestId, queryByText } = render()
       fireEvent.change(getByTestId(FormTestIds.Input), {
         target: { value: "mudita@center.com" },
       })

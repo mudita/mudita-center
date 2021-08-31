@@ -133,6 +133,7 @@ test("store returns initial state", () => {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
         "deviceConnected": false,
+        "deviceType": undefined,
         "deviceUnlocked": undefined,
         "initialDataLoaded": false,
         "lastBackup": undefined,
@@ -227,6 +228,7 @@ describe("fetching basic info data", () => {
           "basicInfoDataState": 1,
           "batteryLevel": 9001,
           "deviceConnected": false,
+          "deviceType": undefined,
           "deviceUnlocked": undefined,
           "initialDataLoaded": false,
           "lastBackup": Object {

@@ -36,7 +36,8 @@ export enum DeviceServiceEventName {
 }
 
 class DeviceService {
-  device: PureDevice | undefined
+  public devices: Record<string, PureDevice> = {}
+  public currentDevice: PureDevice | undefined
   private lockedInterval: NodeJS.Timeout | undefined
   private eventEmitter = new EventEmitter()
 
@@ -132,7 +133,7 @@ class DeviceService {
   async request(
     config: RequestConfig<any>
   ): Promise<DeviceResponse<unknown> | DeviceResponse<undefined>> {
-    if (!this.device) {
+    if (!this.currentDevice) {
       return {
         status: DeviceResponseStatus.Error,
       }
@@ -141,7 +142,7 @@ class DeviceService {
     const eventName = JSON.stringify(config)
 
     if (!this.eventEmitter.eventNames().includes(eventName)) {
-      void this.device
+      void this.currentDevice
         .request(config)
         .then((response) => DeviceService.mapToDeviceResponse(response))
         .then((response) => {
@@ -168,7 +169,7 @@ class DeviceService {
   }
 
   public async connect(): Promise<DeviceResponse> {
-    if (this.device) {
+    if (this.currentDevice) {
       return {
         status: DeviceResponseStatus.Ok,
       }
@@ -186,7 +187,7 @@ class DeviceService {
   }
 
   public async disconnect(): Promise<DeviceResponse> {
-    if (!this.device) {
+    if (!this.currentDevice) {
       return {
         status: DeviceResponseStatus.Ok,
       }
@@ -234,12 +235,14 @@ class DeviceService {
 
   private registerAttachDeviceListener(): void {
     this.deviceManager.onAttachDevice(async (device) => {
-      if (!this.device) {
+      this.devices[device.path] = device
+
+      if (!this.currentDevice) {
         const { status } = await this.deviceConnect(device)
 
         if (status === DeviceResponseStatus.Ok) {
           this.eventEmitter.emit(DeviceServiceEventName.DeviceConnected)
-          this.ipcMain.sendToRenderers(IpcEmitter.DeviceConnected)
+          this.ipcMain.sendToRenderers(IpcEmitter.DeviceConnected, device)
         }
       }
     })
@@ -247,8 +250,9 @@ class DeviceService {
 
   private async deviceConnect(device: PureDevice): Promise<DeviceResponse> {
     const { status } = await device.connect()
+
     if (status === ResponseStatus.Ok) {
-      this.device = device
+      this.currentDevice = device
 
       this.registerDeviceDisconnectedListener()
       this.registerDeviceUnlockedListener()
@@ -272,15 +276,15 @@ class DeviceService {
   }
 
   private registerDeviceDisconnectedListener(): void {
-    if (this.device) {
-      this.device.on(DeviceEventName.Disconnected, () => {
+    if (this.currentDevice) {
+      this.currentDevice.on(DeviceEventName.Disconnected, () => {
         this.clearSubscriptions()
       })
     }
   }
 
   private clearSubscriptions(): void {
-    this.device = undefined
+    this.currentDevice = undefined
     this.lockedInterval && clearInterval(this.lockedInterval)
     this.eventEmitter.emit(DeviceServiceEventName.DeviceDisconnected)
     this.ipcMain.sendToRenderers(IpcEmitter.DeviceDisconnected)
