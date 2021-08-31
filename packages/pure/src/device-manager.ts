@@ -30,8 +30,6 @@ export interface MuditaDeviceManager {
 class DeviceManager implements MuditaDeviceManager {
   #eventEmitter = new EventEmitter()
 
-  public device: MuditaDevice | null = null
-
   constructor(
     private usbDetector: UsbDetector,
     private deviceResolver: DeviceResolverService
@@ -94,7 +92,6 @@ class DeviceManager implements MuditaDeviceManager {
               return
             }
 
-            this.device = device
             this.emitAttachedDeviceEvent(device)
 
             break

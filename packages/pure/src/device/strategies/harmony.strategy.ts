@@ -13,25 +13,9 @@ import {
   ResponseStatus,
 } from "../device.types"
 import { DeviceType } from "../constants"
-import {
-  DeviceInfo,
-  DownloadFileSystemRequestConfig,
-  GetFileSystemRequestConfig,
-  PutFileSystemErrorResponse,
-  PutFileSystemRequestConfig,
-  PutFileSystemResponse,
-  SendFileSystemErrorResponse,
-  SendFileSystemRequestConfig,
-  SendFileSystemResponse,
-} from "../../endpoints"
+import { DeviceInfo } from "../../endpoints"
 import { Formatter } from "../../formatter/formatter"
 import { FormatterFactory } from "../../formatter/formatter-factory"
-import {
-  DownloadFileSystemErrorResponse,
-  DownloadFileSystemResponse,
-  GetFileSystemErrorResponse,
-  GetFileSystemResponse,
-} from "../../endpoints/file-system"
 
 export class HarmonyStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
@@ -60,26 +44,6 @@ export class HarmonyStrategy extends BaseDevice {
     endpoint: Endpoint.DeviceInfo
     method: Method.Get
   }): Promise<Response<DeviceInfo>>
-  public request(config: {
-    endpoint: Endpoint.Update
-    method: Method.Post
-    body: {
-      update: boolean
-      reboot: boolean
-    }
-  }): Promise<any>
-  public request(
-    config: GetFileSystemRequestConfig
-  ): Promise<GetFileSystemResponse | GetFileSystemErrorResponse>
-  public request(
-    config: DownloadFileSystemRequestConfig
-  ): Promise<DownloadFileSystemResponse | DownloadFileSystemErrorResponse>
-  public request(
-    config: PutFileSystemRequestConfig
-  ): Promise<PutFileSystemResponse | PutFileSystemErrorResponse>
-  public request(
-    config: SendFileSystemRequestConfig
-  ): Promise<SendFileSystemResponse | SendFileSystemErrorResponse>
   public request(config: RequestConfig<any>): Promise<Response<any>>
   public async request(config: RequestConfig<any>): Promise<Response<any>> {
     const response = await super.request(config)
