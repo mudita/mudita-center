@@ -115,7 +115,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
           selectedItemsNumber={selectedItemsCount}
           allItemsSelected={Boolean(allItemsSelected)}
           message={{ id: "module.contacts.selectionsNumber" }}
-          checkboxSize={Size.Large}
+          checkboxSize={Size.Medium}
           onToggle={toggleAll}
           buttons={[
             <ButtonComponent

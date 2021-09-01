@@ -101,6 +101,7 @@ const CheckIcon = styled(Icon)<{ indeterminate?: boolean }>`
   user-select: none;
   path {
     stroke: ${backgroundColor("row")};
+    fill: ${backgroundColor("row")};
   }
 `
 
@@ -135,12 +136,12 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
       {indeterminate ? (
         <CheckIcon
           type={indeterminate ? Type.CheckIndeterminate : Type.Check}
-          height={1.5}
-          width={0.8}
+          height={1.6}
+          width={1}
           indeterminate={indeterminate}
         />
       ) : (
-        <CheckIcon type={Type.Check} width={2} height={1.5} />
+        <CheckIcon type={Type.Check} width={2.2} height={1.6} />
       )}
     </InputWrapper>
   )

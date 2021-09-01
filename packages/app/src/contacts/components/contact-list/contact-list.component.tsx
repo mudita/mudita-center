@@ -231,7 +231,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                       <Checkbox
                         checked={selected}
                         onChange={onChange}
-                        size={Size.Small}
+                        size={Size.Medium}
                         visible={!noneRowsSelected}
                       />
                     </Col>
