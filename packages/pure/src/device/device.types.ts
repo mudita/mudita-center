@@ -32,7 +32,7 @@ export enum ResponseStatus {
 export type ResponseErrorCode = number
 
 interface ResponseError {
-  code: ResponseErrorCode
+  code?: ResponseErrorCode
   message: string
 }
 

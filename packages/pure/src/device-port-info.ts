@@ -7,6 +7,7 @@ import { PortInfo } from "serialport"
 
 class DevicePortInfo {
   static productId = "0100"
+  static productIdNonMtp = "0102"
   static vendorId = "3310"
   static manufacturer = "Mudita"
 
@@ -28,6 +29,7 @@ class DevicePortInfo {
     const id = portInfo.productId?.toLowerCase()
     return (
       id === DevicePortInfo.productId.toLowerCase() ||
+      id === DevicePortInfo.productIdNonMtp.toLowerCase() ||
       id === DevicePortInfo.tmpProductId.toLowerCase()
     )
   }

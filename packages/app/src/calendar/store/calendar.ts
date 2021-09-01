@@ -74,7 +74,7 @@ const calendar = createModel<RootModel>({
     },
   }),
   effects: (d) => {
-    const dispatch = (d as unknown) as RootState
+    const dispatch = d as unknown as RootState
     let loading = false
 
     return {
@@ -111,10 +111,12 @@ const calendar = createModel<RootModel>({
             await externalProvidersStore.dispatch.outlook.authorize(
               OutLookScope.Calendars
             )
-            calendars = ((await externalProvidersStore.dispatch.outlook.getCalendars()) as unknown) as Calendar[]
+            calendars =
+              (await externalProvidersStore.dispatch.outlook.getCalendars()) as unknown as Calendar[]
             break
           case Provider.Google:
-            calendars = ((await externalProvidersStore.dispatch.google.getCalendars()) as unknown) as Calendar[]
+            calendars =
+              (await externalProvidersStore.dispatch.google.getCalendars()) as unknown as Calendar[]
         }
         dispatch.calendar.setCalendars(calendars)
       },
@@ -122,14 +124,14 @@ const calendar = createModel<RootModel>({
         let events: CalendarEvent[] = []
         switch (calendar.provider) {
           case Provider.Google:
-            events = ((await externalProvidersStore.dispatch.google.getEvents(
+            events = (await externalProvidersStore.dispatch.google.getEvents(
               calendar.id
-            )) as unknown) as CalendarEvent[]
+            )) as unknown as CalendarEvent[]
             break
           case Provider.Outlook:
-            events = ((await externalProvidersStore.dispatch.outlook.getEvents(
+            events = (await externalProvidersStore.dispatch.outlook.getEvents(
               calendar.id
-            )) as unknown) as CalendarEvent[]
+            )) as unknown as CalendarEvent[]
             break
         }
         dispatch.calendar.setEvents(events)

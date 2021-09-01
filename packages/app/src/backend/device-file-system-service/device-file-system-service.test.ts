@@ -24,7 +24,7 @@ import path from "path"
 jest.mock("Backend/device-service")
 
 test("downloading file handle properly chunks data", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: (
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
@@ -78,7 +78,7 @@ test("downloading file handle properly chunks data", async () => {
 })
 
 test("downloading file handle properly chunks data if fileSize is less than chunkSize", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: (
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
@@ -123,7 +123,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
 })
 
 test("downloading file return error when part of the chunks data is broken", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: (
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
@@ -170,7 +170,7 @@ test("downloading file return error when part of the chunks data is broken", asy
 })
 
 test("downloading file returns error properly", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
         return {
@@ -189,7 +189,7 @@ test("downloading file returns error properly", async () => {
 })
 
 test("upload file file handle properly chunks data", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: (
         config: PutFileSystemRequestConfig | SendFileSystemRequestConfig

@@ -48,11 +48,8 @@ export const useTextEditor = (
     statusChangeDelay: 500,
   }
 ) => {
-  const {
-    setTemporaryValue,
-    getTemporaryValue,
-    removeTemporaryValue,
-  } = useTemporaryStorage(defaultTextObject.id)
+  const { setTemporaryValue, getTemporaryValue, removeTemporaryValue } =
+    useTemporaryStorage(defaultTextObject.id)
 
   const temporaryValue = getTemporaryValue()
 

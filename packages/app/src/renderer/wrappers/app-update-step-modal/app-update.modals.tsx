@@ -43,8 +43,12 @@ const messages = defineMessages({
   },
   updateForcedModalMessage: { id: "component.updateForcedModalMessage" },
   updateForcedModalVersion: { id: "component.updateForcedModalVersion" },
-  updateForcedModalDescription: { id: "component.updateForcedModalDescription" },
-  updateForcedModalCurrentVersion: { id: "component.updateForcedModalCurrentVersion" },
+  updateForcedModalDescription: {
+    id: "component.updateForcedModalDescription",
+  },
+  updateForcedModalCurrentVersion: {
+    id: "component.updateForcedModalCurrentVersion",
+  },
   downloadedUpdateMessage: { id: "component.updateDownloadedModalMessage" },
   downloadedUpdateDescription: {
     id: "component.updateDownloadedModalDescription",

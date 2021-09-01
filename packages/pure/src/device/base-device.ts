@@ -15,9 +15,7 @@ import {
   ResponseStatus,
 } from "./device.types"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
-import {
-  isApiRequestPayload,
-} from "./device-helper"
+import { isApiRequestPayload } from "./device-helper"
 import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator"
 
@@ -34,7 +32,7 @@ class BaseDevice implements PureDevice {
     return new Promise((resolve) => {
       this.#port = new SerialPort(this.path, (error) => {
         if (error) {
-          resolve({ status: ResponseStatus.ConnectionError })
+          resolve({ status: ResponseStatus.ConnectionError, error: {message: error.message }})
         } else {
           resolve({ status: ResponseStatus.Ok })
         }

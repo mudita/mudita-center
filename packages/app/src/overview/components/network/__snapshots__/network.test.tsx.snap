@@ -47,8 +47,8 @@ exports[`matches snapshot 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 2.4rem;
-  width: 2.4rem;
+  height: 2.6rem;
+  width: 2.6rem;
   position: relative;
   font-style: normal;
 }
@@ -129,7 +129,7 @@ exports[`matches snapshot 1`] = `
 .c6 {
   background-color: #fbfbfb;
   margin-right: 1.6rem;
-  padding: 0.8rem;
+  padding: 0.7rem;
 }
 
 <div>
@@ -158,8 +158,8 @@ exports[`matches snapshot 1`] = `
             <span
               class="c7"
               data-testid="icon-HighBattery"
-              height="2.4"
-              width="2.4"
+              height="2.6"
+              width="2.6"
             >
               <test-file-stub
                 image="test-file-stub"
@@ -190,8 +190,8 @@ exports[`matches snapshot 1`] = `
             <span
               class="c7"
               data-testid="icon-HighRange"
-              height="2.4"
-              width="2.4"
+              height="2.6"
+              width="2.6"
             >
               <test-file-stub
                 image="test-file-stub"

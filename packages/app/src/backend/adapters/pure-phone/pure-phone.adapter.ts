@@ -151,10 +151,9 @@ class PurePhone extends PurePhoneAdapter {
           resolve({
             status: DeviceResponseStatus.Error,
             error: {
-              code:
-                deviceUpdateErrorCodeMap[
-                  DeviceUpdateError.DeviceDisconnectionBeforeDone
-                ],
+              code: deviceUpdateErrorCodeMap[
+                DeviceUpdateError.DeviceDisconnectionBeforeDone
+              ],
               message: "device has disconnected before updating finish",
             },
           })
@@ -183,7 +182,10 @@ class PurePhone extends PurePhoneAdapter {
         deviceConnectedListener
       )
 
-      const fileResponse = await this.deviceFileSystemService.uploadFile(filePath, "/sys/user/update.tar")
+      const fileResponse = await this.deviceFileSystemService.uploadFile(
+        filePath,
+        "/sys/user/update.tar"
+      )
 
       if (fileResponse.status === DeviceResponseStatus.Ok) {
         ++step
