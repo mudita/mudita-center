@@ -39,16 +39,16 @@ const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
   const [sec, setSec] = useState<number>(time)
 
   useEffect(() => {
-    let myInterval = setInterval(() => {
+    const interval = setInterval(() => {
       if (sec > 0) {
         setSec((prevSec) => prevSec - 1)
       }
       if (sec === 0) {
-        clearInterval(myInterval)
+        clearInterval(interval)
       }
     }, 1000)
     return () => {
-      clearInterval(myInterval)
+      clearInterval(interval)
     }
   }, [sec])
 
