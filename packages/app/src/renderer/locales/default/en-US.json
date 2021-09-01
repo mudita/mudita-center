@@ -83,7 +83,6 @@
   "component.passcodeModalLocked": "Passcode locked",
   "component.passcodeModalTitle": "Enter the Passcode to connect your Pure",
   "component.passcodeModalTryAgain": "Please try again",
-  "component.passcodeModalTryAgainTime": "Please try again in {time}",
   "component.supportButton": "Contact support",
   "component.supportModalActionButton": "Send",
   "component.supportModalActionButtonProgress": "Sending",

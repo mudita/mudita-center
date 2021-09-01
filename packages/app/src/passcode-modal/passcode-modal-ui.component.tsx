@@ -55,7 +55,7 @@ export interface PasscodeModalProps {
   openHelpWindow: () => void
   onNotAllowedKeyDown: () => void
   errorMessage: string
-  time: string
+  time: number
   passcodeBlocked?: boolean
 }
 
