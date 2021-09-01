@@ -3,17 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import styled, { css, keyframes } from "styled-components"
-import { ButtonTogglerItem } from "Renderer/components/core/button-toggler/button-toggler.component"
+import styled, { keyframes } from "styled-components"
 import InputText from "Renderer/components/core/input-text/input-text.component"
-import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
 import { FiltersWrapper } from "Renderer/components/rest/messages/threads-table.component"
 import {
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
-
-const production = process.env.NODE_ENV === "production"
 
 const showToggleableElement = keyframes`
   from {
@@ -29,51 +25,14 @@ export const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `
 
-export const MessagesButtonTogglerItem = styled(ButtonTogglerItem)`
-  width: 13.8rem;
-`
-
 export const SearchInput = styled(InputText)`
   animation: ${showToggleableElement} ${transitionTime("veryQuick")} forwards
     ${transitionTimingFunction("standard")};
-  width: 38rem;
-  ${!production &&
-    css`
-      /* TODO: Remove when add feature becomes available */
-      justify-self: end;
-    `};
+  width: 28rem;
 `
 
-export const MessageSelectionManager = styled(SelectionManager)`
-  animation: ${showToggleableElement} ${transitionTime("quick")} forwards
-    ${transitionTimingFunction("easeInOut")};
-  grid-template-columns: 4.8rem 1fr;
-  padding: 0 1.6rem;
-
-  button {
-    padding: 0 0.8rem;
-  }
+export const MessageFiltersWrapper = styled(FiltersWrapper)`
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr;
 `
-
-const MessageFiltersWrapperDevelop = styled(FiltersWrapper)<{
-  selectionMode: boolean
-}>`
-  ${({ selectionMode }) =>
-  selectionMode &&
-  css`
-      grid-template-areas: "Search New";
-      grid-template-columns: 1fr auto;
-    `};
-  padding: 0 3rem 0 4rem;
-  /* TODO: Remove when add feature becomes available */
-  grid-template-areas: "Filters Search";
-`
-
-const MessageFiltersWrapperProduction = styled(FiltersWrapper)<{
-  selectionMode: boolean
-}>`
-  display: flex;
-  padding: 0 3rem 0 4rem;
-`
-
-export const MessageFiltersWrapper = production ? MessageFiltersWrapperProduction : MessageFiltersWrapperDevelop;

@@ -32,7 +32,6 @@ import {
   Thread,
   NewMessage,
   ResultState,
-  VisibilityFilter,
 } from "App/messages/store/messages.interface"
 import { Message } from "App/messages/store/messages.interface"
 
@@ -43,9 +42,7 @@ const deleteModalMessages = defineMessages({
   },
 })
 
-export interface MessagesProps
-  extends MessagesComponentProps,
-    Pick<AppSettings, "language"> {
+interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   attachContactList: ContactCategory[]
   attachContactFlatList: Contact[]
   getMessagesByThreadId: (threadId: string) => Message[]
@@ -56,16 +53,13 @@ export interface MessagesProps
   addNewMessage: (newMessage: NewMessage) => Promise<void>
 }
 
-const Messages: FunctionComponent<MessagesProps> = ({
+const Messages: FunctionComponent<Props> = ({
   searchValue,
   changeSearchValue = noop,
-  changeVisibilityFilter = noop,
   deleteThreads = noop,
   threads,
   getMessagesByThreadId,
   getContact,
-  visibilityFilter,
-  markAsRead = noop,
   toggleReadStatus = noop,
   language,
   attachContactList,
@@ -85,14 +79,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Thread>(threads)
-
-  const showAllMessages = () => {
-    changeVisibilityFilter(VisibilityFilter.All)
-  }
-
-  const hideReadMessages = () => {
-    changeVisibilityFilter(VisibilityFilter.Unread)
-  }
 
   const getDeletingMessage = (ids: string[]): TranslationMessage => {
     const findById = (thread: Thread) => thread.id === ids[0]
@@ -130,8 +116,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const removeSingleConversation = (id: string) => remove([id])
 
-  const removeSelectedRows = () => remove(selectedRows.map(({ id }) => id))
-
   const history = useHistory()
 
   const contactClick = (phoneNumber: string) => {
@@ -156,21 +140,16 @@ const Messages: FunctionComponent<MessagesProps> = ({
     await addNewMessage(newMessage)
   }
 
+  const handleNewMessageClick = () => {
+    console.log("open new message form")
+  }
+
   return (
     <>
       <MessagesPanel
         searchValue={searchValue}
-        hideReadMessages={hideReadMessages}
-        showAllMessages={showAllMessages}
-        changeSearchValue={changeSearchValue}
-        toggleAll={toggleAll}
-        allItemsSelected={allRowsSelected}
-        deleteThreads={deleteThreads}
-        selectedConversations={selectedRows}
-        resetRows={resetRows}
-        visibilityFilter={visibilityFilter}
-        onMarkAsRead={markAsRead}
-        onDeleteClick={removeSelectedRows}
+        onSearchValueChange={changeSearchValue}
+        onNewMessageClick={handleNewMessageClick}
       />
       <TableWithSidebarWrapper>
         <ThreadList

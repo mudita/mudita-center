@@ -10,7 +10,6 @@ import Messages from "App/messages/components/messages/messages.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { fireEvent } from "@testing-library/dom"
 import { intl } from "Renderer/utils/intl"
-import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 import { Router } from "react-router"
 import { createMemoryHistory } from "history"
 import {
@@ -96,12 +95,12 @@ const defaultProps: Props = {
       contacts: [contact],
     },
   ],
-  attachContactFlatList: [contact]
+  attachContactFlatList: [contact],
 }
 
-const renderer = (extraProps?: {}) => {
+const renderer = (extraProps?: Partial<Props>) => {
   const history = createMemoryHistory()
-  const props: Props = {
+  const props = {
     ...defaultProps,
     ...extraProps,
   }
@@ -228,12 +227,4 @@ test("displays correct amount of dropdown delete buttons", () => {
   const { getAllByTestId } = renderer()
   mockAllIsIntersecting(true)
   expect(getAllByTestId("dropdown-delete")).toHaveLength(threads.length)
-})
-
-test("when at least one checkbox is checked, selection manager is displayed", () => {
-  const { getAllByTestId, getByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  const checkboxes = getAllByTestId("checkbox")
-  fireEvent.click(checkboxes[0])
-  expect(getByTestId(MessagePanelTestIds.SelectionManager)).toBeInTheDocument()
 })

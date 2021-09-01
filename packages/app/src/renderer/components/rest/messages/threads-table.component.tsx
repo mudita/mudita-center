@@ -116,12 +116,10 @@ export const UnreadFilters = styled.div`
 
 export const FiltersWrapper = styled.div`
   display: grid;
-  grid-column-gap: 4rem;
   grid-template-areas: "Filters Search New";
   align-items: center;
-  height: 10rem;
   border-bottom: solid 0.1rem ${borderColor("list")};
-  padding: 0 3rem;
+  padding: 3.2rem 3rem;
 `
 
 export const TableWrapper = styled.div`
