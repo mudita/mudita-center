@@ -54,7 +54,6 @@ import ImportingContactsModal from "App/contacts/components/importing-contacts-m
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import ErrorModal from "App/contacts/components/error-modal/error-modal.component"
 import InfoModal from "App/contacts/components/info-modal/info-modal.component"
-
 import ContactSearchResults from "App/contacts/components/contact-search-results/contact-search-results.component"
 
 export const messages = defineMessages({

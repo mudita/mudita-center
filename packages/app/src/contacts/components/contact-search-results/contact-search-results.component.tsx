@@ -98,14 +98,14 @@ type SelectHook = Pick<
   "getRowStatus" | "toggleRow" | "noneRowsSelected"
 >
 
-export interface ContactSearchResultsProps extends ContactActions, SelectHook {
+interface Props extends ContactActions, SelectHook {
   selectedContact: Contact | null
   onSelect: (contact: Contact) => void
   resultsState: ResultsState
   results: Contact[]
 }
 
-const ContactSearchResults: FunctionComponent<ContactSearchResultsProps> = ({
+const ContactSearchResults: FunctionComponent<Props> = ({
   results,
   onSelect,
   onExport,
