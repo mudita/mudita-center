@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum TableTestIds {
-  Sidebar = "table-sidebar",
-  SidebarClose = "table-sidebar-close",
+export enum MessagePanelTestIds {
+  NewMessageButton = "message-panel-new-message-button",
 }

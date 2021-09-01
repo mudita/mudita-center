@@ -18,6 +18,7 @@ import {
   MessageFiltersWrapper,
   SearchInput,
 } from "App/messages/components/messages-panel.styled"
+import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 
 const messages = defineMessages({
   search: { id: "module.messages.search" },
@@ -49,6 +50,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
       />
       <ButtonWrapper>
         <Button
+          data-testid={MessagePanelTestIds.NewMessageButton}
           displayStyle={DisplayStyle.Primary}
           size={ButtonSize.FixedBig}
           label={intl.formatMessage(messages.newMessage)}

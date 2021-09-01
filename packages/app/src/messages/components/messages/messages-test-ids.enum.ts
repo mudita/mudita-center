@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum TableTestIds {
-  Sidebar = "table-sidebar",
-  SidebarClose = "table-sidebar-close",
+export enum MessagesTestIds {
+  ThreadDetails = "messages-thread-details",
+  NewMessageForm = "messages-new-message-form",
 }

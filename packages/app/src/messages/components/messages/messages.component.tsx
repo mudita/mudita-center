@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { defineMessages } from "react-intl"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import ThreadList from "App/messages/components/thread-list.component"
@@ -34,6 +34,8 @@ import {
   ResultState,
 } from "App/messages/store/messages.interface"
 import { Message } from "App/messages/store/messages.interface"
+import NewMessageForm from "App/messages/components/new-message-form.component"
+import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 
 const deleteModalMessages = defineMessages({
   title: { id: "module.messages.deleteModalTitle" },
@@ -41,6 +43,12 @@ const deleteModalMessages = defineMessages({
     id: "module.messages.deleteModalBody",
   },
 })
+
+enum MessagesState {
+  List,
+  ThreadDetails,
+  NewMessage,
+}
 
 interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   attachContactList: ContactCategory[]
@@ -69,6 +77,7 @@ const Messages: FunctionComponent<Props> = ({
   isContactCreated,
   addNewMessage,
 }) => {
+  const [messagesState, setMessagesState] = useState(MessagesState.List)
   const {
     openSidebar,
     closeSidebar,
@@ -76,6 +85,20 @@ const Messages: FunctionComponent<Props> = ({
   } = useTableSidebar<Thread>(
     findThreadBySearchParams(useURLSearchParams(), threads)
   )
+
+  useEffect(() => {
+    if (
+      messagesState == MessagesState.ThreadDetails &&
+      activeThread === undefined
+    ) {
+      setMessagesState(MessagesState.List)
+    } else if (
+      messagesState !== MessagesState.ThreadDetails &&
+      activeThread !== undefined
+    ) {
+      setMessagesState(MessagesState.ThreadDetails)
+    }
+  }, [activeThread])
 
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Thread>(threads)
@@ -141,7 +164,19 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const handleNewMessageClick = () => {
-    console.log("open new message form")
+    closeSidebar()
+    setMessagesState(MessagesState.NewMessage)
+  }
+
+  const handleNewMessageFormClose = () => {
+    setMessagesState(MessagesState.List)
+  }
+
+  const handleThreadDetailsClose = () => {
+    closeSidebar()
+    if (messagesState === MessagesState.ThreadDetails) {
+      setMessagesState(MessagesState.List)
+    }
   }
 
   return (
@@ -164,8 +199,9 @@ const Messages: FunctionComponent<Props> = ({
           language={language}
           {...rest}
         />
-        {activeThread && (
+        {messagesState === MessagesState.ThreadDetails && activeThread && (
           <ThreadDetails
+            data-testid={MessagesTestIds.ThreadDetails}
             onDeleteClick={removeSingleConversation}
             onUnreadStatus={toggleReadStatus}
             getMessagesByThreadId={getMessagesByThreadId}
@@ -175,10 +211,18 @@ const Messages: FunctionComponent<Props> = ({
               getMessagesResultMapStateByThreadId
             }
             thread={activeThread}
-            onClose={closeSidebar}
+            onClose={handleThreadDetailsClose}
             onContactClick={contactClick}
             onAttachContactClick={openAttachContactModal}
             isContactCreated={isContactCreated}
+            onAddNewMessage={handleAddNewMessage}
+          />
+        )}
+        {messagesState === MessagesState.NewMessage && (
+          <NewMessageForm
+            data-testid={MessagesTestIds.NewMessageForm}
+            onClose={handleNewMessageFormClose}
+            onAttachContactClick={openAttachContactModal}
             onAddNewMessage={handleAddNewMessage}
           />
         )}

@@ -19,6 +19,11 @@ import {
 } from "App/messages/store/messages.interface"
 import { createFakeContact } from "App/messages/helpers/create-fake-contact"
 import { Contact } from "App/contacts/store/contacts.type"
+import { TableTestIds } from "Renderer/components/core/table/table.enum"
+import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
+import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
+import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
+import { RenderResult } from "@testing-library/react"
 
 const contact = createFakeContact()
 
@@ -98,7 +103,13 @@ const defaultProps: Props = {
   attachContactFlatList: [contact],
 }
 
-const renderer = (extraProps?: Partial<Props>) => {
+type callback = (outcome: RenderResult) => void
+
+type RenderProps = Partial<Props> & { callbacks?: callback[] }
+
+const renderer = (
+  { callbacks = [], ...extraProps }: RenderProps = { callbacks: [] }
+) => {
   const history = createMemoryHistory()
   const props = {
     ...defaultProps,
@@ -110,121 +121,176 @@ const renderer = (extraProps?: Partial<Props>) => {
       <Messages {...props} />
     </Router>
   )
+  mockAllIsIntersecting(true)
+  callbacks.forEach((callback) => callback(outcome))
   return {
     ...outcome,
   }
 }
 
-test("sidebar is hidden by default", () => {
-  const { queryByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  expect(queryByTestId("sidebar")).not.toBeInTheDocument()
-})
-
-test("clicked row display sidebar", () => {
-  const { getAllByTestId, getByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  const tableRow = getAllByTestId("message-row")[0]
+const setThreadDetailsState = ({ queryAllByTestId }: RenderResult): void => {
+  const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
   fireEvent.click(tableRow)
-  expect(getByTestId("sidebar")).toBeInTheDocument()
-})
+}
+const setNewMessageState = ({ queryByTestId }: RenderResult): void => {
+  const button = queryByTestId(
+    MessagePanelTestIds.NewMessageButton
+  ) as HTMLElement
+  fireEvent.click(button)
+}
 
-test("sidebar closes after clicking close button", () => {
-  const { getAllByTestId, getByTestId, queryByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  const tableRow = getAllByTestId("message-row")[0]
-  fireEvent.click(tableRow)
-  const closeButton = getByTestId("sidebar-close")
-  fireEvent.click(closeButton)
-  expect(queryByTestId("sidebar")).not.toBeInTheDocument()
-})
-
-test("when at least one checkbox is checked, all checkboxes are visible", () => {
-  const { getAllByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  const checkboxes = getAllByTestId("checkbox")
-  checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
-  fireEvent.click(checkboxes[0])
-  checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
-})
-
-test("dropdown call button has correct content", () => {
-  const { getAllByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-call")[0]).toHaveTextContent(
-    intl.formatMessage(
-      {
-        id: "component.dropdownCall",
-      },
-      { name: contact.firstName }
-    )
-  )
-})
-
-test("displays correct amount of dropdown call buttons", () => {
-  const { getAllByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-call")).toHaveLength(threads.length)
-})
-
-test("dropdown contact details button has correct content", () => {
-  const { getAllByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-contact-details")[0]).toHaveTextContent(
-    intl.formatMessage({
-      id: "module.messages.dropdownContactDetails",
+describe("Messages component", () => {
+  describe("when messagesState is set to default value", () => {
+    test("any sidebar isn't open", () => {
+      const { queryByTestId } = renderer()
+      expect(
+        queryByTestId(MessagesTestIds.ThreadDetails)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(MessagesTestIds.NewMessageForm)
+      ).not.toBeInTheDocument()
     })
-  )
-})
 
-test("displays correct amount of dropdown contact details buttons for contacts", () => {
-  const { getAllByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-contact-details")).toHaveLength(2)
-})
+    test("clicked thread row display ThreadDetails", () => {
+      const { queryAllByTestId, queryByTestId } = renderer()
+      const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
+      fireEvent.click(tableRow)
+      expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+    })
 
-test("displays correct amount of dropdown add to contacts buttons for person that is unknown", () => {
-  const { queryAllByTestId } = renderer({
-    getContact: jest.fn().mockReturnValue({
-      id: unknownContact.id,
-      firstName: unknownContact.firstName,
-      lastName: unknownContact.lastName,
-      primaryPhoneNumber: unknownContact.primaryPhoneNumber,
-    }),
-    isContactCreated: jest.fn().mockReturnValue(false),
+    test("clicked new message button display NewMessageForm", () => {
+      const { queryByTestId } = renderer()
+      const button = queryByTestId(
+        MessagePanelTestIds.NewMessageButton
+      ) as HTMLElement
+      fireEvent.click(button)
+      expect(queryByTestId(MessagesTestIds.NewMessageForm)).toBeInTheDocument()
+    })
   })
-  mockAllIsIntersecting(true)
-  expect(queryAllByTestId("dropdown-add-to-contacts")[0]).toBeInTheDocument()
-})
 
-test("dropdown mark as read button has correct content ", () => {
-  const { getAllByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
-    intl.formatMessage({
-      id: "module.messages.markAsRead",
+  describe("when messagesState is set to ThreadDetails", () => {
+    const renderProps: RenderProps = { callbacks: [setThreadDetailsState] }
+
+    test("ThreadDetails closes after clicking close button", () => {
+      const { queryByTestId } = renderer(renderProps)
+      const closeButton = queryByTestId(
+        TableTestIds.SidebarClose
+      ) as HTMLElement
+      fireEvent.click(closeButton)
+      expect(
+        queryByTestId(MessagesTestIds.ThreadDetails)
+      ).not.toBeInTheDocument()
     })
-  )
-})
 
-test("displays correct amount of dropdown mark as read buttons", () => {
-  const { getAllByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(threads.length)
-})
-
-test("dropdown delete button has correct content", () => {
-  const { getAllByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
-    intl.formatMessage({
-      id: "module.messages.dropdownDelete",
+    test("clicked new message button display NewMessageForm", () => {
+      const { queryByTestId } = renderer(renderProps)
+      const button = queryByTestId(
+        MessagePanelTestIds.NewMessageButton
+      ) as HTMLElement
+      fireEvent.click(button)
+      expect(queryByTestId(MessagesTestIds.NewMessageForm)).toBeInTheDocument()
     })
-  )
-})
+  })
 
-test("displays correct amount of dropdown delete buttons", () => {
-  const { getAllByTestId } = renderer()
-  mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-delete")).toHaveLength(threads.length)
+  describe("when messagesState is set to NewMessage", () => {
+    const renderProps: RenderProps = { callbacks: [setNewMessageState] }
+
+    test("NewMessageForm closes after clicking close button", () => {
+      const { queryByTestId } = renderer(renderProps)
+      const closeButton = queryByTestId(
+        TableTestIds.SidebarClose
+      ) as HTMLElement
+      fireEvent.click(closeButton)
+      expect(
+        queryByTestId(MessagesTestIds.NewMessageForm)
+      ).not.toBeInTheDocument()
+    })
+
+    test("clicked thread row display ThreadDetails", () => {
+      const { queryByTestId, queryAllByTestId } = renderer(renderProps)
+      const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
+      fireEvent.click(tableRow)
+      expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+    })
+  })
+
+  test("when at least one checkbox is checked, all checkboxes are visible", () => {
+    const { getAllByTestId } = renderer()
+    const checkboxes = getAllByTestId("checkbox")
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
+    fireEvent.click(checkboxes[0])
+    checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
+  })
+
+  test("dropdown call button has correct content", () => {
+    const { getAllByTestId } = renderer()
+    expect(getAllByTestId("dropdown-call")[0]).toHaveTextContent(
+      intl.formatMessage(
+        {
+          id: "component.dropdownCall",
+        },
+        { name: contact.firstName }
+      )
+    )
+  })
+
+  test("displays correct amount of dropdown call buttons", () => {
+    const { getAllByTestId } = renderer()
+    expect(getAllByTestId("dropdown-call")).toHaveLength(threads.length)
+  })
+
+  test("dropdown contact details button has correct content", () => {
+    const { getAllByTestId } = renderer()
+    expect(getAllByTestId("dropdown-contact-details")[0]).toHaveTextContent(
+      intl.formatMessage({
+        id: "module.messages.dropdownContactDetails",
+      })
+    )
+  })
+
+  test("displays correct amount of dropdown contact details buttons for contacts", () => {
+    const { getAllByTestId } = renderer()
+    expect(getAllByTestId("dropdown-contact-details")).toHaveLength(2)
+  })
+
+  test("displays correct amount of dropdown add to contacts buttons for person that is unknown", () => {
+    const { queryAllByTestId } = renderer({
+      getContact: jest.fn().mockReturnValue({
+        id: unknownContact.id,
+        firstName: unknownContact.firstName,
+        lastName: unknownContact.lastName,
+        primaryPhoneNumber: unknownContact.primaryPhoneNumber,
+      }),
+      isContactCreated: jest.fn().mockReturnValue(false),
+    })
+    expect(queryAllByTestId("dropdown-add-to-contacts")[0]).toBeInTheDocument()
+  })
+
+  test("dropdown mark as read button has correct content ", () => {
+    const { getAllByTestId } = renderer()
+    expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
+      intl.formatMessage({
+        id: "module.messages.markAsRead",
+      })
+    )
+  })
+
+  test("displays correct amount of dropdown mark as read buttons", () => {
+    const { getAllByTestId } = renderer()
+    expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(threads.length)
+  })
+
+  test("dropdown delete button has correct content", () => {
+    const { getAllByTestId } = renderer()
+    expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
+      intl.formatMessage({
+        id: "module.messages.dropdownDelete",
+      })
+    )
+  })
+
+  test("displays correct amount of dropdown delete buttons", () => {
+    const { getAllByTestId } = renderer()
+    expect(getAllByTestId("dropdown-delete")).toHaveLength(threads.length)
+  })
 })

@@ -8,8 +8,16 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { Message, NewMessage, ResultState, Thread } from "App/messages/store/messages.interface"
-import { MessagesSidebar, MessagesWrapper } from "App/messages/components/thread-details.styled"
+import {
+  Message,
+  NewMessage,
+  ResultState,
+  Thread,
+} from "App/messages/store/messages.interface"
+import {
+  MessagesSidebar,
+  MessagesWrapper,
+} from "App/messages/components/thread-details.styled"
 import ThreadDetailsError from "App/messages/components/thread-details-error.component"
 import ThreadDetailsLoading from "App/messages/components/thread-details-loading.component"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
@@ -31,7 +39,6 @@ const getCallerIdentification = (
     return undefined
   }
 }
-
 
 interface Props {
   thread: Thread
@@ -61,6 +68,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
   getMessagesResultMapStateByThreadId,
   isContactCreated,
   onAddNewMessage,
+  ...props
 }) => {
   const [value, setValue] = useState("")
   const resultState = getMessagesResultMapStateByThreadId(thread.id)
@@ -114,6 +122,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
           onCheckClick={markAsUnread}
         />
       }
+      {...props}
     >
       <MessagesWrapper>
         {resultState === ResultState.Error && (
