@@ -296,9 +296,11 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
       if (selectRef.current) {
         selectRef.current.blur()
       }
-      activeItemIndex >= 0
-        ? handleSelect(items[activeItemIndex])
-        : searchResults()
+
+      searchValue !== "" &&
+        (activeItemIndex >= 0
+          ? handleSelect(items[activeItemIndex])
+          : searchResults())
     }
     const keys: KeysType = {
       ArrowDown: handleArrowDown,
