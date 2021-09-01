@@ -8,7 +8,6 @@ require("dotenv").config({
 })
 
 module.exports = async function (context) {
-  return
   const { electronPlatformName, appOutDir } = context
 
   if (electronPlatformName !== "darwin") {

@@ -33,7 +33,7 @@ class BaseDevice implements MuditaDevice {
     return new Promise((resolve) => {
       this.#port = new SerialPort(this.path, (error) => {
         if (error) {
-          resolve({ status: ResponseStatus.ConnectionError })
+          resolve({ status: ResponseStatus.ConnectionError, error: {message: error.message }})
         } else {
           resolve({ status: ResponseStatus.Ok })
         }
