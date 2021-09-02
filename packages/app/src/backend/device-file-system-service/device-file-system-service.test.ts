@@ -5,7 +5,7 @@
 
 import { ipcMain } from "electron-better-ipc"
 import DeviceService from "Backend/device-service"
-import PureDeviceManager, {
+import MuditaDeviceManager, {
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
   PutFileSystemRequestConfig,
@@ -24,7 +24,7 @@ import path from "path"
 jest.mock("Backend/device-service")
 
 test("downloading file handle properly chunks data", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: (
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
@@ -68,7 +68,7 @@ test("downloading file handle properly chunks data", async () => {
     }
   })
   const deviceFileSystemService = createDeviceFileSystemService(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const { status, data } = await deviceFileSystemService.downloadFile(
     "/sys/user/mock-file-name.log"
@@ -78,7 +78,7 @@ test("downloading file handle properly chunks data", async () => {
 })
 
 test("downloading file handle properly chunks data if fileSize is less than chunkSize", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: (
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
@@ -113,7 +113,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
     }
   })
   const deviceFileSystemService = createDeviceFileSystemService(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const { status, data } = await deviceFileSystemService.downloadFile(
     "/sys/user/mock-file-name.log"
@@ -123,7 +123,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
 })
 
 test("downloading file return error when part of the chunks data is broken", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: (
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
@@ -160,7 +160,7 @@ test("downloading file return error when part of the chunks data is broken", asy
     }
   })
   const deviceFileSystemService = createDeviceFileSystemService(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const { status, data } = await deviceFileSystemService.downloadFile(
     "/sys/user/mock-file-name.log"
@@ -170,7 +170,7 @@ test("downloading file return error when part of the chunks data is broken", asy
 })
 
 test("downloading file returns error properly", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
         return {
@@ -180,7 +180,7 @@ test("downloading file returns error properly", async () => {
     }
   })
   const deviceFileSystemService = createDeviceFileSystemService(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const { status } = await deviceFileSystemService.downloadFile(
     "/sys/user/mock-file-name.log"
@@ -189,7 +189,7 @@ test("downloading file returns error properly", async () => {
 })
 
 test("upload file file handle properly chunks data", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: (
         config: PutFileSystemRequestConfig | SendFileSystemRequestConfig
@@ -224,7 +224,7 @@ test("upload file file handle properly chunks data", async () => {
     }
   })
   const deviceFileSystemService = createDeviceFileSystemService(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const filePath = path.join(__dirname, "./mock-file.txt")
   const { status } = await deviceFileSystemService.uploadFile(

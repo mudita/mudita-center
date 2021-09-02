@@ -89,13 +89,8 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   }
 
   private static mapToThreads(pureThread: PureThread): Thread {
-    const {
-      contactID,
-      isUnread,
-      lastUpdatedAt,
-      messageSnippet,
-      threadID,
-    } = pureThread
+    const { contactID, isUnread, lastUpdatedAt, messageSnippet, threadID } =
+      pureThread
     return {
       messageSnippet,
       // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802

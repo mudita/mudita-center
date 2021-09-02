@@ -10,7 +10,7 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 
 test("registers an endpoint on IPC", () => {
-  const testName = ("test name" as unknown) as IpcRequest
+  const testName = "test name" as unknown as IpcRequest
   const adapters = getFakeAdapters()
   const testValue = "II"
   const handler = ({ app }: Adapters, testData: string) =>

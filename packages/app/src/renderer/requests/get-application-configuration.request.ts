@@ -9,8 +9,9 @@ import {
   ApplicationConfigurationResponse,
 } from "App/main/functions/register-get-application-configuration-listener"
 
-const getApplicationConfiguration = async (): Promise<ApplicationConfigurationResponse> => {
-  return await ipcRenderer.callMain(GetApplicationConfigurationEvents.Request)
-}
+const getApplicationConfiguration =
+  async (): Promise<ApplicationConfigurationResponse> => {
+    return await ipcRenderer.callMain(GetApplicationConfigurationEvents.Request)
+  }
 
 export default getApplicationConfiguration

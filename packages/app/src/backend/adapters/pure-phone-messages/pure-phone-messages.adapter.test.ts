@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PureDeviceManager, {
+import MuditaDeviceManager, {
   Message as PureMessage,
   Thread as PureThread,
   MessageType as PureMessageType,
@@ -105,7 +105,7 @@ const messages: Message[] = [
 jest.mock("Backend/device-service")
 
 test("threads are returned properly", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
         return {
@@ -116,7 +116,7 @@ test("threads are returned properly", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const { data = [], status } = await purePhoneMessagesAdapter.getThreads()
   expect(data).toMatchObject(threads)
@@ -125,7 +125,7 @@ test("threads are returned properly", async () => {
 
 test("threads are returned properly even though API is paginated", async () => {
   let requestCount = 0
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
         if (requestCount === 1) {
@@ -149,7 +149,7 @@ test("threads are returned properly even though API is paginated", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const response = await purePhoneMessagesAdapter.getThreads()
   const { data, status } = response
@@ -158,7 +158,7 @@ test("threads are returned properly even though API is paginated", async () => {
 })
 
 test("error status is returned when data is undefined ", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
         return {
@@ -168,7 +168,7 @@ test("error status is returned when data is undefined ", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const response = await purePhoneMessagesAdapter.getThreads()
   const { status } = response
@@ -176,7 +176,7 @@ test("error status is returned when data is undefined ", async () => {
 })
 
 test("messages are return properly", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
         return {
@@ -190,20 +190,18 @@ test("messages are return properly", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const threadId = String(mockPureMessageData[0].threadID)
-  const {
-    data = [],
-    status,
-  } = await purePhoneMessagesAdapter.getMessagesByThreadId(threadId)
+  const { data = [], status } =
+    await purePhoneMessagesAdapter.getMessagesByThreadId(threadId)
   expect(data).toMatchObject(messages)
   expect(status).toEqual(DeviceResponseStatus.Ok)
 })
 
 test("messages are returned properly even the API is paginated", async () => {
   let requestCount = 0
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
         if (requestCount === 1) {
@@ -227,19 +225,17 @@ test("messages are returned properly even the API is paginated", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const threadId = String(mockPureMessageData[0].threadID)
-  const {
-    data = [],
-    status,
-  } = await purePhoneMessagesAdapter.getMessagesByThreadId(threadId)
+  const { data = [], status } =
+    await purePhoneMessagesAdapter.getMessagesByThreadId(threadId)
   expect(data).toMatchObject(messages)
   expect(status).toEqual(DeviceResponseStatus.Ok)
 })
 
 test("status is error when returned messages data is undefined ", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
         return {
@@ -249,7 +245,7 @@ test("status is error when returned messages data is undefined ", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const threadId = String(mockPureMessageData[0].threadID)
   const { status } = await purePhoneMessagesAdapter.getMessagesByThreadId(

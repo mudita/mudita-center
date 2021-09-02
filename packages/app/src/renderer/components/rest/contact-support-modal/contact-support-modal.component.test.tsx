@@ -43,12 +43,8 @@ const renderWithWaitFor = async (extraProps?: Partial<Props>) => {
 }
 
 test("form renders properly", async () => {
-  const {
-    emailInput,
-    descriptionInput,
-    fileList,
-    queryByTestId,
-  } = await renderWithWaitFor()
+  const { emailInput, descriptionInput, fileList, queryByTestId } =
+    await renderWithWaitFor()
 
   expect(emailInput).toBeInTheDocument()
   expect(descriptionInput).toBeInTheDocument()

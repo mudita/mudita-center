@@ -7,7 +7,7 @@ import {
   ContactActions,
   ContactDetailsActions,
 } from "App/contacts/components/contact-details/contact-details.component"
-import { ContactPanelProps } from "App/contacts/components/contact-panel/contact-panel.component"
+import ContactPanel from "App/contacts/components/contact-panel/contact-panel.component"
 import {
   Contact,
   ContactID,
@@ -18,11 +18,14 @@ import { AuthProviders } from "Renderer/models/auth/auth.typings"
 import { History, LocationState } from "history"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { ComponentProps } from "react"
 
 export interface ContactErrorResponse {
   status: DeviceResponseStatus
   message: string
 }
+
+type ContactPanelProps = ComponentProps<typeof ContactPanel>
 
 export type PhoneProps = ContactActions &
   Omit<ContactPanelProps, "onContactSelect"> &

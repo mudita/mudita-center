@@ -41,37 +41,35 @@ interface EventsSynchronizationFinishedModalProps extends ModalProps {
   importedEventsCount?: number
 }
 
-const EventsSynchronizationFinishedModal: FunctionComponent<EventsSynchronizationFinishedModalProps> = ({
-  importedEventsCount,
-  ...props
-}) => (
-  <Modal
-    {...props}
-    size={ModalSize.Small}
-    title={intl.formatMessage(messages.title)}
-    closeButton={false}
-    actionButtonLabel={intl.formatMessage(messages.button)}
-  >
-    <ModalContent>
-      <RoundIconWrapper>
-        <Icon type={Type.ThinCheck} width={8} />
-      </RoundIconWrapper>
-      <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
-        message={messages.subtitle}
-      />
-      <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
-        message={{
-          ...messages.body,
-          values: {
-            importedEventsCount,
-            ...textFormatters,
-          },
-        }}
-      />
-    </ModalContent>
-  </Modal>
-)
+const EventsSynchronizationFinishedModal: FunctionComponent<EventsSynchronizationFinishedModalProps> =
+  ({ importedEventsCount, ...props }) => (
+    <Modal
+      {...props}
+      size={ModalSize.Small}
+      title={intl.formatMessage(messages.title)}
+      closeButton={false}
+      actionButtonLabel={intl.formatMessage(messages.button)}
+    >
+      <ModalContent>
+        <RoundIconWrapper>
+          <Icon type={Type.ThinCheck} width={8} />
+        </RoundIconWrapper>
+        <Text
+          displayStyle={TextDisplayStyle.LargeBoldText}
+          message={messages.subtitle}
+        />
+        <ModalText
+          displayStyle={TextDisplayStyle.MediumFadedText}
+          message={{
+            ...messages.body,
+            values: {
+              importedEventsCount,
+              ...textFormatters,
+            },
+          }}
+        />
+      </ModalContent>
+    </Modal>
+  )
 
 export default EventsSynchronizationFinishedModal

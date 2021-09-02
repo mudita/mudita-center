@@ -120,10 +120,8 @@ storiesOf("Components|Core/InputSelect", module)
   ))
   .add("Interactive", () => {
     const [selectedFruit, setSelectedFruit] = useState("")
-    const [
-      selectedAdvancedFruit,
-      setSelectedAdvancedFruit,
-    ] = useState<AdvancedItem>()
+    const [selectedAdvancedFruit, setSelectedAdvancedFruit] =
+      useState<AdvancedItem>()
 
     const handleSelect = (fruit: string) => {
       action("Select")(fruit)
