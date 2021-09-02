@@ -1,7 +1,7 @@
-import { PureDevice, RequestConfig } from "../src"
+import { MuditaDevice, RequestConfig } from "../src"
 
 const singleRequest = async (
-  device: PureDevice,
+  device: MuditaDevice,
   requestConfig: RequestConfig
 ) => {
   console.log("request: ", JSON.stringify(requestConfig))

@@ -29,6 +29,7 @@ import { RootModel } from "Renderer/models/models"
 import updateOs from "Renderer/requests/update-os.request"
 
 export const initialState: StoreValues = {
+  deviceType: undefined,
   deviceConnected: false,
   updatingState: UpdatingState.Standby,
   deviceUnlocked: undefined,

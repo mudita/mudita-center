@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PureDeviceManager, { DeviceInfo } from "@mudita/pure"
+import MuditaDeviceManager, { DeviceInfo } from "@mudita/pure"
 import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storage-info.request"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
@@ -43,7 +43,7 @@ test("returns required storage info", async () => {
 
   registerPurePhoneStorageRequest({
     pureStorage: createPurePhoneStorageAdapter(
-      new DeviceService(PureDeviceManager, ipcMain)
+      new DeviceService(MuditaDeviceManager, ipcMain)
     ),
   } as unknown as Adapters)
 

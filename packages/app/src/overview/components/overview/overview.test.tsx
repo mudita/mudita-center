@@ -117,6 +117,7 @@ jest.mock("Renderer/requests/get-backups-info.request", () =>
 
 const renderer = (extraProps?: {}) => {
   const defaultProps: Props = {
+    deviceType: undefined,
     appLatestVersion: "",
     appUpdateAvailable: undefined,
     appUpdateStepModalDisplayed: false,

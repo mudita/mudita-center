@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PureDeviceManager, {
+import MuditaDeviceManager, {
   Message as PureMessage,
   Thread as PureThread,
   MessageType as PureMessageType,
@@ -116,7 +116,7 @@ test("threads are returned properly", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const { data = [], status } = await purePhoneMessagesAdapter.getThreads()
   expect(data).toMatchObject(threads)
@@ -149,7 +149,7 @@ test("threads are returned properly even though API is paginated", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const response = await purePhoneMessagesAdapter.getThreads()
   const { data, status } = response
@@ -168,7 +168,7 @@ test("error status is returned when data is undefined ", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const response = await purePhoneMessagesAdapter.getThreads()
   const { status } = response
@@ -190,7 +190,7 @@ test("messages are return properly", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const threadId = String(mockPureMessageData[0].threadID)
   const { data = [], status } =
@@ -225,7 +225,7 @@ test("messages are returned properly even the API is paginated", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const threadId = String(mockPureMessageData[0].threadID)
   const { data = [], status } =
@@ -245,7 +245,7 @@ test("status is error when returned messages data is undefined ", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const threadId = String(mockPureMessageData[0].threadID)
   const { status } = await purePhoneMessagesAdapter.getMessagesByThreadId(

@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceType } from "@mudita/pure"
 import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
 
 export interface SimCard {
@@ -33,6 +34,7 @@ export enum UpdatingState {
 }
 
 export interface StoreValues {
+  readonly deviceType: DeviceType | undefined
   readonly deviceConnected: boolean
   readonly updatingState: UpdatingState
   readonly deviceUnlocked: boolean | undefined
