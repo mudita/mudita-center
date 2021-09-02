@@ -37,7 +37,7 @@ import CloseImage from "Renderer/images/close.png"
 import { InputTextTestIds } from "./input-text-test-ids.enum"
 
 export const searchIcon = (
-  <Icon type={Type.Magnifier} height={2.8} width={2.8} />
+  <Icon type={Type.Magnifier} height={2.6} width={2.6} />
 )
 
 const focusedLabelStyles = css`
