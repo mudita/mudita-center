@@ -33,12 +33,10 @@ import {
   RenderListItem,
   renderListItemSearchable,
 } from "Renderer/components/core/list/list.component"
-import { IsItemMatching } from "Renderer/components/core/utils/is-item-matching"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import deprecated from "App/main/utils/deprecated-wrapper"
 
-export enum InputSelectTestIds {
+export enum InputSearchTestIds {
   Icon = "input-select-icon",
   List = "input-select-list",
   ListItem = "input-select-list-item",
@@ -95,7 +93,7 @@ interface KeysType {
   [key: string]: () => void
 }
 
-interface InputSelectListProps {
+interface InputSearchListProps {
   expanded: boolean
   onTransitionEnd: any
   selectedItem?: any
@@ -110,7 +108,7 @@ interface InputSelectListProps {
   handleMouseEnter?: (itemIndex: number) => void
 }
 
-const InputSelectList: FunctionComponent<InputSelectListProps> = ({
+const InputSearchList: FunctionComponent<InputSearchListProps> = ({
   selectedItem,
   disabledItems = [],
   searchString,
@@ -124,12 +122,12 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
   ...props
 }) => {
   return (
-    <List {...props} data-testid={InputSelectTestIds.List}>
+    <List {...props} data-testid={InputSearchTestIds.List}>
       {emptyItemValue && (
         <ListItem
           onClick={onEmptyItemValueClick}
           empty
-          data-testid={InputSelectTestIds.ListItem}
+          data-testid={InputSearchTestIds.ListItem}
         >
           {emptyItemValue}
         </ListItem>
@@ -159,7 +157,7 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
                   active,
                   onMouseDown,
                   onMouseEnter,
-                  "data-testid": InputSelectTestIds.ListItem,
+                  "data-testid": InputSearchTestIds.ListItem,
                 },
               })}
             </Fragment>
@@ -172,14 +170,13 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
   )
 }
 
-export interface InputSelectProps extends Partial<InputProps> {
+export interface InputSearchProps extends Partial<InputProps> {
   selectedItem?: any
   items: any[]
   disabledItems?: any[]
   emptyItemValue?: ItemValue
   renderItemValue?: (item: any) => ItemValue
   renderListItem?: RenderInputSelectListItem<any>
-  isItemMatching?: IsItemMatching
   onSelect?: (item: any) => void
   listStyles?: FlattenSimpleInterpolation
   searchable?: boolean
@@ -187,10 +184,13 @@ export interface InputSelectProps extends Partial<InputProps> {
   clearOnBlur?: boolean
   active?: boolean
   searchResultRows?: number
+  openSearchResults?: () => void
+  itemListDisabled?: boolean
+  searchValue: string
+  onSearchValueChange: (value: string) => void
 }
 
-//deprecated in search functionality - please use InputSearchComponent
-const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
+const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   className,
   selectedItem,
   items,
@@ -198,7 +198,6 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   emptyItemValue = "",
   renderItemValue = (item: any) => String(item),
   renderListItem,
-  isItemMatching = noop,
   onSelect = noop,
   listStyles,
   inputRef,
@@ -210,11 +209,14 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   type = "text",
   searchResultRows = 8,
   active,
+  openSearchResults = noop,
+  itemListDisabled = false,
+  searchValue,
+  onSearchValueChange,
   ...rest
 }) => {
   const [focus, setFocus] = useState(false)
-  const [searchValue, setSearchValue] = useState<string | null>(null)
-  const [activeItemIndex, setActiveItemIndex] = useState<number>(0)
+  const [activeItemIndex, setActiveItemIndex] = useState<number>(-1)
   const selectRef = useRef<HTMLInputElement>(null)
 
   const resetSelection = () => onSelect("")
@@ -222,17 +224,17 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
     onBlur(event)
     setFocus(false)
-    if (searchValue !== null) {
+    if (searchValue !== "") {
       onSelect("")
     }
   }
 
-  const resetSearchValue = () => setSearchValue(null)
+  const resetSearchValue = () => onSearchValueChange("")
 
   const handleSelect = (item: typeof items[number]) => {
     onSelect(item)
     resetSearchValue()
-    setActiveItemIndex(0)
+    setActiveItemIndex(-1)
   }
 
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
@@ -241,18 +243,14 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value)
-    setActiveItemIndex(0)
+    onSearchValueChange(event.target.value)
+    setActiveItemIndex(-1)
   }
-
-  const filteredItems = searchable
-    ? items.filter((item) => isItemMatching(item, searchValue || ""))
-    : items
 
   const toggleList = (event: MouseEvent) => {
     event.stopPropagation()
     event.preventDefault()
-
+    setActiveItemIndex(-1)
     if (selectRef.current) {
       focus ? selectRef.current.blur() : selectRef.current.focus()
     }
@@ -266,7 +264,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   }
 
   const getInputValue = (): ItemValue => {
-    if (searchValue !== null) {
+    if (searchValue !== "") {
       return searchValue
     }
     if (selectedItem) {
@@ -275,18 +273,21 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
     return ""
   }
 
+  const searchResults = () => {
+    openSearchResults()
+    setActiveItemIndex(-1)
+  }
+
   const onKeyDown = (event: KeyboardEvent) => {
     const handleArrowDown = () => {
       const maxListLength =
-        filteredItems.length <= searchResultRows
-          ? filteredItems.length
-          : searchResultRows
+        items.length <= searchResultRows ? items.length : searchResultRows
       if (activeItemIndex + 1 < maxListLength) {
         setActiveItemIndex((prevState) => prevState + 1)
       }
     }
     const handleArrowUp = () => {
-      if (activeItemIndex > 0) {
+      if (activeItemIndex >= 0) {
         setActiveItemIndex((prevState) => prevState - 1)
       }
     }
@@ -295,7 +296,11 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
       if (selectRef.current) {
         selectRef.current.blur()
       }
-      handleSelect(filteredItems[activeItemIndex])
+
+      searchValue !== "" &&
+        (activeItemIndex >= 0
+          ? handleSelect(items[activeItemIndex])
+          : searchResults())
     }
     const keys: KeysType = {
       ArrowDown: handleArrowDown,
@@ -314,7 +319,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
       rotated={focus}
       onClick={toggleList}
       onMouseDown={preventExpanding}
-      data-testid={InputSelectTestIds.Icon}
+      data-testid={InputSearchTestIds.Icon}
     >
       <Icon width={1} type={Type.ArrowDown} />
     </ToggleIcon>
@@ -335,32 +340,30 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         readOnly={!searchable}
         focusable
       />
-      {(searchValue?.length || 0) >= minCharsToShowResults && (
-        <InputSelectList
-          selectedItem={selectedItem}
-          disabledItems={disabledItems}
-          emptyItemValue={emptyItemValue}
-          items={filteredItems}
-          renderListItem={renderListItem}
-          searchString={searchValue || ""}
-          expanded={focus}
-          activeItemIndex={activeItemIndex}
-          handleMouseEnter={handleMouseEnter}
-          onTransitionEnd={clearOnBlur ? resetSearchValue : noop}
-          onEmptyItemValueClick={resetSelection}
-          onItemClick={handleSelect}
-        />
-      )}
+      {!itemListDisabled &&
+        (searchValue?.length || 0) >= minCharsToShowResults && (
+          <InputSearchList
+            selectedItem={selectedItem}
+            disabledItems={disabledItems}
+            emptyItemValue={emptyItemValue}
+            items={items}
+            renderListItem={renderListItem}
+            searchString={searchValue || ""}
+            expanded={focus}
+            activeItemIndex={activeItemIndex}
+            handleMouseEnter={handleMouseEnter}
+            onTransitionEnd={clearOnBlur ? resetSearchValue : noop}
+            onEmptyItemValueClick={resetSelection}
+            onItemClick={handleSelect}
+          />
+        )}
     </SelectInputWrapper>
   )
 }
 
-const InputSelect = React.forwardRef<
+const InputSearch = React.forwardRef<
   HTMLInputElement,
-  ComponentProps<typeof InputSelectComponent>
->((props, ref) => <InputSelectComponent {...props} inputRef={ref} />)
+  ComponentProps<typeof InputSearchComponent>
+>((props, ref) => <InputSearchComponent {...props} inputRef={ref} />)
 
-export default deprecated(
-  InputSelect,
-  "If you need an input for search, please use a refactored one: InputSearchComponent"
-)
+export default InputSearch

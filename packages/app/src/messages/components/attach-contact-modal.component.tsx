@@ -28,10 +28,10 @@ import styled from "styled-components"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
 import { defineMessages } from "react-intl"
 import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
 import Badge from "Renderer/components/core/badge/badge.component"
+import InputSelect from "Renderer/components/core/input-select/input-select.component"
 
 export const messages = defineMessages({
   title: { id: "module.messagesAttachModalTitle" },
@@ -83,10 +83,7 @@ const AttachContactModal: FunctionComponent<Props> = ({
 
   return (
     <Modal title={intl.formatMessage(messages.title)} closeButton={false}>
-      <ContactInputSearch
-        contacts={contactFlatList}
-        onContactSelect={setSelectedContact}
-      />
+      <InputSelect items={contactFlatList} onSelect={setSelectedContact} />
       <ListWrapper
         contactList={contactList}
         selectedContact={selectedContact}
