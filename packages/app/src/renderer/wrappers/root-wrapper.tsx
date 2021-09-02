@@ -3,8 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { MuditaDevice, DeviceType } from "@mudita/pure"
 import { History } from "history"
-import * as React from "react"
+import React, { useEffect, useState } from "react"
 import { IntlProvider } from "react-intl"
 import { Store } from "Renderer/store"
 import { ThemeProvider } from "styled-components"
@@ -22,7 +23,6 @@ import { Mode } from "Common/enums/mode.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
-import { useEffect, useState } from "react"
 import { getTranslation } from "Renderer/requests/get-translation.request"
 import registerDeviceConnectedListener, {
   removeDeviceConnectedListener,
@@ -128,8 +128,12 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   })
 
   useEffect(() => {
-    const listener = () => {
+    const listener = (_: any, props: MuditaDevice) => {
       store.dispatch.basicInfo.toggleDeviceConnected(true)
+
+      if (props.deviceType === DeviceType.MuditaHarmony) {
+        store.dispatch.basicInfo.toggleDeviceUnlocked(true)
+      }
     }
     registerDeviceConnectedListener(listener)
     return () => removeDeviceConnectedListener(listener)

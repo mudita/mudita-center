@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PureDeviceManager, { DeviceInfo } from "@mudita/pure"
+import MuditaDeviceManager, { DeviceInfo } from "@mudita/pure"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 import registerDeviceInfoRequest from "./get-device-info.request"
@@ -42,7 +42,7 @@ test("returns required device info", async () => {
       }),
     }
   })
-  const deviceService = new DeviceService(PureDeviceManager, ipcMain)
+  const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystemService = new DeviceFileSystemService(deviceService)
 
   registerDeviceInfoRequest({

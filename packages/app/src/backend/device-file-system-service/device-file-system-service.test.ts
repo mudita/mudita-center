@@ -5,7 +5,7 @@
 
 import { ipcMain } from "electron-better-ipc"
 import DeviceService from "Backend/device-service"
-import PureDeviceManager, {
+import MuditaDeviceManager, {
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
   PutFileSystemRequestConfig,
@@ -68,7 +68,7 @@ test("downloading file handle properly chunks data", async () => {
     }
   })
   const deviceFileSystemService = createDeviceFileSystemService(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const { status, data } = await deviceFileSystemService.downloadFile(
     "/sys/user/mock-file-name.log"
@@ -113,7 +113,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
     }
   })
   const deviceFileSystemService = createDeviceFileSystemService(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const { status, data } = await deviceFileSystemService.downloadFile(
     "/sys/user/mock-file-name.log"
@@ -160,7 +160,7 @@ test("downloading file return error when part of the chunks data is broken", asy
     }
   })
   const deviceFileSystemService = createDeviceFileSystemService(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const { status, data } = await deviceFileSystemService.downloadFile(
     "/sys/user/mock-file-name.log"
@@ -180,7 +180,7 @@ test("downloading file returns error properly", async () => {
     }
   })
   const deviceFileSystemService = createDeviceFileSystemService(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const { status } = await deviceFileSystemService.downloadFile(
     "/sys/user/mock-file-name.log"
@@ -224,7 +224,7 @@ test("upload file file handle properly chunks data", async () => {
     }
   })
   const deviceFileSystemService = createDeviceFileSystemService(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const filePath = path.join(__dirname, "./mock-file.txt")
   const { status } = await deviceFileSystemService.uploadFile(

@@ -9,9 +9,9 @@ import { Contact } from "App/contacts/store/contacts.type"
 import DeviceService from "Backend/device-service"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { ipcMain } from "electron-better-ipc"
-import PureDeviceManager from "@mudita/pure"
+import MuditaDeviceManager from "@mudita/pure"
 
-const deviceService = new DeviceService(PureDeviceManager, ipcMain)
+const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
 const phonebookAdapter = new Phonebook(deviceService)
 
 const contactMock: Contact = {

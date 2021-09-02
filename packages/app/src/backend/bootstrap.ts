@@ -4,7 +4,7 @@
  */
 
 import { MainProcessIpc } from "electron-better-ipc"
-import { PureDeviceManager } from "@mudita/pure"
+import { MuditaDeviceManager } from "@mudita/pure"
 import { createDeviceService } from "Backend/device-service"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
@@ -43,7 +43,7 @@ import Backend from "Backend/backend"
 import { createDeviceFileSystemService } from "Backend/device-file-system-service/device-file-system-service"
 
 const bootstrap = (
-  deviceManager: PureDeviceManager,
+  deviceManager: MuditaDeviceManager,
   ipcMain: MainProcessIpc
 ): void => {
   const deviceService = createDeviceService(deviceManager, ipcMain)
