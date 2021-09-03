@@ -34,19 +34,19 @@ describe("Time lock info", () => {
 	test("should show properly hours", () => {
 		const { getByTestId } = renderer({time: 4000})
 		expect(getByTestId(PasscodeLockedTestIds.Timer)).toHaveTextContent(
-			`[value] component.passcodeModalTryAgain in 01:06:40 h.`
+			`[value] component.passcodeModalTryAgain in an hour.`
 		)
 	})
 	test("should show properly minutes", () => {
 		const { getByTestId } = renderer()
 		expect(getByTestId(PasscodeLockedTestIds.Timer)).toHaveTextContent(
-			`[value] component.passcodeModalTryAgain in 05:00 min.`
+			`[value] component.passcodeModalTryAgain in 5 minutes.`
 		)
 	})
 	test("should show properly seconds", () => {
 		const { getByTestId } = renderer({time: 30})
 		expect(getByTestId(PasscodeLockedTestIds.Timer)).toHaveTextContent(
-			`[value] component.passcodeModalTryAgain in 30 sec.`
+			`[value] component.passcodeModalTryAgain in a few seconds.`
 		)
 	})
 	test("should change value in time",() => {
@@ -54,11 +54,11 @@ describe("Time lock info", () => {
 		const TIMER_DELAY = 250000
 		const { getByTestId } = renderer()
 		expect(getByTestId(PasscodeLockedTestIds.Timer)).toHaveTextContent(
-			`[value] component.passcodeModalTryAgain in 05:00 min.`
+			`[value] component.passcodeModalTryAgain in 5 minutes.`
 		)
 		act(() => {jest.advanceTimersByTime(TIMER_DELAY)})
 		expect(getByTestId(PasscodeLockedTestIds.Timer)).toHaveTextContent(
-			`[value] component.passcodeModalTryAgain in 50 sec.`
+			`[value] component.passcodeModalTryAgain in a minute.`
 		)
 		jest.useRealTimers()
 	})
