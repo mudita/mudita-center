@@ -7,7 +7,7 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
-const getDeviceLockTime = (): Promise<DeviceResponse> =>
+const getDeviceLockTime = (): Promise<DeviceResponse<{phoneLockTime: number}>> =>
   ipcRenderer.callMain(IpcRequest.GetDeviceLockTime)
 
 export default getDeviceLockTime

@@ -105,7 +105,7 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  public async getDeviceLockTime(): Promise<DeviceResponse<number>> {
+  public async getDeviceLockTime(): Promise<DeviceResponse<{ phoneLockTime: number}>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Security,
       method: Method.Get,

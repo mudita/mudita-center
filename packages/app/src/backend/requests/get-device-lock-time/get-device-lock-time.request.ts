@@ -10,7 +10,7 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const handleGetDeviceLockTime = ({
   purePhone,
-}: Adapters): Promise<DeviceResponse<number>> => {
+}: Adapters): Promise<DeviceResponse<{phoneLockTime: number}>> => {
   return purePhone.getDeviceLockTime()
 }
 

@@ -64,10 +64,10 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async getDeviceLockTime(): Promise<DeviceResponse<number>> {
+  public async getDeviceLockTime(): Promise<DeviceResponse<{ phoneLockTime: number}>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: 120
+      data: {phoneLockTime: 1630703219}
     }
   }
 

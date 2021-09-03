@@ -36,24 +36,27 @@ interface Props {
 }
 
 const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
-  const [currentTime, setCurrentTime] = useState<number>(time)
+  const calculateInitDifference = () => {
+    return moment.unix(time).diff(moment(), 's')
+  }
+  const [currentDifference, setCurrentDifference] = useState<number>(calculateInitDifference)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (currentTime > 0) {
-        setCurrentTime((prevSec) => prevSec - 1)
+      if (currentDifference > 0) {
+        setCurrentDifference((prevSec) => prevSec - 1)
       }
-      if (currentTime <= 0) {
+      if (currentDifference <= 1) {
         clearInterval(interval)
       }
     }, 1000)
     return () => {
       clearInterval(interval)
     }
-  }, [currentTime])
+  }, [currentDifference])
 
   const formatTime = () => {
-      const endDate = moment().add(currentTime, "s").format()
+      const endDate = moment.unix(time)
       return moment(endDate).fromNow() + "."
   }
   return (
