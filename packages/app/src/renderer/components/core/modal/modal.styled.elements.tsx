@@ -86,8 +86,10 @@ export const StoryModalWrapper = styled.section`
   ${fadeAnimation};
 `
 
-
-export const Header = styled.div<{ titleOrder: TitleOrder; subtitleGap: boolean }>`
+export const Header = styled.div<{
+  titleOrder: TitleOrder
+  subtitleGap: boolean
+}>`
   display: grid;
   grid-template-columns: 1fr 5rem;
   grid-row-gap: ${({ subtitleGap }) => (subtitleGap ? "1rem" : "initial")};
@@ -113,8 +115,8 @@ export const Close = styled(Button)`
 
 export const CloseButton = styled(Button)<{ actionButton?: boolean }>`
   ${({ actionButton }) =>
-  actionButton &&
-  css`
+    actionButton &&
+    css`
       margin-right: 1.5rem;
     `};
 `

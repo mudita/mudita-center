@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PureDeviceManager from "@mudita/pure"
+import MuditaDeviceManager from "@mudita/pure"
 import { check as checkPort } from "tcp-port-used"
 import {
   app,
@@ -135,10 +135,10 @@ const createWindow = async () => {
 
   const enabled = process.env.PURE_LOGGER_ENABLED === "true"
 
-  PureDeviceManager.registerLogger(new PureLogger())
-  PureDeviceManager.toggleLogs(enabled)
+  MuditaDeviceManager.registerLogger(new PureLogger())
+  MuditaDeviceManager.toggleLogs(enabled)
 
-  startBackend(PureDeviceManager, ipcMain)
+  startBackend(MuditaDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerGetAllReleasesListener()
   registerOsUpdateAlreadyDownloadedCheck()

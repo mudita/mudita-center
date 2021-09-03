@@ -14,7 +14,7 @@ const createFile = (filePath: string, options?: FilePropertyBag): File => {
   return new File([fs.readFileSync(filePath)], path.basename(filePath), {
     lastModified,
     type,
-    ...options
+    ...options,
   })
 }
 

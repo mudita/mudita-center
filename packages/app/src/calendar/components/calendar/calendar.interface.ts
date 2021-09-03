@@ -4,10 +4,7 @@
  */
 
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import {
-  Calendar,
-  CalendarEvent,
-} from "App/calendar/store/calendar.interfaces"
+import { Calendar, CalendarEvent } from "App/calendar/store/calendar.interfaces"
 
 export interface CalendarProps {
   calendars: Calendar[]

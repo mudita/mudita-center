@@ -427,12 +427,8 @@ storiesOf("Components|Core/Table/Basic", module)
     </Story>
   ))
   .add("With sidebar", () => {
-    const {
-      openSidebar,
-      closeSidebar,
-      sidebarOpened,
-      activeRow,
-    } = useTableSidebar<typeof basicRows[number]>()
+    const { openSidebar, closeSidebar, sidebarOpened, activeRow } =
+      useTableSidebar<typeof basicRows[number]>()
 
     const SidebarTitle = () => (
       <Text displayStyle={TextDisplayStyle.LargeText}>
@@ -719,12 +715,8 @@ storiesOf("Components|Core/Table/Grouped", module)
     </Story>
   ))
   .add("With sidebar", () => {
-    const {
-      openSidebar,
-      closeSidebar,
-      sidebarOpened,
-      activeRow,
-    } = useTableSidebar<typeof labeledRows[number][number]>()
+    const { openSidebar, closeSidebar, sidebarOpened, activeRow } =
+      useTableSidebar<typeof labeledRows[number][number]>()
 
     const SidebarTitle = () => (
       <Text displayStyle={TextDisplayStyle.LargeText}>

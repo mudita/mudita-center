@@ -34,9 +34,7 @@ import { Contact } from "App/contacts/store/contacts.type"
 
 export interface CallRowProps {
   onRowClick: (detail: Details) => void
-  getRowStatus: (
-    input: Details
-  ) => {
+  getRowStatus: (input: Details) => {
     selected: boolean
     indeterminate: boolean
   }

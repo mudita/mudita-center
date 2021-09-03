@@ -8,7 +8,7 @@ import { History } from "history"
 import { Route, Router } from "react-router"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { URL_MAIN } from "Renderer/constants/urls"
-import {LicenseUI} from "../modules/settings/tabs/about/components/license/license-ui.component"
+import { LicenseUI } from "../modules/settings/tabs/about/components/license/license-ui.component"
 interface Props {
   history: History
 }

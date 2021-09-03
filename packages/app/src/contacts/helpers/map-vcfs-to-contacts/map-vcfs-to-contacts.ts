@@ -13,10 +13,9 @@ type vCardContact = Record<string, vCard.Property | vCard.Property[]>
 
 const mapToContact = (vContact: vCardContact): NewContact => {
   const contact: NewContact = {}
-  const [
-    lastName = "",
-    firstName = "",
-  ] = (vContact.n?.valueOf() as string).split(";")
+  const [lastName = "", firstName = ""] = (
+    vContact.n?.valueOf() as string
+  ).split(";")
   const fullName = vContact.fv?.valueOf() as string
 
   if (vContact.tel) {
@@ -97,7 +96,7 @@ const mapVCFsToContacts = async (files: File[]): Promise<NewContact[]> => {
     for (const file of files) {
       let fileString = await mapFileToString(file)
       if (!fileString.includes("\r\n")) {
-        fileString = fileString.replace(/\n/g, "\r\n");
+        fileString = fileString.replace(/\n/g, "\r\n")
       }
       const vCards = vCard.parse(fileString)
       vCards.forEach(({ data }) => contacts.push(mapToContact(data)))

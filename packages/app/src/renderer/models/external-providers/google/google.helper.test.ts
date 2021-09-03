@@ -39,9 +39,7 @@ test("recurring logic mapped correctly1", () => {
       summary: "Meeting",
       start: { dateTime: "2020-01-01T10:00:00.000Z" },
       end: { dateTime: "2020-01-01T13:00:00.000Z" },
-      recurrence: [
-        "RRULE:FREQ=WEEKLY;UNTIL=20110701T170000Z",
-      ]
+      recurrence: ["RRULE:FREQ=WEEKLY;UNTIL=20110701T170000Z"],
     },
   ]
   const [singleEvent, recurringEvent] = mapEvents(events)

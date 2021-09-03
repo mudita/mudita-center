@@ -6,5 +6,5 @@
 export enum AboutActions {
   LicenseOpenWindow = "license-open-window",
   TermsOpenWindow = "terms-open-window",
-  PolicyOpenWindow = "policy-open-window"
+  PolicyOpenWindow = "policy-open-window",
 }

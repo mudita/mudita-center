@@ -124,34 +124,39 @@ const renderer = (extraProps?: {}) => {
   )
 }
 
-test("action button is disabled when none of the checkboxes are selected", () => {
-  const { getByTestId } = renderer()
-  expect(getByTestId(ModalTestIds.ModalActionButton)).toBeEnabled()
-  getByTestId(ContactImportModalTestIds.ToggleAllCheckbox).click()
-  expect(getByTestId(ModalTestIds.ModalActionButton)).toBeDisabled()
+describe("Action button", () => {
+  test("should be initially enable", () => {
+    const { getByTestId } = renderer()
+    expect(getByTestId(ModalTestIds.ModalActionButton)).toBeEnabled()
+  })
+  test("should be disable when none of the checkboxes are selected", () => {
+    const { getByTestId } = renderer()
+    getByTestId(ContactImportModalTestIds.ToggleAllCheckbox).click()
+    expect(getByTestId(ModalTestIds.ModalActionButton)).toBeDisabled()
+  })
+
+  test("should be called with correct payload", () => {
+    const onActionButtonClick = jest.fn()
+    const { getByTestId } = renderer({ onActionButtonClick })
+    getByTestId(ModalTestIds.ModalActionButton).click()
+    expect(onActionButtonClick).toBeCalledWith(contacts)
+  })
 })
 
-test("action button is called with correct payload", () => {
-  const onActionButtonClick = jest.fn()
-  const { getByTestId } = renderer({ onActionButtonClick })
-  getByTestId(ModalTestIds.ModalActionButton).click()
-  expect(onActionButtonClick).toBeCalledWith(contacts)
-})
-
-test("correct amount of rows is rendered", () => {
+test("Correct amount of rows is rendered", () => {
   const { getAllByTestId } = renderer()
   expect(getAllByTestId(ContactImportModalTestIds.ContactRow)).toHaveLength(
     contacts.length
   )
 })
 
-test("all checkboxes are initially checked", () => {
+test("All checkboxes are initially checked", () => {
   const { container } = renderer()
   const checkboxes = container.querySelectorAll('[type="checkbox"]')
   checkboxes.forEach((checkbox) => expect(checkbox).toBeChecked())
 })
 
-test("toggle all checkbox can uncheck remaining checkboxes", () => {
+test("Toggle all checkbox can uncheck remaining checkboxes", () => {
   const { getByTestId, container } = renderer()
   const toggleAllCheckbox = getByTestId(
     ContactImportModalTestIds.ToggleAllCheckbox
@@ -162,7 +167,7 @@ test("toggle all checkbox can uncheck remaining checkboxes", () => {
   checkboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked())
 })
 
-test("failed rows have a proper icon attached", () => {
+test("Failed rows have a proper icon attached", () => {
   const { getAllByTestId } = renderer({
     modalType: ModalType.Fail,
     successfulItemsCount: 3,

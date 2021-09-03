@@ -19,8 +19,7 @@ describe("map Contacts to string list helper", () => {
         secondaryPhoneNumber: "32 123 44 55",
         firstAddressLine: "4929 Pine Garden Lane",
         secondAddressLine: "Atlanta, GA, 30339, USA",
-        note:
-          "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.",
+        note: "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.",
       },
     ]
 
@@ -97,8 +96,7 @@ describe("map Contacts to string list helper", () => {
         secondaryPhoneNumber: "32 123 44 55",
         firstAddressLine: "4929 Pine Garden Lane",
         secondAddressLine: "Atlanta, GA, 30339, USA",
-        note:
-          "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.",
+        note: "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.",
       },
       {
         id: "def-456",
