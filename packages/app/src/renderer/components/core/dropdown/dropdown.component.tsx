@@ -68,12 +68,12 @@ const DropdownList = styled.ul<{
 `
 
 const Dropdown: FunctionComponent<DropdownProps> = ({
-  className,
   toggler,
   children,
   dropdownPosition = DropdownPosition.Right,
   onOpen,
   onClose,
+  ...props
 }) => {
   const [visible, setVisible] = useState(false)
   const [reversedPosition, setReversedPosition] = useState(false)
@@ -99,7 +99,7 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
   }
 
   return (
-    <DropdownWrapper visible={visible} className={className}>
+    <DropdownWrapper visible={visible} {...props}>
       {React.isValidElement(toggler) &&
         React.cloneElement(toggler, {
           onClick: () => {

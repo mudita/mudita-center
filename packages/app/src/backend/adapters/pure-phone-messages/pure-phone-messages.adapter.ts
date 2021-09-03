@@ -188,11 +188,11 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   ): MessageType {
     if (
       messageType === PureMessageType.FAILED ||
-      messageType === PureMessageType.INBOX
+      messageType === PureMessageType.OUTBOX
     ) {
-      return MessageType.INBOX
-    } else {
       return MessageType.OUTBOX
+    } else {
+      return MessageType.INBOX
     }
   }
 }

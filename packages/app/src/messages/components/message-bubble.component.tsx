@@ -163,12 +163,12 @@ const MessageBubble: FunctionComponent<Props> = ({
       displayAvatar={displayAvatar}
     >
       <div>
-        <MessageBubbleContainer interlocutor={interlocutor}>
+        <MessageBubbleContainer data-testid={MessageBubbleTestIds.Container} interlocutor={interlocutor}>
           {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
           {process.env.NODE_ENV !== "production" && (
             <MessageBubbleDropdown
               toggler={
-                <ActionsButton data-testid="dropdown-action-button">
+                <ActionsButton data-testid={MessageBubbleTestIds.DropdownActionButton}>
                   <Icon type={Type.More} />
                 </ActionsButton>
               }
@@ -179,7 +179,7 @@ const MessageBubble: FunctionComponent<Props> = ({
               }
               interlocutor={interlocutor}
               display={clicked === id}
-              data-testid="dropdown"
+              data-testid={MessageBubbleTestIds.Dropdown}
             >
               <ButtonComponent
                 labelMessage={{
@@ -188,7 +188,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                 Icon={Type.Forward}
                 onClick={forward}
                 displayStyle={DisplayStyle.Dropdown}
-                data-testid="forward-message"
+                data-testid={MessageBubbleTestIds.ForwardMessageButton}
               />
               <ButtonComponent
                 labelMessage={{
@@ -197,7 +197,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                 Icon={Type.Delete}
                 onClick={remove}
                 displayStyle={DisplayStyle.Dropdown}
-                data-testid="delete-message"
+                data-testid={MessageBubbleTestIds.DeleteMessageButton}
               />
             </MessageBubbleDropdown>
           )}

@@ -92,3 +92,16 @@ test("message date tag is displayed even if message list has only single message
   const messageDayBubble = getByTestId(MessageDayBubbleTestIds.Date)
   expect(messageDayBubble).toHaveTextContent("[value] component.textToday")
 })
+
+describe("Message Bubble Container", () => {
+  test("should has flex-direction set to row-reverse when messageType is INBOX", () => {
+    const { getByTestId } = renderer({ messages: [messages[0]] })
+    const container = getByTestId(MessageBubbleTestIds.Container)
+    expect(container).toHaveStyle("flex-direction: row-reverse")
+  })
+  test("should has flex-direction set to row when messageType is OUTBOX", () => {
+    const { getByTestId } = renderer({ messages: [messages[1]] })
+    const container = getByTestId(MessageBubbleTestIds.Container)
+    expect(container).toHaveStyle("flex-direction: row")
+  })
+})
