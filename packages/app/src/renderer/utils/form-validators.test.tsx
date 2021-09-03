@@ -57,13 +57,13 @@ describe("Form Validators", () => {
       return renderWithThemeAndIntl(<Form {...props} />)
     }
     test("should pass as valid when is the input wasn't active", () => {
-      const { queryAllByText } = render()
+      const { queryByText } = render()
       expect(
         queryByText("[value] component.formErrorInvalidEmail")
       ).not.toBeInTheDocument()
     })
     test("should pass as valid when email value is corrected", () => {
-      const { getByTestId, queryAllByText } = render()
+      const { getByTestId, queryByText } = render()
       fireEvent.change(getByTestId(FormTestIds.Input), {
         target: { value: "mudita@center.com" },
       })
@@ -72,7 +72,7 @@ describe("Form Validators", () => {
       ).not.toBeInTheDocument()
     })
     test("should pass as invalid when the email is doubled", async () => {
-      const { getByTestId, queryAllByText } = render()
+      const { getByTestId, queryByText } = render()
       fireEvent.change(getByTestId(FormTestIds.Input), {
         target: { value: "mudita@center.com,mudita@center.com" },
       })

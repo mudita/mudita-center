@@ -36,6 +36,7 @@ import {
 import { IsItemMatching } from "Renderer/components/core/utils/is-item-matching"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
+import deprecated from "App/main/utils/deprecated-wrapper"
 
 export enum InputSelectTestIds {
   Icon = "input-select-icon",
@@ -188,6 +189,7 @@ export interface InputSelectProps extends Partial<InputProps> {
   searchResultRows?: number
 }
 
+//deprecated in search functionality - please use InputSearchComponent
 const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   className,
   selectedItem,
@@ -358,4 +360,7 @@ const InputSelect = React.forwardRef<
   ComponentProps<typeof InputSelectComponent>
 >((props, ref) => <InputSelectComponent {...props} inputRef={ref} />)
 
-export default InputSelect
+export default deprecated(
+  InputSelect,
+  "If you need an input for search, please use a refactored one: InputSearchComponent"
+)

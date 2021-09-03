@@ -11,7 +11,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
-import PureDeviceManager, {
+import MuditaDeviceManager, {
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
 } from "@mudita/pure"
@@ -55,7 +55,7 @@ test("GetDeviceLogs request works properly", (done) => {
       },
     }
   })
-  const deviceService = new DeviceService(PureDeviceManager, ipcMain)
+  const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystemService = new DeviceFileSystemService(deviceService)
   const purePhone = createPurePhoneAdapter(
     deviceService,

@@ -1,10 +1,10 @@
-import PureDeviceManager, { PureDevice } from "../src"
+import MuditaDeviceManager, { MuditaDevice } from "../src"
 import { ResponseStatus } from "../dist"
 
 export const establishConnection = async (
-  command: (device: PureDevice) => void
+  command: (device: MuditaDevice) => void
 ) => {
-  const [device] = await PureDeviceManager.getDevices()
+  const [device] = await MuditaDeviceManager.getDevices()
 
   if (!device) {
     throw new Error("Pure isn't connected")

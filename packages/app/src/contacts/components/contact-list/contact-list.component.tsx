@@ -117,8 +117,7 @@ type SelectHook = Pick<
   UseTableSelect<Contact>,
   "getRowStatus" | "toggleRow" | "noneRowsSelected"
 >
-
-export interface ContactListProps extends Contacts, ContactActions, SelectHook {
+interface Props extends Contacts, ContactActions, SelectHook {
   activeRow?: Contact
   selectedContact: Contact | null
   onSelect: (contact: Contact) => void
@@ -126,7 +125,7 @@ export interface ContactListProps extends Contacts, ContactActions, SelectHook {
   resultsState: ResultsState
 }
 
-const ContactList: FunctionComponent<ContactListProps> = ({
+const ContactList: FunctionComponent<Props> = ({
   contactList,
   activeRow,
   selectedContact,

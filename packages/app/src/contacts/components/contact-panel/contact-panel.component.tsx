@@ -31,6 +31,11 @@ import {
 import delayResponse from "@appnroll/delay-response"
 import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
+import styled from "styled-components"
+import { borderColor } from "Renderer/styles/theming/theme-getters"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 
 const messages = defineMessages({
   title: { id: "module.contacts.deleteTitle" },
@@ -38,9 +43,20 @@ const messages = defineMessages({
   body: { id: "module.contacts.deleteMultipleContacts" },
   deletingText: { id: "module.contacts.deletingText" },
   deleteButton: { id: "module.contacts.delete" },
+  searchResultsTitle: {
+    id: "module.contacts.searchResultsTitle",
+  },
 })
 
-export interface ContactPanelProps {
+const PanelWrapper = styled.div<{ showSearchResults: boolean }>`
+  padding-bottom: ${({ showSearchResults }) =>
+    showSearchResults ? "0" : "6.3rem"};
+  border-bottom: solid 0.1rem ${borderColor("list")};
+`
+const SearchTitle = styled(Text)`
+  padding: 2.7rem 3.2rem 2rem;
+`
+interface Props {
   onContactSelect: (contact: Contact) => void
   onManageButtonClick: () => void
   onNewButtonClick: () => void
@@ -49,11 +65,15 @@ export interface ContactPanelProps {
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
   deleteContacts: (ids: ContactID[]) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
-  contacts: Contact[]
   editMode: boolean
+  openSearchResults?: () => void
+  searchValue: string
+  onSearchValueChange: (value: string) => void
+  showSearchResults?: boolean
+  results: Contact[]
 }
 
-const ContactPanel: FunctionComponent<ContactPanelProps> = ({
+const ContactPanel: FunctionComponent<Props> = ({
   onContactSelect,
   onManageButtonClick,
   onNewButtonClick,
@@ -62,8 +82,12 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   toggleAll = noop,
   deleteContacts,
   resetRows,
-  contacts,
   editMode,
+  openSearchResults = noop,
+  searchValue,
+  onSearchValueChange,
+  showSearchResults = false,
+  results,
 }) => {
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
@@ -109,55 +133,71 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     modalService.openModal(<DeleteModal {...modalConfig} />)
   }
   return (
-    <Panel selectionMode={selectionMode}>
-      {selectionMode ? (
-        <ContactSelectionManager
-          selectedItemsNumber={selectedItemsCount}
-          allItemsSelected={Boolean(allItemsSelected)}
-          message={{ id: "module.contacts.selectionsNumber" }}
-          checkboxSize={Size.Medium}
-          onToggle={toggleAll}
-          buttons={[
-            <ButtonComponent
-              key="export"
-              label={intl.formatMessage(messages.export)}
-              displayStyle={DisplayStyle.Link1}
-              Icon={Type.UploadDark}
-              onClick={exportContactsAction}
-            />,
-            <ButtonComponent
-              key="delete"
-              label={intl.formatMessage(messages.deleteButton)}
-              displayStyle={DisplayStyle.Link1}
-              Icon={Type.Delete}
-              onClick={openModal}
-            />,
-          ]}
-          data-testid={ContactPanelTestIdsEnum.SelectionManager}
-        />
-      ) : (
-        <ContactInputSearch
-          contacts={contacts}
-          onContactSelect={onContactSelect}
-        />
+    <PanelWrapper showSearchResults={showSearchResults}>
+      <Panel selectionMode={selectionMode}>
+        {selectionMode ? (
+          <ContactSelectionManager
+            selectedItemsNumber={selectedItemsCount}
+            allItemsSelected={Boolean(allItemsSelected)}
+            message={{ id: "module.contacts.selectionsNumber" }}
+            checkboxSize={Size.Medium}
+            onToggle={toggleAll}
+            buttons={[
+              <ButtonComponent
+                key="export"
+                label={intl.formatMessage(messages.export)}
+                displayStyle={DisplayStyle.Link1}
+                Icon={Type.UploadDark}
+                onClick={exportContactsAction}
+              />,
+              <ButtonComponent
+                key="delete"
+                label={intl.formatMessage(messages.deleteButton)}
+                displayStyle={DisplayStyle.Link1}
+                Icon={Type.Delete}
+                onClick={openModal}
+              />,
+            ]}
+            data-testid={ContactPanelTestIdsEnum.SelectionManager}
+          />
+        ) : (
+          <ContactInputSearch
+            onContactSelect={onContactSelect}
+            openSearchResults={openSearchResults}
+            searchValue={searchValue}
+            onSearchValueChange={onSearchValueChange}
+            showSearchResults={showSearchResults}
+            results={results}
+          />
+        )}
+        <Buttons>
+          <ButtonComponent
+            displayStyle={DisplayStyle.Secondary}
+            labelMessage={{ id: "module.contacts.importButton" }}
+            onClick={onManageButtonClick}
+            data-testid={ContactPanelTestIdsEnum.ImportButton}
+          />
+          <ButtonComponent
+            labelMessage={{
+              id: "module.contacts.panelNewContactButton",
+            }}
+            onClick={onNewButtonClick}
+            disabled={editMode}
+            data-testid={ContactPanelTestIdsEnum.NewButton}
+          />
+        </Buttons>
+      </Panel>
+      {showSearchResults && (
+        <SearchTitle
+          displayStyle={TextDisplayStyle.LargeBoldText}
+          data-testid={ContactPanelTestIdsEnum.SearchTitle}
+        >
+          {intl.formatMessage(messages.searchResultsTitle, {
+            value: searchValue,
+          })}
+        </SearchTitle>
       )}
-      <Buttons>
-        <ButtonComponent
-          displayStyle={DisplayStyle.Secondary}
-          labelMessage={{ id: "module.contacts.importButton" }}
-          onClick={onManageButtonClick}
-          data-testid={ContactPanelTestIdsEnum.ImportButton}
-        />
-        <ButtonComponent
-          labelMessage={{
-            id: "module.contacts.panelNewContactButton",
-          }}
-          onClick={onNewButtonClick}
-          disabled={editMode}
-          data-testid={ContactPanelTestIdsEnum.NewButton}
-        />
-      </Buttons>
-    </Panel>
+    </PanelWrapper>
   )
 }
 

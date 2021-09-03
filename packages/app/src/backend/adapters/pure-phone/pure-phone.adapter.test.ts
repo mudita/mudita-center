@@ -7,7 +7,7 @@ import { ipcMain } from "electron-better-ipc"
 import DeviceService from "Backend/device-service"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
-import PureDeviceManager from "@mudita/pure"
+import MuditaDeviceManager from "@mudita/pure"
 import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 
 jest.mock("Backend/device-service")
@@ -23,7 +23,7 @@ test("unlock device returns properly value", async () => {
       },
     }
   })
-  const deviceService = new DeviceService(PureDeviceManager, ipcMain)
+  const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystemService = new DeviceFileSystemService(deviceService)
 
   const purePhoneAdapter = createPurePhoneAdapter(
@@ -44,7 +44,7 @@ test("get unlock device status returns properly value", async () => {
       },
     }
   })
-  const deviceService = new DeviceService(PureDeviceManager, ipcMain)
+  const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystemService = new DeviceFileSystemService(deviceService)
 
   const purePhoneAdapter = createPurePhoneAdapter(
