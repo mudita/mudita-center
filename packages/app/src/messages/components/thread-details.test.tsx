@@ -23,6 +23,9 @@ import { createFullName } from "App/contacts/store/contacts.helpers"
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
 const phoneNumberId = "123 456 789"
+const firstThreadId = "1"
+const secondThreadId = "2"
+const thirdThreadId = "3"
 
 const contact: Contact = {
   id: "274970a2-13b7-4f42-962d-8fa0b2b48377",
@@ -35,7 +38,8 @@ const contact: Contact = {
 }
 
 const thread: Thread = {
-  id: phoneNumberId,
+  id: firstThreadId,
+  number: phoneNumberId,
   contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
   lastUpdatedAt: new Date("2019-08-14T17:31:16.627Z"),
   messageSnippet:
@@ -51,7 +55,8 @@ const unknownContact: Contact = {
 }
 
 const threadFromUnknownCaller: Thread = {
-  id: unknownContact.primaryPhoneNumber!,
+  id: secondThreadId,
+  number: unknownContact.primaryPhoneNumber!,
   contactId: unknownContact.id,
   unread: true,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
@@ -65,7 +70,8 @@ const messages: Message[] = [
     date: new Date("2019-10-18T11:27:15.256Z"),
     content:
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-    threadId: contact.secondaryPhoneNumber!,
+    threadId: thirdThreadId,
+    number: contact.secondaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.INBOX,
   },
@@ -73,7 +79,8 @@ const messages: Message[] = [
     id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
     date: new Date("2019-10-18T11:45:35.112Z"),
     content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-    threadId: contact.secondaryPhoneNumber!,
+    threadId: thirdThreadId,
+    number: contact.secondaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.OUTBOX,
   },
@@ -157,7 +164,7 @@ test("show info about contact with multiple numbers", () => {
   const { getByTestId, getByText } = renderer({
     getContact: jest.fn(() => ({
       ...contact,
-      secondaryPhoneNumber: thread.id,
+      secondaryPhoneNumber: thread.number,
     })),
   })
   expect(getByTestId("multiple-number")).toBeInTheDocument()
@@ -195,6 +202,6 @@ test("retry button tries to load thread again after initial call", () => {
     loadMessagesByThreadId,
   })
   getByTestId(ThreadDetailsTestIds.RetryButton).click()
-  expect(loadMessagesByThreadId).toBeCalledWith(phoneNumberId)
+  expect(loadMessagesByThreadId).toBeCalledWith(firstThreadId)
   expect(loadMessagesByThreadId).toBeCalledTimes(2)
 })

@@ -77,7 +77,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
     onClose()
   }
   const handleDeleteClick = () => onDeleteClick(thread.id)
-  const handleContactClick = () => onContactClick(thread.id)
+  const handleContactClick = () => onContactClick(thread.number)
   const icons = (
     <>
       {process.env.NODE_ENV !== "production" && (
@@ -137,15 +137,15 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
               displayStyle={TextDisplayStyle.LargeBoldText}
               data-testid="sidebar-fullname"
             >
-              {getPrettyCaller(contact, thread.id)}
+              {getPrettyCaller(contact, thread.number)}
             </Text>
-            {Boolean(thread.id && contact?.secondaryPhoneNumber) && (
+            {Boolean(thread.number && contact?.secondaryPhoneNumber) && (
               <Text
                 displayStyle={TextDisplayStyle.LargeFadedText}
                 data-testid="multiple-number"
               >
                 &nbsp;
-                {thread.id.split(" ").join("") ===
+                {thread.number.split(" ").join("") ===
                 contact.secondaryPhoneNumber?.split(" ").join("")
                   ? "#2"
                   : "#1"}
@@ -157,7 +157,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"
             >
-              {thread.id}
+              {thread.number}
             </PhoneNumberText>
           )}
         </>

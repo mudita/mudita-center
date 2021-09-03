@@ -29,15 +29,19 @@ export interface Message {
   date: Date
   content: string
   contactId: string
+  number: string
   threadId: string
   messageType: MessageType
 }
+
+export type NewMessage = Pick<Message, "number" | "content">
 
 export type MessageMap = { [id: string]: Message }
 
 export interface Thread {
   id: string
   contactId: string
+  number: string
   lastUpdatedAt: Date
   messageSnippet: string
   unread: boolean

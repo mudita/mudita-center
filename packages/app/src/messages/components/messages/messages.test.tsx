@@ -30,9 +30,13 @@ const unknownContact: Contact = {
   primaryPhoneNumber: "+123 456 123",
 }
 
+const firstThreadId = "1"
+const secondThreadId = "2"
+
 export const threads: Thread[] = [
   {
-    id: contact.primaryPhoneNumber!,
+    id: firstThreadId,
+    number: contact.primaryPhoneNumber!,
     contactId: contact.id,
     unread: true,
     lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
@@ -40,7 +44,8 @@ export const threads: Thread[] = [
       "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
   },
   {
-    id: unknownContact.primaryPhoneNumber!,
+    id: secondThreadId,
+    number: unknownContact.primaryPhoneNumber!,
     contactId: unknownContact.id,
     unread: false,
     lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
@@ -55,7 +60,8 @@ const messages: Message[] = [
     date: new Date("2019-10-18T11:27:15.256Z"),
     content:
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-    threadId: contact.primaryPhoneNumber!,
+    threadId: firstThreadId,
+    number: contact.primaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.INBOX,
   },
@@ -63,7 +69,8 @@ const messages: Message[] = [
     id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
     date: new Date("2019-10-18T11:45:35.112Z"),
     content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-    threadId: contact.primaryPhoneNumber!,
+    threadId: firstThreadId,
+    number: contact.primaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.OUTBOX,
   },

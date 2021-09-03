@@ -30,7 +30,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   return (
     <MessageBubblesWrapper>
       {messages.map(({ messageType, date, content, id }, index) => {
-        const interlocutor = messageType === MessageType.OUTBOX
+        const interlocutor = messageType === MessageType.INBOX
         const user = interlocutor ? contact : {}
         const prevMessage = messages[index - 1]
         const displayAvatar = prevMessage
