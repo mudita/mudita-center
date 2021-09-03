@@ -3,10 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  secondParam,
-  renderPhoneNumber,
-} from "App/contacts/components/contact-input-search/contact-input-search.component"
+import { secondParam } from "App/contacts/components/contact-input-search/contact-input-search.component"
 import { Contact } from "App/contacts/store/contacts.type"
 
 const contacts: Contact[] = [
@@ -112,19 +109,5 @@ describe("secondParam", () => {
     const searchString = "oswald"
     const result = secondParam(contacts[3], searchString)
     expect(result).toBe("[value] module.contacts.panelSearchListNoData")
-  })
-})
-
-describe("renderPhoneNumber", () => {
-  test("should return formatted number with area code", () => {
-    const number = "+48123456789"
-    const result = renderPhoneNumber(number)
-    expect(result).toBe("+48 123 456 789")
-  })
-
-  test("should return formatted number", () => {
-    const number = "123456789"
-    const result = renderPhoneNumber(number)
-    expect(result).toBe("123 456 789")
   })
 })

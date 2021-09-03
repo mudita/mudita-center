@@ -20,6 +20,7 @@ import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { formatPhoneNumber } from "App/contacts/helpers/format-phone-number/format-phone-number"
 
 const messages = defineMessages({
   searchPlaceholder: { id: "module.contacts.panelSearchPlaceholder" },
@@ -78,15 +79,6 @@ const renderListItem: RenderListItem<Contact> = ({
   </ContactListItem>
 )
 
-export const renderPhoneNumber = (number: string): string => {
-  if (number.length === 12) {
-    return number.replace(/(.{3})(\d{3})(\d{3})(\d{3})/, "$1 $2 $3 $4")
-  } else if (number.length === 9) {
-    return number.replace(/(.{3})(\d{3})(\d{3})/, "$1 $2 $3")
-  }
-  return number
-}
-
 const renderName = (contact: Contact) => createFullName(contact)
 
 export const secondParam = (contact: Contact, search: string): string => {
@@ -107,15 +99,15 @@ export const secondParam = (contact: Contact, search: string): string => {
     ) {
       const value =
         key === "primaryPhoneNumber" || key === "secondaryPhoneNumber"
-          ? renderPhoneNumber(param)
+          ? formatPhoneNumber(param)
           : param
       return value
     }
   }
   if (contact.primaryPhoneNumber) {
-    return renderPhoneNumber(contact.primaryPhoneNumber)
+    return formatPhoneNumber(contact.primaryPhoneNumber)
   } else if (contact.secondaryPhoneNumber) {
-    return renderPhoneNumber(contact.secondaryPhoneNumber)
+    return formatPhoneNumber(contact.secondaryPhoneNumber)
   } else if (contact.email) {
     return contact.email
   } else if (contact.firstAddressLine) {
