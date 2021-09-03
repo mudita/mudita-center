@@ -20,7 +20,7 @@
     "dist:dev": "npm run app:dist:dev --",
     "dist:dev:all": "npm run app:dist:dev:all --",
     "dist:prod": "npm run app:dist:prod --",
-    "dist:prod:all": "npm run app:dist:dev:prod --",
+    "dist:prod:all": "npm run app:dist:prod:all --",
     "APP COMMANDS": "=========================================================",
     "app:develop": "lerna run --scope @mudita/mudita-center-app develop",
     "app:lint": "lerna run --scope @mudita/mudita-center-app lint",
