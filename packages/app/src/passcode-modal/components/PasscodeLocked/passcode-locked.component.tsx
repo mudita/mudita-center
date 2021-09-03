@@ -36,33 +36,25 @@ interface Props {
 }
 
 const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
-  const [sec, setSec] = useState<number>(time)
+  const [currentTime, setCurrentTime] = useState<number>(time)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (sec > 0) {
-        setSec((prevSec) => prevSec - 1)
+      if (currentTime > 0) {
+        setCurrentTime((prevSec) => prevSec - 1)
       }
-      if (sec === 0) {
+      if (currentTime <= 0) {
         clearInterval(interval)
       }
     }, 1000)
     return () => {
       clearInterval(interval)
     }
-  }, [sec])
+  }, [currentTime])
 
   const formatTime = () => {
-    if (sec < 60) {
-      return `${moment.utc(sec * 1000).format("ss")} sec.`
-    } else if (sec >= 60 && sec < 3600) {
-      return `${moment.utc(sec * 1000).format("mm:ss")} min.`
-    } else if (sec >= 3600 && sec < 86400) {
-      return `${moment.utc(sec * 1000).format("HH:mm:ss")} h.`
-    } else {
-      const endDate = moment().add(sec, "s").format()
-      return moment(endDate).toNow(true) + "."
-    }
+      const endDate = moment().add(currentTime, "s").format()
+      return moment(endDate).fromNow() + "."
   }
   return (
     <PasscodeLockedContainer>
@@ -77,7 +69,7 @@ const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
         data-testid={PasscodeLockedTestIds.Timer}
       >
         <FormattedMessage id="component.passcodeModalTryAgain" />
-        {" in " + formatTime()}
+        {" " + formatTime()}
       </TimeText>
     </PasscodeLockedContainer>
   )

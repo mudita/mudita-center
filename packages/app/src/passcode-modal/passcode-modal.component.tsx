@@ -40,8 +40,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
   const initValue = ["", "", "", ""]
   const [errorState, setErrorState] = useState<ErrorState>(ErrorState.NoError)
   const [values, setValues] = useState<string[]>(initValue)
-  const [passcodeBlocked] = useState(false)
-  const exampleTime = 300
+  const [passcodeBlockedTime] = useState()
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
 
   const updateValues = (values: string[]): void => {
@@ -118,8 +117,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
       updateValues={updateValues}
       openHelpWindow={openHelpWindow}
       onNotAllowedKeyDown={onNotAllowedKeyDown}
-      time={exampleTime}
-      passcodeBlocked={passcodeBlocked}
+      passcodeBlockedTime={passcodeBlockedTime}
     />
   )
 }
