@@ -11,6 +11,7 @@ import { HelpActions } from "App/common/enums/help-actions.enum"
 import unlockDevice from "Renderer/requests/unlock-device.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getUnlockDeviceStatus from "Renderer/requests/get-unlock-device-status.request"
+import getDeviceLockTime from "Renderer/requests/get-device-lock-time.request"
 
 export interface PasscodeModalProps {
   openModal: boolean
@@ -40,7 +41,9 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
   const initValue = ["", "", "", ""]
   const [errorState, setErrorState] = useState<ErrorState>(ErrorState.NoError)
   const [values, setValues] = useState<string[]>(initValue)
-  const [passcodeBlockedTime] = useState()
+  const [passcodeBlockedTime, setPasscodeBlockedTime] = useState<
+    number | undefined
+  >()
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
 
   const updateValues = (values: string[]): void => {
@@ -59,6 +62,23 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     return ErrorMessageMap[errorState]
   }
 
+  const getDeviceLockTimeRequest = async (): Promise<void> => {
+    const response = await getDeviceLockTime()
+
+    if (response.status === DeviceResponseStatus.InternalServerError) {
+      setErrorState(ErrorState.InternalServerError)
+    } else if (response.status === DeviceResponseStatus.Ok) {
+      setPasscodeBlockedTime(response.data)
+      console.log("response", response.data)
+    }
+  }
+
+  // useEffect(() => {
+  //   if (openModal) {
+  //     getDeviceLockTimeRequest()
+  //   }
+  // }, [openModal])
+
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
 
@@ -72,6 +92,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
           const { status } = await getUnlockDeviceStatus()
 
           if (status !== DeviceResponseStatus.Ok) {
+            getDeviceLockTimeRequest()
             setErrorState(ErrorState.BadPasscode)
           }
         }, 1000)
@@ -80,7 +101,10 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
 
     if (values[values.length - 1] !== "") {
       const code = values.map((value) => parseInt(value))
-      void unlockDeviceRequest(code)
+
+      if (passcodeBlockedTime === undefined) {
+        void unlockDeviceRequest(code)
+      }
     } else {
       setErrorState(ErrorState.NoError)
     }

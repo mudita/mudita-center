@@ -48,6 +48,7 @@ export interface StoreValues {
   readonly basicInfoDataState: DataState
   readonly initialDataLoaded: boolean
   readonly serialNumber: string | undefined
+  readonly phoneLockTime: number | undefined
 }
 
 export interface StoreEffects {

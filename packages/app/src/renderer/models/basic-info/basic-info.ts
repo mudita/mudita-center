@@ -27,6 +27,7 @@ import { createModel } from "@rematch/core"
 import { RootState } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import updateOs from "Renderer/requests/update-os.request"
+// import getDeviceLockTime from "App/renderer/requests/get-device-lock-time.request"
 
 export const initialState: StoreValues = {
   deviceType: undefined,
@@ -43,6 +44,7 @@ export const initialState: StoreValues = {
   simCards: [],
   lastBackup: undefined,
   serialNumber: undefined,
+  phoneLockTime: undefined
 }
 
 const basicInfo = createModel<RootModel>({
@@ -179,9 +181,10 @@ const basicInfo = createModel<RootModel>({
       async toggleDeviceUnlocked(
         deviceUnlocked: boolean,
         rootState: {
-          basicInfo: { initialDataLoaded: boolean; deviceUnlocked: boolean }
+          basicInfo: { initialDataLoaded: boolean; deviceUnlocked: boolean; phoneLockTime: number | undefined }
         }
       ) {
+        // const response = await getDeviceLockTime()
         if (deviceUnlocked === rootState.basicInfo.deviceUnlocked) {
           return
         }
@@ -189,12 +192,15 @@ const basicInfo = createModel<RootModel>({
           dispatch.basicInfo.update({
             deviceUnlocked,
             initialDataLoaded: false,
+            // phoneLockTime: response.data
           })
         } else {
-          dispatch.basicInfo.update({ deviceUnlocked })
+          // if (response.data === undefined) {
+            dispatch.basicInfo.update({ deviceUnlocked, phoneLockTime: undefined })
+          // }
         }
 
-        if (deviceUnlocked && !rootState.basicInfo.initialDataLoaded) {
+        if (deviceUnlocked && !rootState.basicInfo.initialDataLoaded && !rootState.basicInfo.phoneLockTime) {
           await dispatch.basicInfo.loadInitialData()
         }
       },
@@ -214,6 +220,9 @@ const basicInfo = createModel<RootModel>({
         }
         dispatch.basicInfo.updateUpdatingState(UpdatingState.Success)
       },
+      async handleDeviceLockEvent() {
+
+      }
     }
   },
   selectors: (slice: Slicer<typeof initialState>) => ({

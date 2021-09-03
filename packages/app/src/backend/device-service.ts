@@ -14,6 +14,7 @@ import {
   SendFileSystemRequestConfig,
   GetMessageResponseBody,
   GetMessagesBody,
+  GetPhoneLockBody,
   GetThreadResponseBody,
   GetThreadsBody,
   Method,
@@ -54,6 +55,7 @@ class DeviceService {
   async request(config: {
     endpoint: Endpoint.Security
     method: Method.Get
+    body: GetPhoneLockBody
   }): Promise<DeviceResponse>
   async request(config: {
     endpoint: Endpoint.Security
@@ -147,10 +149,13 @@ class DeviceService {
         .then((response) => DeviceService.mapToDeviceResponse(response))
         .then((response) => {
           this.eventEmitter.emit(eventName, response)
+          console.log("response", response)
+          console.log("config", config)
+          console.log("config.body.category ", config.body.category === "phoneLockStatus")
           if (
             !(
               config.endpoint === Endpoint.Security &&
-              config.method === Method.Put
+              config.method === Method.Put && config.body.category === "phoneLockStatus"
             )
           ) {
             this.emitDeviceUnlockedEvent(response)
@@ -230,6 +235,7 @@ class DeviceService {
     return this.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
+      body: {category: "phoneLockStatus"}
     })
   }
 

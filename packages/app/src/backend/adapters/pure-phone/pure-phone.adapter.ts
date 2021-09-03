@@ -105,10 +105,30 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
+  public async getDeviceLockTime(): Promise<DeviceResponse<number>> {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.Security,
+      method: Method.Get,
+      body: {category: "phoneLockTime"}
+    })
+    if (status === DeviceResponseStatus.Ok && data) {
+      return {
+        status,
+        data: data,
+      }
+    } else {
+      return {
+        status,
+        error: { message: "Get device lock time: Something went wrong" },
+      }
+    }
+  }
+
   public async getUnlockDeviceStatus(): Promise<DeviceResponse> {
     return await this.deviceService.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
+      body: {category: "phoneLockStatus"}
     })
   }
 

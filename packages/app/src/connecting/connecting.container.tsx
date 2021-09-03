@@ -43,7 +43,8 @@ const Connecting: FunctionComponent<{
     if (deviceUnlocked === false && initialModalsShowed) {
       setDialogOpen(true)
     }
-
+    console.log("deviceUnlocked", deviceUnlocked)
+    console.log("initialModalsShowed", initialModalsShowed)
     return () => clearTimeout(timeout)
   }, [deviceUnlocked, initialModalsShowed, initialDataLoaded])
 
