@@ -18,6 +18,8 @@ import logger from "App/main/utils/logger"
 
 const selector = select(({ messages, contacts }) => ({
   threads: messages.filteredThreads,
+  receivers: messages.getReceivers,
+  getReceiver: messages.getReceiver,
   getContact: contacts.getContact,
   getContactByPhoneNumber: contacts.getContactByPhoneNumber,
   getMessagesByThreadId: messages.getMessagesByThreadId,

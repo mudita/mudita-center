@@ -61,3 +61,15 @@ export type MessagesState = Readonly<{
   resultState: ResultState
   messagesResultStateMap: { [id: string]: ResultState }
 }>
+
+export enum ReceiverIdentification {
+  unknown,
+  primary,
+  secondary,
+}
+
+export interface Receiver extends Pick<Contact, "firstName" | "lastName"> {
+  contactId: string
+  phoneNumber: string
+  identification: ReceiverIdentification
+}

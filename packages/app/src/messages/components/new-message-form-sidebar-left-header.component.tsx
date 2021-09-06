@@ -5,16 +5,16 @@
 
 import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import ContactInputSearch from "App/messages/components/contact-input-search/contact-input-search.component"
+import ReceiverInputSearch from "App/messages/components/receiver-input-search/receiver-input-search.component"
 
-type ContactInputSearchProps = ComponentProps<typeof ContactInputSearch>
+type ContactInputSearchProps = ComponentProps<typeof ReceiverInputSearch>
 
 interface Props extends ContactInputSearchProps {}
 
 const NewMessageFormSidebarLeftHeader: FunctionComponent<Props> = ({
   ...props
 }) => {
-  return <ContactInputSearch {...props} />
+  return <ReceiverInputSearch {...props} />
 }
 
 export default NewMessageFormSidebarLeftHeader

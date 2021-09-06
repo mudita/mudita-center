@@ -30,12 +30,13 @@ import { ContactCategory } from "App/contacts/store/contacts.interface"
 import {
   Message,
   NewMessage,
+  Receiver,
   ResultState,
   Thread,
 } from "App/messages/store/messages.interface"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
-import { mapToRawNumber } from "App/messages/helpers/get-receiver-identification"
+import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
 
 const deleteModalMessages = defineMessages({
   title: { id: "module.messages.deleteModalTitle" },
@@ -60,10 +61,12 @@ enum MessagesState {
 }
 
 interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
+  receivers: Receiver[]
   attachContactList: ContactCategory[]
   attachContactFlatList: Contact[]
   getMessagesByThreadId: (threadId: string) => Message[]
   getContact: (contactId: string) => Contact | undefined
+  getReceiver: (contactId: string) => Receiver
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
@@ -72,12 +75,14 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
 }
 
 const Messages: FunctionComponent<Props> = ({
+  receivers,
   searchValue,
   changeSearchValue = noop,
   deleteThreads = noop,
   threads,
   getMessagesByThreadId,
   getContact,
+  getReceiver,
   toggleReadStatus = noop,
   language,
   attachContactList,
@@ -241,6 +246,22 @@ const Messages: FunctionComponent<Props> = ({
     }
   }
 
+  const handleReceiverSelect = ({ contactId, phoneNumber }: Receiver) => {
+    const thread = threads.find(
+      (thread) =>
+        mapToRawNumber(thread.phoneNumber) === mapToRawNumber(phoneNumber)
+    )
+
+    if (thread) {
+      setActiveThread(thread)
+      setMessagesState(MessagesState.ThreadDetails)
+    } else {
+      const tmpThread = { ...mockThread, phoneNumber, contactId: contactId }
+      setActiveThread(tmpThread)
+      setMessagesState(MessagesState.ThreadDetails)
+    }
+  }
+
   const handlePhoneNumberSelect = (phoneNumber: string) => {
     const thread = threads.find(
       (thread) =>
@@ -285,8 +306,7 @@ const Messages: FunctionComponent<Props> = ({
           <ThreadDetails
             data-testid={MessagesTestIds.ThreadDetails}
             content={content}
-            phoneNumber={activeThread.phoneNumber}
-            contact={getContact(activeThread.contactId)}
+            receiver={getReceiver(activeThread.contactId)}
             messages={getMessagesByThreadId(activeThread.id)}
             resultState={getMessagesResultMapStateByThreadId(activeThread.id)}
             contactCreated={isContactCreated(activeThread.contactId)}
@@ -303,12 +323,14 @@ const Messages: FunctionComponent<Props> = ({
         {messagesState === MessagesState.NewMessage && (
           <NewMessageForm
             content={content}
+            receivers={receivers}
             data-testid={MessagesTestIds.NewMessageForm}
             onClose={handleNewMessageFormClose}
             onAttachContactClick={openAttachContactModal}
             onContentChange={handleContentChange}
             onSendClick={handleNewMessageSendClick}
             onPhoneNumberSelect={handlePhoneNumberSelect}
+            onReceiverSelect={handleReceiverSelect}
           />
         )}
       </TableWithSidebarWrapper>

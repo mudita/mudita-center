@@ -11,23 +11,47 @@ import ThreadDetailsTextArea from "App/messages/components/thread-details-text-a
 import { phoneNumberRegexp } from "Renderer/utils/form-validators"
 import NewMessageFormSidebar from "App/messages/components/new-message-form-sidebar.component"
 import { Sidebar } from "Renderer/components/core/table/table.component"
+import { Receiver } from "App/messages/store/messages.interface"
+import uniqBy from "lodash/uniqBy"
+
+export const isReceiverMatching = (
+  receiver: Receiver,
+  search: string
+): boolean => {
+  const query: (keyof Receiver)[] = ["firstName", "lastName", "phoneNumber"]
+  for (const key of query) {
+    const param: typeof receiver[keyof typeof receiver] = receiver[key]
+    if (
+      param !== undefined &&
+      typeof param === "string" &&
+      param.toLowerCase().includes(search.toLowerCase())
+    ) {
+      return true
+    }
+  }
+  return false
+}
 
 type SidebarProps = ComponentProps<typeof Sidebar>
 
 interface Props extends SidebarProps {
   content: string
+  receivers: Receiver[]
   onContentChange: (content: string) => void
   onSendClick: (phoneNumber: string) => void
   onPhoneNumberSelect: (phoneNumber: string) => void
+  onReceiverSelect: (receiver: Receiver) => void
   onAttachContactClick: () => void
 }
 
 const NewMessageForm: FunctionComponent<Props> = ({
   content,
+  receivers,
   onSendClick,
   onContentChange,
-  onAttachContactClick,
   onPhoneNumberSelect,
+  onReceiverSelect,
+  onAttachContactClick,
   ...props
 }) => {
   const [searchValue, setSearchValue] = useState("")
@@ -52,12 +76,18 @@ const NewMessageForm: FunctionComponent<Props> = ({
     }
   }
 
+  const results = uniqBy(
+    receivers.filter((item) => isReceiverMatching(item, searchValue || "")),
+    "contactId"
+  )
+
   return (
     <NewMessageFormSidebar
-      results={[]}
+      results={results}
       searchValue={searchValue}
       onSearchValueChange={handleSearchValueChange}
       onSearchEnterClick={handleSearchEnterClick}
+      onReceiverSelect={onReceiverSelect}
       {...props}
     >
       <MessagesWrapper>

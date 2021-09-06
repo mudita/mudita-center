@@ -22,6 +22,7 @@ const NewMessageFormSidebar: FunctionComponent<Props> = ({
   searchValue,
   onSearchValueChange,
   onSearchEnterClick,
+  onReceiverSelect,
   children,
   ...props
 }) => {
@@ -36,6 +37,7 @@ const NewMessageFormSidebar: FunctionComponent<Props> = ({
           searchValue={searchValue}
           onSearchValueChange={onSearchValueChange}
           onSearchEnterClick={onSearchEnterClick}
+          onReceiverSelect={onReceiverSelect}
           showSearchResults={results.length === 0}
         />
       }

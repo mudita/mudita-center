@@ -9,34 +9,31 @@ import { MessagesSidebar } from "App/messages/components/thread-details.styled"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "App/contacts/store/contacts.helpers"
-import { Contact } from "App/contacts/store/contacts.type"
 import ThreadDetailsSidebarLeftHeader from "App/messages/components/thread-details-sidebar-left-header.component"
 import ThreadDetailsSidebarRightHeader from "App/messages/components/thread-details-sidebar-right-header.component"
+import {
+  Receiver,
+  ReceiverIdentification,
+} from "App/messages/store/messages.interface"
 
 interface Props
   extends ComponentProps<typeof Sidebar>,
     ComponentProps<typeof ThreadDetailsSidebarRightHeader> {
-  contact?: Contact
-  phoneNumber: string
+  receiver: Receiver
 }
 
-const getCallerIdentification = (
-  contact: Contact | undefined,
-  phoneNumber: string
-): string | undefined => {
-  if (Boolean(phoneNumber) && contact?.secondaryPhoneNumber) {
-    return phoneNumber.split(" ").join("") ===
-      contact.secondaryPhoneNumber.split(" ").join("")
-      ? "#2"
-      : "#1"
+const getCallerIdentification = (receiver: Receiver): string | undefined => {
+  if (receiver.identification === ReceiverIdentification.primary) {
+    return "#1"
+  } else if (receiver.identification === ReceiverIdentification.secondary) {
+    return "#2"
   } else {
     return undefined
   }
 }
 
 const ThreadDetailsSidebar: FunctionComponent<Props> = ({
-  contact,
-  phoneNumber,
+  receiver,
   contactCreated,
   onContactClick,
   onDeleteClick,
@@ -44,7 +41,7 @@ const ThreadDetailsSidebar: FunctionComponent<Props> = ({
   children,
   ...props
 }) => {
-  const nameAvailable = isNameAvailable(contact)
+  const nameAvailable = isNameAvailable(receiver)
 
   return (
     <MessagesSidebar
@@ -53,9 +50,11 @@ const ThreadDetailsSidebar: FunctionComponent<Props> = ({
       padded={false}
       headerLeft={
         <ThreadDetailsSidebarLeftHeader
-          callerIdentification={getCallerIdentification(contact, phoneNumber)}
-          prettyCaller={nameAvailable ? createFullName(contact) : phoneNumber}
-          callerNumber={nameAvailable ? phoneNumber : undefined}
+          callerIdentification={getCallerIdentification(receiver)}
+          prettyCaller={
+            nameAvailable ? createFullName(receiver) : receiver.phoneNumber
+          }
+          callerNumber={nameAvailable ? receiver.phoneNumber : undefined}
         />
       }
       headerRight={

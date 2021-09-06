@@ -7,7 +7,7 @@ import React from "react"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { RenderListItem } from "Renderer/components/core/list/list.component"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Receiver } from "App/messages/store/messages.interface"
 import {
   ContactListItem,
   ContactListItemName,
@@ -21,15 +21,7 @@ const messages = defineMessages({
   noNameProvided: { id: "module.contacts.panelSearchListNoName" },
 })
 
-const secondParam: RenderListItem<Contact> = () => {
-  return ""
-}
-
-export const renderListItem: RenderListItem<Contact> = ({
-  item,
-  searchString,
-  props,
-}) => (
+export const renderListItem: RenderListItem<Receiver> = ({ item, props }) => (
   <ContactListItem {...props}>
     <span>
       {createFullName(item) ? (
@@ -42,7 +34,7 @@ export const renderListItem: RenderListItem<Contact> = ({
         </ContactListItemName>
       )}
       <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
-        {secondParam({ item, searchString, props })}
+        {item.phoneNumber}
       </Text>
     </span>
   </ContactListItem>

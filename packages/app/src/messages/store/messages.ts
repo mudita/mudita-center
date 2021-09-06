@@ -11,6 +11,7 @@ import {
   MessageIdsInThreadMap,
   MessageMap,
   MessagesState,
+  Receiver,
   ResultState,
   Thread,
   ThreadMap,
@@ -23,6 +24,8 @@ import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.request"
 import {
   filterThreads,
+  mapContactsToReceivers,
+  mapThreadsToReceivers,
   searchThreads,
   sortMessages,
   sortThreads,
@@ -337,6 +340,35 @@ const messages = createModel<RootModel>({
           return !numbers.some((number) => number === phoneNumber)
         }
       }
+    },
+    getReceivers(models: StoreSelectors<any>) {
+      return createSelector(
+        models.messages.threads,
+        models.contacts.getContactMap,
+        (threads: Thread[], contactMap: Record<ContactID, Contact>) => {
+          const contactIds = Object.keys(contactMap)
+          const uniqueThreadsReceivers = threads.filter(
+            ({ contactId }) => !contactIds.includes(contactId)
+          )
+          const threadReceivers = mapThreadsToReceivers(uniqueThreadsReceivers)
+          const contactReceivers = mapContactsToReceivers(
+            Object.keys(contactMap).map((key) => contactMap[key])
+          )
+          return [...contactReceivers, ...threadReceivers]
+        }
+      )
+    },
+    getReceiver(models: StoreSelectors<any>) {
+      return createSelector(
+        models.messages.getReceivers,
+        (receivers: Receiver[]) => {
+          return (contactId: string) => {
+            return receivers.find(
+              (receiver) => receiver.contactId === contactId
+            )
+          }
+        }
+      )
     },
   }),
 })

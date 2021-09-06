@@ -5,10 +5,13 @@
 
 import React, { ChangeEvent, ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Message, ResultState } from "App/messages/store/messages.interface"
+import {
+  Message,
+  Receiver,
+  ResultState,
+} from "App/messages/store/messages.interface"
 import { MessagesWrapper } from "App/messages/components/thread-details.styled"
 import { Sidebar } from "Renderer/components/core/table/table.component"
-import { Contact } from "App/contacts/store/contacts.type"
 import ThreadDetailsError from "App/messages/components/thread-details-error.component"
 import ThreadDetailsLoading from "App/messages/components/thread-details-loading.component"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
@@ -23,8 +26,7 @@ type ThreadDetailsRightHeaderProps = ComponentProps<
 
 interface Props extends SidebarProps, ThreadDetailsRightHeaderProps {
   content: string
-  phoneNumber: string
-  contact: Contact | undefined
+  receiver: Receiver
   messages: Message[]
   resultState: ResultState
   onLoadMessagesClick: () => void
@@ -35,8 +37,7 @@ interface Props extends SidebarProps, ThreadDetailsRightHeaderProps {
 
 const ThreadDetails: FunctionComponent<Props> = ({
   content,
-  phoneNumber,
-  contact,
+  receiver,
   messages,
   resultState,
   onLoadMessagesClick,
@@ -50,18 +51,14 @@ const ThreadDetails: FunctionComponent<Props> = ({
   }
 
   return (
-    <ThreadDetailsSidebar
-      contact={contact}
-      phoneNumber={phoneNumber}
-      {...props}
-    >
+    <ThreadDetailsSidebar receiver={receiver} {...props}>
       <MessagesWrapper>
         {resultState === ResultState.Error && (
           <ThreadDetailsError onClick={onLoadMessagesClick} />
         )}
         {resultState === ResultState.Loading && <ThreadDetailsLoading />}
         {resultState === ResultState.Loaded && (
-          <ThreadDetailsMessages messages={messages} contact={contact} />
+          <ThreadDetailsMessages messages={messages} receiver={receiver} />
         )}
       </MessagesWrapper>
       <ThreadDetailsTextArea
