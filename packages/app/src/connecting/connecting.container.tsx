@@ -11,7 +11,7 @@ import { updateAppSettings } from "Renderer/requests/app-settings.request"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { RootState, select } from "Renderer/store"
 import { connect } from "react-redux"
-import PasscodeModal from "App/passcod-modal/passcode-modal.component"
+import PasscodeModal from "App/passcode-modal/passcode-modal.component"
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
 
 export const registerFirstPhoneConnection = (): void => {
