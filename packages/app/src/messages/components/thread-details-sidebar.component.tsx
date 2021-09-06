@@ -17,15 +17,15 @@ interface Props
   extends ComponentProps<typeof Sidebar>,
     ComponentProps<typeof ThreadDetailsSidebarRightHeader> {
   contact?: Contact
-  number: string
+  phoneNumber: string
 }
 
 const getCallerIdentification = (
   contact: Contact | undefined,
-  number: string
+  phoneNumber: string
 ): string | undefined => {
-  if (Boolean(number) && contact?.secondaryPhoneNumber) {
-    return number.split(" ").join("") ===
+  if (Boolean(phoneNumber) && contact?.secondaryPhoneNumber) {
+    return phoneNumber.split(" ").join("") ===
       contact.secondaryPhoneNumber.split(" ").join("")
       ? "#2"
       : "#1"
@@ -36,7 +36,7 @@ const getCallerIdentification = (
 
 const ThreadDetailsSidebar: FunctionComponent<Props> = ({
   contact,
-  number,
+  phoneNumber,
   contactCreated,
   onContactClick,
   onDeleteClick,
@@ -53,9 +53,9 @@ const ThreadDetailsSidebar: FunctionComponent<Props> = ({
       padded={false}
       headerLeft={
         <ThreadDetailsSidebarLeftHeader
-          callerIdentification={getCallerIdentification(contact, number)}
-          prettyCaller={nameAvailable ? createFullName(contact) : number}
-          callerNumber={nameAvailable ? number : undefined}
+          callerIdentification={getCallerIdentification(contact, phoneNumber)}
+          prettyCaller={nameAvailable ? createFullName(contact) : phoneNumber}
+          callerNumber={nameAvailable ? phoneNumber : undefined}
         />
       }
       headerRight={

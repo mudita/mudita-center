@@ -187,7 +187,7 @@ const Messages: FunctionComponent<Props> = ({
     if (activeThread) {
       history.push(
         createRouterPath(URL_MAIN.contacts, {
-          phoneNumber: activeThread.number,
+          phoneNumber: activeThread.phoneNumber,
         })
       )
     }
@@ -206,8 +206,8 @@ const Messages: FunctionComponent<Props> = ({
     })
   }
 
-  const handleAddNewMessage = async (number: string) => {
-    const message = await addNewMessage({ content, number })
+  const handleAddNewMessage = async (phoneNumber: string) => {
+    const message = await addNewMessage({ content, phoneNumber })
     if (message) {
       const thread = threads.find(({ id }) => id === message.threadId)
       if (thread) {
@@ -224,8 +224,8 @@ const Messages: FunctionComponent<Props> = ({
 
   const handleSendClick = async () => {
     if (activeThread) {
-      const number = activeThread.number
-      await handleAddNewMessage(number)
+      const phoneNumber = activeThread.phoneNumber
+      await handleAddNewMessage(phoneNumber)
     }
   }
 
@@ -253,7 +253,7 @@ const Messages: FunctionComponent<Props> = ({
           <ThreadDetails
             data-testid={MessagesTestIds.ThreadDetails}
             content={content}
-            number={activeThread.number}
+            phoneNumber={activeThread.phoneNumber}
             contact={getContact(activeThread.contactId)}
             messages={getMessagesByThreadId(activeThread.id)}
             resultState={getMessagesResultMapStateByThreadId(activeThread.id)}

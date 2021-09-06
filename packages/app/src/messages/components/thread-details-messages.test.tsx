@@ -36,7 +36,7 @@ const messages: Message[] = [
     date: new Date(),
     content:
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-    number: contact.secondaryPhoneNumber!,
+    phoneNumber: contact.secondaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.INBOX,
   },
@@ -45,7 +45,7 @@ const messages: Message[] = [
     id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
     date: new Date("2019-10-18T11:45:35.112Z"),
     content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-    number: contact.secondaryPhoneNumber!,
+    phoneNumber: contact.secondaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.OUTBOX,
   },

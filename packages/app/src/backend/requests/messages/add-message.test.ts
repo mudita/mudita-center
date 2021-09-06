@@ -6,17 +6,24 @@
 import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import registerAddMessageRequest from "Backend/requests/messages/add-message.request"
-import { Message, MessageType, NewMessage } from "App/messages/store/messages.interface"
+import {
+  Message,
+  MessageType,
+  NewMessage,
+} from "App/messages/store/messages.interface"
 import DeviceService from "Backend/device-service"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import PureDeviceManager, { Message as PureMessage, MessageType as PureMessageType } from "@mudita/pure"
+import PureDeviceManager, {
+  Message as PureMessage,
+  MessageType as PureMessageType,
+} from "@mudita/pure"
 import createPurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.adapter"
 import Adapters from "Backend/adapters/adapters.interface"
 
 const newMessage: NewMessage = {
   content:
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
-  number: "+48500600700",
+  phoneNumber: "+48500600700",
 }
 
 const pureMessage: PureMessage = {
@@ -26,7 +33,7 @@ const pureMessage: PureMessage = {
   messageType: PureMessageType.OUTBOX,
   createdAt: 1547465101,
   threadID: 1,
-  number: newMessage.number,
+  number: newMessage.phoneNumber,
 }
 
 const message: Message = {
@@ -35,7 +42,7 @@ const message: Message = {
   content: newMessage.content,
   contactId: "2",
   threadId: "1",
-  number: newMessage.number,
+  phoneNumber: newMessage.phoneNumber,
   messageType: MessageType.OUTBOX,
 }
 
@@ -51,9 +58,10 @@ test("adds message works properly", async () => {
     }
   })
   registerAddMessageRequest({
-      pureMessages: createPurePhoneMessagesAdapter(new DeviceService(PureDeviceManager, ipcMain)),
-    } as unknown as Adapters
-  )
+    pureMessages: createPurePhoneMessagesAdapter(
+      new DeviceService(PureDeviceManager, ipcMain)
+    ),
+  } as unknown as Adapters)
 
   const [pendingResponse] = await (ipcMain as any)._flush(
     IpcRequest.AddMessage,

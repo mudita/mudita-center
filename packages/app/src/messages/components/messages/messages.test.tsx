@@ -40,7 +40,7 @@ const secondThreadId = "2"
 export const threads: Thread[] = [
   {
     id: firstThreadId,
-    number: contact.primaryPhoneNumber!,
+    phoneNumber: contact.primaryPhoneNumber!,
     contactId: contact.id,
     unread: true,
     lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
@@ -49,7 +49,7 @@ export const threads: Thread[] = [
   },
   {
     id: secondThreadId,
-    number: unknownContact.primaryPhoneNumber!,
+    phoneNumber: unknownContact.primaryPhoneNumber!,
     contactId: unknownContact.id,
     unread: false,
     lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
@@ -65,7 +65,7 @@ const messages: Message[] = [
     content:
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
     threadId: firstThreadId,
-    number: contact.primaryPhoneNumber!,
+    phoneNumber: contact.primaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.INBOX,
   },
@@ -74,7 +74,7 @@ const messages: Message[] = [
     date: new Date("2019-10-18T11:45:35.112Z"),
     content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
     threadId: firstThreadId,
-    number: contact.primaryPhoneNumber!,
+    phoneNumber: contact.primaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.OUTBOX,
   },

@@ -23,7 +23,7 @@ type ThreadDetailsRightHeaderProps = ComponentProps<
 
 interface Props extends SidebarProps, ThreadDetailsRightHeaderProps {
   content: string
-  number: string
+  phoneNumber: string
   contact: Contact | undefined
   messages: Message[]
   resultState: ResultState
@@ -35,7 +35,7 @@ interface Props extends SidebarProps, ThreadDetailsRightHeaderProps {
 
 const ThreadDetails: FunctionComponent<Props> = ({
   content,
-  number,
+  phoneNumber,
   contact,
   messages,
   resultState,
@@ -50,7 +50,11 @@ const ThreadDetails: FunctionComponent<Props> = ({
   }
 
   return (
-    <ThreadDetailsSidebar contact={contact} number={number} {...props}>
+    <ThreadDetailsSidebar
+      contact={contact}
+      phoneNumber={phoneNumber}
+      {...props}
+    >
       <MessagesWrapper>
         {resultState === ResultState.Error && (
           <ThreadDetailsError onClick={onLoadMessagesClick} />

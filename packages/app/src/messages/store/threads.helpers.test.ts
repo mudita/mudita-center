@@ -16,7 +16,7 @@ const secondThreadId = "2"
 const threads: Thread[] = [
   {
     id: firstThreadId,
-    number: contact.primaryPhoneNumber!,
+    phoneNumber: contact.primaryPhoneNumber!,
     contactId: contact.id,
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
@@ -25,7 +25,7 @@ const threads: Thread[] = [
   },
   {
     id: secondThreadId,
-    number: anotherContact.primaryPhoneNumber!,
+    phoneNumber: anotherContact.primaryPhoneNumber!,
     contactId: anotherContact.id,
     lastUpdatedAt: new Date("2020-05-17T19:58:05.136Z"),
     messageSnippet:

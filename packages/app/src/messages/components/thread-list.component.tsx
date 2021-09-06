@@ -207,7 +207,7 @@ const ThreadList: FunctionComponent<Props> = ({
       hideColumns={Boolean(activeThread)}
     >
       {threads.map((thread) => {
-        const { unread, id, number } = thread
+        const { unread, id, phoneNumber } = thread
         const contact = getContact(thread.contactId)
         const { selected, indeterminate } = getRowStatus(thread)
 
@@ -216,7 +216,7 @@ const ThreadList: FunctionComponent<Props> = ({
         const active = activeThread?.id === id
         const emitDeleteClick = () => onDeleteClick(id)
         const toggleReadStatus = () => onToggleReadStatus([id])
-        const handleContactClick = () => onContactClick(number)
+        const handleContactClick = () => onContactClick(phoneNumber)
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <ThreadRow ref={ref} selected={selected} active={active}>
             <AvatarCol>
@@ -241,12 +241,12 @@ const ThreadList: FunctionComponent<Props> = ({
               <ThreadDataWrapper sidebarOpened={Boolean(activeThread)}>
                 <NameWrapper>
                   <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                    {getPrettyCaller(contact, number)}
+                    {getPrettyCaller(contact, phoneNumber)}
                   </Name>
-                  {Boolean(number && contact?.secondaryPhoneNumber) && (
+                  {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
                     <Text displayStyle={TextDisplayStyle.LargeFadedText}>
                       &nbsp;
-                      {number.split(" ").join("") ===
+                      {phoneNumber.split(" ").join("") ===
                       contact?.secondaryPhoneNumber?.split(" ").join("")
                         ? "#2"
                         : "#1"}
@@ -287,7 +287,7 @@ const ThreadList: FunctionComponent<Props> = ({
                     labelMessage={{
                       id: "component.dropdownCall",
                       values: {
-                        name: contact?.firstName || number,
+                        name: contact?.firstName || phoneNumber,
                       },
                     }}
                     Icon={Type.Calls}

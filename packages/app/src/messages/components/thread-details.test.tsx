@@ -37,7 +37,7 @@ const contact: Contact = {
 
 const thread: Thread = {
   id: firstThreadId,
-  number: phoneNumberId,
+  phoneNumber: phoneNumberId,
   contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
   lastUpdatedAt: new Date("2019-08-14T17:31:16.627Z"),
   messageSnippet:
@@ -54,7 +54,7 @@ const unknownContact: Contact = {
 
 const threadFromUnknownCaller: Thread = {
   id: secondThreadId,
-  number: unknownContact.primaryPhoneNumber!,
+  phoneNumber: unknownContact.primaryPhoneNumber!,
   contactId: unknownContact.id,
   unread: true,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
@@ -69,7 +69,7 @@ const messages: Message[] = [
     content:
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
     threadId: thirdThreadId,
-    number: contact.secondaryPhoneNumber!,
+    phoneNumber: contact.secondaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.INBOX,
   },
@@ -78,7 +78,7 @@ const messages: Message[] = [
     date: new Date("2019-10-18T11:45:35.112Z"),
     content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
     threadId: thirdThreadId,
-    number: contact.secondaryPhoneNumber!,
+    phoneNumber: contact.secondaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.OUTBOX,
   },
@@ -98,7 +98,7 @@ const defaultProps: Props = {
   getMessagesResultMapStateByThreadId: jest.fn(),
   isContactCreated: jest.fn().mockReturnValue(true),
   onAddNewMessage: jest.fn(),
-  thread
+  thread,
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
@@ -165,7 +165,7 @@ test("show info about contact with multiple numbers", () => {
   const { getByTestId, getByText } = renderer({
     getContact: jest.fn(() => ({
       ...contact,
-      secondaryPhoneNumber: thread.number,
+      secondaryPhoneNumber: thread.phoneNumber,
     })),
   })
   expect(getByTestId("multiple-number")).toBeInTheDocument()

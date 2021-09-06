@@ -16,7 +16,7 @@ type SidebarProps = ComponentProps<typeof Sidebar>
 
 interface Props extends SidebarProps {
   content: string
-  onSendClick: (number: string) => void
+  onSendClick: (phoneNumber: string) => void
   onContentChange: (content: string) => void
   onAttachContactClick: () => void
 }
