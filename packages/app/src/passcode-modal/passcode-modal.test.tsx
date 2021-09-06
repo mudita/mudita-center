@@ -19,6 +19,7 @@ type Props = ComponentProps<typeof PasscodeModal>
 const defaultProps: Props = {
   openModal: true,
   close: jest.fn(),
+  openBlocked: undefined
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

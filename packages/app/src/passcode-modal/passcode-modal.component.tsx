@@ -12,10 +12,13 @@ import unlockDevice from "Renderer/requests/unlock-device.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getUnlockDeviceStatus from "Renderer/requests/get-unlock-device-status.request"
 import getDeviceLockTime from "Renderer/requests/get-device-lock-time.request"
-
-export interface PasscodeModalProps {
+import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
+import { noop } from "Renderer/utils/noop"
+interface Props {
   openModal: boolean
   close: () => void
+  openBlocked?: number
+  updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
 }
 
 enum ErrorState {
@@ -34,20 +37,23 @@ const ErrorMessageMap: Record<ErrorState, string> = {
 
 let timeoutId3: NodeJS.Timeout
 
-const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
+const PasscodeModal: FunctionComponent<Props> = ({
   openModal,
   close,
+  openBlocked,
+  updateBasicInfo = noop,
 }) => {
   const initValue = ["", "", "", ""]
   const [errorState, setErrorState] = useState<ErrorState>(ErrorState.NoError)
   const [values, setValues] = useState<string[]>(initValue)
-  const [passcodeBlockedTime, setPasscodeBlockedTime] = useState<
-    number | undefined
-  >()
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
 
   const updateValues = (values: string[]): void => {
     setValues(values)
+  }
+
+  const updateBlockedTime = (time?: number) => {
+    updateBasicInfo({ phoneLockTime: time })
   }
 
   const onNotAllowedKeyDown = (): void => {
@@ -68,16 +74,9 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     if (response.status === DeviceResponseStatus.InternalServerError) {
       setErrorState(ErrorState.InternalServerError)
     } else if (response.status === DeviceResponseStatus.Ok) {
-      setPasscodeBlockedTime(response.data)
-      console.log("response", response.data)
+      updateBlockedTime(response.data?.phoneLockTime)
     }
   }
-
-  // useEffect(() => {
-  //   if (openModal) {
-  //     getDeviceLockTimeRequest()
-  //   }
-  // }, [openModal])
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
@@ -102,7 +101,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
     if (values[values.length - 1] !== "") {
       const code = values.map((value) => parseInt(value))
 
-      if (passcodeBlockedTime === undefined) {
+      if (openBlocked === undefined) {
         void unlockDeviceRequest(code)
       }
     } else {
@@ -141,7 +140,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
       updateValues={updateValues}
       openHelpWindow={openHelpWindow}
       onNotAllowedKeyDown={onNotAllowedKeyDown}
-      passcodeBlockedTime={passcodeBlockedTime}
+      passcodeBlockedTime={openBlocked}
     />
   )
 }

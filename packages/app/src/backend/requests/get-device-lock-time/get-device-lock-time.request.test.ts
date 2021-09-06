@@ -16,7 +16,9 @@ test("get device lock time returns properly value", async () => {
   const result = await pendingResponse
   expect(result).toMatchInlineSnapshot(`
     Object {
-      "data": 120,
+      "data": Object {
+        "phoneLockTime": 1630703219,
+      },
       "status": "ok",
     }
   `)

@@ -242,6 +242,7 @@ describe("fetching basic info data", () => {
           "networkName": "",
           "osUpdateDate": "12-12-2003",
           "osVersion": "0.123v",
+          "phoneLockTime": undefined,
           "serialNumber": undefined,
           "simCards": Array [
             Object {

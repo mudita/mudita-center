@@ -27,7 +27,7 @@ import { createModel } from "@rematch/core"
 import { RootState } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import updateOs from "Renderer/requests/update-os.request"
-// import getDeviceLockTime from "App/renderer/requests/get-device-lock-time.request"
+import getDeviceLockTime from "App/renderer/requests/get-device-lock-time.request"
 
 export const initialState: StoreValues = {
   deviceType: undefined,
@@ -44,7 +44,7 @@ export const initialState: StoreValues = {
   simCards: [],
   lastBackup: undefined,
   serialNumber: undefined,
-  phoneLockTime: undefined
+  phoneLockTime: undefined,
 }
 
 const basicInfo = createModel<RootModel>({
@@ -181,26 +181,40 @@ const basicInfo = createModel<RootModel>({
       async toggleDeviceUnlocked(
         deviceUnlocked: boolean,
         rootState: {
-          basicInfo: { initialDataLoaded: boolean; deviceUnlocked: boolean; phoneLockTime: number | undefined }
+          basicInfo: {
+            initialDataLoaded: boolean
+            deviceUnlocked: boolean
+            phoneLockTime: number | undefined
+          }
         }
       ) {
-        // const response = await getDeviceLockTime()
+        const response = await getDeviceLockTime()
         if (deviceUnlocked === rootState.basicInfo.deviceUnlocked) {
+          dispatch.basicInfo.update({
+            phoneLockTime: response.data?.phoneLockTime,
+          })
           return
         }
         if (!deviceUnlocked) {
           dispatch.basicInfo.update({
             deviceUnlocked,
             initialDataLoaded: false,
-            // phoneLockTime: response.data
+            phoneLockTime: response.data?.phoneLockTime,
           })
         } else {
-          // if (response.data === undefined) {
-            dispatch.basicInfo.update({ deviceUnlocked, phoneLockTime: undefined })
-          // }
+          if (response.data?.phoneLockTime === undefined) {
+            dispatch.basicInfo.update({
+              deviceUnlocked,
+              phoneLockTime: undefined,
+            })
+          }
         }
 
-        if (deviceUnlocked && !rootState.basicInfo.initialDataLoaded && !rootState.basicInfo.phoneLockTime) {
+        if (
+          deviceUnlocked &&
+          !rootState.basicInfo.initialDataLoaded &&
+          !rootState.basicInfo.phoneLockTime
+        ) {
           await dispatch.basicInfo.loadInitialData()
         }
       },
@@ -220,9 +234,6 @@ const basicInfo = createModel<RootModel>({
         }
         dispatch.basicInfo.updateUpdatingState(UpdatingState.Success)
       },
-      async handleDeviceLockEvent() {
-
-      }
     }
   },
   selectors: (slice: Slicer<typeof initialState>) => ({
@@ -234,6 +245,9 @@ const basicInfo = createModel<RootModel>({
     },
     deviceUnlocked() {
       return slice(({ deviceUnlocked }) => deviceUnlocked)
+    },
+    phoneLockTime() {
+      return slice(({ phoneLockTime }) => phoneLockTime)
     },
     updatingState() {
       return slice(({ updatingState }) => updatingState)

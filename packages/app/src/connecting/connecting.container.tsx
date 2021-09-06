@@ -13,6 +13,8 @@ import { RootState, select } from "Renderer/store"
 import { connect } from "react-redux"
 import PasscodeModal from "App/passcode-modal/passcode-modal.component"
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
+import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
+import { noop } from "Renderer/utils/noop"
 
 export const registerFirstPhoneConnection = (): void => {
   void updateAppSettings({ key: "pureNeverConnected", value: false })
@@ -20,11 +22,24 @@ export const registerFirstPhoneConnection = (): void => {
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
+const mapDispatchToProps = (dispatch: any) => ({
+  updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) =>
+    dispatch.basicInfo.update(updateInfo),
+})
+
 const Connecting: FunctionComponent<{
   initialDataLoaded: boolean
   deviceUnlocked: boolean | undefined
   initialModalsShowed: boolean
-}> = ({ initialDataLoaded, deviceUnlocked, initialModalsShowed }) => {
+  phoneLockTime: number | undefined
+  updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
+}> = ({
+  initialDataLoaded,
+  deviceUnlocked,
+  initialModalsShowed,
+  phoneLockTime,
+  updateBasicInfo = noop,
+}) => {
   useEffect(() => {
     if (simulatePhoneConnectionEnabled) {
       togglePhoneSimulation()
@@ -43,8 +58,6 @@ const Connecting: FunctionComponent<{
     if (deviceUnlocked === false && initialModalsShowed) {
       setDialogOpen(true)
     }
-    console.log("deviceUnlocked", deviceUnlocked)
-    console.log("initialModalsShowed", initialModalsShowed)
     return () => clearTimeout(timeout)
   }, [deviceUnlocked, initialModalsShowed, initialDataLoaded])
 
@@ -68,7 +81,12 @@ const Connecting: FunctionComponent<{
   }
   return (
     <>
-      <PasscodeModal openModal={dialogOpen} close={close} />
+      <PasscodeModal
+        openModal={dialogOpen}
+        close={close}
+        openBlocked={phoneLockTime}
+        updateBasicInfo={updateBasicInfo}
+      />
       <ConnectingContent onCancel={onCancel} />
     </>
   )
@@ -78,6 +96,7 @@ const selection = select((models: any) => ({
   deviceUnlocked: models.basicInfo.deviceUnlocked,
   initialDataLoaded: models.basicInfo.initialDataLoaded,
   initialModalsShowed: models.settings.initialModalsShowed,
+  phoneLockTime: models.basicInfo.phoneLockTime,
 }))
 
 const mapStateToProps = (state: RootState) => {
@@ -86,4 +105,4 @@ const mapStateToProps = (state: RootState) => {
   }
 }
 
-export default connect(mapStateToProps)(Connecting)
+export default connect(mapStateToProps, mapDispatchToProps)(Connecting)
