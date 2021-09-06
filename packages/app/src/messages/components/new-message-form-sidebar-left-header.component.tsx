@@ -9,7 +9,7 @@ import ReceiverInputSearch from "App/messages/components/receiver-input-search/r
 
 type ContactInputSearchProps = ComponentProps<typeof ReceiverInputSearch>
 
-interface Props extends ContactInputSearchProps {}
+type Props = ContactInputSearchProps
 
 const NewMessageFormSidebarLeftHeader: FunctionComponent<Props> = ({
   ...props

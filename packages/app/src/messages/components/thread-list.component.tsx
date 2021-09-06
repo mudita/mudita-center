@@ -354,7 +354,7 @@ const ThreadList: FunctionComponent<Props> = ({
         const placeholderRow = (ref: Ref<HTMLDivElement>) => (
           <ThreadRow ref={ref}>
             <Col />
-            <Col>
+            <Col data-testid={ThreadListTestIds.Row}>
               <AvatarPlaceholder />
               <TextPlaceholder charsCount={contact?.firstName?.length || 0} />
             </Col>

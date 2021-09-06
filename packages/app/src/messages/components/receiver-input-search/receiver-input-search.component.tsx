@@ -54,6 +54,7 @@ const ReceiverInputSearch: FunctionComponent<Props> = ({
   return (
     <ReceiverInputSelect
       type="search"
+      data-testid={ReceiverInputSelectTestIds.Input}
       outlined
       searchable
       items={results}
