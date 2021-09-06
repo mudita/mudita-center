@@ -12,9 +12,10 @@ import unlockDevice from "Renderer/requests/unlock-device.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getUnlockDeviceStatus from "Renderer/requests/get-unlock-device-status.request"
 
-export interface PasscodeModalProps {
+interface Props {
   openModal: boolean
   close: () => void
+  openBlocked?: number
 }
 
 enum ErrorState {
@@ -33,14 +34,14 @@ const ErrorMessageMap: Record<ErrorState, string> = {
 
 let timeoutId3: NodeJS.Timeout
 
-const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
+const PasscodeModal: FunctionComponent<Props> = ({
   openModal,
   close,
+  openBlocked,
 }) => {
   const initValue = ["", "", "", ""]
   const [errorState, setErrorState] = useState<ErrorState>(ErrorState.NoError)
   const [values, setValues] = useState<string[]>(initValue)
-  const [passcodeBlockedTime] = useState()
   const openHelpWindow = () => ipcRenderer.callMain(HelpActions.OpenWindow)
 
   const updateValues = (values: string[]): void => {
@@ -80,7 +81,10 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
 
     if (values[values.length - 1] !== "") {
       const code = values.map((value) => parseInt(value))
-      void unlockDeviceRequest(code)
+
+      if (openBlocked === undefined) {
+        void unlockDeviceRequest(code)
+      }
     } else {
       setErrorState(ErrorState.NoError)
     }
@@ -117,7 +121,7 @@ const PasscodeModal: FunctionComponent<PasscodeModalProps> = ({
       updateValues={updateValues}
       openHelpWindow={openHelpWindow}
       onNotAllowedKeyDown={onNotAllowedKeyDown}
-      passcodeBlockedTime={passcodeBlockedTime}
+      passcodeBlockedTime={openBlocked}
     />
   )
 }
