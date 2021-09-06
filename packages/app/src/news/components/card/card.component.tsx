@@ -14,7 +14,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import Image from "Renderer/components/core/image/image.component"
-import CommunityCommentsCount from "Renderer/components/rest/news/card/community-comments-count.component"
+import CommunityCommentsCount from "App/news/components/card/community-comments-count.component"
 import moment from "moment"
 
 const CardContainer = styled.div`

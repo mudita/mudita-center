@@ -4,8 +4,8 @@
  */
 
 import { Asset, Entry, EntryCollection } from "contentful"
-import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
-import { getBase64 } from "./get-base-64"
+import { NewsEntry } from "App/news/store/mudita-news.interface"
+import { getBase64 } from "./get-base64.helpers"
 
 export const normalizeContentfulData = async (
   data: EntryCollection<NewsEntry>
