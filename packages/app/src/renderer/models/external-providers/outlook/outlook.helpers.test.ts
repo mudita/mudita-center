@@ -28,8 +28,7 @@ test("getOutlookEndpoint returns proper value", () => {
 test("mapCalendars returns proper values", () => {
   const calendar: OutlookCalendar[] = [
     {
-      id:
-        "AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAIBBgAAAKDVfFOEmcdKhNFYkpYqCvYAAAAEnFEKAAAA",
+      id: "AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAIBBgAAAKDVfFOEmcdKhNFYkpYqCvYAAAAEnFEKAAAA",
       name: "Calendar",
       color: "lightPink",
       hexColor: "#e3008c",
@@ -47,8 +46,7 @@ test("mapCalendars returns proper values", () => {
   ]
   const calendarAfterMap = [
     {
-      id:
-        "AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAIBBgAAAKDVfFOEmcdKhNFYkpYqCvYAAAAEnFEKAAAA",
+      id: "AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAIBBgAAAKDVfFOEmcdKhNFYkpYqCvYAAAAEnFEKAAAA",
       name: "Calendar",
       primary: false,
       provider: "outlook",
@@ -93,8 +91,7 @@ test("mapWkst returns proper value", () => {
 test("mapEvents returns proper value", () => {
   const event: OutlookEvent[] = [
     {
-      id:
-        "AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAAEnBo4AAAAoNV8U4SZx0qE0ViSlioK9gAAAAwh-LYAAAA=",
+      id: "AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAAEnBo4AAAAoNV8U4SZx0qE0ViSlioK9gAAAAwh-LYAAAA=",
       subject: "recur",
       isAllDay: false,
       start: { dateTime: "2021-04-02T07:30:00.0000000", timeZone: "UTC" },
@@ -123,13 +120,11 @@ test("mapEvents returns proper value", () => {
   const output = [
     {
       endDate: "2021-04-02T08:00:00.000Z",
-      id:
-        "outlook_AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAAEnBo4AAAAoNV8U4SZx0qE0ViSlioK9gAAAAwh-LYAAAA=",
+      id: "outlook_AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAAEnBo4AAAAoNV8U4SZx0qE0ViSlioK9gAAAAwh-LYAAAA=",
       name: "recur",
       provider: {
         calendarId: "123",
-        id:
-          "AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAAEnBo4AAAAoNV8U4SZx0qE0ViSlioK9gAAAAwh-LYAAAA=",
+        id: "AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAAEnBo4AAAAoNV8U4SZx0qE0ViSlioK9gAAAAwh-LYAAAA=",
         type: "outlook",
       },
       recurrence: {

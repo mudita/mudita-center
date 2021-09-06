@@ -12,7 +12,7 @@ import {
   ListItem,
   RenderListItem,
 } from "Renderer/components/core/list/list.component"
-import InputSelect from "Renderer/components/core/input-select/input-select.component"
+import InputSearch from "Renderer/components/core/input-search/input-search.component"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { Contact } from "App/contacts/store/contacts.type"
 import { createFullName } from "App/contacts/store/contacts.helpers"
@@ -23,7 +23,7 @@ import Text, {
 
 const messages = defineMessages({
   searchPlaceholder: { id: "module.contacts.panelSearchPlaceholder" },
-  noNameProvided: { id: "module.contacts.panelSearchListNoNam " },
+  noNameProvided: { id: "module.contacts.panelSearchListNoName" },
   noDataProvided: { id: "module.contacts.panelSearchListNoData" },
 })
 
@@ -48,7 +48,7 @@ const ContactListItem = styled(ListItem)<{
       background-color: ${backgroundColor("minor")};
     `};
 `
-const ContactInputSelect = styled(InputSelect)`
+const ContactInputSelect = styled(InputSearch)`
   width: 28rem;
 `
 const ContactListItemName = styled(Text)`
@@ -125,37 +125,22 @@ export const secondParam = (contact: Contact, search: string): string => {
   }
   return intl.formatMessage(messages.noDataProvided)
 }
-export const isItemMatching = (contact: Contact, search: string): boolean => {
-  const query: (keyof Contact)[] = [
-    "firstName",
-    "lastName",
-    "primaryPhoneNumber",
-    "secondaryPhoneNumber",
-    "email",
-    "firstAddressLine",
-    "secondAddressLine",
-  ]
-  for (const key of query) {
-    const param: typeof contact[keyof typeof contact] = contact[key]
-    if (
-      param !== undefined &&
-      typeof param === "string" &&
-      param.toLowerCase().includes(search.toLowerCase())
-    ) {
-      return true
-    }
-  }
-  return false
+interface Props {
+  onContactSelect: (contact: Contact) => void
+  openSearchResults: () => void
+  showSearchResults?: boolean
+  searchValue: string
+  onSearchValueChange: (value: string) => void
+  results: Contact[]
 }
 
-export interface ContactInputSelectProps {
-  contacts: Contact[]
-  onContactSelect: (item: Contact) => void
-}
-
-const ContactInputSearch: FunctionComponent<ContactInputSelectProps> = ({
-  contacts,
+const ContactInputSearch: FunctionComponent<Props> = ({
   onContactSelect,
+  openSearchResults,
+  showSearchResults = false,
+  searchValue,
+  onSearchValueChange,
+  results,
   ...props
 }) => {
   const minCharsToShowResults = 1
@@ -163,12 +148,11 @@ const ContactInputSearch: FunctionComponent<ContactInputSelectProps> = ({
     <ContactInputSelect
       {...props}
       onSelect={onContactSelect}
-      items={contacts}
+      items={results}
       leadingIcons={[searchIcon]}
       label={intl.formatMessage(messages.searchPlaceholder)}
       renderItemValue={renderName}
       renderListItem={renderListItem}
-      isItemMatching={isItemMatching}
       type="search"
       outlined
       searchable
@@ -176,6 +160,10 @@ const ContactInputSearch: FunctionComponent<ContactInputSelectProps> = ({
       listStyles={css`
         max-height: 40rem;
       `}
+      openSearchResults={openSearchResults}
+      itemListDisabled={showSearchResults}
+      searchValue={searchValue}
+      onSearchValueChange={onSearchValueChange}
     />
   )
 }

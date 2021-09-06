@@ -16,18 +16,7 @@ import { ChartType } from "Renderer/components/rest/meditation/stats/meditation-
  */
 const getYAxisGradation = (maxTime: number) => {
   const grades = [
-    345600,
-    86400,
-    28800,
-    14400,
-    3600,
-    1800,
-    900,
-    300,
-    60,
-    30,
-    15,
-    5,
+    345600, 86400, 28800, 14400, 3600, 1800, 900, 300, 60, 30, 15, 5,
   ]
   for (const grade of grades) {
     if (maxTime >= grade * 5) {

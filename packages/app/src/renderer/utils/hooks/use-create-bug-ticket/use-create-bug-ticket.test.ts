@@ -15,7 +15,7 @@ import mockCreateFreshdeskTicket, {
 import { DependencyUseCreateBugTicket } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket"
 import { FreshdeskTicketData } from "App/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 
-const defaultDependency = ({
+const defaultDependency = {
   writeFile: jest.fn().mockReturnValue(Promise.resolve(true)),
   writeGzip: jest.fn().mockReturnValue(Promise.resolve(true)),
   getAppPath: jest.fn().mockReturnValue(""),
@@ -28,7 +28,7 @@ const defaultDependency = ({
   createFile: jest.fn().mockReturnValue({} as File),
   rmdir: jest.fn().mockReturnValue(Promise.resolve(true)),
   createFreshdeskTicket: mockCreateFreshdeskTicket,
-} as unknown) as DependencyUseCreateBugTicket
+} as unknown as DependencyUseCreateBugTicket
 
 const data: Omit<FreshdeskTicketData, "type" | "attachments"> = {
   email: "mudita@center.com",

@@ -43,17 +43,13 @@ const renderWithWaitFor = async (extraProps?: Partial<Props>) => {
 }
 
 test("form renders properly", async () => {
-  const {
-    emailInput,
-    descriptionInput,
-    fileList,
-    queryByTestId,
-  } = await renderWithWaitFor()
+  const { emailInput, descriptionInput, fileList, queryByTestId } =
+    await renderWithWaitFor()
 
   expect(emailInput).toBeInTheDocument()
   expect(descriptionInput).toBeInTheDocument()
   expect(fileList).toBeInTheDocument()
-  expect(queryByTestId(FileListTestIds.File)).toEqual(null)
+  expect(queryByTestId(FileListTestIds.File)).not.toBeInTheDocument()
 })
 
 test("validation works properly when email field empty", async () => {

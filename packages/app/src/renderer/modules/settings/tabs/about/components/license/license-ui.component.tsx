@@ -7,7 +7,13 @@ import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { LicenseComponentTestIds } from "./license-ui.enum"
-import { WindowContainer, WindowHeader, WindowTitle, LightText, LightTextNested } from "Renderer/modules/settings/tabs/about/components/shared"
+import {
+  WindowContainer,
+  WindowHeader,
+  WindowTitle,
+  LightText,
+  LightTextNested,
+} from "Renderer/modules/settings/tabs/about/components/shared"
 
 export const LicenseUI: FunctionComponent = () => (
   <WindowContainer data-testid={LicenseComponentTestIds.Wrapper}>

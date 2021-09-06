@@ -4,7 +4,6 @@
  */
 
 import {
-  isItemMatching,
   secondParam,
   renderPhoneNumber,
 } from "App/contacts/components/contact-input-search/contact-input-search.component"
@@ -54,98 +53,78 @@ const contacts: Contact[] = [
   },
 ]
 
-test("isItemMatching returns true when search string in email", () => {
-  const searchString = "example"
-  const result = isItemMatching(contacts[0], searchString)
-  expect(result).toBe(true)
+describe("secondParam", () => {
+  test("should return primaryNumber when search string match only name", () => {
+    const searchString = "Sławomir"
+    const result = secondParam(contacts[0], searchString)
+    expect(result).toBe("+71 195 069 214")
+  })
+
+  test("should return secondaryNumber when search string match only name and there is no primaryNumber", () => {
+    const searchString = "Oswald Bednar"
+    const result = secondParam(contacts[1], searchString)
+    expect(result).toBe("+62 761 294 266")
+  })
+
+  test("should return email when email contains name and searching string is name", () => {
+    const searchString = "Oswald"
+    const result = secondParam(contacts[1], searchString)
+    expect(result).toBe("oswald.bednar@mudita.com")
+  })
+
+  test("should return number when email don't contains name and searching string is name", () => {
+    const searchString = "Sławomir"
+    const result = secondParam(contacts[0], searchString)
+    expect(result).toBe("+71 195 069 214")
+  })
+
+  test("should return primaryNumber when search string match primaryNumber", () => {
+    const searchString = "7119"
+    const result = secondParam(contacts[0], searchString)
+    expect(result).toBe("+71 195 069 214")
+  })
+
+  test("should return secondaryNumber when search string match secondaryNumber", () => {
+    const searchString = "+62761294266"
+    const result = secondParam(contacts[1], searchString)
+    expect(result).toBe("+62 761 294 266")
+  })
+
+  test("should return address when search string match address", () => {
+    const searchString = "mal"
+    const result = secondParam(contacts[0], searchString)
+    expect(result).toBe("Malczewskiego 3, Warszawa")
+  })
+
+  test("should return email when search string match email and address", () => {
+    const searchString = "bednar"
+    const result = secondParam(contacts[2], searchString)
+    expect(result).toBe("oswald.bednar@mudita.com")
+  })
+
+  test("should return secondNumber when search string match email and address", () => {
+    const searchString = "bednar"
+    const result = secondParam(contacts[2], searchString)
+    expect(result).toBe("oswald.bednar@mudita.com")
+  })
+
+  test("should return no data provided when search string match only name and contact has no other params", () => {
+    const searchString = "oswald"
+    const result = secondParam(contacts[3], searchString)
+    expect(result).toBe("[value] module.contacts.panelSearchListNoData")
+  })
 })
 
-test("isItemMatching returns true when search string in primaryPhoneNumber", () => {
-  const searchString = "069"
-  const result = isItemMatching(contacts[0], searchString)
-  expect(result).toBe(true)
-})
+describe("renderPhoneNumber", () => {
+  test("should return formatted number with area code", () => {
+    const number = "+48123456789"
+    const result = renderPhoneNumber(number)
+    expect(result).toBe("+48 123 456 789")
+  })
 
-test("isItemMatching returns false when no match ", () => {
-  const searchString = "000"
-  const result = isItemMatching(contacts[0], searchString)
-  expect(result).toBe(false)
-})
-
-test("isItemMatching returns true when match and if contact don't have all params ", () => {
-  const searchString = "Bednarów 3"
-  const result = isItemMatching(contacts[3], searchString)
-  expect(result).toBe(false)
-})
-
-test("secondParam returns primaryNumber when search string match only name", () => {
-  const searchString = "Sławomir"
-  const result = secondParam(contacts[0], searchString)
-  expect(result).toBe("+71 195 069 214")
-})
-
-test("secondParam returns secondaryNumber when search string match only name and there is no primaryNumber", () => {
-  const searchString = "Oswald Bednar"
-  const result = secondParam(contacts[1], searchString)
-  expect(result).toBe("+62 761 294 266")
-})
-
-test("secondParam returns email when email contains name and searching string is name", () => {
-  const searchString = "Oswald"
-  const result = secondParam(contacts[1], searchString)
-  expect(result).toBe("oswald.bednar@mudita.com")
-})
-
-test("secondParam returns number when email don't contains name and searching string is name", () => {
-  const searchString = "Sławomir"
-  const result = secondParam(contacts[0], searchString)
-  expect(result).toBe("+71 195 069 214")
-})
-
-test("secondParam returns primaryNumber when search string match primaryNumber", () => {
-  const searchString = "7119"
-  const result = secondParam(contacts[0], searchString)
-  expect(result).toBe("+71 195 069 214")
-})
-
-test("secondParam returns secondaryNumber when search string match secondaryNumber", () => {
-  const searchString = "+62761294266"
-  const result = secondParam(contacts[1], searchString)
-  expect(result).toBe("+62 761 294 266")
-})
-
-test("secondParam returns address when search string match address", () => {
-  const searchString = "mal"
-  const result = secondParam(contacts[0], searchString)
-  expect(result).toBe("Malczewskiego 3, Warszawa")
-})
-
-test("secondParam returns email when search string match email and address", () => {
-  const searchString = "bednar"
-  const result = secondParam(contacts[2], searchString)
-  expect(result).toBe("oswald.bednar@mudita.com")
-})
-
-test("secondParam returns secondNumber when search string match email and address", () => {
-  const searchString = "bednar"
-  const result = secondParam(contacts[2], searchString)
-  expect(result).toBe("oswald.bednar@mudita.com")
-})
-
-test("secondParam returns no data provided when search string match only name and contact has no other params", () => {
-  const searchString = "oswald"
-  const result = secondParam(contacts[3], searchString)
-  expect(result).toBe("[value] module.contacts.panelSearchListNoData")
-})
-
-test("renderPhoneNumber returns formatted number with area code", () => {
-  const number = "+48123456789"
-  const result = renderPhoneNumber(number)
-  expect(result).toBe("+48 123 456 789")
-})
-
-test("renderPhoneNumber returns formatted number", () => {
-  const number = "123456789"
-  const result = renderPhoneNumber(number)
-  expect(result).toBe("123 456 789")
+  test("should return formatted number", () => {
+    const number = "123456789"
+    const result = renderPhoneNumber(number)
+    expect(result).toBe("123 456 789")
+  })
 })

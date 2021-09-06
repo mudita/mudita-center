@@ -1,45 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
-    <defs>
-        <path id="1xofx8tdzc" d="M0 0L8.682 0 8.682 7.675 0 7.675z"/>
-        <path id="0oalr31z9e" d="M0 0L8.682 0 8.682 7.585 0 7.585z"/>
-        <rect id="4bdo16pyfa" width="24" height="24" x="0" y="0" rx="4"/>
-    </defs>
-    <g fill="none" fill-rule="evenodd">
-        <g>
-            <g>
-                <g>
-                    <g>
-                        <g>
-                            <g>
-                                <g>
-                                    <g transform="translate(-526 -456) translate(450 204) translate(68 248) translate(8 4) translate(4 4)">
-                                        <mask id="a7umjfw2vb" fill="#fff">
-                                            <use xlink:href="#4bdo16pyfa"/>
-                                        </mask>
-                                        <g mask="url(#a7umjfw2vb)">
-                                            <g>
-                                                <g transform="translate(4 4) translate(7.31)">
-                                                    <mask id="88n4wsmvkd" fill="#fff">
-                                                        <use xlink:href="#1xofx8tdzc"/>
-                                                    </mask>
-                                                    <path fill="#FFF" fill-rule="nonzero" d="M.016 1.258C2.9.817 5.79.4 8.68 0c.002 2.533 0 5.064.002 7.596-2.888.011-5.776.055-8.666.065-.002-2.136-.002-4.27 0-6.403" mask="url(#88n4wsmvkd)"/>
-                                                </g>
-                                                <path fill="#FFF" fill-rule="nonzero" d="M0 2.28c2.172-.335 4.353-.625 6.534-.898l.004 6.3c-2.18-.001-4.359.032-6.538.026V2.28M0 8.37c2.178-.008 4.355.027 6.533.023 0 2.106.005 4.212.001 6.318C4.36 14.39 2.18 14.107 0 13.812V8.369" transform="translate(4 4)"/>
-                                                <g transform="translate(4 4) translate(7.31 8.447)">
-                                                    <mask id="g0gfonteqf" fill="#fff">
-                                                        <use xlink:href="#0oalr31z9e"/>
-                                                    </mask>
-                                                    <path fill="#FFF" fill-rule="nonzero" d="M.003.007H8.68c.004 2.525 0 5.05 0 7.578C5.796 7.153 2.906 6.752.016 6.36.012 4.243.006 2.126.003.007" mask="url(#g0gfonteqf)"/>
-                                                </g>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </g>
-                            </g>
-                        </g>
-                    </g>
-                </g>
-            </g>
-        </g>
-    </g>
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="5" y="5" width="38" height="38">
+<path d="M38 6H10C7.79086 6 6 7.79086 6 10V38C6 40.2091 7.79086 42 10 42H38C40.2091 42 42 40.2091 42 38V10C42 7.79086 40.2091 6 38 6Z" fill="black" stroke="black" stroke-width="2"/>
+</mask>
+<g mask="url(#mask0)">
+<path d="M22.8786 13.0401C27.5564 12.3244 32.2432 11.6501 36.93 10.9998C36.9329 15.1075 36.93 19.2121 36.9329 23.3196C32.2492 23.3376 27.5654 23.4088 22.8786 23.4237C22.8755 19.9605 22.8755 16.5003 22.8786 13.0401Z" fill="#FFF"/>
+<path d="M11 14.6974C14.5224 14.154 18.0598 13.6848 21.5972 13.242C21.6003 16.6487 21.6003 20.0526 21.6031 23.4592C18.0688 23.4564 14.5343 23.5096 11 23.5009V14.6974Z" fill="#FFF"/>
+<path d="M11 24.5732C14.5314 24.5611 18.0629 24.6177 21.5943 24.6118C21.5943 28.0272 21.6031 31.4429 21.5972 34.8586C18.0688 34.3358 14.5343 33.8784 11 33.4001V24.5732Z" fill="#FFF"/>
+<path d="M22.8592 24.7087C27.5519 24.7087 32.2415 24.7087 36.9314 24.7087C36.9374 28.8046 36.9314 32.9002 36.9314 36.9992C32.2536 36.2981 27.5668 35.6478 22.88 35.0121C22.8741 31.5786 22.8651 28.1452 22.8592 24.7087Z" fill="#FFF"/>
+</g>
 </svg>

@@ -4,7 +4,7 @@
  */
 
 import mockSerialPort from "../mock-serial-port"
-import PureNode, { PureDevice, RequestConfig } from "../index"
+import PureNode, { MuditaDevice, RequestConfig } from "../index"
 import {
   DeviceEventName,
   Endpoint,
@@ -12,7 +12,7 @@ import {
   ResponseStatus,
 } from "./device.types"
 
-let device: PureDevice
+let device: MuditaDevice
 
 beforeEach(async (done) => {
   mockSerialPort()

@@ -14,7 +14,7 @@ const renderer = (
   config = {
     openLicense: noop,
     openTermsOfService: noop,
-    openPrivacyPolicy: noop
+    openPrivacyPolicy: noop,
   }
 ) => renderWithThemeAndIntl(<AboutUI {...config} />)
 

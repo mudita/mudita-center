@@ -133,6 +133,7 @@ test("store returns initial state", () => {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
         "deviceConnected": false,
+        "deviceType": undefined,
         "deviceUnlocked": undefined,
         "initialDataLoaded": false,
         "lastBackup": undefined,
@@ -158,10 +159,8 @@ describe("connect to the already attached device", () => {
   })
 
   test("successful connect request doesn't have impact on rest properties", async () => {
-    const {
-      deviceConnected: prevDeviceConnected,
-      ...prevRest
-    } = store.getState().basicInfo
+    const { deviceConnected: prevDeviceConnected, ...prevRest } =
+      store.getState().basicInfo
     await store.dispatch.basicInfo.connect()
 
     const { deviceConnected, ...rest } = store.getState().basicInfo
@@ -229,6 +228,7 @@ describe("fetching basic info data", () => {
           "basicInfoDataState": 1,
           "batteryLevel": 9001,
           "deviceConnected": false,
+          "deviceType": undefined,
           "deviceUnlocked": undefined,
           "initialDataLoaded": false,
           "lastBackup": Object {
@@ -281,10 +281,8 @@ describe("connected event", () => {
   })
 
   test("connected event  doesn't have impact on rest properties", async () => {
-    const {
-      deviceConnected: prevDeviceConnected,
-      ...prevRest
-    } = store.getState().basicInfo
+    const { deviceConnected: prevDeviceConnected, ...prevRest } =
+      store.getState().basicInfo
     await store.dispatch.basicInfo.toggleDeviceConnected(true)
 
     const { deviceConnected, ...rest } = store.getState().basicInfo
@@ -368,10 +366,8 @@ describe("locked event", () => {
   })
 
   test("locked event doesn't have impact on rest properties", async () => {
-    const {
-      deviceUnlocked: prevDeviceUnlocked,
-      ...prevRest
-    } = store.getState().basicInfo
+    const { deviceUnlocked: prevDeviceUnlocked, ...prevRest } =
+      store.getState().basicInfo
     await store.dispatch.basicInfo.toggleDeviceUnlocked(false)
 
     const { deviceUnlocked, ...rest } = store.getState().basicInfo

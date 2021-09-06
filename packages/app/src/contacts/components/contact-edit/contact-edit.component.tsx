@@ -22,7 +22,10 @@ import InputCheckbox, {
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { useForm } from "react-hook-form"
-import { phoneNumberValidator } from "Renderer/utils/form-validators"
+import {
+  primaryPhoneNumberValidator,
+  secondaryPhoneNumberValidator,
+} from "Renderer/utils/form-validators"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import {
@@ -35,6 +38,7 @@ import {
 } from "App/contacts/components/contact-edit/contact-edit.styled"
 import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/contact-panel-test-ids.enum"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
+import { FormError } from "App/contacts/components/contacts/contacts.type"
 
 const messages = defineMessages({
   editTitle: { id: "module.contacts.editTitle" },
@@ -83,6 +87,7 @@ interface ContactEditProps {
   onSpeedDialSettingsOpen: () => void
   onSave: (contact: Contact) => void
   saving?: boolean
+  validationError?: FormError[]
 }
 
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
@@ -92,6 +97,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   onSave,
   onSpeedDialSettingsOpen,
   saving,
+  validationError,
   ...rest
 }) => {
   const {
@@ -100,6 +106,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     watch,
     formState: { errors },
     setValue,
+    setError,
   } = useForm({
     defaultValues: contact,
     mode: "onChange",
@@ -127,6 +134,17 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   useEffect(() => {
     handleSpeedDialSelect(contact?.speedDial)
   }, [contact?.speedDial])
+
+  useEffect(() => {
+    if (validationError && validationError.length) {
+      validationError.forEach(({ error, field }) => {
+        setError(field, {
+          type: "manual",
+          message: intl.formatMessage({ id: error }),
+        })
+      })
+    }
+  }, [validationError])
 
   const savingPossible =
     fields.firstName?.trim() ||
@@ -186,14 +204,20 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="tel"
               label={intl.formatMessage(messages.primaryNumber)}
-              {...register("primaryPhoneNumber", phoneNumberValidator)}
+              {...register(
+                "primaryPhoneNumber",
+                primaryPhoneNumberValidator(fields)
+              )}
               errorMessage={errors.primaryPhoneNumber?.message}
               data-testid={ContactEditTestIdsEnum.PrimaryNumber}
             />
             <Input
               type="tel"
               label={intl.formatMessage(messages.secondaryNumber)}
-              {...register("secondaryPhoneNumber", phoneNumberValidator)}
+              {...register(
+                "secondaryPhoneNumber",
+                secondaryPhoneNumberValidator(fields)
+              )}
               errorMessage={errors.secondaryPhoneNumber?.message}
               data-testid={ContactEditTestIdsEnum.SecondaryNumber}
             />
