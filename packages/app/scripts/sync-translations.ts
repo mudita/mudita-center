@@ -78,39 +78,46 @@ namespace SyncTranslation {
     }
   }
 
-  const addTranslation = async (values: InternalNewKey[], languageId: string) => {
+  const addTranslation = async (
+    values: InternalNewKey[],
+    languageId: string
+  ) => {
     for await (const item of values) {
-      const { data: keyData } = await axios.post(`${phraseUrl}/keys`, {
-        name: item.name,
-      }, {
-        ...axiosDevConfig,
-      })
+      const { data: keyData } = await axios.post(
+        `${phraseUrl}/keys`,
+        {
+          name: item.name,
+        },
+        {
+          ...axiosDevConfig,
+        }
+      )
 
-      return axios.post(`${phraseUrl}/translations`, {
-        key_id: keyData.id,
-        locale_id: languageId,
-        content: item.content,
-      }, {
-        ...axiosDevConfig,
-      })
-    }
-  }
-
-  const deleteTranslation = async (ids: string[]) => {
-    for await (const id of ids) {
-      await axios.delete(`${phraseUrl}/keys/${id}`, {
-        ...axiosDevConfig,
-      })
+      return axios.post(
+        `${phraseUrl}/translations`,
+        {
+          key_id: keyData.id,
+          locale_id: languageId,
+          content: item.content,
+        },
+        {
+          ...axiosDevConfig,
+        }
+      )
     }
   }
 
   const updateTranslation = async (values: ExternalKey[]) => {
     for await (const item of values) {
-      await axios.patch(`${phraseUrl}/translations/${item.id}`, {
-        content: item.content,
-      }, {
-        ...axiosDevConfig,
-      })
+      await axios.patch(
+        `${phraseUrl}/translations/${item.id}`,
+        {
+          content: item.content,
+        },
+        {
+          ...axiosDevConfig,
+        }
+      )
     }
   }
 
@@ -137,19 +144,27 @@ namespace SyncTranslation {
         const internalTranslations = await fs.readJsonSync(localesJsonPath)
         const externalTranslations = await getTranslations(language.id)
 
-        const addedKeysDiff = Object.keys(internalTranslations).reduce((acc: InternalNewKey[], value: string) => {
-          const externalTranslation = externalTranslations.find((item) => item.key.name === value)
+        const addedKeysDiff = Object.keys(internalTranslations).reduce(
+          (acc: InternalNewKey[], value: string) => {
+            const externalTranslation = externalTranslations.find(
+              (item) => item.key.name === value
+            )
 
-          if (!externalTranslation) {
-            acc.push({ name: value, content: internalTranslations[value] })
-          }
+            if (!externalTranslation) {
+              acc.push({ name: value, content: internalTranslations[value] })
+            }
 
-          return acc
-        }, [])
+            return acc
+          },
+          []
+        )
 
         const updatedKeysDiff = externalTranslations.reduce(
           (acc: ExternalKey[], value: ExternalKey) => {
-            if (internalTranslations.hasOwnProperty(value.key.name) && internalTranslations[value.key.name] !== value.content) {
+            if (
+              internalTranslations.hasOwnProperty(value.key.name) &&
+              internalTranslations[value.key.name] !== value.content
+            ) {
               acc.push({
                 ...value,
                 content: internalTranslations[value.key.name],
@@ -161,20 +176,8 @@ namespace SyncTranslation {
           []
         )
 
-        const removedKeysDiff = externalTranslations.reduce(
-          (acc: string[], value: ExternalKey) => {
-            if (!internalTranslations.hasOwnProperty(value.key.name)) {
-              acc.push(value.key.id)
-            }
-
-            return acc
-          },
-          []
-        )
-
         await addTranslation(addedKeysDiff, language.id)
         await updateTranslation(updatedKeysDiff)
-        await deleteTranslation(removedKeysDiff)
         await updateInternalTranslations(language.id, localesJsonPath)
       }
     } catch (error) {
