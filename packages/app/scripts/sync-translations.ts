@@ -107,20 +107,6 @@ namespace SyncTranslation {
     }
   }
 
-  const updateTranslation = async (values: ExternalKey[]) => {
-    for await (const item of values) {
-      await axios.patch(
-        `${phraseUrl}/translations/${item.id}`,
-        {
-          content: item.content,
-        },
-        {
-          ...axiosDevConfig,
-        }
-      )
-    }
-  }
-
   const updateInternalTranslations = async (
     languageId: string,
     filePath: string
@@ -159,25 +145,7 @@ namespace SyncTranslation {
           []
         )
 
-        const updatedKeysDiff = externalTranslations.reduce(
-          (acc: ExternalKey[], value: ExternalKey) => {
-            if (
-              internalTranslations.hasOwnProperty(value.key.name) &&
-              internalTranslations[value.key.name] !== value.content
-            ) {
-              acc.push({
-                ...value,
-                content: internalTranslations[value.key.name],
-              })
-            }
-
-            return acc
-          },
-          []
-        )
-
         await addTranslation(addedKeysDiff, language.id)
-        await updateTranslation(updatedKeysDiff)
         await updateInternalTranslations(language.id, localesJsonPath)
       }
     } catch (error) {
