@@ -13,6 +13,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { noop } from "Renderer/utils/noop"
+import { PasscodeLockedTestIds } from "App/passcode-modal/components/PasscodeLocked/passcode-locked-test-ids.enum"
 
 type Props = ComponentProps<typeof PasscodeModal>
 
@@ -34,6 +35,7 @@ const renderer = (extraProps?: Partial<Props>) => {
       modal.queryByTestId(PasscodeModalTestIds.PasscodeInputs),
     inputsList: () => modal.queryAllByTestId(InputTextTestIds.PasswordInput),
     errorMessage: () => modal.queryByTestId(PasscodeModalTestIds.ErrorMessage),
+    phoneLockedContainer: () => modal.queryByTestId(PasscodeLockedTestIds.Container)
   }
 }
 
@@ -64,7 +66,7 @@ test("Show typing error message", async () => {
   )
 })
 
-test("message is displayed properly when request about phone lock return internal server error", async () => {
+test("Message is displayed properly when request about phone lock return internal server error", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcRequest.UnlockDevice]: Promise.resolve({
       status: DeviceResponseStatus.InternalServerError,
@@ -82,7 +84,7 @@ test("message is displayed properly when request about phone lock return interna
   )
 })
 
-test("message is displayed properly when request about phone lock status return phone locked", async () => {
+test("Message is displayed properly when request about phone lock status return phone locked", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcRequest.UnlockDevice]: Promise.resolve({
       status: DeviceResponseStatus.Ok,
@@ -102,4 +104,9 @@ test("message is displayed properly when request about phone lock status return 
       "[value] component.passcodeModalError"
     )
   )
+})
+
+test("Modal should show phoneLocked info when phone have time block", () => {
+  const { phoneLockedContainer} = renderer({openBlocked: 16308881830})
+  expect(phoneLockedContainer()).toBeInTheDocument()
 })

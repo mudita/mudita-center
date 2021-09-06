@@ -188,26 +188,21 @@ const basicInfo = createModel<RootModel>({
           }
         }
       ) {
-        const response = await getDeviceLockTime()
-        if (deviceUnlocked === rootState.basicInfo.deviceUnlocked) {
-          dispatch.basicInfo.update({
-            phoneLockTime: response.data?.phoneLockTime,
-          })
+        if (deviceUnlocked && deviceUnlocked === rootState.basicInfo.deviceUnlocked) {
           return
         }
         if (!deviceUnlocked) {
+          const response = await getDeviceLockTime()
           dispatch.basicInfo.update({
             deviceUnlocked,
             initialDataLoaded: false,
             phoneLockTime: response.data?.phoneLockTime,
           })
         } else {
-          if (response.data?.phoneLockTime === undefined) {
             dispatch.basicInfo.update({
               deviceUnlocked,
               phoneLockTime: undefined,
             })
-          }
         }
 
         if (

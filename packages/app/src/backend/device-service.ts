@@ -22,6 +22,7 @@ import {
   Method,
   MuditaDevice,
   MuditaDeviceManager,
+  PhoneLockCategory,
   RequestConfig,
   Response,
   ResponseStatus,
@@ -155,7 +156,7 @@ class DeviceService {
 
       const isConfigEndpointSecurity = config.endpoint === Endpoint.Security
       const iSetPhoneLockOffEndpoint = isConfigEndpointSecurity && config.method === Method.Put
-      const isPhoneLockTimeEndpoint = isConfigEndpointSecurity && config.body.category === "phoneLockTime"
+      const isPhoneLockTimeEndpoint = isConfigEndpointSecurity && config.body.category === PhoneLockCategory.Time
       if (
         !(iSetPhoneLockOffEndpoint || isPhoneLockTimeEndpoint)
       ) {
@@ -244,7 +245,7 @@ class DeviceService {
     return this.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
-      body: {category: "phoneLockStatus"}
+      body: {category: PhoneLockCategory.Status}
     })
   }
 

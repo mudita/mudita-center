@@ -11,14 +11,11 @@ import { HelpActions } from "App/common/enums/help-actions.enum"
 import unlockDevice from "Renderer/requests/unlock-device.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getUnlockDeviceStatus from "Renderer/requests/get-unlock-device-status.request"
-import getDeviceLockTime from "Renderer/requests/get-device-lock-time.request"
-import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
-import { noop } from "Renderer/utils/noop"
+
 interface Props {
   openModal: boolean
   close: () => void
   openBlocked?: number
-  updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
 }
 
 enum ErrorState {
@@ -41,7 +38,6 @@ const PasscodeModal: FunctionComponent<Props> = ({
   openModal,
   close,
   openBlocked,
-  updateBasicInfo = noop,
 }) => {
   const initValue = ["", "", "", ""]
   const [errorState, setErrorState] = useState<ErrorState>(ErrorState.NoError)
@@ -50,10 +46,6 @@ const PasscodeModal: FunctionComponent<Props> = ({
 
   const updateValues = (values: string[]): void => {
     setValues(values)
-  }
-
-  const updateBlockedTime = (time?: number) => {
-    updateBasicInfo({ phoneLockTime: time })
   }
 
   const onNotAllowedKeyDown = (): void => {
@@ -66,16 +58,6 @@ const PasscodeModal: FunctionComponent<Props> = ({
 
   const getErrorMessage = (): string => {
     return ErrorMessageMap[errorState]
-  }
-
-  const getDeviceLockTimeRequest = async (): Promise<void> => {
-    const response = await getDeviceLockTime()
-
-    if (response.status === DeviceResponseStatus.InternalServerError) {
-      setErrorState(ErrorState.InternalServerError)
-    } else if (response.status === DeviceResponseStatus.Ok) {
-      updateBlockedTime(response.data?.phoneLockTime)
-    }
   }
 
   useEffect(() => {
@@ -91,7 +73,6 @@ const PasscodeModal: FunctionComponent<Props> = ({
           const { status } = await getUnlockDeviceStatus()
 
           if (status !== DeviceResponseStatus.Ok) {
-            getDeviceLockTimeRequest()
             setErrorState(ErrorState.BadPasscode)
           }
         }, 1000)

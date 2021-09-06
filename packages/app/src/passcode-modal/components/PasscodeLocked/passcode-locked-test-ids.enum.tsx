@@ -5,4 +5,5 @@
 
 export enum PasscodeLockedTestIds {
   Timer = "passcode-timer",
+  Container = "phone-locked-container"
 }

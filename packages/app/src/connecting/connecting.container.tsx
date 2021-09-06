@@ -14,7 +14,6 @@ import { connect } from "react-redux"
 import PasscodeModal from "App/passcode-modal/passcode-modal.component"
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
 import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
-import { noop } from "Renderer/utils/noop"
 
 export const registerFirstPhoneConnection = (): void => {
   void updateAppSettings({ key: "pureNeverConnected", value: false })
@@ -38,7 +37,6 @@ const Connecting: FunctionComponent<{
   deviceUnlocked,
   initialModalsShowed,
   phoneLockTime,
-  updateBasicInfo = noop,
 }) => {
   useEffect(() => {
     if (simulatePhoneConnectionEnabled) {
@@ -85,7 +83,6 @@ const Connecting: FunctionComponent<{
         openModal={dialogOpen}
         close={close}
         openBlocked={phoneLockTime}
-        updateBasicInfo={updateBasicInfo}
       />
       <ConnectingContent onCancel={onCancel} />
     </>

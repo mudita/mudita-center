@@ -60,7 +60,7 @@ const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
       return moment(endDate).fromNow() + "."
   }
   return (
-    <PasscodeLockedContainer>
+    <PasscodeLockedContainer data-testid={PasscodeLockedTestIds.Container}>
       <Title
         displayStyle={TextDisplayStyle.PrimaryHeading}
         message={{
