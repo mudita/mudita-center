@@ -245,6 +245,8 @@ const Messages: FunctionComponent<Props> = ({
       return content.length >= 115 ? previousValue : content
     })
   }
+  // FIXME: this is workaround because API now return threadID properly for new thread 1/3
+  const [newMessage, setNewMessage] = useState<Message>()
 
   const handleAddNewMessage = async (phoneNumber: string) => {
     const message = await addNewMessage({ content, phoneNumber })
@@ -256,9 +258,27 @@ const Messages: FunctionComponent<Props> = ({
         setActiveThread(thread)
         setTmpActiveThread(undefined)
         setMessagesState(MessagesState.ThreadDetails)
+      } else {
+        // FIXME: this is workaround because API now return threadID properly for new thread 2/3
+        setNewMessage(message)
       }
     }
   }
+
+  // FIXME: this is workaround because API now return threadID properly for new thread 3/3
+  useEffect(() => {
+    if(newMessage !== undefined){
+      const thread = threads[0]
+      if (thread) {
+        // open ThreadDetails
+        setContent("")
+        setActiveThread(thread)
+        setMessagesState(MessagesState.ThreadDetails)
+        setTmpActiveThread(undefined)
+        setNewMessage(undefined)
+      }
+    }
+  }, [newMessage, threads])
 
   const handleNewMessageSendClick = async (number: string) => {
     await handleAddNewMessage(number)

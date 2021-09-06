@@ -58,8 +58,8 @@ const mapDispatchToProps = ({ messages }: any) => ({
       )
       return undefined
     } else {
-      // messages.loadMessagesByThreadId(data.threadId)
-      await messages.loadMockedMessagesByThreadId(data)
+      await messages.loadData()
+      await messages.loadMessagesByThreadId(data.threadId)
       return data
     }
   },
