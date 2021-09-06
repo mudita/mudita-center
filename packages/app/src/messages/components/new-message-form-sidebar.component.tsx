@@ -10,8 +10,9 @@ import { Sidebar } from "Renderer/components/core/table/table.component"
 import NewMessageFormSidebarLeftHeader from "App/messages/components/new-message-form-sidebar-left-header.component"
 
 type SidebarProps = ComponentProps<typeof Sidebar>
-type NewMessageFormSidebarLeftHeaderProps = ComponentProps<
-  typeof NewMessageFormSidebarLeftHeader
+type NewMessageFormSidebarLeftHeaderProps = Omit<
+  ComponentProps<typeof NewMessageFormSidebarLeftHeader>,
+  "children"
 >
 
 interface Props extends SidebarProps, NewMessageFormSidebarLeftHeaderProps {}
@@ -20,6 +21,7 @@ const NewMessageFormSidebar: FunctionComponent<Props> = ({
   results,
   searchValue,
   onSearchValueChange,
+  onSearchEnterClick,
   children,
   ...props
 }) => {
@@ -33,6 +35,8 @@ const NewMessageFormSidebar: FunctionComponent<Props> = ({
           results={results}
           searchValue={searchValue}
           onSearchValueChange={onSearchValueChange}
+          onSearchEnterClick={onSearchEnterClick}
+          showSearchResults={results.length === 0}
         />
       }
       {...props}

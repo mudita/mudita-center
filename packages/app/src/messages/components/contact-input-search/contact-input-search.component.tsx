@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { ComponentProps } from "react"
 import styled, { css } from "styled-components"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -26,12 +26,15 @@ const ContactInputSelect = styled(InputSearch)`
   width: 28rem;
 `
 
-interface Props {
+type InputSearchProps = Omit<
+  ComponentProps<typeof InputSearch>,
+  "results" | "items" | "type"
+>
+
+interface Props extends InputSearchProps {
   results: Contact[]
   searchValue: string
   showSearchResults?: boolean
-  minCharsToShowResults?: number
-  onSearchValueChange: (value: string) => void
 }
 
 const ContactInputSearch: FunctionComponent<Props> = ({
@@ -44,8 +47,8 @@ const ContactInputSearch: FunctionComponent<Props> = ({
     <ContactInputSelect
       type="search"
       outlined
-      items={results}
       searchable
+      items={results}
       leadingIcons={[searchIcon]}
       label={intl.formatMessage(messages.searchPlaceholder)}
       renderItemValue={createFullName}

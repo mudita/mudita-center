@@ -89,7 +89,7 @@ export const secondParam = (contact: Contact, search: string): string => {
 }
 interface Props {
   onContactSelect: (contact: Contact) => void
-  openSearchResults: () => void
+  onSearchEnterClick: () => void
   showSearchResults?: boolean
   searchValue: string
   onSearchValueChange: (value: string) => void
@@ -98,7 +98,7 @@ interface Props {
 
 const ContactInputSearch: FunctionComponent<Props> = ({
   onContactSelect,
-  openSearchResults,
+  onSearchEnterClick,
   showSearchResults = false,
   searchValue,
   onSearchValueChange,
@@ -122,7 +122,7 @@ const ContactInputSearch: FunctionComponent<Props> = ({
       listStyles={css`
         max-height: 40rem;
       `}
-      openSearchResults={openSearchResults}
+      onSearchEnterClick={onSearchEnterClick}
       itemListDisabled={showSearchResults}
       searchValue={searchValue}
       onSearchValueChange={onSearchValueChange}

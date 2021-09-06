@@ -35,6 +35,7 @@ import {
 } from "App/messages/store/messages.interface"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
+import { mapToRawNumber } from "App/messages/helpers/get-receiver-identification"
 
 const deleteModalMessages = defineMessages({
   title: { id: "module.messages.deleteModalTitle" },
@@ -42,6 +43,15 @@ const deleteModalMessages = defineMessages({
     id: "module.messages.deleteModalBody",
   },
 })
+
+const mockThread: Thread = {
+  id: "tmpId",
+  contactId: "tmpId",
+  phoneNumber: "",
+  lastUpdatedAt: new Date(),
+  messageSnippet: "",
+  unread: false,
+}
 
 enum MessagesState {
   List,
@@ -54,6 +64,7 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   attachContactFlatList: Contact[]
   getMessagesByThreadId: (threadId: string) => Message[]
   getContact: (contactId: string) => Contact | undefined
+  getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
   isContactCreated: (id: string) => boolean
@@ -73,6 +84,7 @@ const Messages: FunctionComponent<Props> = ({
   attachContactFlatList,
   loadMessagesByThreadId,
   getMessagesResultMapStateByThreadId,
+  getContactByPhoneNumber,
   isContactCreated,
   addNewMessage,
 }) => {
@@ -229,6 +241,26 @@ const Messages: FunctionComponent<Props> = ({
     }
   }
 
+  const handlePhoneNumberSelect = (phoneNumber: string) => {
+    const thread = threads.find(
+      (thread) =>
+        mapToRawNumber(thread.phoneNumber) === mapToRawNumber(phoneNumber)
+    )
+
+    if (thread) {
+      setActiveThread(thread)
+      setMessagesState(MessagesState.ThreadDetails)
+    } else {
+      const tmpThread = { ...mockThread, phoneNumber }
+      const contact = getContactByPhoneNumber(phoneNumber)
+      if (contact) {
+        tmpThread.contactId = contact.id
+      }
+      setActiveThread(tmpThread)
+      setMessagesState(MessagesState.ThreadDetails)
+    }
+  }
+
   return (
     <>
       <MessagesPanel
@@ -274,8 +306,9 @@ const Messages: FunctionComponent<Props> = ({
             data-testid={MessagesTestIds.NewMessageForm}
             onClose={handleNewMessageFormClose}
             onAttachContactClick={openAttachContactModal}
-            onSendClick={handleNewMessageSendClick}
             onContentChange={handleContentChange}
+            onSendClick={handleNewMessageSendClick}
+            onPhoneNumberSelect={handlePhoneNumberSelect}
           />
         )}
       </TableWithSidebarWrapper>

@@ -16,8 +16,9 @@ type SidebarProps = ComponentProps<typeof Sidebar>
 
 interface Props extends SidebarProps {
   content: string
-  onSendClick: (phoneNumber: string) => void
   onContentChange: (content: string) => void
+  onSendClick: (phoneNumber: string) => void
+  onPhoneNumberSelect: (phoneNumber: string) => void
   onAttachContactClick: () => void
 }
 
@@ -26,6 +27,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
   onSendClick,
   onContentChange,
   onAttachContactClick,
+  onPhoneNumberSelect,
   ...props
 }) => {
   const [searchValue, setSearchValue] = useState("")
@@ -44,11 +46,18 @@ const NewMessageForm: FunctionComponent<Props> = ({
     }
   }
 
+  const handleSearchEnterClick = () => {
+    if (searchValue.match(phoneNumberRegexp)) {
+      onPhoneNumberSelect(searchValue)
+    }
+  }
+
   return (
     <NewMessageFormSidebar
       results={[]}
       searchValue={searchValue}
       onSearchValueChange={handleSearchValueChange}
+      onSearchEnterClick={handleSearchEnterClick}
       {...props}
     >
       <MessagesWrapper>

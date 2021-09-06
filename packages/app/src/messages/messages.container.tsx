@@ -19,6 +19,7 @@ import logger from "App/main/utils/logger"
 const selector = select(({ messages, contacts }) => ({
   threads: messages.filteredThreads,
   getContact: contacts.getContact,
+  getContactByPhoneNumber: contacts.getContactByPhoneNumber,
   getMessagesByThreadId: messages.getMessagesByThreadId,
   getMessagesResultMapStateByThreadId:
     messages.getMessagesResultMapStateByThreadId,
