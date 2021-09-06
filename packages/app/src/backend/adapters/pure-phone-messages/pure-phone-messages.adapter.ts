@@ -29,6 +29,7 @@ const initGetMessagesBody: GetMessagesBody = {
 
 type AcceptablePureMessageType =
   | PureMessageType.FAILED
+  | PureMessageType.QUEUED
   | PureMessageType.INBOX
   | PureMessageType.OUTBOX
 
@@ -70,21 +71,9 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
         data: PurePhoneMessages.mapToMessages(data),
       }
     } else {
-      // return {
-      //   status: DeviceResponseStatus.Error,
-      //   error: { message: "Add message: Something went wrong" },
-      // }
       return {
-        status: DeviceResponseStatus.Ok,
-        data: {
-          number: newMessage.number,
-          content: newMessage.content,
-          id: String(4),
-          date: new Date(),
-          contactId: String(1),
-          threadId: String(1),
-          messageType: MessageType.OUTBOX,
-        },
+        status: DeviceResponseStatus.Error,
+        error: { message: "Add message: Something went wrong" },
       }
     }
   }
@@ -215,6 +204,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   ): pureMessage is PureMessage & { messageType: AcceptablePureMessageType } {
     return (
       pureMessage.messageType === PureMessageType.FAILED ||
+      pureMessage.messageType === PureMessageType.QUEUED ||
       pureMessage.messageType === PureMessageType.INBOX ||
       pureMessage.messageType === PureMessageType.OUTBOX
     )
@@ -225,6 +215,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   ): MessageType {
     if (
       messageType === PureMessageType.FAILED ||
+      messageType === PureMessageType.QUEUED ||
       messageType === PureMessageType.OUTBOX
     ) {
       return MessageType.OUTBOX

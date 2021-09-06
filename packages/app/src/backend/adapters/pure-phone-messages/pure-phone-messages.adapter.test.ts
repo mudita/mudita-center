@@ -298,7 +298,7 @@ test("status is error when returned messages data is undefined ", async () => {
     }
   })
   const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
-    new DeviceService(PureDeviceManager, ipcMain)
+    new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const { status, data } = await purePhoneMessagesAdapter.addMessage(
     mockAddedNewMessageData
