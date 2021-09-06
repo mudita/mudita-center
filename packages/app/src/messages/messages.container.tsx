@@ -9,6 +9,7 @@ import { RootModel } from "Renderer/models/models"
 import Messages from "App/messages/components/messages/messages.component"
 import { select } from "Renderer/store"
 import {
+  Message,
   NewMessage,
   VisibilityFilter,
 } from "App/messages/store/messages.interface"
@@ -42,7 +43,9 @@ const mapDispatchToProps = ({ messages }: any) => ({
   toggleReadStatus: (ids: string[]) => messages.toggleReadStatus(ids),
   loadMessagesByThreadId: (threadId: string) =>
     messages.loadMessagesByThreadId(threadId),
-  addNewMessage: async (newMessage: NewMessage): Promise<void> => {
+  addNewMessage: async (
+    newMessage: NewMessage
+  ): Promise<Message | undefined> => {
     const { data, error } = await addMessage(newMessage)
     if (error || !data) {
       logger.error(
@@ -50,9 +53,11 @@ const mapDispatchToProps = ({ messages }: any) => ({
           error
         )}`
       )
+      return undefined
     } else {
       // messages.loadMessagesByThreadId(data.threadId)
       await messages.loadMockedMessagesByThreadId(data)
+      return data
     }
   },
 })

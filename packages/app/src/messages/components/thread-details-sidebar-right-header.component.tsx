@@ -19,7 +19,7 @@ interface Props {
   onCheckClick: () => void
 }
 
-const ThreadDetailsRightHeader: FunctionComponent<Props> = ({
+const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
   contactCreated,
   onContactClick,
   onDeleteClick,
@@ -66,4 +66,4 @@ const ThreadDetailsRightHeader: FunctionComponent<Props> = ({
   )
 }
 
-export default ThreadDetailsRightHeader
+export default ThreadDetailsSidebarRightHeader

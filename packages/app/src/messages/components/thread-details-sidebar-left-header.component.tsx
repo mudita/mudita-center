@@ -19,7 +19,7 @@ interface Props {
   callerNumber?: string
 }
 
-const ThreadDetailsLeftHeader: FunctionComponent<Props> = ({
+const ThreadDetailsSidebarLeftHeader: FunctionComponent<Props> = ({
   prettyCaller,
   callerIdentification = "",
   callerNumber = "",
@@ -55,4 +55,4 @@ const ThreadDetailsLeftHeader: FunctionComponent<Props> = ({
   )
 }
 
-export default ThreadDetailsLeftHeader
+export default ThreadDetailsSidebarLeftHeader

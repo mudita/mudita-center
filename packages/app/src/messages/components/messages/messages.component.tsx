@@ -10,7 +10,6 @@ import ThreadList from "App/messages/components/thread-list.component"
 import { ComponentProps as MessagesComponentProps } from "App/messages/components/messages/messages.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
-import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import ThreadDetails from "App/messages/components/thread-details.component"
 import MessagesPanel from "App/messages/components/messages-panel.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
@@ -29,11 +28,11 @@ import AttachContactModal from "App/messages/components/attach-contact-modal.com
 import { Contact } from "App/contacts/store/contacts.type"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import {
-  Thread,
+  Message,
   NewMessage,
   ResultState,
+  Thread,
 } from "App/messages/store/messages.interface"
-import { Message } from "App/messages/store/messages.interface"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 
@@ -54,11 +53,11 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   attachContactList: ContactCategory[]
   attachContactFlatList: Contact[]
   getMessagesByThreadId: (threadId: string) => Message[]
-  getContact: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact | undefined
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
   isContactCreated: (id: string) => boolean
-  addNewMessage: (newMessage: NewMessage) => Promise<void>
+  addNewMessage: (newMessage: NewMessage) => Promise<Message | undefined>
 }
 
 const Messages: FunctionComponent<Props> = ({
@@ -78,25 +77,14 @@ const Messages: FunctionComponent<Props> = ({
   addNewMessage,
 }) => {
   const [messagesState, setMessagesState] = useState(MessagesState.List)
-  const {
-    openSidebar,
-    closeSidebar,
-    activeRow: activeThread,
-  } = useTableSidebar<Thread>(
+  const [activeThread, setActiveThread] = useState<Thread | undefined>(
     findThreadBySearchParams(useURLSearchParams(), threads)
   )
+  const [content, setContent] = useState("")
 
   useEffect(() => {
-    if (
-      messagesState == MessagesState.ThreadDetails &&
-      activeThread === undefined
-    ) {
-      setMessagesState(MessagesState.List)
-    } else if (
-      messagesState !== MessagesState.ThreadDetails &&
-      activeThread !== undefined
-    ) {
-      setMessagesState(MessagesState.ThreadDetails)
+    if (activeThread !== undefined) {
+      loadMessagesByThreadId(activeThread.id)
     }
   }, [activeThread])
 
@@ -123,7 +111,7 @@ const Messages: FunctionComponent<Props> = ({
     const onDelete = () => {
       deleteThreads(ids)
       resetRows()
-      closeSidebar()
+      setActiveThread(undefined)
       modalService.closeModal()
     }
 
@@ -159,23 +147,85 @@ const Messages: FunctionComponent<Props> = ({
     )
   }
 
-  const handleAddNewMessage = async (newMessage: NewMessage) => {
-    await addNewMessage(newMessage)
-  }
-
   const handleNewMessageClick = () => {
-    closeSidebar()
+    setContent("")
     setMessagesState(MessagesState.NewMessage)
   }
 
   const handleNewMessageFormClose = () => {
+    setContent("")
+    setActiveThread(undefined)
     setMessagesState(MessagesState.List)
   }
 
   const handleThreadDetailsClose = () => {
-    closeSidebar()
-    if (messagesState === MessagesState.ThreadDetails) {
-      setMessagesState(MessagesState.List)
+    setContent("")
+    setActiveThread(undefined)
+    setMessagesState(MessagesState.List)
+  }
+
+  const handleThreadClick = (thread: Thread) => {
+    if (activeThread?.id !== thread.id) {
+      setContent("")
+      setActiveThread(thread)
+      setMessagesState(MessagesState.ThreadDetails)
+    }
+  }
+
+  const handleLoadMessagesClick = () => {
+    if (activeThread) {
+      loadMessagesByThreadId(activeThread.id)
+    }
+  }
+
+  const handleDeleteClick = () => {
+    if (activeThread) {
+      remove([activeThread.id])
+    }
+  }
+  const handleContactClick = () => {
+    if (activeThread) {
+      history.push(
+        createRouterPath(URL_MAIN.contacts, {
+          phoneNumber: activeThread.number,
+        })
+      )
+    }
+  }
+
+  const markAsUnread = () => {
+    if (activeThread) {
+      toggleReadStatus([activeThread.id])
+      handleThreadDetailsClose()
+    }
+  }
+
+  const handleContentChange = (content: string) => {
+    setContent((previousValue) => {
+      return content.length >= 115 ? previousValue : content
+    })
+  }
+
+  const handleAddNewMessage = async (number: string) => {
+    const message = await addNewMessage({ content, number })
+    if (message) {
+      const thread = threads.find(({ id }) => id === message.threadId)
+      if (thread) {
+        setContent("")
+        setActiveThread(thread)
+        setMessagesState(MessagesState.ThreadDetails)
+      }
+    }
+  }
+
+  const handleNewMessageSendClick = async (number: string) => {
+    await handleAddNewMessage(number)
+  }
+
+  const handleSendClick = async () => {
+    if (activeThread) {
+      const number = activeThread.number
+      await handleAddNewMessage(number)
     }
   }
 
@@ -189,7 +239,7 @@ const Messages: FunctionComponent<Props> = ({
       <TableWithSidebarWrapper>
         <ThreadList
           threads={threads}
-          openSidebar={openSidebar}
+          onThreadClick={handleThreadClick}
           activeThread={activeThread}
           getContact={getContact}
           onDeleteClick={removeSingleConversation}
@@ -202,28 +252,30 @@ const Messages: FunctionComponent<Props> = ({
         {messagesState === MessagesState.ThreadDetails && activeThread && (
           <ThreadDetails
             data-testid={MessagesTestIds.ThreadDetails}
-            onDeleteClick={removeSingleConversation}
-            onUnreadStatus={toggleReadStatus}
-            getMessagesByThreadId={getMessagesByThreadId}
-            getContact={getContact}
-            loadMessagesByThreadId={loadMessagesByThreadId}
-            getMessagesResultMapStateByThreadId={
-              getMessagesResultMapStateByThreadId
-            }
-            thread={activeThread}
-            onClose={handleThreadDetailsClose}
-            onContactClick={contactClick}
+            content={content}
+            number={activeThread.number}
+            contact={getContact(activeThread.contactId)}
+            messages={getMessagesByThreadId(activeThread.id)}
+            resultState={getMessagesResultMapStateByThreadId(activeThread.id)}
+            contactCreated={isContactCreated(activeThread.contactId)}
+            onLoadMessagesClick={handleLoadMessagesClick}
             onAttachContactClick={openAttachContactModal}
-            isContactCreated={isContactCreated}
-            onAddNewMessage={handleAddNewMessage}
+            onContactClick={handleContactClick}
+            onDeleteClick={handleDeleteClick}
+            onCheckClick={markAsUnread}
+            onClose={handleThreadDetailsClose}
+            onSendClick={handleSendClick}
+            onContentChange={handleContentChange}
           />
         )}
         {messagesState === MessagesState.NewMessage && (
           <NewMessageForm
+            content={content}
             data-testid={MessagesTestIds.NewMessageForm}
             onClose={handleNewMessageFormClose}
             onAttachContactClick={openAttachContactModal}
-            onAddNewMessage={handleAddNewMessage}
+            onSendClick={handleNewMessageSendClick}
+            onContentChange={handleContentChange}
           />
         )}
       </TableWithSidebarWrapper>

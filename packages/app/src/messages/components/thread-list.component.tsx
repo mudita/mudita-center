@@ -170,11 +170,11 @@ type SelectHook = Pick<
 
 interface Props extends SelectHook, Pick<AppSettings, "language"> {
   threads: Thread[]
-  openSidebar?: (thread: Thread) => void
+  onThreadClick?: (thread: Thread) => void
   activeThread?: Thread
   onDeleteClick: (id: string) => void
   onToggleReadStatus: (ids: string[]) => void
-  getContact: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact | undefined
   onContactClick: (phoneNumber: string) => void
   isContactCreated: (id: string) => boolean
 }
@@ -182,7 +182,7 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
 const ThreadList: FunctionComponent<Props> = ({
   activeThread,
   threads,
-  openSidebar = noop,
+  onThreadClick = noop,
   onDeleteClick,
   onToggleReadStatus,
   getRowStatus,
@@ -212,7 +212,7 @@ const ThreadList: FunctionComponent<Props> = ({
         const { selected, indeterminate } = getRowStatus(thread)
 
         const toggle = () => toggleRow(thread)
-        const open = () => openSidebar(thread)
+        const handleThreadClick = () => onThreadClick(thread)
         const active = activeThread?.id === id
         const emitDeleteClick = () => onDeleteClick(id)
         const toggleReadStatus = () => onToggleReadStatus([id])
@@ -234,7 +234,10 @@ const ThreadList: FunctionComponent<Props> = ({
                 size={AvatarSize.Big}
               />
             </AvatarCol>
-            <ThreadCol onClick={open} data-testid={ThreadListTestIds.Row}>
+            <ThreadCol
+              onClick={handleThreadClick}
+              data-testid={ThreadListTestIds.Row}
+            >
               <ThreadDataWrapper sidebarOpened={Boolean(activeThread)}>
                 <NameWrapper>
                   <Name displayStyle={TextDisplayStyle.LargeBoldText}>

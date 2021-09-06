@@ -4,23 +4,23 @@
  */
 
 import React from "react"
-import styled, { css } from "styled-components"
+import { css } from "styled-components"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
-import {
-  ListItem,
-  RenderListItem,
-} from "Renderer/components/core/list/list.component"
-import InputSearch from "Renderer/components/core/input-search/input-search.component"
+import { RenderListItem } from "Renderer/components/core/list/list.component"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { Contact } from "App/contacts/store/contacts.type"
 import { createFullName } from "App/contacts/store/contacts.helpers"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { formatPhoneNumber } from "App/contacts/helpers/format-phone-number/format-phone-number"
+import {
+  ContactInputSelect,
+  ContactListItem,
+  ContactListItemName,
+} from "App/contacts/components/contact-input-search/contact-input-search.styled"
 
 const messages = defineMessages({
   searchPlaceholder: { id: "module.contacts.panelSearchPlaceholder" },
@@ -28,34 +28,6 @@ const messages = defineMessages({
   noDataProvided: { id: "module.contacts.panelSearchListNoData" },
 })
 
-const ContactListItem = styled(ListItem)<{
-  active: boolean
-}>`
-  display: flex;
-  justify-content: space-between;
-  padding: 0.8rem 1.6rem;
-  :not(:last-of-type) {
-    border-bottom: none;
-  }
-  :first-of-type {
-    padding-top: 1.6rem;
-  }
-  :last-of-type {
-    padding-bottom: 1.6rem;
-  }
-  ${({ active }) =>
-    active &&
-    css`
-      background-color: ${backgroundColor("minor")};
-    `};
-`
-const ContactInputSelect = styled(InputSearch)`
-  width: 28rem;
-`
-const ContactListItemName = styled(Text)`
-  font-weight: 400;
-  margin-bottom: 0.4rem;
-`
 const renderListItem: RenderListItem<Contact> = ({
   item,
   searchString,
@@ -78,8 +50,6 @@ const renderListItem: RenderListItem<Contact> = ({
     </span>
   </ContactListItem>
 )
-
-const renderName = (contact: Contact) => createFullName(contact)
 
 export const secondParam = (contact: Contact, search: string): string => {
   const query: (keyof Contact)[] = [
@@ -143,7 +113,7 @@ const ContactInputSearch: FunctionComponent<Props> = ({
       items={results}
       leadingIcons={[searchIcon]}
       label={intl.formatMessage(messages.searchPlaceholder)}
-      renderItemValue={renderName}
+      renderItemValue={createFullName}
       renderListItem={renderListItem}
       type="search"
       outlined

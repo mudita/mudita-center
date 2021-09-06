@@ -3,61 +3,64 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ChangeEvent, useState } from "react"
+import React, { ChangeEvent, ComponentProps, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { NewMessage } from "App/messages/store/messages.interface"
-import {
-  MessagesSidebar,
-  MessagesWrapper,
-} from "App/messages/components/thread-details.styled"
+import { MessagesWrapper } from "App/messages/components/thread-details.styled"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 import ThreadDetailsTextArea from "App/messages/components/thread-details-text-area.component"
+import { phoneNumberRegexp } from "Renderer/utils/form-validators"
+import NewMessageFormSidebar from "App/messages/components/new-message-form-sidebar.component"
+import { Sidebar } from "Renderer/components/core/table/table.component"
 
-interface Props {
-  onClose: () => void
+type SidebarProps = ComponentProps<typeof Sidebar>
+
+interface Props extends SidebarProps {
+  content: string
+  onSendClick: (number: string) => void
+  onContentChange: (content: string) => void
   onAttachContactClick: () => void
-  onAddNewMessage: (newMessage: NewMessage) => void
 }
 
 const NewMessageForm: FunctionComponent<Props> = ({
-  onClose,
+  content,
+  onSendClick,
+  onContentChange,
   onAttachContactClick,
-  onAddNewMessage,
   ...props
 }) => {
-  const [value, setValue] = useState("")
-  const handleTextAreaChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setValue((previousValue) => {
-      return event.target.value.length >= 115
-        ? previousValue
-        : event.target.value
-    })
+  const [searchValue, setSearchValue] = useState("")
+
+  const handleSearchValueChange = (value: string): void => {
+    setSearchValue(value)
   }
-  const handleTextAreaSendClick = () => {
-    onAddNewMessage({
-      number: "thread.number",
-      content: value,
-    })
-    setValue("")
+
+  const handleTextAreaChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    onContentChange(event.target.value)
   }
+
+  const handleSendClick = (): void => {
+    if (searchValue.match(phoneNumberRegexp)) {
+      onSendClick(searchValue)
+    }
+  }
+
   return (
-    <MessagesSidebar
-      show
-      withBottomBorder
-      padded={false}
-      onClose={onClose}
+    <NewMessageFormSidebar
+      results={[]}
+      searchValue={searchValue}
+      onSearchValueChange={handleSearchValueChange}
       {...props}
     >
       <MessagesWrapper>
         <ThreadDetailsMessages messages={[]} />
       </MessagesWrapper>
       <ThreadDetailsTextArea
-        value={value}
-        onSendClick={handleTextAreaSendClick}
+        value={content}
+        onSendClick={handleSendClick}
         onChange={handleTextAreaChange}
         onAttachContactClick={onAttachContactClick}
       />
-    </MessagesSidebar>
+    </NewMessageFormSidebar>
   )
 }
 
