@@ -24,7 +24,7 @@
  * ```
  */
 
-const timeout = (ms: number): [Promise<void>, () => void] => {
+export const timeout = (ms: number): [Promise<void>, () => void] => {
   let timeoutId: NodeJS.Timeout
 
   const promise = new Promise<void>((resolve) => {
@@ -35,5 +35,3 @@ const timeout = (ms: number): [Promise<void>, () => void] => {
 
   return [promise, cancel]
 }
-
-export default timeout
