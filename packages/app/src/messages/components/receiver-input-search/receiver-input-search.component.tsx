@@ -13,6 +13,7 @@ import { searchIcon } from "Renderer/components/core/input-text/input-text.eleme
 import { Receiver } from "App/messages/store/messages.interface"
 import { createFullName } from "App/contacts/store/contacts.helpers"
 import { renderListItem } from "App/messages/components/receiver-input-search/receiver-input-search.helpers"
+import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
 
 const messages = defineMessages({
   searchPlaceholder: { id: "module.contacts.panelSearchPlaceholder" },
@@ -46,7 +47,6 @@ const ReceiverInputSearch: FunctionComponent<Props> = ({
   ...props
 }) => {
   const handleSelect = (receiver?: Receiver | string) => {
-    // FIXME: make onSelect more generic
     if (receiver !== undefined && typeof receiver !== "string") {
       onReceiverSelect(receiver)
     }

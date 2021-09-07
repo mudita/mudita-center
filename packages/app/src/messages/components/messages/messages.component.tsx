@@ -167,63 +167,56 @@ const Messages: FunctionComponent<Props> = ({
     )
   }
 
-  const handleNewMessageClick = () => {
-    if (tmpActiveThread === undefined || tmpActiveThread.phoneNumber !== mockThread.phoneNumber) {
-      // open new Message
-      setContent("")
-      setActiveThread(mockThread)
-      setTmpActiveThread(mockThread)
-      setMessagesState(MessagesState.NewMessage)
+  const openNewMessage = (): void => {
+    setContent("")
+    setActiveThread(mockThread)
+    setTmpActiveThread(mockThread)
+    setMessagesState(MessagesState.NewMessage)
+  }
+
+  const openThreadDetails = (thread: Thread): void => {
+    setContent("")
+    setActiveThread(thread)
+    setTmpActiveThread(undefined)
+    setMessagesState(MessagesState.ThreadDetails)
+  }
+
+  const closeSidebars = (): void => {
+    setContent("")
+    setActiveThread(undefined)
+    setTmpActiveThread(undefined)
+    setMessagesState(MessagesState.List)
+  }
+
+  const handleNewMessageClick = (): void => {
+    if (
+      tmpActiveThread === undefined ||
+      tmpActiveThread.phoneNumber !== mockThread.phoneNumber
+    ) {
+      openNewMessage()
     }
   }
 
-  const handleNewMessageFormClose = () => {
-    // open List
-    setContent("")
-    setActiveThread(undefined)
-    setTmpActiveThread(undefined)
-    setMessagesState(MessagesState.List)
-  }
-
-  const handleThreadDetailsClose = () => {
-    // open List
-    setContent("")
-    setActiveThread(undefined)
-    setTmpActiveThread(undefined)
-    setMessagesState(MessagesState.List)
-  }
-
-  const handleThreadClick = (thread: Thread) => {
+  const handleThreadClick = (thread: Thread): void => {
     if (activeThread?.id !== thread.id) {
-      // open ThreadDetails
-      setContent("")
-      setActiveThread(thread)
-      setTmpActiveThread(undefined)
-      setMessagesState(MessagesState.ThreadDetails)
+      openThreadDetails(thread)
     }
   }
 
-  const handleLoadMessagesClick = () => {
+  const handleLoadMessagesClick = (): void => {
     if (activeThread) {
       loadMessagesByThreadId(activeThread.id)
     }
   }
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (): void => {
     if (tmpActiveThread !== undefined) {
-      // open List
-      setContent("")
-      setTmpActiveThread(undefined)
-      setActiveThread(undefined)
-      setMessagesState(MessagesState.List)
-      return
-    }
-
-    if (activeThread) {
+      closeSidebars()
+    } else if (activeThread) {
       remove([activeThread.id])
     }
   }
-  const handleContactClick = () => {
+  const handleContactClick = (): void => {
     if (activeThread) {
       history.push(
         createRouterPath(URL_MAIN.contacts, {
@@ -233,14 +226,14 @@ const Messages: FunctionComponent<Props> = ({
     }
   }
 
-  const markAsUnread = () => {
+  const markAsUnread = (): void => {
     if (activeThread) {
       toggleReadStatus([activeThread.id])
-      handleThreadDetailsClose()
+      closeSidebars()
     }
   }
 
-  const handleContentChange = (content: string) => {
+  const handleContentChange = (content: string): void => {
     setContent((previousValue) => {
       return content.length >= 115 ? previousValue : content
     })
@@ -248,16 +241,12 @@ const Messages: FunctionComponent<Props> = ({
   // FIXME: this is workaround because API now return threadID properly for new thread 1/3
   const [newMessage, setNewMessage] = useState<Message>()
 
-  const handleAddNewMessage = async (phoneNumber: string) => {
+  const handleAddNewMessage = async (phoneNumber: string): Promise<void> => {
     const message = await addNewMessage({ content, phoneNumber })
     if (message) {
       const thread = threads.find(({ id }) => id === message.threadId)
       if (thread) {
-        // open ThreadDetails
-        setContent("")
-        setActiveThread(thread)
-        setTmpActiveThread(undefined)
-        setMessagesState(MessagesState.ThreadDetails)
+        openThreadDetails(thread)
       } else {
         // FIXME: this is workaround because API now return threadID properly for new thread 2/3
         setNewMessage(message)
@@ -267,15 +256,10 @@ const Messages: FunctionComponent<Props> = ({
 
   // FIXME: this is workaround because API now return threadID properly for new thread 3/3
   useEffect(() => {
-    if(newMessage !== undefined){
+    if (newMessage !== undefined) {
       const thread = threads[0]
       if (thread) {
-        // open ThreadDetails
-        setContent("")
-        setActiveThread(thread)
-        setMessagesState(MessagesState.ThreadDetails)
-        setTmpActiveThread(undefined)
-        setNewMessage(undefined)
+        openThreadDetails(thread)
       }
     }
   }, [newMessage, threads])
@@ -301,12 +285,10 @@ const Messages: FunctionComponent<Props> = ({
     )
 
     if (thread) {
-      // open ThreadDetails
       setActiveThread(thread)
       setTmpActiveThread(undefined)
       setMessagesState(MessagesState.ThreadDetails)
     } else {
-      // open ThreadDetails as new thread
       const tmpThread = { ...mockThread, phoneNumber, contactId: contactId }
       setTmpActiveThread(tmpThread)
       setActiveThread(tmpThread)
@@ -328,7 +310,7 @@ const Messages: FunctionComponent<Props> = ({
       return {
         contactId: mockThread.contactId,
         phoneNumber: activeThread.phoneNumber,
-        identification: ReceiverIdentification.unknown
+        identification: ReceiverIdentification.unknown,
       }
     } else {
       return getReceiver(activeThread.contactId)
@@ -376,7 +358,7 @@ const Messages: FunctionComponent<Props> = ({
             onContactClick={handleContactClick}
             onDeleteClick={handleDeleteClick}
             onCheckClick={markAsUnread}
-            onClose={handleThreadDetailsClose}
+            onClose={closeSidebars}
             onSendClick={handleSendClick}
             onContentChange={handleContentChange}
           />
@@ -390,7 +372,7 @@ const Messages: FunctionComponent<Props> = ({
             onSendClick={handleNewMessageSendClick}
             onPhoneNumberSelect={handlePhoneNumberSelect}
             onReceiverSelect={handleReceiverSelect}
-            onClose={handleNewMessageFormClose}
+            onClose={closeSidebars}
             onAttachContactClick={openAttachContactModal}
           />
         )}
