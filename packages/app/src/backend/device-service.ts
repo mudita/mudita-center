@@ -325,6 +325,7 @@ class DeviceService {
       }
     } else if (status === ResponseStatus.Conflict) {
       return {
+        data,
         error,
         status: DeviceResponseStatus.Duplicated,
       }
