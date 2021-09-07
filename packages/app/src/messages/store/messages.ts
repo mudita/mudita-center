@@ -236,6 +236,43 @@ const messages = createModel<RootModel>({
 
         messagesLoadMap[threadId] = false
       },
+      async loadMockedMessagesByThreadId(message: Message) {
+        const threadId = message.threadId
+        const messagesLoad = messagesLoadMap[threadId]
+
+        if (messagesLoad !== undefined && messagesLoad) {
+          return
+        }
+
+        messagesLoadMap[threadId] = true
+
+        dispatch.messages.setMessagesResultsMapState({
+          resultState: ResultState.Loading,
+          threadId,
+        })
+
+        const { data = [], error } = await getMessagesByThreadId(threadId)
+        if (error) {
+          logger.error(
+            `Messages: loads messages by thread fails. Data: ${JSON.stringify(
+              error
+            )}`
+          )
+
+          dispatch.messages.setMessagesResultsMapState({
+            resultState: ResultState.Error,
+            threadId,
+          })
+        } else {
+          dispatch.messages.updateMessages([...data, message])
+          dispatch.messages.setMessagesResultsMapState({
+            resultState: ResultState.Loaded,
+            threadId,
+          })
+        }
+
+        messagesLoadMap[threadId] = false
+      },
     }
   },
   selectors: (slice: Slicer<MessagesState>) => ({

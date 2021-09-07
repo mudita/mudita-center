@@ -4,36 +4,32 @@
  */
 
 import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
-import {
-  Message,
-  MessageType,
-  Thread,
-} from "App/messages/store/messages.interface"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
+import { Message, MessageType, NewMessage, Thread } from "App/messages/store/messages.interface"
+import DeviceResponse, { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
 import {
   Endpoint,
   GetMessagesBody,
   GetThreadsBody,
+  Message as PureMessage,
+  MessagesCategory as PureMessagesCategory,
+  MessageType as PureMessageType,
   Method,
   Thread as PureThread,
-  Message as PureMessage,
-  MessageType as PureMessageType,
 } from "@mudita/pure"
 
 const initGetThreadsBody: GetThreadsBody = {
-  category: "thread",
+  category: PureMessagesCategory.thread,
   limit: 15,
 }
 const initGetMessagesBody: GetMessagesBody = {
-  category: "message",
+  category: PureMessagesCategory.message,
   limit: 15,
 }
 
 type AcceptablePureMessageType =
   | PureMessageType.FAILED
+  | PureMessageType.QUEUED
   | PureMessageType.INBOX
   | PureMessageType.OUTBOX
 
@@ -50,6 +46,36 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     threadId: string
   ): Promise<DeviceResponse<Message[]>> {
     return this.loadAllMessagesInSingleRequest(threadId)
+  }
+
+  public async addMessage(
+    newMessage: NewMessage
+  ): Promise<DeviceResponse<Message>> {
+    const { status, data } = await this.deviceService.request({
+      body: {
+        number: newMessage.number,
+        messageBody: newMessage.content,
+        category: PureMessagesCategory.message,
+      },
+      endpoint: Endpoint.Messages,
+      method: Method.Post,
+    })
+
+    if (
+      status === DeviceResponseStatus.Ok &&
+      data !== undefined &&
+      PurePhoneMessages.isAcceptablePureMessageType(data)
+    ) {
+      return {
+        status: DeviceResponseStatus.Ok,
+        data: PurePhoneMessages.mapToMessages(data),
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Add message: Something went wrong" },
+      }
+    }
   }
 
   private async loadAllThreadsInSingleRequest(
@@ -178,6 +204,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   ): pureMessage is PureMessage & { messageType: AcceptablePureMessageType } {
     return (
       pureMessage.messageType === PureMessageType.FAILED ||
+      pureMessage.messageType === PureMessageType.QUEUED ||
       pureMessage.messageType === PureMessageType.INBOX ||
       pureMessage.messageType === PureMessageType.OUTBOX
     )
@@ -188,6 +215,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   ): MessageType {
     if (
       messageType === PureMessageType.FAILED ||
+      messageType === PureMessageType.QUEUED ||
       messageType === PureMessageType.OUTBOX
     ) {
       return MessageType.OUTBOX

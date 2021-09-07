@@ -13,6 +13,8 @@ import {
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 
+const production = process.env.NODE_ENV === "production"
+
 const showToggleableElement = keyframes`
   from {
     opacity: 0;
@@ -35,8 +37,11 @@ export const SearchInput = styled(InputText)`
   animation: ${showToggleableElement} ${transitionTime("veryQuick")} forwards
     ${transitionTimingFunction("standard")};
   width: 38rem;
-  /* TODO: Remove when add feature becomes available */
-  justify-self: end;
+  ${!production &&
+    css`
+      /* TODO: Remove when add feature becomes available */
+      justify-self: end;
+    `};
 `
 
 export const MessageSelectionManager = styled(SelectionManager)`
@@ -50,12 +55,12 @@ export const MessageSelectionManager = styled(SelectionManager)`
   }
 `
 
-export const MessageFiltersWrapper = styled(FiltersWrapper)<{
+const MessageFiltersWrapperDevelop = styled(FiltersWrapper)<{
   selectionMode: boolean
 }>`
   ${({ selectionMode }) =>
-    selectionMode &&
-    css`
+  selectionMode &&
+  css`
       grid-template-areas: "Search New";
       grid-template-columns: 1fr auto;
     `};
@@ -63,3 +68,12 @@ export const MessageFiltersWrapper = styled(FiltersWrapper)<{
   /* TODO: Remove when add feature becomes available */
   grid-template-areas: "Filters Search";
 `
+
+const MessageFiltersWrapperProduction = styled(FiltersWrapper)<{
+  selectionMode: boolean
+}>`
+  display: flex;
+  padding: 0 3rem 0 4rem;
+`
+
+export const MessageFiltersWrapper = production ? MessageFiltersWrapperProduction : MessageFiltersWrapperDevelop;

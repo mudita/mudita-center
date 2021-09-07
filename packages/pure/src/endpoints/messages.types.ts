@@ -3,6 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export enum MessagesCategory {
+  thread = "thread",
+  message = "message",
+}
+
 export interface Thread {
   contactID: number
   isUnread: boolean
@@ -15,7 +20,7 @@ export interface Thread {
 }
 
 export interface GetThreadsBody {
-  category: "thread"
+  category: MessagesCategory.thread
   limit?: number
   offset?: number
 }
@@ -47,7 +52,7 @@ export interface Message {
 }
 
 export interface GetMessagesBody {
-  category: "message"
+  category: MessagesCategory.message
   threadID?: number
   limit?: number
   offset?: number
@@ -58,3 +63,11 @@ export interface GetMessageResponseBody {
   totalCount: number
   nextPage?: { limit: number; offset: number }
 }
+
+export interface PostMessagesBody {
+  category: MessagesCategory.message
+  number: string
+  messageBody: string
+}
+
+export type PostMessagesResponseBody = Message

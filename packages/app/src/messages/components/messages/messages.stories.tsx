@@ -18,6 +18,16 @@ import {
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 import { ResultState } from "App/messages/store/messages.interface"
+import { action } from "@storybook/addon-actions"
+import history from "Renderer/routes/history"
+import { Router } from "react-router"
+
+const promiseAction =
+  (msg: string): ((...args: any[]) => Promise<void>) =>
+  (...args) => {
+    action(msg)(...args)
+    return Promise.resolve()
+  }
 
 export const attachContactFlatListData: Contact[] = [
   {
@@ -100,20 +110,25 @@ const getMessagesResultsMapStateByThreadId = () => ResultState.Loaded
 const isContactCreated = () => true
 
 storiesOf("Views|Messages", module).add("Messages", () => (
-  <div style={{ maxWidth: "97.5rem" }}>
-    <Messages
-      language={"en"}
-      threads={rowThreads}
-      searchValue={""}
-      attachContactList={attachContactListData}
-      attachContactFlatList={attachContactFlatListData}
-      getContact={getContact}
-      getMessagesByThreadId={getMessagesByThreadId}
-      getMessagesResultMapStateByThreadId={getMessagesResultsMapStateByThreadId}
-      isContactCreated={isContactCreated}
-      loadMessagesByThreadId={loadMessagesByThreadId}
-    />
-  </div>
+  <Router history={history}>
+    <div style={{ maxWidth: "97.5rem" }}>
+      <Messages
+        language={"en"}
+        threads={rowThreads}
+        searchValue={""}
+        attachContactList={attachContactListData}
+        attachContactFlatList={attachContactFlatListData}
+        getContact={getContact}
+        getMessagesByThreadId={getMessagesByThreadId}
+        getMessagesResultMapStateByThreadId={
+          getMessagesResultsMapStateByThreadId
+        }
+        isContactCreated={isContactCreated}
+        loadMessagesByThreadId={loadMessagesByThreadId}
+        addNewMessage={promiseAction("Add New Message")}
+      />
+    </div>
+  </Router>
 ))
 
 storiesOf("Views|Messages/Modals", module)

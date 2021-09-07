@@ -4,10 +4,8 @@
  */
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import React from "react"
-import ThreadDetails, {
-  ThreadDetailsProps,
-} from "App/messages/components/thread-details.component"
+import React, { ComponentProps } from "react"
+import ThreadDetails from "App/messages/components/thread-details.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
 import {
@@ -86,7 +84,9 @@ const messages: Message[] = [
   },
 ]
 
-const defaultProps: ThreadDetailsProps = {
+type Props = ComponentProps<typeof ThreadDetails>
+
+const defaultProps: Props = {
   onClose: jest.fn(),
   onDeleteClick: jest.fn(),
   onUnreadStatus: jest.fn(),
@@ -97,11 +97,12 @@ const defaultProps: ThreadDetailsProps = {
   loadMessagesByThreadId: jest.fn(),
   getMessagesResultMapStateByThreadId: jest.fn(),
   isContactCreated: jest.fn().mockReturnValue(true),
-  thread,
+  onAddNewMessage: jest.fn(),
+  thread
 }
 
-const renderer = (extraProps?: {}) => {
-  const props: ThreadDetailsProps = {
+const renderer = (extraProps?: Partial<Props>) => {
+  const props = {
     ...defaultProps,
     ...extraProps,
   }
@@ -172,11 +173,9 @@ test("show info about contact with multiple numbers", () => {
 })
 
 test("error text renders with retry button when thread won't load", () => {
-  const openErrorModal = jest.fn()
   const getMessagesResultMapStateByThreadId = jest.fn(() => ResultState.Error)
 
   const { getByTestId } = renderer({
-    openErrorModal,
     getMessagesResultMapStateByThreadId,
   })
 
@@ -193,11 +192,9 @@ test("loader renders when thread is loading", () => {
 })
 
 test("retry button tries to load thread again after initial call", () => {
-  const openErrorModal = jest.fn()
   const getMessagesResultMapStateByThreadId = jest.fn(() => ResultState.Error)
   const loadMessagesByThreadId = jest.fn()
   const { getByTestId } = renderer({
-    openErrorModal,
     getMessagesResultMapStateByThreadId,
     loadMessagesByThreadId,
   })
