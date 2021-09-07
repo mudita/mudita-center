@@ -66,17 +66,29 @@ export const mapThreadsToReceivers = (threads: Thread[]): Receiver[] => {
   }))
 }
 
+const isContactWithAnyNumber = (
+  contact: Contact
+): contact is
+  | (Contact & { primaryPhoneNumber: string })
+  | (Contact & { secondaryPhoneNumber: string }) => {
+  return (
+    isPhoneNumberValid(contact.primaryPhoneNumber) ||
+    isPhoneNumberValid(contact.secondaryPhoneNumber)
+  )
+}
+
 const isPhoneNumberValid = (phoneNumber = ""): phoneNumber is string => {
   return phoneNumber !== ""
 }
 
 export const mapContactsToReceivers = (contacts: Contact[]): Receiver[] => {
   return contacts
+    .filter(isContactWithAnyNumber)
     .map(
       ({
-        primaryPhoneNumber,
-        secondaryPhoneNumber,
         id,
+        primaryPhoneNumber = "",
+        secondaryPhoneNumber = "",
         firstName = "",
         lastName = "",
       }) => {
@@ -105,22 +117,14 @@ export const mapContactsToReceivers = (contacts: Contact[]): Receiver[] => {
           return [
             {
               phoneNumber: primaryPhoneNumber,
-              identification: ReceiverIdentification.primary,
-              ...contact,
-            },
-          ]
-        } else if (isPhoneNumberValid(secondaryPhoneNumber)) {
-          return [
-            {
-              phoneNumber: secondaryPhoneNumber,
-              identification: ReceiverIdentification.secondary,
+              identification: ReceiverIdentification.unknown,
               ...contact,
             },
           ]
         } else {
           return [
             {
-              phoneNumber: "",
+              phoneNumber: secondaryPhoneNumber,
               identification: ReceiverIdentification.unknown,
               ...contact,
             },
