@@ -22,6 +22,8 @@ import {
   RequestConfig,
   Response,
   ResponseStatus,
+  PostMessagesBody,
+  PostMessagesResponseBody,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
@@ -78,6 +80,11 @@ class DeviceService {
     method: Method.Get
     body: GetThreadsBody
   }): Promise<DeviceResponse<GetThreadResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Post
+    body: PostMessagesBody
+  }): Promise<DeviceResponse<PostMessagesResponseBody>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
