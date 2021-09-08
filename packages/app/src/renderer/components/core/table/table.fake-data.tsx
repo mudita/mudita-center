@@ -65,6 +65,7 @@ const createMessage = ({ id, contactId }: Thread): Message => {
     date: Faker.date.past(),
     content: Faker.lorem.sentences(2),
     threadId: id,
+    phoneNumber: id,
     messageType: Faker.datatype.boolean()
       ? MessageType.OUTBOX
       : MessageType.INBOX,
@@ -76,6 +77,7 @@ const createThread = (): Thread => {
   const threadId = contact.primaryPhoneNumber!
   return {
     id: threadId,
+    phoneNumber: threadId,
     contactId: contact.id,
     unread: Faker.datatype.boolean(),
     lastUpdatedAt: Faker.date.past(),

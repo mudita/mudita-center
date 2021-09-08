@@ -51,7 +51,7 @@ export const NameWrapper = styled.div`
   display: flex;
 `
 
-export const LeadingButton = styled(ButtonComponent).attrs(() => ({
+export const IconButton = styled(ButtonComponent).attrs(() => ({
   displayStyle: DisplayStyle.IconOnly2,
 }))`
   ${buttonComponentAnimationStyles};
