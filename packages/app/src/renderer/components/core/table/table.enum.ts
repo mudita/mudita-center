@@ -4,5 +4,6 @@
  */
 
 export enum TableTestIds {
-  Sidebar = "sidebar",
+  Sidebar = "table-sidebar",
+  SidebarClose = "table-sidebar-close",
 }
