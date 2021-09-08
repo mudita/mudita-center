@@ -4,6 +4,7 @@
  */
 
 import { Caller } from "Renderer/models/calls/calls.interface"
+import { Contact } from "App/contacts/store/contacts.type"
 
 export enum VisibilityFilter {
   All = "all",
@@ -29,15 +30,19 @@ export interface Message {
   date: Date
   content: string
   contactId: string
+  phoneNumber: string
   threadId: string
   messageType: MessageType
 }
+
+export type NewMessage = Pick<Message, "phoneNumber" | "content">
 
 export type MessageMap = { [id: string]: Message }
 
 export interface Thread {
   id: string
   contactId: string
+  phoneNumber: string
   lastUpdatedAt: Date
   messageSnippet: string
   unread: boolean
@@ -56,3 +61,15 @@ export type MessagesState = Readonly<{
   resultState: ResultState
   messagesResultStateMap: { [id: string]: ResultState }
 }>
+
+export enum ReceiverIdentification {
+  unknown,
+  primary,
+  secondary,
+}
+
+export interface Receiver extends Pick<Contact, "firstName" | "lastName"> {
+  contactId: string
+  phoneNumber: string
+  identification: ReceiverIdentification
+}

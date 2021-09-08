@@ -111,6 +111,12 @@ jest.mock("Renderer/requests/change-sim.request", () =>
   }))
 )
 
+jest.mock("Renderer/requests/get-device-lock-time.request", () =>
+  jest.fn(() => ({
+    status: DeviceResponseStatus.PhoneLocked,
+  }))
+)
+
 const storeConfig = {
   models: { basicInfo },
   plugins: [selectPlugin()],
@@ -144,6 +150,7 @@ test("store returns initial state", () => {
         "networkName": "",
         "osUpdateDate": "",
         "osVersion": undefined,
+        "phoneLockTime": undefined,
         "serialNumber": undefined,
         "simCards": Array [],
         "updatingState": 0,
@@ -242,6 +249,7 @@ describe("fetching basic info data", () => {
           "networkName": "",
           "osUpdateDate": "12-12-2003",
           "osVersion": "0.123v",
+          "phoneLockTime": undefined,
           "serialNumber": undefined,
           "simCards": Array [
             Object {

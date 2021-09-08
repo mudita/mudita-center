@@ -40,8 +40,12 @@ jest.mock("Renderer/requests/get-messages-by-thread-id.request", () =>
 
 const contact = createFakeContact()
 
+const firstThreadId = "1"
+const secondThreadId = "2"
+
 const mockThread: Thread = {
-  id: contact.primaryPhoneNumber!,
+  id: firstThreadId,
+  phoneNumber: contact.primaryPhoneNumber!,
   contactId: contact.id,
   lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
   messageSnippet:
@@ -52,7 +56,8 @@ const mockThread: Thread = {
 const mockThreads: Thread[] = [
   mockThread,
   {
-    id: contact.secondaryPhoneNumber!,
+    id: secondThreadId,
+    phoneNumber: contact.secondaryPhoneNumber!,
     contactId: contact.id,
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
@@ -66,7 +71,8 @@ const mockMessage: Message = {
   date: new Date("2019-10-18T11:27:15.256Z"),
   content:
     "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-  threadId: contact.primaryPhoneNumber!,
+  threadId: firstThreadId,
+  phoneNumber: contact.primaryPhoneNumber!,
   contactId: contact.id,
   messageType: MessageType.INBOX,
 }
@@ -77,7 +83,8 @@ const mockMessages: Message[] = [
     date: new Date("2019-10-18T11:27:15.256Z"),
     content:
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-    threadId: contact.primaryPhoneNumber!,
+    threadId: firstThreadId,
+    phoneNumber: contact.primaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.INBOX,
   },
@@ -86,7 +93,8 @@ const mockMessages: Message[] = [
     date: new Date("2019-10-18T12:27:15.256Z"),
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    threadId: contact.primaryPhoneNumber!,
+    threadId: firstThreadId,
+    phoneNumber: contact.primaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.INBOX,
   },
@@ -400,12 +408,12 @@ test("clear the previous state for thread messages", () => {
   store.dispatch.messages.updateMessages(mockMessages)
   expect(Object.keys(store.getState().messages.messageMap)).toHaveLength(2)
   expect(
-    store.getState().messages.messageIdsInThreadMap[contact.primaryPhoneNumber!]
+    store.getState().messages.messageIdsInThreadMap[firstThreadId]
   ).toHaveLength(2)
   //open messages after deleting one message on Pure
   store.dispatch.messages.updateMessages([mockMessage])
   expect(Object.keys(store.getState().messages.messageMap)).toHaveLength(1)
   expect(
-    store.getState().messages.messageIdsInThreadMap[contact.primaryPhoneNumber!]
+    store.getState().messages.messageIdsInThreadMap[firstThreadId]
   ).toHaveLength(1)
 })

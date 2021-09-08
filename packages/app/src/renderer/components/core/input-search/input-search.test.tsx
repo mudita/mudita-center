@@ -18,7 +18,7 @@ const renderInputSearch = ({ ...props }: Partial<InputSearchProps> = {}) => {
     <InputSearch
       searchValue={"x"}
       onSearchValueChange={jest.fn}
-      openSearchResults={jest.fn}
+      onSearchEnterClick={jest.fn}
       items={basicItems}
       {...props}
     />
@@ -132,15 +132,15 @@ test("select input by enter returns selected list item", () => {
 })
 
 test("Enter on search input should open search results", () => {
-  const openSearchResults = jest.fn()
-  const { input } = renderInputSearch({ openSearchResults })
+  const onSearchEnterClick = jest.fn()
+  const { input } = renderInputSearch({ onSearchEnterClick })
   fireEvent.keyDown(input(), {
     key: "Enter",
     code: "Enter",
     keyCode: 13,
     charCode: 13,
   })
-  expect(openSearchResults).toBeCalled()
+  expect(onSearchEnterClick).toBeCalled()
 })
 
 test("Open search results should close search dropdown list", () => {

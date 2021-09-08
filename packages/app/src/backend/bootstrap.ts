@@ -14,6 +14,7 @@ import registerConnectDeviceRequest from "Backend/requests/connect-device/connec
 import registerDisconnectDeviceRequest from "Backend/requests/disconnect-device/disconnect-device.request"
 import registerUnlockDeviceRequest from "Backend/requests/unlock-device/unlock-device.request"
 import registerGetUnlockDeviceStatus from "Backend/requests/get-unlock-device-status/get-unlock-device-status.request"
+import registerGetDeviceLockTime from "Backend/requests/get-device-lock-time/get-device-lock-time.request"
 import registerNetworkInfoRequest from "Backend/requests/network/get-network-info.request"
 import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storage-info.request"
 import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.request"
@@ -28,6 +29,7 @@ import registerUpdateOsRequest from "Backend/requests/update-os/update-os.reques
 import registerGetEventsRequest from "Backend/requests/calendar/get-events.request"
 import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
 import registerGetMessagesByThreadIdRequest from "Backend/requests/messages/get-messages-by-thread-id.request"
+import registerAddMessageRequest from "Backend/requests/messages/add-message.request"
 import registerGetDeviceLogs from "Backend/requests/get-device-logs/get-device-logs.request"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
@@ -71,6 +73,7 @@ const bootstrap = (
     registerDisconnectDeviceRequest,
     registerUnlockDeviceRequest,
     registerGetUnlockDeviceStatus,
+    registerGetDeviceLockTime,
     registerChangeSimCardRequest,
     registerGetContactsRequest,
     registerAddContactRequest,
@@ -84,6 +87,7 @@ const bootstrap = (
     registerGetEventsRequest,
     registerGetThreadsRequest,
     registerGetMessagesByThreadIdRequest,
+    registerAddMessageRequest,
     registerGetDeviceLogs,
   ]
 
