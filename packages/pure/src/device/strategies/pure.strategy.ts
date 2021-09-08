@@ -17,6 +17,8 @@ import {
   Contact,
   DeviceInfo,
   DownloadFileSystemRequestConfig,
+  GetFileListBody,
+  GetFileListResponseBody,
   GetFileSystemRequestConfig,
   GetThreadResponseBody,
   PutFileSystemErrorResponse,
@@ -35,7 +37,6 @@ import {
   GetFileSystemErrorResponse,
   GetFileSystemResponse,
 } from "../../endpoints/file-system"
-import { GetFileListBody, GetFileListResponseBody } from "../../../dist"
 
 export class PureStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()

@@ -68,7 +68,8 @@ export interface DeviceInfo {
   networkStatus: NetworkStatus
   serialNumber: string
 }
-enum DiagnosticsFileList {
+
+export enum DiagnosticsFileList {
   LOGS,
   CRASH_DUMPS,
   TDB,
