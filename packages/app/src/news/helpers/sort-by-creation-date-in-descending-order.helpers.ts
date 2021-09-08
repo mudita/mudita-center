@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
+import { NewsEntry } from "App/news/store/mudita-news.interface"
 
 export const sortByCreationDateInDescendingOrder = (newsItems: NewsEntry[]) => {
   return newsItems.sort((firstId, secondId) => {

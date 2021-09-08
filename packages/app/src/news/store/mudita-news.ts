@@ -4,12 +4,12 @@
  */
 
 import { RootState } from "Renderer/store"
-import { Store } from "Renderer/models/mudita-news/mudita-news.interface"
+import { createModel } from "@rematch/core"
 import { Slicer } from "@rematch/select"
-import { sortByCreationDateInDescendingOrder } from "Renderer/models/mudita-news/sort-by-creation-date-in-descending-order"
+import { Store } from "App/news/store/mudita-news.interface"
+import { sortByCreationDateInDescendingOrder } from "App/news/helpers/sort-by-creation-date-in-descending-order.helpers"
 import { getNews, initNews } from "Renderer/requests/get-news.request"
 import { DefaultNewsItems } from "App/main/default-news-item"
-import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
 
 const initialState: Store = {

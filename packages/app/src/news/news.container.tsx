@@ -6,7 +6,7 @@
 import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
 import { select } from "Renderer/store"
-import News from "Renderer/modules/news/news-ui.component"
+import News from "App/news/components/news/news.component"
 import { DefaultNewsItems } from "App/main/default-news-item"
 
 const selection = select((models: any) => ({
