@@ -34,6 +34,7 @@ export enum ResponseStatus {
   // lib status
   ConnectionError = 503,
   ParserError = 504,
+  Timeout = 505,
 }
 
 export type ResponseErrorCode = number

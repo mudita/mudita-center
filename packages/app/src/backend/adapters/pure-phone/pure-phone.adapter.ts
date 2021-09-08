@@ -3,14 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, GetPhoneLockTimeResponseBody, Method, PhoneLockCategory } from "@mudita/pure"
+import { Endpoint, GetPhoneLockTimeResponseBody, Method, PhoneLockCategory, timeout } from "@mudita/pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
-import timeout from "Backend/timeout"
 import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 
 export enum DeviceUpdateError {
