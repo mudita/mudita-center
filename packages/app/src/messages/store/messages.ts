@@ -325,9 +325,9 @@ const messages = createModel<RootModel>({
       return createSelector(
         models.messages.getReceivers,
         (receivers: Receiver[]) => {
-          return (contactId: string) => {
+          return (contactId: string, phoneNumber: string) => {
             return receivers.find(
-              (receiver) => receiver.contactId === contactId
+              (receiver) => receiver.contactId === contactId && receiver.phoneNumber === phoneNumber
             )
           }
         }

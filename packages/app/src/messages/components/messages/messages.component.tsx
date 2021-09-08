@@ -67,7 +67,7 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   attachContactFlatList: Contact[]
   getMessagesByThreadId: (threadId: string) => Message[]
   getContact: (contactId: string) => Contact | undefined
-  getReceiver: (contactId: string) => Receiver
+  getReceiver: (contactId: string, phoneNumber: string) => Receiver
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
@@ -238,7 +238,8 @@ const Messages: FunctionComponent<Props> = ({
       return content.length >= 115 ? previousValue : content
     })
   }
-  // FIXME: this is workaround because API now return threadID properly for new thread 1/3
+  // FIXME: this is workaround because API no return threadID properly for new thread 1/3
+  // FIXME: https://appnroll.atlassian.net/browse/CP-563
   const [newMessage, setNewMessage] = useState<Message>()
 
   const handleAddNewMessage = async (phoneNumber: string): Promise<void> => {
@@ -248,18 +249,21 @@ const Messages: FunctionComponent<Props> = ({
       if (thread) {
         openThreadDetails(thread)
       } else {
-        // FIXME: this is workaround because API now return threadID properly for new thread 2/3
+        // FIXME: this is workaround because API no return threadID properly for new thread 2/3
+        // FIXME: https://appnroll.atlassian.net/browse/CP-563
         setNewMessage(message)
       }
     }
   }
 
-  // FIXME: this is workaround because API now return threadID properly for new thread 3/3
+  // FIXME: this is workaround because API no return threadID properly for new thread 3/3
+  // FIXME: https://appnroll.atlassian.net/browse/CP-563
   useEffect(() => {
     if (newMessage !== undefined) {
       const thread = threads[0]
       if (thread) {
         openThreadDetails(thread)
+        setNewMessage(undefined)
       }
     }
   }, [newMessage, threads])
@@ -308,12 +312,12 @@ const Messages: FunctionComponent<Props> = ({
   const getViewReceiver = (activeThread: Thread): Receiver => {
     if (activeThread.contactId === mockThread.contactId) {
       return {
-        contactId: mockThread.contactId,
+        contactId: activeThread.contactId,
         phoneNumber: activeThread.phoneNumber,
         identification: ReceiverIdentification.unknown,
       }
     } else {
-      return getReceiver(activeThread.contactId)
+      return getReceiver(activeThread.contactId, activeThread.phoneNumber)
     }
   }
 
