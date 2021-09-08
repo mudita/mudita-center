@@ -14,7 +14,7 @@ type Props = ComponentProps<typeof MessageBubble>
 
 const emptyUser = { firstName: "", lastName: "", id: "" }
 const defaultProps: Props = {
-  user: { firstName: "user", lastName: "userowski", id: "0" },
+  user: { firstName: "user", lastName: "userowski" },
   date: new Date(),
   id: "123",
   message: "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae"

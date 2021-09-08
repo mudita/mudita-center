@@ -11,6 +11,7 @@ import {
   MessageIdsInThreadMap,
   MessageMap,
   MessagesState,
+  Receiver,
   ResultState,
   Thread,
   ThreadMap,
@@ -23,6 +24,8 @@ import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.request"
 import {
   filterThreads,
+  mapContactsToReceivers,
+  mapThreadsToReceivers,
   searchThreads,
   sortMessages,
   sortThreads,
@@ -236,43 +239,6 @@ const messages = createModel<RootModel>({
 
         messagesLoadMap[threadId] = false
       },
-      async loadMockedMessagesByThreadId(message: Message) {
-        const threadId = message.threadId
-        const messagesLoad = messagesLoadMap[threadId]
-
-        if (messagesLoad !== undefined && messagesLoad) {
-          return
-        }
-
-        messagesLoadMap[threadId] = true
-
-        dispatch.messages.setMessagesResultsMapState({
-          resultState: ResultState.Loading,
-          threadId,
-        })
-
-        const { data = [], error } = await getMessagesByThreadId(threadId)
-        if (error) {
-          logger.error(
-            `Messages: loads messages by thread fails. Data: ${JSON.stringify(
-              error
-            )}`
-          )
-
-          dispatch.messages.setMessagesResultsMapState({
-            resultState: ResultState.Error,
-            threadId,
-          })
-        } else {
-          dispatch.messages.updateMessages([...data, message])
-          dispatch.messages.setMessagesResultsMapState({
-            resultState: ResultState.Loaded,
-            threadId,
-          })
-        }
-
-        messagesLoadMap[threadId] = false
-      },
     }
   },
   selectors: (slice: Slicer<MessagesState>) => ({
@@ -331,12 +297,41 @@ const messages = createModel<RootModel>({
     isThreadOpened() {
       return (state: { messages: MessagesState }) => {
         const numbers: string[] = Object.keys(state.messages.threadMap).map(
-          (key) => state.messages.threadMap[key].number
+          (key) => state.messages.threadMap[key].phoneNumber
         )
         return (phoneNumber: string) => {
           return !numbers.some((number) => number === phoneNumber)
         }
       }
+    },
+    getReceivers(models: StoreSelectors<any>) {
+      return createSelector(
+        models.messages.threads,
+        models.contacts.getContactMap,
+        (threads: Thread[], contactMap: Record<ContactID, Contact>) => {
+          const contactIds = Object.keys(contactMap)
+          const uniqueThreadsReceivers = threads.filter(
+            ({ contactId }) => !contactIds.includes(contactId)
+          )
+          const threadReceivers = mapThreadsToReceivers(uniqueThreadsReceivers)
+          const contactReceivers = mapContactsToReceivers(
+            Object.keys(contactMap).map((key) => contactMap[key])
+          )
+          return [...contactReceivers, ...threadReceivers]
+        }
+      )
+    },
+    getReceiver(models: StoreSelectors<any>) {
+      return createSelector(
+        models.messages.getReceivers,
+        (receivers: Receiver[]) => {
+          return (contactId: string, phoneNumber: string) => {
+            return receivers.find(
+              (receiver) => receiver.contactId === contactId && receiver.phoneNumber === phoneNumber
+            )
+          }
+        }
+      )
     },
   }),
 })

@@ -69,7 +69,7 @@ const mockPureMessageData: PureMessage[] = [
 const threads: Thread[] = [
   {
     id: "1",
-    number: "+48500600700",
+    phoneNumber: "+48500600700",
     contactId: "1",
     lastUpdatedAt: new Date(1617089558 * 1000),
     messageSnippet:
@@ -78,7 +78,7 @@ const threads: Thread[] = [
   },
   {
     id: "2",
-    number: "+48500600700",
+    phoneNumber: "+48500600700",
     contactId: "1",
     lastUpdatedAt: new Date(1615089558 * 1000),
     messageSnippet:
@@ -95,7 +95,7 @@ const messages: Message[] = [
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     contactId: "1",
     threadId: "1",
-    number: "+48500600700",
+    phoneNumber: "+48500600700",
     messageType: MessageType.INBOX,
   },
   {
@@ -104,7 +104,7 @@ const messages: Message[] = [
     content: "Nulla itaque?",
     contactId: "1",
     threadId: "1",
-    number: "+48500600700",
+    phoneNumber: "+48500600700",
     messageType: MessageType.OUTBOX,
   },
 ]
@@ -112,7 +112,7 @@ const messages: Message[] = [
 const mockAddedNewMessageData: NewMessage = {
   content:
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
-  number: "+48500600700",
+  phoneNumber: "+48500600700",
 }
 
 const mockAddedPureMessageData: PureMessage = {
@@ -122,7 +122,7 @@ const mockAddedPureMessageData: PureMessage = {
   messageType: PureMessageType.OUTBOX,
   createdAt: 1547465101,
   threadID: 1,
-  number: mockAddedNewMessageData.number,
+  number: mockAddedNewMessageData.phoneNumber,
 }
 const mockAddedMessageData: Message = {
   id: "6",
@@ -130,7 +130,7 @@ const mockAddedMessageData: Message = {
   content: mockAddedNewMessageData.content,
   contactId: "2",
   threadId: "1",
-  number: mockAddedNewMessageData.number,
+  phoneNumber: mockAddedNewMessageData.phoneNumber,
   messageType: MessageType.OUTBOX,
 }
 

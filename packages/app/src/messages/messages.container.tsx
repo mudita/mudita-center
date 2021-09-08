@@ -9,6 +9,7 @@ import { RootModel } from "Renderer/models/models"
 import Messages from "App/messages/components/messages/messages.component"
 import { select } from "Renderer/store"
 import {
+  Message,
   NewMessage,
   VisibilityFilter,
 } from "App/messages/store/messages.interface"
@@ -17,7 +18,10 @@ import logger from "App/main/utils/logger"
 
 const selector = select(({ messages, contacts }) => ({
   threads: messages.filteredThreads,
+  receivers: messages.getReceivers,
+  getReceiver: messages.getReceiver,
   getContact: contacts.getContact,
+  getContactByPhoneNumber: contacts.getContactByPhoneNumber,
   getMessagesByThreadId: messages.getMessagesByThreadId,
   getMessagesResultMapStateByThreadId:
     messages.getMessagesResultMapStateByThreadId,
@@ -42,7 +46,9 @@ const mapDispatchToProps = ({ messages }: any) => ({
   toggleReadStatus: (ids: string[]) => messages.toggleReadStatus(ids),
   loadMessagesByThreadId: (threadId: string) =>
     messages.loadMessagesByThreadId(threadId),
-  addNewMessage: async (newMessage: NewMessage): Promise<void> => {
+  addNewMessage: async (
+    newMessage: NewMessage
+  ): Promise<Message | undefined> => {
     const { data, error } = await addMessage(newMessage)
     if (error || !data) {
       logger.error(
@@ -50,9 +56,11 @@ const mapDispatchToProps = ({ messages }: any) => ({
           error
         )}`
       )
+      return undefined
     } else {
-      // messages.loadMessagesByThreadId(data.threadId)
-      await messages.loadMockedMessagesByThreadId(data)
+      await messages.loadData()
+      await messages.loadMessagesByThreadId(data.threadId)
+      return data
     }
   },
 })

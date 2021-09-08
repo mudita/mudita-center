@@ -4,8 +4,15 @@
  */
 
 import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
-import { Message, MessageType, NewMessage, Thread } from "App/messages/store/messages.interface"
-import DeviceResponse, { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import {
+  Message,
+  MessageType,
+  NewMessage,
+  Thread,
+} from "App/messages/store/messages.interface"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
 import {
   Endpoint,
@@ -53,7 +60,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   ): Promise<DeviceResponse<Message>> {
     const { status, data } = await this.deviceService.request({
       body: {
-        number: newMessage.number,
+        number: newMessage.phoneNumber,
         messageBody: newMessage.content,
         category: PureMessagesCategory.message,
       },
@@ -128,7 +135,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
       unread: process.env.NODE_ENV !== "production" ? isUnread : false,
       id: String(threadID),
-      number: String(number),
+      phoneNumber: String(number),
       contactId: String(contactID),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),
     }
@@ -189,7 +196,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       number,
     } = pureMessage
     return {
-      number,
+      phoneNumber: number,
       id: String(messageID),
       date: new Date(createdAt * 1000),
       content: messageBody,

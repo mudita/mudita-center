@@ -52,7 +52,6 @@ const defaultProps: Props = {
   onContactSelect: jest.fn(),
   searchValue: "",
   onSearchValueChange: jest.fn(),
-  openSearchResults: () => false,
   results: contacts,
 }
 

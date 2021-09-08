@@ -6,6 +6,8 @@
 import {
   Message,
   MessagesState as MessagesProps,
+  Receiver,
+  ReceiverIdentification,
   Thread,
   VisibilityFilter,
 } from "App/messages/store/messages.interface"
@@ -17,7 +19,7 @@ export const searchThreads = (
   searchValue: MessagesProps["searchValue"]
 ) => {
   if (searchValue.length) {
-    return threads?.filter(({ contactId, number: phoneNumber }) => {
+    return threads?.filter(({ contactId, phoneNumber }) => {
       const search = searchValue.toLowerCase()
       const matchesForename = contactMap[contactId]?.firstName
         ?.toLowerCase()
@@ -54,4 +56,81 @@ export const sortMessages = (messages: Message[]): Message[] => {
   return messages.sort((a, b) => {
     return new Date(a.date).getTime() - new Date(b.date).getTime()
   })
+}
+
+export const mapThreadsToReceivers = (threads: Thread[]): Receiver[] => {
+  return threads.map(({ contactId, phoneNumber }) => ({
+    phoneNumber,
+    contactId,
+    identification: ReceiverIdentification.unknown,
+  }))
+}
+
+const isContactWithAnyNumber = (
+  contact: Contact
+): contact is
+  | (Contact & { primaryPhoneNumber: string })
+  | (Contact & { secondaryPhoneNumber: string }) => {
+  return (
+    isPhoneNumberValid(contact.primaryPhoneNumber) ||
+    isPhoneNumberValid(contact.secondaryPhoneNumber)
+  )
+}
+
+const isPhoneNumberValid = (phoneNumber = ""): phoneNumber is string => {
+  return phoneNumber !== ""
+}
+
+export const mapContactsToReceivers = (contacts: Contact[]): Receiver[] => {
+  return contacts
+    .filter(isContactWithAnyNumber)
+    .map(
+      ({
+        id,
+        primaryPhoneNumber = "",
+        secondaryPhoneNumber = "",
+        firstName = "",
+        lastName = "",
+      }) => {
+        const contact = {
+          contactId: id,
+          firstName,
+          lastName,
+        }
+        if (
+          isPhoneNumberValid(primaryPhoneNumber) &&
+          isPhoneNumberValid(secondaryPhoneNumber)
+        ) {
+          return [
+            {
+              phoneNumber: primaryPhoneNumber,
+              identification: ReceiverIdentification.primary,
+              ...contact,
+            },
+            {
+              phoneNumber: secondaryPhoneNumber,
+              identification: ReceiverIdentification.secondary,
+              ...contact,
+            },
+          ]
+        } else if (isPhoneNumberValid(primaryPhoneNumber)) {
+          return [
+            {
+              phoneNumber: primaryPhoneNumber,
+              identification: ReceiverIdentification.unknown,
+              ...contact,
+            },
+          ]
+        } else {
+          return [
+            {
+              phoneNumber: secondaryPhoneNumber,
+              identification: ReceiverIdentification.unknown,
+              ...contact,
+            },
+          ]
+        }
+      }
+    )
+    .reduce((flat, prev) => [...prev, ...flat], [])
 }

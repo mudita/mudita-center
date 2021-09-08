@@ -4,27 +4,23 @@
  */
 
 import React, { ComponentProps } from "react"
-import { Message, MessageType } from "App/messages/store/messages.interface"
+import { Message, MessageType, Receiver, ReceiverIdentification } from "App/messages/store/messages.interface"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
-import { Contact } from "App/contacts/store/contacts.type"
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
 import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
 import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn()
 
-type Properties = ComponentProps<typeof ThreadDetailsMessages>
+type Props = ComponentProps<typeof ThreadDetailsMessages>
 
-const contact: Contact = {
-  id: "274970a2-13b7-4f42-962d-8fa0b2b48377",
+const receiver: Receiver = {
+  contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
   firstName: "John",
   lastName: "Doe",
-  primaryPhoneNumber: "123 456 789",
-  secondaryPhoneNumber: "123 456 788",
-  email: "example@mudita.com",
-  note: "",
-  firstAddressLine: "",
+  phoneNumber: "123 456 788",
+  identification: ReceiverIdentification.unknown
 }
 
 const threadId = "1"
@@ -36,8 +32,8 @@ const messages: Message[] = [
     date: new Date(),
     content:
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-    number: contact.secondaryPhoneNumber!,
-    contactId: contact.id,
+    phoneNumber: receiver.phoneNumber,
+    contactId: receiver.contactId,
     messageType: MessageType.INBOX,
   },
   {
@@ -45,19 +41,19 @@ const messages: Message[] = [
     id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
     date: new Date("2019-10-18T11:45:35.112Z"),
     content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-    number: contact.secondaryPhoneNumber!,
-    contactId: contact.id,
+    phoneNumber: receiver.phoneNumber,
+    contactId: receiver.contactId,
     messageType: MessageType.OUTBOX,
   },
 ]
 
-const defaultProps: Properties = {
-  contact,
+const defaultProps: Props = {
+  receiver,
   messages,
 }
 
 const renderer = (extraProps?: {}) => {
-  const props: Properties = {
+  const props: Props = {
     ...defaultProps,
     ...extraProps,
   }
@@ -69,14 +65,14 @@ const renderer = (extraProps?: {}) => {
   }
 }
 
-test("correct amount of message bubbles is displayed", () => {
+test("Correct amount of message bubbles is displayed", () => {
   const { getAllByTestId } = renderer()
   expect(getAllByTestId(MessageBubbleTestIds.MessageContent)).toHaveLength(
     messages.length
   )
 })
 
-test("avatar renders in thread details properly", () => {
+test("Avatar renders in thread details properly", () => {
   const { getByTestId } = renderer()
   const textAvatar = getByTestId(AvatarTestIds.AvatarText)
   const iconAvatar = getByTestId("icon-ContactFilled")
@@ -87,7 +83,7 @@ test("avatar renders in thread details properly", () => {
   expect(textAvatar).toHaveTextContent("JD")
 })
 
-test("message date tag is displayed even if message list has only single message", () => {
+test("Message date tag is displayed even if message list has only single message", () => {
   const { getByTestId } = renderer({ messages: [messages[0]] })
   const messageDayBubble = getByTestId(MessageDayBubbleTestIds.Date)
   expect(messageDayBubble).toHaveTextContent("[value] component.textToday")

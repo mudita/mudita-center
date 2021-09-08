@@ -45,7 +45,7 @@ const secondThreadId = "2"
 
 const mockThread: Thread = {
   id: firstThreadId,
-  number: contact.primaryPhoneNumber!,
+  phoneNumber: contact.primaryPhoneNumber!,
   contactId: contact.id,
   lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
   messageSnippet:
@@ -57,7 +57,7 @@ const mockThreads: Thread[] = [
   mockThread,
   {
     id: secondThreadId,
-    number: contact.secondaryPhoneNumber!,
+    phoneNumber: contact.secondaryPhoneNumber!,
     contactId: contact.id,
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
@@ -72,7 +72,7 @@ const mockMessage: Message = {
   content:
     "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
   threadId: firstThreadId,
-  number: contact.primaryPhoneNumber!,
+  phoneNumber: contact.primaryPhoneNumber!,
   contactId: contact.id,
   messageType: MessageType.INBOX,
 }
@@ -84,7 +84,7 @@ const mockMessages: Message[] = [
     content:
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
     threadId: firstThreadId,
-    number: contact.primaryPhoneNumber!,
+    phoneNumber: contact.primaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.INBOX,
   },
@@ -94,7 +94,7 @@ const mockMessages: Message[] = [
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     threadId: firstThreadId,
-    number: contact.primaryPhoneNumber!,
+    phoneNumber: contact.primaryPhoneNumber!,
     contactId: contact.id,
     messageType: MessageType.INBOX,
   },

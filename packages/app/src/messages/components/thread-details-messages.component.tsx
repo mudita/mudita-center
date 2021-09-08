@@ -8,17 +8,20 @@ import moment from "moment"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { MessageBubblesWrapper } from "App/messages/components/thread-details.styled"
 import MessageDayBubble from "App/messages/components/message-day-bubble.component"
-import { Message, MessageType } from "App/messages/store/messages.interface"
-import { Contact } from "App/contacts/store/contacts.type"
+import {
+  Message,
+  MessageType,
+  Receiver,
+} from "App/messages/store/messages.interface"
 
 interface Properties {
   messages: Message[]
-  contact?: Contact
+  receiver?: Receiver
 }
 
 const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   messages,
-  contact,
+  receiver,
 }) => {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -31,7 +34,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
     <MessageBubblesWrapper>
       {messages.map(({ messageType, date, content, id }, index) => {
         const interlocutor = messageType === MessageType.INBOX
-        const user = interlocutor && contact ? contact : {}
+        const user = interlocutor && receiver ? receiver : {}
         const prevMessage = messages[index - 1]
         const displayAvatar = prevMessage
           ? prevMessage.messageType !== messageType

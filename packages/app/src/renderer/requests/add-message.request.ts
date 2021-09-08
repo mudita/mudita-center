@@ -5,12 +5,12 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { NewMessage } from "App/messages/store/messages.interface"
+import { Message, NewMessage } from "App/messages/store/messages.interface"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const addMessage = (
   newMessage: NewMessage
-): Promise<DeviceResponse<NewMessage>> => {
+): Promise<DeviceResponse<Message>> => {
   return ipcRenderer.callMain(IpcRequest.AddMessage, newMessage)
 }
 
