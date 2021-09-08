@@ -41,7 +41,9 @@ module.exports = {
   }),
   env: new EnvironmentPlugin({
     ...dotenv.config({
-      path: path.join(__dirname, "../../../../.env"),
+      path:
+        process.env.STATIC_CONFIGURATION_FILE_PATH ||
+        path.join(__dirname, "../../../../.env"),
     }).parsed,
   }),
 }
