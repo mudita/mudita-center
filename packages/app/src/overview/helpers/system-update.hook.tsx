@@ -52,6 +52,7 @@ const onOsDownloadCancel = () => {
 
 const useSystemUpdateFlow = (
   osVersion: string | undefined,
+  osUpdateDate: string | undefined,
   onUpdate: (updateInfo: PhoneUpdate) => void,
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
   toggleDeviceUpdating: (option: boolean) => void,
@@ -182,7 +183,7 @@ const useSystemUpdateFlow = (
 
   const openNotAvailableUpdateModal = () => {
     return modalService.openModal(
-      <UpdateNotAvailable version={osVersion} />,
+      <UpdateNotAvailable version={osVersion} date={osUpdateDate} />,
       true
     )
   }

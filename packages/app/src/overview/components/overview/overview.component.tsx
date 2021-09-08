@@ -137,6 +137,7 @@ const Overview: FunctionComponent<Props> = ({
 
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     osVersion,
+    osUpdateDate,
     updatePhoneOsInfo,
     updateBasicInfo,
     toggleDeviceUpdating,
