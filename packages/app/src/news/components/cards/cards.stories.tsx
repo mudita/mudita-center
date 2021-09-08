@@ -6,8 +6,8 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import styled from "styled-components"
-import Cards from "Renderer/components/rest/news/cards/cards.component"
-import { newsItems } from "Renderer/components/rest/news/cards/cards-mock-data"
+import Cards from "App/news/components/cards/cards.component"
+import { newsItems } from "App/news/components/cards/cards-mock-data"
 
 const Container = styled.div`
   display: flex;
