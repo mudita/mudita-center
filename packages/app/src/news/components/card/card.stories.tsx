@@ -5,7 +5,7 @@
 
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import Card from "Renderer/components/rest/news/card/card.component"
+import Card from "App/news/components/card/card.component"
 import styled from "styled-components"
 import { text, withKnobs } from "@storybook/addon-knobs"
 

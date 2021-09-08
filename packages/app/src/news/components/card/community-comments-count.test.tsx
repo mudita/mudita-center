@@ -6,7 +6,7 @@
 import "@testing-library/jest-dom"
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import CommunityCommentsCount from "Renderer/components/rest/news/card/community-comments-count.component"
+import CommunityCommentsCount from "App/news/components/card/community-comments-count.component"
 import { intl } from "Renderer/utils/intl"
 
 const communityLink = "https://mudita.com/"

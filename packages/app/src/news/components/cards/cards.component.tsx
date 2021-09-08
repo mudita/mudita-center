@@ -5,11 +5,11 @@
 
 import * as React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Card from "Renderer/components/rest/news/card/card.component"
+import Card from "App/news/components/card/card.component"
 import styled from "styled-components"
 import { useEffect } from "react"
 import { noop } from "Renderer/utils/noop"
-import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
+import { NewsEntry } from "App/news/store/mudita-news.interface"
 
 interface Props {
   newsItems: NewsEntry[]
