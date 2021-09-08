@@ -48,7 +48,7 @@ const newsEntityMock: NewsEntry[] = [
   },
 ]
 
-test("retunrs sortend news entities", () => {
+test("returns sorted news entities", () => {
   const result = sortByCreationDateInDescendingOrder([...newsEntityMock])
   expect(result).toHaveLength(2)
   expect(result[0].newsId).toEqual(newsEntityMock[1].newsId)
