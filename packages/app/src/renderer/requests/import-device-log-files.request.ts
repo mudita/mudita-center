@@ -6,16 +6,17 @@
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import getDeviceLogs from "Renderer/requests/get-device-logs.request"
-import writeFile from "Renderer/requests/write-file.request"
+import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
 import { WriteData } from "App/main/functions/register-write-file-listener"
+// import writeFile from "Renderer/requests/write-file.request"
 
-const importDeviceLogsFile = async (
+const importDeviceLogFiles = async (
   writeData: Omit<WriteData, "data">
 ): Promise<DeviceResponse> => {
-  const { status, data } = await getDeviceLogs()
+  console.log("importDeviceLogFiles: ", writeData)
+  const { status, data = [] } = await getDeviceLogFiles()
   if (status === DeviceResponseStatus.Ok && data) {
-    await writeFile({ ...writeData, data })
+    // await writeFile({ ...writeData, data })
     return { status }
   } else {
     return {
@@ -28,4 +29,4 @@ const importDeviceLogsFile = async (
   }
 }
 
-export default importDeviceLogsFile
+export default importDeviceLogFiles

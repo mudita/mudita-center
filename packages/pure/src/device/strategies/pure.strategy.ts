@@ -35,6 +35,7 @@ import {
   GetFileSystemErrorResponse,
   GetFileSystemResponse,
 } from "../../endpoints/file-system"
+import { GetFileListBody, GetFileListResponseBody } from "../../../dist"
 
 export class PureStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
@@ -72,6 +73,11 @@ export class PureStrategy extends BaseDevice {
     endpoint: Endpoint.DeviceInfo
     method: Method.Get
   }): Promise<Response<DeviceInfo>>
+  public request(config: {
+    endpoint: Endpoint.DeviceInfo
+    method: Method.Get
+    body: GetFileListBody
+  }): Promise<Response<GetFileListResponseBody>>
   public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get

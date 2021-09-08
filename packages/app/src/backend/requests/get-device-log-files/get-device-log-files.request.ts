@@ -8,15 +8,15 @@ import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
-const handleGetDeviceLogs = async ({
+const handleGetDeviceLogFiles = async ({
   purePhone,
-}: Adapters): Promise<DeviceResponse<string>> => {
-  return purePhone.getDeviceLogs()
+}: Adapters): Promise<DeviceResponse<File[]>> => {
+  return purePhone.getDeviceLogFiles()
 }
 
-const registerGetDeviceLogs = createEndpoint({
-  name: IpcRequest.GetDeviceLogs,
-  handler: handleGetDeviceLogs,
+const registerGetDeviceLogFiles = createEndpoint({
+  name: IpcRequest.GetDeviceLogFiles,
+  handler: handleGetDeviceLogFiles,
 })
 
-export default registerGetDeviceLogs
+export default registerGetDeviceLogFiles

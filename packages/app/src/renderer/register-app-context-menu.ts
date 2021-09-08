@@ -8,7 +8,7 @@ import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
 import ContextMenu from "App/context-menu/context-menu"
 import contactsContextMenu from "App/contacts/helpers/context-menu/context-menu"
-import importDeviceLogsFile from "Renderer/requests/import-device-logs-file.request"
+import importDeviceLogFiles from "Renderer/requests/import-device-log-files.request"
 import { remote } from "electron"
 import { name } from "../../package.json"
 
@@ -28,7 +28,7 @@ const registerAppContextMenu = (menu: ContextMenu) => {
     },
     {
       label: "Download logs file",
-      click: () => importDeviceLogsFile({ filePath, fileName }),
+      click: () => importDeviceLogFiles({ filePath, fileName }),
     },
   ])
 

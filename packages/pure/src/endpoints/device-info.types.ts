@@ -68,3 +68,16 @@ export interface DeviceInfo {
   networkStatus: NetworkStatus
   serialNumber: string
 }
+enum DiagnosticsFileList {
+  LOGS,
+  CRASH_DUMPS,
+  TDB,
+}
+
+export interface GetFileListBody {
+  fileList: DiagnosticsFileList
+}
+
+export interface GetFileListResponseBody {
+  files: string[]
+}

@@ -20,10 +20,10 @@ const defaultDependency = {
   writeGzip: jest.fn().mockReturnValue(Promise.resolve(true)),
   getAppPath: jest.fn().mockReturnValue(""),
   getAppLogs: jest.fn().mockReturnValue(Promise.resolve("")),
-  getDeviceLogs: jest
+  getDeviceLogFiles: jest
     .fn()
     .mockReturnValue(
-      Promise.resolve({ status: DeviceResponseStatus.Ok, data: "" })
+      Promise.resolve({ status: DeviceResponseStatus.Ok, data: [] })
     ),
   createFile: jest.fn().mockReturnValue({} as File),
   rmdir: jest.fn().mockReturnValue(Promise.resolve(true)),
@@ -71,7 +71,7 @@ test("request works properly", async () => {
 test("request works properly even getDeviceLogs throw error", async () => {
   let pendingResponse = Promise.resolve({} as CreateBugTicketResponse)
   const useCreateBugTicket = build({
-    getDeviceLogs: jest
+    getDeviceLogFiles: jest
       .fn()
       .mockReturnValue(Promise.resolve({ status: DeviceResponseStatus.Error })),
   })

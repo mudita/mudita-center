@@ -22,6 +22,8 @@ import {
   RequestConfig,
   Response,
   ResponseStatus,
+  GetFileListBody,
+  GetFileListResponseBody,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
@@ -64,6 +66,11 @@ class DeviceService {
     endpoint: Endpoint.DeviceInfo
     method: Method.Get
   }): Promise<DeviceResponse<DeviceInfo>>
+  async request(config: {
+    endpoint: Endpoint.DeviceInfo
+    method: Method.Get
+    body: GetFileListBody
+  }): Promise<DeviceResponse<GetFileListResponseBody>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get

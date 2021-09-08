@@ -10,7 +10,7 @@ import writeGzip from "Renderer/requests/write-gzip.request"
 import rmdir from "Renderer/requests/rmdir.request"
 import createFile from "Renderer/utils/create-file/create-file"
 import getAppLogs from "Renderer/requests/get-app-logs.request"
-import getDeviceLogs from "Renderer/requests/get-device-logs.request"
+import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
 import { WriteData } from "App/main/functions/register-write-file-listener"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 import createFreshdeskTicket, {
@@ -33,7 +33,7 @@ export interface DependencyUseCreateBugTicket {
   writeFile: (data: WriteData) => Promise<boolean>
   writeGzip: (data: WriteGzipData) => Promise<boolean>
   getAppLogs: () => Promise<string>
-  getDeviceLogs: () => Promise<DeviceResponse<string>>
+  getDeviceLogFiles: () => Promise<DeviceResponse<string[]>>
   createFile: (filePath: string, options?: FilePropertyBag) => File
   rmdir: (props: RmdirProps) => Promise<boolean>
   createFreshdeskTicket: (
@@ -48,6 +48,6 @@ export default useCreateBugTicketBuilder({
   createFile,
   rmdir,
   getAppLogs,
-  getDeviceLogs,
+  getDeviceLogFiles,
   createFreshdeskTicket,
 })

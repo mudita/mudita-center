@@ -21,7 +21,7 @@ export enum IpcRequest {
   UpdateAppSettings = "update-app-settings",
   GetAppSettings = "get-app-settings",
   ResetAppSettings = "reset-app-settings",
-  GetDeviceLogs = "get-device-logs",
+  GetDeviceLogFiles = "get-device-log-files",
   UpdateOs = "update-os",
   ExportContacts = "export-contacts",
   ExportEvents = "export-events",
