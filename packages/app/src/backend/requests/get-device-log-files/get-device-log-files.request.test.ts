@@ -16,9 +16,7 @@ import MuditaDeviceManager, {
   GetFileSystemRequestConfig,
 } from "@mudita/pure"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
-import DeviceFileSystemService, {
-  DeviceFile,
-} from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
 jest.mock("Backend/device-service")
