@@ -4,6 +4,7 @@
  */
 
 import { AxiosResponse } from "axios"
+import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 // import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 // import { formatDate } from "Renderer/utils/format-date"
 // import logger from "App/main/utils/logger"

@@ -106,10 +106,15 @@ describe("getDeviceLogFiles method", () => {
     ;(DeviceFileSystemService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
-          downloadFile: () => {
+          downloadDeviceFiles: () => {
             return {
               status: DeviceResponseStatus.Ok,
-              data: text1kb,
+              data: [
+                {
+                  data: text1kb,
+                  name: firstFileName,
+                },
+              ],
             }
           },
         }
@@ -151,7 +156,7 @@ describe("getDeviceLogFiles method", () => {
       const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
         datePrefix: true,
       })
-      expect(data[0].name).toEqual("2000-2-1-MuditaOS.log")
+      expect(data[0].name).toEqual("2000-02-01-MuditaOS.log")
     })
 
     test("should return properly chunked File List", async () => {
@@ -174,8 +179,8 @@ describe("getDeviceLogFiles method", () => {
         maxBytes: 500,
         datePrefix: true,
       })
-      expect(data[0].name).toEqual("2000-2-1-MuditaOS-part1.log")
-      expect(data[1].name).toEqual("2000-2-1-MuditaOS-part2.log")
+      expect(data[0].name).toEqual("2000-02-01-MuditaOS-part1.log")
+      expect(data[1].name).toEqual("2000-02-01-MuditaOS-part2.log")
     })
   })
 
@@ -195,10 +200,19 @@ describe("getDeviceLogFiles method", () => {
     ;(DeviceFileSystemService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
-          downloadFile: () => {
+          downloadDeviceFiles: () => {
             return {
               status: DeviceResponseStatus.Ok,
-              data: text1kb,
+              data: [
+                {
+                  data: text1kb,
+                  name: firstFileName,
+                },
+                {
+                  data: text1kb,
+                  name: secondFileName,
+                },
+              ],
             }
           },
         }
@@ -238,8 +252,8 @@ describe("getDeviceLogFiles method", () => {
       })
       expect(data[0].name).toEqual("MuditaOS-part1.log")
       expect(data[1].name).toEqual("MuditaOS-part2.log")
-      expect(data[3].name).toEqual("NoMimeType-part1")
-      expect(data[4].name).toEqual("NoMimeType-part2")
+      expect(data[2].name).toEqual("NoMimeType-part1")
+      expect(data[3].name).toEqual("NoMimeType-part2")
     })
   })
 
@@ -273,7 +287,7 @@ describe("getDeviceLogFiles method", () => {
     })
   })
 
-  describe("when downloadFile throw error", () => {
+  describe("when downloadFiles throw error", () => {
     ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
@@ -286,7 +300,7 @@ describe("getDeviceLogFiles method", () => {
     ;(DeviceFileSystemService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
-          downloadFile: () => {
+          downloadDeviceFiles: () => {
             return {
               status: DeviceResponseStatus.Error,
             }

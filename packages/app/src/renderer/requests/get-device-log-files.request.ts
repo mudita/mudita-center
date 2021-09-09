@@ -6,10 +6,8 @@
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import {
-  DeviceFile,
-  DeviceLogFilesOption,
-} from "Backend/adapters/pure-phone/pure-phone-adapter.class"
+import { DeviceLogFilesOption } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
+import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 
 const getDeviceLogFiles = async (
   option?: DeviceLogFilesOption

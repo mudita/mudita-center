@@ -21,7 +21,7 @@ import useCreateBugTicketBuilder, {
 } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
 import { WriteGzipData } from "App/main/functions/register-write-gzip-listener"
 import { RmdirProps } from "App/main/functions/register-rmdir-listener"
-import { DeviceFile } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
+import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 
 export const files = [
   {
