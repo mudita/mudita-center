@@ -41,6 +41,7 @@ import createPurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages
 import createCalendarAdapter from "Backend/adapters/calendar/calendar.adapter"
 import Backend from "Backend/backend"
 import { createDeviceFileSystemService } from "Backend/device-file-system-service/device-file-system-service"
+import { createDeviceFileDiagnosticService } from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
 const bootstrap = (
   deviceManager: MuditaDeviceManager,
@@ -48,9 +49,15 @@ const bootstrap = (
 ): void => {
   const deviceService = createDeviceService(deviceManager, ipcMain)
   const deviceFileSystemService = createDeviceFileSystemService(deviceService)
+  const deviceFileDiagnosticService =
+    createDeviceFileDiagnosticService(deviceService)
 
   const adapters = {
-    purePhone: createPurePhoneAdapter(deviceService, deviceFileSystemService),
+    purePhone: createPurePhoneAdapter(
+      deviceService,
+      deviceFileSystemService,
+      deviceFileDiagnosticService
+    ),
     phonebook: createPhonebook(deviceService),
     pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
     pureNetwork: createPurePhoneNetwork(deviceService),

@@ -11,11 +11,13 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
-import MuditaDeviceManager, { GetFileListResponseBody } from "@mudita/pure"
+import MuditaDeviceManager from "@mudita/pure"
 import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
 jest.mock("Backend/device-service")
 jest.mock("Backend/device-file-system-service/device-file-system-service")
+jest.mock("Backend/device-file-diagnostic-service/device-file-diagnostic-service")
 
 test("Unlock device returns properly value", async () => {
   ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
@@ -29,10 +31,14 @@ test("Unlock device returns properly value", async () => {
   })
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystemService = new DeviceFileSystemService(deviceService)
+  const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
+    deviceService
+  )
 
   const purePhoneAdapter = createPurePhoneAdapter(
     deviceService,
-    deviceFileSystemService
+    deviceFileSystemService,
+    deviceFileDiagnosticService
   )
   const { status } = await purePhoneAdapter.unlockDevice("3333")
   expect(status).toEqual(DeviceResponseStatus.Ok)
@@ -50,16 +56,21 @@ test("Get unlock device status returns properly value", async () => {
   })
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystemService = new DeviceFileSystemService(deviceService)
+  const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
+    deviceService
+  )
 
   const purePhoneAdapter = createPurePhoneAdapter(
     deviceService,
-    deviceFileSystemService
+    deviceFileSystemService,
+    deviceFileDiagnosticService
   )
   const { status } = await purePhoneAdapter.getUnlockDeviceStatus()
   expect(status).toEqual(DeviceResponseStatus.Ok)
 })
 
 describe("getDeviceLogFiles method", () => {
+  const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const text1kb = fs
     .readFileSync(require.resolve(path.join(__dirname, "./1kb.txt")))
     .toString()
@@ -71,23 +82,23 @@ describe("getDeviceLogFiles method", () => {
 
   const returnMockGetFileListResponse = (
     files: string[]
-  ): DeviceResponse<GetFileListResponseBody> => {
+  ): DeviceResponse<string[]> => {
     return {
       status: DeviceResponseStatus.Ok,
-      data: {
-        files,
-      },
+      data: files,
     }
   }
 
   describe("when 1 log file is fetched successful", () => {
-    ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
-      return {
-        request: () => {
-          return returnMockGetFileListResponse([firstFilePath])
-        },
+    ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
+      () => {
+        return {
+          getAllDiagnosticFileList: () => {
+            return returnMockGetFileListResponse([firstFilePath])
+          },
+        }
       }
-    })
+    )
     ;(DeviceFileSystemService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
@@ -100,12 +111,15 @@ describe("getDeviceLogFiles method", () => {
         }
       }
     )
-    const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
     const deviceFileSystemService = new DeviceFileSystemService(deviceService)
+    const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
+      deviceService
+    )
 
     const purePhoneAdapter = createPurePhoneAdapter(
       deviceService,
-      deviceFileSystemService
+      deviceFileSystemService,
+      deviceFileDiagnosticService
     )
 
     test("should return DeviceResponseStatus.Ok as status", async () => {
@@ -142,16 +156,18 @@ describe("getDeviceLogFiles method", () => {
   })
 
   describe("when 2 log files are fetched successful", () => {
-    ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
-      return {
-        request: () => {
-          return returnMockGetFileListResponse([
-            firstFilePath,
-            secondFilePath,
-          ])
-        },
+    ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
+      () => {
+        return {
+          getAllDiagnosticFileList: () => {
+            return returnMockGetFileListResponse([
+              firstFilePath,
+              secondFilePath,
+            ])
+          },
+        }
       }
-    })
+    )
     ;(DeviceFileSystemService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
@@ -164,12 +180,15 @@ describe("getDeviceLogFiles method", () => {
         }
       }
     )
-    const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
     const deviceFileSystemService = new DeviceFileSystemService(deviceService)
+    const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
+      deviceService
+    )
 
     const purePhoneAdapter = createPurePhoneAdapter(
       deviceService,
-      deviceFileSystemService
+      deviceFileSystemService,
+      deviceFileDiagnosticService
     )
 
     test("should return DeviceResponseStatus.Ok as status", async () => {
@@ -196,38 +215,46 @@ describe("getDeviceLogFiles method", () => {
     })
   })
 
-  describe("when DeviceInfo API request throw error", () => {
-    ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
-      return {
-        request: () => {
-          return {
-            status: DeviceResponseStatus.Error,
-          }
-        },
+  describe("when getAllDiagnosticFileList throw error", () => {
+    ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
+      () => {
+        return {
+          getAllDiagnosticFileList: () => {
+            return {
+              status: DeviceResponseStatus.Error,
+            }
+          },
+        }
       }
-    })
-    const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
+    )
     const deviceFileSystemService = new DeviceFileSystemService(deviceService)
+    const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
+      deviceService
+    )
 
     const purePhoneAdapter = createPurePhoneAdapter(
       deviceService,
-      deviceFileSystemService
+      deviceFileSystemService,
+      deviceFileDiagnosticService
     )
 
     test("should return DeviceResponseStatus.Error as status", async () => {
       const { status } = await purePhoneAdapter.getDeviceLogFiles()
       expect(status).toEqual(DeviceResponseStatus.Error)
+      expect(status).toEqual(DeviceResponseStatus.Error)
     })
   })
 
-  describe("when File system API request throw error", () => {
-    ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
-      return {
-        request: () => {
-          return returnMockGetFileListResponse([firstFilePath])
-        },
+  describe("when downloadFile throw error", () => {
+    ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
+      () => {
+        return {
+          getAllDiagnosticFileList: () => {
+            return returnMockGetFileListResponse([firstFilePath])
+          },
+        }
       }
-    })
+    )
     ;(DeviceFileSystemService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
@@ -239,12 +266,15 @@ describe("getDeviceLogFiles method", () => {
         }
       }
     )
-    const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
     const deviceFileSystemService = new DeviceFileSystemService(deviceService)
+    const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
+      deviceService
+    )
 
     const purePhoneAdapter = createPurePhoneAdapter(
       deviceService,
-      deviceFileSystemService
+      deviceFileSystemService,
+      deviceFileDiagnosticService
     )
 
     test("should return DeviceResponseStatus.Error as status", async () => {
