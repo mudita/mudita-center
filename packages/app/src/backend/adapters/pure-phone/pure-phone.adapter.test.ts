@@ -241,7 +241,6 @@ describe("getDeviceLogFiles method", () => {
     test("should return DeviceResponseStatus.Error as status", async () => {
       const { status } = await purePhoneAdapter.getDeviceLogFiles()
       expect(status).toEqual(DeviceResponseStatus.Error)
-      expect(status).toEqual(DeviceResponseStatus.Error)
     })
   })
 
