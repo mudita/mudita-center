@@ -64,10 +64,10 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async getDeviceLogs(): Promise<DeviceResponse<string>> {
+  public async getDeviceLogFiles(): Promise<DeviceResponse<File[]>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: "Hello, World",
+      data: [],
     }
   }
 

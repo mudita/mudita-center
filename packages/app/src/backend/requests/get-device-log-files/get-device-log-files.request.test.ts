@@ -6,7 +6,7 @@
 import { ipcMain } from "electron-better-ipc"
 import Adapters from "Backend/adapters/adapters.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import registerGetDeviceLogs from "Backend/requests/get-device-logs/get-device-logs.request"
+import registerGetDeviceLogFiles from "Backend/requests/get-device-log-files/get-device-log-files.request"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -62,10 +62,10 @@ test("GetDeviceLogs request works properly", (done) => {
     deviceFileSystemService
   )
 
-  registerGetDeviceLogs({
+  registerGetDeviceLogFiles({
     purePhone,
   } as unknown as Adapters)
-  const [promise] = (ipcMain as any)._flush(IpcRequest.GetDeviceLogs)
+  const [promise] = (ipcMain as any)._flush(IpcRequest.GetDeviceLogFiles)
   promise.then((result: DeviceResponse) => {
     expect(result).toMatchInlineSnapshot(`
     Object {

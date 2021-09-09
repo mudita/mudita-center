@@ -42,7 +42,7 @@ const useCreateBugTicketBuilder =
     getAppPath,
     writeFile,
     getAppLogs,
-    getDeviceLogs,
+    getDeviceLogFiles,
     createFile,
     rmdir,
     writeGzip,
@@ -61,7 +61,8 @@ const useCreateBugTicketBuilder =
     ): Promise<CreateBugTicketResponse> => {
       setLoad(true)
       const appLogs = await getAppLogs()
-      const { data: deviceLogs = "" } = await getDeviceLogs()
+      const { data: deviceLogs = [] } = await getDeviceLogFiles()
+      console.log("getDeviceLogFiles: ", deviceLogs)
       const filePath = `${getAppPath()}/tmp-${todayFormatDate}`
 
       const mcFileName = `mc-${todayFormatDate}.txt`
@@ -80,12 +81,13 @@ const useCreateBugTicketBuilder =
         return response
       }
 
-      const pureFileName = `pure-${todayFormatDate}.txt`
-      const pureWriteResponse = await writeFile({
-        filePath,
-        data: deviceLogs,
-        fileName: pureFileName,
-      })
+      // const pureFileName = `pure-${todayFormatDate}.txt`
+      // const pureWriteResponse = await writeFile({
+      //   filePath,
+      //   data: deviceLogs,
+      //   fileName: pureFileName,
+      // })
+      const pureWriteResponse = false
 
       if (!pureWriteResponse) {
         const response = returnResponseError(

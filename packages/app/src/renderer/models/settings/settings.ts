@@ -21,7 +21,7 @@ import { RootModel } from "Renderer/models/models"
 import logger from "App/main/utils/logger"
 import e2eSettings from "Renderer/models/settings/e2e-settings.json"
 import { isToday } from "Renderer/utils/is-today"
-import getDeviceLogs from "Renderer/requests/get-device-logs.request"
+import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
 import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getApplicationConfiguration from "App/renderer/requests/get-application-configuration.request"
@@ -171,7 +171,7 @@ const settings = createModel<RootModel>({
           )
           return
         }
-        const { status, data = "", error } = await getDeviceLogs()
+        const { status, data = [], error } = await getDeviceLogFiles()
         if (status !== DeviceResponseStatus.Ok) {
           logger.error(
             `Send Diagnostic Data: device logs fail. Message: ${error?.message}.`
