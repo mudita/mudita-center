@@ -449,6 +449,7 @@
   "module.overview.systemVersion": "MuditaOS version",
   "module.overview.updateAvailableButton": "Download now",
   "module.overview.updateAvailableDescription": "MuditaOS v{version} (Updated on {date})",
+  "module.overview.updateNotAvailableDescription": "MuditaOS v{version}",
   "module.overview.updateAvailableMessage": "New update is available!",
   "module.overview.updateNotAvailableMessage": "Your MuditaOS is up to date!",
   "module.overview.updatingFailDescription": "Updating MuditaOS failed!",
