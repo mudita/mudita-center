@@ -72,7 +72,6 @@ export interface DeviceInfo {
 export enum DiagnosticsFileList {
   LOGS,
   CRASH_DUMPS,
-  TDB,
 }
 
 export interface GetFileListBody {
