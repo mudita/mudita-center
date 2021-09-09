@@ -12,12 +12,15 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import MuditaDeviceManager from "@mudita/pure"
+import MockDate from "mockdate"
 import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
 jest.mock("Backend/device-service")
 jest.mock("Backend/device-file-system-service/device-file-system-service")
-jest.mock("Backend/device-file-diagnostic-service/device-file-diagnostic-service")
+jest.mock(
+  "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
+)
 
 test("Unlock device returns properly value", async () => {
   ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
@@ -70,6 +73,7 @@ test("Get unlock device status returns properly value", async () => {
 })
 
 describe("getDeviceLogFiles method", () => {
+  MockDate.set("2000-2-1")
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const text1kb = fs
     .readFileSync(require.resolve(path.join(__dirname, "./1kb.txt")))
@@ -102,10 +106,15 @@ describe("getDeviceLogFiles method", () => {
     ;(DeviceFileSystemService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
-          downloadFile: () => {
+          downloadDeviceFiles: () => {
             return {
               status: DeviceResponseStatus.Ok,
-              data: text1kb,
+              data: [
+                {
+                  data: text1kb,
+                  name: firstFileName,
+                },
+              ],
             }
           },
         }
@@ -143,15 +152,35 @@ describe("getDeviceLogFiles method", () => {
       expect(data[0].name).toEqual(firstFileName)
     })
 
+    test("should return properly date prefix", async () => {
+      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
+        datePrefix: true,
+      })
+      expect(data[0].name).toEqual("2000-02-01-MuditaOS.log")
+    })
+
     test("should return properly chunked File List", async () => {
-      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles(500)
+      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
+        maxBytes: 500,
+      })
       expect(data).toHaveLength(2)
     })
 
     test("files of the chunked File List should have properly set name", async () => {
-      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles(500)
+      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
+        maxBytes: 500,
+      })
       expect(data[0].name).toEqual("MuditaOS-part1.log")
       expect(data[1].name).toEqual("MuditaOS-part2.log")
+    })
+
+    test("files of the chunked File List should have properly set name and date prefix", async () => {
+      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
+        maxBytes: 500,
+        datePrefix: true,
+      })
+      expect(data[0].name).toEqual("2000-02-01-MuditaOS-part1.log")
+      expect(data[1].name).toEqual("2000-02-01-MuditaOS-part2.log")
     })
   })
 
@@ -171,10 +200,19 @@ describe("getDeviceLogFiles method", () => {
     ;(DeviceFileSystemService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
-          downloadFile: () => {
+          downloadDeviceFiles: () => {
             return {
               status: DeviceResponseStatus.Ok,
-              data: text1kb,
+              data: [
+                {
+                  data: text1kb,
+                  name: firstFileName,
+                },
+                {
+                  data: text1kb,
+                  name: secondFileName,
+                },
+              ],
             }
           },
         }
@@ -202,16 +240,20 @@ describe("getDeviceLogFiles method", () => {
     })
 
     test("should return properly chunked File List", async () => {
-      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles(500)
+      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
+        maxBytes: 500,
+      })
       expect(data).toHaveLength(4)
     })
 
     test("files of the chunked File List should have properly set name", async () => {
-      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles(500)
+      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
+        maxBytes: 500,
+      })
       expect(data[0].name).toEqual("MuditaOS-part1.log")
       expect(data[1].name).toEqual("MuditaOS-part2.log")
-      expect(data[3].name).toEqual("NoMimeType-part1")
-      expect(data[4].name).toEqual("NoMimeType-part2")
+      expect(data[2].name).toEqual("NoMimeType-part1")
+      expect(data[3].name).toEqual("NoMimeType-part2")
     })
   })
 
@@ -244,7 +286,7 @@ describe("getDeviceLogFiles method", () => {
     })
   })
 
-  describe("when downloadFile throw error", () => {
+  describe("when downloadFiles throw error", () => {
     ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
@@ -257,7 +299,7 @@ describe("getDeviceLogFiles method", () => {
     ;(DeviceFileSystemService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
-          downloadFile: () => {
+          downloadDeviceFiles: () => {
             return {
               status: DeviceResponseStatus.Error,
             }

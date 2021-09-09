@@ -4,14 +4,19 @@
  */
 
 import { Endpoint, Method, timeout } from "@mudita/pure"
-import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
+import PurePhoneAdapter, {
+  DeviceLogFilesOption,
+} from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
-import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileSystemService, {
+  DeviceFile,
+} from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
+import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
 
 export enum DeviceUpdateError {
   RestartTimedOut = "RestartTimedOut",
@@ -113,11 +118,39 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  public async getDeviceLogFiles(): Promise<DeviceResponse<File[]>> {
-    // return this.deviceFileSystemService.downloadFile("/sys/user/logs/MuditaOS.log"
+  public async getDeviceLogFiles(
+    option?: DeviceLogFilesOption
+  ): Promise<DeviceResponse<DeviceFile[]>> {
+    const allDiagnosticFileListResponse =
+      await this.deviceFileDiagnosticService.getAllDiagnosticFileList()
+    if (
+      allDiagnosticFileListResponse.status !== DeviceResponseStatus.Ok ||
+      allDiagnosticFileListResponse.data === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+
+    const filePaths = allDiagnosticFileListResponse.data
+    const downloadDeviceFilesResponse =
+      await this.deviceFileSystemService.downloadDeviceFiles(filePaths)
+    const deviceFiles = downloadDeviceFilesResponse.data
+
+    if (
+      downloadDeviceFilesResponse.status !== DeviceResponseStatus.Ok ||
+      deviceFiles === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+
     return {
+      data: option
+        ? transformDeviceFilesByOption(deviceFiles, option)
+        : deviceFiles,
       status: DeviceResponseStatus.Ok,
-      data: [],
     }
   }
 

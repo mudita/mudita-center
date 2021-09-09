@@ -18,7 +18,6 @@ class DeviceFileDiagnosticService {
   private diagnosticsFileListKeys = [
     DiagnosticsFileList.LOGS,
     DiagnosticsFileList.CRASH_DUMPS,
-    DiagnosticsFileList.TDB,
   ]
 
   constructor(private deviceService: DeviceService) {}
@@ -26,10 +25,10 @@ class DeviceFileDiagnosticService {
   public async getAllDiagnosticFileList(): Promise<DeviceResponse<string[]>> {
     const fileList: string[] = []
     for (let i = 0; i < this.diagnosticsFileListKeys.length; i++) {
-      const { status, data } = await this.getDiagnosticFileList(
+      const { status, data = { files: [] } } = await this.getDiagnosticFileList(
         this.diagnosticsFileListKeys[i]
       )
-      if (status === DeviceResponseStatus.Ok && data?.files !== undefined) {
+      if (status === DeviceResponseStatus.Ok) {
         data.files.forEach((file) => fileList.push(file))
       } else {
         return {

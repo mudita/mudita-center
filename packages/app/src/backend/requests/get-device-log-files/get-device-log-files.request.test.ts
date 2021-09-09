@@ -17,8 +17,12 @@ import MuditaDeviceManager, {
 } from "@mudita/pure"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
 jest.mock("Backend/device-service")
+jest.mock(
+  "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
+)
 
 test("GetDeviceLogs request works properly", (done) => {
   ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
@@ -55,11 +59,27 @@ test("GetDeviceLogs request works properly", (done) => {
       },
     }
   })
+  ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
+    () => {
+      return {
+        getAllDiagnosticFileList: () => {
+          return {
+            status: DeviceResponseStatus.Ok,
+            data: ["/sys/user/logs/MuditaOS.log"],
+          }
+        },
+      }
+    }
+  )
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystemService = new DeviceFileSystemService(deviceService)
+  const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
+    deviceService
+  )
   const purePhone = createPurePhoneAdapter(
     deviceService,
-    deviceFileSystemService
+    deviceFileSystemService,
+    deviceFileDiagnosticService
   )
 
   registerGetDeviceLogFiles({

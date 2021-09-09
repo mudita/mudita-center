@@ -171,7 +171,11 @@ const settings = createModel<RootModel>({
           )
           return
         }
-        const { status, data = [], error } = await getDeviceLogFiles()
+        const {
+          status,
+          data = [],
+          error,
+        } = await getDeviceLogFiles({ maxBytes: 500000 })
         if (status !== DeviceResponseStatus.Ok) {
           logger.error(
             `Send Diagnostic Data: device logs fail. Message: ${error?.message}.`

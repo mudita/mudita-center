@@ -7,12 +7,14 @@ import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import DeviceResponse from "Backend/adapters/device-response.interface"
+import { DeviceLogFilesOption } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
+import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 
 const handleGetDeviceLogFiles = async (
   { purePhone }: Adapters,
-  maxBytes?: number
-): Promise<DeviceResponse<File[]>> => {
-  return purePhone.getDeviceLogFiles(maxBytes)
+  option?: DeviceLogFilesOption
+): Promise<DeviceResponse<DeviceFile[]>> => {
+  return purePhone.getDeviceLogFiles(option)
 }
 
 const registerGetDeviceLogFiles = createEndpoint({
