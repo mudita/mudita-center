@@ -183,7 +183,7 @@ const useSystemUpdateFlow = (
 
   const openNotAvailableUpdateModal = () => {
     return modalService.openModal(
-      <UpdateNotAvailable version={osVersion} date={osUpdateDate} />,
+      <UpdateNotAvailable version={osVersion} />,
       true
     )
   }
