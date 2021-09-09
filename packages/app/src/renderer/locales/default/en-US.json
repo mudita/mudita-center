@@ -439,6 +439,7 @@
   "module.overview.phoneDescription": "Mudita Pure",
   "module.overview.phoneDisconnectAction": "Disconnect",
   "module.overview.phoneNoConnection": "No connection",
+  "module.overview.pureSystem": "Pure System",
   "module.overview.systemCheckForUpdates": "Check for updates",
   "module.overview.systemDownloadAction": "Download now",
   "module.overview.systemLastUpdate": "Updated: {date}",

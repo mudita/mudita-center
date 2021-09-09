@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
-import { URL_MAIN, URL_ONBOARDING } from "Renderer/constants/urls"
+import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "Renderer/constants/urls"
 import ConnectingContent from "App/connecting/connecting.component"
 import { updateAppSettings } from "Renderer/requests/app-settings.request"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -49,7 +49,7 @@ const Connecting: FunctionComponent<{
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (deviceUnlocked && initialDataLoaded) {
-        history.push(URL_MAIN.overview)
+        history.push(URL_OVERVIEW.root)
       }
     }, 500)
 
