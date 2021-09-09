@@ -11,6 +11,7 @@ import DeviceResponse, {
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
 import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
 export enum DeviceUpdateError {
   RestartTimedOut = "RestartTimedOut",
@@ -27,7 +28,8 @@ class PurePhone extends PurePhoneAdapter {
   static osUpdateRestartStep = PurePhone.osUpdateStepsMax - 1
   constructor(
     private deviceService: DeviceService,
-    private deviceFileSystemService: DeviceFileSystemService
+    private deviceFileSystemService: DeviceFileSystemService,
+    private deviceFileDiagnosticService: DeviceFileDiagnosticService
   ) {
     super()
   }
@@ -240,7 +242,13 @@ class PurePhone extends PurePhoneAdapter {
 
 const createPurePhoneAdapter = (
   deviceService: DeviceService,
-  deviceFileSystemService: DeviceFileSystemService
-): PurePhoneAdapter => new PurePhone(deviceService, deviceFileSystemService)
+  deviceFileSystemService: DeviceFileSystemService,
+  deviceFileDiagnosticService: DeviceFileDiagnosticService
+): PurePhoneAdapter =>
+  new PurePhone(
+    deviceService,
+    deviceFileSystemService,
+    deviceFileDiagnosticService
+  )
 
 export default createPurePhoneAdapter
