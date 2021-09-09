@@ -16,6 +16,7 @@ import DeviceFileSystemService, {
   DeviceFile,
 } from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
+import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
 
 export enum DeviceUpdateError {
   RestartTimedOut = "RestartTimedOut",
@@ -147,10 +148,9 @@ class PurePhone extends PurePhoneAdapter {
 
     return {
       data: option
-        ? this.transformDeviceFilesByOption(deviceFiles, option)
+        ? transformDeviceFilesByOption(deviceFiles, option)
         : deviceFiles,
       status: DeviceResponseStatus.Ok,
-      data: [],
     }
   }
 
@@ -270,14 +270,6 @@ class PurePhone extends PurePhoneAdapter {
 
   private static getUpdateOsProgress(step: number): number {
     return Math.round((step / PurePhone.osUpdateStepsMax) * 100)
-  }
-
-  private transformDeviceFilesByOption(
-    deviceFile: DeviceFile[],
-    option: DeviceLogFilesOption = {}
-  ): DeviceFile[] {
-    console.log("option: ", option)
-    return deviceFile
   }
 }
 

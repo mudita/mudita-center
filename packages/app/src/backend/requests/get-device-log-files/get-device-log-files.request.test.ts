@@ -27,7 +27,7 @@ jest.mock(
 )
 
 test("GetDeviceLogs request works properly", (done) => {
-  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
+  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: (
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
@@ -61,7 +61,7 @@ test("GetDeviceLogs request works properly", (done) => {
       },
     }
   })
-  ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
+  ;((DeviceFileDiagnosticService as unknown) as jest.Mock).mockImplementation(
     () => {
       return {
         getAllDiagnosticFileList: () => {
@@ -84,17 +84,22 @@ test("GetDeviceLogs request works properly", (done) => {
     deviceFileDiagnosticService
   )
 
-  registerGetDeviceLogFiles({
+  registerGetDeviceLogFiles(({
     purePhone,
-  } as unknown as Adapters)
+  } as unknown) as Adapters)
   const [promise] = (ipcMain as any)._flush(IpcRequest.GetDeviceLogFiles)
-  promise.then((result: DeviceResponse) => {
+  promise.then((result: DeviceResponse<DeviceFile[]>) => {
     expect(result).toMatchInlineSnapshot(`
-    Object {
-      "data": "Hello, World",
-      "status": "ok",
-    }
-  `)
+      Object {
+        "data": Array [
+          Object {
+            "data": "Hello, World",
+            "name": "MuditaOS.log",
+          },
+        ],
+        "status": "ok",
+      }
+    `)
     done()
   })
 })
