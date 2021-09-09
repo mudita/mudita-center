@@ -7,7 +7,7 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 
 export interface DeviceLogFilesOption {
   maxBytes?: number
-  dateLog?: boolean
+  datePrefix?: boolean
 }
 
 export interface DeviceFile extends Pick<File, "name"> {

@@ -118,7 +118,7 @@ class PurePhone extends PurePhoneAdapter {
 
   public async getDeviceLogFiles({
     maxBytes,
-    dateLog,
+    datePrefix,
   }: DeviceLogFilesOption = {}): Promise<DeviceResponse<DeviceFile[]>> {
     // return this.deviceFileSystemService.downloadFile("/sys/user/logs/MuditaOS.log"
     return {

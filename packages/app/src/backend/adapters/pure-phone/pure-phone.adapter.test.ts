@@ -147,9 +147,9 @@ describe("getDeviceLogFiles method", () => {
       expect(data[0].name).toEqual(firstFileName)
     })
 
-    test("should return properly date log prefix", async () => {
+    test("should return properly date prefix", async () => {
       const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
-        dateLog: true,
+        datePrefix: true,
       })
       expect(data[0].name).toEqual("2000-2-1-MuditaOS.log")
     })
@@ -169,10 +169,10 @@ describe("getDeviceLogFiles method", () => {
       expect(data[1].name).toEqual("MuditaOS-part2.log")
     })
 
-    test("files of the chunked File List should have properly set name and date log prefix", async () => {
+    test("files of the chunked File List should have properly set name and date prefix", async () => {
       const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
         maxBytes: 500,
-        dateLog: true,
+        datePrefix: true,
       })
       expect(data[0].name).toEqual("2000-2-1-MuditaOS-part1.log")
       expect(data[1].name).toEqual("2000-2-1-MuditaOS-part2.log")
