@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { renderWithThemeAndIntl} from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { InputText } from "Renderer/components/core/input-text/input-text.elements"
 import { useForm } from "react-hook-form"
 import { ContactSupportFieldValues } from "Renderer/components/rest/contact-support-modal/contact-support-modal.component"
@@ -57,23 +57,29 @@ describe("Form Validators", () => {
       return renderWithThemeAndIntl(<Form {...props} />)
     }
     test("should pass as valid when is the input wasn't active", () => {
-      const { queryAllByText } = render()
-      expect(queryAllByText("[value] component.formErrorInvalidEmail")).toHaveLength(0)
+      const { queryByText } = render()
+      expect(
+        queryByText("[value] component.formErrorInvalidEmail")
+      ).not.toBeInTheDocument()
     })
     test("should pass as valid when email value is corrected", () => {
-      const { getByTestId, queryAllByText } = render()
+      const { getByTestId, queryByText } = render()
       fireEvent.change(getByTestId(FormTestIds.Input), {
         target: { value: "mudita@center.com" },
       })
-      expect(queryAllByText("[value] component.formErrorInvalidEmail")).toHaveLength(0)
+      expect(
+        queryByText("[value] component.formErrorInvalidEmail")
+      ).not.toBeInTheDocument()
     })
-    test("should pass as invalid when the email is doubled",  async() => {
-      const { getByTestId, queryAllByText } = render()
+    test("should pass as invalid when the email is doubled", async () => {
+      const { getByTestId, queryByText } = render()
       fireEvent.change(getByTestId(FormTestIds.Input), {
         target: { value: "mudita@center.com,mudita@center.com" },
       })
       await waitFor(() => {
-        expect(queryAllByText("[value] component.formErrorInvalidEmail")).toHaveLength(1)
+        expect(
+          queryByText("[value] component.formErrorInvalidEmail")
+        ).toBeInTheDocument()
       })
     })
   })

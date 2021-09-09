@@ -17,8 +17,8 @@ import {
   GetThreadResponseBody,
   GetThreadsBody,
   Method,
-  PureDevice,
-  PureDeviceManager,
+  MuditaDevice,
+  MuditaDeviceManager,
   RequestConfig,
   Response,
   ResponseStatus,
@@ -36,12 +36,13 @@ export enum DeviceServiceEventName {
 }
 
 class DeviceService {
-  device: PureDevice | undefined
+  public devices: Record<string, MuditaDevice> = {}
+  public currentDevice: MuditaDevice | undefined
   private lockedInterval: NodeJS.Timeout | undefined
   private eventEmitter = new EventEmitter()
 
   constructor(
-    private deviceManager: PureDeviceManager,
+    private deviceManager: MuditaDeviceManager,
     private ipcMain: MainProcessIpc
   ) {}
 
@@ -98,13 +99,11 @@ class DeviceService {
     endpoint: Endpoint.Update
     method: Method.Post
     body: {
-      update: boolean,
+      update: boolean
       reboot: boolean
     }
   }): Promise<DeviceResponse>
-  public request(
-    config: GetFileSystemRequestConfig
-  ): Promise<
+  public request(config: GetFileSystemRequestConfig): Promise<
     DeviceResponse<{
       rxID: string
       fileCrc32: string
@@ -112,26 +111,20 @@ class DeviceService {
       chunkSize: number
     }>
   >
-  public request(
-    config: DownloadFileSystemRequestConfig
-  ): Promise<
+  public request(config: DownloadFileSystemRequestConfig): Promise<
     DeviceResponse<{
       rxID: string
       chunkNo: number
       data: string
     }>
   >
-  public request(
-    config: SendFileSystemRequestConfig
-  ): Promise<
+  public request(config: SendFileSystemRequestConfig): Promise<
     DeviceResponse<{
       txID: string
       chunkNo: number
     }>
   >
-  public request(
-    config: PutFileSystemRequestConfig
-  ): Promise<
+  public request(config: PutFileSystemRequestConfig): Promise<
     DeviceResponse<{
       txID: string
       chunkSize: number
@@ -140,7 +133,7 @@ class DeviceService {
   async request(
     config: RequestConfig<any>
   ): Promise<DeviceResponse<unknown> | DeviceResponse<undefined>> {
-    if (!this.device) {
+    if (!this.currentDevice) {
       return {
         status: DeviceResponseStatus.Error,
       }
@@ -149,7 +142,7 @@ class DeviceService {
     const eventName = JSON.stringify(config)
 
     if (!this.eventEmitter.eventNames().includes(eventName)) {
-      void this.device
+      void this.currentDevice
         .request(config)
         .then((response) => DeviceService.mapToDeviceResponse(response))
         .then((response) => {
@@ -176,7 +169,7 @@ class DeviceService {
   }
 
   public async connect(): Promise<DeviceResponse> {
-    if (this.device) {
+    if (this.currentDevice) {
       return {
         status: DeviceResponseStatus.Ok,
       }
@@ -194,7 +187,7 @@ class DeviceService {
   }
 
   public async disconnect(): Promise<DeviceResponse> {
-    if (!this.device) {
+    if (!this.currentDevice) {
       return {
         status: DeviceResponseStatus.Ok,
       }
@@ -242,21 +235,24 @@ class DeviceService {
 
   private registerAttachDeviceListener(): void {
     this.deviceManager.onAttachDevice(async (device) => {
-      if (!this.device) {
+      this.devices[device.path] = device
+
+      if (!this.currentDevice) {
         const { status } = await this.deviceConnect(device)
 
         if (status === DeviceResponseStatus.Ok) {
           this.eventEmitter.emit(DeviceServiceEventName.DeviceConnected)
-          this.ipcMain.sendToRenderers(IpcEmitter.DeviceConnected)
+          this.ipcMain.sendToRenderers(IpcEmitter.DeviceConnected, device)
         }
       }
     })
   }
 
-  private async deviceConnect(device: PureDevice): Promise<DeviceResponse> {
+  private async deviceConnect(device: MuditaDevice): Promise<DeviceResponse> {
     const { status } = await device.connect()
+
     if (status === ResponseStatus.Ok) {
-      this.device = device
+      this.currentDevice = device
 
       this.registerDeviceDisconnectedListener()
       this.registerDeviceUnlockedListener()
@@ -280,15 +276,15 @@ class DeviceService {
   }
 
   private registerDeviceDisconnectedListener(): void {
-    if (this.device) {
-      this.device.on(DeviceEventName.Disconnected, () => {
+    if (this.currentDevice) {
+      this.currentDevice.on(DeviceEventName.Disconnected, () => {
         this.clearSubscriptions()
       })
     }
   }
 
   private clearSubscriptions(): void {
-    this.device = undefined
+    this.currentDevice = undefined
     this.lockedInterval && clearInterval(this.lockedInterval)
     this.eventEmitter.emit(DeviceServiceEventName.DeviceDisconnected)
     this.ipcMain.sendToRenderers(IpcEmitter.DeviceDisconnected)
@@ -327,6 +323,12 @@ class DeviceService {
         error,
         status: DeviceResponseStatus.InternalServerError,
       }
+    } else if (status === ResponseStatus.Conflict) {
+      return {
+        data,
+        error,
+        status: DeviceResponseStatus.Duplicated,
+      }
     } else {
       return {
         error,
@@ -337,7 +339,7 @@ class DeviceService {
 }
 
 export const createDeviceService = (
-  deviceManager: PureDeviceManager,
+  deviceManager: MuditaDeviceManager,
   ipcMain: MainProcessIpc
 ): DeviceService => {
   return new DeviceService(deviceManager, ipcMain).init()

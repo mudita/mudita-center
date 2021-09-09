@@ -3,10 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Calendar,
-  CalendarEvent,
-} from "App/calendar/store/calendar.interfaces"
+import { Calendar, CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import {
   GoogleCalendar,
   GoogleContactResourceItem,
@@ -114,9 +111,8 @@ export const mapContact = (contact: GoogleContactResourceItem): Contact => {
   let note = ""
 
   if (contact.names) {
-    ;[lastName, firstName = ""] = contact.names[0].displayNameLastFirst.split(
-      ","
-    )
+    ;[lastName, firstName = ""] =
+      contact.names[0].displayNameLastFirst.split(",")
   }
 
   if (contact.phoneNumbers) {

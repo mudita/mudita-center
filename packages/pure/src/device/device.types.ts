@@ -3,7 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface PureDevice {
+import { DeviceType } from "./constants"
+
+export interface MuditaDevice {
+  path: string
+  deviceType: DeviceType
   connect(): Promise<Response>
   disconnect(): Promise<Response>
   request(config: RequestConfig<any>): Promise<Response<any>>
@@ -11,7 +15,10 @@ export interface PureDevice {
   off(eventName: DeviceEventName, listener: () => void): void
 }
 
-export type CreateDevice = (path: string) => PureDevice
+export type CreateDeviceStrategy = (
+  path: string,
+  deviceType: DeviceType
+) => MuditaDevice
 
 export enum ResponseStatus {
   Ok = 200,
@@ -21,6 +28,7 @@ export enum ResponseStatus {
   NotFound = 404,
   PhoneLocked = 403,
   NotAcceptable = 406,
+  Conflict = 409,
   InternalServerError = 500,
 
   // lib status

@@ -18,11 +18,17 @@ test("returns news response properly", async () => {
   const data = {
     response: "ok",
   }
-  axiosMock.onGet(`${process.env.MUDITA_CENTER_SERVER_URL as string}/${MuditaCenterServerRoutes.News}`).reply(200, {
-    data,
-  })
+  axiosMock
+    .onGet(
+      `${process.env.MUDITA_CENTER_SERVER_URL as string}/${
+        MuditaCenterServerRoutes.News
+      }`
+    )
+    .reply(200, {
+      data,
+    })
   const client = new Client()
-  const result = await client.getNews({limit: 3})
+  const result = await client.getNews({ limit: 3 })
   expect(result).toStrictEqual({ data })
 })
 
@@ -30,9 +36,15 @@ test("returns help response properly", async () => {
   const data = {
     response: "ok",
   }
-  axiosMock.onGet(`${process.env.MUDITA_CENTER_SERVER_URL as string}/${MuditaCenterServerRoutes.Help}`).reply(200, {
-    data,
-  })
+  axiosMock
+    .onGet(
+      `${process.env.MUDITA_CENTER_SERVER_URL as string}/${
+        MuditaCenterServerRoutes.Help
+      }`
+    )
+    .reply(200, {
+      data,
+    })
   const client = new Client()
   const result = await client.getHelp({
     nextSyncToken: "dsad921342",
@@ -44,7 +56,5 @@ test("returns 404 when no query is provided", () => {
   const client = new Client()
   expect(async () => {
     await client.getHelp({})
-  }).rejects.toThrowError(
-    `Error: Request failed with status code 404`
-  )
+  }).rejects.toThrowError(`Error: Request failed with status code 404`)
 })

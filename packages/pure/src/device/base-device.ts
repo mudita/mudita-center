@@ -8,25 +8,26 @@ import { EventEmitter } from "events"
 import {
   ApiRequestPayload,
   DeviceEventName,
-  PureDevice,
+  MuditaDevice,
   RequestConfig,
   RequestPayload,
   Response,
   ResponseStatus,
 } from "./device.types"
+import { DeviceType } from "./constants"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
 import { isApiRequestPayload } from "./device-helper"
 import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator"
 import { timeout } from "../timeout"
 
-class BaseDevice implements PureDevice {
+class BaseDevice implements MuditaDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
   #portBlocked = false
   #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
-  constructor(private path: string) {}
+  constructor(public path: string, public deviceType: DeviceType) {}
 
   @log("==== serial port: connect ====")
   public connect(): Promise<Response> {

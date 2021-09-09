@@ -24,9 +24,13 @@ interface AboutProps {
   openPrivacyPolicy: () => void
 }
 
-const AboutUI: FunctionComponent<AboutProps> = ({ openLicense, openTermsOfService, openPrivacyPolicy }) => (
+const AboutUI: FunctionComponent<AboutProps> = ({
+  openLicense,
+  openTermsOfService,
+  openPrivacyPolicy,
+}) => (
   <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
-    <SettingsTableRow checkMode={false} >
+    <SettingsTableRow checkMode={false}>
       <Data>
         <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
           <FormattedMessage id="module.settings.aboutTermsOfService" />

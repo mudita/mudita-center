@@ -8,4 +8,5 @@ export enum ContactPanelTestIdsEnum {
   ImportButton = "import-button",
   NewButton = "new-contact-button",
   SaveButton = "save-button",
+  SearchTitle = "search-title",
 }

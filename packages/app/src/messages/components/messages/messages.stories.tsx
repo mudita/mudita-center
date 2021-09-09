@@ -111,7 +111,8 @@ storiesOf("Views|Messages", module).add("Messages", () => (
       getMessagesByThreadId={getMessagesByThreadId}
       getMessagesResultMapStateByThreadId={getMessagesResultsMapStateByThreadId}
       isContactCreated={isContactCreated}
-      loadMessagesByThreadId={loadMessagesByThreadId}/>
+      loadMessagesByThreadId={loadMessagesByThreadId}
+    />
   </div>
 ))
 

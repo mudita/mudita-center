@@ -44,7 +44,7 @@ const contact: Contact = {
 jest.mock("Backend/device-service")
 
 test("return mapped contacts from pure to Contact model", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
         return {

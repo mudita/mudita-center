@@ -1,13 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
-    <defs>
-        <rect id="j6u8mvf03a" width="24" height="24" x="0" y="0" rx="4"/>
-    </defs>
-    <g fill="none" fill-rule="evenodd" transform="translate(4 4)">
-        <mask id="aki6e5mwhb" fill="#fff">
-            <use xlink:href="#j6u8mvf03a"/>
-        </mask>
-        <g fill="#000" mask="url(#aki6e5mwhb)">
-            <path d="M19.273 9.09c.401 0 .727.327.727.728v9.455c0 .401-.326.727-.727.727H7.636c-.401 0-.727-.326-.727-.727V9.818c0-.401.326-.727.727-.727h11.637zm-.728 1.455H8.364v8h10.181v-8zm-1.455.727v2.91c0 .401-.325.727-.726.727H9.09v-1.455h6.546v-2.182h1.454zM16.364 4c.401 0 .727.326.727.727l-.001 3.636h-1.454V5.455H5.455v8l.726-.001v1.455H4.727c-.401 0-.727-.326-.727-.727V4.727C4 4.326 4.326 4 4.727 4h11.637z"/>
-        </g>
-    </g>
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="5" y="5" width="38" height="38">
+<path d="M38 6H10C7.79086 6 6 7.79086 6 10V38C6 40.2091 7.79086 42 10 42H38C40.2091 42 42 40.2091 42 38V10C42 7.79086 40.2091 6 38 6Z" fill="white" stroke="black" stroke-width="2"/>
+</mask>
+<g mask="url(#mask0)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M11 12C11 11.4477 11.4477 11 12 11H31C31.5523 11 32 11.4477 32 12V18H30V13H13V26.5H14.5V28.5H12C11.4477 28.5 11 28.0523 11 27.5V12ZM30 26.5V22.5H32V27.5C32 28.0523 31.5523 28.5 31 28.5H19.5V26.5H30Z" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M16 20C16 19.4477 16.4477 19 17 19H36C36.5523 19 37 19.4477 37 20V36C37 36.5523 36.5523 37 36 37H17C16.4477 37 16 36.5523 16 36V20ZM18 21V35H35V21H18Z" fill="black"/>
+</g>
 </svg>

@@ -46,9 +46,8 @@ const StatBoxes: FunctionComponent<Props> = ({
   dataReceived,
 }) => {
   const [dataSentValue, dataSentUnit] = convertBytes(dataSent).split(" ")
-  const [dataReceivedValue, dataReceivedUnit] = convertBytes(
-    dataReceived
-  ).split(" ")
+  const [dataReceivedValue, dataReceivedUnit] =
+    convertBytes(dataReceived).split(" ")
   return (
     <StatBoxesWrapper>
       <DataBox>

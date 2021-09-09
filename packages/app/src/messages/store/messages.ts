@@ -174,7 +174,7 @@ const messages = createModel<RootModel>({
     },
   },
   effects: (d) => {
-    const dispatch = (d as unknown) as RootState
+    const dispatch = d as unknown as RootState
     const messagesLoadMap: { [key: string]: boolean } = {}
     let loading = false
 

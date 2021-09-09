@@ -262,9 +262,6 @@ const EmptyStateWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${backgroundColor("row")};
-  border-top: solid 0.1rem ${borderColor("list")};
-  margin-top: 2.2rem;
-
   p:first-of-type {
     margin-top: 2.4rem;
   }

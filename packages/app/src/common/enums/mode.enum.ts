@@ -8,5 +8,5 @@ export enum Mode {
   ServerError = "server-error",
   License = "license",
   TermsOfService = "terms-of-services",
-  PrivacyPolicy = "privacy-policy"
+  PrivacyPolicy = "privacy-policy",
 }

@@ -7,7 +7,7 @@ import {
   ContactActions,
   ContactDetailsActions,
 } from "App/contacts/components/contact-details/contact-details.component"
-import { ContactPanelProps } from "App/contacts/components/contact-panel/contact-panel.component"
+import ContactPanel from "App/contacts/components/contact-panel/contact-panel.component"
 import {
   Contact,
   ContactID,
@@ -17,6 +17,15 @@ import {
 import { AuthProviders } from "Renderer/models/auth/auth.typings"
 import { History, LocationState } from "history"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { ComponentProps } from "react"
+
+export interface ContactErrorResponse {
+  status: DeviceResponseStatus
+  message: string
+}
+
+type ContactPanelProps = ComponentProps<typeof ContactPanel>
 
 export type PhoneProps = ContactActions &
   Omit<ContactPanelProps, "onContactSelect"> &
@@ -30,7 +39,8 @@ export type PhoneProps = ContactActions &
     isThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
     authorize: (provider: Provider) => Promise<string | undefined>
-    addNewContact: (contact: NewContact) => Promise<string | void>
+    addNewContact: (contact: NewContact) => Promise<ContactErrorResponse | void>
+    importContact: (contact: NewContact) => Promise<string | void>
     editContact: (contact: Contact) => Promise<string | void>
     deleteContacts: (ids: ContactID[]) => Promise<string | void>
     loadContacts: (provider: Provider) => Promise<Contact[]>
@@ -39,3 +49,5 @@ export type PhoneProps = ContactActions &
 export interface NewContactResponse extends NewContact {
   successfullyAdded: boolean
 }
+
+export type FormError = { field: keyof Contact; error: string }

@@ -91,9 +91,8 @@ const Story: FunctionComponent<StoryProps> = ({
   noCode,
   noUppercase,
 }) => {
-  const { storySettings, setStorySettings, setCompatibleStory } = useContext(
-    StoryContext
-  )
+  const { storySettings, setStorySettings, setCompatibleStory } =
+    useContext(StoryContext)
   const { lineNumber } = getSource(children as StoryChildren)
 
   const showLine = () =>

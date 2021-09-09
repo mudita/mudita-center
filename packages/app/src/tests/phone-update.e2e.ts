@@ -58,7 +58,9 @@ test("success update test", async () => {
   await app.client.$(`*[data-testid=${SystemTestIds.DownloadButton}]`).click()
   await app.client.waitUntil(() =>
     app.client
-      .$(`*[data-testid=${OverviewModalsTestIds.DownloadingUpdateFinishedModal}]`)
+      .$(
+        `*[data-testid=${OverviewModalsTestIds.DownloadingUpdateFinishedModal}]`
+      )
       .isVisible()
   )
   await app.client.$(`*[data-testid=${ModalTestIds.ModalActionButton}]`).click()

@@ -1,13 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
-    <defs>
-        <rect id="s9t6hloqha" width="24" height="24" x="0" y="0" rx="4"/>
-    </defs>
-    <g fill="none" fill-rule="evenodd" transform="translate(4 4)">
-        <mask id="ovwgtec7hb" fill="#fff">
-            <use xlink:href="#s9t6hloqha"/>
-        </mask>
-        <g stroke="#6A6A6A" stroke-width="2" mask="url(#ovwgtec7hb)">
-            <path d="M4.564 4.929L19.23 19.07m0-14.142L4.564 19.07"/>
-        </g>
-    </g>
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="6" y="6" width="36" height="36">
+<path d="M38 6H10C7.79086 6 6 7.79086 6 10V38C6 40.2091 7.79086 42 10 42H38C40.2091 42 42 40.2091 42 38V10C42 7.79086 40.2091 6 38 6Z" fill="white"/>
+</mask>
+<g mask="url(#mask0)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14.1005 14.1005C14.4911 13.71 15.1242 13.71 15.5148 14.1005L24 22.5858L32.4853 14.1005C32.8758 13.71 33.509 13.71 33.8995 14.1005C34.2901 14.491 34.2901 15.1242 33.8995 15.5147L25.4143 24L33.8995 32.4853C34.2901 32.8758 34.2901 33.509 33.8995 33.8995C33.509 34.29 32.8758 34.29 32.4853 33.8995L24 25.4142L15.5148 33.8995C15.1242 34.29 14.4911 34.29 14.1005 33.8995C13.71 33.509 13.71 32.8758 14.1005 32.4853L22.5858 24L14.1005 15.5147C13.71 15.1242 13.71 14.491 14.1005 14.1005Z" fill="black"/>
+</g>
 </svg>
+

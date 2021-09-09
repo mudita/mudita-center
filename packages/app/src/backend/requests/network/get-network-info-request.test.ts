@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PureDeviceManager, { DeviceInfo } from "@mudita/pure"
+import MuditaDeviceManager, { DeviceInfo } from "@mudita/pure"
 import registerNetworkInfoRequest from "Backend/requests/network/get-network-info.request"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
@@ -12,7 +12,7 @@ import DeviceService from "Backend/device-service"
 import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-phone-network.adapter"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 
-const mockDeviceInfo: DeviceInfo = ({
+const mockDeviceInfo: DeviceInfo = {
   accessTechnology: "255",
   batteryLevel: "35",
   batteryState: "1",
@@ -28,12 +28,12 @@ const mockDeviceInfo: DeviceInfo = ({
   selectedSim: "0",
   signalStrength: "1",
   trayState: "1",
-} as unknown) as DeviceInfo
+} as unknown as DeviceInfo
 
 jest.mock("Backend/device-service")
 
 test("returns required network info", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => ({
         data: mockDeviceInfo,
@@ -41,11 +41,11 @@ test("returns required network info", async () => {
       }),
     }
   })
-  registerNetworkInfoRequest(({
+  registerNetworkInfoRequest({
     pureNetwork: createPurePhoneNetwork(
-      new DeviceService(PureDeviceManager, ipcMain)
+      new DeviceService(MuditaDeviceManager, ipcMain)
     ),
-  } as unknown) as Adapters)
+  } as unknown as Adapters)
 
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetNetworkInfo)
   const result = await pendingResponse

@@ -1,1 +1,7 @@
-{"availableLanguages":[{"id":"2d76bde42da948924eea4ff360ab93ec","code":"en-US"},{"id":"07dd5fea4dd88a3cc3dae6e52e949dc1","code":"en-US"},{"id":"fc16c512033aad8054e796695e077aea","code":"pl-PL"}],"defaultLanguage":"en-US"}
+{
+  "availableLanguages": [
+    { "id": "2d76bde42da948924eea4ff360ab93ec", "code": "en-US" },
+    { "id": "fc16c512033aad8054e796695e077aea", "code": "pl-PL" }
+  ],
+  "defaultLanguage": "en-US"
+}

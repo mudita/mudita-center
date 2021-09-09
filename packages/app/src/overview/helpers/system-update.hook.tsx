@@ -52,6 +52,7 @@ const onOsDownloadCancel = () => {
 
 const useSystemUpdateFlow = (
   osVersion: string | undefined,
+  osUpdateDate: string | undefined,
   onUpdate: (updateInfo: PhoneUpdate) => void,
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
   toggleDeviceUpdating: (option: boolean) => void,
@@ -182,7 +183,7 @@ const useSystemUpdateFlow = (
 
   const openNotAvailableUpdateModal = () => {
     return modalService.openModal(
-      <UpdateNotAvailable version={osVersion} />,
+      <UpdateNotAvailable version={osVersion} date={osUpdateDate} />,
       true
     )
   }
@@ -227,9 +228,7 @@ const useSystemUpdateFlow = (
         if (!silent) {
           await openCheckingForUpdatesFailedModal(() => checkForUpdates())
         }
-        logger.error(
-          `Overview: check for updates fail. Data: ${error.message}`
-        )
+        logger.error(`Overview: check for updates fail. Data: ${error.message}`)
       }
     }
   }
