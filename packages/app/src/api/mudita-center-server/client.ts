@@ -10,7 +10,7 @@ import {
   HelpQuery,
 } from "App/api/mudita-center-server/client.interface"
 import { MuditaCenterServerRoutes } from "App/api/mudita-center-server/mudita-center-server-routes"
-import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
+import { NewsEntry } from "App/news/store/mudita-news.interface"
 
 export class Client implements ClientInterface {
   private httpClient: AxiosInstance = axios.create()

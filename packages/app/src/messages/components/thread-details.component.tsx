@@ -3,194 +3,71 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React, { ChangeEvent, ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
-import { noop } from "Renderer/utils/noop"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
-import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { intl } from "Renderer/utils/intl"
 import {
   Message,
+  Receiver,
   ResultState,
-  Thread,
 } from "App/messages/store/messages.interface"
-import {
-  LeadingButton,
-  MessagesSidebar,
-  MessagesWrapper,
-  NameWrapper,
-  PhoneNumberText,
-  Textarea,
-  TextareaWrapper,
-} from "App/messages/components/thread-details.styled"
+import { MessagesWrapper } from "App/messages/components/thread-details.styled"
+import { Sidebar } from "Renderer/components/core/table/table.component"
 import ThreadDetailsError from "App/messages/components/thread-details-error.component"
 import ThreadDetailsLoading from "App/messages/components/thread-details-loading.component"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
-import { Contact } from "App/contacts/store/contacts.type"
+import ThreadDetailsTextArea from "App/messages/components/thread-details-text-area.component"
+import ThreadDetailsSidebar from "App/messages/components/thread-details-sidebar.component"
+import ThreadDetailsSidebarRightHeader from "App/messages/components/thread-details-sidebar-right-header.component"
 
-export interface ThreadDetailsProps {
-  thread: Thread
-  onClose?: () => void
-  onDeleteClick: (id: string) => void
-  onUnreadStatus: (ids: string[]) => void
-  onContactClick: (phoneNumber: string) => void
+type SidebarProps = ComponentProps<typeof Sidebar>
+type ThreadDetailsRightHeaderProps = ComponentProps<
+  typeof ThreadDetailsSidebarRightHeader
+>
+
+interface Props extends SidebarProps, ThreadDetailsRightHeaderProps {
+  content: string
+  receiver: Receiver
+  messages: Message[]
+  resultState: ResultState
+  onLoadMessagesClick: () => void
   onAttachContactClick: () => void
-  getContact: (contactId: string) => Contact
-  getMessagesByThreadId: (threadId: string) => Message[]
-  loadMessagesByThreadId: (threadId: string) => Message[]
-  getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
-  isContactCreated: (id: string) => boolean
+  onSendClick: () => void
+  onContentChange: (content: string) => void
 }
 
-const trailingIcon = [
-  <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
-]
-
-const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
-  thread,
-  onClose = noop,
-  onUnreadStatus,
-  onDeleteClick,
-  onContactClick,
+const ThreadDetails: FunctionComponent<Props> = ({
+  content,
+  receiver,
+  messages,
+  resultState,
+  onLoadMessagesClick,
   onAttachContactClick,
-  getMessagesByThreadId,
-  loadMessagesByThreadId,
-  getContact,
-  getMessagesResultMapStateByThreadId,
-  isContactCreated,
+  onSendClick,
+  onContentChange,
+  ...props
 }) => {
-  const resultState = getMessagesResultMapStateByThreadId(thread.id)
-  const messages = getMessagesByThreadId(thread.id)
-  const contact = getContact(thread.contactId)
-  const loadThread = () => loadMessagesByThreadId(thread.id)
-  useEffect(() => {
-    loadThread()
-  }, [thread.id])
-  const markAsUnread = () => {
-    onUnreadStatus([thread.id])
-    onClose()
+  const handleTextAreaChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    onContentChange(event.target.value)
   }
-  const handleDeleteClick = () => onDeleteClick(thread.id)
-  const handleContactClick = () => onContactClick(thread.id)
-  const icons = (
-    <>
-      {process.env.NODE_ENV !== "production" && (
-        <SidebarHeaderButton
-          Icon={Type.Calls}
-          onClick={noop}
-          iconSize={IconSize.Big}
-        />
-      )}
-      {isContactCreated(thread.contactId) ? (
-        <SidebarHeaderButton
-          Icon={Type.Contact}
-          onClick={handleContactClick}
-          iconSize={IconSize.Big}
-        />
-      ) : (
-        <SidebarHeaderButton
-          Icon={Type.NewContact}
-          onClick={handleContactClick}
-          iconSize={IconSize.Big}
-        />
-      )}
-      {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
-      {process.env.NODE_ENV !== "production" && (
-        <>
-          <SidebarHeaderButton
-            Icon={Type.BorderCheckIcon}
-            onClick={markAsUnread}
-            iconSize={IconSize.Big}
-          />
-          <SidebarHeaderButton
-            Icon={Type.Delete}
-            onClick={handleDeleteClick}
-            iconSize={IconSize.Big}
-          />
-        </>
-      )}
-    </>
-  )
-
-  const leadingIcons = [
-    <LeadingButton
-      key={Type.AttachContact}
-      Icon={Type.AttachContact}
-      onClick={onAttachContactClick}
-    />,
-    <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />,
-  ]
 
   return (
-    <MessagesSidebar
-      show
-      headerLeft={
-        <>
-          <NameWrapper>
-            <Text
-              displayStyle={TextDisplayStyle.LargeBoldText}
-              data-testid="sidebar-fullname"
-            >
-              {getPrettyCaller(contact, thread.id)}
-            </Text>
-            {Boolean(thread.id && contact?.secondaryPhoneNumber) && (
-              <Text
-                displayStyle={TextDisplayStyle.LargeFadedText}
-                data-testid="multiple-number"
-              >
-                &nbsp;
-                {thread.id.split(" ").join("") ===
-                contact.secondaryPhoneNumber?.split(" ").join("")
-                  ? "#2"
-                  : "#1"}
-              </Text>
-            )}
-          </NameWrapper>
-          {isNameAvailable(contact) && (
-            <PhoneNumberText
-              displayStyle={TextDisplayStyle.MediumFadedLightText}
-              data-testid="sidebar-phone-number"
-            >
-              {thread.id}
-            </PhoneNumberText>
-          )}
-        </>
-      }
-      headerRight={icons}
-      onClose={onClose}
-      withBottomBorder
-      padded={false}
-    >
+    <ThreadDetailsSidebar receiver={receiver} {...props}>
       <MessagesWrapper>
         {resultState === ResultState.Error && (
-          <ThreadDetailsError onClick={loadThread} />
+          <ThreadDetailsError onClick={onLoadMessagesClick} />
         )}
         {resultState === ResultState.Loading && <ThreadDetailsLoading />}
         {resultState === ResultState.Loaded && (
-          <ThreadDetailsMessages messages={messages} contact={contact} />
+          <ThreadDetailsMessages messages={messages} receiver={receiver} />
         )}
       </MessagesWrapper>
-      {process.env.NODE_ENV !== "production" && (
-        <TextareaWrapper>
-          <Textarea
-            type="textarea"
-            value={""}
-            onChange={noop}
-            leadingIcons={leadingIcons}
-            trailingIcons={trailingIcon}
-            label={intl.formatMessage({
-              id: "module.messages.textAreaPlaceholder",
-            })}
-          />
-        </TextareaWrapper>
-      )}
-    </MessagesSidebar>
+      <ThreadDetailsTextArea
+        value={content}
+        onSendClick={onSendClick}
+        onChange={handleTextAreaChange}
+        onAttachContactClick={onAttachContactClick}
+      />
+    </ThreadDetailsSidebar>
   )
 }
 

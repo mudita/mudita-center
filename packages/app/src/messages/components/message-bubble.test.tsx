@@ -4,74 +4,76 @@
  */
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import React from "react"
+import React, { ComponentProps } from "react"
 import MessageBubble from "App/messages/components/message-bubble.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom"
+import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
 
-const user = { firstName: "user", lastName: "userowski", id: "0" }
-const date = new Date()
+type Props = ComponentProps<typeof MessageBubble>
+
 const emptyUser = { firstName: "", lastName: "", id: "" }
-const id = "123"
-const message =
-  "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae"
+const defaultProps: Props = {
+  user: { firstName: "user", lastName: "userowski" },
+  date: new Date(),
+  id: "123",
+  message: "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae"
+}
+
+const renderer = (extraProps?: {}) => {
+  const props: Props = {
+    ...defaultProps,
+    ...extraProps,
+  }
+
+  const outcome = renderWithThemeAndIntl(<MessageBubble {...props} />)
+
+  return {
+    ...outcome,
+  }
+}
+
 
 test("by default dropdown is not visible", () => {
-  const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble user={user} date={date} message={message} id={id} />
-  )
-  expect(getByTestId("dropdown")).not.toBeVisible()
+  const { getByTestId } = renderer()
+  expect(getByTestId(MessageBubbleTestIds.Dropdown)).not.toBeVisible()
 })
 
 test("after clicking button, dropdown is displayed", () => {
-  const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble user={user} date={date} message={message} id={id} />
-  )
-  fireEvent.click(getByTestId("dropdown-action-button"))
-  expect(getByTestId("dropdown")).toBeVisible()
+  const { getByTestId } = renderer()
+  fireEvent.click(getByTestId(MessageBubbleTestIds.DropdownActionButton))
+  expect(getByTestId(MessageBubbleTestIds.Dropdown)).toBeVisible()
 })
 
 test("forwards message", () => {
   const forwardMessage = jest.fn()
-  const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble
-      user={user}
-      date={date}
-      message={message}
-      forwardMessage={forwardMessage}
-      id={id}
-    />
-  )
-  fireEvent.click(getByTestId("forward-message"))
+  const { getByTestId } = renderer({forwardMessage})
+  fireEvent.click(getByTestId(MessageBubbleTestIds.ForwardMessageButton))
   expect(forwardMessage).toHaveBeenCalled()
-  expect(forwardMessage).toHaveBeenCalledWith(id)
+  expect(forwardMessage).toHaveBeenCalledWith(defaultProps.id)
 })
 
 test("removes message", () => {
   const removeMessage = jest.fn()
-  const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble
-      user={user}
-      date={date}
-      message={message}
-      removeMessage={removeMessage}
-      id={id}
-    />
-  )
-  fireEvent.click(getByTestId("delete-message"))
-  expect(removeMessage).toHaveBeenCalledWith(id)
+  const { getByTestId } = renderer({removeMessage})
+  fireEvent.click(getByTestId(MessageBubbleTestIds.DeleteMessageButton))
+  expect(removeMessage).toHaveBeenCalledWith(defaultProps.id)
 })
 
 test("when author of message is unknown, displays default icon in avatar", () => {
-  const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble
-      user={emptyUser}
-      date={date}
-      message={message}
-      id={id}
-      displayAvatar
-      interlocutor
-    />
-  )
+  const { getByTestId } = renderer({displayAvatar: true, interlocutor: true, user: emptyUser})
   expect(getByTestId("icon-ContactFilled")).toBeInTheDocument()
+})
+
+describe("Message Bubble Container", () => {
+  test("should has flex-direction set to row-reverse when interlocutor is true", () => {
+    const { getByTestId } = renderer({ interlocutor: true })
+    const container = getByTestId(MessageBubbleTestIds.Container)
+    expect(container).toHaveStyle("flex-direction: row-reverse")
+  })
+  test("should has flex-direction set to row when interlocutor is false", () => {
+    const { getByTestId } = renderer({ interlocutor: false })
+    const container = getByTestId(MessageBubbleTestIds.Container)
+    expect(container).toHaveStyle("flex-direction: row")
+  })
 })
