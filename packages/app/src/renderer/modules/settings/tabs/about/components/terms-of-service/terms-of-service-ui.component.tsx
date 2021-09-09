@@ -14,6 +14,7 @@ import {
   LightText,
   LightTextNested,
 } from "Renderer/modules/settings/tabs/about/components/shared"
+import { EXTERNAL_URLS } from "App/renderer/constants/external-urls"
 
 const TermsOfServiceUI: FunctionComponent = () => (
   <WindowContainer data-testid={TermsOfServiceComponentTestIds.Wrapper}>
@@ -67,7 +68,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
       processing personal data of the User by Mudita Center, available under the
       address:{" "}
       <a
-        href={`https://mudita.com/legal/privacy-policy/mudita-center/`}
+        href={EXTERNAL_URLS.privacyPolicy}
         rel="noreferrer"
         target="_blank"
       >
@@ -78,7 +79,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
       d. <b>Terms and Conditions</b> – the present Terms and Conditions
       available at:{" "}
       <a
-        href={`https://mudita.com/legal/terms-conditions/mudita-center/`}
+        href={EXTERNAL_URLS.termsAndConditions}
         rel="noreferrer"
         target="_blank"
       >
@@ -346,7 +347,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
       Conditions come into effect. The new content of the Regulations will be
       available each time in the appropriate tab of The App and on the Website{" "}
       <a
-        href={`https://mudita.com/legal/terms-conditions/mudita-center/`}
+        href={EXTERNAL_URLS.termsAndConditions}
         rel="noreferrer"
         target="_blank"
       >
