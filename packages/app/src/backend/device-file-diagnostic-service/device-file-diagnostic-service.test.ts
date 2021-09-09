@@ -39,7 +39,7 @@ describe("DeviceFileDiagnosticService serivce", () => {
     test("should return properly FileList length", async () => {
       const { data = [] } =
         await deviceFileDiagnosticService.getAllDiagnosticFileList()
-      expect(data).toHaveLength(3)
+      expect(data).toHaveLength(2)
     })
   })
 })
