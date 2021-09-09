@@ -67,22 +67,22 @@ const TermsOfServiceUI: FunctionComponent = () => (
       processing personal data of the User by Mudita Center, available under the
       address:{" "}
       <a
-        href={`https://mudita.com/legal/privacy-policy-center/`}
+        href={`https://mudita.com/legal/privacy-policy/mudita-center/`}
         rel="noreferrer"
         target="_blank"
       >
-        www.mudita.com/legal/privacy-policy-center/
+        www.mudita.com/legal/privacy-policy/mudita-center/
       </a>
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.MediumFadedLightText}>
       d. <b>Terms and Conditions</b> – the present Terms and Conditions
       available at:{" "}
       <a
-        href={`https://www.mudita.com/legal/terms/eng/`}
+        href={`https://mudita.com/legal/terms-conditions/mudita-center/`}
         rel="noreferrer"
         target="_blank"
       >
-        www.mudita.com/legal/terms/eng
+        www.mudita.com/legal/terms-conditions/mudita-center/
       </a>
       . Terms and Conditions also constitute the terms and conditions for the
       provision of electronic services, referred to in Article 8(1)(1) of the
@@ -346,11 +346,11 @@ const TermsOfServiceUI: FunctionComponent = () => (
       Conditions come into effect. The new content of the Regulations will be
       available each time in the appropriate tab of The App and on the Website{" "}
       <a
-        href={`http://www.mudita.com/legal/terms/eng`}
+        href={`https://mudita.com/legal/terms-conditions/mudita-center/`}
         rel="noreferrer"
         target="_blank"
       >
-        www.mudita.com/legal/terms/eng
+        www.mudita.com/legal/terms-conditions/mudita-center/
       </a>
       . If you do not uninstall the App, even though you have received notice of
       an amendment to these Terms and Conditions, you are deemed to accept the

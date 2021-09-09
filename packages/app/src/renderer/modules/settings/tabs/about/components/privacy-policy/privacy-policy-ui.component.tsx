@@ -53,7 +53,7 @@ const PrivacyPolicyUI: FunctionComponent = () => (
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       2. <b>Contact details</b> Mudita has set one contact point for all
       personal data issues. If you would like to contact us, please write us an
-      e-mail to: office@mudita.com or send a letter to: Mudita sp. z o.o., Jana
+      e-mail to: <a href={`mailto:office@mudita.com`}>office@mudita.com</a> or send a letter to: Mudita sp. z o.o., Jana
       Czeczota Street No. 9, 02-607 Warsaw with the note: "Personal data".
     </LightText>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
@@ -68,15 +68,20 @@ const PrivacyPolicyUI: FunctionComponent = () => (
       4. <b>What is the scope of data processed?</b> We process your personal
       database exclusively on your consent (basis of Art. 6 sec. 1 letter. a of
       the GDPR). With your permission, Mudita will gain access to information
-      concerning errors that may occur while using Mudita Pure and the Software.
-      The aim of accessing such information is to fix errors and further develop
-      the Mudita Pure device and the Software. Information accessed this way
-      will be limited to diagnostic data, including the description of the
-      error, type of operating system, version of the Software, and other
-      technical data, as well as data containing the IP address of the computer
-      that was used to check for Updates for the Software or the Mudita Pure
-      device. No other data will be accessed by Mudita in connection with your
-      use of the Software.
+      concerning the following errors (general errors, crash dumps, warnings, hard faults;
+      Bluetooth data - state, signal power, controls state; VoLTE - network
+      mode, on/off settings, phone call state; power management - average
+      battery voltage level, minimal and maximal voltage, average current from
+      the battery, state of charge; cellular - SIM slot selected, Mobile Network
+      Code and Mobile Country Code) that may occur while using Mudita Pure and
+      the Software. The aim of accessing such information is to fix errors and
+      further develop the Mudita Pure device and the Software. Information
+      accessed this way will be limited to diagnostic data, including the
+      description of the error, type of operating system, version of the
+      Software, and other technical data, as well as data containing the IP
+      address of the computer that was used to check for updates for the
+      Software or the Mudita Pure device. No other data will be accessed by
+      Mudita in connection with your use of the Software.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       5. <b>How long do we process your personal data?</b> Until you revoke your
@@ -115,7 +120,7 @@ const PrivacyPolicyUI: FunctionComponent = () => (
       c. <b>Accuracy rule.</b> We strive to keep your personal data in our
       systems up-to-date and truthful. If you find that in some area your
       personal data have not been updated or are incorrect, please contact us at
-      the email address office@mudita.com;
+      the email address <a href={`mailto:office@mudita.com`}>office@mudita.com</a>;
     </LightTextNested>
     <LightTextNested displayStyle={TextDisplayStyle.MediumFadedLightText}>
       d. <b>Integrity and confidentiality rule.</b> We apply the necessary
@@ -203,7 +208,7 @@ const PrivacyPolicyUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       You can perform the above-mentioned rights by contacting us at the e-mail
-      address office@mudita.com or by post on <b>Mudita sp. z o.o.</b>, Jana
+      address <a href={`mailto:office@mudita.com`}>office@mudita.com</a> or by post on <b>Mudita sp. z o.o.</b>, Jana
       Czeczota Street No. 9, 02-607 Warsaw, with the note "<b>Personal data</b>
       ".
     </LightText>
