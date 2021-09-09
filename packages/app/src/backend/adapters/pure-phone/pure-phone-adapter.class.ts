@@ -5,6 +5,16 @@
 
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
+export interface DeviceLogFilesOption {
+  maxBytes?: number
+  dateLog?: boolean
+}
+
+export interface DeviceFile extends Pick<File, "name"> {
+  data: string
+  name: string
+}
+
 export default abstract class PurePhoneAdapter {
   public abstract getName(): string
   public abstract getModelName(): string
@@ -17,8 +27,8 @@ export default abstract class PurePhoneAdapter {
   public abstract unlockDevice(code: string): Promise<DeviceResponse>
   public abstract getUnlockDeviceStatus(): Promise<DeviceResponse>
   public abstract getDeviceLogFiles(
-    maxBytes?: number
-  ): Promise<DeviceResponse<File[]>>
+    option?: DeviceLogFilesOption
+  ): Promise<DeviceResponse<DeviceFile[]>>
   public abstract updateOs(
     filePath: string,
     progressChannel?: string

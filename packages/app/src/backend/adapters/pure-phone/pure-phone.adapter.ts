@@ -4,7 +4,10 @@
  */
 
 import { Endpoint, Method, timeout } from "@mudita/pure"
-import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
+import PurePhoneAdapter, {
+  DeviceFile,
+  DeviceLogFilesOption,
+} from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -113,7 +116,10 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  public async getDeviceLogFiles(): Promise<DeviceResponse<File[]>> {
+  public async getDeviceLogFiles({
+    maxBytes,
+    dateLog,
+  }: DeviceLogFilesOption = {}): Promise<DeviceResponse<DeviceFile[]>> {
     // return this.deviceFileSystemService.downloadFile("/sys/user/logs/MuditaOS.log"
     return {
       status: DeviceResponseStatus.Ok,

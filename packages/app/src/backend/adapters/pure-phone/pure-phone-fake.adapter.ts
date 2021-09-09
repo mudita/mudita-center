@@ -3,7 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
+import PurePhoneAdapter, {
+  DeviceFile,
+} from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -64,7 +66,7 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async getDeviceLogFiles(): Promise<DeviceResponse<File[]>> {
+  public async getDeviceLogFiles(): Promise<DeviceResponse<DeviceFile[]>> {
     return {
       status: DeviceResponseStatus.Ok,
       data: [],

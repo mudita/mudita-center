@@ -21,6 +21,7 @@ import useCreateBugTicketBuilder, {
 } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
 import { WriteGzipData } from "App/main/functions/register-write-gzip-listener"
 import { RmdirProps } from "App/main/functions/register-rmdir-listener"
+import { DeviceFile } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 
 export const files = [
   {
@@ -33,7 +34,7 @@ export interface DependencyUseCreateBugTicket {
   writeFile: (data: WriteData) => Promise<boolean>
   writeGzip: (data: WriteGzipData) => Promise<boolean>
   getAppLogs: () => Promise<string>
-  getDeviceLogFiles: () => Promise<DeviceResponse<string[]>>
+  getDeviceLogFiles: () => Promise<DeviceResponse<DeviceFile[]>>
   createFile: (filePath: string, options?: FilePropertyBag) => File
   rmdir: (props: RmdirProps) => Promise<boolean>
   createFreshdeskTicket: (

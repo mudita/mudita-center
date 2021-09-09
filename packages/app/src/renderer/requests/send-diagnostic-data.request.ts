@@ -21,7 +21,7 @@ const response: AxiosResponse<unknown> = {
 }
 
 const mockSendDiagnosticDataRequest = (
-  _data: string[],
+  _data: DeviceFile[],
   _serialNumber: string
 ): Promise<AxiosResponse<unknown>> => {
   return Promise.resolve(response)
@@ -48,7 +48,7 @@ const mockSendDiagnosticDataRequest = (
 // }
 
 const sendDiagnosticDataRequest = async (
-  data: string[],
+  files: DeviceFile[],
   serialNumber: string
 ): Promise<AxiosResponse<unknown>> => {
   console.log("sendDiagnosticDataRequest", { data, serialNumber })
