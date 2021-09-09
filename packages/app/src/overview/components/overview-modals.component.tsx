@@ -92,7 +92,7 @@ const messages = defineMessages({
     id: "module.overview.updateNotAvailableMessage",
   },
   updateNotAvailableDescription: {
-    id: "module.overview.updateAvailableDescription",
+    id: "module.overview.updateNotAvailableDescription",
   },
   downloadingUpdateMessage: {
     id: "module.overview.downloadingUpdateMessage",
@@ -226,7 +226,7 @@ export const UpdateAvailable = ({
   </OSUpdateModal>
 )
 
-export const UpdateNotAvailable = ({ version = "", date = "" }) => (
+export const UpdateNotAvailable = ({ version = "" }) => (
   <OSUpdateModal>
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
@@ -241,11 +241,6 @@ export const UpdateNotAvailable = ({ version = "", date = "" }) => (
         ...messages.updateNotAvailableDescription,
         values: {
           version,
-          date: new Date(date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          }),
         },
       }}
     />
