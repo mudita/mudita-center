@@ -12,6 +12,7 @@ import DeviceService from "Backend/device-service"
 import Adapters from "Backend/adapters/adapters.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
 const mockDeviceInfo: DeviceInfo = {
   accessTechnology: "255",
@@ -44,9 +45,15 @@ test("returns required device info", async () => {
   })
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystemService = new DeviceFileSystemService(deviceService)
-
+  const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
+    deviceService
+  )
   registerDeviceInfoRequest({
-    purePhone: createPurePhoneAdapter(deviceService, deviceFileSystemService),
+    purePhone: createPurePhoneAdapter(
+      deviceService,
+      deviceFileSystemService,
+      deviceFileDiagnosticService
+    ),
   } as unknown as Adapters)
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetDeviceInfo)
   const result = await pendingResponse
