@@ -337,7 +337,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
     <SidebarHeader withBottomBorder={withBottomBorder}>
       {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}
       {headerRight && <SidebarHeaderRight>{headerRight}</SidebarHeaderRight>}
-      <SidebarClose onClick={onClose} data-testid="sidebar-close">
+      <SidebarClose onClick={onClose} data-testid={TableTestIds.SidebarClose}>
         <SidebarHeaderButton Icon={Type.Close} />
       </SidebarClose>
     </SidebarHeader>

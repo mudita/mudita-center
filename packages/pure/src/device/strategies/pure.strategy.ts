@@ -18,7 +18,7 @@ import {
   DeviceInfo,
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
-  GetThreadResponseBody,
+  GetThreadResponseBody, PostMessagesBody, PostMessagesResponseBody,
   PutFileSystemErrorResponse,
   PutFileSystemRequestConfig,
   PutFileSystemResponse,
@@ -81,6 +81,11 @@ export class PureStrategy extends BaseDevice {
     method: Method.Get
     body: GetThreadsBody
   }): Promise<Response<GetThreadResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Post
+    body: PostMessagesBody
+  }): Promise<Response<PostMessagesResponseBody>>
   public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
