@@ -18,7 +18,7 @@ export const BackWrapper = styled.div`
 `
 
 export const PureSystemSection = styled.div`
-  padding: 3.2rem 0 3.2rem 4rem;
+  padding: 3.2rem 3rem 3.2rem 4rem;
   :not(:last-of-type) {
     border-bottom: 0.1rem solid ${borderColor("separator")};
   }
@@ -32,7 +32,9 @@ export const PureSystemAbout = styled(Text)`
   margin-bottom: 2.4rem;
 `
 
-export const PureSystemInfoContainer = styled.div`
+export const PureSystemInfoContainer = styled.div<{
+  withButton: boolean
+}>`
   padding: 2.4rem;
   display: flex;
   flex-direction: row;
@@ -40,6 +42,7 @@ export const PureSystemInfoContainer = styled.div`
   align-items: center;
   background-color: ${backgroundColor("row")};
   border-radius: 0.4rem;
+  padding: ${({ withButton }) => (withButton ? "1.2rem 2.4rem" : "2.4rem")};
   :not(:last-of-type) {
     margin-bottom: 0.8rem;
   }

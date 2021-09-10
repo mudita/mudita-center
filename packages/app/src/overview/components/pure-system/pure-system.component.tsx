@@ -49,10 +49,11 @@ const messages = defineMessages({
 })
 interface InfoProps {
   title: { id: string }
+  withButton?: boolean
 }
-const PureSystemInfo: FunctionComponent<InfoProps> = ({ title, children }) => {
+const PureSystemInfo: FunctionComponent<InfoProps> = ({ title, withButton = false, children }) => {
   return (
-    <PureSystemInfoContainer>
+    <PureSystemInfoContainer withButton={withButton} >
       <Text displayStyle={TextDisplayStyle.LargeFadedText} message={title} />
       {children}
     </PureSystemInfoContainer>
@@ -63,7 +64,7 @@ const PureSystem: FunctionComponent = () => {
   const handleBack = () => {
     history.push(URL_OVERVIEW.root)
   }
-  const openSarInfo = () => {}
+  const openSarInfo = () => { return}
   return (
     <div>
       <BackWrapper>
@@ -96,7 +97,7 @@ const PureSystem: FunctionComponent = () => {
             message={messages.serialNumber}
           />
         </PureSystemInfo>
-        <PureSystemInfo title={messages.sar}>
+        <PureSystemInfo title={messages.sar} withButton>
           <SarButtonComponent
             displayStyle={DisplayStyle.Link3}
             labelMessage={messages.sarInfo}
