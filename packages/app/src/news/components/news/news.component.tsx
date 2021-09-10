@@ -4,15 +4,11 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
-import { noop } from "Renderer/utils/noop"
-import Cards from "Renderer/components/rest/news/cards/cards.component"
 import styled from "styled-components"
-export interface NewsProps {
-  newsItems: NewsEntry[]
-  loadData?: () => void
-}
+import { noop } from "Renderer/utils/noop"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
+import Cards from "App/news/components/cards/cards.component"
+import { NewsProps } from "App/news/components/news/news.interface"
 
 const MuditaNews = styled.section`
   overflow: auto;

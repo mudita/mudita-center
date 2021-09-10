@@ -4,11 +4,11 @@
  */
 
 import { init } from "@rematch/core"
-import muditaNews from "Renderer/models/mudita-news/mudita-news"
+import muditaNews from "App/news/store/mudita-news"
 import networkStatus from "Renderer/models/network-status/network-status"
 import { ipcRenderer } from "electron-better-ipc"
 import { NewsEvents } from "App/main/functions/register-news-listener"
-import { newsItems } from "Renderer/components/rest/news/cards/cards-mock-data"
+import { newsItems } from "App/news/components/cards/cards-mock-data"
 
 afterEach(() => {
   ;(ipcRenderer as any).__rendererCalls = {}
