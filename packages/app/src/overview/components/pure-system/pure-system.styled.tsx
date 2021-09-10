@@ -35,7 +35,6 @@ export const PureSystemAbout = styled(Text)`
 export const PureSystemInfoContainer = styled.div<{
   withButton: boolean
 }>`
-  padding: 2.4rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
