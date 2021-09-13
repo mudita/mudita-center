@@ -23,6 +23,7 @@ import Text, {
   TextDisplayStyle,
 } from "App/renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
+import { PureSystemTestIds } from "App/overview/components/pure-system/pure-system-test-ids.enum"
 
 const messages = defineMessages({
   back: {
@@ -60,7 +61,7 @@ const PureSystemInfo: FunctionComponent<InfoProps> = ({ title, withButton = fals
   )
 }
 interface Props {
-  serialNumber?: number
+  serialNumber?: string
 }
 
 const PureSystem: FunctionComponent<Props> = ({
@@ -80,6 +81,7 @@ const PureSystem: FunctionComponent<Props> = ({
           labelMessage={messages.back}
           Icon={Type.ArrowLongLeft}
           iconSize={IconSize.Small}
+          data-testid={PureSystemTestIds.BackButton}
         />
       </BackWrapper>
       <PureSystemSection>
@@ -100,6 +102,7 @@ const PureSystem: FunctionComponent<Props> = ({
         <PureSystemInfo title={messages.serialNumber}>
           <Text
             displayStyle={TextDisplayStyle.LargeText}
+            data-testid={PureSystemTestIds.SerialNumber}
           >
             {serialNumber}
             </Text>
