@@ -146,13 +146,13 @@ const setNewMessageState = ({ queryByTestId }: RenderResult): void => {
 describe("Messages component", () => {
   describe("when component is render with defaults props", () => {
     test("length of thread list should be correct", () => {
-      const { queryAllByTestId } = renderer()
-      expect(queryAllByTestId(ThreadListTestIds.Row)).toHaveLength(1)
+      const { queryByTestId } = renderer()
+      expect(queryByTestId(ThreadListTestIds.Row)).toBeInTheDocument()
     })
 
     test("length of passed empty thread list should be equal 0", () => {
-      const { queryAllByTestId } = renderer({ threads: [] })
-      expect(queryAllByTestId(ThreadListTestIds.Row)).toHaveLength(0)
+      const { queryByTestId } = renderer({ threads: [] })
+      expect(queryByTestId(ThreadListTestIds.Row)).not.toBeInTheDocument()
     })
 
     test("any sidebar isn't open", () => {
@@ -227,8 +227,8 @@ describe("Messages component", () => {
     const renderProps: RenderProps = { callbacks: [setNewMessageState] }
 
     test("length of thread list is increased by 1 (tmp thread)", async () => {
-      const { queryAllByTestId } = renderer({ ...renderProps, threads: [] })
-      expect(queryAllByTestId(ThreadListTestIds.Row)).toHaveLength(1)
+      const { queryByTestId } = renderer({ ...renderProps, threads: [] })
+      expect(queryByTestId(ThreadListTestIds.Row)).toBeInTheDocument()
     })
 
     test("value of new message text area is empty", () => {
@@ -477,8 +477,8 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown call buttons", () => {
-    const { getAllByTestId } = renderer()
-    expect(getAllByTestId("dropdown-call")).toHaveLength(1)
+    const { getByTestId } = renderer()
+    expect(getByTestId("dropdown-call")).toBeInTheDocument()
   })
 
   test("dropdown contact details button has correct content", () => {
@@ -493,8 +493,8 @@ describe("Messages component", () => {
 
   test("displays correct amount of dropdown contact details buttons for contacts", () => {
     const isContactCreated = jest.fn().mockReturnValue(true)
-    const { getAllByTestId } = renderer({ isContactCreated })
-    expect(getAllByTestId("dropdown-contact-details")).toHaveLength(1)
+    const { getByTestId } = renderer({ isContactCreated })
+    expect(getByTestId("dropdown-contact-details")).toBeInTheDocument()
   })
 
   test("displays correct amount of dropdown add to contacts buttons for person that is unknown", () => {
@@ -520,8 +520,8 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown mark as read buttons", () => {
-    const { getAllByTestId } = renderer()
-    expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(1)
+    const { getByTestId } = renderer()
+    expect(getByTestId("dropdown-mark-as-read")).toBeInTheDocument()
   })
 
   test("dropdown delete button has correct content", () => {
@@ -534,7 +534,7 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown delete buttons", () => {
-    const { getAllByTestId } = renderer()
-    expect(getAllByTestId("dropdown-delete")).toHaveLength(1)
+    const { getByTestId } = renderer()
+    expect(getByTestId("dropdown-delete")).toBeInTheDocument()
   })
 })

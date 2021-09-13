@@ -245,7 +245,7 @@
     "react-intl": "5.0.2",
     "react-intl-translations-manager": "^5.0.3",
     "react-modal": "^3.14.3",
-    "react-redux": "^7.2.4",
+    "react-redux": "^7.2.5",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-svg-loader": "^3.0.3",
@@ -291,6 +291,7 @@
     "winston-transport-rollbar-3": "^3.2.0"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.1",
     "serialport": "^9.2.0",
     "usb": "^1.6.5"
   },
