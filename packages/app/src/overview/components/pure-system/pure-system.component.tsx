@@ -14,7 +14,7 @@ import {
   PureSystemTitle,
   PureSystemAbout,
   PureSystemInfoContainer,
-  SarButtonComponent,
+  AutoWidthButtonComponent,
 } from "App/overview/components/pure-system/pure-system.styled"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { Type } from "App/renderer/components/core/icon/icon.config"
@@ -68,7 +68,7 @@ const PureSystem: FunctionComponent = () => {
   return (
     <div>
       <BackWrapper>
-        <ButtonComponent
+        <AutoWidthButtonComponent
           displayStyle={DisplayStyle.Link2}
           onClick={handleBack}
           labelMessage={messages.back}
@@ -98,7 +98,7 @@ const PureSystem: FunctionComponent = () => {
           />
         </PureSystemInfo>
         <PureSystemInfo title={messages.sar} withButton>
-          <SarButtonComponent
+          <AutoWidthButtonComponent
             displayStyle={DisplayStyle.Link3}
             labelMessage={messages.sarInfo}
             onClick={openSarInfo}
