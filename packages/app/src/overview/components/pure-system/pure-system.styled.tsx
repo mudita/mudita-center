@@ -14,7 +14,7 @@ import ButtonComponent from "App/renderer/components/core/button/button.componen
 export const BackWrapper = styled.div`
   background-color: ${backgroundColor("row")};
   border-bottom: 0.1rem solid ${borderColor("separator")};
-  padding: 2.4rem 0 1.5rem 4rem;
+  padding: 0.9rem 0 0.9rem 4rem;
 `
 
 export const PureSystemSection = styled.div`
@@ -47,6 +47,6 @@ export const PureSystemInfoContainer = styled.div<{
   }
 `
 
-export const SarButtonComponent = styled(ButtonComponent)`
+export const AutoWidthButtonComponent = styled(ButtonComponent)`
   width: auto;
 `

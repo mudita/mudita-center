@@ -38,8 +38,4 @@ export const PhoneInfo = styled(CardText)`
 export const PureSystemButtonContainer = styled.div`
   padding: 2.4rem 5.3rem;
   border-top: 0.1rem solid ${borderColor("tetheringSeparator")};
-  button p {
-    text-transform: none;
-    font-size: 1.6rem;
-  }
 `

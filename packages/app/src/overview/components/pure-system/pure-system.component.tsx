@@ -7,14 +7,13 @@ import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { useHistory } from "react-router"
 import { URL_OVERVIEW } from "Renderer/constants/urls"
-import ButtonComponent from "App/renderer/components/core/button/button.component"
 import {
   PureSystemSection,
   BackWrapper,
   PureSystemTitle,
   PureSystemAbout,
   PureSystemInfoContainer,
-  SarButtonComponent,
+  AutoWidthButtonComponent,
 } from "App/overview/components/pure-system/pure-system.styled"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { Type } from "App/renderer/components/core/icon/icon.config"
@@ -75,7 +74,7 @@ const PureSystem: FunctionComponent<Props> = ({
   return (
     <div>
       <BackWrapper>
-        <ButtonComponent
+        <AutoWidthButtonComponent
           displayStyle={DisplayStyle.Link2}
           onClick={handleBack}
           labelMessage={messages.back}
@@ -108,7 +107,7 @@ const PureSystem: FunctionComponent<Props> = ({
             </Text>
         </PureSystemInfo>
         <PureSystemInfo title={messages.sar} withButton>
-          <SarButtonComponent
+          <AutoWidthButtonComponent
             displayStyle={DisplayStyle.Link3}
             labelMessage={messages.sarInfo}
             onClick={openSarInfo}
