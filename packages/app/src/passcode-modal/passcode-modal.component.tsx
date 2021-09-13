@@ -5,17 +5,22 @@
 
 import { FunctionComponent } from "App/renderer/types/function-component.interface"
 import React, { useEffect, useState } from "react"
+import { PayloadAction } from "@reduxjs/toolkit"
 import PasscodeModalUI from "./passcode-modal-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/common/enums/help-actions.enum"
-import unlockDevice from "Renderer/requests/unlock-device.request"
+// import unlockDevice from "Renderer/requests/unlock-device.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import getUnlockDeviceStatus from "Renderer/requests/get-unlock-device-status.request"
+// import getUnlockDeviceStatus from "Renderer/requests/get-unlock-device-status.request"
+
+// import { unlockDevice, getUnlockStatus } from "App/device"
 
 interface Props {
   openModal: boolean
   close: () => void
   openBlocked?: number
+  unlockDevice: (code: number[]) => PayloadAction<DeviceResponseStatus>
+  getUnlockStatus: () => PayloadAction<DeviceResponseStatus>
 }
 
 enum ErrorState {
@@ -38,6 +43,8 @@ const PasscodeModal: FunctionComponent<Props> = ({
   openModal,
   close,
   openBlocked,
+  unlockDevice,
+  getUnlockStatus,
 }) => {
   const initValue = ["", "", "", ""]
   const [errorState, setErrorState] = useState<ErrorState>(ErrorState.NoError)
@@ -64,15 +71,15 @@ const PasscodeModal: FunctionComponent<Props> = ({
     let timeoutId: NodeJS.Timeout
 
     const unlockDeviceRequest = async (code: number[]): Promise<void> => {
-      const response = await unlockDevice(code)
+      const unlockStatus = await unlockDevice(code)
 
-      if (response.status === DeviceResponseStatus.InternalServerError) {
+      if (unlockStatus.payload === DeviceResponseStatus.InternalServerError) {
         setErrorState(ErrorState.InternalServerError)
       } else {
         timeoutId = setTimeout(async () => {
-          const { status } = await getUnlockDeviceStatus()
+          const unlockCheckStatus = await getUnlockStatus()
 
-          if (status !== DeviceResponseStatus.Ok) {
+          if (unlockCheckStatus.payload !== DeviceResponseStatus.Ok) {
             setErrorState(ErrorState.BadPasscode)
           }
         }, 1000)

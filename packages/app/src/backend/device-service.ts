@@ -194,9 +194,10 @@ class DeviceService {
     })
   }
 
-  public async connect(): Promise<DeviceResponse> {
+  public async connect(): Promise<DeviceResponse<MuditaDevice>> {
     if (this.currentDevice) {
       return {
+        data: this.currentDevice,
         status: DeviceResponseStatus.Ok,
       }
     }
@@ -275,7 +276,9 @@ class DeviceService {
     })
   }
 
-  private async deviceConnect(device: MuditaDevice): Promise<DeviceResponse> {
+  private async deviceConnect(
+    device: MuditaDevice
+  ): Promise<DeviceResponse<MuditaDevice>> {
     const { status } = await device.connect()
 
     if (status === ResponseStatus.Ok) {
@@ -285,6 +288,7 @@ class DeviceService {
       this.registerDeviceUnlockedListener()
 
       return {
+        data: this.currentDevice,
         status: DeviceResponseStatus.Ok,
       }
     } else {

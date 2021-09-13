@@ -146,9 +146,9 @@ const basicInfo = createModel<RootModel>({
         }
       },
       async connect() {
-        const { status } = await connectDevice()
+        const data = await connectDevice()
 
-        if (status === DeviceResponseStatus.Ok) {
+        if (data.status === DeviceResponseStatus.Ok) {
           dispatch.basicInfo.update({
             deviceConnected: true,
           })
