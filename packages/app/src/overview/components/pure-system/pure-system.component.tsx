@@ -59,7 +59,13 @@ const PureSystemInfo: FunctionComponent<InfoProps> = ({ title, withButton = fals
     </PureSystemInfoContainer>
   )
 }
-const PureSystem: FunctionComponent = () => {
+interface Props {
+  serialNumber?: number
+}
+
+const PureSystem: FunctionComponent<Props> = ({
+  serialNumber
+}) => {
   const history = useHistory()
   const handleBack = () => {
     history.push(URL_OVERVIEW.root)
@@ -94,8 +100,9 @@ const PureSystem: FunctionComponent = () => {
         <PureSystemInfo title={messages.serialNumber}>
           <Text
             displayStyle={TextDisplayStyle.LargeText}
-            message={messages.serialNumber}
-          />
+          >
+            {serialNumber}
+            </Text>
         </PureSystemInfo>
         <PureSystemInfo title={messages.sar} withButton>
           <SarButtonComponent

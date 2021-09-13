@@ -38,7 +38,7 @@ import Notifications from "Renderer/modules/settings/tabs/notifications/notifica
 import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.container"
 import About from "../modules/settings/tabs/about/about.component"
 import RecoveryMode from "Renderer/modules/recovery-mode/recovery-mode.component"
-import PureSystem from "App/overview/components/pure-system/pure-system.component"
+import PureSystem from "App/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "Renderer/wrappers/layout-desktop-wrapper-without-header"
 
 export default () => (
