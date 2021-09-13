@@ -5,21 +5,19 @@
 
 import React, { useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { connect, Provider } from "react-redux"
+import { connect } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
 import { Router } from "react-router"
 import BaseRoutes from "Renderer/routes/base-routes"
-import { select, Store } from "Renderer/store"
+import store, { select, RootState, ReduxRootState } from "Renderer/store"
 import { History } from "history"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
-import { RootState } from "Renderer/store"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
 import CollectingDataModal from "Renderer/wrappers/collecting-data-modal/collecting-data-modal.component"
 import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
 
 interface Props {
-  store: Store
   history: History
   pureFeaturesVisible?: boolean
   deviceConnecting?: boolean
@@ -38,7 +36,6 @@ interface Props {
 }
 
 const BaseApp: FunctionComponent<Props> = ({
-  store,
   history,
   pureFeaturesVisible,
   deviceConnecting,
@@ -100,7 +97,7 @@ const BaseApp: FunctionComponent<Props> = ({
   }
 
   return (
-    <Provider store={store}>
+    <>
       <NetworkStatusChecker />
       <CollectingDataModal
         open={collectingDataModalVisible}
@@ -124,7 +121,7 @@ const BaseApp: FunctionComponent<Props> = ({
       <Router history={history}>
         <BaseRoutes />
       </Router>
-    </Provider>
+    </>
   )
 }
 
@@ -134,7 +131,7 @@ const selection = select((models: any) => ({
   deviceParred: models.basicInfo.deviceParred,
 }))
 
-const mapStateToProps = (state: RootState) => {
+const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
     ...(selection(state, null) as {
       pureFeaturesVisible: boolean
