@@ -6,4 +6,6 @@
 export enum PureSystemTestIds {
   SerialNumber = "serial-number-value",
   BackButton = "pure-system-back",
+  SarWrapper = "sar-wrapper",
+  SarParagraph = "sar-paragraph",
 }

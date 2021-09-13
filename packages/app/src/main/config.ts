@@ -20,7 +20,7 @@ export const GOOGLE_AUTH_WINDOW_SIZE = {
   height: 680,
 }
 
-export const ABOUT_WINDOWS_SIZE = {
+export const DEFAULT_WINDOWS_SIZE = {
   width: 1010,
   height: 600,
 }

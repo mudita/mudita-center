@@ -13,7 +13,7 @@ import { PureSystemTestIds } from "App/overview/components/pure-system//pure-sys
 type Props = ComponentProps<typeof PureSystem>
 
 const defaultProps: Props = {
-  serialNumber: "123"
+  serialNumber: "123",
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -27,11 +27,9 @@ const render = (extraProps?: Partial<Props>) => {
 describe("PureSystem", () => {
   test("should render serial number properly", () => {
     const { getByTestId } = render()
-    expect(getByTestId(PureSystemTestIds.SerialNumber)).toHaveTextContent(
-      "123"
-    )
+    expect(getByTestId(PureSystemTestIds.SerialNumber)).toHaveTextContent("123")
   })
-  
+
   test("should render 'back to overview' button properly", () => {
     const { getByTestId } = render()
     expect(getByTestId(PureSystemTestIds.BackButton)).toHaveTextContent(
@@ -39,5 +37,3 @@ describe("PureSystem", () => {
     )
   })
 })
-
-

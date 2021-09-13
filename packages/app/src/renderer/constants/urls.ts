@@ -51,4 +51,5 @@ export const URL_RECOVERY_MODE = {
 export const URL_OVERVIEW = {
   root: "/overview",
   pureSystem: "/overview/pure-system",
+  sar: "/overview/pure-system/sar",
 } as const
