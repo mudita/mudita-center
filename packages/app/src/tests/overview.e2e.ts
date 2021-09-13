@@ -5,7 +5,7 @@
 
 import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
-import { URL_MAIN } from "Renderer/constants/urls"
+import { URL_OVERVIEW } from "Renderer/constants/urls"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { Application } from "spectron"
 
@@ -25,7 +25,7 @@ afterEach(async () => {
 
 test("app starts on the correct page", async () => {
   const hash = await app.client.execute(() => window.location.hash)
-  expect(hash.value).toEqual(`#${URL_MAIN.overview}`)
+  expect(hash.value).toEqual(`#${URL_OVERVIEW.root}`)
 })
 
 test("after clicking disconnect button, part of menu is not displayed", async () => {

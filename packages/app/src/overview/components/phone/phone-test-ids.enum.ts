@@ -5,4 +5,5 @@
 
 export enum PhoneTestIds {
   DisconnectButton = "disconnect-button",
+  PureSystemButton = "pure-system-button",
 }
