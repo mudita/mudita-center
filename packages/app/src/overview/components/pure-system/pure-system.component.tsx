@@ -7,7 +7,6 @@ import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { useHistory } from "react-router"
 import { URL_OVERVIEW } from "Renderer/constants/urls"
-import ButtonComponent from "App/renderer/components/core/button/button.component"
 import {
   PureSystemSection,
   BackWrapper,
