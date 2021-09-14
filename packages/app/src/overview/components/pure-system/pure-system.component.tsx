@@ -23,6 +23,8 @@ import Text, {
 } from "App/renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 import { PureSystemTestIds } from "App/overview/components/pure-system/pure-system-test-ids.enum"
+import { ipcRenderer } from "electron-better-ipc"
+import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
 
 const messages = defineMessages({
   back: {
@@ -51,9 +53,13 @@ interface InfoProps {
   title: { id: string }
   withButton?: boolean
 }
-const PureSystemInfo: FunctionComponent<InfoProps> = ({ title, withButton = false, children }) => {
+const PureSystemInfo: FunctionComponent<InfoProps> = ({
+  title,
+  withButton = false,
+  children,
+}) => {
   return (
-    <PureSystemInfoContainer withButton={withButton} >
+    <PureSystemInfoContainer withButton={withButton}>
       <Text displayStyle={TextDisplayStyle.LargeFadedText} message={title} />
       {children}
     </PureSystemInfoContainer>
@@ -63,14 +69,14 @@ interface Props {
   serialNumber?: string
 }
 
-const PureSystem: FunctionComponent<Props> = ({
-  serialNumber
-}) => {
+const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
   const history = useHistory()
   const handleBack = () => {
     history.push(URL_OVERVIEW.root)
   }
-  const openSarInfo = () => { return}
+  const openSarInfo = () => {
+    ipcRenderer.callMain(PureSystemActions.SarOpenWindow)
+  }
   return (
     <div>
       <BackWrapper>
@@ -104,7 +110,7 @@ const PureSystem: FunctionComponent<Props> = ({
             data-testid={PureSystemTestIds.SerialNumber}
           >
             {serialNumber}
-            </Text>
+          </Text>
         </PureSystemInfo>
         <PureSystemInfo title={messages.sar} withButton>
           <AutoWidthButtonComponent
