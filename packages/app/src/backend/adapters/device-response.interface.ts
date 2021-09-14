@@ -14,6 +14,7 @@ export enum DeviceResponseStatus {
   InternalServerError = "internal-server-error",
   Error = "error",
   Duplicated = "phone-number-duplicated",
+  UnprocessableEntity = "unprocessable-entity",
 }
 
 interface DeviceResponseError {
