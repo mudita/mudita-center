@@ -56,7 +56,6 @@ import {
 import { TokenRequester } from "Renderer/models/external-providers/outlook/token-requester"
 import {
   GOOGLE_AUTH_WINDOW_SIZE,
-  HELP_WINDOW_SIZE,
   WINDOW_SIZE,
   DEFAULT_WINDOWS_SIZE,
 } from "./config"
@@ -208,8 +207,8 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({
-        width: HELP_WINDOW_SIZE.width,
-        height: HELP_WINDOW_SIZE.height,
+        width: DEFAULT_WINDOWS_SIZE.width,
+        height: DEFAULT_WINDOWS_SIZE.height,
       })
     )
     helpWindow.loadURL(
