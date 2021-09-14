@@ -21,4 +21,7 @@ export default interface DeviceInfo {
 
   // Date at which OS was updated. ISO date.
   readonly osUpdateDate: string
+
+  // Device's case colour.
+  readonly caseColour: string
 }

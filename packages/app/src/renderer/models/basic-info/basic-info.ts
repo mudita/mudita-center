@@ -45,6 +45,7 @@ export const initialState: StoreValues = {
   lastBackup: undefined,
   serialNumber: undefined,
   phoneLockTime: undefined,
+  caseColour: "ghj",
 }
 
 const basicInfo = createModel<RootModel>({
@@ -139,6 +140,7 @@ const basicInfo = createModel<RootModel>({
             },
             lastBackup,
             osUpdateDate: info.data!.osUpdateDate,
+            caseColour: info.data?.caseColour,
           })
           dispatch.basicInfo.setBasicInfoDataState(DataState.Loaded)
         } else {

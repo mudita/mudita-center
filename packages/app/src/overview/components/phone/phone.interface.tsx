@@ -6,4 +6,5 @@
 export interface PhoneProps {
   onDisconnect: () => void
   onClick?: () => void
+  caseColour: string
 }

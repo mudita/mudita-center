@@ -16,10 +16,13 @@ export default abstract class PurePhoneAdapter {
   public abstract connectDevice(): Promise<DeviceResponse>
   public abstract unlockDevice(code: string): Promise<DeviceResponse>
   public abstract getUnlockDeviceStatus(): Promise<DeviceResponse>
-  public abstract getDeviceLockTime(): Promise<DeviceResponse<GetPhoneLockTimeResponseBody>>
+  public abstract getDeviceLockTime(): Promise<
+    DeviceResponse<GetPhoneLockTimeResponseBody>
+  >
   public abstract getDeviceLogs(): Promise<DeviceResponse<string>>
   public abstract updateOs(
     filePath: string,
     progressChannel?: string
   ): Promise<DeviceResponse>
+  public abstract getCaseColour(): Promise<DeviceResponse<string>>
 }

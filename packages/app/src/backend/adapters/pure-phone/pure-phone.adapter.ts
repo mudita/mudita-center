@@ -3,7 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, GetPhoneLockTimeResponseBody, Method, PhoneLockCategory, timeout } from "@mudita/pure"
+import {
+  Endpoint,
+  GetPhoneLockTimeResponseBody,
+  Method,
+  PhoneLockCategory,
+  timeout,
+} from "@mudita/pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
   DeviceResponseStatus,
@@ -86,6 +92,24 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
+  public async getCaseColour(): Promise<DeviceResponse<string>> {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.DeviceInfo,
+      method: Method.Get,
+    })
+    if (status === DeviceResponseStatus.Ok && data) {
+      return {
+        status,
+        data: data.caseColour,
+      }
+    } else {
+      return {
+        status,
+        error: { message: "Get case colour: Something went wrong" },
+      }
+    }
+  }
+
   public disconnectDevice(): Promise<DeviceResponse> {
     return this.deviceService.disconnect()
   }
@@ -104,11 +128,13 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  public async getDeviceLockTime(): Promise<DeviceResponse<GetPhoneLockTimeResponseBody>> {
+  public async getDeviceLockTime(): Promise<
+    DeviceResponse<GetPhoneLockTimeResponseBody>
+  > {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
-      body: {category: PhoneLockCategory.Time}
+      body: { category: PhoneLockCategory.Time },
     })
     if (status === DeviceResponseStatus.Ok && data) {
       return {
@@ -127,7 +153,7 @@ class PurePhone extends PurePhoneAdapter {
     return await this.deviceService.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
-      body: {category: PhoneLockCategory.Status}
+      body: { category: PhoneLockCategory.Status },
     })
   }
 

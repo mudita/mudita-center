@@ -77,6 +77,7 @@ const Overview: FunctionComponent<Props> = ({
   updateOs,
   updateUpdatingState,
   serialNumber,
+  caseColour,
 }) => {
   /**
    * Temporary state to demo failure
@@ -314,6 +315,7 @@ const Overview: FunctionComponent<Props> = ({
         onUpdateCheck={check}
         onUpdateInstall={install}
         onUpdateDownload={download}
+        caseColour={caseColour}
       />
     </>
   )

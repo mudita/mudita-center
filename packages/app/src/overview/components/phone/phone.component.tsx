@@ -25,13 +25,14 @@ const Phone: FunctionComponent<PhoneProps> = ({
   className,
   onDisconnect,
   onClick,
+  caseColour,
 }) => {
   const history = useHistory()
   const handleDisconnect = () => {
     onDisconnect()
     history.push(URL_MAIN.news)
   }
-
+  console.log("color", caseColour)
   return (
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>

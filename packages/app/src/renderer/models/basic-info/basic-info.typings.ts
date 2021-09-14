@@ -49,6 +49,7 @@ export interface StoreValues {
   readonly initialDataLoaded: boolean
   readonly serialNumber: string | undefined
   readonly phoneLockTime?: number
+  readonly caseColour: string
 }
 
 export interface StoreEffects {
