@@ -10,11 +10,10 @@ import { URL_MAIN, URL_ONBOARDING } from "Renderer/constants/urls"
 import ConnectingContent from "App/connecting/connecting.component"
 import { updateAppSettings } from "Renderer/requests/app-settings.request"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { RootState, ReduxRootState } from "Renderer/store"
+import { RootState, ReduxRootState, select } from "Renderer/store"
 import { connect } from "react-redux"
 import PasscodeModal from "App/passcode-modal/passcode-modal.component"
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
-import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
 import { PureDeviceData, unlockDevice, getUnlockStatus } from "App/device"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 
@@ -31,7 +30,6 @@ const Connecting: FunctionComponent<{
   getUnlockStatus: () => Promise<PayloadAction<DeviceResponseStatus>>
   phoneLockTime: number | undefined
   initialModalsShowed: boolean
-  updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
 }> = ({
   loaded,
   locked,
@@ -93,18 +91,13 @@ const Connecting: FunctionComponent<{
   )
 }
 
-// const selection = select((models: any) => ({
-//   deviceUnlocked: models.basicInfo.deviceUnlocked,
-//   initialDataLoaded: models.basicInfo.initialDataLoaded,
-//   initialModalsShowed: models.settings.initialModalsShowed,
-//   phoneLockTime: models.basicInfo.phoneLockTime,
-// }))
+const selection = select((models: any) => ({
+  initialModalsShowed: models.settings.initialModalsShowed,
+}))
 
 const mapDispatchToProps = (dispatch: any) => ({
   unlockDevice: (code: number[]) => dispatch(unlockDevice(code)),
   getUnlockStatus: () => dispatch(getUnlockStatus()),
-  updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) =>
-    dispatch.basicInfo.update(updateInfo),
 })
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
@@ -113,11 +106,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   locked: state.device.status.locked,
   phoneLockTime:
     (state.device.data as PureDeviceData)?.phoneLockTime ?? undefined,
-
-  initialModalsShowed: true,
-  // return {
-  //   ...(selection(state, null) as { deviceUnlocked: boolean | undefined }),
-  // }
+  ...selection(state, {}),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Connecting)

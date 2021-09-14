@@ -10,9 +10,14 @@ import {
   pendingAction,
   fulfilledAction,
 } from "App/renderer/store/helpers"
-import { DeviceEvent, ConnectionState } from "App/device/constants"
+import {
+  DeviceEvent,
+  ConnectionState,
+  UpdatingState,
+} from "App/device/constants"
 import {
   DeviceState,
+  PureDeviceData,
   ConnectedFulfilledAction,
   ConnectedRejectedAction,
   DisconnectedRejectedAction,
@@ -20,6 +25,10 @@ import {
   LoadDataRejectAction,
   SetPhoneLockTimeAction,
   UnlockDeviceRejectedAction,
+  SetSimDataAction,
+  SetOsVersionDataAction,
+  SetUpdateStateAction,
+  OsUpdateRejectedAction,
 } from "App/device/reducers/device.interface"
 
 export const initialState: DeviceState = {
@@ -151,6 +160,83 @@ export const deviceReducer = createReducer<DeviceState>(
           error: null,
         }
       })
+
+      // Sim card functionality
+      .addCase(DeviceEvent.SetSimData, (state, action: SetSimDataAction) => {
+        let simCards = null
+
+        if (state.deviceType && state.deviceType === DeviceType.MuditaPure) {
+          simCards = [
+            {
+              ...(state.data as PureDeviceData)?.simCards[0],
+              active:
+                (state.data as PureDeviceData)?.simCards[0].number ===
+                action.payload,
+            },
+            {
+              ...(state.data as PureDeviceData)?.simCards[1],
+              active:
+                (state.data as PureDeviceData)?.simCards[1].number ===
+                action.payload,
+            },
+          ]
+        }
+
+        return {
+          ...state,
+          data: {
+            ...(state.data ?? {}),
+            ...(simCards && {
+              simCards,
+            }),
+          },
+        }
+      })
+
+      // OS Updates
+      .addCase(
+        DeviceEvent.SetOsVersionData,
+        (state, action: SetOsVersionDataAction) => {
+          return {
+            ...state,
+            data: {
+              ...(state.data ?? {}),
+              ...action.payload,
+            },
+          }
+        }
+      )
+      .addCase(
+        DeviceEvent.SetUpdateState,
+        (state, action: SetUpdateStateAction) => {
+          return {
+            ...state,
+            updatingState: action.payload,
+          }
+        }
+      )
+      .addCase(pendingAction(DeviceEvent.StartOsUpdateProcess), (state) => {
+        return {
+          ...state,
+          updatingState: UpdatingState.Updating,
+        }
+      })
+      .addCase(fulfilledAction(DeviceEvent.StartOsUpdateProcess), (state) => {
+        return {
+          ...state,
+          updatingState: UpdatingState.Success,
+        }
+      })
+      .addCase(
+        rejectedAction(DeviceEvent.StartOsUpdateProcess),
+        (state, action: OsUpdateRejectedAction) => {
+          return {
+            ...state,
+            updatingState: UpdatingState.Fail,
+            error: action.payload,
+          }
+        }
+      )
 
       // Updates loading data state
       .addCase(pendingAction(DeviceEvent.Loading), (state) => {

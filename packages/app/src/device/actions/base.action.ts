@@ -4,10 +4,21 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import { PureDeviceData, HarmonyDeviceData } from "App/device/reducers"
-import { DeviceEvent } from "App/device/constants"
+import {
+  PureDeviceData,
+  HarmonyDeviceData,
+  OsVersionPayload,
+} from "App/device/reducers"
+import { DeviceEvent, UpdatingState } from "App/device/constants"
 
 export const setDeviceData = createAction<
   Partial<PureDeviceData | HarmonyDeviceData>
 >(DeviceEvent.SetData)
 export const setLockTime = createAction<number>(DeviceEvent.SetLockTime)
+export const setSimData = createAction<number>(DeviceEvent.SetSimData)
+export const setOsVersionData = createAction<OsVersionPayload>(
+  DeviceEvent.SetOsVersionData
+)
+export const setUpdateState = createAction<UpdatingState>(
+  DeviceEvent.SetUpdateState
+)

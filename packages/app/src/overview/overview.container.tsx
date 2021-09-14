@@ -6,20 +6,28 @@
 import { connect } from "react-redux"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 import Overview from "App/overview/components/overview/overview.component"
-import { select } from "Renderer/store"
+import { ReduxRootState } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
-import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
+import {
+  UpdatingState,
+  PureDeviceData,
+  disconnectDevice,
+  changeSim,
+  setUpdateState,
+  startUpdateOs,
+} from "App/device"
 
-const selection = select((models: any) => ({
-  networkName: models.basicInfo.activeSimNetworkName,
-  networkLevel: models.basicInfo.activeNetworkLevelFromSim,
-}))
-
-const mapStateToProps = (state: RootModel) => {
+const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
-    ...state.basicInfo,
-    ...selection(state, null),
+    batteryLevel: state.device.data?.batteryLevel,
+    osVersion: state.device.data?.osVersion,
+    osUpdateDate: state.device.data?.osUpdateDate,
+    memorySpace: state.device.data?.memorySpace,
+    serialNumber: state.device.data?.serialNumber,
+    simCards: (state.device.data as PureDeviceData)?.simCards,
+    networkName: (state.device.data as PureDeviceData)?.networkName,
+    networkLevel: (state.device.data as PureDeviceData)?.networkLevel,
     ...state.phoneUpdate,
     ...state.settings,
     ...state.devMode,
@@ -27,14 +35,14 @@ const mapStateToProps = (state: RootModel) => {
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  disconnectDevice: () => dispatch.basicInfo.disconnect(),
-  changeSim: (card: SimCard) => dispatch.basicInfo.changeSim(card),
+  disconnectDevice: () => dispatch(disconnectDevice()),
+  changeSim: (card: SimCard) => dispatch(changeSim(card)),
+  updateUpdatingState: (state: UpdatingState) =>
+    dispatch(setUpdateState(state)),
+  updateOs: (file: string) => dispatch(startUpdateOs(file)),
+  // TODO refactor legacy staff
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
     dispatch.phoneUpdate.update(updateInfo),
-  updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) =>
-    dispatch.basicInfo.update(updateInfo),
-  updateUpdatingState: dispatch.basicInfo.updateUpdatingState,
-  updateOs: dispatch.basicInfo.updateOs,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview)
