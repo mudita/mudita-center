@@ -129,6 +129,10 @@ const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
   }
 `
 
+const MessageBubbleText = styled(Text)`
+  white-space: pre-line;
+`
+
 interface Props {
   id: string
   user: User
@@ -163,12 +167,12 @@ const MessageBubble: FunctionComponent<Props> = ({
       displayAvatar={displayAvatar}
     >
       <div>
-        <MessageBubbleContainer interlocutor={interlocutor}>
+        <MessageBubbleContainer data-testid={MessageBubbleTestIds.Container} interlocutor={interlocutor}>
           {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
           {process.env.NODE_ENV !== "production" && (
             <MessageBubbleDropdown
               toggler={
-                <ActionsButton data-testid="dropdown-action-button">
+                <ActionsButton data-testid={MessageBubbleTestIds.DropdownActionButton}>
                   <Icon type={Type.More} />
                 </ActionsButton>
               }
@@ -179,7 +183,7 @@ const MessageBubble: FunctionComponent<Props> = ({
               }
               interlocutor={interlocutor}
               display={clicked === id}
-              data-testid="dropdown"
+              data-testid={MessageBubbleTestIds.Dropdown}
             >
               <ButtonComponent
                 labelMessage={{
@@ -188,7 +192,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                 Icon={Type.Forward}
                 onClick={forward}
                 displayStyle={DisplayStyle.Dropdown}
-                data-testid="forward-message"
+                data-testid={MessageBubbleTestIds.ForwardMessageButton}
               />
               <ButtonComponent
                 labelMessage={{
@@ -197,7 +201,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                 Icon={Type.Delete}
                 onClick={remove}
                 displayStyle={DisplayStyle.Dropdown}
-                data-testid="delete-message"
+                data-testid={MessageBubbleTestIds.DeleteMessageButton}
               />
             </MessageBubbleDropdown>
           )}
@@ -205,9 +209,9 @@ const MessageBubble: FunctionComponent<Props> = ({
             interlocutor={interlocutor}
             data-testid={MessageBubbleTestIds.MessageContent}
           >
-            <Text displayStyle={TextDisplayStyle.MediumLightText}>
+            <MessageBubbleText displayStyle={TextDisplayStyle.MediumLightText}>
               {message}
-            </Text>
+            </MessageBubbleText>
             <MessageDate>
               <Text displayStyle={TextDisplayStyle.SmallFadedText}>
                 {moment(date).format("dd h:mm A")}

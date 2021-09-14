@@ -50,6 +50,21 @@ enum NetworkStatus {
   RegisteredRoaming,
 }
 
+export enum PhoneLockCategory {
+  Status = "phoneLockStatus",
+  Time = "phoneLockTime"
+}
+export interface GetPhoneLockStatusBody {
+  category: PhoneLockCategory.Status
+}
+
+export interface GetPhoneLockTimeBody {
+  category: PhoneLockCategory.Time
+}
+
+export interface GetPhoneLockTimeResponseBody {
+  phoneLockTime?: number
+}
 export interface DeviceInfo {
   batteryLevel: string
   batteryState: BatteryState
