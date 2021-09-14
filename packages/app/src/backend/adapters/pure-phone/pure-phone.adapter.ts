@@ -3,7 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, GetPhoneLockTimeResponseBody, Method, PhoneLockCategory, timeout } from "@mudita/pure"
+import {
+  Endpoint,
+  GetPhoneLockTimeResponseBody,
+  Method,
+  PhoneLockCategory,
+  MuditaDevice,
+  timeout,
+} from "@mudita/pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
   DeviceResponseStatus,
@@ -90,7 +97,7 @@ class PurePhone extends PurePhoneAdapter {
     return this.deviceService.disconnect()
   }
 
-  public connectDevice(): Promise<DeviceResponse> {
+  public connectDevice(): Promise<DeviceResponse<MuditaDevice>> {
     return this.deviceService.connect()
   }
 
@@ -104,11 +111,13 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  public async getDeviceLockTime(): Promise<DeviceResponse<GetPhoneLockTimeResponseBody>> {
+  public async getDeviceLockTime(): Promise<
+    DeviceResponse<GetPhoneLockTimeResponseBody>
+  > {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
-      body: {category: PhoneLockCategory.Time}
+      body: { category: PhoneLockCategory.Time },
     })
     if (status === DeviceResponseStatus.Ok && data) {
       return {
@@ -127,7 +136,7 @@ class PurePhone extends PurePhoneAdapter {
     return await this.deviceService.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
-      body: {category: PhoneLockCategory.Status}
+      body: { category: PhoneLockCategory.Status },
     })
   }
 
