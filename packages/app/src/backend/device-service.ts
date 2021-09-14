@@ -356,6 +356,11 @@ class DeviceService {
         error,
         status: DeviceResponseStatus.Duplicated,
       }
+    } else if (status === ResponseStatus.UnprocessableEntity) {
+      return {
+        error,
+        status: DeviceResponseStatus.UnprocessableEntity,
+      }
     } else {
       return {
         error,
