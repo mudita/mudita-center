@@ -27,8 +27,8 @@ const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 const Connecting: FunctionComponent<{
   loaded: boolean
   locked: boolean
-  unlockDevice: (code: number[]) => PayloadAction<DeviceResponseStatus>
-  getUnlockStatus: () => PayloadAction<DeviceResponseStatus>
+  unlockDevice: (code: number[]) => Promise<PayloadAction<DeviceResponseStatus>>
+  getUnlockStatus: () => Promise<PayloadAction<DeviceResponseStatus>>
   phoneLockTime: number | undefined
   initialModalsShowed: boolean
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void

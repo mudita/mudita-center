@@ -9,18 +9,14 @@ import { PayloadAction } from "@reduxjs/toolkit"
 import PasscodeModalUI from "./passcode-modal-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/common/enums/help-actions.enum"
-// import unlockDevice from "Renderer/requests/unlock-device.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-// import getUnlockDeviceStatus from "Renderer/requests/get-unlock-device-status.request"
-
-// import { unlockDevice, getUnlockStatus } from "App/device"
 
 interface Props {
   openModal: boolean
   close: () => void
   openBlocked?: number
-  unlockDevice: (code: number[]) => PayloadAction<DeviceResponseStatus>
-  getUnlockStatus: () => PayloadAction<DeviceResponseStatus>
+  unlockDevice: (code: number[]) => Promise<PayloadAction<DeviceResponseStatus>>
+  getUnlockStatus: () => Promise<PayloadAction<DeviceResponseStatus>>
 }
 
 enum ErrorState {
