@@ -22,6 +22,7 @@ jest.mock("Renderer/requests/get-device-info.request", () =>
       serilaNumber: "a-b-3d",
       osVersion: "0.123v",
       osUpdateDate: "12-12-2003",
+      caseColour: "gray",
     },
   }))
 )
@@ -138,6 +139,7 @@ test("store returns initial state", () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -234,6 +236,7 @@ describe("fetching basic info data", () => {
         "basicInfo": Object {
           "basicInfoDataState": 1,
           "batteryLevel": 9001,
+          "caseColour": "gray",
           "deviceConnected": false,
           "deviceType": undefined,
           "deviceUnlocked": undefined,

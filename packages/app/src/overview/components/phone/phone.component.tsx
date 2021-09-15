@@ -12,7 +12,8 @@ import {
 } from "App/overview/components/card.elements"
 import { intl } from "Renderer/utils/intl"
 import Image from "Renderer/components/core/image/image.component"
-import PureImage from "Renderer/images/pure-render.png"
+import PureGrayImage from "Renderer/images/pure-gray-front.png"
+import PureBlackImage from "Renderer/images/pure-black-front.png"
 import { useHistory } from "react-router"
 import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
 import {
@@ -32,11 +33,14 @@ const Phone: FunctionComponent<PhoneProps> = ({
     onDisconnect()
     history.push(URL_MAIN.news)
   }
-  console.log("color", caseColour)
   return (
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
-        <Image src={PureImage} />
+        {caseColour === "gray" ? (
+          <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray}/>
+        ) : (
+          <Image src={PureBlackImage} data-testid={PhoneTestIds.PureBlack}/>
+        )}
       </PhoneInfo>
       <CardAction>
         <CardActionButton

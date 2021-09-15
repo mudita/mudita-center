@@ -41,6 +41,13 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
+  public async getCaseColour(): Promise<DeviceResponse<string>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: "gray",
+    }
+  }
+
   public async disconnectDevice(): Promise<DeviceResponse> {
     return {
       status: DeviceResponseStatus.Ok,

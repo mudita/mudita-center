@@ -45,7 +45,7 @@ export const initialState: StoreValues = {
   lastBackup: undefined,
   serialNumber: undefined,
   phoneLockTime: undefined,
-  caseColour: "ghj",
+  caseColour: undefined,
 }
 
 const basicInfo = createModel<RootModel>({

@@ -29,6 +29,7 @@ const mockDeviceInfo: DeviceInfo = {
   signalStrength: "1",
   trayState: "1",
   serialNumber: "1UB13213MN14K1",
+  caseColour: "grey",
 } as unknown as DeviceInfo
 
 jest.mock("Backend/device-service")
@@ -53,6 +54,7 @@ test("returns required device info", async () => {
 
   expect(result.data).toMatchInlineSnapshot(`
     Object {
+      "caseColour": "grey",
       "modelName": "Ziemniaczek Puree",
       "modelNumber": "Y0105W4GG1N5",
       "name": "Mudita Pure",

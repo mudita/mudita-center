@@ -82,4 +82,5 @@ export interface DeviceInfo {
   accessTechnology: AccessTechnology
   networkStatus: NetworkStatus
   serialNumber: string
+  caseColour: string
 }

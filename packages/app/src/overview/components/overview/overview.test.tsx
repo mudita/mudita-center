@@ -169,6 +169,7 @@ const renderer = (extraProps?: {}) => {
       free: 100,
       full: 200,
     },
+    caseColour: "gray",
     ...extraProps,
   }
   return renderWithThemeAndIntl(

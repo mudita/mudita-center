@@ -85,6 +85,7 @@ test("loads settings", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -141,6 +142,7 @@ test("updates tethering setting", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -182,6 +184,7 @@ test("updates incoming calls setting", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -223,6 +226,7 @@ test("updates incoming messages setting", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -264,6 +268,7 @@ test("updates low battery setting", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -305,6 +310,7 @@ test("updates os updates setting", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -346,6 +352,7 @@ test("updates collecting data setting to true", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -387,6 +394,7 @@ test("updates collecting data setting to false", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -428,6 +436,7 @@ test("updates os audio files conversion setting", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -469,6 +478,7 @@ test("updates convert setting", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -510,6 +520,7 @@ test("updates conversion format setting", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -551,6 +562,7 @@ test("updates tray setting", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -592,6 +604,7 @@ test("updates PureOS backup location setting", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -633,6 +646,7 @@ test("updates PureOS download location setting", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
@@ -674,6 +688,7 @@ test("updates language setting", async () => {
       "basicInfo": Object {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
+        "caseColour": undefined,
         "deviceConnected": false,
         "deviceType": undefined,
         "deviceUnlocked": undefined,
