@@ -13,15 +13,15 @@ import { DeviceConnectionError } from "App/device/errors"
 export const getConnectedDevice = createAsyncThunk(
   DeviceEvent.GetConnected,
   async (_, { dispatch, rejectWithValue }) => {
-    const { status, data } = await connectDeviceRequest()
+    const response = await connectDeviceRequest()
 
-    if (status !== DeviceResponseStatus.Ok || !data) {
+    if (response.status !== DeviceResponseStatus.Ok || !response.data) {
       return rejectWithValue(
-        new DeviceConnectionError("Cannot connected to device")
+        new DeviceConnectionError("Cannot connected to device", response)
       )
     }
 
-    dispatch(connectDevice(data.deviceType))
+    dispatch(connectDevice(response.data.deviceType))
 
     return
   }

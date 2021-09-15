@@ -14,7 +14,7 @@ export const unlockDevice = createAsyncThunk<DeviceResponseStatus, number[]>(
   async (code, { rejectWithValue }) => {
     const data = await unlockDeviceRequest(code)
 
-    if (data.status === DeviceResponseStatus.InternalServerError) {
+    if (data.status !== DeviceResponseStatus.Ok) {
       return rejectWithValue(
         new DeviceUnlockingError("Something went wrong during unlocking", data)
       )

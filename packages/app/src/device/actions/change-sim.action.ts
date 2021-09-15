@@ -14,10 +14,12 @@ import { setSimData } from "App/device/actions/base.action"
 export const changeSim = createAsyncThunk<SimCard, SimCard>(
   DeviceEvent.ChangeSimData,
   async (payload, { dispatch, rejectWithValue }) => {
-    const changeSimInfo = await changeSimRequest()
+    const response = await changeSimRequest()
 
-    if (changeSimInfo.status !== DeviceResponseStatus.Ok) {
-      rejectWithValue(new DeviceChangeSimError("Cannot change sim card"))
+    if (response.status !== DeviceResponseStatus.Ok) {
+      return rejectWithValue(
+        new DeviceChangeSimError("Cannot change sim card", response)
+      )
     }
 
     dispatch(setSimData(payload.number))

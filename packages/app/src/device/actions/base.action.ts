@@ -14,7 +14,9 @@ import { DeviceEvent, UpdatingState } from "App/device/constants"
 export const setDeviceData = createAction<
   Partial<PureDeviceData | HarmonyDeviceData>
 >(DeviceEvent.SetData)
-export const setLockTime = createAction<number>(DeviceEvent.SetLockTime)
+export const setLockTime = createAction<number | undefined>(
+  DeviceEvent.SetLockTime
+)
 export const setSimData = createAction<number>(DeviceEvent.SetSimData)
 export const setOsVersionData = createAction<OsVersionPayload>(
   DeviceEvent.SetOsVersionData

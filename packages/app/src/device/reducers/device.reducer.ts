@@ -107,7 +107,7 @@ export const deviceReducer = createReducer<DeviceState>(
       )
 
       // Lock/Unlock functionality
-      .addCase(DeviceEvent.Locked, (state) => {
+      .addCase(fulfilledAction(DeviceEvent.Locked), (state) => {
         return {
           ...state,
           status: {

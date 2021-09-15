@@ -14,7 +14,7 @@ export const startUpdateOs = createAsyncThunk<string, string>(
   async (file, { rejectWithValue }) => {
     const data = await updateOs(file)
 
-    if (data.status === DeviceResponseStatus.InternalServerError) {
+    if (data.status !== DeviceResponseStatus.Ok) {
       return rejectWithValue(
         new DeviceUpdateProcessError("Device updating process failed", data)
       )

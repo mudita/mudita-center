@@ -44,7 +44,7 @@ export const loadDeviceData = createAsyncThunk<any, DeviceType>(
 
       if (!status) {
         return rejectWithValue(
-          new DeviceLoadingError("Device data loading error")
+          new DeviceLoadingError("Device data loading error", responses)
         )
       }
 

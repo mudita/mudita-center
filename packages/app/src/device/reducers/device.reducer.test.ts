@@ -128,7 +128,7 @@ describe("Lock/Unlock functionality", () => {
           deviceType: DeviceType.MuditaPure,
         },
         {
-          type: DeviceEvent.Locked,
+          type: fulfilledAction(DeviceEvent.Locked),
         }
       )
     ).toEqual({
@@ -149,7 +149,7 @@ describe("Lock/Unlock functionality", () => {
           deviceType: DeviceType.MuditaHarmony,
         },
         {
-          type: DeviceEvent.Locked,
+          type: fulfilledAction(DeviceEvent.Locked),
         }
       )
     ).toEqual({

@@ -10,7 +10,7 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import { DeviceLockedError } from "App/device/errors"
 
 export const getUnlockStatus = createAsyncThunk<string>(
-  DeviceEvent.Unlock,
+  DeviceEvent.GetUnlockedStatus,
   async (_, { rejectWithValue }) => {
     const data = await getUnlockDeviceStatusRequest()
 

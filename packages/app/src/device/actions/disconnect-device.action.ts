@@ -12,11 +12,11 @@ import { DeviceDisconnectionError } from "App/device/errors"
 export const disconnectDevice = createAsyncThunk(
   DeviceEvent.Disconnected,
   async (_, { rejectWithValue }) => {
-    const { status } = await disconnectDeviceRequest()
+    const response = await disconnectDeviceRequest()
 
-    if (status !== DeviceResponseStatus.Ok) {
-      rejectWithValue(
-        new DeviceDisconnectionError("Cannot disconnect from device")
+    if (response.status !== DeviceResponseStatus.Ok) {
+      return rejectWithValue(
+        new DeviceDisconnectionError("Cannot disconnect from device", response)
       )
     }
 
