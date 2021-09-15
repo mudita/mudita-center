@@ -5,14 +5,13 @@
 
 import { connect } from "react-redux"
 import Menu from "Renderer/components/rest/menu/menu.component"
-import { RootState, select } from "Renderer/store"
+import { RootState, ReduxRootState } from "Renderer/store"
+import { UpdatingState } from "App/device/constants"
 
-const selection = select((models: any) => ({
-  pureFeaturesVisible: models.basicInfo.pureFeaturesVisible,
-}))
-
-const mapStateToProps = (state: RootState) => ({
-  ...selection(state, null),
+const mapStateToProps = (state: RootState & ReduxRootState) => ({
+  pureFeaturesVisible:
+    (state.device.status.connected && !state.device.status.locked) ||
+    state.device.updatingState === UpdatingState.Updating,
   devModeEnabled: state.devMode.enabled,
 })
 

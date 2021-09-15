@@ -46,11 +46,22 @@ import LicenseApp from "./license-app.component"
 import TermsOfServiceApp from "./terms-of-service-app.component"
 import PrivacyPolicyApp from "./privacy-policy-app.component"
 
+import {
+  connectDevice,
+  disconnectDevice,
+  unlockedDevice,
+  lockedDevice,
+  getConnectedDevice,
+} from "App/device"
+
 interface Props {
   history: History
   connect: () => void
-  toggleDeviceConnected: (value: boolean) => void
-  toggleDeviceUnlocked: (value: boolean) => void
+  disconnectDevice: () => void
+  connectDevice: (value: DeviceType) => void
+  lockedDevice: () => void
+  unlockedDevice: () => void
+  // TODO remove legacy staff
   toggleAppUpdateAvailable: (value: boolean) => void
   setAppUpdateStepModalDisplayed: () => void
   setAppLatestVersion: (value: string) => void
@@ -60,8 +71,11 @@ interface Props {
 const RootWrapper: FunctionComponent<Props> = ({
   history,
   connect,
-  toggleDeviceConnected,
-  toggleDeviceUnlocked,
+  disconnectDevice,
+  connectDevice,
+  lockedDevice,
+  unlockedDevice,
+  // TODO remove legacy staff
   toggleAppUpdateAvailable,
   setAppUpdateStepModalDisplayed,
   setAppLatestVersion,
@@ -132,8 +146,9 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const listener = () => {
+      disconnectDevice()
+
       modalService.closeModal(true)
-      toggleDeviceConnected(false)
     }
     const unregister = () => {
       removeDeviceDisconnectedListener(listener)
@@ -144,11 +159,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const listener = (_: any, props: MuditaDevice) => {
-      toggleDeviceConnected(true)
-
-      if (props.deviceType === DeviceType.MuditaHarmony) {
-        toggleDeviceUnlocked(true)
-      }
+      connectDevice(props.deviceType)
     }
     registerDeviceConnectedListener(listener)
     return () => removeDeviceConnectedListener(listener)
@@ -156,7 +167,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const listener = () => {
-      toggleDeviceUnlocked(false)
+      lockedDevice()
     }
     const unregister = () => {
       removeDeviceLockedListener(listener)
@@ -167,7 +178,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const listener = () => {
-      toggleDeviceUnlocked(true)
+      unlockedDevice()
     }
     registerDeviceUnlockedListener(listener)
     return () => removeDeviceUnlockedListener(listener)
@@ -229,11 +240,12 @@ const RootWrapper: FunctionComponent<Props> = ({
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  connect: () => dispatch.basicInfo.connect(),
-  toggleDeviceConnected: (value: boolean) =>
-    dispatch.basicInfo.toggleDeviceConnected(value),
-  toggleDeviceUnlocked: (value: boolean) =>
-    dispatch.basicInfo.toggleDeviceUnlocked(value),
+  connect: () => dispatch(getConnectedDevice()),
+  disconnectDevice: () => dispatch(disconnectDevice()),
+  connectDevice: (value: DeviceType) => dispatch(connectDevice(value)),
+  lockedDevice: () => dispatch(lockedDevice()),
+  unlockedDevice: () => dispatch(unlockedDevice()),
+  // TODO remove legacy staff
   toggleAppUpdateAvailable: (value: boolean) =>
     dispatch.settings.toggleAppUpdateAvailable(value),
   setAppUpdateStepModalDisplayed: () =>

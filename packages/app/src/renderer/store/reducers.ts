@@ -4,6 +4,12 @@
  */
 
 import { combineReducers } from "redux"
+import { deviceReducer } from "App/device"
 
-export const reducers = {}
-export const combinedReducers = combineReducers({})
+export const reducers = {
+  device: deviceReducer,
+}
+
+export const combinedReducers = combineReducers({
+  device: deviceReducer,
+})

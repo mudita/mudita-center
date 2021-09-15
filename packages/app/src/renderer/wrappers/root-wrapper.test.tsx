@@ -7,6 +7,8 @@ import React, { ComponentProps } from "react"
 import { init } from "@rematch/core"
 import { render as testingLibraryRender, waitFor } from "@testing-library/react"
 import { Provider } from "react-redux"
+import thunk from "redux-thunk"
+import { deviceReducer } from "App/device"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
 import settings from "Renderer/models/settings/settings"
 import history from "Renderer/routes/history"
@@ -95,17 +97,26 @@ const defaultProps: Props = {
   history,
 }
 
-const render = (store: Store, extraProps?: Partial<Props>) => {
+const render = (extraProps?: Partial<Props>) => {
+  const store = init({
+    models: { settings, basicInfo },
+    redux: {
+      middlewares: [thunk],
+      reducers: {
+        device: deviceReducer,
+      },
+    },
+  }) as Store
+
   const props = {
     ...defaultProps,
     ...extraProps,
   }
+
   return {
     ...testingLibraryRender(
       <Provider store={store}>
-        <>
-          <RootWrapper {...props} />
-        </>
+        <RootWrapper {...props} />
       </Provider>
     ),
     store,
@@ -113,13 +124,10 @@ const render = (store: Store, extraProps?: Partial<Props>) => {
 }
 
 test("checkAppUpdateRequest isn't call when online is set to false ", async () => {
-  const storeMock = init({
-    models: { settings, basicInfo },
-  }) as Store
   const online = jest.spyOn(window.navigator, "onLine", "get")
   online.mockReturnValue(false)
 
-  render(storeMock)
+  render()
 
   await waitFor(() => {
     expect(checkAppUpdateRequest).not.toHaveBeenCalled()
@@ -127,13 +135,10 @@ test("checkAppUpdateRequest isn't call when online is set to false ", async () =
 })
 
 test("appUpdateAvailable is to false when online is set to false", async () => {
-  const storeMock = init({
-    models: { settings, basicInfo },
-  }) as Store
   const online = jest.spyOn(window.navigator, "onLine", "get")
   online.mockReturnValue(false)
 
-  const { store } = render(storeMock)
+  const { store } = render()
 
   await waitFor(() => {
     expect(store.getState().settings.appUpdateAvailable).toBeFalsy()
@@ -141,13 +146,10 @@ test("appUpdateAvailable is to false when online is set to false", async () => {
 })
 
 test("appUpdateStepModalDisplayed is to false when online is set to false", async () => {
-  const storeMock = init({
-    models: { settings, basicInfo },
-  }) as Store
   const online = jest.spyOn(window.navigator, "onLine", "get")
   online.mockReturnValue(false)
 
-  const { store } = render(storeMock)
+  const { store } = render()
 
   await waitFor(async () => {
     expect(store.getState().settings.appUpdateStepModalDisplayed).toBeTruthy()
