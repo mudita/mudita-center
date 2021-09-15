@@ -134,12 +134,6 @@ const BaseApp: FunctionComponent<Props> = ({
   )
 }
 
-// const selection = select((models: any) => ({
-//   pureFeaturesVisible: models.basicInfo.pureFeaturesVisible,
-//   deviceConnecting: models.basicInfo.deviceConnecting,
-//   deviceParred: models.basicInfo.deviceParred,
-// }))
-
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
     pureFeaturesVisible:

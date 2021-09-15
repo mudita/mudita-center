@@ -9,5 +9,7 @@ export enum DeviceError {
   Disconnection = "DEVICE_DISCONNECTION_ERROR",
   Unlocking = "DEVICE_UNLOCKING_ERROR",
   Locked = "DEVICE_LOCKED_ERROR",
-  InvalidPhoneLockTime = "DEVICE_INVALID_PHONE_LOCK_TIME",
+  InvalidPhoneLockTime = "DEVICE_INVALID_PHONE_LOCK_TIME_ERROR",
+  ChangeSim = "DEVICE_CHANGE_SIM_ERROR",
+  UpdateProcess = "DEVICE_UPDATE_PROCESS_ERROR",
 }

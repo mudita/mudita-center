@@ -23,6 +23,7 @@ import {
 
 const pureDeviceMock: PureDeviceData = {
   networkName: "Network",
+  networkLevel: "5",
   osUpdateDate: "2020-01-14T11:31:08.244Z",
   osVersion: "0.75.1",
   batteryLevel: 0.99,
@@ -246,6 +247,7 @@ describe("Set device data functionality", () => {
     ).toEqual({
       ...initialState,
       data: {
+        networkLevel: "5",
         networkName: "Network",
         osUpdateDate: "2020-01-14T11:31:08.244Z",
         osVersion: "0.75.1",
@@ -334,6 +336,114 @@ describe("Updates loading functionality", () => {
       ...initialState,
       state: ConnectionState.Error,
       error: errorMock,
+    })
+  })
+})
+
+describe("Update sim card data", () => {
+  test("Event: SetSimData set the new active sim card", () => {
+    expect(
+      deviceReducer(
+        {
+          ...initialState,
+          deviceType: DeviceType.MuditaPure,
+          data: {
+            ...initialState.data,
+            simCards: [
+              {
+                slot: 1,
+                active: true,
+                number: 12345678,
+                network: "",
+                networkLevel: 0.75,
+              },
+              {
+                slot: 2,
+                active: false,
+                number: 87654321,
+                network: "",
+                networkLevel: 0.75,
+              },
+            ],
+          },
+        },
+        {
+          type: DeviceEvent.SetSimData,
+          payload: 87654321,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      deviceType: DeviceType.MuditaPure,
+      data: {
+        ...initialState.data,
+        simCards: [
+          {
+            slot: 1,
+            active: false,
+            number: 12345678,
+            network: "",
+            networkLevel: 0.75,
+          },
+          {
+            slot: 2,
+            active: true,
+            number: 87654321,
+            network: "",
+            networkLevel: 0.75,
+          },
+        ],
+      },
+    })
+  })
+})
+
+describe("Update functionality", () => {
+  test("Event: SetOsVersionData set osVersion and osUpdateData to `data` field", () => {
+    expect(
+      deviceReducer(undefined, {
+        type: DeviceEvent.SetOsVersionData,
+        payload: {
+          osVersion: "7.7.7",
+          osUpdateDate: "2020-01-14T11:31:08.244Z",
+        },
+      })
+    ).toEqual({
+      ...initialState,
+      data: {
+        ...initialState.data,
+        osVersion: "7.7.7",
+        osUpdateDate: "2020-01-14T11:31:08.244Z",
+      },
+    })
+  })
+
+  test("Event: SetOsVersionData replaces existing osVersion and osUpdateData with received from `payload`", () => {
+    expect(
+      deviceReducer(
+        {
+          ...initialState,
+          data: {
+            ...initialState.data,
+            osVersion: "0.0.0",
+            osUpdateDate: "2019-01-14T11:31:08.244Z",
+          },
+        },
+        {
+          type: DeviceEvent.SetOsVersionData,
+          payload: {
+            osVersion: "7.7.7",
+            osUpdateDate: "2020-01-14T11:31:08.244Z",
+          },
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      data: {
+        ...initialState.data,
+        osVersion: "7.7.7",
+        osUpdateDate: "2020-01-14T11:31:08.244Z",
+      },
     })
   })
 })

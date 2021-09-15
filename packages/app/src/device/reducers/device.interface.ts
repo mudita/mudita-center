@@ -14,10 +14,12 @@ import {
   DeviceDisconnectionError,
   DeviceLoadingError,
   DeviceInvalidPhoneLockTimeError,
+  DeviceUpdateProcessError,
 } from "App/device/errors"
 
 export interface PureDeviceData {
   networkName: string
+  networkLevel: string
   osUpdateDate?: string
   osVersion: string
   batteryLevel: number
@@ -55,6 +57,11 @@ export interface DeviceState {
   error: Error | string | null
 }
 
+export interface OsVersionPayload {
+  osVersion: string
+  osUpdateDate: string
+}
+
 export type ConnectedFulfilledAction = PayloadAction<
   DeviceType,
   DeviceEvent.Connected
@@ -82,4 +89,17 @@ export type SetPhoneLockTimeAction = PayloadAction<
 export type UnlockDeviceRejectedAction = PayloadAction<
   DeviceConnectionError | DeviceInvalidPhoneLockTimeError,
   DeviceEvent.Unlocked
+>
+export type SetSimDataAction = PayloadAction<number, DeviceEvent.SetSimData>
+export type SetOsVersionDataAction = PayloadAction<
+  OsVersionPayload,
+  DeviceEvent.SetOsVersionData
+>
+export type SetUpdateStateAction = PayloadAction<
+  UpdatingState,
+  DeviceEvent.SetUpdateState
+>
+export type OsUpdateRejectedAction = PayloadAction<
+  DeviceUpdateProcessError,
+  DeviceEvent.StartOsUpdateProcess
 >

@@ -17,6 +17,10 @@ export enum DeviceEvent {
 
   Loading = "DEVICE_DATA_LOADING",
 
-  UpdateSimData = "DEVICE_UPDATE_SIM_DATA",
-  ChangeUpdateState = "DEVICE_CHANGE_UPDATE_STATE",
+  ChangeSimData = "DEVICE_CHANGE_SIM",
+  SetSimData = "DEVICE_SET_SIM_DATA",
+
+  SetOsVersionData = "DEVICE_SET_OS_VERSION_DATA",
+  SetUpdateState = "DEVICE_SET_UPDATE_STATE",
+  StartOsUpdateProcess = "DEVICE_START_OS_UPDATE_PROCESS",
 }

@@ -5,14 +5,10 @@
 
 import { connect } from "react-redux"
 import Tethering from "Renderer/modules/tethering/tethering.component"
-import { RootState, select } from "Renderer/store"
+import { RootState, ReduxRootState } from "Renderer/store"
 
-const selection = select((models: any) => ({
-  deviceUnlocked: models.basicInfo.deviceUnlocked,
-}))
-
-const mapStateToProps = (state: RootState) => ({
-  ...selection(state, null),
+const mapStateToProps = (state: RootState & ReduxRootState) => ({
+  deviceUnlocked: !state.device.status.locked,
 })
 
 export default connect(mapStateToProps)(Tethering)

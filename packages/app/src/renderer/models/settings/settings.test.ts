@@ -4,7 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { init } from "@rematch/core"
+import { init, InitConfig } from "@rematch/core"
 import { version } from "../../../../package.json"
 import settings from "Renderer/models/settings/settings"
 import {
@@ -22,6 +22,7 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import Mock = jest.Mock
 import basicInfo from "Renderer/models/basic-info/basic-info"
+import { deviceReducer } from "App/device"
 
 const getDeviceLogsResponse: DeviceResponse<string> = {
   status: DeviceResponseStatus.Ok,
@@ -60,8 +61,20 @@ const mockIpc = () => {
   }
 }
 
-const storeConfig = {
+const storeConfig: InitConfig = {
   models: { settings, basicInfo },
+  redux: {
+    reducers: {
+      device: deviceReducer,
+    },
+    initialState: {
+      device: {
+        data: {
+          serialNumber: "000000000",
+        },
+      },
+    },
+  },
 }
 
 let store = init(storeConfig)
@@ -101,6 +114,11 @@ test("loads settings", async () => {
         "serialNumber": undefined,
         "simCards": Array [],
         "updatingState": 0,
+      },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
       },
       "settings": Object {
         "appAutostart": false,
@@ -158,6 +176,11 @@ test("updates tethering setting", async () => {
         "simCards": Array [],
         "updatingState": 0,
       },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
+      },
       "settings": Object {
         "appCurrentVersion": "${version}",
         "appLatestVersion": "",
@@ -198,6 +221,11 @@ test("updates incoming calls setting", async () => {
         "serialNumber": undefined,
         "simCards": Array [],
         "updatingState": 0,
+      },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -240,6 +268,11 @@ test("updates incoming messages setting", async () => {
         "simCards": Array [],
         "updatingState": 0,
       },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
+      },
       "settings": Object {
         "appCurrentVersion": "${version}",
         "appIncomingMessages": true,
@@ -280,6 +313,11 @@ test("updates low battery setting", async () => {
         "serialNumber": undefined,
         "simCards": Array [],
         "updatingState": 0,
+      },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -322,6 +360,11 @@ test("updates os updates setting", async () => {
         "simCards": Array [],
         "updatingState": 0,
       },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
+      },
       "settings": Object {
         "appCurrentVersion": "${version}",
         "appLatestVersion": "",
@@ -362,6 +405,11 @@ test("updates collecting data setting to true", async () => {
         "serialNumber": undefined,
         "simCards": Array [],
         "updatingState": 0,
+      },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
       },
       "settings": Object {
         "appCollectingData": true,
@@ -404,6 +452,11 @@ test("updates collecting data setting to false", async () => {
         "simCards": Array [],
         "updatingState": 0,
       },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
+      },
       "settings": Object {
         "appCollectingData": false,
         "appCurrentVersion": "${version}",
@@ -444,6 +497,11 @@ test("updates os audio files conversion setting", async () => {
         "serialNumber": undefined,
         "simCards": Array [],
         "updatingState": 0,
+      },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -486,6 +544,11 @@ test("updates convert setting", async () => {
         "simCards": Array [],
         "updatingState": 0,
       },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
+      },
       "settings": Object {
         "appConvert": "Convert automatically",
         "appCurrentVersion": "${version}",
@@ -526,6 +589,11 @@ test("updates conversion format setting", async () => {
         "serialNumber": undefined,
         "simCards": Array [],
         "updatingState": 0,
+      },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
       },
       "settings": Object {
         "appConversionFormat": "WAV",
@@ -568,6 +636,11 @@ test("updates tray setting", async () => {
         "simCards": Array [],
         "updatingState": 0,
       },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
+      },
       "settings": Object {
         "appCurrentVersion": "${version}",
         "appLatestVersion": "",
@@ -608,6 +681,11 @@ test("updates PureOS backup location setting", async () => {
         "serialNumber": undefined,
         "simCards": Array [],
         "updatingState": 0,
+      },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -650,6 +728,11 @@ test("updates PureOS download location setting", async () => {
         "simCards": Array [],
         "updatingState": 0,
       },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
+      },
       "settings": Object {
         "appCurrentVersion": "${version}",
         "appLatestVersion": "",
@@ -691,6 +774,11 @@ test("updates language setting", async () => {
         "simCards": Array [],
         "updatingState": 0,
       },
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
+        },
+      },
       "settings": Object {
         "appCurrentVersion": "${version}",
         "appLatestVersion": "",
@@ -717,7 +805,6 @@ test("sendDiagnosticData effect no generate any side effects if serial number is
 
 test("sendDiagnosticData effect no generate any side effects if diagnostic data isn't set", async () => {
   mockIpc()
-  await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 
@@ -741,7 +828,7 @@ test("sendDiagnosticData effect no generate any side effects if diagnostic data 
       centerVersion: "0.0.0",
     }),
   }
-  await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
+
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 
@@ -766,7 +853,7 @@ test("sendDiagnosticData effect no generate any side effects if diagnostic data 
       centerVersion: "0.0.0",
     }),
   }
-  await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
+
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 
@@ -791,7 +878,7 @@ test("sendDiagnosticData pass successfully if user agree to collecting data and 
       centerVersion: "0.0.0",
     }),
   }
-  await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
+
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 
@@ -819,7 +906,7 @@ test("sendDiagnosticData effect no sent requests if getting device logs fails", 
       centerVersion: "0.0.0",
     }),
   }
-  await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
+
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 
@@ -848,7 +935,8 @@ test("sendDiagnosticData effect is fails if request no finish successfully", asy
       centerVersion: "0.0.0",
     }),
   }
-  await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
+  console.log(store.getState().device)
+
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 

@@ -5,7 +5,9 @@
 
 import store from "Renderer/store"
 import { ipcRenderer } from "electron-better-ipc"
+import { DeviceType } from "@mudita/pure"
 import { backendAdaptersChannel } from "Backend/backend.types"
+import { connectDevice, disconnectDevice, unlockedDevice } from "App/device"
 
 export const isDevModeEnabled = () => {
   return Boolean(store.getState().devMode.enabled)
@@ -28,10 +30,10 @@ export const togglePhoneSimulation = () => {
 
   if (store.getState().devMode.phoneSimulation) {
     store.dispatch.devMode.disablePhoneSimulation()
-    store.dispatch.basicInfo.disconnect()
+    store.dispatch(disconnectDevice())
   } else {
     store.dispatch.devMode.enablePhoneSimulation()
-    store.dispatch.basicInfo.connect()
-    setTimeout(() => store.dispatch.basicInfo.toggleDeviceUnlocked(true))
+    store.dispatch(connectDevice(DeviceType.MuditaPure))
+    setTimeout(() => store.dispatch(unlockedDevice()))
   }
 }

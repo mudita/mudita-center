@@ -15,6 +15,7 @@ import getBackupsInfo from "Renderer/requests/get-backups-info.request"
 import {
   checkResponseStatus,
   getActiveNetworkFromSim,
+  getActiveNetworkLevelFromSim,
   getLastBackUp,
 } from "App/device/helpers"
 import { setDeviceData } from "App/device/actions/base.action"
@@ -52,19 +53,14 @@ export const loadDeviceData = createAsyncThunk<any, DeviceType>(
 
       const lastBackup = getLastBackUp(backupsInfo)
       const networkName = getActiveNetworkFromSim(networkInfo.data!.simCards)
-
-      console.log(
-        lastBackup,
-        info,
-        networkInfo,
-        storageInfo,
-        batteryInfo,
-        backupsInfo
+      const networkLevel = getActiveNetworkLevelFromSim(
+        networkInfo.data!.simCards
       )
 
       dispatch(
         setDeviceData({
           networkName,
+          networkLevel,
           lastBackup,
           osUpdateDate: info.data!.osUpdateDate,
           osVersion: info.data!.osVersion,
