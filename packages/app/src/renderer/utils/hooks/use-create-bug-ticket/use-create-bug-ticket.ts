@@ -16,6 +16,7 @@ import useCreateBugTicketBuilder, {
 import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 import archiveFiles from "Renderer/requests/archive-files.request"
 import { ArchiveFilesData } from "App/main/functions/register-archive-files-listener"
+import { DeviceFilesOption } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 
 export const files = [
   {
@@ -26,7 +27,7 @@ export const files = [
 export interface DependencyUseCreateBugTicket {
   getAppLogs: () => Promise<string>
   archiveFiles: (data: ArchiveFilesData) => Promise<Buffer | undefined>
-  getDeviceLogFiles: () => Promise<DeviceResponse<DeviceFile[]>>
+  getDeviceLogFiles: (option?: DeviceFilesOption) => Promise<DeviceResponse<DeviceFile[]>>
   createFreshdeskTicket: (
     data: FreshdeskTicketData
   ) => Promise<AxiosResponse<unknown>>

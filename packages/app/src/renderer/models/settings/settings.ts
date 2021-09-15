@@ -25,6 +25,9 @@ import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
 import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getApplicationConfiguration from "App/renderer/requests/get-application-configuration.request"
+import getDeviceCrashDumpFiles from "Renderer/requests/get-device-crash-dump-files.request"
+import archiveFiles from "Renderer/requests/archive-files.request"
+import { attachedFileName } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -171,20 +174,39 @@ const settings = createModel<RootModel>({
           )
           return
         }
-        const {
-          status,
-          data = [],
-          error,
-        } = await getDeviceLogFiles({ datePrefix: true })
-        if (status !== DeviceResponseStatus.Ok) {
+        const deviceLogFilesResponse = await getDeviceLogFiles({ datePrefix: true })
+
+        if (deviceLogFilesResponse.status !== DeviceResponseStatus.Ok || deviceLogFilesResponse.data === undefined) {
           logger.error(
-            `Send Diagnostic Data: device logs fail. Message: ${error?.message}.`
+            `Send Diagnostic Data: fetch device logs fail. Message: ${deviceLogFilesResponse.error?.message}.`
           )
           return
         }
 
+        const deviceCrashDumpFilesResponse = await getDeviceCrashDumpFiles()
+
+        if (deviceCrashDumpFilesResponse.status !== DeviceResponseStatus.Ok || deviceCrashDumpFilesResponse.data === undefined) {
+          logger.error(
+            `Send Diagnostic Data: fetch crash dumps fail. Message: ${deviceCrashDumpFilesResponse.error?.message}.`
+          )
+          return
+        }
+
+        const buffer = await archiveFiles({
+          files: [...deviceLogFilesResponse.data, ...deviceCrashDumpFilesResponse.data],
+        })
+
+        if (buffer === undefined) {
+          logger.error(
+            `Send Diagnostic Data: archives files fail.`
+          )
+          return
+        }
+
+        const file = new File([buffer], attachedFileName, { type: "application/zip" })
+
         try {
-          const { status } = await sendDiagnosticDataRequest(data, serialNumber)
+          const { status } = await sendDiagnosticDataRequest(file, serialNumber)
           if (status !== 200) {
             logger.error(
               `Send Diagnostic Data: send diagnostic data request. Status: ${status}`

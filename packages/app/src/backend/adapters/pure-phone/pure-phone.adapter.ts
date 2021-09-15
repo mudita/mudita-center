@@ -5,7 +5,7 @@
 
 import { DiagnosticsFileList, Endpoint, Method, timeout } from "@mudita/pure"
 import PurePhoneAdapter, {
-  DeviceLogFilesOption,
+  DeviceFilesOption,
 } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
   DeviceResponseStatus,
@@ -119,41 +119,15 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public async getDeviceLogFiles(
-    option?: DeviceLogFilesOption
+    option?: DeviceFilesOption
   ): Promise<DeviceResponse<DeviceFile[]>> {
-    const getDiagnosticFileListResponse =
-      await this.deviceFileDiagnosticService.getDiagnosticFileList(
-        DiagnosticsFileList.LOGS
-      )
-    if (
-      getDiagnosticFileListResponse.status !== DeviceResponseStatus.Ok ||
-      getDiagnosticFileListResponse.data === undefined
-    ) {
-      return {
-        status: DeviceResponseStatus.Error,
-      }
-    }
+    return this.getDeviceFiles(DiagnosticsFileList.LOGS, option)
+  }
 
-    const filePaths = getDiagnosticFileListResponse.data.files
-    const downloadDeviceFilesResponse =
-      await this.deviceFileSystemService.downloadDeviceFiles(filePaths)
-    const deviceFiles = downloadDeviceFilesResponse.data
-
-    if (
-      downloadDeviceFilesResponse.status !== DeviceResponseStatus.Ok ||
-      deviceFiles === undefined
-    ) {
-      return {
-        status: DeviceResponseStatus.Error,
-      }
-    }
-
-    return {
-      data: option
-        ? transformDeviceFilesByOption(deviceFiles, option)
-        : deviceFiles,
-      status: DeviceResponseStatus.Ok,
-    }
+  public async getDeviceCrashDumpFiles(
+    option?: DeviceFilesOption
+  ): Promise<DeviceResponse<DeviceFile[]>> {
+    return this.getDeviceFiles(DiagnosticsFileList.CRASH_DUMPS, option)
   }
 
   public async updateOs(
@@ -268,6 +242,43 @@ class PurePhone extends PurePhoneAdapter {
       unregisterListeners()
       return response
     })
+  }
+
+  private async getDeviceFiles(
+    fileList: DiagnosticsFileList,
+    option?: DeviceFilesOption
+  ): Promise<DeviceResponse<DeviceFile[]>> {
+    const getDiagnosticFileListResponse =
+      await this.deviceFileDiagnosticService.getDiagnosticFileList(fileList)
+    if (
+      getDiagnosticFileListResponse.status !== DeviceResponseStatus.Ok ||
+      getDiagnosticFileListResponse.data === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+
+    const filePaths = getDiagnosticFileListResponse.data.files
+    const downloadDeviceFilesResponse =
+      await this.deviceFileSystemService.downloadDeviceFiles(filePaths)
+    const deviceFiles = downloadDeviceFilesResponse.data
+
+    if (
+      downloadDeviceFilesResponse.status !== DeviceResponseStatus.Ok ||
+      deviceFiles === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+
+    return {
+      data: option
+        ? transformDeviceFilesByOption(deviceFiles, option)
+        : deviceFiles,
+      status: DeviceResponseStatus.Ok,
+    }
   }
 
   private static getUpdateOsProgress(step: number): number {

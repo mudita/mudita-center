@@ -6,7 +6,7 @@
 import DeviceResponse from "Backend/adapters/device-response.interface"
 import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 
-export interface DeviceLogFilesOption {
+export interface DeviceFilesOption {
   datePrefix?: boolean
 }
 
@@ -22,7 +22,10 @@ export default abstract class PurePhoneAdapter {
   public abstract unlockDevice(code: string): Promise<DeviceResponse>
   public abstract getUnlockDeviceStatus(): Promise<DeviceResponse>
   public abstract getDeviceLogFiles(
-    option?: DeviceLogFilesOption
+    option?: DeviceFilesOption
+  ): Promise<DeviceResponse<DeviceFile[]>>
+  public abstract getDeviceCrashDumpFiles(
+    option?: DeviceFilesOption
   ): Promise<DeviceResponse<DeviceFile[]>>
   public abstract updateOs(
     filePath: string,

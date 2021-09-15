@@ -4,12 +4,12 @@
  */
 
 import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
-import { DeviceLogFilesOption } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
+import { DeviceFilesOption } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import { formatDate } from "Renderer/utils/format-date"
 
 export const transformDeviceFilesByOption = (
   deviceFiles: DeviceFile[],
-  { datePrefix }: DeviceLogFilesOption
+  { datePrefix }: DeviceFilesOption
 ): DeviceFile[] => {
   if (datePrefix) {
     const todayFormatDate = formatDate(new Date())
