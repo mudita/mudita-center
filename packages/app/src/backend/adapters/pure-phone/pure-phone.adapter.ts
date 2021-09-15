@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method, timeout } from "@mudita/pure"
+import { DiagnosticsFileList, Endpoint, Method, timeout } from "@mudita/pure"
 import PurePhoneAdapter, {
   DeviceLogFilesOption,
 } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
@@ -121,18 +121,20 @@ class PurePhone extends PurePhoneAdapter {
   public async getDeviceLogFiles(
     option?: DeviceLogFilesOption
   ): Promise<DeviceResponse<DeviceFile[]>> {
-    const allDiagnosticFileListResponse =
-      await this.deviceFileDiagnosticService.getAllDiagnosticFileList()
+    const getDiagnosticFileListResponse =
+      await this.deviceFileDiagnosticService.getDiagnosticFileList(
+        DiagnosticsFileList.LOGS
+      )
     if (
-      allDiagnosticFileListResponse.status !== DeviceResponseStatus.Ok ||
-      allDiagnosticFileListResponse.data === undefined
+      getDiagnosticFileListResponse.status !== DeviceResponseStatus.Ok ||
+      getDiagnosticFileListResponse.data === undefined
     ) {
       return {
         status: DeviceResponseStatus.Error,
       }
     }
 
-    const filePaths = allDiagnosticFileListResponse.data
+    const filePaths = getDiagnosticFileListResponse.data.files
     const downloadDeviceFilesResponse =
       await this.deviceFileSystemService.downloadDeviceFiles(filePaths)
     const deviceFiles = downloadDeviceFilesResponse.data

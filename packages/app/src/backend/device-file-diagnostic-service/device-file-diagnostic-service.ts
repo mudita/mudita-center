@@ -10,40 +10,12 @@ import {
   Method,
 } from "@mudita/pure"
 import DeviceService from "Backend/device-service"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
+import DeviceResponse from "Backend/adapters/device-response.interface"
 
 class DeviceFileDiagnosticService {
-  private diagnosticsFileListKeys = [
-    DiagnosticsFileList.LOGS,
-    DiagnosticsFileList.CRASH_DUMPS,
-  ]
-
   constructor(private deviceService: DeviceService) {}
 
-  public async getAllDiagnosticFileList(): Promise<DeviceResponse<string[]>> {
-    const fileList: string[] = []
-    for (let i = 0; i < this.diagnosticsFileListKeys.length; i++) {
-      const { status, data = { files: [] } } = await this.getDiagnosticFileList(
-        this.diagnosticsFileListKeys[i]
-      )
-      if (status === DeviceResponseStatus.Ok) {
-        data.files.forEach((file) => fileList.push(file))
-      } else {
-        return {
-          status: DeviceResponseStatus.Error,
-        }
-      }
-    }
-
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: fileList,
-    }
-  }
-
-  private async getDiagnosticFileList(
+  public async getDiagnosticFileList(
     fileList: DiagnosticsFileList
   ): Promise<DeviceResponse<GetFileListResponseBody>> {
     return await this.deviceService.request({

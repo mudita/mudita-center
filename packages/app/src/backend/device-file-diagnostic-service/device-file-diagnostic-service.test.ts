@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MuditaDeviceManager from "@mudita/pure"
+import MuditaDeviceManager, { DiagnosticsFileList } from "@mudita/pure"
 import { ipcMain } from "electron-better-ipc"
 import DeviceService from "Backend/device-service"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
@@ -12,7 +12,7 @@ import { createDeviceFileDiagnosticService } from "Backend/device-file-diagnosti
 jest.mock("Backend/device-service")
 
 describe("DeviceFileDiagnosticService serivce", () => {
-  describe("when requests return success for getAllDiagnosticFileList method", () => {
+  describe("when requests return success for getDiagnosticFileList method", () => {
     ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
       return {
         request: () => {
@@ -32,14 +32,14 @@ describe("DeviceFileDiagnosticService serivce", () => {
 
     test("should return DeviceResponseStatus.Ok as status", async () => {
       const { status } =
-        await deviceFileDiagnosticService.getAllDiagnosticFileList()
+        await deviceFileDiagnosticService.getDiagnosticFileList(DiagnosticsFileList.LOGS)
       expect(status).toEqual(DeviceResponseStatus.Ok)
     })
 
-    test("should return properly FileList length", async () => {
-      const { data = [] } =
-        await deviceFileDiagnosticService.getAllDiagnosticFileList()
-      expect(data).toHaveLength(2)
+    test("should return properly files length", async () => {
+      const { data } =
+        await deviceFileDiagnosticService.getDiagnosticFileList(DiagnosticsFileList.LOGS)
+      expect(data?.files).toHaveLength(1)
     })
   })
 })
