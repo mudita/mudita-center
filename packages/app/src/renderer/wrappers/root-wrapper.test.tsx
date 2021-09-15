@@ -13,7 +13,6 @@ import RootWrapper from "Renderer/wrappers/root-wrapper"
 import settings from "Renderer/models/settings/settings"
 import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
-import basicInfo from "Renderer/models/basic-info/basic-info"
 import checkAppUpdateRequest from "Renderer/requests/check-app-update.request"
 
 jest.mock("Renderer/register-hotkeys", jest.fn)
@@ -99,7 +98,7 @@ const defaultProps: Props = {
 
 const render = (extraProps?: Partial<Props>) => {
   const store = init({
-    models: { settings, basicInfo },
+    models: { settings },
     redux: {
       middlewares: [thunk],
       reducers: {

@@ -14,7 +14,7 @@ export interface ScrubProps {
 }
 
 class PureLogger implements ConsoleLogger {
-  scrubbed = process.env.LOGS_SCRUBBED === "false"
+  scrubbed = process.env.LOGS_SCRUBBED !== "false"
 
   info(message: string): void {
     if (this.scrubbed) {
