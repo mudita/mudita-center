@@ -7,7 +7,6 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 
 export interface DeviceLogFilesOption {
-  maxBytes?: number
   datePrefix?: boolean
 }
 

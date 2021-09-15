@@ -158,30 +158,6 @@ describe("getDeviceLogFiles method", () => {
       })
       expect(data[0].name).toEqual("2000-02-01-MuditaOS.log")
     })
-
-    test("should return properly chunked File List", async () => {
-      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
-        maxBytes: 500,
-      })
-      expect(data).toHaveLength(2)
-    })
-
-    test("files of the chunked File List should have properly set name", async () => {
-      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
-        maxBytes: 500,
-      })
-      expect(data[0].name).toEqual("MuditaOS-part1.log")
-      expect(data[1].name).toEqual("MuditaOS-part2.log")
-    })
-
-    test("files of the chunked File List should have properly set name and date prefix", async () => {
-      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
-        maxBytes: 500,
-        datePrefix: true,
-      })
-      expect(data[0].name).toEqual("2000-02-01-MuditaOS-part1.log")
-      expect(data[1].name).toEqual("2000-02-01-MuditaOS-part2.log")
-    })
   })
 
   describe("when 2 log files are fetched successful", () => {
@@ -237,23 +213,6 @@ describe("getDeviceLogFiles method", () => {
     test("should return properly list length", async () => {
       const { data = [] } = await purePhoneAdapter.getDeviceLogFiles()
       expect(data).toHaveLength(2)
-    })
-
-    test("should return properly chunked File List", async () => {
-      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
-        maxBytes: 500,
-      })
-      expect(data).toHaveLength(4)
-    })
-
-    test("files of the chunked File List should have properly set name", async () => {
-      const { data = [] } = await purePhoneAdapter.getDeviceLogFiles({
-        maxBytes: 500,
-      })
-      expect(data[0].name).toEqual("MuditaOS-part1.log")
-      expect(data[1].name).toEqual("MuditaOS-part2.log")
-      expect(data[2].name).toEqual("NoMimeType-part1")
-      expect(data[3].name).toEqual("NoMimeType-part2")
     })
   })
 
