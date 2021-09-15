@@ -141,6 +141,14 @@ class PurePhone extends PurePhoneAdapter {
         status,
         data: data,
       }
+    } else if (status === DeviceResponseStatus.UnprocessableEntity) {
+      return {
+        status,
+        error: {
+          message:
+            "Get device lock time: phone is unlocked or unlocking phone is possible in this moment",
+        },
+      }
     } else {
       return {
         status,
