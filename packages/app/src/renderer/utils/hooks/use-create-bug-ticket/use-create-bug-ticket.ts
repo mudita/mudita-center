@@ -4,14 +4,8 @@
  */
 
 import { AxiosResponse } from "axios"
-import getAppPath from "App/main/utils/get-app-path"
-import writeFile from "Renderer/requests/write-file.request"
-import writeGzip from "Renderer/requests/write-gzip.request"
-import rmdir from "Renderer/requests/rmdir.request"
-import createFile from "Renderer/utils/create-file/create-file"
 import getAppLogs from "Renderer/requests/get-app-logs.request"
 import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
-import { WriteData } from "App/main/functions/register-write-file-listener"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 import createFreshdeskTicket, {
   FreshdeskTicketData,
@@ -19,9 +13,9 @@ import createFreshdeskTicket, {
 import useCreateBugTicketBuilder, {
   attachedFileName,
 } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
-import { WriteGzipData } from "App/main/functions/register-write-gzip-listener"
-import { RmdirProps } from "App/main/functions/register-rmdir-listener"
 import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import archiveFiles from "Renderer/requests/archive-files.request"
+import { ArchiveFilesData } from "App/main/functions/register-archive-files-listener"
 
 export const files = [
   {
@@ -30,25 +24,17 @@ export const files = [
 ]
 
 export interface DependencyUseCreateBugTicket {
-  getAppPath: () => string
-  writeFile: (data: WriteData) => Promise<boolean>
-  writeGzip: (data: WriteGzipData) => Promise<boolean>
   getAppLogs: () => Promise<string>
+  archiveFiles: (data: ArchiveFilesData) => Promise<Buffer | undefined>
   getDeviceLogFiles: () => Promise<DeviceResponse<DeviceFile[]>>
-  createFile: (filePath: string, options?: FilePropertyBag) => File
-  rmdir: (props: RmdirProps) => Promise<boolean>
   createFreshdeskTicket: (
     data: FreshdeskTicketData
   ) => Promise<AxiosResponse<unknown>>
 }
 
 export default useCreateBugTicketBuilder({
-  getAppPath,
-  writeFile,
-  writeGzip,
-  createFile,
-  rmdir,
   getAppLogs,
+  archiveFiles,
   getDeviceLogFiles,
   createFreshdeskTicket,
 })

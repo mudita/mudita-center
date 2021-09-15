@@ -4,31 +4,14 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
-import fs, { RmDirOptions } from "fs"
+import rmdir, { RmdirProps } from "App/main/utils/rmdir"
 
 export enum RmdirEvents {
   Rmdir = "rmdir",
 }
 
-export interface RmdirProps {
-  filePath: string
-  options: RmDirOptions
-}
-
 const registerRmdirListener = (): void => {
-  ipcMain.answerRenderer<RmdirProps, boolean>(
-    RmdirEvents.Rmdir,
-    ({ filePath, options }) => {
-      try {
-        if (fs.existsSync(filePath)) {
-          fs.rmdirSync(filePath, options)
-        }
-        return true
-      } catch {
-        return false
-      }
-    }
-  )
+  ipcMain.answerRenderer<RmdirProps, boolean>(RmdirEvents.Rmdir, rmdir)
 }
 
 export default registerRmdirListener
