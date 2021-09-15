@@ -69,7 +69,7 @@ const sendDiagnosticDataRequest = async ({
           sftp.end()
           resolve(true)
         })
-        write.on("error", (error) => {
+        write.on("error", () => {
           resolve(true)
         })
       })
