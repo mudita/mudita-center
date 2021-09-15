@@ -22,10 +22,15 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import Mock = jest.Mock
 import basicInfo from "Renderer/models/basic-info/basic-info"
+import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { ArchiveFilesEvents } from "App/main/functions/register-archive-files-listener"
 
-const getDeviceLogsResponse: DeviceResponse<string> = {
+const getDeviceFileResponse: DeviceResponse<DeviceFile[]> = {
   status: DeviceResponseStatus.Ok,
-  data: "logs",
+  data: [{
+    data: "logs",
+    name: "logs.log"
+  }],
 }
 
 const sendDiagnosticDataRequestResponse: AxiosResponse<unknown> = {
@@ -37,7 +42,10 @@ const sendDiagnosticDataRequestResponse: AxiosResponse<unknown> = {
 }
 
 jest.mock("Renderer/requests/get-device-log-files.request", () =>
-  jest.fn(() => Promise.resolve(getDeviceLogsResponse))
+  jest.fn(() => Promise.resolve(getDeviceFileResponse))
+)
+jest.mock("Renderer/requests/get-device-crash-dump-files.request", () =>
+  jest.fn(() => Promise.resolve(getDeviceFileResponse))
 )
 jest.mock("Renderer/requests/send-diagnostic-data.request", () =>
   jest.fn(() => Promise.resolve(sendDiagnosticDataRequestResponse))
@@ -775,6 +783,7 @@ test("sendDiagnosticData pass successfully if user agree to collecting data and 
       osVersion: "0.0.0",
       centerVersion: "0.0.0",
     }),
+    [ArchiveFilesEvents.Archive]: Promise.resolve(new Buffer("")),
   }
   await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
   await store.dispatch.settings.loadSettings()
@@ -818,7 +827,7 @@ test("sendDiagnosticData effect is fails if request no finish successfully", asy
     store.dispatch.settings,
     "setDiagnosticSentTimestamp"
   )
-  ;(getDeviceLogFiles as Mock).mockReturnValue(getDeviceLogsResponse)
+  ;(getDeviceLogFiles as Mock).mockReturnValue(getDeviceFileResponse)
   ;(sendDiagnosticDataRequest as Mock).mockImplementation(() => {
     throw new Error()
   })
@@ -832,6 +841,7 @@ test("sendDiagnosticData effect is fails if request no finish successfully", asy
       osVersion: "0.0.0",
       centerVersion: "0.0.0",
     }),
+    [ArchiveFilesEvents.Archive]: Promise.resolve(new Buffer("")),
   }
   await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
   await store.dispatch.settings.loadSettings()

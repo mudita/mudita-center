@@ -6,12 +6,12 @@
 import * as fs from "fs"
 import path from "path"
 import { ipcMain } from "electron-better-ipc"
+import MuditaDeviceManager from "@mudita/pure"
 import DeviceService from "Backend/device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
-import MuditaDeviceManager from "@mudita/pure"
 import MockDate from "mockdate"
 import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
@@ -97,7 +97,7 @@ describe("getDeviceLogFiles method", () => {
     ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
-          getAllDiagnosticFileList: () => {
+          getDiagnosticFileList: () => {
             return returnMockGetFileListResponse([firstFilePath])
           },
         }
@@ -164,7 +164,7 @@ describe("getDeviceLogFiles method", () => {
     ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
-          getAllDiagnosticFileList: () => {
+          getDiagnosticFileList: () => {
             return returnMockGetFileListResponse([
               firstFilePath,
               secondFilePath,
@@ -216,11 +216,11 @@ describe("getDeviceLogFiles method", () => {
     })
   })
 
-  describe("when getAllDiagnosticFileList throw error", () => {
+  describe("when getDiagnosticFileList throw error", () => {
     ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
-          getAllDiagnosticFileList: () => {
+          getDiagnosticFileList: () => {
             return {
               status: DeviceResponseStatus.Error,
             }
@@ -249,7 +249,7 @@ describe("getDeviceLogFiles method", () => {
     ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
       () => {
         return {
-          getAllDiagnosticFileList: () => {
+          getDiagnosticFileList: () => {
             return returnMockGetFileListResponse([firstFilePath])
           },
         }

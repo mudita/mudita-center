@@ -203,11 +203,9 @@ const settings = createModel<RootModel>({
           return
         }
 
-        const file = new File([buffer], attachedFileName, { type: "application/zip" })
-
         try {
-          const { status } = await sendDiagnosticDataRequest(file, serialNumber)
-          if (status !== 200) {
+          const response = await sendDiagnosticDataRequest({ buffer, fileName: attachedFileName, serialNumber })
+          if (!response) {
             logger.error(
               `Send Diagnostic Data: send diagnostic data request. Status: ${status}`
             )

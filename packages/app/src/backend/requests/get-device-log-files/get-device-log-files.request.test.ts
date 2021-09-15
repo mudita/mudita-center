@@ -62,10 +62,12 @@ test("GetDeviceLogs request works properly", (done) => {
   ;((DeviceFileDiagnosticService as unknown) as jest.Mock).mockImplementation(
     () => {
       return {
-        getAllDiagnosticFileList: () => {
+        getDiagnosticFileList: () => {
           return {
             status: DeviceResponseStatus.Ok,
-            data: ["/sys/user/logs/MuditaOS.log"],
+            data: {
+              files: ["/sys/user/logs/MuditaOS.log"]
+            },
           }
         },
       }
