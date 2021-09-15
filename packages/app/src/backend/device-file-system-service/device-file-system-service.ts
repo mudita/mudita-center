@@ -84,14 +84,21 @@ class DeviceFileSystemService {
     try {
       const fileSize = fs.lstatSync(filePath).size
       const fileBuffer = fs.readFileSync(filePath)
-      const fileCrc32 = CRC32.buf(fileBuffer).toString(16).padStart(8, "0")
+      const crc = CRC32.buf(fileBuffer); // -873187034
+      const unsignedCrc = crc >>> 0; // 3421780262
+      const crcHex = (crc >>> 0).toString(16); // 'CBF43926'
+      const crcWithPad = crc.toString(16).padStart(8, "0") // '-340BC6DA'
+      logger.info(`uploadFile crc: ${crc}`)
+      logger.info(`uploadFile unsigned_crc: ${unsignedCrc}`)
+      logger.info(`uploadFile crc_hex: ${crcHex}`)
+      logger.info(`uploadFile crcWithPad: ${crcWithPad}`)
 
       const { status, data } = await this.deviceService.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
           fileSize,
-          fileCrc32,
+          fileCrc32: crcHex,
           fileName: targetPath,
         },
       })
