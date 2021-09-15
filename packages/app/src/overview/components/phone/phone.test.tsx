@@ -41,7 +41,7 @@ test("disconnect button works properly", async () => {
 })
 
 test("Phone Component should render proper phone color", () => {
-  const {getByTestId} = renderPhone({ caseColour: "black"})
+  const { getByTestId } = renderPhone({ caseColour: "black" })
 
   expect(getByTestId(PhoneTestIds.PureBlack)).toBeInTheDocument()
 })
