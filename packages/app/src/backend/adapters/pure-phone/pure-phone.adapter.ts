@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DiagnosticsFileList, Endpoint, Method, timeout } from "@mudita/pure"
+import { DiagnosticsFileList, GetPhoneLockTimeResponseBody, PhoneLockCategory, Endpoint, Method, timeout } from "@mudita/pure"
 import PurePhoneAdapter, {
   DeviceFilesOption,
 } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
@@ -111,10 +111,40 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
+  public async getDeviceLockTime(): Promise<
+    DeviceResponse<GetPhoneLockTimeResponseBody>
+  > {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.Security,
+      method: Method.Get,
+      body: { category: PhoneLockCategory.Time },
+    })
+    if (status === DeviceResponseStatus.Ok && data) {
+      return {
+        status,
+        data: data,
+      }
+    } else if (status === DeviceResponseStatus.UnprocessableEntity) {
+      return {
+        status,
+        error: {
+          message:
+            "Get device lock time: phone is unlocked or unlocking phone is possible in this moment",
+        },
+      }
+    } else {
+      return {
+        status,
+        error: { message: "Get device lock time: Something went wrong" },
+      }
+    }
+  }
+
   public async getUnlockDeviceStatus(): Promise<DeviceResponse> {
     return await this.deviceService.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
+      body: { category: PhoneLockCategory.Status },
     })
   }
 

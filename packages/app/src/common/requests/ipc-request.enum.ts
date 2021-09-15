@@ -29,4 +29,6 @@ export enum IpcRequest {
   GetEvents = "get-events",
   GetMessagesByThreadId = "get-messages-by-thread-id",
   GetThreads = "get-threads",
+  GetDeviceLockTime = "get-device-lock-time",
+  AddMessage = "add-message",
 }

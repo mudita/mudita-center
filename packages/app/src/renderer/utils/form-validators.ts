@@ -6,6 +6,8 @@
 import { RegisterOptions } from "react-hook-form/dist/types"
 import { intl } from "Renderer/utils/intl"
 
+export const phoneNumberRegexp = /^(\+?)(\d(\s?\d)+)$/im
+
 export const primaryPhoneNumberValidator = (
   fields: Record<any, any>
 ): RegisterOptions => ({
@@ -24,7 +26,7 @@ export const primaryPhoneNumberValidator = (
     ),
   },
   pattern: {
-    value: /^(\+?)(\d(\s?\d)+)$/im,
+    value: phoneNumberRegexp,
     message: intl.formatMessage({
       id: "component.formErrorNumbersAndSpacesOnly",
     }),
@@ -58,7 +60,7 @@ export const secondaryPhoneNumberValidator = (
     ),
   },
   pattern: {
-    value: /^(\+?)(\d(\s?\d)+)$/im,
+    value: phoneNumberRegexp,
     message: intl.formatMessage({
       id: "component.formErrorNumbersAndSpacesOnly",
     }),

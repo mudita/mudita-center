@@ -4,5 +4,7 @@
  */
 
 export const EXTERNAL_URLS = {
-  windowCenterUpdate: "https://mudita.com/products/center/",
+  windowCenterUpdate: "https://mudita.com/products/software-apps/mudita-center/",
+  privacyPolicy: "https://mudita.com/legal/privacy-policy/mudita-center/",
+  termsAndConditions: "https://mudita.com/legal/terms-conditions/mudita-center/"
 }

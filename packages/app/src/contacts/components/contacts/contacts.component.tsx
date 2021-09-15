@@ -647,7 +647,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         deleteContacts={deleteContacts}
         resetRows={resetRows}
         editMode={Boolean(editedContact || newContact)}
-        openSearchResults={openSearchResults}
+        onSearchEnterClick={openSearchResults}
         searchValue={searchValue}
         onSearchValueChange={setSearchValue}
         results={results}

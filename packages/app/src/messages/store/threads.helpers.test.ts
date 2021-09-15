@@ -10,10 +10,13 @@ import { ContactsCollection } from "App/messages/store/messages.helpers"
 
 const contact = createFakeContact()
 const anotherContact = createFakeContact()
+const firstThreadId = "1"
+const secondThreadId = "2"
 
-export const threads: Thread[] = [
+const threads: Thread[] = [
   {
-    id: contact.primaryPhoneNumber!,
+    id: firstThreadId,
+    phoneNumber: contact.primaryPhoneNumber!,
     contactId: contact.id,
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
@@ -21,7 +24,8 @@ export const threads: Thread[] = [
     unread: true,
   },
   {
-    id: anotherContact.primaryPhoneNumber!,
+    id: secondThreadId,
+    phoneNumber: anotherContact.primaryPhoneNumber!,
     contactId: anotherContact.id,
     lastUpdatedAt: new Date("2020-05-17T19:58:05.136Z"),
     messageSnippet:

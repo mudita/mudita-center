@@ -4,6 +4,7 @@
  */
 
 import DeviceResponse from "Backend/adapters/device-response.interface"
+import { GetPhoneLockTimeResponseBody } from "@mudita/pure"
 import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 
 export interface DeviceFilesOption {
@@ -21,6 +22,7 @@ export default abstract class PurePhoneAdapter {
   public abstract connectDevice(): Promise<DeviceResponse>
   public abstract unlockDevice(code: string): Promise<DeviceResponse>
   public abstract getUnlockDeviceStatus(): Promise<DeviceResponse>
+  public abstract getDeviceLockTime(): Promise<DeviceResponse<GetPhoneLockTimeResponseBody>>
   public abstract getDeviceLogFiles(
     option?: DeviceFilesOption
   ): Promise<DeviceResponse<DeviceFile[]>>

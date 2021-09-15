@@ -66,7 +66,7 @@ interface Props {
   deleteContacts: (ids: ContactID[]) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
   editMode: boolean
-  openSearchResults?: () => void
+  onSearchEnterClick?: () => void
   searchValue: string
   onSearchValueChange: (value: string) => void
   showSearchResults?: boolean
@@ -83,7 +83,7 @@ const ContactPanel: FunctionComponent<Props> = ({
   deleteContacts,
   resetRows,
   editMode,
-  openSearchResults = noop,
+  onSearchEnterClick = noop,
   searchValue,
   onSearchValueChange,
   showSearchResults = false,
@@ -163,7 +163,7 @@ const ContactPanel: FunctionComponent<Props> = ({
         ) : (
           <ContactInputSearch
             onContactSelect={onContactSelect}
-            openSearchResults={openSearchResults}
+            onSearchEnterClick={onSearchEnterClick}
             searchValue={searchValue}
             onSearchValueChange={onSearchValueChange}
             showSearchResults={showSearchResults}

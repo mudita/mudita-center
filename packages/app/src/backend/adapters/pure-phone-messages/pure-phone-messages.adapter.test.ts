@@ -15,6 +15,7 @@ import DeviceService from "Backend/device-service"
 import {
   Message,
   MessageType,
+  NewMessage,
   Thread,
 } from "App/messages/store/messages.interface"
 
@@ -27,7 +28,7 @@ const mockPureData: PureThread[] = [
     messageSnippet:
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     messageType: 1,
-    numberID: 1,
+    number: "+48500600700",
     threadID: 1,
   },
   {
@@ -38,7 +39,7 @@ const mockPureData: PureThread[] = [
     messageSnippet:
       "Et beatae dicta ut consequatur aut. Consequuntur odio voluptas sed eligendi repudiandae quo amet.",
     messageType: 2,
-    numberID: 1,
+    number: "+48500600700",
     threadID: 2,
   },
 ]
@@ -52,6 +53,7 @@ const mockPureMessageData: PureMessage[] = [
     messageType: PureMessageType.INBOX,
     createdAt: 1547465101,
     threadID: 1,
+    number: "+48500600700",
   },
   {
     contactID: 1,
@@ -60,12 +62,14 @@ const mockPureMessageData: PureMessage[] = [
     messageType: PureMessageType.OUTBOX,
     createdAt: 1547468701,
     threadID: 1,
+    number: "+48500600700",
   },
 ]
 
 const threads: Thread[] = [
   {
     id: "1",
+    phoneNumber: "+48500600700",
     contactId: "1",
     lastUpdatedAt: new Date(1617089558 * 1000),
     messageSnippet:
@@ -74,6 +78,7 @@ const threads: Thread[] = [
   },
   {
     id: "2",
+    phoneNumber: "+48500600700",
     contactId: "1",
     lastUpdatedAt: new Date(1615089558 * 1000),
     messageSnippet:
@@ -90,6 +95,7 @@ const messages: Message[] = [
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     contactId: "1",
     threadId: "1",
+    phoneNumber: "+48500600700",
     messageType: MessageType.INBOX,
   },
   {
@@ -98,13 +104,39 @@ const messages: Message[] = [
     content: "Nulla itaque?",
     contactId: "1",
     threadId: "1",
+    phoneNumber: "+48500600700",
     messageType: MessageType.OUTBOX,
   },
 ]
 
+const mockAddedNewMessageData: NewMessage = {
+  content:
+    "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+  phoneNumber: "+48500600700",
+}
+
+const mockAddedPureMessageData: PureMessage = {
+  contactID: 2,
+  messageBody: mockAddedNewMessageData.content,
+  messageID: 6,
+  messageType: PureMessageType.OUTBOX,
+  createdAt: 1547465101,
+  threadID: 1,
+  number: mockAddedNewMessageData.phoneNumber,
+}
+const mockAddedMessageData: Message = {
+  id: "6",
+  date: new Date(mockAddedPureMessageData.createdAt * 1000),
+  content: mockAddedNewMessageData.content,
+  contactId: "2",
+  threadId: "1",
+  phoneNumber: mockAddedNewMessageData.phoneNumber,
+  messageType: MessageType.OUTBOX,
+}
+
 jest.mock("Backend/device-service")
 
-test("threads are returned properly", async () => {
+test("Threads are returned properly", async () => {
   ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
@@ -123,7 +155,7 @@ test("threads are returned properly", async () => {
   expect(status).toEqual(DeviceResponseStatus.Ok)
 })
 
-test("threads are returned properly even though API is paginated", async () => {
+test("Threads are returned properly even though API is paginated", async () => {
   let requestCount = 0
   ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
@@ -157,7 +189,7 @@ test("threads are returned properly even though API is paginated", async () => {
   expect(status).toEqual(DeviceResponseStatus.Ok)
 })
 
-test("error status is returned when data is undefined ", async () => {
+test("Error status is returned when data is undefined ", async () => {
   ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
@@ -175,7 +207,7 @@ test("error status is returned when data is undefined ", async () => {
   expect(status).toEqual(DeviceResponseStatus.Error)
 })
 
-test("messages are return properly", async () => {
+test("Messages are return properly", async () => {
   ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
@@ -199,7 +231,7 @@ test("messages are return properly", async () => {
   expect(status).toEqual(DeviceResponseStatus.Ok)
 })
 
-test("messages are returned properly even the API is paginated", async () => {
+test("Messages are returned properly even the API is paginated", async () => {
   let requestCount = 0
   ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
@@ -234,7 +266,7 @@ test("messages are returned properly even the API is paginated", async () => {
   expect(status).toEqual(DeviceResponseStatus.Ok)
 })
 
-test("status is error when returned messages data is undefined ", async () => {
+test("Status is error when returned messages data is undefined ", async () => {
   ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
@@ -252,4 +284,25 @@ test("status is error when returned messages data is undefined ", async () => {
     threadId
   )
   expect(status).toEqual(DeviceResponseStatus.Error)
+})
+
+test("Status is error when returned messages data is undefined ", async () => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
+    return {
+      request: () => {
+        return {
+          status: DeviceResponseStatus.Ok,
+          data: mockAddedPureMessageData,
+        }
+      },
+    }
+  })
+  const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
+    new DeviceService(MuditaDeviceManager, ipcMain)
+  )
+  const { status, data } = await purePhoneMessagesAdapter.addMessage(
+    mockAddedNewMessageData
+  )
+  expect(status).toEqual(DeviceResponseStatus.Ok)
+  expect(data).toStrictEqual(mockAddedMessageData)
 })
