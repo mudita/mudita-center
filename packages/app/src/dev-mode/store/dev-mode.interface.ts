@@ -6,6 +6,7 @@
 export interface DevMode {
   enabled?: boolean
   phoneSimulation?: boolean
+  harmonySimulation?: boolean
 }
 
 export type DevModePayload = boolean
