@@ -3,7 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DiagnosticsFileList, GetPhoneLockTimeResponseBody, PhoneLockCategory, Endpoint, Method, timeout } from "@mudita/pure"
+import {
+  DiagnosticsFileList,
+  GetPhoneLockTimeResponseBody,
+  PhoneLockCategory,
+  Endpoint,
+  Method,
+  timeout,
+} from "@mudita/pure"
 import PurePhoneAdapter, {
   DeviceFilesOption,
 } from "Backend/adapters/pure-phone/pure-phone-adapter.class"

@@ -141,7 +141,7 @@ describe("getDeviceLogFiles method", () => {
       expect(data).toHaveLength(1)
     })
 
-    test("items of the list should is the File type", async () => {
+    test("items of the list should have the File type", async () => {
       const { data = [] } = await purePhoneAdapter.getDeviceLogFiles()
       // A File object is a Blob object with a name attribute, which is a string;
       expect(typeof data[0].name).toEqual("string")
