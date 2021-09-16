@@ -28,11 +28,32 @@ export const toggleDevMode = () => {
 export const togglePhoneSimulation = () => {
   ipcRenderer.callMain(backendAdaptersChannel)
 
+  if (store.getState().devMode.harmonySimulation) {
+    store.dispatch.devMode.disableHarmonySimulation()
+  }
+
   if (store.getState().devMode.phoneSimulation) {
     store.dispatch.devMode.disablePhoneSimulation()
     store.dispatch(disconnectDevice())
   } else {
     store.dispatch.devMode.enablePhoneSimulation()
+    store.dispatch(connectDevice(DeviceType.MuditaPure))
+    setTimeout(() => store.dispatch(unlockedDevice()))
+  }
+}
+
+export const toggleHarmonySimulation = () => {
+  ipcRenderer.callMain(backendAdaptersChannel)
+
+  if (store.getState().devMode.phoneSimulation) {
+    store.dispatch.devMode.disablePhoneSimulation()
+  }
+
+  if (store.getState().devMode.harmonySimulation) {
+    store.dispatch.devMode.disableHarmonySimulation()
+    store.dispatch(disconnectDevice())
+  } else {
+    store.dispatch.devMode.enableHarmonySimulation()
     store.dispatch(connectDevice(DeviceType.MuditaHarmony))
     setTimeout(() => store.dispatch(unlockedDevice()))
   }
