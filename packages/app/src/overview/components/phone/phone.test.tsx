@@ -13,10 +13,11 @@ import { fireEvent } from "@testing-library/dom"
 import { Router } from "react-router"
 import { createMemoryHistory } from "history"
 import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
+import { CaseColour } from "@mudita/pure"
 
 const renderPhone = ({
   onDisconnect = noop,
-  caseColour = "gray",
+  caseColour = CaseColour.Gray,
 }: Partial<PhoneProps> = {}) => {
   const history = createMemoryHistory()
   const outcome = renderWithThemeAndIntl(
@@ -41,7 +42,7 @@ test("disconnect button works properly", async () => {
 })
 
 test("Phone Component should render proper phone color", () => {
-  const { getByTestId } = renderPhone({ caseColour: "black" })
+  const { getByTestId } = renderPhone({ caseColour: CaseColour.Black })
 
   expect(getByTestId(PhoneTestIds.PureBlack)).toBeInTheDocument()
 })

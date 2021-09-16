@@ -4,7 +4,8 @@
  */
 
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { GetPhoneLockTimeResponseBody } from "@mudita/pure"
+import { GetPhoneLockTimeResponseBody, CaseColour } from "@mudita/pure"
+
 export default abstract class PurePhoneAdapter {
   public abstract getName(): string
   public abstract getModelName(): string
@@ -24,5 +25,5 @@ export default abstract class PurePhoneAdapter {
     filePath: string,
     progressChannel?: string
   ): Promise<DeviceResponse>
-  public abstract getCaseColour(): Promise<DeviceResponse<string>>
+  public abstract getCaseColour(): Promise<DeviceResponse<CaseColour>>
 }

@@ -8,7 +8,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { osVersion } from "App/main/default-app-configuration.json"
-import { GetPhoneLockTimeResponseBody } from "@mudita/pure"
+import { GetPhoneLockTimeResponseBody, CaseColour } from "@mudita/pure"
 
 class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {
@@ -41,10 +41,10 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async getCaseColour(): Promise<DeviceResponse<string>> {
+  public async getCaseColour(): Promise<DeviceResponse<CaseColour>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: "gray",
+      data: CaseColour.Gray,
     }
   }
 

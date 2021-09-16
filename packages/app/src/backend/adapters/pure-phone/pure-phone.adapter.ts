@@ -9,6 +9,7 @@ import {
   Method,
   PhoneLockCategory,
   timeout,
+  CaseColour,
 } from "@mudita/pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
@@ -92,7 +93,7 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
-  public async getCaseColour(): Promise<DeviceResponse<string>> {
+  public async getCaseColour(): Promise<DeviceResponse<CaseColour>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,

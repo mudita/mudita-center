@@ -21,6 +21,7 @@ import {
   PhoneInfo,
 } from "App/overview/components/phone/phone.styled"
 import { URL_MAIN } from "Renderer/constants/urls"
+import { CaseColour } from "@mudita/pure"
 
 const Phone: FunctionComponent<PhoneProps> = ({
   className,
@@ -36,7 +37,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   return (
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
-        {caseColour === "gray" ? (
+        {caseColour === CaseColour.Gray ? (
           <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray}/>
         ) : (
           <Image src={PureBlackImage} data-testid={PhoneTestIds.PureBlack}/>
