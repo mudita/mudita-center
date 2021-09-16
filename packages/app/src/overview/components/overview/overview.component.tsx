@@ -66,8 +66,8 @@ const Overview: FunctionComponent<Props> = ({
   pureOsBackupLocation = "",
   lowestSupportedOsVersion = "",
   updatingState,
-  updateOs,
-  updateUpdatingState,
+  startUpdateOs,
+  setUpdateState,
   serialNumber,
 }) => {
   /**
@@ -121,9 +121,9 @@ const Overview: FunctionComponent<Props> = ({
   // FIXME: tmp solution until useSystemUpdateFlow exist
   const toggleDeviceUpdating = (option: boolean) => {
     if (option) {
-      updateUpdatingState(UpdatingState.Updating)
+      setUpdateState(UpdatingState.Updating)
     } else {
-      updateUpdatingState(UpdatingState.Standby)
+      setUpdateState(UpdatingState.Standby)
     }
   }
 
@@ -227,7 +227,7 @@ const Overview: FunctionComponent<Props> = ({
   }
 
   const closeUpdatingForceModalFlow = async () => {
-    updateUpdatingState(UpdatingState.Standby)
+    setUpdateState(UpdatingState.Standby)
   }
 
   const isPureOsAvailable = (): boolean => {
@@ -261,7 +261,7 @@ const Overview: FunctionComponent<Props> = ({
     <>
       <UpdatingForceModalFlow
         state={getUpdatingForceModalFlowState()}
-        updateOs={updateOs}
+        updateOs={startUpdateOs}
         osVersion={osVersion}
         closeModal={closeUpdatingForceModalFlow}
         onContact={openContactSupportModalFlow}

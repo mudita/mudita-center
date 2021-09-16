@@ -37,9 +37,8 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
 const mapDispatchToProps = (dispatch: any) => ({
   disconnectDevice: () => dispatch(disconnectDevice()),
   changeSim: (card: SimCard) => dispatch(changeSim(card)),
-  updateUpdatingState: (state: UpdatingState) =>
-    dispatch(setUpdateState(state)),
-  updateOs: (file: string) => dispatch(startUpdateOs(file)),
+  setUpdateState: (state: UpdatingState) => dispatch(setUpdateState(state)),
+  startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),
   // TODO refactor legacy staff
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
     dispatch.phoneUpdate.update(updateInfo),
