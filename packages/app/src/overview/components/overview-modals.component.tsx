@@ -92,7 +92,7 @@ const messages = defineMessages({
     id: "module.overview.updateNotAvailableMessage",
   },
   updateNotAvailableDescription: {
-    id: "module.overview.updateAvailableDescription",
+    id: "module.overview.updateNotAvailableDescription",
   },
   downloadingUpdateMessage: {
     id: "module.overview.downloadingUpdateMessage",

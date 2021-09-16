@@ -56,40 +56,38 @@ export interface ImportingContactsModalProps extends ModalProps {
   total: number
 }
 
-const ImportingContactsModal: FunctionComponent<ImportingContactsModalProps> = ({
-  count,
-  total,
-}) => (
-  <Modal
-    size={ModalSize.Small}
-    title={intl.formatMessage(messages.title)}
-    closeable={false}
-    closeButton={false}
-  >
-    <Content>
-      <RoundIconWrapper>
-        <Icon type={Type.Download} width={4} />
-      </RoundIconWrapper>
-      <ModalText
-        displayStyle={TextDisplayStyle.LargeBoldText}
-        message={messages.subtitle}
-      />
-      <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
-        message={messages.body}
-      />
-      <ProgressBar
-        chartData={[
-          { value: count, color: "#6d9bbc" },
-          { value: total - count, color: "#f4f5f6" },
-        ]}
-        displayStyle={DisplayStyle.Thin}
-      />
-      <Info displayStyle={TextDisplayStyle.MediumLightText}>
-        {Math.round((count * 100) / total)}%
-      </Info>
-    </Content>
-  </Modal>
-)
+const ImportingContactsModal: FunctionComponent<ImportingContactsModalProps> =
+  ({ count, total }) => (
+    <Modal
+      size={ModalSize.Small}
+      title={intl.formatMessage(messages.title)}
+      closeable={false}
+      closeButton={false}
+    >
+      <Content>
+        <RoundIconWrapper>
+          <Icon type={Type.Download} width={4} />
+        </RoundIconWrapper>
+        <ModalText
+          displayStyle={TextDisplayStyle.LargeBoldText}
+          message={messages.subtitle}
+        />
+        <ModalText
+          displayStyle={TextDisplayStyle.MediumFadedText}
+          message={messages.body}
+        />
+        <ProgressBar
+          chartData={[
+            { value: count, color: "#6d9bbc" },
+            { value: total - count, color: "#f4f5f6" },
+          ]}
+          displayStyle={DisplayStyle.Thin}
+        />
+        <Info displayStyle={TextDisplayStyle.MediumLightText}>
+          {Math.round((count * 100) / total)}%
+        </Info>
+      </Content>
+    </Modal>
+  )
 
 export default ImportingContactsModal

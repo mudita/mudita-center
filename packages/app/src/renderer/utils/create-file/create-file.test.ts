@@ -16,7 +16,9 @@ describe("Create File util", () => {
     expect(file.type).toBe("text/plain")
   })
   test("should create file with type define in options", async () => {
-    const file = createFile(path.join(__dirname, "./file.txt"), { type: "application/zip" })
+    const file = createFile(path.join(__dirname, "./file.txt"), {
+      type: "application/zip",
+    })
     expect(file.type).toBe("application/zip")
   })
 })

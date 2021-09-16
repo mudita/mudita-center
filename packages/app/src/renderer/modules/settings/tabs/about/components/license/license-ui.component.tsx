@@ -7,7 +7,13 @@ import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { LicenseComponentTestIds } from "./license-ui.enum"
-import { WindowContainer, WindowHeader, WindowTitle, LightText, LightTextNested } from "Renderer/modules/settings/tabs/about/components/shared"
+import {
+  WindowContainer,
+  WindowHeader,
+  WindowTitle,
+  LightText,
+  LightTextNested,
+} from "Renderer/modules/settings/tabs/about/components/shared"
 
 export const LicenseUI: FunctionComponent = () => (
   <WindowContainer data-testid={LicenseComponentTestIds.Wrapper}>
@@ -96,15 +102,20 @@ export const LicenseUI: FunctionComponent = () => (
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       With your permission, Mudita will gain access to information concerning
-      errors that may occur while using Mudita Pure and the Software. The aim of
-      accessing such information is to fix errors and further develop the Mudita
-      Pure device and the Software. Information accessed this way will be
-      limited to diagnostic data, including the description of the error, type
-      of operating system, version of the Software, and other technical data, as
-      well as data containing the IP address of the computer that was used to
-      check for Updates for the Software or the Mudita Pure device. No other
-      data will be accessed by Mudita in connection with your use of the
-      Software.
+      the following errors (general errors, crash dumps, warnings, hard faults;
+      Bluetooth data - state, signal power, controls state; VoLTE - network
+      mode, on/off settings, phone call state; power management - average
+      battery voltage level, minimal and maximal voltage, average current from
+      the battery, state of charge; cellular - SIM slot selected, Mobile Network
+      Code and Mobile Country Code) that may occur while using Mudita Pure and
+      the Software. The aim of accessing such information is to fix errors and
+      further develop the Mudita Pure device and the Software. Information
+      accessed this way will be limited to diagnostic data, including the
+      description of the error, type of operating system, version of the
+      Software, and other technical data, as well as data containing the IP
+      address of the computer that was used to check for Updates for the
+      Software or the Mudita Pure device. No other data will be accessed by
+      Mudita in connection with your use of the Software.
     </LightText>
     <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
       Limitation of liability:

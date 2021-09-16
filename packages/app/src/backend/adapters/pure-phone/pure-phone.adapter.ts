@@ -3,14 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "@mudita/pure"
+import {
+  Endpoint,
+  GetPhoneLockTimeResponseBody,
+  Method,
+  PhoneLockCategory,
+  timeout,
+} from "@mudita/pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
-import timeout from "Backend/timeout"
 import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 
 export enum DeviceUpdateError {
@@ -105,10 +110,40 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
+  public async getDeviceLockTime(): Promise<
+    DeviceResponse<GetPhoneLockTimeResponseBody>
+  > {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.Security,
+      method: Method.Get,
+      body: { category: PhoneLockCategory.Time },
+    })
+    if (status === DeviceResponseStatus.Ok && data) {
+      return {
+        status,
+        data: data,
+      }
+    } else if (status === DeviceResponseStatus.UnprocessableEntity) {
+      return {
+        status,
+        error: {
+          message:
+            "Get device lock time: phone is unlocked or unlocking phone is possible in this moment",
+        },
+      }
+    } else {
+      return {
+        status,
+        error: { message: "Get device lock time: Something went wrong" },
+      }
+    }
+  }
+
   public async getUnlockDeviceStatus(): Promise<DeviceResponse> {
     return await this.deviceService.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
+      body: { category: PhoneLockCategory.Status },
     })
   }
 
@@ -151,10 +186,9 @@ class PurePhone extends PurePhoneAdapter {
           resolve({
             status: DeviceResponseStatus.Error,
             error: {
-              code:
-                deviceUpdateErrorCodeMap[
-                  DeviceUpdateError.DeviceDisconnectionBeforeDone
-                ],
+              code: deviceUpdateErrorCodeMap[
+                DeviceUpdateError.DeviceDisconnectionBeforeDone
+              ],
               message: "device has disconnected before updating finish",
             },
           })
@@ -183,7 +217,10 @@ class PurePhone extends PurePhoneAdapter {
         deviceConnectedListener
       )
 
-      const fileResponse = await this.deviceFileSystemService.uploadFile(filePath, "/sys/user/update.tar")
+      const fileResponse = await this.deviceFileSystemService.uploadFile(
+        filePath,
+        "/sys/user/update.tar"
+      )
 
       if (fileResponse.status === DeviceResponseStatus.Ok) {
         ++step

@@ -53,12 +53,8 @@ const Calls: FunctionComponent<CallsProps> = ({
     allRowsSelected,
     resetRows,
   } = useTableSelect<Details>(calls)
-  const {
-    openSidebar,
-    closeSidebar,
-    sidebarOpened,
-    activeRow,
-  } = useTableSidebar<Details>(undefined)
+  const { openSidebar, closeSidebar, sidebarOpened, activeRow } =
+    useTableSidebar<Details>(undefined)
 
   const getDeletingMessage = (ids: string[]): Message => {
     const findById = (details: Details) => details.id === ids[0]

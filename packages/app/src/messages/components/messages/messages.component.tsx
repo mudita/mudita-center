@@ -3,14 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { defineMessages } from "react-intl"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import ThreadList from "App/messages/components/thread-list.component"
 import { ComponentProps as MessagesComponentProps } from "App/messages/components/messages/messages.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
-import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import ThreadDetails from "App/messages/components/thread-details.component"
 import MessagesPanel from "App/messages/components/messages-panel.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
@@ -29,11 +28,16 @@ import AttachContactModal from "App/messages/components/attach-contact-modal.com
 import { Contact } from "App/contacts/store/contacts.type"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import {
+  Message,
+  NewMessage,
+  Receiver,
+  ReceiverIdentification,
   ResultState,
   Thread,
-  VisibilityFilter,
 } from "App/messages/store/messages.interface"
-import { Message } from "App/messages/store/messages.interface"
+import NewMessageForm from "App/messages/components/new-message-form.component"
+import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
+import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
 
 const deleteModalMessages = defineMessages({
   title: { id: "module.messages.deleteModalTitle" },
@@ -42,59 +46,70 @@ const deleteModalMessages = defineMessages({
   },
 })
 
-export interface MessagesProps
-  extends MessagesComponentProps,
-    Pick<AppSettings, "language"> {
+const mockThread: Thread = {
+  id: "tmpId",
+  contactId: "tmpId",
+  phoneNumber: "New Conversation",
+  lastUpdatedAt: new Date(),
+  messageSnippet: "",
+  unread: false,
+}
+
+enum MessagesState {
+  List,
+  ThreadDetails,
+  NewMessage,
+}
+
+interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
+  receivers: Receiver[]
   attachContactList: ContactCategory[]
   attachContactFlatList: Contact[]
   getMessagesByThreadId: (threadId: string) => Message[]
-  getContact: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact | undefined
+  getReceiver: (contactId: string, phoneNumber: string) => Receiver
+  getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
   isContactCreated: (id: string) => boolean
+  addNewMessage: (newMessage: NewMessage) => Promise<Message | undefined>
 }
 
-const Messages: FunctionComponent<MessagesProps> = ({
+const Messages: FunctionComponent<Props> = ({
+  receivers,
   searchValue,
   changeSearchValue = noop,
-  changeVisibilityFilter = noop,
   deleteThreads = noop,
   threads,
   getMessagesByThreadId,
   getContact,
-  visibilityFilter,
-  markAsRead = noop,
+  getReceiver,
   toggleReadStatus = noop,
   language,
   attachContactList,
   attachContactFlatList,
   loadMessagesByThreadId,
   getMessagesResultMapStateByThreadId,
+  getContactByPhoneNumber,
   isContactCreated,
+  addNewMessage,
 }) => {
-  const {
-    openSidebar,
-    closeSidebar,
-    activeRow: activeThread,
-  } = useTableSidebar<Thread>(
+  const [messagesState, setMessagesState] = useState(MessagesState.List)
+  const [activeThread, setActiveThread] = useState<Thread | undefined>(
     findThreadBySearchParams(useURLSearchParams(), threads)
   )
+  const [tmpActiveThread, setTmpActiveThread] = useState<Thread | undefined>()
 
-  const {
-    selectedRows,
-    allRowsSelected,
-    toggleAll,
-    resetRows,
-    ...rest
-  } = useTableSelect<Thread>(threads)
+  const [content, setContent] = useState("")
 
-  const showAllMessages = () => {
-    changeVisibilityFilter(VisibilityFilter.All)
-  }
+  useEffect(() => {
+    if (activeThread !== undefined) {
+      loadMessagesByThreadId(activeThread.id)
+    }
+  }, [activeThread])
 
-  const hideReadMessages = () => {
-    changeVisibilityFilter(VisibilityFilter.Unread)
-  }
+  const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
+    useTableSelect<Thread>(threads)
 
   const getDeletingMessage = (ids: string[]): TranslationMessage => {
     const findById = (thread: Thread) => thread.id === ids[0]
@@ -116,7 +131,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     const onDelete = () => {
       deleteThreads(ids)
       resetRows()
-      closeSidebar()
+      setActiveThread(undefined)
       modalService.closeModal()
     }
 
@@ -131,8 +146,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   const removeSingleConversation = (id: string) => remove([id])
-
-  const removeSelectedRows = () => remove(selectedRows.map(({ id }) => id))
 
   const history = useHistory()
 
@@ -154,26 +167,179 @@ const Messages: FunctionComponent<MessagesProps> = ({
     )
   }
 
+  const openNewMessage = (): void => {
+    setContent("")
+    setActiveThread(mockThread)
+    setTmpActiveThread(mockThread)
+    setMessagesState(MessagesState.NewMessage)
+  }
+
+  const openThreadDetails = (thread: Thread): void => {
+    setContent("")
+    setActiveThread(thread)
+    setTmpActiveThread(undefined)
+    setMessagesState(MessagesState.ThreadDetails)
+  }
+
+  const closeSidebars = (): void => {
+    setContent("")
+    setActiveThread(undefined)
+    setTmpActiveThread(undefined)
+    setMessagesState(MessagesState.List)
+  }
+
+  const handleNewMessageClick = (): void => {
+    if (
+      tmpActiveThread === undefined ||
+      tmpActiveThread.phoneNumber !== mockThread.phoneNumber
+    ) {
+      openNewMessage()
+    }
+  }
+
+  const handleThreadClick = (thread: Thread): void => {
+    if (activeThread?.id !== thread.id) {
+      openThreadDetails(thread)
+    }
+  }
+
+  const handleLoadMessagesClick = (): void => {
+    if (activeThread) {
+      loadMessagesByThreadId(activeThread.id)
+    }
+  }
+
+  const handleDeleteClick = (): void => {
+    if (tmpActiveThread !== undefined) {
+      closeSidebars()
+    } else if (activeThread) {
+      remove([activeThread.id])
+    }
+  }
+  const handleContactClick = (): void => {
+    if (activeThread) {
+      history.push(
+        createRouterPath(URL_MAIN.contacts, {
+          phoneNumber: activeThread.phoneNumber,
+        })
+      )
+    }
+  }
+
+  const markAsUnread = (): void => {
+    if (activeThread) {
+      toggleReadStatus([activeThread.id])
+      closeSidebars()
+    }
+  }
+
+  const handleContentChange = (content: string): void => {
+    setContent((previousValue) => {
+      return content.length >= 115 ? previousValue : content
+    })
+  }
+  // FIXME: this is workaround because API no return threadID properly for new thread 1/3
+  // FIXME: https://appnroll.atlassian.net/browse/CP-563
+  const [newMessage, setNewMessage] = useState<Message>()
+
+  const handleAddNewMessage = async (phoneNumber: string): Promise<void> => {
+    const message = await addNewMessage({ content, phoneNumber })
+    if (message) {
+      const thread = threads.find(({ id }) => id === message.threadId)
+      if (thread) {
+        openThreadDetails(thread)
+      } else {
+        // FIXME: this is workaround because API no return threadID properly for new thread 2/3
+        // FIXME: https://appnroll.atlassian.net/browse/CP-563
+        setNewMessage(message)
+      }
+    }
+  }
+
+  // FIXME: this is workaround because API no return threadID properly for new thread 3/3
+  // FIXME: https://appnroll.atlassian.net/browse/CP-563
+  useEffect(() => {
+    if (newMessage !== undefined) {
+      const thread = threads[0]
+      if (thread) {
+        openThreadDetails(thread)
+        setNewMessage(undefined)
+      }
+    }
+  }, [newMessage, threads])
+
+  const handleNewMessageSendClick = async (number: string) => {
+    await handleAddNewMessage(number)
+  }
+
+  const handleSendClick = async () => {
+    if (activeThread) {
+      const phoneNumber = activeThread.phoneNumber
+      await handleAddNewMessage(phoneNumber)
+    }
+  }
+
+  const handleReceiverSelect = ({
+    contactId,
+    phoneNumber,
+  }: Pick<Receiver, "contactId" | "phoneNumber">) => {
+    const thread = threads.find(
+      (thread) =>
+        mapToRawNumber(thread.phoneNumber) === mapToRawNumber(phoneNumber)
+    )
+
+    if (thread) {
+      setActiveThread(thread)
+      setTmpActiveThread(undefined)
+      setMessagesState(MessagesState.ThreadDetails)
+    } else {
+      const tmpThread = { ...mockThread, phoneNumber, contactId: contactId }
+      setTmpActiveThread(tmpThread)
+      setActiveThread(tmpThread)
+      setMessagesState(MessagesState.ThreadDetails)
+    }
+  }
+
+  const handlePhoneNumberSelect = (phoneNumber: string) => {
+    const contact = getContactByPhoneNumber(phoneNumber)
+    const contactId = contact ? contact.id : mockThread.contactId
+    handleReceiverSelect({
+      phoneNumber,
+      contactId,
+    })
+  }
+
+  const getViewReceiver = (activeThread: Thread): Receiver => {
+    if (activeThread.contactId === mockThread.contactId) {
+      return {
+        contactId: activeThread.contactId,
+        phoneNumber: activeThread.phoneNumber,
+        identification: ReceiverIdentification.unknown,
+      }
+    } else {
+      return getReceiver(activeThread.contactId, activeThread.phoneNumber)
+    }
+  }
+
+  const getThreads = (): Thread[] => {
+    if (tmpActiveThread !== undefined) {
+      return [tmpActiveThread, ...threads]
+    } else {
+      return threads
+    }
+  }
+
   return (
     <>
       <MessagesPanel
         searchValue={searchValue}
-        hideReadMessages={hideReadMessages}
-        showAllMessages={showAllMessages}
-        changeSearchValue={changeSearchValue}
-        toggleAll={toggleAll}
-        allItemsSelected={allRowsSelected}
-        deleteThreads={deleteThreads}
-        selectedConversations={selectedRows}
-        resetRows={resetRows}
-        visibilityFilter={visibilityFilter}
-        onMarkAsRead={markAsRead}
-        onDeleteClick={removeSelectedRows}
+        onSearchValueChange={changeSearchValue}
+        onNewMessageClick={handleNewMessageClick}
       />
       <TableWithSidebarWrapper>
         <ThreadList
-          threads={threads}
-          openSidebar={openSidebar}
+          threads={getThreads()}
+          onThreadClick={handleThreadClick}
           activeThread={activeThread}
           getContact={getContact}
           onDeleteClick={removeSingleConversation}
@@ -183,21 +349,35 @@ const Messages: FunctionComponent<MessagesProps> = ({
           language={language}
           {...rest}
         />
-        {activeThread && (
+        {messagesState === MessagesState.ThreadDetails && activeThread && (
           <ThreadDetails
-            onDeleteClick={removeSingleConversation}
-            onUnreadStatus={toggleReadStatus}
-            getMessagesByThreadId={getMessagesByThreadId}
-            getContact={getContact}
-            loadMessagesByThreadId={loadMessagesByThreadId}
-            getMessagesResultMapStateByThreadId={
-              getMessagesResultMapStateByThreadId
-            }
-            thread={activeThread}
-            onClose={closeSidebar}
-            onContactClick={contactClick}
+            data-testid={MessagesTestIds.ThreadDetails}
+            content={content}
+            receiver={getViewReceiver(activeThread)}
+            messages={getMessagesByThreadId(activeThread.id)}
+            resultState={getMessagesResultMapStateByThreadId(activeThread.id)}
+            contactCreated={isContactCreated(activeThread.contactId)}
+            onLoadMessagesClick={handleLoadMessagesClick}
             onAttachContactClick={openAttachContactModal}
-            isContactCreated={isContactCreated}
+            onContactClick={handleContactClick}
+            onDeleteClick={handleDeleteClick}
+            onCheckClick={markAsUnread}
+            onClose={closeSidebars}
+            onSendClick={handleSendClick}
+            onContentChange={handleContentChange}
+          />
+        )}
+        {messagesState === MessagesState.NewMessage && (
+          <NewMessageForm
+            data-testid={MessagesTestIds.NewMessageForm}
+            content={content}
+            receivers={receivers}
+            onContentChange={handleContentChange}
+            onSendClick={handleNewMessageSendClick}
+            onPhoneNumberSelect={handlePhoneNumberSelect}
+            onReceiverSelect={handleReceiverSelect}
+            onClose={closeSidebars}
+            onAttachContactClick={openAttachContactModal}
           />
         )}
       </TableWithSidebarWrapper>

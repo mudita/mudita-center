@@ -44,7 +44,7 @@ const Stats = styled.div`
 const IconContainer = styled.div`
   background-color: ${backgroundColor("main")};
   margin-right: 1.6rem;
-  padding: 0.8rem;
+  padding: 0.7rem;
 `
 
 const messages = defineMessages({
@@ -73,7 +73,7 @@ const Network: FunctionComponent<NetworkProps> = ({
         <div>
           <Stats>
             <IconContainer>
-              <BatteryIcon width={2.4} level={batteryLevel} />
+              <BatteryIcon width={2.6} level={batteryLevel} />
             </IconContainer>
             <div>
               <Text
@@ -91,7 +91,7 @@ const Network: FunctionComponent<NetworkProps> = ({
           </Stats>
           <Stats>
             <IconContainer>
-              <RangeIcon strength={strength} height={2.4} width={2.4} />
+              <RangeIcon strength={strength} height={2.6} width={2.6} />
             </IconContainer>
             {network ? (
               <div>

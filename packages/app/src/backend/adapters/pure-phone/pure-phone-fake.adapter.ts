@@ -8,6 +8,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { osVersion } from "App/main/default-app-configuration.json"
+import { GetPhoneLockTimeResponseBody } from "@mudita/pure"
 
 class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {
@@ -33,7 +34,7 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async getSerialNumber(): Promise<DeviceResponse<string>>  {
+  public async getSerialNumber(): Promise<DeviceResponse<string>> {
     return {
       status: DeviceResponseStatus.Ok,
       data: "1UB13213MN14K1",
@@ -61,6 +62,13 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public async getUnlockDeviceStatus(): Promise<DeviceResponse> {
     return {
       status: DeviceResponseStatus.Ok,
+    }
+  }
+
+  public async getDeviceLockTime(): Promise<DeviceResponse<GetPhoneLockTimeResponseBody>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {phoneLockTime: 1630703219}
     }
   }
 

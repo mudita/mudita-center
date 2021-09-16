@@ -95,8 +95,8 @@ const registerGetAllReleasesListener = () => {
             (asset) => asset.content_type === "application/x-tar"
           )
           if (asset && !draft) {
-            // slice 'release-' prefix from tag_name
-            const version = tag_name.slice(8)
+            const version = tag_name.replace("daily-", "").replace("release-", "")
+
             return {
               version,
               date: published_at || created_at,

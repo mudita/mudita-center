@@ -8,33 +8,33 @@ import { EventEmitter } from "events"
 import {
   ApiRequestPayload,
   DeviceEventName,
-  PureDevice,
+  MuditaDevice,
   RequestConfig,
   RequestPayload,
   Response,
   ResponseStatus,
 } from "./device.types"
+import { DeviceType } from "./constants"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
-import {
-  isApiRequestPayload,
-} from "./device-helper"
+import { isApiRequestPayload } from "./device-helper"
 import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator"
+import { timeout } from "../timeout"
 
-class BaseDevice implements PureDevice {
+class BaseDevice implements MuditaDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
   #portBlocked = false
   #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
-  constructor(private path: string) {}
+  constructor(public path: string, public deviceType: DeviceType) {}
 
   @log("==== serial port: connect ====")
   public connect(): Promise<Response> {
     return new Promise((resolve) => {
       this.#port = new SerialPort(this.path, (error) => {
         if (error) {
-          resolve({ status: ResponseStatus.ConnectionError })
+          resolve({ status: ResponseStatus.ConnectionError, error: {message: error.message }})
         } else {
           resolve({ status: ResponseStatus.Ok })
         }
@@ -127,14 +127,20 @@ class BaseDevice implements PureDevice {
   private deviceRequest(
     port: SerialPort,
     payload: RequestPayload
-  ): Promise<Response<{ version: number }>> {
+  ): Promise<Response<any>> {
     return new Promise((resolve) => {
+      const [promise, cancel] = timeout(30000)
+      promise.then(() => {
+        resolve(this.returnTimeoutResponse(payload))
+      })
+
       const listener = (response: any) => {
         if (
           response.uuid === payload.uuid ||
           response.status === ResponseStatus.ParserError
         ) {
           this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
+          cancel()
           resolve(response)
         }
       }
@@ -162,6 +168,14 @@ class BaseDevice implements PureDevice {
   @log("==== serial port: data received ====", LogConfig.Args)
   private emitDataReceivedEvent(event: unknown): void {
     this.#eventEmitter.emit(DeviceEventName.DataReceived, event)
+  }
+
+  @log("==== serial port: request timeout ====")
+  private returnTimeoutResponse(payload: RequestPayload):Response<unknown> {
+    return {
+      status: ResponseStatus.Timeout,
+      ...payload
+    }
   }
 }
 

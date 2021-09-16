@@ -20,8 +20,8 @@ exports[`matches snapshot 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.5rem;
-  width: 0.8rem;
+  height: 1.6rem;
+  width: 2.2rem;
   position: relative;
   font-style: normal;
 }
@@ -96,6 +96,7 @@ exports[`matches snapshot 1`] = `
 
 .c4 path {
   stroke: #ffffff;
+  fill: #ffffff;
 }
 
 .c6 {
@@ -121,8 +122,8 @@ exports[`matches snapshot 1`] = `
       <span
         class="c3 c4"
         data-testid="icon-Check"
-        height="1.5"
-        width="0.8"
+        height="1.6"
+        width="2.2"
       >
         <test-file-stub
           image="test-file-stub"

@@ -19,10 +19,8 @@ import logger from "App/main/utils/logger"
 
 const Troubleshooting = () => {
   const history = useHistory()
-  const [
-    contactSupportOpenState,
-    setContactSupportOpenState,
-  ] = useState<ContactSupportModalFlowState>()
+  const [contactSupportOpenState, setContactSupportOpenState] =
+    useState<ContactSupportModalFlowState>()
   const [sendBugTicketRequest, sending] = useCreateBugTicket()
 
   const openContactSupportModalFlow = () => {

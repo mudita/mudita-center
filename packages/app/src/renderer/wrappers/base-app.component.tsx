@@ -67,7 +67,10 @@ const BaseApp: FunctionComponent<Props> = ({
     [URL_MAIN.contacts]: [store.dispatch.contacts.loadData],
     [URL_MAIN.phone]: [store.dispatch.contacts.loadData],
     [URL_MAIN.overview]: [store.dispatch.basicInfo.loadBasicInfoData],
-    [URL_MAIN.messages]: [store.dispatch.messages.loadData],
+    [URL_MAIN.messages]: [
+      store.dispatch.messages.loadData,
+      store.dispatch.contacts.loadData,
+    ],
   })
 
   useEffect(() => {

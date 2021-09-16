@@ -31,7 +31,7 @@ export const mapEvents = (events: CalendarEvent[]) => {
         moment(event.startDate).add(5, "years").toDate()
       )
       .map((mappedEvent: Date) => {
-        const {recurrence, ...rest} = event
+        const { recurrence, ...rest } = event
         return {
           ...rest,
           startDate: new Date(mappedEvent).toISOString(),

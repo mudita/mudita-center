@@ -7,9 +7,7 @@ import { useState } from "react"
 import { getRowChildren } from "Renderer/components/core/table/table.helpers"
 
 export interface UseTableSelect<T> {
-  getRowStatus: (
-    row: T
-  ) => {
+  getRowStatus: (row: T) => {
     selected: boolean
     indeterminate: boolean
   }
@@ -40,8 +38,8 @@ const useTableSelect = <T, K = T>(
     return [
       ...acc,
       ...((row as Record<string, any>)[childrenKey]
-        ? ((getRowChildren<K>(row, childrenKey) as unknown) as T[])
-        : [(row as unknown) as T]),
+        ? (getRowChildren<K>(row, childrenKey) as unknown as T[])
+        : [row as unknown as T]),
     ]
   }, [])
 

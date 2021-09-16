@@ -27,8 +27,10 @@ import { createModel } from "@rematch/core"
 import { RootState } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import updateOs from "Renderer/requests/update-os.request"
+import getDeviceLockTime from "App/renderer/requests/get-device-lock-time.request"
 
 export const initialState: StoreValues = {
+  deviceType: undefined,
   deviceConnected: false,
   updatingState: UpdatingState.Standby,
   deviceUnlocked: undefined,
@@ -42,6 +44,7 @@ export const initialState: StoreValues = {
   simCards: [],
   lastBackup: undefined,
   serialNumber: undefined,
+  phoneLockTime: undefined,
 }
 
 const basicInfo = createModel<RootModel>({
@@ -77,7 +80,7 @@ const basicInfo = createModel<RootModel>({
     },
   },
   effects: (d: any) => {
-    const dispatch = (d as unknown) as RootState
+    const dispatch = d as unknown as RootState
     let basicInfoDataLoading = false
     let initialDataLoading = false
 
@@ -117,13 +120,8 @@ const basicInfo = createModel<RootModel>({
               status === DeviceResponseStatus.Ok && data !== undefined
           )
         ) {
-          const [
-            info,
-            networkInfo,
-            storageInfo,
-            batteryInfo,
-            backupsInfo,
-          ] = responses
+          const [info, networkInfo, storageInfo, batteryInfo, backupsInfo] =
+            responses
 
           const [lastBackup] = backupsInfo.data!.backups.sort(
             (a, b) =>
@@ -183,19 +181,31 @@ const basicInfo = createModel<RootModel>({
       async toggleDeviceUnlocked(
         deviceUnlocked: boolean,
         rootState: {
-          basicInfo: { initialDataLoaded: boolean; deviceUnlocked: boolean }
+          basicInfo: {
+            initialDataLoaded: boolean
+            deviceUnlocked: boolean
+            phoneLockTime: number | undefined
+          }
         }
       ) {
-        if (deviceUnlocked === rootState.basicInfo.deviceUnlocked) {
+        if (
+          deviceUnlocked &&
+          deviceUnlocked === rootState.basicInfo.deviceUnlocked
+        ) {
           return
         }
         if (!deviceUnlocked) {
+          const response = await getDeviceLockTime()
           dispatch.basicInfo.update({
             deviceUnlocked,
             initialDataLoaded: false,
+            phoneLockTime: response.data?.phoneLockTime,
           })
         } else {
-          dispatch.basicInfo.update({ deviceUnlocked })
+          dispatch.basicInfo.update({
+            deviceUnlocked,
+            phoneLockTime: undefined,
+          })
         }
 
         if (deviceUnlocked && !rootState.basicInfo.initialDataLoaded) {
@@ -229,6 +239,9 @@ const basicInfo = createModel<RootModel>({
     },
     deviceUnlocked() {
       return slice(({ deviceUnlocked }) => deviceUnlocked)
+    },
+    phoneLockTime() {
+      return slice(({ phoneLockTime }) => phoneLockTime)
     },
     updatingState() {
       return slice(({ updatingState }) => updatingState)

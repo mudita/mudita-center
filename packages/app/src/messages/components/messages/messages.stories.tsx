@@ -6,18 +6,44 @@
 import React from "react"
 import { storiesOf } from "@storybook/react"
 import Messages from "App/messages/components/messages/messages.component"
-import {
-  rowMessages,
-  rowThreads,
-} from "Renderer/components/core/table/table.fake-data"
+import { rowMessages, rowThreads } from "Renderer/components/core/table/table.fake-data"
 import AttachContactModal from "App/messages/components/attach-contact-modal.component"
-import {
-  ModalBackdrop,
-  ModalWrapper,
-} from "Renderer/components/core/modal/modal.styled.elements"
+import { ModalBackdrop, ModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import { Contact } from "App/contacts/store/contacts.type"
-import { ResultState } from "App/messages/store/messages.interface"
+import { Receiver, ReceiverIdentification, ResultState } from "App/messages/store/messages.interface"
+import { action } from "@storybook/addon-actions"
+import history from "Renderer/routes/history"
+import { Router } from "react-router"
+
+const promiseAction =
+  (msg: string): ((...args: any[]) => Promise<any>) =>
+  (...args) => {
+    action(msg)(...args)
+    return Promise.resolve()
+  }
+
+const receivers: Receiver[] = [
+  {
+    contactId: "6e3810c8-c917-45d2-ae17-b83f73127e08",
+    firstName: "Oswald",
+    lastName: "Bednar",
+    phoneNumber: "+62761294266",
+    identification: ReceiverIdentification.unknown
+  },
+  {
+    contactId: "63cd8522-f4eb-4bdd-a916-a6d5647e89f9",
+    lastName: "Abernathy",
+    phoneNumber: "+78722986805",
+    identification: ReceiverIdentification.unknown
+  },
+  {
+    contactId: "990f38dd-1c84-4d23-a8bb-6fcfff42774b",
+    firstName: "Sandra",
+    lastName: "Zulauf",
+    phoneNumber: "+01078963511",
+    identification: ReceiverIdentification.unknown
+  }]
 
 export const attachContactFlatListData: Contact[] = [
   {
@@ -100,19 +126,28 @@ const getMessagesResultsMapStateByThreadId = () => ResultState.Loaded
 const isContactCreated = () => true
 
 storiesOf("Views|Messages", module).add("Messages", () => (
-  <div style={{ maxWidth: "97.5rem" }}>
-    <Messages
-      language={"en"}
-      threads={rowThreads}
-      searchValue={""}
-      attachContactList={attachContactListData}
-      attachContactFlatList={attachContactFlatListData}
-      getContact={getContact}
-      getMessagesByThreadId={getMessagesByThreadId}
-      getMessagesResultMapStateByThreadId={getMessagesResultsMapStateByThreadId}
-      isContactCreated={isContactCreated}
-      loadMessagesByThreadId={loadMessagesByThreadId}/>
-  </div>
+  <Router history={history}>
+    <div style={{ maxWidth: "97.5rem" }}>
+      <Messages
+        language={"en"}
+        threads={rowThreads}
+        searchValue={""}
+        attachContactList={attachContactListData}
+        attachContactFlatList={attachContactFlatListData}
+        getContact={getContact}
+        getMessagesByThreadId={getMessagesByThreadId}
+        getMessagesResultMapStateByThreadId={
+          getMessagesResultsMapStateByThreadId
+        }
+        isContactCreated={isContactCreated}
+        loadMessagesByThreadId={loadMessagesByThreadId}
+        addNewMessage={promiseAction("Add New Message")}
+        getContactByPhoneNumber={jest.fn()}
+        getReceiver={jest.fn()}
+        receivers={receivers}
+      />
+    </div>
+  </Router>
 ))
 
 storiesOf("Views|Messages/Modals", module)

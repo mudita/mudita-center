@@ -111,6 +111,12 @@ jest.mock("Renderer/requests/change-sim.request", () =>
   }))
 )
 
+jest.mock("Renderer/requests/get-device-lock-time.request", () =>
+  jest.fn(() => ({
+    status: DeviceResponseStatus.PhoneLocked,
+  }))
+)
+
 const storeConfig = {
   models: { basicInfo },
   plugins: [selectPlugin()],
@@ -133,6 +139,7 @@ test("store returns initial state", () => {
         "basicInfoDataState": 2,
         "batteryLevel": 0,
         "deviceConnected": false,
+        "deviceType": undefined,
         "deviceUnlocked": undefined,
         "initialDataLoaded": false,
         "lastBackup": undefined,
@@ -143,6 +150,7 @@ test("store returns initial state", () => {
         "networkName": "",
         "osUpdateDate": "",
         "osVersion": undefined,
+        "phoneLockTime": undefined,
         "serialNumber": undefined,
         "simCards": Array [],
         "updatingState": 0,
@@ -158,10 +166,8 @@ describe("connect to the already attached device", () => {
   })
 
   test("successful connect request doesn't have impact on rest properties", async () => {
-    const {
-      deviceConnected: prevDeviceConnected,
-      ...prevRest
-    } = store.getState().basicInfo
+    const { deviceConnected: prevDeviceConnected, ...prevRest } =
+      store.getState().basicInfo
     await store.dispatch.basicInfo.connect()
 
     const { deviceConnected, ...rest } = store.getState().basicInfo
@@ -229,6 +235,7 @@ describe("fetching basic info data", () => {
           "basicInfoDataState": 1,
           "batteryLevel": 9001,
           "deviceConnected": false,
+          "deviceType": undefined,
           "deviceUnlocked": undefined,
           "initialDataLoaded": false,
           "lastBackup": Object {
@@ -242,6 +249,7 @@ describe("fetching basic info data", () => {
           "networkName": "",
           "osUpdateDate": "12-12-2003",
           "osVersion": "0.123v",
+          "phoneLockTime": undefined,
           "serialNumber": undefined,
           "simCards": Array [
             Object {
@@ -281,10 +289,8 @@ describe("connected event", () => {
   })
 
   test("connected event  doesn't have impact on rest properties", async () => {
-    const {
-      deviceConnected: prevDeviceConnected,
-      ...prevRest
-    } = store.getState().basicInfo
+    const { deviceConnected: prevDeviceConnected, ...prevRest } =
+      store.getState().basicInfo
     await store.dispatch.basicInfo.toggleDeviceConnected(true)
 
     const { deviceConnected, ...rest } = store.getState().basicInfo
@@ -368,10 +374,8 @@ describe("locked event", () => {
   })
 
   test("locked event doesn't have impact on rest properties", async () => {
-    const {
-      deviceUnlocked: prevDeviceUnlocked,
-      ...prevRest
-    } = store.getState().basicInfo
+    const { deviceUnlocked: prevDeviceUnlocked, ...prevRest } =
+      store.getState().basicInfo
     await store.dispatch.basicInfo.toggleDeviceUnlocked(false)
 
     const { deviceUnlocked, ...rest } = store.getState().basicInfo

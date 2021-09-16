@@ -8,7 +8,9 @@ import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
-const handleDisconnectDevice = ({ purePhone }: Adapters): Promise<DeviceResponse> => {
+const handleDisconnectDevice = ({
+  purePhone,
+}: Adapters): Promise<DeviceResponse> => {
   return purePhone.disconnectDevice()
 }
 

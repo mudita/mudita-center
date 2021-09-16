@@ -7,6 +7,7 @@ import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-
 import {
   Message,
   MessageType,
+  NewMessage,
   Thread,
 } from "App/messages/store/messages.interface"
 import DeviceResponse, {
@@ -17,23 +18,25 @@ import {
   Endpoint,
   GetMessagesBody,
   GetThreadsBody,
+  Message as PureMessage,
+  MessagesCategory as PureMessagesCategory,
+  MessageType as PureMessageType,
   Method,
   Thread as PureThread,
-  Message as PureMessage,
-  MessageType as PureMessageType,
 } from "@mudita/pure"
 
 const initGetThreadsBody: GetThreadsBody = {
-  category: "thread",
+  category: PureMessagesCategory.thread,
   limit: 15,
 }
 const initGetMessagesBody: GetMessagesBody = {
-  category: "message",
+  category: PureMessagesCategory.message,
   limit: 15,
 }
 
 type AcceptablePureMessageType =
   | PureMessageType.FAILED
+  | PureMessageType.QUEUED
   | PureMessageType.INBOX
   | PureMessageType.OUTBOX
 
@@ -50,6 +53,36 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     threadId: string
   ): Promise<DeviceResponse<Message[]>> {
     return this.loadAllMessagesInSingleRequest(threadId)
+  }
+
+  public async addMessage(
+    newMessage: NewMessage
+  ): Promise<DeviceResponse<Message>> {
+    const { status, data } = await this.deviceService.request({
+      body: {
+        number: newMessage.phoneNumber,
+        messageBody: newMessage.content,
+        category: PureMessagesCategory.message,
+      },
+      endpoint: Endpoint.Messages,
+      method: Method.Post,
+    })
+
+    if (
+      status === DeviceResponseStatus.Ok &&
+      data !== undefined &&
+      PurePhoneMessages.isAcceptablePureMessageType(data)
+    ) {
+      return {
+        status: DeviceResponseStatus.Ok,
+        data: PurePhoneMessages.mapToMessages(data),
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Add message: Something went wrong" },
+      }
+    }
   }
 
   private async loadAllThreadsInSingleRequest(
@@ -95,12 +128,14 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       lastUpdatedAt,
       messageSnippet,
       threadID,
+      number = "",
     } = pureThread
     return {
       messageSnippet,
       // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
       unread: process.env.NODE_ENV !== "production" ? isUnread : false,
       id: String(threadID),
+      phoneNumber: String(number),
       contactId: String(contactID),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),
     }
@@ -158,8 +193,10 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       messageType,
       createdAt,
       threadID,
+      number,
     } = pureMessage
     return {
+      phoneNumber: number,
       id: String(messageID),
       date: new Date(createdAt * 1000),
       content: messageBody,
@@ -174,6 +211,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   ): pureMessage is PureMessage & { messageType: AcceptablePureMessageType } {
     return (
       pureMessage.messageType === PureMessageType.FAILED ||
+      pureMessage.messageType === PureMessageType.QUEUED ||
       pureMessage.messageType === PureMessageType.INBOX ||
       pureMessage.messageType === PureMessageType.OUTBOX
     )
@@ -184,11 +222,12 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   ): MessageType {
     if (
       messageType === PureMessageType.FAILED ||
-      messageType === PureMessageType.INBOX
+      messageType === PureMessageType.QUEUED ||
+      messageType === PureMessageType.OUTBOX
     ) {
-      return MessageType.INBOX
-    } else {
       return MessageType.OUTBOX
+    } else {
+      return MessageType.INBOX
     }
   }
 }

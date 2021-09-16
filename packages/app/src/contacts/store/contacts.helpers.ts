@@ -68,7 +68,7 @@ export const contactFactory = (
   ) => SimpleRecord<string> = phoneNumberFormatter
 ): Contact | null => {
   if (guard(input)) {
-    return (Object.keys(input).reduce((acc: SimpleRecord, key: string) => {
+    return Object.keys(input).reduce((acc: SimpleRecord, key: string) => {
       const value = input[key]
       const item = value ? numberFormatter({ [key]: value }) : {}
 
@@ -76,7 +76,7 @@ export const contactFactory = (
         ...acc,
         ...item,
       }
-    }, {}) as unknown) as Contact
+    }, {}) as unknown as Contact
   }
 
   return null
@@ -181,7 +181,7 @@ export const createFullName = ({
 }: {
   firstName?: string
   lastName?: string
-}): string => {
+} = {}): string => {
   return `${firstName} ${lastName}`.trim()
 }
 

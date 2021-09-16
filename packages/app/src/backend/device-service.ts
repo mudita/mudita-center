@@ -14,14 +14,20 @@ import {
   SendFileSystemRequestConfig,
   GetMessageResponseBody,
   GetMessagesBody,
+  GetPhoneLockStatusBody,
+  GetPhoneLockTimeBody,
+  GetPhoneLockTimeResponseBody,
   GetThreadResponseBody,
   GetThreadsBody,
   Method,
-  PureDevice,
-  PureDeviceManager,
+  MuditaDevice,
+  MuditaDeviceManager,
+  PhoneLockCategory,
   RequestConfig,
   Response,
   ResponseStatus,
+  PostMessagesBody,
+  PostMessagesResponseBody,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
@@ -36,12 +42,13 @@ export enum DeviceServiceEventName {
 }
 
 class DeviceService {
-  device: PureDevice | undefined
+  public devices: Record<string, MuditaDevice> = {}
+  public currentDevice: MuditaDevice | undefined
   private lockedInterval: NodeJS.Timeout | undefined
   private eventEmitter = new EventEmitter()
 
   constructor(
-    private deviceManager: PureDeviceManager,
+    private deviceManager: MuditaDeviceManager,
     private ipcMain: MainProcessIpc
   ) {}
 
@@ -53,7 +60,13 @@ class DeviceService {
   async request(config: {
     endpoint: Endpoint.Security
     method: Method.Get
+    body: GetPhoneLockStatusBody
   }): Promise<DeviceResponse>
+  async request(config: {
+    endpoint: Endpoint.Security
+    method: Method.Get
+    body: GetPhoneLockTimeBody
+  }): Promise<DeviceResponse<GetPhoneLockTimeResponseBody>>
   async request(config: {
     endpoint: Endpoint.Security
     method: Method.Put
@@ -77,6 +90,11 @@ class DeviceService {
     method: Method.Get
     body: GetThreadsBody
   }): Promise<DeviceResponse<GetThreadResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Post
+    body: PostMessagesBody
+  }): Promise<DeviceResponse<PostMessagesResponseBody>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
@@ -98,13 +116,11 @@ class DeviceService {
     endpoint: Endpoint.Update
     method: Method.Post
     body: {
-      update: boolean,
+      update: boolean
       reboot: boolean
     }
   }): Promise<DeviceResponse>
-  public request(
-    config: GetFileSystemRequestConfig
-  ): Promise<
+  public request(config: GetFileSystemRequestConfig): Promise<
     DeviceResponse<{
       rxID: string
       fileCrc32: string
@@ -112,26 +128,20 @@ class DeviceService {
       chunkSize: number
     }>
   >
-  public request(
-    config: DownloadFileSystemRequestConfig
-  ): Promise<
+  public request(config: DownloadFileSystemRequestConfig): Promise<
     DeviceResponse<{
       rxID: string
       chunkNo: number
       data: string
     }>
   >
-  public request(
-    config: SendFileSystemRequestConfig
-  ): Promise<
+  public request(config: SendFileSystemRequestConfig): Promise<
     DeviceResponse<{
       txID: string
       chunkNo: number
     }>
   >
-  public request(
-    config: PutFileSystemRequestConfig
-  ): Promise<
+  public request(config: PutFileSystemRequestConfig): Promise<
     DeviceResponse<{
       txID: string
       chunkSize: number
@@ -140,7 +150,7 @@ class DeviceService {
   async request(
     config: RequestConfig<any>
   ): Promise<DeviceResponse<unknown> | DeviceResponse<undefined>> {
-    if (!this.device) {
+    if (!this.currentDevice) {
       return {
         status: DeviceResponseStatus.Error,
       }
@@ -148,18 +158,27 @@ class DeviceService {
 
     const eventName = JSON.stringify(config)
 
+    const isEndpointSecure = (response: DeviceResponse<unknown>) => {
+      this.eventEmitter.emit(eventName, response)
+
+      const isConfigEndpointSecurity = config.endpoint === Endpoint.Security
+      const iSetPhoneLockOffEndpoint =
+        isConfigEndpointSecurity && config.method === Method.Put
+      const isPhoneLockTimeEndpoint =
+        isConfigEndpointSecurity &&
+        config.body.category === PhoneLockCategory.Time
+      if (!(iSetPhoneLockOffEndpoint || isPhoneLockTimeEndpoint)) {
+        return true
+      }
+      return false
+    }
+
     if (!this.eventEmitter.eventNames().includes(eventName)) {
-      void this.device
+      void this.currentDevice
         .request(config)
         .then((response) => DeviceService.mapToDeviceResponse(response))
         .then((response) => {
-          this.eventEmitter.emit(eventName, response)
-          if (
-            !(
-              config.endpoint === Endpoint.Security &&
-              config.method === Method.Put
-            )
-          ) {
+          if (isEndpointSecure(response)) {
             this.emitDeviceUnlockedEvent(response)
           }
         })
@@ -176,7 +195,7 @@ class DeviceService {
   }
 
   public async connect(): Promise<DeviceResponse> {
-    if (this.device) {
+    if (this.currentDevice) {
       return {
         status: DeviceResponseStatus.Ok,
       }
@@ -194,7 +213,7 @@ class DeviceService {
   }
 
   public async disconnect(): Promise<DeviceResponse> {
-    if (!this.device) {
+    if (!this.currentDevice) {
       return {
         status: DeviceResponseStatus.Ok,
       }
@@ -237,26 +256,30 @@ class DeviceService {
     return this.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
+      body: { category: PhoneLockCategory.Status },
     })
   }
 
   private registerAttachDeviceListener(): void {
     this.deviceManager.onAttachDevice(async (device) => {
-      if (!this.device) {
+      this.devices[device.path] = device
+
+      if (!this.currentDevice) {
         const { status } = await this.deviceConnect(device)
 
         if (status === DeviceResponseStatus.Ok) {
           this.eventEmitter.emit(DeviceServiceEventName.DeviceConnected)
-          this.ipcMain.sendToRenderers(IpcEmitter.DeviceConnected)
+          this.ipcMain.sendToRenderers(IpcEmitter.DeviceConnected, device)
         }
       }
     })
   }
 
-  private async deviceConnect(device: PureDevice): Promise<DeviceResponse> {
+  private async deviceConnect(device: MuditaDevice): Promise<DeviceResponse> {
     const { status } = await device.connect()
+
     if (status === ResponseStatus.Ok) {
-      this.device = device
+      this.currentDevice = device
 
       this.registerDeviceDisconnectedListener()
       this.registerDeviceUnlockedListener()
@@ -280,15 +303,15 @@ class DeviceService {
   }
 
   private registerDeviceDisconnectedListener(): void {
-    if (this.device) {
-      this.device.on(DeviceEventName.Disconnected, () => {
+    if (this.currentDevice) {
+      this.currentDevice.on(DeviceEventName.Disconnected, () => {
         this.clearSubscriptions()
       })
     }
   }
 
   private clearSubscriptions(): void {
-    this.device = undefined
+    this.currentDevice = undefined
     this.lockedInterval && clearInterval(this.lockedInterval)
     this.eventEmitter.emit(DeviceServiceEventName.DeviceDisconnected)
     this.ipcMain.sendToRenderers(IpcEmitter.DeviceDisconnected)
@@ -327,6 +350,17 @@ class DeviceService {
         error,
         status: DeviceResponseStatus.InternalServerError,
       }
+    } else if (status === ResponseStatus.Conflict) {
+      return {
+        data,
+        error,
+        status: DeviceResponseStatus.Duplicated,
+      }
+    } else if (status === ResponseStatus.UnprocessableEntity) {
+      return {
+        error,
+        status: DeviceResponseStatus.UnprocessableEntity,
+      }
     } else {
       return {
         error,
@@ -337,7 +371,7 @@ class DeviceService {
 }
 
 export const createDeviceService = (
-  deviceManager: PureDeviceManager,
+  deviceManager: MuditaDeviceManager,
   ipcMain: MainProcessIpc
 ): DeviceService => {
   return new DeviceService(deviceManager, ipcMain).init()
