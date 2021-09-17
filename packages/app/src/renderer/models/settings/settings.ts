@@ -25,7 +25,6 @@ import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
 import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getApplicationConfiguration from "App/renderer/requests/get-application-configuration.request"
-import getDeviceCrashDumpFiles from "Renderer/requests/get-device-crash-dump-files.request"
 import archiveFiles from "Renderer/requests/archive-files.request"
 import { attachedFileName } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
 
@@ -176,28 +175,15 @@ const settings = createModel<RootModel>({
         }
         const deviceLogFilesResponse = await getDeviceLogFiles({ datePrefix: true })
 
-        if (deviceLogFilesResponse.status !== DeviceResponseStatus.Ok) {
+        if (deviceLogFilesResponse.status !== DeviceResponseStatus.Ok || deviceLogFilesResponse.data === undefined) {
           logger.error(
             `Send Diagnostic Data: fetch device logs fail. Message: ${deviceLogFilesResponse.error?.message}.`
           )
           return
         }
 
-        const logFilesData = deviceLogFilesResponse.data ? deviceLogFilesResponse.data : []
-
-        const deviceCrashDumpFilesResponse = await getDeviceCrashDumpFiles()
-
-        if (deviceCrashDumpFilesResponse.status !== DeviceResponseStatus.Ok) {
-          logger.error(
-            `Send Diagnostic Data: fetch crash dumps fail. Message: ${deviceCrashDumpFilesResponse.error?.message}.`
-          )
-          return
-        }
-
-        const crashDumpFiles = deviceCrashDumpFilesResponse.data ? deviceCrashDumpFilesResponse.data : []
-
         const buffer = await archiveFiles({
-          files: [...logFilesData, ...crashDumpFiles],
+          files: deviceLogFilesResponse.data,
         })
 
         if (buffer === undefined) {
