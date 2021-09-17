@@ -176,24 +176,28 @@ const settings = createModel<RootModel>({
         }
         const deviceLogFilesResponse = await getDeviceLogFiles({ datePrefix: true })
 
-        if (deviceLogFilesResponse.status !== DeviceResponseStatus.Ok || deviceLogFilesResponse.data === undefined) {
+        if (deviceLogFilesResponse.status !== DeviceResponseStatus.Ok) {
           logger.error(
             `Send Diagnostic Data: fetch device logs fail. Message: ${deviceLogFilesResponse.error?.message}.`
           )
           return
         }
 
+        const logFilesData = deviceLogFilesResponse.data ? deviceLogFilesResponse.data : []
+
         const deviceCrashDumpFilesResponse = await getDeviceCrashDumpFiles()
 
-        if (deviceCrashDumpFilesResponse.status !== DeviceResponseStatus.Ok || deviceCrashDumpFilesResponse.data === undefined) {
+        if (deviceCrashDumpFilesResponse.status !== DeviceResponseStatus.Ok) {
           logger.error(
             `Send Diagnostic Data: fetch crash dumps fail. Message: ${deviceCrashDumpFilesResponse.error?.message}.`
           )
           return
         }
 
+        const crashDumpFiles = deviceCrashDumpFilesResponse.data ? deviceCrashDumpFilesResponse.data : []
+
         const buffer = await archiveFiles({
-          files: [...deviceLogFilesResponse.data, ...deviceCrashDumpFilesResponse.data],
+          files: [...logFilesData, ...crashDumpFiles],
         })
 
         if (buffer === undefined) {
