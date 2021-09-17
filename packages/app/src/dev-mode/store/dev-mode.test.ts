@@ -21,6 +21,7 @@ test("have default state properly defined", () => {
   expect(store.getState().devMode).toMatchObject({
     enabled: false,
     phoneSimulation: false,
+    harmonySimulation: false,
   })
 })
 
@@ -48,4 +49,17 @@ test("properly disables phone simulation mode", () => {
   expect(store.getState().devMode).toMatchObject({ phoneSimulation: true })
   store.dispatch.devMode.disablePhoneSimulation()
   expect(store.getState().devMode).toMatchObject({ phoneSimulation: false })
+})
+
+test("properly enables harmony simulation mode", () => {
+  expect(store.getState().devMode).toMatchObject({ harmonySimulation: false })
+  store.dispatch.devMode.enableHarmonySimulation()
+  expect(store.getState().devMode).toMatchObject({ harmonySimulation: true })
+})
+
+test("properly disables harmony simulation mode", () => {
+  store.dispatch.devMode.enableHarmonySimulation()
+  expect(store.getState().devMode).toMatchObject({ harmonySimulation: true })
+  store.dispatch.devMode.disableHarmonySimulation()
+  expect(store.getState().devMode).toMatchObject({ harmonySimulation: false })
 })
