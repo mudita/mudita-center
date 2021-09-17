@@ -20,6 +20,12 @@ export const toggleDevMode = () => {
   ) {
     togglePhoneSimulation()
   }
+  if (
+    store.getState().devMode.harmonySimulation &&
+    store.getState().devMode.enabled
+  ) {
+    toggleHarmonySimulation()
+  }
   store.getState().devMode.enabled
     ? store.dispatch.devMode.disableDevMode()
     : store.dispatch.devMode.enableDevMode()
