@@ -20,6 +20,7 @@ const mapStateToProps = (state: RootModel) => ({
   ...selection(state, {}),
 })
 
+// TODO replace any with legit `Dispatch`
 const mapDispatchToProps = (dispatch: any) => ({
   changeVisibilityFilter: (filter: VisibilityFilter) =>
     dispatch.calls.changeVisibilityFilter(filter),

@@ -12,6 +12,7 @@ import { changeSim } from "./change-sim.action"
 import { DeviceEvent } from "App/device/constants"
 import { DeviceChangeSimError } from "App/device/errors"
 import changeSimRequest from "Renderer/requests/change-sim.request"
+import { testError } from "App/renderer/store/constants"
 
 const mockStore = createMockStore([thunk])()
 
@@ -63,12 +64,7 @@ describe("Change SimCard request returns `error` status", () => {
 
     expect(mockStore.getActions()).toEqual([
       changeSim.pending(requestId, simCardMock),
-      changeSim.rejected(
-        "Rejected" as unknown as Error,
-        requestId,
-        simCardMock,
-        errorMock
-      ),
+      changeSim.rejected(testError, requestId, simCardMock, errorMock),
     ])
   })
 })

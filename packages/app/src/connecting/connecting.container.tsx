@@ -95,6 +95,7 @@ const selection = select((models: any) => ({
   initialModalsShowed: models.settings.initialModalsShowed,
 }))
 
+// TODO replace any with legit `Dispatch`
 const mapDispatchToProps = (dispatch: any) => ({
   unlockDevice: (code: number[]) => dispatch(unlockDevice(code)),
   getUnlockStatus: () => dispatch(getUnlockStatus()),

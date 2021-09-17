@@ -13,6 +13,7 @@ import { connectDevice } from "./connect-device.action"
 import { ConnectionState } from "App/device/constants"
 import { DeviceConnectionError } from "App/device/errors"
 import connectDeviceRequest from "Renderer/requests/connect-device.request"
+import { testError } from "App/renderer/store/constants"
 
 const mockStore = createMockStore([thunk])({
   device: {
@@ -102,7 +103,7 @@ describe("Connect Device request returns `error` status", () => {
     expect(mockStore.getActions()).toEqual([
       connectDevice.pending(requestId, DeviceType.MuditaPure),
       connectDevice.rejected(
-        "Rejected" as unknown as Error,
+        testError,
         requestId,
         DeviceType.MuditaPure,
         errorMock

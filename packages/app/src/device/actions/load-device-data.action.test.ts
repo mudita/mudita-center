@@ -11,12 +11,12 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import { ConnectionState } from "App/device/constants"
 import { loadDeviceData } from "./load-device-data.action"
 import { DeviceLoadingError } from "App/device/errors"
-
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getBackupsInfo from "Renderer/requests/get-backups-info.request"
+import { testError } from "App/renderer/store/constants"
 
 jest.mock("Renderer/requests/get-device-info.request")
 jest.mock("Renderer/requests/get-network-info.request")
@@ -176,7 +176,7 @@ describe("Device type: MuditaPure", () => {
       expect(mockStore.getActions()).toEqual([
         loadDeviceData.pending(requestId, DeviceType.MuditaPure),
         loadDeviceData.rejected(
-          "Rejected" as unknown as Error,
+          testError,
           requestId,
           DeviceType.MuditaPure,
           errorMock
@@ -250,7 +250,7 @@ describe("Device type: MuditaHarmony", () => {
       expect(mockStore.getActions()).toEqual([
         loadDeviceData.pending(requestId, DeviceType.MuditaHarmony),
         loadDeviceData.rejected(
-          "Rejected" as unknown as Error,
+          testError,
           requestId,
           DeviceType.MuditaHarmony,
           errorMock

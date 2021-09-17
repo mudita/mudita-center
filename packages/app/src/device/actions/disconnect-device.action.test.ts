@@ -10,6 +10,7 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import { disconnectDevice } from "./disconnect-device.action"
 import { DeviceDisconnectionError } from "App/device/errors"
 import disconnectDeviceRequest from "Renderer/requests/disconnect-device.request"
+import { testError } from "App/renderer/store/constants"
 
 const mockStore = createMockStore([thunk])()
 
@@ -51,12 +52,7 @@ describe("Disconnect Device request returns `error` status", () => {
 
     expect(mockStore.getActions()).toEqual([
       disconnectDevice.pending(requestId),
-      disconnectDevice.rejected(
-        "Rejected" as unknown as Error,
-        requestId,
-        undefined,
-        errorMock
-      ),
+      disconnectDevice.rejected(testError, requestId, undefined, errorMock),
     ])
   })
 })

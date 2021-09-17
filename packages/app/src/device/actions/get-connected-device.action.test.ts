@@ -12,6 +12,7 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import { getConnectedDevice } from "./get-connected-device.action"
 import { DeviceConnectionError } from "App/device/errors"
 import connectDeviceRequest from "Renderer/requests/connect-device.request"
+import { testError } from "App/renderer/store/constants"
 
 const mockStore = createMockStore([thunk])()
 
@@ -41,12 +42,7 @@ describe("Get Connected Device request returns `success` status without `data`",
 
     expect(mockStore.getActions()).toEqual([
       getConnectedDevice.pending(requestId),
-      getConnectedDevice.rejected(
-        "Rejected" as unknown as Error,
-        requestId,
-        undefined,
-        errorMock
-      ),
+      getConnectedDevice.rejected(testError, requestId, undefined, errorMock),
     ])
   })
 })
@@ -89,12 +85,7 @@ describe("Get Connected Device request returns `error` status", () => {
 
     expect(mockStore.getActions()).toEqual([
       getConnectedDevice.pending(requestId),
-      getConnectedDevice.rejected(
-        "Rejected" as unknown as Error,
-        requestId,
-        undefined,
-        errorMock
-      ),
+      getConnectedDevice.rejected(testError, requestId, undefined, errorMock),
     ])
   })
 })

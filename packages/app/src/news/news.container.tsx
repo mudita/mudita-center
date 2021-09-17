@@ -21,6 +21,7 @@ const mapStateToProps = (state: RootModel) => {
   }
 }
 
+// TODO replace any with legit `Dispatch`
 const mapDispatchToProps = (dispatch: any) => ({
   loadData: () => dispatch.muditaNews.loadData(),
   updateData: (data: DefaultNewsItems | { updating: boolean }) =>

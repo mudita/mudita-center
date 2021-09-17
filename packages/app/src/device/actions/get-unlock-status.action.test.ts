@@ -10,6 +10,7 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import { getUnlockStatus } from "./get-unlock-status.action"
 import { DeviceLockedError } from "App/device/errors"
 import getUnlockDeviceStatusRequest from "Renderer/requests/get-unlock-device-status.request"
+import { testError } from "App/renderer/store/constants"
 
 const mockStore = createMockStore([thunk])()
 
@@ -49,12 +50,7 @@ describe("Get Unlock Device Status request returns `error` status", () => {
 
     expect(mockStore.getActions()).toEqual([
       getUnlockStatus.pending(requestId),
-      getUnlockStatus.rejected(
-        "Rejected" as unknown as Error,
-        requestId,
-        undefined,
-        errorMock
-      ),
+      getUnlockStatus.rejected(testError, requestId, undefined, errorMock),
     ])
   })
 })

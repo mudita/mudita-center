@@ -9,6 +9,7 @@ import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "Renderer/store/helpers"
 import { unlockedDevice } from "./unlocked-device.action"
 import { DeviceConnectionError } from "App/device/errors"
+import { testError } from "App/renderer/store/constants"
 
 jest.mock("App/renderer/requests/get-device-lock-time.request")
 jest.mock("App/device/actions/base.action", () => ({
@@ -60,11 +61,6 @@ test("fire async `unlockedDevice` returns `rejected` if `deviceType` is undefine
 
   expect(mockStore.getActions()).toEqual([
     unlockedDevice.pending(requestId),
-    unlockedDevice.rejected(
-      "Rejected" as unknown as Error,
-      requestId,
-      undefined,
-      errorMock
-    ),
+    unlockedDevice.rejected(testError, requestId, undefined, errorMock),
   ])
 })

@@ -10,6 +10,7 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import { startUpdateOs } from "./start-update-os.action"
 import { DeviceUpdateProcessError } from "App/device/errors"
 import updateOs from "Renderer/requests/update-os.request"
+import { testError } from "App/renderer/store/constants"
 
 const mockStore = createMockStore([thunk])()
 
@@ -57,12 +58,7 @@ describe("Update Os request returns `error` status", () => {
 
     expect(mockStore.getActions()).toEqual([
       startUpdateOs.pending(requestId, filePathMock),
-      startUpdateOs.rejected(
-        "Rejected" as unknown as Error,
-        requestId,
-        filePathMock,
-        errorMock
-      ),
+      startUpdateOs.rejected(testError, requestId, filePathMock, errorMock),
     ])
   })
 })

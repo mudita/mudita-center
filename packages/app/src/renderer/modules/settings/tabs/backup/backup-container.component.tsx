@@ -14,6 +14,7 @@ const mapStateToProps = (state: RootModel) => {
   }
 }
 
+// TODO replace any with legit `Dispatch`
 const mapDispatchToProps = (dispatch: any) => ({
   setPureOsBackupLocation: (location: AppSettings["pureOsBackupLocation"]) =>
     dispatch.settings.setPureOsBackupLocation(location),

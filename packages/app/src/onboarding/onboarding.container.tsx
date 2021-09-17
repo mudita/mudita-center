@@ -16,6 +16,7 @@ const mapStateToProps = (state: RootModel) => {
   return state.settings
 }
 
+// TODO replace any with legit `Dispatch`
 const mapDispatchToProps = (dispatch: any) => dispatch.settings
 
 interface Props {
