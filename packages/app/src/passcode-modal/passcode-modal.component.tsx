@@ -67,9 +67,11 @@ const PasscodeModal: FunctionComponent<Props> = ({
     let timeoutId: NodeJS.Timeout
 
     const unlockDeviceRequest = async (code: number[]): Promise<void> => {
-      const unlockStatus = await unlockDevice(code)
+      const unlockDeviceStatus = await unlockDevice(code)
 
-      if (unlockStatus.payload === DeviceResponseStatus.InternalServerError) {
+      if (
+        unlockDeviceStatus.payload === DeviceResponseStatus.InternalServerError
+      ) {
         setErrorState(ErrorState.InternalServerError)
       } else {
         timeoutId = setTimeout(async () => {
