@@ -11,6 +11,7 @@ import contactsContextMenu from "App/contacts/helpers/context-menu/context-menu"
 import importDeviceLogFiles from "Renderer/requests/import-device-log-files.request"
 import { remote } from "electron"
 import { name } from "../../package.json"
+import importDeviceCrashDumpFiles from "Renderer/requests/import-device-crash-dumps-files.request"
 
 const filePath = `${remote.app.getPath("appData")}/${name}/pure-logs`
 
@@ -28,6 +29,10 @@ const registerAppContextMenu = (menu: ContextMenu) => {
     {
       label: "Download logs file",
       click: () => importDeviceLogFiles(filePath),
+    },
+    {
+      label: "Download crash dumps file",
+      click: () => importDeviceCrashDumpFiles(filePath),
     },
   ])
 
