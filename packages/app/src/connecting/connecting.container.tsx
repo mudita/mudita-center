@@ -10,7 +10,7 @@ import { URL_MAIN, URL_ONBOARDING } from "Renderer/constants/urls"
 import ConnectingContent from "App/connecting/connecting.component"
 import { updateAppSettings } from "Renderer/requests/app-settings.request"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { RootState, ReduxRootState, select } from "Renderer/store"
+import { RootState, ReduxRootState, TmpDispatch, select } from "Renderer/store"
 import { connect } from "react-redux"
 import PasscodeModal from "App/passcode-modal/passcode-modal.component"
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
@@ -95,9 +95,8 @@ const selection = select((models: any) => ({
   initialModalsShowed: models.settings.initialModalsShowed,
 }))
 
-// TODO replace any with legit `Dispatch`
-// export type Dispatch = any
-const mapDispatchToProps = (dispatch: any) => ({
+// TODO replace `TmpDispatch` with legit `Dispatch`
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   unlockDevice: (code: number[]) => dispatch(unlockDevice(code)),
   getUnlockStatus: () => dispatch(getUnlockStatus()),
 })

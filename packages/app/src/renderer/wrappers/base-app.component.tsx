@@ -9,7 +9,7 @@ import { connect } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
 import { Router } from "react-router"
 import BaseRoutes from "Renderer/routes/base-routes"
-import { RootState, ReduxRootState } from "Renderer/store"
+import { RootState, ReduxRootState, TmpDispatch } from "Renderer/store"
 import { History } from "history"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
@@ -153,9 +153,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
   }
 }
 
-// TODO replace any with legit `Dispatch`
-// export type Dispatch = any
-const mapDispatchToProps = (dispatch: any) => ({
+// TODO replace `TmpDispatch` with legit `Dispatch`
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   getConnectedDevice: () => dispatch(getConnectedDevice),
   loadContacts: () => dispatch.contacts.loadData(),
   loadMessages: () => dispatch.messages.loadData(),

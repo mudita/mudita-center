@@ -5,14 +5,14 @@
 
 import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
+import { TmpDispatch } from "Renderer/store"
 import Notifications from "Renderer/modules/settings/tabs/notifications/notifications.component"
 
 const mapStateToProps = (state: RootModel) => {
   return state.settings
 }
 
-// TODO replace any with legit `Dispatch`
-// export type Dispatch = any
-const mapDispatchToProps = (dispatch: any) => dispatch.settings
+// TODO replace `TmpDispatch` with legit `Dispatch`
+const mapDispatchToProps = (dispatch: TmpDispatch) => dispatch.settings
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications)

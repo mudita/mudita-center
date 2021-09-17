@@ -45,6 +45,7 @@ import registerNotAvailableAppUpdateListener from "App/main/functions/register-n
 import LicenseApp from "./license-app.component"
 import TermsOfServiceApp from "./terms-of-service-app.component"
 import PrivacyPolicyApp from "./privacy-policy-app.component"
+import { TmpDispatch } from "Renderer/store"
 
 import {
   connectDevice,
@@ -239,9 +240,8 @@ const RootWrapper: FunctionComponent<Props> = ({
   )
 }
 
-// TODO replace any with legit `Dispatch`
-// export type Dispatch = any
-const mapDispatchToProps = (dispatch: any) => ({
+// TODO replace `TmpDispatch` with legit `Dispatch`
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   connect: () => dispatch(getConnectedDevice()),
   disconnectDevice: () => dispatch(disconnectDevice()),
   connectDevice: (value: DeviceType) => dispatch(connectDevice(value)),

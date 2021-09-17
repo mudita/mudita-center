@@ -54,6 +54,7 @@ export const { select } = store
 export type RootState = RematchRootState<typeof models>
 export type Store = typeof store
 export type Dispatch = RematchDispatch<RootModel>
+export type TmpDispatch = any
 
 export type ReduxRootState = ReturnType<typeof combinedReducers>
 

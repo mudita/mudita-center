@@ -6,7 +6,7 @@
 import { connect } from "react-redux"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 import Overview from "App/overview/components/overview/overview.component"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState, TmpDispatch } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import {
@@ -34,9 +34,8 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
   }
 }
 
-// TODO replace any with legit `Dispatch`
-// export type Dispatch = any
-const mapDispatchToProps = (dispatch: any) => ({
+// TODO replace `TmpDispatch` with legit `Dispatch`
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   disconnectDevice: () => dispatch(disconnectDevice()),
   changeSim: (card: SimCard) => dispatch(changeSim(card)),
   setUpdateState: (state: UpdatingState) => dispatch(setUpdateState(state)),
