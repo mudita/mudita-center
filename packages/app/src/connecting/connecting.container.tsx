@@ -96,6 +96,7 @@ const selection = select((models: any) => ({
 }))
 
 // TODO replace any with legit `Dispatch`
+// export type Dispatch = any
 const mapDispatchToProps = (dispatch: any) => ({
   unlockDevice: (code: number[]) => dispatch(unlockDevice(code)),
   getUnlockStatus: () => dispatch(getUnlockStatus()),

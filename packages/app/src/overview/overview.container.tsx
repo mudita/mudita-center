@@ -35,6 +35,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
 }
 
 // TODO replace any with legit `Dispatch`
+// export type Dispatch = any
 const mapDispatchToProps = (dispatch: any) => ({
   disconnectDevice: () => dispatch(disconnectDevice()),
   changeSim: (card: SimCard) => dispatch(changeSim(card)),
