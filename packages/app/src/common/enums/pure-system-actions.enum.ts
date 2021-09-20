@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum PhoneTestIds {
-  DisconnectButton = "disconnect-button",
-  PureSystemButton = "pure-system-button",
+export enum PureSystemActions {
+  SarOpenWindow = "sar-open-window",
 }

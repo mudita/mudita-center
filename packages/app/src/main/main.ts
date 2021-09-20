@@ -56,18 +56,18 @@ import {
 import { TokenRequester } from "Renderer/models/external-providers/outlook/token-requester"
 import {
   GOOGLE_AUTH_WINDOW_SIZE,
-  HELP_WINDOW_SIZE,
   WINDOW_SIZE,
-  ABOUT_WINDOWS_SIZE,
+  DEFAULT_WINDOWS_SIZE,
 } from "./config"
 import autoupdate, { mockAutoupdate } from "./autoupdate"
 import startBackend from "Backend/bootstrap"
-import { URL_MAIN } from "Renderer/constants/urls"
+import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { AboutActions } from "App/common/enums/about-actions.enum"
 import PureLogger from "App/main/utils/pure-logger"
 import { flags, Feature } from "App/feature-flags"
+import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
 
 require("dotenv").config()
 
@@ -207,8 +207,8 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({
-        width: HELP_WINDOW_SIZE.width,
-        height: HELP_WINDOW_SIZE.height,
+        width: DEFAULT_WINDOWS_SIZE.width,
+        height: DEFAULT_WINDOWS_SIZE.height,
       })
     )
     helpWindow.loadURL(
@@ -242,7 +242,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   })
 })
 
-const createOpenAboutWindowListener = (
+const createOpenWindowListener = (
   channel: string,
   mode: string,
   urlMain: string,
@@ -252,8 +252,8 @@ const createOpenAboutWindowListener = (
     if (newWindow === null) {
       newWindow = await new BrowserWindow(
         getWindowOptions({
-          width: ABOUT_WINDOWS_SIZE.width,
-          height: ABOUT_WINDOWS_SIZE.height,
+          width: DEFAULT_WINDOWS_SIZE.width,
+          height: DEFAULT_WINDOWS_SIZE.height,
         })
       )
       await newWindow.loadURL(
@@ -286,24 +286,31 @@ const createOpenAboutWindowListener = (
   })
 }
 
-createOpenAboutWindowListener(
+createOpenWindowListener(
   AboutActions.LicenseOpenWindow,
   Mode.License,
   URL_MAIN.license,
   licenseWindow
 )
 
-createOpenAboutWindowListener(
+createOpenWindowListener(
   AboutActions.TermsOpenWindow,
   Mode.TermsOfService,
   URL_MAIN.termsOfService,
   termsWindow
 )
 
-createOpenAboutWindowListener(
+createOpenWindowListener(
   AboutActions.PolicyOpenWindow,
   Mode.PrivacyPolicy,
   URL_MAIN.privacyPolicy,
+  policyWindow
+)
+
+createOpenWindowListener(
+  PureSystemActions.SarOpenWindow,
+  Mode.Sar,
+  URL_OVERVIEW.sar,
   policyWindow
 )
 

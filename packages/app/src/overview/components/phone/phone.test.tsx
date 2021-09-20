@@ -12,6 +12,7 @@ import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
 import { Router } from "react-router"
 import { createMemoryHistory } from "history"
+import { PhoneTestIds } from "App/overview/components/phone//phone-test-ids.enum"
 
 const renderPhone = ({ onDisconnect = noop }: Partial<PhoneProps> = {}) => {
   const history = createMemoryHistory()
@@ -22,7 +23,7 @@ const renderPhone = ({ onDisconnect = noop }: Partial<PhoneProps> = {}) => {
   )
   return {
     ...outcome,
-    disconnectButton: () => outcome.getByRole("button"),
+    disconnectButton: () => outcome.getByTestId(PhoneTestIds.DisconnectButton),
   }
 }
 
