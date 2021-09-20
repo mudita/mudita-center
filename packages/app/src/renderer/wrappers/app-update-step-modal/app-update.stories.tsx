@@ -9,6 +9,7 @@ import {
   AppUpdateAvailable,
   AppUpdateDownloaded,
   AppUpdateError,
+  AppUpdateProgress,
 } from "Renderer/wrappers/app-update-step-modal/app-update.modals"
 import {
   ModalBackdrop,
@@ -32,6 +33,16 @@ storiesOf("App/Update", module)
         <ModalBackdrop />
         <ModalWrapper>
           <AppUpdateDownloaded open />
+        </ModalWrapper>
+      </div>
+    )
+  })
+  .add("Update progress", () => {
+    return (
+      <div>
+        <ModalBackdrop />
+        <ModalWrapper>
+          <AppUpdateProgress open />
         </ModalWrapper>
       </div>
     )
