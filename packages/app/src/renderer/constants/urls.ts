@@ -6,7 +6,6 @@
 export const URL_MAIN = {
   root: "/",
   news: "/news",
-  overview: "/overview",
   messages: "/messages",
   phone: "/phone",
   contacts: "/contacts",
@@ -47,4 +46,10 @@ export const URL_ONBOARDING = {
 
 export const URL_RECOVERY_MODE = {
   root: "/recovery-mode",
+} as const
+
+export const URL_OVERVIEW = {
+  root: "/overview",
+  pureSystem: "/overview/pure-system",
+  sar: "/overview/pure-system/sar",
 } as const

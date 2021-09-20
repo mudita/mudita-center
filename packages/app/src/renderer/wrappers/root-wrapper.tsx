@@ -45,6 +45,7 @@ import registerNotAvailableAppUpdateListener from "App/main/functions/register-n
 import LicenseApp from "./license-app.component"
 import TermsOfServiceApp from "./terms-of-service-app.component"
 import PrivacyPolicyApp from "./privacy-policy-app.component"
+import SarApp from "./sar-app.component"
 
 interface Props {
   store: Store
@@ -83,6 +84,10 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
     if (params.get("mode") === Mode.PrivacyPolicy) {
       return <PrivacyPolicyApp history={history} />
+    }
+
+    if (params.get("mode") === Mode.Sar) {
+      return <SarApp history={history} />
     }
 
     return <BaseApp store={store} history={history} />

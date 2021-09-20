@@ -19,9 +19,13 @@ import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
 import {
   PhoneCard,
   PhoneInfo,
+  PureSystemButtonContainer,
 } from "App/overview/components/phone/phone.styled"
-import { URL_MAIN } from "Renderer/constants/urls"
 import { CaseColour } from "@mudita/pure"
+import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
+import ButtonComponent from "App/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/renderer/components/core/button/button.config"
+import { Type } from "App/renderer/components/core/icon/icon.config"
 
 const Phone: FunctionComponent<PhoneProps> = ({
   className,
@@ -34,6 +38,11 @@ const Phone: FunctionComponent<PhoneProps> = ({
     onDisconnect()
     history.push(URL_MAIN.news)
   }
+  
+  const openPureSystem = () => {
+    history.push(URL_OVERVIEW.pureSystem)
+  }
+
   return (
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
@@ -53,6 +62,17 @@ const Phone: FunctionComponent<PhoneProps> = ({
           data-testid={PhoneTestIds.DisconnectButton}
         />
       </CardAction>
+      <PureSystemButtonContainer>
+        <ButtonComponent
+          label={intl.formatMessage({
+            id: "module.overview.pureSystem",
+          })}
+          onClick={openPureSystem}
+          data-testid={PhoneTestIds.PureSystemButton}
+          displayStyle={DisplayStyle.Link2}
+          Icon={Type.MenuPhone}
+        />
+      </PureSystemButtonContainer>
     </PhoneCard>
   )
 }

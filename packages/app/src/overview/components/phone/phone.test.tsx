@@ -27,7 +27,7 @@ const renderPhone = ({
   )
   return {
     ...outcome,
-    disconnectButton: () => outcome.getByRole("button"),
+    disconnectButton: () => outcome.getByTestId(PhoneTestIds.DisconnectButton),
   }
 }
 

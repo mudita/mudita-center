@@ -12,7 +12,7 @@ import BaseRoutes from "Renderer/routes/base-routes"
 import { select, Store } from "Renderer/store"
 import { History } from "history"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
-import { URL_MAIN } from "Renderer/constants/urls"
+import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
 import { RootState } from "Renderer/store"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
 import CollectingDataModal from "Renderer/wrappers/collecting-data-modal/collecting-data-modal.component"
@@ -66,7 +66,7 @@ const BaseApp: FunctionComponent<Props> = ({
   useRouterListener(history, {
     [URL_MAIN.contacts]: [store.dispatch.contacts.loadData],
     [URL_MAIN.phone]: [store.dispatch.contacts.loadData],
-    [URL_MAIN.overview]: [store.dispatch.basicInfo.loadBasicInfoData],
+    [URL_OVERVIEW.root]: [store.dispatch.basicInfo.loadBasicInfoData],
     [URL_MAIN.messages]: [
       store.dispatch.messages.loadData,
       store.dispatch.contacts.loadData,
@@ -82,10 +82,10 @@ const BaseApp: FunctionComponent<Props> = ({
   }, [pureFeaturesVisible, deviceConnecting])
 
   useEffect(() => {
-    if (deviceParred) {
+    if (deviceParred && Boolean(settingsLoaded)) {
       sendDiagnosticData()
     }
-  }, [deviceParred])
+  }, [deviceParred, settingsLoaded])
 
   const allowToAppCollectingData = (): void => {
     toggleAppCollectingData(true)
