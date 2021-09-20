@@ -90,6 +90,32 @@ or
 npm run dist:prod -- -wl
 ```
 
+### Feature toggle environment separation
+
+Also you are able to distribute an application with in specific predefined environment. The environment is responsible for hendeling the sets of feature toggles predefined for each release/test case.
+
+To run distribution with feature toggle environment use the next formula:
+
+```bash
+npm run env:FEATURE_TOGGLE_ENVIRONMENT:dist:*
+```
+
+For example:
+
+```bash
+npm run env:development:dist:dev
+```
+
+Will distribute an application with development set of feature toggles
+
+The Mudita Center have the next feature toggle environments:
+
+- development
+- production
+- test-production
+- alpha-production
+- test-alpha-production
+
 **Note:** You might not be able to build the app for all platforms one one platform. Read more about it the ["Multi Platform Build" article](https://www.electron.build/multi-platform-build).
 
 ## Release
