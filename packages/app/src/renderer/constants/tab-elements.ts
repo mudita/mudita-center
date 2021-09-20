@@ -6,8 +6,7 @@
 import { defineMessages } from "react-intl"
 import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
 import { Type } from "Renderer/components/core/icon/icon.config"
-
-const productionEnvironment = process.env.NODE_ENV === "production"
+import { flags, Feature } from "App/feature-flags"
 
 const messages = defineMessages({
   conversations: { id: "module.messages.conversations" },
@@ -48,13 +47,13 @@ export const tabElements: TabElement[] = [
         label: messages.conversations,
         url: URL_MAIN.messages,
         icon: Type.Message,
-        hidden: productionEnvironment,
+        hidden: flags.get(Feature.DisabledOnProduction),
       },
       {
         label: messages.templates,
         url: `${URL_MAIN.messages}${URL_TABS.templates}`,
         icon: Type.Templates,
-        hidden: productionEnvironment,
+        hidden: flags.get(Feature.DisabledOnProduction),
       },
     ],
   },
@@ -70,7 +69,7 @@ export const tabElements: TabElement[] = [
         label: messages.dial,
         url: `${URL_MAIN.phone}${URL_TABS.dial}`,
         icon: Type.Dial,
-        hidden: productionEnvironment,
+        hidden: flags.get(Feature.DisabledOnProduction),
       },
     ],
   },
@@ -116,19 +115,19 @@ export const tabElements: TabElement[] = [
         label: messages.notifications,
         url: `${URL_MAIN.settings}${URL_TABS.notifications}`,
         icon: Type.Notifications,
-        hidden: productionEnvironment,
+        hidden: flags.get(Feature.DisabledOnProduction),
       },
       {
         label: messages.audioConversion,
         url: `${URL_MAIN.settings}${URL_TABS.audioConversion}`,
         icon: Type.MenuMusic,
-        hidden: productionEnvironment,
+        hidden: flags.get(Feature.DisabledOnProduction),
       },
       {
         label: messages.backup,
         url: `${URL_MAIN.settings}${URL_TABS.backup}`,
         icon: Type.BackupFolder,
-        hidden: productionEnvironment,
+        hidden: flags.get(Feature.DisabledOnProduction),
       },
       {
         label: messages.about,

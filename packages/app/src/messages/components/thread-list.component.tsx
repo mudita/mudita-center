@@ -53,9 +53,9 @@ import {
 import { isToday } from "Renderer/utils/is-today"
 import { AppSettings } from "App/main/store/settings.interface"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
-import { productionEnvironment } from "Renderer/constants/menu-elements"
 import { Thread } from "App/messages/store/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
+import { flags, Feature } from "App/feature-flags"
 
 const ThreadRow = styled(Row)`
   height: 9rem;
@@ -294,7 +294,7 @@ const ThreadList: FunctionComponent<Props> = ({
                     onClick={noop}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
-                    hide={productionEnvironment}
+                    hide={flags.get(Feature.DisabledOnProduction)}
                   />
                   {isContactCreated(thread.contactId) ? (
                     <ButtonComponent
@@ -330,7 +330,7 @@ const ThreadList: FunctionComponent<Props> = ({
                         onClick={toggleReadStatus}
                         displayStyle={DisplayStyle.Dropdown}
                         data-testid="dropdown-mark-as-read"
-                        hide={productionEnvironment}
+                        hide={flags.get(Feature.DisabledOnProduction)}
                       />
 
                       <ButtonComponent

@@ -192,6 +192,7 @@
     "babel-preset-react-app": "^10.0.0",
     "babel-runtime": "^6.26.0",
     "boiler-room-custodian": "^0.6.2",
+    "brie": "^3.0.4",
     "circular-dependency-plugin": "^5.2.2",
     "concurrently": "^6.2.1",
     "contentful": "^8.4.2",

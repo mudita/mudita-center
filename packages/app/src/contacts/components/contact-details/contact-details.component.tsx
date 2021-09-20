@@ -29,8 +29,8 @@ import {
   Input,
   Name,
 } from "App/contacts/components/contact-details/contact-details.styled"
-import { productionEnvironment } from "Renderer/constants/menu-elements"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
+import { flags, Feature } from "App/feature-flags"
 
 const messages = defineMessages({
   favourites: { id: "module.contacts.favourites" },
@@ -159,7 +159,9 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       <ContactDetailsWrapper
         {...rest}
         show
-        headerRight={productionEnvironment ? prodIcons : icons}
+        headerRight={
+          flags.get(Feature.DisabledOnProduction) ? prodIcons : icons
+        }
         data-testid={ContactDetailsTestIds.Details}
       >
         <BasicInfo>
@@ -185,10 +187,10 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                     data-testid={ContactDetailsTestIds.PrimaryPhoneInput}
                     defaultValue={contact.primaryPhoneNumber}
                     label={intl.formatMessage(messages.noPrimaryNumber)}
-                    // TODO: Remove productionEnvironment along with associated logic when features become available
+                    // TODO: Implement additional toggles for this feature
                     trailingIcons={
                       contact.primaryPhoneNumber
-                        ? productionEnvironment
+                        ? flags.get(Feature.DisabledOnProduction)
                           ? undefined
                           : phoneActions(
                               contact.primaryPhoneNumber,
@@ -203,10 +205,10 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                     data-testid={ContactDetailsTestIds.SecondaryPhoneInput}
                     defaultValue={contact.secondaryPhoneNumber}
                     label={intl.formatMessage(messages.noSecondNumber)}
-                    // TODO: Remove productionEnvironment along with associated logic when features become available
+                    // TODO: Implement additional toggles for this feature
                     trailingIcons={
                       contact.secondaryPhoneNumber
-                        ? productionEnvironment
+                        ? flags.get(Feature.DisabledOnProduction)
                           ? undefined
                           : phoneActions(
                               contact.secondaryPhoneNumber,

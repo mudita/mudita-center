@@ -5,6 +5,7 @@
 
 import { ConsoleLogger } from "@mudita/pure"
 import logger from "App/main/utils/logger"
+import { flags, Feature } from "App/feature-flags"
 
 export interface ScrubProps {
   body?: any
@@ -14,10 +15,8 @@ export interface ScrubProps {
 }
 
 class PureLogger implements ConsoleLogger {
-  scrubbed = process.env.LOGS_SCRUBBED !== "false"
-
   info(message: string): void {
-    if (this.scrubbed) {
+    if (flags.get(Feature.LogsScrubbed)) {
       logger.info(this.scrub(message))
     } else {
       logger.info(this.scrubFileSystemData(message))
