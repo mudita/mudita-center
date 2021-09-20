@@ -120,7 +120,7 @@ const useSystemUpdateFlow = (
     const { date, version, prerelease } = releaseToInstall as Release
     const action = async () => {
       await modalService.closeModal()
-      install ? updatePure() : downloadUpdate()
+      install ? updatePure() : downloadUpdate(releaseToInstall)
     }
 
     return modalService.openModal(
@@ -168,10 +168,10 @@ const useSystemUpdateFlow = (
     return modalService.openModal(<UpdateServerError onRetry={onRetry} />, true)
   }
 
-  const openAvailableUpdateModal = () => {
-    const { version, date } = releaseToInstall as Release
+  const openAvailableUpdateModal = (release: Release) => {
+    const { version, date } = release
     const onDownload = () => {
-      downloadUpdate()
+      downloadUpdate(release)
       openDownloadingUpdateModal()
     }
 
@@ -215,7 +215,7 @@ const useSystemUpdateFlow = (
           }
 
           if (!silent) {
-            openAvailableUpdateModal()
+            openAvailableUpdateModal(latestRelease)
           }
         } else {
           onUpdate({ lastAvailableOsVersion: latestRelease?.version })
@@ -260,13 +260,12 @@ const useSystemUpdateFlow = (
     modalService.preventClosingModal()
   }
 
-  const downloadUpdate = async () => {
+  const downloadUpdate = async (release?: Release) => {
+    const r = release === undefined || release.version === undefined ? releaseToInstall : release
     try {
       await openDownloadingUpdateModal()
-      await delayResponse(
-        downloadOsUpdateRequest(releaseToInstall?.file.url as string)
-      )
-      if (releaseToInstall?.devMode) {
+      await delayResponse(downloadOsUpdateRequest(r?.file.url as string))
+      if (r?.devMode) {
         openDevModal(true)
       } else {
         onUpdate({ pureOsDownloaded: true })
@@ -276,7 +275,7 @@ const useSystemUpdateFlow = (
       if (error.status === DownloadStatus.Cancelled) {
         await openDownloadCanceledModal()
       } else {
-        await openDownloadInterruptedModal(() => downloadUpdate())
+        await openDownloadInterruptedModal(() => downloadUpdate(r))
       }
     }
   }
