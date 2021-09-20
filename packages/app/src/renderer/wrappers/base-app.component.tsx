@@ -82,10 +82,10 @@ const BaseApp: FunctionComponent<Props> = ({
   }, [pureFeaturesVisible, deviceConnecting])
 
   useEffect(() => {
-    if (deviceParred) {
+    if (deviceParred && Boolean(settingsLoaded)) {
       sendDiagnosticData()
     }
-  }, [deviceParred])
+  }, [deviceParred, settingsLoaded])
 
   const allowToAppCollectingData = (): void => {
     toggleAppCollectingData(true)
