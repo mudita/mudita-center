@@ -33,7 +33,7 @@ export const togglePhoneSimulation = () => {
     store.dispatch(disconnectDevice())
   } else {
     store.dispatch.devMode.enablePhoneSimulation()
-    store.dispatch(connectDevice(DeviceType.MuditaPure))
+    store.dispatch(connectDevice(DeviceType.MuditaHarmony))
     setTimeout(() => store.dispatch(unlockedDevice()))
   }
 }

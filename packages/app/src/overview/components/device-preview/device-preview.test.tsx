@@ -5,32 +5,33 @@
 
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
+import { DeviceType, CaseColour } from "@mudita/pure"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { PhoneProps } from "App/overview/components/phone/phone.interface"
-import Phone from "App/overview/components/phone/phone.component"
+import { DevicePreviewProps } from "App/overview/components/device-preview/device-preview.interface"
+import { DevicePreview } from "App/overview/components/device-preview/device-preview.component"
 import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
 import { Router } from "react-router"
 import { createMemoryHistory } from "history"
-import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
-import { CaseColour } from "@mudita/pure"
+import { DeviceTestIds } from "App/overview/components/device-preview/device-preview-test-ids.enum"
 import { flags } from "App/feature-flags"
 
 jest.mock("App/feature-flags")
 
 const renderPhone = ({
   onDisconnect = noop,
+  deviceType = DeviceType.MuditaPure,
   caseColour = CaseColour.Gray,
-}: Partial<PhoneProps> = {}) => {
+}: Partial<DevicePreviewProps> = {}) => {
   const history = createMemoryHistory()
   const outcome = renderWithThemeAndIntl(
     <Router history={history}>
-      <Phone onDisconnect={onDisconnect} caseColour={caseColour} />
+      <DevicePreview deviceType={deviceType} onDisconnect={onDisconnect} caseColour={caseColour} />
     </Router>
   )
   return {
     ...outcome,
-    disconnectButton: () => outcome.getByTestId(PhoneTestIds.DisconnectButton),
+    disconnectButton: () => outcome.getByTestId(DeviceTestIds.DisconnectButton),
   }
 }
 
@@ -45,8 +46,7 @@ test("disconnect button works properly", async () => {
 })
 
 test("Phone Component should render proper phone color", () => {
-  jest.spyOn(flags, "get").mockReturnValueOnce(true)
+  jest.spyOn(flags, "get").mockReturnValue(true)
   const { getByTestId } = renderPhone({ caseColour: CaseColour.Black })
-
-  expect(getByTestId(PhoneTestIds.PureBlack)).toBeInTheDocument()
+  expect(getByTestId(DeviceTestIds.PureBlack)).toBeInTheDocument()
 })

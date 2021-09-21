@@ -4,22 +4,23 @@
  */
 
 import React from "react"
+import { DeviceType } from "@mudita/pure"
 import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/basic-info.typings"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
-import Phone from "App/overview/components/phone/phone.component"
-import Network from "App/overview/components/network/network.component"
+import { DevicePreview } from "App/overview/components/device-preview/device-preview.component"
+import Status from "App/overview/components/status/status.component"
 import System from "App/overview/components/system/system.component"
 import FilesManager from "App/overview/components/files-manager/files-manager.component"
 import { noop } from "Renderer/utils/noop"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import { AppSettings } from "App/main/store/settings.interface"
 
-const PhoneInfo = styled(Phone)`
+const PhoneInfo = styled(DevicePreview)`
   grid-area: Phone;
 `
 
-const NetworkInfo = styled(Network)`
+const StatusInfo = styled(Status)`
   grid-area: Network;
 `
 const SystemInfo = styled(System)`
@@ -84,11 +85,13 @@ const OverviewContent: FunctionComponent<
 }) => (
   <OverviewWrapper>
     <PhoneInfo
+      caseColour={caseColour}
+      deviceType={DeviceType.MuditaPure}
       onClick={toggleDevMode}
       onDisconnect={disconnectDevice}
-      caseColour={caseColour}
     />
-    <NetworkInfo
+    <StatusInfo
+      deviceType={DeviceType.MuditaPure}
       batteryLevel={batteryLevel}
       network={networkName}
       networkLevel={networkLevel}

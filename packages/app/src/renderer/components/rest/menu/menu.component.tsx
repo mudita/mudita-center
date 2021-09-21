@@ -4,6 +4,9 @@
  */
 
 import React from "react"
+import { DeviceType } from "@mudita/pure"
+import { connect } from "react-redux"
+import { ReduxRootState } from "Renderer/store"
 import MenuGroup from "Renderer/components/rest/menu/menu-group.component"
 import { menuElements } from "Renderer/constants/menu-elements"
 import { DevMode } from "App/dev-mode/store/dev-mode.interface"
@@ -46,6 +49,7 @@ const DevSign = styled.span`
 `
 
 interface Properties {
+  deviceType: DeviceType | null
   pureFeaturesVisible?: boolean
   openHelpWindow?: () => void
   devModeEnabled?: DevMode["enabled"]
@@ -53,6 +57,7 @@ interface Properties {
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 const Menu: FunctionComponent<Properties> = ({
+  deviceType,
   pureFeaturesVisible,
   devModeEnabled,
 }) => {
@@ -64,8 +69,11 @@ const Menu: FunctionComponent<Properties> = ({
     .filter(({ simulatePhoneConnection }) =>
       simulatePhoneConnectionEnabled ? true : !simulatePhoneConnection
     )
+    .filter(({ visibleOn }) =>
+      deviceType && visibleOn ? visibleOn.includes(deviceType) : true
+    )
     .map(({ connectedPhoneOnly, ...props }, indexMenu) => {
-      return <MenuGroup {...props} key={indexMenu} />
+      return <MenuGroup {...props} deviceType={deviceType} key={indexMenu} />
     })
   return (
     <MenuWrapper>
@@ -82,4 +90,8 @@ const Menu: FunctionComponent<Properties> = ({
   )
 }
 
-export default Menu
+const mapDispatchToProps = (state: ReduxRootState) => ({
+  deviceType: state.device.deviceType,
+})
+
+export default connect(mapDispatchToProps)(Menu)

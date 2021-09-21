@@ -3,8 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface NetworkProps {
-  batteryLevel: number
-  network?: string
-  networkLevel?: number
-}
+export * from "./pure-overview"
+export * from "./harmony-overview"
