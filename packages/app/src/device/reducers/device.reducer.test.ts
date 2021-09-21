@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
+import { CaseColour, DeviceType } from "@mudita/pure"
 import { deviceReducer, initialState } from "App/device/reducers/device.reducer"
 import {
   PureDeviceData,
@@ -46,6 +46,7 @@ const pureDeviceMock: PureDeviceData = {
     free: 124,
     full: 1021,
   },
+  caseColour: CaseColour.Gray,
 }
 
 const harmonyDeviceMock: HarmonyDeviceData = {
@@ -271,6 +272,7 @@ describe("Set device data functionality", () => {
           free: 124,
           full: 1021,
         },
+        caseColour: CaseColour.Gray
       },
     })
   })

@@ -18,6 +18,7 @@ import {
   setUpdateState,
 } from "./base.action"
 import { DeviceEvent, UpdatingState } from "App/device/constants"
+import { CaseColour } from "@mudita/pure"
 
 const mockStore = createMockStore([thunk])()
 
@@ -46,6 +47,7 @@ const pureDeviceMock: PureDeviceData = {
     free: 124,
     full: 1021,
   },
+  caseColour: CaseColour.Gray,
 }
 
 const harmonyDeviceMock: HarmonyDeviceData = {

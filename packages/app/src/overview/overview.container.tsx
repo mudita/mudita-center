@@ -28,6 +28,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     simCards: (state.device.data as PureDeviceData)?.simCards,
     networkName: (state.device.data as PureDeviceData)?.networkName,
     networkLevel: (state.device.data as PureDeviceData)?.networkLevel,
+    caseColour: (state.device.data as PureDeviceData)?.caseColour,
     ...state.phoneUpdate,
     ...state.settings,
     ...state.devMode,

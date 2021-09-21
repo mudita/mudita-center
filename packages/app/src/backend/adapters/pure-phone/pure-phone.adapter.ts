@@ -102,7 +102,7 @@ class PurePhone extends PurePhoneAdapter {
     if (status === DeviceResponseStatus.Ok && data) {
       return {
         status,
-        data: data.caseColour,
+        data: data.caseColour ? data.caseColour : CaseColour.Gray,
       }
     } else {
       return {

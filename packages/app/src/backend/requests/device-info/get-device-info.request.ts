@@ -10,7 +10,6 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import { CaseColour } from "@mudita/pure"
 
 const handleDeviceInfoRequest = async ({
   purePhone,
@@ -22,7 +21,8 @@ const handleDeviceInfoRequest = async ({
     getOsVersionResponse.status === DeviceResponseStatus.Ok &&
     getOsVersionResponse.data !== undefined &&
     getSerialNumberResponse.status === DeviceResponseStatus.Ok &&
-    getSerialNumberResponse.data !== undefined
+    getSerialNumberResponse.data !== undefined &&
+    getCaseColourResponse.data !== undefined
   ) {
     return {
       status: DeviceResponseStatus.Ok,
@@ -33,10 +33,7 @@ const handleDeviceInfoRequest = async ({
         osUpdateDate: purePhone.getOsUpdateDate(),
         osVersion: getOsVersionResponse.data,
         serialNumber: getSerialNumberResponse.data,
-        caseColour:
-          getCaseColourResponse.data !== undefined
-            ? getCaseColourResponse.data
-            : CaseColour.Gray,
+        caseColour: getCaseColourResponse.data,
       },
     }
   } else {
