@@ -8,6 +8,7 @@ import {
   GetPhoneLockTimeResponseBody,
   Method,
   PhoneLockCategory,
+  MuditaDevice,
   timeout,
 } from "@mudita/pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
@@ -96,7 +97,7 @@ class PurePhone extends PurePhoneAdapter {
     return this.deviceService.disconnect()
   }
 
-  public connectDevice(): Promise<DeviceResponse> {
+  public connectDevice(): Promise<DeviceResponse<MuditaDevice>> {
     return this.deviceService.connect()
   }
 
