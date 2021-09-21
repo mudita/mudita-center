@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
+import { DeviceType, CaseColour } from "@mudita/pure"
 import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
 
 export interface SimCard {
@@ -49,6 +49,7 @@ export interface StoreValues {
   readonly initialDataLoaded: boolean
   readonly serialNumber: string | undefined
   readonly phoneLockTime?: number
+  readonly caseColour: CaseColour | undefined
 }
 
 export interface StoreEffects {

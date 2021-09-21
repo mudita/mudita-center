@@ -5,5 +5,7 @@
 
 export enum PhoneTestIds {
   DisconnectButton = "disconnect-button",
+  PureGray = "pure-gray",
+  PureBlack = "pure-black",
   PureSystemButton = "pure-system-button",
 }
