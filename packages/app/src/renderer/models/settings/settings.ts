@@ -34,6 +34,7 @@ export const initialState: SettingsState = {
   lowestSupportedCenterVersion: undefined,
   appCurrentVersion: version,
   appUpdateStepModalDisplayed: false,
+  appUpdateStepModalShow: false,
   settingsLoaded: false,
   appUpdateRequired: false,
   appLatestVersion: "",
@@ -134,6 +135,9 @@ const settings = createModel<RootModel>({
       },
       setAppUpdateStepModalDisplayed() {
         dispatch.settings.update({ appUpdateStepModalDisplayed: true })
+      },
+      toggleAppUpdateStepModalShow(appUpdateStepModalShow: boolean) {
+        dispatch.settings.update({ appUpdateStepModalShow })
       },
       setDiagnosticSentTimestamp(
         value: AppSettings["diagnosticSentTimestamp"]

@@ -15,6 +15,10 @@ const renderer = (
     openLicense: noop,
     openTermsOfService: noop,
     openPrivacyPolicy: noop,
+    appLatestVersion: "0.20.2",
+    appCurrentVersion: "0.19.0",
+    appUpdateAvailable: true,
+    click: noop
   }
 ) => renderWithThemeAndIntl(<AboutUI {...config} />)
 

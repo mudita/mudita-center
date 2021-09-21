@@ -161,6 +161,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   useEffect(() => {
     const unregister = registerAvailableAppUpdateListener((version) => {
       store.dispatch.settings.toggleAppUpdateAvailable(true)
+      store.dispatch.settings.toggleAppUpdateStepModalShow(true)
       store.dispatch.settings.setAppLatestVersion(version)
     })
 
@@ -170,6 +171,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   useEffect(() => {
     const unregister = registerNotAvailableAppUpdateListener(() => {
       store.dispatch.settings.setAppUpdateStepModalDisplayed()
+      store.dispatch.settings.toggleAppUpdateStepModalShow(false)
       store.dispatch.settings.toggleAppUpdateAvailable(false)
     })
 

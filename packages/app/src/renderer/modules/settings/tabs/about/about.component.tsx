@@ -8,19 +8,48 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import AboutUI from "Renderer/modules/settings/tabs/about/about-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { AboutActions } from "App/common/enums/about-actions.enum"
+import checkAppUpdateRequest from "Renderer/requests/check-app-update.request"
 
-const About: FunctionComponent = () => {
+interface Props {
+  appLatestVersion?: string
+  appCurrentVersion?: string
+  appUpdateAvailable?: boolean
+  setAppUpdateStepModalDisplayed: () => void
+  toggleAppUpdateAvailable: (appUpdateAvailable: boolean) => void
+}
+const About: FunctionComponent<Props> = ({
+  appLatestVersion,
+  appCurrentVersion,
+  appUpdateAvailable,
+  setAppUpdateStepModalDisplayed,
+  toggleAppUpdateAvailable,
+}) => {
   const openLicenseWindow = () =>
     ipcRenderer.callMain(AboutActions.LicenseOpenWindow)
   const openTermsOfServiceWindow = () =>
     ipcRenderer.callMain(AboutActions.TermsOpenWindow)
   const openPrivacyPolicyWindow = () =>
     ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
+
+    const handleAppUpdateAvailableCheck = (): void => {
+      if (!window.navigator.onLine) {
+        setAppUpdateStepModalDisplayed()
+        toggleAppUpdateAvailable(false)
+      } else {
+        void checkAppUpdateRequest()
+        setAppUpdateStepModalDisplayed()
+      }
+    }
+
   return (
     <AboutUI
       openLicense={openLicenseWindow}
       openTermsOfService={openTermsOfServiceWindow}
       openPrivacyPolicy={openPrivacyPolicyWindow}
+      appLatestVersion={appLatestVersion}
+      appCurrentVersion={appCurrentVersion}
+      appUpdateAvailable={appUpdateAvailable}
+      click={handleAppUpdateAvailableCheck}
     />
   )
 }

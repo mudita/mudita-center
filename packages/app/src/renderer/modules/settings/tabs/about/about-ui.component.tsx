@@ -17,19 +17,98 @@ import {
   SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
 import { AboutTestIds } from "Renderer/modules/settings/tabs/about/about.enum"
+import {
+  letterSpacing,
+  backgroundColor,
+} from "Renderer/styles/theming/theme-getters"
+import styled from "styled-components"
+import Text from "Renderer/components/core/text/text.component"
+import { borderColor } from "Renderer/styles/theming/theme-getters"
+
+const AvailableUpdate = styled(Text)`
+  margin-top: 0.8rem;
+  text-transform: none;
+  display: inline-box;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.4rem;
+  letter-spacing: ${letterSpacing("small")}rem;
+  background-color: ${backgroundColor("minor")};
+  margin-right: 1.6rem;
+`
+
+const VersionTableRow = styled.div`
+  border-bottom: solid 0.1rem ${borderColor("list")};
+  height: 7.2rem;
+  max-height: 7.2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const ActionContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 3rem;
+`
 
 interface AboutProps {
   openLicense: () => void
   openTermsOfService: () => void
   openPrivacyPolicy: () => void
+  appLatestVersion?: string
+  appCurrentVersion?: string
+  appUpdateAvailable?: boolean
+  click: () => void
 }
 
 const AboutUI: FunctionComponent<AboutProps> = ({
   openLicense,
   openTermsOfService,
   openPrivacyPolicy,
+  appLatestVersion = "",
+  appCurrentVersion,
+  appUpdateAvailable,
+  click,
 }) => (
   <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
+    <VersionTableRow>
+      <Data>
+        <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+          <FormattedMessage
+            id="module.settings.aboutInstalledVersion"
+            values={{ version: appCurrentVersion }}
+          />
+        </SettingsLabel>
+      </Data>
+        {appUpdateAvailable ? (
+          <ActionContainer>
+          <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+            <FormattedMessage id="module.settings.aboutAvailableVersion" values={{ version: appLatestVersion }}/>
+          </AvailableUpdate>
+          <ButtonComponent
+              labelMessage={{
+                id: "module.settings.aboutAppUpdateAction",
+              }}
+              onClick={click}
+            />
+          </ActionContainer>
+        ) : (
+          <ActionContainer>
+          <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+            <FormattedMessage id="module.overview.systemUpdateUpToDate" />
+          </AvailableUpdate>
+          <ButtonComponent
+            labelMessage={{
+              id: "module.overview.systemCheckForUpdates",
+            }}
+            onClick={click}
+          />
+          </ActionContainer>
+        )}
+    </VersionTableRow>
     <SettingsTableRow checkMode={false}>
       <Data>
         <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
