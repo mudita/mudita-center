@@ -5,7 +5,12 @@
 
 import { defineMessages } from "react-intl"
 
-import { URL_MAIN, URL_ONBOARDING, URL_RECOVERY_MODE } from "./urls"
+import {
+  URL_MAIN,
+  URL_ONBOARDING,
+  URL_RECOVERY_MODE,
+  URL_OVERVIEW,
+} from "./urls"
 
 const messages = defineMessages({
   onboarding: { id: "module.onboarding" },
@@ -25,6 +30,7 @@ const messages = defineMessages({
   settings: { id: "module.settings" },
   help: { id: "module.help" },
   error: { id: "module.error" },
+  pureSystem: { id: "module.overview.pureSystem" },
 })
 
 export enum View {
@@ -45,6 +51,7 @@ export enum View {
   Settings = "settings",
   Help = "help",
   Error = "error",
+  PureSystem = "pure-system",
 }
 
 export type Views = {
@@ -77,7 +84,7 @@ export const views: Views = {
   },
   [View.Overview]: {
     label: messages.overview,
-    url: URL_MAIN.overview,
+    url: URL_OVERVIEW.root,
   },
   [View.Messages]: {
     label: messages.messages,
@@ -126,5 +133,9 @@ export const views: Views = {
   [View.Error]: {
     label: messages.error,
     url: URL_MAIN.error,
+  },
+  [View.PureSystem]: {
+    label: messages.pureSystem,
+    url: URL_OVERVIEW.pureSystem,
   },
 }

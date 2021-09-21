@@ -12,7 +12,7 @@ import BaseRoutes from "Renderer/routes/base-routes"
 import { RootState, ReduxRootState, TmpDispatch } from "Renderer/store"
 import { History } from "history"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
-import { URL_MAIN } from "Renderer/constants/urls"
+import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
 import CollectingDataModal from "Renderer/wrappers/collecting-data-modal/collecting-data-modal.component"
 import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
@@ -73,7 +73,7 @@ const BaseApp: FunctionComponent<Props> = ({
   useRouterListener(history, {
     [URL_MAIN.contacts]: [() => loadContacts()],
     [URL_MAIN.phone]: [() => loadContacts()],
-    [URL_MAIN.overview]: [() => getConnectedDevice()],
+    [URL_OVERVIEW.root]: [() => getConnectedDevice()],
     [URL_MAIN.messages]: [() => loadMessages(), () => loadContacts()],
   })
 

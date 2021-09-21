@@ -45,8 +45,9 @@ import registerNotAvailableAppUpdateListener from "App/main/functions/register-n
 import LicenseApp from "./license-app.component"
 import TermsOfServiceApp from "./terms-of-service-app.component"
 import PrivacyPolicyApp from "./privacy-policy-app.component"
-import { TmpDispatch } from "Renderer/store"
+import SarApp from "./sar-app.component"
 
+import { TmpDispatch } from "Renderer/store"
 import {
   connectDevice,
   disconnectDevice,
@@ -113,6 +114,10 @@ const RootWrapper: FunctionComponent<Props> = ({
 
     if (params.get("mode") === Mode.PrivacyPolicy) {
       return <PrivacyPolicyApp history={history} />
+    }
+    
+    if (params.get("mode") === Mode.Sar) {
+      return <SarApp history={history} />
     }
 
     return <BaseApp history={history} />

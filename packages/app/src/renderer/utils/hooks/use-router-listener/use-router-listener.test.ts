@@ -6,7 +6,7 @@
 import { renderHook } from "@testing-library/react-hooks"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
 import { createMemoryHistory } from "history"
-import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
+import { URL_MAIN, URL_TABS, URL_OVERVIEW } from "Renderer/constants/urls"
 import { MemoryHistory } from "history/createMemoryHistory"
 
 let history: MemoryHistory
@@ -16,7 +16,7 @@ test("action on wrong path is not called", async () => {
   const contactsAction = jest.fn()
   const { rerender } = renderHook(() =>
     useRouterListener(history, {
-      [URL_MAIN.overview]: [contactsAction],
+      [URL_OVERVIEW.root]: [contactsAction],
     })
   )
   history.push(URL_MAIN.contacts)
