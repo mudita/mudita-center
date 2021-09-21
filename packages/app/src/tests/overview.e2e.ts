@@ -4,7 +4,7 @@
  */
 
 import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
-import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
+import { DeviceTestIds } from "App/overview/components/device-preview/device-preview-test-ids.enum"
 import { URL_OVERVIEW } from "Renderer/constants/urls"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { Application } from "spectron"
@@ -32,7 +32,7 @@ test("after clicking disconnect button, part of menu is not displayed", async ()
   expect(
     await app.client.isExisting("*[data-testid='component.menuHeaderYourPure']")
   ).toBeTruthy()
-  await app.client.$(`*[data-testid=${PhoneTestIds.DisconnectButton}]`).click()
+  await app.client.$(`*[data-testid=${DeviceTestIds.DisconnectButton}]`).click()
   expect(
     await app.client.isExisting("*[data-testid='component.menuHeaderYourPure']")
   ).toBeFalsy()

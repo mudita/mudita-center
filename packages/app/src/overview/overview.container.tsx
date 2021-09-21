@@ -20,6 +20,7 @@ import {
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
+    deviceType: state.device.deviceType,
     batteryLevel: state.device.data?.batteryLevel,
     osVersion: state.device.data?.osVersion,
     osUpdateDate: state.device.data?.osUpdateDate,

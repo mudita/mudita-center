@@ -4,6 +4,7 @@
  */
 
 import React from "react"
+import { DeviceType } from "@mudita/pure"
 import { storiesOf } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 import { Router } from "react-router"
@@ -28,9 +29,13 @@ import {
   UpdatingSuccessModal,
 } from "App/overview/components/overview-modals.component"
 import { UpdatingForceModal } from "App/overview/components/overview.modal-dialogs"
-import OverviewContent from "App/overview/components/overview-content.component"
+import {
+  PureOverview,
+  PureOverviewProps,
+} from "App/overview/components/overview-screens/pure-overview/pure-overview.component"
 
-const fakeState = {
+const fakeState: PureOverviewProps = {
+  deviceType: DeviceType.MuditaPure,
   batteryLevel: 0,
   disconnectDevice: false,
   lastBackup: {
@@ -48,12 +53,19 @@ const fakeState = {
   networkName: "Orange",
   osUpdateDate: "2020-01-14T11:31:08.244Z",
   language: "en-US",
+  updatePhoneOsInfo: noop,
+  appLatestVersion: "7.7.7",
+  lowestSupportedOsVersion: "1.0.0",
+  lowestSupportedCenterVersion: "1.0.0",
+  settingsLoaded: true,
+  appUpdateStepModalDisplayed: false,
+  appUpdateAvailable: false,
 }
 
-storiesOf("Views|Overview", module).add("Overview", () => (
+storiesOf("Views|Overview", module).add("Pure overview", () => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Router history={history}>
-      <OverviewContent
+      <PureOverview
         {...fakeState}
         disconnectDevice={action("Disconnect device")}
         changeSim={action("Changing sim")}
@@ -71,7 +83,7 @@ storiesOf("Views|Overview", module).add("Overview", () => (
 const ModalStory: FunctionComponent = ({ children }) => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Router history={history}>
-      <OverviewContent
+      <PureOverview
         {...fakeState}
         disconnectDevice={action("Disconnect device")}
         changeSim={action("Changing sim")}

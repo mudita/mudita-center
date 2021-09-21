@@ -4,10 +4,11 @@
  */
 
 import React from "react"
+import { DeviceType } from "@mudita/pure"
 import { defineMessages, FormattedMessage } from "react-intl"
 import styled from "styled-components"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { NetworkProps } from "App/overview/components/network/network.interface"
+import { StatusProps } from "App/overview/components/status/status.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -18,7 +19,7 @@ import Card, {
 } from "App/overview/components/card.elements"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
-import { NetworkTestIds } from "App/overview/components/network/network-test-ids.enum"
+import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 const TextInfo = styled(CardText)`
@@ -55,18 +56,24 @@ const messages = defineMessages({
   network: { id: "module.overview.networkName" },
 })
 
-const Network: FunctionComponent<NetworkProps> = ({
+const Status: FunctionComponent<StatusProps> = ({
+  deviceType,
   className,
   batteryLevel,
   network,
   networkLevel = 0,
 }) => {
   const strength = Math.round(networkLevel * 100)
+
   return (
     <Card className={className}>
       <TextInfo>
         <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-          <FormattedMessage id="module.overview.networkTitle" />
+          {deviceType === DeviceType.MuditaPure ? (
+            <FormattedMessage id="module.overview.statusPureTitle" />
+          ) : (
+            <FormattedMessage id="module.overview.statusHarmonyTitle" />
+          )}
         </Text>
       </TextInfo>
       <CardContent>
@@ -79,7 +86,7 @@ const Network: FunctionComponent<NetworkProps> = ({
               <Text
                 displayStyle={TextDisplayStyle.LargeBoldText}
                 element={"h2"}
-                data-testid={NetworkTestIds.BatteryLevel}
+                data-testid={StatusTestIds.BatteryLevel}
               >
                 {Math.round(batteryLevel * 100)} %
               </Text>
@@ -89,34 +96,36 @@ const Network: FunctionComponent<NetworkProps> = ({
               />
             </div>
           </Stats>
-          <Stats>
-            <IconContainer>
-              <RangeIcon strength={strength} height={2.6} width={2.6} />
-            </IconContainer>
-            {network ? (
-              <div>
+          {deviceType === DeviceType.MuditaPure && (
+            <Stats>
+              <IconContainer>
+                <RangeIcon strength={strength} height={2.6} width={2.6} />
+              </IconContainer>
+              {network ? (
+                <div>
+                  <Text
+                    displayStyle={TextDisplayStyle.LargeBoldText}
+                    data-testid={StatusTestIds.NetworkName}
+                  >
+                    {network}
+                  </Text>
+                  <Text
+                    displayStyle={TextDisplayStyle.SmallFadedText}
+                    message={messages.network}
+                  />
+                </div>
+              ) : (
                 <Text
                   displayStyle={TextDisplayStyle.LargeBoldText}
-                  data-testid={NetworkTestIds.NetworkName}
-                >
-                  {network}
-                </Text>
-                <Text
-                  displayStyle={TextDisplayStyle.SmallFadedText}
-                  message={messages.network}
+                  message={messages.noConnection}
                 />
-              </div>
-            ) : (
-              <Text
-                displayStyle={TextDisplayStyle.LargeBoldText}
-                message={messages.noConnection}
-              />
-            )}
-          </Stats>
+              )}
+            </Stats>
+          )}
         </div>
       </CardContent>
     </Card>
   )
 }
 
-export default Network
+export default Status

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface PhoneProps {
-  onDisconnect: () => void
-  onClick?: () => void
+export enum DeviceTestIds {
+  DisconnectButton = "disconnect-button",
+  PureSystemButton = "pure-system-button",
 }

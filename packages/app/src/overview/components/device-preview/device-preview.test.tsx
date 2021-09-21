@@ -5,25 +5,29 @@
 
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
+import { DeviceType } from "@mudita/pure"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { PhoneProps } from "App/overview/components/phone/phone.interface"
-import Phone from "App/overview/components/phone/phone.component"
+import { DevicePreviewProps } from "App/overview/components/device-preview/device-preview.interface"
+import { DevicePreview } from "App/overview/components/device-preview/device-preview.component"
 import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
 import { Router } from "react-router"
 import { createMemoryHistory } from "history"
-import { PhoneTestIds } from "App/overview/components/phone//phone-test-ids.enum"
+import { DeviceTestIds } from "App/overview/components/device-preview/device-preview-test-ids.enum"
 
-const renderPhone = ({ onDisconnect = noop }: Partial<PhoneProps> = {}) => {
+const renderPhone = ({
+  onDisconnect = noop,
+  deviceType = DeviceType.MuditaPure,
+}: Partial<DevicePreviewProps> = {}) => {
   const history = createMemoryHistory()
   const outcome = renderWithThemeAndIntl(
     <Router history={history}>
-      <Phone onDisconnect={onDisconnect} />
+      <DevicePreview deviceType={deviceType} onDisconnect={onDisconnect} />
     </Router>
   )
   return {
     ...outcome,
-    disconnectButton: () => outcome.getByTestId(PhoneTestIds.DisconnectButton),
+    disconnectButton: () => outcome.getByTestId(DeviceTestIds.DisconnectButton),
   }
 }
 
