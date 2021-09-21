@@ -6,6 +6,7 @@
 import { connect } from "react-redux"
 import Backup from "Renderer/modules/settings/tabs/backup/backup.component"
 import { RootModel } from "Renderer/models/models"
+import { TmpDispatch } from "Renderer/store"
 import { AppSettings } from "App/main/store/settings.interface"
 
 const mapStateToProps = (state: RootModel) => {
@@ -14,7 +15,8 @@ const mapStateToProps = (state: RootModel) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
+// TODO replace `TmpDispatch` with legit `Dispatch`
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   setPureOsBackupLocation: (location: AppSettings["pureOsBackupLocation"]) =>
     dispatch.settings.setPureOsBackupLocation(location),
 })

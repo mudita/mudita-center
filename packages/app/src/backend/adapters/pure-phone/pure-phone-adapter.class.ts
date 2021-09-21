@@ -4,8 +4,7 @@
  */
 
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { GetPhoneLockTimeResponseBody, CaseColour } from "@mudita/pure"
-
+import { GetPhoneLockTimeResponseBody, MuditaDevice, CaseColour } from "@mudita/pure"
 export default abstract class PurePhoneAdapter {
   public abstract getName(): string
   public abstract getModelName(): string
@@ -14,7 +13,7 @@ export default abstract class PurePhoneAdapter {
   public abstract getOsVersion(): Promise<DeviceResponse<string>>
   public abstract getOsUpdateDate(): string
   public abstract disconnectDevice(): Promise<DeviceResponse>
-  public abstract connectDevice(): Promise<DeviceResponse>
+  public abstract connectDevice(): Promise<DeviceResponse<MuditaDevice>>
   public abstract unlockDevice(code: string): Promise<DeviceResponse>
   public abstract getUnlockDeviceStatus(): Promise<DeviceResponse>
   public abstract getDeviceLockTime(): Promise<

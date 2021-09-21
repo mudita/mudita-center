@@ -5,7 +5,7 @@
 
 import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
-import { select } from "Renderer/store"
+import { TmpDispatch, select } from "Renderer/store"
 import News from "App/news/components/news/news.component"
 import { DefaultNewsItems } from "App/main/default-news-item"
 
@@ -21,7 +21,8 @@ const mapStateToProps = (state: RootModel) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
+// TODO replace `TmpDispatch` with legit `Dispatch`
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   loadData: () => dispatch.muditaNews.loadData(),
   updateData: (data: DefaultNewsItems | { updating: boolean }) =>
     dispatch.muditaNews.updateData(data),
