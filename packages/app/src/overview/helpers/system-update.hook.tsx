@@ -197,6 +197,11 @@ const useSystemUpdateFlow = (
       try {
         const { latestRelease, allReleases } = await getAllReleases()
 
+        if(!silent && latestRelease === undefined && allReleases.length === 0){
+          await openCheckingForUpdatesFailedModal(() => checkForUpdates())
+          return
+        }
+
         setDevReleases(allReleases)
 
         if (
