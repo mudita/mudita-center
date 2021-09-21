@@ -5,6 +5,7 @@
 
 import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
+import { TmpDispatch } from "Renderer/store"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { useHistory } from "react-router"
 import { URL_MAIN, URL_ONBOARDING } from "Renderer/constants/urls"
@@ -16,7 +17,8 @@ const mapStateToProps = (state: RootModel) => {
   return state.settings
 }
 
-const mapDispatchToProps = (dispatch: any) => dispatch.settings
+// TODO replace `TmpDispatch` with legit `Dispatch`
+const mapDispatchToProps = (dispatch: TmpDispatch) => dispatch.settings
 
 interface Props {
   setCollectingData: (option: AppSettings["appCollectingData"]) => void

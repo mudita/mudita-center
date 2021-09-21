@@ -156,7 +156,7 @@ const settings = createModel<RootModel>({
       },
       async sendDiagnosticData(_, state): Promise<void> {
         const { appCollectingData, diagnosticSentTimestamp } = state.settings
-        const { serialNumber } = state.basicInfo
+        const { serialNumber } = state.device.data
 
         if (serialNumber === undefined) {
           logger.error(

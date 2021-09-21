@@ -19,6 +19,7 @@ import {
   URL_ONBOARDING,
   URL_RECOVERY_MODE,
   URL_TABS,
+  URL_OVERVIEW,
 } from "Renderer/constants/urls"
 import Calendar from "App/calendar/calendar.container"
 import Templates from "App/templates/templates.container"
@@ -37,6 +38,8 @@ import Notifications from "Renderer/modules/settings/tabs/notifications/notifica
 import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.container"
 import About from "../modules/settings/tabs/about/about.container"
 import RecoveryMode from "Renderer/modules/recovery-mode/recovery-mode.component"
+import PureSystem from "App/overview/components/pure-system/pure-system.container"
+import LayoutDesktopWrapperWithoutHeader from "Renderer/wrappers/layout-desktop-wrapper-without-header"
 
 export default () => (
   <Switch>
@@ -53,6 +56,12 @@ export default () => (
         />
         <Route path={URL_RECOVERY_MODE.root} component={RecoveryMode} />
       </LayoutBlankWrapper>
+    </Route>
+
+    <Route exact path={URL_OVERVIEW.pureSystem}>
+      <LayoutDesktopWrapperWithoutHeader>
+        <Route path={URL_OVERVIEW.pureSystem} component={PureSystem} />
+      </LayoutDesktopWrapperWithoutHeader>
     </Route>
 
     <Route exact path={[...Object.values(URL_RECOVERY_MODE)]}>
@@ -77,7 +86,7 @@ export default () => (
         />
         <Route path={URL_MAIN.news} component={News} />
         <Route path={URL_MAIN.calendar} component={Calendar} />
-        <Route path={URL_MAIN.overview} component={Overview} />
+        <Route path={URL_OVERVIEW.root} component={Overview} exact />
         <Route path={URL_MAIN.contacts} component={Contacts} exact />
         <Route path={URL_MAIN.phone} component={Calls} />
         <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
@@ -107,6 +116,6 @@ export default () => (
       </LayoutDesktopWrapper>
     </Route>
 
-    <Redirect to={URL_MAIN.overview} />
+    <Redirect to={URL_OVERVIEW.root} />
   </Switch>
 )

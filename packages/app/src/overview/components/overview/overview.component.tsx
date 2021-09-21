@@ -6,11 +6,7 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import {
-  Store as BasicInfoInitialState,
-  StoreValues as BasicInfoValues,
-  UpdatingState,
-} from "Renderer/models/basic-info/basic-info.typings"
+import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { DevMode } from "App/dev-mode/store/dev-mode.interface"
 import React, { useEffect, useState } from "react"
 import OverviewContent from "App/overview/components/overview-content.component"
@@ -33,24 +29,21 @@ import UpdatingForceModalFlow, {
   UpdatingForceModalFlowState,
 } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 
+import { DeviceState } from "App/device"
+
 export interface UpdateBasicInfo {
-  updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
   toggleDeviceUpdating: (option: boolean) => void
   setCollectingData: (option: AppSettings["appCollectingData"]) => void
 }
 
-type Props = BasicInfoInitialState &
-  PhoneUpdateStore &
-  UpdateBasicInfo &
-  SettingsState &
-  DevMode
+type Props = DeviceState["data"] & PhoneUpdateStore & SettingsState & DevMode
 
 const Overview: FunctionComponent<Props> = ({
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
   osVersion = "",
-  osUpdateDate,
+  osUpdateDate = "",
   lastAvailableOsVersion,
   pureOsDownloaded,
   updatePhoneOsInfo = noop,
@@ -69,13 +62,12 @@ const Overview: FunctionComponent<Props> = ({
   ],
   networkName,
   networkLevel,
-  updateBasicInfo = noop,
   language = "",
   pureOsBackupLocation = "",
   lowestSupportedOsVersion = "",
   updatingState,
-  updateOs,
-  updateUpdatingState,
+  startUpdateOs,
+  setUpdateState,
   serialNumber,
 }) => {
   /**
@@ -129,9 +121,9 @@ const Overview: FunctionComponent<Props> = ({
   // FIXME: tmp solution until useSystemUpdateFlow exist
   const toggleDeviceUpdating = (option: boolean) => {
     if (option) {
-      updateUpdatingState(UpdatingState.Updating)
+      setUpdateState(UpdatingState.Updating)
     } else {
-      updateUpdatingState(UpdatingState.Standby)
+      setUpdateState(UpdatingState.Standby)
     }
   }
 
@@ -139,7 +131,6 @@ const Overview: FunctionComponent<Props> = ({
     osVersion,
     osUpdateDate,
     updatePhoneOsInfo,
-    updateBasicInfo,
     toggleDeviceUpdating,
     openContactSupportModalFlow,
     goToHelp
@@ -236,7 +227,7 @@ const Overview: FunctionComponent<Props> = ({
   }
 
   const closeUpdatingForceModalFlow = async () => {
-    updateUpdatingState(UpdatingState.Standby)
+    setUpdateState(UpdatingState.Standby)
   }
 
   const isPureOsAvailable = (): boolean => {
@@ -270,7 +261,7 @@ const Overview: FunctionComponent<Props> = ({
     <>
       <UpdatingForceModalFlow
         state={getUpdatingForceModalFlowState()}
-        updateOs={updateOs}
+        updateOs={startUpdateOs}
         osVersion={osVersion}
         closeModal={closeUpdatingForceModalFlow}
         onContact={openContactSupportModalFlow}
