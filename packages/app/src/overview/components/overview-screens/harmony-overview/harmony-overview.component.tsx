@@ -50,8 +50,8 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   },
   lowestSupportedOsVersion = "",
   updatingState,
-  updateOs,
-  updateUpdatingState,
+  startUpdateOs,
+  setUpdateState,
   serialNumber,
 }) => {
   /**
@@ -97,9 +97,9 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   // FIXME: tmp solution until useSystemUpdateFlow exist
   const toggleDeviceUpdating = (option: boolean) => {
     if (option) {
-    updateUpdatingState(UpdatingState.Updating)
+      setUpdateState(UpdatingState.Updating)
     } else {
-    updateUpdatingState(UpdatingState.Standby)
+      setUpdateState(UpdatingState.Standby)
     }
   }
 
@@ -129,7 +129,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   }, [osVersion])
 
   const closeUpdatingForceModalFlow = async () => {
-    updateUpdatingState(UpdatingState.Standby)
+    setUpdateState(UpdatingState.Standby)
   }
 
   const isPureOsAvailable = (): boolean => {
@@ -163,7 +163,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     <>
       <UpdatingForceModalFlow
         state={getUpdatingForceModalFlowState()}
-        updateOs={updateOs}
+        updateOs={startUpdateOs}
         osVersion={osVersion}
         closeModal={closeUpdatingForceModalFlow}
         onContact={openContactSupportModalFlow}
