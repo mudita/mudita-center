@@ -4,6 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
+import { DeviceType } from "@mudita/pure"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
@@ -64,8 +65,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   pureOsBackupLocation = "",
   lowestSupportedOsVersion = "",
   updatingState,
-  updateOs,
-  updateUpdatingState,
+  startUpdateOs,
+  setUpdateState,
   serialNumber,
   caseColour,
 }) => {
@@ -120,9 +121,9 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   // FIXME: tmp solution until useSystemUpdateFlow exist
   const toggleDeviceUpdating = (option: boolean) => {
     if (option) {
-    updateUpdatingState(UpdatingState.Updating)
+      setUpdateState(UpdatingState.Updating)
     } else {
-    updateUpdatingState(UpdatingState.Standby)
+      setUpdateState(UpdatingState.Standby)
     }
   }
 
@@ -226,9 +227,9 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   }
 
   const closeUpdatingForceModalFlow = async () => {
-    updateUpdatingState(UpdatingState.Standby)
+    setUpdateState(UpdatingState.Standby)
   }
- 
+
   const isPureOsAvailable = (): boolean => {
     try {
       if (!osVersion || !lastAvailableOsVersion) {
@@ -260,7 +261,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     <>
       <UpdatingForceModalFlow
         state={getUpdatingForceModalFlowState()}
-        updateOs={updateOs}
+        updateOs={startUpdateOs}
         osVersion={osVersion}
         closeModal={closeUpdatingForceModalFlow}
         onContact={openContactSupportModalFlow}
@@ -291,6 +292,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
       />
       <OverviewContent
         caseColour={caseColour}
+        deviceType={DeviceType.MuditaPure}
         batteryLevel={batteryLevel}
         changeSim={changeSim}
         disconnectDevice={disconnectDevice}
