@@ -3,5 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./constants"
-export * from "./helpers"
+export * from "App/feature-flags/constants"
+export * from "App/feature-flags/helpers"

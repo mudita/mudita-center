@@ -3,21 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { EnvironmentConfig, Criteria } from "../types"
-import { Feature, Environment } from "../constants"
+import { EnvironmentConfig, Criteria } from "App/feature-flags/types"
+import { Feature, Environment } from "App/feature-flags/constants"
 
-const getFeatureToggleEnvironment = () =>
-  process.env.FEATURE_TOGGLE_ENVIRONMENT || Environment.Development
+const getFeatureToggleEnvironment = (): Environment =>
+  process.env.FEATURE_TOGGLE_ENVIRONMENT as Environment || Environment.Development
 
 export const serializeFeature = (features: EnvironmentConfig) => {
-  return Object.keys(features).reduce(
-    (accum: Record<string, { criteria: Criteria[] }>, value: string) => {
+  return (Object.keys(features) as (keyof EnvironmentConfig)[]).reduce(
+    (accum, value) => {
       accum[value] = {
         criteria: [
           {
             always:
-              features[value as Feature][
-                getFeatureToggleEnvironment() as Environment
+              features[value][
+                getFeatureToggleEnvironment()
               ],
           },
         ],
@@ -25,6 +25,6 @@ export const serializeFeature = (features: EnvironmentConfig) => {
 
       return accum
     },
-    {}
+    {} as Record<Feature, { criteria: Criteria[] }>
   )
 }

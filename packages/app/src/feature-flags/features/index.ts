@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { EnvironmentConfig } from "../types"
-import { Feature, Environment } from "../constants"
+import { EnvironmentConfig } from "App/feature-flags/types"
+import { Feature, Environment } from "App/feature-flags/constants"
 
 export const features: EnvironmentConfig = {
   [Feature.LoggerEnabled]: {
