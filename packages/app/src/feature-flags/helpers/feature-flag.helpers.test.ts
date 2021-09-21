@@ -4,9 +4,10 @@
  */
 
 import { flags } from "App/feature-flags/helpers/feature-flag.helpers"
-import { Feature } from "App/feature-flags/constants"
+import { features } from "App/feature-flags/features"
 
-test("returns some feature toggle values for current environment", () => {
-  expect(flags.get(Feature.LoggerEnabled)).toBeTruthy()
-  expect(flags.get(Feature.LogsScrubbed)).toBeFalsy()
+test("returns full list of available feature flags", () => {
+  expect(Object.keys(flags.getAll()).length).toEqual(
+    Object.keys(features).length
+  )
 })
