@@ -35,7 +35,9 @@ export const togglePureSimulation = () => {
   ipcRenderer.callMain(backendAdaptersChannel)
 
   if (store.getState().devMode.harmonySimulation) {
-    toggleHarmonySimulation()
+    ipcRenderer.callMain(backendAdaptersChannel)
+    store.dispatch.devMode.disableHarmonySimulation()
+    store.dispatch(disconnectDevice())
   }
 
   if (store.getState().devMode.pureSimulation) {
@@ -52,7 +54,9 @@ export const toggleHarmonySimulation = () => {
   ipcRenderer.callMain(backendAdaptersChannel)
 
   if (store.getState().devMode.pureSimulation) {
-    togglePureSimulation()
+    ipcRenderer.callMain(backendAdaptersChannel)
+    store.dispatch.devMode.disablePureSimulation()
+    store.dispatch(disconnectDevice())
   }
 
   if (store.getState().devMode.harmonySimulation) {
