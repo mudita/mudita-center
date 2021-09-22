@@ -5,7 +5,7 @@
 
 export interface DevMode {
   enabled?: boolean
-  phoneSimulation?: boolean
+  pureSimulation?: boolean
   harmonySimulation?: boolean
 }
 

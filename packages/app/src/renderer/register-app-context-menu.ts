@@ -22,12 +22,12 @@ const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Device", [
     {
       labelCreator: () => {
-        return store.getState().devMode.phoneSimulation
+        return store.getState().devMode.pureSimulation
           ? "Stop simulating Pure connection"
           : "Simulate Pure connection"
       },
       click: togglePureSimulation,
-      accelerator: AppHotkeys.PhoneSimulation,
+      accelerator: AppHotkeys.pureSimulation,
     },
     {
       labelCreator: () => {

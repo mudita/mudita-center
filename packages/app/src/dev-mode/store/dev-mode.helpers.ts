@@ -15,7 +15,7 @@ export const isDevModeEnabled = () => {
 
 export const toggleDevMode = () => {
   if (
-    store.getState().devMode.phoneSimulation &&
+    store.getState().devMode.pureSimulation &&
     store.getState().devMode.enabled
   ) {
     togglePureSimulation()
@@ -38,11 +38,11 @@ export const togglePureSimulation = () => {
     store.dispatch.devMode.disableHarmonySimulation()
   }
 
-  if (store.getState().devMode.phoneSimulation) {
-    store.dispatch.devMode.disablePhoneSimulation()
+  if (store.getState().devMode.pureSimulation) {
+    store.dispatch.devMode.disablepureSimulation()
     store.dispatch(disconnectDevice())
   } else {
-    store.dispatch.devMode.enablePhoneSimulation()
+    store.dispatch.devMode.enablepureSimulation()
     store.dispatch(connectDevice(DeviceType.MuditaPure))
     setTimeout(() => store.dispatch(unlockedDevice()))
   }
@@ -51,8 +51,8 @@ export const togglePureSimulation = () => {
 export const toggleHarmonySimulation = () => {
   ipcRenderer.callMain(backendAdaptersChannel)
 
-  if (store.getState().devMode.phoneSimulation) {
-    store.dispatch.devMode.disablePhoneSimulation()
+  if (store.getState().devMode.pureSimulation) {
+    store.dispatch.devMode.disablepureSimulation()
   }
 
   if (store.getState().devMode.harmonySimulation) {
