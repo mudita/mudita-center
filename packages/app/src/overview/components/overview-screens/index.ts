@@ -3,5 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./pure-overview"
-export * from "./harmony-overview"
+export * from "App/overview/components/overview-screens/pure-overview"
+export * from "App/overview/components/overview-screens/harmony-overview"
