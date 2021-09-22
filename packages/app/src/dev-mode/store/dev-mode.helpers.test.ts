@@ -64,26 +64,26 @@ describe("Function: toggleHarmonySimulation", () => {
     expect(store.getState().devMode.harmonySimulation).toBeFalsy()
   })
 
-  test("changing disable `phoneSimulation` if it's enabled", () => {
-    store.dispatch.devMode.enablePhoneSimulation()
+  test("changing disable `pureSimulation` if it's enabled", () => {
+    store.dispatch.devMode.enablepureSimulation()
 
     toggleHarmonySimulation()
 
-    expect(store.getState().devMode.phoneSimulation).toBeFalsy()
+    expect(store.getState().devMode.pureSimulation).toBeFalsy()
   })
 })
 
 describe("Function: togglePureSimulation", () => {
-  test("changing `phoneSimulation` flag to `true` if it's disabled", () => {
+  test("changing `pureSimulation` flag to `true` if it's disabled", () => {
     togglePureSimulation()
 
     expect(ipc.ipcRenderer.callMain).toHaveBeenCalledWith(
       backendAdaptersChannel
     )
-    expect(store.getState().devMode.phoneSimulation).toBeTruthy()
+    expect(store.getState().devMode.pureSimulation).toBeTruthy()
   })
 
-  test("changing `phoneSimulation` flag to `true` if it's enabled", () => {
+  test("changing `pureSimulation` flag to `true` if it's enabled", () => {
     store.dispatch.devMode.enableHarmonySimulation()
 
     togglePureSimulation()
@@ -91,7 +91,7 @@ describe("Function: togglePureSimulation", () => {
     expect(ipc.ipcRenderer.callMain).toHaveBeenCalledWith(
       backendAdaptersChannel
     )
-    expect(store.getState().devMode.phoneSimulation).toBeFalsy()
+    expect(store.getState().devMode.pureSimulation).toBeFalsy()
   })
 
   test("changing disable `harmonySimulation` if it's enabled", () => {

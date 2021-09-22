@@ -7,7 +7,7 @@ import { DevMode } from "App/dev-mode/store/dev-mode.interface"
 
 const initialStateValue: DevMode = {
   enabled: false,
-  phoneSimulation: false,
+  pureSimulation: false,
   harmonySimulation: false,
 }
 
@@ -20,11 +20,11 @@ export default {
     disableDevMode(state: DevMode) {
       return { ...state, enabled: false }
     },
-    enablePhoneSimulation(state: DevMode) {
-      return { ...state, phoneSimulation: true }
+    enablepureSimulation(state: DevMode) {
+      return { ...state, pureSimulation: true }
     },
-    disablePhoneSimulation(state: DevMode) {
-      return { ...state, phoneSimulation: false }
+    disablepureSimulation(state: DevMode) {
+      return { ...state, pureSimulation: false }
     },
     enableHarmonySimulation(state: DevMode) {
       return { ...state, harmonySimulation: true }

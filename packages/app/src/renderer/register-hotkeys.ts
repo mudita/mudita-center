@@ -17,7 +17,7 @@ type HotkeysList = {
 }
 
 const devModeOnlyHotkeys: Partial<HotkeysList> = {
-  [AppHotkeys.PhoneSimulation]: togglePureSimulation,
+  [AppHotkeys.pureSimulation]: togglePureSimulation,
   [AppHotkeys.HarmonySimulation]: toggleHarmonySimulation,
 }
 

@@ -6,7 +6,7 @@
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_RECOVERY_MODE } from "Renderer/constants/urls"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
-import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
+import { enablepureSimulation, startApp, stopApp } from "App/tests/hooks"
 import { Application } from "spectron"
 
 let app: Application
@@ -15,7 +15,7 @@ const email = "e2e@test.com"
 
 beforeEach(async () => {
   app = await startApp(true)
-  await enablePhoneSimulation(app)
+  await enablepureSimulation(app)
   await app.client.waitUntil(() =>
     app.client.$(`*[data-testid=${MenuGroupTestIds.Backup}]`).isVisible()
   )
