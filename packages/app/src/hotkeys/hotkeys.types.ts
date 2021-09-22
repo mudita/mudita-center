@@ -6,5 +6,5 @@
 export enum AppHotkeys {
   DevMode = "CommandOrControl+D",
   pureSimulation = "CommandOrControl+P",
-  HarmonySimulation = "CommandOrControl+H",
+  HarmonySimulation = "CommandOrControl+B",
 }

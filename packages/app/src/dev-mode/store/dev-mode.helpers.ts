@@ -35,14 +35,14 @@ export const togglePureSimulation = () => {
   ipcRenderer.callMain(backendAdaptersChannel)
 
   if (store.getState().devMode.harmonySimulation) {
-    store.dispatch.devMode.disableHarmonySimulation()
+    toggleHarmonySimulation()
   }
 
   if (store.getState().devMode.pureSimulation) {
-    store.dispatch.devMode.disablepureSimulation()
+    store.dispatch.devMode.disablePureSimulation()
     store.dispatch(disconnectDevice())
   } else {
-    store.dispatch.devMode.enablepureSimulation()
+    store.dispatch.devMode.enablePureSimulation()
     store.dispatch(connectDevice(DeviceType.MuditaPure))
     setTimeout(() => store.dispatch(unlockedDevice()))
   }
@@ -52,7 +52,7 @@ export const toggleHarmonySimulation = () => {
   ipcRenderer.callMain(backendAdaptersChannel)
 
   if (store.getState().devMode.pureSimulation) {
-    store.dispatch.devMode.disablepureSimulation()
+    togglePureSimulation()
   }
 
   if (store.getState().devMode.harmonySimulation) {
