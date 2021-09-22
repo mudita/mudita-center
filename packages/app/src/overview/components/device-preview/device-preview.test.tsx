@@ -4,10 +4,9 @@
  */
 
 import "@testing-library/jest-dom/extend-expect"
-import React from "react"
+import React, { ComponentProps } from "react"
 import { DeviceType, CaseColour } from "@mudita/pure"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { DevicePreviewProps } from "App/overview/components/device-preview/device-preview.interface"
 import { DevicePreview } from "App/overview/components/device-preview/device-preview.component"
 import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
@@ -18,11 +17,11 @@ import { flags } from "App/feature-flags"
 
 jest.mock("App/feature-flags")
 
-const renderPhone = ({
+const renderDevice = ({
   onDisconnect = noop,
   deviceType = DeviceType.MuditaPure,
   caseColour = CaseColour.Gray,
-}: Partial<DevicePreviewProps> = {}) => {
+}: Partial<ComponentProps<typeof DevicePreview>> = {}) => {
   const history = createMemoryHistory()
   const outcome = renderWithThemeAndIntl(
     <Router history={history}>
@@ -38,7 +37,7 @@ const renderPhone = ({
 test("disconnect button works properly", async () => {
   const onDisconnect = jest.fn()
 
-  const { disconnectButton } = renderPhone({ onDisconnect })
+  const { disconnectButton } = renderDevice({ onDisconnect })
 
   fireEvent.click(disconnectButton())
 
@@ -47,6 +46,7 @@ test("disconnect button works properly", async () => {
 
 test("Phone Component should render proper phone color", () => {
   jest.spyOn(flags, "get").mockReturnValue(true)
-  const { getByTestId } = renderPhone({ caseColour: CaseColour.Black })
+  const { getByTestId } = renderDevice({ caseColour: CaseColour.Black })
+
   expect(getByTestId(DeviceTestIds.PureBlack)).toBeInTheDocument()
 })

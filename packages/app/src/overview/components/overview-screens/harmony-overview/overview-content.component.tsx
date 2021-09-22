@@ -13,8 +13,8 @@ import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface
 import { AppSettings } from "App/main/store/settings.interface"
 import { HarmonyDeviceData } from "App/device"
 
-const PhoneInfo = styled(DevicePreview)`
-  grid-area: Phone;
+const HarmonyInfo = styled(DevicePreview)`
+  grid-area: Harmony;
 `
 
 const StatusInfo = styled(Status)`
@@ -33,9 +33,9 @@ const OverviewWrapper = styled.div`
   grid-row-gap: 4rem;
   padding: 3.2rem 3rem 3.7rem 4rem;
   grid-template-areas:
-    "Phone Network"
-    "Phone System"
-    /*"Phone FilesManager" TODO: Uncomment when feature is done */;
+    "Harmony Network"
+    "Harmony System"
+    /*"Harmony FilesManager" TODO: Uncomment when feature is done */;
 `
 
 interface OverviewUIProps {
@@ -63,7 +63,7 @@ const OverviewContent: FunctionComponent<
   deviceType,
 }) => (
   <OverviewWrapper>
-    <PhoneInfo
+    <HarmonyInfo
       deviceType={deviceType}
       onClick={toggleDevMode}
       onDisconnect={disconnectDevice}

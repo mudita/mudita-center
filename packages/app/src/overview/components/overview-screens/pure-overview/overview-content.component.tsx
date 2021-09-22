@@ -16,8 +16,8 @@ import { noop } from "Renderer/utils/noop"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import { AppSettings } from "App/main/store/settings.interface"
 
-const PhoneInfo = styled(DevicePreview)`
-  grid-area: Phone;
+const PureInfo = styled(DevicePreview)`
+  grid-area: Pure;
 `
 
 const StatusInfo = styled(Status)`
@@ -41,9 +41,9 @@ const OverviewWrapper = styled.div`
   grid-row-gap: 4rem;
   padding: 3.2rem 3rem 3.7rem 4rem;
   grid-template-areas:
-    "Phone Network"
-    "Phone System"
-    /*"Phone FilesManager" TODO: Uncomment when feature is done */;
+    "Pure Network"
+    "Pure System"
+    /*"Pure FilesManager" TODO: Uncomment when feature is done */;
 `
 
 interface OverviewUIProps {
@@ -84,7 +84,7 @@ const OverviewContent: FunctionComponent<
   caseColour,
 }) => (
   <OverviewWrapper>
-    <PhoneInfo
+    <PureInfo
       caseColour={caseColour}
       deviceType={DeviceType.MuditaPure}
       onClick={toggleDevMode}
