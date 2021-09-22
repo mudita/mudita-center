@@ -4,10 +4,9 @@
  */
 
 import "@testing-library/jest-dom/extend-expect"
-import React from "react"
+import React, { ComponentProps } from "react"
 import { DeviceType } from "@mudita/pure"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { DevicePreviewProps } from "App/overview/components/device-preview/device-preview.interface"
 import { DevicePreview } from "App/overview/components/device-preview/device-preview.component"
 import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
@@ -15,10 +14,10 @@ import { Router } from "react-router"
 import { createMemoryHistory } from "history"
 import { DeviceTestIds } from "App/overview/components/device-preview/device-preview-test-ids.enum"
 
-const renderPhone = ({
+const renderDevice = ({
   onDisconnect = noop,
   deviceType = DeviceType.MuditaPure,
-}: Partial<DevicePreviewProps> = {}) => {
+}: Partial<ComponentProps<typeof DevicePreview>> = {}) => {
   const history = createMemoryHistory()
   const outcome = renderWithThemeAndIntl(
     <Router history={history}>
@@ -34,7 +33,7 @@ const renderPhone = ({
 test("disconnect button works properly", async () => {
   const onDisconnect = jest.fn()
 
-  const { disconnectButton } = renderPhone({ onDisconnect })
+  const { disconnectButton } = renderDevice({ onDisconnect })
 
   fireEvent.click(disconnectButton())
 
