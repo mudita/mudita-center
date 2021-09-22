@@ -9,7 +9,8 @@ import React, { ComponentProps } from "react"
 import AboutUI from "./about-ui.component"
 import { noop } from "App/renderer/utils/noop"
 import { AboutTestIds } from "./about.enum"
-import { fireEvent } from "@testing-library/dom"
+import { fireEvent, screen } from "@testing-library/dom"
+import { AppUpdateStepModalTestIds } from "Renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
 
 type Properties = ComponentProps<typeof AboutUI>
 const defaultProps = {
@@ -18,8 +19,8 @@ const defaultProps = {
   openPrivacyPolicy: noop,
   appLatestVersion: "0.20.2",
   appCurrentVersion: "0.19.0",
-  appUpdateAvailable: false,
-  appUpdateStepModalShow: true,
+  appUpdateAvailable: true,
+  appUpdateStepModalShow: false,
   click: noop,
   closeUpToDateModal: noop,
 }
@@ -28,9 +29,7 @@ const renderer = (extraProps?: {}) => {
     ...defaultProps,
     ...extraProps,
   }
-  const outcome = renderWithThemeAndIntl(<>
-  <div id="react-modal"></div>
-  <AboutUI {...props} /></>)
+  const outcome = renderWithThemeAndIntl(<AboutUI {...props} />)
   return {
     ...outcome,
   }
@@ -48,25 +47,22 @@ test("renders at least one table row", () => {
   )
 })
 
-describe("Opens update modal properly", () => {
-  test("when app update is not available", () => {
-
-    const { container } = renderer({
-      appLatestVersion: "0.20.2",
-      appCurrentVersion: "0.20.2",
-      appUpdateStepModalShow: true,
-      appUpdateAvailable: false,
-    })
-    console.log("container", container.innerHTML)
-    expect(container).not.toBeInTheDocument()
+test("Opens update modal properly when app update is not available", () => {
+  renderer({
+    appLatestVersion: "0.20.2",
+    appCurrentVersion: "0.20.2",
+    appUpdateStepModalShow: true,
+    appUpdateAvailable: false,
   })
+
+  expect(
+    screen.getByTestId(AppUpdateStepModalTestIds.AppUpdateNotAvailableModal)
+  ).toBeInTheDocument()
 })
 
 test("Calls AppUpdateAvailableCheck when clicked", () => {
   const click = jest.fn()
-  const { queryByTestId } = renderer({click})
-  fireEvent.click(
-    queryByTestId(AboutTestIds.UpdateButton) as HTMLElement
-  )
+  const { queryByTestId } = renderer({ click })
+  fireEvent.click(queryByTestId(AboutTestIds.UpdateButton) as HTMLElement)
   expect(click).toHaveBeenCalledTimes(1)
 })

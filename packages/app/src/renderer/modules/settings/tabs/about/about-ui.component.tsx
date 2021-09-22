@@ -83,7 +83,7 @@ const AboutUI: FunctionComponent<AboutProps> = ({
     appCurrentVersion={appCurrentVersion}
     closeModal={closeUpToDateModal}
     open={appUpdateStepModalShow && !appUpdateAvailable}
-    data-testid={AboutTestIds.Modal} />
+  />
   <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
     <VersionTableRow>
       <Data>
