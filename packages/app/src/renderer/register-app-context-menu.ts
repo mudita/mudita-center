@@ -6,7 +6,7 @@
 import store from "Renderer/store"
 import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 import {
-  togglePhoneSimulation,
+  togglePureSimulation,
   toggleHarmonySimulation,
 } from "App/dev-mode/store/dev-mode.helpers"
 import ContextMenu from "App/context-menu/context-menu"
@@ -26,7 +26,7 @@ const registerAppContextMenu = (menu: ContextMenu) => {
           ? "Stop simulating Pure connection"
           : "Simulate Pure connection"
       },
-      click: togglePhoneSimulation,
+      click: togglePureSimulation,
       accelerator: AppHotkeys.PhoneSimulation,
     },
     {

@@ -10,7 +10,7 @@ import {
   isDevModeEnabled,
   toggleDevMode,
   toggleHarmonySimulation,
-  togglePhoneSimulation,
+  togglePureSimulation,
 } from "./dev-mode.helpers"
 
 jest.mock("electron-better-ipc", () => ({
@@ -73,9 +73,9 @@ describe("Function: toggleHarmonySimulation", () => {
   })
 })
 
-describe("Function: togglePhoneSimulation", () => {
+describe("Function: togglePureSimulation", () => {
   test("changing `phoneSimulation` flag to `true` if it's disabled", () => {
-    togglePhoneSimulation()
+    togglePureSimulation()
 
     expect(ipc.ipcRenderer.callMain).toHaveBeenCalledWith(
       backendAdaptersChannel
@@ -86,7 +86,7 @@ describe("Function: togglePhoneSimulation", () => {
   test("changing `phoneSimulation` flag to `true` if it's enabled", () => {
     store.dispatch.devMode.enableHarmonySimulation()
 
-    togglePhoneSimulation()
+    togglePureSimulation()
 
     expect(ipc.ipcRenderer.callMain).toHaveBeenCalledWith(
       backendAdaptersChannel
