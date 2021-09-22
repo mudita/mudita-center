@@ -65,7 +65,7 @@ describe("Function: toggleHarmonySimulation", () => {
   })
 
   test("changing disable `pureSimulation` if it's enabled", () => {
-    store.dispatch.devMode.enablepureSimulation()
+    store.dispatch.devMode.enablePureSimulation()
 
     toggleHarmonySimulation()
 

@@ -5,38 +5,15 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import styled from "styled-components"
-import { DevicePreview } from "App/overview/components/device-preview/device-preview.component"
-import Status from "App/overview/components/status/status.component"
-import System from "App/overview/components/system/system.component"
+import {
+  DeviceInfo,
+  StatusInfo,
+  SystemInfo,
+  OverviewWrapper,
+} from "App/overview/components/overview/overview.styles"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import { AppSettings } from "App/main/store/settings.interface"
 import { HarmonyDeviceData } from "App/device"
-
-const HarmonyInfo = styled(DevicePreview)`
-  grid-area: Harmony;
-`
-
-const StatusInfo = styled(Status)`
-  grid-area: Network;
-`
-const SystemInfo = styled(System)`
-  grid-area: System;
-`
-
-const OverviewWrapper = styled.div`
-  display: grid;
-  grid-template-columns: minmax(27rem, 1fr) 2fr;
-  /* TODO: Change to grid-template-rows: repeat(4, 1fr) when Files Manager will be available */
-  grid-template-rows: repeat(2, 1fr);
-  grid-column-gap: 4rem;
-  grid-row-gap: 4rem;
-  padding: 3.2rem 3rem 3.7rem 4rem;
-  grid-template-areas:
-    "Harmony Network"
-    "Harmony System"
-    /*"Harmony FilesManager" TODO: Uncomment when feature is done */;
-`
 
 interface OverviewUIProps {
   readonly onUpdateCheck: () => void
@@ -63,7 +40,7 @@ const OverviewContent: FunctionComponent<
   deviceType,
 }) => (
   <OverviewWrapper>
-    <HarmonyInfo
+    <DeviceInfo
       deviceType={deviceType}
       onClick={toggleDevMode}
       onDisconnect={disconnectDevice}
