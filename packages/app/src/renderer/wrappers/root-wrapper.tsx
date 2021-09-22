@@ -117,7 +117,7 @@ const RootWrapper: FunctionComponent<Props> = ({
     if (params.get("mode") === Mode.PrivacyPolicy) {
       return <PrivacyPolicyApp history={history} />
     }
-    
+
     if (params.get("mode") === Mode.Sar) {
       return <SarApp history={history} />
     }
@@ -262,7 +262,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch.settings.setAppUpdateStepModalDisplayed(),
   setAppLatestVersion: (value: string) =>
     dispatch.settings.setAppLatestVersion(value),
-  toggleAppUpdateStepModalShow: (value: boolean) => dispatch.settings.toggleAppUpdateStepModalShow(value),
+  toggleAppUpdateStepModalShow: (value: boolean) =>
+    dispatch.settings.toggleAppUpdateStepModalShow(value),
   loadSettings: () => dispatch.settings.loadSettings(),
 })
 

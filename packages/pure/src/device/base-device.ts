@@ -34,7 +34,10 @@ class BaseDevice implements MuditaDevice {
     return new Promise((resolve) => {
       this.#port = new SerialPort(this.path, (error) => {
         if (error) {
-          resolve({ status: ResponseStatus.ConnectionError, error: {message: error.message }})
+          resolve({
+            status: ResponseStatus.ConnectionError,
+            error: { message: error.message },
+          })
         } else {
           resolve({ status: ResponseStatus.Ok })
         }
@@ -171,10 +174,10 @@ class BaseDevice implements MuditaDevice {
   }
 
   @log("==== serial port: request timeout ====")
-  private returnTimeoutResponse(payload: RequestPayload):Response<unknown> {
+  private returnTimeoutResponse(payload: RequestPayload): Response<unknown> {
     return {
       status: ResponseStatus.Timeout,
-      ...payload
+      ...payload,
     }
   }
 }

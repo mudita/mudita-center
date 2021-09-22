@@ -35,18 +35,18 @@ const About: FunctionComponent<Props> = ({
   const openPrivacyPolicyWindow = () =>
     ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
 
-    const handleAppUpdateAvailableCheck = (): void => {
-      if (!window.navigator.onLine) {
-        setAppUpdateStepModalDisplayed()
-        toggleAppUpdateAvailable(false)
-      } else {
-        void checkAppUpdateRequest()
-        toggleAppUpdateStepModalShow(true)
-      }
+  const handleAppUpdateAvailableCheck = (): void => {
+    if (!window.navigator.onLine) {
+      setAppUpdateStepModalDisplayed()
+      toggleAppUpdateAvailable(false)
+    } else {
+      void checkAppUpdateRequest()
+      toggleAppUpdateStepModalShow(true)
     }
-    const closeUpToDateModal = (): void => {
-      toggleAppUpdateStepModalShow(false)
-    }
+  }
+  const closeUpToDateModal = (): void => {
+    toggleAppUpdateStepModalShow(false)
+  }
   return (
     <AboutUI
       openLicense={openLicenseWindow}

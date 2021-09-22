@@ -8,5 +8,5 @@ export enum AboutTestIds {
   Description = "about-description",
   TableRow = "about-tablerow",
   UpdateButton = "about-update-button",
-  Modal = "about-update-modal"
+  Modal = "about-update-modal",
 }

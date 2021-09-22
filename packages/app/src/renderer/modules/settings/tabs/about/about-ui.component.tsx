@@ -79,27 +79,30 @@ const AboutUI: FunctionComponent<AboutProps> = ({
   closeUpToDateModal,
 }) => (
   <>
-  <AppUpdateNotAvailable
-    appCurrentVersion={appCurrentVersion}
-    closeModal={closeUpToDateModal}
-    open={appUpdateStepModalShow && !appUpdateAvailable}
-  />
-  <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
-    <VersionTableRow>
-      <Data>
-        <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-          <FormattedMessage
-            id="module.settings.aboutInstalledVersion"
-            values={{ version: appCurrentVersion }}
-          />
-        </SettingsLabel>
-      </Data>
+    <AppUpdateNotAvailable
+      appCurrentVersion={appCurrentVersion}
+      closeModal={closeUpToDateModal}
+      open={appUpdateStepModalShow && !appUpdateAvailable}
+    />
+    <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
+      <VersionTableRow>
+        <Data>
+          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+            <FormattedMessage
+              id="module.settings.aboutInstalledVersion"
+              values={{ version: appCurrentVersion }}
+            />
+          </SettingsLabel>
+        </Data>
         {appUpdateAvailable ? (
           <ActionContainer>
-          <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
-            <FormattedMessage id="module.settings.aboutAvailableVersion" values={{ version: appLatestVersion }}/>
-          </AvailableUpdate>
-          <ButtonComponent
+            <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+              <FormattedMessage
+                id="module.settings.aboutAvailableVersion"
+                values={{ version: appLatestVersion }}
+              />
+            </AvailableUpdate>
+            <ButtonComponent
               labelMessage={{
                 id: "module.settings.aboutAppUpdateAction",
               }}
@@ -109,68 +112,68 @@ const AboutUI: FunctionComponent<AboutProps> = ({
           </ActionContainer>
         ) : (
           <ActionContainer>
-          <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
-            <FormattedMessage id="module.overview.systemUpdateUpToDate" />
-          </AvailableUpdate>
-          <ButtonComponent
-            labelMessage={{
-              id: "module.overview.systemCheckForUpdates",
-            }}
-            data-testid={AboutTestIds.UpdateButton}
-            onClick={click}
-          />
+            <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+              <FormattedMessage id="module.overview.systemUpdateUpToDate" />
+            </AvailableUpdate>
+            <ButtonComponent
+              labelMessage={{
+                id: "module.overview.systemCheckForUpdates",
+              }}
+              data-testid={AboutTestIds.UpdateButton}
+              onClick={click}
+            />
           </ActionContainer>
         )}
-    </VersionTableRow>
-    <SettingsTableRow checkMode={false}>
-      <Data>
-        <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-          <FormattedMessage id="module.settings.aboutTermsOfService" />
-        </SettingsLabel>
-      </Data>
-      <ActionsWrapper>
-        <ButtonComponent
-          displayStyle={DisplayStyle.Link3}
-          labelMessage={{
-            id: "module.settings.aboutLearnMore",
-          }}
-          onClick={openTermsOfService}
-        />
-      </ActionsWrapper>
-    </SettingsTableRow>
-    <SettingsTableRow checkMode={false}>
-      <Data>
-        <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-          <FormattedMessage id="module.settings.aboutPrivacyPolicy" />
-        </SettingsLabel>
-      </Data>
-      <ActionsWrapper>
-        <ButtonComponent
-          displayStyle={DisplayStyle.Link3}
-          labelMessage={{
-            id: "module.settings.aboutLearnMore",
-          }}
-          onClick={openPrivacyPolicy}
-        />
-      </ActionsWrapper>
-    </SettingsTableRow>
-    <SettingsTableRow checkMode={false} data-testid={AboutTestIds.TableRow}>
-      <Data>
-        <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-          <FormattedMessage id="module.settings.aboutLicense" />
-        </SettingsLabel>
-      </Data>
-      <ActionsWrapper>
-        <ButtonComponent
-          displayStyle={DisplayStyle.Link3}
-          labelMessage={{
-            id: "module.settings.aboutLearnMore",
-          }}
-          onClick={openLicense}
-        />
-      </ActionsWrapper>
-    </SettingsTableRow>
-  </SettingsWrapper>
+      </VersionTableRow>
+      <SettingsTableRow checkMode={false}>
+        <Data>
+          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+            <FormattedMessage id="module.settings.aboutTermsOfService" />
+          </SettingsLabel>
+        </Data>
+        <ActionsWrapper>
+          <ButtonComponent
+            displayStyle={DisplayStyle.Link3}
+            labelMessage={{
+              id: "module.settings.aboutLearnMore",
+            }}
+            onClick={openTermsOfService}
+          />
+        </ActionsWrapper>
+      </SettingsTableRow>
+      <SettingsTableRow checkMode={false}>
+        <Data>
+          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+            <FormattedMessage id="module.settings.aboutPrivacyPolicy" />
+          </SettingsLabel>
+        </Data>
+        <ActionsWrapper>
+          <ButtonComponent
+            displayStyle={DisplayStyle.Link3}
+            labelMessage={{
+              id: "module.settings.aboutLearnMore",
+            }}
+            onClick={openPrivacyPolicy}
+          />
+        </ActionsWrapper>
+      </SettingsTableRow>
+      <SettingsTableRow checkMode={false} data-testid={AboutTestIds.TableRow}>
+        <Data>
+          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+            <FormattedMessage id="module.settings.aboutLicense" />
+          </SettingsLabel>
+        </Data>
+        <ActionsWrapper>
+          <ButtonComponent
+            displayStyle={DisplayStyle.Link3}
+            labelMessage={{
+              id: "module.settings.aboutLearnMore",
+            }}
+            onClick={openLicense}
+          />
+        </ActionsWrapper>
+      </SettingsTableRow>
+    </SettingsWrapper>
   </>
 )
 

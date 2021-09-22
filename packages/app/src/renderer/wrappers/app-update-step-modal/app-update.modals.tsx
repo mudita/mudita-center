@@ -80,10 +80,10 @@ const messages = defineMessages({
     id: "component.updateProgressModalDescription",
   },
   notAvailableUpdateMessage: {
-    id: "component.updateNotAvailableMessage"
+    id: "component.updateNotAvailableMessage",
   },
   notAvailableUpdateDescription: {
-    id: "component.updateNotAvailableDescription"
+    id: "component.updateNotAvailableDescription",
   },
 })
 
