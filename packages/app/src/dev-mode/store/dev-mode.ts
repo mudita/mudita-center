@@ -20,10 +20,10 @@ export default {
     disableDevMode(state: DevMode) {
       return { ...state, enabled: false }
     },
-    enablepureSimulation(state: DevMode) {
+    enablePureSimulation(state: DevMode) {
       return { ...state, pureSimulation: true }
     },
-    disablepureSimulation(state: DevMode) {
+    disablePureSimulation(state: DevMode) {
       return { ...state, pureSimulation: false }
     },
     enableHarmonySimulation(state: DevMode) {
