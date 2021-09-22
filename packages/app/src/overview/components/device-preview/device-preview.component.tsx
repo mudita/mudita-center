@@ -4,6 +4,7 @@
  */
 
 import React from "react"
+import { DeviceType } from "@mudita/pure"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { DevicePreviewProps } from "App/overview/components/device-preview/device-preview.interface"
 import {
@@ -62,18 +63,19 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
         />
       </CardAction>
       {flags.get(Feature.PureSystem) && (
-        <PureSystemButtonContainer>
-          <ButtonComponent
-            label={intl.formatMessage({
-              id: "module.overview.pureSystem",
-            })}
-            onClick={openPureSystem}
-            data-testid={DeviceTestIds.PureSystemButton}
-            displayStyle={DisplayStyle.Link2}
-            Icon={Type.MenuPhone}
-          />
-        </PureSystemButtonContainer>
-      )}
+        deviceType === DeviceType.MuditaPure && (
+          <PureSystemButtonContainer>
+            <ButtonComponent
+              label={intl.formatMessage({
+                id: "module.overview.pureSystem",
+              })}
+              onClick={openPureSystem}
+              data-testid={DeviceTestIds.PureSystemButton}
+              displayStyle={DisplayStyle.Link2}
+              Icon={Type.MenuPhone}
+            />
+          </PureSystemButtonContainer>
+        ))}
     </PhoneCard>
   )
 }
