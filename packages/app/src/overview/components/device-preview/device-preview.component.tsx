@@ -66,17 +66,19 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
           data-testid={DeviceTestIds.DisconnectButton}
         />
       </CardAction>
-      <PureSystemButtonContainer>
-        <ButtonComponent
-          label={intl.formatMessage({
-            id: "module.overview.pureSystem",
-          })}
-          onClick={openPureSystem}
-          data-testid={DeviceTestIds.PureSystemButton}
-          displayStyle={DisplayStyle.Link2}
-          Icon={Type.MenuPhone}
-        />
-      </PureSystemButtonContainer>
+      {deviceType === DeviceType.MuditaPure && (
+        <PureSystemButtonContainer>
+          <ButtonComponent
+            label={intl.formatMessage({
+              id: "module.overview.pureSystem",
+            })}
+            onClick={openPureSystem}
+            data-testid={DeviceTestIds.PureSystemButton}
+            displayStyle={DisplayStyle.Link2}
+            Icon={Type.MenuPhone}
+          />
+        </PureSystemButtonContainer>
+      )}
     </PhoneCard>
   )
 }
