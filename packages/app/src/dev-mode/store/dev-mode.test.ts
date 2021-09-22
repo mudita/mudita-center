@@ -40,12 +40,12 @@ test("properly disables dev mode", () => {
 
 test("properly enables phone simulation mode", () => {
   expect(store.getState().devMode).toMatchObject({ pureSimulation: false })
-  store.dispatch.devMode.disablePureSimulation()
+  store.dispatch.devMode.enablePureSimulation()
   expect(store.getState().devMode).toMatchObject({ pureSimulation: true })
 })
 
 test("properly disables phone simulation mode", () => {
-  store.dispatch.devMode.disablePureSimulation()
+  store.dispatch.devMode.enablePureSimulation()
   expect(store.getState().devMode).toMatchObject({ pureSimulation: true })
   store.dispatch.devMode.disablePureSimulation()
   expect(store.getState().devMode).toMatchObject({ pureSimulation: false })
