@@ -136,6 +136,8 @@
   "component.updateForcedModalVersion": "Mudita Center {version} version is available. Please update it",
   "component.updateForcedNewVersionDescription": "Mudita Center {version} version is available. Please update it",
   "component.updateModalTitle": "Mudita Center",
+  "component.updateNotAvailableDescription": "Mudita Center v{version}",
+  "component.updateNotAvailableMessage": "Your Mudita Center is up to date!",
   "component.updateProgressModalDescription": "Lorem ipsum dolor sit amet elit un elit lorem dolor situn elit dolor sit",
   "component.updateProgressModalTitle": "Updating Mudita Center",
   "module.calendar": "Calendar",

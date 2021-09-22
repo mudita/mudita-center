@@ -7,4 +7,6 @@ export enum AboutTestIds {
   Wrapper = "about-wrapper",
   Description = "about-description",
   TableRow = "about-tablerow",
+  UpdateButton = "about-update-button",
+  Modal = "about-update-modal"
 }

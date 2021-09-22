@@ -24,6 +24,7 @@ import {
 import styled from "styled-components"
 import Text from "Renderer/components/core/text/text.component"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
+import { AppUpdateNotAvailable } from "Renderer/wrappers/app-update-step-modal/app-update.modals"
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
@@ -62,6 +63,8 @@ interface AboutProps {
   appCurrentVersion?: string
   appUpdateAvailable?: boolean
   click: () => void
+  closeUpToDateModal: () => void
+  appUpdateStepModalShow?: boolean
 }
 
 const AboutUI: FunctionComponent<AboutProps> = ({
@@ -72,7 +75,15 @@ const AboutUI: FunctionComponent<AboutProps> = ({
   appCurrentVersion,
   appUpdateAvailable,
   click,
+  appUpdateStepModalShow = false,
+  closeUpToDateModal,
 }) => (
+  <>
+  <AppUpdateNotAvailable
+    appCurrentVersion={appCurrentVersion}
+    closeModal={closeUpToDateModal}
+    open={appUpdateStepModalShow && !appUpdateAvailable}
+    data-testid={AboutTestIds.Modal} />
   <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
     <VersionTableRow>
       <Data>
@@ -93,6 +104,7 @@ const AboutUI: FunctionComponent<AboutProps> = ({
                 id: "module.settings.aboutAppUpdateAction",
               }}
               onClick={click}
+              data-testid={AboutTestIds.UpdateButton}
             />
           </ActionContainer>
         ) : (
@@ -104,6 +116,7 @@ const AboutUI: FunctionComponent<AboutProps> = ({
             labelMessage={{
               id: "module.overview.systemCheckForUpdates",
             }}
+            data-testid={AboutTestIds.UpdateButton}
             onClick={click}
           />
           </ActionContainer>
@@ -158,6 +171,7 @@ const AboutUI: FunctionComponent<AboutProps> = ({
       </ActionsWrapper>
     </SettingsTableRow>
   </SettingsWrapper>
+  </>
 )
 
 export default AboutUI

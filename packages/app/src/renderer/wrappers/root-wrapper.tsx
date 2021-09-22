@@ -204,7 +204,6 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const unregister = registerNotAvailableAppUpdateListener(() => {
-      toggleAppUpdateStepModalShow(false)
       setAppUpdateStepModalDisplayed()
       toggleAppUpdateAvailable(false)
     })

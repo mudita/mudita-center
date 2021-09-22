@@ -28,6 +28,10 @@ export interface AppUpdateAvailableProps {
   appLatestVersion?: string
 }
 
+export interface AppUpdateNotAvailableProps {
+  appCurrentVersion?: string
+}
+
 export interface AppUpdateForcedProps {
   appLatestVersion?: string
   appCurrentVersion?: string
@@ -74,6 +78,12 @@ const messages = defineMessages({
   },
   progressUpdateDescription: {
     id: "component.updateProgressModalDescription",
+  },
+  notAvailableUpdateMessage: {
+    id: "component.updateNotAvailableMessage"
+  },
+  notAvailableUpdateDescription: {
+    id: "component.updateNotAvailableDescription"
   },
 })
 
@@ -233,4 +243,26 @@ export const AppUpdateProgress: FunctionComponent<
       />
     </ModalContent>
   </ModalDialog>
+)
+
+export const AppUpdateNotAvailable: FunctionComponent<
+  ComponentProps<typeof ModalDialog> & AppUpdateNotAvailableProps
+> = ({ appCurrentVersion, ...props }) => (
+  <AppUpdateModal
+    testId={AppUpdateStepModalTestIds.AppUpdateNotAvailableModal}
+    closeButton={false}
+    {...props}
+  >
+    <Text
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={messages.notAvailableUpdateMessage}
+    />
+    <Text
+      displayStyle={TextDisplayStyle.MediumFadedLightText}
+      message={{
+        ...messages.notAvailableUpdateDescription,
+        values: { version: appCurrentVersion },
+      }}
+    />
+  </AppUpdateModal>
 )

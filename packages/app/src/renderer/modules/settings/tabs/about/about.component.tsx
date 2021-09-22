@@ -14,8 +14,10 @@ interface Props {
   appLatestVersion?: string
   appCurrentVersion?: string
   appUpdateAvailable?: boolean
+  appUpdateStepModalShow?: boolean
   setAppUpdateStepModalDisplayed: () => void
   toggleAppUpdateAvailable: (appUpdateAvailable: boolean) => void
+  toggleAppUpdateStepModalShow: (value: boolean) => void
 }
 const About: FunctionComponent<Props> = ({
   appLatestVersion,
@@ -23,6 +25,8 @@ const About: FunctionComponent<Props> = ({
   appUpdateAvailable,
   setAppUpdateStepModalDisplayed,
   toggleAppUpdateAvailable,
+  toggleAppUpdateStepModalShow,
+  appUpdateStepModalShow,
 }) => {
   const openLicenseWindow = () =>
     ipcRenderer.callMain(AboutActions.LicenseOpenWindow)
@@ -37,10 +41,12 @@ const About: FunctionComponent<Props> = ({
         toggleAppUpdateAvailable(false)
       } else {
         void checkAppUpdateRequest()
-        setAppUpdateStepModalDisplayed()
+        toggleAppUpdateStepModalShow(true)
       }
     }
-
+    const closeUpToDateModal = (): void => {
+      toggleAppUpdateStepModalShow(false)
+    }
   return (
     <AboutUI
       openLicense={openLicenseWindow}
@@ -50,6 +56,8 @@ const About: FunctionComponent<Props> = ({
       appCurrentVersion={appCurrentVersion}
       appUpdateAvailable={appUpdateAvailable}
       click={handleAppUpdateAvailableCheck}
+      closeUpToDateModal={closeUpToDateModal}
+      appUpdateStepModalShow={appUpdateStepModalShow}
     />
   )
 }
