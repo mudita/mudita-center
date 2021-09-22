@@ -80,9 +80,14 @@ const OverviewContent: FunctionComponent<
   pureOsDownloaded,
   toggleDevMode,
   osVersion,
+  caseColour,
 }) => (
   <OverviewWrapper>
-    <PhoneInfo onClick={toggleDevMode} onDisconnect={disconnectDevice} />
+    <PhoneInfo
+      onClick={toggleDevMode}
+      onDisconnect={disconnectDevice}
+      caseColour={caseColour}
+    />
     <NetworkInfo
       batteryLevel={batteryLevel}
       network={networkName}

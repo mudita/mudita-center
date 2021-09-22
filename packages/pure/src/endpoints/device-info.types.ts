@@ -65,6 +65,12 @@ export interface GetPhoneLockTimeBody {
 export interface GetPhoneLockTimeResponseBody {
   phoneLockTime?: number
 }
+
+export enum CaseColour {
+  Black = "black",
+  Gray = "gray",
+}
+
 export interface DeviceInfo {
   batteryLevel: string
   batteryState: BatteryState
@@ -82,4 +88,5 @@ export interface DeviceInfo {
   accessTechnology: AccessTechnology
   networkStatus: NetworkStatus
   serialNumber: string
+  caseColour: CaseColour
 }

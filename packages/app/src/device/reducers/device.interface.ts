@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
+import { CaseColour, DeviceType } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { DeviceEvent } from "App/device/constants"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
@@ -31,6 +31,7 @@ export interface PureDeviceData {
     free: number
     full: number
   }
+  caseColour: CaseColour
 }
 
 export interface HarmonyDeviceData {

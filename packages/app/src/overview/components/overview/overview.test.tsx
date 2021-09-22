@@ -21,6 +21,7 @@ import history from "Renderer/routes/history"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { NetworkTestIds } from "App/overview/components/network/network-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
+import { CaseColour } from "@mudita/pure"
 
 type Props = ComponentProps<typeof Overview>
 
@@ -170,6 +171,7 @@ const renderer = (extraProps?: {}) => {
       free: 100,
       full: 200,
     },
+    caseColour: CaseColour.Gray,
     ...extraProps,
   }
   return renderWithThemeAndIntl(
