@@ -3,4 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./harmony-overview.component"
+export * from "App/overview/components/overview-screens/harmony-overview/harmony-overview.component"
