@@ -18,7 +18,7 @@ export const toggleDevMode = () => {
     store.getState().devMode.phoneSimulation &&
     store.getState().devMode.enabled
   ) {
-    togglePhoneSimulation()
+    togglePureSimulation()
   }
   if (
     store.getState().devMode.harmonySimulation &&
@@ -31,7 +31,7 @@ export const toggleDevMode = () => {
     : store.dispatch.devMode.enableDevMode()
 }
 
-export const togglePhoneSimulation = () => {
+export const togglePureSimulation = () => {
   ipcRenderer.callMain(backendAdaptersChannel)
 
   if (store.getState().devMode.harmonySimulation) {
