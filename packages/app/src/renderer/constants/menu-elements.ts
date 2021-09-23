@@ -24,6 +24,7 @@ const YOUR_PURE_BUTTONS = [
     button: views.messages,
     icon: Type.Message,
     testId: MenuGroupTestIds.Messages,
+    hidden: flags.get(Feature.DisabledOnProduction),
   },
   {
     button: views.phone,

@@ -26,6 +26,9 @@ import DeviceFileSystemService, {
 } from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
+import { flags, Feature } from "App/feature-flags"
+
+const productionEnvironment = flags.get(Feature.DisabledOnProduction)
 
 export enum DeviceUpdateError {
   RestartTimedOut = "RestartTimedOut",
@@ -168,11 +171,18 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public async getUnlockDeviceStatus(): Promise<DeviceResponse> {
+    if (productionEnvironment) {
+    return await this.deviceService.request({
+      endpoint: Endpoint.Security,
+      method: Method.Get,
+    })
+  } else {
     return await this.deviceService.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Status },
     })
+  }
   }
 
   public async getDeviceLogFiles(

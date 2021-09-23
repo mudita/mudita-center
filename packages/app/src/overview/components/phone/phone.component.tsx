@@ -26,6 +26,9 @@ import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
 import ButtonComponent from "App/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { Type } from "App/renderer/components/core/icon/icon.config"
+import { flags, Feature } from "App/feature-flags"
+
+const productionEnvironment = flags.get(Feature.DisabledOnProduction)
 
 const Phone: FunctionComponent<PhoneProps> = ({
   className,
@@ -46,11 +49,13 @@ const Phone: FunctionComponent<PhoneProps> = ({
   return (
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
-        {caseColour === CaseColour.Gray ? (
+        {productionEnvironment ? 
+        <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray} /> : 
+        (caseColour === CaseColour.Gray ? (
           <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray} />
         ) : (
           <Image src={PureBlackImage} data-testid={PhoneTestIds.PureBlack} />
-        )}
+        ))}
       </PhoneInfo>
       <CardAction>
         <CardActionButton
@@ -62,6 +67,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           data-testid={PhoneTestIds.DisconnectButton}
         />
       </CardAction>
+      {!productionEnvironment &&
       <PureSystemButtonContainer>
         <ButtonComponent
           label={intl.formatMessage({
@@ -72,7 +78,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           displayStyle={DisplayStyle.Link2}
           Icon={Type.MenuPhone}
         />
-      </PureSystemButtonContainer>
+      </PureSystemButtonContainer>}
     </PhoneCard>
   )
 }

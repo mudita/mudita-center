@@ -37,11 +37,14 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { MainProcessIpc } from "electron-better-ipc"
+import { flags, Feature } from "App/feature-flags"
 
 export enum DeviceServiceEventName {
   DeviceConnected = "deviceConnected",
   DeviceDisconnected = "deviceDisconnected",
 }
+
+const productionEnvironment = flags.get(Feature.DisabledOnProduction)
 
 class DeviceService {
   public devices: Record<string, MuditaDevice> = {}
@@ -59,6 +62,11 @@ class DeviceService {
     return this
   }
 
+  //for production environment
+  async request(config: {
+    endpoint: Endpoint.Security
+    method: Method.Get
+  }): Promise<DeviceResponse>
   async request(config: {
     endpoint: Endpoint.Security
     method: Method.Get
@@ -261,11 +269,18 @@ class DeviceService {
   }
 
   private getUnlockedStatusRequest(): Promise<DeviceResponse<any>> {
-    return this.request({
-      endpoint: Endpoint.Security,
-      method: Method.Get,
-      body: { category: PhoneLockCategory.Status },
-    })
+    if (productionEnvironment) {
+      return this.request({
+        endpoint: Endpoint.Security,
+        method: Method.Get,
+      })
+    } else {
+      return this.request({
+        endpoint: Endpoint.Security,
+        method: Method.Get,
+        body: { category: PhoneLockCategory.Status },
+      })
+    }
   }
 
   private registerAttachDeviceListener(): void {

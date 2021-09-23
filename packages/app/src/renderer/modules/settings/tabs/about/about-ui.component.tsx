@@ -25,6 +25,9 @@ import styled from "styled-components"
 import Text from "Renderer/components/core/text/text.component"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import { AppUpdateNotAvailable } from "Renderer/wrappers/app-update-step-modal/app-update.modals"
+import { flags, Feature } from "App/feature-flags"
+
+const productionEnvironment = flags.get(Feature.DisabledOnProduction)
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
@@ -85,7 +88,7 @@ const AboutUI: FunctionComponent<AboutProps> = ({
       open={appUpdateStepModalShow && !appUpdateAvailable}
     />
     <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
-      <VersionTableRow>
+      {!productionEnvironment && <VersionTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage
@@ -125,6 +128,7 @@ const AboutUI: FunctionComponent<AboutProps> = ({
           </ActionContainer>
         )}
       </VersionTableRow>
+      }
       <SettingsTableRow checkMode={false}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
