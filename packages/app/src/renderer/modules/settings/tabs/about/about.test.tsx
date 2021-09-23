@@ -12,7 +12,7 @@ import { AboutTestIds } from "./about.enum"
 import { fireEvent, screen } from "@testing-library/dom"
 import { AppUpdateStepModalTestIds } from "Renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
 
-type Properties = ComponentProps<typeof AboutUI>
+type Props = ComponentProps<typeof AboutUI>
 const defaultProps = {
   openLicense: noop,
   openTermsOfService: noop,
@@ -24,8 +24,8 @@ const defaultProps = {
   click: noop,
   closeUpToDateModal: noop,
 }
-const renderer = (extraProps?: {}) => {
-  const props: Properties = {
+const renderer = (extraProps?: Partial<Props>) => {
+  const props: Props = {
     ...defaultProps,
     ...extraProps,
   }
