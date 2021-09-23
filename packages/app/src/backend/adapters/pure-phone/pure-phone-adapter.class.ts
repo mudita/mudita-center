@@ -4,7 +4,17 @@
  */
 
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { GetPhoneLockTimeResponseBody, MuditaDevice, CaseColour } from "@mudita/pure"
+import {
+  GetPhoneLockTimeResponseBody,
+  MuditaDevice,
+  CaseColour,
+} from "@mudita/pure"
+import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+
+export interface DeviceFilesOption {
+  datePrefix?: boolean
+}
+
 export default abstract class PurePhoneAdapter {
   public abstract getName(): string
   public abstract getModelName(): string
@@ -19,7 +29,12 @@ export default abstract class PurePhoneAdapter {
   public abstract getDeviceLockTime(): Promise<
     DeviceResponse<GetPhoneLockTimeResponseBody>
   >
-  public abstract getDeviceLogs(): Promise<DeviceResponse<string>>
+  public abstract getDeviceLogFiles(
+    option?: DeviceFilesOption
+  ): Promise<DeviceResponse<DeviceFile[]>>
+  public abstract getDeviceCrashDumpFiles(
+    option?: DeviceFilesOption
+  ): Promise<DeviceResponse<DeviceFile[]>>
   public abstract updateOs(
     filePath: string,
     progressChannel?: string

@@ -272,7 +272,7 @@ describe("Set device data functionality", () => {
           free: 124,
           full: 1021,
         },
-        caseColour: CaseColour.Gray
+        caseColour: CaseColour.Gray,
       },
     })
   })

@@ -91,7 +91,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
         return TextDisplayStyle.LargeText
       case DisplayStyle.Dropdown:
         return TextDisplayStyle.SmallText
-        case DisplayStyle.Link2:
+      case DisplayStyle.Link2:
         return TextDisplayStyle.LargeText
       default:
         return TextDisplayStyle.SmallText

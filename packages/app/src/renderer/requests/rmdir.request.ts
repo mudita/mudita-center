@@ -4,10 +4,8 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import {
-  RmdirEvents,
-  RmdirProps,
-} from "App/main/functions/register-rmdir-listener"
+import { RmdirEvents } from "App/main/functions/register-rmdir-listener"
+import { RmdirProps } from "App/main/utils/rmdir"
 
 const rmdir = async (props: RmdirProps): Promise<boolean> => {
   return await ipcRenderer.callMain(RmdirEvents.Rmdir, props)

@@ -4,35 +4,14 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
-import fs from "fs"
+import writeFile, { WriteData } from "App/main/utils/write-file"
 
 export enum WriteFileEvents {
   Write = "write",
 }
 
-export interface WriteData {
-  data: string
-  filePath: string
-  fileName: string
-}
-
 const registerWriteFileListener = (): void => {
-  ipcMain.answerRenderer<WriteData, boolean>(
-    WriteFileEvents.Write,
-    ({ data, filePath, fileName }) => {
-      try {
-        if (!fs.existsSync(filePath)) {
-          fs.mkdirSync(filePath, {
-            recursive: true,
-          })
-        }
-        fs.writeFileSync(`${filePath}/${fileName}`, data)
-        return true
-      } catch {
-        return false
-      }
-    }
-  )
+  ipcMain.answerRenderer<WriteData, boolean>(WriteFileEvents.Write, writeFile)
 }
 
 export default registerWriteFileListener

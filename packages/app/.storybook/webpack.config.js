@@ -43,6 +43,13 @@ module.exports = ({ config }) => {
     },
   })
 
+  config.module.rules.push(
+    {
+      test: /\.node$/,
+      loader: "node-loader",
+    },
+  )
+
   config.resolve = {
     ...resolve(false),
     alias: {

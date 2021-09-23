@@ -49,7 +49,7 @@ const fakeState = {
   networkName: "Orange",
   osUpdateDate: "2020-01-14T11:31:08.244Z",
   language: "en-US",
-  caseColour: CaseColour.Gray
+  caseColour: CaseColour.Gray,
 }
 
 storiesOf("Views|Overview", module).add("Overview", () => (

@@ -12,8 +12,36 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import logger from "App/main/utils/logger"
 
+export interface DeviceFile extends Pick<File, "name"> {
+  data: string
+}
+
 class DeviceFileSystemService {
   constructor(private deviceService: DeviceService) {}
+
+  async downloadDeviceFiles(
+    filePaths: string[]
+  ): Promise<DeviceResponse<DeviceFile[]>> {
+    const data: DeviceFile[] = []
+    for (let i = 0; i < filePaths.length; i++) {
+      const filePath = filePaths[i]
+      const response = await this.downloadFile(filePath)
+
+      if (response.status === DeviceResponseStatus.Ok && response.data) {
+        const name = filePath.split("/").pop() as string
+        data.push({ name, data: response.data })
+      } else {
+        return {
+          status: DeviceResponseStatus.Error,
+        }
+      }
+    }
+
+    return {
+      data,
+      status: DeviceResponseStatus.Ok,
+    }
+  }
 
   async downloadFile(filePath: string): Promise<DeviceResponse<string>> {
     const { status, data } = await this.deviceService.request({
