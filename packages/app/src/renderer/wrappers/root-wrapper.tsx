@@ -116,7 +116,7 @@ const RootWrapper: FunctionComponent<Props> = ({
     if (params.get("mode") === Mode.PrivacyPolicy) {
       return <PrivacyPolicyApp history={history} />
     }
-    
+
     if (params.get("mode") === Mode.Sar) {
       return <SarApp history={history} />
     }

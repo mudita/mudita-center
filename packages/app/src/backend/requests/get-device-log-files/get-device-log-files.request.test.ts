@@ -6,7 +6,7 @@
 import { ipcMain } from "electron-better-ipc"
 import Adapters from "Backend/adapters/adapters.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import registerGetDeviceLogs from "Backend/requests/get-device-logs/get-device-logs.request"
+import registerGetDeviceLogFiles from "Backend/requests/get-device-log-files/get-device-log-files.request"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -16,12 +16,16 @@ import MuditaDeviceManager, {
   GetFileSystemRequestConfig,
 } from "@mudita/pure"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
-import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileSystemService, { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
 jest.mock("Backend/device-service")
+jest.mock(
+  "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
+)
 
 test("GetDeviceLogs request works properly", (done) => {
-  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
+  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: (
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
@@ -55,24 +59,47 @@ test("GetDeviceLogs request works properly", (done) => {
       },
     }
   })
+  ;((DeviceFileDiagnosticService as unknown) as jest.Mock).mockImplementation(
+    () => {
+      return {
+        getDiagnosticFileList: () => {
+          return {
+            status: DeviceResponseStatus.Ok,
+            data: {
+              files: ["/sys/user/logs/MuditaOS.log"]
+            },
+          }
+        },
+      }
+    }
+  )
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystemService = new DeviceFileSystemService(deviceService)
+  const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
+    deviceService
+  )
   const purePhone = createPurePhoneAdapter(
     deviceService,
-    deviceFileSystemService
+    deviceFileSystemService,
+    deviceFileDiagnosticService
   )
 
-  registerGetDeviceLogs({
+  registerGetDeviceLogFiles(({
     purePhone,
-  } as unknown as Adapters)
-  const [promise] = (ipcMain as any)._flush(IpcRequest.GetDeviceLogs)
-  promise.then((result: DeviceResponse) => {
+  } as unknown) as Adapters)
+  const [promise] = (ipcMain as any)._flush(IpcRequest.GetDeviceLogFiles)
+  promise.then((result: DeviceResponse<DeviceFile[]>) => {
     expect(result).toMatchInlineSnapshot(`
-    Object {
-      "data": "Hello, World",
-      "status": "ok",
-    }
-  `)
+      Object {
+        "data": Array [
+          Object {
+            "data": "Hello, World",
+            "name": "MuditaOS.log",
+          },
+        ],
+        "status": "ok",
+      }
+    `)
     done()
   })
 })

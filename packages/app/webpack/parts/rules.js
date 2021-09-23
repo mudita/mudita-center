@@ -119,4 +119,8 @@ module.exports = {
       },
     ],
   },
+  nodeLoader: {
+    test: /\.node$/,
+    loader: "node-loader",
+  },
 }

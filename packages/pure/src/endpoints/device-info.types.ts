@@ -52,7 +52,7 @@ enum NetworkStatus {
 
 export enum PhoneLockCategory {
   Status = "phoneLockStatus",
-  Time = "phoneLockTime"
+  Time = "phoneLockTime",
 }
 export interface GetPhoneLockStatusBody {
   category: PhoneLockCategory.Status
@@ -89,4 +89,17 @@ export interface DeviceInfo {
   networkStatus: NetworkStatus
   serialNumber: string
   caseColour: CaseColour
+}
+
+export enum DiagnosticsFileList {
+  LOGS,
+  CRASH_DUMPS,
+}
+
+export interface GetFileListBody {
+  fileList: DiagnosticsFileList
+}
+
+export interface GetFileListResponseBody {
+  files: string[]
 }

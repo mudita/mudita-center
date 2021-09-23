@@ -24,6 +24,7 @@ import registerEventsExportListener from "App/calendar/backend/export-events"
 import registerWriteFileListener from "App/main/functions/register-write-file-listener"
 import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
+import registerArchiveFilesListener from "App/main/functions/register-archive-files-listener"
 import registerGetApplicationConfigurationListener from "App/main/functions/register-get-application-configuration-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
@@ -151,6 +152,7 @@ const createWindow = async () => {
   registerRmdirListener()
   registerWriteGzipListener()
   registerGetApplicationConfigurationListener()
+  registerArchiveFilesListener()
   registerPureOsDownloadProxy()
 
   if (productionEnvironment) {

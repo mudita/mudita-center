@@ -4,10 +4,8 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import {
-  WriteGzipData,
-  WriteGzipEvents,
-} from "App/main/functions/register-write-gzip-listener"
+import { WriteGzipEvents } from "App/main/functions/register-write-gzip-listener"
+import { WriteGzipData } from "App/main/utils/write-gzip"
 
 const writeGzip = async (data: WriteGzipData): Promise<boolean> => {
   return await ipcRenderer.callMain(WriteGzipEvents.Write, data)

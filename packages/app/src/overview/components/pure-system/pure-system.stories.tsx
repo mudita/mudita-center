@@ -8,7 +8,5 @@ import React from "react"
 import PureSystem from "App/overview/components/pure-system/pure-system.component"
 
 storiesOf("Views|Overview/PureSystem", module).add("PureSystem", () => {
-  return (
-    <PureSystem serialNumber={"247"} />
-  )
+  return <PureSystem serialNumber={"247"} />
 })

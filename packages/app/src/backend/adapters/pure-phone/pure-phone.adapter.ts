@@ -5,20 +5,27 @@
 
 import {
   Endpoint,
-  GetPhoneLockTimeResponseBody,
   Method,
+  DiagnosticsFileList,
+  GetPhoneLockTimeResponseBody,
   PhoneLockCategory,
-  MuditaDevice,
   timeout,
+  MuditaDevice,
   CaseColour,
 } from "@mudita/pure"
-import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
+import PurePhoneAdapter, {
+  DeviceFilesOption,
+} from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
-import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileSystemService, {
+  DeviceFile,
+} from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
+import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
 
 export enum DeviceUpdateError {
   RestartTimedOut = "RestartTimedOut",
@@ -35,7 +42,8 @@ class PurePhone extends PurePhoneAdapter {
   static osUpdateRestartStep = PurePhone.osUpdateStepsMax - 1
   constructor(
     private deviceService: DeviceService,
-    private deviceFileSystemService: DeviceFileSystemService
+    private deviceFileSystemService: DeviceFileSystemService,
+    private deviceFileDiagnosticService: DeviceFileDiagnosticService
   ) {
     super()
   }
@@ -167,8 +175,16 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  public async getDeviceLogs(): Promise<DeviceResponse<string>> {
-    return this.deviceFileSystemService.downloadFile("/sys/user/MuditaOS.log")
+  public async getDeviceLogFiles(
+    option?: DeviceFilesOption
+  ): Promise<DeviceResponse<DeviceFile[]>> {
+    return this.getDeviceFiles(DiagnosticsFileList.LOGS, option)
+  }
+
+  public async getDeviceCrashDumpFiles(
+    option?: DeviceFilesOption
+  ): Promise<DeviceResponse<DeviceFile[]>> {
+    return this.getDeviceFiles(DiagnosticsFileList.CRASH_DUMPS, option)
   }
 
   public async updateOs(
@@ -285,6 +301,43 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
+  private async getDeviceFiles(
+    fileList: DiagnosticsFileList,
+    option?: DeviceFilesOption
+  ): Promise<DeviceResponse<DeviceFile[]>> {
+    const getDiagnosticFileListResponse =
+      await this.deviceFileDiagnosticService.getDiagnosticFileList(fileList)
+    if (
+      getDiagnosticFileListResponse.status !== DeviceResponseStatus.Ok ||
+      getDiagnosticFileListResponse.data === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+
+    const filePaths = getDiagnosticFileListResponse.data.files
+    const downloadDeviceFilesResponse =
+      await this.deviceFileSystemService.downloadDeviceFiles(filePaths)
+    const deviceFiles = downloadDeviceFilesResponse.data
+
+    if (
+      downloadDeviceFilesResponse.status !== DeviceResponseStatus.Ok ||
+      deviceFiles === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+
+    return {
+      data: option
+        ? transformDeviceFilesByOption(deviceFiles, option)
+        : deviceFiles,
+      status: DeviceResponseStatus.Ok,
+    }
+  }
+
   private static getUpdateOsProgress(step: number): number {
     return Math.round((step / PurePhone.osUpdateStepsMax) * 100)
   }
@@ -292,7 +345,13 @@ class PurePhone extends PurePhoneAdapter {
 
 const createPurePhoneAdapter = (
   deviceService: DeviceService,
-  deviceFileSystemService: DeviceFileSystemService
-): PurePhoneAdapter => new PurePhone(deviceService, deviceFileSystemService)
+  deviceFileSystemService: DeviceFileSystemService,
+  deviceFileDiagnosticService: DeviceFileDiagnosticService
+): PurePhoneAdapter =>
+  new PurePhone(
+    deviceService,
+    deviceFileSystemService,
+    deviceFileDiagnosticService
+  )
 
 export default createPurePhoneAdapter
