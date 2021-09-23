@@ -30,7 +30,8 @@ import registerGetEventsRequest from "Backend/requests/calendar/get-events.reque
 import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
 import registerGetMessagesByThreadIdRequest from "Backend/requests/messages/get-messages-by-thread-id.request"
 import registerAddMessageRequest from "Backend/requests/messages/add-message.request"
-import registerGetDeviceLogs from "Backend/requests/get-device-logs/get-device-logs.request"
+import registerGetDeviceLogFiles from "Backend/requests/get-device-log-files/get-device-log-files.request"
+import registerGetDeviceCrashDumpFiles from "Backend/requests/get-device-crash-dump-files/get-device-log-files.request"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
@@ -43,6 +44,7 @@ import createPurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages
 import createCalendarAdapter from "Backend/adapters/calendar/calendar.adapter"
 import Backend from "Backend/backend"
 import { createDeviceFileSystemService } from "Backend/device-file-system-service/device-file-system-service"
+import { createDeviceFileDiagnosticService } from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
 const bootstrap = (
   deviceManager: MuditaDeviceManager,
@@ -50,9 +52,15 @@ const bootstrap = (
 ): void => {
   const deviceService = createDeviceService(deviceManager, ipcMain)
   const deviceFileSystemService = createDeviceFileSystemService(deviceService)
+  const deviceFileDiagnosticService =
+    createDeviceFileDiagnosticService(deviceService)
 
   const adapters = {
-    purePhone: createPurePhoneAdapter(deviceService, deviceFileSystemService),
+    purePhone: createPurePhoneAdapter(
+      deviceService,
+      deviceFileSystemService,
+      deviceFileDiagnosticService
+    ),
     phonebook: createPhonebook(deviceService),
     pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
     pureNetwork: createPurePhoneNetwork(deviceService),
@@ -88,7 +96,8 @@ const bootstrap = (
     registerGetThreadsRequest,
     registerGetMessagesByThreadIdRequest,
     registerAddMessageRequest,
-    registerGetDeviceLogs,
+    registerGetDeviceLogFiles,
+    registerGetDeviceCrashDumpFiles,
   ]
 
   new Backend(adapters, getFakeAdapters(), requests).init()

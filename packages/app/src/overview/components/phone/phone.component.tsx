@@ -38,7 +38,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
     onDisconnect()
     history.push(URL_MAIN.news)
   }
-  
+
   const openPureSystem = () => {
     history.push(URL_OVERVIEW.pureSystem)
   }
@@ -47,9 +47,9 @@ const Phone: FunctionComponent<PhoneProps> = ({
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
         {caseColour === CaseColour.Gray ? (
-          <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray}/>
+          <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray} />
         ) : (
-          <Image src={PureBlackImage} data-testid={PhoneTestIds.PureBlack}/>
+          <Image src={PureBlackImage} data-testid={PhoneTestIds.PureBlack} />
         )}
       </PhoneInfo>
       <CardAction>

@@ -4,43 +4,16 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
-import fs from "fs"
-import archiver from "archiver"
+import writeGzip, { WriteGzipData } from "App/main/utils/write-gzip"
 
 export enum WriteGzipEvents {
   Write = "write-gzip",
 }
 
-export interface WriteGzipData {
-  filePath: string
-}
-
 const registerWriteGzipListener = (): void => {
-  ipcMain.answerRenderer<WriteGzipData, boolean>(
+  ipcMain.answerRenderer<WriteGzipData, Promise<boolean>>(
     WriteGzipEvents.Write,
-    async ({ filePath }) => {
-      return new Promise((resolve) => {
-        const archive = archiver("zip", {
-          zlib: { level: 9 },
-        })
-
-        const output = fs.createWriteStream(`${filePath}.zip`)
-
-        output.on("close", function () {
-          resolve(true)
-        })
-
-        archive.on("error", function () {
-          resolve(false)
-        })
-
-        archive.pipe(output)
-
-        archive.directory(`${filePath}/`, false)
-
-        void archive.finalize()
-      })
-    }
+    writeGzip
   )
 }
 

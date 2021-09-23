@@ -10,7 +10,7 @@ const {
   node,
   optimization,
 } = require("./webpack/common")
-const { woff, woff2, tff, eot, tsx } = rules
+const { woff, woff2, tff, eot, tsx, nodeLoader } = rules
 
 module.exports = {
   mode: production ? "production" : "development",
@@ -23,6 +23,6 @@ module.exports = {
   target: target(false),
   plugins: [plugins.circulars, plugins.define, plugins.minify, plugins.env],
   module: {
-    rules: [woff, woff2, tff, eot, tsx(false, production)],
+    rules: [woff, woff2, tff, eot, tsx(false, production), nodeLoader],
   },
 }
