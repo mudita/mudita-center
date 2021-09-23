@@ -97,13 +97,13 @@ Also you are able to distribute an application with in specific predefined envir
 To run distribution with feature toggle environment use the next formula:
 
 ```bash
-npm run env:FEATURE_TOGGLE_ENVIRONMENT:dist:*
+FEATURE_TOGGLE_ENVIRONMENT=__environment__ npm run dist:*
 ```
 
 For example:
 
 ```bash
-npm run env:development:dist:dev
+FEATURE_TOGGLE_ENVIRONMENT=development npm run dist:dev
 ```
 
 Will distribute an application with development set of feature toggles

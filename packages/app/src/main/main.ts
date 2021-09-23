@@ -100,7 +100,7 @@ const installExtensions = async () => {
   ).catch(logger.error)
 }
 
-const productionEnvironment = flags.get(Feature.DisabledOnProduction)
+const productionEnvironment = process.env.NODE_ENV === "production"
 const commonWindowOptions = {
   resizable: true,
   fullscreen: false,
