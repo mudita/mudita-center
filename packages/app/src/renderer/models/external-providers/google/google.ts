@@ -216,7 +216,6 @@ const google = createModel<ExternalProvidersModels>({
               },
             },
             rootState
-            // Dont even ask why
           )) as unknown as AxiosResponse<GoogleContacts>
 
           totalItems = data.totalItems
