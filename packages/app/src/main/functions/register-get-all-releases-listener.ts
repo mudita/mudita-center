@@ -6,13 +6,13 @@
 import { ipcMain } from "electron-better-ipc"
 import axios from "axios"
 import logger from "App/main/utils/logger"
-import { isRelease } from "App/main/utils/is-release"
+import mapToReleases from "App/main/utils/map-to-release"
 
 export enum GetAllReleasesEvents {
   Request = "get-all-releases-request",
 }
 
-interface GithubRelease {
+export interface GithubRelease {
   tag_name: string
   created_at: string
   published_at: string
@@ -88,30 +88,7 @@ const registerGetAllReleasesListener = () => {
         }
       } while (retry)
 
-      return releases
-        .map((release): Release | null => {
-          const { assets, tag_name, draft, created_at, published_at } = release
-          const asset = assets.find(
-            (asset) => asset.content_type === "application/x-tar"
-          )
-          if (asset && !draft) {
-            const version = tag_name.replace("daily-", "").replace("release-", "")
-
-            return {
-              version,
-              date: published_at || created_at,
-              prerelease: !isRelease(version),
-              file: {
-                url: asset.url,
-                size: asset.size,
-                name: asset.name,
-              },
-            }
-          } else {
-            return null
-          }
-        })
-        .filter((release) => release !== null)
+      return mapToReleases(releases)
         .sort((a, b) => {
           const versionA = (a as Release).version
           const versionB = (b as Release).version
