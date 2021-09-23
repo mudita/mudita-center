@@ -5,6 +5,7 @@
 
 import React, { useEffect, useState } from "react"
 import { ipcRenderer } from "electron-better-ipc"
+import { useDispatch } from "react-redux"
 import modalService from "Renderer/components/core/modal/modal.service"
 import {
   CheckingUpdatesModal,
@@ -38,13 +39,13 @@ import {
   ResponseError,
 } from "Backend/adapters/device-response.interface"
 import { isEqual } from "lodash"
-import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
 import logger from "App/main/utils/logger"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-get-all-releases-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { errorCodeMap } from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
+import { setOsVersionData } from "App/device"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -54,12 +55,12 @@ const useSystemUpdateFlow = (
   osVersion: string | undefined,
   osUpdateDate: string | undefined,
   onUpdate: (updateInfo: PhoneUpdate) => void,
-  updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
   toggleDeviceUpdating: (option: boolean) => void,
   onContact: () => void,
   onHelp: () => void
 ) => {
   const [releaseToInstall, setReleaseToInstall] = useState<Release>()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const downloadListener = (event: Event, progress: DownloadProgress) => {
@@ -304,10 +305,12 @@ const useSystemUpdateFlow = (
         lastAvailableOsVersion: undefined,
       })
 
-      await updateBasicInfo({
-        osVersion: version,
-        osUpdateDate: new Date().toISOString(),
-      })
+      dispatch(
+        setOsVersionData({
+          osVersion: version,
+          osUpdateDate: new Date().toISOString(),
+        })
+      )
     }
 
     if (isEqual(response, { status: DeviceResponseStatus.Ok })) {

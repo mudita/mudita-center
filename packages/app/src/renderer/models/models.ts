@@ -4,7 +4,6 @@
  */
 
 import auth from "Renderer/models/auth/auth"
-import basicInfo from "Renderer/models/basic-info/basic-info"
 import calls from "Renderer/models/calls/calls"
 import devMode from "App/dev-mode/store/dev-mode"
 import filesManager from "Renderer/models/files-manager/files-manager"
@@ -20,7 +19,6 @@ import calendar from "App/calendar/store/calendar"
 
 export interface RootModel {
   auth: typeof auth
-  basicInfo: typeof basicInfo
   calls: typeof calls
   devMode: typeof devMode
   filesManager: typeof filesManager
@@ -37,7 +35,6 @@ export interface RootModel {
 
 export const models: RootModel = {
   auth,
-  basicInfo,
   calls,
   devMode,
   filesManager,

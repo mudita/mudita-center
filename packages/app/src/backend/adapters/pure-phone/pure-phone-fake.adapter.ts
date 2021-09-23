@@ -8,7 +8,11 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { osVersion } from "App/main/default-app-configuration.json"
-import { GetPhoneLockTimeResponseBody } from "@mudita/pure"
+import {
+  GetPhoneLockTimeResponseBody,
+  MuditaDevice,
+  CaseColour,
+} from "@mudita/pure"
 import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 
 class PurePhoneFakeAdapter extends PurePhoneAdapter {
@@ -42,13 +46,20 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
+  public async getCaseColour(): Promise<DeviceResponse<CaseColour>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: CaseColour.Gray,
+    }
+  }
+
   public async disconnectDevice(): Promise<DeviceResponse> {
     return {
       status: DeviceResponseStatus.Ok,
     }
   }
 
-  public async connectDevice(): Promise<DeviceResponse> {
+  public async connectDevice(): Promise<DeviceResponse<MuditaDevice>> {
     return {
       status: DeviceResponseStatus.Ok,
     }
@@ -82,7 +93,9 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async getDeviceCrashDumpFiles(): Promise<DeviceResponse<DeviceFile[]>> {
+  public async getDeviceCrashDumpFiles(): Promise<
+    DeviceResponse<DeviceFile[]>
+  > {
     return {
       status: DeviceResponseStatus.Ok,
       data: [],

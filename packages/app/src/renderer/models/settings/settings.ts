@@ -154,7 +154,7 @@ const settings = createModel<RootModel>({
       },
       async sendDiagnosticData(_, state): Promise<void> {
         const { appCollectingData, diagnosticSentTimestamp } = state.settings
-        const { serialNumber } = state.basicInfo
+        const { serialNumber } = state.device.data
 
         if (serialNumber === undefined) {
           logger.error(
@@ -173,9 +173,14 @@ const settings = createModel<RootModel>({
           )
           return
         }
-        const deviceLogFilesResponse = await getDeviceLogFiles({ datePrefix: true })
+        const deviceLogFilesResponse = await getDeviceLogFiles({
+          datePrefix: true,
+        })
 
-        if (deviceLogFilesResponse.status !== DeviceResponseStatus.Ok || deviceLogFilesResponse.data === undefined) {
+        if (
+          deviceLogFilesResponse.status !== DeviceResponseStatus.Ok ||
+          deviceLogFilesResponse.data === undefined
+        ) {
           logger.error(
             `Send Diagnostic Data: fetch device logs fail. Message: ${deviceLogFilesResponse.error?.message}.`
           )
@@ -187,14 +192,16 @@ const settings = createModel<RootModel>({
         })
 
         if (buffer === undefined) {
-          logger.error(
-            `Send Diagnostic Data: archives files fail.`
-          )
+          logger.error(`Send Diagnostic Data: archives files fail.`)
           return
         }
 
         try {
-          const response = await sendDiagnosticDataRequest({ buffer, fileName: attachedFileName, serialNumber })
+          const response = await sendDiagnosticDataRequest({
+            buffer,
+            fileName: attachedFileName,
+            serialNumber,
+          })
           if (!response) {
             logger.error(
               `Send Diagnostic Data: send diagnostic data request. Status: ${status}`

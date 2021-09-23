@@ -52,7 +52,7 @@ enum NetworkStatus {
 
 export enum PhoneLockCategory {
   Status = "phoneLockStatus",
-  Time = "phoneLockTime"
+  Time = "phoneLockTime",
 }
 export interface GetPhoneLockStatusBody {
   category: PhoneLockCategory.Status
@@ -65,6 +65,12 @@ export interface GetPhoneLockTimeBody {
 export interface GetPhoneLockTimeResponseBody {
   phoneLockTime?: number
 }
+
+export enum CaseColour {
+  Black = "black",
+  Gray = "gray",
+}
+
 export interface DeviceInfo {
   batteryLevel: string
   batteryState: BatteryState
@@ -82,6 +88,7 @@ export interface DeviceInfo {
   accessTechnology: AccessTechnology
   networkStatus: NetworkStatus
   serialNumber: string
+  caseColour: CaseColour
 }
 
 export enum DiagnosticsFileList {

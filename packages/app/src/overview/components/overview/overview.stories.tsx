@@ -29,6 +29,7 @@ import {
 } from "App/overview/components/overview-modals.component"
 import { UpdatingForceModal } from "App/overview/components/overview.modal-dialogs"
 import OverviewContent from "App/overview/components/overview-content.component"
+import { CaseColour } from "@mudita/pure"
 
 const fakeState = {
   batteryLevel: 0,
@@ -48,6 +49,7 @@ const fakeState = {
   networkName: "Orange",
   osUpdateDate: "2020-01-14T11:31:08.244Z",
   language: "en-US",
+  caseColour: CaseColour.Gray,
 }
 
 storiesOf("Views|Overview", module).add("Overview", () => (
