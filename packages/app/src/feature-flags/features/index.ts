@@ -31,8 +31,8 @@ export const features: EnvironmentConfig = {
   [Feature.DisabledOnProduction]: {
     [Environment.Development]: false,
     [Environment.Production]: true,
-    [Environment.TestProduction]: false,
-    [Environment.AlphaProduction]: true,
+    [Environment.TestProduction]: true,
+    [Environment.AlphaProduction]: false,
     [Environment.TestAlphaProduction]: false,
   },
 }
