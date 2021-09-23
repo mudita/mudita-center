@@ -80,7 +80,7 @@ const google = createModel<ExternalProvidersModels>({
         currentToken = rootState.google[scope].access_token
       }
 
-      const request = (token?: string): Promise<AxiosResponse<ReturnType>> => {
+      const request = (token?: string) => {
         return axios(url as string, {
           ...rest,
           params,
@@ -95,7 +95,7 @@ const google = createModel<ExternalProvidersModels>({
       }
 
       try {
-        return request()
+        return await request()
       } catch (error) {
         if (error.response.status === 401 && tries < 2) {
           const refreshToken = rootState.google[scope].refresh_token
