@@ -68,6 +68,7 @@ interface Props {
   setAppUpdateStepModalDisplayed: () => void
   setAppLatestVersion: (value: string) => void
   loadSettings: () => void
+  toggleAppUpdateStepModalShow: (value: boolean) => void
 }
 
 const RootWrapper: FunctionComponent<Props> = ({
@@ -82,6 +83,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   setAppUpdateStepModalDisplayed,
   setAppLatestVersion,
   loadSettings,
+  toggleAppUpdateStepModalShow,
 }) => {
   const params = new URLSearchParams(window.location.search)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
@@ -192,6 +194,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const unregister = registerAvailableAppUpdateListener((version) => {
+      toggleAppUpdateStepModalShow(true)
       toggleAppUpdateAvailable(true)
       setAppLatestVersion(version as string)
     })
@@ -259,6 +262,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch.settings.setAppUpdateStepModalDisplayed(),
   setAppLatestVersion: (value: string) =>
     dispatch.settings.setAppLatestVersion(value),
+  toggleAppUpdateStepModalShow: (value: boolean) =>
+    dispatch.settings.toggleAppUpdateStepModalShow(value),
   loadSettings: () => dispatch.settings.loadSettings(),
 })
 
