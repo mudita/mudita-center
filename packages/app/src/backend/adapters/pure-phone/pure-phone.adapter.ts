@@ -8,7 +8,9 @@ import {
   GetPhoneLockTimeResponseBody,
   Method,
   PhoneLockCategory,
+  MuditaDevice,
   timeout,
+  CaseColour,
 } from "@mudita/pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
@@ -92,11 +94,29 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
+  public async getCaseColour(): Promise<DeviceResponse<CaseColour>> {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.DeviceInfo,
+      method: Method.Get,
+    })
+    if (status === DeviceResponseStatus.Ok && data) {
+      return {
+        status,
+        data: data.caseColour ? data.caseColour : CaseColour.Gray,
+      }
+    } else {
+      return {
+        status,
+        error: { message: "Get case colour: Something went wrong" },
+      }
+    }
+  }
+
   public disconnectDevice(): Promise<DeviceResponse> {
     return this.deviceService.disconnect()
   }
 
-  public connectDevice(): Promise<DeviceResponse> {
+  public connectDevice(): Promise<DeviceResponse<MuditaDevice>> {
     return this.deviceService.connect()
   }
 

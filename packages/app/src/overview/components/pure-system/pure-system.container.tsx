@@ -4,13 +4,13 @@
  */
 
 import { connect } from "react-redux"
-import { RootState } from "Renderer/store"
+import { RootState, ReduxRootState } from "Renderer/store"
 import PureSystem from "App/overview/components/pure-system/pure-system.component"
 
-const mapStateToProps = (state: RootState) => {
+const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    serialNumber: state.basicInfo.serialNumber,
-	}
+    serialNumber: state.device.data?.serialNumber,
+  }
 }
 
 export default connect(mapStateToProps)(PureSystem)

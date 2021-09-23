@@ -4,7 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { init } from "@rematch/core"
+import { init, InitConfig } from "@rematch/core"
 import { version } from "../../../../package.json"
 import settings from "Renderer/models/settings/settings"
 import {
@@ -21,7 +21,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import Mock = jest.Mock
-import basicInfo from "Renderer/models/basic-info/basic-info"
+import { deviceReducer } from "App/device"
 
 const getDeviceLogsResponse: DeviceResponse<string> = {
   status: DeviceResponseStatus.Ok,
@@ -60,8 +60,20 @@ const mockIpc = () => {
   }
 }
 
-const storeConfig = {
-  models: { settings, basicInfo },
+const storeConfig: InitConfig = {
+  models: { settings },
+  redux: {
+    reducers: {
+      device: deviceReducer,
+    },
+    initialState: {
+      device: {
+        data: {
+          serialNumber: "000000000",
+        },
+      },
+    },
+  },
 }
 
 let store = init(storeConfig)
@@ -82,25 +94,10 @@ test("loads settings", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appAutostart": false,
@@ -138,25 +135,10 @@ test("updates tethering setting", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -179,25 +161,10 @@ test("updates incoming calls setting", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -220,25 +187,10 @@ test("updates incoming messages setting", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -261,25 +213,10 @@ test("updates low battery setting", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -302,25 +239,10 @@ test("updates os updates setting", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -343,25 +265,10 @@ test("updates collecting data setting to true", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appCollectingData": true,
@@ -384,25 +291,10 @@ test("updates collecting data setting to false", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appCollectingData": false,
@@ -425,25 +317,10 @@ test("updates os audio files conversion setting", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -466,25 +343,10 @@ test("updates convert setting", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appConvert": "Convert automatically",
@@ -507,25 +369,10 @@ test("updates conversion format setting", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appConversionFormat": "WAV",
@@ -548,25 +395,10 @@ test("updates tray setting", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -589,25 +421,10 @@ test("updates PureOS backup location setting", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -630,25 +447,10 @@ test("updates PureOS download location setting", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -671,25 +473,10 @@ test("updates language setting", async () => {
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {
-        "basicInfoDataState": 2,
-        "batteryLevel": 0,
-        "deviceConnected": false,
-        "deviceType": undefined,
-        "deviceUnlocked": undefined,
-        "initialDataLoaded": false,
-        "lastBackup": undefined,
-        "memorySpace": Object {
-          "free": 0,
-          "full": 0,
+      "device": Object {
+        "data": Object {
+          "serialNumber": "000000000",
         },
-        "networkName": "",
-        "osUpdateDate": "",
-        "osVersion": undefined,
-        "phoneLockTime": undefined,
-        "serialNumber": undefined,
-        "simCards": Array [],
-        "updatingState": 0,
       },
       "settings": Object {
         "appCurrentVersion": "${version}",
@@ -717,7 +504,6 @@ test("sendDiagnosticData effect no generate any side effects if serial number is
 
 test("sendDiagnosticData effect no generate any side effects if diagnostic data isn't set", async () => {
   mockIpc()
-  await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 
@@ -741,7 +527,7 @@ test("sendDiagnosticData effect no generate any side effects if diagnostic data 
       centerVersion: "0.0.0",
     }),
   }
-  await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
+
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 
@@ -766,7 +552,7 @@ test("sendDiagnosticData effect no generate any side effects if diagnostic data 
       centerVersion: "0.0.0",
     }),
   }
-  await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
+
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 
@@ -791,7 +577,7 @@ test("sendDiagnosticData pass successfully if user agree to collecting data and 
       centerVersion: "0.0.0",
     }),
   }
-  await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
+
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 
@@ -819,7 +605,7 @@ test("sendDiagnosticData effect no sent requests if getting device logs fails", 
       centerVersion: "0.0.0",
     }),
   }
-  await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
+
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 
@@ -848,7 +634,7 @@ test("sendDiagnosticData effect is fails if request no finish successfully", asy
       centerVersion: "0.0.0",
     }),
   }
-  await store.dispatch.basicInfo.update({ serialNumber: "000000000" })
+
   await store.dispatch.settings.loadSettings()
   await store.dispatch.settings.sendDiagnosticData()
 

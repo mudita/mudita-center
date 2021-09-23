@@ -12,7 +12,8 @@ import {
 } from "App/overview/components/card.elements"
 import { intl } from "Renderer/utils/intl"
 import Image from "Renderer/components/core/image/image.component"
-import PureImage from "Renderer/images/pure-render.png"
+import PureGrayImage from "Renderer/images/pure-gray-front.png"
+import PureBlackImage from "Renderer/images/pure-black-front.png"
 import { useHistory } from "react-router"
 import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
 import {
@@ -20,6 +21,7 @@ import {
   PhoneInfo,
   PureSystemButtonContainer,
 } from "App/overview/components/phone/phone.styled"
+import { CaseColour } from "@mudita/pure"
 import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
 import ButtonComponent from "App/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
@@ -29,12 +31,14 @@ const Phone: FunctionComponent<PhoneProps> = ({
   className,
   onDisconnect,
   onClick,
+  caseColour,
 }) => {
   const history = useHistory()
   const handleDisconnect = () => {
     onDisconnect()
     history.push(URL_MAIN.news)
   }
+  
   const openPureSystem = () => {
     history.push(URL_OVERVIEW.pureSystem)
   }
@@ -42,7 +46,11 @@ const Phone: FunctionComponent<PhoneProps> = ({
   return (
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
-        <Image src={PureImage} />
+        {caseColour === CaseColour.Gray ? (
+          <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray}/>
+        ) : (
+          <Image src={PureBlackImage} data-testid={PhoneTestIds.PureBlack}/>
+        )}
       </PhoneInfo>
       <CardAction>
         <CardActionButton

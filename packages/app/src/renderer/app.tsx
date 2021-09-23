@@ -5,6 +5,7 @@
 
 import * as React from "react"
 import * as ReactDOM from "react-dom"
+import { Provider } from "react-redux"
 import { AppContainer } from "react-hot-loader"
 import modalService from "Renderer/components/core/modal/modal.service"
 import { defaultLanguage } from "App/translations.config.json"
@@ -28,9 +29,11 @@ document.body.appendChild(mainElement)
 Modal.setAppElement("#app")
 
 ReactDOM.render(
-  <AppContainer>
-    <RootWrapper store={store} history={history} />
-  </AppContainer>,
+  <Provider store={store}>
+    <AppContainer>
+      <RootWrapper history={history} />
+    </AppContainer>
+  </Provider>,
   mainElement
 )
 
