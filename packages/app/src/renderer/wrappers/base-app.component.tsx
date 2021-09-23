@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { connect } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
@@ -32,11 +32,13 @@ interface Props {
   settingsLoaded?: boolean
   appCollectingData?: boolean
   appUpdateStepModalDisplayed?: boolean
+  appUpdateStepModalShow?: boolean
   deviceParred?: boolean
   appUpdateRequired?: boolean
   appCurrentVersion?: string
   toggleAppCollectingData: (appCollectingData: boolean) => void
   setAppUpdateStepModalDisplayed: () => void
+  toggleAppUpdateStepModalShow: (appUpdateStepModalShow: boolean) => void
   sendDiagnosticData: () => void
   appLatestVersion?: string
 }
@@ -53,19 +55,18 @@ const BaseApp: FunctionComponent<Props> = ({
   settingsLoaded,
   appCollectingData,
   appUpdateStepModalDisplayed,
+  appUpdateStepModalShow,
   deviceParred,
   toggleAppCollectingData,
   setAppUpdateStepModalDisplayed,
+  toggleAppUpdateStepModalShow,
   sendDiagnosticData,
   appLatestVersion,
   appUpdateRequired,
   appCurrentVersion,
 }) => {
-  const appUpdateStepModalVisible =
-    Boolean(settingsLoaded) &&
-    Boolean(appUpdateAvailable) &&
-    !appUpdateStepModalDisplayed &&
-    appCollectingData !== undefined
+  const [appUpdateStepModalVisible, setAppUpdateStepModalVisible] =
+    useState<boolean>(false)
 
   const collectingDataModalVisible =
     Boolean(settingsLoaded) && appCollectingData === undefined
@@ -76,6 +77,19 @@ const BaseApp: FunctionComponent<Props> = ({
     [URL_OVERVIEW.root]: [() => getConnectedDevice()],
     [URL_MAIN.messages]: [() => loadMessages(), () => loadContacts()],
   })
+  useEffect(() => {
+    setAppUpdateStepModalVisible(
+      Boolean(settingsLoaded) &&
+        Boolean(appUpdateAvailable) &&
+        Boolean(appUpdateStepModalShow) &&
+        appCollectingData !== undefined
+    )
+  }, [
+    settingsLoaded,
+    appUpdateAvailable,
+    appUpdateStepModalShow,
+    appCollectingData,
+  ])
 
   useEffect(() => {
     if (deviceConnecting) {
@@ -103,6 +117,7 @@ const BaseApp: FunctionComponent<Props> = ({
 
   const closeAppUpdateStepModal = (): void => {
     setAppUpdateStepModalDisplayed()
+    toggleAppUpdateStepModalShow(false)
   }
 
   return (
@@ -148,6 +163,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
     settingsLoaded: state.settings.settingsLoaded,
     appLatestVersion: state.settings.appLatestVersion,
     appUpdateStepModalDisplayed: state.settings.appUpdateStepModalDisplayed,
+    appUpdateStepModalShow: state.settings.appUpdateStepModalShow,
     appUpdateRequired: state.settings.appUpdateRequired,
     appCurrentVersion: state.settings.appCurrentVersion,
   }
@@ -162,6 +178,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   toggleAppCollectingData: dispatch.settings.toggleAppCollectingData,
   setAppUpdateStepModalDisplayed:
     dispatch.settings.setAppUpdateStepModalDisplayed,
+  toggleAppUpdateStepModalShow: dispatch.settings.toggleAppUpdateStepModalShow,
   sendDiagnosticData: dispatch.settings.sendDiagnosticData,
   setAppLatestVersion: dispatch.settings.setAppLatestVersion,
 })
