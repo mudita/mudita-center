@@ -12,6 +12,7 @@ import mapToReleases, {
   isProductionRelease,
   isTestProductionAlphaRelease,
   isTestProductionRelease,
+  getPrerelease,
 } from "App/main/utils/map-to-release"
 import OsReleasesManager from "App/main/utils/os-releases-manager"
 
@@ -121,15 +122,6 @@ describe("isProductionRelease function", () => {
       tag_name: "0.76.4",
     }
     expect(isProductionRelease(release)).toBeTruthy()
-  })
-
-  test("should return false if tag_name has set dirty prefix ", () => {
-    const release: GithubRelease = {
-      ...githubRelease,
-      prerelease: false,
-      tag_name: "noname-0.76.4",
-    }
-    expect(isProductionRelease(release)).toBeFalsy()
   })
 
   test("should return false if tag_name has set pre release ", () => {
@@ -271,6 +263,38 @@ describe("isTestProductionAlphaRelease function", () => {
   })
 })
 
+const productionGithubRelease = githubRelease
+const testProductionGithubRelease = {
+  ...githubRelease,
+  prerelease: false,
+  tag_name: "0.76.4-rc.1",
+}
+const productionAlphaRelease = {
+  ...githubRelease,
+  prerelease: false,
+  tag_name: "0.76.4-alpha",
+}
+const testProductionAlphaRelease = {
+  ...githubRelease,
+  prerelease: false,
+  tag_name: "0.76.4-alpha.1",
+}
+
+describe("getPrerelease util", () => {
+  test("should return true when release is Production Release ", () => {
+    expect(getPrerelease(productionGithubRelease)).toBeTruthy()
+  })
+  test("should return true when release is Test Production Release ", () => {
+    expect(getPrerelease(testProductionGithubRelease)).toBeTruthy()
+  })
+  test("should return true when release is Production Alpha Release ", () => {
+    expect(getPrerelease(productionAlphaRelease)).toBeTruthy()
+  })
+  test("should return true when release is Test Production Alpha Release ", () => {
+    expect(getPrerelease(testProductionAlphaRelease)).toBeTruthy()
+  })
+})
+
 jest.mock("App/main/utils/os-releases-manager")
 
 const mockOsReleasesManager = ({
@@ -293,24 +317,7 @@ const mockOsReleasesManager = ({
     .mockReturnValue(testProductionAlphaAvaible)
 }
 
-describe("filterRelease", () => {
-  const productionGithubRelease = githubRelease
-  const testProductionGithubRelease = {
-    ...githubRelease,
-    prerelease: false,
-    tag_name: "0.76.4-rc.1",
-  }
-  const productionAlphaRelease = {
-    ...githubRelease,
-    prerelease: false,
-    tag_name: "0.76.4-alpha",
-  }
-  const testProductionAlphaRelease = {
-    ...githubRelease,
-    prerelease: false,
-    tag_name: "0.76.4-alpha.1",
-  }
-
+describe("filterRelease util", () => {
   describe("when all of release kinds are available", () => {
     beforeEach(() => {
       mockOsReleasesManager({

@@ -128,15 +128,25 @@ export const filterRelease = (release: GithubRelease): boolean => {
   return false
 }
 
+export const getPrerelease = (release: GithubRelease): boolean => {
+  return [
+    isProductionRelease,
+    isTestProductionRelease,
+    isProductionAlphaRelease,
+    isTestProductionAlphaRelease,
+  ].some((fn) => fn(release))
+}
+
 const mapToReleases = (githubReleases: GithubRelease[]): Release[] => {
   return githubReleases.filter(filterRelease).map((release): Release => {
-    const { tag_name, created_at, published_at, prerelease } =
-      cleanDirtRelease(release)
+    const noDirtyRelease =  cleanDirtRelease(release)
+    const { tag_name, created_at, published_at } = noDirtyRelease
+
     const asset = findXTarAsset(release) as GithubReleaseAsset
 
     return {
       version: tag_name,
-      prerelease,
+      prerelease: getPrerelease(noDirtyRelease),
       date: published_at || created_at,
       file: {
         url: asset.url,
