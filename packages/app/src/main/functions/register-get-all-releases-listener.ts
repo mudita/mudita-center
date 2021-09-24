@@ -91,8 +91,8 @@ const registerGetAllReleasesListener = () => {
       } while (retry)
 
       return mapToReleases(releases).sort((a, b) => {
-        const versionA = (a as Release).version
-        const versionB = (b as Release).version
+        const versionA = a.version
+        const versionB = b.version
 
         return versionB.localeCompare(versionA, undefined, {
           numeric: true,
