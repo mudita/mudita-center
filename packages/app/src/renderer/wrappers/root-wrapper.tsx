@@ -45,6 +45,7 @@ import registerNotAvailableAppUpdateListener from "App/main/functions/register-n
 import LicenseApp from "./license-app.component"
 import TermsOfServiceApp from "./terms-of-service-app.component"
 import PrivacyPolicyApp from "./privacy-policy-app.component"
+import { flags, Feature } from "App/feature-flags"
 import SarApp from "./sar-app.component"
 
 import { TmpDispatch } from "Renderer/store"
@@ -214,8 +215,9 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     loadSettings()
     handleAppUpdateAvailableCheck()
-    const devModeHidden = process.env.DEVELOPER_MODE_HIDE === "true"
-    const productionEnvironment = process.env.NODE_ENV === "production"
+
+    const devModeHidden = flags.get(Feature.DeveloperModeHidden)
+    const productionEnvironment = flags.get(Feature.DisabledOnProduction)
     //Remove this condition to get devMode on production
     if (!(devModeHidden && productionEnvironment)) {
       // Register hotkeys

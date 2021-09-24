@@ -67,6 +67,7 @@ import { Mode } from "Common/enums/mode.enum"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { AboutActions } from "App/common/enums/about-actions.enum"
 import PureLogger from "App/main/utils/pure-logger"
+import { flags, Feature } from "App/feature-flags"
 import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
 
 require("dotenv").config()
@@ -100,7 +101,6 @@ const installExtensions = async () => {
   ).catch(logger.error)
 }
 
-const developmentEnvironment = process.env.NODE_ENV === "development"
 const productionEnvironment = process.env.NODE_ENV === "production"
 const commonWindowOptions = {
   resizable: true,
@@ -119,7 +119,7 @@ const getWindowOptions = (
 })
 
 const createWindow = async () => {
-  if (developmentEnvironment) {
+  if (!productionEnvironment) {
     await installExtensions()
   }
 
@@ -134,7 +134,7 @@ const createWindow = async () => {
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  const enabled = process.env.PURE_LOGGER_ENABLED === "true"
+  const enabled = flags.get(Feature.LoggerEnabled)
 
   MuditaDeviceManager.registerLogger(new PureLogger())
   MuditaDeviceManager.toggleLogs(enabled)
@@ -181,7 +181,7 @@ const createWindow = async () => {
     event.preventDefault()
   })
 
-  if (developmentEnvironment) {
+  if (!productionEnvironment) {
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
     win.webContents.once("dom-ready", () => {
       win!.webContents.openDevTools()
@@ -214,7 +214,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
       })
     )
     helpWindow.loadURL(
-      developmentEnvironment
+      !productionEnvironment
         ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
         : url.format({
             pathname: path.join(__dirname, "index.html"),
@@ -259,7 +259,7 @@ const createOpenWindowListener = (
         })
       )
       await newWindow.loadURL(
-        developmentEnvironment
+        !productionEnvironment
           ? `http://localhost:2003/?mode=${mode}#${urlMain}`
           : url.format({
               pathname: path.join(__dirname, "index.html"),
@@ -318,7 +318,7 @@ createOpenWindowListener(
 
 const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
   return await googleAuthWindow.loadURL(
-    developmentEnvironment
+    !productionEnvironment
       ? `http://localhost:2003/?mode=${Mode.ServerError}#${URL_MAIN.error}`
       : url.format({
           pathname: path.join(__dirname, "index.html"),

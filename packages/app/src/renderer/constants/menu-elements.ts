@@ -7,8 +7,7 @@ import { defineMessages } from "react-intl"
 import { View, views } from "Renderer/constants/views"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
-
-export const productionEnvironment = process.env.NODE_ENV === "production"
+import { flags, Feature } from "App/feature-flags"
 
 const messages = defineMessages({
   yourPure: { id: "component.menuHeaderYourPure" },
@@ -30,7 +29,7 @@ const YOUR_PURE_BUTTONS = [
     button: views.phone,
     icon: Type.MenuPhone,
     testId: MenuGroupTestIds.Phone,
-    hidden: productionEnvironment,
+    hidden: flags.get(Feature.DisabledOnProduction),
   },
   {
     button: views.contacts,
@@ -41,37 +40,37 @@ const YOUR_PURE_BUTTONS = [
     button: views.tools,
     icon: Type.MenuTools,
     testId: MenuGroupTestIds.Tools,
-    hidden: productionEnvironment,
+    hidden: flags.get(Feature.DisabledOnProduction),
   },
   {
     button: views.music,
     icon: Type.MenuMusic,
     testId: MenuGroupTestIds.Music,
-    hidden: productionEnvironment,
+    hidden: flags.get(Feature.DisabledOnProduction),
   },
   {
     button: views.calendar,
     icon: Type.Calendar,
     testId: MenuGroupTestIds.Calendar,
-    hidden: productionEnvironment,
+    hidden: flags.get(Feature.DisabledOnProduction),
   },
   {
     button: views.meditation,
     icon: Type.MenuMeditation,
     testId: MenuGroupTestIds.Meditation,
-    hidden: productionEnvironment,
+    hidden: flags.get(Feature.DisabledOnProduction),
   },
   {
     button: views.filesManager,
     icon: Type.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,
-    hidden: productionEnvironment,
+    hidden: flags.get(Feature.DisabledOnProduction),
   },
   {
     button: views.recoveryMode,
     icon: Type.MuditaLogo,
     testId: MenuGroupTestIds.Backup,
-    hidden: productionEnvironment,
+    hidden: flags.get(Feature.DisabledOnProduction),
   },
 ]
 
@@ -80,7 +79,7 @@ const DESKTOP_APP_BUTTONS: Item[] = [
     button: views.tethering,
     icon: Type.MenuTethering,
     testId: MenuGroupTestIds.Tethering,
-    hidden: productionEnvironment,
+    hidden: flags.get(Feature.DisabledOnProduction),
   },
   { button: views.settings, icon: Type.MenuSettings },
   { button: views.help, icon: Type.MenuHelp, testId: MenuGroupTestIds.Help },

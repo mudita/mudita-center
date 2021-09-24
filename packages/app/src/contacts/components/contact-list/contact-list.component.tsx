@@ -43,8 +43,8 @@ import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-contai
 import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
 import { Contacts } from "App/contacts/store/contacts.interface"
 import { ResultsState } from "App/contacts/store/contacts.enum"
-import { productionEnvironment } from "Renderer/constants/menu-elements"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
+import { flags, Feature } from "App/feature-flags"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -276,7 +276,7 @@ const ContactList: FunctionComponent<Props> = ({
                             Icon={Type.Upload}
                             onClick={handleExport}
                             displayStyle={DisplayStyle.Dropdown}
-                            hide={productionEnvironment}
+                            hide={flags.get(Feature.DisabledOnProduction)}
                           />
                           <HiddenButton
                             labelMessage={{
@@ -285,7 +285,7 @@ const ContactList: FunctionComponent<Props> = ({
                             Icon={Type.Forward}
                             onClick={handleForward}
                             displayStyle={DisplayStyle.Dropdown}
-                            hide={productionEnvironment}
+                            hide={flags.get(Feature.DisabledOnProduction)}
                           />
                           {contact.blocked ? (
                             <HiddenButton
@@ -295,7 +295,7 @@ const ContactList: FunctionComponent<Props> = ({
                               Icon={Type.Blocked}
                               onClick={handleUnblock}
                               displayStyle={DisplayStyle.Dropdown}
-                              hide={productionEnvironment}
+                              hide={flags.get(Feature.DisabledOnProduction)}
                             />
                           ) : (
                             <HiddenButton
@@ -305,7 +305,7 @@ const ContactList: FunctionComponent<Props> = ({
                               Icon={Type.Blocked}
                               onClick={handleBlock}
                               displayStyle={DisplayStyle.Dropdown}
-                              hide={productionEnvironment}
+                              hide={flags.get(Feature.DisabledOnProduction)}
                             />
                           )}
                           <ButtonComponent
