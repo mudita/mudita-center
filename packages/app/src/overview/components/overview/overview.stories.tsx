@@ -36,6 +36,7 @@ import {
 
 const fakeState: PureOverviewProps = {
   deviceType: DeviceType.MuditaPure,
+  appUpdateStepModalShow: false,
   batteryLevel: 0,
   disconnectDevice: false,
   lastBackup: {

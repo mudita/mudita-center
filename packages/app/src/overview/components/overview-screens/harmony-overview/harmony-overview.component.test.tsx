@@ -47,6 +47,7 @@ const defaultProps: ComponentProps<typeof HarmonyOverview> = {
   appIncomingMessages: false,
   appLowBattery: false,
   appNonStandardAudioFilesConversion: false,
+  appUpdateStepModalShow: false,
   appOsUpdates: false,
   appTethering: false,
   appTray: false,

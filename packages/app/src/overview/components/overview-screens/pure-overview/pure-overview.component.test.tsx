@@ -49,6 +49,7 @@ const defaultProps: ComponentProps<typeof PureOverview> = {
   appIncomingMessages: false,
   appLowBattery: false,
   appNonStandardAudioFilesConversion: false,
+  appUpdateStepModalShow: false,
   appOsUpdates: false,
   appTethering: false,
   appTray: false,
