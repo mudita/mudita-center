@@ -20,21 +20,6 @@ export const findXTarAsset = ({
 }: GithubRelease): GithubReleaseAsset | undefined =>
   assets.find((asset) => asset.content_type === "application/x-tar")
 
-export const cleanDirtRelease = (release: GithubRelease): GithubRelease => {
-  const tag_name = release.tag_name
-    .replace("daily-", "")
-    .replace("release-", "")
-
-  return {
-    ...release,
-    tag_name,
-  }
-}
-
-const isReleaseVersionMatch = (release: GithubRelease): boolean => {
-  return isVersionMatch(cleanDirtRelease(release).tag_name)
-}
-
 export const isProductionRelease = (release: GithubRelease): boolean => {
   if (release.prerelease) {
     return false
@@ -96,7 +81,7 @@ export const filterRelease = (release: GithubRelease): boolean => {
     return false
   }
 
-  if (!isReleaseVersionMatch(release)) {
+  if (!isVersionMatch(release.tag_name)) {
     return false
   }
 
@@ -129,7 +114,7 @@ export const filterRelease = (release: GithubRelease): boolean => {
 }
 
 export const getPrerelease = (release: GithubRelease): boolean => {
-  return [
+  return ![
     isProductionRelease,
     isTestProductionRelease,
     isProductionAlphaRelease,
@@ -139,14 +124,13 @@ export const getPrerelease = (release: GithubRelease): boolean => {
 
 const mapToReleases = (githubReleases: GithubRelease[]): Release[] => {
   return githubReleases.filter(filterRelease).map((release): Release => {
-    const noDirtyRelease =  cleanDirtRelease(release)
-    const { tag_name, created_at, published_at } = noDirtyRelease
+    const { tag_name, created_at, published_at } = release
 
     const asset = findXTarAsset(release) as GithubReleaseAsset
 
     return {
       version: tag_name,
-      prerelease: getPrerelease(noDirtyRelease),
+      prerelease: getPrerelease(release),
       date: published_at || created_at,
       file: {
         url: asset.url,

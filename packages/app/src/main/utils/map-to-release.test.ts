@@ -5,7 +5,6 @@
 
 import { GithubRelease } from "App/main/functions/register-get-all-releases-listener"
 import mapToReleases, {
-  cleanDirtRelease,
   findXTarAsset,
   isProductionAlphaRelease,
   isDraft,
@@ -17,7 +16,7 @@ import mapToReleases, {
 import OsReleasesManager from "App/main/utils/os-releases-manager"
 
 const githubRelease: GithubRelease = {
-  tag_name: "release-0.76.4",
+  tag_name: "0.76.4",
   draft: false,
   prerelease: false,
   created_at: "2021-09-09T19:28:18Z",
@@ -77,40 +76,6 @@ describe("findXTarAsset function", () => {
 
   test("should return asset when x-tar file is exist in assets", () => {
     expect(findXTarAsset(githubRelease)).not.toBeUndefined()
-  })
-})
-
-describe("cleanDirtRelease function", () => {
-  test("the tag_name should be the same when hasn't any dirt tag_name prefix", () => {
-    const release: GithubRelease = {
-      ...githubRelease,
-      tag_name: "0.76.4",
-    }
-    expect(cleanDirtRelease(release).tag_name).toEqual(release.tag_name)
-  })
-
-  test("the tag_name should be free from the `release-` prefix", () => {
-    const release: GithubRelease = {
-      ...githubRelease,
-      tag_name: "release-0.76.4",
-    }
-    expect(cleanDirtRelease(release).tag_name).toEqual("0.76.4")
-  })
-
-  test("the tag_name should be free from the `daily-` prefix", () => {
-    const release: GithubRelease = {
-      ...githubRelease,
-      tag_name: "daily-0.76.4",
-    }
-    expect(cleanDirtRelease(release).tag_name).toEqual("0.76.4")
-  })
-
-  test("the tag_name doesn't replace no indicate prefixes", () => {
-    const release: GithubRelease = {
-      ...githubRelease,
-      tag_name: "noname-0.76.4",
-    }
-    expect(cleanDirtRelease(release).tag_name).toEqual(release.tag_name)
   })
 })
 
@@ -281,17 +246,17 @@ const testProductionAlphaRelease = {
 }
 
 describe("getPrerelease util", () => {
-  test("should return true when release is Production Release ", () => {
-    expect(getPrerelease(productionGithubRelease)).toBeTruthy()
+  test("should return false when release is Production Release ", () => {
+    expect(getPrerelease(productionGithubRelease)).toBeFalsy()
   })
-  test("should return true when release is Test Production Release ", () => {
-    expect(getPrerelease(testProductionGithubRelease)).toBeTruthy()
+  test("should return false when release is Test Production Release ", () => {
+    expect(getPrerelease(testProductionGithubRelease)).toBeFalsy()
   })
-  test("should return true when release is Production Alpha Release ", () => {
-    expect(getPrerelease(productionAlphaRelease)).toBeTruthy()
+  test("should return false when release is Production Alpha Release ", () => {
+    expect(getPrerelease(productionAlphaRelease)).toBeFalsy()
   })
-  test("should return true when release is Test Production Alpha Release ", () => {
-    expect(getPrerelease(testProductionAlphaRelease)).toBeTruthy()
+  test("should return false when release is Test Production Alpha Release ", () => {
+    expect(getPrerelease(testProductionAlphaRelease)).toBeFalsy()
   })
 })
 
