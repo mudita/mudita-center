@@ -8,4 +8,8 @@ export enum Feature {
   LogsScrubbed = "logs-scrubbed",
   DeveloperModeHidden = "developer-mode-hidden",
   DisabledOnProduction = "disabled-on-production",
+  OsProductionReleaseAvaible = "os-production-release-avaible",
+  OsTestProductionReleaseAvaible = "os-test-production-release-avaible",
+  OsProductionAlphaReleaseAvaible = "os-production-alpha-release-avaible",
+  OsTestProductionAlphaAvaible = "os-test-production-alpha-release-avaible",
 }

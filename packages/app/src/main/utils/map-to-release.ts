@@ -5,35 +5,146 @@
 
 import {
   GithubRelease,
+  GithubReleaseAsset,
   Release,
 } from "App/main/functions/register-get-all-releases-listener"
-import { isRelease } from "App/main/utils/is-release"
+import OsReleasesManager from "App/main/utils/os-releases-manager"
+import isVersionMatch from "App/overview/helpers/is-version-match"
+import isPrereleaseSet from "App/overview/helpers/is-prerelease-set"
+import getPrereleaseLabels from "App/overview/helpers/get-prerelease-labels"
+
+export const isDraft = ({ draft }: GithubRelease): boolean => draft
+
+export const findXTarAsset = ({
+  assets,
+}: GithubRelease): GithubReleaseAsset | undefined =>
+  assets.find((asset) => asset.content_type === "application/x-tar")
+
+export const cleanDirtRelease = (release: GithubRelease): GithubRelease => {
+  const tag_name = release.tag_name
+    .replace("daily-", "")
+    .replace("release-", "")
+
+  return {
+    ...release,
+    tag_name,
+  }
+}
+
+const isReleaseVersionMatch = (release: GithubRelease): boolean => {
+  return isVersionMatch(cleanDirtRelease(release).tag_name)
+}
+
+export const isProductionRelease = (release: GithubRelease): boolean => {
+  if (release.prerelease) {
+    return false
+  }
+
+  if (isPrereleaseSet(release.tag_name)) {
+    return false
+  }
+
+  return true
+}
+
+export const isTestProductionRelease = (release: GithubRelease): boolean => {
+  const labels = getPrereleaseLabels(release.tag_name)
+
+  if (labels[0] !== "rc") {
+    return false
+  }
+
+  if (typeof labels[1] !== "number") {
+    return false
+  }
+
+  return true
+}
+export const isProductionAlphaRelease = (release: GithubRelease): boolean => {
+  const labels = getPrereleaseLabels(release.tag_name)
+
+  if (labels.length !== 1) {
+    return false
+  }
+
+  if (labels[0] !== "alpha") {
+    return false
+  }
+
+  return true
+}
+export const isTestProductionAlphaRelease = (
+  release: GithubRelease
+): boolean => {
+  const labels = getPrereleaseLabels(release.tag_name)
+
+  if (labels[0] !== "alpha") {
+    return false
+  }
+
+  if (typeof labels[1] !== "number") {
+    return false
+  }
+  return true
+}
+
+export const filterRelease = (release: GithubRelease): boolean => {
+  if (isDraft(release)) {
+    return false
+  }
+  if (findXTarAsset(release) === undefined) {
+    return false
+  }
+
+  if (!isReleaseVersionMatch(release)) {
+    return false
+  }
+
+  if (OsReleasesManager.isProductionAvaible() && isProductionRelease(release)) {
+    return true
+  }
+
+  if (
+    OsReleasesManager.isTestProductionAvaible() &&
+    isTestProductionRelease(release)
+  ) {
+    return true
+  }
+
+  if (
+    OsReleasesManager.isProductionAlphaAvaible() &&
+    isProductionAlphaRelease(release)
+  ) {
+    return true
+  }
+
+  if (
+    OsReleasesManager.isTestProductionAlphaAvaible() &&
+    isTestProductionAlphaRelease(release)
+  ) {
+    return true
+  }
+
+  return false
+}
 
 const mapToReleases = (githubReleases: GithubRelease[]): Release[] => {
-  return githubReleases
-    .map((release): Release | null => {
-      const { assets, tag_name, draft, created_at, published_at } = release
-      const asset = assets.find(
-        (asset) => asset.content_type === "application/x-tar"
-      )
-      if (asset && !draft) {
-        const version = tag_name.replace("daily-", "").replace("release-", "")
+  return githubReleases.filter(filterRelease).map((release): Release => {
+    const { tag_name, created_at, published_at, prerelease } =
+      cleanDirtRelease(release)
+    const asset = findXTarAsset(release) as GithubReleaseAsset
 
-        return {
-          version,
-          date: published_at || created_at,
-          prerelease: !isRelease(version),
-          file: {
-            url: asset.url,
-            size: asset.size,
-            name: asset.name,
-          },
-        }
-      } else {
-        return null
-      }
-    })
-    .filter((release): release is Release => release !== null)
+    return {
+      version: tag_name,
+      prerelease,
+      date: published_at || created_at,
+      file: {
+        url: asset.url,
+        size: asset.size,
+        name: asset.name,
+      },
+    }
+  })
 }
 
 export default mapToReleases

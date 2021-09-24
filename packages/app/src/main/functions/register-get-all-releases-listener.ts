@@ -12,18 +12,20 @@ export enum GetAllReleasesEvents {
   Request = "get-all-releases-request",
 }
 
+export interface GithubReleaseAsset {
+  content_type: string
+  size: number
+  url: string
+  name: string
+}
+
 export interface GithubRelease {
   tag_name: string
   created_at: string
   published_at: string
   draft: boolean
   prerelease: boolean
-  assets: {
-    content_type: string
-    size: number
-    url: string
-    name: string
-  }[]
+  assets: GithubReleaseAsset[]
 }
 
 export interface Release {
@@ -88,16 +90,15 @@ const registerGetAllReleasesListener = () => {
         }
       } while (retry)
 
-      return mapToReleases(releases)
-        .sort((a, b) => {
-          const versionA = (a as Release).version
-          const versionB = (b as Release).version
+      return mapToReleases(releases).sort((a, b) => {
+        const versionA = (a as Release).version
+        const versionB = (b as Release).version
 
-          return versionB.localeCompare(versionA, undefined, {
-            numeric: true,
-            sensitivity: "base",
-          })
+        return versionB.localeCompare(versionA, undefined, {
+          numeric: true,
+          sensitivity: "base",
         })
+      })
     })
   }
 }
