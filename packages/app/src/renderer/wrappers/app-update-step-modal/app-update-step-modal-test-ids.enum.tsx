@@ -7,4 +7,5 @@ export enum AppUpdateStepModalTestIds {
   AppUpdateAvailableModal = "app-update-available",
   AppUpdateProgressModal = "app-update-progress",
   AppUpdateErrorModal = "app-update-error",
+  AppUpdateNotAvailableModal = "app-update-not-available",
 }
