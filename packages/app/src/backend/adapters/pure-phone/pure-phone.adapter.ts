@@ -119,13 +119,31 @@ class PurePhone extends PurePhoneAdapter {
     filePath: string,
     progressChannel = ""
   ): Promise<DeviceResponse> {
+    const currentVersion = await this.getOsVersion();
+    if(currentVersion.status !== DeviceResponseStatus.Ok){
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+
     let unregisterListeners = noop
     return new Promise<DeviceResponse>(async (resolve) => {
       let step = 0
       let cancelTimeout = noop
-
-      const deviceConnectedListener = () => {
+      const deviceConnectedListener = async () => {
         if (step === PurePhone.osUpdateRestartStep) {
+          const newVersion = await this.getOsVersion();
+          if(newVersion.status !== DeviceResponseStatus.Ok){
+            return resolve({
+              status: DeviceResponseStatus.Error,
+            })
+          }
+          if(newVersion.data === currentVersion.data){
+            return resolve({
+              status: DeviceResponseStatus.Error,
+            })
+          }
+
           resolve({
             status: DeviceResponseStatus.Ok,
           })

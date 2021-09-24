@@ -45,6 +45,7 @@ import registerNotAvailableAppUpdateListener from "App/main/functions/register-n
 import LicenseApp from "./license-app.component"
 import TermsOfServiceApp from "./terms-of-service-app.component"
 import PrivacyPolicyApp from "./privacy-policy-app.component"
+import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 
 interface Props {
   store: Store
@@ -117,7 +118,10 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     const listener = () => {
-      modalService.closeModal(true)
+      const updatingState = store.getState().basicInfo.updatingState
+      if (updatingState !== UpdatingState.Updating) {
+        modalService.closeModal(true)
+      }
       store.dispatch.basicInfo.toggleDeviceConnected(false)
     }
     const unregister = () => {
