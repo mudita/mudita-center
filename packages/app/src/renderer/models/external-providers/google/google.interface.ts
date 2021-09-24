@@ -66,6 +66,7 @@ export interface GoogleContacts {
   connections?: GoogleContactResourceItem[]
   totalPeople: number
   totalItems: number
+  nextPageToken: string
 }
 
 export interface GoogleAuthFailedResponse {
