@@ -262,12 +262,19 @@ describe("getPrerelease util", () => {
 
 jest.mock("App/main/utils/os-releases-manager")
 
+interface MockOsReleasesManagerConfig {
+  productionAvaible: boolean
+  testProductionAvaible: boolean
+  productionAlphaAvaible: boolean
+  testProductionAlphaAvaible: boolean
+}
+
 const mockOsReleasesManager = ({
-  productionAvaible = false,
-  testProductionAvaible = false,
-  productionAlphaAvaible = false,
-  testProductionAlphaAvaible = false,
-}: any) => {
+  productionAvaible,
+  testProductionAvaible,
+  productionAlphaAvaible,
+  testProductionAlphaAvaible,
+}: MockOsReleasesManagerConfig) => {
   OsReleasesManager.isProductionAvaible = jest
     .fn()
     .mockReturnValue(productionAvaible)
