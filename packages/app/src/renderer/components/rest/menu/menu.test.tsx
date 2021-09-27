@@ -9,12 +9,17 @@ import { Router } from "react-router"
 import Menu from "Renderer/components/rest/menu/menu.component"
 import history from "Renderer/routes/history"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { flags, Feature } from "App/feature-flags"
 
-test("matches snapshot", () => {
-  const { container } = renderWithThemeAndIntl(
-    <Router history={history}>
-      <Menu />
-    </Router>
-  )
-  expect(container).toMatchSnapshot()
-})
+const productionEnvironment = flags.get(Feature.DisabledOnProduction)
+
+if (productionEnvironment) {
+  test("matches snapshot", () => {
+    const { container } = renderWithThemeAndIntl(
+      <Router history={history}>
+        <Menu />
+      </Router>
+    )
+    expect(container).toMatchSnapshot()
+  })
+}

@@ -11,6 +11,9 @@ import { noop } from "App/renderer/utils/noop"
 import { AboutTestIds } from "./about.enum"
 import { fireEvent, screen } from "@testing-library/dom"
 import { AppUpdateStepModalTestIds } from "Renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
+import { flags, Feature } from "App/feature-flags"
+
+const productionEnvironment = flags.get(Feature.DisabledOnProduction)
 
 type Props = ComponentProps<typeof AboutUI>
 const defaultProps = {
@@ -60,9 +63,11 @@ test("Opens update modal properly when app update is not available", () => {
   ).toBeInTheDocument()
 })
 
-test("Calls AppUpdateAvailableCheck when clicked", () => {
-  const click = jest.fn()
-  const { queryByTestId } = renderer({ click })
-  fireEvent.click(queryByTestId(AboutTestIds.UpdateButton) as HTMLElement)
-  expect(click).toHaveBeenCalledTimes(1)
-})
+if (!productionEnvironment) {
+  test("Calls AppUpdateAvailableCheck when clicked", () => {
+    const click = jest.fn()
+    const { queryByTestId } = renderer({ click })
+    fireEvent.click(queryByTestId(AboutTestIds.UpdateButton) as HTMLElement)
+    expect(click).toHaveBeenCalledTimes(1)
+  })
+}

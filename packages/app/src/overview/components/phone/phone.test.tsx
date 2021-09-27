@@ -14,6 +14,9 @@ import { Router } from "react-router"
 import { createMemoryHistory } from "history"
 import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
 import { CaseColour } from "@mudita/pure"
+import { flags, Feature } from "App/feature-flags"
+
+const productionEnvironment = flags.get(Feature.DisabledOnProduction)
 
 const renderPhone = ({
   onDisconnect = noop,
@@ -41,8 +44,10 @@ test("disconnect button works properly", async () => {
   expect(onDisconnect).toHaveBeenCalled()
 })
 
-test("Phone Component should render proper phone color", () => {
-  const { getByTestId } = renderPhone({ caseColour: CaseColour.Black })
+if (!productionEnvironment) {
+  test("Phone Component should render proper phone color", () => {
+    const { getByTestId } = renderPhone({ caseColour: CaseColour.Black })
 
-  expect(getByTestId(PhoneTestIds.PureBlack)).toBeInTheDocument()
-})
+    expect(getByTestId(PhoneTestIds.PureBlack)).toBeInTheDocument()
+  })
+}

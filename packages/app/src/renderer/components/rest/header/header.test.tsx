@@ -12,6 +12,9 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { HeaderButton } from "Renderer/wrappers/layout-desktop-wrapper"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { intl } from "Renderer/utils/intl"
+import { flags, Feature } from "App/feature-flags"
+
+const productionEnvironment = flags.get(Feature.DisabledOnProduction)
 
 test("matches snapshot without tabs", () => {
   const currentLocation = "/overview"
@@ -24,16 +27,18 @@ test("matches snapshot without tabs", () => {
   expect(header).toMatchSnapshot()
 })
 
-test("matches snapshot with tabs", () => {
-  const currentLocation = "/phone"
-  const { container } = renderWithThemeAndIntl(
-    <MemoryRouter initialEntries={[currentLocation]}>
-      <Header middleComponent={<Tabs currentLocation={currentLocation} />} />
-    </MemoryRouter>
-  )
-  const header = container.firstChild
-  expect(header).toMatchSnapshot()
-})
+if (!productionEnvironment) {
+  test("matches snapshot with tabs", () => {
+    const currentLocation = "/phone"
+    const { container } = renderWithThemeAndIntl(
+      <MemoryRouter initialEntries={[currentLocation]}>
+        <Header middleComponent={<Tabs currentLocation={currentLocation} />} />
+      </MemoryRouter>
+    )
+    const header = container.firstChild
+    expect(header).toMatchSnapshot()
+  })
+}
 
 test("header should render correct pathname", () => {
   const { getByTestId } = renderWithThemeAndIntl(

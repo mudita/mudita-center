@@ -320,33 +320,6 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
-        data-testid="tethering-link"
-        displaystyle="8"
-        href="#/tethering"
-        size="2"
-      >
-        <span
-          class="c6 c7"
-          data-testid="icon-MenuTethering"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </span>
-        <p
-          class="c8 c9"
-        >
-          [value] module.tethering
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
         displaystyle="8"
         href="#/settings"
         size="2"
