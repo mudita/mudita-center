@@ -6,24 +6,26 @@
 import { ipcMain } from "electron-better-ipc"
 import axios from "axios"
 import logger from "App/main/utils/logger"
-import { isRelease } from "App/main/utils/is-release"
+import mapToReleases from "App/main/utils/map-to-release"
 
 export enum GetAllReleasesEvents {
   Request = "get-all-releases-request",
 }
 
-interface GithubRelease {
+export interface GithubReleaseAsset {
+  content_type: string
+  size: number
+  url: string
+  name: string
+}
+
+export interface GithubRelease {
   tag_name: string
   created_at: string
   published_at: string
   draft: boolean
   prerelease: boolean
-  assets: {
-    content_type: string
-    size: number
-    url: string
-    name: string
-  }[]
+  assets: GithubReleaseAsset[]
 }
 
 export interface Release {
@@ -88,39 +90,15 @@ const registerGetAllReleasesListener = () => {
         }
       } while (retry)
 
-      return releases
-        .map((release): Release | null => {
-          const { assets, tag_name, draft, created_at, published_at } = release
-          const asset = assets.find(
-            (asset) => asset.content_type === "application/x-tar"
-          )
-          if (asset && !draft) {
-            const version = tag_name.replace("daily-", "").replace("release-", "")
+      return mapToReleases(releases).sort((a, b) => {
+        const versionA = a.version
+        const versionB = b.version
 
-            return {
-              version,
-              date: published_at || created_at,
-              prerelease: !isRelease(version),
-              file: {
-                url: asset.url,
-                size: asset.size,
-                name: asset.name,
-              },
-            }
-          } else {
-            return null
-          }
+        return versionB.localeCompare(versionA, undefined, {
+          numeric: true,
+          sensitivity: "base",
         })
-        .filter((release) => release !== null)
-        .sort((a, b) => {
-          const versionA = (a as Release).version
-          const versionB = (b as Release).version
-
-          return versionB.localeCompare(versionA, undefined, {
-            numeric: true,
-            sensitivity: "base",
-          })
-        })
+      })
     })
   }
 }

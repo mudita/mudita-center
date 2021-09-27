@@ -35,4 +35,32 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: false,
     [Environment.TestAlphaProduction]: false,
   },
+  [Feature.OsProductionReleaseAvaible]: {
+    [Environment.Development]: true,
+    [Environment.Production]: true,
+    [Environment.TestProduction]: false,
+    [Environment.AlphaProduction]: false,
+    [Environment.TestAlphaProduction]: false,
+  },
+  [Feature.OsTestProductionReleaseAvaible]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.TestProduction]: true,
+    [Environment.AlphaProduction]: false,
+    [Environment.TestAlphaProduction]: false,
+  },
+  [Feature.OsProductionAlphaReleaseAvaible]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.TestProduction]: false,
+    [Environment.AlphaProduction]: true,
+    [Environment.TestAlphaProduction]: false,
+  },
+  [Feature.OsTestProductionAlphaAvaible]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.TestProduction]: false,
+    [Environment.AlphaProduction]: false,
+    [Environment.TestAlphaProduction]: true,
+  },
 }
