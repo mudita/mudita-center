@@ -24,12 +24,6 @@ test("resolve method return Mudita Harmony device", () => {
     subject.resolve({ productId: ProductID.MuditaHarmony }, "/path/123")
       ?.deviceType
   ).toEqual(DeviceType.MuditaHarmony)
-  expect(
-    subject.resolve(
-      { productId: ProductID.MuditaHarmonyTemporary },
-      "/path/123"
-    )?.deviceType
-  ).toEqual(DeviceType.MuditaHarmony)
 })
 
 test("resolve method return undefine for unknown product id", () => {
