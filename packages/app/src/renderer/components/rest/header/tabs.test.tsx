@@ -10,8 +10,6 @@ import Tabs from "Renderer/components/rest/header/tabs.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { flags, Feature } from "App/feature-flags"
 
-const productionEnvironment = flags.get(Feature.DisabledOnProduction)
-
 test("on current location tabs should not be rendered ", () => {
   const currentLocation = "/overview"
   const { container } = renderWithThemeAndIntl(
@@ -24,7 +22,7 @@ test("on current location tabs should not be rendered ", () => {
   expect(tabLinks).toHaveLength(0)
 })
 
-if (!productionEnvironment) {
+if (!flags.get(Feature.DisabledOnProduction)) {
   test("on current location tabs should be rendered", () => {
     const currentLocation = "/messages"
     const { container } = renderWithThemeAndIntl(

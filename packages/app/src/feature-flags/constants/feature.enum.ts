@@ -12,4 +12,5 @@ export enum Feature {
   OsTestProductionReleaseAvaible = "os-test-production-release-avaible",
   OsProductionAlphaReleaseAvaible = "os-production-alpha-release-avaible",
   OsTestProductionAlphaAvaible = "os-test-production-alpha-release-avaible",
+  PhoneLockTimer = "disabled-on-production",
 }

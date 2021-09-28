@@ -16,8 +16,6 @@ import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
 import { CaseColour } from "@mudita/pure"
 import { flags, Feature } from "App/feature-flags"
 
-const productionEnvironment = flags.get(Feature.DisabledOnProduction)
-
 const renderPhone = ({
   onDisconnect = noop,
   caseColour = CaseColour.Gray,
@@ -44,7 +42,7 @@ test("disconnect button works properly", async () => {
   expect(onDisconnect).toHaveBeenCalled()
 })
 
-if (!productionEnvironment) {
+if (!flags.get(Feature.DisabledOnProduction)) {
   test("Phone Component should render proper phone color", () => {
     const { getByTestId } = renderPhone({ caseColour: CaseColour.Black })
 

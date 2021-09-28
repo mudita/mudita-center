@@ -8,6 +8,10 @@ require("dotenv").config({
 })
 
 module.exports = async function (context) {
+  if (process.env.FEATURE_TOGGLE_ENVIRONMENT !== "production") {
+    return
+  }
+  
   const { electronPlatformName, appOutDir } = context
 
   if (electronPlatformName !== "darwin") {

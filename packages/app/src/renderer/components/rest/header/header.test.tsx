@@ -14,8 +14,6 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { intl } from "Renderer/utils/intl"
 import { flags, Feature } from "App/feature-flags"
 
-const productionEnvironment = flags.get(Feature.DisabledOnProduction)
-
 test("matches snapshot without tabs", () => {
   const currentLocation = "/overview"
   const { container } = renderWithThemeAndIntl(
@@ -27,7 +25,7 @@ test("matches snapshot without tabs", () => {
   expect(header).toMatchSnapshot()
 })
 
-if (!productionEnvironment) {
+if (!flags.get(Feature.DisabledOnProduction)) {
   test("matches snapshot with tabs", () => {
     const currentLocation = "/phone"
     const { container } = renderWithThemeAndIntl(

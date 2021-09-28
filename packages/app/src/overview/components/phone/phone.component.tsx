@@ -28,8 +28,6 @@ import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { Type } from "App/renderer/components/core/icon/icon.config"
 import { flags, Feature } from "App/feature-flags"
 
-const productionEnvironment = flags.get(Feature.DisabledOnProduction)
-
 const Phone: FunctionComponent<PhoneProps> = ({
   className,
   onDisconnect,
@@ -49,13 +47,13 @@ const Phone: FunctionComponent<PhoneProps> = ({
   return (
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
-        {productionEnvironment ? 
-        <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray} /> : 
-        (caseColour === CaseColour.Gray ? (
+        {flags.get(Feature.DisabledOnProduction) ? (
+          <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray} />
+        ) : caseColour === CaseColour.Gray ? (
           <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray} />
         ) : (
           <Image src={PureBlackImage} data-testid={PhoneTestIds.PureBlack} />
-        ))}
+        )}
       </PhoneInfo>
       <CardAction>
         <CardActionButton
@@ -67,18 +65,19 @@ const Phone: FunctionComponent<PhoneProps> = ({
           data-testid={PhoneTestIds.DisconnectButton}
         />
       </CardAction>
-      {!productionEnvironment &&
-      <PureSystemButtonContainer>
-        <ButtonComponent
-          label={intl.formatMessage({
-            id: "module.overview.pureSystem",
-          })}
-          onClick={openPureSystem}
-          data-testid={PhoneTestIds.PureSystemButton}
-          displayStyle={DisplayStyle.Link2}
-          Icon={Type.MenuPhone}
-        />
-      </PureSystemButtonContainer>}
+      {!flags.get(Feature.DisabledOnProduction) && (
+        <PureSystemButtonContainer>
+          <ButtonComponent
+            label={intl.formatMessage({
+              id: "module.overview.pureSystem",
+            })}
+            onClick={openPureSystem}
+            data-testid={PhoneTestIds.PureSystemButton}
+            displayStyle={DisplayStyle.Link2}
+            Icon={Type.MenuPhone}
+          />
+        </PureSystemButtonContainer>
+      )}
     </PhoneCard>
   )
 }

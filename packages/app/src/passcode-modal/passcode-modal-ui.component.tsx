@@ -48,8 +48,6 @@ export const PasscodeModalContent = styled(ModalContent)`
   height: clamp(28rem, 60vh, 46.4rem);
 `
 
-const productionEnvironment = flags.get(Feature.DisabledOnProduction)
-
 export interface PasscodeModalProps {
   openModal: boolean
   close: () => void
@@ -93,7 +91,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
     >
       <PasscodeModalContent>
         <span></span>
-        {productionEnvironment ? 
+        {flags.get(Feature.PhoneLockTimer) ? 
         <PasscodeInputs
         values={values}
         errorMessage={errorMessage}

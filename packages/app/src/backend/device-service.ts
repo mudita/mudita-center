@@ -44,8 +44,6 @@ export enum DeviceServiceEventName {
   DeviceDisconnected = "deviceDisconnected",
 }
 
-const productionEnvironment = flags.get(Feature.DisabledOnProduction)
-
 class DeviceService {
   public devices: Record<string, MuditaDevice> = {}
   public currentDevice: MuditaDevice | undefined
@@ -269,7 +267,7 @@ class DeviceService {
   }
 
   private getUnlockedStatusRequest(): Promise<DeviceResponse<any>> {
-    if (productionEnvironment) {
+    if (flags.get(Feature.PhoneLockTimer)) {
       return this.request({
         endpoint: Endpoint.Security,
         method: Method.Get,

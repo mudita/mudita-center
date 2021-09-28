@@ -15,8 +15,6 @@ import { noop } from "Renderer/utils/noop"
 import { PasscodeLockedTestIds } from "App/passcode-modal/components/PasscodeLocked/passcode-locked-test-ids.enum"
 import { flags, Feature } from "App/feature-flags"
 
-const productionEnvironment = flags.get(Feature.DisabledOnProduction)
-
 type Props = ComponentProps<typeof PasscodeModal>
 
 const defaultProps: Props = {
@@ -114,7 +112,7 @@ test("Message is displayed properly when request about phone lock status return 
     )
   )
 })
-if (!productionEnvironment) {
+if (!flags.get(Feature.DisabledOnProduction)) {
   test("Modal should show phoneLocked info when phone have time block", () => {
     const { phoneLockedContainer } = renderer({ openBlocked: 16308881830 })
     expect(phoneLockedContainer()).toBeInTheDocument()

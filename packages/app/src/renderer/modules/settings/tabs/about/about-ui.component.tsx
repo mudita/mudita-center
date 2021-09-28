@@ -27,8 +27,6 @@ import { borderColor } from "Renderer/styles/theming/theme-getters"
 import { AppUpdateNotAvailable } from "Renderer/wrappers/app-update-step-modal/app-update.modals"
 import { flags, Feature } from "App/feature-flags"
 
-const productionEnvironment = flags.get(Feature.DisabledOnProduction)
-
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
   text-transform: none;
@@ -88,7 +86,7 @@ const AboutUI: FunctionComponent<AboutProps> = ({
       open={appUpdateStepModalShow && !appUpdateAvailable}
     />
     <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
-      {!productionEnvironment && <VersionTableRow>
+      {!flags.get(Feature.DisabledOnProduction) && <VersionTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage
