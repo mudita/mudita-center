@@ -16,7 +16,7 @@ import { ContactDetailsTestIds } from "App/contacts/components/contact-details/c
 import { ResultsState } from "App/contacts/store/contacts.enum"
 import { isContactMatching } from "App/contacts/components/contacts/contacts.component"
 import { InputSearchTestIds } from "Renderer/components/core/input-search/input-search.component"
-import { ContactInputSelectTestIds } from "../contact-input-search/contact-input-search.component"
+import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-search.component"
 
 type Props = ComponentProps<typeof Contacts>
 
