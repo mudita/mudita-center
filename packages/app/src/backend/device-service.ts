@@ -37,7 +37,6 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { MainProcessIpc } from "electron-better-ipc"
-import { flags, Feature } from "App/feature-flags"
 
 export enum DeviceServiceEventName {
   DeviceConnected = "deviceConnected",
