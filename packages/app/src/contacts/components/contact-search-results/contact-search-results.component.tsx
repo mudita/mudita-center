@@ -209,7 +209,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                           Icon={Type.Upload}
                           onClick={handleExport}
                           displayStyle={DisplayStyle.Dropdown}
-                          hide={flags.get(Feature.DisabledOnProduction)}
+                          hide={!flags.get(Feature.DevelopOnly)}
                         />
                         <HiddenButton
                           labelMessage={{
@@ -218,7 +218,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                           Icon={Type.Forward}
                           onClick={handleForward}
                           displayStyle={DisplayStyle.Dropdown}
-                          hide={flags.get(Feature.DisabledOnProduction)}
+                          hide={flags.get(Feature.DevelopOnly)}
                         />
                         {contact.blocked ? (
                           <HiddenButton
@@ -228,7 +228,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                             Icon={Type.Blocked}
                             onClick={handleUnblock}
                             displayStyle={DisplayStyle.Dropdown}
-                            hide={flags.get(Feature.DisabledOnProduction)}
+                            hide={!flags.get(Feature.DevelopOnly)}
                           />
                         ) : (
                           <HiddenButton
@@ -238,7 +238,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                             Icon={Type.Blocked}
                             onClick={handleBlock}
                             displayStyle={DisplayStyle.Dropdown}
-                            hide={flags.get(Feature.DisabledOnProduction)}
+                            hide={!flags.get(Feature.DevelopOnly)}
                           />
                         )}
                         <ButtonComponent

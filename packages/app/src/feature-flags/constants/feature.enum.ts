@@ -17,5 +17,5 @@ export enum Feature {
   PhoneColour = "phone-colour",
   PureSystem = "pure-system-button",
   MCVersion = "mc-version",
-  DevelopMenuItems = "develop-menu-items"
+  DevelopOnly = "development-only",
 }

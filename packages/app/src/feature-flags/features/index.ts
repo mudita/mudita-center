@@ -98,7 +98,7 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: true,
     [Environment.TestAlphaProduction]: true,
   },
-  [Feature.DevelopMenuItems]: {
+  [Feature.DevelopOnly]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
     [Environment.TestProduction]: false,

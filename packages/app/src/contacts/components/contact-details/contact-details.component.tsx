@@ -159,9 +159,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       <ContactDetailsWrapper
         {...rest}
         show
-        headerRight={
-          flags.get(Feature.DisabledOnProduction) ? prodIcons : icons
-        }
+        headerRight={flags.get(Feature.DevelopOnly) ? icons : prodIcons}
         data-testid={ContactDetailsTestIds.Details}
       >
         <BasicInfo>
@@ -190,14 +188,14 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                     // TODO: Implement additional toggles for this feature
                     trailingIcons={
                       contact.primaryPhoneNumber
-                        ? flags.get(Feature.DisabledOnProduction)
-                          ? undefined
-                          : phoneActions(
+                        ? flags.get(Feature.DevelopOnly)
+                          ? phoneActions(
                               contact.primaryPhoneNumber,
                               isThreadOpened(contact.primaryPhoneNumber),
                               onCall,
                               handleMessage
                             )
+                          : undefined
                         : undefined
                     }
                   />
@@ -208,14 +206,14 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                     // TODO: Implement additional toggles for this feature
                     trailingIcons={
                       contact.secondaryPhoneNumber
-                        ? flags.get(Feature.DisabledOnProduction)
-                          ? undefined
-                          : phoneActions(
+                        ? flags.get(Feature.DevelopOnly)
+                          ? phoneActions(
                               contact.secondaryPhoneNumber,
                               isThreadOpened(contact.secondaryPhoneNumber),
                               onCall,
                               handleMessage
                             )
+                          : undefined
                         : undefined
                     }
                   />
