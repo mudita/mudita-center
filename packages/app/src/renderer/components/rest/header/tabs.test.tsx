@@ -25,7 +25,7 @@ test("on current location tabs should not be rendered ", () => {
 })
 
 test("on current location tabs should be rendered", () => {
-  jest.spyOn(flags, "get").mockReturnValueOnce(true)
+  jest.spyOn(flags, "get").mockReturnValueOnce(false)
   const currentLocation = "/messages"
   const { container } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={[currentLocation]}>

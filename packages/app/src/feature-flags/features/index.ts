@@ -63,12 +63,12 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: false,
     [Environment.TestAlphaProduction]: true,
   },
-  [Feature.Messages]: {
-    [Environment.Development]: true,
-    [Environment.Production]: false,
-    [Environment.TestProduction]: false,
-    [Environment.AlphaProduction]: true,
-    [Environment.TestAlphaProduction]: true,
+  [Feature.MessagesHidden]: {
+    [Environment.Development]: false,
+    [Environment.Production]: true,
+    [Environment.TestProduction]: true,
+    [Environment.AlphaProduction]: false,
+    [Environment.TestAlphaProduction]: false,
   },
   [Feature.PhoneLockTimer]: {
     [Environment.Development]: true,
@@ -104,5 +104,12 @@ export const features: EnvironmentConfig = {
     [Environment.TestProduction]: false,
     [Environment.AlphaProduction]: false,
     [Environment.TestAlphaProduction]: false,
+  },
+  [Feature.ProductionAndAlpha]: {
+    [Environment.Development]: false,
+    [Environment.Production]: true,
+    [Environment.TestProduction]: true,
+    [Environment.AlphaProduction]: true,
+    [Environment.TestAlphaProduction]: true,
   },
 }

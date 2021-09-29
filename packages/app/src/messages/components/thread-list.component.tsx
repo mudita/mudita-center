@@ -294,7 +294,7 @@ const ThreadList: FunctionComponent<Props> = ({
                     onClick={noop}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
-                    hide={!flags.get(Feature.DevelopOnly)}
+                    hide={flags.get(Feature.ProductionAndAlpha)}
                   />
                   {isContactCreated(thread.contactId) ? (
                     <ButtonComponent
@@ -318,7 +318,7 @@ const ThreadList: FunctionComponent<Props> = ({
                     />
                   )}
                   {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
-                  {flags.get(Feature.DevelopOnly) && (
+                  {!flags.get(Feature.ProductionAndAlpha) && (
                     <>
                       <HiddenButton
                         labelMessage={{
@@ -330,7 +330,7 @@ const ThreadList: FunctionComponent<Props> = ({
                         onClick={toggleReadStatus}
                         displayStyle={DisplayStyle.Dropdown}
                         data-testid="dropdown-mark-as-read"
-                        hide={!flags.get(Feature.DevelopOnly)}
+                        hide={flags.get(Feature.ProductionAndAlpha)}
                       />
 
                       <ButtonComponent

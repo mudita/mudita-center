@@ -22,7 +22,7 @@ export const PhoneCard = styled(Card)`
     display: flex;
     align-items: flex-end;
     margin-top: auto;
-    margin-bottom: ${flags.get(Feature.PureSystem) ? "4rem" : "2.4rem" } ;
+    margin-bottom: ${flags.get(Feature.PureSystem) ? "2.4rem" : "4rem"};
     padding: 0 5.3rem;
   }
 `

@@ -276,7 +276,7 @@ const ContactList: FunctionComponent<Props> = ({
                             Icon={Type.Upload}
                             onClick={handleExport}
                             displayStyle={DisplayStyle.Dropdown}
-                            hide={!flags.get(Feature.DevelopOnly)}
+                            hide={flags.get(Feature.ProductionAndAlpha)}
                           />
                           <HiddenButton
                             labelMessage={{
@@ -285,7 +285,7 @@ const ContactList: FunctionComponent<Props> = ({
                             Icon={Type.Forward}
                             onClick={handleForward}
                             displayStyle={DisplayStyle.Dropdown}
-                            hide={!flags.get(Feature.DevelopOnly)}
+                            hide={flags.get(Feature.ProductionAndAlpha)}
                           />
                           {contact.blocked ? (
                             <HiddenButton
@@ -295,7 +295,7 @@ const ContactList: FunctionComponent<Props> = ({
                               Icon={Type.Blocked}
                               onClick={handleUnblock}
                               displayStyle={DisplayStyle.Dropdown}
-                              hide={!flags.get(Feature.DevelopOnly)}
+                              hide={flags.get(Feature.ProductionAndAlpha)}
                             />
                           ) : (
                             <HiddenButton
@@ -305,7 +305,7 @@ const ContactList: FunctionComponent<Props> = ({
                               Icon={Type.Blocked}
                               onClick={handleBlock}
                               displayStyle={DisplayStyle.Dropdown}
-                              hide={!flags.get(Feature.DevelopOnly)}
+                              hide={flags.get(Feature.ProductionAndAlpha)}
                             />
                           )}
                           <ButtonComponent
