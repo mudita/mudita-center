@@ -47,12 +47,14 @@ const Phone: FunctionComponent<PhoneProps> = ({
   return (
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
-        {flags.get(Feature.DisabledOnProduction) ? (
-          <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray} />
-        ) : caseColour === CaseColour.Gray ? (
-          <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray} />
+        {flags.get(Feature.PhoneColour) ? (
+          caseColour === CaseColour.Gray ? (
+            <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray} />
+          ) : (
+            <Image src={PureBlackImage} data-testid={PhoneTestIds.PureBlack} />
+          )
         ) : (
-          <Image src={PureBlackImage} data-testid={PhoneTestIds.PureBlack} />
+          <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray} />
         )}
       </PhoneInfo>
       <CardAction>
@@ -65,7 +67,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           data-testid={PhoneTestIds.DisconnectButton}
         />
       </CardAction>
-      {!flags.get(Feature.DisabledOnProduction) && (
+      {flags.get(Feature.PureSystem) && (
         <PureSystemButtonContainer>
           <ButtonComponent
             label={intl.formatMessage({

@@ -13,7 +13,9 @@ import { InputTextTestIds } from "App/renderer/components/core/input-text/input-
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { noop } from "Renderer/utils/noop"
 import { PasscodeLockedTestIds } from "App/passcode-modal/components/PasscodeLocked/passcode-locked-test-ids.enum"
-import { flags, Feature } from "App/feature-flags"
+import { flags } from "App/feature-flags"
+
+jest.mock("App/feature-flags")
 
 type Props = ComponentProps<typeof PasscodeModal>
 
@@ -112,9 +114,9 @@ test("Message is displayed properly when request about phone lock status return 
     )
   )
 })
-if (!flags.get(Feature.DisabledOnProduction)) {
-  test("Modal should show phoneLocked info when phone have time block", () => {
-    const { phoneLockedContainer } = renderer({ openBlocked: 16308881830 })
-    expect(phoneLockedContainer()).toBeInTheDocument()
-  })
-}
+
+test("Modal should show phoneLocked info when phone have time block", () => {
+  jest.spyOn(flags, "get").mockReturnValueOnce(true)
+  const { phoneLockedContainer } = renderer({ openBlocked: 16308881830 })
+  expect(phoneLockedContainer()).toBeInTheDocument()
+})

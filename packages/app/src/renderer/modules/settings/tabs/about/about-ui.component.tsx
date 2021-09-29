@@ -86,7 +86,7 @@ const AboutUI: FunctionComponent<AboutProps> = ({
       open={appUpdateStepModalShow && !appUpdateAvailable}
     />
     <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
-      {!flags.get(Feature.DisabledOnProduction) && <VersionTableRow>
+      {flags.get(Feature.MCVersion) && <VersionTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage

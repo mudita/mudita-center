@@ -14,7 +14,9 @@ import { Router } from "react-router"
 import { createMemoryHistory } from "history"
 import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
 import { CaseColour } from "@mudita/pure"
-import { flags, Feature } from "App/feature-flags"
+import { flags } from "App/feature-flags"
+
+jest.mock("App/feature-flags")
 
 const renderPhone = ({
   onDisconnect = noop,
@@ -42,10 +44,9 @@ test("disconnect button works properly", async () => {
   expect(onDisconnect).toHaveBeenCalled()
 })
 
-if (!flags.get(Feature.DisabledOnProduction)) {
-  test("Phone Component should render proper phone color", () => {
-    const { getByTestId } = renderPhone({ caseColour: CaseColour.Black })
+test("Phone Component should render proper phone color", () => {
+  jest.spyOn(flags, "get").mockReturnValueOnce(true)
+  const { getByTestId } = renderPhone({ caseColour: CaseColour.Black })
 
-    expect(getByTestId(PhoneTestIds.PureBlack)).toBeInTheDocument()
-  })
-}
+  expect(getByTestId(PhoneTestIds.PureBlack)).toBeInTheDocument()
+})

@@ -17,7 +17,7 @@ export const lockedDevice = createAsyncThunk(
   async (_, { getState, dispatch }) => {
     const state = getState() as ReduxRootState
 
-    if (!flags.get(Feature.PhoneLockTimer) && state.device.deviceType === DeviceType.MuditaPure) {
+    if (flags.get(Feature.PhoneLockTimer) && state.device.deviceType === DeviceType.MuditaPure) {
       const response = await getDeviceLockTime()
 
       if (

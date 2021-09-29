@@ -271,12 +271,12 @@ class DeviceService {
       return this.request({
         endpoint: Endpoint.Security,
         method: Method.Get,
+        body: { category: PhoneLockCategory.Status },
       })
     } else {
       return this.request({
         endpoint: Endpoint.Security,
         method: Method.Get,
-        body: { category: PhoneLockCategory.Status },
       })
     }
   }

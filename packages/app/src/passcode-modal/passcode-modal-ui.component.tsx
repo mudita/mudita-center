@@ -91,15 +91,17 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
     >
       <PasscodeModalContent>
         <span></span>
-        {flags.get(Feature.PhoneLockTimer) ? 
-        <PasscodeInputs
-        values={values}
-        errorMessage={errorMessage}
-        onNotAllowedKeyDown={onNotAllowedKeyDown}
-        updateValues={updateValues}
-      /> : 
-        (passcodeBlockedTime ? (
-          <PasscodeLocked time={passcodeBlockedTime} />
+        {flags.get(Feature.PhoneLockTimer) ? (
+          passcodeBlockedTime ? (
+            <PasscodeLocked time={passcodeBlockedTime} />
+          ) : (
+            <PasscodeInputs
+              values={values}
+              errorMessage={errorMessage}
+              onNotAllowedKeyDown={onNotAllowedKeyDown}
+              updateValues={updateValues}
+            />
+          )
         ) : (
           <PasscodeInputs
             values={values}
@@ -107,7 +109,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
             onNotAllowedKeyDown={onNotAllowedKeyDown}
             updateValues={updateValues}
           />
-        ))}
+        )}
         <ButtonContainer>
           <ButtonComponent
             displayStyle={DisplayStyle.Link3}

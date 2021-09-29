@@ -8,7 +8,9 @@ import React from "react"
 import { MemoryRouter } from "react-router-dom"
 import Tabs from "Renderer/components/rest/header/tabs.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { flags, Feature } from "App/feature-flags"
+import { flags } from "App/feature-flags"
+
+jest.mock("App/feature-flags")
 
 test("on current location tabs should not be rendered ", () => {
   const currentLocation = "/overview"
@@ -22,16 +24,15 @@ test("on current location tabs should not be rendered ", () => {
   expect(tabLinks).toHaveLength(0)
 })
 
-if (!flags.get(Feature.DisabledOnProduction)) {
-  test("on current location tabs should be rendered", () => {
-    const currentLocation = "/messages"
-    const { container } = renderWithThemeAndIntl(
-      <MemoryRouter initialEntries={[currentLocation]}>
-        <Tabs currentLocation={currentLocation} />
-      </MemoryRouter>
-    )
+test("on current location tabs should be rendered", () => {
+  jest.spyOn(flags, "get").mockReturnValueOnce(true)
+  const currentLocation = "/messages"
+  const { container } = renderWithThemeAndIntl(
+    <MemoryRouter initialEntries={[currentLocation]}>
+      <Tabs currentLocation={currentLocation} />
+    </MemoryRouter>
+  )
 
-    const tabLinks = container.querySelectorAll("a")
-    expect(tabLinks).toHaveLength(2)
-  })
-}
+  const tabLinks = container.querySelectorAll("a")
+  expect(tabLinks).toHaveLength(2)
+})
