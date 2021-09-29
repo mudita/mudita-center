@@ -35,32 +35,39 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: false,
     [Environment.TestAlphaProduction]: false,
   },
-  [Feature.OsProductionReleaseAvaible]: {
+  [Feature.OsProductionReleaseAvailable]: {
     [Environment.Development]: true,
     [Environment.Production]: true,
     [Environment.TestProduction]: false,
     [Environment.AlphaProduction]: false,
     [Environment.TestAlphaProduction]: false,
   },
-  [Feature.OsTestProductionReleaseAvaible]: {
+  [Feature.OsTestProductionReleaseAvailable]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
     [Environment.TestProduction]: true,
     [Environment.AlphaProduction]: false,
     [Environment.TestAlphaProduction]: false,
   },
-  [Feature.OsProductionAlphaReleaseAvaible]: {
+  [Feature.OsProductionAlphaReleaseAvailable]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
     [Environment.TestProduction]: false,
     [Environment.AlphaProduction]: true,
     [Environment.TestAlphaProduction]: false,
   },
-  [Feature.OsTestProductionAlphaAvaible]: {
+  [Feature.OsTestProductionAlphaReleaseAvailable]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
     [Environment.TestProduction]: false,
     [Environment.AlphaProduction]: false,
+    [Environment.TestAlphaProduction]: true,
+  },
+  [Feature.McPrereleaseAvailable]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.TestProduction]: true,
+    [Environment.AlphaProduction]: true,
     [Environment.TestAlphaProduction]: true,
   },
 }
