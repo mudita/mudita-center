@@ -267,18 +267,11 @@ class DeviceService {
   }
 
   private getUnlockedStatusRequest(): Promise<DeviceResponse<any>> {
-    if (flags.get(Feature.PhoneLockTimer)) {
-      return this.request({
-        endpoint: Endpoint.Security,
-        method: Method.Get,
-        body: { category: PhoneLockCategory.Status },
-      })
-    } else {
-      return this.request({
-        endpoint: Endpoint.Security,
-        method: Method.Get,
-      })
-    }
+    return this.request({
+      endpoint: Endpoint.Security,
+      method: Method.Get,
+      body: { category: PhoneLockCategory.Status },
+    })
   }
 
   private registerAttachDeviceListener(): void {
