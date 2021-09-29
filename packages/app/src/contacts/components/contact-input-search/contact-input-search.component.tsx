@@ -22,6 +22,10 @@ import {
   ContactListItemName,
 } from "App/contacts/components/contact-input-search/contact-input-search.styled"
 
+export enum ContactInputSelectTestIds {
+  Input = "contact-input-select-input",
+}
+
 const messages = defineMessages({
   searchPlaceholder: { id: "module.contacts.panelSearchPlaceholder" },
   noNameProvided: { id: "module.contacts.panelSearchListNoName" },
@@ -126,6 +130,7 @@ const ContactInputSearch: FunctionComponent<Props> = ({
       itemListDisabled={showSearchResults}
       searchValue={searchValue}
       onSearchValueChange={onSearchValueChange}
+      data-testid={ContactInputSelectTestIds.Input}
     />
   )
 }
