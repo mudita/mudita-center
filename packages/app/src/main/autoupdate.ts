@@ -37,6 +37,7 @@ export default (win: BrowserWindow): void => {
   })
   autoUpdater.logger = logger
   autoUpdater.autoDownload = false
+  autoUpdater.allowPrerelease = false
   autoUpdater.autoInstallOnAppQuit = false
 
   autoUpdater.on("update-available", ({ version }) => {
