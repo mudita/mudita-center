@@ -8,6 +8,9 @@ import React from "react"
 import { MemoryRouter } from "react-router-dom"
 import Tabs from "Renderer/components/rest/header/tabs.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { flags } from "App/feature-flags"
+
+jest.mock("App/feature-flags")
 
 test("on current location tabs should not be rendered ", () => {
   const currentLocation = "/overview"
@@ -22,6 +25,7 @@ test("on current location tabs should not be rendered ", () => {
 })
 
 test("on current location tabs should be rendered", () => {
+  jest.spyOn(flags, "get").mockReturnValueOnce(false)
   const currentLocation = "/messages"
   const { container } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={[currentLocation]}>

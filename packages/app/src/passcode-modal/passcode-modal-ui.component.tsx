@@ -18,6 +18,7 @@ import ButtonComponent from "App/renderer/components/core/button/button.componen
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { PasscodeInputs } from "./components/passcode-inputs.component"
 import PasscodeLocked from "App/passcode-modal/components/PasscodeLocked/passcode-locked.component"
+import { flags, Feature } from "App/feature-flags"
 
 const LogoWrapper = styled.div`
   display: flex;
@@ -90,8 +91,17 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
     >
       <PasscodeModalContent>
         <span></span>
-        {passcodeBlockedTime ? (
-          <PasscodeLocked time={passcodeBlockedTime} />
+        {flags.get(Feature.PhoneLockTimer) ? (
+          passcodeBlockedTime ? (
+            <PasscodeLocked time={passcodeBlockedTime} />
+          ) : (
+            <PasscodeInputs
+              values={values}
+              errorMessage={errorMessage}
+              onNotAllowedKeyDown={onNotAllowedKeyDown}
+              updateValues={updateValues}
+            />
+          )
         ) : (
           <PasscodeInputs
             values={values}

@@ -38,7 +38,7 @@ test("downloading file handle properly chunks data", async () => {
               rxID: "1",
               fileSize: 2,
               chunkSize: 1,
-              fileCrc32: "30898FA4",
+              fileCrc32: "30898fa4",
             },
           }
         } else if (
@@ -92,7 +92,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
               rxID: "1",
               fileSize: 0.5,
               chunkSize: 1,
-              fileCrc32: "-6E39CB33",
+              fileCrc32: "91c634cd",
             },
           }
         } else if (

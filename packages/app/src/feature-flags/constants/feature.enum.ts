@@ -12,4 +12,11 @@ export enum Feature {
   OsTestProductionReleaseAvaible = "os-test-production-release-avaible",
   OsProductionAlphaReleaseAvaible = "os-production-alpha-release-avaible",
   OsTestProductionAlphaAvaible = "os-test-production-alpha-release-avaible",
+  PhoneLockTimer = "phone-lock-timer",
+  MessagesHidden = "messages-hidden",
+  PhoneColour = "phone-colour",
+  PureSystem = "pure-system-button",
+  MCVersion = "mc-version",
+  DevelopOnly = "development-only",
+  ProductionAndAlpha = "production-and-alpha"
 }
