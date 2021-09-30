@@ -5,11 +5,14 @@
 
 import { combineReducers } from "redux"
 import { deviceReducer } from "App/device"
+import { backupReducer } from "App/backup"
 
 export const reducers = {
   device: deviceReducer,
+  backup: backupReducer,
 }
 
 export const combinedReducers = combineReducers({
   device: deviceReducer,
+  backup: backupReducer,
 })
