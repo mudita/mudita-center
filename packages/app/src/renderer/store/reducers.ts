@@ -5,7 +5,7 @@
 
 import { combineReducers } from "redux"
 import { deviceReducer } from "App/device"
-import { backupReducer } from "App/backup"
+import { backupReducer } from "App/backup/reducers"
 
 export const reducers = {
   device: deviceReducer,

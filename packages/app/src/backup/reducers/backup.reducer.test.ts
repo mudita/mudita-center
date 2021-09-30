@@ -3,20 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  BackupEvent,
-  backupReducer,
-  initialState,
-  LoadBackupDataError,
-} from "App/backup"
-import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store"
+import { backupReducer, initialState } from "App/backup/reducers/backup.reducer"
+import { BackupEvent } from "App/backup/constants"
+import { BackupDataState } from "App/backup/reducers/backup.interface"
+import { LoadBackupDataError } from "App/backup/errors"
+import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store/helpers"
 
 test("empty event returns initial state", () => {
   expect(backupReducer(undefined, {} as any)).toEqual(initialState)
 })
 
 describe("Load Backup data functionality", () => {
-  console.log("BackupEvent: ", BackupEvent)
   test("Event: Load/pending change `state` to Loading", () => {
     expect(
       backupReducer(undefined, {
@@ -24,6 +21,7 @@ describe("Load Backup data functionality", () => {
       })
     ).toEqual({
       ...initialState,
+      state: BackupDataState.Loading
     })
   })
 
@@ -34,6 +32,7 @@ describe("Load Backup data functionality", () => {
       })
     ).toEqual({
       ...initialState,
+      state: BackupDataState.Loaded
     })
   })
 
@@ -47,6 +46,8 @@ describe("Load Backup data functionality", () => {
       })
     ).toEqual({
       ...initialState,
+      state: BackupDataState.Loaded,
+      error: errorMock,
     })
   })
 })

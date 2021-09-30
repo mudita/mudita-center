@@ -3,4 +3,29 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface BackupState {}
+import { PayloadAction } from "@reduxjs/toolkit"
+import { LoadBackupDataError } from "App/backup/errors"
+import { BackupEvent } from "App/backup/constants"
+
+export interface Backup {
+  filePath: string,
+  date: Date
+}
+
+export enum BackupDataState {
+  Loading,
+  Loaded,
+  Empty,
+  Error,
+}
+
+export interface BackupState {
+  backups: Backup[]
+  state: BackupDataState
+  error: Error | string | null,
+}
+
+export type LoadBackupDataRejectAction = PayloadAction<
+  LoadBackupDataError,
+  BackupEvent.Load
+  >

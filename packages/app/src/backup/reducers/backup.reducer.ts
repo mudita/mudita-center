@@ -4,10 +4,15 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { BackupEvent, BackupState } from "App/backup"
-import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store"
+import { BackupDataState, BackupState, LoadBackupDataRejectAction } from "App/backup/reducers/backup.interface"
+import { BackupEvent } from "App/backup/constants"
+import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store/helpers"
 
-export const initialState: BackupState = {}
+export const initialState: BackupState = {
+  backups: [],
+  state: BackupDataState.Empty,
+  error: null,
+}
 
 export const backupReducer = createReducer<BackupState>(
   initialState,
@@ -16,16 +21,21 @@ export const backupReducer = createReducer<BackupState>(
       .addCase(pendingAction(BackupEvent.Load), (state) => {
         return {
           ...state,
+          state: BackupDataState.Loading
         }
       })
       .addCase(fulfilledAction(BackupEvent.Load), (state) => {
         return {
           ...state,
+          state: BackupDataState.Loaded,
+          error: null
         }
       })
-      .addCase(rejectedAction(BackupEvent.Load), (state) => {
+      .addCase(rejectedAction(BackupEvent.Load), (state, action: LoadBackupDataRejectAction) => {
         return {
           ...state,
+          state: BackupDataState.Loaded,
+          error: action.payload
         }
       })
   }
