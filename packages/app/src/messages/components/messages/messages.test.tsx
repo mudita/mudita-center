@@ -25,6 +25,9 @@ import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
+import { flags } from "App/feature-flags"
+
+jest.mock("App/feature-flags")
 
 const contact: Contact = {
   id: "1",
@@ -511,6 +514,7 @@ describe("Messages component", () => {
   })
 
   test("dropdown mark as read button has correct content ", () => {
+    jest.spyOn(flags, "get").mockReturnValueOnce(false)
     const { getAllByTestId } = renderer()
     expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
       intl.formatMessage({
@@ -520,11 +524,13 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown mark as read buttons", () => {
+    jest.spyOn(flags, "get").mockReturnValueOnce(false)
     const { getByTestId } = renderer()
     expect(getByTestId("dropdown-mark-as-read")).toBeInTheDocument()
   })
 
   test("dropdown delete button has correct content", () => {
+    jest.spyOn(flags, "get").mockReturnValueOnce(true)
     const { getAllByTestId } = renderer()
     expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
       intl.formatMessage({
@@ -534,6 +540,7 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown delete buttons", () => {
+    jest.spyOn(flags, "get").mockReturnValueOnce(true)
     const { getByTestId } = renderer()
     expect(getByTestId("dropdown-delete")).toBeInTheDocument()
   })
