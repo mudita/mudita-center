@@ -10,7 +10,9 @@ import { DeviceType } from "@mudita/pure"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { lockedDevice } from "./locked-device.action"
 import getDeviceLockTime from "App/renderer/requests/get-device-lock-time.request"
+import { flags } from "App/feature-flags"
 
+jest.mock("App/feature-flags")
 jest.mock("App/renderer/requests/get-device-lock-time.request")
 
 describe("Device: MuditaHarmony", () => {
@@ -38,6 +40,7 @@ describe("Device: MuditaHarmony", () => {
 describe("Device: MuditaPure", () => {
   describe("Get Device Lock Time request returns `success` status", () => {
     test("fire async `lockedDevice` set device lock time", async () => {
+      jest.spyOn(flags, "get").mockReturnValueOnce(true)
       ;(getDeviceLockTime as jest.Mock).mockReturnValueOnce({
         status: DeviceResponseStatus.Ok,
         data: {
@@ -68,6 +71,7 @@ describe("Device: MuditaPure", () => {
 
   describe("Get Device Lock Time request returns `unprocessable-entity` status", () => {
     test("fire async `lockedDevice` removes device lock time", async () => {
+      jest.spyOn(flags, "get").mockReturnValueOnce(true)
       ;(getDeviceLockTime as jest.Mock).mockReturnValueOnce({
         status: DeviceResponseStatus.UnprocessableEntity,
       })

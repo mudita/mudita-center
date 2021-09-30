@@ -4,13 +4,13 @@
  */
 
 import * as fs from "fs"
-import * as CRC32 from "crc-32"
 import { Endpoint, Method } from "@mudita/pure"
 import DeviceService from "Backend/device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import logger from "App/main/utils/logger"
+import countCRC32 from "Backend/helpers/count-crc32"
 
 export interface DeviceFile extends Pick<File, "name"> {
   data: string
@@ -73,18 +73,15 @@ class DeviceFileSystemService {
       downloadFileResponse.status === DeviceResponseStatus.Ok &&
       downloadFileResponse.data !== undefined
     ) {
-      const buffer = Buffer.from(downloadFileResponse.data, "base64")
-      const receivedFileCrc32 = parseInt(fileCrc32, 16)
-      const countedFileCrc32 = CRC32.buf(buffer)
+      const fileBuffer = Buffer.from(downloadFileResponse.data, "base64")
+      const receivedFileCrc32 = fileCrc32.toLowerCase()
+      const countedFileCrc32 = countCRC32(fileBuffer)
+      logger.info(`downloadFile crc: received ${receivedFileCrc32}, counted  ${countedFileCrc32}`)
 
-      logger.info(`downloadFile fileCrc32: ${fileCrc32}`)
-      logger.info(`downloadFile receivedFileCrc32: ${receivedFileCrc32}`)
-      logger.info(`downloadFile countedFileCrc32: ${countedFileCrc32}`)
-
-      if (~receivedFileCrc32 === ~countedFileCrc32) {
+      if (receivedFileCrc32 === countedFileCrc32) {
         return {
           status: DeviceResponseStatus.Ok,
-          data: buffer.toString(),
+          data: fileBuffer.toString(),
         }
       } else {
         return {
@@ -112,21 +109,14 @@ class DeviceFileSystemService {
     try {
       const fileSize = fs.lstatSync(filePath).size
       const fileBuffer = fs.readFileSync(filePath)
-      const crc = CRC32.buf(fileBuffer); // -873187034
-      const unsignedCrc = crc >>> 0; // 3421780262
-      const crcHex = (crc >>> 0).toString(16); // 'CBF43926'
-      const crcWithPad = crc.toString(16).padStart(8, "0") // '-340BC6DA'
-      logger.info(`uploadFile crc: ${crc}`)
-      logger.info(`uploadFile unsigned_crc: ${unsignedCrc}`)
-      logger.info(`uploadFile crc_hex: ${crcHex}`)
-      logger.info(`uploadFile crcWithPad: ${crcWithPad}`)
+      const fileCrc32 = countCRC32(fileBuffer)
 
       const { status, data } = await this.deviceService.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,
         body: {
           fileSize,
-          fileCrc32: crcHex,
+          fileCrc32,
           fileName: targetPath,
         },
       })

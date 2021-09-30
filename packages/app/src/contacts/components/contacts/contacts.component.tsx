@@ -110,10 +110,14 @@ export const isContactMatching = (
   ]
   for (const key of query) {
     const param: typeof contact[keyof typeof contact] = contact[key]
+    const fullNameMatchContact = createFullName(contact)
+      .toLowerCase()
+      .includes(search.toLowerCase())
     if (
-      param !== undefined &&
-      typeof param === "string" &&
-      param.toLowerCase().includes(search.toLowerCase())
+      (param !== undefined &&
+        typeof param === "string" &&
+        param.toLowerCase().includes(search.toLowerCase())) ||
+      fullNameMatchContact
     ) {
       return true
     }

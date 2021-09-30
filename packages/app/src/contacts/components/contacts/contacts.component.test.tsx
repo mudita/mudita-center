@@ -15,6 +15,8 @@ import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/con
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 import { ResultsState } from "App/contacts/store/contacts.enum"
 import { isContactMatching } from "App/contacts/components/contacts/contacts.component"
+import { InputSearchTestIds } from "Renderer/components/core/input-search/input-search.component"
+import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-search.component"
 
 type Props = ComponentProps<typeof Contacts>
 
@@ -236,4 +238,13 @@ describe("isContactMatching", () => {
     const result = isContactMatching(contacts[3], searchString)
     expect(result).toBe(false)
   })
+})
+
+test("first name and second name in search shows correct result", () => {
+  const { queryByTestId, getByTestId } = renderer({ flatList: contacts })
+  const input = queryByTestId(
+    ContactInputSelectTestIds.Input
+  ) as HTMLInputElement
+  fireEvent.change(input, { target: { value: "Oswald Bednar" } })
+  expect(getByTestId(InputSearchTestIds.List).childNodes).toHaveLength(4)
 })

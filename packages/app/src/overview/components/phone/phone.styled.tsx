@@ -9,6 +9,7 @@ import Card, {
   CardText,
 } from "App/overview/components/card.elements"
 import { borderColor } from "App/renderer/styles/theming/theme-getters"
+import { flags, Feature } from "App/feature-flags"
 
 export const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
@@ -21,7 +22,7 @@ export const PhoneCard = styled(Card)`
     display: flex;
     align-items: flex-end;
     margin-top: auto;
-    margin-bottom: 2.4rem;
+    margin-bottom: ${flags.get(Feature.PureSystem) ? "2.4rem" : "4rem"};
     padding: 0 5.3rem;
   }
 `
