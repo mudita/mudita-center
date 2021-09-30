@@ -59,6 +59,11 @@ class DeviceService {
     return this
   }
 
+  //for production environment
+  async request(config: {
+    endpoint: Endpoint.Security
+    method: Method.Get
+  }): Promise<DeviceResponse>
   async request(config: {
     endpoint: Endpoint.Security
     method: Method.Get
