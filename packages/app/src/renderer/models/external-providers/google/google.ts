@@ -71,7 +71,7 @@ const google = createModel<ExternalProvidersModels>({
       rootState: ExternalProvidersState
     ): Promise<AxiosResponse<ReturnType>> => {
       const { scope, axiosProps, tries = 0 } = payload
-      const { url, method = "GET", headers, ...rest } = axiosProps
+      const { url, method = "GET", headers, params = {}, ...rest } = axiosProps
 
       let currentToken = rootState.google[scope].access_token
 
@@ -83,6 +83,7 @@ const google = createModel<ExternalProvidersModels>({
       const request = (token?: string) => {
         return axios(url as string, {
           ...rest,
+          params,
           method,
           headers: {
             ...headers,
@@ -193,21 +194,41 @@ const google = createModel<ExternalProvidersModels>({
     const getContacts = async (_: undefined, rootState: any) => {
       logger.info("Getting Google contacts")
 
-      const { data } = await requestWrapper<GoogleContacts>(
-        {
-          scope: Scope.Contacts,
-          axiosProps: {
-            url: `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses,biographies`,
-          },
-        },
-        rootState
-      )
+      return new Promise(async (resolve) => {
+        let contacts: GoogleContactResourceItem[] = []
+        let totalItems = null
+        let nextPageToken = null
 
-      return (
-        data.connections?.map((contact: GoogleContactResourceItem) =>
-          mapContact(contact)
-        ) ?? []
-      )
+        while (nextPageToken === null || contacts.length !== totalItems) {
+          const { data } = (await requestWrapper(
+            {
+              scope: Scope.Contacts,
+              axiosProps: {
+                url: `${googleEndpoints.people}/people/me/connections`,
+                params: {
+                  personFields:
+                    "names,addresses,phoneNumbers,emailAddresses,biographies",
+                  pageSize: 1000,
+                  ...(nextPageToken && {
+                    pageToken: String(nextPageToken),
+                  }),
+                },
+              },
+            },
+            rootState
+          )) as unknown as AxiosResponse<GoogleContacts>
+
+          totalItems = data.totalItems
+          nextPageToken = data.nextPageToken
+          contacts = [...contacts, ...(data.connections ?? [])]
+        }
+
+        resolve(
+          contacts.map((contact: GoogleContactResourceItem) =>
+            mapContact(contact)
+          ) ?? []
+        )
+      })
     }
 
     const getEvents = async (

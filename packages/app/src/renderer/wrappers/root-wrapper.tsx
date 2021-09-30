@@ -56,6 +56,7 @@ import {
   lockedDevice,
   getConnectedDevice,
 } from "App/device"
+// import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 
 interface Props {
   history: History
@@ -157,7 +158,12 @@ const RootWrapper: FunctionComponent<Props> = ({
     const listener = () => {
       disconnectDevice()
 
-      modalService.closeModal(true)
+      // modalService.closeModal(true)
+      // const updatingState = store.getState().basicInfo.updatingState
+      // if (updatingState !== UpdatingState.Updating) {
+      //   modalService.closeModal(true)
+      // }
+      // store.dispatch.basicInfo.toggleDeviceConnected(false)
     }
     const unregister = () => {
       removeDeviceDisconnectedListener(listener)
