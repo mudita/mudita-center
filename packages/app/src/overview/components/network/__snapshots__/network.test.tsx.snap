@@ -66,7 +66,7 @@ exports[`matches snapshot 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  padding: 4rem;
+  padding: 2.4rem;
   box-sizing: border-box;
   border-radius: 0.5rem;
   background-color: #ffffff;

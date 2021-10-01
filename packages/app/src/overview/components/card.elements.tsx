@@ -18,7 +18,7 @@ import Text, {
 const Card = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 4rem;
+  padding: 2.4rem;
   box-sizing: border-box;
   border-radius: ${borderRadius("medium")};
   background-color: ${backgroundColor("row")};

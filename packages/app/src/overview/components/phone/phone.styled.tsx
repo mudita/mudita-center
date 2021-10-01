@@ -14,7 +14,7 @@ import { flags, Feature } from "App/feature-flags"
 export const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
   grid-template-columns: 1fr;
-  height: 56rem;
+  height: 100%;
   padding: 8rem 0 0;
   justify-items: center;
   ${CardAction} {
@@ -37,6 +37,8 @@ export const PhoneInfo = styled(CardContent)`
   }
 `
 export const PureSystemButtonContainer = styled.div`
-  padding: 2.4rem 5.3rem;
+  padding: 2.4rem 0;
+  display: flex;
+  justify-content: center;
   border-top: 0.1rem solid ${borderColor("tetheringSeparator")};
 `

@@ -17,9 +17,11 @@ import {
   setUpdateState,
   startUpdateOs,
 } from "App/device"
+import { lastBackupDateSelector } from "App/backup/selectors"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
+    lastBackupDate: lastBackupDateSelector(state),
     batteryLevel: state.device.data?.batteryLevel,
     osVersion: state.device.data?.osVersion,
     osUpdateDate: state.device.data?.osUpdateDate,
