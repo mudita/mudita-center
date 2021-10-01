@@ -8,7 +8,6 @@ export enum IpcRequest {
   GetBatteryInfo = "get-battery-info",
   GetStorageInfo = "get-storage-info",
   GetNetworkInfo = "get-network-info",
-  GetBackupsInfo = "get-backups-info",
   ConnectDevice = "connect-device",
   DisconnectDevice = "disconnect-device",
   UnlockDevice = "unlock-device",

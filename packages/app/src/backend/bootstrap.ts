@@ -21,7 +21,6 @@ import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.
 import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"
 import registerEditContactRequest from "Backend/requests/phonebook/edit-contact.request"
 import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
-import registerBackupsInfoRequest from "Backend/requests/backups/get-backups-info.request"
 import registerAppSettingsRequest from "Backend/requests/app-settings/get-app-settings.request"
 import registerAppSettingsUpdateRequest from "Backend/requests/app-settings/update-app-settings.request"
 import registerAppSettingsResetRequest from "Backend/requests/app-settings/reset-app-settings.request"
@@ -34,7 +33,6 @@ import registerGetDeviceLogFiles from "Backend/requests/get-device-log-files/get
 import registerGetDeviceCrashDumpFiles from "Backend/requests/get-device-crash-dump-files/get-device-log-files.request"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
-import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
@@ -66,7 +64,6 @@ const bootstrap = (
     pureNetwork: createPurePhoneNetwork(deviceService),
     pureStorage: createPurePhoneStorageAdapter(deviceService),
     appSettings: createAppSettingsAdapter(),
-    pureBackups: createPurePhoneBackupsAdapter(),
     calendar: createCalendarAdapter(),
     pureMessages: createPurePhoneMessagesAdapter(deviceService),
     app: createElectronAppAdapter(),
@@ -87,7 +84,6 @@ const bootstrap = (
     registerAddContactRequest,
     registerEditContactRequest,
     registerDeleteContactsRequest,
-    registerBackupsInfoRequest,
     registerAppSettingsRequest,
     registerAppSettingsUpdateRequest,
     registerAppSettingsResetRequest,

@@ -5,4 +5,3 @@
 
 export * from "./get-network-name.helpers"
 export * from "./get-network-level.helpers"
-export * from "./get-last-back-up.helpers"

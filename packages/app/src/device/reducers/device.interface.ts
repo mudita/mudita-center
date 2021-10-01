@@ -7,7 +7,6 @@ import { CaseColour, DeviceType } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { DeviceEvent } from "App/device/constants"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
-import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
 import { UpdatingState, ConnectionState } from "App/device/constants"
 import {
   DeviceConnectionError,
@@ -24,7 +23,6 @@ export interface PureDeviceData {
   osVersion: string
   batteryLevel: number
   simCards: SimCard[]
-  lastBackup: BackupItemInfo
   serialNumber: string
   phoneLockTime: number
   memorySpace: {
