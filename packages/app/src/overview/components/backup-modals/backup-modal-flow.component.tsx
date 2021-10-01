@@ -11,7 +11,7 @@ import { BackupLoadingModal } from "App/overview/components/backup-process/backu
 import { BackupFinishedModal } from "App/overview/components/backup-process/backup-finished-modal.component"
 import { BackupFailedModal } from "App/overview/components/backup-process/backup-failed-modal.component"
 import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
-import { BackupModalFlowTestIds } from "App/overview/components/backup/backup-modal-flow-test-ids.enum"
+import { BackupModalFlowTestIds } from "App/overview/components/backup-modals/backup-modal-flow-test-ids.enum"
 
 interface Properties {
   openBackupStartModal?: boolean

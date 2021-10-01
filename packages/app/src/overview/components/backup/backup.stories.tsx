@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { ComponentProps } from "react"
 import { Meta } from "@storybook/react"
 import Backup from "App/overview/components/backup/backup.component"
 import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
@@ -24,9 +24,9 @@ const storyContainerStyle = css`
   }
 `
 
-const Template: StoryInterface<
-  React.ComponentProps<typeof Backup> & { storyTitle: string }
-> = (args) => {
+type Props = ComponentProps<typeof Backup> & { storyTitle: string }
+
+const Template: StoryInterface<Props> = (args) => {
   return (
     <StoryContainer column customStyle={storyContainerStyle}>
       <Story title={args.storyTitle} transparentMode>

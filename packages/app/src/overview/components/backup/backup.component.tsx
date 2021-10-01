@@ -5,7 +5,6 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { BackupProps } from "App/overview/components/backup/backup.interface"
 import Card, {
   CardAction,
   CardActionButton,
@@ -23,6 +22,7 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { AppSettings } from "App/main/store/settings.interface"
+import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
 
 const messages = defineMessages({
   lastBackup: { id: "module.overview.backupLastBackup" },
@@ -57,7 +57,13 @@ const FirstBackup = styled(CardText)`
   }
 `
 
-const Backup: FunctionComponent<BackupProps & Partial<AppSettings>> = ({
+interface Props {
+  lastBackup?: BackupItemInfo
+  onBackupCreate: () => void
+  onBackupRestore?: () => void
+}
+
+const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
   className,
   lastBackup,
   onBackupCreate,

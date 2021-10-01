@@ -4,13 +4,12 @@
  */
 
 import "@testing-library/jest-dom/extend-expect"
-import React from "react"
+import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { BackupProps } from "App/overview/components/backup/backup.interface"
-import Backup from "App/overview/components/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { fireEvent } from "@testing-library/react"
+import Backup from "App/overview/components/backup/backup.component"
 
 jest.mock("Renderer/requests/get-file-data")
 
@@ -19,12 +18,37 @@ const lastBackup = {
   size: 102400,
 }
 
-const renderBackup = ({
-  onBackupCreate = noop,
-  ...props
-}: Partial<BackupProps> = {}) => {
+type Props = ComponentProps<typeof Backup>
+
+const defaultProps: Props = {
+  appAutostart: false,
+  appCollectingData: undefined,
+  appConversionFormat: undefined,
+  appConvert: undefined,
+  appIncomingCalls: false,
+  appIncomingMessages: false,
+  appLowBattery: false,
+  appNonStandardAudioFilesConversion: false,
+  appOsUpdates: false,
+  appTethering: false,
+  appTray: false,
+  diagnosticSentTimestamp: 0,
+  language: "en-US",
+  onBackupCreate: noop,
+  pureNeverConnected: false,
+  pureOsBackupLocation: "",
+  pureOsDownloadLocation: ""
+
+}
+
+const renderer = (extraProps?: Partial<Props>) => {
+  const props = {
+    ...defaultProps,
+    ...extraProps,
+  }
+
   const outcome = renderWithThemeAndIntl(
-    <Backup onBackupCreate={onBackupCreate} {...props} />
+    <Backup {...props} />
   )
   return {
     ...outcome,
@@ -40,7 +64,7 @@ const renderBackup = ({
 }
 
 test("renders no backup info properly", () => {
-  const { getByText, createButton } = renderBackup()
+  const { getByText, createButton } = renderer()
   expect(
     getByText(intl.formatMessage({ id: "module.overview.backupCreateFirst" }))
   ).toBeInTheDocument()
@@ -48,7 +72,7 @@ test("renders no backup info properly", () => {
 })
 
 test("renders available backup info properly", () => {
-  const { getByText, restoreButton, createButton } = renderBackup({
+  const { getByText, restoreButton, createButton } = renderer({
     lastBackup,
   })
   expect(
@@ -61,7 +85,7 @@ test("renders available backup info properly", () => {
 test("backup creation button works properly", () => {
   const onBackupCreate = jest.fn()
 
-  const { createButton } = renderBackup({
+  const { createButton } = renderer({
     onBackupCreate,
   })
 
@@ -73,7 +97,7 @@ test("backup creation button works properly", () => {
 test("backup restore button works properly", () => {
   const onBackupRestore = jest.fn()
 
-  const { restoreButton } = renderBackup({
+  const { restoreButton } = renderer({
     lastBackup,
     onBackupRestore,
   })
