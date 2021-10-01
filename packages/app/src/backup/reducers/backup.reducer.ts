@@ -4,9 +4,18 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { BackupDataState, BackupState, LoadBackupDataRejectAction } from "App/backup/reducers/backup.interface"
+import {
+  BackupDataState,
+  BackupState,
+  LoadBackupDataRejectAction,
+  SetBackupDataAction,
+} from "App/backup/reducers/backup.interface"
 import { BackupEvent } from "App/backup/constants"
-import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store/helpers"
+import {
+  fulfilledAction,
+  pendingAction,
+  rejectedAction,
+} from "Renderer/store/helpers"
 
 export const initialState: BackupState = {
   backups: [],
@@ -21,22 +30,36 @@ export const backupReducer = createReducer<BackupState>(
       .addCase(pendingAction(BackupEvent.Load), (state) => {
         return {
           ...state,
-          state: BackupDataState.Loading
+          state: BackupDataState.Loading,
         }
       })
       .addCase(fulfilledAction(BackupEvent.Load), (state) => {
         return {
           ...state,
           state: BackupDataState.Loaded,
-          error: null
+          error: null,
         }
       })
-      .addCase(rejectedAction(BackupEvent.Load), (state, action: LoadBackupDataRejectAction) => {
-        return {
-          ...state,
-          state: BackupDataState.Loaded,
-          error: action.payload
+      .addCase(
+        rejectedAction(BackupEvent.Load),
+        (state, action: LoadBackupDataRejectAction) => {
+          return {
+            ...state,
+            state: BackupDataState.Loaded,
+            error: action.payload,
+          }
         }
-      })
+      )
+
+      .addCase(
+        BackupEvent.SetBackupData,
+        (state, action: SetBackupDataAction) => {
+          return {
+            ...state,
+            backups: [...action.payload],
+            error: null,
+          }
+        }
+      )
   }
 )

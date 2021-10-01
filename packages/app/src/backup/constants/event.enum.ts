@@ -5,4 +5,5 @@
 
 export enum BackupEvent {
   Load = "LOAD_BACKUP_DATA",
+  SetBackupData = "SET_BACKUP_DATA",
 }

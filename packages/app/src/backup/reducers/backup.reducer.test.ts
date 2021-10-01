@@ -3,11 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { PayloadAction } from "@reduxjs/toolkit"
 import { backupReducer, initialState } from "App/backup/reducers/backup.reducer"
 import { BackupEvent } from "App/backup/constants"
-import { BackupDataState } from "App/backup/reducers/backup.interface"
+import { Backup, BackupDataState } from "App/backup/reducers/backup.interface"
 import { LoadBackupDataError } from "App/backup/errors"
-import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store/helpers"
+import {
+  fulfilledAction,
+  pendingAction,
+  rejectedAction,
+} from "Renderer/store/helpers"
 
 test("empty event returns initial state", () => {
   expect(backupReducer(undefined, {} as any)).toEqual(initialState)
@@ -21,7 +26,7 @@ describe("Load Backup data functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      state: BackupDataState.Loading
+      state: BackupDataState.Loading,
     })
   })
 
@@ -32,7 +37,7 @@ describe("Load Backup data functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      state: BackupDataState.Loaded
+      state: BackupDataState.Loaded,
     })
   })
 
@@ -48,6 +53,45 @@ describe("Load Backup data functionality", () => {
       ...initialState,
       state: BackupDataState.Loaded,
       error: errorMock,
+    })
+  })
+})
+
+describe("Set Backup data functionality", () => {
+  const setBackupDataAction: PayloadAction<Backup[]> = {
+    type: BackupEvent.SetBackupData,
+    payload: [
+      {
+        filePath: "C:\\backups\\backup-0.text",
+        date: new Date(),
+      },
+    ],
+  }
+
+  test("Event: SetBackupData set backups field", () => {
+    expect(backupReducer(undefined, setBackupDataAction)).toEqual({
+      ...initialState,
+      backups: setBackupDataAction.payload,
+    })
+  })
+
+  test("Event: SetBackupData replace existing backups field with data received from `payload`", () => {
+    expect(
+      backupReducer(
+        {
+          ...initialState,
+          backups: [
+            {
+              filePath: "C:\\backups\\backup-1.text",
+              date: new Date(),
+            },
+          ],
+        },
+        setBackupDataAction
+      )
+    ).toEqual({
+      ...initialState,
+      backups: setBackupDataAction.payload,
     })
   })
 })

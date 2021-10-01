@@ -29,3 +29,8 @@ export type LoadBackupDataRejectAction = PayloadAction<
   LoadBackupDataError,
   BackupEvent.Load
   >
+
+export type SetBackupDataAction = PayloadAction<
+  Backup[],
+  BackupEvent.SetBackupData
+  >
