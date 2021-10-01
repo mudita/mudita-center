@@ -4,10 +4,35 @@
  */
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { BackupEvent } from "App/backup/constants"
+import getFileData from "Renderer/requests/get-file-data"
+import { LoadBackupDataError } from "App/backup/errors"
+import { setBackupData } from "App/backup/actions/base.action"
+import { RootModel } from "Renderer/models/models"
+import { isResponsesSuccessWithData } from "Renderer/utils/is-responses-success-with-data.helpers"
 
-export const loadBackupData = createAsyncThunk<any, any>(
+export const loadBackupData = createAsyncThunk(
   BackupEvent.Load,
-  async (payload) => {
-    return payload
+  async (_, { getState, dispatch, rejectWithValue }) => {
+    const state = getState() as RootModel
+
+    const pureOsBackupLocation = state.settings.state.pureOsBackupLocation
+
+    if (pureOsBackupLocation === undefined || pureOsBackupLocation === "") {
+      return rejectWithValue(
+        new LoadBackupDataError("Pure OS Backup Location is undefined")
+      )
+    }
+
+    const response = await getFileData({ filePath: pureOsBackupLocation })
+
+    if (!isResponsesSuccessWithData([response])) {
+      return rejectWithValue(
+        new LoadBackupDataError("Get Backups Data request failed")
+      )
+    }
+
+    dispatch(setBackupData(response.data!))
+
+    return
   }
 )
