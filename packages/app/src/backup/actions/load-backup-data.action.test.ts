@@ -41,9 +41,7 @@ describe("async `loadBackupData` ", () => {
       ;(getFileData as jest.Mock).mockReturnValue(successRequestResponse)
       const mockStore = createMockStore([thunk])({
         settings: {
-          state: {
-            pureOsBackupLocation: "C:\\backups",
-          },
+          pureOsBackupLocation: "C:\\backups",
         },
       })
       const {
@@ -71,9 +69,7 @@ describe("async `loadBackupData` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         settings: {
-          state: {
-            pureOsBackupLocation: "",
-          },
+          pureOsBackupLocation: "",
         },
       })
       const {
@@ -97,9 +93,7 @@ describe("async `loadBackupData` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         settings: {
-          state: {
-            pureOsBackupLocation: "C:\\backups",
-          },
+          pureOsBackupLocation: "C:\\backups",
         },
       })
       const {

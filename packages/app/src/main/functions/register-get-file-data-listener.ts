@@ -8,6 +8,7 @@ import { ipcMain } from "electron-better-ipc"
 import RequestResponse, {
   RequestResponseStatus,
 } from "App/main/functions/request-response.interface"
+import path from "path"
 
 export interface GetFileDataProps {
   filePath: string
@@ -28,13 +29,24 @@ const registerGetFileDataListener = (): void => {
     Promise<RequestResponse<FileData[]>>
   >(GetFileDataEvents.Get, async ({ filePath }) => {
     try {
+      if (!fs.existsSync(filePath)) {
+        return {
+          status: RequestResponseStatus.Ok,
+          data: [],
+        }
+      }
+
       const files = fs.readdirSync(filePath)
       return {
         status: RequestResponseStatus.Ok,
-        data: files.map((file) => ({
-          filePath: file,
-          date: new Date(),
-        })),
+        data: files.map((file) => {
+          const childFilePath = path.join(filePath, file)
+          const stats = fs.statSync(childFilePath)
+          return {
+            filePath: childFilePath,
+            date: new Date(stats.mtime),
+          }
+        }),
       }
     } catch {
       return {

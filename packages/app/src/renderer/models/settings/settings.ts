@@ -27,6 +27,7 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import getApplicationConfiguration from "App/renderer/requests/get-application-configuration.request"
 import archiveFiles from "Renderer/requests/archive-files.request"
 import { attachedFileName } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
+import { loadBackupData } from "App/backup/actions"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -89,6 +90,9 @@ const settings = createModel<RootModel>({
         appSettings.appCollectingData
           ? logger.enableRollbar()
           : logger.disableRollbar()
+
+        // @ts-ignore
+        dispatch(loadBackupData())
       },
       async updateSettings(option: SettingsUpdateOption) {
         await updateAppSettings(option)
