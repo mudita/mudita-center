@@ -13,10 +13,7 @@ import Backup from "App/overview/components/backup/backup.component"
 
 jest.mock("Renderer/requests/get-file-data")
 
-const lastBackup = {
-  createdAt: "2020-01-15T07:35:01.562Z",
-  size: 102400,
-}
+const lastBackupDate = new Date("2020-01-15T07:35:01.562Z")
 
 type Props = ComponentProps<typeof Backup>
 
@@ -37,8 +34,7 @@ const defaultProps: Props = {
   onBackupCreate: noop,
   pureNeverConnected: false,
   pureOsBackupLocation: "",
-  pureOsDownloadLocation: ""
-
+  pureOsDownloadLocation: "",
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
@@ -47,9 +43,7 @@ const renderer = (extraProps?: Partial<Props>) => {
     ...extraProps,
   }
 
-  const outcome = renderWithThemeAndIntl(
-    <Backup {...props} />
-  )
+  const outcome = renderWithThemeAndIntl(<Backup {...props} />)
   return {
     ...outcome,
     createButton: () =>
@@ -66,17 +60,17 @@ const renderer = (extraProps?: Partial<Props>) => {
 test("renders no backup info properly", () => {
   const { getByText, createButton } = renderer()
   expect(
-    getByText(intl.formatMessage({ id: "module.overview.backupCreateFirst" }))
+    getByText(intl.formatMessage({ id: "module.overview.backupInfoBackupNotAvaibleDescription" }))
   ).toBeInTheDocument()
   expect(createButton()).toBeInTheDocument()
 })
 
 test("renders available backup info properly", () => {
   const { getByText, restoreButton, createButton } = renderer({
-    lastBackup,
+    lastBackupDate,
   })
   expect(
-    getByText("module.overview.backupLastBackup", { exact: false })
+    getByText("module.overview.backupInfoBackupAvaibleDescription", { exact: false })
   ).toBeInTheDocument()
   expect(restoreButton()).toBeInTheDocument()
   expect(createButton()).toBeInTheDocument()
@@ -98,7 +92,7 @@ test("backup restore button works properly", () => {
   const onBackupRestore = jest.fn()
 
   const { restoreButton } = renderer({
-    lastBackup,
+    lastBackupDate,
     onBackupRestore,
   })
 

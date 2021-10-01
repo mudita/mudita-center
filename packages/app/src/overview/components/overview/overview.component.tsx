@@ -62,7 +62,6 @@ const Overview: FunctionComponent<Props> = ({
   ],
   networkName,
   networkLevel,
-  language = "",
   pureOsBackupLocation = "",
   lowestSupportedOsVersion = "",
   updatingState,
@@ -287,7 +286,6 @@ const Overview: FunctionComponent<Props> = ({
         closeBackupFinishedModal={closeBackupFinishedModal}
         closeBackupFailedModal={closeBackupFailedModal}
         startBackup={openBackupLoadingModal}
-        language={language}
         pureOsBackupLocation={pureOsBackupLocation}
         progress={progress}
       />

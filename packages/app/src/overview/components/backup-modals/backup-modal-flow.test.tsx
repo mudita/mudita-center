@@ -15,7 +15,6 @@ const defaultProps: React.ComponentProps<typeof BackupModalFlow> = {
   closeBackupStartModal: jest.fn(),
   closeBackupLoadingModal: jest.fn(),
   startBackup: jest.fn(),
-  language: "en-US",
   pureOsBackupLocation: "pure/backups",
 }
 

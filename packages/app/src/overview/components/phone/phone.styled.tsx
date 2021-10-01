@@ -6,7 +6,7 @@
 import styled from "styled-components"
 import Card, {
   CardAction,
-  CardText,
+  CardContent,
 } from "App/overview/components/card.elements"
 import { borderColor } from "App/renderer/styles/theming/theme-getters"
 import { flags, Feature } from "App/feature-flags"
@@ -27,7 +27,7 @@ export const PhoneCard = styled(Card)`
   }
 `
 
-export const PhoneInfo = styled(CardText)`
+export const PhoneInfo = styled(CardContent)`
   display: flex;
   flex-direction: column;
   align-items: center;

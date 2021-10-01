@@ -6,21 +6,16 @@
 import React, { ComponentProps } from "react"
 import { Meta } from "@storybook/react"
 import Backup from "App/overview/components/backup/backup.component"
-import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 import { css } from "styled-components"
 import { Story as StoryInterface } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 
-const lastBackup: BackupItemInfo = {
-  createdAt: "2020-01-15T07:35:01.562Z",
-  size: 102400,
-}
-
 const storyContainerStyle = css`
   main > * {
-    min-width: 63rem;
+    height: 20.5rem;
+    width: 62rem;
   }
 `
 
@@ -33,7 +28,7 @@ const Template: StoryInterface<Props> = (args) => {
         <Backup
           onBackupCreate={args.onBackupCreate}
           onBackupRestore={args.onBackupRestore}
-          lastBackup={args.lastBackup}
+          lastBackupDate={args.lastBackupDate}
         />
       </Story>
     </StoryContainer>
@@ -48,7 +43,7 @@ export const BackupAvailable = Template.bind({})
 BackupAvailable.args = {
   onBackupCreate: action("create backup"),
   onBackupRestore: action("restore backup"),
-  lastBackup,
+  lastBackupDate: new Date("2020-01-15T07:35:01.562Z")
 }
 
 export default {
