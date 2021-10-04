@@ -41,7 +41,9 @@ export default (win: BrowserWindow): void => {
   autoUpdater.autoInstallOnAppQuit = false
 
   autoUpdater.on("update-available", ({ version }) => {
-    void ipcMain.callRenderer(win, AppUpdateEvent.Available, version)
+    // Each a next MC version won't supports the update OS from 0.76.3
+    logger.info(`new available ${version} version is skipped`)
+    void ipcMain.callRenderer(win, AppUpdateEvent.NotAvailable)
   })
   autoUpdater.on("update-not-available", () => {
     void ipcMain.callRenderer(win, AppUpdateEvent.NotAvailable)
@@ -58,10 +60,10 @@ export default (win: BrowserWindow): void => {
     win.setProgressBar(-1)
   })
   ipcMain.answerRenderer(AppUpdateAction.Download, () => {
-    void autoUpdater.downloadUpdate()
+    // void autoUpdater.downloadUpdate()
   })
   ipcMain.answerRenderer(AppUpdateAction.Install, () => {
-    autoUpdater.quitAndInstall(true, true)
+    // autoUpdater.quitAndInstall(true, true)
   })
   ipcMain.answerRenderer(AppUpdateAction.Check, () => {
     void autoUpdater.checkForUpdatesAndNotify()
