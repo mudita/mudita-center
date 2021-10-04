@@ -50,6 +50,9 @@ const onOsDownloadCancel = () => {
   cancelOsDownload()
 }
 
+// Provided lastSupportedOsVersion property to prevent the operating system from updating to a newer one
+const lastSupportedOsVersion = "0.76.4"
+
 const useSystemUpdateFlow = (
   osVersion: string | undefined,
   osUpdateDate: string | undefined,
@@ -206,7 +209,7 @@ const useSystemUpdateFlow = (
 
         if (
           latestRelease &&
-          !isVersionGreater(osVersion, latestRelease.version)
+          !isVersionGreater(osVersion, lastSupportedOsVersion)
         ) {
           setReleaseToInstall(latestRelease)
 
@@ -223,7 +226,7 @@ const useSystemUpdateFlow = (
             openAvailableUpdateModal(latestRelease)
           }
         } else {
-          onUpdate({ lastAvailableOsVersion: latestRelease?.version })
+          onUpdate({ lastAvailableOsVersion: lastSupportedOsVersion })
 
           if (!silent) {
             openNotAvailableUpdateModal()
