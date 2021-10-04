@@ -13,11 +13,17 @@ import {
   BackupSpinnerModal,
   BackupSuccessModal,
 } from "App/overview/components/backup-modal-dialogs/backup-modal-dialogs"
+import { action } from "@storybook/addon-actions"
 
 export const BackupModalStory = () => {
   return (
     <Story transparentMode>
-      <BackupModal open />
+      <BackupModal
+        open
+        closeModal={action("Close Backup Modal")}
+        onCloseButton={action("Cancel Backup Action")}
+        onActionButtonClick={action("Create Backup Action")}
+      />
     </Story>
   )
 }
