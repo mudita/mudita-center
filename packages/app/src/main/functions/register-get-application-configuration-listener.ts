@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import axios from "axios"
 import { ipcMain } from "electron-better-ipc"
 import {
   osVersion,
@@ -31,23 +30,8 @@ const registerGetApplicationConfigurationListener = (): void => {
   ipcMain.answerRenderer<undefined, ApplicationConfigurationResponse>(
     GetApplicationConfigurationEvents.Request,
     async () => {
-      const url = `${process.env.MUDITA_CENTER_SERVER_URL}/app-configuration`
-
-      try {
-        const { status, data } =
-          await axios.get<ApplicationConfigurationResponse>(url)
-        if (
-          status === 200 &&
-          data?.osVersion !== undefined &&
-          data?.centerVersion !== undefined
-        ) {
-          return data
-        } else {
-          return defaultData
-        }
-      } catch (e) {
-        return defaultData
-      }
+      // remove GetApplicationConfiguration from MC 0.20.3 version
+      return defaultData
     }
   )
 }
