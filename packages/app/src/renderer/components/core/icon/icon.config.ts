@@ -13,6 +13,7 @@ import Battery from "Renderer/svg/battery.svg"
 import BorderCheck from "Renderer/svg/border-check-icon.svg"
 import ChargingBattery from "Renderer/svg/charging-battery.svg"
 import Check from "Renderer/svg/check-icon.svg"
+import CheckCircle from "Renderer/svg/check-circle.svg"
 import CheckIndeterminate from "Renderer/svg/check-indeterminate.svg"
 import Close from "Renderer/svg/close.svg"
 import Delete from "Renderer/svg/delete.svg"
@@ -128,6 +129,7 @@ export enum Type {
   CalendarIcon,
   ChargingBattery,
   Check,
+  CheckCircle,
   CheckIndeterminate,
   Close,
   Delete,
@@ -243,6 +245,7 @@ const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
   [Type.CalendarIcon]: CalendarIcon,
   [Type.ChargingBattery]: ChargingBattery,
   [Type.Check]: Check,
+  [Type.CheckCircle]: CheckCircle,
   [Type.CheckIndeterminate]: CheckIndeterminate,
   [Type.Close]: Close,
   [Type.Delete]: Delete,

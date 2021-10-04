@@ -46,7 +46,6 @@ const messages = defineMessages({
   backupSpinnerModalDescription: {
     id: "module.overview.backupSpinnerModalDescription",
   },
-
   backupBackupFailureModalTitle: {
     id: "module.overview.backupBackupFailureModalTitle",
   },
@@ -58,6 +57,15 @@ const messages = defineMessages({
   },
   backupFailureModalMainButton: {
     id: "module.overview.backupFailureModalMainButton",
+  },
+  backupBackupSuccessModalTitle: {
+    id: "module.overview.backupBackupSuccessModalTitle",
+  },
+  backupBackupSuccessModalDescription: {
+    id: "module.overview.backupBackupSuccessModalDescription",
+  },
+  backupSuccessModalMainButton: {
+    id: "module.overview.backupSuccessModalMainButton",
   },
 })
 
@@ -139,7 +147,12 @@ interface BackupFailureWithHelpModalProps
 }
 
 export const BackupFailureModal: FunctionComponent<BackupFailureWithHelpModalProps> =
-  ({ secondaryActionButtonClick, mainActionButtonClick, onClose, ...props }) => {
+  ({
+    secondaryActionButtonClick,
+    mainActionButtonClick,
+    onClose,
+    ...props
+  }) => {
     const handleOnClose = (): void => {
       if (onClose) {
         onClose()
@@ -148,7 +161,9 @@ export const BackupFailureModal: FunctionComponent<BackupFailureWithHelpModalPro
 
     return (
       <Modal
-        closeButtonLabel={intl.formatMessage(messages.backupFailureModalSecondaryButton)}
+        closeButtonLabel={intl.formatMessage(
+          messages.backupFailureModalSecondaryButton
+        )}
         actionButtonLabel={intl.formatMessage(
           messages.backupFailureModalMainButton
         )}
@@ -172,8 +187,36 @@ export const BackupFailureModal: FunctionComponent<BackupFailureWithHelpModalPro
     )
   }
 
-export const BackupSuccessModal: FunctionComponent<
-  ComponentProps<typeof ModalDialog>
-> = ({ ...props }) => {
-  return <Modal {...props}></Modal>
+interface BackupSuccessModalProps extends ComponentProps<typeof ModalDialog> {
+  description: string
+}
+
+export const BackupSuccessModal: FunctionComponent<BackupSuccessModalProps> = ({
+  description,
+  ...props
+}) => {
+  return (
+    <Modal
+      closeButton={false}
+      actionButtonLabel={intl.formatMessage(
+        messages.backupSuccessModalMainButton
+      )}
+      {...props}
+    >
+      <RoundIconWrapper>
+        <Icon type={Type.CheckCircle} width={3} />
+      </RoundIconWrapper>
+      <ModalText
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={messages.backupBackupSuccessModalTitle}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.MediumFadedText}
+        message={messages.backupBackupSuccessModalDescription}
+      />
+      <ModalText displayStyle={TextDisplayStyle.MediumBoldText}>
+        {description}
+      </ModalText>
+    </Modal>
+  )
 }

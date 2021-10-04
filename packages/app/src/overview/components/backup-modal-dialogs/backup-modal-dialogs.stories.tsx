@@ -40,10 +40,10 @@ export const BackupFailureModalStory = () => {
   return (
     <Story transparentMode>
       <BackupFailureModal
+        open
         closeModal={action("Close Failure Backup Modal")}
         secondaryActionButtonClick={action("Go to Support Action")}
         mainActionButtonClick={action("Cancel Action")}
-        open
       />
     </Story>
   )
@@ -52,7 +52,12 @@ export const BackupFailureModalStory = () => {
 export const BackupSuccessModalStory = () => {
   return (
     <Story transparentMode>
-      <BackupSuccessModal open />
+      <BackupSuccessModal
+        open
+        description={"C:/Mudita OS"}
+        closeModal={action("Close Success Backup Modal")}
+        onActionButtonClick={action("click done Success Backup Button")}
+      />
     </Story>
   )
 }
