@@ -21,6 +21,8 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { Size } from "Renderer/components/core/button/button.config"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import Loader from "Renderer/components/core/loader/loader.component"
 
 const messages = defineMessages({
   backupModalHeaderTitle: {
@@ -37,6 +39,12 @@ const messages = defineMessages({
   },
   backupModalButtonCreateBackup: {
     id: "module.overview.backupModalButtonCreateBackup",
+  },
+  backupSpinnerModalTitle: {
+    id: "module.overview.backupSpinnerModalTitle",
+  },
+  backupSpinnerModalDescription: {
+    id: "module.overview.backupSpinnerModalDescription",
   },
 })
 
@@ -94,7 +102,19 @@ export const BackupModal: FunctionComponent<
 export const BackupSpinnerModal: FunctionComponent<
   ComponentProps<typeof ModalDialog>
 > = ({ ...props }) => {
-  return <Modal {...props}></Modal>
+  return <Modal closeButton={false} closeable={false} {...props}>
+    <RoundIconWrapper>
+      <Loader type={LoaderType.Spinner} size={3} />
+    </RoundIconWrapper>
+    <ModalText
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={messages.backupSpinnerModalTitle}
+    />
+    <ModalText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={messages.backupSpinnerModalDescription}
+    />
+  </Modal>
 }
 
 export const BackupFailureWithHelpModal: FunctionComponent<
