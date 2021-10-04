@@ -8,7 +8,7 @@ import { Meta } from "@storybook/react"
 import { BackupStartModal } from "App/overview/components/backup-restore-deprecated/backup-process/backup-start-modal.component"
 import Story from "Renderer/components/storybook/story.component"
 import {
-  BackupFailureWithHelpModal,
+  BackupFailureModal,
   BackupModal,
   BackupSpinnerModal,
   BackupSuccessModal,
@@ -36,10 +36,15 @@ export const BackupSpinnerModalStory = () => {
   )
 }
 
-export const BackupFailureWithHelpModalStory = () => {
+export const BackupFailureModalStory = () => {
   return (
     <Story transparentMode>
-      <BackupFailureWithHelpModal open />
+      <BackupFailureModal
+        closeModal={action("Close Failure Backup Modal")}
+        secondaryActionButtonClick={action("Go to Support Action")}
+        mainActionButtonClick={action("Cancel Action")}
+        open
+      />
     </Story>
   )
 }

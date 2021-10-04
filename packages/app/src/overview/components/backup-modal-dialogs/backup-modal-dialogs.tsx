@@ -46,6 +46,19 @@ const messages = defineMessages({
   backupSpinnerModalDescription: {
     id: "module.overview.backupSpinnerModalDescription",
   },
+
+  backupBackupFailureModalTitle: {
+    id: "module.overview.backupBackupFailureModalTitle",
+  },
+  backupBackupFailureModalDescription: {
+    id: "module.overview.backupSpinnerModalDescription",
+  },
+  backupFailureModalSecondaryButton: {
+    id: "module.overview.backupFailureModalSecondaryButton",
+  },
+  backupFailureModalMainButton: {
+    id: "module.overview.backupFailureModalMainButton",
+  },
 })
 
 const ModalContent = styled.div`
@@ -102,26 +115,62 @@ export const BackupModal: FunctionComponent<
 export const BackupSpinnerModal: FunctionComponent<
   ComponentProps<typeof ModalDialog>
 > = ({ ...props }) => {
-  return <Modal closeButton={false} closeable={false} {...props}>
-    <RoundIconWrapper>
-      <Loader type={LoaderType.Spinner} size={3} />
-    </RoundIconWrapper>
-    <ModalText
-      displayStyle={TextDisplayStyle.LargeBoldText}
-      message={messages.backupSpinnerModalTitle}
-    />
-    <ModalText
-      displayStyle={TextDisplayStyle.MediumFadedText}
-      message={messages.backupSpinnerModalDescription}
-    />
-  </Modal>
+  return (
+    <Modal closeButton={false} closeable={false} {...props}>
+      <RoundIconWrapper>
+        <Loader type={LoaderType.Spinner} size={3} />
+      </RoundIconWrapper>
+      <ModalText
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={messages.backupSpinnerModalTitle}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.MediumFadedText}
+        message={messages.backupSpinnerModalDescription}
+      />
+    </Modal>
+  )
 }
 
-export const BackupFailureWithHelpModal: FunctionComponent<
-  ComponentProps<typeof ModalDialog>
-> = ({ ...props }) => {
-  return <Modal {...props}></Modal>
+interface BackupFailureWithHelpModalProps
+  extends ComponentProps<typeof ModalDialog> {
+  secondaryActionButtonClick: () => void
+  mainActionButtonClick: () => void
 }
+
+export const BackupFailureModal: FunctionComponent<BackupFailureWithHelpModalProps> =
+  ({ secondaryActionButtonClick, mainActionButtonClick, onClose, ...props }) => {
+    const handleOnClose = (): void => {
+      if (onClose) {
+        onClose()
+      }
+    }
+
+    return (
+      <Modal
+        closeButtonLabel={intl.formatMessage(messages.backupFailureModalSecondaryButton)}
+        actionButtonLabel={intl.formatMessage(
+          messages.backupFailureModalMainButton
+        )}
+        onCloseButton={secondaryActionButtonClick}
+        onActionButtonClick={mainActionButtonClick}
+        onClose={handleOnClose}
+        {...props}
+      >
+        <RoundIconWrapper>
+          <Icon type={Type.Fail} width={4} />
+        </RoundIconWrapper>
+        <ModalText
+          displayStyle={TextDisplayStyle.LargeBoldText}
+          message={messages.backupBackupFailureModalTitle}
+        />
+        <ModalText
+          displayStyle={TextDisplayStyle.MediumFadedText}
+          message={messages.backupBackupFailureModalDescription}
+        />
+      </Modal>
+    )
+  }
 
 export const BackupSuccessModal: FunctionComponent<
   ComponentProps<typeof ModalDialog>
