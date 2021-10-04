@@ -4,17 +4,17 @@
  */
 
 import { Meta } from "@storybook/react"
-import { BackupStartModal } from "App/overview/components/backup-process/backup-start-modal.component"
+import { BackupStartModal } from "App/overview/components/backup-restore-deprecated/backup-process/backup-start-modal.component"
 import Story from "Renderer/components/storybook/story.component"
 import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
 import React from "react"
-import { BackupLoadingModal } from "App/overview/components/backup-process/backup-loading-modal.component"
-import { BackupFailedModal } from "App/overview/components/backup-process/backup-failed-modal.component"
-import { BackupFinishedModal } from "App/overview/components/backup-process/backup-finished-modal.component"
-import { BackupRestorationStartModal } from "App/overview/components/backup-process/restoration-start-modal.component"
-import { BackupRestorationLoadingModal } from "App/overview/components/backup-process/restoration-loading-modal.component"
-import { BackupRestorationFailedModal } from "App/overview/components/backup-process/restoration-failed-modal.component"
-import { BackupRestorationFinishedModal } from "App/overview/components/backup-process/restoration-finished-modal.component"
+import { BackupLoadingModal } from "App/overview/components/backup-restore-deprecated/backup-process/backup-loading-modal.component"
+import { BackupFailedModal } from "App/overview/components/backup-restore-deprecated/backup-process/backup-failed-modal.component"
+import { BackupFinishedModal } from "App/overview/components/backup-restore-deprecated/backup-process/backup-finished-modal.component"
+import { BackupRestorationStartModal } from "App/overview/components/backup-restore-deprecated/backup-process/restoration-start-modal.component"
+import { BackupRestorationLoadingModal } from "App/overview/components/backup-restore-deprecated/backup-process/restoration-loading-modal.component"
+import { BackupRestorationFailedModal } from "App/overview/components/backup-restore-deprecated/backup-process/restoration-failed-modal.component"
+import { BackupRestorationFinishedModal } from "App/overview/components/backup-restore-deprecated/backup-process/restoration-finished-modal.component"
 
 export const BackupStartStory = () => {
   return (
@@ -90,6 +90,6 @@ export const BackupRestorationFinishedStory = () => {
 }
 
 export default {
-  title: "Views|Overview/Backup Modals",
+  title: "Views|Overview/Backup Modals (deprecated)",
   component: BackupStartModal,
 } as Meta

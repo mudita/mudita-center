@@ -6,12 +6,12 @@
 import React from "react"
 import moment from "moment"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { BackupStartModal } from "App/overview/components/backup-process/backup-start-modal.component"
+import { BackupStartModal } from "App/overview/components/backup-restore-deprecated/backup-process/backup-start-modal.component"
 import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
-import { BackupLoadingModal } from "App/overview/components/backup-process/backup-loading-modal.component"
-import { BackupFinishedModal } from "App/overview/components/backup-process/backup-finished-modal.component"
-import { BackupFailedModal } from "App/overview/components/backup-process/backup-failed-modal.component"
-import { BackupModalFlowTestIds } from "App/overview/components/backup-modals/backup-modal-flow-test-ids.enum"
+import { BackupLoadingModal } from "App/overview/components/backup-restore-deprecated/backup-process/backup-loading-modal.component"
+import { BackupFinishedModal } from "App/overview/components/backup-restore-deprecated/backup-process/backup-finished-modal.component"
+import { BackupFailedModal } from "App/overview/components/backup-restore-deprecated/backup-process/backup-failed-modal.component"
+import { BackupModalFlowTestIds } from "App/overview/components/backup-restore-deprecated/backup-modals/backup-modal-flow-test-ids.enum"
 
 interface Properties {
   openBackupStartModal?: boolean

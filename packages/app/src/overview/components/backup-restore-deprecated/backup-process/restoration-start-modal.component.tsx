@@ -11,9 +11,9 @@ import React, { ComponentProps } from "react"
 import {
   FileList,
   PureBackupModal,
-} from "App/overview/components/backup-process/modals.styled"
+} from "App/overview/components/backup-restore-deprecated/backup-process/modals.styled"
 import { defineMessages } from "react-intl"
-import { BackupItem } from "App/overview/components/backup-process/modals.interface"
+import { BackupItem } from "App/overview/components/backup-restore-deprecated/backup-process/modals.interface"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"

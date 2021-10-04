@@ -5,8 +5,8 @@
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
-import BackupModalFlow from "App/overview/components/backup-modals/backup-modal-flow.component"
-import { BackupModalFlowTestIds } from "App/overview/components/backup-modals/backup-modal-flow-test-ids.enum"
+import BackupModalFlow from "App/overview/components/backup-restore-deprecated/backup-modals/backup-modal-flow.component"
+import { BackupModalFlowTestIds } from "App/overview/components/backup-restore-deprecated/backup-modals/backup-modal-flow-test-ids.enum"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 
 const defaultProps: React.ComponentProps<typeof BackupModalFlow> = {

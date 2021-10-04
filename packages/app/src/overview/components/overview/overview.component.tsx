@@ -15,7 +15,7 @@ import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.inte
 import { AppSettings, SettingsState } from "App/main/store/settings.interface"
 import useSystemUpdateFlow from "App/overview/helpers/system-update.hook"
 import logger from "App/main/utils/logger"
-import BackupModalFlow from "App/overview/components/backup-modals/backup-modal-flow.component"
+import BackupModalFlow from "App/overview/components/backup-restore-deprecated/backup-modals/backup-modal-flow.component"
 import ContactSupportModalFlow, {
   ContactSupportModalFlowState,
 } from "Renderer/components/rest/contact-support-modal/contact-support-modal-flow.component"

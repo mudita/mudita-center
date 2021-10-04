@@ -8,19 +8,19 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import React, { ComponentProps } from "react"
-import { PureBackupModal } from "App/overview/components/backup-process/modals.styled"
+import { PureBackupModal } from "App/overview/components/backup-restore-deprecated/backup-process/modals.styled"
 import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
   title: {
-    id: "module.overview.backup.failedBackupModalTitle",
+    id: "module.overview.backupFailedRestoringBackupModalTitle",
   },
   body: {
-    id: "module.overview.backupFailedBackupModalBody",
+    id: "module.overview.backupFailedRestoringBackupModalBody",
   },
 })
 
-export const BackupFailedModal: FunctionComponent<
+export const BackupRestorationFailedModal: FunctionComponent<
   ComponentProps<typeof PureBackupModal>
 > = ({ ...props }) => (
   <PureBackupModal {...props}>
