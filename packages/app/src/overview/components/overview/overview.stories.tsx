@@ -62,7 +62,6 @@ const fakeState: PureOverviewProps = {
   settingsLoaded: true,
   appUpdateStepModalDisplayed: false,
   appUpdateAvailable: false,
-  appUpdateStepModalShow: false,
 }
 
 storiesOf("Views|Overview", module).add("Pure overview", () => (

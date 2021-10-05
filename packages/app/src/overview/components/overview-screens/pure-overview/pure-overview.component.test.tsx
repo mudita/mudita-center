@@ -86,7 +86,6 @@ const defaultProps: ComponentProps<typeof PureOverview> = {
     free: 100,
     full: 200,
   },
-  appUpdateStepModalShow: false,
 }
 
 const render = () => {
