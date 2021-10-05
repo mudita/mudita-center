@@ -5,21 +5,16 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import DeviceResponse from "Backend/adapters/device-response.interface"
+import { IpcRequest } from "Common/requests/ipc-request.enum"
+import {
+  GetBackupDeviceStatusRequestConfigBody,
+  GetBackupDeviceStatusResponseBody,
+} from "@mudita/pure"
 
-export enum GetBackupDeviceStatusDataState {
-  running = "running",
-  error = "error",
-  finished = "finished",
-}
-
-export interface GetBackupDeviceStatusData {
-  state: GetBackupDeviceStatusDataState
-}
-
-const getBackupDeviceStatus = async (): Promise<
-  DeviceResponse<GetBackupDeviceStatusData>
-> => {
-  return await ipcRenderer.callMain("")
+const getBackupDeviceStatus = async (
+  config: GetBackupDeviceStatusRequestConfigBody
+): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>> => {
+  return await ipcRenderer.callMain(IpcRequest.GetBackupDeviceStatus, config)
 }
 
 export default getBackupDeviceStatus

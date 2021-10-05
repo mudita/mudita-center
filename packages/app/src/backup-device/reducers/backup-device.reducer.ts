@@ -10,7 +10,11 @@ import {
   StartBackupDeviceErrorRejectAction,
 } from "App/backup-device/reducers/backup-device.interface"
 import { BackupDeviceEvent } from "App/backup-device/constants"
-import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store"
+import {
+  fulfilledAction,
+  pendingAction,
+  rejectedAction,
+} from "Renderer/store/helpers/action.helper"
 
 export const initialState: BackupDeviceState = {
   state: BackupDeviceDataState.Empty,

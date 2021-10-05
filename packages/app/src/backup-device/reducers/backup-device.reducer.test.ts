@@ -3,11 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { backupDeviceReducer, initialState } from "App/backup-device/reducers/backup-device.reducer"
+import {
+  backupDeviceReducer,
+  initialState,
+} from "App/backup-device/reducers/backup-device.reducer"
 import { BackupDeviceEvent } from "App/backup-device/constants"
 import { StartBackupDeviceError } from "App/backup-device/errors"
 import { BackupDeviceDataState } from "App/backup-device/reducers/backup-device.interface"
-import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store"
+import {
+  fulfilledAction,
+  pendingAction,
+  rejectedAction,
+} from "Renderer/store/helpers/action.helper"
 
 test("empty event returns initial state", () => {
   expect(backupDeviceReducer(undefined, {} as any)).toEqual(initialState)
@@ -21,7 +28,7 @@ describe("Start Backup Device functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      state: BackupDeviceDataState.Running
+      state: BackupDeviceDataState.Running,
     })
   })
 
@@ -32,7 +39,7 @@ describe("Start Backup Device functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      state: BackupDeviceDataState.Finished
+      state: BackupDeviceDataState.Finished,
     })
   })
 
@@ -47,7 +54,7 @@ describe("Start Backup Device functionality", () => {
     ).toEqual({
       ...initialState,
       state: BackupDeviceDataState.Error,
-      error: errorMock
+      error: errorMock,
     })
   })
 })

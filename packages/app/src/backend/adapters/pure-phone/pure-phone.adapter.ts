@@ -12,6 +12,9 @@ import {
   timeout,
   MuditaDevice,
   CaseColour,
+  StartBackupResponseBody,
+  GetBackupDeviceStatusResponseBody,
+  GetBackupDeviceStatusRequestConfigBody,
 } from "@mudita/pure"
 import PurePhoneAdapter, {
   DeviceFilesOption,
@@ -187,12 +190,51 @@ class PurePhone extends PurePhoneAdapter {
     return this.getDeviceFiles(DiagnosticsFileList.CRASH_DUMPS, option)
   }
 
+  public async startBackupDevice(): Promise<
+    DeviceResponse<StartBackupResponseBody>
+  > {
+    return await this.deviceService.request({
+      endpoint: Endpoint.Backup,
+      method: Method.Post,
+    })
+  }
+
+  public async getBackupDeviceStatus(
+    config: GetBackupDeviceStatusRequestConfigBody
+  ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>> {
+    return await this.deviceService.request({
+      endpoint: Endpoint.Backup,
+      method: Method.Get,
+      body: config,
+    })
+  }
+
+  public async downloadDeviceFile(
+    filePath: string
+  ): Promise<DeviceResponse<DeviceFile>> {
+    const { status, data } = await this.deviceFileSystemService.downloadFile(
+      filePath
+    )
+
+    if (status !== DeviceResponseStatus.Ok || data === undefined) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+    const name = filePath.split("/").pop() as string
+
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: { name, data },
+    }
+  }
+
   public async updateOs(
     filePath: string,
     progressChannel = ""
   ): Promise<DeviceResponse> {
-    const currentVersion = await this.getOsVersion();
-    if(currentVersion.status !== DeviceResponseStatus.Ok){
+    const currentVersion = await this.getOsVersion()
+    if (currentVersion.status !== DeviceResponseStatus.Ok) {
       return {
         status: DeviceResponseStatus.Error,
       }
@@ -204,13 +246,13 @@ class PurePhone extends PurePhoneAdapter {
       let cancelTimeout = noop
       const deviceConnectedListener = async () => {
         if (step === PurePhone.osUpdateRestartStep) {
-          const newVersion = await this.getOsVersion();
-          if(newVersion.status !== DeviceResponseStatus.Ok){
+          const newVersion = await this.getOsVersion()
+          if (newVersion.status !== DeviceResponseStatus.Ok) {
             return resolve({
               status: DeviceResponseStatus.Error,
             })
           }
-          if(newVersion.data === currentVersion.data){
+          if (newVersion.data === currentVersion.data) {
             return resolve({
               status: DeviceResponseStatus.Error,
             })

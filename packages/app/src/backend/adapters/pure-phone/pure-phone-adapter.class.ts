@@ -3,12 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceResponse from "Backend/adapters/device-response.interface"
 import {
   GetPhoneLockTimeResponseBody,
   MuditaDevice,
   CaseColour,
+  StartBackupResponseBody,
+  GetBackupDeviceStatusResponseBody,
+  GetBackupDeviceStatusRequestConfigBody,
 } from "@mudita/pure"
+import DeviceResponse from "Backend/adapters/device-response.interface"
 import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 
 export interface DeviceFilesOption {
@@ -40,4 +43,14 @@ export default abstract class PurePhoneAdapter {
     progressChannel?: string
   ): Promise<DeviceResponse>
   public abstract getCaseColour(): Promise<DeviceResponse<CaseColour>>
+  public abstract startBackupDevice(): Promise<
+    DeviceResponse<StartBackupResponseBody>
+  >
+  public abstract getBackupDeviceStatus(
+    config: GetBackupDeviceStatusRequestConfigBody
+  ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>>
+  //TODO: move to a separate adapter
+  public abstract downloadDeviceFile(
+    filePath: string
+  ): Promise<DeviceResponse<DeviceFile>>
 }

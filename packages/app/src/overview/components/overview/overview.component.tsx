@@ -70,6 +70,7 @@ const Overview: FunctionComponent<Props> = ({
   serialNumber,
   caseColour,
   lastBackupDate,
+  startBackupDevice,
 }) => {
   /**
    * Temporary state to demo failure
@@ -308,7 +309,7 @@ const Overview: FunctionComponent<Props> = ({
         onUpdateDownload={download}
         caseColour={caseColour}
         lastBackupDate={lastBackupDate}
-        onBackupCreate={noop}
+        onBackupCreate={startBackupDevice}
         onBackupRestore={noop}
       />
     </>

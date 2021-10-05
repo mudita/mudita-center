@@ -3,36 +3,41 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
+import { pendingAction } from "Renderer/store/helpers/action.helper"
 import { BackupEvent } from "App/backup/constants"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { startBackupDevice } from "App/backup-device/actions/start-backup-device.action"
 import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
-import getBackupDeviceStatus, {
-  GetBackupDeviceStatusData,
-  GetBackupDeviceStatusDataState,
-} from "Renderer/requests/get-backup-device-status.request"
-import startBackupDeviceRequest, {
-  StartBackupDeviceData,
-} from "Renderer/requests/start-backup-device.request"
+import startBackupDeviceRequest from "Renderer/requests/start-backup-device.request"
+import getBackupDeviceStatus from "Renderer/requests/get-backup-device-status.request"
 import downloadDeviceFile from "Renderer/requests/download-device-file.request"
 import writeFile from "Renderer/requests/write-file.request"
-import { loadBackupData } from "App/backup/actions"
 import { testError } from "Renderer/store/constants"
 import { StartBackupDeviceError } from "App/backup-device/errors"
-
+import {
+  GetBackupDeviceStatusDataState,
+  GetBackupDeviceStatusResponseBody,
+  StartBackupResponseBody,
+} from "@mudita/pure"
 jest.mock("Renderer/requests/start-backup-device.request")
 jest.mock("Renderer/requests/get-backup-device-status.request")
 jest.mock("Renderer/requests/download-device-file.request")
 jest.mock("Renderer/requests/write-file.request")
+jest.mock("App/backup/actions/load-backup-data.action", () => ({
+  loadBackupData: jest.fn().mockReturnValue({
+    type: pendingAction(BackupEvent.Load),
+    payload: undefined,
+  }),
+}))
 
 const backupId = `<YYYY-MM-DD>T<HHMMSS>Z`
 
-const successStartBackupDeviceResponse: DeviceResponse<StartBackupDeviceData> =
+const successStartBackupDeviceResponse: DeviceResponse<StartBackupResponseBody> =
   {
     status: DeviceResponseStatus.Ok,
     data: {
@@ -40,26 +45,31 @@ const successStartBackupDeviceResponse: DeviceResponse<StartBackupDeviceData> =
     },
   }
 
-const runningGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusData> =
+const runningGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusResponseBody> =
   {
     status: DeviceResponseStatus.Ok,
     data: {
-      state: GetBackupDeviceStatusDataState.running,
-    },
-  }
-const finishedGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusData> =
-  {
-    status: DeviceResponseStatus.Ok,
-    data: {
-      state: GetBackupDeviceStatusDataState.finished,
+      id: backupId,
+      state: GetBackupDeviceStatusDataState.Running,
     },
   }
 
-const errorGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusData> =
+const finishedGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusResponseBody> =
   {
     status: DeviceResponseStatus.Ok,
     data: {
-      state: GetBackupDeviceStatusDataState.error,
+      id: backupId,
+      location: "sys/user/",
+      state: GetBackupDeviceStatusDataState.Finished,
+    },
+  }
+
+const errorGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusResponseBody> =
+  {
+    status: DeviceResponseStatus.Ok,
+    data: {
+      id: backupId,
+      state: GetBackupDeviceStatusDataState.Error,
     },
   }
 
@@ -71,29 +81,31 @@ const successDownloadDeviceFileResponse: DeviceResponse<DeviceFile> = {
   },
 }
 
-beforeEach(() => {
+afterEach(() => {
   jest.resetAllMocks()
 })
 
 const getBackupDeviceStatusMock: (
   error?: boolean
-) => () => DeviceResponse<GetBackupDeviceStatusData> = (error = false) => {
+) => () => DeviceResponse<GetBackupDeviceStatusResponseBody> = (
+  error = false
+) => {
   let index = 0
   return () => {
     if (error) {
       return errorGetBackupDeviceStatusResponse
     } else if (index === 0) {
-      return runningGetBackupDeviceStatusResponse
+      return finishedGetBackupDeviceStatusResponse
     } else {
       index++
-      return finishedGetBackupDeviceStatusResponse
+      return runningGetBackupDeviceStatusResponse
     }
   }
 }
 
 describe("async `startBackupDevice` ", () => {
   describe("when each request is success", () => {
-    test("fire async `startBackupDevice` trigger `load-backup-data` action", async () => {
+    test("fire async `startBackupDevice` dispatch `loadBackupData` action", async () => {
       ;(startBackupDeviceRequest as jest.Mock).mockReturnValue(
         successStartBackupDeviceResponse
       )
@@ -116,7 +128,8 @@ describe("async `startBackupDevice` ", () => {
       expect(mockStore.getActions()).toEqual([
         startBackupDevice.pending(requestId),
         {
-          type: BackupEvent.Load,
+          type: pendingAction(BackupEvent.Load),
+          payload: undefined,
         },
         startBackupDevice.fulfilled(undefined, requestId, undefined),
       ])
@@ -144,7 +157,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(mockStore.getActions()).toEqual([
         startBackupDevice.pending(requestId),
-        loadBackupData.rejected(testError, requestId, undefined, errorMock),
+        startBackupDevice.rejected(testError, requestId, undefined, errorMock),
       ])
 
       expect(startBackupDeviceRequest).not.toHaveBeenCalled()
@@ -173,7 +186,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(mockStore.getActions()).toEqual([
         startBackupDevice.pending(requestId),
-        loadBackupData.rejected(testError, requestId, undefined, errorMock),
+        startBackupDevice.rejected(testError, requestId, undefined, errorMock),
       ])
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
@@ -205,7 +218,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(mockStore.getActions()).toEqual([
         startBackupDevice.pending(requestId),
-        loadBackupData.rejected(testError, requestId, undefined, errorMock),
+        startBackupDevice.rejected(testError, requestId, undefined, errorMock),
       ])
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
@@ -218,7 +231,7 @@ describe("async `startBackupDevice` ", () => {
   describe("when `downloadDeviceFile` return error", () => {
     test("fire async `startBackupDevice` returns `rejected` action", async () => {
       const errorMock = new StartBackupDeviceError(
-        "Download device file request returns error "
+        "Download device file request returns error"
       )
       ;(startBackupDeviceRequest as jest.Mock).mockReturnValue(
         successStartBackupDeviceResponse
@@ -240,7 +253,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(mockStore.getActions()).toEqual([
         startBackupDevice.pending(requestId),
-        loadBackupData.rejected(testError, requestId, undefined, errorMock),
+        startBackupDevice.rejected(testError, requestId, undefined, errorMock),
       ])
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
@@ -253,7 +266,7 @@ describe("async `startBackupDevice` ", () => {
   describe("when `writeFile` return error", () => {
     test("fire async `startBackupDevice` returns `rejected` action", async () => {
       const errorMock = new StartBackupDeviceError(
-        "Download device file request returns error "
+        "write file request returns error"
       )
       ;(startBackupDeviceRequest as jest.Mock).mockReturnValue(
         successStartBackupDeviceResponse
@@ -276,7 +289,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(mockStore.getActions()).toEqual([
         startBackupDevice.pending(requestId),
-        loadBackupData.rejected(testError, requestId, undefined, errorMock),
+        startBackupDevice.rejected(testError, requestId, undefined, errorMock),
       ])
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()

@@ -30,4 +30,7 @@ export enum IpcRequest {
   GetThreads = "get-threads",
   GetDeviceLockTime = "get-device-lock-time",
   AddMessage = "add-message",
+  StartBackupDevice = "start-backup-device",
+  GetBackupDeviceStatus = "get-backup-device-status",
+  DownloadDeviceFile = "download-device-file",
 }

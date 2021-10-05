@@ -3,17 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { StartBackupResponseBody } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
+import { IpcRequest } from "Common/requests/ipc-request.enum"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
-export interface StartBackupDeviceData {
-  id: string
-}
-
 const startBackupDeviceRequest = async (): Promise<
-  DeviceResponse<StartBackupDeviceData>
+  DeviceResponse<StartBackupResponseBody>
 > => {
-  return await ipcRenderer.callMain("")
+  return await ipcRenderer.callMain(IpcRequest.StartBackupDevice)
 }
 
 export default startBackupDeviceRequest

@@ -18,6 +18,7 @@ import {
   startUpdateOs,
 } from "App/device"
 import { lastBackupDateSelector } from "App/backup/selectors"
+import { startBackupDevice } from "App/backup-device/actions"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -43,6 +44,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   changeSim: (card: SimCard) => dispatch(changeSim(card)),
   setUpdateState: (state: UpdatingState) => dispatch(setUpdateState(state)),
   startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),
+  startBackupDevice: () => dispatch(startBackupDevice()),
   // TODO refactor legacy staff
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
     dispatch.phoneUpdate.update(updateInfo),
