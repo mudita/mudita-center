@@ -4,11 +4,18 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { BackupDeviceState } from "App/backup-device/reducers/backup-device.interface"
+import {
+  BackupDeviceDataState,
+  BackupDeviceState,
+  StartBackupDeviceErrorRejectAction,
+} from "App/backup-device/reducers/backup-device.interface"
 import { BackupDeviceEvent } from "App/backup-device/constants"
 import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store"
 
-export const initialState: BackupDeviceState = {}
+export const initialState: BackupDeviceState = {
+  state: BackupDeviceDataState.Empty,
+  error: null,
+}
 
 export const backupDeviceReducer = createReducer<BackupDeviceState>(
   initialState,
@@ -17,17 +24,28 @@ export const backupDeviceReducer = createReducer<BackupDeviceState>(
       .addCase(pendingAction(BackupDeviceEvent.StartBackupDevice), (state) => {
         return {
           ...state,
+          state: BackupDeviceDataState.Running,
         }
       })
-      .addCase(fulfilledAction(BackupDeviceEvent.StartBackupDevice), (state) => {
-        return {
-          ...state,
+      .addCase(
+        fulfilledAction(BackupDeviceEvent.StartBackupDevice),
+        (state) => {
+          return {
+            ...state,
+            state: BackupDeviceDataState.Finished,
+            error: null,
+          }
         }
-      })
-      .addCase(rejectedAction(BackupDeviceEvent.StartBackupDevice), (state) => {
-        return {
-          ...state,
+      )
+      .addCase(
+        rejectedAction(BackupDeviceEvent.StartBackupDevice),
+        (state, action: StartBackupDeviceErrorRejectAction) => {
+          return {
+            ...state,
+            state: BackupDeviceDataState.Error,
+            error: action.payload,
+          }
         }
-      })
+      )
   }
 )
