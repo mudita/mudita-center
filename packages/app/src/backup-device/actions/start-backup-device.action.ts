@@ -6,8 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { BackupDeviceEvent } from "App/backup-device/constants"
 
-
-export const startBackupDevice = createAsyncThunk<any, any>(
+export const startBackupDevice = createAsyncThunk(
   BackupDeviceEvent.StartBackupDevice,
   async (payload) => {
     return payload
