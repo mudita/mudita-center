@@ -45,7 +45,7 @@ export const backupReducer = createReducer<BackupState>(
         (state, action: LoadBackupDataRejectAction) => {
           return {
             ...state,
-            state: BackupDataState.Loaded,
+            state: BackupDataState.Error,
             error: action.payload,
           }
         }
