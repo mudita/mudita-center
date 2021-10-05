@@ -143,16 +143,10 @@ export const BackupSpinnerModal: FunctionComponent<
 interface BackupFailureWithHelpModalProps
   extends ComponentProps<typeof ModalDialog> {
   secondaryActionButtonClick: () => void
-  mainActionButtonClick: () => void
 }
 
 export const BackupFailureModal: FunctionComponent<BackupFailureWithHelpModalProps> =
-  ({
-    secondaryActionButtonClick,
-    mainActionButtonClick,
-    onClose,
-    ...props
-  }) => {
+  ({ secondaryActionButtonClick, onClose, ...props }) => {
     const handleOnClose = (): void => {
       if (onClose) {
         onClose()
@@ -164,11 +158,7 @@ export const BackupFailureModal: FunctionComponent<BackupFailureWithHelpModalPro
         closeButtonLabel={intl.formatMessage(
           messages.backupFailureModalSecondaryButton
         )}
-        actionButtonLabel={intl.formatMessage(
-          messages.backupFailureModalMainButton
-        )}
         onCloseButton={secondaryActionButtonClick}
-        onActionButtonClick={mainActionButtonClick}
         onClose={handleOnClose}
         {...props}
       >
