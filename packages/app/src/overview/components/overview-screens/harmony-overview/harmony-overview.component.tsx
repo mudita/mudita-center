@@ -105,7 +105,6 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
 
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     osVersion,
-    osUpdateDate,
     updatePhoneOsInfo,
     toggleDeviceUpdating,
     openContactSupportModalFlow,
@@ -162,6 +161,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   return (
     <>
       <UpdatingForceModalFlow
+        deviceType={DeviceType.MuditaHarmony}
         state={getUpdatingForceModalFlowState()}
         updateOs={startUpdateOs}
         osVersion={osVersion}

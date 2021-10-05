@@ -129,7 +129,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
 
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     osVersion,
-    osUpdateDate,
     updatePhoneOsInfo,
     toggleDeviceUpdating,
     openContactSupportModalFlow,
@@ -260,6 +259,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   return (
     <>
       <UpdatingForceModalFlow
+        deviceType={DeviceType.MuditaPure}
         state={getUpdatingForceModalFlowState()}
         updateOs={startUpdateOs}
         osVersion={osVersion}

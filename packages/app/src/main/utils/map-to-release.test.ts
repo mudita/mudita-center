@@ -275,16 +275,16 @@ const mockOsReleasesManager = ({
   productionAlphaAvaible,
   testProductionAlphaAvaible,
 }: MockOsReleasesManagerConfig) => {
-  OsReleasesManager.isProductionAvaible = jest
+  OsReleasesManager.isProductionAvailable = jest
     .fn()
     .mockReturnValue(productionAvaible)
-  OsReleasesManager.isTestProductionAvaible = jest
+  OsReleasesManager.isTestProductionAvailable = jest
     .fn()
     .mockReturnValue(testProductionAvaible)
-  OsReleasesManager.isProductionAlphaAvaible = jest
+  OsReleasesManager.isProductionAlphaAvailable = jest
     .fn()
     .mockReturnValue(productionAlphaAvaible)
-  OsReleasesManager.isTestProductionAlphaAvaible = jest
+  OsReleasesManager.isTestProductionAlphaAvailable = jest
     .fn()
     .mockReturnValue(testProductionAlphaAvaible)
 }
@@ -300,7 +300,7 @@ describe("filterRelease util", () => {
       })
     })
 
-    test("should filtered each included drafts from list", () => {
+    test("should filtered each included drafts from list", async () => {
       const githubReleases: GithubRelease[] = [
         productionGithubRelease,
         {
@@ -309,10 +309,12 @@ describe("filterRelease util", () => {
         },
       ]
 
-      expect(mapToReleases(githubReleases)).toHaveLength(1)
+      const result = await mapToReleases(githubReleases)
+
+      expect(result[0]).toHaveLength(1)
     })
 
-    test("should filtered release where x-tar file isn't exist", () => {
+    test("should filtered release where x-tar file isn't exist", async () => {
       const githubReleases: GithubRelease[] = [
         productionGithubRelease,
         {
@@ -328,10 +330,12 @@ describe("filterRelease util", () => {
         },
       ]
 
-      expect(mapToReleases(githubReleases)).toHaveLength(1)
+      const result = await mapToReleases(githubReleases)
+
+      expect(result[0]).toHaveLength(1)
     })
 
-    test("shouldn't filter any match release relative to OsReleasesManager configuration", () => {
+    test("shouldn't filter any match release relative to OsReleasesManager configuration", async () => {
       const githubReleases: GithubRelease[] = [
         productionGithubRelease,
         testProductionGithubRelease,
@@ -339,7 +343,9 @@ describe("filterRelease util", () => {
         testProductionAlphaRelease,
       ]
 
-      expect(mapToReleases(githubReleases)).toHaveLength(4)
+      const result = await mapToReleases(githubReleases)
+
+      expect(result).toHaveLength(4)
     })
   })
 
@@ -353,7 +359,7 @@ describe("filterRelease util", () => {
       })
     })
 
-    test("should return only Production Releases", () => {
+    test("should return only Production Releases", async () => {
       const githubReleases: GithubRelease[] = [
         productionGithubRelease,
         testProductionGithubRelease,
@@ -361,10 +367,10 @@ describe("filterRelease util", () => {
         testProductionAlphaRelease,
       ]
 
-      expect(mapToReleases(githubReleases)).toHaveLength(1)
-      expect(productionGithubRelease.tag_name).toContain(
-        mapToReleases(githubReleases)[0].version
-      )
+      const result = await mapToReleases(githubReleases)
+
+      expect(result).toHaveLength(1)
+      expect(productionGithubRelease.tag_name).toContain(result[0][0].version)
     })
   })
 
@@ -378,7 +384,7 @@ describe("filterRelease util", () => {
       })
     })
 
-    test("should return only Test Production Releases", () => {
+    test("should return only Test Production Releases", async () => {
       const githubReleases: GithubRelease[] = [
         productionGithubRelease,
         testProductionGithubRelease,
@@ -386,9 +392,11 @@ describe("filterRelease util", () => {
         testProductionAlphaRelease,
       ]
 
-      expect(mapToReleases(githubReleases)).toHaveLength(1)
+      const result = await mapToReleases(githubReleases)
+
+      expect(result).toHaveLength(1)
       expect(testProductionGithubRelease.tag_name).toContain(
-        mapToReleases(githubReleases)[0].version
+        result[0][0].version
       )
     })
   })
@@ -403,7 +411,7 @@ describe("filterRelease util", () => {
       })
     })
 
-    test("should return only Production Alpha Releases Releases", () => {
+    test("should return only Production Alpha Releases Releases", async () => {
       const githubReleases: GithubRelease[] = [
         productionGithubRelease,
         testProductionGithubRelease,
@@ -411,10 +419,10 @@ describe("filterRelease util", () => {
         testProductionAlphaRelease,
       ]
 
-      expect(mapToReleases(githubReleases)).toHaveLength(1)
-      expect(productionAlphaRelease.tag_name).toContain(
-        mapToReleases(githubReleases)[0].version
-      )
+      const result = await mapToReleases(githubReleases)
+
+      expect(result).toHaveLength(1)
+      expect(productionAlphaRelease.tag_name).toContain(result[0][0].version)
     })
   })
 
@@ -428,7 +436,7 @@ describe("filterRelease util", () => {
       })
     })
 
-    test("should return only Test Production Alpha Releases", () => {
+    test("should return only Test Production Alpha Releases", async () => {
       const githubReleases: GithubRelease[] = [
         productionGithubRelease,
         testProductionGithubRelease,
@@ -436,9 +444,11 @@ describe("filterRelease util", () => {
         testProductionAlphaRelease,
       ]
 
-      expect(mapToReleases(githubReleases)).toHaveLength(1)
+      const result = await mapToReleases(githubReleases)
+
+      expect(result[0]).toHaveLength(1)
       expect(testProductionAlphaRelease.tag_name).toContain(
-        mapToReleases(githubReleases)[0].version
+        result[0][0].version
       )
     })
   })

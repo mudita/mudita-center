@@ -84,7 +84,6 @@ const defaultProps: ComponentProps<typeof HarmonyOverview> = {
     free: 100,
     full: 200,
   },
-  appUpdateStepModalShow: false,
 }
 
 const render = () => {

@@ -4,8 +4,9 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
-import axios from "axios"
+import { githubInstance } from "App/main/utils/github-instance"
 import logger from "App/main/utils/logger"
+import { Product } from "App/main/constants"
 import mapToReleases from "App/main/utils/map-to-release"
 
 export enum GetAllReleasesEvents {
@@ -32,6 +33,7 @@ export interface Release {
   version: string
   date: string
   prerelease: boolean
+  product: Product
   file: {
     url: string
     name: string
@@ -40,21 +42,26 @@ export interface Release {
   devMode?: boolean
 }
 
-const osUpdateServerUrl = process.env.OS_UPDATE_SERVER
+export interface ManifestReleases {
+  version: string
+  platform: string
+  target: Product
+  options: string
+  files: {
+    tar: string
+    image: string
+  }
+  checksums: Record<string, string>
+}
 
-// It's required only for development when API rate limits may exceed
-// https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting
-const githubToken = process.env.OS_UPDATE_SERVER_ACCESS_TOKEN
+const osUpdateServerUrl = process.env.OS_UPDATE_SERVER
 
 const releasesRequest = async (
   page = 1,
   perPage = 100
 ): Promise<GithubRelease[]> => {
   try {
-    const response = await axios(osUpdateServerUrl || "", {
-      headers: {
-        ...(githubToken ? { Authorization: `token ${githubToken}` } : {}),
-      },
+    const response = await githubInstance(osUpdateServerUrl || "", {
       params: {
         page: page,
         per_page: perPage,
@@ -90,7 +97,9 @@ const registerGetAllReleasesListener = () => {
         }
       } while (retry)
 
-      return mapToReleases(releases).sort((a, b) => {
+      const mappedReleases = await mapToReleases(releases)
+
+      return mappedReleases[0].sort((a, b) => {
         const versionA = a.version
         const versionB = b.version
 
