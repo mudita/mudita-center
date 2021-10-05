@@ -101,6 +101,7 @@ jest.mock("Renderer/requests/get-battery-info.request", () =>
 )
 
 const defaultProps: Props = {
+  readBackupDeviceError: jest.fn(),
   backupDeviceState: BackupDeviceDataState.Empty,
   diagnosticSentTimestamp: 0,
   networkLevel: "",
@@ -158,7 +159,7 @@ const defaultProps: Props = {
     free: 100,
     full: 200,
   },
-  caseColour: CaseColour.Gray,
+  caseColour: CaseColour.Gray
 }
 
 const render = (extraProps?: Partial<Props>) => {

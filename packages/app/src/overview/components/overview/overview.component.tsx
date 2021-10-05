@@ -47,6 +47,7 @@ type Props = DeviceState["data"] &
   SettingsState &
   DevMode & {
     backupDeviceState: BackupDeviceState["state"]
+    readBackupDeviceError: () => void
   }
 
 const Overview: FunctionComponent<Props> = ({
@@ -83,6 +84,7 @@ const Overview: FunctionComponent<Props> = ({
   lastBackupDate,
   startBackupDevice,
   backupDeviceState,
+  readBackupDeviceError,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -228,6 +230,7 @@ const Overview: FunctionComponent<Props> = ({
 
   const closeBackupDeviceFlowState = () => {
     setBackupDeviceFlowState(undefined)
+    readBackupDeviceError()
   }
 
   useEffect(() => {
