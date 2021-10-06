@@ -4,14 +4,14 @@
  */
 
 import React from "react"
+import moment from "moment"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { BackupStartModal } from "App/overview/components/backup-process/backup-start-modal.component"
 import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
 import { BackupLoadingModal } from "App/overview/components/backup-process/backup-loading-modal.component"
 import { BackupFinishedModal } from "App/overview/components/backup-process/backup-finished-modal.component"
 import { BackupFailedModal } from "App/overview/components/backup-process/backup-failed-modal.component"
-import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
-import { BackupModalFlowTestIds } from "App/overview/components/backup/backup-modal-flow-test-ids.enum"
+import { BackupModalFlowTestIds } from "App/overview/components/backup-modals/backup-modal-flow-test-ids.enum"
 
 interface Properties {
   openBackupStartModal?: boolean
@@ -23,9 +23,8 @@ interface Properties {
   closeBackupFinishedModal: () => void
   closeBackupFailedModal: () => void
   startBackup: () => void
-  language: string
   pureOsBackupLocation: string
-  lastBackup?: BackupItemInfo
+  lastBackupDate?: Date
   progress?: number
 }
 
@@ -39,9 +38,8 @@ const BackupModalFlow: FunctionComponent<Properties> = ({
   closeBackupFinishedModal,
   closeBackupFailedModal,
   startBackup,
-  language,
   pureOsBackupLocation,
-  lastBackup,
+  lastBackupDate,
   progress,
 }) => {
   return (
@@ -51,10 +49,7 @@ const BackupModalFlow: FunctionComponent<Properties> = ({
         items={mockedBackupItems}
         startBackup={startBackup}
         total={"18.1 Gb"}
-        date={
-          lastBackup &&
-          new Date(lastBackup.createdAt).toLocaleDateString(language)
-        }
+        date={moment(lastBackupDate).format("MMMM D, YYYY")}
         closeModal={closeBackupStartModal}
         testId={BackupModalFlowTestIds.Start}
       />

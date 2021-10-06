@@ -72,10 +72,6 @@ exports[`matches snapshot 1`] = `
   background-color: #ffffff;
 }
 
-.c1 {
-  grid-area: Text;
-}
-
 .c4 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -93,6 +89,20 @@ exports[`matches snapshot 1`] = `
   -ms-flex-align: flex-end;
   align-items: flex-end;
   margin-top: auto;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
 }
 
 .c2 p {

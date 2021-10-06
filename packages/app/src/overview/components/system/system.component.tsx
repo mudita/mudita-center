@@ -8,38 +8,56 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Card, {
   CardAction,
   CardActionButton,
-  CardText,
+  CardBody,
   CardContent,
+  CardHeader,
+  CardText,
 } from "App/overview/components/card.elements"
 import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { FormattedMessage } from "react-intl"
+import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import {
-  fontWeight,
-  letterSpacing,
   backgroundColor,
+  letterSpacing,
 } from "Renderer/styles/theming/theme-getters"
 import { noop } from "Renderer/utils/noop"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 
-const TextInfo = styled(CardText)``
+const messages = defineMessages({
+  muditaOsUpdateTitle: {
+    id: "module.overview.muditaOsUpdateTitle",
+  },
+  systemVersionTitle: {
+    id: "module.overview.systemVersionTitle",
+  },
+  systemUpdateDownloaded: {
+    id: "module.overview.systemUpdateDownloaded",
+  },
+  systemUpdateAvailable: {
+    id: "module.overview.systemUpdateAvailable",
+  },
+  systemUpdateUpToDate: {
+    id: "module.overview.systemUpdateUpToDate",
+  },
+  systemUpdateAction: {
+    id: "module.overview.systemUpdateAction",
+  },
 
-const Version = styled.div`
-  span {
-    margin-left: 0.8rem;
-    font-weight: ${fontWeight("light")};
-    text-transform: none;
-  }
-  p {
-    margin-bottom: 0.8rem;
-  }
-`
+  systemDownloadAction: {
+    id: "module.overview.systemDownloadAction",
+  },
+  systemCheckForUpdates: {
+    id: "module.overview.systemCheckForUpdates",
+  },
+})
 
-const AvailableUpdate = styled(Text)`
-  margin-top: 0.8rem;
+const AvailableUpdateText = styled(Text).attrs(() => ({
+  displayStyle: TextDisplayStyle.SmallFadedText,
+}))`
+  margin-left: 2rem;
   text-transform: none;
   display: inline-box;
   padding: 0.3rem 0.5rem;
@@ -58,65 +76,59 @@ interface Props {
 }
 
 const System: FunctionComponent<Props> = ({
-  className,
   osVersion = "",
   updateAvailable,
   updateDownloaded,
   onUpdateCheck = noop,
   onUpdate = noop,
   onDownload = noop,
+  ...props
 }) => {
   return (
-    <Card className={className}>
-      <div>
-        <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-          <FormattedMessage id="module.overview.muditaOsUpdateTitle" />
-        </Text>
-      </div>
-      <CardContent>
-        <TextInfo>
-          <Version>
+    <Card {...props}>
+      <CardHeader>
+        <FormattedMessage {...messages.muditaOsUpdateTitle} />
+      </CardHeader>
+      <CardBody>
+        <CardContent>
+          <CardText>
             <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
-              Current version:
+              <FormattedMessage {...messages.systemVersionTitle} />
             </Text>
             <Text
               displayStyle={TextDisplayStyle.LargeText}
               data-testid={SystemTestIds.OsVersion}
             >
-              <FormattedMessage id="module.overview.muditaOsUpdateTitle" />
+              <FormattedMessage {...messages.muditaOsUpdateTitle} />
               {" " + osVersion}
             </Text>
-          </Version>
+          </CardText>
           {updateAvailable ? (
-            <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+            <AvailableUpdateText>
               {updateDownloaded ? (
-                <FormattedMessage id="module.overview.systemUpdateDownloaded" />
+                <FormattedMessage {...messages.systemUpdateDownloaded} />
               ) : (
-                <FormattedMessage id="module.overview.systemUpdateAvailable" />
+                <FormattedMessage {...messages.systemUpdateAvailable} />
               )}
-            </AvailableUpdate>
+            </AvailableUpdateText>
           ) : (
-            <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
-              <FormattedMessage id="module.overview.systemUpdateUpToDate" />
-            </AvailableUpdate>
+            <AvailableUpdateText>
+              <FormattedMessage {...messages.systemUpdateUpToDate} />
+            </AvailableUpdateText>
           )}
-        </TextInfo>
+        </CardContent>
         <CardAction filled>
           {updateAvailable ? (
             updateDownloaded ? (
               <CardActionButton
                 active
-                label={intl.formatMessage({
-                  id: "module.overview.systemUpdateAction",
-                })}
+                label={intl.formatMessage(messages.systemUpdateAction)}
                 onClick={onUpdate}
               />
             ) : (
               <CardActionButton
                 active
-                label={intl.formatMessage({
-                  id: "module.overview.systemDownloadAction",
-                })}
+                label={intl.formatMessage(messages.systemDownloadAction)}
                 onClick={onDownload}
                 data-testid={SystemTestIds.DownloadButton}
               />
@@ -124,14 +136,12 @@ const System: FunctionComponent<Props> = ({
           ) : (
             <CardActionButton
               active
-              label={intl.formatMessage({
-                id: "module.overview.systemCheckForUpdates",
-              })}
+              label={intl.formatMessage(messages.systemCheckForUpdates)}
               onClick={onUpdateCheck}
             />
           )}
         </CardAction>
-      </CardContent>
+      </CardBody>
     </Card>
   )
 }
