@@ -30,6 +30,10 @@ import {
   PostMessagesResponseBody,
   GetFileListBody,
   GetFileListResponseBody,
+  StartBackupRequestConfig,
+  StartBackupResponseBody,
+  GetBackupDeviceStatusResponseBody,
+  GetBackupDeviceStatusRequestConfig,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
@@ -159,6 +163,12 @@ class DeviceService {
       chunkSize: number
     }>
   >
+  public request(
+    config: StartBackupRequestConfig
+  ): Promise<DeviceResponse<StartBackupResponseBody>>
+  public request(
+    config: GetBackupDeviceStatusRequestConfig
+  ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>>
   async request(
     config: RequestConfig<any>
   ): Promise<DeviceResponse<unknown> | DeviceResponse<undefined>> {
@@ -347,7 +357,11 @@ class DeviceService {
     response: Response<unknown>
   ): DeviceResponse<unknown> {
     const { status, body: data, error } = response
-    if (status === ResponseStatus.Ok || status === ResponseStatus.Accepted) {
+    if (
+      status === ResponseStatus.Ok ||
+      status === ResponseStatus.Accepted ||
+      status === ResponseStatus.Redirect
+    ) {
       return {
         data,
         status: DeviceResponseStatus.Ok,

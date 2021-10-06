@@ -23,6 +23,7 @@ export type CreateDeviceStrategy = (
 export enum ResponseStatus {
   Ok = 200,
   Accepted = 202,
+  Redirect = 303,
   NoContent = 204,
   BadRequest = 400,
   NotFound = 404,

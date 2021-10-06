@@ -9,9 +9,12 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import { osVersion } from "App/main/default-app-configuration.json"
 import {
+  CaseColour,
+  GetBackupDeviceStatusDataState,
+  GetBackupDeviceStatusResponseBody,
   GetPhoneLockTimeResponseBody,
   MuditaDevice,
-  CaseColour,
+  StartBackupResponseBody,
 } from "@mudita/pure"
 import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 
@@ -105,6 +108,39 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public async updateOs(): Promise<DeviceResponse> {
     return {
       status: DeviceResponseStatus.Ok,
+    }
+  }
+
+  public async startBackupDevice(): Promise<
+    DeviceResponse<StartBackupResponseBody>
+  > {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {
+        id: `<YYYY-MM-DD>T<HHMMSS>Z`,
+      },
+    }
+  }
+
+  public async getBackupDeviceStatus(): Promise<
+    DeviceResponse<GetBackupDeviceStatusResponseBody>
+  > {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {
+        id: `<YYYY-MM-DD>T<HHMMSS>Z`,
+        state: GetBackupDeviceStatusDataState.Finished,
+      },
+    }
+  }
+
+  public async downloadDeviceFile(): Promise<DeviceResponse<DeviceFile>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {
+        data: "backup data",
+        name: `<YYYY-MM-DD>T<HHMMSS>Z`,
+      },
     }
   }
 }

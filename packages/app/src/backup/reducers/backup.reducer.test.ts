@@ -41,7 +41,7 @@ describe("Load Backup data functionality", () => {
     })
   })
 
-  test("Event: Load/rejected change `state` to Loaded", () => {
+  test("Event: Load/rejected change `state` to Error", () => {
     const errorMock = new LoadBackupDataError("I'm error")
 
     expect(
@@ -51,7 +51,7 @@ describe("Load Backup data functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      state: BackupDataState.Loaded,
+      state: BackupDataState.Error,
       error: errorMock,
     })
   })
