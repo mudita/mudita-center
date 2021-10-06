@@ -85,26 +85,26 @@ export const filterRelease = (release: GithubRelease): boolean => {
     return false
   }
 
-  if (OsReleasesManager.isProductionAvaible() && isProductionRelease(release)) {
+  if (OsReleasesManager.isProductionAvailable() && isProductionRelease(release)) {
     return true
   }
 
   if (
-    OsReleasesManager.isTestProductionAvaible() &&
+    OsReleasesManager.isTestProductionAvailable() &&
     isTestProductionRelease(release)
   ) {
     return true
   }
 
   if (
-    OsReleasesManager.isProductionAlphaAvaible() &&
+    OsReleasesManager.isProductionAlphaAvailable() &&
     isProductionAlphaRelease(release)
   ) {
     return true
   }
 
   if (
-    OsReleasesManager.isTestProductionAlphaAvaible() &&
+    OsReleasesManager.isTestProductionAlphaAvailable() &&
     isTestProductionAlphaRelease(release)
   ) {
     return true
