@@ -7,16 +7,16 @@ import { Feature, flags } from "App/feature-flags"
 
 class OsReleasesManager {
   public static isProductionAvailable(): boolean {
-    return flags.get(Feature.OsProductionReleaseAvaible)
+    return flags.get(Feature.OsProductionReleaseAvailable)
   }
   public static isTestProductionAvailable(): boolean {
-    return flags.get(Feature.OsTestProductionReleaseAvaible)
+    return flags.get(Feature.OsTestProductionReleaseAvailable)
   }
   public static isProductionAlphaAvailable(): boolean {
-    return flags.get(Feature.OsProductionAlphaReleaseAvaible)
+    return flags.get(Feature.OsProductionAlphaReleaseAvailable)
   }
   public static isTestProductionAlphaAvailable(): boolean {
-    return flags.get(Feature.OsTestProductionAlphaAvaible)
+    return flags.get(Feature.OsTestProductionAlphaReleaseAvailable)
   }
 }
 

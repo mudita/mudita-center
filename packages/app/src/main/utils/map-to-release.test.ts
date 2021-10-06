@@ -263,40 +263,40 @@ describe("getPrerelease util", () => {
 jest.mock("App/main/utils/os-releases-manager")
 
 interface MockOsReleasesManagerConfig {
-  productionAvaible: boolean
-  testProductionAvaible: boolean
-  productionAlphaAvaible: boolean
-  testProductionAlphaAvaible: boolean
+  productionAvailable: boolean
+  testProductionAvailable: boolean
+  productionAlphaAvailable: boolean
+  testProductionAlphaAvailable: boolean
 }
 
 const mockOsReleasesManager = ({
-  productionAvaible,
-  testProductionAvaible,
-  productionAlphaAvaible,
-  testProductionAlphaAvaible,
+  productionAvailable,
+  testProductionAvailable,
+  productionAlphaAvailable,
+  testProductionAlphaAvailable,
 }: MockOsReleasesManagerConfig) => {
   OsReleasesManager.isProductionAvailable = jest
     .fn()
-    .mockReturnValue(productionAvaible)
+    .mockReturnValue(productionAvailable)
   OsReleasesManager.isTestProductionAvailable = jest
     .fn()
-    .mockReturnValue(testProductionAvaible)
+    .mockReturnValue(testProductionAvailable)
   OsReleasesManager.isProductionAlphaAvailable = jest
     .fn()
-    .mockReturnValue(productionAlphaAvaible)
+    .mockReturnValue(productionAlphaAvailable)
   OsReleasesManager.isTestProductionAlphaAvailable = jest
     .fn()
-    .mockReturnValue(testProductionAlphaAvaible)
+    .mockReturnValue(testProductionAlphaAvailable)
 }
 
 describe("filterRelease util", () => {
   describe("when all of release kinds are available", () => {
     beforeEach(() => {
       mockOsReleasesManager({
-        productionAvaible: true,
-        testProductionAvaible: true,
-        productionAlphaAvaible: true,
-        testProductionAlphaAvaible: true,
+        productionAvailable: true,
+        testProductionAvailable: true,
+        productionAlphaAvailable: true,
+        testProductionAlphaAvailable: true,
       })
     })
 
@@ -352,10 +352,10 @@ describe("filterRelease util", () => {
   describe("when only OS Production Releases are available", () => {
     beforeEach(() => {
       mockOsReleasesManager({
-        productionAvaible: true,
-        testProductionAvaible: false,
-        productionAlphaAvaible: false,
-        testProductionAlphaAvaible: false,
+        productionAvailable: true,
+        testProductionAvailable: false,
+        productionAlphaAvailable: false,
+        testProductionAlphaAvailable: false,
       })
     })
 
@@ -377,10 +377,10 @@ describe("filterRelease util", () => {
   describe("when only OS Test Production Releases are available", () => {
     beforeEach(() => {
       mockOsReleasesManager({
-        productionAvaible: false,
-        testProductionAvaible: true,
-        productionAlphaAvaible: false,
-        testProductionAlphaAvaible: false,
+        productionAvailable: false,
+        testProductionAvailable: true,
+        productionAlphaAvailable: false,
+        testProductionAlphaAvailable: false,
       })
     })
 
@@ -402,10 +402,10 @@ describe("filterRelease util", () => {
   describe("when only OS Production Alpha Releases are available", () => {
     beforeEach(() => {
       mockOsReleasesManager({
-        productionAvaible: false,
-        testProductionAvaible: false,
-        productionAlphaAvaible: true,
-        testProductionAlphaAvaible: false,
+        productionAvailable: false,
+        testProductionAvailable: false,
+        productionAlphaAvailable: true,
+        testProductionAlphaAvailable: false,
       })
     })
 
@@ -427,10 +427,10 @@ describe("filterRelease util", () => {
   describe("when only OS Test Production Alpha Releases are available", () => {
     beforeEach(() => {
       mockOsReleasesManager({
-        productionAvaible: false,
-        testProductionAvaible: false,
-        productionAlphaAvaible: false,
-        testProductionAlphaAvaible: true,
+        productionAvailable: false,
+        testProductionAvailable: false,
+        productionAlphaAvailable: false,
+        testProductionAlphaAvailable: true,
       })
     })
 
