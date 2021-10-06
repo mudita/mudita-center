@@ -26,6 +26,7 @@ import registerWriteGzipListener from "App/main/functions/register-write-gzip-li
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/main/functions/register-archive-files-listener"
 import registerGetApplicationConfigurationListener from "App/main/functions/register-get-application-configuration-listener"
+import registerGetFileDataListener from "App/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
@@ -153,6 +154,7 @@ const createWindow = async () => {
   registerWriteGzipListener()
   registerGetApplicationConfigurationListener()
   registerArchiveFilesListener()
+  registerGetFileDataListener()
   registerPureOsDownloadProxy()
 
   if (productionEnvironment) {

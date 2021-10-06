@@ -12,6 +12,8 @@ import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { fireEvent } from "@testing-library/react"
 
+jest.mock("Renderer/requests/get-file-data")
+
 const lastBackup = {
   createdAt: "2020-01-15T07:35:01.562Z",
   size: 102400,

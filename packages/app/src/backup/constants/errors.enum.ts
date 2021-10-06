@@ -3,5 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./get-network-name.helpers"
-export * from "./get-network-level.helpers"
+export enum BackupError {
+  Load = "LOAD_BACKUP_DATA_ERROR",
+}

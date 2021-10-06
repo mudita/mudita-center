@@ -98,24 +98,6 @@ jest.mock("Renderer/requests/get-battery-info.request", () =>
   }))
 )
 
-jest.mock("Renderer/requests/get-backups-info.request", () =>
-  jest.fn(() => ({
-    status: DeviceResponseStatus.Ok,
-    data: {
-      backups: [
-        {
-          createdAt: "20-11-15T07:35:01.562Z20",
-          size: 99999,
-        },
-        {
-          createdAt: "20-01-30T07:35:01.562Z20",
-          size: 1234567,
-        },
-      ],
-    },
-  }))
-)
-
 const renderer = (extraProps?: {}) => {
   const defaultProps: Props = {
     deviceType: undefined,

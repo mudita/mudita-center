@@ -37,10 +37,6 @@ const pureDeviceMock: PureDeviceData = {
       networkLevel: 0.75,
     },
   ],
-  lastBackup: {
-    createdAt: "2020-01-14T11:31:08.244Z",
-    size: 100,
-  },
   serialNumber: "303",
   phoneLockTime: 1630703219,
   memorySpace: {

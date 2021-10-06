@@ -3,5 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./get-network-name.helpers"
-export * from "./get-network-level.helpers"
+export enum BackupEvent {
+  Load = "LOAD_BACKUP_DATA",
+  SetBackupData = "SET_BACKUP_DATA",
+}

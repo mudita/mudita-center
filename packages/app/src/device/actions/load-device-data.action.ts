@@ -11,13 +11,11 @@ import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
-import getBackupsInfo from "Renderer/requests/get-backups-info.request"
 import {
-  checkResponseStatus,
   getActiveNetworkFromSim,
   getActiveNetworkLevelFromSim,
-  getLastBackUp,
 } from "App/device/helpers"
+import { isResponsesSuccessWithData } from "Renderer/utils/is-responses-success-with-data.helpers"
 import { setDeviceData } from "App/device/actions/base.action"
 import { DeviceLoadingError } from "App/device/errors"
 
@@ -37,10 +35,9 @@ export const loadDeviceData = createAsyncThunk<any, DeviceType>(
         getNetworkInfo(),
         getStorageInfo(),
         getBatteryInfo(),
-        getBackupsInfo(),
       ])
 
-      const status = checkResponseStatus(responses)
+      const status = isResponsesSuccessWithData(responses)
 
       if (!status) {
         return rejectWithValue(
@@ -48,10 +45,9 @@ export const loadDeviceData = createAsyncThunk<any, DeviceType>(
         )
       }
 
-      const [info, networkInfo, storageInfo, batteryInfo, backupsInfo] =
+      const [info, networkInfo, storageInfo, batteryInfo] =
         responses
 
-      const lastBackup = getLastBackUp(backupsInfo)
       const networkName = getActiveNetworkFromSim(networkInfo.data!.simCards)
       const networkLevel = getActiveNetworkLevelFromSim(
         networkInfo.data!.simCards
@@ -61,7 +57,6 @@ export const loadDeviceData = createAsyncThunk<any, DeviceType>(
         setDeviceData({
           networkName,
           networkLevel,
-          lastBackup,
           osUpdateDate: info.data!.osUpdateDate,
           osVersion: info.data!.osVersion,
           batteryLevel: batteryInfo.data!.level,
@@ -84,7 +79,7 @@ export const loadDeviceData = createAsyncThunk<any, DeviceType>(
         getBatteryInfo(),
       ])
 
-      const status = checkResponseStatus(responses)
+      const status = isResponsesSuccessWithData(responses)
 
       if (!status) {
         return rejectWithValue(

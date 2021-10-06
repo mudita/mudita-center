@@ -34,10 +34,6 @@ import { CaseColour } from "@mudita/pure"
 const fakeState = {
   batteryLevel: 0,
   disconnectDevice: false,
-  lastBackup: {
-    createdAt: "2020-01-15T07:35:01.562Z",
-    size: 102400,
-  },
   osVersion: "3.0",
   osUpdateAvailable: false,
   osUpdateAlreadyDownloaded: false,

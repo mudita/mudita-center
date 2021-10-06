@@ -6,7 +6,8 @@
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import { checkResponseStatus } from "./check-response-status.helpers"
+import { isResponsesSuccessWithData } from "Renderer/utils/is-responses-success-with-data.helpers"
+
 
 const successResponseMock: DeviceResponse<any> = {
   status: DeviceResponseStatus.Ok,
@@ -23,7 +24,7 @@ const failedResponseMock: DeviceResponse = {
 
 test("returns `true` if each response is succeeded", () => {
   expect(
-    checkResponseStatus([
+    isResponsesSuccessWithData([
       successResponseMock,
       successResponseMock,
       successResponseMock,
@@ -33,7 +34,7 @@ test("returns `true` if each response is succeeded", () => {
 
 test("returns `false` if one of responses is failed", () => {
   expect(
-    checkResponseStatus([
+    isResponsesSuccessWithData([
       successResponseMock,
       successResponseMock,
       failedResponseMock,
@@ -43,7 +44,7 @@ test("returns `false` if one of responses is failed", () => {
 
 test("returns `false` for success response if one of them haven't data", () => {
   expect(
-    checkResponseStatus([
+    isResponsesSuccessWithData([
       successResponseMock,
       successResponseMock,
       successResponseWithEmptyBodyMock,
@@ -53,7 +54,7 @@ test("returns `false` for success response if one of them haven't data", () => {
 
 test("returns `false` if each response is failed", () => {
   expect(
-    checkResponseStatus([
+    isResponsesSuccessWithData([
       failedResponseMock,
       failedResponseMock,
       failedResponseMock,
