@@ -163,7 +163,7 @@ export const menuElements: MenuElement[] = [
   {
     label: messages.yourPure,
     items: YOUR_PURE_BUTTONS,
-    icons: [Type.MenuRange, Type.MenuBattery, Type.Sim, Type.TetheringStatus],
+    icons: flags.get(Feature.ProductionAndAlpha) ? [] : [Type.MenuRange, Type.MenuBattery, Type.Sim, Type.TetheringStatus] ,
     connectedPhoneOnly: true,
     visibleOn: [DeviceType.MuditaPure],
   },
