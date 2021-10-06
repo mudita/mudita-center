@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceType } from "@mudita/pure"
 import React, { ComponentProps, useEffect, useState } from "react"
 import logger from "App/main/utils/logger"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -37,6 +38,7 @@ interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
   onContact: () => void
   onHelp: () => void
   updateOs: (fileName: string) => void
+  deviceType: DeviceType
 }
 
 const UpdatingForceModalFlow: FunctionComponent<Props> = ({
@@ -46,6 +48,7 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
   onHelp,
   closeModal,
   updateOs,
+  deviceType,
 }) => {
   const [updatingForceOpenState, setUpdatingForceOpenState] = useState<
     UpdatingForceModalFlowState | undefined
@@ -67,7 +70,7 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
 
     setUpdatingForceOpenState(UpdatingForceModalFlowState.Updating)
 
-    const { latestRelease } = await getAllReleases()
+    const { latestRelease } = await getAllReleases(deviceType)
     const newestPureOsAvailable = isNewestPureOsAvailable(
       osVersion,
       latestRelease?.version
