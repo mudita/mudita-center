@@ -32,6 +32,7 @@ export const PhoneInfo = styled(CardContent)`
   flex-direction: column;
   align-items: center;
   padding: 0 5.3rem;
+  margin-bottom: 4rem;
   img {
     height: 29.7rem;
   }

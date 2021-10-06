@@ -18,5 +18,6 @@ export enum Feature {
   PureSystem = "pure-system-button",
   MCVersion = "mc-version",
   DevelopOnly = "development-only",
-  ProductionAndAlpha = "production-and-alpha"
+  Backup = "backup",
+  ProductionAndAlpha = "production-and-alpha",
 }
