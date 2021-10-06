@@ -17,7 +17,9 @@ import downloadDeviceFile from "Renderer/requests/download-device-file.request"
 import writeFile from "Renderer/requests/write-file.request"
 import { ReduxRootState, RootState } from "Renderer/store"
 import { loadBackupData } from "App/backup/actions"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
 
 const waitUntilBackupDeviceFinished = async (
   id: string
@@ -27,7 +29,7 @@ const waitUntilBackupDeviceFinished = async (
     !isResponsesSuccessWithData([response]) ||
     response.data?.state === GetBackupDeviceStatusDataState.Error
   ) {
-    return response
+    return { status: DeviceResponseStatus.Error }
   } else if (response.data?.state === GetBackupDeviceStatusDataState.Finished) {
     return response
   } else {
