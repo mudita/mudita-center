@@ -99,7 +99,7 @@ const registerGetAllReleasesListener = () => {
 
       const mappedReleases = await mapToReleases(releases)
 
-      return mappedReleases[0].sort((a, b) => {
+      return mappedReleases.sort((a, b) => {
         const versionA = a.version
         const versionB = b.version
 

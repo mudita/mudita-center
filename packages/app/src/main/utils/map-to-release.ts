@@ -26,7 +26,7 @@ export const findXTarAsset = ({
 export const findManifestAsset = ({
   assets,
 }: GithubRelease): GithubReleaseAsset | undefined =>
-  assets.find((asset) => asset.content_type === "application/x-json")
+  assets.find((asset) => asset.name === "manifest.json")
 
 export const findAssetByName = (
   { assets }: GithubRelease,
@@ -140,8 +140,8 @@ export const getPrerelease = (release: GithubRelease): boolean => {
 
 const mapToReleases = async (
   githubReleases: GithubRelease[]
-): Promise<Release[][]> => {
-  return Promise.all(
+): Promise<Release[]> => {
+  const result = await Promise.all(
     githubReleases.filter(filterRelease).flatMap(async (release) => {
       const { tag_name, created_at, published_at } = release
       const manifest = findManifestAsset(release) as GithubReleaseAsset
@@ -193,6 +193,8 @@ const mapToReleases = async (
       }
     })
   )
+
+  return result.flat()
 }
 
 export default mapToReleases

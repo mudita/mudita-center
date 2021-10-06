@@ -311,7 +311,7 @@ describe("filterRelease util", () => {
 
       const result = await mapToReleases(githubReleases)
 
-      expect(result[0]).toHaveLength(1)
+      expect(result).toHaveLength(1)
     })
 
     test("should filtered release where x-tar file isn't exist", async () => {
@@ -332,7 +332,7 @@ describe("filterRelease util", () => {
 
       const result = await mapToReleases(githubReleases)
 
-      expect(result[0]).toHaveLength(1)
+      expect(result).toHaveLength(1)
     })
 
     test("shouldn't filter any match release relative to OsReleasesManager configuration", async () => {
@@ -370,7 +370,7 @@ describe("filterRelease util", () => {
       const result = await mapToReleases(githubReleases)
 
       expect(result).toHaveLength(1)
-      expect(productionGithubRelease.tag_name).toContain(result[0][0].version)
+      expect(productionGithubRelease.tag_name).toContain(result[0].version)
     })
   })
 
@@ -395,9 +395,7 @@ describe("filterRelease util", () => {
       const result = await mapToReleases(githubReleases)
 
       expect(result).toHaveLength(1)
-      expect(testProductionGithubRelease.tag_name).toContain(
-        result[0][0].version
-      )
+      expect(testProductionGithubRelease.tag_name).toContain(result[0].version)
     })
   })
 
@@ -422,7 +420,7 @@ describe("filterRelease util", () => {
       const result = await mapToReleases(githubReleases)
 
       expect(result).toHaveLength(1)
-      expect(productionAlphaRelease.tag_name).toContain(result[0][0].version)
+      expect(productionAlphaRelease.tag_name).toContain(result[0].version)
     })
   })
 
@@ -446,10 +444,8 @@ describe("filterRelease util", () => {
 
       const result = await mapToReleases(githubReleases)
 
-      expect(result[0]).toHaveLength(1)
-      expect(testProductionAlphaRelease.tag_name).toContain(
-        result[0][0].version
-      )
+      expect(result).toHaveLength(1)
+      expect(testProductionAlphaRelease.tag_name).toContain(result[0].version)
     })
   })
 })
