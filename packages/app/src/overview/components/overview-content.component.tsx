@@ -6,7 +6,7 @@
 import React, { ComponentProps } from "react"
 import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/basic-info.typings"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import Phone from "App/overview/components/phone/phone.component"
 import Network from "App/overview/components/network/network.component"
 import System from "App/overview/components/system/system.component"
@@ -15,6 +15,7 @@ import { noop } from "Renderer/utils/noop"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import { AppSettings } from "App/main/store/settings.interface"
 import Backup from "App/overview/components/backup/backup.component"
+import { Feature, flags } from "App/feature-flags"
 
 const PhoneInfo = styled(Phone)`
   grid-area: Phone;
@@ -36,17 +37,25 @@ const FileManagerInfo = styled(FilesManager)`
   display: none; /* TODO: Remove when feature becomes available */
 `
 
+const overviewWrapperWithBackup = css`
+  grid-template-rows: repeat(3, minmax(20.4rem, 1fr));
+  grid-template-areas:
+    "Phone Network"
+    "Phone System"
+    "Phone Backup";
+`
+
 const OverviewWrapper = styled.div`
   display: grid;
   grid-template-columns: minmax(28rem, 1fr) 2fr;
-  grid-template-rows: repeat(3, minmax(20.4rem, 1fr));
+  grid-template-rows: repeat(2, 1fr);
   grid-column-gap: 3.2rem;
   grid-row-gap: 3.2rem;
   padding: 3.2rem;
   grid-template-areas:
     "Phone Network"
-    "Phone System"
-    "Phone Backup"
+    "Phone System";
+  ${flags.get(Feature.Backup) && overviewWrapperWithBackup};
 `
 
 interface OverviewUIProps {
@@ -111,11 +120,13 @@ const OverviewContent: FunctionComponent<
       onDownload={onUpdateDownload}
       onUpdate={onUpdateInstall}
     />
-    <BackupInfo
-      lastBackupDate={lastBackupDate}
-      onBackupCreate={onBackupCreate}
-      onBackupRestore={onBackupRestore}
-    />
+    {flags.get(Feature.Backup) && (
+      <BackupInfo
+        lastBackupDate={lastBackupDate}
+        onBackupCreate={onBackupCreate}
+        onBackupRestore={onBackupRestore}
+      />
+    )}
     <FileManagerInfo
       usedSpace={memorySpace.full - memorySpace.free}
       maxSpace={memorySpace.full}

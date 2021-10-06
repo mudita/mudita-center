@@ -400,7 +400,7 @@
   "module.overview.backupInfoTitle": "Backup",
   "module.overview.systemVersionTitle": "Current version:",
   "module.overview.backupInfoBackupAvaibleDescription": "Last backup:",
-  "module.overview.backupInfoBackupNotAvaibleDescription": "Create you first backup",
+  "module.overview.backupInfoBackupNotAvaibleDescription": "You don't have a backup yet.\nCreate you first backup",
   "module.overview.backupLastBackup": "Last backup",
   "module.overview.backupLoadingBackupModalBody": "Please wait, this might take a few minutes",
   "module.overview.backupLoadingBackupModalTitle": "Creating backup...",

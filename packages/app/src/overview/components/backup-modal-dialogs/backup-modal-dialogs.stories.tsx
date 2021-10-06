@@ -43,7 +43,6 @@ export const BackupFailureModalStory = () => {
         open
         closeModal={action("Close Failure Backup Modal")}
         secondaryActionButtonClick={action("Go to Support Action")}
-        mainActionButtonClick={action("Cancel Action")}
       />
     </Story>
   )
