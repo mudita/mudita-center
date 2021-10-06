@@ -59,7 +59,6 @@ const finishedGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatu
     status: DeviceResponseStatus.Ok,
     data: {
       id: backupId,
-      location: "sys/user/",
       state: GetBackupDeviceStatusDataState.Finished,
     },
   }
@@ -120,6 +119,11 @@ describe("async `startBackupDevice` ", () => {
         settings: {
           pureOsBackupLocation: "C:\\backups",
         },
+        device: {
+          data: {
+            backupLocation: "path/to/directory"
+          }
+        }
       })
       const {
         meta: { requestId },
@@ -141,15 +145,51 @@ describe("async `startBackupDevice` ", () => {
     })
   })
 
+  describe("when `backupLocation` of deviceInfo is empty", () => {
+    test("fire async `startBackupDevice` returns `rejected` action", async () => {
+      const errorMock = new StartBackupDeviceError(
+        "Pure OS Backup Pure Location is undefined"
+      )
+      const mockStore = createMockStore([thunk])({
+        settings: {
+          pureOsBackupLocation: "C:\\backups"
+        },
+        device: {
+          data: {
+            backupLocation: ""
+          }
+        }
+      })
+      const {
+        meta: { requestId },
+      } = await mockStore.dispatch(startBackupDevice() as unknown as AnyAction)
+
+      expect(mockStore.getActions()).toEqual([
+        startBackupDevice.pending(requestId),
+        startBackupDevice.rejected(testError, requestId, undefined, errorMock),
+      ])
+
+      expect(startBackupDeviceRequest).not.toHaveBeenCalled()
+      expect(getBackupDeviceStatus).not.toHaveBeenCalled()
+      expect(downloadDeviceFile).not.toHaveBeenCalled()
+      expect(writeFile).not.toHaveBeenCalled()
+    })
+  })
+
   describe("when `pureOsBackupLocation` is empty", () => {
     test("fire async `startBackupDevice` returns `rejected` action", async () => {
       const errorMock = new StartBackupDeviceError(
-        "Pure OS Backup Location is undefined"
+        "Pure OS Backup Desktop Location is undefined"
       )
       const mockStore = createMockStore([thunk])({
         settings: {
           pureOsBackupLocation: "",
         },
+        device: {
+          data: {
+            backupLocation: "path/to/directory"
+          }
+        }
       })
       const {
         meta: { requestId },
@@ -179,6 +219,11 @@ describe("async `startBackupDevice` ", () => {
         settings: {
           pureOsBackupLocation: "C:\\backups",
         },
+        device: {
+          data: {
+            backupLocation: "path/to/directory"
+          }
+        }
       })
       const {
         meta: { requestId },
@@ -211,6 +256,11 @@ describe("async `startBackupDevice` ", () => {
         settings: {
           pureOsBackupLocation: "C:\\backups",
         },
+        device: {
+          data: {
+            backupLocation: "path/to/directory"
+          }
+        }
       })
       const {
         meta: { requestId },
@@ -246,6 +296,11 @@ describe("async `startBackupDevice` ", () => {
         settings: {
           pureOsBackupLocation: "C:\\backups",
         },
+        device: {
+          data: {
+            backupLocation: "path/to/directory"
+          }
+        }
       })
       const {
         meta: { requestId },
@@ -282,6 +337,11 @@ describe("async `startBackupDevice` ", () => {
         settings: {
           pureOsBackupLocation: "C:\\backups",
         },
+        device: {
+          data: {
+            backupLocation: "path/to/directory"
+          }
+        }
       })
       const {
         meta: { requestId },

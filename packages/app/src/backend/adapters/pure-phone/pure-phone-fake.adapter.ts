@@ -56,6 +56,13 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
+  public async getBackupLocation(): Promise<DeviceResponse<string>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: "path/to/directory",
+    }
+  }
+
   public async disconnectDevice(): Promise<DeviceResponse> {
     return {
       status: DeviceResponseStatus.Ok,

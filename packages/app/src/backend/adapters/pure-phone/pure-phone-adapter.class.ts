@@ -43,6 +43,7 @@ export default abstract class PurePhoneAdapter {
     progressChannel?: string
   ): Promise<DeviceResponse>
   public abstract getCaseColour(): Promise<DeviceResponse<CaseColour>>
+  public abstract getBackupLocation(): Promise<DeviceResponse<string>>
   public abstract startBackupDevice(): Promise<
     DeviceResponse<StartBackupResponseBody>
   >

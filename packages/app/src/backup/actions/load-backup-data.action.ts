@@ -16,15 +16,15 @@ export const loadBackupData = createAsyncThunk(
   async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as RootState & ReduxRootState
 
-    const pureOsBackupLocation = state.settings.pureOsBackupLocation
+    const pureOsBackupDesktopLocation = state.settings.pureOsBackupLocation
 
-    if (pureOsBackupLocation === undefined || pureOsBackupLocation === "") {
+    if (pureOsBackupDesktopLocation === undefined || pureOsBackupDesktopLocation === "") {
       return rejectWithValue(
-        new LoadBackupDataError("Pure OS Backup Location is undefined")
+        new LoadBackupDataError("Pure OS Backup Desktop Location is undefined")
       )
     }
 
-    const response = await getFileData({ filePath: pureOsBackupLocation })
+    const response = await getFileData({ filePath: pureOsBackupDesktopLocation })
 
     if (!isResponsesSuccessWithData([response])) {
       return rejectWithValue(

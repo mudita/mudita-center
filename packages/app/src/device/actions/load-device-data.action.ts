@@ -67,6 +67,7 @@ export const loadDeviceData = createAsyncThunk<any, DeviceType>(
             free: storageInfo.data!.available,
           },
           caseColour: info.data!.caseColour,
+          backupLocation: info.data!.backupLocation,
         })
       )
     }

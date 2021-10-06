@@ -14,7 +14,7 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
-const mockDeviceInfo: DeviceInfo = {
+const mockDeviceInfo: DeviceInfo = ({
   accessTechnology: "255",
   batteryLevel: "35",
   batteryState: "1",
@@ -31,12 +31,12 @@ const mockDeviceInfo: DeviceInfo = {
   trayState: "1",
   serialNumber: "1UB13213MN14K1",
   caseColour: "grey",
-} as unknown as DeviceInfo
+} as unknown) as DeviceInfo
 
 jest.mock("Backend/device-service")
 
 test("returns required device info", async () => {
-  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
+  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
     return {
       request: () => ({
         data: mockDeviceInfo,
@@ -49,18 +49,19 @@ test("returns required device info", async () => {
   const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
     deviceService
   )
-  registerDeviceInfoRequest({
+  registerDeviceInfoRequest(({
     purePhone: createPurePhoneAdapter(
       deviceService,
       deviceFileSystemService,
       deviceFileDiagnosticService
     ),
-  } as unknown as Adapters)
+  } as unknown) as Adapters)
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetDeviceInfo)
   const result = await pendingResponse
 
   expect(result.data).toMatchInlineSnapshot(`
     Object {
+      "backupLocation": "",
       "caseColour": "grey",
       "modelName": "Ziemniaczek Puree",
       "modelNumber": "Y0105W4GG1N5",
