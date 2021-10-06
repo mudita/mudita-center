@@ -18,8 +18,8 @@ import React, { ComponentProps } from "react"
 import {
   FileList,
   PureBackupModal,
-} from "App/overview/components/backup-process/modals.styled"
-import { BackupItem } from "App/overview/components/backup-process/modals.interface"
+} from "App/overview/components/backup-restore-deprecated/backup-process/modals.styled"
+import { BackupItem } from "App/overview/components/backup-restore-deprecated/backup-process/modals.interface"
 import { defineMessages } from "react-intl"
 
 const messages = defineMessages({

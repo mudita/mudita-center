@@ -11,7 +11,7 @@ import React, { ComponentProps } from "react"
 import {
   FileList,
   PureBackupModal,
-} from "App/overview/components/backup-process/modals.styled"
+} from "App/overview/components/backup-restore-deprecated/backup-process/modals.styled"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import { defineMessages } from "react-intl"
@@ -20,7 +20,7 @@ import {
   Labels,
   Row,
 } from "Renderer/components/core/table/table.component"
-import { BackupItem } from "App/overview/components/backup-process/modals.interface"
+import { BackupItem } from "App/overview/components/backup-restore-deprecated/backup-process/modals.interface"
 import moment from "moment"
 import styled from "styled-components"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"

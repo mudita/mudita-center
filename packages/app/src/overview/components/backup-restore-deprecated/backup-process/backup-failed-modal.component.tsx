@@ -8,27 +8,22 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import React, { ComponentProps } from "react"
-import { PureBackupModal } from "App/overview/components/backup-process/modals.styled"
+import { PureBackupModal } from "App/overview/components/backup-restore-deprecated/backup-process/modals.styled"
 import { defineMessages } from "react-intl"
-import { intl } from "Renderer/utils/intl"
 
 const messages = defineMessages({
-  ok: { id: "component.okButton" },
   title: {
-    id: "module.overview.backupRestoredBackupModalTitle",
+    id: "module.overview.backup.failedBackupModalTitle",
   },
   body: {
-    id: "module.overview.backupRestoredBackupModalBody",
+    id: "module.overview.backupFailedBackupModalBody",
   },
 })
 
-export const BackupRestorationFinishedModal: FunctionComponent<
+export const BackupFailedModal: FunctionComponent<
   ComponentProps<typeof PureBackupModal>
 > = ({ ...props }) => (
-  <PureBackupModal
-    actionButtonLabel={intl.formatMessage(messages.ok)}
-    {...props}
-  >
+  <PureBackupModal {...props}>
     <Text
       message={messages.title}
       displayStyle={TextDisplayStyle.LargeBoldText}

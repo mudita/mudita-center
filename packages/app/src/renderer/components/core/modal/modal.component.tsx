@@ -50,7 +50,7 @@ export const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
   ${({ buttonsPosition }) => getButtonsPosition(buttonsPosition)};
   display: flex;
   box-sizing: border-box;
-  padding-top: 4.8rem;
+  padding-top: 4rem;
 `
 
 export const ButtonWrapper = styled.div`
