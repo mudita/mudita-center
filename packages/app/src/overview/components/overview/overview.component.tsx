@@ -69,6 +69,7 @@ const Overview: FunctionComponent<Props> = ({
   setUpdateState,
   serialNumber,
   caseColour,
+  lastBackupDate,
 }) => {
   /**
    * Temporary state to demo failure
@@ -288,6 +289,7 @@ const Overview: FunctionComponent<Props> = ({
         startBackup={openBackupLoadingModal}
         pureOsBackupLocation={pureOsBackupLocation}
         progress={progress}
+        lastBackupDate={lastBackupDate}
       />
       <OverviewContent
         batteryLevel={batteryLevel}
@@ -305,6 +307,9 @@ const Overview: FunctionComponent<Props> = ({
         onUpdateInstall={install}
         onUpdateDownload={download}
         caseColour={caseColour}
+        lastBackupDate={lastBackupDate}
+        onBackupCreate={noop}
+        onBackupRestore={noop}
       />
     </>
   )

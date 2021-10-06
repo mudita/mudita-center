@@ -23,10 +23,15 @@ import {
 } from "App/overview/components/phone/phone.styled"
 import { CaseColour } from "@mudita/pure"
 import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
-import ButtonComponent from "App/renderer/components/core/button/button.component"
+import Button from "App/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { Type } from "App/renderer/components/core/icon/icon.config"
 import { flags, Feature } from "App/feature-flags"
+import styled from "styled-components"
+
+const PureSystemButton = styled(Button)`
+  width: 50%;
+`
 
 const Phone: FunctionComponent<PhoneProps> = ({
   className,
@@ -69,7 +74,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
       </CardAction>
       {flags.get(Feature.PureSystem) && (
         <PureSystemButtonContainer>
-          <ButtonComponent
+          <PureSystemButton
             label={intl.formatMessage({
               id: "module.overview.pureSystem",
             })}

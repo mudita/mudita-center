@@ -22,7 +22,6 @@ import styled from "styled-components"
 import { noop } from "Renderer/utils/noop"
 import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { AppSettings } from "App/main/store/settings.interface"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import moment from "moment"
@@ -110,7 +109,6 @@ const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
         <CardActionButton
           active
           label={intl.formatMessage(messages.createAction)}
-          Icon={Type.Backup}
           onClick={onBackupCreate}
         />
       </CardAction>
