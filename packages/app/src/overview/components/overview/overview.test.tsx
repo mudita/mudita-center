@@ -6,6 +6,7 @@
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { Router } from "react-router"
+import { DeviceType, CaseColour } from "@mudita/pure"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import Overview from "App/overview/components/overview/overview.component"
 import {
@@ -19,9 +20,10 @@ import {
 import store from "Renderer/store"
 import history from "Renderer/routes/history"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import { NetworkTestIds } from "App/overview/components/network/network-test-ids.enum"
+import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
-import { CaseColour } from "@mudita/pure"
+import { intl } from "Renderer/utils/intl"
+import { flags } from "App/feature-flags"
 
 type Props = ComponentProps<typeof Overview>
 
@@ -116,9 +118,11 @@ jest.mock("Renderer/requests/get-backups-info.request", () =>
   }))
 )
 
+jest.mock("App/feature-flags")
+
 const renderer = (extraProps?: {}) => {
   const defaultProps: Props = {
-    deviceType: undefined,
+    deviceType: null,
     appLatestVersion: "",
     appUpdateAvailable: undefined,
     appUpdateStepModalDisplayed: false,
@@ -183,11 +187,32 @@ const renderer = (extraProps?: {}) => {
   )
 }
 
-test("loadData is fired when component is mounted", () => {
-  const { getByTestId } = renderer()
-  expect(getByTestId(NetworkTestIds.BatteryLevel)).toHaveTextContent("0 %")
-  expect(getByTestId(NetworkTestIds.NetworkName)).toHaveTextContent(
-    "network name"
-  )
-  expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
+describe("Device: Mudita pure", () => {
+  test("loadData is fired when component is mounted", () => {
+    jest.spyOn(flags, "get").mockReturnValue(true)
+    const { getByTestId, queryByText } = renderer({
+      deviceType: DeviceType.MuditaPure,
+    })
+    expect(getByTestId(StatusTestIds.BatteryLevel)).toHaveTextContent("0 %")
+    expect(getByTestId(StatusTestIds.NetworkName)).toHaveTextContent(
+      "network name"
+    )
+    queryByText(intl.formatMessage({ id: "module.overview.statusPureTitle" }))
+    expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
+  })
 })
+
+// describe("Device: Mudita harmony", () => {
+//   test("loadData is fired when component is mounted", () => {
+//     jest.spyOn(flags, "get").mockReturnValue(true)
+//     const { getByTestId, queryByTestId, queryByText } = renderer({
+//       deviceType: DeviceType.MuditaHarmony,
+//     })
+//     expect(getByTestId(StatusTestIds.BatteryLevel)).toHaveTextContent("0 %")
+//     expect(queryByTestId(StatusTestIds.NetworkName)).not.toBeInTheDocument()
+//     queryByText(
+//       intl.formatMessage({ id: "module.overview.statusHarmonyTitle" })
+//     )
+//     expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
+//   })
+// })

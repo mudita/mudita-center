@@ -4,35 +4,34 @@
  */
 
 import React from "react"
+import { DeviceType } from "@mudita/pure"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { PhoneProps } from "App/overview/components/phone/phone.interface"
+import { DevicePreviewProps } from "App/overview/components/device-preview/device-preview.interface"
 import {
   CardAction,
   CardActionButton,
 } from "App/overview/components/card.elements"
 import { intl } from "Renderer/utils/intl"
-import Image from "Renderer/components/core/image/image.component"
-import PureGrayImage from "Renderer/images/pure-gray-front.png"
-import PureBlackImage from "Renderer/images/pure-black-front.png"
 import { useHistory } from "react-router"
-import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
+import { DeviceTestIds } from "App/overview/components/device-preview/device-preview-test-ids.enum"
 import {
   PhoneCard,
   PhoneInfo,
   PureSystemButtonContainer,
-} from "App/overview/components/phone/phone.styled"
-import { CaseColour } from "@mudita/pure"
+} from "App/overview/components/device-preview/device-preview.styled"
 import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
 import ButtonComponent from "App/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { Type } from "App/renderer/components/core/icon/icon.config"
 import { flags, Feature } from "App/feature-flags"
+import { DeviceImage } from "App/overview/components/device-preview/device-image.component"
 
-const Phone: FunctionComponent<PhoneProps> = ({
+export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
   className,
   onDisconnect,
   onClick,
   caseColour,
+  deviceType,
 }) => {
   const history = useHistory()
   const handleDisconnect = () => {
@@ -44,18 +43,14 @@ const Phone: FunctionComponent<PhoneProps> = ({
     history.push(URL_OVERVIEW.pureSystem)
   }
 
+  if (!deviceType) {
+    return <></>
+  }
+
   return (
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
-        {flags.get(Feature.PhoneColour) ? (
-          caseColour === CaseColour.Gray ? (
-            <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray} />
-          ) : (
-            <Image src={PureBlackImage} data-testid={PhoneTestIds.PureBlack} />
-          )
-        ) : (
-          <Image src={PureGrayImage} data-testid={PhoneTestIds.PureGray} />
-        )}
+        <DeviceImage caseColour={caseColour} deviceType={deviceType} />
       </PhoneInfo>
       <CardAction>
         <CardActionButton
@@ -64,24 +59,23 @@ const Phone: FunctionComponent<PhoneProps> = ({
             id: "module.overview.phoneDisconnectAction",
           })}
           onClick={handleDisconnect}
-          data-testid={PhoneTestIds.DisconnectButton}
+          data-testid={DeviceTestIds.DisconnectButton}
         />
       </CardAction>
       {flags.get(Feature.PureSystem) && (
-        <PureSystemButtonContainer>
-          <ButtonComponent
-            label={intl.formatMessage({
-              id: "module.overview.pureSystem",
-            })}
-            onClick={openPureSystem}
-            data-testid={PhoneTestIds.PureSystemButton}
-            displayStyle={DisplayStyle.Link2}
-            Icon={Type.MenuPhone}
-          />
-        </PureSystemButtonContainer>
-      )}
+        deviceType === DeviceType.MuditaPure && (
+          <PureSystemButtonContainer>
+            <ButtonComponent
+              label={intl.formatMessage({
+                id: "module.overview.pureSystem",
+              })}
+              onClick={openPureSystem}
+              data-testid={DeviceTestIds.PureSystemButton}
+              displayStyle={DisplayStyle.Link2}
+              Icon={Type.MenuPhone}
+            />
+          </PureSystemButtonContainer>
+        ))}
     </PhoneCard>
   )
 }
-
-export default Phone

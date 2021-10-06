@@ -6,4 +6,8 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addons",
   ],
+  webpackFinal: async (config) => {
+    config.node = { fs: "empty", child_process: "empty", serialport: "empty" }
+    return config
+  },
 }

@@ -104,3 +104,7 @@ export type OsUpdateRejectedAction = PayloadAction<
   DeviceUpdateProcessError,
   DeviceEvent.StartOsUpdateProcess
 >
+export type SetConnectionStateAction = PayloadAction<
+  boolean,
+  DeviceEvent.SetConnectionState
+>

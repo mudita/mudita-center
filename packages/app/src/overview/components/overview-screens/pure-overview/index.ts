@@ -3,8 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum NetworkTestIds {
-  BatteryLevel = "battery-level",
-  NetworkName = "network-name",
-  OsVersion = "os-version",
-}
+export * from "App/overview/components/overview-screens/pure-overview/pure-overview.component"
