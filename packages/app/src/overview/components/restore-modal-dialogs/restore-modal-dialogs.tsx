@@ -20,47 +20,47 @@ import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
 
 const messages = defineMessages({
-  backupModalHeaderTitle: {
-    id: "module.overview.backupModalHeaderTitle",
+  restoreModalHeaderTitle: {
+    id: "module.overview.restoreModalHeaderTitle",
   },
-  backupModalTitle: {
-    id: "module.overview.backupModalTitle",
+  restoreModalTitle: {
+    id: "module.overview.restoreModalTitle",
   },
-  backupModalDescription: {
-    id: "module.overview.backupModalDescription",
+  restoreModalDescription: {
+    id: "module.overview.restoreModalDescription",
   },
-  backupModalButtonCancel: {
-    id: "module.overview.backupModalButtonCancel",
+  restoreModalButtonCancel: {
+    id: "module.overview.restoreModalButtonCancel",
   },
-  backupModalButtonCreateBackup: {
-    id: "module.overview.backupModalButtonCreateBackup",
+  restoreModalButtonCreateRestore: {
+    id: "module.overview.restoreModalButtonCreateRestore",
   },
-  backupSpinnerModalTitle: {
-    id: "module.overview.backupSpinnerModalTitle",
+  restoreSpinnerModalTitle: {
+    id: "module.overview.restoreSpinnerModalTitle",
   },
-  backupSpinnerModalDescription: {
-    id: "module.overview.backupSpinnerModalDescription",
+  restoreSpinnerModalDescription: {
+    id: "module.overview.restoreSpinnerModalDescription",
   },
-  backupFailureModalTitle: {
-    id: "module.overview.backupFailureModalTitle",
+  restoreFailureModalTitle: {
+    id: "module.overview.restoreFailureModalTitle",
   },
-  backupFailureModalDescription: {
-    id: "module.overview.backupSpinnerModalDescription",
+  restoreFailureModalDescription: {
+    id: "module.overview.restoreSpinnerModalDescription",
   },
-  backupFailureModalSecondaryButton: {
-    id: "module.overview.backupFailureModalSecondaryButton",
+  restoreFailureModalSecondaryButton: {
+    id: "module.overview.restoreFailureModalSecondaryButton",
   },
-  backupFailureModalMainButton: {
-    id: "module.overview.backupFailureModalMainButton",
+  restoreFailureModalMainButton: {
+    id: "module.overview.restoreFailureModalMainButton",
   },
-  backupSuccessModalTitle: {
-    id: "module.overview.backupSuccessModalTitle",
+  restoreSuccessModalTitle: {
+    id: "module.overview.restoreSuccessModalTitle",
   },
-  backupSuccessModalDescription: {
-    id: "module.overview.backupSuccessModalDescription",
+  restoreSuccessModalDescription: {
+    id: "module.overview.restoreSuccessModalDescription",
   },
-  backupSuccessModalMainButton: {
-    id: "module.overview.backupSuccessModalMainButton",
+  restoreSuccessModalMainButton: {
+    id: "module.overview.restoreSuccessModalMainButton",
   },
 })
 
@@ -81,7 +81,7 @@ const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
 }) => (
   <ModalDialog
     size={size}
-    title={intl.formatMessage(messages.backupModalHeaderTitle)}
+    title={intl.formatMessage(messages.restoreModalHeaderTitle)}
     actionButtonSize={Size.FixedMedium}
     {...props}
   >
@@ -89,14 +89,19 @@ const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   </ModalDialog>
 )
 
-export const BackupModal: FunctionComponent<
-  ComponentProps<typeof ModalDialog>
-> = ({ ...props }) => {
+interface RestoreModalProps extends ComponentProps<typeof ModalDialog> {
+  backupDateString: string
+}
+
+export const RestoreModal: FunctionComponent<RestoreModalProps> = ({
+  backupDateString,
+  ...props
+}) => {
   return (
     <Modal
-      closeButtonLabel={intl.formatMessage(messages.backupModalButtonCancel)}
+      closeButtonLabel={intl.formatMessage(messages.restoreModalButtonCancel)}
       actionButtonLabel={intl.formatMessage(
-        messages.backupModalButtonCreateBackup
+        messages.restoreModalButtonCreateRestore
       )}
       {...props}
     >
@@ -105,17 +110,20 @@ export const BackupModal: FunctionComponent<
       </RoundIconWrapper>
       <ModalText
         displayStyle={TextDisplayStyle.LargeBoldText}
-        message={messages.backupModalTitle}
+        message={messages.restoreModalTitle}
       />
+      <ModalText displayStyle={TextDisplayStyle.MediumFadedText}>
+        {backupDateString}
+      </ModalText>
       <ModalText
         displayStyle={TextDisplayStyle.MediumFadedText}
-        message={messages.backupModalDescription}
+        message={messages.restoreModalDescription}
       />
     </Modal>
   )
 }
 
-export const BackupSpinnerModal: FunctionComponent<
+export const RestoreSpinnerModal: FunctionComponent<
   ComponentProps<typeof ModalDialog>
 > = ({ ...props }) => {
   return (
@@ -125,22 +133,22 @@ export const BackupSpinnerModal: FunctionComponent<
       </RoundIconWrapper>
       <ModalText
         displayStyle={TextDisplayStyle.LargeBoldText}
-        message={messages.backupSpinnerModalTitle}
+        message={messages.restoreSpinnerModalTitle}
       />
       <ModalText
         displayStyle={TextDisplayStyle.MediumFadedText}
-        message={messages.backupSpinnerModalDescription}
+        message={messages.restoreSpinnerModalDescription}
       />
     </Modal>
   )
 }
 
-interface BackupFailureWithHelpModalProps
+interface RestoreFailureWithHelpModalProps
   extends ComponentProps<typeof ModalDialog> {
   secondaryActionButtonClick: () => void
 }
 
-export const BackupFailureModal: FunctionComponent<BackupFailureWithHelpModalProps> =
+export const RestoreFailureModal: FunctionComponent<RestoreFailureWithHelpModalProps> =
   ({ secondaryActionButtonClick, onClose, ...props }) => {
     const handleOnClose = (): void => {
       if (onClose) {
@@ -151,7 +159,7 @@ export const BackupFailureModal: FunctionComponent<BackupFailureWithHelpModalPro
     return (
       <Modal
         closeButtonLabel={intl.formatMessage(
-          messages.backupFailureModalSecondaryButton
+          messages.restoreFailureModalSecondaryButton
         )}
         onCloseButton={secondaryActionButtonClick}
         onClose={handleOnClose}
@@ -162,29 +170,24 @@ export const BackupFailureModal: FunctionComponent<BackupFailureWithHelpModalPro
         </RoundIconWrapper>
         <ModalText
           displayStyle={TextDisplayStyle.LargeBoldText}
-          message={messages.backupFailureModalTitle}
+          message={messages.restoreFailureModalTitle}
         />
         <ModalText
           displayStyle={TextDisplayStyle.MediumFadedText}
-          message={messages.backupFailureModalDescription}
+          message={messages.restoreFailureModalDescription}
         />
       </Modal>
     )
   }
 
-interface BackupSuccessModalProps extends ComponentProps<typeof ModalDialog> {
-  description: string
-}
-
-export const BackupSuccessModal: FunctionComponent<BackupSuccessModalProps> = ({
-  description,
-  ...props
-}) => {
+export const RestoreSuccessModal: FunctionComponent<
+  ComponentProps<typeof ModalDialog>
+> = ({ ...props }) => {
   return (
     <Modal
       closeButton={false}
       actionButtonLabel={intl.formatMessage(
-        messages.backupSuccessModalMainButton
+        messages.restoreSuccessModalMainButton
       )}
       {...props}
     >
@@ -193,15 +196,12 @@ export const BackupSuccessModal: FunctionComponent<BackupSuccessModalProps> = ({
       </RoundIconWrapper>
       <ModalText
         displayStyle={TextDisplayStyle.LargeBoldText}
-        message={messages.backupSuccessModalTitle}
+        message={messages.restoreSuccessModalTitle}
       />
       <ModalText
         displayStyle={TextDisplayStyle.MediumFadedText}
-        message={messages.backupSuccessModalDescription}
+        message={messages.restoreSuccessModalDescription}
       />
-      <ModalText displayStyle={TextDisplayStyle.MediumBoldText}>
-        {description}
-      </ModalText>
     </Modal>
   )
 }

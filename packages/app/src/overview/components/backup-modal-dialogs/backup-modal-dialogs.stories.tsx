@@ -5,7 +5,6 @@
 
 import React from "react"
 import { Meta } from "@storybook/react"
-import { BackupStartModal } from "App/overview/components/backup-restore-deprecated/backup-process/backup-start-modal.component"
 import Story from "Renderer/components/storybook/story.component"
 import {
   BackupFailureModal,
@@ -63,5 +62,5 @@ export const BackupSuccessModalStory = () => {
 
 export default {
   title: "Views|Overview/Backup Modal Dialogs",
-  component: BackupStartModal,
+  component: BackupModalStory,
 } as Meta
