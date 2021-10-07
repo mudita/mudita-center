@@ -143,6 +143,7 @@
   "component.crashDumpModal.title": "Error",
   "component.crashDumpModal.label": "Crush dump error",
   "component.crashDumpModal.text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam commodo, nisi nec aliquet varius, augue nulla ultrices est, vel pretium sem dolor ac quam.",
+  "component.crashDumpSendingModal.label": "Sending logs to the support",
   "module.calendar": "Calendar",
   "module.calendar.authorizationFailedBody": "You need to allow all requested access rights in order to synchronize your calendar",
   "module.calendar.authorizationFailedButton": "Retry",
