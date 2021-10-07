@@ -18,6 +18,7 @@ import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { Size } from "Renderer/components/core/button/button.config"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
+import moment from "moment"
 
 const messages = defineMessages({
   restoreModalHeaderTitle: {
@@ -90,11 +91,11 @@ const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
 )
 
 interface RestoreModalProps extends ComponentProps<typeof ModalDialog> {
-  backupDateString: string
+  backupDate: Date
 }
 
 export const RestoreModal: FunctionComponent<RestoreModalProps> = ({
-  backupDateString,
+  backupDate,
   ...props
 }) => {
   return (
@@ -113,7 +114,7 @@ export const RestoreModal: FunctionComponent<RestoreModalProps> = ({
         message={messages.restoreModalTitle}
       />
       <ModalText displayStyle={TextDisplayStyle.MediumFadedText}>
-        {backupDateString}
+        {moment(backupDate).format("dddd, MMMM D, h:mm a")}
       </ModalText>
       <ModalText
         displayStyle={TextDisplayStyle.MediumFadedText}

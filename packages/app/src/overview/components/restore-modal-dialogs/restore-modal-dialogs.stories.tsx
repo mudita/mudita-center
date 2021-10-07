@@ -13,14 +13,13 @@ import {
   RestoreSuccessModal,
 } from "App/overview/components/restore-modal-dialogs/restore-modal-dialogs"
 import { action } from "@storybook/addon-actions"
-import moment from "moment"
 
 export const RestoreModalStory = () => {
   return (
     <Story transparentMode>
       <RestoreModal
         open
-        backupDateString={moment(new Date()).format("dddd, MMMM D, h:mm a")}
+        backupDate={new Date()}
         closeModal={action("Close Restore Modal")}
         onCloseButton={action("Cancel Restore Action")}
         onActionButtonClick={action("Create Restore Action")}
