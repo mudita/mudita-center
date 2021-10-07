@@ -5,18 +5,15 @@
 
 import { createSelector } from "reselect"
 import { ReduxRootState } from "Renderer/store"
+import { sortBackups } from "App/backup/helpers/sort-backups"
 
 const backupsSelector = ({ backup }: ReduxRootState) => backup.backups
 
 export const lastBackupDateSelector = createSelector(
   backupsSelector,
   (backups) => {
-    const sortedBackups = [...backups].sort((a, b) => {
-      const dateA = new Date(a.date).getTime()
-      const dateB = new Date(b.date).getTime()
-      return dateA - dateB
-    })
+    const sortedBackups = sortBackups(backups)
 
-    return sortedBackups[backups.length - 1]?.date
+    return sortedBackups[0]?.date
   }
 )

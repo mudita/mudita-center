@@ -17,7 +17,22 @@ test("`DownloadDeviceFileRequest` returns properly value", async () => {
   expect(result).toMatchInlineSnapshot(`
     Object {
       "data": Object {
-        "data": "backup data",
+        "data": Object {
+          "data": Array [
+            98,
+            97,
+            99,
+            107,
+            117,
+            112,
+            32,
+            100,
+            97,
+            116,
+            97,
+          ],
+          "type": "Buffer",
+        },
         "name": "<YYYY-MM-DD>T<HHMMSS>Z",
       },
       "status": "ok",

@@ -75,7 +75,7 @@ const errorGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusRe
 const successDownloadDeviceFileResponse: DeviceResponse<DeviceFile> = {
   status: DeviceResponseStatus.Ok,
   data: {
-    data: "backup data",
+    data: Buffer.from("backup data"),
     name: backupId,
   },
 }
@@ -121,9 +121,9 @@ describe("async `startBackupDevice` ", () => {
         },
         device: {
           data: {
-            backupLocation: "path/to/directory"
-          }
-        }
+            backupLocation: "path/to/directory",
+          },
+        },
       })
       const {
         meta: { requestId },
@@ -152,13 +152,13 @@ describe("async `startBackupDevice` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         settings: {
-          pureOsBackupLocation: "C:\\backups"
+          pureOsBackupLocation: "C:\\backups",
         },
         device: {
           data: {
-            backupLocation: ""
-          }
-        }
+            backupLocation: "",
+          },
+        },
       })
       const {
         meta: { requestId },
@@ -187,9 +187,9 @@ describe("async `startBackupDevice` ", () => {
         },
         device: {
           data: {
-            backupLocation: "path/to/directory"
-          }
-        }
+            backupLocation: "path/to/directory",
+          },
+        },
       })
       const {
         meta: { requestId },
@@ -221,9 +221,9 @@ describe("async `startBackupDevice` ", () => {
         },
         device: {
           data: {
-            backupLocation: "path/to/directory"
-          }
-        }
+            backupLocation: "path/to/directory",
+          },
+        },
       })
       const {
         meta: { requestId },
@@ -258,9 +258,9 @@ describe("async `startBackupDevice` ", () => {
         },
         device: {
           data: {
-            backupLocation: "path/to/directory"
-          }
-        }
+            backupLocation: "path/to/directory",
+          },
+        },
       })
       const {
         meta: { requestId },
@@ -298,9 +298,9 @@ describe("async `startBackupDevice` ", () => {
         },
         device: {
           data: {
-            backupLocation: "path/to/directory"
-          }
-        }
+            backupLocation: "path/to/directory",
+          },
+        },
       })
       const {
         meta: { requestId },
@@ -339,9 +339,9 @@ describe("async `startBackupDevice` ", () => {
         },
         device: {
           data: {
-            backupLocation: "path/to/directory"
-          }
-        }
+            backupLocation: "path/to/directory",
+          },
+        },
       })
       const {
         meta: { requestId },

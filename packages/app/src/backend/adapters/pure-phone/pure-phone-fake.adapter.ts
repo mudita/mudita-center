@@ -13,10 +13,15 @@ import {
   GetBackupDeviceStatusDataState,
   GetBackupDeviceStatusResponseBody,
   GetPhoneLockTimeResponseBody,
+  GetRestoreDeviceStatusDataState,
+  GetRestoreDeviceStatusResponseBody,
   MuditaDevice,
   StartBackupResponseBody,
 } from "@mudita/pure"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import {
+  DeviceFile,
+  DeviceFileDeprecated,
+} from "Backend/device-file-system-service/device-file-system-service"
 
 class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {
@@ -96,7 +101,9 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async getDeviceLogFiles(): Promise<DeviceResponse<DeviceFile[]>> {
+  public async getDeviceLogFiles(): Promise<
+    DeviceResponse<DeviceFileDeprecated[]>
+  > {
     return {
       status: DeviceResponseStatus.Ok,
       data: [],
@@ -104,7 +111,7 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
   }
 
   public async getDeviceCrashDumpFiles(): Promise<
-    DeviceResponse<DeviceFile[]>
+    DeviceResponse<DeviceFileDeprecated[]>
   > {
     return {
       status: DeviceResponseStatus.Ok,
@@ -141,13 +148,37 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
+  public async startRestoreDevice(): Promise<DeviceResponse> {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
+  }
+
+  public async getRestoreDeviceStatus(): Promise<
+    DeviceResponse<GetRestoreDeviceStatusResponseBody>
+  > {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {
+        id: `<YYYY-MM-DD>T<HHMMSS>Z`,
+        state: GetRestoreDeviceStatusDataState.Finished,
+      },
+    }
+  }
+
   public async downloadDeviceFile(): Promise<DeviceResponse<DeviceFile>> {
     return {
       status: DeviceResponseStatus.Ok,
       data: {
-        data: "backup data",
+        data: Buffer.from("backup data"),
         name: `<YYYY-MM-DD>T<HHMMSS>Z`,
       },
+    }
+  }
+
+  public async uploadDeviceFile(): Promise<DeviceResponse> {
+    return {
+      status: DeviceResponseStatus.Ok,
     }
   }
 }

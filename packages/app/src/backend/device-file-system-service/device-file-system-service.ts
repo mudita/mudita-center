@@ -12,8 +12,18 @@ import DeviceResponse, {
 import logger from "App/main/utils/logger"
 import countCRC32 from "Backend/helpers/count-crc32"
 
-export interface DeviceFile extends Pick<File, "name"> {
+// FIXME: node application should operate on a buffer to avoids corrupting binary files
+export interface DeviceFileDeprecated extends Pick<File, "name"> {
   data: string
+}
+
+export interface DeviceFile extends Pick<File, "name"> {
+  data: Buffer
+}
+
+export interface UploadFilePayload {
+  filePath: string
+  targetPath: string
 }
 
 class DeviceFileSystemService {
@@ -21,11 +31,11 @@ class DeviceFileSystemService {
 
   async downloadDeviceFiles(
     filePaths: string[]
-  ): Promise<DeviceResponse<DeviceFile[]>> {
-    const data: DeviceFile[] = []
+  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
+    const data: DeviceFileDeprecated[] = []
     for (let i = 0; i < filePaths.length; i++) {
       const filePath = filePaths[i]
-      const response = await this.downloadFile(filePath)
+      const response = await this.downloadFileDeprecated(filePath)
 
       if (response.status === DeviceResponseStatus.Ok && response.data) {
         const name = filePath.split("/").pop() as string
@@ -43,7 +53,24 @@ class DeviceFileSystemService {
     }
   }
 
-  async downloadFile(filePath: string): Promise<DeviceResponse<string>> {
+  // FIXME: node application should operate on a buffer to avoids corrupting binary files
+  async downloadFileDeprecated(
+    filePath: string
+  ): Promise<DeviceResponse<string>> {
+    const response = await this.downloadFile(filePath)
+    if (response.data !== undefined) {
+      return {
+        ...response,
+        data: response.data.toString(),
+      }
+    } else {
+      return {
+        status: response.status,
+      }
+    }
+  }
+
+  async downloadFile(filePath: string): Promise<DeviceResponse<Buffer>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
@@ -76,12 +103,14 @@ class DeviceFileSystemService {
       const fileBuffer = Buffer.from(downloadFileResponse.data, "base64")
       const receivedFileCrc32 = fileCrc32.toLowerCase()
       const countedFileCrc32 = countCRC32(fileBuffer)
-      logger.info(`downloadFile crc: received ${receivedFileCrc32}, counted  ${countedFileCrc32}`)
+      logger.info(
+        `downloadFile crc: received ${receivedFileCrc32}, counted  ${countedFileCrc32}`
+      )
 
       if (receivedFileCrc32 === countedFileCrc32) {
         return {
           status: DeviceResponseStatus.Ok,
-          data: fileBuffer.toString(),
+          data: fileBuffer,
         }
       } else {
         return {
@@ -102,15 +131,17 @@ class DeviceFileSystemService {
     }
   }
 
-  async uploadFile(
-    filePath: string,
-    targetPath: string
-  ): Promise<DeviceResponse> {
+  async uploadFile({
+    filePath,
+    targetPath,
+  }: UploadFilePayload): Promise<DeviceResponse> {
     try {
       const fileSize = fs.lstatSync(filePath).size
       const fileBuffer = fs.readFileSync(filePath)
       const fileCrc32 = countCRC32(fileBuffer)
 
+      console.log("uploadFile -> filePath: ", filePath)
+      console.log("uploadFile -> targetPath: ", targetPath)
       const { status, data } = await this.deviceService.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,

@@ -5,7 +5,7 @@
 
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import { readBackupDeviceError } from "App/backup-device/actions/base.action"
+import { readBackupDeviceDataState } from "App/backup-device/actions/base.action"
 import { BackupDeviceEvent } from "App/backup-device/constants"
 
 const mockStore = createMockStore([thunk])()
@@ -14,12 +14,12 @@ afterEach(() => {
   mockStore.clearActions()
 })
 
-describe("Action: readBackupDeviceError", () => {
-  test("fire action with `ReadBackupDeviceError` type", () => {
-    mockStore.dispatch(readBackupDeviceError())
+describe("Action: readBackupDeviceDataState", () => {
+  test("fire action with `ReadBackupDeviceDataState` type", () => {
+    mockStore.dispatch(readBackupDeviceDataState())
     expect(mockStore.getActions()).toEqual([
       {
-        type: BackupDeviceEvent.ReadBackupDeviceError,
+        type: BackupDeviceEvent.ReadBackupDeviceDataState,
         payload: undefined,
       },
     ])

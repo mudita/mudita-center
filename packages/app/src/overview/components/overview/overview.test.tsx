@@ -24,6 +24,8 @@ import { SystemTestIds } from "App/overview/components/system/system-test-ids.en
 import { CaseColour } from "@mudita/pure"
 import { BackupDeviceDataState } from "App/backup-device/reducers"
 import { BackupDeviceFlowTestIds } from "App/overview/components/backup-device-flow/backup-device-flow-test-ids.component"
+import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
 
 type Props = ComponentProps<typeof Overview>
 
@@ -101,7 +103,13 @@ jest.mock("Renderer/requests/get-battery-info.request", () =>
 )
 
 const defaultProps: Props = {
-  readBackupDeviceError: jest.fn(),
+  backupLocation: "",
+  backups: [],
+  readRestoreDeviceDataState: jest.fn(),
+  restoreDeviceState: RestoreDeviceDataState.Empty,
+  startBackupDevice: jest.fn(),
+  startRestoreDevice: jest.fn(),
+  readBackupDeviceDataState: jest.fn(),
   backupDeviceState: BackupDeviceDataState.Empty,
   diagnosticSentTimestamp: 0,
   networkLevel: "",
@@ -159,7 +167,7 @@ const defaultProps: Props = {
     free: 100,
     full: 200,
   },
-  caseColour: CaseColour.Gray
+  caseColour: CaseColour.Gray,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -203,6 +211,26 @@ describe("`Overview` component", () => {
       ).not.toBeInTheDocument()
       expect(
         queryByTestId(BackupDeviceFlowTestIds.BackupDeviceError)
+      ).not.toBeInTheDocument()
+    })
+
+    test("any modal from `RestoreDeviceFlow` shouldn't be displayed", () => {
+      const { queryByTestId } = render()
+
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
       ).not.toBeInTheDocument()
     })
   })
@@ -269,6 +297,81 @@ describe("`Overview` component", () => {
       ).not.toBeInTheDocument()
       expect(
         queryByTestId(BackupDeviceFlowTestIds.BackupDeviceFinished)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `restoreDeviceState` property is set to `Running`", () => {
+    const extraProps: Partial<Props> = {
+      restoreDeviceState: RestoreDeviceDataState.Running,
+    }
+    test("should be displayed `RestoreRunningModal`", () => {
+      const { queryByTestId } = render(extraProps)
+
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `restoreDeviceState` property is set to `Finished`", () => {
+    const extraProps: Partial<Props> = {
+      restoreDeviceState: RestoreDeviceDataState.Finished,
+    }
+    test("should be displayed `RestoreSuccessModal`", () => {
+      const { queryByTestId } = render(extraProps)
+
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `restoreDeviceState` property is set to `Error`", () => {
+    const extraProps: Partial<Props> = {
+      restoreDeviceState: RestoreDeviceDataState.Error,
+    }
+    test("should be displayed `RestoreFailureModal`", () => {
+      const { queryByTestId } = render(extraProps)
+
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
       ).not.toBeInTheDocument()
     })
   })

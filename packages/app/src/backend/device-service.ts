@@ -34,6 +34,9 @@ import {
   StartBackupResponseBody,
   GetBackupDeviceStatusResponseBody,
   GetBackupDeviceStatusRequestConfig,
+  StartRestoreRequestConfig,
+  GetRestoreDeviceStatusRequestConfig,
+  GetRestoreDeviceStatusResponseBody,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
@@ -169,6 +172,10 @@ class DeviceService {
   public request(
     config: GetBackupDeviceStatusRequestConfig
   ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>>
+  public request(config: StartRestoreRequestConfig): Promise<DeviceResponse>
+  public request(
+    config: GetRestoreDeviceStatusRequestConfig
+  ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>>
   async request(
     config: RequestConfig<any>
   ): Promise<DeviceResponse<unknown> | DeviceResponse<undefined>> {

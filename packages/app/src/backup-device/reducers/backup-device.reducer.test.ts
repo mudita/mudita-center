@@ -10,7 +10,7 @@ import {
 import { BackupDeviceEvent } from "App/backup-device/constants"
 import { StartBackupDeviceError } from "App/backup-device/errors"
 import { BackupDeviceDataState } from "App/backup-device/reducers/backup-device.interface"
-import { readBackupDeviceError } from "App/backup-device/actions/base.action"
+import { readBackupDeviceDataState } from "App/backup-device/actions/base.action"
 import {
   fulfilledAction,
   pendingAction,
@@ -60,17 +60,17 @@ describe("Start Backup Device functionality", () => {
   })
 })
 
-describe("`ReadBackupDeviceError` data functionality", () => {
+describe("`ReadBackupDeviceDataState` data functionality", () => {
   const errorMock = new StartBackupDeviceError("I'm error")
 
-  test("Event: `ReadBackupDeviceError` set error property to null", () => {
+  test("Event: `ReadBackupDeviceDataState` set error property to null", () => {
     expect(
       backupDeviceReducer(
         {
           ...initialState,
           error: errorMock,
         },
-        readBackupDeviceError
+        readBackupDeviceDataState
       )
     ).toEqual({
       ...initialState,

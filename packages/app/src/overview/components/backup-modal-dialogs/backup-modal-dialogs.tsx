@@ -3,11 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-/**
- * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
- */
-
 import React, { ComponentProps } from "react"
 import styled from "styled-components"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -46,10 +41,10 @@ const messages = defineMessages({
   backupSpinnerModalDescription: {
     id: "module.overview.backupSpinnerModalDescription",
   },
-  backupBackupFailureModalTitle: {
-    id: "module.overview.backupBackupFailureModalTitle",
+  backupFailureModalTitle: {
+    id: "module.overview.backupFailureModalTitle",
   },
-  backupBackupFailureModalDescription: {
+  backupFailureModalDescription: {
     id: "module.overview.backupSpinnerModalDescription",
   },
   backupFailureModalSecondaryButton: {
@@ -58,11 +53,11 @@ const messages = defineMessages({
   backupFailureModalMainButton: {
     id: "module.overview.backupFailureModalMainButton",
   },
-  backupBackupSuccessModalTitle: {
-    id: "module.overview.backupBackupSuccessModalTitle",
+  backupSuccessModalTitle: {
+    id: "module.overview.backupSuccessModalTitle",
   },
-  backupBackupSuccessModalDescription: {
-    id: "module.overview.backupBackupSuccessModalDescription",
+  backupSuccessModalDescription: {
+    id: "module.overview.backupSuccessModalDescription",
   },
   backupSuccessModalMainButton: {
     id: "module.overview.backupSuccessModalMainButton",
@@ -167,11 +162,11 @@ export const BackupFailureModal: FunctionComponent<BackupFailureWithHelpModalPro
         </RoundIconWrapper>
         <ModalText
           displayStyle={TextDisplayStyle.LargeBoldText}
-          message={messages.backupBackupFailureModalTitle}
+          message={messages.backupFailureModalTitle}
         />
         <ModalText
           displayStyle={TextDisplayStyle.MediumFadedText}
-          message={messages.backupBackupFailureModalDescription}
+          message={messages.backupFailureModalDescription}
         />
       </Modal>
     )
@@ -198,11 +193,11 @@ export const BackupSuccessModal: FunctionComponent<BackupSuccessModalProps> = ({
       </RoundIconWrapper>
       <ModalText
         displayStyle={TextDisplayStyle.LargeBoldText}
-        message={messages.backupBackupSuccessModalTitle}
+        message={messages.backupSuccessModalTitle}
       />
       <ModalText
         displayStyle={TextDisplayStyle.MediumFadedText}
-        message={messages.backupBackupSuccessModalDescription}
+        message={messages.backupSuccessModalDescription}
       />
       <ModalText displayStyle={TextDisplayStyle.MediumBoldText}>
         {description}

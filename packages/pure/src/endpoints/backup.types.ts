@@ -23,7 +23,7 @@ export interface GetBackupDeviceStatusRequestConfig
 }
 
 export enum GetBackupDeviceStatusDataState {
-  Running = "Running",
+  Running = "running",
   Error = "error",
   Finished = "finished",
 }
