@@ -123,7 +123,6 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
-
   public async getBackupLocation(): Promise<DeviceResponse<string>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,

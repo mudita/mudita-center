@@ -44,7 +44,7 @@ const pureDeviceMock: PureDeviceData = {
     full: 1021,
   },
   caseColour: CaseColour.Gray,
-  backupLocation: "path/to/directory"
+  backupLocation: "path/to/directory",
 }
 
 const harmonyDeviceMock: HarmonyDeviceData = {

@@ -45,8 +45,7 @@ export const loadDeviceData = createAsyncThunk<any, DeviceType>(
         )
       }
 
-      const [info, networkInfo, storageInfo, batteryInfo] =
-        responses
+      const [info, networkInfo, storageInfo, batteryInfo] = responses
 
       const networkName = getActiveNetworkFromSim(networkInfo.data!.simCards)
       const networkLevel = getActiveNetworkLevelFromSim(
