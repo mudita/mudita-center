@@ -10,25 +10,19 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { startRestoreDevice } from "App/restore-device/actions/start-restore-device.action"
-import startRestoreDeviceRequest from "Renderer/requests/start-restore-device.request"
-import getRestoreDeviceStatus from "Renderer/requests/get-restore-device-status.request"
 import { testError } from "Renderer/store/constants"
 import { StartRestoreDeviceError } from "App/restore-device/errors"
-import {
-  GetRestoreDeviceStatusDataState,
-  GetRestoreDeviceStatusResponseBody,
-} from "@mudita/pure"
 import { Backup } from "App/backup/reducers"
-import uploadDeviceFile from "Renderer/requests/upload-device-file.request"
 import { ReduxRootState, RootState } from "Renderer/store"
 import { DeviceState } from "App/device"
 import { StartBackupDeviceError } from "App/backup-device/errors"
-;``
-jest.mock("Renderer/requests/start-restore-device.request")
-jest.mock("Renderer/requests/get-restore-device-status.request")
-jest.mock("Renderer/requests/upload-device-file.request")
+import uploadDeviceFile from "Renderer/requests/upload-device-file.request"
+import startRestoreDeviceRequest from "Renderer/requests/start-restore-device.request"
+import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers"
 
-const backupId = `<YYYY-MM-DD>T<HHMMSS>Z`
+jest.mock("Renderer/requests/upload-device-file.request")
+jest.mock("Renderer/requests/start-restore-device.request")
+jest.mock("App/restore-device/helpers/wait-until-restore-device-finished")
 
 const successDeviceResponse: DeviceResponse = {
   status: DeviceResponseStatus.Ok,
@@ -37,33 +31,6 @@ const successDeviceResponse: DeviceResponse = {
 const errorDeviceResponse: DeviceResponse = {
   status: DeviceResponseStatus.Error,
 }
-
-const runningGetRestoreDeviceStatusResponse: DeviceResponse<GetRestoreDeviceStatusResponseBody> =
-  {
-    status: DeviceResponseStatus.Ok,
-    data: {
-      id: backupId,
-      state: GetRestoreDeviceStatusDataState.Running,
-    },
-  }
-
-const finishedGetRestoreDeviceStatusResponse: DeviceResponse<GetRestoreDeviceStatusResponseBody> =
-  {
-    status: DeviceResponseStatus.Ok,
-    data: {
-      id: backupId,
-      state: GetRestoreDeviceStatusDataState.Finished,
-    },
-  }
-
-const errorGetRestoreDeviceStatusResponse: DeviceResponse<GetRestoreDeviceStatusResponseBody> =
-  {
-    status: DeviceResponseStatus.Ok,
-    data: {
-      id: backupId,
-      state: GetRestoreDeviceStatusDataState.Error,
-    },
-  }
 
 const backup: Backup = {
   filePath: "C:\\backups\\backup-1.text",
@@ -82,24 +49,6 @@ afterEach(() => {
   jest.resetAllMocks()
 })
 
-const getRestoreDeviceStatusMock: (
-  error?: boolean
-) => () => DeviceResponse<GetRestoreDeviceStatusResponseBody> = (
-  error = false
-) => {
-  let index = 0
-  return () => {
-    if (error) {
-      return errorGetRestoreDeviceStatusResponse
-    } else if (index === 0) {
-      return finishedGetRestoreDeviceStatusResponse
-    } else {
-      index++
-      return runningGetRestoreDeviceStatusResponse
-    }
-  }
-}
-
 describe("async `startRestoreDevice` ", () => {
   describe("when each request is success", () => {
     test("fire async `startRestoreDevice`", async () => {
@@ -107,8 +56,8 @@ describe("async `startRestoreDevice` ", () => {
       ;(startRestoreDeviceRequest as jest.Mock).mockReturnValue(
         successDeviceResponse
       )
-      ;(getRestoreDeviceStatus as jest.Mock).mockImplementation(
-        getRestoreDeviceStatusMock()
+      ;(waitUntilRestoreDeviceFinished as jest.Mock).mockReturnValue(
+        successDeviceResponse
       )
       const mockStore = createMockStore([thunk])(mockStoreState)
       const {
@@ -124,7 +73,7 @@ describe("async `startRestoreDevice` ", () => {
 
       expect(uploadDeviceFile).toHaveBeenCalled()
       expect(startRestoreDeviceRequest).toHaveBeenCalled()
-      expect(getRestoreDeviceStatus).toHaveBeenCalled()
+      expect(waitUntilRestoreDeviceFinished).toHaveBeenCalled()
     })
   })
 
@@ -154,7 +103,7 @@ describe("async `startRestoreDevice` ", () => {
 
       expect(uploadDeviceFile).not.toHaveBeenCalled()
       expect(startRestoreDeviceRequest).not.toHaveBeenCalled()
-      expect(getRestoreDeviceStatus).not.toHaveBeenCalled()
+      expect(waitUntilRestoreDeviceFinished).not.toHaveBeenCalled()
     })
   })
 
@@ -178,7 +127,7 @@ describe("async `startRestoreDevice` ", () => {
 
       expect(uploadDeviceFile).toHaveBeenCalled()
       expect(startRestoreDeviceRequest).not.toHaveBeenCalled()
-      expect(getRestoreDeviceStatus).not.toHaveBeenCalled()
+      expect(startRestoreDeviceRequest).not.toHaveBeenCalled()
     })
   })
 
@@ -205,11 +154,11 @@ describe("async `startRestoreDevice` ", () => {
 
       expect(uploadDeviceFile).toHaveBeenCalled()
       expect(startRestoreDeviceRequest).toHaveBeenCalled()
-      expect(getRestoreDeviceStatus).not.toHaveBeenCalled()
+      expect(waitUntilRestoreDeviceFinished).not.toHaveBeenCalled()
     })
   })
 
-  describe("when `getRestoreDeviceStatus` return error", () => {
+  describe("when `waitUntilRestoreDeviceFinished` return error", () => {
     test("fire async `startRestoreDevice` returns `rejected` action", async () => {
       const errorMock = new StartRestoreDeviceError(
         "One of the getRestoreDeviceStatus requests returns error"
@@ -218,8 +167,8 @@ describe("async `startRestoreDevice` ", () => {
       ;(startRestoreDeviceRequest as jest.Mock).mockReturnValue(
         successDeviceResponse
       )
-      ;(getRestoreDeviceStatus as jest.Mock).mockImplementation(
-        getRestoreDeviceStatusMock(true)
+      ;(waitUntilRestoreDeviceFinished as jest.Mock).mockReturnValue(
+        errorDeviceResponse
       )
       const mockStore = createMockStore([thunk])(mockStoreState)
       const {
@@ -235,7 +184,7 @@ describe("async `startRestoreDevice` ", () => {
 
       expect(uploadDeviceFile).toHaveBeenCalled()
       expect(startRestoreDeviceRequest).toHaveBeenCalled()
-      expect(getRestoreDeviceStatus).toHaveBeenCalled()
+      expect(waitUntilRestoreDeviceFinished).toHaveBeenCalled()
     })
   })
 })
