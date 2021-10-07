@@ -34,6 +34,8 @@ import registerGetDeviceCrashDumpFiles from "Backend/requests/get-device-crash-d
 import registerStartBackupDeviceRequest from "Backend/requests/start-backup-device/start-backup-device.request"
 import registerGetBackupDeviceStatusRequest from "Backend/requests/get-backup-device-status/get-backup-device-status.request"
 import registerDownloadDeviceFileRequest from "Backend/requests/download-device-file/download-device-file.request"
+import registerStartRestoreDeviceRequest from "Backend/requests/start-restore-device/start-restore-device.request"
+import registerGetRestoreDeviceStatusRequest from "Backend/requests/get-restore-device-status/get-restore-device-status.request"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
@@ -100,6 +102,8 @@ const bootstrap = (
     registerStartBackupDeviceRequest,
     registerGetBackupDeviceStatusRequest,
     registerDownloadDeviceFileRequest,
+    registerStartRestoreDeviceRequest,
+    registerGetRestoreDeviceStatusRequest,
   ]
 
   new Backend(adapters, getFakeAdapters(), requests).init()

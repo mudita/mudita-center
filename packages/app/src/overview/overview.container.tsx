@@ -20,6 +20,8 @@ import {
 import { lastBackupDateSelector } from "App/backup/selectors"
 import { startBackupDevice } from "App/backup-device/actions"
 import { readBackupDeviceError } from "App/backup-device/actions/base.action"
+import { startRestoreDevice } from "App/restore-device/actions"
+import { Backup } from "App/backup/reducers"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -34,6 +36,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     networkLevel: (state.device.data as PureDeviceData)?.networkLevel,
     caseColour: (state.device.data as PureDeviceData)?.caseColour,
     backupDeviceState: state.backupDevice.state,
+    backups: state.backup.backups,
     ...state.phoneUpdate,
     ...state.settings,
     ...state.devMode,
@@ -48,6 +51,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),
   startBackupDevice: () => dispatch(startBackupDevice()),
   readBackupDeviceError: () => dispatch(readBackupDeviceError()),
+  startRestoreDevice: (backup: Backup) => dispatch(startRestoreDevice(backup)),
   // TODO refactor legacy staff
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
     dispatch.phoneUpdate.update(updateInfo),

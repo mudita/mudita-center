@@ -13,6 +13,8 @@ import {
   GetBackupDeviceStatusDataState,
   GetBackupDeviceStatusResponseBody,
   GetPhoneLockTimeResponseBody,
+  GetRestoreDeviceStatusDataState,
+  GetRestoreDeviceStatusResponseBody,
   MuditaDevice,
   StartBackupResponseBody,
 } from "@mudita/pure"
@@ -137,6 +139,24 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
       data: {
         id: `<YYYY-MM-DD>T<HHMMSS>Z`,
         state: GetBackupDeviceStatusDataState.Finished,
+      },
+    }
+  }
+
+  public async startRestoreDevice(): Promise<DeviceResponse> {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
+  }
+
+  public async getRestoreDeviceStatus(): Promise<
+    DeviceResponse<GetRestoreDeviceStatusResponseBody>
+  > {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {
+        id: `<YYYY-MM-DD>T<HHMMSS>Z`,
+        state: GetRestoreDeviceStatusDataState.Finished,
       },
     }
   }

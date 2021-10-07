@@ -15,6 +15,8 @@ import {
   StartBackupResponseBody,
   GetBackupDeviceStatusResponseBody,
   GetBackupDeviceStatusRequestConfigBody,
+  GetRestoreDeviceStatusResponseBody,
+  StartRestoreRequestConfigBody,
 } from "@mudita/pure"
 import PurePhoneAdapter, {
   DeviceFilesOption,
@@ -222,6 +224,26 @@ class PurePhone extends PurePhoneAdapter {
   ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>> {
     return await this.deviceService.request({
       endpoint: Endpoint.Backup,
+      method: Method.Get,
+      body: config,
+    })
+  }
+
+  public async startRestoreDevice(
+    config: StartRestoreRequestConfigBody
+  ): Promise<DeviceResponse> {
+    return await this.deviceService.request({
+      endpoint: Endpoint.Restore,
+      method: Method.Post,
+      body: config,
+    })
+  }
+
+  public async getRestoreDeviceStatus(
+    config: GetBackupDeviceStatusRequestConfigBody
+  ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>> {
+    return await this.deviceService.request({
+      endpoint: Endpoint.Restore,
       method: Method.Get,
       body: config,
     })

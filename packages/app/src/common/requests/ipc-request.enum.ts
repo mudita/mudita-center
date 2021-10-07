@@ -33,4 +33,6 @@ export enum IpcRequest {
   StartBackupDevice = "start-backup-device",
   GetBackupDeviceStatus = "get-backup-device-status",
   DownloadDeviceFile = "download-device-file",
+  StartRestoreDevice = "start-restore-device",
+  GetRestoreDeviceStatus = "get-restore-device-status",
 }

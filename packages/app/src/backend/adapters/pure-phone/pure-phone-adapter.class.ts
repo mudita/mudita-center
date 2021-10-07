@@ -10,6 +10,9 @@ import {
   StartBackupResponseBody,
   GetBackupDeviceStatusResponseBody,
   GetBackupDeviceStatusRequestConfigBody,
+  StartRestoreRequestConfigBody,
+  GetRestoreDeviceStatusRequestConfigBody,
+  GetRestoreDeviceStatusResponseBody,
 } from "@mudita/pure"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
@@ -50,6 +53,12 @@ export default abstract class PurePhoneAdapter {
   public abstract getBackupDeviceStatus(
     config: GetBackupDeviceStatusRequestConfigBody
   ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>>
+  public abstract startRestoreDevice(
+    config: StartRestoreRequestConfigBody
+  ): Promise<DeviceResponse>
+  public abstract getRestoreDeviceStatus(
+    config: GetRestoreDeviceStatusRequestConfigBody
+  ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>>
   //TODO: move to a separate adapter
   public abstract downloadDeviceFile(
     filePath: string

@@ -22,6 +22,8 @@ import {
   GetFileListBody,
   GetFileListResponseBody,
   GetFileSystemRequestConfig,
+  GetRestoreDeviceStatusRequestConfig,
+  GetRestoreDeviceStatusResponseBody,
   GetThreadResponseBody,
   PostMessagesBody,
   PostMessagesResponseBody,
@@ -33,6 +35,7 @@ import {
   SendFileSystemResponse,
   StartBackupRequestConfig,
   StartBackupResponseBody,
+  StartRestoreRequestConfig,
 } from "../../endpoints"
 import { Formatter } from "../../formatter/formatter"
 import { FormatterFactory } from "../../formatter/formatter-factory"
@@ -140,6 +143,10 @@ export class PureStrategy extends BaseDevice {
   public request(
     config: GetBackupDeviceStatusRequestConfig
   ): Promise<Response<GetBackupDeviceStatusResponseBody>>
+  public request(config: StartRestoreRequestConfig): Promise<Response>
+  public request(
+    config: GetRestoreDeviceStatusRequestConfig
+  ): Promise<Response<GetRestoreDeviceStatusResponseBody>>
   public request(config: RequestConfig<any>): Promise<Response<any>>
   public async request(config: RequestConfig<any>): Promise<Response<any>> {
     const response = await super.request(config)

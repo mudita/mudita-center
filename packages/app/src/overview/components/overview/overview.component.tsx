@@ -36,6 +36,7 @@ import {
   BackupDeviceDataState,
   BackupDeviceState,
 } from "App/backup-device/reducers"
+import { Backup, BackupState } from "App/backup/reducers"
 
 export interface UpdateBasicInfo {
   toggleDeviceUpdating: (option: boolean) => void
@@ -46,8 +47,11 @@ type Props = DeviceState["data"] &
   PhoneUpdateStore &
   SettingsState &
   DevMode & {
+    backups: BackupState["backups"]
     backupDeviceState: BackupDeviceState["state"]
     readBackupDeviceError: () => void
+    startBackupDevice: () => void
+    startRestoreDevice: (backup: Backup) => void
   }
 
 const Overview: FunctionComponent<Props> = ({
@@ -85,6 +89,8 @@ const Overview: FunctionComponent<Props> = ({
   startBackupDevice,
   backupDeviceState,
   readBackupDeviceError,
+  startRestoreDevice,
+  backups,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -245,6 +251,11 @@ const Overview: FunctionComponent<Props> = ({
     }
   }, [backupDeviceState])
 
+  const handleRestoreCreate = () => {
+    const lastBackup = backups[backups.length - 1]
+    startRestoreDevice(lastBackup)
+  }
+
   return (
     <>
       <UpdatingForceModalFlow
@@ -291,7 +302,7 @@ const Overview: FunctionComponent<Props> = ({
         caseColour={caseColour}
         lastBackupDate={lastBackupDate}
         onBackupCreate={handleBackupCreate}
-        onBackupRestore={noop}
+        onBackupRestore={handleRestoreCreate}
       />
     </>
   )
