@@ -31,5 +31,4 @@ export enum GetBackupDeviceStatusDataState {
 export interface GetBackupDeviceStatusResponseBody {
   id: string
   state: GetBackupDeviceStatusDataState
-  location?: string
 }

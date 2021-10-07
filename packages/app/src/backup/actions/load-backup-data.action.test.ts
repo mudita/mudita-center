@@ -65,7 +65,7 @@ describe("async `loadBackupData` ", () => {
     test("fire async `loadBackupData` returns `rejected` action", async () => {
       ;(getFileData as jest.Mock).mockReturnValue(successRequestResponse)
       const errorMock = new LoadBackupDataError(
-        "Pure OS Backup Location is undefined"
+        "Pure OS Backup Desktop Location is undefined"
       )
       const mockStore = createMockStore([thunk])({
         settings: {

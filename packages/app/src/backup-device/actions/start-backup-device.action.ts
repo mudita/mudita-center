@@ -5,6 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { BackupDeviceEvent } from "App/backup-device/constants"
+import path from "path"
 import startBackupDeviceRequest from "Renderer/requests/start-backup-device.request"
 import { isResponsesSuccessWithData } from "Renderer/utils/is-responses-success-with-data.helpers"
 import { StartBackupDeviceError } from "App/backup-device/errors"
@@ -20,6 +21,7 @@ import { loadBackupData } from "App/backup/actions"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
+import { PureDeviceData } from "App/device"
 
 const waitUntilBackupDeviceFinished = async (
   id: string
@@ -45,12 +47,29 @@ export const startBackupDevice = createAsyncThunk(
   BackupDeviceEvent.StartBackupDevice,
   async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as RootState & ReduxRootState
+    const pureOsBackupPureLocation = (
+      state.device.data as PureDeviceData | undefined
+    )?.backupLocation
 
-    const pureOsBackupLocation = state.settings.pureOsBackupLocation
-
-    if (pureOsBackupLocation === undefined || pureOsBackupLocation === "") {
+    if (
+      pureOsBackupPureLocation === undefined ||
+      pureOsBackupPureLocation === ""
+    ) {
       return rejectWithValue(
-        new StartBackupDeviceError("Pure OS Backup Location is undefined")
+        new StartBackupDeviceError("Pure OS Backup Pure Location is undefined")
+      )
+    }
+
+    const pureOsBackupDesktopLocation = state.settings.pureOsBackupLocation
+
+    if (
+      pureOsBackupDesktopLocation === undefined ||
+      pureOsBackupDesktopLocation === ""
+    ) {
+      return rejectWithValue(
+        new StartBackupDeviceError(
+          "Pure OS Backup Desktop Location is undefined"
+        )
       )
     }
 
@@ -67,11 +86,8 @@ export const startBackupDevice = createAsyncThunk(
     const getBackupDeviceStatusResponse = await waitUntilBackupDeviceFinished(
       startBackupDeviceResponse.data!.id
     )
-    const location = getBackupDeviceStatusResponse.data?.location
-    if (
-      !isResponsesSuccessWithData([getBackupDeviceStatusResponse]) ||
-      location === undefined
-    ) {
+    const location = path.join(pureOsBackupPureLocation, backupId)
+    if (!isResponsesSuccessWithData([getBackupDeviceStatusResponse])) {
       return rejectWithValue(
         new StartBackupDeviceError(
           "One of the getBackupDeviceStatus requests returns error"
@@ -88,7 +104,7 @@ export const startBackupDevice = createAsyncThunk(
 
     const writeFileSuccess = await writeFile({
       fileName: backupId,
-      filePath: pureOsBackupLocation,
+      filePath: pureOsBackupDesktopLocation,
       data: downloadDeviceFileResponse.data!.data,
     })
 
