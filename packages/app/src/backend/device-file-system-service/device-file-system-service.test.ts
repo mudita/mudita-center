@@ -70,7 +70,7 @@ test("downloading file handle properly chunks data", async () => {
   const deviceFileSystemService = createDeviceFileSystemService(
     new DeviceService(MuditaDeviceManager, ipcMain)
   )
-  const { status, data } = await deviceFileSystemService.downloadFile(
+  const { status, data } = await deviceFileSystemService.downloadFileDeprecated(
     "/sys/user/mock-file-name.log"
   )
   expect(status).toEqual(DeviceResponseStatus.Ok)
@@ -115,7 +115,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
   const deviceFileSystemService = createDeviceFileSystemService(
     new DeviceService(MuditaDeviceManager, ipcMain)
   )
-  const { status, data } = await deviceFileSystemService.downloadFile(
+  const { status, data } = await deviceFileSystemService.downloadFileDeprecated(
     "/sys/user/mock-file-name.log"
   )
   expect(status).toEqual(DeviceResponseStatus.Ok)
@@ -162,7 +162,7 @@ test("downloading file return error when part of the chunks data is broken", asy
   const deviceFileSystemService = createDeviceFileSystemService(
     new DeviceService(MuditaDeviceManager, ipcMain)
   )
-  const { status, data } = await deviceFileSystemService.downloadFile(
+  const { status, data } = await deviceFileSystemService.downloadFileDeprecated(
     "/sys/user/mock-file-name.log"
   )
   expect(status).toEqual(DeviceResponseStatus.Error)
@@ -182,7 +182,7 @@ test("downloading file returns error properly", async () => {
   const deviceFileSystemService = createDeviceFileSystemService(
     new DeviceService(MuditaDeviceManager, ipcMain)
   )
-  const { status } = await deviceFileSystemService.downloadFile(
+  const { status } = await deviceFileSystemService.downloadFileDeprecated(
     "/sys/user/mock-file-name.log"
   )
   expect(status).toEqual(DeviceResponseStatus.Error)

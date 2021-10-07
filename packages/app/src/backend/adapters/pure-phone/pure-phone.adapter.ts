@@ -27,6 +27,7 @@ import DeviceResponse, {
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
 import DeviceFileSystemService, {
+  DeviceFileDeprecated,
   DeviceFile,
   UploadFilePayload,
 } from "Backend/device-file-system-service/device-file-system-service"
@@ -201,13 +202,13 @@ class PurePhone extends PurePhoneAdapter {
 
   public async getDeviceLogFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFile[]>> {
+  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
     return this.getDeviceFiles(DiagnosticsFileList.LOGS, option)
   }
 
   public async getDeviceCrashDumpFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFile[]>> {
+  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
     return this.getDeviceFiles(DiagnosticsFileList.CRASH_DUMPS, option)
   }
 
@@ -411,7 +412,7 @@ class PurePhone extends PurePhoneAdapter {
   private async getDeviceFiles(
     fileList: DiagnosticsFileList,
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFile[]>> {
+  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
     const getDiagnosticFileListResponse =
       await this.deviceFileDiagnosticService.getDiagnosticFileList(fileList)
     if (

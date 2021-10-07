@@ -75,7 +75,7 @@ const errorGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusRe
 const successDownloadDeviceFileResponse: DeviceResponse<DeviceFile> = {
   status: DeviceResponseStatus.Ok,
   data: {
-    data: "backup data",
+    data: Buffer.from("backup data"),
     name: backupId,
   },
 }

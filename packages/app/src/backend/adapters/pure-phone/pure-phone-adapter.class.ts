@@ -16,6 +16,7 @@ import {
 } from "@mudita/pure"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 import {
+  DeviceFileDeprecated,
   DeviceFile,
   UploadFilePayload,
 } from "Backend/device-file-system-service/device-file-system-service"
@@ -40,10 +41,10 @@ export default abstract class PurePhoneAdapter {
   >
   public abstract getDeviceLogFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFile[]>>
+  ): Promise<DeviceResponse<DeviceFileDeprecated[]>>
   public abstract getDeviceCrashDumpFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFile[]>>
+  ): Promise<DeviceResponse<DeviceFileDeprecated[]>>
   public abstract updateOs(
     filePath: string,
     progressChannel?: string
