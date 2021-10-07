@@ -140,6 +140,7 @@
   "component.updateNotAvailableMessage": "Your Mudita Center is up to date!",
   "component.updateProgressModalDescription": "Lorem ipsum dolor sit amet elit un elit lorem dolor situn elit dolor sit",
   "component.updateProgressModalTitle": "Updating Mudita Center",
+  "component.crashDumpSendingModal.label": "Sending logs to the support",
   "module.calendar": "Calendar",
   "module.calendar.authorizationFailedBody": "You need to allow all requested access rights in order to synchronize your calendar",
   "module.calendar.authorizationFailedButton": "Retry",
