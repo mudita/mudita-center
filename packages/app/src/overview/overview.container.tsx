@@ -19,8 +19,8 @@ import {
 } from "App/device"
 import { lastBackupDateSelector } from "App/backup/selectors"
 import { startBackupDevice } from "App/backup-device/actions"
-import { readBackupDeviceError } from "App/backup-device/actions/base.action"
-import { startRestoreDevice } from "App/restore-device/actions"
+import { readBackupDeviceDataState } from "App/backup-device/actions/base.action"
+import { readRestoreDeviceDataState, startRestoreDevice } from "App/restore-device/actions"
 import { Backup } from "App/backup/reducers"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
@@ -51,7 +51,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   setUpdateState: (state: UpdatingState) => dispatch(setUpdateState(state)),
   startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),
   startBackupDevice: () => dispatch(startBackupDevice()),
-  readBackupDeviceError: () => dispatch(readBackupDeviceError()),
+  readBackupDeviceDataState: () => dispatch(readBackupDeviceDataState()),
+  readRestoreDeviceDataState: () => dispatch(readRestoreDeviceDataState()),
   startRestoreDevice: (backup: Backup) => dispatch(startRestoreDevice(backup)),
   // TODO refactor legacy staff
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>

@@ -10,6 +10,7 @@ import {
 import { RestoreDeviceEvent } from "App/restore-device/constants"
 import { StartRestoreDeviceError } from "App/restore-device/errors"
 import { RestoreDeviceDataState } from "App/restore-device/reducers/restore-device.interface"
+import { readRestoreDeviceDataState } from "App/restore-device/actions"
 import {
   fulfilledAction,
   pendingAction,
@@ -55,6 +56,26 @@ describe("Start Restore Device functionality", () => {
       ...initialState,
       state: RestoreDeviceDataState.Error,
       error: errorMock,
+    })
+  })
+})
+
+describe("`ReadRestoreDeviceDataState` data functionality", () => {
+  const errorMock = new StartRestoreDeviceError("I'm error")
+
+  test("Event: `ReadRestoreDeviceDataState` set error property to null", () => {
+    expect(
+      restoreDeviceReducer(
+        {
+          ...initialState,
+          error: errorMock,
+        },
+        readRestoreDeviceDataState
+      )
+    ).toEqual({
+      ...initialState,
+      state: RestoreDeviceDataState.Empty,
+      error: null,
     })
   })
 })

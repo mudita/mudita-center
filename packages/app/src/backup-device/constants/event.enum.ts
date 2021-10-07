@@ -5,5 +5,5 @@
 
 export enum BackupDeviceEvent {
   StartBackupDevice = "START_BACKUP_DEVICE",
-  ReadBackupDeviceError = "READ_BACKUP_DEVICE_ERROR",
+  ReadBackupDeviceDataState = "READ_BACKUP_DEVICE_ERROR",
 }

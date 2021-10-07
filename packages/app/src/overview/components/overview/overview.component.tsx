@@ -56,10 +56,11 @@ type Props = DeviceState["data"] &
   DevMode & {
     backups: BackupState["backups"]
     backupDeviceState: BackupDeviceState["state"]
-    readBackupDeviceError: () => void
+    readBackupDeviceDataState: () => void
     startBackupDevice: () => void
     restoreDeviceState: RestoreDeviceState["state"]
     startRestoreDevice: (backup: Backup) => void
+    readRestoreDeviceDataState: () => void
   }
 
 const Overview: FunctionComponent<Props> = ({
@@ -96,9 +97,10 @@ const Overview: FunctionComponent<Props> = ({
   lastBackupDate,
   startBackupDevice,
   backupDeviceState,
-  readBackupDeviceError,
+  readBackupDeviceDataState,
   startRestoreDevice,
   restoreDeviceState,
+  readRestoreDeviceDataState,
   backups,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
@@ -245,7 +247,7 @@ const Overview: FunctionComponent<Props> = ({
 
   const closeBackupDeviceFlowState = () => {
     setBackupDeviceFlowState(undefined)
-    readBackupDeviceError()
+    readBackupDeviceDataState()
   }
 
   useEffect(() => {
@@ -269,6 +271,7 @@ const Overview: FunctionComponent<Props> = ({
 
   const closeRestoreDeviceFlowState = () => {
     setRestoreDeviceFlowState(undefined)
+    readRestoreDeviceDataState()
   }
 
   useEffect(() => {

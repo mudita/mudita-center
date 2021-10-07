@@ -52,15 +52,12 @@ export const backupDeviceReducer = createReducer<BackupDeviceState>(
         }
       )
 
-      .addCase(
-        BackupDeviceEvent.ReadBackupDeviceError,
-        (state) => {
-          return {
-            ...state,
-            state: BackupDeviceDataState.Empty,
-            error: null,
-          }
+      .addCase(BackupDeviceEvent.ReadBackupDeviceDataState, (state) => {
+        return {
+          ...state,
+          state: BackupDeviceDataState.Empty,
+          error: null,
         }
-      )
+      })
   }
 )

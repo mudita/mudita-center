@@ -54,5 +54,13 @@ export const restoreDeviceReducer = createReducer<RestoreDeviceState>(
           }
         }
       )
+
+      .addCase(RestoreDeviceEvent.ReadRestoreDeviceDataState, (state) => {
+        return {
+          ...state,
+          state: RestoreDeviceDataState.Empty,
+          error: null,
+        }
+      })
   }
 )

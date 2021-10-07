@@ -5,4 +5,5 @@
 
 export enum RestoreDeviceEvent {
   StartRestoreDevice = "START_RESTORE_DEVICE",
+  ReadRestoreDeviceDataState = "READ_RESTORE_DEVICE_DATA_STATE",
 }
