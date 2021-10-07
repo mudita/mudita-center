@@ -23,6 +23,7 @@ import { Row } from "Renderer/components/core/table/table.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Button from "Renderer/components/core/button/button.component"
 import { RestoreAvailableBackupModalTestIds } from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal-test-ids.component"
+import { sortBackups } from "App/backup/helpers/sort-backups"
 
 const ModalContent = styled.div`
   display: flex;
@@ -112,7 +113,7 @@ const RestoreAvailableBackupModal: FunctionComponent<Props> = ({
           <Text displayStyle={TextDisplayStyle.MediumFadedText}>Backups</Text>
         </RowHeader>
         <ModalTableBody>
-          {backups.map((backup) => {
+          {sortBackups(backups).map((backup) => {
             const handleOnClick = () => {
               onBackupRowClick(backup)
             }
