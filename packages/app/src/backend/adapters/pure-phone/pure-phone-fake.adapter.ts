@@ -170,6 +170,12 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
       },
     }
   }
+
+  public async uploadDeviceFile(): Promise<DeviceResponse> {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
+  }
 }
 
 const createFakePurePhoneAdapter = (): PurePhoneAdapter =>

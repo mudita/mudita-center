@@ -4,19 +4,23 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import {
+  GetRestoreDeviceStatusDataState,
+  GetRestoreDeviceStatusResponseBody,
+} from "@mudita/pure"
 import { RestoreDeviceEvent } from "App/restore-device/constants"
 import startRestoreDeviceRequest from "Renderer/requests/start-restore-device.request"
 import { isResponsesSuccessWithData } from "Renderer/utils/is-responses-success-with-data.helpers"
 import { StartRestoreDeviceError } from "App/restore-device/errors"
 import getRestoreDeviceStatus from "Renderer/requests/get-restore-device-status.request"
-import {
-  GetRestoreDeviceStatusDataState,
-  GetRestoreDeviceStatusResponseBody,
-} from "@mudita/pure"
+import uploadDeviceFile from "Renderer/requests/upload-device-file.request"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { Backup } from "App/backup/reducers"
+import { PureDeviceData } from "App/device"
+import { StartBackupDeviceError } from "App/backup-device/errors"
+import { ReduxRootState, RootState } from "Renderer/store"
 
 const waitUntilRestoreDeviceFinished = async (
   id: string
@@ -42,8 +46,33 @@ const waitUntilRestoreDeviceFinished = async (
 
 export const startRestoreDevice = createAsyncThunk<undefined, Backup>(
   RestoreDeviceEvent.StartRestoreDevice,
-  async (backup, { rejectWithValue }) => {
+  async (backup, { getState, rejectWithValue }) => {
     const backupId = backup.filePath.split("/").pop() as string
+    const state = getState() as RootState & ReduxRootState
+    const pureOsBackupPureLocation = (
+      state.device.data as PureDeviceData | undefined
+    )?.backupLocation
+
+    if (
+      pureOsBackupPureLocation === undefined ||
+      pureOsBackupPureLocation === ""
+    ) {
+      return rejectWithValue(
+        new StartBackupDeviceError("Pure OS Backup Pure Location is undefined")
+      )
+    }
+
+    const uploadDeviceFileResponse = await uploadDeviceFile({
+      filePath: backup.filePath,
+      targetPath: `${pureOsBackupPureLocation}/${backupId}`,
+    })
+
+    if (uploadDeviceFileResponse.status !== DeviceResponseStatus.Ok) {
+      return rejectWithValue(
+        new StartRestoreDeviceError("Upload Backup File returns error")
+      )
+    }
+
     const startRestoreDeviceResponse = await startRestoreDeviceRequest({
       restore: backupId,
     })

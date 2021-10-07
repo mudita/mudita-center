@@ -28,6 +28,7 @@ import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
 import DeviceFileSystemService, {
   DeviceFile,
+  UploadFilePayload,
 } from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
@@ -269,6 +270,12 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
+  public async uploadDeviceFile(
+    payload: UploadFilePayload
+  ): Promise<DeviceResponse> {
+    return await this.deviceFileSystemService.uploadFile(payload)
+  }
+
   public async updateOs(
     filePath: string,
     progressChannel = ""
@@ -353,10 +360,10 @@ class PurePhone extends PurePhoneAdapter {
         deviceConnectedListener
       )
 
-      const fileResponse = await this.deviceFileSystemService.uploadFile(
+      const fileResponse = await this.deviceFileSystemService.uploadFile({
         filePath,
-        "/sys/user/update.tar"
-      )
+        targetPath: "/sys/user/update.tar",
+      })
 
       if (fileResponse.status === DeviceResponseStatus.Ok) {
         ++step

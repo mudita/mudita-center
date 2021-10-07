@@ -15,7 +15,10 @@ import {
   GetRestoreDeviceStatusResponseBody,
 } from "@mudita/pure"
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import {
+  DeviceFile,
+  UploadFilePayload,
+} from "Backend/device-file-system-service/device-file-system-service"
 
 export interface DeviceFilesOption {
   datePrefix?: boolean
@@ -63,4 +66,7 @@ export default abstract class PurePhoneAdapter {
   public abstract downloadDeviceFile(
     filePath: string
   ): Promise<DeviceResponse<DeviceFile>>
+  public abstract uploadDeviceFile(
+    payload: UploadFilePayload
+  ): Promise<DeviceResponse>
 }
