@@ -142,7 +142,6 @@ class DeviceService {
   public request(config: GetFileSystemRequestConfig): Promise<
     DeviceResponse<{
       rxID: string
-      fileCrc32: string
       fileSize: number
       chunkSize: number
     }>
@@ -152,6 +151,7 @@ class DeviceService {
       rxID: string
       chunkNo: number
       data: string
+      fileCrc32?: string
     }>
   >
   public request(config: SendFileSystemRequestConfig): Promise<

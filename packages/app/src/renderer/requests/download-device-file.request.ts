@@ -5,12 +5,12 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFileDeprecated } from "Backend/device-file-system-service/device-file-system-service"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 
 const downloadDeviceFile = async (
   filePath: string
-): Promise<DeviceResponse<DeviceFile>> => {
+): Promise<DeviceResponse<DeviceFileDeprecated>> => {
   return await ipcRenderer.callMain(IpcRequest.DownloadDeviceFile, filePath)
 }
 
