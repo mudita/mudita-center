@@ -3,5 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./crash-dump.interface"
-export * from "./crash-dump.reducer"
+export * from "./actions"
+export * from "./reducers"
