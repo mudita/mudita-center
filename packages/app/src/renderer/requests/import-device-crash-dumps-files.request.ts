@@ -3,21 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceResponse, { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import writeFile from "Renderer/requests/write-file.request"
-import getDeviceCrashDumpFiles from "Renderer/requests/get-device-crash-dump-files.request"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
+import copyFile from "Renderer/requests/copy-file.request"
+import downloadDeviceCrashDumpFiles from "Renderer/requests/download-crash-dump.request"
 
 const importDeviceCrashDumpFiles = async (
-  filePath: string
+  targetPath: string
 ): Promise<DeviceResponse> => {
-  const { status, data = [] } = await getDeviceCrashDumpFiles()
+  const { status, data = [] } = await downloadDeviceCrashDumpFiles()
   if (status === DeviceResponseStatus.Ok && data) {
-    for (let i = 0; i < data.length; i++) {
-      const deviceLogFile = data[i]
-      const writeFileSuccess = await writeFile({ filePath, data: deviceLogFile.data, fileName: deviceLogFile.name })
-      if(!writeFileSuccess){
+    for await (const deviceLogFile of data) {
+      const copyFileSuccess = await copyFile({
+        sourcePath: deviceLogFile,
+        targetPath,
+      })
+      if (!copyFileSuccess) {
         return {
-          status: DeviceResponseStatus.Error
+          status: DeviceResponseStatus.Error,
         }
       }
     }
@@ -26,8 +30,7 @@ const importDeviceCrashDumpFiles = async (
     return {
       status,
       error: {
-        message:
-          "Import device crash dumps failed: isn't possible to download",
+        message: "Import device crash dumps failed: isn't possible to download",
       },
     }
   }

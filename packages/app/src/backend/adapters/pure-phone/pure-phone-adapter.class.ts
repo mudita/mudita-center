@@ -34,7 +34,8 @@ export default abstract class PurePhoneAdapter {
   ): Promise<DeviceResponse<DeviceFile[]>>
   public abstract getDeviceCrashDumpFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFile[]>>
+  ): Promise<DeviceResponse<string[]>>
+  public abstract downloadDeviceCrashDumpFiles(): Promise<DeviceResponse<string[]>>
   public abstract updateOs(
     filePath: string,
     progressChannel?: string

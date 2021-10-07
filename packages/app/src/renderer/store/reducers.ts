@@ -5,11 +5,11 @@
 
 import { combineReducers } from "redux"
 import { deviceReducer } from "App/device"
+import { crashDumpReducer } from "App/crash-dump"
 
 export const reducers = {
   device: deviceReducer,
+  crashDump: crashDumpReducer,
 }
 
-export const combinedReducers = combineReducers({
-  device: deviceReducer,
-})
+export const combinedReducers = combineReducers(reducers)
