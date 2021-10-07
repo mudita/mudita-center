@@ -4,6 +4,7 @@
  */
 
 export enum RestoreDeviceFlowTestIds {
+  RestoreAvailableBackupModal = "restore-available-backup-modal",
   RestoreDeviceStart = "restore-device-start",
   RestoreDeviceRunning = "restore-device-running",
   RestoreDeviceFinished = "restore-device-finished",

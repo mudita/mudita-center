@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   RestoreFailureModal,
@@ -14,6 +14,7 @@ import {
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
 import { Backup } from "App/backup/reducers"
+import RestoreAvailableBackupModal from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal"
 
 export enum RestoreDeviceFlowState {
   Start = "start",
@@ -36,20 +37,37 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
   onSupportButtonClick,
   closeModal,
 }) => {
-  const lastBackup = backups[backups.length - 1]
+  const [activeBackup, setActiveBackup] = useState<Backup>()
 
   const handleActionButtonClick = (): void => {
-    onStartRestoreDeviceButtonClick(lastBackup)
+    if (activeBackup) {
+      onStartRestoreDeviceButtonClick(activeBackup)
+    }
   }
+
+  const handleBackupRowClick = (backup: Backup) => {
+    setActiveBackup(backup)
+  }
+
   return (
     <>
-      <RestoreModal
-        testId={RestoreDeviceFlowTestIds.RestoreDeviceStart}
-        open={RestoreDeviceFlowState.Start === openState}
-        closeModal={closeModal}
-        onActionButtonClick={handleActionButtonClick}
-        backupDate={lastBackup.date}
-      />
+      {activeBackup === undefined ? (
+        <RestoreAvailableBackupModal
+          testId={RestoreDeviceFlowTestIds.RestoreAvailableBackupModal}
+          open={RestoreDeviceFlowState.Start === openState}
+          backups={backups}
+          closeModal={closeModal}
+          onBackupRowClick={handleBackupRowClick}
+        />
+      ) : (
+        <RestoreModal
+          testId={RestoreDeviceFlowTestIds.RestoreDeviceStart}
+          open={RestoreDeviceFlowState.Start === openState}
+          closeModal={closeModal}
+          onActionButtonClick={handleActionButtonClick}
+          backupDate={activeBackup.date}
+        />
+      )}
       <RestoreSpinnerModal
         testId={RestoreDeviceFlowTestIds.RestoreDeviceRunning}
         open={RestoreDeviceFlowState.Running === openState}

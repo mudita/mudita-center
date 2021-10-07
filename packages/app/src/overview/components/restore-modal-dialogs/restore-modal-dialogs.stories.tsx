@@ -13,6 +13,28 @@ import {
   RestoreSuccessModal,
 } from "App/overview/components/restore-modal-dialogs/restore-modal-dialogs"
 import { action } from "@storybook/addon-actions"
+import RestoreAvailableBackupModal from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal"
+import { Backup } from "App/backup/reducers"
+
+const backups: Backup[] = [
+  {
+    filePath: "C:\\backups\\backup-1.text",
+    date: new Date(),
+  },
+]
+
+export const RestoreAvailableBackupModalStory = () => {
+  return (
+    <Story transparentMode>
+      <RestoreAvailableBackupModal
+        open
+        backups={backups}
+        closeModal={action("Close Restore Available Backup Modal Modal")}
+        onBackupRowClick={action("Click Backup Row")}
+      />
+    </Story>
+  )
+}
 
 export const RestoreModalStory = () => {
   return (
@@ -62,5 +84,5 @@ export const RestoreSuccessModalStory = () => {
 
 export default {
   title: "Views|Overview/Restore Modal Dialogs",
-  component: RestoreModalStory,
+  component: RestoreAvailableBackupModalStory,
 } as Meta

@@ -11,6 +11,8 @@ import RestoreDeviceFlow, {
 } from "App/overview/components/restore-device-flow/restore-device-flow.component"
 import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
 import { Backup } from "App/backup/reducers"
+import { RestoreAvailableBackupModalTestIds } from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal-test-ids.component"
+import { fireEvent } from "@testing-library/dom"
 
 type Props = ComponentProps<typeof RestoreDeviceFlow>
 
@@ -40,12 +42,41 @@ const render = (extraProps?: Partial<Props>) => {
 
 describe("`RestoreDeviceFlow` component", () => {
   describe("when component is render with default props", () => {
-    test("should be displayed `RestoreModal`", () => {
+    test("should be displayed `RestoreAvailableBackupModal`", () => {
       const { queryByTestId } = render()
+
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when component active backup is set", () => {
+    test("should be displayed `RestoreDeviceStart`", () => {
+      const { queryByTestId, queryAllByTestId } = render()
+      const rows = queryAllByTestId(
+        RestoreAvailableBackupModalTestIds.RestoreAvailableBackupModalBodyRow
+      )
+      fireEvent.click(rows[0])
 
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
       ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
       ).not.toBeInTheDocument()
@@ -69,6 +100,9 @@ describe("`RestoreDeviceFlow` component", () => {
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
       ).toBeInTheDocument()
       expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
+      expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
       ).not.toBeInTheDocument()
       expect(
@@ -91,6 +125,9 @@ describe("`RestoreDeviceFlow` component", () => {
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
       ).toBeInTheDocument()
       expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
+      expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
       ).not.toBeInTheDocument()
       expect(
@@ -112,6 +149,9 @@ describe("`RestoreDeviceFlow` component", () => {
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
       ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
       ).not.toBeInTheDocument()

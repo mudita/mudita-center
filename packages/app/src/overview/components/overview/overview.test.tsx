@@ -167,7 +167,7 @@ const defaultProps: Props = {
     free: 100,
     full: 200,
   },
-  caseColour: CaseColour.Gray
+  caseColour: CaseColour.Gray,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -217,6 +217,9 @@ describe("`Overview` component", () => {
     test("any modal from `RestoreDeviceFlow` shouldn't be displayed", () => {
       const { queryByTestId } = render()
 
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
       ).not.toBeInTheDocument()
@@ -302,12 +305,15 @@ describe("`Overview` component", () => {
     const extraProps: Partial<Props> = {
       restoreDeviceState: RestoreDeviceDataState.Running,
     }
-    test("should be displayed `RestoreModal`", () => {
+    test("should be displayed `RestoreRunningModal`", () => {
       const { queryByTestId } = render(extraProps)
 
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
       ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
       ).not.toBeInTheDocument()
@@ -331,6 +337,9 @@ describe("`Overview` component", () => {
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
       ).toBeInTheDocument()
       expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
+      expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
       ).not.toBeInTheDocument()
       expect(
@@ -352,6 +361,9 @@ describe("`Overview` component", () => {
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
       ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
       ).not.toBeInTheDocument()
