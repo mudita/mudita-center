@@ -22,6 +22,7 @@ import registerTranslationListener from "App/main/functions/register-translation
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/calendar/backend/export-events"
 import registerWriteFileListener from "App/main/functions/register-write-file-listener"
+import registerCopyFileListener from "App/main/functions/register-copy-file-listener"
 import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/main/functions/register-archive-files-listener"
@@ -149,6 +150,7 @@ const createWindow = async () => {
   registerContactsExportListener()
   registerEventsExportListener()
   registerWriteFileListener()
+  registerCopyFileListener()
   registerRmdirListener()
   registerWriteGzipListener()
   registerGetApplicationConfigurationListener()

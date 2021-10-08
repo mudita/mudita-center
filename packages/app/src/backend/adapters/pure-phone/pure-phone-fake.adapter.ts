@@ -93,8 +93,15 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async getDeviceCrashDumpFiles(): Promise<
-    DeviceResponse<DeviceFile[]>
+  public async getDeviceCrashDumpFiles(): Promise<DeviceResponse<string[]>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: [],
+    }
+  }
+
+  public async downloadDeviceCrashDumpFiles(): Promise<
+    DeviceResponse<string[]>
   > {
     return {
       status: DeviceResponseStatus.Ok,
