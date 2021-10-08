@@ -8,7 +8,6 @@ export enum IpcRequest {
   GetBatteryInfo = "get-battery-info",
   GetStorageInfo = "get-storage-info",
   GetNetworkInfo = "get-network-info",
-  GetBackupsInfo = "get-backups-info",
   ConnectDevice = "connect-device",
   DisconnectDevice = "disconnect-device",
   UnlockDevice = "unlock-device",
@@ -31,4 +30,10 @@ export enum IpcRequest {
   GetThreads = "get-threads",
   GetDeviceLockTime = "get-device-lock-time",
   AddMessage = "add-message",
+  DownloadDeviceFile = "download-device-file",
+  UploadDeviceFile = "upload-device-file",
+  StartBackupDevice = "start-backup-device",
+  GetBackupDeviceStatus = "get-backup-device-status",
+  StartRestoreDevice = "start-restore-device",
+  GetRestoreDeviceStatus = "get-restore-device-status",
 }

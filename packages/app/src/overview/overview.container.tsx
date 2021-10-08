@@ -17,9 +17,15 @@ import {
   setUpdateState,
   startUpdateOs,
 } from "App/device"
+import { lastBackupDateSelector } from "App/backup/selectors"
+import { startBackupDevice } from "App/backup-device/actions"
+import { readBackupDeviceDataState } from "App/backup-device/actions/base.action"
+import { readRestoreDeviceDataState, startRestoreDevice } from "App/restore-device/actions"
+import { Backup } from "App/backup/reducers"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
+    lastBackupDate: lastBackupDateSelector(state),
     batteryLevel: state.device.data?.batteryLevel,
     osVersion: state.device.data?.osVersion,
     osUpdateDate: state.device.data?.osUpdateDate,
@@ -29,6 +35,9 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     networkName: (state.device.data as PureDeviceData)?.networkName,
     networkLevel: (state.device.data as PureDeviceData)?.networkLevel,
     caseColour: (state.device.data as PureDeviceData)?.caseColour,
+    backupDeviceState: state.backupDevice.state,
+    restoreDeviceState: state.restoreDevice.state,
+    backups: state.backup.backups,
     ...state.phoneUpdate,
     ...state.settings,
     ...state.devMode,
@@ -41,6 +50,10 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   changeSim: (card: SimCard) => dispatch(changeSim(card)),
   setUpdateState: (state: UpdatingState) => dispatch(setUpdateState(state)),
   startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),
+  startBackupDevice: () => dispatch(startBackupDevice()),
+  readBackupDeviceDataState: () => dispatch(readBackupDeviceDataState()),
+  readRestoreDeviceDataState: () => dispatch(readRestoreDeviceDataState()),
+  startRestoreDevice: (backup: Backup) => dispatch(startRestoreDevice(backup)),
   // TODO refactor legacy staff
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
     dispatch.phoneUpdate.update(updateInfo),

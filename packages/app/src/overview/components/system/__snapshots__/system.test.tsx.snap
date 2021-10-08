@@ -144,14 +144,10 @@ exports[`matches snapshot 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  padding: 4rem;
+  padding: 2.4rem;
   box-sizing: border-box;
   border-radius: 0.5rem;
   background-color: #ffffff;
-}
-
-.c3 {
-  grid-area: Text;
 }
 
 .c2 {
@@ -173,10 +169,27 @@ exports[`matches snapshot 1`] = `
   margin-top: auto;
 }
 
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
 .c10 {
-  grid-area: Buttons;
   justify-self: end;
   min-width: 18rem;
+}
+
+.c4 p:not(:last-of-type) {
+  margin-bottom: 0.8rem;
 }
 
 .c13 {
@@ -189,18 +202,8 @@ exports[`matches snapshot 1`] = `
   width: initial;
 }
 
-.c4 span {
-  margin-left: 0.8rem;
-  font-weight: 300;
-  text-transform: none;
-}
-
-.c4 p {
-  margin-bottom: 0.8rem;
-}
-
 .c8 {
-  margin-top: 0.8rem;
+  margin-left: 2rem;
   text-transform: none;
   display: -webkit-inline-box;
   display: inline-box;
@@ -217,13 +220,11 @@ exports[`matches snapshot 1`] = `
   <section
     class="c0"
   >
-    <div>
-      <h2
-        class="c1"
-      >
-        [value] module.overview.muditaOsUpdateTitle
-      </h2>
-    </div>
+    <h2
+      class="c1 "
+    >
+      [value] module.overview.muditaOsUpdateTitle
+    </h2>
     <div
       class="c2"
     >
@@ -236,7 +237,7 @@ exports[`matches snapshot 1`] = `
           <p
             class="c5"
           >
-            Current version:
+            [value] module.overview.systemVersionTitle
           </p>
           <p
             class="c6"

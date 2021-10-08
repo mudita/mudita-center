@@ -16,7 +16,9 @@ import MuditaDeviceManager, {
   GetFileSystemRequestConfig,
 } from "@mudita/pure"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
-import DeviceFileSystemService, { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileSystemService, {
+  DeviceFileDeprecated,
+} from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
 jest.mock("Backend/device-service")
@@ -25,7 +27,7 @@ jest.mock(
 )
 
 test("GetDeviceLogs request works properly", (done) => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: (
         config: GetFileSystemRequestConfig | DownloadFileSystemRequestConfig
@@ -59,14 +61,14 @@ test("GetDeviceLogs request works properly", (done) => {
       },
     }
   })
-  ;((DeviceFileDiagnosticService as unknown) as jest.Mock).mockImplementation(
+  ;(DeviceFileDiagnosticService as unknown as jest.Mock).mockImplementation(
     () => {
       return {
         getDiagnosticFileList: () => {
           return {
             status: DeviceResponseStatus.Ok,
             data: {
-              files: ["/sys/user/logs/MuditaOS.log"]
+              files: ["/sys/user/logs/MuditaOS.log"],
             },
           }
         },
@@ -84,11 +86,11 @@ test("GetDeviceLogs request works properly", (done) => {
     deviceFileDiagnosticService
   )
 
-  registerGetDeviceLogFiles(({
+  registerGetDeviceLogFiles({
     purePhone,
-  } as unknown) as Adapters)
+  } as unknown as Adapters)
   const [promise] = (ipcMain as any)._flush(IpcRequest.GetDeviceLogFiles)
-  promise.then((result: DeviceResponse<DeviceFile[]>) => {
+  promise.then((result: DeviceResponse<DeviceFileDeprecated[]>) => {
     expect(result).toMatchInlineSnapshot(`
       Object {
         "data": Array [

@@ -89,6 +89,7 @@ export interface DeviceInfo {
   networkStatus: NetworkStatus
   serialNumber: string
   caseColour: CaseColour
+  backupLocation: string
 }
 
 export enum DiagnosticsFileList {
