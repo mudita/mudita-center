@@ -8,15 +8,15 @@ import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
-const handleDownloadDeviceCrashDumpFiles = async (
-  { purePhone }: Adapters,
-): Promise<DeviceResponse<string[]>> => {
+const handleDownloadCrashDumpFiles = async ({
+  purePhone,
+}: Adapters): Promise<DeviceResponse<string[]>> => {
   return purePhone.downloadDeviceCrashDumpFiles()
 }
 
 const registerDownloadDeviceCrashDumpFiles = createEndpoint({
   name: IpcRequest.DownloadCrashDumpFiles,
-  handler: handleDownloadDeviceCrashDumpFiles,
+  handler: handleDownloadCrashDumpFiles,
 })
 
 export default registerDownloadDeviceCrashDumpFiles
