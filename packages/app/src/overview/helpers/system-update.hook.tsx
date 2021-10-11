@@ -278,42 +278,42 @@ const useSystemUpdateFlow = (
     modalService.preventClosingModal()
   }
 
-  const downloadUpdate = async (release?: Release) => {
-    const r =
-      release === undefined || release.version === undefined
+  const downloadUpdate = async (releaseInstance?: Release) => {
+    const release =
+      releaseInstance === undefined || releaseInstance.version === undefined
         ? releaseToInstall
-        : release
+        : releaseInstance
     try {
       await openDownloadingUpdateModal()
-      await delayResponse(downloadOsUpdateRequest(r?.file.url as string))
-      if (r?.devMode) {
+      await delayResponse(downloadOsUpdateRequest(release?.file.url as string))
+      if (release?.devMode) {
         openDevModal(true)
       } else {
         onUpdate({ pureOsDownloaded: true })
-        await openDownloadSucceededModal(r)
+        await openDownloadSucceededModal(release)
       }
     } catch (error) {
       if (error.status === DownloadStatus.Cancelled) {
         await openDownloadCanceledModal()
       } else {
-        await openDownloadInterruptedModal(() => downloadUpdate(r))
+        await openDownloadInterruptedModal(() => downloadUpdate(release))
       }
     }
   }
 
   // Install update
-  const updatePure = async (release?: Release) => {
-    const r =
-      release === undefined || release.version === undefined
+  const updatePure = async (releaseInstance?: Release) => {
+    const release =
+      releaseInstance === undefined || releaseInstance.version === undefined
         ? releaseToInstall
-        : release
+        : releaseInstance
 
-    if (r === undefined) {
+    if (release === undefined) {
       displayErrorModal()
       return
     }
 
-    const { file, version } = r
+    const { file, version } = release
 
     modalService.openModal(<UpdatingSpinnerModal />, true)
 
