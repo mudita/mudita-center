@@ -6,6 +6,8 @@
 import path from "path"
 import * as fs from "fs"
 import { Endpoint, Method } from "@mudita/pure"
+import getAppPath from "App/main/utils/get-app-path"
+import writeFile from "App/main/utils/write-file"
 import DeviceService from "Backend/device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
@@ -25,14 +27,21 @@ class DeviceFileSystemService {
     fileDirectory: string
   ): Promise<DeviceResponse<string[]>> {
     const data: string[] = []
+
     for (let i = 0; i < filePaths.length; i++) {
       const filePath = filePaths[i]
       const response = await this.downloadFile(filePath)
 
       if (response.status === DeviceResponseStatus.Ok && response.data) {
         const name = filePath.split("/").pop() as string
-        await fs.writeFileSync(name, response.data, "utf-8")
-        data.push(path.join(process.cwd(), fileDirectory, name))
+        const targetPath = path.join(getAppPath(), fileDirectory)
+
+        await writeFile({
+          filePath: targetPath,
+          data: response.data,
+          fileName: name,
+        })
+        data.push(targetPath)
       } else {
         return {
           status: DeviceResponseStatus.Error,
@@ -103,7 +112,9 @@ class DeviceFileSystemService {
       const fileBuffer = Buffer.from(downloadFileResponse.data, "base64")
       const receivedFileCrc32 = fileCrc32.toLowerCase()
       const countedFileCrc32 = countCRC32(fileBuffer)
-      logger.info(`downloadFile crc: received ${receivedFileCrc32}, counted  ${countedFileCrc32}`)
+      logger.info(
+        `downloadFile crc: received ${receivedFileCrc32}, counted  ${countedFileCrc32}`
+      )
 
       if (receivedFileCrc32 === countedFileCrc32) {
         return {
@@ -230,7 +241,7 @@ class DeviceFileSystemService {
     rxID: string,
     chunkLength: number,
     chunkNo = 1,
-    chunkedString = "",
+    chunkedString = ""
   ): Promise<DeviceResponse<string>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.FileSystem,

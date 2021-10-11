@@ -52,7 +52,9 @@ class DeviceService {
   constructor(
     private deviceManager: MuditaDeviceManager,
     private ipcMain: MainProcessIpc
-  ) {}
+  ) {
+    EventEmitter.defaultMaxListeners = 15
+  }
 
   public init(): DeviceService {
     this.registerAttachDeviceListener()
