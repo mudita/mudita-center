@@ -3,11 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { githubInstance } from "App/main/utils/github-instance"
 import {
   GithubRelease,
   GithubReleaseAsset,
   Release,
+  ManifestReleases,
 } from "App/main/functions/register-get-all-releases-listener"
+import { Product } from "App/main/constants"
 import OsReleasesManager from "App/main/utils/os-releases-manager"
 import isVersionMatch from "App/overview/helpers/is-version-match"
 import isPrereleaseSet from "App/overview/helpers/is-prerelease-set"
@@ -19,6 +22,16 @@ export const findXTarAsset = ({
   assets,
 }: GithubRelease): GithubReleaseAsset | undefined =>
   assets.find((asset) => asset.content_type === "application/x-tar")
+
+export const findManifestAsset = ({
+  assets,
+}: GithubRelease): GithubReleaseAsset | undefined =>
+  assets.find((asset) => asset.name === "manifest.json")
+
+export const findAssetByName = (
+  { assets }: GithubRelease,
+  name: string
+): GithubReleaseAsset | undefined => assets.find((asset) => asset.name === name)
 
 export const isProductionRelease = (release: GithubRelease): boolean => {
   if (release.prerelease) {
@@ -85,26 +98,26 @@ export const filterRelease = (release: GithubRelease): boolean => {
     return false
   }
 
-  if (OsReleasesManager.isProductionAvaible() && isProductionRelease(release)) {
+  if (OsReleasesManager.isProductionAvailable() && isProductionRelease(release)) {
     return true
   }
 
   if (
-    OsReleasesManager.isTestProductionAvaible() &&
+    OsReleasesManager.isTestProductionAvailable() &&
     isTestProductionRelease(release)
   ) {
     return true
   }
 
   if (
-    OsReleasesManager.isProductionAlphaAvaible() &&
+    OsReleasesManager.isProductionAlphaAvailable() &&
     isProductionAlphaRelease(release)
   ) {
     return true
   }
 
   if (
-    OsReleasesManager.isTestProductionAlphaAvaible() &&
+    OsReleasesManager.isTestProductionAlphaAvailable() &&
     isTestProductionAlphaRelease(release)
   ) {
     return true
@@ -122,23 +135,63 @@ export const getPrerelease = (release: GithubRelease): boolean => {
   ].some((fn) => fn(release))
 }
 
-const mapToReleases = (githubReleases: GithubRelease[]): Release[] => {
-  return githubReleases.filter(filterRelease).map((release): Release => {
-    const { tag_name, created_at, published_at } = release
+const mapToReleases = async (
+  githubReleases: GithubRelease[]
+): Promise<Release[]> => {
+  const result = await Promise.all(
+    githubReleases.filter(filterRelease).flatMap(async (release) => {
+      const { tag_name, created_at, published_at } = release
+      const manifest = findManifestAsset(release) as GithubReleaseAsset
 
-    const asset = findXTarAsset(release) as GithubReleaseAsset
+      if (manifest) {
+        const { data } = await githubInstance.get<{
+          releases: ManifestReleases[]
+        }>(manifest.url, {
+          headers: {
+            Accept: "application/octet-stream",
+          },
+        })
 
-    return {
-      version: tag_name,
-      prerelease: getPrerelease(release),
-      date: published_at || created_at,
-      file: {
-        url: asset.url,
-        size: asset.size,
-        name: asset.name,
-      },
-    }
-  })
+        return data.releases.flatMap((item) => {
+          const releaseFile = findAssetByName(
+            release,
+            item.files.tar
+          ) as GithubReleaseAsset
+
+          return {
+            version: item.version,
+            prerelease: getPrerelease(release),
+            date: published_at || created_at,
+            product: item.target,
+            file: {
+              url: releaseFile?.url,
+              size: releaseFile?.size,
+              name: releaseFile?.name,
+            },
+          }
+        })
+      } else {
+        // Used for legacy releases flow
+        const asset = findXTarAsset(release) as GithubReleaseAsset
+
+        return [
+          {
+            version: tag_name,
+            prerelease: getPrerelease(release),
+            date: published_at || created_at,
+            product: Product.PurePhone,
+            file: {
+              url: asset.url,
+              size: asset.size,
+              name: asset.name,
+            },
+          },
+        ]
+      }
+    })
+  )
+
+  return result.flat()
 }
 
 export default mapToReleases

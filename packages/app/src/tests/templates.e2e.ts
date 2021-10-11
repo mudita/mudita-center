@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
+import { enablepureSimulation, startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_TABS, URL_MAIN } from "Renderer/constants/urls"
 import { TemplatesTestIds } from "App/templates/components/templates/templates.enum"
@@ -14,7 +14,7 @@ const testText = "Mudita"
 
 beforeEach(async () => {
   app = await startApp(true)
-  await enablePhoneSimulation(app)
+  await enablepureSimulation(app)
   await app.client.waitUntil(() =>
     app.client.$(`*[data-testid=${MenuGroupTestIds.Messages}]`).isVisible()
   )

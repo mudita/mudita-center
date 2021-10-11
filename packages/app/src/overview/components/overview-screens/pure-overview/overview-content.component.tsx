@@ -4,59 +4,22 @@
  */
 
 import React, { ComponentProps } from "react"
+import { DeviceType } from "@mudita/pure"
 import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/basic-info.typings"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import styled, { css } from "styled-components"
-import Phone from "App/overview/components/phone/phone.component"
-import Network from "App/overview/components/network/network.component"
-import System from "App/overview/components/system/system.component"
-import FilesManager from "App/overview/components/files-manager/files-manager.component"
+import {
+  DeviceInfo,
+  StatusInfo,
+  SystemInfo,
+  OverviewWrapper,
+  FileManagerInfo,
+  BackupInfo,
+} from "App/overview/components/overview/overview.styles"
 import { noop } from "Renderer/utils/noop"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import { AppSettings } from "App/main/store/settings.interface"
 import Backup from "App/overview/components/backup/backup.component"
 import { Feature, flags } from "App/feature-flags"
-
-const PhoneInfo = styled(Phone)`
-  grid-area: Phone;
-`
-
-const NetworkInfo = styled(Network)`
-  grid-area: Network;
-`
-const SystemInfo = styled(System)`
-  grid-area: System;
-`
-
-const BackupInfo = styled(Backup)`
-  grid-area: Backup;
-`
-
-const FileManagerInfo = styled(FilesManager)`
-  grid-area: FilesManager;
-  display: none; /* TODO: Remove when feature becomes available */
-`
-
-const overviewWrapperWithBackup = css`
-  grid-template-rows: repeat(3, minmax(20.4rem, 1fr));
-  grid-template-areas:
-    "Phone Network"
-    "Phone System"
-    "Phone Backup";
-`
-
-const OverviewWrapper = styled.div`
-  display: grid;
-  grid-template-columns: minmax(28rem, 1fr) 2fr;
-  grid-template-rows: repeat(2, 1fr);
-  grid-column-gap: 3.2rem;
-  grid-row-gap: 3.2rem;
-  padding: 3.2rem;
-  grid-template-areas:
-    "Phone Network"
-    "Phone System";
-  ${flags.get(Feature.Backup) && overviewWrapperWithBackup};
-`
 
 interface OverviewUIProps {
   readonly onUpdateCheck: () => void
@@ -102,12 +65,14 @@ const OverviewContent: FunctionComponent<
   onBackupRestore,
 }) => (
   <OverviewWrapper>
-    <PhoneInfo
+    <DeviceInfo
+      caseColour={caseColour}
+      deviceType={DeviceType.MuditaPure}
       onClick={toggleDevMode}
       onDisconnect={disconnectDevice}
-      caseColour={caseColour}
     />
-    <NetworkInfo
+    <StatusInfo
+      deviceType={DeviceType.MuditaPure}
       batteryLevel={batteryLevel}
       network={networkName}
       networkLevel={networkLevel}

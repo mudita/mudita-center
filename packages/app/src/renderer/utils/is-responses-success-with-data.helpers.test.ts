@@ -8,7 +8,6 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import { isResponsesSuccessWithData } from "Renderer/utils/is-responses-success-with-data.helpers"
 
-
 const successResponseMock: DeviceResponse<any> = {
   status: DeviceResponseStatus.Ok,
   data: {},

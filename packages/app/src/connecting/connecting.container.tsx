@@ -13,7 +13,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { RootState, ReduxRootState, TmpDispatch, select } from "Renderer/store"
 import { connect } from "react-redux"
 import PasscodeModal from "App/passcode-modal/passcode-modal.component"
-import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
+import { togglePureSimulation } from "App/dev-mode/store/dev-mode.helpers"
 import { PureDeviceData, unlockDevice, getUnlockStatus } from "App/device"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 
@@ -40,7 +40,7 @@ const Connecting: FunctionComponent<{
 }) => {
   useEffect(() => {
     if (simulatePhoneConnectionEnabled) {
-      togglePhoneSimulation()
+      togglePureSimulation()
     }
   }, [simulatePhoneConnectionEnabled])
 

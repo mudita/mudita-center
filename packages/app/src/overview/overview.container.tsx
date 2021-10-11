@@ -20,12 +20,16 @@ import {
 import { lastBackupDateSelector } from "App/backup/selectors"
 import { startBackupDevice } from "App/backup-device/actions"
 import { readBackupDeviceDataState } from "App/backup-device/actions/base.action"
-import { readRestoreDeviceDataState, startRestoreDevice } from "App/restore-device/actions"
+import {
+  readRestoreDeviceDataState,
+  startRestoreDevice,
+} from "App/restore-device/actions"
 import { Backup } from "App/backup/reducers"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
     lastBackupDate: lastBackupDateSelector(state),
+    deviceType: state.device.deviceType,
     batteryLevel: state.device.data?.batteryLevel,
     osVersion: state.device.data?.osVersion,
     osUpdateDate: state.device.data?.osUpdateDate,

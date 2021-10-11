@@ -24,7 +24,8 @@ export interface DeviceResponseError {
   data?: any
 }
 
-export default interface DeviceResponse<DataType = undefined> extends RequestResponse<DataType>{
+export default interface DeviceResponse<DataType = undefined>
+  extends RequestResponse<DataType> {
   status: DeviceResponseStatus
   data?: DataType
   error?: DeviceResponseError

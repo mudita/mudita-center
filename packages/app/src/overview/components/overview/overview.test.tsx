@@ -6,6 +6,7 @@
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { Router } from "react-router"
+import { DeviceType, CaseColour } from "@mudita/pure"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import Overview from "App/overview/components/overview/overview.component"
 import {
@@ -19,13 +20,14 @@ import {
 import store from "Renderer/store"
 import history from "Renderer/routes/history"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import { NetworkTestIds } from "App/overview/components/network/network-test-ids.enum"
+import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
-import { CaseColour } from "@mudita/pure"
 import { BackupDeviceDataState } from "App/backup-device/reducers"
 import { BackupDeviceFlowTestIds } from "App/overview/components/backup-device-flow/backup-device-flow-test-ids.component"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
+import { intl } from "Renderer/utils/intl"
+import { flags } from "App/feature-flags"
 
 type Props = ComponentProps<typeof Overview>
 
@@ -114,7 +116,7 @@ const defaultProps: Props = {
   diagnosticSentTimestamp: 0,
   networkLevel: "",
   phoneLockTime: 0,
-  deviceType: undefined,
+  deviceType: DeviceType.MuditaPure,
   appLatestVersion: "",
   appUpdateAvailable: undefined,
   appUpdateStepModalDisplayed: false,
@@ -184,17 +186,17 @@ const render = (extraProps?: Partial<Props>) => {
   )
 }
 
-describe("`Overview` component", () => {
+describe("`Overview` component for `MuditaPure` type,", () => {
   describe("when component is render with default props", () => {
     test("loadData is fired when component is mounted", () => {
-      const { queryByTestId } = render()
-      expect(queryByTestId(NetworkTestIds.BatteryLevel)).toHaveTextContent(
-        "0 %"
-      )
-      expect(queryByTestId(NetworkTestIds.NetworkName)).toHaveTextContent(
+      jest.spyOn(flags, "get").mockReturnValue(true)
+      const { getByTestId, queryByText } = render()
+      expect(getByTestId(StatusTestIds.BatteryLevel)).toHaveTextContent("0 %")
+      expect(getByTestId(StatusTestIds.NetworkName)).toHaveTextContent(
         "network name"
       )
-      expect(queryByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
+      queryByText(intl.formatMessage({ id: "module.overview.statusPureTitle" }))
+      expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
     })
 
     test("any modal from `BackupDeviceFlow` shouldn't be displayed", () => {

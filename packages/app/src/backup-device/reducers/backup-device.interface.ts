@@ -16,10 +16,10 @@ export enum BackupDeviceDataState {
 
 export interface BackupDeviceState {
   state: BackupDeviceDataState
-  error: Error | string | null,
+  error: Error | string | null
 }
 
 export type StartBackupDeviceErrorRejectAction = PayloadAction<
   StartBackupDeviceError,
   BackupDeviceEvent.StartBackupDevice
-  >
+>

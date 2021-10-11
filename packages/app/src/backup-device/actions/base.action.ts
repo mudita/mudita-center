@@ -6,4 +6,6 @@
 import { createAction } from "@reduxjs/toolkit"
 import { BackupDeviceEvent } from "App/backup-device/constants"
 
-export const readBackupDeviceDataState = createAction(BackupDeviceEvent.ReadBackupDeviceDataState)
+export const readBackupDeviceDataState = createAction(
+  BackupDeviceEvent.ReadBackupDeviceDataState
+)

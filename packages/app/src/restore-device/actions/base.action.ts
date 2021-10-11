@@ -6,4 +6,6 @@
 import { createAction } from "@reduxjs/toolkit"
 import { RestoreDeviceEvent } from "App/restore-device/constants"
 
-export const readRestoreDeviceDataState = createAction(RestoreDeviceEvent.ReadRestoreDeviceDataState)
+export const readRestoreDeviceDataState = createAction(
+  RestoreDeviceEvent.ReadRestoreDeviceDataState
+)

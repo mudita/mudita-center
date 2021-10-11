@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceType } from "@mudita/pure"
+import { Product } from "App/main/constants"
 import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { noop } from "Renderer/utils/noop"
@@ -23,6 +25,7 @@ import { DownloadStatus } from "Renderer/interfaces/file-download.interface"
 type Props = ComponentProps<typeof UpdatingForceModalFlow>
 
 const defaultProps: Props = {
+  deviceType: DeviceType.MuditaPure,
   state: UpdatingForceModalFlowState.Info,
   osVersion: "0.72.1",
   onContact: jest.fn(),
@@ -34,6 +37,7 @@ const releases: Release[] = [
   {
     version: "0.73.1",
     date: "2021-07-09T13:57:39Z",
+    product: Product.PurePhone,
     prerelease: false,
     file: {
       url: "www.mudita.com/assets/39998772",

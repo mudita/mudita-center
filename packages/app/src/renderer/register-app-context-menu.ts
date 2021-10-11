@@ -5,7 +5,10 @@
 
 import store from "Renderer/store"
 import { AppHotkeys } from "App/hotkeys/hotkeys.types"
-import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
+import {
+  togglePureSimulation,
+  toggleHarmonySimulation,
+} from "App/dev-mode/store/dev-mode.helpers"
 import ContextMenu from "App/context-menu/context-menu"
 import contactsContextMenu from "App/contacts/helpers/context-menu/context-menu"
 import importDeviceLogFiles from "Renderer/requests/import-device-log-files.request"
@@ -19,12 +22,21 @@ const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Device", [
     {
       labelCreator: () => {
-        return store.getState().devMode.phoneSimulation
-          ? "Stop simulating connection"
-          : "Simulate connection"
+        return store.getState().devMode.pureSimulation
+          ? "Stop simulating Pure connection"
+          : "Simulate Pure connection"
       },
-      click: togglePhoneSimulation,
-      accelerator: AppHotkeys.PhoneSimulation,
+      click: togglePureSimulation,
+      accelerator: AppHotkeys.pureSimulation,
+    },
+    {
+      labelCreator: () => {
+        return store.getState().devMode.harmonySimulation
+          ? "Stop simulating Harmony connection"
+          : "Simulate Harmony connection"
+      },
+      click: toggleHarmonySimulation,
+      accelerator: AppHotkeys.HarmonySimulation,
     },
     {
       label: "Download logs file",
