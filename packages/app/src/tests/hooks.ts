@@ -27,7 +27,7 @@ export const stopApp = async (app: any) => {
   }
 }
 
-export const enablePhoneSimulation = async (app: any) => {
+export const enablepureSimulation = async (app: any) => {
   await app.client
     .$(`*[data-testid=${LayoutBlankWrapperTestIds.Close}]`)
     .click()

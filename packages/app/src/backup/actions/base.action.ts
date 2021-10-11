@@ -8,4 +8,3 @@ import { BackupEvent } from "App/backup/constants"
 import { Backup } from "App/backup/reducers"
 
 export const setBackupData = createAction<Backup[]>(BackupEvent.SetBackupData)
-

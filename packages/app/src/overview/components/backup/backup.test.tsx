@@ -60,7 +60,11 @@ const renderer = (extraProps?: Partial<Props>) => {
 test("renders no backup info properly", () => {
   const { getByText, createButton } = renderer()
   expect(
-    getByText(intl.formatMessage({ id: "module.overview.backupInfoBackupNotAvaibleDescription" }))
+    getByText(
+      intl.formatMessage({
+        id: "module.overview.backupInfoBackupNotAvaibleDescription",
+      })
+    )
   ).toBeInTheDocument()
   expect(createButton()).toBeInTheDocument()
 })
@@ -70,7 +74,9 @@ test("renders available backup info properly", () => {
     lastBackupDate,
   })
   expect(
-    getByText("module.overview.backupInfoBackupAvaibleDescription", { exact: false })
+    getByText("module.overview.backupInfoBackupAvaibleDescription", {
+      exact: false,
+    })
   ).toBeInTheDocument()
   expect(restoreButton()).toBeInTheDocument()
   expect(createButton()).toBeInTheDocument()

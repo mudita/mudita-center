@@ -68,6 +68,10 @@ describe("Connect Device request returns `success` status", () => {
     expect(mockStore.getActions()).toEqual([
       connectDevice.pending(requestId, DeviceType.MuditaPure),
       {
+        payload: true,
+        type: "DEVICE_SET_CONNECTION_STATE",
+      },
+      {
         type: pendingAction("DEVICE_DATA_LOADING"),
         payload: undefined,
       },

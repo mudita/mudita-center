@@ -56,17 +56,14 @@ const requestStatusFactory = (
   status: DeviceResponseStatus,
   withData = true
 ) => {
-  ;[
-    getDeviceInfo,
-    getNetworkInfo,
-    getStorageInfo,
-    getBatteryInfo,
-  ].forEach((request) => {
-    ;(request as jest.Mock).mockReturnValueOnce({
-      status,
-      ...(withData && dataMock),
-    })
-  })
+  ;[getDeviceInfo, getNetworkInfo, getStorageInfo, getBatteryInfo].forEach(
+    (request) => {
+      ;(request as jest.Mock).mockReturnValueOnce({
+        status,
+        ...(withData && dataMock),
+      })
+    }
+  )
 }
 
 afterEach(() => {

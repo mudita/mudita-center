@@ -4,6 +4,7 @@
  */
 
 import * as React from "react"
+import { DeviceType } from "@mudita/pure"
 import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Text, {
@@ -28,7 +29,16 @@ import {
   LinkWrapper,
 } from "Renderer/components/rest/menu/menu-group.styled"
 
-const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
+interface MenuGroupProps extends MenuElement {
+  deviceType: DeviceType | null
+}
+
+const MenuGroup: FunctionComponent<MenuGroupProps> = ({
+  label,
+  items,
+  icons,
+  deviceType,
+}) => {
   return (
     <>
       {label && (
@@ -60,6 +70,9 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
       {items &&
         items
           .filter(({ hidden }) => !hidden)
+          .filter(({ visibleOn }) =>
+            visibleOn && deviceType ? visibleOn.includes(deviceType) : true
+          )
           .map(({ button, icon, testId }, index) => {
             const buttonMenuConfig = {
               nav: true,

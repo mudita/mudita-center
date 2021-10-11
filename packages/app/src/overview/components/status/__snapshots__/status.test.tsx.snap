@@ -152,7 +152,7 @@ exports[`matches snapshot 1`] = `
       <h2
         class="c3"
       >
-        [value] module.overview.networkTitle
+        [value] module.overview.statusPureTitle
       </h2>
     </div>
     <div

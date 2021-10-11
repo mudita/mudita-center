@@ -28,12 +28,13 @@ import {
   UpdatingSuccessModal,
 } from "App/overview/components/overview-modals.component"
 import { UpdatingForceModal } from "App/overview/components/overview.modal-dialogs"
-import OverviewContent from "App/overview/components/overview-content.component"
-import { CaseColour } from "@mudita/pure"
+import OverviewContent from "App/overview/components/overview-screens/pure-overview/overview-content.component"
+import { CaseColour, DeviceType } from "@mudita/pure"
 
 type Props = ComponentProps<typeof OverviewContent>
 
 const defaultProps: Props = {
+  deviceType: DeviceType.MuditaPure,
   appAutostart: false,
   appCollectingData: undefined,
   appConversionFormat: undefined,

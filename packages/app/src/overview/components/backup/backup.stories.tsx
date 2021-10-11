@@ -43,7 +43,7 @@ export const BackupAvailable = Template.bind({})
 BackupAvailable.args = {
   onBackupCreate: action("create backup"),
   onBackupRestore: action("restore backup"),
-  lastBackupDate: new Date("2020-01-15T07:35:01.562Z")
+  lastBackupDate: new Date("2020-01-15T07:35:01.562Z"),
 }
 
 export default {
