@@ -14,15 +14,15 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
 import Card, {
-  CardText,
   CardContent,
+  CardBody,
 } from "App/overview/components/card.elements"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
-const TextInfo = styled(CardText)`
+const TextInfo = styled(CardContent)`
   p {
     margin-top: 1.2rem;
     letter-spacing: ${letterSpacing("small")}rem;
@@ -76,7 +76,7 @@ const Status: FunctionComponent<StatusProps> = ({
           )}
         </Text>
       </TextInfo>
-      <CardContent>
+      <CardBody>
         <div>
           <Stats>
             <IconContainer>
@@ -123,7 +123,7 @@ const Status: FunctionComponent<StatusProps> = ({
             </Stats>
           )}
         </div>
-      </CardContent>
+      </CardBody>
     </Card>
   )
 }

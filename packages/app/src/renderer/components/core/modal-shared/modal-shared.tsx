@@ -22,8 +22,8 @@ export const ModalIcon = styled.div`
   }
 `
 export const RoundIconWrapper = styled.div`
-  width: 12rem;
-  height: 12rem;
+  width: 8rem;
+  height: 8rem;
   border-radius: 50%;
   background-color: ${backgroundColor("icon")};
   display: flex;

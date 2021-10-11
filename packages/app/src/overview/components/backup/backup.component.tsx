@@ -5,10 +5,12 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { BackupProps } from "App/overview/components/backup/backup.interface"
 import Card, {
   CardAction,
   CardActionButton,
+  CardBody,
+  CardContent,
+  CardHeader,
   CardText,
 } from "App/overview/components/card.elements"
 import Text, {
@@ -17,12 +19,12 @@ import Text, {
 import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
-import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
 import { noop } from "Renderer/utils/noop"
-import ButtonComponent from "Renderer/components/core/button/button.component"
+import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { AppSettings } from "App/main/store/settings.interface"
+import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
+import moment from "moment"
 
 const messages = defineMessages({
   lastBackup: { id: "module.overview.backupLastBackup" },
@@ -33,67 +35,84 @@ const messages = defineMessages({
   createAction: {
     id: "module.overview.backupCreateAction",
   },
+  backupInfoTitle: {
+    id: "module.overview.backupInfoTitle",
+  },
+  backupInfoBackupAvaibleDescription: {
+    id: "module.overview.backupInfoBackupAvaibleDescription",
+  },
+  backupInfoBackupNotAvaibleDescription: {
+    id: "module.overview.backupInfoBackupNotAvaibleDescription",
+  },
 })
 
-const LastBackup = styled(CardText)`
-  span {
-    letter-spacing: ${letterSpacing("small")}rem;
-    color: ${textColor("secondary")};
-    margin-bottom: 1.2rem;
-    display: block;
-  }
+const RestoreButtonContainer = styled.div`
+  margin-left: 2rem;
+
   button {
-    margin: -0.8rem;
-    margin-top: 1.6rem;
-    height: 3rem;
-    width: auto;
+    margin-bottom: -1.2rem;
   }
 `
 
-const FirstBackup = styled(CardText)`
-  p {
-    letter-spacing: ${letterSpacing("small")}rem;
-    color: ${textColor("secondary")};
-  }
-`
+interface Props {
+  lastBackupDate?: Date
+  onBackupCreate: () => void
+  onBackupRestore?: () => void
+}
 
-const Backup: FunctionComponent<BackupProps & Partial<AppSettings>> = ({
-  className,
-  lastBackup,
+const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
+  lastBackupDate,
   onBackupCreate,
   onBackupRestore = noop,
-  language,
+  ...props
 }) => (
-  <Card className={className}>
-    {lastBackup ? (
-      <LastBackup>
-        <Text displayStyle={TextDisplayStyle.SmallFadedText} element={"span"}>
-          <FormattedMessage {...messages.lastBackup} />
-        </Text>
-        <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-          {new Date(lastBackup.createdAt).toLocaleDateString(language)}
-        </Text>
-        <ButtonComponent
-          displayStyle={DisplayStyle.Link3}
-          onClick={onBackupRestore}
-          label={intl.formatMessage(messages.restoreAction)}
+  <Card {...props}>
+    <CardHeader>
+      <FormattedMessage {...messages.backupInfoTitle} />
+    </CardHeader>
+    <CardBody>
+      {lastBackupDate !== undefined ? (
+        <CardContent>
+          <CardText>
+            <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+              <FormattedMessage
+                {...messages.backupInfoBackupAvaibleDescription}
+              />
+            </Text>
+            <Text
+              displayStyle={TextDisplayStyle.LargeText}
+              data-testid={SystemTestIds.OsVersion}
+            >
+              {moment(lastBackupDate).format("MMMM D, YYYY")}
+            </Text>
+          </CardText>
+          <RestoreButtonContainer>
+            <Button
+              displayStyle={DisplayStyle.Link3}
+              onClick={onBackupRestore}
+              label={intl.formatMessage(messages.restoreAction)}
+            />
+          </RestoreButtonContainer>
+        </CardContent>
+      ) : (
+        <CardContent>
+          <CardText>
+            <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+              <FormattedMessage
+                {...messages.backupInfoBackupNotAvaibleDescription}
+              />
+            </Text>
+          </CardText>
+        </CardContent>
+      )}
+      <CardAction filled>
+        <CardActionButton
+          active
+          label={intl.formatMessage(messages.createAction)}
+          onClick={onBackupCreate}
         />
-      </LastBackup>
-    ) : (
-      <FirstBackup>
-        <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
-          <FormattedMessage {...messages.createFirst} />
-        </Text>
-      </FirstBackup>
-    )}
-    <CardAction filled>
-      <CardActionButton
-        active
-        label={intl.formatMessage(messages.createAction)}
-        Icon={Type.Backup}
-        onClick={onBackupCreate}
-      />
-    </CardAction>
+      </CardAction>
+    </CardBody>
   </Card>
 )
 

@@ -4,29 +4,16 @@
  */
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { DevMode } from "App/dev-mode/store/dev-mode.interface"
 import { DeviceType } from "@mudita/pure"
-import React from "react"
+import React, { ComponentProps } from "react"
 import {
   PureOverview,
   HarmonyOverview,
 } from "App/overview/components/overview-screens"
-import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
-import { AppSettings, SettingsState } from "App/main/store/settings.interface"
 
-import { DeviceState } from "App/device"
-
-export interface UpdateBasicInfo {
-  toggleDeviceUpdating: (option: boolean) => void
-  setCollectingData: (option: AppSettings["appCollectingData"]) => void
-}
-
-type Props = DeviceState["data"] &
-  PhoneUpdateStore &
-  SettingsState &
-  DevMode & {
-    deviceType: DeviceType | null
-  }
+type PureOverviewProps = ComponentProps<typeof PureOverview>
+type HarmonyOverviewProps = ComponentProps<typeof HarmonyOverview>
+type Props = PureOverviewProps & HarmonyOverviewProps
 
 const Overview: FunctionComponent<Props> = (props) => {
   const Screen = () => {

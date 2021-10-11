@@ -41,11 +41,6 @@ jest.mock("Renderer/requests/get-battery-info.request", () =>
     status: DeviceResponseStatus.Ok,
   })
 )
-jest.mock("Renderer/requests/get-backups-info.request", () =>
-  jest.fn().mockReturnValue({
-    status: DeviceResponseStatus.Ok,
-  })
-)
 jest.mock("App/device/actions/load-device-data.action", () => ({
   loadDeviceData: jest.fn().mockReturnValue({
     type: pendingAction("DEVICE_DATA_LOADING"),

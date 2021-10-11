@@ -10,7 +10,7 @@ import {
   FreshdeskTicketDataType,
 } from "App/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import { DependencyUseCreateBugTicket } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFileDeprecated } from "Backend/device-file-system-service/device-file-system-service"
 
 export enum CreateBugTicketResponseStatus {
   Ok = "ok",
@@ -56,7 +56,7 @@ const useCreateBugTicketBuilder =
 
       const mcFileName = `mc-${todayFormatDate}.txt`
       const appLogs = await getAppLogs()
-      const appLogFile: DeviceFile = {
+      const appLogFile: DeviceFileDeprecated = {
         data: appLogs,
         name: mcFileName,
       }

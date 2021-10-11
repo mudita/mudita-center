@@ -22,6 +22,10 @@ import history from "Renderer/routes/history"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
+import { BackupDeviceDataState } from "App/backup-device/reducers"
+import { BackupDeviceFlowTestIds } from "App/overview/components/backup-device-flow/backup-device-flow-test-ids.component"
+import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
 import { intl } from "Renderer/utils/intl"
 import { flags } from "App/feature-flags"
 
@@ -100,119 +104,277 @@ jest.mock("Renderer/requests/get-battery-info.request", () =>
   }))
 )
 
-jest.mock("Renderer/requests/get-backups-info.request", () =>
-  jest.fn(() => ({
-    status: DeviceResponseStatus.Ok,
-    data: {
-      backups: [
-        {
-          createdAt: "20-11-15T07:35:01.562Z20",
-          size: 99999,
-        },
-        {
-          createdAt: "20-01-30T07:35:01.562Z20",
-          size: 1234567,
-        },
-      ],
+const defaultProps: Props = {
+  backupLocation: "",
+  backups: [],
+  readRestoreDeviceDataState: jest.fn(),
+  restoreDeviceState: RestoreDeviceDataState.Empty,
+  startBackupDevice: jest.fn(),
+  startRestoreDevice: jest.fn(),
+  readBackupDeviceDataState: jest.fn(),
+  backupDeviceState: BackupDeviceDataState.Empty,
+  diagnosticSentTimestamp: 0,
+  networkLevel: "",
+  phoneLockTime: 0,
+  deviceType: DeviceType.MuditaPure,
+  appLatestVersion: "",
+  appUpdateAvailable: undefined,
+  appUpdateStepModalDisplayed: false,
+  appUpdateStepModalShow: false,
+  lowestSupportedOsVersion: undefined,
+  lowestSupportedCenterVersion: undefined,
+  settingsLoaded: false,
+  deviceUnlocked: undefined,
+  appAutostart: false,
+  appCollectingData: undefined,
+  appConversionFormat: ConversionFormat.FLAC,
+  appConvert: Convert.ConvertAutomatically,
+  appIncomingCalls: false,
+  appIncomingMessages: false,
+  appLowBattery: false,
+  appNonStandardAudioFilesConversion: false,
+  appOsUpdates: false,
+  appTethering: false,
+  appTray: false,
+  batteryLevel: 0,
+  changeSim: jest.fn(),
+  disconnectDevice: jest.fn(),
+  deviceConnected: true,
+  language: "en-US",
+  loadData: jest.fn(),
+  networkName: "network name",
+  osUpdateDate: "2020-01-14T11:31:08.244Z",
+  osVersion: "release-1.0.0",
+  pureNeverConnected: false,
+  pureOsBackupLocation: "path/location/backup",
+  pureOsDownloadLocation: "path/location/download",
+  basicInfoDataState: DataState.Empty,
+  serialNumber: undefined,
+  initialDataLoaded: false,
+  appVersion: undefined,
+  setCollectingData: jest.fn(),
+  simCards: [
+    {
+      active: true,
+      network: "Y-Mobile",
+      networkLevel: 0.2,
+      number: 12345678,
+      slot: 1,
     },
-  }))
-)
+  ],
+  toggleDeviceUpdating: jest.fn(),
+  updatePhoneOsInfo: jest.fn(),
+  updatingState: UpdatingState.Standby,
+  memorySpace: {
+    free: 100,
+    full: 200,
+  },
+  caseColour: CaseColour.Gray,
+}
 
-jest.mock("App/feature-flags")
-
-const renderer = (extraProps?: {}) => {
-  const defaultProps: Props = {
-    deviceType: null,
-    appLatestVersion: "",
-    appUpdateAvailable: undefined,
-    appUpdateStepModalDisplayed: false,
-    appUpdateStepModalShow: false,
-    lowestSupportedOsVersion: undefined,
-    lowestSupportedCenterVersion: undefined,
-    settingsLoaded: false,
-    deviceUnlocked: undefined,
-    appAutostart: false,
-    appCollectingData: undefined,
-    appConversionFormat: ConversionFormat.FLAC,
-    appConvert: Convert.ConvertAutomatically,
-    appIncomingCalls: false,
-    appIncomingMessages: false,
-    appLowBattery: false,
-    appNonStandardAudioFilesConversion: false,
-    appOsUpdates: false,
-    appTethering: false,
-    appTray: false,
-    batteryLevel: 0,
-    changeSim: jest.fn(),
-    disconnectDevice: jest.fn(),
-    deviceConnected: true,
-    language: "en-US",
-    loadData: jest.fn(),
-    networkName: "network name",
-    osUpdateDate: "2020-01-14T11:31:08.244Z",
-    osVersion: "release-1.0.0",
-    pureNeverConnected: false,
-    pureOsBackupLocation: "path/location/backup",
-    pureOsDownloadLocation: "path/location/download",
-    basicInfoDataState: DataState.Empty,
-    serialNumber: undefined,
-    initialDataLoaded: false,
-    appVersion: undefined,
-    setCollectingData: jest.fn(),
-    simCards: [
-      {
-        active: true,
-        network: "Y-Mobile",
-        networkLevel: 0.2,
-        number: 12345678,
-        slot: 1,
-      },
-    ],
-    toggleDeviceUpdating: jest.fn(),
-    updatePhoneOsInfo: jest.fn(),
-    updatingState: UpdatingState.Standby,
-    memorySpace: {
-      free: 100,
-      full: 200,
-    },
-    caseColour: CaseColour.Gray,
+const render = (extraProps?: Partial<Props>) => {
+  const props = {
+    ...defaultProps,
     ...extraProps,
   }
   return renderWithThemeAndIntl(
     <Router history={history}>
       <Provider store={store}>
-        <Overview {...defaultProps} />
+        <Overview {...props} />
       </Provider>
     </Router>
   )
 }
 
-describe("Device: Mudita pure", () => {
-  test("loadData is fired when component is mounted", () => {
-    jest.spyOn(flags, "get").mockReturnValue(true)
-    const { getByTestId, queryByText } = renderer({
-      deviceType: DeviceType.MuditaPure,
+describe("`Overview` component for `MuditaPure` type,", () => {
+  describe("when component is render with default props", () => {
+    test("loadData is fired when component is mounted", () => {
+      jest.spyOn(flags, "get").mockReturnValue(true)
+      const { getByTestId, queryByText } = render()
+      expect(getByTestId(StatusTestIds.BatteryLevel)).toHaveTextContent("0 %")
+      expect(getByTestId(StatusTestIds.NetworkName)).toHaveTextContent(
+        "network name"
+      )
+      queryByText(intl.formatMessage({ id: "module.overview.statusPureTitle" }))
+      expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
     })
-    expect(getByTestId(StatusTestIds.BatteryLevel)).toHaveTextContent("0 %")
-    expect(getByTestId(StatusTestIds.NetworkName)).toHaveTextContent(
-      "network name"
-    )
-    queryByText(intl.formatMessage({ id: "module.overview.statusPureTitle" }))
-    expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
+
+    test("any modal from `BackupDeviceFlow` shouldn't be displayed", () => {
+      const { queryByTestId } = render()
+
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceFinished)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceError)
+      ).not.toBeInTheDocument()
+    })
+
+    test("any modal from `RestoreDeviceFlow` shouldn't be displayed", () => {
+      const { queryByTestId } = render()
+
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `backupDeviceState` property is set to `Running`", () => {
+    const extraProps: Partial<Props> = {
+      backupDeviceState: BackupDeviceDataState.Running,
+    }
+    test("should be displayed `BackupModal`", () => {
+      const { queryByTestId } = render(extraProps)
+
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceRunning)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceFinished)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceError)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `backupDeviceState` property is set to `Finished`", () => {
+    const extraProps: Partial<Props> = {
+      backupDeviceState: BackupDeviceDataState.Finished,
+    }
+    test("should be displayed `BackupSuccessModal`", () => {
+      const { queryByTestId } = render(extraProps)
+
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceFinished)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceError)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `backupDeviceState` property is set to `Error`", () => {
+    const extraProps: Partial<Props> = {
+      backupDeviceState: BackupDeviceDataState.Error,
+    }
+    test("should be displayed `BackupFailureModal`", () => {
+      const { queryByTestId } = render(extraProps)
+
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceError)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceFinished)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `restoreDeviceState` property is set to `Running`", () => {
+    const extraProps: Partial<Props> = {
+      restoreDeviceState: RestoreDeviceDataState.Running,
+    }
+    test("should be displayed `RestoreRunningModal`", () => {
+      const { queryByTestId } = render(extraProps)
+
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `restoreDeviceState` property is set to `Finished`", () => {
+    const extraProps: Partial<Props> = {
+      restoreDeviceState: RestoreDeviceDataState.Finished,
+    }
+    test("should be displayed `RestoreSuccessModal`", () => {
+      const { queryByTestId } = render(extraProps)
+
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `restoreDeviceState` property is set to `Error`", () => {
+    const extraProps: Partial<Props> = {
+      restoreDeviceState: RestoreDeviceDataState.Error,
+    }
+    test("should be displayed `RestoreFailureModal`", () => {
+      const { queryByTestId } = render(extraProps)
+
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
+      ).not.toBeInTheDocument()
+    })
   })
 })
-
-// describe("Device: Mudita harmony", () => {
-//   test("loadData is fired when component is mounted", () => {
-//     jest.spyOn(flags, "get").mockReturnValue(true)
-//     const { getByTestId, queryByTestId, queryByText } = renderer({
-//       deviceType: DeviceType.MuditaHarmony,
-//     })
-//     expect(getByTestId(StatusTestIds.BatteryLevel)).toHaveTextContent("0 %")
-//     expect(queryByTestId(StatusTestIds.NetworkName)).not.toBeInTheDocument()
-//     queryByText(
-//       intl.formatMessage({ id: "module.overview.statusHarmonyTitle" })
-//     )
-//     expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
-//   })
-// })

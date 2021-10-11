@@ -17,12 +17,14 @@ const handleDeviceInfoRequest = async ({
   const getOsVersionResponse = await purePhone.getOsVersion()
   const getSerialNumberResponse = await purePhone.getSerialNumber()
   const getCaseColourResponse = await purePhone.getCaseColour()
+  const getBackupLocationResponse = await purePhone.getBackupLocation()
   if (
     getOsVersionResponse.status === DeviceResponseStatus.Ok &&
     getOsVersionResponse.data !== undefined &&
     getSerialNumberResponse.status === DeviceResponseStatus.Ok &&
     getSerialNumberResponse.data !== undefined &&
-    getCaseColourResponse.data !== undefined
+    getCaseColourResponse.data !== undefined &&
+    getBackupLocationResponse.data !== undefined
   ) {
     return {
       status: DeviceResponseStatus.Ok,
@@ -34,6 +36,7 @@ const handleDeviceInfoRequest = async ({
         osVersion: getOsVersionResponse.data,
         serialNumber: getSerialNumberResponse.data,
         caseColour: getCaseColourResponse.data,
+        backupLocation: getBackupLocationResponse.data,
       },
     }
   } else {

@@ -4,7 +4,6 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { DeviceType } from "@mudita/pure"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
@@ -16,7 +15,9 @@ import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.inte
 import { SettingsState } from "App/main/store/settings.interface"
 import useSystemUpdateFlow from "App/overview/helpers/system-update.hook"
 import logger from "App/main/utils/logger"
-import BackupModalFlow from "App/overview/components/backup/backup-modal-flow.component"
+import BackupDeviceFlow, {
+  BackupDeviceFlowState,
+} from "App/overview/components/backup-device-flow/backup-device-flow.component"
 import ContactSupportModalFlow, {
   ContactSupportModalFlowState,
 } from "Renderer/components/rest/contact-support-modal/contact-support-modal-flow.component"
@@ -31,13 +32,34 @@ import UpdatingForceModalFlow, {
 } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 
 import { DeviceState } from "App/device"
+import {
+  BackupDeviceDataState,
+  BackupDeviceState,
+} from "App/backup-device/reducers"
+import { Backup, BackupState } from "App/backup/reducers"
+import RestoreDeviceFlow, {
+  RestoreDeviceFlowState,
+} from "App/overview/components/restore-device-flow/restore-device-flow.component"
+import {
+  RestoreDeviceDataState,
+  RestoreDeviceState,
+} from "App/restore-device/reducers"
+import { DeviceType } from "@mudita/pure"
 
-export type PureOverviewProps = DeviceState["data"] &
+type Props = DeviceState["data"] &
   PhoneUpdateStore &
   SettingsState &
-  DevMode
+  DevMode & {
+    backups: BackupState["backups"]
+    backupDeviceState: BackupDeviceState["state"]
+    readBackupDeviceDataState: () => void
+    startBackupDevice: () => void
+    restoreDeviceState: RestoreDeviceState["state"]
+    startRestoreDevice: (backup: Backup) => void
+    readRestoreDeviceDataState: () => void
+  }
 
-export const PureOverview: FunctionComponent<PureOverviewProps> = ({
+export const PureOverview: FunctionComponent<Props> = ({
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
@@ -61,7 +83,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   ],
   networkName,
   networkLevel,
-  language = "",
   pureOsBackupLocation = "",
   lowestSupportedOsVersion = "",
   updatingState,
@@ -69,12 +90,16 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   setUpdateState,
   serialNumber,
   caseColour,
+  lastBackupDate,
+  startBackupDevice,
+  backupDeviceState,
+  readBackupDeviceDataState,
+  startRestoreDevice,
+  restoreDeviceState,
+  readRestoreDeviceDataState,
+  backups,
 }) => {
-  /**
-   * Temporary state to demo failure
-   */
   const [osVersionSupported, setOsVersionSupported] = useState(true)
-  const [backups, setBackup] = useState(0)
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
     loadingModal: false,
@@ -141,7 +166,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         isVersionGreater(osVersion, lowestSupportedOsVersion)
       )
     } catch (error) {
-      logger.error(`Overview: ${(error as Error).message}`)
+      logger.error(`Overview: ${error.message}`)
     }
   }, [osVersion, lowestSupportedOsVersion])
 
@@ -177,54 +202,6 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     }
   }, [openModal, progress])
 
-  useEffect(() => {
-    if (backups === 3) {
-      setOpenModal((prevState) => ({
-        ...prevState,
-        loadingModal: false,
-        failedModal: true,
-      }))
-    }
-  }, [backups])
-
-  const openBackupLoadingModal = () => {
-    setBackup((prevState) => prevState + 1)
-    logger.info("Creating backup...")
-    closeBackupStartModal()
-    setOpenModal((prevState) => ({
-      ...prevState,
-      loadingModal: true,
-    }))
-  }
-
-  const closeBackupStartModal = () => {
-    setOpenModal((prevState) => ({
-      ...prevState,
-      backupStartModal: false,
-    }))
-  }
-
-  const closeBackupLoadingModal = () => {
-    setOpenModal((prevState) => ({
-      ...prevState,
-      loadingModal: false,
-    }))
-  }
-
-  const closeBackupFinishedModal = () => {
-    setOpenModal((prevState) => ({
-      ...prevState,
-      finishedModal: false,
-    }))
-  }
-
-  const closeBackupFailedModal = () => {
-    setOpenModal((prevState) => ({
-      ...prevState,
-      failedModal: false,
-    }))
-  }
-
   const closeUpdatingForceModalFlow = async () => {
     setUpdateState(UpdatingState.Standby)
   }
@@ -256,6 +233,54 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     }
   }
 
+  const [backupDeviceFlowState, setBackupDeviceFlowState] =
+    useState<BackupDeviceFlowState>()
+
+  const handleBackupCreate = () => {
+    setBackupDeviceFlowState(BackupDeviceFlowState.Start)
+  }
+
+  const closeBackupDeviceFlowState = () => {
+    setBackupDeviceFlowState(undefined)
+    readBackupDeviceDataState()
+  }
+
+  useEffect(() => {
+    if (backupDeviceState === BackupDeviceDataState.Running) {
+      setBackupDeviceFlowState(BackupDeviceFlowState.Running)
+    } else if (backupDeviceState === BackupDeviceDataState.Finished) {
+      setBackupDeviceFlowState(BackupDeviceFlowState.Finished)
+    } else if (backupDeviceState === BackupDeviceDataState.Error) {
+      setBackupDeviceFlowState(BackupDeviceFlowState.Error)
+    } else {
+      setBackupDeviceFlowState(undefined)
+    }
+  }, [backupDeviceState])
+
+  const [restoreDeviceFlowState, setRestoreDeviceFlowState] =
+    useState<RestoreDeviceFlowState>()
+
+  const handleRestoreCreate = () => {
+    setRestoreDeviceFlowState(RestoreDeviceFlowState.Start)
+  }
+
+  const closeRestoreDeviceFlowState = () => {
+    setRestoreDeviceFlowState(undefined)
+    readRestoreDeviceDataState()
+  }
+
+  useEffect(() => {
+    if (restoreDeviceState === RestoreDeviceDataState.Running) {
+      setRestoreDeviceFlowState(RestoreDeviceFlowState.Running)
+    } else if (restoreDeviceState === RestoreDeviceDataState.Finished) {
+      setRestoreDeviceFlowState(RestoreDeviceFlowState.Finished)
+    } else if (restoreDeviceState === RestoreDeviceDataState.Error) {
+      setRestoreDeviceFlowState(RestoreDeviceFlowState.Error)
+    } else {
+      setRestoreDeviceFlowState(undefined)
+    }
+  }, [restoreDeviceState])
+
   return (
     <>
       <UpdatingForceModalFlow
@@ -276,23 +301,25 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
           closeModal={closeContactSupportModalFlow}
         />
       )}
-      <BackupModalFlow
-        openBackupStartModal={openModal.backupStartModal}
-        openBackupLoadingModal={openModal.loadingModal}
-        openBackupFinishedModal={openModal.finishedModal}
-        openBackupFailedModal={openModal.failedModal}
-        closeBackupStartModal={closeBackupStartModal}
-        closeBackupLoadingModal={closeBackupLoadingModal}
-        closeBackupFinishedModal={closeBackupFinishedModal}
-        closeBackupFailedModal={closeBackupFailedModal}
-        startBackup={openBackupLoadingModal}
-        language={language}
-        pureOsBackupLocation={pureOsBackupLocation}
-        progress={progress}
-      />
+      {backupDeviceFlowState && (
+        <BackupDeviceFlow
+          openState={backupDeviceFlowState}
+          pureOsBackupLocation={pureOsBackupLocation}
+          onStartBackupDeviceButtonClick={startBackupDevice}
+          closeModal={closeBackupDeviceFlowState}
+          onSupportButtonClick={openContactSupportModalFlow}
+        />
+      )}
+      {restoreDeviceFlowState && (
+        <RestoreDeviceFlow
+          openState={restoreDeviceFlowState}
+          backups={backups}
+          onStartRestoreDeviceButtonClick={startRestoreDevice}
+          closeModal={closeRestoreDeviceFlowState}
+          onSupportButtonClick={openContactSupportModalFlow}
+        />
+      )}
       <OverviewContent
-        caseColour={caseColour}
-        deviceType={DeviceType.MuditaPure}
         batteryLevel={batteryLevel}
         changeSim={changeSim}
         disconnectDevice={disconnectDevice}
@@ -307,6 +334,11 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
         onUpdateCheck={check}
         onUpdateInstall={install}
         onUpdateDownload={download}
+        caseColour={caseColour}
+        deviceType={DeviceType.MuditaPure}
+        lastBackupDate={lastBackupDate}
+        onBackupCreate={handleBackupCreate}
+        onBackupRestore={handleRestoreCreate}
       />
     </>
   )

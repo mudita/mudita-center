@@ -6,7 +6,7 @@
 import styled from "styled-components"
 import Card, {
   CardAction,
-  CardText,
+  CardContent,
 } from "App/overview/components/card.elements"
 import { borderColor } from "App/renderer/styles/theming/theme-getters"
 import { flags, Feature } from "App/feature-flags"
@@ -14,7 +14,7 @@ import { flags, Feature } from "App/feature-flags"
 export const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
   grid-template-columns: 1fr;
-  height: 56rem;
+  height: 100%;
   padding: 8rem 0 0;
   justify-items: center;
   ${CardAction} {
@@ -27,16 +27,19 @@ export const PhoneCard = styled(Card)`
   }
 `
 
-export const PhoneInfo = styled(CardText)`
+export const PhoneInfo = styled(CardContent)`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0 5.3rem;
+  margin-bottom: 4rem;
   img {
     height: 29.7rem;
   }
 `
 export const PureSystemButtonContainer = styled.div`
-  padding: 2.4rem 5.3rem;
+  padding: 2.4rem 0;
+  display: flex;
+  justify-content: center;
   border-top: 0.1rem solid ${borderColor("tetheringSeparator")};
 `

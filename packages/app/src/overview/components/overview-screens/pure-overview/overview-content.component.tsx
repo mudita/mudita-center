@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { ComponentProps } from "react"
 import { DeviceType } from "@mudita/pure"
 import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/basic-info.typings"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -13,10 +13,13 @@ import {
   SystemInfo,
   OverviewWrapper,
   FileManagerInfo,
+  BackupInfo,
 } from "App/overview/components/overview/overview.styles"
 import { noop } from "Renderer/utils/noop"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import { AppSettings } from "App/main/store/settings.interface"
+import Backup from "App/overview/components/backup/backup.component"
+import { Feature, flags } from "App/feature-flags"
 
 interface OverviewUIProps {
   readonly onUpdateCheck: () => void
@@ -24,6 +27,8 @@ interface OverviewUIProps {
   readonly onUpdateInstall: () => void
   toggleDevMode?: () => void
 }
+
+type BackupProps = ComponentProps<typeof Backup>
 
 const OverviewContent: FunctionComponent<
   Omit<
@@ -39,7 +44,8 @@ const OverviewContent: FunctionComponent<
   > &
     PhoneUpdate &
     OverviewUIProps &
-    Partial<AppSettings>
+    Partial<AppSettings> &
+    BackupProps
 > = ({
   batteryLevel,
   disconnectDevice,
@@ -54,6 +60,9 @@ const OverviewContent: FunctionComponent<
   toggleDevMode,
   osVersion,
   caseColour,
+  lastBackupDate,
+  onBackupCreate,
+  onBackupRestore,
 }) => (
   <OverviewWrapper>
     <DeviceInfo
@@ -76,6 +85,13 @@ const OverviewContent: FunctionComponent<
       onDownload={onUpdateDownload}
       onUpdate={onUpdateInstall}
     />
+    {flags.get(Feature.Backup) && (
+      <BackupInfo
+        lastBackupDate={lastBackupDate}
+        onBackupCreate={onBackupCreate}
+        onBackupRestore={onBackupRestore}
+      />
+    )}
     <FileManagerInfo
       usedSpace={memorySpace.full - memorySpace.free}
       maxSpace={memorySpace.full}

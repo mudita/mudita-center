@@ -4,6 +4,7 @@
  */
 
 import React from "react"
+import styled from "styled-components"
 import { DeviceType } from "@mudita/pure"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { DevicePreviewProps } from "App/overview/components/device-preview/device-preview.interface"
@@ -20,11 +21,15 @@ import {
   PureSystemButtonContainer,
 } from "App/overview/components/device-preview/device-preview.styled"
 import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
-import ButtonComponent from "App/renderer/components/core/button/button.component"
+import Button from "App/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { Type } from "App/renderer/components/core/icon/icon.config"
 import { flags, Feature } from "App/feature-flags"
 import { DeviceImage } from "App/overview/components/device-preview/device-image.component"
+
+const DeviceSystemButton = styled(Button)`
+  width: 50%;
+`
 
 export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
   className,
@@ -62,20 +67,19 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
           data-testid={DeviceTestIds.DisconnectButton}
         />
       </CardAction>
-      {flags.get(Feature.PureSystem) && (
-        deviceType === DeviceType.MuditaPure && (
-          <PureSystemButtonContainer>
-            <ButtonComponent
-              label={intl.formatMessage({
-                id: "module.overview.pureSystem",
-              })}
-              onClick={openPureSystem}
-              data-testid={DeviceTestIds.PureSystemButton}
-              displayStyle={DisplayStyle.Link2}
-              Icon={Type.MenuPhone}
-            />
-          </PureSystemButtonContainer>
-        ))}
+      {flags.get(Feature.PureSystem) && deviceType === DeviceType.MuditaPure && (
+        <PureSystemButtonContainer>
+          <DeviceSystemButton
+            label={intl.formatMessage({
+              id: "module.overview.pureSystem",
+            })}
+            onClick={openPureSystem}
+            data-testid={DeviceTestIds.PureSystemButton}
+            displayStyle={DisplayStyle.Link2}
+            Icon={Type.MenuPhone}
+          />
+        </PureSystemButtonContainer>
+      )}
     </PhoneCard>
   )
 }
