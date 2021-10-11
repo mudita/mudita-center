@@ -22,10 +22,10 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import Mock = jest.Mock
 import { deviceReducer } from "App/device"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFileDeprecated } from "Backend/device-file-system-service/device-file-system-service"
 import { ArchiveFilesEvents } from "App/main/functions/register-archive-files-listener"
 
-const getDeviceFileResponse: DeviceResponse<DeviceFile[]> = {
+const getDeviceFileResponse: DeviceResponse<DeviceFileDeprecated[]> = {
   status: DeviceResponseStatus.Ok,
   data: [
     {

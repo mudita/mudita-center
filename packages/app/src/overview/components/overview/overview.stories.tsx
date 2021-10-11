@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { ComponentProps } from "react"
 import { storiesOf } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 import { Router } from "react-router"
@@ -28,35 +28,52 @@ import {
   UpdatingSuccessModal,
 } from "App/overview/components/overview-modals.component"
 import { UpdatingForceModal } from "App/overview/components/overview.modal-dialogs"
-import OverviewContent from "App/overview/components/overview-content.component"
-import { CaseColour } from "@mudita/pure"
+import OverviewContent from "App/overview/components/overview-screens/pure-overview/overview-content.component"
+import { CaseColour, DeviceType } from "@mudita/pure"
 
-const fakeState = {
+type Props = ComponentProps<typeof OverviewContent>
+
+const defaultProps: Props = {
+  deviceType: DeviceType.MuditaPure,
+  appAutostart: false,
+  appCollectingData: undefined,
+  appConversionFormat: undefined,
+  appConvert: undefined,
+  appIncomingCalls: false,
+  appIncomingMessages: false,
+  appLowBattery: false,
+  appNonStandardAudioFilesConversion: false,
+  appOsUpdates: false,
+  appTethering: false,
+  appTray: false,
   batteryLevel: 0,
-  disconnectDevice: false,
-  lastBackup: {
-    createdAt: "2020-01-15T07:35:01.562Z",
-    size: 102400,
-  },
-  osVersion: "3.0",
-  osUpdateAvailable: false,
-  osUpdateAlreadyDownloaded: false,
+  caseColour: CaseColour.Gray,
+  changeSim: noop,
+  diagnosticSentTimestamp: 0,
+  disconnectDevice: noop,
+  language: "",
   memorySpace: {
     free: 0,
     full: 16000000000,
   },
-  simCards: [],
   networkName: "Orange",
+  onBackupCreate: noop,
+  onUpdateCheck: noop,
+  onUpdateDownload: noop,
+  onUpdateInstall: noop,
   osUpdateDate: "2020-01-14T11:31:08.244Z",
-  language: "en-US",
-  caseColour: CaseColour.Gray,
+  osVersion: "3.0",
+  pureNeverConnected: false,
+  pureOsBackupLocation: "",
+  pureOsDownloadLocation: "",
+  simCards: [],
 }
 
 storiesOf("Views|Overview", module).add("Overview", () => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Router history={history}>
       <OverviewContent
-        {...fakeState}
+        {...defaultProps}
         disconnectDevice={action("Disconnect device")}
         changeSim={action("Changing sim")}
         onUpdateCheck={action("Checking update")}
@@ -74,7 +91,7 @@ const ModalStory: FunctionComponent = ({ children }) => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Router history={history}>
       <OverviewContent
-        {...fakeState}
+        {...defaultProps}
         disconnectDevice={action("Disconnect device")}
         changeSim={action("Changing sim")}
         onUpdateCheck={action("Checking update")}
@@ -99,14 +116,14 @@ storiesOf("Views|Overview/Modals", module)
   .add("Update is available", () => (
     <ModalStory>
       <UpdateAvailable
-        version={fakeState.osVersion + ".1"}
+        version={defaultProps.osVersion + ".1"}
         date={new Date().toISOString()}
       />
     </ModalStory>
   ))
   .add("Mudita OS is up to date", () => (
     <ModalStory>
-      <UpdateNotAvailable version={fakeState.osVersion} />
+      <UpdateNotAvailable version={defaultProps.osVersion} />
     </ModalStory>
   ))
   .add("Checking for update failed", () => (

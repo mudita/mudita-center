@@ -26,4 +26,7 @@ export default interface DeviceInfo {
 
   // Device's case colour.
   readonly caseColour: CaseColour
+
+  //  path to the location of backup files on device file-system
+  readonly backupLocation: string
 }

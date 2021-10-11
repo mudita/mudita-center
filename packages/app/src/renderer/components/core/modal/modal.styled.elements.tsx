@@ -95,7 +95,7 @@ export const Header = styled.div<{
   grid-row-gap: ${({ subtitleGap }) => (subtitleGap ? "1rem" : "initial")};
   ${({ titleOrder }) => getHeaderTemplate(titleOrder)};
   box-sizing: border-box;
-  padding-bottom: 3.2rem;
+  padding-bottom: 4rem;
 `
 
 export const ModalTitle = styled(Text)<{ subTitle?: string }>`

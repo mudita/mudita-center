@@ -15,14 +15,12 @@ import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
-import getBackupsInfo from "Renderer/requests/get-backups-info.request"
 import { testError } from "App/renderer/store/constants"
 
 jest.mock("Renderer/requests/get-device-info.request")
 jest.mock("Renderer/requests/get-network-info.request")
 jest.mock("Renderer/requests/get-storage-info.request")
 jest.mock("Renderer/requests/get-battery-info.request")
-jest.mock("Renderer/requests/get-backups-info.request")
 
 const dataMock = {
   data: {
@@ -58,18 +56,14 @@ const requestStatusFactory = (
   status: DeviceResponseStatus,
   withData = true
 ) => {
-  ;[
-    getDeviceInfo,
-    getNetworkInfo,
-    getStorageInfo,
-    getBatteryInfo,
-    getBackupsInfo,
-  ].forEach((request) => {
-    ;(request as jest.Mock).mockReturnValueOnce({
-      status,
-      ...(withData && dataMock),
-    })
-  })
+  ;[getDeviceInfo, getNetworkInfo, getStorageInfo, getBatteryInfo].forEach(
+    (request) => {
+      ;(request as jest.Mock).mockReturnValueOnce({
+        status,
+        ...(withData && dataMock),
+      })
+    }
+  )
 }
 
 afterEach(() => {
@@ -98,7 +92,6 @@ test("fire async `loadDeviceData` don't call nothing if `state` is equal to `Loa
   expect(getNetworkInfo).not.toHaveBeenCalled()
   expect(getStorageInfo).not.toHaveBeenCalled()
   expect(getBatteryInfo).not.toHaveBeenCalled()
-  expect(getBackupsInfo).not.toHaveBeenCalled()
 })
 
 describe("Device type: MuditaPure", () => {
@@ -125,10 +118,6 @@ describe("Device type: MuditaPure", () => {
             networkLevel: "1",
             networkName: "Network",
             batteryLevel: 50,
-            lastBackup: {
-              createdAt: "2021-01-14T11:31:08.244Z",
-              size: 10,
-            },
             memorySpace: {
               full: 1024,
               free: 1000,
@@ -154,7 +143,6 @@ describe("Device type: MuditaPure", () => {
       expect(getNetworkInfo).toHaveBeenCalled()
       expect(getStorageInfo).toHaveBeenCalled()
       expect(getBatteryInfo).toHaveBeenCalled()
-      expect(getBackupsInfo).toHaveBeenCalled()
     })
   })
 
@@ -228,7 +216,6 @@ describe("Device type: MuditaHarmony", () => {
       expect(getNetworkInfo).not.toHaveBeenCalled()
       expect(getStorageInfo).toHaveBeenCalled()
       expect(getBatteryInfo).toHaveBeenCalled()
-      expect(getBackupsInfo).not.toHaveBeenCalled()
     })
   })
 

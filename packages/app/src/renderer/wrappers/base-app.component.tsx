@@ -9,16 +9,15 @@ import { connect } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
 import { Router } from "react-router"
 import BaseRoutes from "Renderer/routes/base-routes"
-import { RootState, ReduxRootState, TmpDispatch } from "Renderer/store"
+import { ReduxRootState, RootState, TmpDispatch } from "Renderer/store"
 import { History } from "history"
-import { URL_ONBOARDING } from "Renderer/constants/urls"
-import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
+import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "Renderer/constants/urls"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
 import CollectingDataModal from "Renderer/wrappers/collecting-data-modal/collecting-data-modal.component"
 import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
 import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
-
 import { getConnectedDevice } from "App/device"
+import { RestoreDeviceDataState } from "App/restore-device/reducers"
 
 interface Props {
   getConnectedDevice: () => void
@@ -153,7 +152,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
     pureFeaturesVisible:
       (state.device.status.connected && !state.device.status.locked) ||
-      state.device.updatingState === UpdatingState.Updating,
+      state.device.updatingState === UpdatingState.Updating ||
+      state.restoreDevice.state === RestoreDeviceDataState.Running,
     deviceConnecting:
       state.device.status.connected && state.device.status.locked,
     deviceParred: state.device.status.loaded && !state.device.status.locked,

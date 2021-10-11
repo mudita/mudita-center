@@ -11,20 +11,24 @@ import {
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 
 const Card = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 4rem;
+  padding: 2.4rem;
   box-sizing: border-box;
   border-radius: ${borderRadius("medium")};
   background-color: ${backgroundColor("row")};
 `
 
-export const CardText = styled.div`
-  grid-area: Text;
-`
-export const CardContent = styled.div`
+export const CardHeader = styled(Text).attrs(() => ({
+  displayStyle: TextDisplayStyle.SecondaryBoldHeading,
+}))``
+
+export const CardBody = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -32,10 +36,21 @@ export const CardContent = styled.div`
   margin-top: auto;
 `
 
+export const CardContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+`
+
 export const CardAction = styled(ButtonToggler)`
-  grid-area: Buttons;
   justify-self: end;
   min-width: 18rem;
+`
+
+export const CardText = styled.div`
+  p:not(:last-of-type) {
+    margin-bottom: 0.8rem;
+  }
 `
 
 export const CardActionButton = styled(ButtonTogglerItem)`

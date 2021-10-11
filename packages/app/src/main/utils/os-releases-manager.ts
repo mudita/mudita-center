@@ -6,17 +6,17 @@
 import { Feature, flags } from "App/feature-flags"
 
 class OsReleasesManager {
-  public static isProductionAvaible(): boolean {
-    return flags.get(Feature.OsProductionReleaseAvaible)
+  public static isProductionAvailable(): boolean {
+    return flags.get(Feature.OsProductionReleaseAvailable)
   }
-  public static isTestProductionAvaible(): boolean {
-    return flags.get(Feature.OsTestProductionReleaseAvaible)
+  public static isTestProductionAvailable(): boolean {
+    return flags.get(Feature.OsTestProductionReleaseAvailable)
   }
-  public static isProductionAlphaAvaible(): boolean {
-    return flags.get(Feature.OsProductionAlphaReleaseAvaible)
+  public static isProductionAlphaAvailable(): boolean {
+    return flags.get(Feature.OsProductionAlphaReleaseAvailable)
   }
-  public static isTestProductionAlphaAvaible(): boolean {
-    return flags.get(Feature.OsTestProductionAlphaAvaible)
+  public static isTestProductionAlphaAvailable(): boolean {
+    return flags.get(Feature.OsTestProductionAlphaReleaseAvailable)
   }
 }
 

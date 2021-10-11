@@ -5,7 +5,7 @@
 
 import fs from "fs"
 import { ipcMain } from "electron-better-ipc"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFileDeprecated } from "Backend/device-file-system-service/device-file-system-service"
 import writeFile from "App/main/utils/write-file"
 import writeGzip from "App/main/utils/write-gzip"
 import getAppPath from "App/main/utils/get-app-path"
@@ -17,7 +17,7 @@ export enum ArchiveFilesEvents {
 }
 
 export interface ArchiveFilesData {
-  files: DeviceFile[]
+  files: DeviceFileDeprecated[]
 }
 
 const todayFormatDate = formatDate(new Date())

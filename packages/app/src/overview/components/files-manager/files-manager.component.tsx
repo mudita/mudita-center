@@ -9,7 +9,7 @@ import { FilesManagerProps } from "App/overview/components/files-manager/files-m
 import Card, {
   CardAction,
   CardActionButton,
-  CardText,
+  CardContent,
 } from "App/overview/components/card.elements"
 import StackedBarChart, {
   DisplayStyle,
@@ -30,7 +30,7 @@ import {
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { URL_MAIN } from "Renderer/constants/urls"
 
-const TextInfo = styled(CardText)`
+const TextInfo = styled(CardContent)`
   > p {
     margin-top: 1.2rem;
     margin-bottom: 0.8rem;

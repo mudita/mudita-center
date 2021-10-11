@@ -7,7 +7,7 @@ import path from "path"
 import fs from "fs"
 import { Application } from "spectron"
 import { name } from "../../package.json"
-import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
+import { enablepureSimulation, startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
@@ -32,7 +32,7 @@ beforeEach(async () => {
     "downloads"
   )
   deleteDownloadDirectory(downloadPath)
-  await enablePhoneSimulation(app)
+  await enablepureSimulation(app)
   await app.client.waitUntil(() =>
     app.client.$(`*[data-testid=${MenuGroupTestIds.Overview}]`).isVisible()
   )

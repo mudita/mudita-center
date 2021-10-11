@@ -127,7 +127,7 @@ export const tabElements: TabElement[] = [
         label: messages.backup,
         url: `${URL_MAIN.settings}${URL_TABS.backup}`,
         icon: Type.BackupFolder,
-        hidden: flags.get(Feature.ProductionAndAlpha),
+        hidden: Boolean(!flags.get(Feature.Backup)),
       },
       {
         label: messages.about,

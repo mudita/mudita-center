@@ -8,7 +8,7 @@ import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-
 import { URL_MAIN } from "Renderer/constants/urls"
 import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.enum"
 import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
-import { PhoneTestIds } from "App/overview/components/phone/phone-test-ids.enum"
+import { DeviceTestIds } from "App/overview/components/device-preview/device-preview-test-ids.enum"
 import { Application } from "spectron"
 
 let app: Application
@@ -58,7 +58,7 @@ test.skip("user can toggle on tethering", async () => {
 
 test.skip("user can see the phone disconnected screen after disconnecting the phone", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Overview}]`).click()
-  await app.client.$(`*[data-testid=${PhoneTestIds.DisconnectButton}]`).click()
+  await app.client.$(`*[data-testid=${DeviceTestIds.DisconnectButton}]`).click()
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Tethering}]`).click()
   expect(
     await app.client.isExisting(
