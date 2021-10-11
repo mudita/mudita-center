@@ -125,7 +125,7 @@ const useSystemUpdateFlow = (
     const { date, version, prerelease } = releaseToInstall as Release
     const action = async () => {
       await modalService.closeModal()
-      install ? updatePure() : downloadUpdate(releaseToInstall)
+      install ? updatePure(releaseToInstall) : downloadUpdate(releaseToInstall)
     }
 
     return modalService.openModal(
@@ -215,12 +215,14 @@ const useSystemUpdateFlow = (
 
         setDevReleases(allReleases)
 
+        if (latestRelease) {
+          setReleaseToInstall(latestRelease)
+        }
+
         if (
           latestRelease &&
           !isVersionGreater(osVersion, latestRelease.version)
         ) {
-          setReleaseToInstall(latestRelease)
-
           onUpdate({
             lastAvailableOsVersion: latestRelease.version,
             pureOsFileUrl: latestRelease.file.url,
@@ -250,9 +252,9 @@ const useSystemUpdateFlow = (
   }
 
   // Download update
-  const openDownloadSucceededModal = () => {
+  const openDownloadSucceededModal = (release?: Release) => {
     return modalService.openModal(
-      <DownloadingUpdateFinishedModal onOsUpdate={updatePure} />,
+      <DownloadingUpdateFinishedModal onOsUpdate={() => updatePure(release)} />,
       true
     )
   }
@@ -288,7 +290,7 @@ const useSystemUpdateFlow = (
         openDevModal(true)
       } else {
         onUpdate({ pureOsDownloaded: true })
-        await openDownloadSucceededModal()
+        await openDownloadSucceededModal(r)
       }
     } catch (error) {
       if (error.status === DownloadStatus.Cancelled) {
@@ -300,8 +302,18 @@ const useSystemUpdateFlow = (
   }
 
   // Install update
-  const updatePure = async () => {
-    const { file, version } = releaseToInstall as Release
+  const updatePure = async (release?: Release) => {
+    const r =
+      release === undefined || release.version === undefined
+        ? releaseToInstall
+        : release
+
+    if (r === undefined) {
+      displayErrorModal()
+      return
+    }
+
+    const { file, version } = r
 
     modalService.openModal(<UpdatingSpinnerModal />, true)
 
