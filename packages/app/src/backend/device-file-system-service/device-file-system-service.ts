@@ -56,7 +56,7 @@ class DeviceFileSystemService {
           data: response.data,
           fileName: name,
         })
-        data.push(targetPath)
+        data.push(`${targetPath}/${name}`)
       } else {
         return {
           status: DeviceResponseStatus.Error,

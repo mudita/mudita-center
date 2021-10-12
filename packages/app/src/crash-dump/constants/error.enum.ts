@@ -4,6 +4,7 @@
  */
 
 export enum CrashDumpError {
-  Getting = 'CRASH_DUMP_GETTING_ERROR',
-  Downloading = 'CRASH_DUMP_DOWNLOADING_ERROR',
+  Getting = "CRASH_DUMP_GETTING_ERROR",
+  Downloading = "CRASH_DUMP_DOWNLOADING_ERROR",
+  Sending = "CRASH_DUMP_SENDING_ERROR",
 }
