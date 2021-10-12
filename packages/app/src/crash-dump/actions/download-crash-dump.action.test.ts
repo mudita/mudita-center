@@ -13,6 +13,9 @@ import { downloadCrashDump } from "App/crash-dump/actions/download-crash-dump.ac
 import { DownloadCrashDumpError } from "App/crash-dump/errors"
 import { testError } from "App/renderer/store/constants"
 
+jest.mock("App/crash-dump/actions/send-crash-dump-data.action", () => ({
+  sendCrashDumpData: () => jest.fn(),
+}))
 jest.mock("Renderer/requests/download-crash-dump.request")
 
 const downloadedCrashDumpsMock: string[] = ["C:/MuditaOs/crash-dumps"]

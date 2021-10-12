@@ -26,6 +26,7 @@ import registerCopyFileListener from "App/main/functions/register-copy-file-list
 import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/main/functions/register-archive-files-listener"
+import registerReadFileListener from "App/main/functions/register-read-file-listener"
 import registerGetApplicationConfigurationListener from "App/main/functions/register-get-application-configuration-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
@@ -156,6 +157,7 @@ const createWindow = async () => {
   registerGetApplicationConfigurationListener()
   registerArchiveFilesListener()
   registerPureOsDownloadProxy()
+  registerReadFileListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)

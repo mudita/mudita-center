@@ -15,7 +15,7 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { fakeAppSettings } from "Backend/adapters/app-settings/app-settings-fake.adapter"
 import { GetApplicationConfigurationEvents } from "App/main/functions/register-get-application-configuration-listener"
 import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
-import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
+import uploadDataToFTPRequest from "App/renderer/requests/upload-data-to-ftp.request"
 import { AxiosResponse } from "axios"
 import DeviceResponse, {
   DeviceResponseStatus,
@@ -49,7 +49,7 @@ jest.mock("Renderer/requests/get-device-log-files.request", () =>
 jest.mock("Renderer/requests/get-device-crash-dump-files.request", () =>
   jest.fn(() => Promise.resolve(getDeviceFileResponse))
 )
-jest.mock("Renderer/requests/send-diagnostic-data.request", () =>
+jest.mock("Renderer/requests/upload-data-to-ftp.request", () =>
   jest.fn(() => Promise.resolve(sendDiagnosticDataRequestResponse))
 )
 
@@ -94,7 +94,7 @@ beforeEach(() => {
 
 afterEach(() => {
   ;(getDeviceLogFiles as any).mockClear()
-  ;(sendDiagnosticDataRequest as any).mockClear()
+  ;(uploadDataToFTPRequest as any).mockClear()
   // ;(getMessagesByThreadId as any).mockClear()
 })
 
@@ -524,7 +524,7 @@ test("sendDiagnosticData effect no generate any side effects if serial number is
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).not.toBeCalled()
-  expect(sendDiagnosticDataRequest).not.toBeCalled()
+  expect(uploadDataToFTPRequest).not.toBeCalled()
 })
 
 test("sendDiagnosticData effect no generate any side effects if diagnostic data isn't set", async () => {
@@ -533,7 +533,7 @@ test("sendDiagnosticData effect no generate any side effects if diagnostic data 
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).not.toBeCalled()
-  expect(sendDiagnosticDataRequest).not.toBeCalled()
+  expect(uploadDataToFTPRequest).not.toBeCalled()
 })
 
 test("sendDiagnosticData effect no generate any side effects if diagnostic data is set to false", async () => {
@@ -557,7 +557,7 @@ test("sendDiagnosticData effect no generate any side effects if diagnostic data 
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).not.toBeCalled()
-  expect(sendDiagnosticDataRequest).not.toBeCalled()
+  expect(uploadDataToFTPRequest).not.toBeCalled()
   expect(setDiagnosticSentTimestamp).not.toBeCalled()
 })
 
@@ -582,7 +582,7 @@ test("sendDiagnosticData effect no generate any side effects if diagnostic data 
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).not.toBeCalled()
-  expect(sendDiagnosticDataRequest).not.toBeCalled()
+  expect(uploadDataToFTPRequest).not.toBeCalled()
   expect(setDiagnosticSentTimestamp).not.toBeCalled()
 })
 
@@ -608,7 +608,7 @@ test("sendDiagnosticData pass successfully if user agree to collecting data and 
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).toBeCalled()
-  expect(sendDiagnosticDataRequest).toBeCalled()
+  expect(uploadDataToFTPRequest).toBeCalled()
   expect(setDiagnosticSentTimestamp).toBeCalled()
 })
 
@@ -636,7 +636,7 @@ test("sendDiagnosticData effect no sent requests if getting device logs fails", 
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).toBeCalled()
-  expect(sendDiagnosticDataRequest).not.toBeCalled()
+  expect(uploadDataToFTPRequest).not.toBeCalled()
   expect(setDiagnosticSentTimestamp).not.toBeCalled()
 })
 
@@ -646,7 +646,7 @@ test("sendDiagnosticData effect is fails if request no finish successfully", asy
     "setDiagnosticSentTimestamp"
   )
   ;(getDeviceLogFiles as Mock).mockReturnValue(getDeviceFileResponse)
-  ;(sendDiagnosticDataRequest as Mock).mockImplementation(() => {
+  ;(uploadDataToFTPRequest as Mock).mockImplementation(() => {
     throw new Error()
   })
   ;(ipcRenderer as any).__rendererCalls = {
@@ -666,6 +666,6 @@ test("sendDiagnosticData effect is fails if request no finish successfully", asy
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).toBeCalled()
-  expect(sendDiagnosticDataRequest).toBeCalled()
+  expect(uploadDataToFTPRequest).toBeCalled()
   expect(setDiagnosticSentTimestamp).not.toBeCalled()
 })

@@ -9,6 +9,7 @@ import downloadDeviceCrashDumpFiles from "Renderer/requests/download-crash-dump.
 import { Event } from "App/crash-dump/constants"
 import { DownloadCrashDumpError } from "App/crash-dump/errors"
 import { setDownloadedCrashDump } from "App/crash-dump/actions/base.action"
+import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.action"
 import { ReduxRootState } from "App/renderer/store"
 
 export const downloadCrashDump = createAsyncThunk<
@@ -26,6 +27,7 @@ export const downloadCrashDump = createAsyncThunk<
 
     if (status === DeviceResponseStatus.Ok && data) {
       dispatch(setDownloadedCrashDump(data))
+      dispatch(sendCrashDumpData())
     } else {
       return rejectWithValue(
         new DownloadCrashDumpError(
