@@ -14,7 +14,7 @@ const port = Number(process.env.STORAGE_PORT) || 22
 const username = process.env.STORAGE_USERNAME
 const privateKey = process.env.STORAGE_PRIVATE_KEY
 
-const mockSendDiagnosticDataRequest = (
+const mockUploadDataToFTPRequest = (
   _data: SendDiagnosticData
 ): Promise<boolean> => {
   return Promise.resolve(true)
@@ -26,15 +26,13 @@ export interface SendDiagnosticData {
   serialNumber: string
 }
 
-const sendDiagnosticDataRequest = async ({
+const uploadDataToFTPRequest = async ({
   fileName,
   buffer,
   serialNumber,
 }: SendDiagnosticData): Promise<boolean> => {
   if (!host || isNaN(port) || !username || !privateKey) {
-    logger.error(
-      `Send Diagnostic Data: send isn't possible. Please set envs.`
-    )
+    logger.error(`Send Diagnostic Data: send isn't possible. Please set envs.`)
     return false
   }
 
@@ -84,8 +82,8 @@ const sendDiagnosticDataRequest = async ({
 
 export default (() => {
   if (env === "production") {
-    return sendDiagnosticDataRequest
+    return uploadDataToFTPRequest
   } else {
-    return mockSendDiagnosticDataRequest
+    return mockUploadDataToFTPRequest
   }
 })()
