@@ -29,6 +29,7 @@ import {
   SetOsVersionDataAction,
   SetUpdateStateAction,
   OsUpdateRejectedAction,
+  SetConnectionStateAction,
 } from "App/device/reducers/device.interface"
 
 export const initialState: DeviceState = {
@@ -49,16 +50,19 @@ export const deviceReducer = createReducer<DeviceState>(
   (builder) => {
     builder
       // Connect/Disconnect functionality
+      .addCase(pendingAction(DeviceEvent.Connected), (state) => {
+        return {
+          ...state,
+          state: ConnectionState.Loading,
+          error: null,
+        }
+      })
       .addCase(
         fulfilledAction(DeviceEvent.Connected),
         (state, action: ConnectedFulfilledAction) => {
           return {
             ...state,
             deviceType: action.payload,
-            status: {
-              ...state.status,
-              connected: true,
-            },
             error: null,
           }
         }
@@ -77,17 +81,17 @@ export const deviceReducer = createReducer<DeviceState>(
           }
         }
       )
+      .addCase(pendingAction(DeviceEvent.Disconnected), (state) => {
+        return {
+          ...state,
+          state: ConnectionState.Loading,
+          error: null,
+        }
+      })
       .addCase(fulfilledAction(DeviceEvent.Disconnected), (state) => {
         return {
           ...state,
-          deviceType: null,
-          data: null,
-          status: {
-            ...state.status,
-            connected: false,
-            locked: false,
-            loaded: false,
-          },
+          state: ConnectionState.Empty,
           error: null,
         }
       })
@@ -102,6 +106,19 @@ export const deviceReducer = createReducer<DeviceState>(
             },
             state: ConnectionState.Error,
             error: action.payload,
+          }
+        }
+      )
+      .addCase(
+        DeviceEvent.SetConnectionState,
+        (state, action: SetConnectionStateAction) => {
+          return {
+            ...state,
+            status: {
+              ...state.status,
+              connected: action.payload,
+            },
+            error: null,
           }
         }
       )

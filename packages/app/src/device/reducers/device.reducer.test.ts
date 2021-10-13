@@ -36,10 +36,6 @@ const pureDeviceMock: PureDeviceData = {
       networkLevel: 0.75,
     },
   ],
-  lastBackup: {
-    createdAt: "2020-01-14T11:31:08.244Z",
-    size: 100,
-  },
   serialNumber: "303",
   phoneLockTime: 1630703219,
   memorySpace: {
@@ -47,6 +43,7 @@ const pureDeviceMock: PureDeviceData = {
     full: 1021,
   },
   caseColour: CaseColour.Gray,
+  backupLocation: "path/to/directory",
 }
 
 const harmonyDeviceMock: HarmonyDeviceData = {
@@ -65,6 +62,18 @@ test("empty event returns initial state", () => {
 })
 
 describe("Connecting/Disconnecting functionality", () => {
+  test("Event: Connected/pending set the deviceType and connected state", () => {
+    expect(
+      deviceReducer(undefined, {
+        type: pendingAction(DeviceEvent.Connected),
+        payload: DeviceType.MuditaPure,
+      })
+    ).toEqual({
+      ...initialState,
+      state: ConnectionState.Loading,
+    })
+  })
+
   test("Event: Connected/fulfilled set the deviceType and connected state", () => {
     expect(
       deviceReducer(undefined, {
@@ -74,10 +83,6 @@ describe("Connecting/Disconnecting functionality", () => {
     ).toEqual({
       ...initialState,
       deviceType: DeviceType.MuditaPure,
-      status: {
-        ...initialState.status,
-        connected: true,
-      },
     })
   })
 
@@ -93,6 +98,17 @@ describe("Connecting/Disconnecting functionality", () => {
       ...initialState,
       state: ConnectionState.Error,
       error: errorMock,
+    })
+  })
+
+  test("Event: Disconnected/pending returns initial state", () => {
+    expect(
+      deviceReducer(undefined, {
+        type: pendingAction(DeviceEvent.Disconnected),
+      })
+    ).toEqual({
+      ...initialState,
+      state: ConnectionState.Loading,
     })
   })
 
@@ -116,6 +132,36 @@ describe("Connecting/Disconnecting functionality", () => {
       ...initialState,
       state: ConnectionState.Error,
       error: errorMock,
+    })
+  })
+
+  test("Event: SetConnectionState set connection state to `true` if `true` payload is provided", () => {
+    expect(
+      deviceReducer(undefined, {
+        type: DeviceEvent.SetConnectionState,
+        payload: true,
+      })
+    ).toEqual({
+      ...initialState,
+      status: {
+        ...initialState.status,
+        connected: true,
+      },
+    })
+  })
+
+  test("Event: SetConnectionState set connection state to `false` if `false` payload is provided", () => {
+    expect(
+      deviceReducer(undefined, {
+        type: DeviceEvent.SetConnectionState,
+        payload: false,
+      })
+    ).toEqual({
+      ...initialState,
+      status: {
+        ...initialState.status,
+        connected: false,
+      },
     })
   })
 })
@@ -262,10 +308,6 @@ describe("Set device data functionality", () => {
             networkLevel: 0.75,
           },
         ],
-        lastBackup: {
-          createdAt: "2020-01-14T11:31:08.244Z",
-          size: 100,
-        },
         serialNumber: "303",
         phoneLockTime: 1630703219,
         memorySpace: {
@@ -273,6 +315,7 @@ describe("Set device data functionality", () => {
           full: 1021,
         },
         caseColour: CaseColour.Gray,
+        backupLocation: "path/to/directory",
       },
     })
   })

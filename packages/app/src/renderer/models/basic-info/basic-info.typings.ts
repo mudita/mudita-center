@@ -4,7 +4,6 @@
  */
 
 import { DeviceType, CaseColour } from "@mudita/pure"
-import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
 
 export interface SimCard {
   readonly network?: string
@@ -43,7 +42,6 @@ export interface StoreValues {
   readonly osVersion: string | undefined
   readonly osUpdateDate: string
   readonly memorySpace: MemorySpace
-  readonly lastBackup?: BackupItemInfo
   readonly simCards: SimCard[]
   readonly basicInfoDataState: DataState
   readonly initialDataLoaded: boolean

@@ -9,10 +9,7 @@ import { HarmonyStrategy } from "../strategies"
 export class MuditaHarmonyDescriptor {
   static manufacturer = Manufacture.Mudita
   static deviceType = DeviceType.MuditaHarmony
-  static productIds = [
-    ProductID.MuditaHarmony,
-    ProductID.MuditaHarmonyTemporary,
-  ]
-  static vendorIds = [VendorID.MuditaHarmony, VendorID.MuditaHarmonyTemporary]
+  static productIds = [ProductID.MuditaHarmony]
+  static vendorIds = [VendorID.MuditaHarmony]
   static strategy = HarmonyStrategy
 }

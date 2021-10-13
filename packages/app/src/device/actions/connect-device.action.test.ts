@@ -41,11 +41,6 @@ jest.mock("Renderer/requests/get-battery-info.request", () =>
     status: DeviceResponseStatus.Ok,
   })
 )
-jest.mock("Renderer/requests/get-backups-info.request", () =>
-  jest.fn().mockReturnValue({
-    status: DeviceResponseStatus.Ok,
-  })
-)
 jest.mock("App/device/actions/load-device-data.action", () => ({
   loadDeviceData: jest.fn().mockReturnValue({
     type: pendingAction("DEVICE_DATA_LOADING"),
@@ -72,6 +67,10 @@ describe("Connect Device request returns `success` status", () => {
 
     expect(mockStore.getActions()).toEqual([
       connectDevice.pending(requestId, DeviceType.MuditaPure),
+      {
+        payload: true,
+        type: "DEVICE_SET_CONNECTION_STATE",
+      },
       {
         type: pendingAction("DEVICE_DATA_LOADING"),
         payload: undefined,

@@ -12,6 +12,11 @@ import {
   timeout,
   MuditaDevice,
   CaseColour,
+  StartBackupResponseBody,
+  GetBackupDeviceStatusResponseBody,
+  GetBackupDeviceStatusRequestConfigBody,
+  GetRestoreDeviceStatusResponseBody,
+  StartRestoreRequestConfigBody,
 } from "@mudita/pure"
 import PurePhoneAdapter, {
   DeviceFilesOption,
@@ -22,7 +27,9 @@ import DeviceResponse, {
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
 import DeviceFileSystemService, {
+  DeviceFileDeprecated,
   DeviceFile,
+  UploadFilePayload,
 } from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
@@ -120,6 +127,24 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
+  public async getBackupLocation(): Promise<DeviceResponse<string>> {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.DeviceInfo,
+      method: Method.Get,
+    })
+    if (status === DeviceResponseStatus.Ok && data) {
+      return {
+        status,
+        data: data.backupLocation ? data.backupLocation : "",
+      }
+    } else {
+      return {
+        status,
+        error: { message: "Get backup location: Something went wrong" },
+      }
+    }
+  }
+
   public disconnectDevice(): Promise<DeviceResponse> {
     return this.deviceService.disconnect()
   }
@@ -177,22 +202,87 @@ class PurePhone extends PurePhoneAdapter {
 
   public async getDeviceLogFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFile[]>> {
+  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
     return this.getDeviceFiles(DiagnosticsFileList.LOGS, option)
   }
 
   public async getDeviceCrashDumpFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFile[]>> {
+  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
     return this.getDeviceFiles(DiagnosticsFileList.CRASH_DUMPS, option)
+  }
+
+  public async startBackupDevice(): Promise<
+    DeviceResponse<StartBackupResponseBody>
+  > {
+    return await this.deviceService.request({
+      endpoint: Endpoint.Backup,
+      method: Method.Post,
+    })
+  }
+
+  public async getBackupDeviceStatus(
+    config: GetBackupDeviceStatusRequestConfigBody
+  ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>> {
+    return await this.deviceService.request({
+      endpoint: Endpoint.Backup,
+      method: Method.Get,
+      body: config,
+    })
+  }
+
+  public async startRestoreDevice(
+    config: StartRestoreRequestConfigBody
+  ): Promise<DeviceResponse> {
+    return await this.deviceService.request({
+      endpoint: Endpoint.Restore,
+      method: Method.Post,
+      body: config,
+    })
+  }
+
+  public async getRestoreDeviceStatus(
+    config: GetBackupDeviceStatusRequestConfigBody
+  ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>> {
+    return await this.deviceService.request({
+      endpoint: Endpoint.Restore,
+      method: Method.Get,
+      body: config,
+    })
+  }
+
+  public async downloadDeviceFile(
+    filePath: string
+  ): Promise<DeviceResponse<DeviceFile>> {
+    const { status, data } = await this.deviceFileSystemService.downloadFile(
+      filePath
+    )
+
+    if (status !== DeviceResponseStatus.Ok || data === undefined) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+    const name = filePath.split("/").pop() as string
+
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: { name, data },
+    }
+  }
+
+  public async uploadDeviceFile(
+    payload: UploadFilePayload
+  ): Promise<DeviceResponse> {
+    return await this.deviceFileSystemService.uploadFile(payload)
   }
 
   public async updateOs(
     filePath: string,
     progressChannel = ""
   ): Promise<DeviceResponse> {
-    const currentVersion = await this.getOsVersion();
-    if(currentVersion.status !== DeviceResponseStatus.Ok){
+    const currentVersion = await this.getOsVersion()
+    if (currentVersion.status !== DeviceResponseStatus.Ok) {
       return {
         status: DeviceResponseStatus.Error,
       }
@@ -204,13 +294,13 @@ class PurePhone extends PurePhoneAdapter {
       let cancelTimeout = noop
       const deviceConnectedListener = async () => {
         if (step === PurePhone.osUpdateRestartStep) {
-          const newVersion = await this.getOsVersion();
-          if(newVersion.status !== DeviceResponseStatus.Ok){
+          const newVersion = await this.getOsVersion()
+          if (newVersion.status !== DeviceResponseStatus.Ok) {
             return resolve({
               status: DeviceResponseStatus.Error,
             })
           }
-          if(newVersion.data === currentVersion.data){
+          if (newVersion.data === currentVersion.data) {
             return resolve({
               status: DeviceResponseStatus.Error,
             })
@@ -271,10 +361,10 @@ class PurePhone extends PurePhoneAdapter {
         deviceConnectedListener
       )
 
-      const fileResponse = await this.deviceFileSystemService.uploadFile(
+      const fileResponse = await this.deviceFileSystemService.uploadFile({
         filePath,
-        "/sys/user/update.tar"
-      )
+        targetPath: "/sys/user/update.tar",
+      })
 
       if (fileResponse.status === DeviceResponseStatus.Ok) {
         ++step
@@ -322,7 +412,7 @@ class PurePhone extends PurePhoneAdapter {
   private async getDeviceFiles(
     fileList: DiagnosticsFileList,
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFile[]>> {
+  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
     const getDiagnosticFileListResponse =
       await this.deviceFileDiagnosticService.getDiagnosticFileList(fileList)
     if (

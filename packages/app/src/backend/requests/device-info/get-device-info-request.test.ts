@@ -61,6 +61,7 @@ test("returns required device info", async () => {
 
   expect(result.data).toMatchInlineSnapshot(`
     Object {
+      "backupLocation": "",
       "caseColour": "grey",
       "modelName": "Ziemniaczek Puree",
       "modelNumber": "Y0105W4GG1N5",

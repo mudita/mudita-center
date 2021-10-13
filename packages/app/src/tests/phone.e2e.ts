@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
+import { enablepureSimulation, startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
 import { Type, getEnumName } from "Renderer/components/core/icon/icon.config"
@@ -14,7 +14,7 @@ let app: Application
 
 beforeEach(async () => {
   app = await startApp(true)
-  await enablePhoneSimulation(app)
+  await enablepureSimulation(app)
   await app.client.waitUntil(() =>
     app.client.$(`*[data-testid=${MenuGroupTestIds.Phone}]`).isVisible()
   )

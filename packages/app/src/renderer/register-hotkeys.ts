@@ -7,7 +7,8 @@ import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 import hotkeys from "App/hotkeys/hotkeys"
 import {
   toggleDevMode,
-  togglePhoneSimulation,
+  togglePureSimulation,
+  toggleHarmonySimulation,
 } from "App/dev-mode/store/dev-mode.helpers"
 import store from "Renderer/store"
 
@@ -16,7 +17,8 @@ type HotkeysList = {
 }
 
 const devModeOnlyHotkeys: Partial<HotkeysList> = {
-  [AppHotkeys.PhoneSimulation]: togglePhoneSimulation,
+  [AppHotkeys.pureSimulation]: togglePureSimulation,
+  [AppHotkeys.HarmonySimulation]: toggleHarmonySimulation,
 }
 
 const registerHotkeys = () => {

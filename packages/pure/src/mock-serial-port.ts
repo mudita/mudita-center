@@ -11,7 +11,7 @@ export default function mockSerialPort() {
   SerialPort.Binding = MockBinding
   MockBinding.createPort("/dev/ROBOT", {
     productId: ProductID.MuditaPure,
-    vendorId: VendorID.MuditaHarmony,
+    vendorId: VendorID.MuditaPure,
     manufacturer: Manufacture.Mudita,
     echo: true,
     record: true,

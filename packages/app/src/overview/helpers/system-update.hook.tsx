@@ -4,8 +4,9 @@
  */
 
 import React, { useEffect, useState } from "react"
+import { DeviceType } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import modalService from "Renderer/components/core/modal/modal.service"
 import {
   CheckingUpdatesModal,
@@ -46,6 +47,7 @@ import appContextMenu from "Renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { errorCodeMap } from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
 import { setOsVersionData } from "App/device"
+import { ReduxRootState } from "App/renderer/store"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -53,12 +55,14 @@ const onOsDownloadCancel = () => {
 
 const useSystemUpdateFlow = (
   osVersion: string | undefined,
-  osUpdateDate: string | undefined,
   onUpdate: (updateInfo: PhoneUpdate) => void,
   toggleDeviceUpdating: (option: boolean) => void,
   onContact: () => void,
   onHelp: () => void
 ) => {
+  const currentDeviceType = useSelector(
+    (state: ReduxRootState) => state.device.deviceType
+  ) as DeviceType
   const [releaseToInstall, setReleaseToInstall] = useState<Release>()
   const dispatch = useDispatch()
 
@@ -196,9 +200,15 @@ const useSystemUpdateFlow = (
 
     if (osVersion) {
       try {
-        const { latestRelease, allReleases } = await getAllReleases()
+        const { latestRelease, allReleases } = await getAllReleases(
+          currentDeviceType
+        )
 
-        if(!silent && latestRelease === undefined && allReleases.length === 0){
+        if (
+          !silent &&
+          latestRelease === undefined &&
+          allReleases.length === 0
+        ) {
           await openCheckingForUpdatesFailedModal(() => checkForUpdates())
           return
         }
@@ -267,7 +277,10 @@ const useSystemUpdateFlow = (
   }
 
   const downloadUpdate = async (release?: Release) => {
-    const r = release === undefined || release.version === undefined ? releaseToInstall : release
+    const r =
+      release === undefined || release.version === undefined
+        ? releaseToInstall
+        : release
     try {
       await openDownloadingUpdateModal()
       await delayResponse(downloadOsUpdateRequest(r?.file.url as string))

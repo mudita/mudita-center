@@ -16,6 +16,7 @@ import {
   setSimData,
   setOsVersionData,
   setUpdateState,
+  setConnectionStatus,
 } from "./base.action"
 import { DeviceEvent, UpdatingState } from "App/device/constants"
 import { CaseColour } from "@mudita/pure"
@@ -37,10 +38,6 @@ const pureDeviceMock: PureDeviceData = {
       networkLevel: 0.75,
     },
   ],
-  lastBackup: {
-    createdAt: "2020-01-14T11:31:08.244Z",
-    size: 100,
-  },
   serialNumber: "303",
   phoneLockTime: 1630703219,
   memorySpace: {
@@ -48,6 +45,7 @@ const pureDeviceMock: PureDeviceData = {
     full: 1021,
   },
   caseColour: CaseColour.Gray,
+  backupLocation: "path/to/directory",
 }
 
 const harmonyDeviceMock: HarmonyDeviceData = {
@@ -165,6 +163,28 @@ describe("Action: setUpdateState", () => {
       {
         type: DeviceEvent.SetUpdateState,
         payload: UpdatingState.Fail,
+      },
+    ])
+  })
+})
+
+describe("Action: setConnectionStatus", () => {
+  test("fire action with `false` payload and `SetConnectionState` type if `false` value provided", () => {
+    mockStore.dispatch(setConnectionStatus(false))
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: DeviceEvent.SetConnectionState,
+        payload: false,
+      },
+    ])
+  })
+
+  test("fire action with `true` payload and `SetConnectionState` type if `true` value provided", () => {
+    mockStore.dispatch(setConnectionStatus(true))
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: DeviceEvent.SetConnectionState,
+        payload: true,
       },
     ])
   })
