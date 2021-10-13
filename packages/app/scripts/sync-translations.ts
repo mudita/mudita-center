@@ -93,7 +93,7 @@ namespace SyncTranslation {
         }
       )
 
-      return axios.post(
+      await axios.post(
         `${phraseUrl}/translations`,
         {
           key_id: keyData.id,
