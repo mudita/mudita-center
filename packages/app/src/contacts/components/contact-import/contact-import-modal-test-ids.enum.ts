@@ -8,4 +8,5 @@ export enum ContactImportModalTestIds {
   ContactRow = "contact-row",
   FailedIcon = "failed-icon",
   RowCheckbox = "row-checkbox",
+  SelectedText = "selected-text",
 }

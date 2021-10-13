@@ -178,3 +178,32 @@ test("Failed rows have a proper icon attached", () => {
     ).toBeInTheDocument()
   })
 })
+
+describe("Select text on copntact list", () => {
+  test("should display all selected number", () => {
+    const { getByTestId } = renderer()
+    expect(
+      getByTestId(ContactImportModalTestIds.SelectedText)
+    ).toHaveTextContent("7 [value] module.contacts.importingListSelected")
+  })
+  test("should display zero selected number", () => {
+    const { getByTestId } = renderer()
+    const toggleAllCheckbox = getByTestId(
+      ContactImportModalTestIds.ToggleAllCheckbox
+    )
+    toggleAllCheckbox.click()
+    expect(
+      getByTestId(ContactImportModalTestIds.SelectedText)
+    ).toHaveTextContent("0 [value] module.contacts.importingListSelected")
+  })
+  test("should display selected number", () => {
+    const { getByTestId, getAllByTestId } = renderer()
+    const allCheckboxes = getAllByTestId(
+      ContactImportModalTestIds.RowCheckbox
+    )
+    allCheckboxes[0].click()
+    expect(
+      getByTestId(ContactImportModalTestIds.SelectedText)
+    ).toHaveTextContent("6 [value] module.contacts.importingListSelected")
+  })
+})
