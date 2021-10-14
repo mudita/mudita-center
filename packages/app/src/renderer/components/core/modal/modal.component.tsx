@@ -55,7 +55,6 @@ export const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
 
 export const ButtonWrapper = styled.div`
   display: flex;
-  width: 100%;
 `
 
 export interface ModalProps {

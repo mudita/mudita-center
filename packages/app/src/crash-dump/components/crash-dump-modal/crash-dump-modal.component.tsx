@@ -9,6 +9,7 @@ import { intl } from "Renderer/utils/intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import { Size } from "Renderer/components/core/button/button.config"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
@@ -30,6 +31,8 @@ const messages = defineMessages({
   title: { id: "component.crashDumpModal.title" },
   label: { id: "component.crashDumpModal.label" },
   text: { id: "component.crashDumpModal.text" },
+  accept: { id: "component.crashDumpModal.accept" },
+  close: { id: "component.crashDumpModal.close" },
 })
 
 export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({
@@ -43,9 +46,10 @@ export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({
       size={ModalSize.Small}
       open={open}
       closeModal={onClose}
-      closeButtonLabel="Cancel"
+      closeButtonLabel={intl.formatMessage(messages.close)}
       onActionButtonClick={onAccept}
-      actionButtonLabel="Accept"
+      actionButtonLabel={intl.formatMessage(messages.accept)}
+      actionButtonSize={Size.FixedMedium}
     >
       <ContentWrapper data-testid={CrashDumpModalTestingIds.Content}>
         <IconWrapper>
