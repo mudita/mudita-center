@@ -5,7 +5,7 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { Message } from "App/messages/store/messages.interface"
+import { Message } from "App/messages/reducers/messages.interface"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const getMessagesByThreadId = async (

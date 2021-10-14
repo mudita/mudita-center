@@ -10,7 +10,7 @@ import {
   ReceiverIdentification,
   Thread,
   VisibilityFilter,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import { Contact, ContactID } from "App/contacts/store/contacts.type"
 
 export const searchThreads = (

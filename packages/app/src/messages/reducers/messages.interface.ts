@@ -5,6 +5,9 @@
 
 import { Caller } from "Renderer/models/calls/calls.interface"
 import { Contact } from "App/contacts/store/contacts.type"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { MessagesEvent } from "App/messages/constants"
+import { LoadMessagesByIdError, LoadThreadsError } from "App/messages/errors"
 
 export enum VisibilityFilter {
   All = "all",
@@ -57,7 +60,7 @@ export type MessagesState = Readonly<{
   messageMap: MessageMap
   messageIdsInThreadMap: MessageIdsInThreadMap
   searchValue: string
-  visibilityFilter?: VisibilityFilter
+  visibilityFilter: VisibilityFilter
   resultState: ResultState
   messagesResultStateMap: { [id: string]: ResultState }
 }>
@@ -73,3 +76,38 @@ export interface Receiver extends Pick<Contact, "firstName" | "lastName"> {
   phoneNumber: string
   identification: ReceiverIdentification
 }
+
+export type LoadThreadsRejectAction = PayloadAction<
+  LoadThreadsError,
+  MessagesEvent.LoadThreads
+>
+
+export type LoadMessagesByIdRejectAction = PayloadAction<
+  LoadMessagesByIdError,
+  MessagesEvent.LoadMessagesById
+>
+
+export type ToggleThreadReadStatusAction = PayloadAction<
+  string[],
+  MessagesEvent.ToggleThreadReadStatus
+>
+
+export type MarkThreadAsReadAction = PayloadAction<
+  string,
+  MessagesEvent.MarkThreadAsRead
+>
+
+export type DeleteThreadsAction = PayloadAction<
+  string[],
+  MessagesEvent.DeleteThreads
+>
+
+export type ChangeVisibilityFilterAction = PayloadAction<
+  MessagesState["visibilityFilter"],
+  MessagesEvent.ChangeVisibilityFilter
+>
+
+export type ChangeSearchValueAction = PayloadAction<
+  string,
+  MessagesEvent.ChangeSearchValue
+>

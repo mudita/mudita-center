@@ -9,7 +9,7 @@ import {
   Message,
   Receiver,
   ResultState,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import { MessagesWrapper } from "App/messages/components/thread-details.styled"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import ThreadDetailsError from "App/messages/components/thread-details-error.component"

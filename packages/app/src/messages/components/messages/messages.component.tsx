@@ -34,7 +34,7 @@ import {
   ReceiverIdentification,
   ResultState,
   Thread,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"

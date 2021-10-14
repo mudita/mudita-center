@@ -22,7 +22,6 @@ export interface RootModel {
   calls: typeof calls
   devMode: typeof devMode
   filesManager: typeof filesManager
-  messages: typeof messages
   muditaNews: typeof muditaNews
   networkStatus: typeof networkStatus
   notes: typeof notes
@@ -38,7 +37,6 @@ export const models: RootModel = {
   calls,
   devMode,
   filesManager,
-  messages,
   muditaNews,
   networkStatus,
   notes,

@@ -53,7 +53,7 @@ import {
 import { isToday } from "Renderer/utils/is-today"
 import { AppSettings } from "App/main/store/settings.interface"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
-import { Thread } from "App/messages/store/messages.interface"
+import { Thread } from "App/messages/reducers/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 import { flags, Feature } from "App/feature-flags"
 

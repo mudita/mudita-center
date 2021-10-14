@@ -11,7 +11,7 @@ import {
   Message,
   MessageType,
   Thread,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import { createFakeContact } from "App/messages/helpers/create-fake-contact"
 
 const createCall = (): Call => {

@@ -18,6 +18,7 @@ import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-upda
 import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { loadThreads } from "App/messages/actions"
 
 interface Props {
   getConnectedDevice: () => void
@@ -173,7 +174,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   getConnectedDevice: () => dispatch(getConnectedDevice),
   loadContacts: () => dispatch.contacts.loadData(),
-  loadMessages: () => dispatch.messages.loadData(),
+  loadMessages: () => dispatch(loadThreads),
 
   toggleAppCollectingData: dispatch.settings.toggleAppCollectingData,
   setAppUpdateStepModalDisplayed:

@@ -12,7 +12,7 @@ import {
   Message,
   MessageType,
   Receiver,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 
 interface Properties {
   messages: Message[]

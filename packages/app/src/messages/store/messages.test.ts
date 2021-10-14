@@ -15,7 +15,7 @@ import {
   ResultState,
   Thread,
   VisibilityFilter,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import { createFakeContact } from "App/messages/helpers/create-fake-contact"
 import Mock = jest.Mock
 import getThreads from "Renderer/requests/get-threads.request"

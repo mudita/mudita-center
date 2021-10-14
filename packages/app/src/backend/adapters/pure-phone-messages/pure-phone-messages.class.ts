@@ -8,7 +8,7 @@ import {
   Message,
   NewMessage,
   Thread,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 
 export default abstract class PurePhoneMessagesAdapter {
   public abstract getThreads(): Promise<DeviceResponse<Thread[]>>

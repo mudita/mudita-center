@@ -14,7 +14,7 @@ import {
   Receiver,
   ReceiverIdentification,
   ResultState,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
 import { createFullName } from "App/contacts/store/contacts.helpers"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
@@ -159,7 +159,7 @@ test("Retry button tries to load thread again after initial call", () => {
   const onLoadMessagesClick = jest.fn()
   const { getByTestId } = renderer({
     resultState: ResultState.Error,
-    onLoadMessagesClick
+    onLoadMessagesClick,
   })
   getByTestId(ThreadDetailsTestIds.RetryButton).click()
   expect(onLoadMessagesClick).toBeCalled()

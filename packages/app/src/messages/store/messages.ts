@@ -16,7 +16,7 @@ import {
   Thread,
   ThreadMap,
   VisibilityFilter,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import { RootState } from "Renderer/store"
 import getThreads from "Renderer/requests/get-threads.request"
 import logger from "App/main/utils/logger"
@@ -327,7 +327,9 @@ const messages = createModel<RootModel>({
         (receivers: Receiver[]) => {
           return (contactId: string, phoneNumber: string) => {
             return receivers.find(
-              (receiver) => receiver.contactId === contactId && receiver.phoneNumber === phoneNumber
+              (receiver) =>
+                receiver.contactId === contactId &&
+                receiver.phoneNumber === phoneNumber
             )
           }
         }

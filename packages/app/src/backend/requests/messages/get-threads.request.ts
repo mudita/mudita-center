@@ -6,7 +6,7 @@
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import Adapters from "Backend/adapters/adapters.interface"
-import { Thread } from "App/messages/store/messages.interface"
+import { Thread } from "App/messages/reducers/messages.interface"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const handleGetThreadsRequest = ({

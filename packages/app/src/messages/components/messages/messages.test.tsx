@@ -17,7 +17,7 @@ import {
   Receiver,
   ReceiverIdentification,
   Thread,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"

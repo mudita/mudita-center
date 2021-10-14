@@ -17,7 +17,7 @@ import {
   MessageType,
   NewMessage,
   Thread,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 
 const mockPureData: PureThread[] = [
   {
