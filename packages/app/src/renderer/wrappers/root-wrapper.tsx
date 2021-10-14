@@ -256,7 +256,6 @@ const RootWrapper: FunctionComponent<Props> = ({
   )
 }
 
-// TODO replace `TmpDispatch` with legit `Dispatch`
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   connect: () => dispatch(getConnectedDevice()),
   disconnectDevice: () => dispatch(disconnectDevice()),

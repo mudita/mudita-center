@@ -170,7 +170,6 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
   }
 }
 
-// TODO replace `TmpDispatch` with legit `Dispatch`
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   getConnectedDevice: () => dispatch(getConnectedDevice),
   loadContacts: () => dispatch.contacts.loadData(),
