@@ -21,6 +21,11 @@ export interface DeviceFile extends Pick<File, "name"> {
   data: Buffer
 }
 
+export interface EncodedResponse {
+  file: string
+  fileCrc32?: string
+}
+
 export interface UploadFilePayload {
   filePath: string
   targetPath: string
@@ -89,7 +94,7 @@ class DeviceFileSystemService {
       }
     }
 
-    const { rxID, fileSize, chunkSize, fileCrc32 } = data
+    const { rxID, fileSize, chunkSize } = data
     const chunkLength = fileSize > chunkSize ? fileSize / chunkSize : 1
     const downloadFileResponse = await this.downloadEncodedFile(
       rxID,
@@ -98,10 +103,12 @@ class DeviceFileSystemService {
 
     if (
       downloadFileResponse.status === DeviceResponseStatus.Ok &&
-      downloadFileResponse.data !== undefined
+      downloadFileResponse.data !== undefined &&
+      downloadFileResponse.data.fileCrc32 !== undefined
     ) {
-      const fileBuffer = Buffer.from(downloadFileResponse.data, "base64")
-      const receivedFileCrc32 = fileCrc32.toLowerCase()
+      const fileBuffer = Buffer.from(downloadFileResponse.data.file, "base64")
+      const receivedFileCrc32 =
+        downloadFileResponse.data.fileCrc32.toLowerCase()
       const countedFileCrc32 = countCRC32(fileBuffer)
       logger.info(
         `downloadFile crc: received ${receivedFileCrc32}, counted  ${countedFileCrc32}`
@@ -235,7 +242,7 @@ class DeviceFileSystemService {
     chunkLength: number,
     chunkNo = 1,
     chunkedString = ""
-  ): Promise<DeviceResponse<string>> {
+  ): Promise<DeviceResponse<EncodedResponse>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
@@ -259,7 +266,10 @@ class DeviceFileSystemService {
     } else {
       return {
         status,
-        data: string,
+        data: {
+          file: string,
+          fileCrc32: data.fileCrc32,
+        },
       }
     }
   }
