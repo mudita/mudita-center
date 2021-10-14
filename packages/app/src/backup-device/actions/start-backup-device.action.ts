@@ -84,7 +84,7 @@ export const startBackupDevice = createAsyncThunk(
     const backupId = startBackupDeviceResponse.data!.id
 
     const getBackupDeviceStatusResponse = await waitUntilBackupDeviceFinished(
-      startBackupDeviceResponse.data!.id
+      backupId
     )
     const location = path.join(pureOsBackupPureLocation, backupId)
     if (!isResponsesSuccessWithData([getBackupDeviceStatusResponse])) {
