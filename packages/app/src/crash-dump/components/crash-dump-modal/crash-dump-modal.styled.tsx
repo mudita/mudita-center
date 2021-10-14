@@ -5,8 +5,13 @@
 
 import styled from "styled-components"
 import { RoundIconWrapper } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
+import { ModalContent } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 
 export const IconWrapper = styled(RoundIconWrapper)`
-  width: 5rem;
-  height: 5rem;
+  width: 8rem;
+  height: 8rem;
+`
+
+export const ContentWrapper = styled(ModalContent)`
+  padding: 0 3rem;
 `

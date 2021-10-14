@@ -11,11 +11,13 @@ import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.comp
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { ModalContent } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { IconWrapper } from "App/crash-dump/components/crash-dump-modal/crash-dump-modal.styled"
+import {
+  IconWrapper,
+  ContentWrapper,
+} from "App/crash-dump/components/crash-dump-modal/crash-dump-modal.styled"
 import { CrashDumpModalTestingIds } from "App/crash-dump/components/crash-dump-modal/crash-dump-modal-testing-ids.enum"
 
 export interface CrashDumpProps {
@@ -30,7 +32,11 @@ const messages = defineMessages({
   text: { id: "component.crashDumpModal.text" },
 })
 
-export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({ open, onClose, onAccept }) => {
+export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({
+  open,
+  onClose,
+  onAccept,
+}) => {
   return (
     <ModalDialog
       title={intl.formatMessage(messages.title)}
@@ -41,13 +47,21 @@ export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({ open, onClos
       onActionButtonClick={onAccept}
       actionButtonLabel="Accept"
     >
-      <ModalContent data-testid={CrashDumpModalTestingIds.Content}>
+      <ContentWrapper data-testid={CrashDumpModalTestingIds.Content}>
         <IconWrapper>
-          <Icon type={Type.ThinFail} width={3} height={3} />
+          <Icon type={Type.ThinFail} width={3.2} height={3.2} />
         </IconWrapper>
-        <Text data-testid={CrashDumpModalTestingIds.Label} displayStyle={TextDisplayStyle.LargeBoldText} message={messages.label} />
-        <Text data-testid={CrashDumpModalTestingIds.Text} displayStyle={TextDisplayStyle.MediumFadedLightText} message={messages.text} />
-      </ModalContent>
+        <Text
+          data-testid={CrashDumpModalTestingIds.Label}
+          displayStyle={TextDisplayStyle.LargeBoldText}
+          message={messages.label}
+        />
+        <Text
+          data-testid={CrashDumpModalTestingIds.Text}
+          displayStyle={TextDisplayStyle.MediumFadedLightText}
+          message={messages.text}
+        />
+      </ContentWrapper>
     </ModalDialog>
   )
 }

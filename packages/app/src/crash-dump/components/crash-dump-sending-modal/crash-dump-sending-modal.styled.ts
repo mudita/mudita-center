@@ -7,6 +7,6 @@ import styled from "styled-components"
 import { RoundIconWrapper } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 
 export const LoaderWrapper = styled(RoundIconWrapper)`
-  width: 5rem;
-  height: 5rem;
+  width: 8rem;
+  height: 8rem;
 `
