@@ -57,6 +57,7 @@ import {
   getConnectedDevice,
 } from "App/device"
 // import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
+import { getCrashDump } from "App/crash-dump"
 
 interface Props {
   history: History
@@ -65,6 +66,7 @@ interface Props {
   connectDevice: (value: DeviceType) => void
   lockedDevice: () => void
   unlockedDevice: () => void
+  getCrashDump: () => void
   // TODO remove legacy staff
   toggleAppUpdateAvailable: (value: boolean) => void
   setAppUpdateStepModalDisplayed: () => void
@@ -80,6 +82,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   connectDevice,
   lockedDevice,
   unlockedDevice,
+  getCrashDump,
   // TODO remove legacy staff
   toggleAppUpdateAvailable,
   setAppUpdateStepModalDisplayed,
@@ -152,6 +155,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     connect()
+    getCrashDump()
   }, [])
 
   useEffect(() => {
@@ -194,6 +198,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     const listener = () => {
       unlockedDevice()
+      getCrashDump()
     }
     registerDeviceUnlockedListener(listener)
     return () => removeDeviceUnlockedListener(listener)
@@ -263,6 +268,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   connectDevice: (value: DeviceType) => dispatch(connectDevice(value)),
   lockedDevice: () => dispatch(lockedDevice()),
   unlockedDevice: () => dispatch(unlockedDevice()),
+  getCrashDump: () => dispatch(getCrashDump()),
   // TODO remove legacy staff
   toggleAppUpdateAvailable: (value: boolean) =>
     dispatch.settings.toggleAppUpdateAvailable(value),

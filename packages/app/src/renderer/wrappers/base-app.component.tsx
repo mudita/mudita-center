@@ -18,6 +18,7 @@ import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-upda
 import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { CrashDump } from "App/crash-dump"
 
 interface Props {
   getConnectedDevice: () => void
@@ -141,6 +142,7 @@ const BaseApp: FunctionComponent<Props> = ({
           closeModal={closeAppUpdateStepModal}
         />
       )}
+      <CrashDump />
       <Router history={history}>
         <BaseRoutes />
       </Router>
