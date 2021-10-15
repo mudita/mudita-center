@@ -115,6 +115,7 @@ import Manage from "Renderer/svg/manage.svg"
 import MuditaLogoBg from "Renderer/svg/muditalogo-bg.svg"
 import Outlook from "Renderer/svg/outlook.svg"
 import ContactFilled from "Renderer/svg/contact-filled.svg"
+import Support from "Renderer/svg/support.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -164,6 +165,7 @@ export enum Type {
   Refresh,
   Send,
   Sim,
+  Support,
   Template,
   Calls,
   Connection,
@@ -278,6 +280,7 @@ const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
   [Type.Refresh]: Refresh,
   [Type.Send]: Send,
   [Type.Sim]: Sim,
+  [Type.Support]: Support,
   [Type.Template]: Template,
   [Type.Tooltip]: Tooltip,
   [Type.TetheringStatus]: TetheringStatus,
