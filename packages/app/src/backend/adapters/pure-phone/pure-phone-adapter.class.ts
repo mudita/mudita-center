@@ -44,7 +44,8 @@ export default abstract class PurePhoneAdapter {
   ): Promise<DeviceResponse<DeviceFileDeprecated[]>>
   public abstract getDeviceCrashDumpFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFileDeprecated[]>>
+  ): Promise<DeviceResponse<string[]>>
+  public abstract downloadDeviceCrashDumpFiles(): Promise<DeviceResponse<string[]>>
   public abstract updateOs(
     filePath: string,
     progressChannel?: string

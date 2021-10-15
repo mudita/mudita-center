@@ -7,18 +7,16 @@ import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { DeviceFilesOption } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 
-const handleGetDeviceCrashDumpFiles = async (
+const handleDownloadDeviceCrashDumpFiles = async (
   { purePhone }: Adapters,
-  option?: DeviceFilesOption
 ): Promise<DeviceResponse<string[]>> => {
-  return purePhone.getDeviceCrashDumpFiles(option)
+  return purePhone.downloadDeviceCrashDumpFiles()
 }
 
-const registerGetDeviceCrashDumpFiles = createEndpoint({
-  name: IpcRequest.GetDeviceCrashDumpFiles,
-  handler: handleGetDeviceCrashDumpFiles,
+const registerDownloadDeviceCrashDumpFiles = createEndpoint({
+  name: IpcRequest.DownloadCrashDumpFiles,
+  handler: handleDownloadDeviceCrashDumpFiles,
 })
 
-export default registerGetDeviceCrashDumpFiles
+export default registerDownloadDeviceCrashDumpFiles

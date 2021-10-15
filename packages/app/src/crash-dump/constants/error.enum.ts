@@ -3,5 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./crash-dump-modal"
-export * from "./crash-dump-sending-modal"
+export enum CrashDumpError {
+  Getting = 'CRASH_DUMP_GETTING_ERROR',
+  Downloading = 'CRASH_DUMP_DOWNLOADING_ERROR',
+}

@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import path from "path"
 import * as fs from "fs"
 import { Endpoint, Method } from "@mudita/pure"
 import DeviceService from "Backend/device-service"
@@ -33,6 +34,32 @@ export interface UploadFilePayload {
 
 class DeviceFileSystemService {
   constructor(private deviceService: DeviceService) {}
+
+  async downloadLocally(
+    filePaths: string[],
+    fileDirectory: string
+  ): Promise<DeviceResponse<string[]>> {
+    const data: string[] = []
+    for (let i = 0; i < filePaths.length; i++) {
+      const filePath = filePaths[i]
+      const response = await this.downloadFile(filePath)
+
+      if (response.status === DeviceResponseStatus.Ok && response.data) {
+        const name = filePath.split("/").pop() as string
+        await fs.writeFileSync(name, response.data, "utf-8")
+        data.push(path.join(process.cwd(), fileDirectory, name))
+      } else {
+        return {
+          status: DeviceResponseStatus.Error,
+        }
+      }
+    }
+
+    return {
+      data,
+      status: DeviceResponseStatus.Ok,
+    }
+  }
 
   async downloadDeviceFiles(
     filePaths: string[]
