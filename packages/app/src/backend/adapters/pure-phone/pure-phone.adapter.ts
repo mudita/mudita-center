@@ -447,7 +447,7 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public async removeDeviceFile(filePath: string): Promise<DeviceResponse> {
-    if (!filePath) {
+    if (filePath !== "") {
       return {
         status: DeviceResponseStatus.Error,
       }
