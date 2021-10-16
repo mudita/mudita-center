@@ -70,7 +70,7 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase<string, LoadMessagesByIdStatusAction>(
         pendingAction(MessagesEvent.LoadMessagesById),
         (state, action) => {
-          const threadId = action.meta.arg
+          const { threadId } = action.meta.arg
           return {
             ...state,
             messagesResultStateMap: {
@@ -83,7 +83,7 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase<string, LoadMessagesByIdStatusAction>(
         fulfilledAction(MessagesEvent.LoadMessagesById),
         (state, action) => {
-          const threadId = action.meta.arg
+          const { threadId } = action.meta.arg
           return {
             ...state,
             messagesResultStateMap: {
@@ -96,7 +96,7 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase<string, LoadMessagesByIdRejectAction>(
         rejectedAction(MessagesEvent.LoadMessagesById),
         (state, action) => {
-          const threadId = action.meta.arg
+          const { threadId } = action.meta.arg
           return {
             ...state,
             messagesResultStateMap: {

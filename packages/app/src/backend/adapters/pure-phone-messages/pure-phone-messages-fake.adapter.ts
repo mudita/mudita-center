@@ -4,6 +4,8 @@
  */
 
 import PurePhoneMessagesAdapter, {
+  GetMessagesBody,
+  GetMessagesByThreadIdResponse,
   GetThreadsResponse,
 } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { Message, NewMessage } from "App/messages/reducers/messages.interface"
@@ -22,12 +24,14 @@ class PurePhoneMessagesFake extends PurePhoneMessagesAdapter {
     }
   }
 
-  public async getMessagesByThreadId(
-    threadId: string
-  ): Promise<DeviceResponse<Message[]>> {
+  public async getMessagesByThreadId({
+    threadId,
+  }: GetMessagesBody): Promise<DeviceResponse<GetMessagesByThreadIdResponse>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: messagesData.filter((messages) => messages.threadId === threadId),
+      data: {
+        data: messagesData.filter((messages) => messages.threadId === threadId),
+      },
     }
   }
 

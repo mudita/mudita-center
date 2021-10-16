@@ -8,6 +8,7 @@ import { Contact } from "App/contacts/store/contacts.type"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import { LoadMessagesByIdError, LoadThreadsError } from "App/messages/errors"
+import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 
 export enum VisibilityFilter {
   All = "all",
@@ -85,13 +86,13 @@ export type LoadThreadsRejectAction = PayloadAction<
 export type LoadMessagesByIdRejectAction = PayloadAction<
   LoadMessagesByIdError,
   MessagesEvent.LoadMessagesById,
-  { arg: string }
+  { arg: GetMessagesBody }
 >
 
 export type LoadMessagesByIdStatusAction = PayloadAction<
   undefined,
   MessagesEvent.LoadMessagesById,
-  { arg: string }
+  { arg: GetMessagesBody }
 >
 
 export type ToggleThreadReadStatusAction = PayloadAction<

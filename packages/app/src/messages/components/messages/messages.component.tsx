@@ -40,6 +40,7 @@ import { MessagesTestIds } from "App/messages/components/messages/messages-test-
 import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 
 const deleteModalMessages = defineMessages({
   title: { id: "module.messages.deleteModalTitle" },
@@ -74,7 +75,9 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   getContact: (contactId: string) => Contact | undefined
   getReceiver: (contactId: string, phoneNumber: string) => Receiver
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
-  loadMessagesByThreadId: (threadId: string) => Message[]
+  loadMessagesByThreadId: (
+    body: GetMessagesBody
+  ) => Promise<PayloadAction<PaginationBody>>
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
   isContactCreated: (id: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<Message | undefined>
@@ -101,6 +104,11 @@ const Messages: FunctionComponent<Props> = ({
   addNewMessage,
 }) => {
   const latestThreadsPagination: PaginationBody = {
+    limit: 5,
+    offset: 0,
+  }
+
+  const latestMessagesPagination: PaginationBody = {
     limit: 5,
     offset: 0,
   }
@@ -138,8 +146,24 @@ const Messages: FunctionComponent<Props> = ({
   const [content, setContent] = useState("")
 
   useEffect(() => {
+    let interval: any
+
     if (activeThread !== undefined) {
-      loadMessagesByThreadId(activeThread.id)
+      loadMessagesByThreadId({
+        threadId: activeThread.id,
+        ...latestMessagesPagination,
+      })
+
+      interval = setInterval(() => {
+        loadMessagesByThreadId({
+          threadId: activeThread.id,
+          ...latestMessagesPagination,
+        })
+      }, 10000)
+    }
+
+    return () => {
+      clearInterval(interval)
     }
   }, [activeThread])
 
@@ -240,7 +264,10 @@ const Messages: FunctionComponent<Props> = ({
 
   const handleLoadMessagesClick = (): void => {
     if (activeThread) {
-      loadMessagesByThreadId(activeThread.id)
+      loadMessagesByThreadId({
+        threadId: activeThread.id,
+        ...latestMessagesPagination,
+      })
     }
   }
 

@@ -4,6 +4,8 @@
  */
 
 import PurePhoneMessagesAdapter, {
+  GetMessagesBody,
+  GetMessagesByThreadIdResponse,
   GetThreadsResponse,
 } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import {
@@ -18,7 +20,7 @@ import DeviceResponse, {
 import DeviceService from "Backend/device-service"
 import {
   Endpoint,
-  GetMessagesBody,
+  GetMessagesBody as PureGetMessagesBody,
   GetThreadsBody,
   Message as PureMessage,
   MessagesCategory as PureMessagesCategory,
@@ -27,11 +29,6 @@ import {
   PaginationBody,
   Thread as PureThread,
 } from "@mudita/pure"
-
-const initGetMessagesBody: GetMessagesBody = {
-  category: PureMessagesCategory.message,
-  limit: 15,
-}
 
 type AcceptablePureMessageType =
   | PureMessageType.FAILED
@@ -74,10 +71,38 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     }
   }
 
-  public getMessagesByThreadId(
-    threadId: string
-  ): Promise<DeviceResponse<Message[]>> {
-    return this.loadAllMessagesInSingleRequest(threadId)
+  public async getMessagesByThreadId({
+    threadId,
+    nextPage,
+  }: GetMessagesBody): Promise<DeviceResponse<GetMessagesByThreadIdResponse>> {
+    const body: PureGetMessagesBody = {
+      category: PureMessagesCategory.message,
+      threadID: Number(threadId),
+      ...nextPage,
+    }
+
+    const { status, data } = await this.deviceService.request({
+      body,
+      endpoint: Endpoint.Messages,
+      method: Method.Get,
+    })
+
+    if (status === DeviceResponseStatus.Ok && data?.entries !== undefined) {
+      return {
+        status: DeviceResponseStatus.Ok,
+        data: {
+          data: data.entries
+            .filter(PurePhoneMessages.isAcceptablePureMessageType)
+            .map(PurePhoneMessages.mapToMessages),
+          nextPage: data.nextPage,
+        },
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Get messages by threadId: Something went wrong" },
+      }
+    }
   }
 
   public async addMessage(
@@ -127,48 +152,6 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       phoneNumber: String(number),
       contactId: String(contactID),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),
-    }
-  }
-
-  private async loadAllMessagesInSingleRequest(
-    threadId: string,
-    pureMessages: PureMessage[] = [],
-    body = initGetMessagesBody
-  ): Promise<DeviceResponse<Message[]>> {
-    const { status, data } = await this.deviceService.request({
-      body: { ...body, threadID: Number(threadId) },
-      endpoint: Endpoint.Messages,
-      method: Method.Get,
-    })
-
-    if (data?.nextPage !== undefined) {
-      const limit: number = data.totalCount - data.nextPage.offset
-      return this.loadAllMessagesInSingleRequest(
-        threadId,
-        [...pureMessages, ...data.entries],
-        {
-          ...initGetMessagesBody,
-          limit,
-          offset: data.nextPage.offset,
-        }
-      )
-    } else if (
-      status === DeviceResponseStatus.Ok &&
-      data?.entries !== undefined
-    ) {
-      return {
-        status: DeviceResponseStatus.Ok,
-        data: [...pureMessages, ...data.entries]
-          .filter(PurePhoneMessages.isAcceptablePureMessageType)
-          .map(PurePhoneMessages.mapToMessages),
-      }
-    } else {
-      return {
-        status: DeviceResponseStatus.Error,
-        error: {
-          message: "Load all messages in single request: Something went wrong",
-        },
-      }
     }
   }
 

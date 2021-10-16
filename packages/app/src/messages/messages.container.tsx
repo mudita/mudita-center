@@ -34,6 +34,7 @@ import {
 } from "App/messages/selectors"
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 
 const selector = select(({ contacts }) => ({
   getContact: contacts.getContact,
@@ -69,8 +70,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   markAsRead: (threadIds: string[]) => dispatch(markThreadsAsRead(threadIds)),
   toggleReadStatus: (threadIds: string[]) =>
     dispatch(toggleThreadsReadStatus(threadIds)),
-  loadMessagesByThreadId: (threadId: string) =>
-    dispatch(LoadMessagesById(threadId)),
+  loadMessagesByThreadId: (body: GetMessagesBody) =>
+    dispatch(LoadMessagesById(body)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
     dispatch(addNewMessage(newMessage)),
 })

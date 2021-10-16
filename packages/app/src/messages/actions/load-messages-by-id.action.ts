@@ -3,23 +3,28 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { PaginationBody } from "@mudita/pure"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.request"
 import { setMessages } from "App/messages/actions/base.action"
 import { LoadMessagesByIdError } from "App/messages/errors"
+import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 
-export const LoadMessagesById = createAsyncThunk<undefined, string>(
+export const LoadMessagesById = createAsyncThunk<
+  PaginationBody | undefined,
+  GetMessagesBody
+>(
   MessagesEvent.LoadMessagesById,
-  async (threadId, { dispatch, rejectWithValue }) => {
-    const { data = [], error } = await getMessagesByThreadId(threadId)
+  async (body, { dispatch, rejectWithValue }) => {
+    const { data, error } = await getMessagesByThreadId(body)
 
-    if (error) {
+    if (error || data === undefined) {
       return rejectWithValue(new LoadMessagesByIdError(""))
     }
 
-    dispatch(setMessages(data))
+    dispatch(setMessages(data.data))
 
-    return
+    return data.nextPage
   }
 )

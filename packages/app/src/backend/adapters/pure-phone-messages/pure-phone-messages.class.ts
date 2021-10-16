@@ -16,13 +16,23 @@ export interface GetThreadsResponse {
   nextPage?: PaginationBody
 }
 
+export interface GetMessagesBody {
+  threadId: string
+  nextPage?: PaginationBody
+}
+
+export interface GetMessagesByThreadIdResponse {
+  data: Message[]
+  nextPage?: PaginationBody
+}
+
 export default abstract class PurePhoneMessagesAdapter {
   public abstract getThreads(
     pagination: PaginationBody
   ): Promise<DeviceResponse<GetThreadsResponse>>
   public abstract getMessagesByThreadId(
-    threadId: string
-  ): Promise<DeviceResponse<Message[]>>
+    body: GetMessagesBody
+  ): Promise<DeviceResponse<GetMessagesByThreadIdResponse>>
   public abstract addMessage(
     newMessage: NewMessage
   ): Promise<DeviceResponse<Message>>
