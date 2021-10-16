@@ -29,6 +29,7 @@ import {
   PaginationBody,
   Thread as PureThread,
 } from "@mudita/pure"
+import { Feature, flags } from "App/feature-flags"
 
 type AcceptablePureMessageType =
   | PureMessageType.FAILED
@@ -147,7 +148,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     return {
       messageSnippet,
       // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
-      unread: process.env.NODE_ENV !== "production" ? isUnread : false,
+      unread: flags.get(Feature.ProductionAndAlpha) ? false : isUnread,
       id: String(threadID),
       phoneNumber: String(number),
       contactId: String(contactID),
