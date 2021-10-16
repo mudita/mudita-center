@@ -207,7 +207,6 @@ const ThreadList: FunctionComponent<Props> = ({
       hideColumns={Boolean(activeThread)}
     >
       {threads.map((thread) => {
-        console.log("thread: ", thread)
         const { unread, id, phoneNumber } = thread
         const contact = getContact(thread.contactId)
         const { selected, indeterminate } = getRowStatus(thread)

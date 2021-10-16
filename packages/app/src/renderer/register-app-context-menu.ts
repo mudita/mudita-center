@@ -53,7 +53,7 @@ const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Messages", [
     {
       label: "Load default threads",
-      click: () => store.dispatch(loadThreads()),
+      click: () => store.dispatch(loadThreads({ limit: 5, offset: 0 })),
     },
     {
       label: "Clear all threads",

@@ -20,7 +20,12 @@ export const addNewMessage = createAsyncThunk<Message, NewMessage>(
       return rejectWithValue(new AddNewMessageError(""))
     }
 
-    dispatch(loadThreads())
+    await dispatch(
+      loadThreads({
+        limit: 5,
+        offset: 0,
+      })
+    )
     dispatch(LoadMessagesById(data.threadId))
 
     return data

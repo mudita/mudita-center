@@ -18,12 +18,10 @@ import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-upda
 import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
-import { loadThreads } from "App/messages/actions"
 
 interface Props {
   getConnectedDevice: () => void
   loadContacts: () => void
-  loadThreads: () => void
   history: History
   pureFeaturesVisible?: boolean
   deviceConnecting?: boolean
@@ -45,7 +43,6 @@ interface Props {
 const BaseApp: FunctionComponent<Props> = ({
   getConnectedDevice,
   loadContacts,
-  loadThreads,
   history,
   pureFeaturesVisible,
   deviceConnecting,
@@ -73,7 +70,7 @@ const BaseApp: FunctionComponent<Props> = ({
     [URL_MAIN.contacts]: [() => loadContacts()],
     [URL_MAIN.phone]: [() => loadContacts()],
     [URL_OVERVIEW.root]: [() => getConnectedDevice()],
-    [URL_MAIN.messages]: [() => loadThreads(), () => loadContacts()],
+    [URL_MAIN.messages]: [() => loadContacts()],
   })
   useEffect(() => {
     setAppUpdateStepModalVisible(
@@ -171,7 +168,6 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   getConnectedDevice: () => dispatch(getConnectedDevice),
   loadContacts: () => dispatch.contacts.loadData(),
-  loadThreads: () => dispatch(loadThreads()),
 
   // TODO Refactor legacy staff
   toggleAppCollectingData: dispatch.settings.toggleAppCollectingData,

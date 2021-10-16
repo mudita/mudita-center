@@ -38,6 +38,8 @@ import {
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
+import { PaginationBody } from "@mudita/pure"
+import { PayloadAction } from "@reduxjs/toolkit"
 
 const deleteModalMessages = defineMessages({
   title: { id: "module.messages.deleteModalTitle" },
@@ -65,6 +67,9 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   receivers: Receiver[]
   attachContactList: ContactCategory[]
   attachContactFlatList: Contact[]
+  loadThreads: (
+    pagination: PaginationBody
+  ) => Promise<PayloadAction<PaginationBody>>
   getMessagesByThreadId: (threadId: string) => Message[]
   getContact: (contactId: string) => Contact | undefined
   getReceiver: (contactId: string, phoneNumber: string) => Receiver
@@ -76,6 +81,7 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
 }
 
 const Messages: FunctionComponent<Props> = ({
+  loadThreads,
   receivers,
   searchValue,
   changeSearchValue = noop,
@@ -94,6 +100,35 @@ const Messages: FunctionComponent<Props> = ({
   isContactCreated,
   addNewMessage,
 }) => {
+  const latestThreadsPagination: PaginationBody = {
+    limit: 5,
+    offset: 0,
+  }
+  const [threadsPagination, setThreadsPagination] = useState<
+    PaginationBody | undefined
+  >(latestThreadsPagination)
+
+  useEffect(() => {
+    const load = async () => {
+      if (threadsPagination === undefined) {
+        return
+      }
+
+      const response = await loadThreads(threadsPagination)
+      setThreadsPagination(response.payload)
+    }
+    load()
+  }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      loadThreads(latestThreadsPagination)
+    }, 10000)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
   const [messagesState, setMessagesState] = useState(MessagesState.List)
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
     findThreadBySearchParams(useURLSearchParams(), threads)

@@ -3,7 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import PurePhoneMessagesAdapter, {
+  GetThreadsResponse,
+} from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import {
   Message,
   MessageType,
@@ -22,13 +24,10 @@ import {
   MessagesCategory as PureMessagesCategory,
   MessageType as PureMessageType,
   Method,
+  PaginationBody,
   Thread as PureThread,
 } from "@mudita/pure"
 
-const initGetThreadsBody: GetThreadsBody = {
-  category: PureMessagesCategory.thread,
-  limit: 15,
-}
 const initGetMessagesBody: GetMessagesBody = {
   category: PureMessagesCategory.message,
   limit: 15,
@@ -45,8 +44,34 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     super()
   }
 
-  public getThreads(): Promise<DeviceResponse<Thread[]>> {
-    return this.loadAllThreadsInSingleRequest()
+  public async getThreads(
+    pagination: PaginationBody
+  ): Promise<DeviceResponse<GetThreadsResponse>> {
+    const body: GetThreadsBody = {
+      category: PureMessagesCategory.thread,
+      ...pagination,
+    }
+
+    const { status, data } = await this.deviceService.request({
+      body,
+      endpoint: Endpoint.Messages,
+      method: Method.Get,
+    })
+
+    if (status === DeviceResponseStatus.Ok && data?.entries !== undefined) {
+      return {
+        status: DeviceResponseStatus.Ok,
+        data: {
+          data: data.entries.map(PurePhoneMessages.mapToThreads),
+          nextPage: data.nextPage,
+        },
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Get messages by threadId: Something went wrong" },
+      }
+    }
   }
 
   public getMessagesByThreadId(
@@ -81,42 +106,6 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       return {
         status: DeviceResponseStatus.Error,
         error: { message: "Add message: Something went wrong" },
-      }
-    }
-  }
-
-  private async loadAllThreadsInSingleRequest(
-    pureThreads: PureThread[] = [],
-    body = initGetThreadsBody
-  ): Promise<DeviceResponse<Thread[]>> {
-    const { status, data } = await this.deviceService.request({
-      body,
-      endpoint: Endpoint.Messages,
-      method: Method.Get,
-    })
-
-    if (data?.nextPage !== undefined) {
-      return this.loadAllThreadsInSingleRequest(
-        [...pureThreads, ...data.entries],
-        {
-          ...initGetThreadsBody,
-          ...data.nextPage,
-        }
-      )
-    } else if (
-      status === DeviceResponseStatus.Ok &&
-      data?.entries !== undefined
-    ) {
-      return {
-        status: DeviceResponseStatus.Ok,
-        data: [...pureThreads, ...data.entries].map(
-          PurePhoneMessages.mapToThreads
-        ),
-      }
-    } else {
-      return {
-        status: DeviceResponseStatus.Error,
-        error: { message: "Get messages by threadId: Something went wrong" },
       }
     }
   }

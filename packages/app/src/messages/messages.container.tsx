@@ -20,7 +20,11 @@ import {
   markThreadsAsRead,
   toggleThreadsReadStatus,
 } from "App/messages/actions/base.action"
-import { addNewMessage, LoadMessagesById } from "App/messages/actions"
+import {
+  addNewMessage,
+  LoadMessagesById,
+  loadThreads,
+} from "App/messages/actions"
 import {
   filteredThreadsSelector,
   getMessagesByThreadIdSelector,
@@ -28,6 +32,8 @@ import {
   getReceiverSelector,
   getReceiversSelector,
 } from "App/messages/selectors"
+import { PaginationBody } from "@mudita/pure"
+import { PayloadAction } from "@reduxjs/toolkit"
 
 const selector = select(({ contacts }) => ({
   getContact: contacts.getContact,
@@ -51,6 +57,10 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  loadThreads: (
+    pagination: PaginationBody
+  ): Promise<PayloadAction<PaginationBody>> =>
+    dispatch(loadThreads(pagination)),
   changeSearchValue: ({ target }: ChangeEvent<HTMLInputElement>) =>
     dispatch(changeSearchValue(target.value)),
   changeVisibilityFilter: (filter: VisibilityFilter) =>
