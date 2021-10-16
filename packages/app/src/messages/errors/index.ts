@@ -3,5 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export * from "./add-new-message.action.error"
 export * from "./load-threads.error"
-export * from "./load-messages-by-id-error.error"
+export * from "./load-messages-by-id.error"

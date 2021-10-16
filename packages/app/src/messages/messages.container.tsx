@@ -13,8 +13,6 @@ import {
   NewMessage,
   VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
-import addMessage from "Renderer/requests/add-message.request"
-import logger from "App/main/utils/logger"
 import {
   changeSearchValue,
   changeVisibilityFilter,
@@ -22,7 +20,7 @@ import {
   markThreadsAsRead,
   toggleThreadsReadStatus,
 } from "App/messages/actions/base.action"
-import { LoadMessagesById } from "App/messages/actions"
+import { addNewMessage, LoadMessagesById } from "App/messages/actions"
 import {
   filteredThreadsSelector,
   getMessagesByThreadIdSelector,
@@ -63,25 +61,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(toggleThreadsReadStatus(threadIds)),
   loadMessagesByThreadId: (threadId: string) =>
     dispatch(LoadMessagesById(threadId)),
-  // TODO refactor legacy staff
-  addNewMessage: async (
-    newMessage: NewMessage
-  ): Promise<Message | undefined> => {
-    const { data, error } = await addMessage(newMessage)
-    if (error || !data) {
-      logger.error(
-        `Messages: editing new message throw error. Data: ${JSON.stringify(
-          error
-        )}`
-      )
-      return undefined
-    } else {
-      // await messages.loadData()
-      // await messages.loadMessagesByThreadId(data.threadId)
-      return data
-    }
-  },
+  addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
+    dispatch(addNewMessage(newMessage)),
 })
 
-// @ts-ignore
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

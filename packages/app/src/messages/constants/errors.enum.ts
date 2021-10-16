@@ -6,4 +6,5 @@
 export enum MessagesError {
   LoadThreads = "LOAD_THREADS_DATA_ERROR",
   LoadMessagesById = "LOAD_MESSAGES_DATA_BY_ID_ERROR",
+  AddNewMessage = "ADD_NEW_MESSAGE_ERROR",
 }

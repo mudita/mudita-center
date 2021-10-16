@@ -11,6 +11,7 @@ export enum MessagesEvent {
   DeleteThreads = "DELETE_THREADS",
   SetThreads = "SET_THREADS",
   SetMessages = "SET_MESSAGES",
+  AddNewMessage = "ADD_NEW_MESSAGE",
   DevClearAllThreads = "DEV_CLEAR_ALL_THREADS",
 
   // TODO: move to UI? :think:
