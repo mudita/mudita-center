@@ -12,7 +12,7 @@ import { PhoneContacts } from "App/contacts/store/contacts.interface"
 import {
   mapContactsToReceivers,
   mapThreadsToReceivers,
-} from "App/messages/store/threads.helpers"
+} from "App/messages/helpers/threads.helpers"
 
 export const getReceiversSelector = createSelector<
   ReduxRootState,

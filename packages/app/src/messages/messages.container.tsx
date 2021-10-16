@@ -7,7 +7,7 @@ import { ChangeEvent } from "react"
 import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
 import Messages from "App/messages/components/messages/messages.component"
-import { ReduxRootState, TmpDispatch } from "Renderer/store"
+import { ReduxRootState, TmpDispatch, select } from "Renderer/store"
 import {
   Message,
   NewMessage,
@@ -27,30 +27,29 @@ import {
   filteredThreadsSelector,
   getMessagesByThreadIdSelector,
   getMessagesResultMapStateByThreadIdSelector,
+  getReceiverSelector,
   getReceiversSelector,
 } from "App/messages/selectors"
 
+const selector = select(({ contacts }) => ({
+  getContact: contacts.getContact,
+  getContactByPhoneNumber: contacts.getContactByPhoneNumber,
+  attachContactList: contacts.contactList,
+  attachContactFlatList: contacts.flatList,
+  isContactCreated: contacts.isContactCreated,
+}))
+
 const mapStateToProps = (state: RootModel & ReduxRootState) => ({
-  // ...state.messages,
+  ...selector(state, {}),
   ...state.settings,
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
-  // receivers: messages.getReceivers,
-  getReceiver: getReceiversSelector(state),
+  getReceiver: (contactId: string, phoneNumber: string) =>
+    getReceiverSelector(contactId, phoneNumber)(state),
   getMessagesByThreadId: (threadId: string) =>
     getMessagesByThreadIdSelector(threadId)(state),
   getMessagesResultMapStateByThreadId: (threadId: string) =>
     getMessagesResultMapStateByThreadIdSelector(threadId)(state),
-  // @ts-ignore
-  getContact: state.contacts.getContact,
-  // @ts-ignore
-  getContactByPhoneNumber: state.contacts.getContactByPhoneNumber,
-  // @ts-ignore
-  attachContactList: state.contacts.contactList,
-  // @ts-ignore
-  attachContactFlatList: state.contacts.flatList,
-  // @ts-ignore
-  isContactCreated: state.contacts.isContactCreated,
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({

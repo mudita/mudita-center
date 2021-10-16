@@ -29,7 +29,7 @@ import {
   searchThreads,
   sortMessages,
   sortThreads,
-} from "App/messages/store/threads.helpers"
+} from "App/messages/helpers/threads.helpers"
 
 export const initialState: MessagesState = {
   threadMap: {},

@@ -84,7 +84,14 @@ export type LoadThreadsRejectAction = PayloadAction<
 
 export type LoadMessagesByIdRejectAction = PayloadAction<
   LoadMessagesByIdError,
-  MessagesEvent.LoadMessagesById
+  MessagesEvent.LoadMessagesById,
+  { arg: string }
+>
+
+export type LoadMessagesByIdStatusAction = PayloadAction<
+  undefined,
+  MessagesEvent.LoadMessagesById,
+  { arg: string }
 >
 
 export type ToggleThreadReadStatusAction = PayloadAction<
@@ -110,4 +117,11 @@ export type ChangeVisibilityFilterAction = PayloadAction<
 export type ChangeSearchValueAction = PayloadAction<
   string,
   MessagesEvent.ChangeSearchValue
+>
+
+export type SetThreadsAction = PayloadAction<Thread[], MessagesEvent.SetThreads>
+
+export type SetMessagesAction = PayloadAction<
+  Message[],
+  MessagesEvent.SetMessages
 >

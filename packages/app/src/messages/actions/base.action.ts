@@ -5,7 +5,7 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
-import { MessagesState } from "App/messages/reducers"
+import { Message, MessagesState, Thread } from "App/messages/reducers"
 
 export const toggleThreadsReadStatus = createAction<string[]>(
   MessagesEvent.ToggleThreadReadStatus
@@ -24,3 +24,9 @@ export const changeVisibilityFilter = createAction<
 export const changeSearchValue = createAction<string>(
   MessagesEvent.ChangeSearchValue
 )
+
+export const setThreads = createAction<Thread[]>(MessagesEvent.SetThreads)
+
+export const setMessages = createAction<Message[]>(MessagesEvent.SetMessages)
+
+export const devClearAllThreads = createAction(MessagesEvent.DevClearAllThreads)

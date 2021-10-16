@@ -15,6 +15,8 @@ import importDeviceLogFiles from "Renderer/requests/import-device-log-files.requ
 import { remote } from "electron"
 import { name } from "../../package.json"
 import importDeviceCrashDumpFiles from "Renderer/requests/import-device-crash-dumps-files.request"
+import { loadThreads } from "App/messages/actions"
+import { devClearAllThreads } from "App/messages/actions/base.action"
 
 const filePath = `${remote.app.getPath("appData")}/${name}/pure-logs`
 
@@ -51,11 +53,11 @@ const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Messages", [
     {
       label: "Load default threads",
-      click: () => store.dispatch.messages.loadData(),
+      click: () => store.dispatch(loadThreads()),
     },
     {
       label: "Clear all threads",
-      click: () => store.dispatch.messages._devClearAllThreads(),
+      click: () => store.dispatch(devClearAllThreads()),
     },
   ])
 

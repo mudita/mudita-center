@@ -12,7 +12,7 @@ import {
   filterThreads,
   searchThreads,
   sortThreads,
-} from "App/messages/store/threads.helpers"
+} from "App/messages/helpers/threads.helpers"
 import { searchValueSelector } from "App/messages/selectors/search-value.selector"
 import { PhoneContacts } from "App/contacts/store/contacts.interface"
 import { visibilityFilterSelector } from "App/messages/selectors/visibility-filter.selector"

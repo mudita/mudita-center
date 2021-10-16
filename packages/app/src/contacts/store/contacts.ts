@@ -194,7 +194,11 @@ const contacts = createModel<RootModel>({
     },
     getContact() {
       return slice((state) => {
-        return (id: ContactID) => state.db[id]
+        return (id: ContactID) => {
+          console.log("getContact -> id: ", id)
+          console.log("getContact -> state.db: ", state.db)
+          return state.db[id]
+        }
       })
     },
     getContactByPhoneNumber(models: StoreSelectors<PhoneContacts>) {
