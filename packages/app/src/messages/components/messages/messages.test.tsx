@@ -83,7 +83,7 @@ const defaultProps: Props = {
   receivers: [receiver],
   searchValue: "",
   language: "en",
-  loadThreads: jest.fn(),
+  loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
   getReceiver: jest.fn().mockReturnValue(receiver),
   getContactByPhoneNumber: jest.fn(),
   addNewMessage: jest.fn(),
@@ -93,7 +93,7 @@ const defaultProps: Props = {
   loadMessagesByThreadId: jest.fn(),
   isContactCreated: jest.fn(),
   attachContactList: [],
-  attachContactFlatList: [contact]
+  attachContactFlatList: [contact],
 }
 
 type callback = (outcome: RenderResult) => void

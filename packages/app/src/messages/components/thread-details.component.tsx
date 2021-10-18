@@ -56,7 +56,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
         {resultState === ResultState.Error && (
           <ThreadDetailsError onClick={onLoadMessagesClick} />
         )}
-        {/* TODO: provide loading state */}
+        {/* TODO: Add loading state as part of pagination task CP-741 */}
         {/*{resultState === ResultState.Loading && <ThreadDetailsLoading />}*/}
         {(resultState === ResultState.Loaded ||
           resultState === ResultState.Loading) && (

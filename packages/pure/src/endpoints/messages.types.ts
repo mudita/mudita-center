@@ -42,6 +42,7 @@ export enum MessageType {
 }
 
 export interface Message {
+  // TODO: to fix?
   contactID: number
   messageBody: string
   messageID: number
