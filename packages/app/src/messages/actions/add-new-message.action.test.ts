@@ -9,7 +9,7 @@ import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "Renderer/store"
 import { MessagesEvent } from "App/messages/constants"
 import { testError } from "Renderer/store/constants"
-import { LoadBackupDataError } from "App/backup/errors"
+import { AddNewMessageError } from "App/messages/errors"
 import addMessage from "Renderer/requests/add-message.request"
 import DeviceResponse, {
   DeviceResponseStatus,
@@ -96,7 +96,7 @@ describe("async `addNewMessage` ", () => {
   describe("when `addMessage` request return error", () => {
     test("fire async `addNewMessage` returns `rejected` action", async () => {
       ;(addMessage as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new LoadBackupDataError(
+      const errorMock = new AddNewMessageError(
         "Add New Message request failed"
       )
       const mockStore = createMockStore([thunk])()
