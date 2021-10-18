@@ -14,7 +14,7 @@ import {
   pendingAction,
   rejectedAction,
 } from "Renderer/store/helpers"
-import { ResultState, Thread } from "App/messages/reducers/messages.interface"
+import { Message, MessageType, ResultState, Thread } from "App/messages/reducers/messages.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
 
 test("empty event returns initial state", () => {
@@ -114,7 +114,7 @@ describe("Set Threads data functionality", () => {
   const thread: Thread = {
     id: "1",
     phoneNumber: "+48 755 853 216",
-    contactId: "1",
+    contactId: "A1",
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -181,6 +181,90 @@ describe("Set Threads data functionality", () => {
         [thread.id]: thread,
         [setThreadsAction.payload[0].id]: setThreadsAction.payload[0],
       },
+    })
+  })
+})
+
+
+describe("Set Messages data functionality", () => {
+  const message: Message = {
+    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+    date: new Date("2019-10-18T11:27:15.256Z"),
+    content:
+      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+    threadId: "1",
+    phoneNumber: "+48 755 853 216",
+    contactId: "A1",
+    messageType: MessageType.INBOX,
+  }
+
+  test("Event: SetMessages set properly messageMap and messageIdsInThreadMap fields", () => {
+    const setMessagesAction: PayloadAction<Message[]> = {
+      type: MessagesEvent.SetMessages,
+      payload: [message],
+    }
+
+    expect(messagesReducer(undefined, setMessagesAction)).toEqual({
+      ...initialState,
+      messageMap: {
+        [message.id]: message,
+      },
+      messageIdsInThreadMap: {
+        [message.threadId]: [message.id]
+      }
+    })
+  })
+
+  test("Event: SetMessages replace properly an existing maps when messages received with the same `id`", () => {
+    const updatedMessage: Message = { ...message, content: "updated message" }
+    const setMessagesAction: PayloadAction<Message[]> = {
+      type: MessagesEvent.SetMessages,
+      payload: [updatedMessage],
+    }
+
+    expect(messagesReducer({
+      ...initialState,
+      messageMap: {
+        [message.id]: message,
+      },
+      messageIdsInThreadMap: {
+        [message.threadId]: [message.id]
+      }
+    }, setMessagesAction)).toEqual({
+      ...initialState,
+      messageMap: {
+        [message.id]: updatedMessage,
+      },
+      messageIdsInThreadMap: {
+        [message.threadId]: [message.id]
+      }
+    })
+  })
+
+  test("Event: SetMessages extends properly an existing maps when new message are loaded ", () => {
+    const newMessage: Message = { ...message, id: "2" }
+    const setMessagesAction: PayloadAction<Message[]> = {
+      type: MessagesEvent.SetMessages,
+      payload: [newMessage],
+    }
+
+    expect(messagesReducer({
+      ...initialState,
+      messageMap: {
+        [message.id]: message,
+      },
+      messageIdsInThreadMap: {
+        [message.threadId]: [message.id]
+      }
+    }, setMessagesAction)).toEqual({
+      ...initialState,
+      messageMap: {
+        [message.id]: message,
+        [newMessage.id]: newMessage,
+      },
+      messageIdsInThreadMap: {
+        [message.threadId]: [message.id, newMessage.id]
+      }
     })
   })
 })
