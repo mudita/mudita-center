@@ -111,12 +111,13 @@ export const messagesReducer = createReducer<MessagesState>(
 
       .addCase(MessagesEvent.SetThreads, (state, action: SetThreadsAction) => {
         const threads = action.payload
+        const threadMap: ThreadMap = { ...state.threadMap }
         return {
           ...state,
           threadMap: threads.reduce((prevThreadMap, thread) => {
             prevThreadMap[thread.id] = thread
             return prevThreadMap
-          }, {} as ThreadMap),
+          }, threadMap),
         }
       })
 
