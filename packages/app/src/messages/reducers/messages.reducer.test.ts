@@ -4,8 +4,8 @@
  */
 
 import {
-  messagesReducer,
   initialState,
+  messagesReducer,
 } from "App/messages/reducers/messages.reducer"
 import { MessagesEvent } from "App/messages/constants"
 import { LoadMessagesByIdError, LoadThreadsError } from "App/messages/errors"
@@ -16,9 +16,11 @@ import {
 } from "Renderer/store/helpers"
 import {
   Message,
+  MessagesState,
   MessageType,
   ResultState,
   Thread,
+  VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
 
@@ -295,7 +297,7 @@ describe("Toggle Thread Read Status data functionality", () => {
   }
 
   test("Event: ToggleThreadReadStatus update properly threadMap field", () => {
-    const setThreadsAction: PayloadAction<string[]> = {
+    const toggleThreadReadStatusAction: PayloadAction<string[]> = {
       type: MessagesEvent.ToggleThreadReadStatus,
       payload: [thread.id],
     }
@@ -308,7 +310,7 @@ describe("Toggle Thread Read Status data functionality", () => {
             [thread.id]: { ...thread, unread: true },
           },
         },
-        setThreadsAction
+        toggleThreadReadStatusAction
       )
     ).toEqual({
       ...initialState,
@@ -318,7 +320,6 @@ describe("Toggle Thread Read Status data functionality", () => {
     })
   })
 })
-
 
 describe("Mark Thread As Read data functionality", () => {
   const thread: Thread = {
@@ -332,7 +333,7 @@ describe("Mark Thread As Read data functionality", () => {
   }
 
   test("Event: MarkThreadAsRead update properly threadMap field", () => {
-    const setThreadsAction: PayloadAction<string[]> = {
+    const markThreadAsRead: PayloadAction<string[]> = {
       type: MessagesEvent.MarkThreadAsRead,
       payload: [thread.id],
     }
@@ -345,7 +346,7 @@ describe("Mark Thread As Read data functionality", () => {
             [thread.id]: { ...thread, unread: true },
           },
         },
-        setThreadsAction
+        markThreadAsRead
       )
     ).toEqual({
       ...initialState,
@@ -379,44 +380,54 @@ describe("Delete Threads data functionality", () => {
   }
 
   test("Event: DeleteThreads update properly threadMap field", () => {
-    const setThreadsAction: PayloadAction<string[]> = {
+    const deleteThreadsAction: PayloadAction<string[]> = {
       type: MessagesEvent.DeleteThreads,
       payload: [thread.id],
     }
 
-    expect(messagesReducer(        {
-      ...initialState,
-      threadMap: {
-        [thread.id]: thread,
-      },
-    }, setThreadsAction)).toEqual({
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          threadMap: {
+            [thread.id]: thread,
+          },
+        },
+        deleteThreadsAction
+      )
+    ).toEqual({
       ...initialState,
       threadMap: {},
     })
   })
 
   test("Event: DeleteThreads update properly messageMap and messageIdsInThreadMap fields", () => {
-    const setThreadsAction: PayloadAction<string[]> = {
+    const deleteThreadsAction: PayloadAction<string[]> = {
       type: MessagesEvent.DeleteThreads,
       payload: [thread.id],
     }
 
-    expect(messagesReducer(        {
-      ...initialState,
-      threadMap: {
-        [thread.id]: thread,
-      },
-      messageMap: {
-        [message.id]: message,
-      },
-      messageIdsInThreadMap: {
-        [message.threadId]: [message.id],
-      },
-    }, setThreadsAction)).toEqual({
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          threadMap: {
+            [thread.id]: thread,
+          },
+          messageMap: {
+            [message.id]: message,
+          },
+          messageIdsInThreadMap: {
+            [message.threadId]: [message.id],
+          },
+        },
+        deleteThreadsAction
+      )
+    ).toEqual({
       ...initialState,
       threadMap: {},
       messageMap: {},
-      messageIdsInThreadMap: {}
+      messageIdsInThreadMap: {},
     })
   })
 
@@ -447,31 +458,112 @@ describe("Delete Threads data functionality", () => {
       payload: [toDeleteThread.id],
     }
 
-    expect(messagesReducer(        {
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          threadMap: {
+            [thread.id]: thread,
+            [toDeleteThread.id]: toDeleteThread,
+          },
+          messageMap: {
+            [message.id]: message,
+            [toDeleteMessage.id]: toDeleteMessage,
+          },
+          messageIdsInThreadMap: {
+            [message.threadId]: [message.id],
+            [toDeleteMessage.threadId]: [toDeleteMessage.id],
+          },
+        },
+        setThreadsAction
+      )
+    ).toEqual({
       ...initialState,
       threadMap: {
         [thread.id]: thread,
-        [toDeleteThread.id]: toDeleteThread,
       },
       messageMap: {
         [message.id]: message,
-        [toDeleteMessage.id]: toDeleteMessage,
       },
       messageIdsInThreadMap: {
         [message.threadId]: [message.id],
-        [toDeleteMessage.threadId]: [toDeleteMessage.id],
       },
-    }, setThreadsAction)).toEqual({
+    })
+  })
+})
+
+describe("Change Visibility Filter data functionality", () => {
+  test("Event: ChangeVisibilityFilter set properly visibilityFilter field", () => {
+    const setThreadsAction: PayloadAction<MessagesState["visibilityFilter"]> = {
+      type: MessagesEvent.ChangeVisibilityFilter,
+      payload: VisibilityFilter.All,
+    }
+
+    expect(messagesReducer(undefined, setThreadsAction)).toEqual({
       ...initialState,
-      threadMap: {
-        [thread.id]: thread,
-      },
-      messageMap: {
-        [message.id]: message,
-      },
-      messageIdsInThreadMap: {
-        [message.threadId]: [message.id],
-      },
+      visibilityFilter: VisibilityFilter.All,
+    })
+  })
+})
+
+describe("Change Visibility Filter data functionality", () => {
+  test("Event: ChangeSearchValue set properly searchValue field", () => {
+    const setThreadsAction: PayloadAction<string> = {
+      type: MessagesEvent.ChangeSearchValue,
+      payload: "search value",
+    }
+
+    expect(messagesReducer(undefined, setThreadsAction)).toEqual({
+      ...initialState,
+      searchValue: "search value",
+    })
+  })
+})
+
+describe("Dev Clear All Threads data functionality", () => {
+  const thread: Thread = {
+    id: "1",
+    phoneNumber: "+48 755 853 216",
+    contactId: "A1",
+    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+    messageSnippet:
+      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+    unread: true,
+  }
+
+  const message: Message = {
+    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+    date: new Date("2019-10-18T11:27:15.256Z"),
+    content:
+      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+    threadId: "1",
+    phoneNumber: "+48 755 853 216",
+    contactId: "A1",
+    messageType: MessageType.INBOX,
+  }
+
+  test("Event: DevClearAllThreads clear properly threadMap, messageMap and messageIdsInThreadMap fields", () => {
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          threadMap: {
+            [thread.id]: thread,
+          },
+          messageMap: {
+            [message.id]: message,
+          },
+          messageIdsInThreadMap: {
+            [message.threadId]: [message.id],
+          },
+        },
+        { type: MessagesEvent.DevClearAllThreads }
+      )
+    ).toEqual({
+      ...initialState,
+      threadMap: {},
+      messageMap: {},
+      messageIdsInThreadMap: {},
     })
   })
 })
