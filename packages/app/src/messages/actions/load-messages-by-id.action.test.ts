@@ -17,7 +17,7 @@ import {
   GetMessagesBody,
   GetMessagesByThreadIdResponse,
 } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
-import { AddNewMessageError } from "App/messages/errors"
+import { LoadMessagesByIdError } from "App/messages/errors"
 import { Message, MessageType } from "App/messages/reducers"
 
 jest.mock("Renderer/requests/get-messages-by-thread-id.request")
@@ -86,7 +86,7 @@ describe("async `loadMessagesById` ", () => {
   describe("when `getMessagesByThreadId` request return error", () => {
     test("fire async `loadMessagesById` returns `rejected` action", async () => {
       ;(getMessagesByThreadId as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new AddNewMessageError("Load Messages By Id request failed")
+      const errorMock = new LoadMessagesByIdError("Load Messages By Id request failed")
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },

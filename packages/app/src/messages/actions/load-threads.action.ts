@@ -19,7 +19,7 @@ export const loadThreads = createAsyncThunk<
     const { data, error } = await getThreads(pagination)
 
     if (error || data === undefined) {
-      return rejectWithValue(new LoadThreadsError(""))
+      return rejectWithValue(new LoadThreadsError("Get Threads request failed"))
     }
 
     dispatch(setThreads(data.data))
