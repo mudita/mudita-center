@@ -5,10 +5,9 @@
 
 import { connect } from "react-redux"
 import { ReduxRootState } from "Renderer/store"
-import { RootModel } from "Renderer/models/models"
 import Help from "Renderer/modules/help/help.component"
 
-const mapStateToProps = (state: RootModel & ReduxRootState) => {
+const mapStateToProps = (state: ReduxRootState) => {
   return {
     serialNumber: state.device.data?.serialNumber,
   }
