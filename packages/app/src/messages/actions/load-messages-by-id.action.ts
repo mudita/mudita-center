@@ -11,7 +11,7 @@ import { setMessages } from "App/messages/actions/base.action"
 import { LoadMessagesByIdError } from "App/messages/errors"
 import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 
-export const LoadMessagesById = createAsyncThunk<
+export const loadMessagesById = createAsyncThunk<
   PaginationBody | undefined,
   GetMessagesBody
 >(

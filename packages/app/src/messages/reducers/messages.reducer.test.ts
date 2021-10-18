@@ -70,7 +70,7 @@ describe("Load Threads data functionality", () => {
 describe("Load Messages By Id data functionality", () => {
   const threadId = "1"
 
-  test("Event: LoadMessagesById/pending change one of properties in `messagesStateMap` to Loading", () => {
+  test("Event: loadMessagesById/pending change one of properties in `messagesStateMap` to Loading", () => {
     expect(
       messagesReducer(undefined, {
         type: pendingAction(MessagesEvent.LoadMessagesById),
@@ -84,7 +84,7 @@ describe("Load Messages By Id data functionality", () => {
     })
   })
 
-  test("Event: LoadMessagesById/fulfilled change one of properties in `messagesStateMap` to Loaded", () => {
+  test("Event: loadMessagesById/fulfilled change one of properties in `messagesStateMap` to Loaded", () => {
     expect(
       messagesReducer(undefined, {
         type: fulfilledAction(MessagesEvent.LoadMessagesById),
@@ -98,7 +98,7 @@ describe("Load Messages By Id data functionality", () => {
     })
   })
 
-  test("Event: LoadMessagesById/rejected change one of properties in `messagesStateMap` to Error", () => {
+  test("Event: loadMessagesById/rejected change one of properties in `messagesStateMap` to Error", () => {
     const errorMock = new LoadMessagesByIdError("I'm error")
 
     expect(

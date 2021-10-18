@@ -22,7 +22,7 @@ import {
 } from "App/messages/actions/base.action"
 import {
   addNewMessage,
-  LoadMessagesById,
+  loadMessagesById,
   loadThreads,
 } from "App/messages/actions"
 import {
@@ -71,7 +71,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   toggleReadStatus: (threadIds: string[]) =>
     dispatch(toggleThreadsReadStatus(threadIds)),
   loadMessagesByThreadId: (body: GetMessagesBody) =>
-    dispatch(LoadMessagesById(body)),
+    dispatch(loadMessagesById(body)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
     dispatch(addNewMessage(newMessage)),
 })
