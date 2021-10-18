@@ -128,15 +128,6 @@ const Messages: FunctionComponent<Props> = ({
     load()
   }, [])
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      loadThreads(latestThreadsPagination)
-    }, 10000)
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
-
   const [messagesState, setMessagesState] = useState(MessagesState.List)
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
     findThreadBySearchParams(useURLSearchParams(), threads)
@@ -159,6 +150,11 @@ const Messages: FunctionComponent<Props> = ({
           threadId: activeThread.id,
           ...latestMessagesPagination,
         })
+        loadThreads(latestThreadsPagination)
+      }, 10000)
+    } else {
+      interval = setInterval(() => {
+        loadThreads(latestThreadsPagination)
       }, 10000)
     }
 
