@@ -133,8 +133,8 @@ test("store returns initial state", () => {
       "messages": Object {
         "messageIdsInThreadMap": Object {},
         "messageMap": Object {},
-        "messagesResultStateMap": Object {},
-        "resultState": 2,
+        "messagesStateMap": Object {},
+        "threadsState": 2,
         "searchValue": "",
         "threadMap": Object {},
         "visibilityFilter": "all",
@@ -185,13 +185,13 @@ test("threads and messages are cleared properly", () => {
 })
 
 test("starts with an empty result state", () => {
-  expect(store.getState().messages.resultState).toBe(ResultState.Empty)
+  expect(store.getState().messages.threadsState).toBe(ResultState.Empty)
 })
 
 test("loading threads data sets result state to loaded", async () => {
   await store.dispatch.messages.loadData()
   expect(getThreads).toHaveBeenCalled()
-  expect(store.getState().messages.resultState).toBe(ResultState.Loaded)
+  expect(store.getState().messages.threadsState).toBe(ResultState.Loaded)
 })
 
 test("threads will only load once when they are already loaded", async () => {
@@ -217,13 +217,13 @@ test("loaded data is saved in store properly", async () => {
 test("sets the result state to error when threads loading fails", async () => {
   ;(getThreads as Mock).mockReturnValue({ error: new Error("failed") })
   await store.dispatch.messages.loadData()
-  expect(store.getState().messages.resultState).toBe(ResultState.Error)
+  expect(store.getState().messages.threadsState).toBe(ResultState.Error)
 })
 
 test("sets the result state to loaded when messages are loaded", async () => {
   await store.dispatch.messages.loadMessagesByThreadId("1")
   expect(getMessagesByThreadId).toHaveBeenCalled()
-  expect(store.getState().messages.messagesResultStateMap["1"]).toBe(
+  expect(store.getState().messages.messagesStateMap["1"]).toBe(
     ResultState.Loaded
   )
 })
@@ -254,7 +254,7 @@ test("sets the error result when loading messages fails", async () => {
     error: new Error("failed"),
   })
   await store.dispatch.messages.loadMessagesByThreadId("1")
-  expect(store.getState().messages.messagesResultStateMap["1"]).toBe(
+  expect(store.getState().messages.messagesStateMap["1"]).toBe(
     ResultState.Error
   )
 })
@@ -380,9 +380,9 @@ test("filtered threads selector return value properly", () => {
 test("get messages result map state by thread id selector return value properly", async () => {
   store.dispatch.messages.setThreadMap(mockThreads)
 
-  const getMessagesResultMapStateByThreadId =
-    store.select.messages.getMessagesResultMapStateByThreadId(store.getState())
-  expect(getMessagesResultMapStateByThreadId("1")).toBe(ResultState.Empty)
+  const getMessagesStateByThreadId =
+    store.select.messages.getMessagesStateByThreadId(store.getState())
+  expect(getMessagesStateByThreadId("1")).toBe(ResultState.Empty)
 })
 
 test("get messages by thread id selector return value properly", () => {

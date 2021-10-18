@@ -70,15 +70,15 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   attachContactFlatList: Contact[]
   loadThreads: (
     pagination: PaginationBody
-  ) => Promise<PayloadAction<PaginationBody>>
+  ) => Promise<PayloadAction<PaginationBody | undefined>>
   getMessagesByThreadId: (threadId: string) => Message[]
   getContact: (contactId: string) => Contact | undefined
   getReceiver: (contactId: string, phoneNumber: string) => Receiver
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   loadMessagesByThreadId: (
     body: GetMessagesBody
-  ) => Promise<PayloadAction<PaginationBody>>
-  getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
+  ) => Promise<PayloadAction<PaginationBody | undefined>>
+  getMessagesStateByThreadId: (threadId: string) => ResultState
   isContactCreated: (id: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<Message | undefined>
 }
@@ -98,7 +98,7 @@ const Messages: FunctionComponent<Props> = ({
   attachContactList,
   attachContactFlatList,
   loadMessagesByThreadId,
-  getMessagesResultMapStateByThreadId,
+  getMessagesStateByThreadId,
   getContactByPhoneNumber,
   isContactCreated,
   addNewMessage,
@@ -417,7 +417,7 @@ const Messages: FunctionComponent<Props> = ({
             content={content}
             receiver={getViewReceiver(activeThread)}
             messages={getMessagesByThreadId(activeThread.id)}
-            resultState={getMessagesResultMapStateByThreadId(activeThread.id)}
+            resultState={getMessagesStateByThreadId(activeThread.id)}
             contactCreated={isContactCreated(activeThread.contactId)}
             onLoadMessagesClick={handleLoadMessagesClick}
             onAttachContactClick={openAttachContactModal}

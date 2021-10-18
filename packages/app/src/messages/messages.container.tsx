@@ -28,7 +28,7 @@ import {
 import {
   filteredThreadsSelector,
   getMessagesByThreadIdSelector,
-  getMessagesResultMapStateByThreadIdSelector,
+  getMessagesStateByThreadIdSelector,
   getReceiverSelector,
   getReceiversSelector,
 } from "App/messages/selectors"
@@ -53,8 +53,8 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => ({
     getReceiverSelector(contactId, phoneNumber)(state),
   getMessagesByThreadId: (threadId: string) =>
     getMessagesByThreadIdSelector(threadId)(state),
-  getMessagesResultMapStateByThreadId: (threadId: string) =>
-    getMessagesResultMapStateByThreadIdSelector(threadId)(state),
+  getMessagesStateByThreadId: (threadId: string) =>
+    getMessagesStateByThreadIdSelector(threadId)(state),
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({

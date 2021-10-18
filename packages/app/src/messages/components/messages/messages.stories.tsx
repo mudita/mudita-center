@@ -25,6 +25,8 @@ import {
 import { action } from "@storybook/addon-actions"
 import history from "Renderer/routes/history"
 import { Router } from "react-router"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { PaginationBody } from "@mudita/pure"
 
 const promiseAction =
   (msg: string): ((...args: any[]) => Promise<any>) =>
@@ -132,7 +134,8 @@ export const attachContactListData: ContactCategory[] = [
 
 const getContact = () => attachContactFlatListData[0]
 const getMessagesByThreadId = () => rowMessages
-const loadMessagesByThreadId = () => rowMessages
+const loadData = (): Promise<PayloadAction<PaginationBody | undefined>> =>
+  Promise.resolve({ payload: undefined, type: "" })
 const getMessagesResultsMapStateByThreadId = () => ResultState.Loaded
 const isContactCreated = () => true
 
@@ -147,16 +150,14 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         attachContactFlatList={attachContactFlatListData}
         getContact={getContact}
         getMessagesByThreadId={getMessagesByThreadId}
-        getMessagesResultMapStateByThreadId={
-          getMessagesResultsMapStateByThreadId
-        }
+        getMessagesStateByThreadId={getMessagesResultsMapStateByThreadId}
         isContactCreated={isContactCreated}
-        loadMessagesByThreadId={loadMessagesByThreadId}
+        loadMessagesByThreadId={loadData}
         addNewMessage={promiseAction("Add New Message")}
         getContactByPhoneNumber={jest.fn()}
         getReceiver={jest.fn()}
         receivers={receivers}
-      />
+        loadThreads={loadData}/>
     </div>
   </Router>
 ))

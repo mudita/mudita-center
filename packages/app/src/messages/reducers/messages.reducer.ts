@@ -34,9 +34,10 @@ export const initialState: MessagesState = {
   messageMap: {},
   messageIdsInThreadMap: {},
   searchValue: "",
-  resultState: ResultState.Empty,
+  threadsState: ResultState.Empty,
   visibilityFilter: VisibilityFilter.All,
-  messagesResultStateMap: {},
+  messagesStateMap: {},
+  error: null
 }
 
 export const messagesReducer = createReducer<MessagesState>(
@@ -46,13 +47,13 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(pendingAction(MessagesEvent.LoadThreads), (state) => {
         return {
           ...state,
-          resultState: ResultState.Loading,
+          threadsState: ResultState.Loading,
         }
       })
       .addCase(fulfilledAction(MessagesEvent.LoadThreads), (state) => {
         return {
           ...state,
-          resultState: ResultState.Loaded,
+          threadsState: ResultState.Loaded,
           error: null,
         }
       })
@@ -61,7 +62,7 @@ export const messagesReducer = createReducer<MessagesState>(
         (state, action: LoadThreadsRejectAction) => {
           return {
             ...state,
-            resultState: ResultState.Error,
+            threadsState: ResultState.Error,
             error: action.payload,
           }
         }
@@ -73,8 +74,8 @@ export const messagesReducer = createReducer<MessagesState>(
           const { threadId } = action.meta.arg
           return {
             ...state,
-            messagesResultStateMap: {
-              ...state.messagesResultStateMap,
+            messagesStateMap: {
+              ...state.messagesStateMap,
               [threadId]: ResultState.Loading,
             },
           }
@@ -86,8 +87,8 @@ export const messagesReducer = createReducer<MessagesState>(
           const { threadId } = action.meta.arg
           return {
             ...state,
-            messagesResultStateMap: {
-              ...state.messagesResultStateMap,
+            messagesStateMap: {
+              ...state.messagesStateMap,
               [threadId]: ResultState.Loaded,
             },
           }
@@ -99,8 +100,8 @@ export const messagesReducer = createReducer<MessagesState>(
           const { threadId } = action.meta.arg
           return {
             ...state,
-            messagesResultStateMap: {
-              ...state.messagesResultStateMap,
+            messagesStateMap: {
+              ...state.messagesStateMap,
               [threadId]: ResultState.Error,
             },
             error: action.payload,

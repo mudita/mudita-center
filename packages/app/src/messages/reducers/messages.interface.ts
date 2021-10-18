@@ -62,8 +62,9 @@ export type MessagesState = Readonly<{
   messageIdsInThreadMap: MessageIdsInThreadMap
   searchValue: string
   visibilityFilter: VisibilityFilter
-  resultState: ResultState
-  messagesResultStateMap: { [id: string]: ResultState }
+  threadsState: ResultState
+  messagesStateMap: { [id: string]: ResultState }
+  error: Error | string | null
 }>
 
 export enum ReceiverIdentification {

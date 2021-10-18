@@ -5,7 +5,7 @@
 
 export * from "./filtered-threads.selector"
 export * from "./get-messages-by-thread-id.selector"
-export * from "./get-messages-result-map-state-by-thread-id.selector"
+export * from "./get-messages-state-by-thread-id.selector"
 export * from "./get-receiver.selector"
 export * from "./get-receivers.selector"
 export * from "./is-thread-opened.selector"
