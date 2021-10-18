@@ -3,9 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { messagesReducer, initialState } from "App/messages/reducers/messages.reducer"
+import {
+  messagesReducer,
+  initialState,
+} from "App/messages/reducers/messages.reducer"
 import { MessagesEvent } from "App/messages/constants"
-import { LoadThreadsError } from "App/messages/errors"
+import { LoadMessagesByIdError, LoadThreadsError } from "App/messages/errors"
 import {
   fulfilledAction,
   pendingAction,
@@ -51,6 +54,56 @@ describe("Load Threads data functionality", () => {
     ).toEqual({
       ...initialState,
       threadsState: ResultState.Error,
+      error: errorMock,
+    })
+  })
+})
+
+describe("Load Messages By Id data functionality", () => {
+  const threadId = "1"
+
+  test("Event: LoadMessagesById/pending change one of properties in `messagesStateMap` to Loading", () => {
+    expect(
+      messagesReducer(undefined, {
+        type: pendingAction(MessagesEvent.LoadMessagesById),
+        meta: { arg: { threadId } },
+      })
+    ).toEqual({
+      ...initialState,
+      messagesStateMap: {
+        [threadId]: ResultState.Loading,
+      }
+    })
+  })
+
+  test("Event: LoadMessagesById/fulfilled change one of properties in `messagesStateMap` to Loaded", () => {
+    expect(
+      messagesReducer(undefined, {
+        type: fulfilledAction(MessagesEvent.LoadMessagesById),
+        meta: { arg: { threadId } },
+      })
+    ).toEqual({
+      ...initialState,
+      messagesStateMap: {
+        [threadId]: ResultState.Loaded,
+      }
+    })
+  })
+
+  test("Event: LoadMessagesById/rejected change one of properties in `messagesStateMap` to Error", () => {
+    const errorMock = new LoadMessagesByIdError("I'm error")
+
+    expect(
+      messagesReducer(undefined, {
+        type: rejectedAction(MessagesEvent.LoadMessagesById),
+        meta: { arg: { threadId } },
+        payload: errorMock,
+      })
+    ).toEqual({
+      ...initialState,
+      messagesStateMap: {
+        [threadId]: ResultState.Error,
+      },
       error: errorMock,
     })
   })
