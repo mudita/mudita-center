@@ -318,3 +318,160 @@ describe("Toggle Thread Read Status data functionality", () => {
     })
   })
 })
+
+
+describe("Mark Thread As Read data functionality", () => {
+  const thread: Thread = {
+    id: "1",
+    phoneNumber: "+48 755 853 216",
+    contactId: "A1",
+    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+    messageSnippet:
+      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+    unread: true,
+  }
+
+  test("Event: MarkThreadAsRead update properly threadMap field", () => {
+    const setThreadsAction: PayloadAction<string[]> = {
+      type: MessagesEvent.MarkThreadAsRead,
+      payload: [thread.id],
+    }
+
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          threadMap: {
+            [thread.id]: { ...thread, unread: true },
+          },
+        },
+        setThreadsAction
+      )
+    ).toEqual({
+      ...initialState,
+      threadMap: {
+        [thread.id]: { ...thread, unread: false },
+      },
+    })
+  })
+})
+
+describe("Delete Threads data functionality", () => {
+  const thread: Thread = {
+    id: "1",
+    phoneNumber: "+48 755 853 216",
+    contactId: "A1",
+    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+    messageSnippet:
+      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+    unread: true,
+  }
+
+  const message: Message = {
+    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+    date: new Date("2019-10-18T11:27:15.256Z"),
+    content:
+      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+    threadId: "1",
+    phoneNumber: "+48 755 853 216",
+    contactId: "A1",
+    messageType: MessageType.INBOX,
+  }
+
+  test("Event: DeleteThreads update properly threadMap field", () => {
+    const setThreadsAction: PayloadAction<string[]> = {
+      type: MessagesEvent.DeleteThreads,
+      payload: [thread.id],
+    }
+
+    expect(messagesReducer(        {
+      ...initialState,
+      threadMap: {
+        [thread.id]: thread,
+      },
+    }, setThreadsAction)).toEqual({
+      ...initialState,
+      threadMap: {},
+    })
+  })
+
+  test("Event: DeleteThreads update properly messageMap and messageIdsInThreadMap fields", () => {
+    const setThreadsAction: PayloadAction<string[]> = {
+      type: MessagesEvent.DeleteThreads,
+      payload: [thread.id],
+    }
+
+    expect(messagesReducer(        {
+      ...initialState,
+      threadMap: {
+        [thread.id]: thread,
+      },
+      messageMap: {
+        [message.id]: message,
+      },
+      messageIdsInThreadMap: {
+        [message.threadId]: [message.id],
+      },
+    }, setThreadsAction)).toEqual({
+      ...initialState,
+      threadMap: {},
+      messageMap: {},
+      messageIdsInThreadMap: {}
+    })
+  })
+
+  test("Event: DeleteThreads update properly messageMap and messageIdsInThreadMap fields when exist more than one record", () => {
+    const toDeleteThread: Thread = {
+      id: "2",
+      phoneNumber: "+48 755 853 216",
+      contactId: "A1",
+      lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+      messageSnippet:
+        "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+      unread: true,
+    }
+
+    const toDeleteMessage: Message = {
+      id: "M1",
+      date: new Date("2019-10-18T11:27:15.256Z"),
+      content:
+        "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+      threadId: "2",
+      phoneNumber: "+48 755 853 216",
+      contactId: "A1",
+      messageType: MessageType.INBOX,
+    }
+
+    const setThreadsAction: PayloadAction<string[]> = {
+      type: MessagesEvent.DeleteThreads,
+      payload: [toDeleteThread.id],
+    }
+
+    expect(messagesReducer(        {
+      ...initialState,
+      threadMap: {
+        [thread.id]: thread,
+        [toDeleteThread.id]: toDeleteThread,
+      },
+      messageMap: {
+        [message.id]: message,
+        [toDeleteMessage.id]: toDeleteMessage,
+      },
+      messageIdsInThreadMap: {
+        [message.threadId]: [message.id],
+        [toDeleteMessage.threadId]: [toDeleteMessage.id],
+      },
+    }, setThreadsAction)).toEqual({
+      ...initialState,
+      threadMap: {
+        [thread.id]: thread,
+      },
+      messageMap: {
+        [message.id]: message,
+      },
+      messageIdsInThreadMap: {
+        [message.threadId]: [message.id],
+      },
+    })
+  })
+})
