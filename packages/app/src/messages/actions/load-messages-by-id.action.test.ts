@@ -6,6 +6,7 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
+import { Message, MessageType } from "App/messages/reducers"
 import { MessagesEvent } from "App/messages/constants"
 import { testError } from "Renderer/store/constants"
 import DeviceResponse, {
@@ -18,14 +19,12 @@ import {
   GetMessagesByThreadIdResponse,
 } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { LoadMessagesByIdError } from "App/messages/errors"
-import { Message, MessageType } from "App/messages/reducers"
-
-jest.mock("Renderer/requests/get-messages-by-thread-id.request")
+import { setMessages } from "App/messages/actions/base.action"
 
 const messages: Message[] = [
   {
     id: "6",
-    date: new Date(),
+    date: new Date("2021-10-19T10:42:27.431Z"),
     content: "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     contactId: "2",
     threadId: "1",
@@ -52,6 +51,24 @@ const getMessagesBody: GetMessagesBody = {
     offset: 0,
   },
 }
+
+jest.mock("Renderer/requests/get-messages-by-thread-id.request")
+jest.mock("App/messages/actions/base.action", () => ({
+  setMessages: jest.fn().mockReturnValue({
+    type: MessagesEvent.SetMessages,
+    payload: [
+      {
+        id: "6",
+        date: new Date("2021-10-19T10:42:27.431Z"),
+        content: "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+        contactId: "2",
+        threadId: "1",
+        phoneNumber: "+48500600700",
+        messageType: MessageType.OUTBOX,
+      },
+    ],
+  }),
+}))
 
 afterEach(() => {
   jest.resetAllMocks()
@@ -105,6 +122,7 @@ describe("async `loadMessagesById` ", () => {
       ])
 
       expect(getMessagesByThreadId).toHaveBeenCalled()
+      expect(setMessages).not.toHaveBeenCalled()
     })
   })
 })

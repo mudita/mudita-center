@@ -16,6 +16,8 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import { addNewMessage } from "App/messages/actions/add-new-message.action"
 import { Message, MessageType, NewMessage } from "App/messages/reducers"
+import { loadThreads } from "App/messages/actions/load-threads.action"
+import { loadMessagesById } from "App/messages/actions/load-messages-by-id.action"
 
 jest.mock("Renderer/requests/add-message.request")
 jest.mock("App/messages/actions/load-threads.action.ts", () => ({
@@ -90,6 +92,8 @@ describe("async `addNewMessage` ", () => {
       ])
 
       expect(addMessage).toHaveBeenCalled()
+      expect(loadThreads).toHaveBeenCalled()
+      expect(loadMessagesById).toHaveBeenCalled()
     })
   })
 
