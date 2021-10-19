@@ -111,10 +111,8 @@ const Help: FunctionComponent<HelpProps> = ({
     searchQuestion(event.target.value)
   }
   const [sendBugTicketRequest, sending] = useCreateBugTicket()
-  const [bugTicketSubject, setBugTicketSubject] = useState("")
 
   const openContactSupportModalFlow = () => {
-    setBugTicketSubject(`Error - help support`)
     setContactSupportOpenState(ContactSupportModalFlowState.Form)
   }
 
@@ -129,7 +127,7 @@ const Help: FunctionComponent<HelpProps> = ({
       email,
       description,
       serialNumber,
-      subject: bugTicketSubject,
+      subject: "Error - help support",
     })
     if (response.status === CreateBugTicketResponseStatus.Ok) {
       setContactSupportOpenState(ContactSupportModalFlowState.Success)
