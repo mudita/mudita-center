@@ -67,7 +67,7 @@ const SearchContainer = styled.div`
 
 const SearchInput = styled(InputText)`
   width: 27.5rem;
-  margin-right: 1.2rem;
+  margin-left: 1.2rem;
 `
 
 const QuestionsContainer = styled.div`
@@ -159,6 +159,13 @@ const Help: FunctionComponent<HelpProps> = ({
           data-testid={HelpComponentTestIds.Title}
         />
         <SearchContainer>
+          <ButtonComponent
+            displayStyle={DisplayStyle.IconOnly3}
+            Icon={Type.Support}
+            iconSize={IconSize.Small}
+            onClick={openContactSupportModalFlow}
+            data-testid={HelpComponentTestIds.SupportButton}
+          />
           <SearchInput
             type={"search"}
             label={intl.formatMessage({
@@ -168,13 +175,6 @@ const Help: FunctionComponent<HelpProps> = ({
             onChange={search}
             leadingIcons={[searchIcon]}
             value={searchValue}
-          />
-          <ButtonComponent
-            displayStyle={DisplayStyle.IconOnly3}
-            Icon={Type.Support}
-            iconSize={IconSize.Small}
-            onClick={openContactSupportModalFlow}
-            data-testid={HelpComponentTestIds.SupportButton}
           />
         </SearchContainer>
       </HelpPanel>
