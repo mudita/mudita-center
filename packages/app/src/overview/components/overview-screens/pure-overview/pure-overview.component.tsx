@@ -53,7 +53,7 @@ type Props = DeviceState["data"] &
     backups: BackupState["backups"]
     backupDeviceState: BackupDeviceState["state"]
     readBackupDeviceDataState: () => void
-    startBackupDevice: () => void
+    startBackupDevice: (secretKey: string) => void
     restoreDeviceState: RestoreDeviceState["state"]
     startRestoreDevice: (backup: Backup) => void
     readRestoreDeviceDataState: () => void
@@ -305,7 +305,9 @@ export const PureOverview: FunctionComponent<Props> = ({
         <BackupDeviceFlow
           openState={backupDeviceFlowState}
           pureOsBackupLocation={pureOsBackupLocation}
-          onStartBackupDeviceButtonClick={startBackupDevice}
+          onStartBackupDeviceButtonClick={() =>
+            startBackupDevice("MySuperSecretKey")
+          }
           closeModal={closeBackupDeviceFlowState}
           onSupportButtonClick={openContactSupportModalFlow}
         />

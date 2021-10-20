@@ -19,8 +19,9 @@ const defaultHashAlgorithm: HashAlgorithm = "sha256"
 type CipherAlgorithm = string
 const defaultCipherAlgorithm: CipherAlgorithm = "aes-256-ctr"
 
-interface Option extends Pick<HashOptions, "key" | "encoding"> {
-  buffer: NodeJS.ArrayBufferView
+export interface CryptoFileOption
+  extends Pick<HashOptions, "key" | "encoding"> {
+  buffer: Buffer
   cipherAlgorithm?: CipherAlgorithm
   hashAlgorithm?: HashAlgorithm
 }
@@ -38,7 +39,7 @@ class CryptoFileService {
     buffer,
     key,
     encoding,
-  }: Option): NodeJS.ArrayBufferView | undefined {
+  }: CryptoFileOption): Buffer | undefined {
     const hash = CryptoFileService.createHash({
       algorithm: hashAlgorithm,
       key,
@@ -59,11 +60,7 @@ class CryptoFileService {
     buffer,
     key,
     encoding,
-  }: Option): NodeJS.ArrayBufferView | undefined {
-    if (!("slice" in buffer)) {
-      return
-    }
-
+  }: CryptoFileOption): Buffer | undefined {
     const hash = CryptoFileService.createHash({
       algorithm: hashAlgorithm,
       key,

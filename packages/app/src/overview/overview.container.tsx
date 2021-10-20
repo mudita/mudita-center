@@ -54,7 +54,12 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   changeSim: (card: SimCard) => dispatch(changeSim(card)),
   setUpdateState: (state: UpdatingState) => dispatch(setUpdateState(state)),
   startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),
-  startBackupDevice: () => dispatch(startBackupDevice()),
+  startBackupDevice: (secretKey: string) =>
+    dispatch(
+      startBackupDevice({
+        secretKey,
+      })
+    ),
   readBackupDeviceDataState: () => dispatch(readBackupDeviceDataState()),
   readRestoreDeviceDataState: () => dispatch(readRestoreDeviceDataState()),
   startRestoreDevice: (backup: Backup) => dispatch(startRestoreDevice(backup)),
