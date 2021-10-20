@@ -27,8 +27,7 @@ export const sendCrashDumpData = createAsyncThunk(
     }
 
     for await (const path of state.crashDump.data.downloadedFiles) {
-      const fileName = path.split("/")[0]
-
+      const fileName = path.split("/").pop()
       const buffer = await readFile({ file: path })
 
       if (buffer === undefined) {
@@ -38,7 +37,7 @@ export const sendCrashDumpData = createAsyncThunk(
       try {
         await uploadDataToFTPRequest({
           buffer,
-          fileName: fileName,
+          fileName: String(fileName),
           serialNumber: state.device.data.serialNumber,
         })
 
