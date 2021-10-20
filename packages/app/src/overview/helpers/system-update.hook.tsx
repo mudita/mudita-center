@@ -125,7 +125,7 @@ const useSystemUpdateFlow = (
     const { date, version, prerelease } = releaseToInstall as Release
     const action = async () => {
       await modalService.closeModal()
-      install ? updatePure() : downloadUpdate(releaseToInstall)
+      install ? updatePure(releaseToInstall) : downloadUpdate(releaseToInstall)
     }
 
     return modalService.openModal(
@@ -215,12 +215,14 @@ const useSystemUpdateFlow = (
 
         setDevReleases(allReleases)
 
+        if (latestRelease) {
+          setReleaseToInstall(latestRelease)
+        }
+
         if (
           latestRelease &&
           !isVersionGreater(osVersion, latestRelease.version)
         ) {
-          setReleaseToInstall(latestRelease)
-
           onUpdate({
             lastAvailableOsVersion: latestRelease.version,
             pureOsFileUrl: latestRelease.file.url,
@@ -250,9 +252,9 @@ const useSystemUpdateFlow = (
   }
 
   // Download update
-  const openDownloadSucceededModal = () => {
+  const openDownloadSucceededModal = (release?: Release) => {
     return modalService.openModal(
-      <DownloadingUpdateFinishedModal onOsUpdate={updatePure} />,
+      <DownloadingUpdateFinishedModal onOsUpdate={() => updatePure(release)} />,
       true
     )
   }
@@ -276,32 +278,42 @@ const useSystemUpdateFlow = (
     modalService.preventClosingModal()
   }
 
-  const downloadUpdate = async (release?: Release) => {
-    const r =
-      release === undefined || release.version === undefined
+  const downloadUpdate = async (releaseInstance?: Release) => {
+    const release =
+      releaseInstance === undefined || releaseInstance.version === undefined
         ? releaseToInstall
-        : release
+        : releaseInstance
     try {
       await openDownloadingUpdateModal()
-      await delayResponse(downloadOsUpdateRequest(r?.file.url as string))
-      if (r?.devMode) {
+      await delayResponse(downloadOsUpdateRequest(release?.file.url as string))
+      if (release?.devMode) {
         openDevModal(true)
       } else {
         onUpdate({ pureOsDownloaded: true })
-        await openDownloadSucceededModal()
+        await openDownloadSucceededModal(release)
       }
     } catch (error) {
       if (error.status === DownloadStatus.Cancelled) {
         await openDownloadCanceledModal()
       } else {
-        await openDownloadInterruptedModal(() => downloadUpdate(r))
+        await openDownloadInterruptedModal(() => downloadUpdate(release))
       }
     }
   }
 
   // Install update
-  const updatePure = async () => {
-    const { file, version } = releaseToInstall as Release
+  const updatePure = async (releaseInstance?: Release) => {
+    const release =
+      releaseInstance === undefined || releaseInstance.version === undefined
+        ? releaseToInstall
+        : releaseInstance
+
+    if (release === undefined) {
+      displayErrorModal()
+      return
+    }
+
+    const { file, version } = release
 
     modalService.openModal(<UpdatingSpinnerModal />, true)
 
