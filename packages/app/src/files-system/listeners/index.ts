@@ -3,7 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum IpcFilesSystem {
-  EncryptFile = "encrypt-file",
-  DecryptFile = "decrypt-file",
-}
+export * from "./decrypt-file-listener"
+export * from "./encrypt-file-listener"

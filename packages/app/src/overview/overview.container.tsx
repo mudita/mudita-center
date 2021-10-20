@@ -23,8 +23,8 @@ import { readBackupDeviceDataState } from "App/backup-device/actions/base.action
 import {
   readRestoreDeviceDataState,
   startRestoreDevice,
+  StartRestoreOption,
 } from "App/restore-device/actions"
-import { Backup } from "App/backup/reducers"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -62,7 +62,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     ),
   readBackupDeviceDataState: () => dispatch(readBackupDeviceDataState()),
   readRestoreDeviceDataState: () => dispatch(readRestoreDeviceDataState()),
-  startRestoreDevice: (backup: Backup) => dispatch(startRestoreDevice(backup)),
+  startRestoreDevice: (option: StartRestoreOption) =>
+    dispatch(startRestoreDevice(option)),
   // TODO refactor legacy staff
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
     dispatch.phoneUpdate.update(updateInfo),

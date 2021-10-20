@@ -9,7 +9,10 @@ import { AnyAction } from "@reduxjs/toolkit"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import { startRestoreDevice } from "App/restore-device/actions/start-restore-device.action"
+import {
+  startRestoreDevice,
+  StartRestoreOption,
+} from "App/restore-device/actions/start-restore-device.action"
 import { testError } from "Renderer/store/constants"
 import { StartRestoreDeviceError } from "App/restore-device/errors"
 import { Backup } from "App/backup/reducers"
@@ -18,8 +21,10 @@ import { DeviceState } from "App/device"
 import { StartBackupDeviceError } from "App/backup-device/errors"
 import uploadDeviceFileLocally from "Renderer/requests/upload-device-file-locally.request"
 import startRestoreDeviceRequest from "Renderer/requests/start-restore-device.request"
+import decryptFile from "App/files-system/requests/decrypt-file.request"
 import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers"
 
+jest.mock("App/files-system/requests/decrypt-file.request")
 jest.mock("Renderer/requests/upload-device-file-locally.request")
 jest.mock("Renderer/requests/start-restore-device.request")
 jest.mock("App/restore-device/helpers/wait-until-restore-device-finished")
@@ -37,6 +42,13 @@ const backup: Backup = {
   date: new Date(),
 }
 
+const option: StartRestoreOption = {
+  secretKey: "MySuperSecretKey",
+  backup,
+}
+
+const decryptedBuffer = Buffer.from("encrypted backup data")
+
 const mockStoreState: Partial<RootState & ReduxRootState> = {
   device: {
     data: {
@@ -52,7 +64,10 @@ afterEach(() => {
 describe("async `startRestoreDevice` ", () => {
   describe("when each request is success", () => {
     test("fire async `startRestoreDevice`", async () => {
-      ;(uploadDeviceFileLocally as jest.Mock).mockReturnValue(successDeviceResponse)
+      ;(decryptFile as jest.Mock).mockReturnValue(decryptedBuffer)
+      ;(uploadDeviceFileLocally as jest.Mock).mockReturnValue(
+        successDeviceResponse
+      )
       ;(startRestoreDeviceRequest as jest.Mock).mockReturnValue(
         successDeviceResponse
       )
@@ -63,14 +78,15 @@ describe("async `startRestoreDevice` ", () => {
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        startRestoreDevice(backup) as unknown as AnyAction
+        startRestoreDevice(option) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        startRestoreDevice.pending(requestId, backup),
-        startRestoreDevice.fulfilled(undefined, requestId, backup),
+        startRestoreDevice.pending(requestId, option),
+        startRestoreDevice.fulfilled(undefined, requestId, option),
       ])
 
+      expect(decryptFile).toHaveBeenCalled()
       expect(uploadDeviceFileLocally).toHaveBeenCalled()
       expect(startRestoreDeviceRequest).toHaveBeenCalled()
       expect(waitUntilRestoreDeviceFinished).toHaveBeenCalled()
@@ -93,14 +109,15 @@ describe("async `startRestoreDevice` ", () => {
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        startRestoreDevice(backup) as unknown as AnyAction
+        startRestoreDevice(option) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        startRestoreDevice.pending(requestId, backup),
-        startRestoreDevice.rejected(testError, requestId, backup, errorMock),
+        startRestoreDevice.pending(requestId, option),
+        startRestoreDevice.rejected(testError, requestId, option, errorMock),
       ])
 
+      expect(decryptFile).not.toHaveBeenCalled()
       expect(uploadDeviceFileLocally).not.toHaveBeenCalled()
       expect(startRestoreDeviceRequest).not.toHaveBeenCalled()
       expect(waitUntilRestoreDeviceFinished).not.toHaveBeenCalled()
@@ -109,22 +126,52 @@ describe("async `startRestoreDevice` ", () => {
 
   describe("when `uploadDeviceFile` return error", () => {
     test("fire async `startRestoreDevice` returns `rejected` action", async () => {
-      const errorMock = new StartRestoreDeviceError(
-        "Upload Backup File returns error"
+      const errorMock = new StartRestoreDeviceError("Decrypt buffer fails")
+      ;(decryptFile as jest.Mock).mockReturnValue(undefined)
+      ;(uploadDeviceFileLocally as jest.Mock).mockReturnValue(
+        errorDeviceResponse
       )
-      ;(uploadDeviceFileLocally as jest.Mock).mockReturnValue(errorDeviceResponse)
       const mockStore = createMockStore([thunk])(mockStoreState)
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        startRestoreDevice(backup) as unknown as AnyAction
+        startRestoreDevice(option) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        startRestoreDevice.pending(requestId, backup),
-        startRestoreDevice.rejected(testError, requestId, backup, errorMock),
+        startRestoreDevice.pending(requestId, option),
+        startRestoreDevice.rejected(testError, requestId, option, errorMock),
       ])
 
+      expect(decryptFile).toHaveBeenCalled()
+      expect(uploadDeviceFileLocally).not.toHaveBeenCalled()
+      expect(startRestoreDeviceRequest).not.toHaveBeenCalled()
+      expect(startRestoreDeviceRequest).not.toHaveBeenCalled()
+    })
+  })
+
+  describe("when `uploadDeviceFile` return error", () => {
+    test("fire async `startRestoreDevice` returns `rejected` action", async () => {
+      const errorMock = new StartRestoreDeviceError(
+        "Upload Backup File returns error"
+      )
+      ;(decryptFile as jest.Mock).mockReturnValue(decryptedBuffer)
+      ;(uploadDeviceFileLocally as jest.Mock).mockReturnValue(
+        errorDeviceResponse
+      )
+      const mockStore = createMockStore([thunk])(mockStoreState)
+      const {
+        meta: { requestId },
+      } = await mockStore.dispatch(
+        startRestoreDevice(option) as unknown as AnyAction
+      )
+
+      expect(mockStore.getActions()).toEqual([
+        startRestoreDevice.pending(requestId, option),
+        startRestoreDevice.rejected(testError, requestId, option, errorMock),
+      ])
+
+      expect(decryptFile).toHaveBeenCalled()
       expect(uploadDeviceFileLocally).toHaveBeenCalled()
       expect(startRestoreDeviceRequest).not.toHaveBeenCalled()
       expect(startRestoreDeviceRequest).not.toHaveBeenCalled()
@@ -136,7 +183,10 @@ describe("async `startRestoreDevice` ", () => {
       const errorMock = new StartRestoreDeviceError(
         "Start restore Device returns error"
       )
-      ;(uploadDeviceFileLocally as jest.Mock).mockReturnValue(successDeviceResponse)
+      ;(decryptFile as jest.Mock).mockReturnValue(decryptedBuffer)
+      ;(uploadDeviceFileLocally as jest.Mock).mockReturnValue(
+        successDeviceResponse
+      )
       ;(startRestoreDeviceRequest as jest.Mock).mockReturnValue(
         errorDeviceResponse
       )
@@ -144,14 +194,15 @@ describe("async `startRestoreDevice` ", () => {
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        startRestoreDevice(backup) as unknown as AnyAction
+        startRestoreDevice(option) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        startRestoreDevice.pending(requestId, backup),
-        startRestoreDevice.rejected(testError, requestId, backup, errorMock),
+        startRestoreDevice.pending(requestId, option),
+        startRestoreDevice.rejected(testError, requestId, option, errorMock),
       ])
 
+      expect(decryptFile).toHaveBeenCalled()
       expect(uploadDeviceFileLocally).toHaveBeenCalled()
       expect(startRestoreDeviceRequest).toHaveBeenCalled()
       expect(waitUntilRestoreDeviceFinished).not.toHaveBeenCalled()
@@ -163,7 +214,10 @@ describe("async `startRestoreDevice` ", () => {
       const errorMock = new StartRestoreDeviceError(
         "One of the getRestoreDeviceStatus requests returns error"
       )
-      ;(uploadDeviceFileLocally as jest.Mock).mockReturnValue(successDeviceResponse)
+      ;(decryptFile as jest.Mock).mockReturnValue(decryptedBuffer)
+      ;(uploadDeviceFileLocally as jest.Mock).mockReturnValue(
+        successDeviceResponse
+      )
       ;(startRestoreDeviceRequest as jest.Mock).mockReturnValue(
         successDeviceResponse
       )
@@ -174,14 +228,15 @@ describe("async `startRestoreDevice` ", () => {
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        startRestoreDevice(backup) as unknown as AnyAction
+        startRestoreDevice(option) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        startRestoreDevice.pending(requestId, backup),
-        startRestoreDevice.rejected(testError, requestId, backup, errorMock),
+        startRestoreDevice.pending(requestId, option),
+        startRestoreDevice.rejected(testError, requestId, option, errorMock),
       ])
 
+      expect(decryptFile).toHaveBeenCalled()
       expect(uploadDeviceFileLocally).toHaveBeenCalled()
       expect(startRestoreDeviceRequest).toHaveBeenCalled()
       expect(waitUntilRestoreDeviceFinished).toHaveBeenCalled()

@@ -107,19 +107,19 @@ export const startBackupDevice = createAsyncThunk<undefined, StartBackupOption>(
       )
     }
 
-    const bufferEncrypted = await encryptFile({
+    const encryptedBuffer = await encryptFile({
       buffer: downloadDeviceFileResponse.data!.data,
       key: secretKey,
     })
 
-    if (bufferEncrypted === undefined) {
+    if (encryptedBuffer === undefined) {
       return rejectWithValue(new StartBackupDeviceError("Encrypt buffer fails"))
     }
 
     const writeFileSuccess = await writeFile({
       fileName: backupId,
       filePath: pureOsBackupDesktopLocation,
-      data: bufferEncrypted,
+      data: encryptedBuffer,
     })
 
     if (!writeFileSuccess) {

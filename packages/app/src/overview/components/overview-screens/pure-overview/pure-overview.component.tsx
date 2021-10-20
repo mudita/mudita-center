@@ -36,7 +36,7 @@ import {
   BackupDeviceDataState,
   BackupDeviceState,
 } from "App/backup-device/reducers"
-import { Backup, BackupState } from "App/backup/reducers"
+import { BackupState } from "App/backup/reducers"
 import RestoreDeviceFlow, {
   RestoreDeviceFlowState,
 } from "App/overview/components/restore-device-flow/restore-device-flow.component"
@@ -45,6 +45,7 @@ import {
   RestoreDeviceState,
 } from "App/restore-device/reducers"
 import { DeviceType } from "@mudita/pure"
+import { StartRestoreOption } from "App/restore-device/actions"
 
 type Props = DeviceState["data"] &
   PhoneUpdateStore &
@@ -55,7 +56,7 @@ type Props = DeviceState["data"] &
     readBackupDeviceDataState: () => void
     startBackupDevice: (secretKey: string) => void
     restoreDeviceState: RestoreDeviceState["state"]
-    startRestoreDevice: (backup: Backup) => void
+    startRestoreDevice: (option: StartRestoreOption) => void
     readRestoreDeviceDataState: () => void
   }
 
@@ -316,7 +317,9 @@ export const PureOverview: FunctionComponent<Props> = ({
         <RestoreDeviceFlow
           openState={restoreDeviceFlowState}
           backups={backups}
-          onStartRestoreDeviceButtonClick={startRestoreDevice}
+          onStartRestoreDeviceButtonClick={(backup) =>
+            startRestoreDevice({ backup, secretKey: "MySuperSecretKey" })
+          }
           closeModal={closeRestoreDeviceFlowState}
           onSupportButtonClick={openContactSupportModalFlow}
         />
