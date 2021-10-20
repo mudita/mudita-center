@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ChangeEvent } from "react"
+import React, { ChangeEvent, useState } from "react"
 import { Link } from "react-router-dom"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -22,8 +22,19 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { NormalizedHelpEntry } from "Renderer/utils/contentful/normalize-help-data"
+import ButtonComponent from "Renderer/components/core/button/button.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import ContactSupportModalFlow, {
+  ContactSupportModalFlowState,
+} from "Renderer/components/rest/contact-support-modal/contact-support-modal-flow.component"
+import { CreateBugTicketResponseStatus } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
+import { ContactSupportFieldValues } from "Renderer/components/rest/contact-support-modal/contact-support-modal.component"
+import logger from "App/main/utils/logger"
+import useCreateBugTicket, {
+  files,
+} from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket"
 
 export interface QuestionAndAnswer {
   collection: string[]
@@ -34,6 +45,7 @@ interface HelpProps {
   list: QuestionAndAnswer
   searchQuestion: (value: string) => void
   searchValue?: string
+  serialNumber?: string
 }
 
 const HelpPanel = styled.div`
@@ -47,8 +59,15 @@ const HelpPanel = styled.div`
   z-index: ${zIndex("content")};
 `
 
+const SearchContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
 const SearchInput = styled(InputText)`
   width: 27.5rem;
+  margin-left: 1.2rem;
 `
 
 const QuestionsContainer = styled.div`
@@ -84,13 +103,50 @@ const Help: FunctionComponent<HelpProps> = ({
   list: { collection = [], items },
   searchQuestion,
   searchValue,
+  serialNumber,
 }) => {
+  const [contactSupportOpenState, setContactSupportOpenState] =
+    useState<ContactSupportModalFlowState>()
   const search = (event: ChangeEvent<HTMLInputElement>) => {
     searchQuestion(event.target.value)
   }
+  const [sendBugTicketRequest, sending] = useCreateBugTicket()
 
+  const openContactSupportModalFlow = () => {
+    setContactSupportOpenState(ContactSupportModalFlowState.Form)
+  }
+
+  const closeContactSupportModalFlow = () => {
+    setContactSupportOpenState(undefined)
+  }
+  const sendBugTicket = async ({
+    email,
+    description,
+  }: ContactSupportFieldValues) => {
+    const response = await sendBugTicketRequest({
+      email,
+      description,
+      serialNumber,
+      subject: "Error - help support",
+    })
+    if (response.status === CreateBugTicketResponseStatus.Ok) {
+      setContactSupportOpenState(ContactSupportModalFlowState.Success)
+    } else {
+      setContactSupportOpenState(ContactSupportModalFlowState.Fail)
+      logger.error(`Help: ${response.error?.message}`)
+    }
+  }
   return (
     <div data-testid={HelpComponentTestIds.Wrapper}>
+      {contactSupportOpenState && (
+        <ContactSupportModalFlow
+          openState={contactSupportOpenState}
+          files={files}
+          onSubmit={sendBugTicket}
+          sending={sending}
+          closeModal={closeContactSupportModalFlow}
+        />
+      )}
       <HelpPanel>
         <Text
           message={{
@@ -100,16 +156,25 @@ const Help: FunctionComponent<HelpProps> = ({
           displayStyle={TextDisplayStyle.SecondaryHeading}
           data-testid={HelpComponentTestIds.Title}
         />
-        <SearchInput
-          type={"search"}
-          label={intl.formatMessage({
-            id: "module.messages.search",
-          })}
-          outlined
-          onChange={search}
-          leadingIcons={[searchIcon]}
-          value={searchValue}
-        />
+        <SearchContainer>
+          <ButtonComponent
+            displayStyle={DisplayStyle.IconOnly3}
+            Icon={Type.Support}
+            iconSize={IconSize.Small}
+            onClick={openContactSupportModalFlow}
+            data-testid={HelpComponentTestIds.SupportButton}
+          />
+          <SearchInput
+            type={"search"}
+            label={intl.formatMessage({
+              id: "module.messages.search",
+            })}
+            outlined
+            onChange={search}
+            leadingIcons={[searchIcon]}
+            value={searchValue}
+          />
+        </SearchContainer>
       </HelpPanel>
       <QuestionsContainer>
         {collection
