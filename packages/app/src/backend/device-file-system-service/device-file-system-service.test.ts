@@ -227,7 +227,7 @@ test("upload file file handle properly chunks data", async () => {
     new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const filePath = path.join(__dirname, "./mock-file.txt")
-  const { status } = await deviceFileSystemService.uploadFile({
+  const { status } = await deviceFileSystemService.uploadFileLocally({
     filePath,
     targetPath: "/sys/user",
   })

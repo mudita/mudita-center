@@ -18,7 +18,7 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 import {
   DeviceFileDeprecated,
   DeviceFile,
-  UploadFilePayload,
+  UploadFileLocallyPayload,
 } from "Backend/device-file-system-service/device-file-system-service"
 
 export interface DeviceFilesOption {
@@ -67,7 +67,7 @@ export default abstract class PurePhoneAdapter {
   public abstract downloadDeviceFile(
     filePath: string
   ): Promise<DeviceResponse<DeviceFile>>
-  public abstract uploadDeviceFile(
-    payload: UploadFilePayload
+  public abstract uploadDeviceFileLocally(
+    payload: UploadFileLocallyPayload
   ): Promise<DeviceResponse>
 }

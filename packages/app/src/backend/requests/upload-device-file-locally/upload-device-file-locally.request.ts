@@ -7,18 +7,18 @@ import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { UploadFilePayload } from "Backend/device-file-system-service/device-file-system-service"
+import { UploadFileLocallyPayload } from "Backend/device-file-system-service/device-file-system-service"
 
-const handleUploadDeviceFile = async (
+const handleUploadDeviceFileLocally = async (
   { purePhone }: Adapters,
-  payload: UploadFilePayload
+  payload: UploadFileLocallyPayload
 ): Promise<DeviceResponse> => {
-  return purePhone.uploadDeviceFile(payload)
+  return purePhone.uploadDeviceFileLocally(payload)
 }
 
-const registerUploadDeviceFileRequest = createEndpoint({
-  name: IpcRequest.UploadDeviceFile,
-  handler: handleUploadDeviceFile,
+const registerUploadDeviceFileLocallyRequest = createEndpoint({
+  name: IpcRequest.UploadDeviceFileLocally,
+  handler: handleUploadDeviceFileLocally,
 })
 
-export default registerUploadDeviceFileRequest
+export default registerUploadDeviceFileLocallyRequest

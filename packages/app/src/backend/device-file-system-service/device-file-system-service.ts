@@ -26,7 +26,7 @@ export interface EncodedResponse {
   fileCrc32?: string
 }
 
-export interface UploadFilePayload {
+export interface UploadFileLocallyPayload {
   filePath: string
   targetPath: string
 }
@@ -138,17 +138,15 @@ class DeviceFileSystemService {
     }
   }
 
-  async uploadFile({
+  async uploadFileLocally({
     filePath,
     targetPath,
-  }: UploadFilePayload): Promise<DeviceResponse> {
+  }: UploadFileLocallyPayload): Promise<DeviceResponse> {
     try {
       const fileSize = fs.lstatSync(filePath).size
       const fileBuffer = fs.readFileSync(filePath)
       const fileCrc32 = countCRC32(fileBuffer)
 
-      console.log("uploadFile -> filePath: ", filePath)
-      console.log("uploadFile -> targetPath: ", targetPath)
       const { status, data } = await this.deviceService.request({
         endpoint: Endpoint.FileSystem,
         method: Method.Put,

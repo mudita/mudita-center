@@ -44,7 +44,7 @@ import registerAddMessageRequest from "Backend/requests/messages/add-message.req
 import registerGetDeviceLogFiles from "Backend/requests/get-device-log-files/get-device-log-files.request"
 import registerGetDeviceCrashDumpFiles from "Backend/requests/get-device-crash-dump-files/get-device-log-files.request"
 import registerDownloadDeviceFileRequest from "Backend/requests/download-device-file/download-device-file.request"
-import registerUploadDeviceFileRequest from "Backend/requests/upload-device-file/upload-device-file.request"
+import registerUploadDeviceFileLocallyRequest from "Backend/requests/upload-device-file-locally/upload-device-file-locally.request"
 import registerStartBackupDeviceRequest from "Backend/requests/start-backup-device/start-backup-device.request"
 import registerGetBackupDeviceStatusRequest from "Backend/requests/get-backup-device-status/get-backup-device-status.request"
 import registerStartRestoreDeviceRequest from "Backend/requests/start-restore-device/start-restore-device.request"
@@ -101,7 +101,7 @@ const bootstrap = (
     registerGetDeviceLogFiles,
     registerGetDeviceCrashDumpFiles,
     registerDownloadDeviceFileRequest,
-    registerUploadDeviceFileRequest,
+    registerUploadDeviceFileLocallyRequest,
     registerStartBackupDeviceRequest,
     registerGetBackupDeviceStatusRequest,
     registerStartRestoreDeviceRequest,

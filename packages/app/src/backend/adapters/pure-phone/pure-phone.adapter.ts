@@ -29,7 +29,7 @@ import { noop } from "Renderer/utils/noop"
 import DeviceFileSystemService, {
   DeviceFileDeprecated,
   DeviceFile,
-  UploadFilePayload,
+  UploadFileLocallyPayload,
 } from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
@@ -271,10 +271,10 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
-  public async uploadDeviceFile(
-    payload: UploadFilePayload
+  public async uploadDeviceFileLocally(
+    payload: UploadFileLocallyPayload
   ): Promise<DeviceResponse> {
-    return await this.deviceFileSystemService.uploadFile(payload)
+    return await this.deviceFileSystemService.uploadFileLocally(payload)
   }
 
   public async updateOs(
@@ -361,7 +361,7 @@ class PurePhone extends PurePhoneAdapter {
         deviceConnectedListener
       )
 
-      const fileResponse = await this.deviceFileSystemService.uploadFile({
+      const fileResponse = await this.deviceFileSystemService.uploadFileLocally({
         filePath,
         targetPath: "/sys/user/update.tar",
       })

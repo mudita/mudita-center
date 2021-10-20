@@ -7,7 +7,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { RestoreDeviceEvent } from "App/restore-device/constants"
 import startRestoreDeviceRequest from "Renderer/requests/start-restore-device.request"
 import { StartRestoreDeviceError } from "App/restore-device/errors"
-import uploadDeviceFile from "Renderer/requests/upload-device-file.request"
+import uploadDeviceFileLocally from "Renderer/requests/upload-device-file-locally.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { Backup } from "App/backup/reducers"
 import { PureDeviceData } from "App/device"
@@ -33,7 +33,7 @@ export const startRestoreDevice = createAsyncThunk<undefined, Backup>(
       )
     }
 
-    const uploadDeviceFileResponse = await uploadDeviceFile({
+    const uploadDeviceFileResponse = await uploadDeviceFileLocally({
       filePath: backup.filePath,
       targetPath: `${pureOsBackupPureLocation}/${backupId}`,
     })
