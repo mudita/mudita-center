@@ -23,6 +23,7 @@ import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
 import Tooltip from "Renderer/components/core/tooltip/tooltip.component"
 import { defineMessages } from "react-intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { Feature, flags } from "App/feature-flags"
 
 export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
@@ -84,7 +85,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
   return (
     <SettingsWrapper data-testid={SettingsTestIds.Wrapper}>
       {/*TODO: Remove condition below when tethering will be available on phone*/}
-      {process.env.NODE_ENV === "development" && (
+      {!flags.get(Feature.ProductionAndAlpha) && (
         <SettingsTableRow
           checkMode={false}
           data-testid={SettingsTestIds.TableRow}

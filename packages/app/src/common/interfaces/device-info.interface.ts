@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { CaseColour } from "@mudita/pure"
+
 export default interface DeviceInfo {
   // User-assigned device's name.
   readonly name: string
@@ -21,4 +23,10 @@ export default interface DeviceInfo {
 
   // Date at which OS was updated. ISO date.
   readonly osUpdateDate: string
+
+  // Device's case colour.
+  readonly caseColour: CaseColour
+
+  //  path to the location of backup files on device file-system
+  readonly backupLocation: string
 }

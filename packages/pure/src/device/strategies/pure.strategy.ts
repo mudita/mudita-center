@@ -17,14 +17,25 @@ import {
   Contact,
   DeviceInfo,
   DownloadFileSystemRequestConfig,
+  GetBackupDeviceStatusRequestConfig,
+  GetBackupDeviceStatusResponseBody,
+  GetFileListBody,
+  GetFileListResponseBody,
   GetFileSystemRequestConfig,
+  GetRestoreDeviceStatusRequestConfig,
+  GetRestoreDeviceStatusResponseBody,
   GetThreadResponseBody,
+  PostMessagesBody,
+  PostMessagesResponseBody,
   PutFileSystemErrorResponse,
   PutFileSystemRequestConfig,
   PutFileSystemResponse,
   SendFileSystemErrorResponse,
   SendFileSystemRequestConfig,
   SendFileSystemResponse,
+  StartBackupRequestConfig,
+  StartBackupResponseBody,
+  StartRestoreRequestConfig,
 } from "../../endpoints"
 import { Formatter } from "../../formatter/formatter"
 import { FormatterFactory } from "../../formatter/formatter-factory"
@@ -73,6 +84,11 @@ export class PureStrategy extends BaseDevice {
     method: Method.Get
   }): Promise<Response<DeviceInfo>>
   public request(config: {
+    endpoint: Endpoint.DeviceInfo
+    method: Method.Get
+    body: GetFileListBody
+  }): Promise<Response<GetFileListResponseBody>>
+  public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
   }): Promise<Response<{ entries: Contact[]; totalCount: number }>>
@@ -81,6 +97,11 @@ export class PureStrategy extends BaseDevice {
     method: Method.Get
     body: GetThreadsBody
   }): Promise<Response<GetThreadResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Post
+    body: PostMessagesBody
+  }): Promise<Response<PostMessagesResponseBody>>
   public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
@@ -116,6 +137,16 @@ export class PureStrategy extends BaseDevice {
   public request(
     config: SendFileSystemRequestConfig
   ): Promise<SendFileSystemResponse | SendFileSystemErrorResponse>
+  public request(
+    config: StartBackupRequestConfig
+  ): Promise<Response<StartBackupResponseBody>>
+  public request(
+    config: GetBackupDeviceStatusRequestConfig
+  ): Promise<Response<GetBackupDeviceStatusResponseBody>>
+  public request(config: StartRestoreRequestConfig): Promise<Response>
+  public request(
+    config: GetRestoreDeviceStatusRequestConfig
+  ): Promise<Response<GetRestoreDeviceStatusResponseBody>>
   public request(config: RequestConfig<any>): Promise<Response<any>>
   public async request(config: RequestConfig<any>): Promise<Response<any>> {
     const response = await super.request(config)

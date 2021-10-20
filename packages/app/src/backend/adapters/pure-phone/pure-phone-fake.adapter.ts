@@ -8,6 +8,20 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { osVersion } from "App/main/default-app-configuration.json"
+import {
+  CaseColour,
+  GetBackupDeviceStatusDataState,
+  GetBackupDeviceStatusResponseBody,
+  GetPhoneLockTimeResponseBody,
+  GetRestoreDeviceStatusDataState,
+  GetRestoreDeviceStatusResponseBody,
+  MuditaDevice,
+  StartBackupResponseBody,
+} from "@mudita/pure"
+import {
+  DeviceFile,
+  DeviceFileDeprecated,
+} from "Backend/device-file-system-service/device-file-system-service"
 
 class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {
@@ -40,13 +54,27 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
+  public async getCaseColour(): Promise<DeviceResponse<CaseColour>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: CaseColour.Gray,
+    }
+  }
+
+  public async getBackupLocation(): Promise<DeviceResponse<string>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: "path/to/directory",
+    }
+  }
+
   public async disconnectDevice(): Promise<DeviceResponse> {
     return {
       status: DeviceResponseStatus.Ok,
     }
   }
 
-  public async connectDevice(): Promise<DeviceResponse> {
+  public async connectDevice(): Promise<DeviceResponse<MuditaDevice>> {
     return {
       status: DeviceResponseStatus.Ok,
     }
@@ -64,14 +92,91 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async getDeviceLogs(): Promise<DeviceResponse<string>> {
+  public async getDeviceLockTime(): Promise<
+    DeviceResponse<GetPhoneLockTimeResponseBody>
+  > {
     return {
       status: DeviceResponseStatus.Ok,
-      data: "Hello, World",
+      data: { phoneLockTime: 1630703219 },
+    }
+  }
+
+  public async getDeviceLogFiles(): Promise<
+    DeviceResponse<DeviceFileDeprecated[]>
+  > {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: [],
+    }
+  }
+
+  public async getDeviceCrashDumpFiles(): Promise<
+    DeviceResponse<DeviceFileDeprecated[]>
+  > {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: [],
     }
   }
 
   public async updateOs(): Promise<DeviceResponse> {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
+  }
+
+  public async startBackupDevice(): Promise<
+    DeviceResponse<StartBackupResponseBody>
+  > {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {
+        id: `<YYYY-MM-DD>T<HHMMSS>Z`,
+      },
+    }
+  }
+
+  public async getBackupDeviceStatus(): Promise<
+    DeviceResponse<GetBackupDeviceStatusResponseBody>
+  > {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {
+        id: `<YYYY-MM-DD>T<HHMMSS>Z`,
+        state: GetBackupDeviceStatusDataState.Finished,
+      },
+    }
+  }
+
+  public async startRestoreDevice(): Promise<DeviceResponse> {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
+  }
+
+  public async getRestoreDeviceStatus(): Promise<
+    DeviceResponse<GetRestoreDeviceStatusResponseBody>
+  > {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {
+        id: `<YYYY-MM-DD>T<HHMMSS>Z`,
+        state: GetRestoreDeviceStatusDataState.Finished,
+      },
+    }
+  }
+
+  public async downloadDeviceFile(): Promise<DeviceResponse<DeviceFile>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {
+        data: Buffer.from("backup data"),
+        name: `<YYYY-MM-DD>T<HHMMSS>Z`,
+      },
+    }
+  }
+
+  public async uploadDeviceFile(): Promise<DeviceResponse> {
     return {
       status: DeviceResponseStatus.Ok,
     }

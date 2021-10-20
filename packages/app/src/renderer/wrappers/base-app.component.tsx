@@ -3,42 +3,50 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { connect, Provider } from "react-redux"
+import { connect } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
 import { Router } from "react-router"
 import BaseRoutes from "Renderer/routes/base-routes"
-import { select, Store } from "Renderer/store"
+import { ReduxRootState, RootState, TmpDispatch } from "Renderer/store"
 import { History } from "history"
-import { URL_ONBOARDING } from "Renderer/constants/urls"
-import { URL_MAIN } from "Renderer/constants/urls"
-import { RootState } from "Renderer/store"
+import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "Renderer/constants/urls"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
 import CollectingDataModal from "Renderer/wrappers/collecting-data-modal/collecting-data-modal.component"
 import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
+import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
+import { getConnectedDevice } from "App/device"
+import { RestoreDeviceDataState } from "App/restore-device/reducers"
 
 interface Props {
-  store: Store
+  getConnectedDevice: () => void
+  loadContacts: () => void
+  loadMessages: () => void
+
   history: History
   pureFeaturesVisible?: boolean
   deviceConnecting?: boolean
-  pureNeverConnected?: boolean
   appUpdateAvailable?: boolean
   settingsLoaded?: boolean
   appCollectingData?: boolean
   appUpdateStepModalDisplayed?: boolean
+  appUpdateStepModalShow?: boolean
   deviceParred?: boolean
   appUpdateRequired?: boolean
   appCurrentVersion?: string
   toggleAppCollectingData: (appCollectingData: boolean) => void
   setAppUpdateStepModalDisplayed: () => void
+  toggleAppUpdateStepModalShow: (appUpdateStepModalShow: boolean) => void
   sendDiagnosticData: () => void
   appLatestVersion?: string
 }
 
 const BaseApp: FunctionComponent<Props> = ({
-  store,
+  getConnectedDevice,
+  loadContacts,
+  loadMessages,
+
   history,
   pureFeaturesVisible,
   deviceConnecting,
@@ -46,43 +54,57 @@ const BaseApp: FunctionComponent<Props> = ({
   settingsLoaded,
   appCollectingData,
   appUpdateStepModalDisplayed,
+  appUpdateStepModalShow,
   deviceParred,
   toggleAppCollectingData,
   setAppUpdateStepModalDisplayed,
+  toggleAppUpdateStepModalShow,
   sendDiagnosticData,
   appLatestVersion,
   appUpdateRequired,
   appCurrentVersion,
 }) => {
-  const appUpdateStepModalVisible =
-    Boolean(settingsLoaded) &&
-    Boolean(appUpdateAvailable) &&
-    !appUpdateStepModalDisplayed &&
-    appCollectingData !== undefined
+  const [appUpdateStepModalVisible, setAppUpdateStepModalVisible] =
+    useState<boolean>(false)
 
   const collectingDataModalVisible =
     Boolean(settingsLoaded) && appCollectingData === undefined
 
   useRouterListener(history, {
-    [URL_MAIN.contacts]: [store.dispatch.contacts.loadData],
-    [URL_MAIN.phone]: [store.dispatch.contacts.loadData],
-    [URL_MAIN.overview]: [store.dispatch.basicInfo.loadBasicInfoData],
-    [URL_MAIN.messages]: [store.dispatch.messages.loadData],
+    [URL_MAIN.contacts]: [() => loadContacts()],
+    [URL_MAIN.phone]: [() => loadContacts()],
+    [URL_OVERVIEW.root]: [() => getConnectedDevice()],
+    [URL_MAIN.messages]: [() => loadMessages(), () => loadContacts()],
   })
+  useEffect(() => {
+    setAppUpdateStepModalVisible(
+      Boolean(settingsLoaded) &&
+        Boolean(appUpdateAvailable) &&
+        Boolean(appUpdateStepModalShow) &&
+        appCollectingData !== undefined
+    )
+  }, [
+    settingsLoaded,
+    appUpdateAvailable,
+    appUpdateStepModalShow,
+    appCollectingData,
+  ])
 
   useEffect(() => {
     if (deviceConnecting) {
       history.push(URL_ONBOARDING.connecting)
     } else if (!pureFeaturesVisible) {
       history.push(URL_ONBOARDING.root)
+    } else {
+      history.push(URL_ONBOARDING.connecting)
     }
   }, [pureFeaturesVisible, deviceConnecting])
 
   useEffect(() => {
-    if (deviceParred) {
+    if (deviceParred && Boolean(settingsLoaded)) {
       sendDiagnosticData()
     }
-  }, [deviceParred])
+  }, [deviceParred, settingsLoaded])
 
   const allowToAppCollectingData = (): void => {
     toggleAppCollectingData(true)
@@ -94,10 +116,11 @@ const BaseApp: FunctionComponent<Props> = ({
 
   const closeAppUpdateStepModal = (): void => {
     setAppUpdateStepModalDisplayed()
+    toggleAppUpdateStepModalShow(false)
   }
 
   return (
-    <Provider store={store}>
+    <>
       <NetworkStatusChecker />
       <CollectingDataModal
         open={collectingDataModalVisible}
@@ -121,38 +144,43 @@ const BaseApp: FunctionComponent<Props> = ({
       <Router history={history}>
         <BaseRoutes />
       </Router>
-    </Provider>
+    </>
   )
 }
 
-const selection = select((models: any) => ({
-  pureFeaturesVisible: models.basicInfo.pureFeaturesVisible,
-  deviceConnecting: models.basicInfo.deviceConnecting,
-  deviceParred: models.basicInfo.deviceParred,
-}))
-
-const mapStateToProps = (state: RootState) => {
+const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    ...(selection(state, null) as {
-      pureFeaturesVisible: boolean
-      deviceConnecting: boolean
-    }),
-    pureNeverConnected: state.settings.pureNeverConnected,
+    pureFeaturesVisible:
+      (state.device.status.connected && !state.device.status.locked) ||
+      state.device.updatingState === UpdatingState.Updating ||
+      state.restoreDevice.state === RestoreDeviceDataState.Running,
+    deviceConnecting:
+      state.device.status.connected && state.device.status.locked,
+    deviceParred: state.device.status.loaded && !state.device.status.locked,
+    // TODO Refactor legacy staff
     appUpdateAvailable: state.settings.appUpdateAvailable,
     appCollectingData: state.settings.appCollectingData,
     settingsLoaded: state.settings.settingsLoaded,
     appLatestVersion: state.settings.appLatestVersion,
     appUpdateStepModalDisplayed: state.settings.appUpdateStepModalDisplayed,
+    appUpdateStepModalShow: state.settings.appUpdateStepModalShow,
     appUpdateRequired: state.settings.appUpdateRequired,
     appCurrentVersion: state.settings.appCurrentVersion,
   }
 }
 
-const mapDispatchToProps = ({ settings }: any) => ({
-  toggleAppCollectingData: settings.toggleAppCollectingData,
-  setAppUpdateStepModalDisplayed: settings.setAppUpdateStepModalDisplayed,
-  sendDiagnosticData: settings.sendDiagnosticData,
-  setAppLatestVersion: settings.setAppLatestVersion,
+// TODO replace `TmpDispatch` with legit `Dispatch`
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  getConnectedDevice: () => dispatch(getConnectedDevice),
+  loadContacts: () => dispatch.contacts.loadData(),
+  loadMessages: () => dispatch.messages.loadData(),
+
+  toggleAppCollectingData: dispatch.settings.toggleAppCollectingData,
+  setAppUpdateStepModalDisplayed:
+    dispatch.settings.setAppUpdateStepModalDisplayed,
+  toggleAppUpdateStepModalShow: dispatch.settings.toggleAppUpdateStepModalShow,
+  sendDiagnosticData: dispatch.settings.sendDiagnosticData,
+  setAppLatestVersion: dispatch.settings.setAppLatestVersion,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)

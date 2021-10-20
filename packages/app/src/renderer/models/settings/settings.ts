@@ -21,10 +21,13 @@ import { RootModel } from "Renderer/models/models"
 import logger from "App/main/utils/logger"
 import e2eSettings from "Renderer/models/settings/e2e-settings.json"
 import { isToday } from "Renderer/utils/is-today"
-import getDeviceLogs from "Renderer/requests/get-device-logs.request"
+import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
 import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getApplicationConfiguration from "App/renderer/requests/get-application-configuration.request"
+import archiveFiles from "Renderer/requests/archive-files.request"
+import { attachedFileName } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
+import { loadBackupData } from "App/backup/actions"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -34,6 +37,7 @@ export const initialState: SettingsState = {
   lowestSupportedCenterVersion: undefined,
   appCurrentVersion: version,
   appUpdateStepModalDisplayed: false,
+  appUpdateStepModalShow: false,
   settingsLoaded: false,
   appUpdateRequired: false,
   appLatestVersion: "",
@@ -86,6 +90,9 @@ const settings = createModel<RootModel>({
         appSettings.appCollectingData
           ? logger.enableRollbar()
           : logger.disableRollbar()
+
+        // @ts-ignore
+        dispatch(loadBackupData())
       },
       async updateSettings(option: SettingsUpdateOption) {
         await updateAppSettings(option)
@@ -135,6 +142,9 @@ const settings = createModel<RootModel>({
       setAppUpdateStepModalDisplayed() {
         dispatch.settings.update({ appUpdateStepModalDisplayed: true })
       },
+      toggleAppUpdateStepModalShow(appUpdateStepModalShow: boolean) {
+        dispatch.settings.update({ appUpdateStepModalShow })
+      },
       setDiagnosticSentTimestamp(
         value: AppSettings["diagnosticSentTimestamp"]
       ) {
@@ -152,7 +162,7 @@ const settings = createModel<RootModel>({
       },
       async sendDiagnosticData(_, state): Promise<void> {
         const { appCollectingData, diagnosticSentTimestamp } = state.settings
-        const { serialNumber } = state.basicInfo
+        const { serialNumber } = state.device.data
 
         if (serialNumber === undefined) {
           logger.error(
@@ -171,17 +181,36 @@ const settings = createModel<RootModel>({
           )
           return
         }
-        const { status, data = "", error } = await getDeviceLogs()
-        if (status !== DeviceResponseStatus.Ok) {
+        const deviceLogFilesResponse = await getDeviceLogFiles({
+          datePrefix: true,
+        })
+
+        if (
+          deviceLogFilesResponse.status !== DeviceResponseStatus.Ok ||
+          deviceLogFilesResponse.data === undefined
+        ) {
           logger.error(
-            `Send Diagnostic Data: device logs fail. Message: ${error?.message}.`
+            `Send Diagnostic Data: fetch device logs fail. Message: ${deviceLogFilesResponse.error?.message}.`
           )
           return
         }
 
+        const buffer = await archiveFiles({
+          files: deviceLogFilesResponse.data,
+        })
+
+        if (buffer === undefined) {
+          logger.error(`Send Diagnostic Data: archives files fail.`)
+          return
+        }
+
         try {
-          const { status } = await sendDiagnosticDataRequest(data, serialNumber)
-          if (status !== 200) {
+          const response = await sendDiagnosticDataRequest({
+            buffer,
+            fileName: attachedFileName,
+            serialNumber,
+          })
+          if (!response) {
             logger.error(
               `Send Diagnostic Data: send diagnostic data request. Status: ${status}`
             )

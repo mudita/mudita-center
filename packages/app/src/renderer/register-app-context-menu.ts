@@ -5,30 +5,46 @@
 
 import store from "Renderer/store"
 import { AppHotkeys } from "App/hotkeys/hotkeys.types"
-import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
+import {
+  togglePureSimulation,
+  toggleHarmonySimulation,
+} from "App/dev-mode/store/dev-mode.helpers"
 import ContextMenu from "App/context-menu/context-menu"
 import contactsContextMenu from "App/contacts/helpers/context-menu/context-menu"
-import importDeviceLogsFile from "Renderer/requests/import-device-logs-file.request"
+import importDeviceLogFiles from "Renderer/requests/import-device-log-files.request"
 import { remote } from "electron"
 import { name } from "../../package.json"
+import importDeviceCrashDumpFiles from "Renderer/requests/import-device-crash-dumps-files.request"
 
 const filePath = `${remote.app.getPath("appData")}/${name}/pure-logs`
-const fileName = "pure-logs.txt"
 
 const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Device", [
     {
       labelCreator: () => {
-        return store.getState().devMode.phoneSimulation
-          ? "Stop simulating connection"
-          : "Simulate connection"
+        return store.getState().devMode.pureSimulation
+          ? "Stop simulating Pure connection"
+          : "Simulate Pure connection"
       },
-      click: togglePhoneSimulation,
-      accelerator: AppHotkeys.PhoneSimulation,
+      click: togglePureSimulation,
+      accelerator: AppHotkeys.pureSimulation,
+    },
+    {
+      labelCreator: () => {
+        return store.getState().devMode.harmonySimulation
+          ? "Stop simulating Harmony connection"
+          : "Simulate Harmony connection"
+      },
+      click: toggleHarmonySimulation,
+      accelerator: AppHotkeys.HarmonySimulation,
     },
     {
       label: "Download logs file",
-      click: () => importDeviceLogsFile({ filePath, fileName }),
+      click: () => importDeviceLogFiles(filePath),
+    },
+    {
+      label: "Download crash dumps file",
+      click: () => importDeviceCrashDumpFiles(filePath),
     },
   ])
 

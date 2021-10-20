@@ -5,14 +5,17 @@
 
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
-import { URL_MAIN, URL_ONBOARDING } from "Renderer/constants/urls"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "Renderer/constants/urls"
 import ConnectingContent from "App/connecting/connecting.component"
 import { updateAppSettings } from "Renderer/requests/app-settings.request"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { RootState, select } from "Renderer/store"
+import { RootState, ReduxRootState, TmpDispatch, select } from "Renderer/store"
 import { connect } from "react-redux"
-import PasscodeModal from "App/passcod-modal/passcode-modal.component"
-import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
+import PasscodeModal from "App/passcode-modal/passcode-modal.component"
+import { togglePureSimulation } from "App/dev-mode/store/dev-mode.helpers"
+import { PureDeviceData, unlockDevice, getUnlockStatus } from "App/device"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 
 export const registerFirstPhoneConnection = (): void => {
   void updateAppSettings({ key: "pureNeverConnected", value: false })
@@ -21,13 +24,23 @@ export const registerFirstPhoneConnection = (): void => {
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 const Connecting: FunctionComponent<{
-  initialDataLoaded: boolean
-  deviceUnlocked: boolean | undefined
+  loaded: boolean
+  locked: boolean
+  unlockDevice: (code: number[]) => Promise<PayloadAction<DeviceResponseStatus>>
+  getUnlockStatus: () => Promise<PayloadAction<DeviceResponseStatus>>
+  phoneLockTime: number | undefined
   initialModalsShowed: boolean
-}> = ({ initialDataLoaded, deviceUnlocked, initialModalsShowed }) => {
+}> = ({
+  loaded,
+  locked,
+  unlockDevice,
+  getUnlockStatus,
+  phoneLockTime,
+  initialModalsShowed,
+}) => {
   useEffect(() => {
     if (simulatePhoneConnectionEnabled) {
-      togglePhoneSimulation()
+      togglePureSimulation()
     }
   }, [simulatePhoneConnectionEnabled])
 
@@ -35,17 +48,16 @@ const Connecting: FunctionComponent<{
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (deviceUnlocked && initialDataLoaded) {
-        history.push(URL_MAIN.overview)
+      if (!locked && loaded) {
+        history.push(URL_OVERVIEW.root)
       }
     }, 500)
 
-    if (deviceUnlocked === false && initialModalsShowed) {
+    if (locked && initialModalsShowed) {
       setDialogOpen(true)
     }
-
     return () => clearTimeout(timeout)
-  }, [deviceUnlocked, initialModalsShowed, initialDataLoaded])
+  }, [loaded, locked, initialModalsShowed])
 
   useEffect(() => {
     registerFirstPhoneConnection()
@@ -67,22 +79,35 @@ const Connecting: FunctionComponent<{
   }
   return (
     <>
-      <PasscodeModal openModal={dialogOpen} close={close} />
+      <PasscodeModal
+        openModal={dialogOpen}
+        close={close}
+        openBlocked={phoneLockTime}
+        unlockDevice={unlockDevice}
+        getUnlockStatus={getUnlockStatus}
+      />
       <ConnectingContent onCancel={onCancel} />
     </>
   )
 }
 
 const selection = select((models: any) => ({
-  deviceUnlocked: models.basicInfo.deviceUnlocked,
-  initialDataLoaded: models.basicInfo.initialDataLoaded,
   initialModalsShowed: models.settings.initialModalsShowed,
 }))
 
-const mapStateToProps = (state: RootState) => {
-  return {
-    ...(selection(state, null) as { deviceUnlocked: boolean | undefined }),
-  }
-}
+// TODO replace `TmpDispatch` with legit `Dispatch`
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  unlockDevice: (code: number[]) => dispatch(unlockDevice(code)),
+  getUnlockStatus: () => dispatch(getUnlockStatus()),
+})
 
-export default connect(mapStateToProps)(Connecting)
+const mapStateToProps = (state: RootState & ReduxRootState) => ({
+  device: state.device,
+  loaded: state.device.status.loaded,
+  locked: state.device.status.locked,
+  phoneLockTime:
+    (state.device.data as PureDeviceData)?.phoneLockTime ?? undefined,
+  ...selection(state, {}),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Connecting)

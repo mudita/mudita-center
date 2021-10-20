@@ -7,31 +7,9 @@ import { MainProcessIpc } from "electron-better-ipc"
 import { MuditaDeviceManager } from "@mudita/pure"
 import { createDeviceService } from "Backend/device-service"
 import getFakeAdapters from "App/tests/get-fake-adapters"
-import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
-import registerChangeSimCardRequest from "Backend/requests/change-sim/change-sim.request"
-import registerDeviceInfoRequest from "Backend/requests/device-info/get-device-info.request"
-import registerConnectDeviceRequest from "Backend/requests/connect-device/connect-device.request"
-import registerDisconnectDeviceRequest from "Backend/requests/disconnect-device/disconnect-device.request"
-import registerUnlockDeviceRequest from "Backend/requests/unlock-device/unlock-device.request"
-import registerGetUnlockDeviceStatus from "Backend/requests/get-unlock-device-status/get-unlock-device-status.request"
-import registerNetworkInfoRequest from "Backend/requests/network/get-network-info.request"
-import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storage-info.request"
-import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.request"
-import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"
-import registerEditContactRequest from "Backend/requests/phonebook/edit-contact.request"
-import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
-import registerBackupsInfoRequest from "Backend/requests/backups/get-backups-info.request"
-import registerAppSettingsRequest from "Backend/requests/app-settings/get-app-settings.request"
-import registerAppSettingsUpdateRequest from "Backend/requests/app-settings/update-app-settings.request"
-import registerAppSettingsResetRequest from "Backend/requests/app-settings/reset-app-settings.request"
-import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
-import registerGetEventsRequest from "Backend/requests/calendar/get-events.request"
-import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
-import registerGetMessagesByThreadIdRequest from "Backend/requests/messages/get-messages-by-thread-id.request"
-import registerGetDeviceLogs from "Backend/requests/get-device-logs/get-device-logs.request"
+import Backend from "Backend/backend"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
-import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
@@ -39,8 +17,38 @@ import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-pho
 import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
 import createPurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.adapter"
 import createCalendarAdapter from "Backend/adapters/calendar/calendar.adapter"
-import Backend from "Backend/backend"
 import { createDeviceFileSystemService } from "Backend/device-file-system-service/device-file-system-service"
+import { createDeviceFileDiagnosticService } from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
+import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
+import registerChangeSimCardRequest from "Backend/requests/change-sim/change-sim.request"
+import registerDeviceInfoRequest from "Backend/requests/device-info/get-device-info.request"
+import registerConnectDeviceRequest from "Backend/requests/connect-device/connect-device.request"
+import registerDisconnectDeviceRequest from "Backend/requests/disconnect-device/disconnect-device.request"
+import registerUnlockDeviceRequest from "Backend/requests/unlock-device/unlock-device.request"
+import registerGetUnlockDeviceStatus from "Backend/requests/get-unlock-device-status/get-unlock-device-status.request"
+import registerGetDeviceLockTime from "Backend/requests/get-device-lock-time/get-device-lock-time.request"
+import registerNetworkInfoRequest from "Backend/requests/network/get-network-info.request"
+import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storage-info.request"
+import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.request"
+import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"
+import registerEditContactRequest from "Backend/requests/phonebook/edit-contact.request"
+import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
+import registerAppSettingsRequest from "Backend/requests/app-settings/get-app-settings.request"
+import registerAppSettingsUpdateRequest from "Backend/requests/app-settings/update-app-settings.request"
+import registerAppSettingsResetRequest from "Backend/requests/app-settings/reset-app-settings.request"
+import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
+import registerGetEventsRequest from "Backend/requests/calendar/get-events.request"
+import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
+import registerGetMessagesByThreadIdRequest from "Backend/requests/messages/get-messages-by-thread-id.request"
+import registerAddMessageRequest from "Backend/requests/messages/add-message.request"
+import registerGetDeviceLogFiles from "Backend/requests/get-device-log-files/get-device-log-files.request"
+import registerGetDeviceCrashDumpFiles from "Backend/requests/get-device-crash-dump-files/get-device-log-files.request"
+import registerDownloadDeviceFileRequest from "Backend/requests/download-device-file/download-device-file.request"
+import registerUploadDeviceFileRequest from "Backend/requests/upload-device-file/upload-device-file.request"
+import registerStartBackupDeviceRequest from "Backend/requests/start-backup-device/start-backup-device.request"
+import registerGetBackupDeviceStatusRequest from "Backend/requests/get-backup-device-status/get-backup-device-status.request"
+import registerStartRestoreDeviceRequest from "Backend/requests/start-restore-device/start-restore-device.request"
+import registerGetRestoreDeviceStatusRequest from "Backend/requests/get-restore-device-status/get-restore-device-status.request"
 
 const bootstrap = (
   deviceManager: MuditaDeviceManager,
@@ -48,15 +56,20 @@ const bootstrap = (
 ): void => {
   const deviceService = createDeviceService(deviceManager, ipcMain)
   const deviceFileSystemService = createDeviceFileSystemService(deviceService)
+  const deviceFileDiagnosticService =
+    createDeviceFileDiagnosticService(deviceService)
 
   const adapters = {
-    purePhone: createPurePhoneAdapter(deviceService, deviceFileSystemService),
+    purePhone: createPurePhoneAdapter(
+      deviceService,
+      deviceFileSystemService,
+      deviceFileDiagnosticService
+    ),
     phonebook: createPhonebook(deviceService),
     pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
     pureNetwork: createPurePhoneNetwork(deviceService),
     pureStorage: createPurePhoneStorageAdapter(deviceService),
     appSettings: createAppSettingsAdapter(),
-    pureBackups: createPurePhoneBackupsAdapter(),
     calendar: createCalendarAdapter(),
     pureMessages: createPurePhoneMessagesAdapter(deviceService),
     app: createElectronAppAdapter(),
@@ -71,12 +84,12 @@ const bootstrap = (
     registerDisconnectDeviceRequest,
     registerUnlockDeviceRequest,
     registerGetUnlockDeviceStatus,
+    registerGetDeviceLockTime,
     registerChangeSimCardRequest,
     registerGetContactsRequest,
     registerAddContactRequest,
     registerEditContactRequest,
     registerDeleteContactsRequest,
-    registerBackupsInfoRequest,
     registerAppSettingsRequest,
     registerAppSettingsUpdateRequest,
     registerAppSettingsResetRequest,
@@ -84,7 +97,15 @@ const bootstrap = (
     registerGetEventsRequest,
     registerGetThreadsRequest,
     registerGetMessagesByThreadIdRequest,
-    registerGetDeviceLogs,
+    registerAddMessageRequest,
+    registerGetDeviceLogFiles,
+    registerGetDeviceCrashDumpFiles,
+    registerDownloadDeviceFileRequest,
+    registerUploadDeviceFileRequest,
+    registerStartBackupDeviceRequest,
+    registerGetBackupDeviceStatusRequest,
+    registerStartRestoreDeviceRequest,
+    registerGetRestoreDeviceStatusRequest,
   ]
 
   new Backend(adapters, getFakeAdapters(), requests).init()

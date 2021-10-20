@@ -23,6 +23,7 @@ export type CreateDeviceStrategy = (
 export enum ResponseStatus {
   Ok = 200,
   Accepted = 202,
+  Redirect = 303,
   NoContent = 204,
   BadRequest = 400,
   NotFound = 404,
@@ -30,6 +31,7 @@ export enum ResponseStatus {
   NotAcceptable = 406,
   Conflict = 409,
   InternalServerError = 500,
+  UnprocessableEntity = 422,
 
   // lib status
   ConnectionError = 503,

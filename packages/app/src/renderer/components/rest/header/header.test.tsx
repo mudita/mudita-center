@@ -12,6 +12,9 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { HeaderButton } from "Renderer/wrappers/layout-desktop-wrapper"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { intl } from "Renderer/utils/intl"
+import { flags } from "App/feature-flags"
+
+jest.mock("App/feature-flags")
 
 test("matches snapshot without tabs", () => {
   const currentLocation = "/overview"
@@ -25,6 +28,7 @@ test("matches snapshot without tabs", () => {
 })
 
 test("matches snapshot with tabs", () => {
+  jest.spyOn(flags, "get").mockReturnValueOnce(true)
   const currentLocation = "/phone"
   const { container } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={[currentLocation]}>

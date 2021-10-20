@@ -10,3 +10,21 @@ declare namespace jest {
     toBeTranslationKey(): CustomMatcherResult
   }
 }
+
+declare module "brie" {
+  interface Criteria {
+    always: boolean
+  }
+
+  interface SetupArgs {
+    data: any
+    features: Record<string, { criteria: Criteria[] }>
+  }
+
+  interface SetupReturns {
+    get(key: string): boolean
+    getAll(): Record<string, boolean>
+  }
+
+  export function setup(args: SetupArgs): SetupReturns
+}

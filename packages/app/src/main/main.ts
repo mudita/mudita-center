@@ -24,7 +24,9 @@ import registerEventsExportListener from "App/calendar/backend/export-events"
 import registerWriteFileListener from "App/main/functions/register-write-file-listener"
 import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
+import registerArchiveFilesListener from "App/main/functions/register-archive-files-listener"
 import registerGetApplicationConfigurationListener from "App/main/functions/register-get-application-configuration-listener"
+import registerGetFileDataListener from "App/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
@@ -56,17 +58,18 @@ import {
 import { TokenRequester } from "Renderer/models/external-providers/outlook/token-requester"
 import {
   GOOGLE_AUTH_WINDOW_SIZE,
-  HELP_WINDOW_SIZE,
   WINDOW_SIZE,
-  ABOUT_WINDOWS_SIZE,
+  DEFAULT_WINDOWS_SIZE,
 } from "./config"
 import autoupdate, { mockAutoupdate } from "./autoupdate"
 import startBackend from "Backend/bootstrap"
-import { URL_MAIN } from "Renderer/constants/urls"
+import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { AboutActions } from "App/common/enums/about-actions.enum"
 import PureLogger from "App/main/utils/pure-logger"
+import { flags, Feature } from "App/feature-flags"
+import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
 
 require("dotenv").config()
 
@@ -99,7 +102,6 @@ const installExtensions = async () => {
   ).catch(logger.error)
 }
 
-const developmentEnvironment = process.env.NODE_ENV === "development"
 const productionEnvironment = process.env.NODE_ENV === "production"
 const commonWindowOptions = {
   resizable: true,
@@ -118,7 +120,7 @@ const getWindowOptions = (
 })
 
 const createWindow = async () => {
-  if (developmentEnvironment) {
+  if (!productionEnvironment) {
     await installExtensions()
   }
 
@@ -133,7 +135,7 @@ const createWindow = async () => {
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  const enabled = process.env.PURE_LOGGER_ENABLED === "true"
+  const enabled = flags.get(Feature.LoggerEnabled)
 
   MuditaDeviceManager.registerLogger(new PureLogger())
   MuditaDeviceManager.toggleLogs(enabled)
@@ -151,6 +153,8 @@ const createWindow = async () => {
   registerRmdirListener()
   registerWriteGzipListener()
   registerGetApplicationConfigurationListener()
+  registerArchiveFilesListener()
+  registerGetFileDataListener()
   registerPureOsDownloadProxy()
 
   if (productionEnvironment) {
@@ -179,7 +183,7 @@ const createWindow = async () => {
     event.preventDefault()
   })
 
-  if (developmentEnvironment) {
+  if (!productionEnvironment) {
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
     win.webContents.once("dom-ready", () => {
       win!.webContents.openDevTools()
@@ -207,12 +211,12 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({
-        width: HELP_WINDOW_SIZE.width,
-        height: HELP_WINDOW_SIZE.height,
+        width: DEFAULT_WINDOWS_SIZE.width,
+        height: DEFAULT_WINDOWS_SIZE.height,
       })
     )
     helpWindow.loadURL(
-      developmentEnvironment
+      !productionEnvironment
         ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
         : url.format({
             pathname: path.join(__dirname, "index.html"),
@@ -242,7 +246,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   })
 })
 
-const createOpenAboutWindowListener = (
+const createOpenWindowListener = (
   channel: string,
   mode: string,
   urlMain: string,
@@ -252,12 +256,12 @@ const createOpenAboutWindowListener = (
     if (newWindow === null) {
       newWindow = await new BrowserWindow(
         getWindowOptions({
-          width: ABOUT_WINDOWS_SIZE.width,
-          height: ABOUT_WINDOWS_SIZE.height,
+          width: DEFAULT_WINDOWS_SIZE.width,
+          height: DEFAULT_WINDOWS_SIZE.height,
         })
       )
       await newWindow.loadURL(
-        developmentEnvironment
+        !productionEnvironment
           ? `http://localhost:2003/?mode=${mode}#${urlMain}`
           : url.format({
               pathname: path.join(__dirname, "index.html"),
@@ -286,30 +290,37 @@ const createOpenAboutWindowListener = (
   })
 }
 
-createOpenAboutWindowListener(
+createOpenWindowListener(
   AboutActions.LicenseOpenWindow,
   Mode.License,
   URL_MAIN.license,
   licenseWindow
 )
 
-createOpenAboutWindowListener(
+createOpenWindowListener(
   AboutActions.TermsOpenWindow,
   Mode.TermsOfService,
   URL_MAIN.termsOfService,
   termsWindow
 )
 
-createOpenAboutWindowListener(
+createOpenWindowListener(
   AboutActions.PolicyOpenWindow,
   Mode.PrivacyPolicy,
   URL_MAIN.privacyPolicy,
   policyWindow
 )
 
+createOpenWindowListener(
+  PureSystemActions.SarOpenWindow,
+  Mode.Sar,
+  URL_OVERVIEW.sar,
+  policyWindow
+)
+
 const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
   return await googleAuthWindow.loadURL(
-    developmentEnvironment
+    !productionEnvironment
       ? `http://localhost:2003/?mode=${Mode.ServerError}#${URL_MAIN.error}`
       : url.format({
           pathname: path.join(__dirname, "index.html"),

@@ -43,6 +43,13 @@ module.exports = ({ config }) => {
     },
   })
 
+  config.module.rules.push(
+    {
+      test: /\.node$/,
+      loader: "node-loader",
+    },
+  )
+
   config.resolve = {
     ...resolve(false),
     alias: {
@@ -55,6 +62,8 @@ module.exports = ({ config }) => {
       ),
     },
   }
+
+  config.externals = ["child_process", "dns", "fs", "net", "tls"]
 
   return config
 }

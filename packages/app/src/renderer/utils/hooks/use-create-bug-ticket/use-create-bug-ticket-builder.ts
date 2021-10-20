@@ -10,6 +10,7 @@ import {
   FreshdeskTicketDataType,
 } from "App/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import { DependencyUseCreateBugTicket } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket"
+import { DeviceFileDeprecated } from "Backend/device-file-system-service/device-file-system-service"
 
 export enum CreateBugTicketResponseStatus {
   Ok = "ok",
@@ -35,93 +36,49 @@ export type CreateBugTicket = [
 ]
 
 const todayFormatDate = formatDate(new Date())
-export const attachedFileName = `tmp-${todayFormatDate}.zip`
+export const attachedFileName = `${todayFormatDate}.zip`
 
 const useCreateBugTicketBuilder =
   ({
-    getAppPath,
-    writeFile,
     getAppLogs,
-    getDeviceLogs,
-    createFile,
-    rmdir,
-    writeGzip,
+    getDeviceLogFiles,
+    archiveFiles,
     createFreshdeskTicket,
   }: DependencyUseCreateBugTicket) =>
   (): CreateBugTicket => {
     const [error, setError] = useState<CreateBugTicketResponseError>()
     const [load, setLoad] = useState(false)
 
-    const removeTmpFiles = (filePath: string): Promise<boolean> => {
-      return rmdir({ filePath, options: { recursive: true } })
-    }
-
     const sendRequest = async (
       freshdeskTicketData: Omit<FreshdeskTicketData, "type" | "attachments">
     ): Promise<CreateBugTicketResponse> => {
       setLoad(true)
-      const appLogs = await getAppLogs()
-      const { data: deviceLogs = "" } = await getDeviceLogs()
-      const filePath = `${getAppPath()}/tmp-${todayFormatDate}`
 
       const mcFileName = `mc-${todayFormatDate}.txt`
-      const mcWriteResponse = await writeFile({
-        filePath,
+      const appLogs = await getAppLogs()
+      const appLogFile: DeviceFileDeprecated = {
         data: appLogs,
-        fileName: mcFileName,
+        name: mcFileName,
+      }
+
+      const { data: deviceLogFiles = [] } = await getDeviceLogFiles()
+
+      const buffer = await archiveFiles({
+        files: [...deviceLogFiles, appLogFile],
       })
 
-      if (!mcWriteResponse) {
+      if (buffer === undefined) {
         const response = returnResponseError(
-          "Create Bug Ticket - WriteFileSync error"
+          "Create Bug Ticket - ArchiveFiles error"
         )
         setError(response.error)
         setLoad(false)
         return response
       }
 
-      const pureFileName = `pure-${todayFormatDate}.txt`
-      const pureWriteResponse = await writeFile({
-        filePath,
-        data: deviceLogs,
-        fileName: pureFileName,
-      })
-
-      if (!pureWriteResponse) {
-        const response = returnResponseError(
-          "Create Bug Ticket - WriteFileSync error"
-        )
-        setError(response.error)
-        setLoad(false)
-        return response
-      }
-
-      const writeGzipResponse = await writeGzip({ filePath })
-      const gzipFilePath = `${filePath}.zip`
-
-      if (!writeGzipResponse) {
-        await removeTmpFiles(filePath)
-        const response = returnResponseError(
-          "Create Bug Ticket - writeGzip error"
-        )
-        setError(response.error)
-        setLoad(false)
-        return response
-      }
-
-      let attachments = []
-      try {
-        attachments = [createFile(gzipFilePath, { type: "application/zip" })]
-      } catch {
-        await removeTmpFiles(gzipFilePath)
-        await removeTmpFiles(filePath)
-        const response = returnResponseError(
-          "Create Bug Ticket - bug in creates attachments"
-        )
-        setError(response.error)
-        setLoad(false)
-        return response
-      }
+      const attachments = [
+        new File([buffer], attachedFileName, { type: "application/zip" }),
+      ]
 
       const data = {
         attachments,
@@ -154,8 +111,6 @@ const useCreateBugTicketBuilder =
           return response
         }
       } finally {
-        await removeTmpFiles(gzipFilePath)
-        await removeTmpFiles(filePath)
         setLoad(false)
       }
     }

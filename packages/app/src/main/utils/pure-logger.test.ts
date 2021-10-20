@@ -5,6 +5,9 @@
 
 import PureLogger, { ScrubProps } from "App/main/utils/pure-logger"
 import logger from "App/main/utils/logger"
+import { flags } from "App/feature-flags"
+
+jest.mock("App/feature-flags")
 
 describe("Pure Logger main util", () => {
   describe("when does not apply to File System Endpoint ", () => {
@@ -43,24 +46,24 @@ describe("Pure Logger main util", () => {
       jest.clearAllMocks()
     })
 
-    test("body is scrubbed if LOGS_SCRUBBED env isn't set to false ", () => {
-      process.env = {}
+    test("body is scrubbed if Feature.LogsScrubbed toggle isn't set to false", () => {
+      jest.spyOn(flags, "get").mockReturnValueOnce(true)
       jest.spyOn(logger, "info")
       const pureLogger = new PureLogger()
       pureLogger.info(mockScrubPropsMessage)
       expect(logger.info).toBeCalledWith(mockScrubbedMessage)
     })
 
-    test("body is scrubbed if LOGS_SCRUBBED env is to true ", () => {
-      process.env = { LOGS_SCRUBBED: "true" }
+    test("body is scrubbed if Feature.LogsScrubbed toggle is to true", () => {
+      jest.spyOn(flags, "get").mockReturnValueOnce(true)
       jest.spyOn(logger, "info")
       const pureLogger = new PureLogger()
       pureLogger.info(mockScrubPropsMessage)
       expect(logger.info).toBeCalledWith(mockScrubbedMessage)
     })
 
-    test("body isn't scrubbed if LOGS_SCRUBBED env is to false ", () => {
-      process.env = { LOGS_SCRUBBED: "false" }
+    test("body isn't scrubbed if Feature.LogsScrubbed toggle is to false ", () => {
+      jest.spyOn(flags, "get").mockReturnValueOnce(false)
       jest.spyOn(logger, "info")
       const pureLogger = new PureLogger()
       pureLogger.info(mockScrubPropsMessage)
@@ -107,24 +110,24 @@ describe("Pure Logger main util", () => {
       jest.clearAllMocks()
     })
 
-    test("body is scrubbed if LOGS_SCRUBBED env isn't set to false ", () => {
-      process.env = {}
+    test("body is scrubbed if Feature.LogsScrubbed toggle isn't set to false ", () => {
+      jest.spyOn(flags, "get").mockReturnValueOnce(true)
       jest.spyOn(logger, "info")
       const pureLogger = new PureLogger()
       pureLogger.info(mockScrubPropsMessage)
       expect(logger.info).toBeCalledWith(mockScrubbedMessage)
     })
 
-    test("body is scrubbed if LOGS_SCRUBBED env is to true ", () => {
-      process.env = { LOGS_SCRUBBED: "true" }
+    test("body is scrubbed if Feature.LogsScrubbed toggle is to true ", () => {
+      jest.spyOn(flags, "get").mockReturnValueOnce(true)
       jest.spyOn(logger, "info")
       const pureLogger = new PureLogger()
       pureLogger.info(mockScrubPropsMessage)
       expect(logger.info).toBeCalledWith(mockScrubbedMessage)
     })
 
-    test("body isn't scrubbed if LOGS_SCRUBBED env is to false ", () => {
-      process.env = { LOGS_SCRUBBED: "false" }
+    test("body isn't scrubbed if Feature.LogsScrubbed toggle is to false ", () => {
+      jest.spyOn(flags, "get").mockReturnValueOnce(false)
       jest.spyOn(logger, "info")
       const pureLogger = new PureLogger()
       pureLogger.info(mockScrubPropsMessage)

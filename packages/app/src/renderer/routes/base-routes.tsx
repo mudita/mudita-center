@@ -9,7 +9,7 @@ import FilesManager from "Renderer/modules/filesManager/files-manager.component"
 import Meditation from "Renderer/modules/meditation/meditation.component"
 import Messages from "App/messages/messages.container"
 import Music from "Renderer/modules/music/music.component"
-import News from "Renderer/modules/news/news.component"
+import News from "App/news/news.container"
 import Overview from "App/overview/overview.container"
 import Contacts from "App/contacts/contacts.container"
 import Settings from "Renderer/modules/settings/settings.container"
@@ -19,6 +19,7 @@ import {
   URL_ONBOARDING,
   URL_RECOVERY_MODE,
   URL_TABS,
+  URL_OVERVIEW,
 } from "Renderer/constants/urls"
 import Calendar from "App/calendar/calendar.container"
 import Templates from "App/templates/templates.container"
@@ -35,8 +36,10 @@ import LayoutBlankWrapper from "Renderer/wrappers/layout-blank-wrapper"
 import Backup from "Renderer/modules/settings/tabs/backup/backup-container.component"
 import Notifications from "Renderer/modules/settings/tabs/notifications/notifications.container"
 import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.container"
-import About from "../modules/settings/tabs/about/about.component"
+import About from "../modules/settings/tabs/about/about.container"
 import RecoveryMode from "Renderer/modules/recovery-mode/recovery-mode.component"
+import PureSystem from "App/overview/components/pure-system/pure-system.container"
+import LayoutDesktopWrapperWithoutHeader from "Renderer/wrappers/layout-desktop-wrapper-without-header"
 
 export default () => (
   <Switch>
@@ -53,6 +56,12 @@ export default () => (
         />
         <Route path={URL_RECOVERY_MODE.root} component={RecoveryMode} />
       </LayoutBlankWrapper>
+    </Route>
+
+    <Route exact path={URL_OVERVIEW.pureSystem}>
+      <LayoutDesktopWrapperWithoutHeader>
+        <Route path={URL_OVERVIEW.pureSystem} component={PureSystem} />
+      </LayoutDesktopWrapperWithoutHeader>
     </Route>
 
     <Route exact path={[...Object.values(URL_RECOVERY_MODE)]}>
@@ -77,7 +86,7 @@ export default () => (
         />
         <Route path={URL_MAIN.news} component={News} />
         <Route path={URL_MAIN.calendar} component={Calendar} />
-        <Route path={URL_MAIN.overview} component={Overview} />
+        <Route path={URL_OVERVIEW.root} component={Overview} exact />
         <Route path={URL_MAIN.contacts} component={Contacts} exact />
         <Route path={URL_MAIN.phone} component={Calls} />
         <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
@@ -107,6 +116,6 @@ export default () => (
       </LayoutDesktopWrapper>
     </Route>
 
-    <Redirect to={URL_MAIN.overview} />
+    <Redirect to={URL_OVERVIEW.root} />
   </Switch>
 )

@@ -5,18 +5,38 @@
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
-import React from "react"
+import React, { ComponentProps } from "react"
 import AboutUI from "./about-ui.component"
 import { noop } from "App/renderer/utils/noop"
 import { AboutTestIds } from "./about.enum"
+import { fireEvent, screen } from "@testing-library/dom"
+import { AppUpdateStepModalTestIds } from "Renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
+import { flags } from "App/feature-flags"
 
-const renderer = (
-  config = {
-    openLicense: noop,
-    openTermsOfService: noop,
-    openPrivacyPolicy: noop,
+jest.mock("App/feature-flags")
+
+type Props = ComponentProps<typeof AboutUI>
+const defaultProps = {
+  openLicense: noop,
+  openTermsOfService: noop,
+  openPrivacyPolicy: noop,
+  appLatestVersion: "0.20.2",
+  appCurrentVersion: "0.19.0",
+  appUpdateAvailable: true,
+  appUpdateStepModalShow: false,
+  click: noop,
+  closeUpToDateModal: noop,
+}
+const renderer = (extraProps?: Partial<Props>) => {
+  const props: Props = {
+    ...defaultProps,
+    ...extraProps,
   }
-) => renderWithThemeAndIntl(<AboutUI {...config} />)
+  const outcome = renderWithThemeAndIntl(<AboutUI {...props} />)
+  return {
+    ...outcome,
+  }
+}
 
 test("renders wrapper properly", () => {
   const { queryByTestId } = renderer()
@@ -28,4 +48,25 @@ test("renders at least one table row", () => {
   expect(queryAllByTestId(AboutTestIds.TableRow).length).toBeGreaterThanOrEqual(
     1
   )
+})
+
+test("Opens update modal properly when app update is not available", () => {
+  renderer({
+    appLatestVersion: "0.20.2",
+    appCurrentVersion: "0.20.2",
+    appUpdateStepModalShow: true,
+    appUpdateAvailable: false,
+  })
+
+  expect(
+    screen.getByTestId(AppUpdateStepModalTestIds.AppUpdateNotAvailableModal)
+  ).toBeInTheDocument()
+})
+
+test("Calls AppUpdateAvailableCheck when clicked", () => {
+  jest.spyOn(flags, "get").mockReturnValueOnce(true)
+  const click = jest.fn()
+  const { queryByTestId } = renderer({ click })
+  fireEvent.click(queryByTestId(AboutTestIds.UpdateButton) as HTMLElement)
+  expect(click).toHaveBeenCalledTimes(1)
 })

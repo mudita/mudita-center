@@ -4,7 +4,9 @@
  */
 
 import React, { useEffect, useState } from "react"
+import { DeviceType } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
+import { useDispatch, useSelector } from "react-redux"
 import modalService from "Renderer/components/core/modal/modal.service"
 import {
   CheckingUpdatesModal,
@@ -38,13 +40,14 @@ import {
   ResponseError,
 } from "Backend/adapters/device-response.interface"
 import { isEqual } from "lodash"
-import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
 import logger from "App/main/utils/logger"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-get-all-releases-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { errorCodeMap } from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
+import { setOsVersionData } from "App/device"
+import { ReduxRootState } from "App/renderer/store"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -52,14 +55,16 @@ const onOsDownloadCancel = () => {
 
 const useSystemUpdateFlow = (
   osVersion: string | undefined,
-  osUpdateDate: string | undefined,
   onUpdate: (updateInfo: PhoneUpdate) => void,
-  updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
   toggleDeviceUpdating: (option: boolean) => void,
   onContact: () => void,
   onHelp: () => void
 ) => {
+  const currentDeviceType = useSelector(
+    (state: ReduxRootState) => state.device.deviceType
+  ) as DeviceType
   const [releaseToInstall, setReleaseToInstall] = useState<Release>()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const downloadListener = (event: Event, progress: DownloadProgress) => {
@@ -120,7 +125,7 @@ const useSystemUpdateFlow = (
     const { date, version, prerelease } = releaseToInstall as Release
     const action = async () => {
       await modalService.closeModal()
-      install ? updatePure() : downloadUpdate()
+      install ? updatePure(releaseToInstall) : downloadUpdate(releaseToInstall)
     }
 
     return modalService.openModal(
@@ -168,10 +173,10 @@ const useSystemUpdateFlow = (
     return modalService.openModal(<UpdateServerError onRetry={onRetry} />, true)
   }
 
-  const openAvailableUpdateModal = () => {
-    const { version, date } = releaseToInstall as Release
+  const openAvailableUpdateModal = (release: Release) => {
+    const { version, date } = release
     const onDownload = () => {
-      downloadUpdate()
+      downloadUpdate(release)
       openDownloadingUpdateModal()
     }
 
@@ -195,16 +200,29 @@ const useSystemUpdateFlow = (
 
     if (osVersion) {
       try {
-        const { latestRelease, allReleases } = await getAllReleases()
+        const { latestRelease, allReleases } = await getAllReleases(
+          currentDeviceType
+        )
+
+        if (
+          !silent &&
+          latestRelease === undefined &&
+          allReleases.length === 0
+        ) {
+          await openCheckingForUpdatesFailedModal(() => checkForUpdates())
+          return
+        }
 
         setDevReleases(allReleases)
+
+        if (latestRelease) {
+          setReleaseToInstall(latestRelease)
+        }
 
         if (
           latestRelease &&
           !isVersionGreater(osVersion, latestRelease.version)
         ) {
-          setReleaseToInstall(latestRelease)
-
           onUpdate({
             lastAvailableOsVersion: latestRelease.version,
             pureOsFileUrl: latestRelease.file.url,
@@ -215,7 +233,7 @@ const useSystemUpdateFlow = (
           }
 
           if (!silent) {
-            openAvailableUpdateModal()
+            openAvailableUpdateModal(latestRelease)
           }
         } else {
           onUpdate({ lastAvailableOsVersion: latestRelease?.version })
@@ -234,9 +252,9 @@ const useSystemUpdateFlow = (
   }
 
   // Download update
-  const openDownloadSucceededModal = () => {
+  const openDownloadSucceededModal = (release?: Release) => {
     return modalService.openModal(
-      <DownloadingUpdateFinishedModal onOsUpdate={updatePure} />,
+      <DownloadingUpdateFinishedModal onOsUpdate={() => updatePure(release)} />,
       true
     )
   }
@@ -260,30 +278,42 @@ const useSystemUpdateFlow = (
     modalService.preventClosingModal()
   }
 
-  const downloadUpdate = async () => {
+  const downloadUpdate = async (releaseInstance?: Release) => {
+    const release =
+      releaseInstance === undefined || releaseInstance.version === undefined
+        ? releaseToInstall
+        : releaseInstance
     try {
       await openDownloadingUpdateModal()
-      await delayResponse(
-        downloadOsUpdateRequest(releaseToInstall?.file.url as string)
-      )
-      if (releaseToInstall?.devMode) {
+      await delayResponse(downloadOsUpdateRequest(release?.file.url as string))
+      if (release?.devMode) {
         openDevModal(true)
       } else {
         onUpdate({ pureOsDownloaded: true })
-        await openDownloadSucceededModal()
+        await openDownloadSucceededModal(release)
       }
     } catch (error) {
       if (error.status === DownloadStatus.Cancelled) {
         await openDownloadCanceledModal()
       } else {
-        await openDownloadInterruptedModal(() => downloadUpdate())
+        await openDownloadInterruptedModal(() => downloadUpdate(release))
       }
     }
   }
 
   // Install update
-  const updatePure = async () => {
-    const { file, version } = releaseToInstall as Release
+  const updatePure = async (releaseInstance?: Release) => {
+    const release =
+      releaseInstance === undefined || releaseInstance.version === undefined
+        ? releaseToInstall
+        : releaseInstance
+
+    if (release === undefined) {
+      displayErrorModal()
+      return
+    }
+
+    const { file, version } = release
 
     modalService.openModal(<UpdatingSpinnerModal />, true)
 
@@ -304,10 +334,12 @@ const useSystemUpdateFlow = (
         lastAvailableOsVersion: undefined,
       })
 
-      await updateBasicInfo({
-        osVersion: version,
-        osUpdateDate: new Date().toISOString(),
-      })
+      dispatch(
+        setOsVersionData({
+          osVersion: version,
+          osUpdateDate: new Date().toISOString(),
+        })
+      )
     }
 
     if (isEqual(response, { status: DeviceResponseStatus.Ok })) {

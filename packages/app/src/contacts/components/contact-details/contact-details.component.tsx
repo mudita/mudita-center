@@ -29,8 +29,8 @@ import {
   Input,
   Name,
 } from "App/contacts/components/contact-details/contact-details.styled"
-import { productionEnvironment } from "Renderer/constants/menu-elements"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
+import { flags, Feature } from "App/feature-flags"
 
 const messages = defineMessages({
   favourites: { id: "module.contacts.favourites" },
@@ -159,7 +159,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       <ContactDetailsWrapper
         {...rest}
         show
-        headerRight={productionEnvironment ? prodIcons : icons}
+        headerRight={flags.get(Feature.DevelopOnly) ? icons : prodIcons}
         data-testid={ContactDetailsTestIds.Details}
       >
         <BasicInfo>
@@ -185,17 +185,17 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                     data-testid={ContactDetailsTestIds.PrimaryPhoneInput}
                     defaultValue={contact.primaryPhoneNumber}
                     label={intl.formatMessage(messages.noPrimaryNumber)}
-                    // TODO: Remove productionEnvironment along with associated logic when features become available
+                    // TODO: Implement additional toggles for this feature
                     trailingIcons={
                       contact.primaryPhoneNumber
-                        ? productionEnvironment
-                          ? undefined
-                          : phoneActions(
+                        ? flags.get(Feature.DevelopOnly)
+                          ? phoneActions(
                               contact.primaryPhoneNumber,
                               isThreadOpened(contact.primaryPhoneNumber),
                               onCall,
                               handleMessage
                             )
+                          : undefined
                         : undefined
                     }
                   />
@@ -203,17 +203,17 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                     data-testid={ContactDetailsTestIds.SecondaryPhoneInput}
                     defaultValue={contact.secondaryPhoneNumber}
                     label={intl.formatMessage(messages.noSecondNumber)}
-                    // TODO: Remove productionEnvironment along with associated logic when features become available
+                    // TODO: Implement additional toggles for this feature
                     trailingIcons={
                       contact.secondaryPhoneNumber
-                        ? productionEnvironment
-                          ? undefined
-                          : phoneActions(
+                        ? flags.get(Feature.DevelopOnly)
+                          ? phoneActions(
                               contact.secondaryPhoneNumber,
                               isThreadOpened(contact.secondaryPhoneNumber),
                               onCall,
                               handleMessage
                             )
+                          : undefined
                         : undefined
                     }
                   />

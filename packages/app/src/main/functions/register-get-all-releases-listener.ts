@@ -4,32 +4,36 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
-import axios from "axios"
+import { githubInstance } from "App/main/utils/github-instance"
 import logger from "App/main/utils/logger"
-import { isRelease } from "App/main/utils/is-release"
+import { Product } from "App/main/constants"
+import mapToReleases from "App/main/utils/map-to-release"
 
 export enum GetAllReleasesEvents {
   Request = "get-all-releases-request",
 }
 
-interface GithubRelease {
+export interface GithubReleaseAsset {
+  content_type: string
+  size: number
+  url: string
+  name: string
+}
+
+export interface GithubRelease {
   tag_name: string
   created_at: string
   published_at: string
   draft: boolean
   prerelease: boolean
-  assets: {
-    content_type: string
-    size: number
-    url: string
-    name: string
-  }[]
+  assets: GithubReleaseAsset[]
 }
 
 export interface Release {
   version: string
   date: string
   prerelease: boolean
+  product: Product
   file: {
     url: string
     name: string
@@ -38,21 +42,26 @@ export interface Release {
   devMode?: boolean
 }
 
-const osUpdateServerUrl = process.env.OS_UPDATE_SERVER
+export interface ManifestReleases {
+  version: string
+  platform: string
+  target: Product
+  options: string
+  files: {
+    tar: string
+    image: string
+  }
+  checksums: Record<string, string>
+}
 
-// It's required only for development when API rate limits may exceed
-// https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting
-const githubToken = process.env.OS_UPDATE_SERVER_ACCESS_TOKEN
+const osUpdateServerUrl = process.env.OS_UPDATE_SERVER
 
 const releasesRequest = async (
   page = 1,
   perPage = 100
 ): Promise<GithubRelease[]> => {
   try {
-    const response = await axios(osUpdateServerUrl || "", {
-      headers: {
-        ...(githubToken ? { Authorization: `token ${githubToken}` } : {}),
-      },
+    const response = await githubInstance(osUpdateServerUrl || "", {
       params: {
         page: page,
         per_page: perPage,
@@ -88,39 +97,17 @@ const registerGetAllReleasesListener = () => {
         }
       } while (retry)
 
-      return releases
-        .map((release): Release | null => {
-          const { assets, tag_name, draft, created_at, published_at } = release
-          const asset = assets.find(
-            (asset) => asset.content_type === "application/x-tar"
-          )
-          if (asset && !draft) {
-            const version = tag_name.replace("daily-", "").replace("release-", "")
+      const mappedReleases = await mapToReleases(releases)
 
-            return {
-              version,
-              date: published_at || created_at,
-              prerelease: !isRelease(version),
-              file: {
-                url: asset.url,
-                size: asset.size,
-                name: asset.name,
-              },
-            }
-          } else {
-            return null
-          }
-        })
-        .filter((release) => release !== null)
-        .sort((a, b) => {
-          const versionA = (a as Release).version
-          const versionB = (b as Release).version
+      return mappedReleases.sort((a, b) => {
+        const versionA = a.version
+        const versionB = b.version
 
-          return versionB.localeCompare(versionA, undefined, {
-            numeric: true,
-            sensitivity: "base",
-          })
+        return versionB.localeCompare(versionA, undefined, {
+          numeric: true,
+          sensitivity: "base",
         })
+      })
     })
   }
 }

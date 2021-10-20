@@ -4,9 +4,11 @@
  */
 
 import { connect } from "react-redux"
+import { TmpDispatch } from "Renderer/store"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.component"
 
-const mapDispatchToProps = (dispatch: any) => ({
+// TODO replace `TmpDispatch` with legit `Dispatch`
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   updateOnlineStatus: () => dispatch.networkStatus.updateOnlineStatus(),
 })
 

@@ -32,9 +32,9 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
 import { ResultsState } from "App/contacts/store/contacts.enum"
-import { productionEnvironment } from "Renderer/constants/menu-elements"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { ContactSearchResultsTestIdsEnum } from "App/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
+import { flags, Feature } from "App/feature-flags"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -209,7 +209,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                           Icon={Type.Upload}
                           onClick={handleExport}
                           displayStyle={DisplayStyle.Dropdown}
-                          hide={productionEnvironment}
+                          hide={flags.get(Feature.ProductionAndAlpha)}
                         />
                         <HiddenButton
                           labelMessage={{
@@ -218,7 +218,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                           Icon={Type.Forward}
                           onClick={handleForward}
                           displayStyle={DisplayStyle.Dropdown}
-                          hide={productionEnvironment}
+                          hide={flags.get(Feature.ProductionAndAlpha)}
                         />
                         {contact.blocked ? (
                           <HiddenButton
@@ -228,7 +228,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                             Icon={Type.Blocked}
                             onClick={handleUnblock}
                             displayStyle={DisplayStyle.Dropdown}
-                            hide={productionEnvironment}
+                            hide={flags.get(Feature.ProductionAndAlpha)}
                           />
                         ) : (
                           <HiddenButton
@@ -238,7 +238,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                             Icon={Type.Blocked}
                             onClick={handleBlock}
                             displayStyle={DisplayStyle.Dropdown}
-                            hide={productionEnvironment}
+                            hide={flags.get(Feature.ProductionAndAlpha)}
                           />
                         )}
                         <ButtonComponent

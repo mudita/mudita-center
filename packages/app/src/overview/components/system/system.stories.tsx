@@ -16,7 +16,8 @@ const fakeSystemInfo = getFakeAdapters().purePhone
 
 const storyStyle = css`
   > * {
-    width: 59rem;
+    height: 20.5rem;
+    width: 62rem;
   }
 `
 

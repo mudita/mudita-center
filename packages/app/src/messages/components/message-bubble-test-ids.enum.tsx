@@ -4,5 +4,10 @@
  */
 
 export enum MessageBubbleTestIds {
-  MessageContent = "message-content",
+  Container = "message-bubble-container",
+  MessageContent = "message-bubble-message-content",
+  Dropdown = "message-bubble-dropdown",
+  DropdownActionButton = "message-bubble-dropdown-action-button",
+  ForwardMessageButton = "message-bubble-forward-message-button",
+  DeleteMessageButton = "message-bubble-delete-message-button",
 }

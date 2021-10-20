@@ -14,6 +14,8 @@ storiesOf("Settings/About", module).add("About", () => (
       openLicense={noop}
       openTermsOfService={noop}
       openPrivacyPolicy={noop}
+      closeUpToDateModal={noop}
+      click={noop}
     />
   </div>
 ))

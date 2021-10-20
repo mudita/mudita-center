@@ -4,10 +4,10 @@
  */
 
 import { MuditaDevice, DeviceType } from "@mudita/pure"
+import { connect } from "react-redux"
 import { History } from "history"
 import React, { useEffect, useState } from "react"
 import { IntlProvider } from "react-intl"
-import { Store } from "Renderer/store"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
 import GlobalStyle from "Renderer/styles/global-style.component"
@@ -45,13 +45,48 @@ import registerNotAvailableAppUpdateListener from "App/main/functions/register-n
 import LicenseApp from "./license-app.component"
 import TermsOfServiceApp from "./terms-of-service-app.component"
 import PrivacyPolicyApp from "./privacy-policy-app.component"
+import { flags, Feature } from "App/feature-flags"
+import SarApp from "./sar-app.component"
+
+import { TmpDispatch } from "Renderer/store"
+import {
+  connectDevice,
+  disconnectDevice,
+  unlockedDevice,
+  lockedDevice,
+  getConnectedDevice,
+} from "App/device"
+// import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 
 interface Props {
-  store: Store
   history: History
+  connect: () => void
+  disconnectDevice: () => void
+  connectDevice: (value: DeviceType) => void
+  lockedDevice: () => void
+  unlockedDevice: () => void
+  // TODO remove legacy staff
+  toggleAppUpdateAvailable: (value: boolean) => void
+  setAppUpdateStepModalDisplayed: () => void
+  setAppLatestVersion: (value: string) => void
+  loadSettings: () => void
+  toggleAppUpdateStepModalShow: (value: boolean) => void
 }
 
-const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
+const RootWrapper: FunctionComponent<Props> = ({
+  history,
+  connect,
+  disconnectDevice,
+  connectDevice,
+  lockedDevice,
+  unlockedDevice,
+  // TODO remove legacy staff
+  toggleAppUpdateAvailable,
+  setAppUpdateStepModalDisplayed,
+  setAppLatestVersion,
+  loadSettings,
+  toggleAppUpdateStepModalShow,
+}) => {
   const params = new URLSearchParams(window.location.search)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
     await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
@@ -85,13 +120,17 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
       return <PrivacyPolicyApp history={history} />
     }
 
-    return <BaseApp store={store} history={history} />
+    if (params.get("mode") === Mode.Sar) {
+      return <SarApp history={history} />
+    }
+
+    return <BaseApp history={history} />
   }
 
   const handleAppUpdateAvailableCheck = (): void => {
     if (!window.navigator.onLine) {
-      store.dispatch.settings.setAppUpdateStepModalDisplayed()
-      store.dispatch.settings.toggleAppUpdateAvailable(false)
+      setAppUpdateStepModalDisplayed()
+      toggleAppUpdateAvailable(false)
     } else {
       void checkAppUpdateRequest()
     }
@@ -112,13 +151,19 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   }, [])
 
   useEffect(() => {
-    store.dispatch.basicInfo.connect()
+    connect()
   }, [])
 
   useEffect(() => {
     const listener = () => {
-      modalService.closeModal(true)
-      store.dispatch.basicInfo.toggleDeviceConnected(false)
+      disconnectDevice()
+
+      // modalService.closeModal(true)
+      // const updatingState = store.getState().basicInfo.updatingState
+      // if (updatingState !== UpdatingState.Updating) {
+      //   modalService.closeModal(true)
+      // }
+      // store.dispatch.basicInfo.toggleDeviceConnected(false)
     }
     const unregister = () => {
       removeDeviceDisconnectedListener(listener)
@@ -129,11 +174,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     const listener = (_: any, props: MuditaDevice) => {
-      store.dispatch.basicInfo.toggleDeviceConnected(true)
-
-      if (props.deviceType === DeviceType.MuditaHarmony) {
-        store.dispatch.basicInfo.toggleDeviceUnlocked(true)
-      }
+      connectDevice(props.deviceType)
     }
     registerDeviceConnectedListener(listener)
     return () => removeDeviceConnectedListener(listener)
@@ -141,7 +182,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     const listener = () => {
-      store.dispatch.basicInfo.toggleDeviceUnlocked(false)
+      lockedDevice()
     }
     const unregister = () => {
       removeDeviceLockedListener(listener)
@@ -152,7 +193,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     const listener = () => {
-      store.dispatch.basicInfo.toggleDeviceUnlocked(true)
+      unlockedDevice()
     }
     registerDeviceUnlockedListener(listener)
     return () => removeDeviceUnlockedListener(listener)
@@ -160,8 +201,9 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     const unregister = registerAvailableAppUpdateListener((version) => {
-      store.dispatch.settings.toggleAppUpdateAvailable(true)
-      store.dispatch.settings.setAppLatestVersion(version)
+      toggleAppUpdateStepModalShow(true)
+      toggleAppUpdateAvailable(true)
+      setAppLatestVersion(version as string)
     })
 
     return () => unregister()
@@ -169,18 +211,19 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     const unregister = registerNotAvailableAppUpdateListener(() => {
-      store.dispatch.settings.setAppUpdateStepModalDisplayed()
-      store.dispatch.settings.toggleAppUpdateAvailable(false)
+      setAppUpdateStepModalDisplayed()
+      toggleAppUpdateAvailable(false)
     })
 
     return () => unregister()
   })
 
   useEffect(() => {
-    void store.dispatch.settings.loadSettings()
+    loadSettings()
     handleAppUpdateAvailableCheck()
-    const devModeHidden = process.env.DEVELOPER_MODE_HIDE === "true"
-    const productionEnvironment = process.env.NODE_ENV === "production"
+
+    const devModeHidden = flags.get(Feature.DeveloperModeHidden)
+    const productionEnvironment = flags.get(Feature.DisabledOnProduction)
     //Remove this condition to get devMode on production
     if (!(devModeHidden && productionEnvironment)) {
       // Register hotkeys
@@ -213,4 +256,23 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   )
 }
 
-export default RootWrapper
+// TODO replace `TmpDispatch` with legit `Dispatch`
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  connect: () => dispatch(getConnectedDevice()),
+  disconnectDevice: () => dispatch(disconnectDevice()),
+  connectDevice: (value: DeviceType) => dispatch(connectDevice(value)),
+  lockedDevice: () => dispatch(lockedDevice()),
+  unlockedDevice: () => dispatch(unlockedDevice()),
+  // TODO remove legacy staff
+  toggleAppUpdateAvailable: (value: boolean) =>
+    dispatch.settings.toggleAppUpdateAvailable(value),
+  setAppUpdateStepModalDisplayed: () =>
+    dispatch.settings.setAppUpdateStepModalDisplayed(),
+  setAppLatestVersion: (value: string) =>
+    dispatch.settings.setAppLatestVersion(value),
+  toggleAppUpdateStepModalShow: (value: boolean) =>
+    dispatch.settings.toggleAppUpdateStepModalShow(value),
+  loadSettings: () => dispatch.settings.loadSettings(),
+})
+
+export default connect(null, mapDispatchToProps)(RootWrapper)

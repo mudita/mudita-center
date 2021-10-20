@@ -11,7 +11,7 @@ const {
   devserver,
   optimization,
 } = require("./webpack/common")
-const { woff, woff2, tff, eot, tsx, css, scss, img, svg, fonts, js } = rules
+const { woff, woff2, tff, eot, tsx, css, scss, img, svg, fonts, js, nodeLoader } = rules
 
 const config = {
   mode: production ? "production" : "development",
@@ -42,6 +42,7 @@ const config = {
       svg,
       fonts,
       js,
+      nodeLoader,
     ],
   },
 }

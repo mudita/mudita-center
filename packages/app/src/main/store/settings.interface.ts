@@ -40,6 +40,7 @@ export interface AppSettings extends Record<string, any> {
 export interface SettingsState extends Partial<AppSettings>, AppConfiguration {
   appUpdateAvailable: boolean | undefined
   appUpdateStepModalDisplayed: boolean
+  appUpdateStepModalShow: boolean
   settingsLoaded: boolean
   appLatestVersion: string
 }

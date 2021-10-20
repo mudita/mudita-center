@@ -12,6 +12,7 @@ import DeviceService from "Backend/device-service"
 import Adapters from "Backend/adapters/adapters.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
 const mockDeviceInfo: DeviceInfo = {
   accessTechnology: "255",
@@ -29,6 +30,7 @@ const mockDeviceInfo: DeviceInfo = {
   signalStrength: "1",
   trayState: "1",
   serialNumber: "1UB13213MN14K1",
+  caseColour: "grey",
 } as unknown as DeviceInfo
 
 jest.mock("Backend/device-service")
@@ -44,15 +46,23 @@ test("returns required device info", async () => {
   })
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystemService = new DeviceFileSystemService(deviceService)
-
+  const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
+    deviceService
+  )
   registerDeviceInfoRequest({
-    purePhone: createPurePhoneAdapter(deviceService, deviceFileSystemService),
+    purePhone: createPurePhoneAdapter(
+      deviceService,
+      deviceFileSystemService,
+      deviceFileDiagnosticService
+    ),
   } as unknown as Adapters)
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetDeviceInfo)
   const result = await pendingResponse
 
   expect(result.data).toMatchInlineSnapshot(`
     Object {
+      "backupLocation": "",
+      "caseColour": "grey",
       "modelName": "Ziemniaczek Puree",
       "modelNumber": "Y0105W4GG1N5",
       "name": "Mudita Pure",

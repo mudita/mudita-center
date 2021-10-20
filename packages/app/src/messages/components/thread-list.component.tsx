@@ -53,9 +53,9 @@ import {
 import { isToday } from "Renderer/utils/is-today"
 import { AppSettings } from "App/main/store/settings.interface"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
-import { productionEnvironment } from "Renderer/constants/menu-elements"
 import { Thread } from "App/messages/store/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
+import { flags, Feature } from "App/feature-flags"
 
 const ThreadRow = styled(Row)`
   height: 9rem;
@@ -170,11 +170,11 @@ type SelectHook = Pick<
 
 interface Props extends SelectHook, Pick<AppSettings, "language"> {
   threads: Thread[]
-  openSidebar?: (thread: Thread) => void
+  onThreadClick?: (thread: Thread) => void
   activeThread?: Thread
   onDeleteClick: (id: string) => void
   onToggleReadStatus: (ids: string[]) => void
-  getContact: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact | undefined
   onContactClick: (phoneNumber: string) => void
   isContactCreated: (id: string) => boolean
 }
@@ -182,7 +182,7 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
 const ThreadList: FunctionComponent<Props> = ({
   activeThread,
   threads,
-  openSidebar = noop,
+  onThreadClick = noop,
   onDeleteClick,
   onToggleReadStatus,
   getRowStatus,
@@ -207,16 +207,16 @@ const ThreadList: FunctionComponent<Props> = ({
       hideColumns={Boolean(activeThread)}
     >
       {threads.map((thread) => {
-        const { unread, id } = thread
+        const { unread, id, phoneNumber } = thread
         const contact = getContact(thread.contactId)
         const { selected, indeterminate } = getRowStatus(thread)
 
         const toggle = () => toggleRow(thread)
-        const open = () => openSidebar(thread)
-        const active = activeThread?.id === thread.id
+        const handleThreadClick = () => onThreadClick(thread)
+        const active = activeThread?.id === id
         const emitDeleteClick = () => onDeleteClick(id)
         const toggleReadStatus = () => onToggleReadStatus([id])
-        const handleContactClick = () => onContactClick(id)
+        const handleContactClick = () => onContactClick(phoneNumber)
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <ThreadRow ref={ref} selected={selected} active={active}>
             <AvatarCol>
@@ -234,16 +234,19 @@ const ThreadList: FunctionComponent<Props> = ({
                 size={AvatarSize.Big}
               />
             </AvatarCol>
-            <ThreadCol onClick={open} data-testid={ThreadListTestIds.Row}>
+            <ThreadCol
+              onClick={handleThreadClick}
+              data-testid={ThreadListTestIds.Row}
+            >
               <ThreadDataWrapper sidebarOpened={Boolean(activeThread)}>
                 <NameWrapper>
                   <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                    {getPrettyCaller(contact, thread.id)}
+                    {getPrettyCaller(contact, phoneNumber)}
                   </Name>
-                  {Boolean(thread.id && contact?.secondaryPhoneNumber) && (
+                  {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
                     <Text displayStyle={TextDisplayStyle.LargeFadedText}>
                       &nbsp;
-                      {thread.id.split(" ").join("") ===
+                      {phoneNumber.split(" ").join("") ===
                       contact?.secondaryPhoneNumber?.split(" ").join("")
                         ? "#2"
                         : "#1"}
@@ -284,14 +287,14 @@ const ThreadList: FunctionComponent<Props> = ({
                     labelMessage={{
                       id: "component.dropdownCall",
                       values: {
-                        name: contact?.firstName || thread.id,
+                        name: contact?.firstName || phoneNumber,
                       },
                     }}
                     Icon={Type.Calls}
                     onClick={noop}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
-                    hide={productionEnvironment}
+                    hide={flags.get(Feature.ProductionAndAlpha)}
                   />
                   {isContactCreated(thread.contactId) ? (
                     <ButtonComponent
@@ -315,7 +318,7 @@ const ThreadList: FunctionComponent<Props> = ({
                     />
                   )}
                   {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
-                  {process.env.NODE_ENV !== "production" && (
+                  {!flags.get(Feature.ProductionAndAlpha) && (
                     <>
                       <HiddenButton
                         labelMessage={{
@@ -327,7 +330,7 @@ const ThreadList: FunctionComponent<Props> = ({
                         onClick={toggleReadStatus}
                         displayStyle={DisplayStyle.Dropdown}
                         data-testid="dropdown-mark-as-read"
-                        hide={productionEnvironment}
+                        hide={flags.get(Feature.ProductionAndAlpha)}
                       />
 
                       <ButtonComponent
@@ -351,7 +354,7 @@ const ThreadList: FunctionComponent<Props> = ({
         const placeholderRow = (ref: Ref<HTMLDivElement>) => (
           <ThreadRow ref={ref}>
             <Col />
-            <Col>
+            <Col data-testid={ThreadListTestIds.Row}>
               <AvatarPlaceholder />
               <TextPlaceholder charsCount={contact?.firstName?.length || 0} />
             </Col>

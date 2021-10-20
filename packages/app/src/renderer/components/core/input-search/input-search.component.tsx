@@ -184,7 +184,7 @@ export interface InputSearchProps extends Partial<InputProps> {
   clearOnBlur?: boolean
   active?: boolean
   searchResultRows?: number
-  openSearchResults?: () => void
+  onSearchEnterClick?: () => void
   itemListDisabled?: boolean
   searchValue: string
   onSearchValueChange: (value: string) => void
@@ -209,7 +209,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   type = "text",
   searchResultRows = 8,
   active,
-  openSearchResults = noop,
+  onSearchEnterClick = noop,
   itemListDisabled = false,
   searchValue,
   onSearchValueChange,
@@ -274,7 +274,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   }
 
   const searchResults = () => {
-    openSearchResults()
+    onSearchEnterClick()
     setActiveItemIndex(-1)
   }
 

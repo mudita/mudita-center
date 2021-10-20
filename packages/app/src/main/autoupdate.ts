@@ -7,6 +7,7 @@ import { autoUpdater } from "electron-updater"
 import { ipcMain } from "electron-better-ipc"
 import { BrowserWindow } from "electron"
 import logger from "App/main/utils/logger"
+import { Feature, flags } from "App/feature-flags"
 
 export enum AppUpdateEvent {
   Available = "app-update-available",
@@ -37,6 +38,7 @@ export default (win: BrowserWindow): void => {
   })
   autoUpdater.logger = logger
   autoUpdater.autoDownload = false
+  autoUpdater.allowPrerelease = flags.get(Feature.McPrereleaseAvailable)
   autoUpdater.autoInstallOnAppQuit = false
 
   autoUpdater.on("update-available", ({ version }) => {
@@ -47,6 +49,7 @@ export default (win: BrowserWindow): void => {
   })
   autoUpdater.on("error", (error) => {
     void ipcMain.callRenderer(win, AppUpdateEvent.Error, error)
+    void ipcMain.callRenderer(win, AppUpdateEvent.NotAvailable)
     win.setProgressBar(-1)
   })
   autoUpdater.on("download-progress", ({ percent }) => {

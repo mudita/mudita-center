@@ -450,9 +450,12 @@ test("google events are mapped properly", () => {
 
 test("contacts are received properly", async () => {
   axiosMock
-    .onGet(
-      `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses,biographies`
-    )
+    .onGet(`${googleEndpoints.people}/people/me/connections`, {
+      params: {
+        personFields: "names,addresses,phoneNumbers,emailAddresses,biographies",
+        pageSize: 1000,
+      },
+    })
     .reply(200, mockedGoogleContacts)
 
   expect(await store.dispatch.google.getContacts()).toMatchInlineSnapshot(`
@@ -491,10 +494,13 @@ test("contacts are received properly", async () => {
 
 test("empty list is returned when no contacts", async () => {
   axiosMock
-    .onGet(
-      `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses,biographies`
-    )
-    .reply(200, {})
+    .onGet(`${googleEndpoints.people}/people/me/connections`, {
+      params: {
+        personFields: "names,addresses,phoneNumbers,emailAddresses,biographies",
+        pageSize: 1000,
+      },
+    })
+    .reply(200, { totalItems: 0 })
 
   expect(await store.dispatch.google.getContacts()).toMatchInlineSnapshot(
     `Array []`
