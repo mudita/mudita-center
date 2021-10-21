@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import * as fs from "fs"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { RestoreDeviceEvent } from "App/restore-device/constants"
 import startRestoreDeviceRequest from "Renderer/requests/start-restore-device.request"
@@ -15,6 +14,7 @@ import { PureDeviceData } from "App/device"
 import { ReduxRootState, RootState } from "Renderer/store"
 import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers"
 import decryptFile from "App/files-system/requests/decrypt-file.request"
+import readFile from "App/files-system/requests/read-file.request"
 
 export interface StartRestoreOption {
   secretKey: string
@@ -42,8 +42,16 @@ export const startRestoreDevice = createAsyncThunk<
       )
     }
 
+    const buffer = await readFile(backup.filePath)
+
+    if (buffer === undefined) {
+      return rejectWithValue(
+        new StartRestoreDeviceError("Read File fails")
+      )
+    }
+
     const decryptedBuffer = await decryptFile({
-      buffer: fs.readFileSync(backup.filePath),
+      buffer,
       key: secretKey,
     })
 

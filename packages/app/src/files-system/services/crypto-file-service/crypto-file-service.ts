@@ -21,7 +21,7 @@ const defaultCipherAlgorithm: CipherAlgorithm = "aes-256-ctr"
 
 export interface CryptoFileOption
   extends Pick<HashOptions, "key" | "encoding"> {
-  buffer: Buffer
+  buffer: Buffer | Uint8Array
   cipherAlgorithm?: CipherAlgorithm
   hashAlgorithm?: HashAlgorithm
 }

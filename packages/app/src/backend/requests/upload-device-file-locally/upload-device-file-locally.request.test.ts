@@ -8,7 +8,7 @@ import getFakeAdapters from "App/tests/get-fake-adapters"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import registerUploadDeviceFileLocallyRequest from "Backend/requests/upload-device-file-locally/upload-device-file-locally.request"
 
-test("`UploadDeviceFileRequest` returns properly value", async () => {
+test("`UploadDeviceFileLocally` returns properly value", async () => {
   registerUploadDeviceFileLocallyRequest(getFakeAdapters())
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.UploadDeviceFileLocally)
   const result = await pendingResponse

@@ -6,12 +6,13 @@
 import { ipcMain } from "electron-better-ipc"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import registerUploadDeviceFileLocallyRequest from "Backend/requests/upload-device-file-locally/upload-device-file-locally.request"
+import registerUploadDeviceFileRequest from "Backend/requests/upload-device-file/upload-device-file.request"
 
 test("`UploadDeviceFileRequest` returns properly value", async () => {
-  registerUploadDeviceFileLocallyRequest(getFakeAdapters())
+  registerUploadDeviceFileRequest(getFakeAdapters())
   const [pendingResponse] = (ipcMain as any)._flush(
-    IpcRequest.UploadDeviceFileLocally
+    IpcRequest.UploadDeviceFile,
+    { data: new Uint8Array([1]), targetPath: "" }
   )
   const result = await pendingResponse
   expect(result).toMatchInlineSnapshot(`
