@@ -31,7 +31,7 @@ export interface InputProps
     BasicProps {
   condensed?: boolean
   inputRef?: Ref<HTMLInputElement>
-  type: "text" | "email" | "password" | "search" | "tel" | "url"
+  type: "text" | "email" | "password" | "search" | "tel" | "url" | "passcode"
   initialTransparentBorder?: boolean
 }
 
@@ -42,10 +42,10 @@ export interface TextareaProps
   inputRef?: Ref<HTMLTextAreaElement>
   type?: "textarea"
 }
-export interface InputPasswordProps
+export interface InputPasscodeProps
   extends TextareaHTMLAttributes<HTMLInputElement>,
     BasicProps {
-  type: "password"
+  type: "passcode"
   inputRef?: Ref<HTMLInputElement>
   error: boolean
   filled: boolean
@@ -54,4 +54,4 @@ export interface InputPasswordProps
 export type InputComponentProps =
   | InputProps
   | TextareaProps
-  | InputPasswordProps
+  | InputPasscodeProps

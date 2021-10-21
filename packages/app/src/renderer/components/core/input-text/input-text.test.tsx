@@ -182,23 +182,23 @@ test("renders textarea input error properly", () => {
   expect(getByText("Error")).toBeInTheDocument()
 })
 
-test("renders password input properly", () => {
-  const { getByTestId } = renderWithThemeAndIntl(<InputText type="password" />)
+test("renders passcode input properly", () => {
+  const { getByTestId } = renderWithThemeAndIntl(<InputText type="passcode" />)
 
   expect(getByTestId(InputTextTestIds.PasswordInput)).toBeInTheDocument()
 })
-test("renders filled password input properly", () => {
+test("renders filled passcode input properly", () => {
   const { getByTestId, container } = renderWithThemeAndIntl(
-    <InputText type="password" filled disabled />
+    <InputText type="passcode" filled disabled />
   )
   expect(getByTestId(InputTextTestIds.PasswordInput)).toBeInTheDocument()
   expect(container.querySelector("input")).toHaveStyle(
     `background-color: #f4f5f6;`
   )
 })
-test("renders disabled error password input properly", () => {
+test("renders disabled error passcode input properly", () => {
   const { getByTestId, container } = renderWithThemeAndIntl(
-    <InputText type="password" filled disabled error />
+    <InputText type="passcode" filled disabled error />
   )
   expect(getByTestId(InputTextTestIds.PasswordInput)).toBeInTheDocument()
   expect(container.querySelector("input")).toHaveStyle(
