@@ -51,7 +51,7 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
     setActiveBackup(backup)
   }
 
-  const startBackupDeviceButtonClick = (secretKey: string = ""): void => {
+  const startBackupDeviceButtonClick = (secretKey = ""): void => {
     if (activeBackup) {
       onStartRestoreDeviceButtonClick({ backup: activeBackup, secretKey })
     }

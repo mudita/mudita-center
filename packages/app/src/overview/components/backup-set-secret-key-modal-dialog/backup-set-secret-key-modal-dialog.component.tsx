@@ -2,6 +2,7 @@
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
+
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React, { ComponentProps } from "react"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"

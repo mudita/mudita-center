@@ -42,7 +42,7 @@ const BackupDeviceFlow: FunctionComponent<Props> = ({
     setState(BackupDeviceFlowState.SecretKeySetting)
   }
 
-  const startBackupDeviceButtonClick = (secretKey: string = ""): void => {
+  const startBackupDeviceButtonClick = (secretKey = ""): void => {
     onStartBackupDeviceButtonClick(secretKey)
   }
 
