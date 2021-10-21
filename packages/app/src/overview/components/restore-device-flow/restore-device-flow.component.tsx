@@ -80,6 +80,7 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
         testId={RestoreDeviceFlowTestIds.RestoreSecretKeySetting}
         open={RestoreDeviceFlowState.SecretKeySetting === state}
         onSecretKeySet={startBackupDeviceButtonClick}
+        closeModal={closeModal}
       />
       <RestoreSpinnerModal
         testId={RestoreDeviceFlowTestIds.RestoreDeviceRunning}
