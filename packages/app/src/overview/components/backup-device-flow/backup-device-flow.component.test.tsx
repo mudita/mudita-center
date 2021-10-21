@@ -39,6 +39,34 @@ describe("`BackupDeviceFlow` component", () => {
         queryByTestId(BackupDeviceFlowTestIds.BackupDeviceStart)
       ).toBeInTheDocument()
       expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupSecretKeySetting)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceFinished)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceError)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `openState` property is set to `SecretKeySetting`", () => {
+    const extraProps: Partial<Props> = {
+      openState: BackupDeviceFlowState.SecretKeySetting,
+    }
+    test("should be displayed `BackupSetSecretKeyModal`", () => {
+      const { queryByTestId } = render(extraProps)
+
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupSecretKeySetting)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupDeviceStart)
+      ).not.toBeInTheDocument()
+      expect(
         queryByTestId(BackupDeviceFlowTestIds.BackupDeviceRunning)
       ).not.toBeInTheDocument()
       expect(
@@ -60,6 +88,9 @@ describe("`BackupDeviceFlow` component", () => {
       expect(
         queryByTestId(BackupDeviceFlowTestIds.BackupDeviceRunning)
       ).toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupSecretKeySetting)
+      ).not.toBeInTheDocument()
       expect(
         queryByTestId(BackupDeviceFlowTestIds.BackupDeviceStart)
       ).not.toBeInTheDocument()
@@ -83,6 +114,9 @@ describe("`BackupDeviceFlow` component", () => {
         queryByTestId(BackupDeviceFlowTestIds.BackupDeviceFinished)
       ).toBeInTheDocument()
       expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupSecretKeySetting)
+      ).not.toBeInTheDocument()
+      expect(
         queryByTestId(BackupDeviceFlowTestIds.BackupDeviceStart)
       ).not.toBeInTheDocument()
       expect(
@@ -104,6 +138,9 @@ describe("`BackupDeviceFlow` component", () => {
       expect(
         queryByTestId(BackupDeviceFlowTestIds.BackupDeviceError)
       ).toBeInTheDocument()
+      expect(
+        queryByTestId(BackupDeviceFlowTestIds.BackupSecretKeySetting)
+      ).not.toBeInTheDocument()
       expect(
         queryByTestId(BackupDeviceFlowTestIds.BackupDeviceStart)
       ).not.toBeInTheDocument()

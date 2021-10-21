@@ -306,9 +306,7 @@ export const PureOverview: FunctionComponent<Props> = ({
         <BackupDeviceFlow
           openState={backupDeviceFlowState}
           pureOsBackupLocation={pureOsBackupLocation}
-          onStartBackupDeviceButtonClick={() =>
-            startBackupDevice("MySuperSecretKey")
-          }
+          onStartBackupDeviceButtonClick={startBackupDevice}
           closeModal={closeBackupDeviceFlowState}
           onSupportButtonClick={openContactSupportModalFlow}
         />
