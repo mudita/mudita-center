@@ -38,12 +38,12 @@ const BackupDeviceFlow: FunctionComponent<Props> = ({
   closeModal,
 }) => {
   const [state, setState] = useState<BackupDeviceFlowState>(openState)
-  const goToBackupPasswordSettingModal = (): void => {
+  const goToBackupSecretKeySettingModal = (): void => {
     setState(BackupDeviceFlowState.SecretKeySetting)
   }
 
-  const startBackupDeviceButtonClick = (secretKey: string): void => {
-    onStartBackupDeviceButtonClick(String(secretKey))
+  const startBackupDeviceButtonClick = (secretKey: string = ""): void => {
+    onStartBackupDeviceButtonClick(secretKey)
   }
 
   return (
@@ -52,7 +52,7 @@ const BackupDeviceFlow: FunctionComponent<Props> = ({
         testId={BackupDeviceFlowTestIds.BackupDeviceStart}
         open={BackupDeviceFlowState.Start === state}
         closeModal={closeModal}
-        onActionButtonClick={goToBackupPasswordSettingModal}
+        onActionButtonClick={goToBackupSecretKeySettingModal}
       />
       <BackupSetSecretKeyModal
         testId={BackupDeviceFlowTestIds.BackupSecretKeySetting}

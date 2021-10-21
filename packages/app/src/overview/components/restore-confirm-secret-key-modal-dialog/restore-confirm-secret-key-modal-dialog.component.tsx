@@ -25,22 +25,22 @@ enum FieldKeys {
   SecretKey = "secretKey",
 }
 
-export interface BackupSetSecretKeyFieldValues extends FieldValues {
+export interface RestoreConfirmSecretKeyFieldValues extends FieldValues {
   [FieldKeys.SecretKey]: string
 }
 
 const messages = defineMessages({
-  backupSetSecretKeyModalHeaderTitle: {
-    id: "module.overview.backupSetSecretKeyModalHeaderTitle",
+  restoreConfirmSecretKeyModalHeaderTitle: {
+    id: "module.overview.restoreConfirmSecretKeyModalHeaderTitle",
   },
-  backupSetSecretKeyModalDescription: {
-    id: "module.overview.backupSetSecretKeyModalDescription",
+  restoreConfirmSecretKeyModalDescription: {
+    id: "module.overview.restoreConfirmSecretKeyModalDescription",
   },
-  backupSetSecretKeyModalMainButton: {
-    id: "module.overview.backupSetSecretKeyModalMainButton",
+  restoreConfirmSecretKeyModalMainButton: {
+    id: "module.overview.restoreConfirmSecretKeyModalMainButton",
   },
-  backupSetSecretKeyModalInputLabel: {
-    id: "module.overview.backupSetSecretKeyModalInputLabel",
+  restoreConfirmSecretKeyModalInputLabel: {
+    id: "module.overview.restoreConfirmSecretKeyModalInputLabel",
   },
 })
 
@@ -82,23 +82,24 @@ const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
 }) => (
   <ModalDialog
     size={size}
-    title={intl.formatMessage(messages.backupSetSecretKeyModalHeaderTitle)}
+    title={intl.formatMessage(messages.restoreConfirmSecretKeyModalHeaderTitle)}
     {...props}
   >
     <ModalContent>{children}</ModalContent>
   </ModalDialog>
 )
 
-interface BackupSetSecretKeyModalProps
+interface RestoreConfirmSecretKeyModalProps
   extends ComponentProps<typeof ModalDialog> {
   onSecretKeySet: (secretKey: string) => void
 }
 
-export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalProps> =
+export const RestoreConfirmSecretKeyModal: FunctionComponent<RestoreConfirmSecretKeyModalProps> =
   ({ onSecretKeySet, ...props }) => {
-    const { register, handleSubmit } = useForm<BackupSetSecretKeyFieldValues>({
-      mode: "onChange",
-    })
+    const { register, handleSubmit } =
+      useForm<RestoreConfirmSecretKeyFieldValues>({
+        mode: "onChange",
+      })
 
     const handleSubmitClick = handleSubmit((data) => {
       onSecretKeySet(data.secretKey)
@@ -107,28 +108,27 @@ export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalP
     return (
       <Modal
         closeButton={false}
-        title={intl.formatMessage(messages.backupSetSecretKeyModalHeaderTitle)}
+        title={intl.formatMessage(
+          messages.restoreConfirmSecretKeyModalHeaderTitle
+        )}
         {...props}
       >
         <ModalText
           displayStyle={TextDisplayStyle.MediumFadedText}
-          message={messages.backupSetSecretKeyModalDescription}
+          message={messages.restoreConfirmSecretKeyModalDescription}
         />
         <Form onSubmit={handleSubmitClick}>
           <FormInputLabel
             displayStyle={TextDisplayStyle.SmallFadedText}
-            message={messages.backupSetSecretKeyModalInputLabel}
+            message={messages.restoreConfirmSecretKeyModalInputLabel}
           />
-          <FormInput
-            type={"password"}
-            {...register(FieldKeys.SecretKey)}
-          />
+          <FormInput type={"password"} {...register(FieldKeys.SecretKey)} />
           <ButtonWrapper>
             <ButtonWithRotatingIcon
               type={Type.Submit}
               displayStyle={DisplayStyle.Primary}
               label={intl.formatMessage(
-                messages.backupSetSecretKeyModalMainButton
+                messages.restoreConfirmSecretKeyModalMainButton
               )}
             />
           </ButtonWrapper>

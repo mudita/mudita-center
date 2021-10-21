@@ -7,14 +7,14 @@ import React from "react"
 import { Meta } from "@storybook/react"
 import Story from "Renderer/components/storybook/story.component"
 import { action } from "@storybook/addon-actions"
-import { BackupSetSecretKeyModal } from "App/overview/components/backup-set-secret-key-modal-dialog/backup-set-secret-key-modal-dialog.component"
+import { RestoreConfirmSecretKeyModal } from "App/overview/components/restore-confirm-secret-key-modal-dialog/restore-confirm-secret-key-modal-dialog.component"
 
-export const BackupSetSecretKeyModalStory = () => {
+export const RestoreConfirmSecretKeyModalStory = () => {
   return (
     <Story transparentMode>
-      <BackupSetSecretKeyModal
+      <RestoreConfirmSecretKeyModal
         open
-        closeModal={action("Close Set Secret Key Backup Modal")}
+        closeModal={action("Close Confirm Secret Key Restore Modal")}
         onSecretKeySet={action("Set secret key trigger")}
       />
     </Story>
@@ -22,6 +22,6 @@ export const BackupSetSecretKeyModalStory = () => {
 }
 
 export default {
-  title: "Views|Overview/Backup Set Password Modal Dialog",
-  component: BackupSetSecretKeyModalStory,
+  title: "Views|Overview/Restore Confirm Secret Key Modal Dialog",
+  component: RestoreConfirmSecretKeyModalStory,
 } as Meta

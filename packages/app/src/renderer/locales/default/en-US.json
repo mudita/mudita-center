@@ -425,6 +425,11 @@
   "module.overview.backupSetSecretKeyModalMainButton": "Confirm",
   "module.overview.backupSetSecretKeyModalInputLabel": "Password",
 
+  "module.overview.restoreConfirmSecretKeyModalHeaderTitle": "Password",
+  "module.overview.restoreConfirmSecretKeyModalDescription": "Enter the backup password.",
+  "module.overview.restoreConfirmSecretKeyModalMainButton": "Confirm",
+  "module.overview.restoreConfirmSecretKeyModalInputLabel": "Password",
+
   "module.overview.restoreModalHeaderTitle": "Restore backup",
   "module.overview.restoreAvailableBackupModalTitle": "Select the backup you want to restore.",
   "module.overview.restoreModalTitle": "Do you want restore this backup?",

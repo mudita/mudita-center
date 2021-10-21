@@ -315,9 +315,7 @@ export const PureOverview: FunctionComponent<Props> = ({
         <RestoreDeviceFlow
           openState={restoreDeviceFlowState}
           backups={backups}
-          onStartRestoreDeviceButtonClick={(backup) =>
-            startRestoreDevice({ backup, secretKey: "MySuperSecretKey" })
-          }
+          onStartRestoreDeviceButtonClick={startRestoreDevice}
           closeModal={closeRestoreDeviceFlowState}
           onSupportButtonClick={openContactSupportModalFlow}
         />
