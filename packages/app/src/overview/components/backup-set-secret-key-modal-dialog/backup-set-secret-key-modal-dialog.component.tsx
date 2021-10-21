@@ -95,6 +95,8 @@ interface BackupSetSecretKeyModalProps
   onSecretKeySet: (secretKey: string) => void
 }
 
+// TODO: Provide some abstraction to hide structure modal behind core
+//  https://appnroll.atlassian.net/browse/CP-757
 export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalProps> =
   ({ onSecretKeySet, ...props }) => {
     const { register, handleSubmit } = useForm<BackupSetSecretKeyFieldValues>({

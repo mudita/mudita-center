@@ -95,6 +95,8 @@ interface RestoreConfirmSecretKeyModalProps
   onSecretKeySet: (secretKey: string) => void
 }
 
+// TODO: Provide some abstraction to hide structure modal behind core
+//  https://appnroll.atlassian.net/browse/CP-757
 export const RestoreConfirmSecretKeyModal: FunctionComponent<RestoreConfirmSecretKeyModalProps> =
   ({ onSecretKeySet, ...props }) => {
     const { register, handleSubmit } =
