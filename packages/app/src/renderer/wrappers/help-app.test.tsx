@@ -11,12 +11,16 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { data } from "App/seeds/help"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import { useHelpSearch } from "../utils/hooks/use-help-search/use-help-search"
+import { Provider } from "react-redux"
+import store from "Renderer/store"
 
 const renderer = () => {
   return renderWithThemeAndIntl(
-    <HelpApp
-      history={createMemoryHistory({ initialEntries: [URL_MAIN.help] })}
-    />
+    <Provider store={store}>
+      <HelpApp
+        history={createMemoryHistory({ initialEntries: [URL_MAIN.help] })}
+      />
+    </Provider>
   )
 }
 
