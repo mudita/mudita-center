@@ -9,24 +9,37 @@ import {
   TextArea,
   InputPasscode,
 } from "Renderer/components/core/input-text/input-text.elements"
-import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
+import {
+  InputComponentProps,
+  InputPasscodeProps,
+  TextareaProps,
+} from "Renderer/components/core/input-text/input-text.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
-export const InputComponent: FunctionComponent<InputComponentProps> = ({
-  type = "text",
-  ...rest
-}) => {
-  let Component: FunctionComponent<ComponentProps<any>>
+const isTextareaProps = (
+  props: InputComponentProps
+): props is TextareaProps => {
+  return props.type === "textarea"
+}
 
-  if (type === "textarea") {
-    Component = TextArea
-  } else if (type === "passcode") {
-    Component = InputPasscode
+const isInputPasscodeProps = (
+  props: InputComponentProps
+): props is InputPasscodeProps => {
+  return props.type === "passcode"
+}
+
+export const InputComponent: FunctionComponent<InputComponentProps> = (
+  props
+) => {
+  if (isTextareaProps(props)) {
+    return <TextArea {...props} />
+  } else if (isInputPasscodeProps(props)) {
+    return <InputPasscode {...props} />
+  } else if (props.type !== undefined) {
+    return <InputText {...props} />
   } else {
-    Component = InputText
+    return <InputText {...props} type={"text"} />
   }
-
-  return <Component type={type} {...rest} />
 }
 
 export default React.forwardRef<

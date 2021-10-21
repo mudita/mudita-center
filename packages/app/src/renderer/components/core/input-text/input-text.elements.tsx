@@ -512,20 +512,21 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
 export const InputPasscode: FunctionComponent<InputPasscodeProps> = ({
   className,
   inputRef,
-  error,
+  error= false,
   onChange = noop,
-  focusable,
-  filled,
+  focusable = false,
+  filled= false,
   ...rest
 }) => {
   return (
     <PasscodeInput
       {...rest}
+      type={"password"}
       maxLength={1}
       ref={inputRef}
       filled={filled}
       onChange={onChange}
-      data-testid={InputTextTestIds.PasswordInput}
+      data-testid={InputTextTestIds.PasscodeInput}
       error={error}
     />
   )

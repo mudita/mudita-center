@@ -31,7 +31,7 @@ export interface InputProps
     BasicProps {
   condensed?: boolean
   inputRef?: Ref<HTMLInputElement>
-  type: "text" | "email" | "password" | "search" | "tel" | "url" | "passcode"
+  type: "text" | "email" | "password" | "search" | "tel" | "url"
   initialTransparentBorder?: boolean
 }
 
@@ -47,8 +47,8 @@ export interface InputPasscodeProps
     BasicProps {
   type: "passcode"
   inputRef?: Ref<HTMLInputElement>
-  error: boolean
-  filled: boolean
+  error?: boolean
+  filled?: boolean
 }
 
 export type InputComponentProps =

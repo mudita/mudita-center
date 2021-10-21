@@ -4,5 +4,5 @@
  */
 
 export enum InputTextTestIds {
-  PasswordInput = "password-input",
+  PasscodeInput = "passcode-input",
 }
