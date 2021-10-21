@@ -9,7 +9,7 @@ import { CryptoFileOption } from "App/files-system/services/crypto-file-service/
 
 const decryptFile = async (
   option: CryptoFileOption
-): Promise<Buffer | undefined> => {
+): Promise<Uint8Array | undefined> => {
   return await ipcRenderer.callMain(IpcFilesSystem.DecryptFile, option)
 }
 

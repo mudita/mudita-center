@@ -10,7 +10,7 @@ import CryptoFileService, {
 } from "App/files-system/services/crypto-file-service/crypto-file-service"
 
 const registerDecryptFileListener = (): void => {
-  ipcMain.answerRenderer<CryptoFileOption, Buffer | undefined>(
+  ipcMain.answerRenderer<CryptoFileOption, Uint8Array | undefined>(
     IpcFilesSystem.DecryptFile,
     CryptoFileService.decrypt
   )

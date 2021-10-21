@@ -26,6 +26,11 @@ export interface EncodedResponse {
   fileCrc32?: string
 }
 
+export interface UploadFilePayload {
+  data: Buffer
+  targetPath: string
+}
+
 export interface UploadFileLocallyPayload {
   filePath: string
   targetPath: string
@@ -138,6 +143,39 @@ class DeviceFileSystemService {
     }
   }
 
+  async uploadFile({
+    data,
+    targetPath,
+  }: UploadFilePayload): Promise<DeviceResponse> {
+    const fileSize = Buffer.byteLength(data)
+    const fileCrc32 = countCRC32(data)
+    const response = await this.deviceService.request({
+      endpoint: Endpoint.FileSystem,
+      method: Method.Put,
+      body: {
+        fileSize,
+        fileCrc32,
+        fileName: targetPath,
+      },
+    })
+
+    if (
+      response.status !== DeviceResponseStatus.Ok ||
+      response.data === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message:
+            "Upload OS update package: Something went wrong in init sending request",
+        },
+      }
+    }
+
+    const { txID, chunkSize } = response.data
+    return this.sendFileRequest(data, txID, chunkSize)
+  }
+
   async uploadFileLocally({
     filePath,
     targetPath,
@@ -169,7 +207,7 @@ class DeviceFileSystemService {
 
       const { txID, chunkSize } = data
       const fd = fs.openSync(filePath, "r")
-      return this.sendFileRequest(fd, txID, chunkSize)
+      return this.sendFileLocallyRequest(fd, txID, chunkSize)
     } catch {
       return {
         status: DeviceResponseStatus.Error,
@@ -182,6 +220,56 @@ class DeviceFileSystemService {
   }
 
   private async sendFileRequest(
+    buffer: Buffer,
+    txID: string,
+    chunkSize: number,
+    chunkNo = 1
+  ): Promise<DeviceResponse> {
+    try {
+      const sliceStart = (chunkNo - 1) * chunkSize
+      const sliceEnd = sliceStart + chunkSize
+      const chunkedBuffer = buffer.slice(sliceStart, sliceEnd)
+      const chunkedBufferSize = Buffer.byteLength(chunkedBuffer)
+      const lastChunk = chunkedBufferSize < chunkSize
+
+      const response = await this.deviceService.request({
+        endpoint: Endpoint.FileSystem,
+        method: Method.Put,
+        body: {
+          txID,
+          chunkNo,
+          data: chunkedBuffer.toString("base64"),
+        },
+      })
+
+      if (response.status !== DeviceResponseStatus.Ok) {
+        return {
+          status: DeviceResponseStatus.Error,
+          error: {
+            message:
+              "Upload OS update package: Something went wrong in sent chunk fie.",
+          },
+        }
+      } else {
+        if (lastChunk) {
+          return {
+            status: DeviceResponseStatus.Ok,
+          }
+        }
+        return this.sendFileRequest(buffer, txID, chunkSize, chunkNo + 1)
+      }
+    } catch {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message:
+            "Upload OS update package: Something went wrong in read file",
+        },
+      }
+    }
+  }
+
+  private async sendFileLocallyRequest(
     fd: number,
     txID: string,
     chunkSize: number,
@@ -222,7 +310,7 @@ class DeviceFileSystemService {
           },
         }
       } else {
-        return this.sendFileRequest(fd, txID, chunkSize, chunkNo + 1)
+        return this.sendFileLocallyRequest(fd, txID, chunkSize, chunkNo + 1)
       }
     } catch {
       return {

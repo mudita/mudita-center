@@ -3,11 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import * as fs from "fs"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { RestoreDeviceEvent } from "App/restore-device/constants"
 import startRestoreDeviceRequest from "Renderer/requests/start-restore-device.request"
 import { StartRestoreDeviceError } from "App/restore-device/errors"
-import uploadDeviceFileLocally from "Renderer/requests/upload-device-file-locally.request"
+import uploadDeviceFile from "Renderer/requests/upload-device-file.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { Backup } from "App/backup/reducers"
 import { PureDeviceData } from "App/device"
@@ -42,8 +43,7 @@ export const startRestoreDevice = createAsyncThunk<
     }
 
     const decryptedBuffer = await decryptFile({
-      // TODO: handle buffer in restore process
-      buffer: Buffer.from(""),
+      buffer: fs.readFileSync(backup.filePath),
       key: secretKey,
     })
 
@@ -53,8 +53,8 @@ export const startRestoreDevice = createAsyncThunk<
       )
     }
 
-    const uploadDeviceFileResponse = await uploadDeviceFileLocally({
-      filePath: backup.filePath,
+    const uploadDeviceFileResponse = await uploadDeviceFile({
+      data: decryptedBuffer,
       targetPath: `${pureOsBackupPureLocation}/${backupId}`,
     })
 
