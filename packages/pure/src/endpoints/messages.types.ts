@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { PaginationBody } from "../device"
+
 export enum MessagesCategory {
   thread = "thread",
   message = "message",
@@ -19,16 +21,14 @@ export interface Thread {
   threadID: number
 }
 
-export interface GetThreadsBody {
+export interface GetThreadsBody extends Partial<PaginationBody> {
   category: MessagesCategory.thread
-  limit?: number
-  offset?: number
 }
 
 export interface GetThreadResponseBody {
   entries: Thread[]
   totalCount: number
-  nextPage?: { limit: number; offset: number }
+  nextPage?: PaginationBody
 }
 
 export enum MessageType {
@@ -51,17 +51,15 @@ export interface Message {
   number: string
 }
 
-export interface GetMessagesBody {
+export interface GetMessagesBody extends Partial<PaginationBody> {
   category: MessagesCategory.message
   threadID?: number
-  limit?: number
-  offset?: number
 }
 
 export interface GetMessageResponseBody {
   entries: Message[]
   totalCount: number
-  nextPage?: { limit: number; offset: number }
+  nextPage?: PaginationBody
 }
 
 export interface PostMessagesBody {

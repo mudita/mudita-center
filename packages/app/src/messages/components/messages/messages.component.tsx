@@ -34,10 +34,13 @@ import {
   ReceiverIdentification,
   ResultState,
   Thread,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
+import { PaginationBody } from "@mudita/pure"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 
 const deleteModalMessages = defineMessages({
   title: { id: "module.messages.deleteModalTitle" },
@@ -65,17 +68,23 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   receivers: Receiver[]
   attachContactList: ContactCategory[]
   attachContactFlatList: Contact[]
+  loadThreads: (
+    pagination: PaginationBody
+  ) => Promise<PayloadAction<PaginationBody | undefined>>
   getMessagesByThreadId: (threadId: string) => Message[]
   getContact: (contactId: string) => Contact | undefined
   getReceiver: (contactId: string, phoneNumber: string) => Receiver
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
-  loadMessagesByThreadId: (threadId: string) => Message[]
-  getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
+  loadMessagesByThreadId: (
+    body: GetMessagesBody
+  ) => Promise<PayloadAction<PaginationBody | undefined>>
+  getMessagesStateByThreadId: (threadId: string) => ResultState
   isContactCreated: (id: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<Message | undefined>
 }
 
 const Messages: FunctionComponent<Props> = ({
+  loadThreads,
   receivers,
   searchValue,
   changeSearchValue = noop,
@@ -89,11 +98,36 @@ const Messages: FunctionComponent<Props> = ({
   attachContactList,
   attachContactFlatList,
   loadMessagesByThreadId,
-  getMessagesResultMapStateByThreadId,
+  getMessagesStateByThreadId,
   getContactByPhoneNumber,
   isContactCreated,
   addNewMessage,
 }) => {
+  const latestThreadsPagination: PaginationBody = {
+    limit: 5,
+    offset: 0,
+  }
+
+  const latestMessagesPagination: PaginationBody = {
+    limit: 5,
+    offset: 0,
+  }
+  const [threadsPagination, setThreadsPagination] = useState<
+    PaginationBody | undefined
+  >(latestThreadsPagination)
+
+  useEffect(() => {
+    const load = async () => {
+      if (threadsPagination === undefined) {
+        return
+      }
+
+      const response = await loadThreads(threadsPagination)
+      setThreadsPagination(response.payload)
+    }
+    load()
+  }, [])
+
   const [messagesState, setMessagesState] = useState(MessagesState.List)
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
     findThreadBySearchParams(useURLSearchParams(), threads)
@@ -103,8 +137,29 @@ const Messages: FunctionComponent<Props> = ({
   const [content, setContent] = useState("")
 
   useEffect(() => {
+    let interval: any
+
     if (activeThread !== undefined) {
-      loadMessagesByThreadId(activeThread.id)
+      loadMessagesByThreadId({
+        threadId: activeThread.id,
+        ...latestMessagesPagination,
+      })
+
+      interval = setInterval(() => {
+        loadMessagesByThreadId({
+          threadId: activeThread.id,
+          ...latestMessagesPagination,
+        })
+        loadThreads(latestThreadsPagination)
+      }, 10000)
+    } else {
+      interval = setInterval(() => {
+        loadThreads(latestThreadsPagination)
+      }, 10000)
+    }
+
+    return () => {
+      clearInterval(interval)
     }
   }, [activeThread])
 
@@ -205,7 +260,10 @@ const Messages: FunctionComponent<Props> = ({
 
   const handleLoadMessagesClick = (): void => {
     if (activeThread) {
-      loadMessagesByThreadId(activeThread.id)
+      loadMessagesByThreadId({
+        threadId: activeThread.id,
+        ...latestMessagesPagination,
+      })
     }
   }
 
@@ -355,7 +413,7 @@ const Messages: FunctionComponent<Props> = ({
             content={content}
             receiver={getViewReceiver(activeThread)}
             messages={getMessagesByThreadId(activeThread.id)}
-            resultState={getMessagesResultMapStateByThreadId(activeThread.id)}
+            resultState={getMessagesStateByThreadId(activeThread.id)}
             contactCreated={isContactCreated(activeThread.contactId)}
             onLoadMessagesClick={handleLoadMessagesClick}
             onAttachContactClick={openAttachContactModal}

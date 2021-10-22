@@ -17,7 +17,8 @@ const defaultProps: Props = {
   user: { firstName: "user", lastName: "userowski" },
   date: new Date(),
   id: "123",
-  message: "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae"
+  message:
+    "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
 }
 
 const renderer = (extraProps?: {}) => {
@@ -33,7 +34,6 @@ const renderer = (extraProps?: {}) => {
   }
 }
 
-
 test("by default dropdown is not visible", () => {
   const { getByTestId } = renderer()
   expect(getByTestId(MessageBubbleTestIds.Dropdown)).not.toBeVisible()
@@ -47,7 +47,7 @@ test("after clicking button, dropdown is displayed", () => {
 
 test("forwards message", () => {
   const forwardMessage = jest.fn()
-  const { getByTestId } = renderer({forwardMessage})
+  const { getByTestId } = renderer({ forwardMessage })
   fireEvent.click(getByTestId(MessageBubbleTestIds.ForwardMessageButton))
   expect(forwardMessage).toHaveBeenCalled()
   expect(forwardMessage).toHaveBeenCalledWith(defaultProps.id)
@@ -55,13 +55,17 @@ test("forwards message", () => {
 
 test("removes message", () => {
   const removeMessage = jest.fn()
-  const { getByTestId } = renderer({removeMessage})
+  const { getByTestId } = renderer({ removeMessage })
   fireEvent.click(getByTestId(MessageBubbleTestIds.DeleteMessageButton))
   expect(removeMessage).toHaveBeenCalledWith(defaultProps.id)
 })
 
 test("when author of message is unknown, displays default icon in avatar", () => {
-  const { getByTestId } = renderer({displayAvatar: true, interlocutor: true, user: emptyUser})
+  const { getByTestId } = renderer({
+    displayAvatar: true,
+    interlocutor: true,
+    user: emptyUser,
+  })
   expect(getByTestId("icon-ContactFilled")).toBeInTheDocument()
 })
 

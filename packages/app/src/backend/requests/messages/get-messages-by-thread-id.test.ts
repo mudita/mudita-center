@@ -17,9 +17,15 @@ test("return mapped messages from pure to Message model", async () => {
 
   const [pendingResponse] = await (ipcMain as any)._flush(
     IpcRequest.GetMessagesByThreadId,
-    threadId
+    {
+      threadId,
+      nextPage: {
+        limit: 15,
+        offset: 0,
+      },
+    }
   )
 
-  const { data = [] } = await pendingResponse
-  expect(data).toStrictEqual(messages)
+  const { data } = await pendingResponse
+  expect(data?.data).toStrictEqual(messages)
 })

@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { searchThreads } from "App/messages/store/threads.helpers"
-import { Thread } from "App/messages/store/messages.interface"
+import { searchThreads } from "App/messages/helpers/threads.helpers"
+import { Thread } from "App/messages/reducers/messages.interface"
 import { createFakeContact } from "App/messages/helpers/create-fake-contact"
-import { ContactsCollection } from "App/messages/store/messages.helpers"
+import { ContactsCollection } from "App/messages/helpers/messages.helpers"
 
 const contact = createFakeContact()
 const anotherContact = createFakeContact()
