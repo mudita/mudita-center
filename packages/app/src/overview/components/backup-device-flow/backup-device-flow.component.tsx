@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   BackupFailureModal,
@@ -13,9 +13,11 @@ import {
 } from "App/overview/components/backup-modal-dialogs/backup-modal-dialogs"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import { BackupDeviceFlowTestIds } from "App/overview/components/backup-device-flow/backup-device-flow-test-ids.component"
+import { BackupSetSecretKeyModal } from "App/overview/components/backup-set-secret-key-modal-dialog/backup-set-secret-key-modal-dialog.component"
 
 export enum BackupDeviceFlowState {
   Start = "start",
+  SecretKeySetting = "secret-key-setting",
   Running = "running",
   Finished = "finished",
   Error = "error",
@@ -24,7 +26,7 @@ export enum BackupDeviceFlowState {
 interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
   openState?: BackupDeviceFlowState
   pureOsBackupLocation: string
-  onStartBackupDeviceButtonClick: () => void
+  onStartBackupDeviceButtonClick: (secretKey: string) => void
   onSupportButtonClick: () => void
 }
 
@@ -35,28 +37,43 @@ const BackupDeviceFlow: FunctionComponent<Props> = ({
   onSupportButtonClick,
   closeModal,
 }) => {
+  const [state, setState] = useState<BackupDeviceFlowState>(openState)
+  const goToBackupSecretKeySettingModal = (): void => {
+    setState(BackupDeviceFlowState.SecretKeySetting)
+  }
+
+  const startBackupDeviceButtonClick = (secretKey = ""): void => {
+    onStartBackupDeviceButtonClick(secretKey)
+  }
+
   return (
     <>
       <BackupModal
         testId={BackupDeviceFlowTestIds.BackupDeviceStart}
-        open={BackupDeviceFlowState.Start === openState}
+        open={BackupDeviceFlowState.Start === state}
         closeModal={closeModal}
-        onActionButtonClick={onStartBackupDeviceButtonClick}
+        onActionButtonClick={goToBackupSecretKeySettingModal}
+      />
+      <BackupSetSecretKeyModal
+        testId={BackupDeviceFlowTestIds.BackupSecretKeySetting}
+        open={BackupDeviceFlowState.SecretKeySetting === state}
+        closeModal={closeModal}
+        onSecretKeySet={startBackupDeviceButtonClick}
       />
       <BackupSpinnerModal
         testId={BackupDeviceFlowTestIds.BackupDeviceRunning}
-        open={BackupDeviceFlowState.Running === openState}
+        open={BackupDeviceFlowState.Running === state}
       />
       <BackupSuccessModal
         testId={BackupDeviceFlowTestIds.BackupDeviceFinished}
-        open={BackupDeviceFlowState.Finished === openState}
+        open={BackupDeviceFlowState.Finished === state}
         description={pureOsBackupLocation}
         closeModal={closeModal}
         onActionButtonClick={closeModal}
       />
       <BackupFailureModal
         testId={BackupDeviceFlowTestIds.BackupDeviceError}
-        open={BackupDeviceFlowState.Error === openState}
+        open={BackupDeviceFlowState.Error === state}
         secondaryActionButtonClick={onSupportButtonClick}
         closeModal={closeModal}
       />

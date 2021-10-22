@@ -5,15 +5,12 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import {
-  DeviceFileDeprecated,
-  UploadFilePayload,
-} from "Backend/device-file-system-service/device-file-system-service"
+import { UploadFileUIPayload } from "Backend/requests/upload-device-file/upload-device-file.request"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 
 const uploadDeviceFile = async (
-  payload: UploadFilePayload
-): Promise<DeviceResponse<DeviceFileDeprecated>> => {
+  payload: UploadFileUIPayload
+): Promise<DeviceResponse<DeviceResponse>> => {
   return await ipcRenderer.callMain(IpcRequest.UploadDeviceFile, payload)
 }
 

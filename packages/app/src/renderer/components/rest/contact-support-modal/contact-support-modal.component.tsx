@@ -137,6 +137,8 @@ interface Props
   sending?: boolean
 }
 
+// TODO: Provide some abstraction to hide structure modal behind core
+//  https://appnroll.atlassian.net/browse/CP-757
 const ContactSupportModal: FunctionComponent<Props> = ({
   sending,
   onSubmit = noop,

@@ -200,19 +200,19 @@ storiesOf("Components|Core/Text input", module)
     </>
   ))
 
-storiesOf("Components|Core/Text input/Password", module).add("Default", () => (
+storiesOf("Components|Core/Text input/Passcode", module).add("Default", () => (
   <>
     <StoryContainer title="Themes">
       <Story title="Default">
-        <InputComponent type="password" />
+        <InputComponent type="passcode" />
       </Story>
     </StoryContainer>
     <StoryContainer title="Modifiers">
       <Story title="Disabled with value">
-        <InputComponent type="password" disabled defaultValue="3" />
+        <InputComponent type="passcode" disabled defaultValue="3" />
       </Story>
       <Story title="With error">
-        <InputComponent defaultValue="3" type="password" error />
+        <InputComponent defaultValue="3" type="passcode" error />
       </Story>
     </StoryContainer>
   </>

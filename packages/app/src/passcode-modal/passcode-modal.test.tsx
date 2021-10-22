@@ -41,7 +41,7 @@ const renderer = (extraProps?: Partial<Props>) => {
     ...modal,
     inputsContainer: () =>
       modal.queryByTestId(PasscodeModalTestIds.PasscodeInputs),
-    inputsList: () => modal.queryAllByTestId(InputTextTestIds.PasswordInput),
+    inputsList: () => modal.queryAllByTestId(InputTextTestIds.PasscodeInput),
     errorMessage: () => modal.queryByTestId(PasscodeModalTestIds.ErrorMessage),
     phoneLockedContainer: () =>
       modal.queryByTestId(PasscodeLockedTestIds.Container),
