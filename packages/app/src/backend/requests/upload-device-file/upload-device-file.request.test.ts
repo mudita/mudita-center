@@ -10,7 +10,10 @@ import registerUploadDeviceFileRequest from "Backend/requests/upload-device-file
 
 test("`UploadDeviceFileRequest` returns properly value", async () => {
   registerUploadDeviceFileRequest(getFakeAdapters())
-  const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.UploadDeviceFile)
+  const [pendingResponse] = (ipcMain as any)._flush(
+    IpcRequest.UploadDeviceFile,
+    { data: new Uint8Array([1]), targetPath: "" }
+  )
   const result = await pendingResponse
   expect(result).toMatchInlineSnapshot(`
     Object {

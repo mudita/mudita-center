@@ -29,6 +29,9 @@ import registerGetApplicationConfigurationListener from "App/main/functions/regi
 import registerGetFileDataListener from "App/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
+import registerEncryptFileListener from "App/files-system/listeners/encrypt-file-listener"
+import registerDecryptFileListener from "App/files-system/listeners/decrypt-file-listener"
+import registerReadFileListener from "App/files-system/listeners/read-file-listener"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
 import {
   registerDownloadHelpHandler,
@@ -155,6 +158,9 @@ const createWindow = async () => {
   registerGetApplicationConfigurationListener()
   registerArchiveFilesListener()
   registerGetFileDataListener()
+  registerEncryptFileListener()
+  registerReadFileListener()
+  registerDecryptFileListener()
   registerPureOsDownloadProxy()
 
   if (productionEnvironment) {
