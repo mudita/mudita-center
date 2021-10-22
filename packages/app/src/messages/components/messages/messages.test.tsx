@@ -17,7 +17,7 @@ import {
   Receiver,
   ReceiverIdentification,
   Thread,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
@@ -83,12 +83,13 @@ const defaultProps: Props = {
   receivers: [receiver],
   searchValue: "",
   language: "en",
+  loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
   getReceiver: jest.fn().mockReturnValue(receiver),
   getContactByPhoneNumber: jest.fn(),
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
   getMessagesByThreadId: jest.fn(),
-  getMessagesResultMapStateByThreadId: jest.fn(),
+  getMessagesStateByThreadId: jest.fn(),
   loadMessagesByThreadId: jest.fn(),
   isContactCreated: jest.fn(),
   attachContactList: [],

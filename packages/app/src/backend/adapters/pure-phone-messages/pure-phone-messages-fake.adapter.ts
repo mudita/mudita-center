@@ -3,31 +3,35 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
-import {
-  Message,
-  NewMessage,
-  Thread,
-} from "App/messages/store/messages.interface"
+import PurePhoneMessagesAdapter, {
+  GetMessagesBody,
+  GetMessagesByThreadIdResponse,
+  GetThreadsResponse,
+} from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import { Message, NewMessage } from "App/messages/reducers/messages.interface"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { addedMessageData, messagesData, threadsData } from "App/seeds/messages"
 
 class PurePhoneMessagesFake extends PurePhoneMessagesAdapter {
-  public async getThreads(): Promise<DeviceResponse<Thread[]>> {
+  public async getThreads(): Promise<DeviceResponse<GetThreadsResponse>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: threadsData,
+      data: {
+        data: threadsData,
+      },
     }
   }
 
-  public async getMessagesByThreadId(
-    threadId: string
-  ): Promise<DeviceResponse<Message[]>> {
+  public async getMessagesByThreadId({
+    threadId,
+  }: GetMessagesBody): Promise<DeviceResponse<GetMessagesByThreadIdResponse>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: messagesData.filter((messages) => messages.threadId === threadId),
+      data: {
+        data: messagesData.filter((messages) => messages.threadId === threadId),
+      },
     }
   }
 

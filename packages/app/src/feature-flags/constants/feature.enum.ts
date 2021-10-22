@@ -21,4 +21,5 @@ export enum Feature {
   DevelopOnly = "development-only",
   Backup = "backup",
   ProductionAndAlpha = "production-and-alpha",
+  NumberOfContactsToImport = "number-of-contacts-to-import"
 }

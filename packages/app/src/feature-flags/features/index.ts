@@ -126,4 +126,11 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: true,
     [Environment.TestAlphaProduction]: true,
   },
+  [Feature.NumberOfContactsToImport]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.TestProduction]: false,
+    [Environment.AlphaProduction]: true,
+    [Environment.TestAlphaProduction]: true,
+  },
 }

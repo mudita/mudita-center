@@ -48,7 +48,6 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
   }
 }
 
-// TODO replace `TmpDispatch` with legit `Dispatch`
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   disconnectDevice: () => dispatch(disconnectDevice()),
   changeSim: (card: SimCard) => dispatch(changeSim(card)),

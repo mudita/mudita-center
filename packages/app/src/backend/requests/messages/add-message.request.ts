@@ -6,7 +6,7 @@
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import Adapters from "Backend/adapters/adapters.interface"
-import { Message, NewMessage } from "App/messages/store/messages.interface"
+import { Message, NewMessage } from "App/messages/reducers/messages.interface"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const handleAddMessageRequest = (

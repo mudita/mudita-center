@@ -14,7 +14,7 @@ import ThreadDetailsSidebarRightHeader from "App/messages/components/thread-deta
 import {
   Receiver,
   ReceiverIdentification,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 
 interface Props
   extends ComponentProps<typeof Sidebar>,
