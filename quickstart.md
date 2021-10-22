@@ -37,14 +37,14 @@ npm run develop
 This will start the application with hot-reload so you can instantly start developing it. You can also enable logs by executing:
 
 ```bash
-npm run develop — --stream
+npm run develop -- --stream
 ```
 
 This command runs the User Interface and the backend simultaneously, however, if you wish to have logs from both processes in two separate consoles then please run the following commands in parallel in separate console tabs:
 
 ```bash
-lerna run --scope @mudita/mudita-center-app dev:start:renderer
-lerna run --scope @mudita/mudita-center-app dev:start:main
+lerna run --stream --scope @mudita/mudita-center-app dev:start:renderer
+lerna run --stream --scope @mudita/mudita-center-app dev:start:main
 ```
 
 ## Enable Developer mode inside the application
