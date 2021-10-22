@@ -49,11 +49,14 @@ lerna run --scope @mudita/mudita-center-app dev:start:main
 
 ## Enable Developer mode inside the application
 
-To run additional Developer mode in Mudita Center, tap on the right button of your mouse and select "Enable developer mode". You can also toggle it on/off using `Ctrl`/`Cmd`+`D` keys. When Developer mode is enabled, `Ctrl`/`Cmd`+`P` toggles simulating phone connection.
+To run additional Developer mode in Mudita Center, tap on the right button of your mouse and select "Enable developer mode". You can also toggle it on/off using `Ctrl`/`Cmd`+`D` keys. When Developer mode is enabled you can:
+- `Ctrl`/`Cmd`+`P` toggles simulating Mudita Pure connection.
+- `Ctrl`/`Cmd`+`B` toggles simulating Mudita Harmony connection.
 
 Using Developer mode you can:
 
-- simulate a connected Mudita Pure phone
+- simulate a connected Mudita Pure device
+- simulate a connected Mudita Harmony device  
 - load/clear default 'placeholder' topics in the "Messages" view
 - load/clear default 'placeholder' contacts in the "Contacts" view
 - load/clear default 'placeholder' events in the "Calendar" view
