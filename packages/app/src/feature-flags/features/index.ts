@@ -72,8 +72,8 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MessagesHidden]: {
     [Environment.Development]: false,
-    [Environment.Production]: true,
-    [Environment.TestProduction]: true,
+    [Environment.Production]: false,
+    [Environment.TestProduction]: false,
     [Environment.AlphaProduction]: false,
     [Environment.TestAlphaProduction]: false,
   },
