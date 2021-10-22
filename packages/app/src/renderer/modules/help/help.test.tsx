@@ -11,6 +11,7 @@ import { Router } from "react-router"
 import history from "Renderer/routes/history"
 import { data } from "App/seeds/help"
 import { fireEvent } from "@testing-library/dom"
+import { ContactSupportModalFlowTestIds } from "Renderer/components/rest/contact-support-modal/contact-support-modal-flow-test-ids.component"
 
 const defaultProps = {
   list: data,
@@ -54,4 +55,12 @@ test("search input works", () => {
     target: { value: "adsad" },
   })
   expect(defaultProps.searchQuestion).toBeCalled()
+})
+
+test("Support button renders Support form", () => {
+  const { getByTestId } = renderer()
+  fireEvent.click(getByTestId(HelpComponentTestIds.SupportButton))
+  expect(
+    getByTestId(ContactSupportModalFlowTestIds.ContactSupportModal)
+  ).toBeInTheDocument()
 })

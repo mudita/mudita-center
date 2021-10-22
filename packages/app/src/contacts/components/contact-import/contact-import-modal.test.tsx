@@ -178,3 +178,13 @@ test("Failed rows have a proper icon attached", () => {
     ).toBeInTheDocument()
   })
 })
+
+test("Import contact list should be sorted by last name", () => {
+  const { getAllByTestId } = renderer()
+  expect(
+    getAllByTestId(ContactImportModalTestIds.ContactRow)[5]
+  ).toHaveTextContent("Sławomir Borewicz")
+  expect(
+    getAllByTestId(ContactImportModalTestIds.ContactRow)[6]
+  ).toHaveTextContent("John Doe")
+})

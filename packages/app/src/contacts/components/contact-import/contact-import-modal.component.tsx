@@ -142,6 +142,11 @@ const ContactImportModal: FunctionComponent<Props> = ({
 
   const handleButtonClick = () => onActionButtonClick(selectedRows)
 
+  const sortedContacts = contacts.sort((a, b) => {
+    const lastNameA = a.lastName || a.firstName || ""
+    const lastNameB = b.lastName || b.firstName || ""
+    return lastNameA.localeCompare(lastNameB)
+  })
   return (
     <Modal
       title={intl.formatMessage(messages.title)}
@@ -223,7 +228,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
           <Col />
         </Labels>
         <TableContent>
-          {contacts.map((row, index) => (
+          {sortedContacts.map((row, index) => (
             <React.Fragment key={index}>
               <SingleRow
                 data={row}
