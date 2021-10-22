@@ -10,7 +10,7 @@ import {
   Message,
   MessageType,
   NewMessage,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import DeviceService from "Backend/device-service"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import PureDeviceManager, {

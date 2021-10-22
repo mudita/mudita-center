@@ -14,7 +14,7 @@ import {
   Receiver,
   ReceiverIdentification,
   ResultState,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
 import { createFullName } from "App/contacts/store/contacts.helpers"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
@@ -148,7 +148,8 @@ test("Error text renders with retry button when thread won't load", () => {
   expect(getByTestId(ThreadDetailsTestIds.RetryButton)).toBeInTheDocument()
 })
 
-test("Loader renders when thread is loading", () => {
+// TODO: Add loading state as part of pagination task CP-741
+test.skip("Loader renders when thread is loading", () => {
   const { getByTestId } = renderer({
     resultState: ResultState.Loading,
   })
@@ -159,7 +160,7 @@ test("Retry button tries to load thread again after initial call", () => {
   const onLoadMessagesClick = jest.fn()
   const { getByTestId } = renderer({
     resultState: ResultState.Error,
-    onLoadMessagesClick
+    onLoadMessagesClick,
   })
   getByTestId(ThreadDetailsTestIds.RetryButton).click()
   expect(onLoadMessagesClick).toBeCalled()

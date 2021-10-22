@@ -22,8 +22,6 @@ import { RestoreDeviceDataState } from "App/restore-device/reducers"
 interface Props {
   getConnectedDevice: () => void
   loadContacts: () => void
-  loadMessages: () => void
-
   history: History
   pureFeaturesVisible?: boolean
   deviceConnecting?: boolean
@@ -45,8 +43,6 @@ interface Props {
 const BaseApp: FunctionComponent<Props> = ({
   getConnectedDevice,
   loadContacts,
-  loadMessages,
-
   history,
   pureFeaturesVisible,
   deviceConnecting,
@@ -74,7 +70,7 @@ const BaseApp: FunctionComponent<Props> = ({
     [URL_MAIN.contacts]: [() => loadContacts()],
     [URL_MAIN.phone]: [() => loadContacts()],
     [URL_OVERVIEW.root]: [() => getConnectedDevice()],
-    [URL_MAIN.messages]: [() => loadMessages(), () => loadContacts()],
+    [URL_MAIN.messages]: [() => loadContacts()],
   })
   useEffect(() => {
     setAppUpdateStepModalVisible(
@@ -169,12 +165,11 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
   }
 }
 
-// TODO replace `TmpDispatch` with legit `Dispatch`
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   getConnectedDevice: () => dispatch(getConnectedDevice),
   loadContacts: () => dispatch.contacts.loadData(),
-  loadMessages: () => dispatch.messages.loadData(),
 
+  // TODO Refactor legacy staff
   toggleAppCollectingData: dispatch.settings.toggleAppCollectingData,
   setAppUpdateStepModalDisplayed:
     dispatch.settings.setAppUpdateStepModalDisplayed,

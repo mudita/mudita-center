@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ReduxRootState } from "App/renderer/store"
-import { DeviceEvent } from "App/device/constants"
+import { DeviceEvent, UpdatingState } from "App/device/constants"
 import disconnectDeviceRequest from "Renderer/requests/disconnect-device.request"
 import { setConnectionStatus } from "App/device/actions/base.action"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
@@ -16,7 +16,7 @@ export const disconnectDevice = createAsyncThunk(
   async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as ReduxRootState
 
-    if (state.device.updatingState !== null) {
+    if (state.device.updatingState === UpdatingState.Updating) {
       return
     }
 

@@ -14,7 +14,7 @@ test("return mapped threads from pure to Thread model", async () => {
 
   const [pendingResponse] = await (ipcMain as any)._flush(IpcRequest.GetThreads)
 
-  const { data = [] } = await pendingResponse
+  const { data } = await pendingResponse
 
-  expect(data).toStrictEqual(threadsData)
+  expect(data?.data).toStrictEqual(threadsData)
 })

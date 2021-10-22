@@ -11,7 +11,7 @@ import ThreadDetailsTextArea from "App/messages/components/thread-details-text-a
 import { phoneNumberRegexp } from "Renderer/utils/form-validators"
 import NewMessageFormSidebar from "App/messages/components/new-message-form-sidebar.component"
 import { Sidebar } from "Renderer/components/core/table/table.component"
-import { Receiver } from "App/messages/store/messages.interface"
+import { Receiver } from "App/messages/reducers/messages.interface"
 import uniqBy from "lodash/uniqBy"
 
 export const isReceiverMatching = (

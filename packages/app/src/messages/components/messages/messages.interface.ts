@@ -4,7 +4,7 @@
  */
 
 import { ChangeEvent } from "react"
-import { MessagesState, Thread } from "App/messages/store/messages.interface"
+import { MessagesState, Thread } from "App/messages/reducers/messages.interface"
 
 export interface Content {
   id: string

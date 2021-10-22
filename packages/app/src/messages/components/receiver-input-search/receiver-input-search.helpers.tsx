@@ -7,7 +7,7 @@ import React from "react"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { RenderListItem } from "Renderer/components/core/list/list.component"
-import { Receiver } from "App/messages/store/messages.interface"
+import { Receiver } from "App/messages/reducers/messages.interface"
 import {
   ContactListItem,
   ContactListItemName,

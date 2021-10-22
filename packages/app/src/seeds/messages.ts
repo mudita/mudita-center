@@ -7,7 +7,7 @@ import {
   Message,
   MessageType,
   Thread,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 
 export const threadsData: Thread[] = [
   {

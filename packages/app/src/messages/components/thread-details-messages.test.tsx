@@ -4,7 +4,12 @@
  */
 
 import React, { ComponentProps } from "react"
-import { Message, MessageType, Receiver, ReceiverIdentification } from "App/messages/store/messages.interface"
+import {
+  Message,
+  MessageType,
+  Receiver,
+  ReceiverIdentification,
+} from "App/messages/reducers/messages.interface"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
@@ -20,7 +25,7 @@ const receiver: Receiver = {
   firstName: "John",
   lastName: "Doe",
   phoneNumber: "123 456 788",
-  identification: ReceiverIdentification.unknown
+  identification: ReceiverIdentification.unknown,
 }
 
 const threadId = "1"
