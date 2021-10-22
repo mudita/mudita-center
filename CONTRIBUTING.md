@@ -2,7 +2,7 @@
 
 Mudita Center is an Open Source project and we're more than happy to receive contributions from our community. There are many ways in which you can contribute to the project from reporting bugs, suggesting features to writing code and documentation.
 
-Before contributing please read and accept our [Code of Conduct](./CODE_OF_CODUCT.md).
+Before contributing please read and accept our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 **Note:** Before writing a new piece of code please make sure that the thing you want to fix/add can't be simulated using [the built-in Developer mode](quickstart.md#enable-developer-mode-inside-the-application) or isn't explained in [Mudita Center Wiki](https://github.com/mudita/mudita-center/wiki).
 
