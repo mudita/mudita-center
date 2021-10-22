@@ -51,7 +51,7 @@ lerna run --stream --scope @mudita/mudita-center-app dev:start:main
 
 To run additional Developer mode in Mudita Center, tap on the right button of your mouse and select "Enable developer mode". You can also toggle it on/off using `Ctrl`/`Cmd`+`D` keys. When Developer mode is enabled you can:
 - `Ctrl`/`Cmd`+`P` toggle simulating Mudita Pure connection.
-- `Ctrl`/`Cmd`+`B` toggles simulating Mudita Harmony connection.
+- `Ctrl`/`Cmd`+`B` toggle simulating Mudita Harmony connection.
 
 Using Developer mode you can:
 
