@@ -7,17 +7,19 @@ import { connect } from "react-redux"
 import Calls from "Renderer/modules/phone/tabs/calls.component"
 import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
 import { RootModel } from "Renderer/models/models"
-import { TmpDispatch, select } from "Renderer/store"
+import { TmpDispatch, select, ReduxRootState } from "Renderer/store"
+import { isThreadOpenedSelector } from "App/messages/selectors"
 
 const selection = select(({ calls, messages, contacts }) => ({
   calls: calls.filteredList,
-  isThreadOpened: messages.isThreadOpened,
   isContactCreated: contacts.isContactCreatedDeprecated,
   getContact: contacts.getContact,
 }))
 
-const mapStateToProps = (state: RootModel) => ({
+const mapStateToProps = (state: RootModel & ReduxRootState) => ({
   ...selection(state, {}),
+  isThreadOpened: (phoneNumber: string) =>
+    isThreadOpenedSelector(phoneNumber)(state),
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
