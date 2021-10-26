@@ -144,7 +144,7 @@ export const CallDetails = ({
                       value={details.caller.phoneNumber}
                       trailingIcons={phoneActions(
                         details.caller.phoneNumber,
-                        isThreadOpened(details.caller.phoneNumber),
+                        !isThreadOpened(details.caller.phoneNumber),
                         noop,
                         redirectToMessagesPage
                       )}
