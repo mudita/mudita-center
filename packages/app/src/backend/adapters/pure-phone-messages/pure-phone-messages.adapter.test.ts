@@ -70,7 +70,6 @@ const threads: Thread[] = [
   {
     id: "1",
     phoneNumber: "+48500600700",
-    contactId: "1",
     lastUpdatedAt: new Date(1617089558 * 1000),
     messageSnippet:
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
@@ -79,7 +78,6 @@ const threads: Thread[] = [
   {
     id: "2",
     phoneNumber: "+48500600700",
-    contactId: "1",
     lastUpdatedAt: new Date(1615089558 * 1000),
     messageSnippet:
       "Et beatae dicta ut consequatur aut. Consequuntur odio voluptas sed eligendi repudiandae quo amet.",
@@ -93,7 +91,6 @@ const messages: Message[] = [
     date: new Date(1547465101 * 1000),
     content:
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
-    contactId: "1",
     threadId: "1",
     phoneNumber: "+48500600700",
     messageType: MessageType.INBOX,
@@ -102,7 +99,6 @@ const messages: Message[] = [
     id: "2",
     date: new Date(1547468701 * 1000),
     content: "Nulla itaque?",
-    contactId: "1",
     threadId: "1",
     phoneNumber: "+48500600700",
     messageType: MessageType.OUTBOX,
@@ -128,7 +124,6 @@ const mockAddedMessageData: Message = {
   id: "6",
   date: new Date(mockAddedPureMessageData.createdAt * 1000),
   content: mockAddedNewMessageData.content,
-  contactId: "2",
   threadId: "1",
   phoneNumber: mockAddedNewMessageData.phoneNumber,
   messageType: MessageType.OUTBOX,

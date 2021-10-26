@@ -17,7 +17,6 @@ const threads: Thread[] = [
   {
     id: firstThreadId,
     phoneNumber: contact.primaryPhoneNumber!,
-    contactId: contact.id,
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -26,7 +25,6 @@ const threads: Thread[] = [
   {
     id: secondThreadId,
     phoneNumber: anotherContact.primaryPhoneNumber!,
-    contactId: anotherContact.id,
     lastUpdatedAt: new Date("2020-05-17T19:58:05.136Z"),
     messageSnippet:
       "Velit et ut ut odit quo. Ratione eligendi non consequatur ipsum neque.",
