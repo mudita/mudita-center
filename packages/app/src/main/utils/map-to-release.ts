@@ -33,12 +33,17 @@ export const findAssetByName = (
   name: string
 ): GithubReleaseAsset | undefined => assets.find((asset) => asset.name === name)
 
+export const getVersion = (tagName: string): string => {
+  const [version] = tagName.split("_").reverse()
+  return version
+}
+
 export const isProductionRelease = (release: GithubRelease): boolean => {
   if (release.prerelease) {
     return false
   }
 
-  if (isPrereleaseSet(release.tag_name)) {
+  if (isPrereleaseSet(getVersion(release.tag_name))) {
     return false
   }
 
@@ -46,7 +51,7 @@ export const isProductionRelease = (release: GithubRelease): boolean => {
 }
 
 export const isTestProductionRelease = (release: GithubRelease): boolean => {
-  const labels = getPrereleaseLabels(release.tag_name)
+  const labels = getPrereleaseLabels(getVersion(release.tag_name))
 
   if (labels[0] !== "rc") {
     return false
@@ -59,7 +64,7 @@ export const isTestProductionRelease = (release: GithubRelease): boolean => {
   return true
 }
 export const isProductionAlphaRelease = (release: GithubRelease): boolean => {
-  const labels = getPrereleaseLabels(release.tag_name)
+  const labels = getPrereleaseLabels(getVersion(release.tag_name))
 
   if (labels.length !== 1) {
     return false
@@ -74,7 +79,7 @@ export const isProductionAlphaRelease = (release: GithubRelease): boolean => {
 export const isTestProductionAlphaRelease = (
   release: GithubRelease
 ): boolean => {
-  const labels = getPrereleaseLabels(release.tag_name)
+  const labels = getPrereleaseLabels(getVersion(release.tag_name))
 
   if (labels[0] !== "alpha") {
     return false
@@ -98,7 +103,10 @@ export const filterRelease = (release: GithubRelease): boolean => {
     return false
   }
 
-  if (OsReleasesManager.isProductionAvailable() && isProductionRelease(release)) {
+  if (
+    OsReleasesManager.isProductionAvailable() &&
+    isProductionRelease(release)
+  ) {
     return true
   }
 
@@ -159,7 +167,7 @@ const mapToReleases = async (
           ) as GithubReleaseAsset
 
           return {
-            version: item.version,
+            version: getVersion(item.version),
             prerelease: getPrerelease(release),
             date: published_at || created_at,
             product: item.target,
