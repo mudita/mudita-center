@@ -41,6 +41,7 @@ import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import { IndexRange } from "react-virtualized"
 
 const deleteModalMessages = defineMessages({
   title: { id: "module.messages.deleteModalTitle" },
@@ -383,6 +384,10 @@ const Messages: FunctionComponent<Props> = ({
     }
   }
 
+  const loadMoreRows = async (props: IndexRange): Promise<void> => {
+    console.log("loadMoreRows: ", props)
+  }
+
   return (
     <>
       <MessagesPanel
@@ -392,15 +397,16 @@ const Messages: FunctionComponent<Props> = ({
       />
       <TableWithSidebarWrapper>
         <ThreadList
+          threadsCount={100}
+          language={language}
+          activeThread={activeThread}
           threads={getThreads()}
           onThreadClick={handleThreadClick}
-          activeThread={activeThread}
           getContactByPhoneNumber={getContactByPhoneNumber}
           onDeleteClick={removeSingleConversation}
           onToggleReadStatus={toggleReadStatus}
           onContactClick={contactClick}
-          isContactCreatedByPhoneNumber={isContactCreatedByPhoneNumber}
-          language={language}
+          loadMoreRows={loadMoreRows}
           {...rest}
         />
         {messagesState === MessagesState.ThreadDetails && activeThread && (
