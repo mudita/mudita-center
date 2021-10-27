@@ -58,6 +58,8 @@ const mockThread: Thread = {
   unread: false,
 }
 
+const threadsPaginationLimit: PaginationBody["limit"] = 8
+
 enum MessagesState {
   List,
   ThreadDetails,
@@ -104,35 +106,31 @@ const Messages: FunctionComponent<Props> = ({
   isContactCreatedByPhoneNumber,
   addNewMessage,
 }) => {
-  const latestThreadsPagination: PaginationBody = {
-    limit: 5,
-    offset: 0,
-  }
+  const [threadsPaginationOffset, setThreadsPaginationOffset] = useState<
+    PaginationBody["offset"] | undefined
+  >(0)
 
-  const latestMessagesPagination: PaginationBody = {
-    limit: 5,
-    offset: 0,
+  const loadLatestThreadsRequest = async () => {
+    await loadThreads({
+      offset: 0,
+      limit: threadsPaginationLimit,
+    })
   }
-  const [threadsPagination, setThreadsPagination] = useState<
-    PaginationBody | undefined
-  >(latestThreadsPagination)
 
   const loadThreadsRequest = async () => {
-    console.log("loadThreadsRequest: ", threadsPagination)
-    if (threadsPagination === undefined) {
-      console.log("loadThreadsRequest threadsPagination is undefined: ")
+    if (threadsPaginationOffset === undefined) {
       return
     }
 
     const response = await loadThreads({
-      ...threadsPagination,
-      limit: latestThreadsPagination.limit,
+      offset: threadsPaginationOffset,
+      limit: threadsPaginationLimit,
     })
-    setThreadsPagination(response.payload)
+
+    setThreadsPaginationOffset(response.payload?.offset)
   }
 
   useEffect(() => {
-    console.log("loadThreadsRequest: ")
     void loadThreadsRequest()
   }, [])
 
@@ -150,19 +148,17 @@ const Messages: FunctionComponent<Props> = ({
     if (activeThread !== undefined) {
       void loadMessagesByThreadId({
         threadId: activeThread.id,
-        ...latestMessagesPagination,
       })
 
       interval = setInterval(() => {
         void loadMessagesByThreadId({
           threadId: activeThread.id,
-          ...latestMessagesPagination,
         })
-        void loadThreads(latestThreadsPagination)
+        void loadLatestThreadsRequest
       }, 10000)
     } else {
       interval = setInterval(() => {
-        void loadThreads(latestThreadsPagination)
+        void loadLatestThreadsRequest
       }, 10000)
     }
 
@@ -271,9 +267,8 @@ const Messages: FunctionComponent<Props> = ({
 
   const handleLoadMessagesClick = (): void => {
     if (activeThread) {
-      loadMessagesByThreadId({
+      void loadMessagesByThreadId({
         threadId: activeThread.id,
-        ...latestMessagesPagination,
       })
     }
   }
@@ -395,26 +390,12 @@ const Messages: FunctionComponent<Props> = ({
 
   const loadMoreRows = async ({ startIndex }: IndexRange): Promise<void> => {
     return new Promise((resolve) => {
-      console.log("startIndex: ", startIndex)
-      console.log("threadsState: ", threadsState)
-      console.log("threads.length: ", threads.length)
       if (startIndex > threads.length || threadsState === ResultState.Loading)
         return resolve()
       loadThreadsRequest()
       return resolve()
     })
   }
-  // const loadMoreRows = useCallback<(params: IndexRange) => Promise<any>>(
-  //   ({ startIndex }) => {
-  //     return new Promise((resolve) => {
-  //       if (startIndex > rows.length || loading) return resolve()
-  //       const searchParams = convertVariablesToSearch(variables)
-  //       sendRequestForMore(searchParams)
-  //       return resolve()
-  //     })
-  //   },
-  //   [rows, loading, variables]
-  // )
 
   return (
     <>

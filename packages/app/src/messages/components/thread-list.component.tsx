@@ -97,6 +97,7 @@ const ThreadList: FunctionComponent<Props> = ({
 
       return (
         <ThreadRow
+          key={index}
           active={active}
           selected={selected}
           indeterminate={indeterminate}

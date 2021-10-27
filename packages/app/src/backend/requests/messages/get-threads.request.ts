@@ -14,7 +14,7 @@ const handleGetThreadsRequest = (
   { pureMessages }: Adapters,
   pagination: PaginationBody
 ): Promise<DeviceResponse<GetThreadsResponse>> =>
-  pureMessages.getThreads(pagination)
+  pureMessages.loadMoreThreadsInSingleRequest(pagination)
 
 const registerGetThreadsRequest = createEndpoint({
   name: IpcRequest.GetThreads,
