@@ -57,7 +57,7 @@ type SelectHook = Pick<
 >
 
 interface Props extends SelectHook, Pick<AppSettings, "language"> {
-  threadsCount: number
+  threadsTotalCount: number
   threads: Thread[]
   onThreadClick?: (thread: Thread) => void
   activeThread?: Thread
@@ -69,7 +69,7 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
 }
 
 const ThreadList: FunctionComponent<Props> = ({
-  threadsCount,
+  threadsTotalCount,
   activeThread,
   threads,
   onThreadClick = noop,
@@ -127,7 +127,7 @@ const ThreadList: FunctionComponent<Props> = ({
       <InfiniteLoader
         isRowLoaded={isRowLoaded}
         loadMoreRows={loadMoreRows}
-        rowCount={threadsCount}
+        rowCount={threadsTotalCount}
       >
         {({ onRowsRendered, registerChild }) => (
           <AutoSizer>
@@ -136,7 +136,7 @@ const ThreadList: FunctionComponent<Props> = ({
                 height={height}
                 width={width}
                 rowRenderer={renderRow}
-                rowCount={threadsCount}
+                rowCount={threadsTotalCount}
                 rowHeight={90}
                 onRowsRendered={onRowsRendered}
                 registerChild={registerChild}

@@ -10,6 +10,7 @@ export enum MessagesEvent {
   MarkThreadAsRead = "MARK_THREAD_AS_READ",
   DeleteThreads = "DELETE_THREADS",
   SetThreads = "SET_THREADS",
+  SetThreadsTotalCount = "SET_THREADS_TOTAL_COUNT",
   SetMessages = "SET_MESSAGES",
   AddNewMessage = "ADD_NEW_MESSAGE",
   DevClearAllThreads = "DEV_CLEAR_ALL_THREADS",

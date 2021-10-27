@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
 import styled from "styled-components"
 import { Row } from "Renderer/components/core/table/table.component"
 

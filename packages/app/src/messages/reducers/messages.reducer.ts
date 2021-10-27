@@ -23,6 +23,7 @@ import {
   ResultState,
   SetMessagesAction,
   SetThreadsAction,
+  SetThreadsTotalCountAction,
   ThreadMap,
   ToggleThreadReadStatusAction,
   VisibilityFilter,
@@ -34,10 +35,11 @@ export const initialState: MessagesState = {
   messageMap: {},
   messageIdsInThreadMap: {},
   searchValue: "",
+  threadsTotalCount: 0,
   threadsState: ResultState.Empty,
   visibilityFilter: VisibilityFilter.All,
   messagesStateMap: {},
-  error: null
+  error: null,
 }
 
 export const messagesReducer = createReducer<MessagesState>(
@@ -122,33 +124,39 @@ export const messagesReducer = createReducer<MessagesState>(
       })
 
       .addCase(
+        MessagesEvent.SetThreadsTotalCount,
+        (state, action: SetThreadsTotalCountAction) => {
+          return {
+            ...state,
+            threadsTotalCount: action.payload,
+          }
+        }
+      )
+
+      .addCase(
         MessagesEvent.SetMessages,
         (state, action: SetMessagesAction) => {
           const messages = action.payload
           const messageMap: MessageMap = { ...state.messageMap }
-          const messageIdsInThreadMap: MessageIdsInThreadMap = { ...state.messageIdsInThreadMap }
+          const messageIdsInThreadMap: MessageIdsInThreadMap = {
+            ...state.messageIdsInThreadMap,
+          }
           return {
             ...state,
-            messageMap: messages.reduce(
-              (prevMessageMap, message) => {
-                prevMessageMap[message.id] = message
-                return prevMessageMap
-              },
-              messageMap
-            ),
-            messageIdsInThreadMap: messages.reduce(
-              (prev, message) => {
-                const messageIds = prev[message.threadId] ?? []
-                prev[message.threadId] = messageIds.find(
-                  (id) => id === message.id
-                )
-                  ? messageIds
-                  : [...messageIds, message.id]
+            messageMap: messages.reduce((prevMessageMap, message) => {
+              prevMessageMap[message.id] = message
+              return prevMessageMap
+            }, messageMap),
+            messageIdsInThreadMap: messages.reduce((prev, message) => {
+              const messageIds = prev[message.threadId] ?? []
+              prev[message.threadId] = messageIds.find(
+                (id) => id === message.id
+              )
+                ? messageIds
+                : [...messageIds, message.id]
 
-                return prev
-              },
-              messageIdsInThreadMap
-            ),
+              return prev
+            }, messageIdsInThreadMap),
           }
         }
       )

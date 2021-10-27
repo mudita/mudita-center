@@ -46,6 +46,8 @@ const selector = select(({ contacts }) => ({
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...selector(state, {}),
   ...state.settings,
+  threadsState: state.messages.threadsState,
+  threadsTotalCount: state.messages.threadsTotalCount,
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
   getReceiver: (phoneNumber: string) => getReceiverSelector(phoneNumber)(state),

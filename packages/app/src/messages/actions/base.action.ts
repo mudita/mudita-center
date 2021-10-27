@@ -26,6 +26,9 @@ export const changeSearchValue = createAction<string>(
 )
 
 export const setThreads = createAction<Thread[]>(MessagesEvent.SetThreads)
+export const setThreadsTotalCount = createAction<number>(
+  MessagesEvent.SetThreadsTotalCount
+)
 
 export const setMessages = createAction<Message[]>(MessagesEvent.SetMessages)
 

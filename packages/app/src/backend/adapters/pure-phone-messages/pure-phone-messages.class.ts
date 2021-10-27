@@ -13,6 +13,7 @@ import { PaginationBody } from "@mudita/pure"
 
 export interface GetThreadsResponse {
   data: Thread[]
+  totalCount: number
   nextPage?: PaginationBody
 }
 

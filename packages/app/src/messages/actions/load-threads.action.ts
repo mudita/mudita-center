@@ -7,7 +7,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import getThreads from "Renderer/requests/get-threads.request"
 import { LoadThreadsError } from "App/messages/errors"
-import { setThreads } from "App/messages/actions/base.action"
+import {
+  setThreads,
+  setThreadsTotalCount,
+} from "App/messages/actions/base.action"
 import { PaginationBody } from "@mudita/pure"
 
 export const loadThreads = createAsyncThunk<
@@ -23,6 +26,7 @@ export const loadThreads = createAsyncThunk<
     }
 
     dispatch(setThreads(data.data))
+    dispatch(setThreadsTotalCount(data.totalCount))
 
     return data.nextPage
   }

@@ -62,6 +62,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
         data: {
           data: data.entries.map(PurePhoneMessages.mapToThreads),
           nextPage: data.nextPage,
+          totalCount: data.totalCount,
         },
       }
     } else {

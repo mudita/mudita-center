@@ -85,6 +85,8 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
 
 const Messages: FunctionComponent<Props> = ({
   loadThreads,
+  threadsTotalCount,
+  threadsState,
   receivers,
   searchValue,
   changeSearchValue = noop,
@@ -115,16 +117,23 @@ const Messages: FunctionComponent<Props> = ({
     PaginationBody | undefined
   >(latestThreadsPagination)
 
-  useEffect(() => {
-    const load = async () => {
-      if (threadsPagination === undefined) {
-        return
-      }
-
-      const response = await loadThreads(threadsPagination)
-      setThreadsPagination(response.payload)
+  const loadThreadsRequest = async () => {
+    console.log("loadThreadsRequest: ", threadsPagination)
+    if (threadsPagination === undefined) {
+      console.log("loadThreadsRequest threadsPagination is undefined: ")
+      return
     }
-    load()
+
+    const response = await loadThreads({
+      ...threadsPagination,
+      limit: latestThreadsPagination.limit,
+    })
+    setThreadsPagination(response.payload)
+  }
+
+  useEffect(() => {
+    console.log("loadThreadsRequest: ")
+    void loadThreadsRequest()
   }, [])
 
   const [messagesState, setMessagesState] = useState(MessagesState.List)
@@ -139,21 +148,21 @@ const Messages: FunctionComponent<Props> = ({
     let interval: any
 
     if (activeThread !== undefined) {
-      loadMessagesByThreadId({
+      void loadMessagesByThreadId({
         threadId: activeThread.id,
         ...latestMessagesPagination,
       })
 
       interval = setInterval(() => {
-        loadMessagesByThreadId({
+        void loadMessagesByThreadId({
           threadId: activeThread.id,
           ...latestMessagesPagination,
         })
-        loadThreads(latestThreadsPagination)
+        void loadThreads(latestThreadsPagination)
       }, 10000)
     } else {
       interval = setInterval(() => {
-        loadThreads(latestThreadsPagination)
+        void loadThreads(latestThreadsPagination)
       }, 10000)
     }
 
@@ -384,9 +393,28 @@ const Messages: FunctionComponent<Props> = ({
     }
   }
 
-  const loadMoreRows = async (props: IndexRange): Promise<void> => {
-    console.log("loadMoreRows: ", props)
+  const loadMoreRows = async ({ startIndex }: IndexRange): Promise<void> => {
+    return new Promise((resolve) => {
+      console.log("startIndex: ", startIndex)
+      console.log("threadsState: ", threadsState)
+      console.log("threads.length: ", threads.length)
+      if (startIndex > threads.length || threadsState === ResultState.Loading)
+        return resolve()
+      loadThreadsRequest()
+      return resolve()
+    })
   }
+  // const loadMoreRows = useCallback<(params: IndexRange) => Promise<any>>(
+  //   ({ startIndex }) => {
+  //     return new Promise((resolve) => {
+  //       if (startIndex > rows.length || loading) return resolve()
+  //       const searchParams = convertVariablesToSearch(variables)
+  //       sendRequestForMore(searchParams)
+  //       return resolve()
+  //     })
+  //   },
+  //   [rows, loading, variables]
+  // )
 
   return (
     <>
@@ -397,7 +425,7 @@ const Messages: FunctionComponent<Props> = ({
       />
       <TableWithSidebarWrapper>
         <ThreadList
-          threadsCount={100}
+          threadsTotalCount={threadsTotalCount}
           language={language}
           activeThread={activeThread}
           threads={getThreads()}

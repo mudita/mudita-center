@@ -59,6 +59,7 @@ export type MessagesState = Readonly<{
   messageMap: MessageMap
   messageIdsInThreadMap: MessageIdsInThreadMap
   searchValue: string
+  threadsTotalCount: number
   visibilityFilter: VisibilityFilter
   threadsState: ResultState
   messagesStateMap: { [id: string]: ResultState }
@@ -119,6 +120,11 @@ export type ChangeSearchValueAction = PayloadAction<
 >
 
 export type SetThreadsAction = PayloadAction<Thread[], MessagesEvent.SetThreads>
+
+export type SetThreadsTotalCountAction = PayloadAction<
+  number,
+  MessagesEvent.SetThreadsTotalCount
+>
 
 export type SetMessagesAction = PayloadAction<
   Message[],
