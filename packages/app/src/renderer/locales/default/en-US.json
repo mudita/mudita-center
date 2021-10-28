@@ -391,7 +391,7 @@
   "module.onboarding.welcomeButton": "Not now",
   "module.onboarding.welcomeInstruction": "Connect your Pure or Harmony to a computer",
   "module.onboarding.welcomeTitle": "Welcome to Mudita Center",
-  "module.onboarding.welcomeTroubleshootingButton": "My phone doesn’t show up after connecting",
+  "module.onboarding.welcomeTroubleshootingButton": "My device doesn’t show up after connecting",
   "module.overview": "Overview",
   "module.overview.backup.failedBackupModalTitle": "Backup failed!",
   "module.overview.backupCreateAction": "Create backup",
