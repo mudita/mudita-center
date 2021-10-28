@@ -49,7 +49,6 @@ const secondThreadId = "2"
 const firstThread: Thread = {
   id: firstThreadId,
   phoneNumber: contact.primaryPhoneNumber!,
-  contactId: contact.id,
   unread: true,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
@@ -59,7 +58,6 @@ const firstThread: Thread = {
 const secondThread: Thread = {
   id: secondThreadId,
   phoneNumber: unknownContact.primaryPhoneNumber!,
-  contactId: unknownContact.id,
   unread: false,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
@@ -68,7 +66,6 @@ const secondThread: Thread = {
 
 const receiver: Receiver = {
   phoneNumber: contact.primaryPhoneNumber!,
-  contactId: contact.id,
   firstName: contact.firstName,
   lastName: contact.lastName,
   identification: ReceiverIdentification.unknown,
@@ -91,7 +88,7 @@ const defaultProps: Props = {
   getMessagesByThreadId: jest.fn(),
   getMessagesStateByThreadId: jest.fn(),
   loadMessagesByThreadId: jest.fn(),
-  isContactCreated: jest.fn(),
+  isContactCreatedByPhoneNumber: jest.fn(),
   attachContactList: [],
   attachContactFlatList: [contact],
 }
@@ -486,8 +483,8 @@ describe("Messages component", () => {
   })
 
   test("dropdown contact details button has correct content", () => {
-    const isContactCreated = jest.fn().mockReturnValue(true)
-    const { getAllByTestId } = renderer({ isContactCreated })
+    const isContactCreatedByPhoneNumber = jest.fn().mockReturnValue(true)
+    const { getAllByTestId } = renderer({ isContactCreatedByPhoneNumber })
     expect(getAllByTestId("dropdown-contact-details")[0]).toHaveTextContent(
       intl.formatMessage({
         id: "module.messages.dropdownContactDetails",
@@ -496,8 +493,8 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown contact details buttons for contacts", () => {
-    const isContactCreated = jest.fn().mockReturnValue(true)
-    const { getByTestId } = renderer({ isContactCreated })
+    const isContactCreatedByPhoneNumber = jest.fn().mockReturnValue(true)
+    const { getByTestId } = renderer({ isContactCreatedByPhoneNumber })
     expect(getByTestId("dropdown-contact-details")).toBeInTheDocument()
   })
 
@@ -509,7 +506,7 @@ describe("Messages component", () => {
         lastName: unknownContact.lastName,
         primaryPhoneNumber: unknownContact.primaryPhoneNumber,
       }),
-      isContactCreated: jest.fn().mockReturnValue(false),
+      isContactCreatedByPhoneNumber: jest.fn().mockReturnValue(false),
     })
     expect(queryAllByTestId("dropdown-add-to-contacts")[0]).toBeInTheDocument()
   })

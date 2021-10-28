@@ -17,7 +17,9 @@ export const addNewMessage = createAsyncThunk<Message, NewMessage>(
     const { data, error } = await addMessage(newMessage)
 
     if (error || data === undefined) {
-      return rejectWithValue(new AddNewMessageError("Add New Message request failed"))
+      return rejectWithValue(
+        new AddNewMessageError("Add New Message request failed")
+      )
     }
 
     await dispatch(

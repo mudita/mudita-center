@@ -4,29 +4,33 @@
  */
 
 import { createSelector } from "reselect"
-import { ReduxRootState } from "Renderer/store"
-import { getContactMapSelector } from "App/messages/selectors/filtered-threads.selector"
+import { ReduxRootState, RootState } from "Renderer/store"
 import { threadsSelector } from "App/messages/selectors/threads.selector"
+import { getContactMapSelector } from "App/contacts/selectors/get-contact-map.selector"
 import { Receiver, Thread } from "App/messages/reducers"
 import { PhoneContacts } from "App/contacts/store/contacts.interface"
 import {
   mapContactsToReceivers,
   mapThreadsToReceivers,
 } from "App/messages/helpers/threads.helpers"
+import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 
 export const getReceiversSelector = createSelector<
-  ReduxRootState,
+  RootState & ReduxRootState,
   Thread[],
   PhoneContacts["db"],
   Receiver[]
 >([threadsSelector, getContactMapSelector], (threads, contactMap) => {
-  const contactIds = Object.keys(contactMap)
+  const contacts = Object.keys(contactMap).map((key) => {
+    return contactMap[key]
+  })
   const uniqueThreadsReceivers = threads.filter(
-    ({ contactId }) => !contactIds.includes(contactId)
+    ({ phoneNumber }) =>
+      !contacts.some((contact) => {
+        return isContactMatchingPhoneNumber(contact, phoneNumber)
+      })
   )
   const threadReceivers = mapThreadsToReceivers(uniqueThreadsReceivers)
-  const contactReceivers = mapContactsToReceivers(
-    Object.keys(contactMap).map((key) => contactMap[key])
-  )
+  const contactReceivers = mapContactsToReceivers(contacts)
   return [...contactReceivers, ...threadReceivers]
 })

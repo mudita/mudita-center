@@ -25,8 +25,8 @@ const messages: Message[] = [
   {
     id: "6",
     date: new Date("2021-10-19T10:42:27.431Z"),
-    content: "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
-    contactId: "2",
+    content:
+      "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     threadId: "1",
     phoneNumber: "+48500600700",
     messageType: MessageType.OUTBOX,
@@ -36,7 +36,7 @@ const messages: Message[] = [
 const successDeviceResponse: DeviceResponse<GetMessagesByThreadIdResponse> = {
   status: DeviceResponseStatus.Ok,
   data: {
-    data: messages
+    data: messages,
   },
 }
 
@@ -60,8 +60,8 @@ jest.mock("App/messages/actions/base.action", () => ({
       {
         id: "6",
         date: new Date("2021-10-19T10:42:27.431Z"),
-        content: "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
-        contactId: "2",
+        content:
+          "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
         threadId: "1",
         phoneNumber: "+48500600700",
         messageType: MessageType.OUTBOX,
@@ -103,7 +103,9 @@ describe("async `loadMessagesById` ", () => {
   describe("when `getMessagesByThreadId` request return error", () => {
     test("fire async `loadMessagesById` returns `rejected` action", async () => {
       ;(getMessagesByThreadId as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new LoadMessagesByIdError("Load Messages By Id request failed")
+      const errorMock = new LoadMessagesByIdError(
+        "Load Messages By Id request failed"
+      )
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
