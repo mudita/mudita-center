@@ -51,7 +51,6 @@ const deleteModalMessages = defineMessages({
 
 const mockThread: Thread = {
   id: "tmpId",
-  contactId: "tmpId",
   phoneNumber: "New Conversation",
   lastUpdatedAt: new Date(),
   messageSnippet: "",
@@ -73,13 +72,13 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   ) => Promise<PayloadAction<PaginationBody | undefined>>
   getMessagesByThreadId: (threadId: string) => Message[]
   getContact: (contactId: string) => Contact | undefined
-  getReceiver: (contactId: string, phoneNumber: string) => Receiver
+  getReceiver: (phoneNumber: string) => Receiver
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   loadMessagesByThreadId: (
     body: GetMessagesBody
   ) => Promise<PayloadAction<PaginationBody | undefined>>
   getMessagesStateByThreadId: (threadId: string) => ResultState
-  isContactCreated: (id: string) => boolean
+  isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<Message | undefined>
 }
 
@@ -91,7 +90,6 @@ const Messages: FunctionComponent<Props> = ({
   deleteThreads = noop,
   threads,
   getMessagesByThreadId,
-  getContact,
   getReceiver,
   toggleReadStatus = noop,
   language,
@@ -100,7 +98,7 @@ const Messages: FunctionComponent<Props> = ({
   loadMessagesByThreadId,
   getMessagesStateByThreadId,
   getContactByPhoneNumber,
-  isContactCreated,
+  isContactCreatedByPhoneNumber,
   addNewMessage,
 }) => {
   const latestThreadsPagination: PaginationBody = {
@@ -173,7 +171,10 @@ const Messages: FunctionComponent<Props> = ({
     return {
       ...deleteModalMessages.body,
       values: {
-        caller: getPrettyCaller(getContact(thread.contactId), thread.id),
+        caller: getPrettyCaller(
+          getContactByPhoneNumber(thread.phoneNumber),
+          thread.id
+        ),
         num: allRowsSelected ? -1 : ids.length,
         ...textFormatters,
       },
@@ -338,9 +339,8 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const handleReceiverSelect = ({
-    contactId,
     phoneNumber,
-  }: Pick<Receiver, "contactId" | "phoneNumber">) => {
+  }: Pick<Receiver, "phoneNumber">) => {
     const thread = threads.find(
       (thread) =>
         mapToRawNumber(thread.phoneNumber) === mapToRawNumber(phoneNumber)
@@ -351,7 +351,7 @@ const Messages: FunctionComponent<Props> = ({
       setTmpActiveThread(undefined)
       setMessagesState(MessagesState.ThreadDetails)
     } else {
-      const tmpThread = { ...mockThread, phoneNumber, contactId: contactId }
+      const tmpThread: Thread = { ...mockThread, phoneNumber }
       setTmpActiveThread(tmpThread)
       setActiveThread(tmpThread)
       setMessagesState(MessagesState.ThreadDetails)
@@ -359,23 +359,19 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const handlePhoneNumberSelect = (phoneNumber: string) => {
-    const contact = getContactByPhoneNumber(phoneNumber)
-    const contactId = contact ? contact.id : mockThread.contactId
     handleReceiverSelect({
       phoneNumber,
-      contactId,
     })
   }
 
   const getViewReceiver = (activeThread: Thread): Receiver => {
-    if (activeThread.contactId === mockThread.contactId) {
+    if (activeThread.phoneNumber === mockThread.phoneNumber) {
       return {
-        contactId: activeThread.contactId,
         phoneNumber: activeThread.phoneNumber,
         identification: ReceiverIdentification.unknown,
       }
     } else {
-      return getReceiver(activeThread.contactId, activeThread.phoneNumber)
+      return getReceiver(activeThread.phoneNumber)
     }
   }
 
@@ -399,11 +395,11 @@ const Messages: FunctionComponent<Props> = ({
           threads={getThreads()}
           onThreadClick={handleThreadClick}
           activeThread={activeThread}
-          getContact={getContact}
+          getContactByPhoneNumber={getContactByPhoneNumber}
           onDeleteClick={removeSingleConversation}
           onToggleReadStatus={toggleReadStatus}
           onContactClick={contactClick}
-          isContactCreated={isContactCreated}
+          isContactCreatedByPhoneNumber={isContactCreatedByPhoneNumber}
           language={language}
           {...rest}
         />
@@ -414,7 +410,9 @@ const Messages: FunctionComponent<Props> = ({
             receiver={getViewReceiver(activeThread)}
             messages={getMessagesByThreadId(activeThread.id)}
             resultState={getMessagesStateByThreadId(activeThread.id)}
-            contactCreated={isContactCreated(activeThread.contactId)}
+            contactCreated={isContactCreatedByPhoneNumber(
+              activeThread.phoneNumber
+            )}
             onLoadMessagesClick={handleLoadMessagesClick}
             onAttachContactClick={openAttachContactModal}
             onContactClick={handleContactClick}

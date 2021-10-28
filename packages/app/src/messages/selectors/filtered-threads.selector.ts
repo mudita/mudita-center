@@ -4,9 +4,8 @@
  */
 
 import { createSelector } from "reselect"
-import { MessagesState, Thread, VisibilityFilter } from "App/messages/reducers"
-import { messagesStateSelector } from "App/messages/selectors/messages-state.selector"
-import { ReduxRootState } from "Renderer/store"
+import { Thread, VisibilityFilter } from "App/messages/reducers"
+import { ReduxRootState, RootState } from "Renderer/store"
 import { threadsSelector } from "App/messages/selectors/threads.selector"
 import {
   filterThreads,
@@ -16,18 +15,10 @@ import {
 import { searchValueSelector } from "App/messages/selectors/search-value.selector"
 import { PhoneContacts } from "App/contacts/store/contacts.interface"
 import { visibilityFilterSelector } from "App/messages/selectors/visibility-filter.selector"
-
-// TODO: write getContactMapSelector
-export const getContactMapSelector = createSelector<
-  ReduxRootState,
-  MessagesState,
-  PhoneContacts["db"]
->(messagesStateSelector, ({ threadMap }) => {
-  return {}
-})
+import { getContactMapSelector } from "App/contacts/selectors/get-contact-map.selector"
 
 export const filteredThreadsSelector = createSelector<
-  ReduxRootState,
+  RootState & ReduxRootState,
   Thread[],
   PhoneContacts["db"],
   string,

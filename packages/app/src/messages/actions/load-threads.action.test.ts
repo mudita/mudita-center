@@ -24,7 +24,6 @@ const threads: Thread[] = [
   {
     id: "1",
     phoneNumber: "+48 755 853 216",
-    contactId: "A1",
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -79,9 +78,7 @@ describe("async `loadThreads` ", () => {
   describe("when `getThreads` request return error", () => {
     test("fire async `loadThreads` returns `rejected` action", async () => {
       ;(getThreads as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new LoadThreadsError(
-        "Get Threads request failed"
-      )
+      const errorMock = new LoadThreadsError("Get Threads request failed")
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },

@@ -12,7 +12,7 @@ import { isThreadOpenedSelector } from "App/messages/selectors"
 
 const selection = select(({ calls, messages, contacts }) => ({
   calls: calls.filteredList,
-  isContactCreated: contacts.isContactCreatedDeprecated,
+  isContactCreated: contacts.isContactCreatedByPhoneNumber,
   getContact: contacts.getContact,
 }))
 

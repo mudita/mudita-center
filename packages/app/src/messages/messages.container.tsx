@@ -5,9 +5,8 @@
 
 import { ChangeEvent } from "react"
 import { connect } from "react-redux"
-import { RootModel } from "Renderer/models/models"
 import Messages from "App/messages/components/messages/messages.component"
-import { ReduxRootState, TmpDispatch, select } from "Renderer/store"
+import { ReduxRootState, TmpDispatch, select, RootState } from "Renderer/store"
 import {
   Message,
   NewMessage,
@@ -41,16 +40,15 @@ const selector = select(({ contacts }) => ({
   getContactByPhoneNumber: contacts.getContactByPhoneNumber,
   attachContactList: contacts.contactList,
   attachContactFlatList: contacts.flatList,
-  isContactCreated: contacts.isContactCreated,
+  isContactCreatedByPhoneNumber: contacts.isContactCreatedByPhoneNumber,
 }))
 
-const mapStateToProps = (state: RootModel & ReduxRootState) => ({
+const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...selector(state, {}),
   ...state.settings,
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
-  getReceiver: (contactId: string, phoneNumber: string) =>
-    getReceiverSelector(contactId, phoneNumber)(state),
+  getReceiver: (phoneNumber: string) => getReceiverSelector(phoneNumber)(state),
   getMessagesByThreadId: (threadId: string) =>
     getMessagesByThreadIdSelector(threadId)(state),
   getMessagesStateByThreadId: (threadId: string) =>

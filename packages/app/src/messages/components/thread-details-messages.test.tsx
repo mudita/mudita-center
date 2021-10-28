@@ -21,7 +21,6 @@ window.HTMLElement.prototype.scrollIntoView = jest.fn()
 type Props = ComponentProps<typeof ThreadDetailsMessages>
 
 const receiver: Receiver = {
-  contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
   firstName: "John",
   lastName: "Doe",
   phoneNumber: "123 456 788",
@@ -38,7 +37,6 @@ const messages: Message[] = [
     content:
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
     phoneNumber: receiver.phoneNumber,
-    contactId: receiver.contactId,
     messageType: MessageType.INBOX,
   },
   {
@@ -47,7 +45,6 @@ const messages: Message[] = [
     date: new Date("2019-10-18T11:45:35.112Z"),
     content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
     phoneNumber: receiver.phoneNumber,
-    contactId: receiver.contactId,
     messageType: MessageType.OUTBOX,
   },
 ]

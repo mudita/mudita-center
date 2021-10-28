@@ -121,7 +121,6 @@ describe("Set Threads data functionality", () => {
   const thread: Thread = {
     id: "1",
     phoneNumber: "+48 755 853 216",
-    contactId: "A1",
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -200,7 +199,6 @@ describe("Set Messages data functionality", () => {
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
     threadId: "1",
     phoneNumber: "+48 755 853 216",
-    contactId: "A1",
     messageType: MessageType.INBOX,
   }
 
@@ -289,7 +287,6 @@ describe("Toggle Thread Read Status data functionality", () => {
   const thread: Thread = {
     id: "1",
     phoneNumber: "+48 755 853 216",
-    contactId: "A1",
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -325,7 +322,6 @@ describe("Mark Thread As Read data functionality", () => {
   const thread: Thread = {
     id: "1",
     phoneNumber: "+48 755 853 216",
-    contactId: "A1",
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -361,7 +357,6 @@ describe("Delete Threads data functionality", () => {
   const thread: Thread = {
     id: "1",
     phoneNumber: "+48 755 853 216",
-    contactId: "A1",
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -375,7 +370,6 @@ describe("Delete Threads data functionality", () => {
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
     threadId: "1",
     phoneNumber: "+48 755 853 216",
-    contactId: "A1",
     messageType: MessageType.INBOX,
   }
 
@@ -435,7 +429,6 @@ describe("Delete Threads data functionality", () => {
     const toDeleteThread: Thread = {
       id: "2",
       phoneNumber: "+48 755 853 216",
-      contactId: "A1",
       lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -449,7 +442,6 @@ describe("Delete Threads data functionality", () => {
         "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
       threadId: "2",
       phoneNumber: "+48 755 853 216",
-      contactId: "A1",
       messageType: MessageType.INBOX,
     }
 
@@ -524,7 +516,6 @@ describe("Dev Clear All Threads data functionality", () => {
   const thread: Thread = {
     id: "1",
     phoneNumber: "+48 755 853 216",
-    contactId: "A1",
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
@@ -538,7 +529,6 @@ describe("Dev Clear All Threads data functionality", () => {
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
     threadId: "1",
     phoneNumber: "+48 755 853 216",
-    contactId: "A1",
     messageType: MessageType.INBOX,
   }
 
