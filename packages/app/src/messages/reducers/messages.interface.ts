@@ -33,7 +33,6 @@ export interface Message {
   id: string
   date: Date
   content: string
-  contactId: string
   phoneNumber: string
   threadId: string
   messageType: MessageType
@@ -45,7 +44,6 @@ export type MessageMap = { [id: string]: Message }
 
 export interface Thread {
   id: string
-  contactId: string
   phoneNumber: string
   lastUpdatedAt: Date
   messageSnippet: string
@@ -74,7 +72,6 @@ export enum ReceiverIdentification {
 }
 
 export interface Receiver extends Pick<Contact, "firstName" | "lastName"> {
-  contactId: string
   phoneNumber: string
   identification: ReceiverIdentification
 }

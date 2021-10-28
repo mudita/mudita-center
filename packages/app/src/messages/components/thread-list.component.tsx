@@ -174,9 +174,9 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
   activeThread?: Thread
   onDeleteClick: (id: string) => void
   onToggleReadStatus: (ids: string[]) => void
-  getContact: (contactId: string) => Contact | undefined
+  getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   onContactClick: (phoneNumber: string) => void
-  isContactCreated: (id: string) => boolean
+  isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
 }
 
 const ThreadList: FunctionComponent<Props> = ({
@@ -189,9 +189,9 @@ const ThreadList: FunctionComponent<Props> = ({
   toggleRow,
   noneRowsSelected,
   language,
-  getContact,
+  getContactByPhoneNumber,
   onContactClick,
-  isContactCreated,
+  isContactCreatedByPhoneNumber,
 }) => {
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
@@ -208,7 +208,7 @@ const ThreadList: FunctionComponent<Props> = ({
     >
       {threads.map((thread) => {
         const { unread, id, phoneNumber } = thread
-        const contact = getContact(thread.contactId)
+        const contact = getContactByPhoneNumber(phoneNumber)
         const { selected, indeterminate } = getRowStatus(thread)
 
         const toggle = () => toggleRow(thread)
@@ -296,7 +296,7 @@ const ThreadList: FunctionComponent<Props> = ({
                     data-testid="dropdown-call"
                     hide={flags.get(Feature.ProductionAndAlpha)}
                   />
-                  {isContactCreated(thread.contactId) ? (
+                  {isContactCreatedByPhoneNumber(thread.phoneNumber) ? (
                     <ButtonComponent
                       labelMessage={{
                         id: "module.messages.dropdownContactDetails",

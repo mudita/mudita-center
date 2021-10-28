@@ -26,14 +26,12 @@ const firstThreadId = "1"
 
 const receiver: Receiver = {
   phoneNumber,
-  contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
   firstName: "John",
   lastName: "Doe",
   identification: ReceiverIdentification.unknown,
 }
 
 const unknownReceiver: Receiver = {
-  contactId: "11",
   firstName: "",
   lastName: "",
   phoneNumber: "+123 456 123",
@@ -48,7 +46,6 @@ const messages: Message[] = [
       "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
     threadId: firstThreadId,
     phoneNumber: receiver.phoneNumber,
-    contactId: receiver.contactId,
     messageType: MessageType.INBOX,
   },
   {
@@ -57,7 +54,6 @@ const messages: Message[] = [
     content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
     threadId: firstThreadId,
     phoneNumber: receiver.phoneNumber,
-    contactId: receiver.contactId,
     messageType: MessageType.OUTBOX,
   },
 ]

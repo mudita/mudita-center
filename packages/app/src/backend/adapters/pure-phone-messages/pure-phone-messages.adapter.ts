@@ -138,7 +138,6 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
 
   private static mapToThreads(pureThread: PureThread): Thread {
     const {
-      contactID,
       isUnread,
       lastUpdatedAt,
       messageSnippet,
@@ -151,7 +150,6 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       unread: flags.get(Feature.ProductionAndAlpha) ? false : isUnread,
       id: String(threadID),
       phoneNumber: String(number),
-      contactId: String(contactID),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),
     }
   }
@@ -159,21 +157,13 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   private static mapToMessages(
     pureMessage: PureMessage & { messageType: AcceptablePureMessageType }
   ): Message {
-    const {
-      contactID,
-      messageBody,
-      messageID,
-      messageType,
-      createdAt,
-      threadID,
-      number,
-    } = pureMessage
+    const { messageBody, messageID, messageType, createdAt, threadID, number } =
+      pureMessage
     return {
       phoneNumber: number,
       id: String(messageID),
       date: new Date(createdAt * 1000),
       content: messageBody,
-      contactId: String(contactID),
       threadId: String(threadID),
       messageType: PurePhoneMessages.getMessageType(messageType),
     }
