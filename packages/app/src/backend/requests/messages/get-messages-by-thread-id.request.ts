@@ -12,11 +12,18 @@ import {
 } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
-const handleGetMessagesByThreadIdRequest = (
+const handleGetMessagesByThreadIdRequest = async (
   { pureMessages }: Adapters,
   body: GetMessagesBody
-): Promise<DeviceResponse<GetMessagesByThreadIdResponse>> =>
-  pureMessages.getMessagesByThreadId(body)
+): Promise<DeviceResponse<GetMessagesByThreadIdResponse>> => {
+   const response = await pureMessages.loadAllMessagesByThreadId(body.threadId)
+  const data = response.data ?? []
+  return {
+     ...response,
+    data: { data }
+  }
+}
+
 
 const registerGetMessagesByThreadIdRequest = createEndpoint({
   name: IpcRequest.GetMessagesByThreadId,

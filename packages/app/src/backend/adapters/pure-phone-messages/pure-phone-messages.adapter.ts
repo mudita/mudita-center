@@ -31,6 +31,11 @@ import {
 } from "@mudita/pure"
 import { Feature, flags } from "App/feature-flags"
 
+const initGetMessagesBody: PureGetMessagesBody = {
+  category: PureMessagesCategory.message,
+  limit: 15,
+}
+
 type AcceptablePureMessageType =
   | PureMessageType.FAILED
   | PureMessageType.QUEUED
@@ -40,6 +45,63 @@ type AcceptablePureMessageType =
 class PurePhoneMessages extends PurePhoneMessagesAdapter {
   constructor(private deviceService: DeviceService) {
     super()
+  }
+
+  public async loadMoreThreadsInSingleRequest(
+    pagination: PaginationBody,
+    data: Thread[] = []
+  ): Promise<DeviceResponse<GetThreadsResponse>> {
+    const response = await this.getThreads({
+      ...pagination,
+      limit: pagination.limit,
+    })
+
+    if (response.error || response.data === undefined) {
+      return response
+    }
+
+    const threads = [...data, ...response.data.data]
+
+    if (response.data.nextPage === undefined) {
+      const offset = pagination.offset + pagination.limit
+      const nextPage: PaginationBody | undefined =
+        offset < response.data.totalCount
+          ? {
+              offset,
+              limit: 0,
+            }
+          : undefined
+
+      return {
+        ...response,
+        data: {
+          ...response.data,
+          nextPage,
+          data: threads,
+        },
+      }
+    }
+
+    const offsetDiff = response.data.nextPage.offset - pagination.offset
+    const restLimit = pagination.limit - offsetDiff
+
+    if (restLimit > 0) {
+      return this.loadMoreThreadsInSingleRequest(
+        {
+          offset: response.data.nextPage.offset,
+          limit: restLimit,
+        },
+        threads
+      )
+    }
+
+    return {
+      ...response,
+      data: {
+        ...response.data,
+        data: threads,
+      },
+    }
   }
 
   public async getThreads(
@@ -73,10 +135,59 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     }
   }
 
+  public loadAllMessagesByThreadId(
+    threadId: string
+  ): Promise<DeviceResponse<Message[]>> {
+    return this.loadAllMessagesInSingleRequest(threadId)
+  }
+
+  private async loadAllMessagesInSingleRequest(
+    threadId: string,
+    pureMessages: PureMessage[] = [],
+    body = initGetMessagesBody
+  ): Promise<DeviceResponse<Message[]>> {
+    const { status, data } = await this.deviceService.request({
+      body: { ...body, threadID: Number(threadId) },
+      endpoint: Endpoint.Messages,
+      method: Method.Get,
+    })
+
+    if (data?.nextPage !== undefined) {
+      const limit: number = data.totalCount - data.nextPage.offset
+      return this.loadAllMessagesInSingleRequest(
+        threadId,
+        [...pureMessages, ...data.entries],
+        {
+          ...initGetMessagesBody,
+          limit,
+          offset: data.nextPage.offset,
+        }
+      )
+    } else if (
+      status === DeviceResponseStatus.Ok &&
+      data?.entries !== undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Ok,
+        data: [...pureMessages, ...data.entries]
+          .filter(PurePhoneMessages.isAcceptablePureMessageType)
+          .map(PurePhoneMessages.mapToMessages),
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message: "Load all messages in single request: Something went wrong",
+        },
+      }
+    }
+  }
+
   public async getMessagesByThreadId({
     threadId,
     nextPage,
   }: GetMessagesBody): Promise<DeviceResponse<GetMessagesByThreadIdResponse>> {
+
     const body: PureGetMessagesBody = {
       category: PureMessagesCategory.message,
       threadID: Number(threadId),
