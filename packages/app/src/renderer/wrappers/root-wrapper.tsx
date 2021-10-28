@@ -6,8 +6,9 @@
 import { MuditaDevice, DeviceType } from "@mudita/pure"
 import { connect } from "react-redux"
 import { History } from "history"
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { IntlProvider } from "react-intl"
+import localeEn from "Renderer/locales/default/en-US.json"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
 import GlobalStyle from "Renderer/styles/global-style.component"
@@ -23,7 +24,6 @@ import { Mode } from "Common/enums/mode.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
-import { getTranslation } from "Renderer/requests/get-translation.request"
 import registerDeviceConnectedListener, {
   removeDeviceConnectedListener,
 } from "Renderer/listeners/register-device-connected.listener"
@@ -136,20 +136,6 @@ const RootWrapper: FunctionComponent<Props> = ({
     }
   }
 
-  /**
-   * Get translations from store
-   */
-  const [messages, setMessages] = useState<Record<string, string>>()
-  const [locale, setLocale] = useState<string>(defaultLanguage)
-
-  useEffect(() => {
-    ;(async () => {
-      const { store, language } = await getTranslation()
-      setMessages(store)
-      setLocale(language)
-    })()
-  }, [])
-
   useEffect(() => {
     connect()
   }, [])
@@ -237,21 +223,19 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   return (
     <ThemeProvider theme={theme}>
-      {messages && (
-        <IntlProvider
-          defaultLocale={defaultLanguage}
-          locale={locale}
-          messages={messages}
-        >
-          <ModalProvider service={modalService}>
-            <>
-              <Normalize />
-              <GlobalStyle />
-              <RenderRoutes />
-            </>
-          </ModalProvider>
-        </IntlProvider>
-      )}
+      <IntlProvider
+        defaultLocale={defaultLanguage}
+        locale={defaultLanguage}
+        messages={localeEn}
+      >
+        <ModalProvider service={modalService}>
+          <>
+            <Normalize />
+            <GlobalStyle />
+            <RenderRoutes />
+          </>
+        </ModalProvider>
+      </IntlProvider>
     </ThemeProvider>
   )
 }
