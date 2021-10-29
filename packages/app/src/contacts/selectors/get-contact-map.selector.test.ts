@@ -4,20 +4,13 @@
  */
 
 import { ReduxRootState, RootState } from "Renderer/store"
-import { ContactsState } from "App/contacts/store/contacts.type"
-import { ResultsState } from "App/contacts/store/contacts.enum"
 import { getContactMapSelector } from "App/contacts/selectors/get-contact-map.selector"
-
-const contactState: ContactsState = {
-  db: {},
-  collection: [],
-  resultsState: ResultsState.Empty,
-}
+import { initialState } from "App/contacts/store/contacts"
 
 describe("`getContactMapSelector` selector", () => {
   test("when initial state is set selector returns empty object as map", () => {
     const state = {
-      contacts: contactState,
+      contacts: initialState,
     } as RootState & ReduxRootState
     expect(getContactMapSelector(state)).toEqual({})
   })

@@ -11,7 +11,10 @@ export interface Content {
   text: string
 }
 
-export type ComponentProps = Pick<MessagesState, "searchValue"> &
+export type ComponentProps = Pick<
+  MessagesState,
+  "searchValue" | "threadsState" | "threadsTotalCount"
+> &
   Readonly<{
     changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
     deleteThreads?: (ids: string[]) => void

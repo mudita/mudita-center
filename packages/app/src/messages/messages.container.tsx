@@ -34,6 +34,7 @@ import {
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import { loadThreadsTotalCount } from "App/messages/actions/load-threads-total-count.action"
 
 const selector = select(({ contacts }) => ({
   getContact: contacts.getContact,
@@ -46,6 +47,8 @@ const selector = select(({ contacts }) => ({
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...selector(state, {}),
   ...state.settings,
+  threadsState: state.messages.threadsState,
+  threadsTotalCount: state.messages.threadsTotalCount,
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
   getReceiver: (phoneNumber: string) => getReceiverSelector(phoneNumber)(state),
@@ -56,6 +59,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  loadThreadsTotalCount: (): Promise<void> =>
+    dispatch(loadThreadsTotalCount()),
   loadThreads: (
     pagination: PaginationBody
   ): Promise<PayloadAction<PaginationBody>> =>
@@ -72,6 +77,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(loadMessagesById(body)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
     dispatch(addNewMessage(newMessage)),
+  loadContacts: () => dispatch.contacts.loadData(),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)
