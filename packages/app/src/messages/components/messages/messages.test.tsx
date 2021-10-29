@@ -16,6 +16,7 @@ import { fireEvent, waitFor } from "@testing-library/dom"
 import {
   Receiver,
   ReceiverIdentification,
+  ResultState,
   Thread,
 } from "App/messages/reducers/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
@@ -28,6 +29,15 @@ import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-inp
 import { flags } from "App/feature-flags"
 
 jest.mock("App/feature-flags")
+
+jest.mock("react-virtualized", () => {
+  const ReactVirtualized = jest.requireActual("react-virtualized")
+  return {
+    ...ReactVirtualized,
+    AutoSizer: ({ children }: any) => children({ height: 1000, width: 1000 }),
+  }
+})
+
 
 const contact: Contact = {
   id: "1",
@@ -76,6 +86,8 @@ beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 type Props = ComponentProps<typeof Messages>
 
 const defaultProps: Props = {
+  threadsTotalCount: 1,
+  threadsState: ResultState.Loaded,
   threads: [firstThread],
   receivers: [receiver],
   searchValue: "",
@@ -152,7 +164,7 @@ describe("Messages component", () => {
     })
 
     test("length of passed empty thread list should be equal 0", () => {
-      const { queryByTestId } = renderer({ threads: [] })
+      const { queryByTestId } = renderer({ threads: [], threadsTotalCount: 0 })
       expect(queryByTestId(ThreadListTestIds.Row)).not.toBeInTheDocument()
     })
 
@@ -228,7 +240,7 @@ describe("Messages component", () => {
     const renderProps: RenderProps = { callbacks: [setNewMessageState] }
 
     test("length of thread list is increased by 1 (tmp thread)", async () => {
-      const { queryByTestId } = renderer({ ...renderProps, threads: [] })
+      const { queryByTestId } = renderer({ ...renderProps, threads: [], threadsTotalCount: 0 })
       expect(queryByTestId(ThreadListTestIds.Row)).toBeInTheDocument()
     })
 
@@ -374,6 +386,7 @@ describe("Messages component", () => {
       const { queryByTestId, queryAllByTestId } = renderer({
         ...renderProps,
         threads: [firstThread, secondThread],
+        threadsTotalCount: 2
       })
       const tableRow = queryAllByTestId(ThreadListTestIds.Row)[1]
       fireEvent.click(tableRow)
@@ -483,8 +496,8 @@ describe("Messages component", () => {
   })
 
   test("dropdown contact details button has correct content", () => {
-    const isContactCreatedByPhoneNumber = jest.fn().mockReturnValue(true)
-    const { getAllByTestId } = renderer({ isContactCreatedByPhoneNumber })
+    const getContactByPhoneNumber = jest.fn().mockReturnValue(contact)
+    const { getAllByTestId } = renderer({ getContactByPhoneNumber })
     expect(getAllByTestId("dropdown-contact-details")[0]).toHaveTextContent(
       intl.formatMessage({
         id: "module.messages.dropdownContactDetails",
@@ -493,8 +506,8 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown contact details buttons for contacts", () => {
-    const isContactCreatedByPhoneNumber = jest.fn().mockReturnValue(true)
-    const { getByTestId } = renderer({ isContactCreatedByPhoneNumber })
+    const getContactByPhoneNumber = jest.fn().mockReturnValue(contact)
+    const { getByTestId } = renderer({ getContactByPhoneNumber })
     expect(getByTestId("dropdown-contact-details")).toBeInTheDocument()
   })
 

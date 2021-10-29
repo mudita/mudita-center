@@ -387,6 +387,13 @@ const Messages: FunctionComponent<Props> = ({
       return threads
     }
   }
+  const getThreadsTotalCount = (): number => {
+    if (tmpActiveThread !== undefined) {
+      return threadsTotalCount + 1
+    } else {
+      return threadsTotalCount
+    }
+  }
 
   const loadMoreRows = async ({ startIndex }: IndexRange): Promise<void> => {
     return new Promise((resolve) => {
@@ -407,7 +414,7 @@ const Messages: FunctionComponent<Props> = ({
       />
       <TableWithSidebarWrapper>
         <ThreadList
-          threadsTotalCount={threadsTotalCount}
+          threadsTotalCount={getThreadsTotalCount()}
           language={language}
           activeThread={activeThread}
           threads={getThreads()}
