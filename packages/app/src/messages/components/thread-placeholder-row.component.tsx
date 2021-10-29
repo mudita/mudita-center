@@ -17,7 +17,9 @@ import { ListRowProps } from "react-virtualized"
 
 const ThreadPlaceholderRowContainer = styled(ThreadBaseRow)``
 
-interface Props extends Pick<ListRowProps, "style"> {}
+interface Props {
+  style: ListRowProps["style"]
+}
 
 const ThreadPlaceholderRow: FunctionComponent<Props> = (props) => {
   return (

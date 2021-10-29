@@ -390,8 +390,9 @@ const Messages: FunctionComponent<Props> = ({
 
   const loadMoreRows = async ({ startIndex }: IndexRange): Promise<void> => {
     return new Promise((resolve) => {
-      if (startIndex > threads.length || threadsState === ResultState.Loading)
+      if (startIndex > threads.length || threadsState === ResultState.Loading) {
         return resolve()
+      }
       loadThreadsRequest()
       return resolve()
     })
