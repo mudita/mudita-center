@@ -70,7 +70,7 @@ const BaseApp: FunctionComponent<Props> = ({
     [URL_MAIN.contacts]: [() => loadContacts()],
     [URL_MAIN.phone]: [() => loadContacts()],
     [URL_OVERVIEW.root]: [() => getConnectedDevice()],
-    [URL_MAIN.messages]: [() => loadContacts()],
+    [URL_MAIN.messages]: [],
   })
   useEffect(() => {
     setAppUpdateStepModalVisible(

@@ -38,7 +38,6 @@ jest.mock("react-virtualized", () => {
   }
 })
 
-
 const contact: Contact = {
   id: "1",
   firstName: "John",
@@ -94,6 +93,8 @@ const defaultProps: Props = {
   language: "en",
   loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
   getReceiver: jest.fn().mockReturnValue(receiver),
+  loadContacts: jest.fn(),
+  loadThreadsTotalCount: jest.fn(),
   getContactByPhoneNumber: jest.fn(),
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
@@ -240,7 +241,11 @@ describe("Messages component", () => {
     const renderProps: RenderProps = { callbacks: [setNewMessageState] }
 
     test("length of thread list is increased by 1 (tmp thread)", async () => {
-      const { queryByTestId } = renderer({ ...renderProps, threads: [], threadsTotalCount: 0 })
+      const { queryByTestId } = renderer({
+        ...renderProps,
+        threads: [],
+        threadsTotalCount: 0,
+      })
       expect(queryByTestId(ThreadListTestIds.Row)).toBeInTheDocument()
     })
 
@@ -386,7 +391,7 @@ describe("Messages component", () => {
       const { queryByTestId, queryAllByTestId } = renderer({
         ...renderProps,
         threads: [firstThread, secondThread],
-        threadsTotalCount: 2
+        threadsTotalCount: 2,
       })
       const tableRow = queryAllByTestId(ThreadListTestIds.Row)[1]
       fireEvent.click(tableRow)
