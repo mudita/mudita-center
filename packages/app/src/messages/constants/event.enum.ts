@@ -5,6 +5,7 @@
 
 export enum MessagesEvent {
   LoadThreads = "LOAD_THREADS",
+  LoadThreadsTotalCount = "LOAD_THREADS_TOTAL_COUNT",
   LoadMessagesById = "LOAD_MESSAGES_BY_ID",
   ToggleThreadReadStatus = "TOGGLE_THREAD_READ_STATUS",
   MarkThreadAsRead = "MARK_THREAD_AS_READ",
