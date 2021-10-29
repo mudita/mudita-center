@@ -8,6 +8,7 @@ import {
   DeviceEventName,
   DeviceInfo,
   Endpoint,
+  DeviceType,
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
   PutFileSystemRequestConfig,
@@ -314,7 +315,10 @@ class DeviceService {
       this.currentDevice = device
 
       this.registerDeviceDisconnectedListener()
-      this.registerDeviceUnlockedListener()
+
+      if (this.currentDevice.deviceType === DeviceType.MuditaPure) {
+        this.registerDeviceUnlockedListener()
+      }
 
       return {
         data: this.currentDevice,
