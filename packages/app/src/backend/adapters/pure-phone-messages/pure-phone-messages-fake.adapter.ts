@@ -20,6 +20,7 @@ class PurePhoneMessagesFake extends PurePhoneMessagesAdapter {
       status: DeviceResponseStatus.Ok,
       data: {
         data: threadsData,
+        totalCount: threadsData.length,
       },
     }
   }
@@ -41,6 +42,23 @@ class PurePhoneMessagesFake extends PurePhoneMessagesAdapter {
     return {
       status: DeviceResponseStatus.Ok,
       data: addedMessageData,
+    }
+  }
+
+  public async loadAllMessagesByThreadId(threadId: string): Promise<DeviceResponse<Message[]>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: messagesData.filter((messages) => messages.threadId === threadId),
+    }
+  }
+
+  public async loadMoreThreadsInSingleRequest(): Promise<DeviceResponse<GetThreadsResponse>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {
+        data: threadsData,
+        totalCount: threadsData.length,
+      },
     }
   }
 }

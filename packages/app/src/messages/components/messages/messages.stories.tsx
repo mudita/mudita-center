@@ -6,22 +6,12 @@
 import React from "react"
 import { storiesOf } from "@storybook/react"
 import Messages from "App/messages/components/messages/messages.component"
-import {
-  rowMessages,
-  rowThreads,
-} from "Renderer/components/core/table/table.fake-data"
+import { rowMessages, rowThreads } from "Renderer/components/core/table/table.fake-data"
 import AttachContactModal from "App/messages/components/attach-contact-modal.component"
-import {
-  ModalBackdrop,
-  ModalWrapper,
-} from "Renderer/components/core/modal/modal.styled.elements"
+import { ModalBackdrop, ModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import { Contact } from "App/contacts/store/contacts.type"
-import {
-  Receiver,
-  ReceiverIdentification,
-  ResultState,
-} from "App/messages/reducers/messages.interface"
+import { Receiver, ReceiverIdentification, ResultState } from "App/messages/reducers/messages.interface"
 import { action } from "@storybook/addon-actions"
 import history from "Renderer/routes/history"
 import { Router } from "react-router"
@@ -155,6 +145,8 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         getReceiver={jest.fn()}
         receivers={receivers}
         loadThreads={loadData}
+        threadsState={ResultState.Loaded}
+        threadsTotalCount={rowThreads.length}
       />
     </div>
   </Router>

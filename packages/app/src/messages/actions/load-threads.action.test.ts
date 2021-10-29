@@ -35,6 +35,7 @@ const successDeviceResponse: DeviceResponse<GetThreadsResponse> = {
   status: DeviceResponseStatus.Ok,
   data: {
     data: threads,
+    totalCount: threads.length
   },
 }
 
@@ -67,6 +68,10 @@ describe("async `loadThreads` ", () => {
         {
           type: MessagesEvent.SetThreads,
           payload: threads,
+        },
+        {
+          type: MessagesEvent.SetThreadsTotalCount,
+          payload: threads.length,
         },
         loadThreads.fulfilled(undefined, requestId, pagination),
       ])
