@@ -12,11 +12,10 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import getThreads from "Renderer/requests/get-threads.request"
-import { loadThreads } from "App/messages/actions/load-threads.action"
+import { loadThreadsTotalCount } from "App/messages/actions/load-threads-total-count.action"
 import { GetThreadsResponse } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { LoadThreadsError } from "App/messages/errors"
 import { Thread } from "App/messages/reducers"
-import { PaginationBody } from "@mudita/pure"
 
 jest.mock("Renderer/requests/get-threads.request")
 
@@ -43,37 +42,28 @@ const errorDeviceResponse: DeviceResponse = {
   status: DeviceResponseStatus.Error,
 }
 
-const pagination: PaginationBody = {
-  limit: 5,
-  offset: 0,
-}
-
 afterEach(() => {
   jest.resetAllMocks()
 })
 
-describe("async `loadThreads` ", () => {
+describe("async `loadThreadsTotalCount` ", () => {
   describe("when `getThreads` request return success", () => {
-    test("fire async `loadThreads` call `setThreads`", async () => {
+    test("fire async `loadThreadsTotalCount` call `SetThreadsTotalCount`", async () => {
       ;(getThreads as jest.Mock).mockReturnValue(successDeviceResponse)
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        loadThreads(pagination) as unknown as AnyAction
+        loadThreadsTotalCount() as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        loadThreads.pending(requestId, pagination),
-        {
-          type: MessagesEvent.SetThreads,
-          payload: threads,
-        },
+        loadThreadsTotalCount.pending(requestId, undefined),
         {
           type: MessagesEvent.SetThreadsTotalCount,
           payload: threads.length,
         },
-        loadThreads.fulfilled(undefined, requestId, pagination),
+        loadThreadsTotalCount.fulfilled(undefined, requestId, undefined),
       ])
 
       expect(getThreads).toHaveBeenCalled()
@@ -81,19 +71,19 @@ describe("async `loadThreads` ", () => {
   })
 
   describe("when `getThreads` request return error", () => {
-    test("fire async `loadThreads` returns `rejected` action", async () => {
+    test("fire async `loadThreadsTotalCount` returns `rejected` action", async () => {
       ;(getThreads as jest.Mock).mockReturnValue(errorDeviceResponse)
       const errorMock = new LoadThreadsError("Get Threads request failed")
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        loadThreads(pagination) as unknown as AnyAction
+        loadThreadsTotalCount() as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        loadThreads.pending(requestId, pagination),
-        loadThreads.rejected(testError, requestId, pagination, errorMock),
+        loadThreadsTotalCount.pending(requestId, undefined),
+        loadThreadsTotalCount.rejected(testError, requestId, undefined, errorMock),
       ])
 
       expect(getThreads).toHaveBeenCalled()

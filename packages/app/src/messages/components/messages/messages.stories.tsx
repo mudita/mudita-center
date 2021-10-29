@@ -37,20 +37,17 @@ const promiseAction =
 
 const receivers: Receiver[] = [
   {
-    contactId: "6e3810c8-c917-45d2-ae17-b83f73127e08",
     firstName: "Oswald",
     lastName: "Bednar",
     phoneNumber: "+62761294266",
     identification: ReceiverIdentification.unknown,
   },
   {
-    contactId: "63cd8522-f4eb-4bdd-a916-a6d5647e89f9",
     lastName: "Abernathy",
     phoneNumber: "+78722986805",
     identification: ReceiverIdentification.unknown,
   },
   {
-    contactId: "990f38dd-1c84-4d23-a8bb-6fcfff42774b",
     firstName: "Sandra",
     lastName: "Zulauf",
     phoneNumber: "+01078963511",
@@ -137,7 +134,7 @@ const getMessagesByThreadId = () => rowMessages
 const loadData = (): Promise<PayloadAction<PaginationBody | undefined>> =>
   Promise.resolve({ payload: undefined, type: "" })
 const getMessagesResultsMapStateByThreadId = () => ResultState.Loaded
-const isContactCreated = () => true
+const isContactCreatedByPhoneNumber = () => true
 
 storiesOf("Views|Messages", module).add("Messages", () => (
   <Router history={history}>
@@ -151,13 +148,18 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         getContact={getContact}
         getMessagesByThreadId={getMessagesByThreadId}
         getMessagesStateByThreadId={getMessagesResultsMapStateByThreadId}
-        isContactCreated={isContactCreated}
+        isContactCreatedByPhoneNumber={isContactCreatedByPhoneNumber}
         loadMessagesByThreadId={loadData}
         addNewMessage={promiseAction("Add New Message")}
         getContactByPhoneNumber={jest.fn()}
         getReceiver={jest.fn()}
         receivers={receivers}
-        loadThreads={loadData}/>
+        loadThreads={loadData}
+        threadsState={ResultState.Loaded}
+        threadsTotalCount={rowThreads.length}
+        loadContacts={jest.fn()}
+        loadThreadsTotalCount={jest.fn()}
+      />
     </div>
   </Router>
 ))

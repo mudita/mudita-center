@@ -17,7 +17,7 @@ export const isThreadOpenedSelector = (
       const numbers: string[] = Object.keys(threadMap).map(
         (key) => threadMap[key].phoneNumber
       )
-      return !numbers.some((number) => number === phoneNumber)
+      return numbers.some((number) => number === phoneNumber)
     }
   )
 }

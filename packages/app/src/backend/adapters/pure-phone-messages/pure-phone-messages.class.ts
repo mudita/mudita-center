@@ -13,6 +13,7 @@ import { PaginationBody } from "@mudita/pure"
 
 export interface GetThreadsResponse {
   data: Thread[]
+  totalCount: number
   nextPage?: PaginationBody
 }
 
@@ -27,12 +28,18 @@ export interface GetMessagesByThreadIdResponse {
 }
 
 export default abstract class PurePhoneMessagesAdapter {
+  public abstract loadMoreThreadsInSingleRequest(
+    pagination: PaginationBody
+  ): Promise<DeviceResponse<GetThreadsResponse>>
   public abstract getThreads(
     pagination: PaginationBody
   ): Promise<DeviceResponse<GetThreadsResponse>>
   public abstract getMessagesByThreadId(
     body: GetMessagesBody
   ): Promise<DeviceResponse<GetMessagesByThreadIdResponse>>
+  public abstract loadAllMessagesByThreadId(
+    threadId: string,
+  ): Promise<DeviceResponse<Message[]>>
   public abstract addMessage(
     newMessage: NewMessage
   ): Promise<DeviceResponse<Message>>

@@ -20,7 +20,9 @@ export const loadMessagesById = createAsyncThunk<
     const { data, error } = await getMessagesByThreadId(body)
 
     if (error || data === undefined) {
-      return rejectWithValue(new LoadMessagesByIdError("Load Messages By Id request failed"))
+      return rejectWithValue(
+        new LoadMessagesByIdError("Load Messages By Id request failed")
+      )
     }
 
     dispatch(setMessages(data.data))

@@ -6,11 +6,13 @@
 import { useState } from "react"
 import { getRowChildren } from "Renderer/components/core/table/table.helpers"
 
+export interface RowStatus {
+  selected: boolean
+  indeterminate: boolean
+}
+
 export interface UseTableSelect<T> {
-  getRowStatus: (row: T) => {
-    selected: boolean
-    indeterminate: boolean
-  }
+  getRowStatus: (row: T) => RowStatus
   toggleAll: () => void
   toggleRow: (row: T) => void
   selectedRows: T[]

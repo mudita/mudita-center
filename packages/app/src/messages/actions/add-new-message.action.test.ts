@@ -43,7 +43,6 @@ const mockAddedMessageData: Message = {
   id: "6",
   date: new Date(),
   content: mockAddedNewMessageData.content,
-  contactId: "2",
   threadId: "1",
   phoneNumber: mockAddedNewMessageData.phoneNumber,
   messageType: MessageType.OUTBOX,
@@ -78,11 +77,10 @@ describe("async `addNewMessage` ", () => {
         {
           type: pendingAction(MessagesEvent.LoadThreads),
           payload: undefined,
-
         },
         {
           type: pendingAction(MessagesEvent.LoadMessagesById),
-          payload: undefined
+          payload: undefined,
         },
         addNewMessage.fulfilled(
           mockAddedMessageData,
@@ -100,9 +98,7 @@ describe("async `addNewMessage` ", () => {
   describe("when `addMessage` request return error", () => {
     test("fire async `addNewMessage` returns `rejected` action", async () => {
       ;(addMessage as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new AddNewMessageError(
-        "Add New Message request failed"
-      )
+      const errorMock = new AddNewMessageError("Add New Message request failed")
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },

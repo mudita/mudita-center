@@ -167,12 +167,17 @@ const MessageBubble: FunctionComponent<Props> = ({
       displayAvatar={displayAvatar}
     >
       <div>
-        <MessageBubbleContainer data-testid={MessageBubbleTestIds.Container} interlocutor={interlocutor}>
+        <MessageBubbleContainer
+          data-testid={MessageBubbleTestIds.Container}
+          interlocutor={interlocutor}
+        >
           {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
           {process.env.NODE_ENV !== "production" && (
             <MessageBubbleDropdown
               toggler={
-                <ActionsButton data-testid={MessageBubbleTestIds.DropdownActionButton}>
+                <ActionsButton
+                  data-testid={MessageBubbleTestIds.DropdownActionButton}
+                >
                   <Icon type={Type.More} />
                 </ActionsButton>
               }

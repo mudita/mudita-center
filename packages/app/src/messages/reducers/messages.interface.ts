@@ -33,7 +33,6 @@ export interface Message {
   id: string
   date: Date
   content: string
-  contactId: string
   phoneNumber: string
   threadId: string
   messageType: MessageType
@@ -45,7 +44,6 @@ export type MessageMap = { [id: string]: Message }
 
 export interface Thread {
   id: string
-  contactId: string
   phoneNumber: string
   lastUpdatedAt: Date
   messageSnippet: string
@@ -61,6 +59,7 @@ export type MessagesState = Readonly<{
   messageMap: MessageMap
   messageIdsInThreadMap: MessageIdsInThreadMap
   searchValue: string
+  threadsTotalCount: number
   visibilityFilter: VisibilityFilter
   threadsState: ResultState
   messagesStateMap: { [id: string]: ResultState }
@@ -74,7 +73,6 @@ export enum ReceiverIdentification {
 }
 
 export interface Receiver extends Pick<Contact, "firstName" | "lastName"> {
-  contactId: string
   phoneNumber: string
   identification: ReceiverIdentification
 }
@@ -122,6 +120,11 @@ export type ChangeSearchValueAction = PayloadAction<
 >
 
 export type SetThreadsAction = PayloadAction<Thread[], MessagesEvent.SetThreads>
+
+export type SetThreadsTotalCountAction = PayloadAction<
+  number,
+  MessagesEvent.SetThreadsTotalCount
+>
 
 export type SetMessagesAction = PayloadAction<
   Message[],

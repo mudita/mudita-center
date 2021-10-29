@@ -40,7 +40,6 @@ const message: Message = {
   id: "6",
   date: new Date(pureMessage.createdAt * 1000),
   content: newMessage.content,
-  contactId: "2",
   threadId: "1",
   phoneNumber: newMessage.phoneNumber,
   messageType: MessageType.OUTBOX,

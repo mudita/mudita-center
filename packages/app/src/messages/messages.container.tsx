@@ -5,9 +5,8 @@
 
 import { ChangeEvent } from "react"
 import { connect } from "react-redux"
-import { RootModel } from "Renderer/models/models"
 import Messages from "App/messages/components/messages/messages.component"
-import { ReduxRootState, TmpDispatch, select } from "Renderer/store"
+import { ReduxRootState, TmpDispatch, select, RootState } from "Renderer/store"
 import {
   Message,
   NewMessage,
@@ -35,22 +34,24 @@ import {
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import { loadThreadsTotalCount } from "App/messages/actions/load-threads-total-count.action"
 
 const selector = select(({ contacts }) => ({
   getContact: contacts.getContact,
   getContactByPhoneNumber: contacts.getContactByPhoneNumber,
   attachContactList: contacts.contactList,
   attachContactFlatList: contacts.flatList,
-  isContactCreated: contacts.isContactCreated,
+  isContactCreatedByPhoneNumber: contacts.isContactCreatedByPhoneNumber,
 }))
 
-const mapStateToProps = (state: RootModel & ReduxRootState) => ({
+const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...selector(state, {}),
   ...state.settings,
+  threadsState: state.messages.threadsState,
+  threadsTotalCount: state.messages.threadsTotalCount,
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
-  getReceiver: (contactId: string, phoneNumber: string) =>
-    getReceiverSelector(contactId, phoneNumber)(state),
+  getReceiver: (phoneNumber: string) => getReceiverSelector(phoneNumber)(state),
   getMessagesByThreadId: (threadId: string) =>
     getMessagesByThreadIdSelector(threadId)(state),
   getMessagesStateByThreadId: (threadId: string) =>
@@ -58,6 +59,8 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  loadThreadsTotalCount: (): Promise<void> =>
+    dispatch(loadThreadsTotalCount()),
   loadThreads: (
     pagination: PaginationBody
   ): Promise<PayloadAction<PaginationBody>> =>
@@ -74,6 +77,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(loadMessagesById(body)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
     dispatch(addNewMessage(newMessage)),
+  loadContacts: () => dispatch.contacts.loadData(),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

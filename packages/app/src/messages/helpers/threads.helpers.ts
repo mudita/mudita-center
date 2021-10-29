@@ -12,6 +12,7 @@ import {
   VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
 import { Contact, ContactID } from "App/contacts/store/contacts.type"
+import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 
 export const searchThreads = (
   threads: Thread[] = [],
@@ -19,14 +20,16 @@ export const searchThreads = (
   searchValue: MessagesProps["searchValue"]
 ) => {
   if (searchValue.length) {
-    return threads?.filter(({ contactId, phoneNumber }) => {
+    return threads?.filter(({ phoneNumber }) => {
       const search = searchValue.toLowerCase()
-      const matchesForename = contactMap[contactId]?.firstName
-        ?.toLowerCase()
-        .includes(search)
-      const matchesSurname = contactMap[contactId]?.lastName
-        ?.toLowerCase()
-        .includes(search)
+      const contacts = Object.keys(contactMap).map((key) => {
+        return contactMap[key]
+      })
+      const contact = contacts.find((contact) => {
+        return isContactMatchingPhoneNumber(contact, phoneNumber)
+      })
+      const matchesForename = contact?.firstName?.toLowerCase().includes(search)
+      const matchesSurname = contact?.lastName?.toLowerCase().includes(search)
       const matchesPhone = phoneNumber?.includes(search)
 
       return matchesForename || matchesSurname || matchesPhone
@@ -59,9 +62,8 @@ export const sortMessages = (messages: Message[]): Message[] => {
 }
 
 export const mapThreadsToReceivers = (threads: Thread[]): Receiver[] => {
-  return threads.map(({ contactId, phoneNumber }) => ({
+  return threads.map(({ phoneNumber }) => ({
     phoneNumber,
-    contactId,
     identification: ReceiverIdentification.unknown,
   }))
 }
@@ -86,14 +88,12 @@ export const mapContactsToReceivers = (contacts: Contact[]): Receiver[] => {
     .filter(isContactWithAnyNumber)
     .map(
       ({
-        id,
         primaryPhoneNumber = "",
         secondaryPhoneNumber = "",
         firstName = "",
         lastName = "",
       }) => {
         const contact = {
-          contactId: id,
           firstName,
           lastName,
         }

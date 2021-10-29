@@ -18,7 +18,6 @@ import registerGetAllReleasesListener from "App/main/functions/register-get-all-
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
-import registerTranslationListener from "App/main/functions/register-translation-listener"
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/calendar/backend/export-events"
 import registerWriteFileListener from "App/main/functions/register-write-file-listener"
@@ -149,7 +148,6 @@ const createWindow = async () => {
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()
-  registerTranslationListener()
   registerContactsExportListener()
   registerEventsExportListener()
   registerWriteFileListener()

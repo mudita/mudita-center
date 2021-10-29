@@ -12,8 +12,8 @@ const findThreadBySearchParams = (
 ): Thread | undefined => {
   const paramsPhoneNumber = searchParams.get("phoneNumber") || ""
 
-  return threads.find(({ id }) =>
-    isCallerMatchingPhoneNumber(id, paramsPhoneNumber)
+  return threads.find(({ phoneNumber }) =>
+    isCallerMatchingPhoneNumber(phoneNumber, paramsPhoneNumber)
   )
 }
 
