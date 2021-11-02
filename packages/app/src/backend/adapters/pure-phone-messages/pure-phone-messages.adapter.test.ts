@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
- import MuditaDeviceManager, {
+import MuditaDeviceManager, {
   Message as PureMessage,
   Thread as PureThread,
   MessageType as PureMessageType,
