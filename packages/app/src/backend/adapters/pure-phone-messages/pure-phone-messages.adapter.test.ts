@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MuditaDeviceManager, {
+ import MuditaDeviceManager, {
   Message as PureMessage,
   Thread as PureThread,
   MessageType as PureMessageType,
@@ -250,7 +250,7 @@ test("Status is error when returned messages data is undefined ", async () => {
   expect(data).toStrictEqual(mockAddedMessageData)
 })
 
-describe("`loadMoreThreadsInSingleRequest` method", () => {
+describe("`loadMoreThreadsInSingleRequest` method",  () => {
   test("when the limit per request is lower than in request response", async () => {
     ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
       return {
@@ -268,11 +268,10 @@ describe("`loadMoreThreadsInSingleRequest` method", () => {
     const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
       new DeviceService(MuditaDeviceManager, ipcMain)
     )
-    const { data, status } =
-      await purePhoneMessagesAdapter.loadMoreThreadsInSingleRequest({
-        limit: 1,
-        offset: 0,
-      })
+    const { data, status } = await purePhoneMessagesAdapter.loadMoreThreadsInSingleRequest({
+      limit: 1,
+      offset: 0,
+    })
     expect(data?.data).toMatchObject([threads[0]])
     expect(data?.nextPage?.offset).toEqual(1)
     expect(status).toEqual(DeviceResponseStatus.Ok)
@@ -295,11 +294,10 @@ describe("`loadMoreThreadsInSingleRequest` method", () => {
     const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
       new DeviceService(MuditaDeviceManager, ipcMain)
     )
-    const { data, status } =
-      await purePhoneMessagesAdapter.loadMoreThreadsInSingleRequest({
-        limit: 2,
-        offset: 0,
-      })
+    const { data, status } = await purePhoneMessagesAdapter.loadMoreThreadsInSingleRequest({
+      limit: 2,
+      offset: 0,
+    })
     expect(data?.data).toMatchObject(threads)
     expect(data?.nextPage?.offset).toBeUndefined()
     expect(status).toEqual(DeviceResponseStatus.Ok)
@@ -310,7 +308,7 @@ describe("`loadMoreThreadsInSingleRequest` method", () => {
     ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
       return {
         request: () => {
-          if (index === 0) {
+          if(index === 0){
             index++
             return {
               data: {
@@ -335,11 +333,10 @@ describe("`loadMoreThreadsInSingleRequest` method", () => {
     const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
       new DeviceService(MuditaDeviceManager, ipcMain)
     )
-    const { data, status } =
-      await purePhoneMessagesAdapter.loadMoreThreadsInSingleRequest({
-        limit: 2,
-        offset: 0,
-      })
+    const { data, status } = await purePhoneMessagesAdapter.loadMoreThreadsInSingleRequest({
+      limit: 2,
+      offset: 0,
+    })
     expect(data?.data).toMatchObject(threads)
     expect(data?.nextPage).toBeUndefined()
     expect(status).toEqual(DeviceResponseStatus.Ok)
