@@ -11,17 +11,6 @@ exports[`matches snapshot 1`] = `
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
-  text-transform: uppercase;
-  -webkit-letter-spacing: 0.1rem;
-  -moz-letter-spacing: 0.1rem;
-  -ms-letter-spacing: 0.1rem;
-  letter-spacing: 0.1rem;
-}
-
-.c22 {
-  margin: 0;
-  font-size: 1.2rem;
-  line-height: 1.2;
   color: #6a6a6a;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
@@ -30,7 +19,18 @@ exports[`matches snapshot 1`] = `
   font-weight: 300;
 }
 
-.c18 {
+.c19 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -49,7 +49,7 @@ exports[`matches snapshot 1`] = `
   font-style: normal;
 }
 
-.c18 svg {
+.c8 svg {
   width: 100%;
   height: 100%;
 }
@@ -62,7 +62,7 @@ exports[`matches snapshot 1`] = `
   margin-bottom: 0.4rem;
 }
 
-.c6 {
+.c13 {
   grid-area: Actions;
   display: -webkit-box;
   display: -webkit-flex;
@@ -98,7 +98,7 @@ exports[`matches snapshot 1`] = `
   background-color: #f4f5f6;
 }
 
-.c9 {
+.c16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -128,15 +128,15 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c9:hover {
+.c16:hover {
   background: #232426;
 }
 
-.c9 g {
+.c16 g {
   fill: #ffffff;
 }
 
-.c14 {
+.c21 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -164,19 +164,19 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c14 g {
+.c21 g {
   fill: #000000;
 }
 
-.c14:hover {
+.c21:hover {
   border-color: #000000;
 }
 
-.c13 {
+.c20 {
   white-space: nowrap;
 }
 
-.c16 {
+.c6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -187,7 +187,7 @@ exports[`matches snapshot 1`] = `
   position: relative;
 }
 
-.c21 {
+.c11 {
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
@@ -204,23 +204,23 @@ exports[`matches snapshot 1`] = `
   box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
 }
 
-.c19 {
+.c9 {
   z-index: 4;
   cursor: pointer;
 }
 
-.c19:hover {
+.c9:hover {
   background-color: #f4f5f6;
   border-radius: 0.2rem;
 }
 
-.c19:hover + .c20 {
+.c9:hover + .c10 {
   visibility: visible;
   opacity: 1;
   z-index: 4;
 }
 
-.c7 {
+.c14 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -231,7 +231,7 @@ exports[`matches snapshot 1`] = `
   position: relative;
 }
 
-.c10 {
+.c17 {
   --radius: 0.5rem;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -241,28 +241,28 @@ exports[`matches snapshot 1`] = `
   z-index: 3;
 }
 
-.c10:disabled {
+.c17:disabled {
   pointer-events: none;
 }
 
-.c10:hover {
+.c17:hover {
   z-index: 2;
 }
 
-.c10:not(:first-of-type) {
+.c17:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c10:first-of-type:not(:last-of-type) {
+.c17:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c10:last-of-type:not(:first-of-type) {
+.c17:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.c15 {
+.c22 {
   --radius: 0.5rem;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -271,41 +271,41 @@ exports[`matches snapshot 1`] = `
   pointer-events: all;
 }
 
-.c15:disabled {
+.c22:disabled {
   pointer-events: none;
 }
 
-.c15:hover {
+.c22:hover {
   z-index: 2;
 }
 
-.c15:not(:hover) {
+.c22:not(:hover) {
   border: 0.1rem solid #cdcecf;
   color: #6a6a6a;
 }
 
-.c15:not(:hover) g {
+.c22:not(:hover) g {
   fill: #cdcecf;
 }
 
-.c15:not(:first-of-type) {
+.c22:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c15:first-of-type:not(:last-of-type) {
+.c22:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c15:last-of-type:not(:first-of-type) {
+.c22:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.c8 {
+.c15 {
   margin-right: 4rem;
 }
 
-.c11 {
+.c18 {
   padding: 0 3.6rem;
   width: 75%;
 }
@@ -344,7 +344,7 @@ exports[`matches snapshot 1`] = `
   align-self: center;
 }
 
-.c17 {
+.c7 {
   margin-left: 0.4rem;
 }
 
@@ -363,59 +363,13 @@ exports[`matches snapshot 1`] = `
         <p
           class="c3 c4 c5"
         >
-          [value] module.settings.tetheringLabel
-        </p>
-      </div>
-      <div
-        class="c6"
-      >
-        <section
-          class="c7 c8"
-        >
-          <button
-            class="c9 c10 c11"
-            data-testid="toggler-active"
-            size="2"
-            type="button"
-          >
-            <p
-              class="c12 c13"
-            >
-              [value] module.settings.offLabel
-            </p>
-          </button>
-          <button
-            class="c14 c15 c11"
-            data-testid="toggler-inactive"
-            size="2"
-            type="button"
-          >
-            <p
-              class="c12 c13"
-            >
-              [value] module.settings.onLabel
-            </p>
-          </button>
-        </section>
-      </div>
-    </div>
-    <div
-      class="c0 c1"
-      data-testid="settings-tablerow"
-    >
-      <div
-        class="c2"
-      >
-        <p
-          class="c3 c4 c5"
-        >
           [value] module.settings.collectingData
         </p>
         <div
-          class="c16 c17"
+          class="c6 c7"
         >
           <span
-            class="c18 c19"
+            class="c8 c9"
             data-testid="tooltip-icon"
             height="2.2"
             width="2.2"
@@ -425,10 +379,10 @@ exports[`matches snapshot 1`] = `
             />
           </span>
           <div
-            class="c20 c21"
+            class="c10 c11"
           >
             <p
-              class="c22"
+              class="c12"
               data-testid="tooltip-description"
             >
               [value] module.settings.collectingDataTooltip
@@ -437,31 +391,31 @@ exports[`matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="c6"
+        class="c13"
       >
         <section
-          class="c7 c8"
+          class="c14 c15"
         >
           <button
-            class="c9 c10 c11"
+            class="c16 c17 c18"
             data-testid="toggler-active"
             size="2"
             type="button"
           >
             <p
-              class="c12 c13"
+              class="c19 c20"
             >
               [value] module.settings.offLabel
             </p>
           </button>
           <button
-            class="c14 c15 c11"
+            class="c21 c22 c18"
             data-testid="toggler-inactive"
             size="2"
             type="button"
           >
             <p
-              class="c12 c13"
+              class="c19 c20"
             >
               [value] module.settings.onLabel
             </p>

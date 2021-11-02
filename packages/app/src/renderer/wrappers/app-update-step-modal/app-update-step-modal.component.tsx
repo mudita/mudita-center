@@ -5,9 +5,6 @@
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React, { useEffect, useState } from "react"
-import { shell } from "electron"
-import { EXTERNAL_URLS } from "Renderer/constants/external-urls"
-import { platform } from "Renderer/utils/platform"
 import {
   AppUpdateForced,
   AppUpdateAvailable,
@@ -58,14 +55,8 @@ const AppUpdateStepModal: FunctionComponent<Properties> = ({
   })
 
   const handleProcessDownload = () => {
-    if (platform.macOs() || platform.linux()) {
-      setAppUpdateStep(AppUpdateStep.Updating)
-      void downloadAppUpdateRequest()
-    }
-
-    if (platform.windows()) {
-      shell.openExternal(EXTERNAL_URLS.windowCenterUpdate)
-    }
+    setAppUpdateStep(AppUpdateStep.Updating)
+    void downloadAppUpdateRequest()
   }
 
   return (
