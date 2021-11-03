@@ -333,7 +333,12 @@ const useSystemUpdateFlow = (
         pureOsDownloaded: false,
         lastAvailableOsVersion: undefined,
       })
+    }
 
+    if (
+      !releaseToInstall?.devMode &&
+      isEqual(response, { status: DeviceResponseStatus.Ok })
+    ) {
       dispatch(
         setOsVersionData({
           osVersion: version,
