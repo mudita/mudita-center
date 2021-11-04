@@ -67,7 +67,6 @@ export const PureOverview: FunctionComponent<Props> = ({
   osVersion = "",
   osUpdateDate = "",
   lastAvailableOsVersion,
-  pureOsDownloaded,
   updatePhoneOsInfo = noop,
   memorySpace = {
     free: 0,
@@ -99,6 +98,7 @@ export const PureOverview: FunctionComponent<Props> = ({
   restoreDeviceState,
   readRestoreDeviceDataState,
   backups,
+  pureOsDownloaded,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -153,13 +153,14 @@ export const PureOverview: FunctionComponent<Props> = ({
     }
   }
 
-  const { initialCheck, check, download, install } = useSystemUpdateFlow(
-    osVersion,
-    updatePhoneOsInfo,
-    toggleDeviceUpdating,
-    openContactSupportModalFlow,
-    goToHelp
-  )
+  const { release, initialCheck, check, download, install } =
+    useSystemUpdateFlow(
+      osVersion,
+      updatePhoneOsInfo,
+      toggleDeviceUpdating,
+      openContactSupportModalFlow,
+      goToHelp
+    )
 
   useEffect(() => {
     try {
@@ -209,7 +210,7 @@ export const PureOverview: FunctionComponent<Props> = ({
 
   const isPureOsAvailable = (): boolean => {
     try {
-      if (!osVersion || !lastAvailableOsVersion) {
+      if (!osVersion || !lastAvailableOsVersion || !release) {
         return false
       } else {
         return !isVersionGreater(osVersion, lastAvailableOsVersion)
