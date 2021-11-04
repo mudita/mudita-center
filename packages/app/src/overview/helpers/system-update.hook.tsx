@@ -377,6 +377,7 @@ const useSystemUpdateFlow = (
   }
 
   return {
+    release: releaseToInstall,
     initialCheck: () => checkForUpdates(true),
     check: () => checkForUpdates(),
     download: downloadUpdate,

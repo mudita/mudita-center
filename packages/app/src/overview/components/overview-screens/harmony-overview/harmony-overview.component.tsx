@@ -103,13 +103,14 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
     }
   }
 
-  const { initialCheck, check, download, install } = useSystemUpdateFlow(
-    osVersion,
-    updatePhoneOsInfo,
-    toggleDeviceUpdating,
-    openContactSupportModalFlow,
-    goToHelp
-  )
+  const { release, initialCheck, check, download, install } =
+    useSystemUpdateFlow(
+      osVersion,
+      updatePhoneOsInfo,
+      toggleDeviceUpdating,
+      openContactSupportModalFlow,
+      goToHelp
+    )
 
   useEffect(() => {
     try {
@@ -133,7 +134,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
 
   const isPureOsAvailable = (): boolean => {
     try {
-      if (!osVersion || !lastAvailableOsVersion) {
+      if (!osVersion || !lastAvailableOsVersion || !release) {
         return false
       } else {
         return !isVersionGreater(osVersion, lastAvailableOsVersion)
