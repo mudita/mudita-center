@@ -14,12 +14,13 @@ export const cancelOsDownload = (interrupt = false) => {
   ipcRenderer.send(PureOsDownloadChannels.cancel, interrupt)
 }
 
-const downloadOsUpdateRequest = async (
+const downloadOsUpdateRequest = async (props: {
   url: string
-): Promise<DownloadFinished> => {
+  fileName: string
+}): Promise<DownloadFinished> => {
   const data: DownloadFinished = await ipcRenderer.callMain(
     PureOsDownloadChannels.start,
-    url
+    props
   )
   if (data.status === DownloadStatus.Completed) {
     return data
