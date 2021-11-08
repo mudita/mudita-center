@@ -53,6 +53,10 @@ export const isProductionRelease = (release: GithubRelease): boolean => {
 export const isTestProductionRelease = (release: GithubRelease): boolean => {
   const labels = getPrereleaseLabels(getVersion(release.tag_name))
 
+  if (labels.length === 0) {
+    return true
+  }
+
   if (labels[0] !== "rc") {
     return false
   }
