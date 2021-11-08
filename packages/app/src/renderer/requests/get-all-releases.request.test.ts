@@ -11,7 +11,7 @@ import { GetAllReleasesEvents } from "App/main/functions/register-get-all-releas
 import getAllReleases from "Renderer/requests/get-all-releases.request"
 
 const bellRelease: Release = {
-  version: "1",
+  version: "1.0.0",
   date: "2021-02-16T13:39:18Z",
   prerelease: false,
   product: Product.BellHybrid,
@@ -23,7 +23,7 @@ const bellRelease: Release = {
 }
 
 const pureReleaseOne: Release = {
-  version: "2",
+  version: "2.0.0",
   date: "2021-02-05T09:10:22Z",
   prerelease: false,
   product: Product.PurePhone,
@@ -35,7 +35,7 @@ const pureReleaseOne: Release = {
 }
 
 const pureReleaseTwo: Release = {
-  version: "3",
+  version: "3.0.0",
   date: "2021-01-28T10:44:33Z",
   prerelease: true,
   product: Product.PurePhone,
@@ -56,7 +56,7 @@ describe("Device: MuditaPure", () => {
     const { allReleases, latestRelease } = await getAllReleases(
       DeviceType.MuditaPure
     )
-    expect(allReleases).toStrictEqual([pureReleaseOne, pureReleaseTwo])
+    expect(allReleases).toStrictEqual([pureReleaseTwo, pureReleaseOne])
     expect(latestRelease).toStrictEqual(releases[1])
   })
 })
@@ -70,6 +70,6 @@ describe("Device: MuditaHarmony", () => {
       DeviceType.MuditaHarmony
     )
     expect(allReleases).toStrictEqual([bellRelease])
-    expect(latestRelease).toStrictEqual(releases[0])
+    expect(latestRelease).toStrictEqual(bellRelease)
   })
 })
