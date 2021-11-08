@@ -149,8 +149,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
 
   useEffect(() => {
     if (
-      fields.primaryPhoneNumber !== "" &&
-      fields.secondaryPhoneNumber !== ""
+      fields.primaryPhoneNumber !== undefined &&
+      fields.secondaryPhoneNumber !== undefined &&
+      fields.primaryPhoneNumber?.length > 0 &&
+      fields.secondaryPhoneNumber?.length > 0
     ) {
       trigger()
     }
