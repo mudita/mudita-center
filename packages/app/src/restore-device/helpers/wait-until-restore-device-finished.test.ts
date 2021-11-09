@@ -212,5 +212,35 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
     })
   })
 
-  // TODO: create some timeout?
+  describe("when `getRestoreDeviceStatus` return timeouts", () => {
+    test("function should returns Error status", async () => {
+      ;(getRestoreDeviceStatus as jest.Mock).mockReturnValue(
+        runningGetRestoreDeviceResponse
+      )
+
+      const response = await waitUntilRestoreDeviceFinished("1")
+
+      expect(getRestoreDeviceStatus).toHaveBeenCalledTimes(24)
+      expect(getUnlockDeviceStatus).not.toHaveBeenCalled()
+      expect(response.status).toEqual(DeviceResponseStatus.Error)
+    })
+  })
+
+  describe("when `getUnlockDeviceStatus` return timeouts", () => {
+    test("function should returns Error status", async () => {
+      ;(getRestoreDeviceStatus as jest.Mock).mockReturnValue(
+        successGetRestoreDeviceResponse
+      )
+
+      ;(getUnlockDeviceStatus as jest.Mock).mockReturnValue(
+        errorDeviceResponse
+      )
+
+      const response = await waitUntilRestoreDeviceFinished("1")
+
+      expect(getRestoreDeviceStatus).toHaveBeenCalledTimes(1)
+      expect(getUnlockDeviceStatus).toHaveBeenCalledTimes(24)
+      expect(response.status).toEqual(DeviceResponseStatus.Error)
+    })
+  })
 })
