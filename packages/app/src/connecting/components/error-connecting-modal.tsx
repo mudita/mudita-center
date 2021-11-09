@@ -16,6 +16,7 @@ import styled from "styled-components"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { Size } from "Renderer/components/core/button/button.config"
+import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
 
 const messages = defineMessages({
   errorConnectingModalHeaderTitle: {
@@ -47,6 +48,7 @@ const ErrorConnectingModal: FunctionComponent<ComponentProps<typeof ModalDialog>
 
     return (
       <ModalDialog
+        testId={ErrorConnectingModalTestIds.Container}
         size={ModalSize.Small}
         title={intl.formatMessage(messages.errorConnectingModalHeaderTitle)}
         actionButtonSize={Size.FixedMedium}
