@@ -73,6 +73,8 @@ import PureLogger from "App/main/utils/pure-logger"
 import { flags, Feature } from "App/feature-flags"
 import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
 
+import { registerUploadFileListener } from "App/uploader"
+
 require("dotenv").config()
 
 logger.info("Starting the app")
@@ -160,6 +162,7 @@ const createWindow = async () => {
   registerGetFileDataListener()
   registerPureOsDownloadProxy()
   registerReadFileListener()
+  registerUploadFileListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)
