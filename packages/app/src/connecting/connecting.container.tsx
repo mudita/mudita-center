@@ -16,6 +16,7 @@ import PasscodeModal from "App/passcode-modal/passcode-modal.component"
 import { togglePureSimulation } from "App/dev-mode/store/dev-mode.helpers"
 import { PureDeviceData, unlockDevice, getUnlockStatus } from "App/device"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
 
 export const registerFirstPhoneConnection = (): void => {
   void updateAppSettings({ key: "pureNeverConnected", value: false })
@@ -38,6 +39,8 @@ const Connecting: FunctionComponent<{
   phoneLockTime,
   initialModalsShowed,
 }) => {
+  const [error, setError] = useState(false)
+
   useEffect(() => {
     if (simulatePhoneConnectionEnabled) {
       togglePureSimulation()
@@ -60,6 +63,16 @@ const Connecting: FunctionComponent<{
   }, [loaded, locked, initialModalsShowed])
 
   useEffect(() => {
+    const timeout = setTimeout(() => {
+      setError(true)
+
+      // the value is a little higher than API timeout which is set to 30000
+    }, 35000)
+
+    return () => clearTimeout(timeout)
+  }, [loaded])
+
+  useEffect(() => {
     registerFirstPhoneConnection()
   }, [])
 
@@ -77,8 +90,10 @@ const Connecting: FunctionComponent<{
     setDialogOpen(false)
     history.push(URL_MAIN.news)
   }
+
   return (
     <>
+      {error && <ErrorConnectingModal open={true} closeModal={close} />}
       <PasscodeModal
         openModal={dialogOpen}
         close={close}
