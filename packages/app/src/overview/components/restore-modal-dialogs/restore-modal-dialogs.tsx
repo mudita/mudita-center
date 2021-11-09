@@ -46,7 +46,7 @@ const messages = defineMessages({
     id: "module.overview.restoreFailureModalTitle",
   },
   restoreFailureModalDescription: {
-    id: "module.overview.restoreSpinnerModalDescription",
+    id: "module.overview.restoreFailureModalDescription",
   },
   restoreFailureModalSecondaryButton: {
     id: "module.overview.restoreFailureModalSecondaryButton",
