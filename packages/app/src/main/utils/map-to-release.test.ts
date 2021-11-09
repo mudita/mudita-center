@@ -158,7 +158,7 @@ describe("isTestProductionRelease function", () => {
       ...githubRelease,
       tag_name: "0.76.4",
     }
-    expect(isTestProductionRelease(release)).toBeFalsy()
+    expect(isTestProductionRelease(release)).toBeTruthy()
   })
 })
 
@@ -404,7 +404,7 @@ describe("filterRelease util", () => {
 
       const result = await mapToReleases(githubReleases)
 
-      expect(result).toHaveLength(1)
+      expect(result).toHaveLength(2)
       expect(testProductionGithubRelease.tag_name).toContain(result[0].version)
     })
   })
