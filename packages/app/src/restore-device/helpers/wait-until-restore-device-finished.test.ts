@@ -157,10 +157,6 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
         errorGetRestoreDeviceResponse
       )
 
-      ;(getUnlockDeviceStatus as jest.Mock).mockReturnValue(
-        successDeviceResponse
-      )
-
       const response = await waitUntilRestoreDeviceFinished("1")
 
       expect(getRestoreDeviceStatus).toHaveBeenCalledTimes(1)
@@ -198,10 +194,6 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
     test("function should returns Error status ", async () => {
       ;(getRestoreDeviceStatus as jest.Mock).mockReturnValue(
         errorDeviceResponse
-      )
-
-      ;(getUnlockDeviceStatus as jest.Mock).mockReturnValue(
-        successDeviceResponse
       )
 
       const response = await waitUntilRestoreDeviceFinished("1")
