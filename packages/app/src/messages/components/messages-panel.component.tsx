@@ -19,6 +19,7 @@ import {
   SearchInput,
 } from "App/messages/components/messages-panel.styled"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
+import { flags, Feature } from "App/feature-flags"
 
 const messages = defineMessages({
   search: { id: "module.messages.search" },
@@ -40,14 +41,16 @@ const MessagesPanel: FunctionComponent<Props> = ({
 }) => {
   return (
     <MessageFiltersWrapper>
-      <SearchInput
-        type={"search"}
-        label={intl.formatMessage(messages.search)}
-        outlined
-        defaultValue={searchValue}
-        onChange={onSearchValueChange}
-        leadingIcons={[searchIcon]}
-      />
+      {flags.get(Feature.DevelopOnly) && (
+        <SearchInput
+          type={"search"}
+          label={intl.formatMessage(messages.search)}
+          outlined
+          defaultValue={searchValue}
+          onChange={onSearchValueChange}
+          leadingIcons={[searchIcon]}
+        />
+      )}
       <ButtonWrapper>
         <Button
           data-testid={MessagePanelTestIds.NewMessageButton}
