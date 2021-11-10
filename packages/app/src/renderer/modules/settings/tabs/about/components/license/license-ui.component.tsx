@@ -35,11 +35,12 @@ export const LicenseUI: FunctionComponent = () => (
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       "Software" refers to the Mudita Center computer application available on
-      computers, used primarily for managing the Mudita Pure device. As of the
-      publication date of these Terms, the application can be installed on the
-      macOS, Windows, and Linux operating systems. The features offered by the
-      Software and its compatibility with computer systems are subject to change
-      with subsequent Updates, e.g., they can be limited or expanded.
+      computers, used primarily for managing the Mudita Pure and Mudita Harmony.
+      As of the publication date of these Terms, the application can be
+      installed on the macOS, Windows, and Linux operating systems. The features
+      offered by the Software and its compatibility with computer systems are
+      subject to change with subsequent Updates, e.g., they can be limited or
+      expanded.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       "Update" refers to any update to the Software, including the addition or
@@ -47,7 +48,7 @@ export const LicenseUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       "Mudita" refers to Mudita sp. z o.o. with its registered office in Warsaw
-      (address: Jana Czeczota 9, 02- 607 Warsaw, Poland), entered into the
+      (address: Jana Czeczota 6, 02- 607 Warsaw, Poland), entered into the
       Register of Entrepreneurs of the National Court Register under KRS number
       0000467620, tax identification number (NIP) 5252558282, share capital PLN
       21,100.00.
