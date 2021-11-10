@@ -8,13 +8,10 @@ import React, { ComponentProps } from "react"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import { intl } from "Renderer/utils/intl"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import styled from "styled-components"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import {
   DisplayStyle,
   Type,
@@ -22,12 +19,16 @@ import {
 import Button from "Renderer/components/core/button/button.component"
 import { FieldValues, useForm } from "react-hook-form"
 
+import { PasswordInput } from "App/ui"
+
 enum FieldKeys {
   SecretKey = "secretKey",
+  ConfirmationSecretKey = "confirmationSecretKey",
 }
 
 export interface BackupSetSecretKeyFieldValues extends FieldValues {
   [FieldKeys.SecretKey]: string
+  [FieldKeys.ConfirmationSecretKey]: string
 }
 
 const messages = defineMessages({
@@ -42,6 +43,12 @@ const messages = defineMessages({
   },
   backupSetSecretKeyModalInputLabel: {
     id: "module.overview.backupSetSecretKeyModalInputLabel",
+  },
+  backupSetConfirmationSecretKeyModalInputLabel: {
+    id: "module.overview.backupSetConfirmationSecretKeyModalInputLabel",
+  },
+  backupPasswordConfirmationDoesntMatch: {
+    id: "module.overview.backupPasswordConfirmationDoesntMatch",
   },
 })
 
@@ -60,12 +67,6 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   padding: 0 0.8rem;
-`
-
-const FormInputLabel = styled(Text)``
-
-const FormInput = styled(InputComponent)`
-  padding: 0.6rem 0;
 `
 
 const ButtonWrapper = styled.div`
@@ -99,9 +100,15 @@ interface BackupSetSecretKeyModalProps
 //  https://appnroll.atlassian.net/browse/CP-757
 export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalProps> =
   ({ onSecretKeySet, ...props }) => {
-    const { register, handleSubmit } = useForm<BackupSetSecretKeyFieldValues>({
+    const {
+      register,
+      watch,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<BackupSetSecretKeyFieldValues>({
       mode: "onChange",
     })
+    const fields = watch()
 
     const handleSubmitClick = handleSubmit((data) => {
       onSecretKeySet(data.secretKey)
@@ -118,14 +125,27 @@ export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalP
           message={messages.backupSetSecretKeyModalDescription}
         />
         <Form onSubmit={handleSubmitClick}>
-          <FormInputLabel
-            displayStyle={TextDisplayStyle.SmallFadedText}
-            message={messages.backupSetSecretKeyModalInputLabel}
-          />
-          <FormInput
-            type={"password"}
+          <PasswordInput
+            label={messages.backupSetSecretKeyModalInputLabel}
+            errorMessage={errors[FieldKeys.SecretKey]?.message}
             {...register(FieldKeys.SecretKey)}
           />
+          <PasswordInput
+            label={messages.backupSetConfirmationSecretKeyModalInputLabel}
+            errorMessage={errors[FieldKeys.ConfirmationSecretKey]?.message}
+            {...register(FieldKeys.ConfirmationSecretKey, {
+              validate: (value): string | undefined => {
+                if (value === fields[FieldKeys.SecretKey]) {
+                  return
+                }
+
+                return intl.formatMessage(
+                  messages.backupPasswordConfirmationDoesntMatch
+                )
+              },
+            })}
+          />
+
           <ButtonWrapper>
             <ButtonWithRotatingIcon
               type={Type.Submit}
