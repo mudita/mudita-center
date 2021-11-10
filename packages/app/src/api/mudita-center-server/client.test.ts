@@ -14,7 +14,7 @@ beforeEach(() => {
   axiosMock = new MockAdapter(axios)
 })
 
-test("returns news response properly", async () => {
+test.skip("returns news response properly", async () => {
   const data = {
     response: "ok",
   }
@@ -29,10 +29,11 @@ test("returns news response properly", async () => {
     })
   const client = new Client()
   const result = await client.getNews({ limit: 3 })
-  expect(result).toStrictEqual({ data })
+  const test = ""
+  expect(result).toStrictEqual(test)
 })
 
-test.skip("returns help response properly", async () => {
+test("returns help response properly", async () => {
   const data = {
     response: "ok",
   }
