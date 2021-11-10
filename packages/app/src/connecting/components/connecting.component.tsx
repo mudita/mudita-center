@@ -7,19 +7,13 @@ import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "Renderer/constants/urls"
-import ConnectingContent from "App/connecting/connecting.component"
-import { updateAppSettings } from "Renderer/requests/app-settings.request"
+import ConnectingContent from "App/connecting/components/connecting-content.component"
+import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { RootState, ReduxRootState, TmpDispatch, select } from "Renderer/store"
-import { connect } from "react-redux"
 import PasscodeModal from "App/passcode-modal/passcode-modal.component"
 import { togglePureSimulation } from "App/dev-mode/store/dev-mode.helpers"
-import { PureDeviceData, unlockDevice, getUnlockStatus } from "App/device"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-
-export const registerFirstPhoneConnection = (): void => {
-  void updateAppSettings({ key: "pureNeverConnected", value: false })
-}
+import registerFirstPhoneConnection from "App/connecting/requests/register-first-phone-connection"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -38,6 +32,8 @@ const Connecting: FunctionComponent<{
   phoneLockTime,
   initialModalsShowed,
 }) => {
+  const [error, setError] = useState(false)
+
   useEffect(() => {
     if (simulatePhoneConnectionEnabled) {
       togglePureSimulation()
@@ -60,6 +56,21 @@ const Connecting: FunctionComponent<{
   }, [loaded, locked, initialModalsShowed])
 
   useEffect(() => {
+    let mounted = true;
+    const timeout = setTimeout(() => {
+      if (mounted) {
+        setError(true)
+      }
+      // the value is a little higher than API timeout which is set to 30000
+    }, 35000)
+
+    return () => {
+      mounted = false
+      clearTimeout(timeout)
+    }
+  }, [loaded])
+
+  useEffect(() => {
     registerFirstPhoneConnection()
   }, [])
 
@@ -77,8 +88,10 @@ const Connecting: FunctionComponent<{
     setDialogOpen(false)
     history.push(URL_MAIN.news)
   }
+
   return (
     <>
+      {error && <ErrorConnectingModal open closeModal={close} />}
       <PasscodeModal
         openModal={dialogOpen}
         close={close}
@@ -91,22 +104,4 @@ const Connecting: FunctionComponent<{
   )
 }
 
-const selection = select((models: any) => ({
-  initialModalsShowed: models.settings.initialModalsShowed,
-}))
-
-const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  unlockDevice: (code: number[]) => dispatch(unlockDevice(code)),
-  getUnlockStatus: () => dispatch(getUnlockStatus()),
-})
-
-const mapStateToProps = (state: RootState & ReduxRootState) => ({
-  device: state.device,
-  loaded: state.device.status.loaded,
-  locked: state.device.status.locked,
-  phoneLockTime:
-    (state.device.data as PureDeviceData)?.phoneLockTime ?? undefined,
-  ...selection(state, {}),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Connecting)
+export default Connecting

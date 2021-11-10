@@ -7,7 +7,7 @@ import React from "react"
 import { storiesOf } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
-import Connecting from "App/connecting/connecting.component"
+import ConnectingContent from "App/connecting/components/connecting-content.component"
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 storiesOf("Components/Connecting", module).add("Connecting", () => {
   return (
     <Wrapper>
-      <Connecting onCancel={action("Cancel")} />
+      <ConnectingContent onCancel={action("Cancel")} />
     </Wrapper>
   )
 })

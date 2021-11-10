@@ -132,7 +132,7 @@ class BaseDevice implements MuditaDevice {
     payload: RequestPayload
   ): Promise<Response<any>> {
     return new Promise((resolve) => {
-      const [promise, cancel] = timeout(120000)
+      const [promise, cancel] = timeout(30000)
       promise.then(() => {
         resolve(this.returnTimeoutResponse(payload))
       })
