@@ -254,7 +254,7 @@ describe("Set Messages data functionality", () => {
     const newMessage: Message = { ...message, id: "2" }
     const setMessagesAction: PayloadAction<Message[]> = {
       type: MessagesEvent.SetMessages,
-      payload: [newMessage],
+      payload: [message, newMessage],
     }
 
     expect(
