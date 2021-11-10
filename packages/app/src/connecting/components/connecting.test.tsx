@@ -4,12 +4,12 @@
  */
 
 import React, { ComponentProps } from "react"
+import { act } from "@testing-library/react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import Connecting from "App/connecting/components/connecting.component"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import { PasscodeLockedTestIds } from "App/passcode-modal/components/PasscodeLocked/passcode-locked-test-ids.enum"
 import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
-import { act } from "@testing-library/react"
+import { PasscodeModalTestIds } from "App/passcode-modal/passcode-modal-test-ids.enum"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")
 
@@ -52,7 +52,7 @@ describe("`BackupDeviceFlow` component", () => {
     test("`PasscodeLocked` component isn't displayed ", () => {
       const { queryByTestId } = render()
       expect(
-        queryByTestId(PasscodeLockedTestIds.Container)
+        queryByTestId(PasscodeModalTestIds.Container)
       ).not.toBeInTheDocument()
     })
 
@@ -81,7 +81,7 @@ describe("`BackupDeviceFlow` component", () => {
     test("`PasscodeLocked` component isn't displayed ", () => {
       const { queryByTestId } = render(extraProps)
       expect(
-        queryByTestId(PasscodeLockedTestIds.Container)
+        queryByTestId(PasscodeModalTestIds.Container)
       ).not.toBeInTheDocument()
     })
   })
@@ -94,7 +94,7 @@ describe("`BackupDeviceFlow` component", () => {
 
     test("`PasscodeLocked` component is displayed ", () => {
       const { queryByTestId } = render(extraProps)
-      expect(queryByTestId(PasscodeLockedTestIds.Container)).toBeInTheDocument()
+      expect(queryByTestId(PasscodeModalTestIds.Container)).toBeInTheDocument()
     })
 
     test("`ErrorConnectingModal` component isn't displayed ", () => {

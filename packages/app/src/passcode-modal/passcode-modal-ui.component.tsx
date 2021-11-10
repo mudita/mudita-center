@@ -19,7 +19,7 @@ import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { PasscodeInputs } from "./components/passcode-inputs.component"
 import PasscodeLocked from "App/passcode-modal/components/PasscodeLocked/passcode-locked.component"
 import { flags, Feature } from "App/feature-flags"
-import { PasscodeLockedTestIds } from "App/passcode-modal/components/PasscodeLocked/passcode-locked-test-ids.enum"
+import { PasscodeModalTestIds } from "App/passcode-modal/passcode-modal-test-ids.enum"
 
 const LogoWrapper = styled.div`
   display: flex;
@@ -83,7 +83,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
 
   return (
     <ModalDialog
-      testId={PasscodeLockedTestIds.Container}
+      testId={PasscodeModalTestIds.Container}
       {...props}
       open={openModal}
       closeButton={false}
