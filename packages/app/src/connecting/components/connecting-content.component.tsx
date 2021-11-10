@@ -44,8 +44,8 @@ const LoaderWrapper = styled.div`
 interface Props {
   onCancel?: () => void
 }
-// OnboardingWrapper
-const Connecting: FunctionComponent<Props> = () => {
+
+const ConnectingContent: FunctionComponent<Props> = () => {
   return (
     <Container>
       <main>
@@ -61,4 +61,4 @@ const Connecting: FunctionComponent<Props> = () => {
   )
 }
 
-export default Connecting
+export default ConnectingContent
