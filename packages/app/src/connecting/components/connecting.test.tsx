@@ -18,7 +18,7 @@ type Props = ComponentProps<typeof Connecting>
 const defaultProps: Props = {
   initialModalsShowed: false,
   loaded: false,
-  locked: false,
+  unlocked: null,
   phoneLockTime: undefined,
   getUnlockStatus: jest.fn().mockReturnValue({
     payload: DeviceResponseStatus.Ok,

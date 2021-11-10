@@ -14,7 +14,7 @@ export const unlockedDevice = createAsyncThunk(
   async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as ReduxRootState
 
-    if (!state.device.status.locked) {
+    if (state.device.status.unlocked) {
       return
     }
 
