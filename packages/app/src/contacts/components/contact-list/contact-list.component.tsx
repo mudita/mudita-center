@@ -173,7 +173,8 @@ const ContactList: FunctionComponent<Props> = ({
         contactList={contactList}
         selectedContact={selectedContact}
       >
-        {resultsState === ResultsState.Loaded && contactList.length ? (
+        {resultsState === ResultsState.Loaded &&
+          contactList.length !== 0 &&
           contactList.map(({ category, contacts }, categoryIndex) => (
             <Group
               key={category}
@@ -356,8 +357,8 @@ const ContactList: FunctionComponent<Props> = ({
                 )
               })}
             </Group>
-          ))
-        ) : (
+          ))}
+        {resultsState === ResultsState.Loaded && contactList.length === 0 && (
           <EmptyState
             data-testid={ContactListTestIdsEnum.ContactListNoResult}
             title={{ id: "module.contacts.emptyListTitle" }}
