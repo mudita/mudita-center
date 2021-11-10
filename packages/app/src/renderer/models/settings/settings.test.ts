@@ -15,8 +15,7 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { fakeAppSettings } from "Backend/adapters/app-settings/app-settings-fake.adapter"
 import { GetApplicationConfigurationEvents } from "App/main/functions/register-get-application-configuration-listener"
 import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
-import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
-import { AxiosResponse } from "axios"
+import { uploadFileRequest } from "App/uploader/requests/upload-file.request"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -34,24 +33,13 @@ const getDeviceFileResponse: DeviceResponse<DeviceFileDeprecated[]> = {
     },
   ],
 }
-
-const sendDiagnosticDataRequestResponse: AxiosResponse<unknown> = {
-  config: {},
-  data: undefined,
-  headers: undefined,
-  statusText: "",
-  status: 200,
-}
-
 jest.mock("Renderer/requests/get-device-log-files.request", () =>
   jest.fn(() => Promise.resolve(getDeviceFileResponse))
 )
 jest.mock("Renderer/requests/get-device-crash-dump-files.request", () =>
   jest.fn(() => Promise.resolve(getDeviceFileResponse))
 )
-jest.mock("Renderer/requests/send-diagnostic-data.request", () =>
-  jest.fn(() => Promise.resolve(sendDiagnosticDataRequestResponse))
-)
+jest.mock("App/uploader/requests/upload-file.request")
 
 const today = new Date()
 const todayTimestamp = today.getTime()
@@ -94,7 +82,7 @@ beforeEach(() => {
 
 afterEach(() => {
   ;(getDeviceLogFiles as any).mockClear()
-  ;(sendDiagnosticDataRequest as any).mockClear()
+  ;(uploadFileRequest as any).mockClear()
   // ;(getMessagesByThreadId as any).mockClear()
 })
 
@@ -524,7 +512,7 @@ test("sendDiagnosticData effect no generate any side effects if serial number is
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).not.toBeCalled()
-  expect(sendDiagnosticDataRequest).not.toBeCalled()
+  expect(uploadFileRequest).not.toBeCalled()
 })
 
 test("sendDiagnosticData effect no generate any side effects if diagnostic data isn't set", async () => {
@@ -533,7 +521,7 @@ test("sendDiagnosticData effect no generate any side effects if diagnostic data 
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).not.toBeCalled()
-  expect(sendDiagnosticDataRequest).not.toBeCalled()
+  expect(uploadFileRequest).not.toBeCalled()
 })
 
 test("sendDiagnosticData effect no generate any side effects if diagnostic data is set to false", async () => {
@@ -557,7 +545,7 @@ test("sendDiagnosticData effect no generate any side effects if diagnostic data 
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).not.toBeCalled()
-  expect(sendDiagnosticDataRequest).not.toBeCalled()
+  expect(uploadFileRequest).not.toBeCalled()
   expect(setDiagnosticSentTimestamp).not.toBeCalled()
 })
 
@@ -582,7 +570,7 @@ test("sendDiagnosticData effect no generate any side effects if diagnostic data 
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).not.toBeCalled()
-  expect(sendDiagnosticDataRequest).not.toBeCalled()
+  expect(uploadFileRequest).not.toBeCalled()
   expect(setDiagnosticSentTimestamp).not.toBeCalled()
 })
 
@@ -608,7 +596,7 @@ test("sendDiagnosticData pass successfully if user agree to collecting data and 
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).toBeCalled()
-  expect(sendDiagnosticDataRequest).toBeCalled()
+  expect(uploadFileRequest).toBeCalled()
   expect(setDiagnosticSentTimestamp).toBeCalled()
 })
 
@@ -636,7 +624,7 @@ test("sendDiagnosticData effect no sent requests if getting device logs fails", 
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).toBeCalled()
-  expect(sendDiagnosticDataRequest).not.toBeCalled()
+  expect(uploadFileRequest).not.toBeCalled()
   expect(setDiagnosticSentTimestamp).not.toBeCalled()
 })
 
@@ -646,7 +634,7 @@ test("sendDiagnosticData effect is fails if request no finish successfully", asy
     "setDiagnosticSentTimestamp"
   )
   ;(getDeviceLogFiles as Mock).mockReturnValue(getDeviceFileResponse)
-  ;(sendDiagnosticDataRequest as Mock).mockImplementation(() => {
+  ;(uploadFileRequest as Mock).mockImplementation(() => {
     throw new Error()
   })
   ;(ipcRenderer as any).__rendererCalls = {
@@ -666,6 +654,6 @@ test("sendDiagnosticData effect is fails if request no finish successfully", asy
   await store.dispatch.settings.sendDiagnosticData()
 
   expect(getDeviceLogFiles).toBeCalled()
-  expect(sendDiagnosticDataRequest).toBeCalled()
+  expect(uploadFileRequest).toBeCalled()
   expect(setDiagnosticSentTimestamp).not.toBeCalled()
 })
