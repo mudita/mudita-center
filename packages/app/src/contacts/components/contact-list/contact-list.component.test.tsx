@@ -70,6 +70,12 @@ test("Empty phonebook is rendered as default state", () => {
   expect(
     queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
   ).toBeInTheDocument()
+  expect(
+    queryByTestId(ContactListTestIdsEnum.ContactListLoading)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
+  ).not.toBeInTheDocument()
 })
 
 test("Empty phonebook is rendered if resultState is equal to Error", () => {
@@ -77,13 +83,28 @@ test("Empty phonebook is rendered if resultState is equal to Error", () => {
   expect(
     queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
   ).toBeInTheDocument()
+  expect(
+    queryByTestId(ContactListTestIdsEnum.ContactListLoading)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
+  ).not.toBeInTheDocument()
 })
 
 test("Loading component is rendered if resultState is Loading", () => {
-  const { queryByTestId } = render({ resultsState: ResultsState.Loading })
+  const { queryByTestId } = render({
+    resultsState: ResultsState.Loading,
+    contactList,
+  })
   expect(
     queryByTestId(ContactListTestIdsEnum.ContactListLoading)
   ).toBeInTheDocument()
+  expect(
+    queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
+  ).not.toBeInTheDocument()
 })
 
 test("No results is rendered if resultState is Loaded and contactList is empty", () => {
@@ -91,14 +112,29 @@ test("No results is rendered if resultState is Loaded and contactList is empty",
   expect(
     queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
   ).toBeInTheDocument()
+  expect(
+    queryByTestId(ContactListTestIdsEnum.ContactListLoading)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
+  ).not.toBeInTheDocument()
 })
 
 test("Contact list is rendered if resultState is Loaded and contactList isn't empty", () => {
-  const { queryAllByTestId } = render({
+  const { queryByTestId, queryAllByTestId } = render({
     resultsState: ResultsState.Loaded,
     contactList,
   })
   expect(
     queryAllByTestId(ContactListTestIdsEnum.ContactListGroup)[0]
   ).toBeInTheDocument()
+  expect(
+    queryByTestId(ContactListTestIdsEnum.ContactListLoading)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
+  ).not.toBeInTheDocument()
 })
