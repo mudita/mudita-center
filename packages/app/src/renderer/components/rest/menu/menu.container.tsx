@@ -11,7 +11,7 @@ import { RestoreDeviceDataState } from "App/restore-device/reducers"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   pureFeaturesVisible:
-    (state.device.status.connected && !state.device.status.locked) ||
+    (state.device.status.connected && state.device.status.unlocked) ||
     state.device.updatingState === UpdatingState.Updating ||
     state.restoreDevice.state === RestoreDeviceDataState.Running,
   devModeEnabled: state.devMode.enabled,
