@@ -50,7 +50,7 @@ export interface DeviceState {
   state: ConnectionState
   status: {
     connected: boolean
-    locked: boolean
+    unlocked: boolean | null
     loaded: boolean
   }
   updatingState: UpdatingState | null

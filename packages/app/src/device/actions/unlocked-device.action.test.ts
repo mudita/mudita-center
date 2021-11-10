@@ -29,7 +29,7 @@ test("fire async `unlockedDevice` doesn't call `loadDeviceData` action if device
   const mockStore = createMockStore([thunk])({
     device: {
       status: {
-        locked: false,
+        unlocked: true,
       },
     },
   })
@@ -49,7 +49,7 @@ test("fire async `unlockedDevice` returns `rejected` if `deviceType` is undefine
     device: {
       deviceType: undefined,
       status: {
-        locked: true,
+        unlocked: false,
       },
     },
   })
