@@ -41,7 +41,7 @@ const PrivacyPolicyUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       1. <b>The controller of your personal data.</b> The controller of your
-      personal data is <b>Mudita sp. z o.o.</b>, Jana Czeczota Street No. 9,
+      personal data is <b>Mudita sp. z o.o.</b>, Jana Czeczota Street No.6,
       02-607 Warsaw, Poland, REGON: 146767613, NIP (Tax No.): 5252558282,
       entered into the entrepreneur register of the National Court Register by
       the District Court for the Capital City of Warsaw, XII Commercial Division
@@ -54,7 +54,7 @@ const PrivacyPolicyUI: FunctionComponent = () => (
       2. <b>Contact details</b> Mudita has set one contact point for all
       personal data issues. If you would like to contact us, please write us an
       e-mail to: <a href={`mailto:office@mudita.com`}>office@mudita.com</a> or
-      send a letter to: Mudita sp. z o.o., Jana Czeczota Street No. 9, 02-607
+      send a letter to: Mudita sp. z o.o., Jana Czeczota Street No. 6, 02-607
       Warsaw with the note: "Personal data".
     </LightText>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
@@ -63,7 +63,7 @@ const PrivacyPolicyUI: FunctionComponent = () => (
       e-mail or by contacting us through our profile on social networks, e.g.
       Facebook, Twitter, etc. b. During a conversation with the Mudita Staff c.
       By agreement for sending us data about errors that may occur while using
-      Mudita Pure and Center.
+      Mudita Pure, Mudita Harmony, and Center.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       4. <b>What is the scope of data processed?</b> We process your personal
@@ -211,7 +211,7 @@ const PrivacyPolicyUI: FunctionComponent = () => (
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       You can perform the above-mentioned rights by contacting us at the e-mail
       address <a href={`mailto:office@mudita.com`}>office@mudita.com</a> or by
-      post on <b>Mudita sp. z o.o.</b>, Jana Czeczota Street No. 9, 02-607
+      post on <b>Mudita sp. z o.o.</b>, Jana Czeczota Street No.6, 02-607
       Warsaw, with the note "<b>Personal data</b>
       ".
     </LightText>

@@ -21,11 +21,3 @@ export const reducers = {
 }
 
 export const combinedReducers = combineReducers(reducers)
-
-export const combinedReducers = combineReducers({
-  device: deviceReducer,
-  backup: backupReducer,
-  backupDevice: backupDeviceReducer,
-  restoreDevice: restoreDeviceReducer,
-  messages: messagesReducer,
-})
