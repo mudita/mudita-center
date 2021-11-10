@@ -133,4 +133,11 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: true,
     [Environment.TestAlphaProduction]: true,
   },
+  [Feature.MessagesSearch]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.TestProduction]: false,
+    [Environment.AlphaProduction]: false,
+    [Environment.TestAlphaProduction]: false,
+  },
 }
