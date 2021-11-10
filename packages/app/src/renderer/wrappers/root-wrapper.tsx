@@ -48,7 +48,7 @@ import PrivacyPolicyApp from "./privacy-policy-app.component"
 import { flags, Feature } from "App/feature-flags"
 import SarApp from "./sar-app.component"
 
-import { TmpDispatch } from "Renderer/store"
+import { TmpDispatch, ReduxRootState } from "Renderer/store"
 import {
   connectDevice,
   disconnectDevice,
@@ -57,6 +57,7 @@ import {
   getConnectedDevice,
 } from "App/device"
 // import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
+import { getCrashDump } from "App/crash-dump"
 
 interface Props {
   history: History
@@ -65,12 +66,14 @@ interface Props {
   connectDevice: (value: DeviceType) => void
   lockedDevice: () => void
   unlockedDevice: () => void
+  getCrashDump: () => void
   // TODO remove legacy staff
   toggleAppUpdateAvailable: (value: boolean) => void
   setAppUpdateStepModalDisplayed: () => void
   setAppLatestVersion: (value: string) => void
   loadSettings: () => void
   toggleAppUpdateStepModalShow: (value: boolean) => void
+  connectedAndUnlocked: boolean
 }
 
 const RootWrapper: FunctionComponent<Props> = ({
@@ -80,12 +83,14 @@ const RootWrapper: FunctionComponent<Props> = ({
   connectDevice,
   lockedDevice,
   unlockedDevice,
+  getCrashDump,
   // TODO remove legacy staff
   toggleAppUpdateAvailable,
   setAppUpdateStepModalDisplayed,
   setAppLatestVersion,
   loadSettings,
   toggleAppUpdateStepModalShow,
+  connectedAndUnlocked,
 }) => {
   const params = new URLSearchParams(window.location.search)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
@@ -139,6 +144,12 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     connect()
   }, [])
+
+  useEffect(() => {
+    if (connectedAndUnlocked) {
+      getCrashDump()
+    }
+  }, [connectedAndUnlocked])
 
   useEffect(() => {
     const listener = () => {
@@ -240,12 +251,18 @@ const RootWrapper: FunctionComponent<Props> = ({
   )
 }
 
+const mapStateToProps = (state: ReduxRootState) => ({
+  connectedAndUnlocked:
+    state.device.status.connected && !state.device.status.locked,
+})
+
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   connect: () => dispatch(getConnectedDevice()),
   disconnectDevice: () => dispatch(disconnectDevice()),
   connectDevice: (value: DeviceType) => dispatch(connectDevice(value)),
   lockedDevice: () => dispatch(lockedDevice()),
   unlockedDevice: () => dispatch(unlockedDevice()),
+  getCrashDump: () => dispatch(getCrashDump()),
   // TODO remove legacy staff
   toggleAppUpdateAvailable: (value: boolean) =>
     dispatch.settings.toggleAppUpdateAvailable(value),
@@ -258,4 +275,4 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   loadSettings: () => dispatch.settings.loadSettings(),
 })
 
-export default connect(null, mapDispatchToProps)(RootWrapper)
+export default connect(mapStateToProps, mapDispatchToProps)(RootWrapper)
