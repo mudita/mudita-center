@@ -9,6 +9,7 @@ import { render as testingLibraryRender, waitFor } from "@testing-library/react"
 import { Provider } from "react-redux"
 import thunk from "redux-thunk"
 import { deviceReducer } from "App/device"
+import { crashDumpReducer } from "App/crash-dump/reducers"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
 import settings from "Renderer/models/settings/settings"
 import networkStatus from "Renderer/models/network-status/network-status"
@@ -99,6 +100,7 @@ const render = (extraProps?: Partial<Props>) => {
       reducers: {
         device: deviceReducer,
         restoreDevice: restoreDeviceReducer,
+        crashDump: crashDumpReducer,
       },
     },
   }) as Store

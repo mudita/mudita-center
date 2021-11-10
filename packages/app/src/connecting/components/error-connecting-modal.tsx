@@ -43,37 +43,38 @@ const ModalContent = styled.div`
   }
 `
 
-const ErrorConnectingModal: FunctionComponent<ComponentProps<typeof ModalDialog>> =
-  ({ onClose, ...props }) => {
-
-    return (
-      <ModalDialog
-        testId={ErrorConnectingModalTestIds.Container}
-        size={ModalSize.Small}
-        title={intl.formatMessage(messages.errorConnectingModalHeaderTitle)}
-        actionButtonSize={Size.FixedMedium}
-        closeButtonLabel={intl.formatMessage(
-          messages.errorConnectingModalSecondaryButton
-        )}
-        onCloseButton={onClose}
-        onClose={onClose}
-        {...props}
-      >
-        <ModalContent>
-          <RoundIconWrapper>
-            <Icon type={Type.Fail} width={4} />
-          </RoundIconWrapper>
-          <ModalText
-            displayStyle={TextDisplayStyle.LargeBoldText}
-            message={messages.errorConnectingModalTitle}
-          />
-          <ModalText
-            displayStyle={TextDisplayStyle.MediumFadedText}
-            message={messages.errorConnectingDescription}
-          />
-        </ModalContent>
-      </ModalDialog>
-    )
-  }
+const ErrorConnectingModal: FunctionComponent<
+  ComponentProps<typeof ModalDialog>
+> = ({ onClose, ...props }) => {
+  return (
+    <ModalDialog
+      testId={ErrorConnectingModalTestIds.Container}
+      size={ModalSize.Small}
+      title={intl.formatMessage(messages.errorConnectingModalHeaderTitle)}
+      actionButtonSize={Size.FixedMedium}
+      closeButtonLabel={intl.formatMessage(
+        messages.errorConnectingModalSecondaryButton
+      )}
+      onCloseButton={onClose}
+      onClose={onClose}
+      zIndex={100}
+      {...props}
+    >
+      <ModalContent>
+        <RoundIconWrapper>
+          <Icon type={Type.Fail} width={4} />
+        </RoundIconWrapper>
+        <ModalText
+          displayStyle={TextDisplayStyle.LargeBoldText}
+          message={messages.errorConnectingModalTitle}
+        />
+        <ModalText
+          displayStyle={TextDisplayStyle.MediumFadedText}
+          message={messages.errorConnectingDescription}
+        />
+      </ModalContent>
+    </ModalDialog>
+  )
+}
 
 export default ErrorConnectingModal

@@ -115,6 +115,7 @@ import Manage from "Renderer/svg/manage.svg"
 import MuditaLogoBg from "Renderer/svg/muditalogo-bg.svg"
 import Outlook from "Renderer/svg/outlook.svg"
 import ContactFilled from "Renderer/svg/contact-filled.svg"
+import ThinFail from "Renderer/svg/thin-fail.svg"
 import Support from "Renderer/svg/support.svg"
 import Visible from "Renderer/svg/password-show.svg"
 import Hidden from "Renderer/svg/password-hide.svg"
@@ -237,6 +238,7 @@ export enum Type {
   ContactFilled,
   Visible,
   Hidden,
+  ThinFail,
 }
 
 const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
@@ -354,6 +356,7 @@ const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
   [Type.ContactFilled]: ContactFilled,
   [Type.Visible]: Visible,
   [Type.Hidden]: Hidden,
+  [Type.ThinFail]: ThinFail,
 }
 
 export const getIconType = (

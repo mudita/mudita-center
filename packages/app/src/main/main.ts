@@ -21,16 +21,17 @@ import registerAppLogsListeners from "App/main/functions/register-app-logs-liste
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/calendar/backend/export-events"
 import registerWriteFileListener from "App/main/functions/register-write-file-listener"
+import registerCopyFileListener from "App/main/functions/register-copy-file-listener"
 import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/main/functions/register-archive-files-listener"
+import registerReadFileListener from "App/main/functions/register-read-file-listener"
 import registerGetApplicationConfigurationListener from "App/main/functions/register-get-application-configuration-listener"
 import registerGetFileDataListener from "App/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerEncryptFileListener from "App/files-system/listeners/encrypt-file-listener"
 import registerDecryptFileListener from "App/files-system/listeners/decrypt-file-listener"
-import registerReadFileListener from "App/files-system/listeners/read-file-listener"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
 import {
   registerDownloadHelpHandler,
@@ -72,6 +73,8 @@ import { AboutActions } from "App/common/enums/about-actions.enum"
 import PureLogger from "App/main/utils/pure-logger"
 import { flags, Feature } from "App/feature-flags"
 import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
+
+import { registerUploadFileListener } from "App/uploader"
 
 require("dotenv").config()
 
@@ -151,6 +154,7 @@ const createWindow = async () => {
   registerContactsExportListener()
   registerEventsExportListener()
   registerWriteFileListener()
+  registerCopyFileListener()
   registerRmdirListener()
   registerWriteGzipListener()
   registerGetApplicationConfigurationListener()
@@ -160,6 +164,8 @@ const createWindow = async () => {
   registerReadFileListener()
   registerDecryptFileListener()
   registerPureOsDownloadProxy()
+  registerReadFileListener()
+  registerUploadFileListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)

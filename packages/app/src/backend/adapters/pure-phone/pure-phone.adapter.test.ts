@@ -86,10 +86,12 @@ describe("getDeviceLogFiles method", () => {
 
   const returnMockGetFileListResponse = (
     files: string[]
-  ): DeviceResponse<string[]> => {
+  ): DeviceResponse<{ files: string[] }> => {
     return {
       status: DeviceResponseStatus.Ok,
-      data: files,
+      data: {
+        files,
+      },
     }
   }
 

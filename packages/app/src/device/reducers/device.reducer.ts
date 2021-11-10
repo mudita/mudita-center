@@ -37,7 +37,7 @@ export const initialState: DeviceState = {
   data: null,
   status: {
     connected: false,
-    locked: false,
+    unlocked: null,
     loaded: false,
   },
   state: ConnectionState.Empty,
@@ -129,7 +129,7 @@ export const deviceReducer = createReducer<DeviceState>(
           ...state,
           status: {
             ...state.status,
-            locked: state.deviceType === DeviceType.MuditaPure,
+            unlocked: state.deviceType === DeviceType.MuditaHarmony,
           },
         }
       })
@@ -138,7 +138,7 @@ export const deviceReducer = createReducer<DeviceState>(
           ...state,
           status: {
             ...state.status,
-            locked: false,
+            unlocked: true,
           },
           error: null,
         }

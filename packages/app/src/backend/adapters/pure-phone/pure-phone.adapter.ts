@@ -204,13 +204,15 @@ class PurePhone extends PurePhoneAdapter {
   public async getDeviceLogFiles(
     option?: DeviceFilesOption
   ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
-    return this.getDeviceFiles(DiagnosticsFileList.LOGS, option)
+    return this.downloadDeviceFiles(DiagnosticsFileList.LOGS, option)
   }
 
-  public async getDeviceCrashDumpFiles(
-    option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
-    return this.getDeviceFiles(DiagnosticsFileList.CRASH_DUMPS, option)
+  public async getDeviceCrashDumpFiles(): Promise<DeviceResponse<string[]>> {
+    return this.getDeviceFiles(DiagnosticsFileList.CRASH_DUMPS)
+  }
+
+  public async downloadDeviceCrashDumpFiles(): Promise<DeviceResponse<string[]>> {
+    return this.downloadDeviceFilesLocally(DiagnosticsFileList.CRASH_DUMPS)
   }
 
   public async startBackupDevice(): Promise<
@@ -399,24 +401,51 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  private async getDeviceFiles(
+  private async downloadDeviceFiles(
     fileList: DiagnosticsFileList,
     option?: DeviceFilesOption
   ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
-    const getDiagnosticFileListResponse =
-      await this.deviceFileDiagnosticService.getDiagnosticFileList(fileList)
-    if (
-      getDiagnosticFileListResponse.status !== DeviceResponseStatus.Ok ||
-      getDiagnosticFileListResponse.data === undefined
-    ) {
+    const files = await this.getDeviceFiles(fileList)
+
+    if (files.status !== DeviceResponseStatus.Ok || !files.data) {
       return {
         status: DeviceResponseStatus.Error,
       }
     }
 
-    const filePaths = getDiagnosticFileListResponse.data.files
     const downloadDeviceFilesResponse =
-      await this.deviceFileSystemService.downloadDeviceFiles(filePaths)
+      await this.deviceFileSystemService.downloadDeviceFiles(files.data)
+    const deviceFiles = downloadDeviceFilesResponse.data
+
+    if (
+      downloadDeviceFilesResponse.status !== DeviceResponseStatus.Ok ||
+      deviceFiles === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+    return {
+      data: option
+        ? transformDeviceFilesByOption(deviceFiles, option)
+        : deviceFiles,
+      status: DeviceResponseStatus.Ok,
+    }
+  }
+
+  private async downloadDeviceFilesLocally(
+    fileList: DiagnosticsFileList,
+  ): Promise<DeviceResponse<string[]>> {
+    const files = await this.getDeviceFiles(fileList)
+
+    if (files.status !== DeviceResponseStatus.Ok || !files.data) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+
+    const downloadDeviceFilesResponse =
+      await this.deviceFileSystemService.downloadLocally(files.data, "crash-dumps")
     const deviceFiles = downloadDeviceFilesResponse.data
 
     if (
@@ -429,9 +458,30 @@ class PurePhone extends PurePhoneAdapter {
     }
 
     return {
-      data: option
-        ? transformDeviceFilesByOption(deviceFiles, option)
-        : deviceFiles,
+      data: deviceFiles,
+      status: DeviceResponseStatus.Ok,
+    }
+  }
+
+  private async getDeviceFiles(
+    fileList: DiagnosticsFileList,
+  ): Promise<DeviceResponse<string[]>> {
+    const getDiagnosticFileListResponse =
+      await this.deviceFileDiagnosticService.getDiagnosticFileList(fileList)
+    
+    if (
+      getDiagnosticFileListResponse.status !== DeviceResponseStatus.Ok ||
+      getDiagnosticFileListResponse.data === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+
+    const filePaths = getDiagnosticFileListResponse.data.files
+
+    return {
+      data: filePaths,
       status: DeviceResponseStatus.Ok,
     }
   }
