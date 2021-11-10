@@ -41,7 +41,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
 }) => {
   return (
     <MessageFiltersWrapper>
-      {flags.get(Feature.DevelopOnly) && (
+      {flags.get(Feature.MessagesSearch) && (
         <SearchInput
           type={"search"}
           label={intl.formatMessage(messages.search)}
