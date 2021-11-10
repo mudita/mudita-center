@@ -5,6 +5,7 @@
 
 import { EntryCollection, SyncCollection } from "contentful"
 import axios, { AxiosInstance, AxiosResponse } from "axios"
+import https from "https"
 import {
   ClientInterface,
   HelpQuery,
@@ -13,7 +14,12 @@ import { MuditaCenterServerRoutes } from "App/api/mudita-center-server/mudita-ce
 import { NewsEntry } from "App/news/store/mudita-news.interface"
 
 export class Client implements ClientInterface {
-  private httpClient: AxiosInstance = axios.create()
+  private httpClient: AxiosInstance = axios.create({
+    baseURL: process.env.MUDITA_CENTER_SERVER_URL as string,
+    httpsAgent: new https.Agent({
+      rejectUnauthorized: false,
+    }),
+  })
 
   async getNews(query: { limit: number }): Promise<EntryCollection<NewsEntry>> {
     try {
@@ -21,9 +27,7 @@ export class Client implements ClientInterface {
         limit: String(query.limit),
       })
       const { data }: AxiosResponse = await this.httpClient.get(
-        `${process.env.MUDITA_CENTER_SERVER_URL as string}/${
-          MuditaCenterServerRoutes.News
-        }`,
+        MuditaCenterServerRoutes.News,
         { params }
       )
       return data
@@ -37,15 +41,16 @@ export class Client implements ClientInterface {
       const params = new URLSearchParams({
         locale: query.locale as string,
       })
+
       if (query.nextSyncToken) {
         params.append("nextSyncToken", query.nextSyncToken)
       }
+
       const { data }: AxiosResponse = await this.httpClient.get(
-        `${process.env.MUDITA_CENTER_SERVER_URL as string}/${
-          MuditaCenterServerRoutes.Help
-        }`,
+        MuditaCenterServerRoutes.Help,
         { params }
       )
+
       return data
     } catch (error) {
       throw new Error(error)

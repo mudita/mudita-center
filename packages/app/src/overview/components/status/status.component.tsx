@@ -64,6 +64,7 @@ const Status: FunctionComponent<StatusProps> = ({
   networkLevel = 0,
 }) => {
   const strength = Math.round(networkLevel * 100)
+  const networkNameDisplay = network === "Orange Orange" ? "Orange" : network
 
   return (
     <Card className={className}>
@@ -107,7 +108,7 @@ const Status: FunctionComponent<StatusProps> = ({
                     displayStyle={TextDisplayStyle.LargeBoldText}
                     data-testid={StatusTestIds.NetworkName}
                   >
-                    {network}
+                    {networkNameDisplay}
                   </Text>
                   <Text
                     displayStyle={TextDisplayStyle.SmallFadedText}
