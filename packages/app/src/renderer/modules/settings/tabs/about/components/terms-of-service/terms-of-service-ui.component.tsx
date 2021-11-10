@@ -29,12 +29,12 @@ const TermsOfServiceUI: FunctionComponent = () => (
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       1. Mudita sp. z o.o has implemented the Terms and Conditions with its
-      registered office in Warsaw (02-607), ul. Jana Czeczota 9, entered into
+      registered office in Warsaw (02-607), ul. Jana Czeczota 6, entered into
       the register of entrepreneurs of the National Court Register kept by the
       District Court for the Capital City of Warsaw, 13th Commercial Division of
       the National Court Register, entry no. 0000467620, Tax Identification
-      Number: 525252558282 and Statistical Identification Number: 14676767613,
-      the share capital of PLN 21,100.00 (hereinafter referred to as Mudita).
+      Number: 5252558282 and Statistical Identification Number: 14676767613, the
+      share capital of PLN 21,100.00 (hereinafter referred to as Mudita).
     </LightText>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       2. The Terms and Conditions specify the rules of using the Mudita Center
@@ -67,11 +67,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
       c. <b>Privacy Policy</b> – terms and conditions defining the rules of
       processing personal data of the User by Mudita Center, available under the
       address:{" "}
-      <a
-        href={EXTERNAL_URLS.privacyPolicy}
-        rel="noreferrer"
-        target="_blank"
-      >
+      <a href={EXTERNAL_URLS.privacyPolicy} rel="noreferrer" target="_blank">
         www.mudita.com/legal/privacy-policy/mudita-center/
       </a>
     </LightTextNested>
@@ -124,7 +120,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
     <LightTextNested displayStyle={TextDisplayStyle.MediumFadedLightText}>
       j. <b>App Distributor</b> - refers to Mudita’s website (
       <a href={`https://www.mudita.com`} rel="noreferrer" target="_blank">
-        Mudita
+        www.mudita.com
       </a>
       ) where the App is made available.
     </LightTextNested>
@@ -132,8 +128,8 @@ const TermsOfServiceUI: FunctionComponent = () => (
       PURPOSE AND USE OF THE APP
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
-      1. The App allows Mudita to expand and update the features of Mudita Pure
-      while using a computer (“The Services”).
+      1. The App allows Mudita to expand and update the features of Mudita Pure,
+      and Mudita Harmony while using a computer (“The Services”).
     </LightText>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       2. The App is a source of information about Mudita's products, services
@@ -141,7 +137,11 @@ const TermsOfServiceUI: FunctionComponent = () => (
     </LightText>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       3. In order to start using the service, users must first: download and
-      install the app from our website (Mudita )
+      install the app from our website (
+      <a href={`https://www.mudita.com`} rel="noreferrer" target="_blank">
+        Mudita
+      </a>
+      )
     </LightText>
     <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
       4. Personal data of the User obtained by Mudita through The App shall be

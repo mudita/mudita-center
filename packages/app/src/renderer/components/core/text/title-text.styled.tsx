@@ -9,6 +9,6 @@ import { fontWeight } from "Renderer/styles/theming/theme-getters"
 
 export const Title = styled(Text)`
   font-size: 3rem;
-  margin-bottom: 1.6rem;
+  margin-bottom: 0.8rem;
   font-weight: ${fontWeight("default")};
 `

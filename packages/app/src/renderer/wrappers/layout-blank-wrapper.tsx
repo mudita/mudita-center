@@ -34,7 +34,7 @@ const Layout = styled.div`
 
 const Header = styled.header`
   width: 100%;
-  padding: 4rem 0;
+  padding: 2.7rem 0 3rem;
   max-width: 99rem;
 
   display: flex;
