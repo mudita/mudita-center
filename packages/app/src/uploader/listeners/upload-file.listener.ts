@@ -4,7 +4,6 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
-import fs from "fs"
 import {
   S3Client,
   PutObjectCommand,
@@ -26,7 +25,7 @@ export interface UploaderData {
   serialNumber: string
 }
 
-export const registerUploadFileListener = async (): Promise<void> => {
+export const registerUploadFileListener = (): void => {
   ipcMain.answerRenderer(
     IpcUploader.UploadFile,
     async ({
@@ -48,12 +47,12 @@ export const registerUploadFileListener = async (): Promise<void> => {
 
       const filePath = `uploads/${serialNumber}/${fileName}`
 
-      logger.info("Start sending file", filePath)
+      logger.info("Start sending file: ", filePath)
 
       const command = new PutObjectCommand({
         Key: filePath,
         Bucket: bucketName,
-        Body: await fs.readFileSync(buffer, "utf-8"),
+        Body: buffer,
       })
 
       try {
