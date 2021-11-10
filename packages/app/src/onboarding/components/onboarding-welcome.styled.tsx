@@ -12,7 +12,7 @@ export const OnboardingWrapper = styled.section`
   display: grid;
   grid-template-areas: "Header" "Main" "Footer";
   grid-row-gap: 0;
-  grid-template-rows: 6.5rem 1fr 14rem;
+  grid-template-rows: 5.7rem 1fr auto;
 
   header,
   main,
@@ -45,11 +45,11 @@ export const InstructionText = styled(Text)`
 `
 
 export const WelcomeButton = styled(ButtonComponent)`
-  margin-top: 3.6rem;
+  margin-top: 1.6rem;
 `
 
 export const TroubleshootingButton = styled(ButtonComponent)`
   display: block;
-  margin-top: 1.2rem;
+  margin-top: 0.9rem;
   width: fit-content;
 `
