@@ -48,7 +48,7 @@ import PrivacyPolicyApp from "./privacy-policy-app.component"
 import { flags, Feature } from "App/feature-flags"
 import SarApp from "./sar-app.component"
 
-import { TmpDispatch } from "Renderer/store"
+import { TmpDispatch, ReduxRootState } from "Renderer/store"
 import {
   connectDevice,
   disconnectDevice,
@@ -73,6 +73,7 @@ interface Props {
   setAppLatestVersion: (value: string) => void
   loadSettings: () => void
   toggleAppUpdateStepModalShow: (value: boolean) => void
+  connectedAndUnlocked: boolean
 }
 
 const RootWrapper: FunctionComponent<Props> = ({
@@ -89,6 +90,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   setAppLatestVersion,
   loadSettings,
   toggleAppUpdateStepModalShow,
+  connectedAndUnlocked,
 }) => {
   const params = new URLSearchParams(window.location.search)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
@@ -155,8 +157,13 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     connect()
-    getCrashDump()
   }, [])
+
+  useEffect(() => {
+    if (connectedAndUnlocked) {
+      getCrashDump()
+    }
+  }, [connectedAndUnlocked])
 
   useEffect(() => {
     const listener = () => {
@@ -198,7 +205,6 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     const listener = () => {
       unlockedDevice()
-      getCrashDump()
     }
     registerDeviceUnlockedListener(listener)
     return () => removeDeviceUnlockedListener(listener)
@@ -261,6 +267,11 @@ const RootWrapper: FunctionComponent<Props> = ({
   )
 }
 
+const mapStateToProps = (state: ReduxRootState) => ({
+  connectedAndUnlocked:
+    state.device.status.connected && !state.device.status.locked,
+})
+
 // TODO replace `TmpDispatch` with legit `Dispatch`
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   connect: () => dispatch(getConnectedDevice()),
@@ -281,4 +292,4 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   loadSettings: () => dispatch.settings.loadSettings(),
 })
 
-export default connect(null, mapDispatchToProps)(RootWrapper)
+export default connect(mapStateToProps, mapDispatchToProps)(RootWrapper)

@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { Event } from "App/crash-dump/constants"
-import uploadDataToFTPRequest from "App/renderer/requests/upload-data-to-ftp.request"
+import { uploadFileRequest } from "App/uploader"
 import readFile from "App/renderer/requests/read-file.request"
 import { ReduxRootState } from "App/renderer/store"
 import { SendingCrashDumpError } from "App/crash-dump/errors"
@@ -35,9 +35,9 @@ export const sendCrashDumpData = createAsyncThunk(
       }
 
       try {
-        await uploadDataToFTPRequest({
+        await uploadFileRequest({
           buffer,
-          fileName: String(fileName),
+          fileName: `${new Date().getTime()}-${fileName}`,
           serialNumber: state.device.data.serialNumber,
         })
 

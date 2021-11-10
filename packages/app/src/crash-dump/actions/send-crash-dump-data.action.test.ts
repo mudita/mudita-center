@@ -6,14 +6,14 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import uploadDataToFTPRequest from "App/renderer/requests/upload-data-to-ftp.request"
+import { uploadFileRequest } from "App/uploader"
 import readFile from "App/renderer/requests/read-file.request"
 import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.action"
 import { SendingCrashDumpError } from "App/crash-dump/errors"
 import { DeviceConnectionError } from "App/device"
 import { testError } from "App/renderer/store/constants"
 
-jest.mock("App/renderer/requests/upload-data-to-ftp.request")
+jest.mock("App/uploader")
 jest.mock("App/renderer/requests/read-file.request")
 
 const crashDumpsMock: string[] = ["/pure/logs/crash-dumps/file.hex"]
@@ -68,7 +68,7 @@ describe("Crash dumps downloaded", () => {
     ])
 
     expect(readFile).not.toHaveBeenCalled()
-    expect(uploadDataToFTPRequest).not.toHaveBeenCalled()
+    expect(uploadFileRequest).not.toHaveBeenCalled()
   })
 
   test("fire async `sendCrashDumpData` triggers sending process", async () => {
@@ -97,16 +97,14 @@ describe("Crash dumps downloaded", () => {
     ])
 
     expect(readFile).toHaveBeenCalledWith({ file: crashDumpsMock[0] })
-    expect(uploadDataToFTPRequest).toHaveBeenCalled()
+    expect(uploadFileRequest).toHaveBeenCalled()
   })
 })
 
 describe("Upload Data To FTP Request returns `error` status", () => {
   test("fire async `sendCrashDumpData` action and execute `rejected` event", async () => {
     ;(readFile as jest.Mock).mockReturnValue(new Buffer("hello world"))
-    ;(uploadDataToFTPRequest as jest.Mock).mockRejectedValue(
-      new Error("Some error")
-    )
+    ;(uploadFileRequest as jest.Mock).mockRejectedValue(new Error("Some error"))
 
     const mockStore = createMockStore([thunk])({
       device: {
