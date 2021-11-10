@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   device: state.device,
   loaded: state.device.status.loaded,
-  locked: state.device.status.locked,
+  unlocked: state.device.status.unlocked,
   phoneLockTime:
     (state.device.data as PureDeviceData)?.phoneLockTime ?? undefined,
   ...selection(state, {}),

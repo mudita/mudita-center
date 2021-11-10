@@ -253,7 +253,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: ReduxRootState) => ({
   connectedAndUnlocked:
-    state.device.status.connected && !state.device.status.locked,
+    state.device.status.connected && Boolean(state.device.status.unlocked),
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({

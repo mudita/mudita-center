@@ -183,12 +183,12 @@ describe("Lock/Unlock functionality", () => {
       deviceType: DeviceType.MuditaPure,
       status: {
         ...initialState.status,
-        locked: true,
+        unlocked: false,
       },
     })
   })
 
-  test("Event: Locked changed locked state to `false` if deviceType is equal to `MuditaHarmony`", () => {
+  test("Event: Locked changed unlocked state to `true` if deviceType is equal to `MuditaHarmony`", () => {
     expect(
       deviceReducer(
         {
@@ -204,7 +204,7 @@ describe("Lock/Unlock functionality", () => {
       deviceType: DeviceType.MuditaHarmony,
       status: {
         ...initialState.status,
-        locked: false,
+        unlocked: true,
       },
     })
   })
@@ -216,7 +216,7 @@ describe("Lock/Unlock functionality", () => {
           ...initialState,
           status: {
             ...initialState.status,
-            locked: true,
+            unlocked: false,
           },
         },
         {
@@ -227,7 +227,7 @@ describe("Lock/Unlock functionality", () => {
       ...initialState,
       status: {
         ...initialState.status,
-        locked: false,
+        unlocked: true,
       },
     })
   })
