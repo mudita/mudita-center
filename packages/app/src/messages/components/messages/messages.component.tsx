@@ -380,7 +380,7 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const getViewReceiver = (activeThread: Thread): Receiver => {
-    if (activeThread.phoneNumber === mockThread.phoneNumber) {
+    if (activeThread.id === mockThread.id) {
       return {
         phoneNumber: activeThread.phoneNumber,
         identification: ReceiverIdentification.unknown,
