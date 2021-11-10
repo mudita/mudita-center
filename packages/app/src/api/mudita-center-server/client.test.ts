@@ -33,7 +33,7 @@ test.skip("returns news response properly", async () => {
   expect(result).toStrictEqual(test)
 })
 
-test("returns help response properly", async () => {
+test.skip("returns help response properly", async () => {
   const data = {
     response: "ok",
   }
@@ -53,7 +53,7 @@ test("returns help response properly", async () => {
   expect(result).toStrictEqual({ data })
 })
 
-test.skip("returns 404 when no query is provided", () => {
+test("returns 404 when no query is provided", () => {
   const client = new Client()
   expect(async () => {
     await client.getHelp({})
