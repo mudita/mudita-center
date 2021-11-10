@@ -6,14 +6,24 @@
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import Adapters from "Backend/adapters/adapters.interface"
-import { Message } from "App/messages/store/messages.interface"
+import {
+  GetMessagesBody,
+  GetMessagesByThreadIdResponse,
+} from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
-const handleGetMessagesByThreadIdRequest = (
+const handleGetMessagesByThreadIdRequest = async (
   { pureMessages }: Adapters,
-  threadId: string
-): Promise<DeviceResponse<Message[]>> =>
-  pureMessages.getMessagesByThreadId(threadId)
+  body: GetMessagesBody
+): Promise<DeviceResponse<GetMessagesByThreadIdResponse>> => {
+   const response = await pureMessages.loadAllMessagesByThreadId(body.threadId)
+  const data = response.data ?? []
+  return {
+     ...response,
+    data: { data }
+  }
+}
+
 
 const registerGetMessagesByThreadIdRequest = createEndpoint({
   name: IpcRequest.GetMessagesByThreadId,

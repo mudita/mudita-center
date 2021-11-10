@@ -11,8 +11,10 @@ import thunk from "redux-thunk"
 import { deviceReducer } from "App/device"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
 import settings from "Renderer/models/settings/settings"
+import networkStatus from "Renderer/models/network-status/network-status"
 import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
+import { restoreDeviceReducer } from "App/restore-device/reducers/restore-device.reducer"
 import checkAppUpdateRequest from "Renderer/requests/check-app-update.request"
 
 jest.mock("Renderer/register-hotkeys", jest.fn)
@@ -46,13 +48,6 @@ jest.mock(
   },
   { virtual: true }
 )
-
-jest.mock("Renderer/requests/get-translation.request", () => ({
-  getTranslation: jest.fn().mockReturnValue({
-    store: jest.fn(),
-    language: "en-US",
-  }),
-}))
 
 jest.mock("Renderer/requests/connect-device.request", () =>
   jest.fn().mockReturnValue({
@@ -98,11 +93,12 @@ const defaultProps: Props = {
 
 const render = (extraProps?: Partial<Props>) => {
   const store = init({
-    models: { settings },
+    models: { settings, networkStatus },
     redux: {
       middlewares: [thunk],
       reducers: {
         device: deviceReducer,
+        restoreDevice: restoreDeviceReducer,
       },
     },
   }) as Store

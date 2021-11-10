@@ -3,33 +3,35 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import PurePhoneMessagesAdapter, {
+  GetMessagesBody,
+  GetMessagesByThreadIdResponse,
+  GetThreadsResponse,
+} from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import {
   Message,
   MessageType,
   NewMessage,
   Thread,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
 import {
   Endpoint,
-  GetMessagesBody,
+  GetMessagesBody as PureGetMessagesBody,
   GetThreadsBody,
   Message as PureMessage,
   MessagesCategory as PureMessagesCategory,
   MessageType as PureMessageType,
   Method,
+  PaginationBody,
   Thread as PureThread,
 } from "@mudita/pure"
+import { Feature, flags } from "App/feature-flags"
 
-const initGetThreadsBody: GetThreadsBody = {
-  category: PureMessagesCategory.thread,
-  limit: 15,
-}
-const initGetMessagesBody: GetMessagesBody = {
+const initGetMessagesBody: PureGetMessagesBody = {
   category: PureMessagesCategory.message,
   limit: 15,
 }
@@ -45,73 +47,73 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     super()
   }
 
-  public getThreads(): Promise<DeviceResponse<Thread[]>> {
-    return this.loadAllThreadsInSingleRequest()
-  }
-
-  public getMessagesByThreadId(
-    threadId: string
-  ): Promise<DeviceResponse<Message[]>> {
-    return this.loadAllMessagesInSingleRequest(threadId)
-  }
-
-  public async addMessage(
-    newMessage: NewMessage
-  ): Promise<DeviceResponse<Message>> {
-    const { status, data } = await this.deviceService.request({
-      body: {
-        number: newMessage.phoneNumber,
-        messageBody: newMessage.content,
-        category: PureMessagesCategory.message,
-      },
-      endpoint: Endpoint.Messages,
-      method: Method.Post,
+  public async loadMoreThreadsInSingleRequest(
+    pagination: PaginationBody,
+    data: Thread[] = []
+  ): Promise<DeviceResponse<GetThreadsResponse>> {
+    const response = await this.getThreads({
+      ...pagination,
+      limit: pagination.limit,
     })
 
-    if (
-      status === DeviceResponseStatus.Ok &&
-      data !== undefined &&
-      PurePhoneMessages.isAcceptablePureMessageType(data)
-    ) {
-      return {
-        status: DeviceResponseStatus.Ok,
-        data: PurePhoneMessages.mapToMessages(data),
-      }
-    } else {
-      return {
-        status: DeviceResponseStatus.Error,
-        error: { message: "Add message: Something went wrong" },
-      }
+    if (response.error || response.data === undefined) {
+      return response
     }
+
+    const threads = [...data, ...response.data.data]
+    const accumulatedResponse = {
+      ...response,
+      data: {
+        ...response.data,
+        data: threads,
+      },
+    }
+
+    if (response.data.nextPage === undefined) {
+      // API no return nextPage (with offset) when client doesn't ask for more than API can return
+      // the bellow method is a workaround helper - to remove after implementation by OS
+      // https://appnroll.atlassian.net/browse/CP-780
+      return returnResponseWithNextPage(accumulatedResponse, pagination)
+    }
+
+    const offsetDiff = response.data.nextPage.offset - pagination.offset
+    const restLimit = pagination.limit - offsetDiff
+
+    if (restLimit <= 0) {
+      return accumulatedResponse
+    }
+
+    return this.loadMoreThreadsInSingleRequest(
+      {
+        offset: response.data.nextPage.offset,
+        limit: restLimit,
+      },
+      threads
+    )
   }
 
-  private async loadAllThreadsInSingleRequest(
-    pureThreads: PureThread[] = [],
-    body = initGetThreadsBody
-  ): Promise<DeviceResponse<Thread[]>> {
+  public async getThreads(
+    pagination: PaginationBody
+  ): Promise<DeviceResponse<GetThreadsResponse>> {
+    const body: GetThreadsBody = {
+      category: PureMessagesCategory.thread,
+      ...pagination,
+    }
+
     const { status, data } = await this.deviceService.request({
       body,
       endpoint: Endpoint.Messages,
       method: Method.Get,
     })
 
-    if (data?.nextPage !== undefined) {
-      return this.loadAllThreadsInSingleRequest(
-        [...pureThreads, ...data.entries],
-        {
-          ...initGetThreadsBody,
-          ...data.nextPage,
-        }
-      )
-    } else if (
-      status === DeviceResponseStatus.Ok &&
-      data?.entries !== undefined
-    ) {
+    if (status === DeviceResponseStatus.Ok && data?.entries !== undefined) {
       return {
         status: DeviceResponseStatus.Ok,
-        data: [...pureThreads, ...data.entries].map(
-          PurePhoneMessages.mapToThreads
-        ),
+        data: {
+          data: data.entries.map(PurePhoneMessages.mapToThreads),
+          nextPage: data.nextPage,
+          totalCount: data.totalCount,
+        },
       }
     } else {
       return {
@@ -121,24 +123,10 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     }
   }
 
-  private static mapToThreads(pureThread: PureThread): Thread {
-    const {
-      contactID,
-      isUnread,
-      lastUpdatedAt,
-      messageSnippet,
-      threadID,
-      number = "",
-    } = pureThread
-    return {
-      messageSnippet,
-      // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
-      unread: process.env.NODE_ENV !== "production" ? isUnread : false,
-      id: String(threadID),
-      phoneNumber: String(number),
-      contactId: String(contactID),
-      lastUpdatedAt: new Date(lastUpdatedAt * 1000),
-    }
+  public loadAllMessagesByThreadId(
+    threadId: string
+  ): Promise<DeviceResponse<Message[]>> {
+    return this.loadAllMessagesInSingleRequest(threadId)
   }
 
   private async loadAllMessagesInSingleRequest(
@@ -183,24 +171,98 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     }
   }
 
+  public async getMessagesByThreadId({
+    threadId,
+    nextPage,
+  }: GetMessagesBody): Promise<DeviceResponse<GetMessagesByThreadIdResponse>> {
+    const body: PureGetMessagesBody = {
+      category: PureMessagesCategory.message,
+      threadID: Number(threadId),
+      ...nextPage,
+    }
+
+    const { status, data } = await this.deviceService.request({
+      body,
+      endpoint: Endpoint.Messages,
+      method: Method.Get,
+    })
+
+    if (status === DeviceResponseStatus.Ok && data?.entries !== undefined) {
+      return {
+        status: DeviceResponseStatus.Ok,
+        data: {
+          data: data.entries
+            .filter(PurePhoneMessages.isAcceptablePureMessageType)
+            .map(PurePhoneMessages.mapToMessages),
+          nextPage: data.nextPage,
+        },
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Get messages by threadId: Something went wrong" },
+      }
+    }
+  }
+
+  public async addMessage(
+    newMessage: NewMessage
+  ): Promise<DeviceResponse<Message>> {
+    const { status, data } = await this.deviceService.request({
+      body: {
+        number: newMessage.phoneNumber,
+        messageBody: newMessage.content,
+        category: PureMessagesCategory.message,
+      },
+      endpoint: Endpoint.Messages,
+      method: Method.Post,
+    })
+
+    if (
+      status === DeviceResponseStatus.Ok &&
+      data !== undefined &&
+      PurePhoneMessages.isAcceptablePureMessageType(data)
+    ) {
+      return {
+        status: DeviceResponseStatus.Ok,
+        data: PurePhoneMessages.mapToMessages(data),
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Add message: Something went wrong" },
+      }
+    }
+  }
+
+  private static mapToThreads(pureThread: PureThread): Thread {
+    const {
+      isUnread,
+      lastUpdatedAt,
+      messageSnippet,
+      threadID,
+      number = "",
+    } = pureThread
+    return {
+      messageSnippet,
+      // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
+      unread: flags.get(Feature.ProductionAndAlpha) ? false : isUnread,
+      id: String(threadID),
+      phoneNumber: String(number),
+      lastUpdatedAt: new Date(lastUpdatedAt * 1000),
+    }
+  }
+
   private static mapToMessages(
     pureMessage: PureMessage & { messageType: AcceptablePureMessageType }
   ): Message {
-    const {
-      contactID,
-      messageBody,
-      messageID,
-      messageType,
-      createdAt,
-      threadID,
-      number,
-    } = pureMessage
+    const { messageBody, messageID, messageType, createdAt, threadID, number } =
+      pureMessage
     return {
       phoneNumber: number,
       id: String(messageID),
       date: new Date(createdAt * 1000),
       content: messageBody,
-      contactId: String(contactID),
       threadId: String(threadID),
       messageType: PurePhoneMessages.getMessageType(messageType),
     }
@@ -229,6 +291,32 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     } else {
       return MessageType.INBOX
     }
+  }
+}
+
+const returnResponseWithNextPage = (
+  response: DeviceResponse<GetThreadsResponse>,
+  pagination: PaginationBody
+): DeviceResponse<GetThreadsResponse> => {
+  if(response.data === undefined){
+    return response
+  }
+
+  const offset = pagination.offset + pagination.limit
+  const nextPage: PaginationBody | undefined =
+    offset < response.data.totalCount
+      ? {
+          offset,
+          limit: 0,
+        }
+      : undefined
+
+  return {
+    ...response,
+    data: {
+      ...response.data,
+      nextPage,
+    },
   }
 }
 

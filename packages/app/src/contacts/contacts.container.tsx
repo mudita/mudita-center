@@ -7,7 +7,7 @@ import { connect } from "react-redux"
 import { History, LocationState } from "history"
 import Contacts from "App/contacts/components/contacts/contacts.component"
 import { noop } from "Renderer/utils/noop"
-import { select } from "Renderer/store"
+import { ReduxRootState, select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { URL_MAIN } from "Renderer/constants/urls"
 import createRouterPath from "Renderer/utils/create-router-path"
@@ -32,21 +32,23 @@ import {
 } from "App/contacts/store/contacts.helpers"
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 import { ContactErrorResponse } from "App/contacts/components/contacts/contacts.type"
+import { isThreadOpenedSelector } from "App/messages/selectors"
 
-const selector = select(({ contacts, messages }) => ({
+const selector = select(({ contacts }) => ({
   contactList: contacts.contactList,
   flatList: contacts.flatList,
   speedDialChosenList: contacts.speedDialChosenList,
   getContact: contacts.getContact,
-  isThreadOpened: messages.isThreadOpened,
 }))
 
-const mapStateToProps = (state: RootModel) => {
+const mapStateToProps = (state: RootModel & ReduxRootState) => {
   const { contacts, auth } = state
   return {
     ...contacts,
     ...auth,
     ...selector(state, {}),
+    isThreadOpened: (phoneNumber: string) =>
+      isThreadOpenedSelector(phoneNumber)(state),
   }
 }
 

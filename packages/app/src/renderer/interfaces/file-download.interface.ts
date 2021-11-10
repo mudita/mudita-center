@@ -38,6 +38,7 @@ export interface DownloadFinished {
 
 export interface DownloadListener {
   url: string
+  fileName: string
   savePath: string
   channels: DownloadChannel
 }

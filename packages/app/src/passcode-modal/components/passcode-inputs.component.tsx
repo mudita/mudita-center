@@ -142,7 +142,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
             i !== activeInput || errorMessage === "component.passcodeModalError"
           return (
             <InputText
-              type="password"
+              type="passcode"
               key={i}
               error={errorMessage === "component.passcodeModalError"}
               value={value}

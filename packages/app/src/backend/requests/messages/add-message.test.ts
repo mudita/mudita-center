@@ -10,7 +10,7 @@ import {
   Message,
   MessageType,
   NewMessage,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import DeviceService from "Backend/device-service"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import PureDeviceManager, {
@@ -40,7 +40,6 @@ const message: Message = {
   id: "6",
   date: new Date(pureMessage.createdAt * 1000),
   content: newMessage.content,
-  contactId: "2",
   threadId: "1",
   phoneNumber: newMessage.phoneNumber,
   messageType: MessageType.OUTBOX,

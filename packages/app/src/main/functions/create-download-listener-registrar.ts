@@ -56,13 +56,14 @@ const createDownloadListenerRegistrar =
   (win: BrowserWindow) =>
   ({
     url,
+    fileName,
     savePath,
     channels,
   }: DownloadListener): Promise<DownloadFinished> => {
     return new Promise((resolve, reject) => {
       try {
         const willDownloadListener = (event: Event, item: DownloadItem) => {
-          item.setSavePath(path.join(savePath, item.getFilename()))
+          item.setSavePath(path.join(savePath, fileName))
 
           const onDownloadCancel = (interrupt = false) => {
             interrupted = interrupt
@@ -116,7 +117,7 @@ const createDownloadListenerRegistrar =
               totalBytes: item.getTotalBytes(),
             }
 
-            removeOldDownloadFiles(item.getFilename())
+            removeOldDownloadFiles(fileName)
 
             resolve(finished)
 

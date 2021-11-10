@@ -18,7 +18,6 @@ import registerGetAllReleasesListener from "App/main/functions/register-get-all-
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
-import registerTranslationListener from "App/main/functions/register-translation-listener"
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/calendar/backend/export-events"
 import registerWriteFileListener from "App/main/functions/register-write-file-listener"
@@ -31,6 +30,8 @@ import registerGetApplicationConfigurationListener from "App/main/functions/regi
 import registerGetFileDataListener from "App/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
+import registerEncryptFileListener from "App/files-system/listeners/encrypt-file-listener"
+import registerDecryptFileListener from "App/files-system/listeners/decrypt-file-listener"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
 import {
   registerDownloadHelpHandler,
@@ -150,7 +151,6 @@ const createWindow = async () => {
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()
-  registerTranslationListener()
   registerContactsExportListener()
   registerEventsExportListener()
   registerWriteFileListener()
@@ -160,6 +160,9 @@ const createWindow = async () => {
   registerGetApplicationConfigurationListener()
   registerArchiveFilesListener()
   registerGetFileDataListener()
+  registerEncryptFileListener()
+  registerReadFileListener()
+  registerDecryptFileListener()
   registerPureOsDownloadProxy()
   registerReadFileListener()
   registerUploadFileListener()

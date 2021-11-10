@@ -86,7 +86,7 @@ export const useHelpSearch = (
   const filteredData = useMemo(
     () => ({
       ...data,
-      collection: Object.keys(data.items)
+      collection: Object.keys(data.items ? data.items : [])
         .map((id) => data.items[id])
         .filter(({ question }) =>
           question.toLowerCase().includes(searchValue.toLowerCase())

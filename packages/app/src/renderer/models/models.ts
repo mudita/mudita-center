@@ -7,7 +7,6 @@ import auth from "Renderer/models/auth/auth"
 import calls from "Renderer/models/calls/calls"
 import devMode from "App/dev-mode/store/dev-mode"
 import filesManager from "Renderer/models/files-manager/files-manager"
-import messages from "App/messages/store/messages"
 import muditaNews from "App/news/store/mudita-news"
 import networkStatus from "Renderer/models/network-status/network-status"
 import notes from "Renderer/models/notes/notes"
@@ -22,7 +21,6 @@ export interface RootModel {
   calls: typeof calls
   devMode: typeof devMode
   filesManager: typeof filesManager
-  messages: typeof messages
   muditaNews: typeof muditaNews
   networkStatus: typeof networkStatus
   notes: typeof notes
@@ -38,7 +36,6 @@ export const models: RootModel = {
   calls,
   devMode,
   filesManager,
-  messages,
   muditaNews,
   networkStatus,
   notes,

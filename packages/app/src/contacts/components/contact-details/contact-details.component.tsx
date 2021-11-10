@@ -191,7 +191,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                         ? flags.get(Feature.DevelopOnly)
                           ? phoneActions(
                               contact.primaryPhoneNumber,
-                              isThreadOpened(contact.primaryPhoneNumber),
+                              !isThreadOpened(contact.primaryPhoneNumber),
                               onCall,
                               handleMessage
                             )
@@ -209,7 +209,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                         ? flags.get(Feature.DevelopOnly)
                           ? phoneActions(
                               contact.secondaryPhoneNumber,
-                              isThreadOpened(contact.secondaryPhoneNumber),
+                              !isThreadOpened(contact.secondaryPhoneNumber),
                               onCall,
                               handleMessage
                             )

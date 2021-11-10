@@ -17,7 +17,10 @@ test("successful download returns data", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [PureOsDownloadChannels.start]: data,
   }
-  const result = await downloadOsUpdateRequest("mudita.com/releases-example")
+  const result = await downloadOsUpdateRequest({
+    url: "mudita.com/releases-example",
+    fileName: "pure-os.tar",
+  })
   expect(result).toStrictEqual(data)
 })
 
@@ -37,7 +40,10 @@ test.each([
       },
     }
     await expect(
-      downloadOsUpdateRequest("mudita.com/releases-example")
+      downloadOsUpdateRequest({
+        url: "mudita.com/releases-example",
+        fileName: "pure-os.tar",
+      })
     ).rejects.toThrowError(errorMessage)
   }
 )

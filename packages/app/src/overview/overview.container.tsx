@@ -23,8 +23,8 @@ import { readBackupDeviceDataState } from "App/backup-device/actions/base.action
 import {
   readRestoreDeviceDataState,
   startRestoreDevice,
+  StartRestoreOption,
 } from "App/restore-device/actions"
-import { Backup } from "App/backup/reducers"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -48,16 +48,21 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
   }
 }
 
-// TODO replace `TmpDispatch` with legit `Dispatch`
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   disconnectDevice: () => dispatch(disconnectDevice()),
   changeSim: (card: SimCard) => dispatch(changeSim(card)),
   setUpdateState: (state: UpdatingState) => dispatch(setUpdateState(state)),
   startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),
-  startBackupDevice: () => dispatch(startBackupDevice()),
+  startBackupDevice: (secretKey: string) =>
+    dispatch(
+      startBackupDevice({
+        secretKey,
+      })
+    ),
   readBackupDeviceDataState: () => dispatch(readBackupDeviceDataState()),
   readRestoreDeviceDataState: () => dispatch(readRestoreDeviceDataState()),
-  startRestoreDevice: (backup: Backup) => dispatch(startRestoreDevice(backup)),
+  startRestoreDevice: (option: StartRestoreOption) =>
+    dispatch(startRestoreDevice(option)),
   // TODO refactor legacy staff
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
     dispatch.phoneUpdate.update(updateInfo),

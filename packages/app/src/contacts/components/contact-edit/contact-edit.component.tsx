@@ -107,6 +107,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     formState: { errors },
     setValue,
     setError,
+    trigger,
   } = useForm({
     defaultValues: contact,
     mode: "onChange",
@@ -145,6 +146,17 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
       })
     }
   }, [validationError])
+
+  useEffect(() => {
+    if (
+      fields.primaryPhoneNumber !== undefined &&
+      fields.secondaryPhoneNumber !== undefined &&
+      fields.primaryPhoneNumber?.length > 0 &&
+      fields.secondaryPhoneNumber?.length > 0
+    ) {
+      trigger()
+    }
+  }, [fields.primaryPhoneNumber, fields.secondaryPhoneNumber])
 
   const savingPossible =
     fields.firstName?.trim() ||

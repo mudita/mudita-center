@@ -12,6 +12,7 @@ import mapToReleases, {
   isTestProductionAlphaRelease,
   isTestProductionRelease,
   getPrerelease,
+  getVersion,
 } from "App/main/utils/map-to-release"
 import OsReleasesManager from "App/main/utils/os-releases-manager"
 
@@ -36,6 +37,15 @@ const githubRelease: GithubRelease = {
     },
   ],
 }
+
+describe("getVersion, function", () => {
+  test("should return the product version from tag name", () => {
+    expect(getVersion("pure_1.2.3")).toEqual("1.2.3")
+    expect(getVersion("bell_1.2.3")).toEqual("1.2.3")
+    expect(getVersion("pure_1.2.3-rc.1")).toEqual("1.2.3-rc.1")
+    expect(getVersion("pure_1.2.3-alpha.1")).toEqual("1.2.3-alpha.1")
+  })
+})
 
 describe("isDraft function", () => {
   test("should return true if release is draft", () => {
@@ -148,7 +158,7 @@ describe("isTestProductionRelease function", () => {
       ...githubRelease,
       tag_name: "0.76.4",
     }
-    expect(isTestProductionRelease(release)).toBeFalsy()
+    expect(isTestProductionRelease(release)).toBeTruthy()
   })
 })
 
@@ -394,7 +404,7 @@ describe("filterRelease util", () => {
 
       const result = await mapToReleases(githubReleases)
 
-      expect(result).toHaveLength(1)
+      expect(result).toHaveLength(2)
       expect(testProductionGithubRelease.tag_name).toContain(result[0].version)
     })
   })
