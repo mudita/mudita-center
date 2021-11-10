@@ -14,7 +14,7 @@ beforeEach(() => {
   axiosMock = new MockAdapter(axios)
 })
 
-test.skip("returns news response properly", async () => {
+test("returns news response properly", async () => {
   const data = {
     response: "ok",
   }
