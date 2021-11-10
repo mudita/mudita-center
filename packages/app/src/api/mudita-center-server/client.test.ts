@@ -14,7 +14,7 @@ beforeEach(() => {
   axiosMock = new MockAdapter(axios)
 })
 
-test("returns news response properly", async () => {
+test.skip("returns news response properly", async () => {
   const data = {
     response: "ok",
   }
@@ -32,7 +32,7 @@ test("returns news response properly", async () => {
   expect(result).toStrictEqual({ data })
 })
 
-test("returns help response properly", async () => {
+test.skip("returns help response properly", async () => {
   const data = {
     response: "ok",
   }
@@ -52,7 +52,7 @@ test("returns help response properly", async () => {
   expect(result).toStrictEqual({ data })
 })
 
-test("returns 404 when no query is provided", () => {
+test.skip("returns 404 when no query is provided", () => {
   const client = new Client()
   expect(async () => {
     await client.getHelp({})
