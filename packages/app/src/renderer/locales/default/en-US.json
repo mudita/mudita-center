@@ -87,7 +87,7 @@
   "component.passcodeModalError": "Wrong passcode",
   "component.passcodeModalErrorTyping": "Passcode contains numbers only",
   "component.passcodeModalHelp": "Forgot passcode?",
-  "component.passcodeModalLocked": "Passcode locked",
+  "component.passcodeModalLocked": "Passcode input locked",
   "component.passcodeModalTitle": "Enter the Passcode to connect your Pure",
   "component.passcodeModalTryAgain": "Please try again",
   "component.supportButton": "Contact support",
