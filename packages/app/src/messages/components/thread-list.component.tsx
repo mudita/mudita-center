@@ -82,6 +82,7 @@ const ThreadList: FunctionComponent<Props> = ({
   getContactByPhoneNumber,
   onContactClick,
   loadMoreRows,
+  ...props
 }) => {
   const sidebarOpened = Boolean(activeThread)
 
@@ -124,6 +125,7 @@ const ThreadList: FunctionComponent<Props> = ({
       noneRowsSelected={noneRowsSelected}
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={sidebarOpened}
+      {...props}
     >
       <InfiniteLoader
         isRowLoaded={isRowLoaded}
