@@ -75,4 +75,5 @@ export default abstract class PurePhoneAdapter {
   public abstract uploadDeviceFileLocally(
     payload: UploadFileLocallyPayload
   ): Promise<DeviceResponse>
+  public abstract removeDeviceFile(filePath: string): Promise<DeviceResponse>
 }

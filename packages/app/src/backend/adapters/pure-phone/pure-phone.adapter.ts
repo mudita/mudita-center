@@ -468,7 +468,7 @@ class PurePhone extends PurePhoneAdapter {
   ): Promise<DeviceResponse<string[]>> {
     const getDiagnosticFileListResponse =
       await this.deviceFileDiagnosticService.getDiagnosticFileList(fileList)
-    
+  
     if (
       getDiagnosticFileListResponse.status !== DeviceResponseStatus.Ok ||
       getDiagnosticFileListResponse.data === undefined
@@ -483,6 +483,25 @@ class PurePhone extends PurePhoneAdapter {
     return {
       data: filePaths,
       status: DeviceResponseStatus.Ok,
+    }
+  }
+
+
+  public async removeDeviceFile(filePath: string): Promise<DeviceResponse> {
+  if (!filePath) {
+
+    return {
+      status: DeviceResponseStatus.Error,
+    }
+  }
+    const { status } = await this.deviceService.request({
+      endpoint: Endpoint.FileSystem,
+      method: Method.Delete,
+      filePath,
+    })
+
+    return {
+      status,
     }
   }
 
