@@ -6,7 +6,11 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { Event } from "App/crash-dump/constants"
-import { setCrashDump, setDownloadedCrashDump } from "./base.action"
+import {
+  setCrashDump,
+  setDownloadedCrashDump,
+  resetCrashDump,
+} from "./base.action"
 
 const mockStore = createMockStore([thunk])()
 
@@ -33,6 +37,18 @@ describe("Action: setDownloadedCrashDump", () => {
       {
         type: Event.SetDownloadCrashDumpPath,
         payload: ["C:/MuditaOs/crash-dumps"],
+      },
+    ])
+  })
+})
+
+describe("Action: resetCrashDump", () => {
+  test("fire action with `ResetCrashDump` type", () => {
+    mockStore.dispatch(resetCrashDump())
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: Event.ResetCrashDump,
+        payload: undefined,
       },
     ])
   })

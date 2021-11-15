@@ -211,7 +211,9 @@ class PurePhone extends PurePhoneAdapter {
     return this.getDeviceFiles(DiagnosticsFileList.CRASH_DUMPS)
   }
 
-  public async downloadDeviceCrashDumpFiles(): Promise<DeviceResponse<string[]>> {
+  public async downloadDeviceCrashDumpFiles(): Promise<
+    DeviceResponse<string[]>
+  > {
     return this.downloadDeviceFilesLocally(DiagnosticsFileList.CRASH_DUMPS)
   }
 
@@ -434,7 +436,7 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   private async downloadDeviceFilesLocally(
-    fileList: DiagnosticsFileList,
+    fileList: DiagnosticsFileList
   ): Promise<DeviceResponse<string[]>> {
     const files = await this.getDeviceFiles(fileList)
 
@@ -445,7 +447,10 @@ class PurePhone extends PurePhoneAdapter {
     }
 
     const downloadDeviceFilesResponse =
-      await this.deviceFileSystemService.downloadLocally(files.data, "crash-dumps")
+      await this.deviceFileSystemService.downloadLocally(
+        files.data,
+        "crash-dumps"
+      )
     const deviceFiles = downloadDeviceFilesResponse.data
 
     if (
@@ -464,11 +469,11 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   private async getDeviceFiles(
-    fileList: DiagnosticsFileList,
+    fileList: DiagnosticsFileList
   ): Promise<DeviceResponse<string[]>> {
     const getDiagnosticFileListResponse =
       await this.deviceFileDiagnosticService.getDiagnosticFileList(fileList)
-  
+
     if (
       getDiagnosticFileListResponse.status !== DeviceResponseStatus.Ok ||
       getDiagnosticFileListResponse.data === undefined
@@ -486,18 +491,19 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
-
-  public async removeDeviceFile(filePath: string): Promise<DeviceResponse> {
-  if (!filePath) {
-
-    return {
-      status: DeviceResponseStatus.Error,
+  public async removeDeviceFile(removeFile: string): Promise<DeviceResponse> {
+    if (!removeFile) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
     }
-  }
+
     const { status } = await this.deviceService.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Delete,
-      filePath,
+      body: {
+        removeFile,
+      },
     })
 
     return {

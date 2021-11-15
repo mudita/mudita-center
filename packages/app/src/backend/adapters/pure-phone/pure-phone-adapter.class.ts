@@ -46,7 +46,9 @@ export default abstract class PurePhoneAdapter {
   public abstract getDeviceCrashDumpFiles(
     option?: DeviceFilesOption
   ): Promise<DeviceResponse<string[]>>
-  public abstract downloadDeviceCrashDumpFiles(): Promise<DeviceResponse<string[]>>
+  public abstract downloadDeviceCrashDumpFiles(): Promise<
+    DeviceResponse<string[]>
+  >
   public abstract updateOs(
     filePath: string,
     progressChannel?: string
@@ -75,5 +77,5 @@ export default abstract class PurePhoneAdapter {
   public abstract uploadDeviceFileLocally(
     payload: UploadFileLocallyPayload
   ): Promise<DeviceResponse>
-  public abstract removeDeviceFile(filePath: string): Promise<DeviceResponse>
+  public abstract removeDeviceFile(removeFile: string): Promise<DeviceResponse>
 }

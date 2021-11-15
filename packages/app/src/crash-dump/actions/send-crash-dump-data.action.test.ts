@@ -6,6 +6,7 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
+import { pendingAction } from "Renderer/store/helpers"
 import { uploadFileRequest } from "App/uploader"
 import readFile from "App/files-system/requests/read-file.request"
 import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.action"
@@ -13,10 +14,16 @@ import { SendingCrashDumpError } from "App/crash-dump/errors"
 import { DeviceConnectionError } from "App/device"
 import { testError } from "App/renderer/store/constants"
 
-jest.mock("App/uploader")
-jest.mock("App/files-system/requests/read-file.request")
-
 const crashDumpsMock: string[] = ["/pure/logs/crash-dumps/file.hex"]
+
+jest.mock("App/uploader")
+jest.mock("App/device-file-system", () => ({
+  removeFile: jest.fn().mockReturnValue({
+    type: pendingAction("DEVICE_FILE_SYSTEM_REMOVE"),
+    payload: crashDumpsMock,
+  }),
+}))
+jest.mock("App/files-system/requests/read-file.request")
 
 describe("Crash dumps doesn't downloaded", () => {
   test("fire async `sendCrashDumpData` returns `undefined`", async () => {
@@ -82,6 +89,7 @@ describe("Crash dumps downloaded", () => {
       },
       crashDump: {
         data: {
+          files: crashDumpsMock,
           downloadedFiles: crashDumpsMock,
         },
       },
@@ -93,6 +101,14 @@ describe("Crash dumps downloaded", () => {
 
     expect(mockStore.getActions()).toEqual([
       sendCrashDumpData.pending(requestId),
+      {
+        payload: undefined,
+        type: "DEVICE_FILE_SYSTEM_REMOVE/pending",
+      },
+      {
+        payload: undefined,
+        type: "RESET_CRASH_DUMP",
+      },
       sendCrashDumpData.fulfilled(undefined, requestId),
     ])
 
@@ -114,6 +130,7 @@ describe("Upload Data To FTP Request returns `error` status", () => {
       },
       crashDump: {
         data: {
+          files: crashDumpsMock,
           downloadedFiles: crashDumpsMock,
         },
       },
@@ -145,6 +162,7 @@ describe("Create Freshdesk Ticket returns `error` status", () => {
       },
       crashDump: {
         data: {
+          files: crashDumpsMock,
           downloadedFiles: crashDumpsMock,
         },
       },
