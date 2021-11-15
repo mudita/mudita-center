@@ -29,10 +29,6 @@ import { DeviceImage } from "App/overview/components/device-preview/device-image
 
 const DeviceSystemButton = styled(Button)`
   width: auto;
-  span {
-    margin: 0;
-    margin-right: ;
-  }
 `
 
 export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
