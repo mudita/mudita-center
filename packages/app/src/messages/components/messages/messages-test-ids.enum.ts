@@ -4,6 +4,8 @@
  */
 
 export enum MessagesTestIds {
+  EmptyThreadListState = "messages-empty-thread-list-state",
+  ThreadList = "messages-thread-list",
   ThreadDetails = "messages-thread-details",
   NewMessageForm = "messages-new-message-form",
 }
