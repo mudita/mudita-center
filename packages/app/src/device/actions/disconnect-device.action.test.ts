@@ -12,11 +12,15 @@ import { disconnectDevice } from "App/device/actions/disconnect-device.action"
 import { DeviceDisconnectionError } from "App/device/errors"
 import disconnectDeviceRequest from "Renderer/requests/disconnect-device.request"
 import { testError } from "App/renderer/store/constants"
+import { RestoreDeviceDataState } from "App/restore-device/reducers"
 
 const mockStore = createMockStore([thunk])({
   device: {
     updatingState: null,
   },
+  restoreDevice: {
+    state: RestoreDeviceDataState.Empty
+  }
 })
 
 jest.mock("Renderer/requests/disconnect-device.request")
@@ -30,6 +34,20 @@ describe("Device with updatingState different than `null`", () => {
     const store = createMockStore([thunk])({
       device: {
         updatingState: UpdatingState.Updating,
+      },
+    })
+
+    await store.dispatch(disconnectDevice() as unknown as AnyAction)
+
+    expect(disconnectDeviceRequest).not.toHaveBeenCalled()
+  })
+})
+
+describe("`restoreDevice` is set to running", () => {
+  test("do not call `disconnectDevice`", async () => {
+    const store = createMockStore([thunk])({
+      restoreDevice: {
+        state: RestoreDeviceDataState.Running,
       },
     })
 

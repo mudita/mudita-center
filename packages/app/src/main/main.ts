@@ -25,7 +25,7 @@ import registerCopyFileListener from "App/main/functions/register-copy-file-list
 import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/main/functions/register-archive-files-listener"
-import registerReadFileListener from "App/main/functions/register-read-file-listener"
+import registerReadFileListener from "App/files-system/listeners/read-file-listener"
 import registerGetApplicationConfigurationListener from "App/main/functions/register-get-application-configuration-listener"
 import registerGetFileDataListener from "App/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
@@ -164,7 +164,6 @@ const createWindow = async () => {
   registerReadFileListener()
   registerDecryptFileListener()
   registerPureOsDownloadProxy()
-  registerReadFileListener()
   registerUploadFileListener()
 
   if (productionEnvironment) {

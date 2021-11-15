@@ -8,7 +8,7 @@ import { ipcRenderer } from "electron-better-ipc"
 
 export const uploadFileRequest = async (data: {
   fileName: string
-  buffer: Buffer
+  buffer: Uint8Array
   serialNumber: string
 }): Promise<any> => {
   return ipcRenderer.callMain(IpcUploader.UploadFile, data)
