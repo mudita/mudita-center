@@ -9,4 +9,5 @@ export enum Event {
   DownloadCrashDump = "DOWNLOAD_CRASH_DUMP",
   SetDownloadCrashDumpPath = "SET_DOWNLOAD_CRASH_DUMP_PATH",
   SendCrashDump = "SEND_CRASH_DUMP",
+  ResetCrashDump = "RESET_CRASH_DUMP",
 }

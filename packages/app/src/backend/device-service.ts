@@ -38,6 +38,8 @@ import {
   StartRestoreRequestConfig,
   GetRestoreDeviceStatusRequestConfig,
   GetRestoreDeviceStatusResponseBody,
+  RemoveFileSystemRequestConfig,
+  RemoveFileSystemResponse,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
@@ -179,6 +181,9 @@ class DeviceService {
   public request(
     config: GetRestoreDeviceStatusRequestConfig
   ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>>
+  public request(
+    config: RemoveFileSystemRequestConfig
+  ): Promise<DeviceResponse<RemoveFileSystemResponse>>
   async request(
     config: RequestConfig<any>
   ): Promise<DeviceResponse<unknown> | DeviceResponse<undefined>> {

@@ -152,4 +152,13 @@ describe("Downloading crush dumps functionality", () => {
       },
     })
   })
+
+  test("Event: ResetCrashDump set crash dump state to initial", () => {
+    expect(
+      crashDumpReducer(undefined, {
+        type: Event.ResetCrashDump,
+        payload: undefined,
+      })
+    ).toEqual(initialState)
+  })
 })

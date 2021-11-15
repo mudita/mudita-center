@@ -51,6 +51,7 @@ import registerGetBackupDeviceStatusRequest from "Backend/requests/get-backup-de
 import registerStartRestoreDeviceRequest from "Backend/requests/start-restore-device/start-restore-device.request"
 import registerGetRestoreDeviceStatusRequest from "Backend/requests/get-restore-device-status/get-restore-device-status.request"
 import registerDownloadDeviceCrashDumpFiles from "App/backend/requests/download-crash-dump-files/download-crash-dump-files.request"
+import { registerFileSystemRemoveRequest } from "App/device-file-system"
 
 const bootstrap = (
   deviceManager: MuditaDeviceManager,
@@ -110,6 +111,7 @@ const bootstrap = (
     registerStartRestoreDeviceRequest,
     registerGetRestoreDeviceStatusRequest,
     registerDownloadDeviceCrashDumpFiles,
+    registerFileSystemRemoveRequest,
   ]
 
   new Backend(adapters, getFakeAdapters(), requests).init()
