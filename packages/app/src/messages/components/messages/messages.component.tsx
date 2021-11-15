@@ -5,7 +5,10 @@
 
 import React, { useEffect, useState } from "react"
 import { defineMessages } from "react-intl"
-import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
+import {
+  EmptyState,
+  TableWithSidebarWrapper,
+} from "Renderer/components/core/table/table.component"
 import ThreadList from "App/messages/components/thread-list.component"
 import { ComponentProps as MessagesComponentProps } from "App/messages/components/messages/messages.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -43,10 +46,16 @@ import { PayloadAction } from "@reduxjs/toolkit"
 import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { IndexRange } from "react-virtualized"
 
-const deleteModalMessages = defineMessages({
-  title: { id: "module.messages.deleteModalTitle" },
-  body: {
+const messages = defineMessages({
+  deleteModalTitle: { id: "module.messages.deleteModalTitle" },
+  deleteModalBody: {
     id: "module.messages.deleteModalBody",
+  },
+  emptyListTitle: {
+    id: "module.messages.emptyListTitle",
+  },
+  emptyListDescription: {
+    id: "module.messages.emptyListDescription",
   },
 })
 
@@ -185,7 +194,7 @@ const Messages: FunctionComponent<Props> = ({
     const thread = threads.find(findById) as Thread
 
     return {
-      ...deleteModalMessages.body,
+      ...messages.deleteModalBody,
       values: {
         caller: getPrettyCaller(
           getContactByPhoneNumber(thread.phoneNumber),
@@ -198,7 +207,7 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const remove = (ids: string[]) => {
-    const title = intl.formatMessage(deleteModalMessages.title)
+    const title = intl.formatMessage(messages.deleteModalTitle)
     const message = getDeletingMessage(ids)
     const onDelete = () => {
       deleteThreads(ids)
@@ -423,19 +432,30 @@ const Messages: FunctionComponent<Props> = ({
         onNewMessageClick={handleNewMessageClick}
       />
       <TableWithSidebarWrapper>
-        <ThreadList
-          threadsTotalCount={getThreadsTotalCount()}
-          language={language}
-          activeThread={activeThread}
-          threads={getThreads()}
-          onThreadClick={handleThreadClick}
-          getContactByPhoneNumber={getContactByPhoneNumber}
-          onDeleteClick={removeSingleConversation}
-          onToggleReadStatus={toggleReadStatus}
-          onContactClick={contactClick}
-          loadMoreRows={loadMoreRows}
-          {...rest}
-        />
+        {threads.length === 0 &&
+        messagesState !== MessagesState.NewMessage &&
+        messagesState !== MessagesState.ThreadDetails ? (
+          <EmptyState
+            data-testid={MessagesTestIds.EmptyThreadListState}
+            title={messages.emptyListTitle}
+            description={messages.emptyListDescription}
+          />
+        ) : (
+          <ThreadList
+            data-testid={MessagesTestIds.ThreadList}
+            threadsTotalCount={getThreadsTotalCount()}
+            language={language}
+            activeThread={activeThread}
+            threads={getThreads()}
+            onThreadClick={handleThreadClick}
+            getContactByPhoneNumber={getContactByPhoneNumber}
+            onDeleteClick={removeSingleConversation}
+            onToggleReadStatus={toggleReadStatus}
+            onContactClick={contactClick}
+            loadMoreRows={loadMoreRows}
+            {...rest}
+          />
+        )}
         {messagesState === MessagesState.ThreadDetails && activeThread && (
           <ThreadDetails
             data-testid={MessagesTestIds.ThreadDetails}
