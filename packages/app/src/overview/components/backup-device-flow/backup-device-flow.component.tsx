@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, useState } from "react"
+import React, { ComponentProps, useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   BackupFailureModal,
@@ -45,6 +45,10 @@ const BackupDeviceFlow: FunctionComponent<Props> = ({
   const startBackupDeviceButtonClick = (secretKey = ""): void => {
     onStartBackupDeviceButtonClick(secretKey)
   }
+
+  useEffect(() => {
+    setState(openState)
+  }, [openState])
 
   return (
     <>
