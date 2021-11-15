@@ -10,6 +10,7 @@ import disconnectDeviceRequest from "Renderer/requests/disconnect-device.request
 import { setConnectionStatus } from "App/device/actions/base.action"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { DeviceDisconnectionError } from "App/device/errors"
+import { RestoreDeviceDataState } from "App/restore-device/reducers"
 
 export const disconnectDevice = createAsyncThunk(
   DeviceEvent.Disconnected,
@@ -17,6 +18,10 @@ export const disconnectDevice = createAsyncThunk(
     const state = getState() as ReduxRootState
 
     if (state.device.updatingState === UpdatingState.Updating) {
+      return
+    }
+
+    if (state.restoreDevice.state === RestoreDeviceDataState.Running) {
       return
     }
 
