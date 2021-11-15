@@ -104,14 +104,14 @@ describe("`BackupDeviceFlow` component", () => {
       ).not.toBeInTheDocument()
     })
 
-    test("`ErrorConnectingModal` is displayed if timeout pass ", () => {
+    test("`ErrorConnectingModal` isn't displayed if timeout pass ", () => {
       const { queryByTestId } = render(extraProps)
       act(() => {
         jest.runAllTimers()
       })
       expect(
         queryByTestId(ErrorConnectingModalTestIds.Container)
-      ).toBeInTheDocument()
+      ).not.toBeInTheDocument()
     })
   })
 })
