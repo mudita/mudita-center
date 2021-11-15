@@ -7,14 +7,14 @@ import "@testing-library/jest-dom/extend-expect"
 import React, { ComponentProps } from "react"
 import { fireEvent } from "@testing-library/react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { PasswordInput } from "App/ui/components/password-field/password-filed.component"
+import { PasswordField } from "App/ui/components/password-field/password-filed.component"
 import { PasswordFieldTestIds } from "App/ui/components/password-field/password-field-test-ids.enum"
 
-const renderPasswordInput = (props: ComponentProps<typeof PasswordInput>) =>
-  renderWithThemeAndIntl(<PasswordInput {...props} />)
+const renderPasswordField = (props: ComponentProps<typeof PasswordField>) =>
+  renderWithThemeAndIntl(<PasswordField {...props} />)
 
 test("renders provided label", () => {
-  const { getByTestId } = renderPasswordInput({
+  const { getByTestId } = renderPasswordField({
     label: { id: "module.overview.backupSetSecretKeyModalInputLabel" },
   })
 
@@ -24,7 +24,7 @@ test("renders provided label", () => {
 })
 
 test("disable show/hide password functionality", () => {
-  const { queryByTestId } = renderPasswordInput({
+  const { queryByTestId } = renderPasswordField({
     label: { id: "module.overview.backupSetSecretKeyModalInputLabel" },
     showPassword: false,
   })
@@ -36,7 +36,7 @@ test("disable show/hide password functionality", () => {
 })
 
 test("changing input type on visibility icon click", () => {
-  const { getByTestId } = renderPasswordInput({
+  const { getByTestId } = renderPasswordField({
     label: { id: "module.overview.backupSetSecretKeyModalInputLabel" },
   })
   const visibilityButton = getByTestId(PasswordFieldTestIds.VisibilityButton)

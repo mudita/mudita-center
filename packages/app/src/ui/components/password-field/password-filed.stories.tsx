@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import { Meta } from "@storybook/react"
-import { PasswordInput } from "App/ui/components/password-field/password-filed.component"
+import { PasswordField } from "App/ui/components/password-field/password-filed.component"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 import { css } from "styled-components"
@@ -18,30 +18,30 @@ const storyContainerStyle = css`
   }
 `
 
-type Props = ComponentProps<typeof PasswordInput> & { storyTitle: string }
+type Props = ComponentProps<typeof PasswordField> & { storyTitle: string }
 
 const Template: StoryInterface<Props> = (args) => {
   return (
     <StoryContainer column customStyle={storyContainerStyle}>
       <Story title={args.storyTitle} transparentMode>
-        <PasswordInput label={args.label} errorMessage={args.errorMessage} />
+        <PasswordField label={args.label} errorMessage={args.errorMessage} />
       </Story>
     </StoryContainer>
   )
 }
 
-export const DefaultPasswordInput = Template.bind({})
-DefaultPasswordInput.args = {
+export const DefaultPasswordField = Template.bind({})
+DefaultPasswordField.args = {
   label: { id: "password" },
 }
 
-export const ErrorPasswordInput = Template.bind({})
-ErrorPasswordInput.args = {
+export const ErrorPasswordField = Template.bind({})
+ErrorPasswordField.args = {
   label: { id: "password" },
   errorMessage: "Passwords doesn't match",
 }
 
 export default {
   title: "UI|Input/Password",
-  component: PasswordInput,
+  component: PasswordField,
 } as Meta

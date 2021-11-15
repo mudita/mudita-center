@@ -19,7 +19,7 @@ import {
 import Button from "Renderer/components/core/button/button.component"
 import { FieldValues, useForm } from "react-hook-form"
 
-import { PasswordInput } from "App/ui"
+import { PasswordField } from "App/ui"
 
 enum FieldKeys {
   SecretKey = "secretKey",
@@ -47,8 +47,11 @@ const messages = defineMessages({
   backupSetConfirmationSecretKeyModalInputLabel: {
     id: "module.overview.backupSetConfirmationSecretKeyModalInputLabel",
   },
-  backupPasswordConfirmationDoesntMatch: {
-    id: "module.overview.backupPasswordConfirmationDoesntMatch",
+  backupSecretKeyConfirmationDoesntMatch: {
+    id: "module.overview.backupSecretKeyConfirmationDoesntMatch",
+  },
+  backupSecretKeyRequired: {
+    id: "module.overview.backupSecretKeyRequired",
   },
 })
 
@@ -125,22 +128,31 @@ export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalP
           message={messages.backupSetSecretKeyModalDescription}
         />
         <Form onSubmit={handleSubmitClick}>
-          <PasswordInput
+          <PasswordField
             label={messages.backupSetSecretKeyModalInputLabel}
             errorMessage={errors[FieldKeys.SecretKey]?.message}
-            {...register(FieldKeys.SecretKey)}
+            {...register(FieldKeys.SecretKey, {
+              required: {
+                value: true,
+                message: intl.formatMessage(messages.backupSecretKeyRequired),
+              },
+            })}
           />
-          <PasswordInput
+          <PasswordField
             label={messages.backupSetConfirmationSecretKeyModalInputLabel}
             errorMessage={errors[FieldKeys.ConfirmationSecretKey]?.message}
             {...register(FieldKeys.ConfirmationSecretKey, {
+              required: {
+                value: true,
+                message: intl.formatMessage(messages.backupSecretKeyRequired),
+              },
               validate: (value): string | undefined => {
                 if (value === fields[FieldKeys.SecretKey]) {
                   return
                 }
 
                 return intl.formatMessage(
-                  messages.backupPasswordConfirmationDoesntMatch
+                  messages.backupSecretKeyConfirmationDoesntMatch
                 )
               },
             })}

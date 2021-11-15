@@ -16,7 +16,7 @@ import {
   IconWrapper,
 } from "App/ui/components/password-field/password-field.styled"
 
-interface PasswordInputProps {
+interface PasswordFieldProps {
   errorMessage?: string
   showPassword?: boolean
   label: {
@@ -24,7 +24,7 @@ interface PasswordInputProps {
   }
 }
 
-export const PasswordInput: FunctionComponent<PasswordInputProps> = ({
+export const PasswordField: FunctionComponent<PasswordFieldProps> = ({
   label,
   errorMessage,
   showPassword = true,
