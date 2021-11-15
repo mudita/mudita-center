@@ -45,9 +45,7 @@ export const startRestoreDevice = createAsyncThunk<
     const buffer = await readFile(backup.filePath)
 
     if (buffer === undefined) {
-      return rejectWithValue(
-        new StartRestoreDeviceError("Read File fails")
-      )
+      return rejectWithValue(new StartRestoreDeviceError("Read File fails"))
     }
 
     const decryptedBuffer = await decryptFile({

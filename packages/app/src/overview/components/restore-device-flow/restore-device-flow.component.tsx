@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, useState } from "react"
+import React, { ComponentProps, useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   RestoreFailureModal,
@@ -56,6 +56,10 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
       onStartRestoreDeviceButtonClick({ backup: activeBackup, secretKey })
     }
   }
+
+  useEffect(() => {
+    setState(openState)
+  }, [openState])
 
   return (
     <>
