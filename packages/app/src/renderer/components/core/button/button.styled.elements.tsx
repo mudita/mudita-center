@@ -128,6 +128,7 @@ const buttonStyles = css<{
           ${disabled && disabledSecondaryStyles};
           &:hover {
             border-color: ${borderColor("primary")};
+            background: ${backgroundColor("minor")};
           }
         `
       case DisplayStyle.IconOnly1:
