@@ -28,7 +28,11 @@ import { flags, Feature } from "App/feature-flags"
 import { DeviceImage } from "App/overview/components/device-preview/device-image.component"
 
 const DeviceSystemButton = styled(Button)`
-  width: 50%;
+  width: auto;
+  span {
+    margin: 0;
+    margin-right: ;
+  }
 `
 
 export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
