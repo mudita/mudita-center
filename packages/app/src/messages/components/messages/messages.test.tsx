@@ -85,10 +85,10 @@ beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 type Props = ComponentProps<typeof Messages>
 
 const defaultProps: Props = {
-  threadsTotalCount: 1,
-  threadsState: ResultState.Loaded,
-  threads: [firstThread],
-  receivers: [receiver],
+  threadsTotalCount: 0,
+  threadsState: ResultState.Empty,
+  threads: [],
+  receivers: [],
   searchValue: "",
   language: "en",
   loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
@@ -103,6 +103,14 @@ const defaultProps: Props = {
   loadMessagesByThreadId: jest.fn(),
   isContactCreatedByPhoneNumber: jest.fn(),
   attachContactList: [],
+  attachContactFlatList: [],
+}
+
+const propsWithSingleThread: Partial<Props> = {
+  threadsTotalCount: 1,
+  threadsState: ResultState.Loaded,
+  threads: [firstThread],
+  receivers: [receiver],
   attachContactFlatList: [contact],
 }
 
@@ -161,11 +169,6 @@ describe("Messages component", () => {
   describe("when component is render with defaults props", () => {
     test("length of thread list should be correct", () => {
       const { queryByTestId } = renderer()
-      expect(queryByTestId(ThreadListTestIds.Row)).toBeInTheDocument()
-    })
-
-    test("length of passed empty thread list should be equal 0", () => {
-      const { queryByTestId } = renderer({ threads: [], threadsTotalCount: 0 })
       expect(queryByTestId(ThreadListTestIds.Row)).not.toBeInTheDocument()
     })
 
@@ -179,13 +182,6 @@ describe("Messages component", () => {
       ).not.toBeInTheDocument()
     })
 
-    test("clicked thread row display ThreadDetails", () => {
-      const { queryAllByTestId, queryByTestId } = renderer()
-      const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
-      fireEvent.click(tableRow)
-      expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
-    })
-
     test("clicked new message button display NewMessageForm", () => {
       const { queryByTestId } = renderer()
       const button = queryByTestId(
@@ -194,10 +190,72 @@ describe("Messages component", () => {
       fireEvent.click(button)
       expect(queryByTestId(MessagesTestIds.NewMessageForm)).toBeInTheDocument()
     })
+
+    test("`EmptyState` component is displayed when no threads is loaded", () => {
+      const { queryByTestId } = renderer()
+
+      expect(
+        queryByTestId(MessagesTestIds.EmptyThreadListState)
+      ).toBeInTheDocument()
+      expect(queryByTestId(MessagesTestIds.ThreadList)).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when component is render with loaded single thread", () => {
+    const extraProps: Partial<Props> = {
+      ...propsWithSingleThread,
+    }
+    test("length of thread list should be correct", () => {
+      const { queryByTestId } = renderer(extraProps)
+      expect(queryByTestId(ThreadListTestIds.Row)).toBeInTheDocument()
+    })
+
+    test("length of passed empty thread list should be equal 0", () => {
+      const { queryByTestId } = renderer({ threads: [], threadsTotalCount: 0 })
+      expect(queryByTestId(ThreadListTestIds.Row)).not.toBeInTheDocument()
+    })
+
+    test("any sidebar isn't open", () => {
+      const { queryByTestId } = renderer(extraProps)
+      expect(
+        queryByTestId(MessagesTestIds.ThreadDetails)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(MessagesTestIds.NewMessageForm)
+      ).not.toBeInTheDocument()
+    })
+
+    test("clicked thread row display ThreadDetails", () => {
+      const { queryAllByTestId, queryByTestId } = renderer(extraProps)
+      const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
+      fireEvent.click(tableRow)
+      expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+    })
+
+    test("clicked new message button display NewMessageForm", () => {
+      const { queryByTestId } = renderer(extraProps)
+      const button = queryByTestId(
+        MessagePanelTestIds.NewMessageButton
+      ) as HTMLElement
+      fireEvent.click(button)
+      expect(queryByTestId(MessagesTestIds.NewMessageForm)).toBeInTheDocument()
+    })
+
+    test("`EmptyState` component isn't displayed when threads is loaded", () => {
+      const { queryByTestId } = renderer(extraProps)
+
+      expect(
+        queryByTestId(MessagesTestIds.EmptyThreadListState)
+      ).not.toBeInTheDocument()
+      expect(queryByTestId(MessagesTestIds.ThreadList)).toBeInTheDocument()
+    })
   })
 
   describe("when ThreadDetails is open", () => {
-    const renderProps: RenderProps = { callbacks: [setThreadDetailsState] }
+    const renderProps: RenderProps = {
+      callbacks: [setThreadDetailsState],
+      ...propsWithSingleThread,
+    }
 
     test("value of new message text area is empty", () => {
       const { queryByTestId } = renderer(renderProps)
@@ -235,10 +293,21 @@ describe("Messages component", () => {
       fireEvent.click(button)
       expect(queryByTestId(MessagesTestIds.NewMessageForm)).toBeInTheDocument()
     })
+
+    test("`EmptyState` component isn't displayed when no threads is loaded", () => {
+      const { queryByTestId } = renderer(renderProps)
+
+      expect(
+        queryByTestId(MessagesTestIds.EmptyThreadListState)
+      ).not.toBeInTheDocument()
+    })
   })
 
   describe("when NewMessageForm is open", () => {
-    const renderProps: RenderProps = { callbacks: [setNewMessageState] }
+    const renderProps: RenderProps = {
+      callbacks: [setNewMessageState],
+      ...propsWithSingleThread,
+    }
 
     test("length of thread list is increased by 1 (tmp thread)", async () => {
       const { queryByTestId } = renderer({
@@ -334,11 +403,21 @@ describe("Messages component", () => {
       fireEvent.click(tableRow)
       expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
     })
+
+    test("`EmptyState` component isn't displayed when no threads is loaded", () => {
+      const { queryByTestId } = renderer(renderProps)
+
+      expect(
+        queryByTestId(MessagesTestIds.EmptyThreadListState)
+      ).not.toBeInTheDocument()
+      expect(queryByTestId(MessagesTestIds.ThreadList)).toBeInTheDocument()
+    })
   })
 
   describe("when ThreadDetails is open with some content", () => {
     const renderProps: RenderProps = {
       callbacks: [setThreadDetailsState, setMockContent],
+      ...propsWithSingleThread,
     }
 
     test("value of new message text area is mocked", () => {
@@ -408,6 +487,7 @@ describe("Messages component", () => {
   describe("when NewMessageForm is open with some content (without chose receiver)", () => {
     const renderProps: RenderProps = {
       callbacks: [setNewMessageState, setMockContent],
+      ...propsWithSingleThread,
     }
 
     test("value of new message text area is mocked", () => {
@@ -431,6 +511,7 @@ describe("Messages component", () => {
   describe("when NewMessageForm is open with some content and receiver number is put", () => {
     const renderProps: RenderProps = {
       callbacks: [setNewMessageState, setMockContent, putReceiverNumber],
+      ...propsWithSingleThread,
     }
 
     test("component emit addNewMessage event when Send Button is clicked ", () => {
@@ -476,7 +557,7 @@ describe("Messages component", () => {
   })
 
   test("when at least one checkbox is checked, all checkboxes are visible", () => {
-    const { getAllByTestId } = renderer()
+    const { getAllByTestId } = renderer(propsWithSingleThread)
     const checkboxes = getAllByTestId("checkbox")
     checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
     fireEvent.click(checkboxes[0])
@@ -484,7 +565,7 @@ describe("Messages component", () => {
   })
 
   test("dropdown call button has correct content", () => {
-    const { getAllByTestId } = renderer()
+    const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-call")[0]).toHaveTextContent(
       intl.formatMessage(
         {
@@ -496,13 +577,16 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown call buttons", () => {
-    const { getByTestId } = renderer()
+    const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-call")).toBeInTheDocument()
   })
 
   test("dropdown contact details button has correct content", () => {
     const getContactByPhoneNumber = jest.fn().mockReturnValue(contact)
-    const { getAllByTestId } = renderer({ getContactByPhoneNumber })
+    const { getAllByTestId } = renderer({
+      getContactByPhoneNumber,
+      ...propsWithSingleThread,
+    })
     expect(getAllByTestId("dropdown-contact-details")[0]).toHaveTextContent(
       intl.formatMessage({
         id: "module.messages.dropdownContactDetails",
@@ -512,7 +596,10 @@ describe("Messages component", () => {
 
   test("displays correct amount of dropdown contact details buttons for contacts", () => {
     const getContactByPhoneNumber = jest.fn().mockReturnValue(contact)
-    const { getByTestId } = renderer({ getContactByPhoneNumber })
+    const { getByTestId } = renderer({
+      getContactByPhoneNumber,
+      ...propsWithSingleThread,
+    })
     expect(getByTestId("dropdown-contact-details")).toBeInTheDocument()
   })
 
@@ -525,13 +612,14 @@ describe("Messages component", () => {
         primaryPhoneNumber: unknownContact.primaryPhoneNumber,
       }),
       isContactCreatedByPhoneNumber: jest.fn().mockReturnValue(false),
+      ...propsWithSingleThread,
     })
     expect(queryAllByTestId("dropdown-add-to-contacts")[0]).toBeInTheDocument()
   })
 
   test("dropdown mark as read button has correct content ", () => {
     jest.spyOn(flags, "get").mockReturnValueOnce(false)
-    const { getAllByTestId } = renderer()
+    const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
       intl.formatMessage({
         id: "module.messages.markAsRead",
@@ -541,13 +629,13 @@ describe("Messages component", () => {
 
   test("displays correct amount of dropdown mark as read buttons", () => {
     jest.spyOn(flags, "get").mockReturnValueOnce(false)
-    const { getByTestId } = renderer()
+    const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-mark-as-read")).toBeInTheDocument()
   })
 
   test("dropdown delete button has correct content", () => {
     jest.spyOn(flags, "get").mockReturnValueOnce(true)
-    const { getAllByTestId } = renderer()
+    const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
       intl.formatMessage({
         id: "module.messages.dropdownDelete",
@@ -557,7 +645,7 @@ describe("Messages component", () => {
 
   test("displays correct amount of dropdown delete buttons", () => {
     jest.spyOn(flags, "get").mockReturnValueOnce(true)
-    const { getByTestId } = renderer()
+    const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-delete")).toBeInTheDocument()
   })
 })

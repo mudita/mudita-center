@@ -350,6 +350,8 @@
   "module.messages.dropdownContactDetails": "Contact Details",
   "module.messages.dropdownDelete": "Delete Conversation",
   "module.messages.dropdownMarkAsRead": "Mark as read",
+  "module.messages.emptyListTitle": "You don't have any messages yet",
+  "module.messages.emptyListDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   "module.messages.loadingThreadModalErrorBody": "Something went wrong",
   "module.messages.markAsRead": "Mark as read",
   "module.messages.markAsUnread": "Mark as unread",
