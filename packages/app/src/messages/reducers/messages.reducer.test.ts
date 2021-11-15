@@ -281,6 +281,39 @@ describe("Set Messages data functionality", () => {
       },
     })
   })
+
+  test("Event: SetMessages extends properly an existing maps when message was deleted ", () => {
+    const secondMessage: Message = { ...message, id: "2" }
+
+    const setMessagesAction: PayloadAction<Message[]> = {
+      type: MessagesEvent.SetMessages,
+      payload: [message],
+    }
+
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          messageMap: {
+            [message.id]: message,
+            [secondMessage.id]: secondMessage,
+          },
+          messageIdsInThreadMap: {
+            [message.threadId]: [message.id, secondMessage.id],
+          },
+        },
+        setMessagesAction
+      )
+    ).toEqual({
+      ...initialState,
+      messageMap: {
+        [message.id]: message,
+      },
+      messageIdsInThreadMap: {
+        [message.threadId]: [message.id],
+      },
+    })
+  })
 })
 
 describe("Toggle Thread Read Status data functionality", () => {
