@@ -51,6 +51,8 @@ const Threads = styled(Table)<{
     `};
 `
 
+const listContainerStyle: React.CSSProperties = { minHeight: "100%" }
+
 type SelectHook = Pick<
   UseTableSelect<Thread>,
   "getRowStatus" | "toggleRow" | "noneRowsSelected"
@@ -121,6 +123,7 @@ const ThreadList: FunctionComponent<Props> = ({
 
   return (
     <Threads
+      scrollable={false}
       noneRowsSelected={noneRowsSelected}
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={sidebarOpened}
@@ -141,6 +144,7 @@ const ThreadList: FunctionComponent<Props> = ({
                 rowHeight={90}
                 onRowsRendered={onRowsRendered}
                 registerChild={registerChild}
+                containerStyle={listContainerStyle}
               />
             )}
           </AutoSizer>
