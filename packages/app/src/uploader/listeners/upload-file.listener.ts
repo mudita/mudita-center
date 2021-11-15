@@ -21,7 +21,7 @@ const bucketName = process.env.S3_BUCKET
 
 export interface UploaderData {
   fileName: string
-  buffer: Buffer
+  buffer: Uint8Array
   serialNumber: string
 }
 

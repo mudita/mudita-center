@@ -56,6 +56,10 @@ const Connecting: FunctionComponent<{
   }, [loaded, unlocked, initialModalsShowed])
 
   useEffect(() => {
+    if(unlocked !== null) {
+      return
+    }
+
     let mounted = true
     const timeout = setTimeout(() => {
       if (mounted) {
@@ -68,7 +72,7 @@ const Connecting: FunctionComponent<{
       mounted = false
       clearTimeout(timeout)
     }
-  }, [loaded])
+  }, [unlocked])
 
   useEffect(() => {
     registerFirstPhoneConnection()
