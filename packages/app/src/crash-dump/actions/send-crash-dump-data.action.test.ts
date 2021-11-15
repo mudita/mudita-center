@@ -7,14 +7,14 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { uploadFileRequest } from "App/uploader"
-import readFile from "App/renderer/requests/read-file.request"
+import readFile from "App/files-system/requests/read-file.request"
 import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.action"
 import { SendingCrashDumpError } from "App/crash-dump/errors"
 import { DeviceConnectionError } from "App/device"
 import { testError } from "App/renderer/store/constants"
 
 jest.mock("App/uploader")
-jest.mock("App/renderer/requests/read-file.request")
+jest.mock("App/files-system/requests/read-file.request")
 
 const crashDumpsMock: string[] = ["/pure/logs/crash-dumps/file.hex"]
 
@@ -96,7 +96,7 @@ describe("Crash dumps downloaded", () => {
       sendCrashDumpData.fulfilled(undefined, requestId),
     ])
 
-    expect(readFile).toHaveBeenCalledWith({ file: crashDumpsMock[0] })
+    expect(readFile).toHaveBeenCalledWith(crashDumpsMock[0])
     expect(uploadFileRequest).toHaveBeenCalled()
   })
 })
