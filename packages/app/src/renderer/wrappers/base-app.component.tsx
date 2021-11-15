@@ -149,12 +149,14 @@ const BaseApp: FunctionComponent<Props> = ({
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
     pureFeaturesVisible:
-      (state.device.status.connected && !state.device.status.locked) ||
+      (state.device.status.connected &&
+        Boolean(state.device.status.unlocked)) ||
       state.device.updatingState === UpdatingState.Updating ||
       state.restoreDevice.state === RestoreDeviceDataState.Running,
     deviceConnecting:
-      state.device.status.connected && state.device.status.locked,
-    deviceParred: state.device.status.loaded && !state.device.status.locked,
+      state.device.status.connected && !state.device.status.unlocked,
+    deviceParred:
+      state.device.status.loaded && Boolean(state.device.status.unlocked),
     // TODO Refactor legacy staff
     appUpdateAvailable: state.settings.appUpdateAvailable,
     appCollectingData: state.settings.appCollectingData,

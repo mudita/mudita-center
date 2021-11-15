@@ -19,14 +19,14 @@ const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 const Connecting: FunctionComponent<{
   loaded: boolean
-  locked: boolean
+  unlocked: boolean | null
   unlockDevice: (code: number[]) => Promise<PayloadAction<DeviceResponseStatus>>
   getUnlockStatus: () => Promise<PayloadAction<DeviceResponseStatus>>
   phoneLockTime: number | undefined
   initialModalsShowed: boolean
 }> = ({
   loaded,
-  locked,
+  unlocked,
   unlockDevice,
   getUnlockStatus,
   phoneLockTime,
@@ -44,19 +44,19 @@ const Connecting: FunctionComponent<{
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (!locked && loaded) {
+      if (unlocked && loaded) {
         history.push(URL_OVERVIEW.root)
       }
     }, 500)
 
-    if (locked && initialModalsShowed) {
+    if (unlocked === false && initialModalsShowed) {
       setDialogOpen(true)
     }
     return () => clearTimeout(timeout)
-  }, [loaded, locked, initialModalsShowed])
+  }, [loaded, unlocked, initialModalsShowed])
 
   useEffect(() => {
-    let mounted = true;
+    let mounted = true
     const timeout = setTimeout(() => {
       if (mounted) {
         setError(true)
