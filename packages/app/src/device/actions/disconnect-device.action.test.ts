@@ -18,6 +18,9 @@ const mockStore = createMockStore([thunk])({
   device: {
     updatingState: null,
   },
+  restoreDevice: {
+    state: RestoreDeviceDataState.Empty
+  }
 })
 
 jest.mock("Renderer/requests/disconnect-device.request")
