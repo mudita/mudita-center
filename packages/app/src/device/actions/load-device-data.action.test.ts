@@ -7,64 +7,14 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { DeviceType } from "@mudita/pure"
 import { AnyAction } from "@reduxjs/toolkit"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { ConnectionState } from "App/device/constants"
 import { loadDeviceData } from "./load-device-data.action"
 import { DeviceLoadingError } from "App/device/errors"
-import getDeviceInfo from "Renderer/requests/get-device-info.request"
-import getNetworkInfo from "Renderer/requests/get-network-info.request"
-import getStorageInfo from "Renderer/requests/get-storage-info.request"
-import getBatteryInfo from "Renderer/requests/get-battery-info.request"
+import { DeviceDataLoader } from "App/device/loaders/device-data.loader"
+import { PureDeviceData, HarmonyDeviceData } from "App/device/reducers"
 import { testError } from "App/renderer/store/constants"
 
-jest.mock("Renderer/requests/get-device-info.request")
-jest.mock("Renderer/requests/get-network-info.request")
-jest.mock("Renderer/requests/get-storage-info.request")
-jest.mock("Renderer/requests/get-battery-info.request")
-
-const dataMock = {
-  data: {
-    backups: [
-      {
-        createdAt: "2020-01-14T11:31:08.244Z",
-        size: 10,
-      },
-      {
-        createdAt: "2021-01-14T11:31:08.244Z",
-        size: 10,
-      },
-    ],
-    simCards: [
-      {
-        network: "Network",
-        networkLevel: 1,
-        number: 1,
-        slot: 1,
-        active: true,
-      },
-    ],
-    osUpdateDate: "2020-01-14T11:31:08.244Z",
-    osVersion: "7.7.7",
-    level: 50,
-    serialNumber: "123",
-    capacity: 1024,
-    available: 1000,
-  },
-}
-
-const requestStatusFactory = (
-  status: DeviceResponseStatus,
-  withData = true
-) => {
-  ;[getDeviceInfo, getNetworkInfo, getStorageInfo, getBatteryInfo].forEach(
-    (request) => {
-      ;(request as jest.Mock).mockReturnValueOnce({
-        status,
-        ...(withData && dataMock),
-      })
-    }
-  )
-}
+const errorMock = new DeviceLoadingError("Device data loading error")
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -87,17 +37,34 @@ test("fire async `loadDeviceData` don't call nothing if `state` is equal to `Loa
     loadDeviceData.pending(requestId, DeviceType.MuditaPure),
     loadDeviceData.fulfilled(undefined, requestId, DeviceType.MuditaPure),
   ])
-
-  expect(getDeviceInfo).not.toHaveBeenCalled()
-  expect(getNetworkInfo).not.toHaveBeenCalled()
-  expect(getStorageInfo).not.toHaveBeenCalled()
-  expect(getBatteryInfo).not.toHaveBeenCalled()
 })
 
 describe("Device type: MuditaPure", () => {
   describe("Each requests return `success`", () => {
     test("fire `loadDeviceData` with `deviceType` equal to `MuditaPure` triggers request depended to `MuditaPure` device", async () => {
-      requestStatusFactory(DeviceResponseStatus.Ok)
+      jest
+        .spyOn(DeviceDataLoader.prototype, "loadDeviceData")
+        .mockResolvedValueOnce({
+          networkLevel: "1",
+          networkName: "Network",
+          batteryLevel: 50,
+          memorySpace: {
+            full: 1024,
+            free: 1000,
+          },
+          osUpdateDate: "2020-01-14T11:31:08.244Z",
+          osVersion: "7.7.7",
+          serialNumber: "123",
+          simCards: [
+            {
+              active: true,
+              network: "Network",
+              networkLevel: 1,
+              number: 1,
+              slot: 1,
+            },
+          ],
+        } as PureDeviceData)
 
       const mockStore = createMockStore([thunk])({
         device: {
@@ -138,19 +105,17 @@ describe("Device type: MuditaPure", () => {
         },
         loadDeviceData.fulfilled(undefined, requestId, DeviceType.MuditaPure),
       ])
-
-      expect(getDeviceInfo).toHaveBeenCalled()
-      expect(getNetworkInfo).toHaveBeenCalled()
-      expect(getStorageInfo).toHaveBeenCalled()
-      expect(getBatteryInfo).toHaveBeenCalled()
     })
   })
 
   describe("Each requests return `error`", () => {
-    test("fire `loadDeviceData` returns `rejected` action", async () => {
-      requestStatusFactory(DeviceResponseStatus.Error)
+    beforeAll(() => {
+      jest
+        .spyOn(DeviceDataLoader.prototype, "loadDeviceData")
+        .mockRejectedValueOnce(errorMock)
+    })
 
-      const errorMock = new DeviceLoadingError("Device data loading error")
+    test("fire `loadDeviceData` returns `rejected` action", async () => {
       const mockStore = createMockStore([thunk])({
         device: {
           state: ConnectionState.Empty,
@@ -177,7 +142,18 @@ describe("Device type: MuditaPure", () => {
 describe("Device type: MuditaHarmony", () => {
   describe("Each requests return `success`", () => {
     test("fire `loadDeviceData` with `deviceType` equal to `MuditaHarmony` triggers request depended to `MuditaHarmony` device", async () => {
-      requestStatusFactory(DeviceResponseStatus.Ok)
+      jest
+        .spyOn(DeviceDataLoader.prototype, "loadDeviceData")
+        .mockResolvedValueOnce({
+          batteryLevel: 50,
+          memorySpace: {
+            full: 1024,
+            free: 1000,
+          },
+          osUpdateDate: "2020-01-14T11:31:08.244Z",
+          osVersion: "7.7.7",
+          serialNumber: "123",
+        } as HarmonyDeviceData)
 
       const mockStore = createMockStore([thunk])({
         device: {
@@ -211,19 +187,17 @@ describe("Device type: MuditaHarmony", () => {
           DeviceType.MuditaHarmony
         ),
       ])
-
-      expect(getDeviceInfo).toHaveBeenCalled()
-      expect(getNetworkInfo).not.toHaveBeenCalled()
-      expect(getStorageInfo).toHaveBeenCalled()
-      expect(getBatteryInfo).toHaveBeenCalled()
     })
   })
 
   describe("Each requests return `error`", () => {
-    test("fire `loadDeviceData` returns `rejected` action", async () => {
-      requestStatusFactory(DeviceResponseStatus.Error)
+    beforeAll(() => {
+      jest
+        .spyOn(DeviceDataLoader.prototype, "loadDeviceData")
+        .mockRejectedValueOnce(errorMock)
+    })
 
-      const errorMock = new DeviceLoadingError("Device data loading error")
+    test("fire `loadDeviceData` returns `rejected` action", async () => {
       const mockStore = createMockStore([thunk])({
         device: {
           state: ConnectionState.Empty,

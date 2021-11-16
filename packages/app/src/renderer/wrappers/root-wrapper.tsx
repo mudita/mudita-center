@@ -55,6 +55,7 @@ import {
   unlockedDevice,
   lockedDevice,
   getConnectedDevice,
+  loadDeviceData,
 } from "App/device"
 // import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getCrashDump } from "App/crash-dump"
@@ -73,7 +74,9 @@ interface Props {
   setAppLatestVersion: (value: string) => void
   loadSettings: () => void
   toggleAppUpdateStepModalShow: (value: boolean) => void
+  loadDeviceData: (value: DeviceType) => void
   connectedAndUnlocked: boolean
+  deviceType: DeviceType | null
 }
 
 const RootWrapper: FunctionComponent<Props> = ({
@@ -90,7 +93,9 @@ const RootWrapper: FunctionComponent<Props> = ({
   setAppLatestVersion,
   loadSettings,
   toggleAppUpdateStepModalShow,
+  loadDeviceData,
   connectedAndUnlocked,
+  deviceType,
 }) => {
   const params = new URLSearchParams(window.location.search)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
@@ -150,6 +155,18 @@ const RootWrapper: FunctionComponent<Props> = ({
       getCrashDump()
     }
   }, [connectedAndUnlocked])
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+
+    if (deviceType && connectedAndUnlocked) {
+      interval = setInterval(() => loadDeviceData(deviceType), 30000)
+    }
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [deviceType, connectedAndUnlocked])
 
   useEffect(() => {
     const listener = () => {
@@ -254,9 +271,11 @@ const RootWrapper: FunctionComponent<Props> = ({
 const mapStateToProps = (state: ReduxRootState) => ({
   connectedAndUnlocked:
     state.device.status.connected && Boolean(state.device.status.unlocked),
+  deviceType: state.device.deviceType,
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  loadDeviceData: (value: DeviceType) => dispatch(loadDeviceData(value)),
   connect: () => dispatch(getConnectedDevice()),
   disconnectDevice: () => dispatch(disconnectDevice()),
   connectDevice: (value: DeviceType) => dispatch(connectDevice(value)),
