@@ -53,7 +53,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           <FormattedMessage id="module.settings.notificationsDescription" />
         </SettingsDescription>
       </SettingsDescriptionWrapper>
-      <SettingsTableRow checkMode={false}>
+      <SettingsTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.notificationsIncomingCallsNotificationsLabel" />
@@ -66,7 +66,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           />
         </ActionsWrapper>
       </SettingsTableRow>
-      <SettingsTableRow checkMode={false}>
+      <SettingsTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.notificationsIncomingMessagesNotifications" />
@@ -79,7 +79,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           />
         </ActionsWrapper>
       </SettingsTableRow>
-      <SettingsTableRow checkMode={false}>
+      <SettingsTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.notificationsLowBatteryNotifications" />
@@ -92,7 +92,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           />
         </ActionsWrapper>
       </SettingsTableRow>
-      <SettingsTableRow checkMode={false}>
+      <SettingsTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.notificationsPureOsUpdatesNotifications" />
