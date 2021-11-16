@@ -5,7 +5,7 @@
 
 import fs, { PathOrFileDescriptor } from "fs"
 import { ipcMain } from "electron-better-ipc"
-import { IpcFileSystem } from "App/files-system/constants/ipc-files-system.enum"
+import { IpcFileSystem } from "App/file-system/constants/ipc-file-system.enum"
 
 const registerReadFileListener = (): void => {
   ipcMain.answerRenderer<PathOrFileDescriptor, Uint8Array | undefined>(

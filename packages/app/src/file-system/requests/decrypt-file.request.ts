@@ -4,8 +4,8 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcFileSystem } from "App/files-system/constants"
-import { CryptoFileOption } from "App/files-system/services/crypto-file-service/crypto-file-service"
+import { IpcFileSystem } from "App/file-system/constants"
+import { CryptoFileOption } from "App/file-system/services/crypto-file-service/crypto-file-service"
 
 const decryptFile = async (
   option: CryptoFileOption

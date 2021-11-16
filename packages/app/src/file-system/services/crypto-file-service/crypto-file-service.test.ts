@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import CryptoFileService from "App/files-system/services/crypto-file-service/crypto-file-service"
+import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
 import fs from "fs"
 import path from "path"
 

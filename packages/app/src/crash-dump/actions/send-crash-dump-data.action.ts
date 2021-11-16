@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { Event } from "App/crash-dump/constants"
 import { uploadFileRequest } from "App/uploader"
-import readFile from "App/files-system/requests/read-file.request"
+import readFile from "App/file-system/requests/read-file.request"
 import { ReduxRootState } from "App/renderer/store"
 import { SendingCrashDumpError } from "App/crash-dump/errors"
 import { DeviceConnectionError } from "App/device"

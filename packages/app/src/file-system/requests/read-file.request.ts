@@ -5,7 +5,7 @@
 
 import { PathOrFileDescriptor } from "fs"
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcFileSystem } from "App/files-system/constants"
+import { IpcFileSystem } from "App/file-system/constants"
 
 const readFile = async (
   path: PathOrFileDescriptor

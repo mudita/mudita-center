@@ -22,7 +22,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { PureDeviceData } from "App/device"
-import encryptFile from "App/files-system/requests/encrypt-file.request"
+import encryptFile from "App/file-system/requests/encrypt-file.request"
 
 export interface StartBackupOption {
   secretKey: string
