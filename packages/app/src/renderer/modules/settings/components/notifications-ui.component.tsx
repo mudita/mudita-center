@@ -15,8 +15,8 @@ import {
   SettingsDescriptionWrapper,
   SettingsLabel,
   SettingsTableRow,
-} from "Renderer/components/rest/settings/settings-ui.component"
-import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+} from "Renderer/modules/settings/components/settings-ui.component"
+import SettingsToggler from "Renderer/modules/settings/components/settings-toggler.component"
 import { noop } from "Renderer/utils/noop"
 
 export const SettingsWrapper = styled.section`
@@ -53,7 +53,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           <FormattedMessage id="module.settings.notificationsDescription" />
         </SettingsDescription>
       </SettingsDescriptionWrapper>
-      <SettingsTableRow checkMode={false}>
+      <SettingsTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.notificationsIncomingCallsNotificationsLabel" />
@@ -66,7 +66,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           />
         </ActionsWrapper>
       </SettingsTableRow>
-      <SettingsTableRow checkMode={false}>
+      <SettingsTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.notificationsIncomingMessagesNotifications" />
@@ -79,7 +79,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           />
         </ActionsWrapper>
       </SettingsTableRow>
-      <SettingsTableRow checkMode={false}>
+      <SettingsTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.notificationsLowBatteryNotifications" />
@@ -92,7 +92,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           />
         </ActionsWrapper>
       </SettingsTableRow>
-      <SettingsTableRow checkMode={false}>
+      <SettingsTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.notificationsPureOsUpdatesNotifications" />

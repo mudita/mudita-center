@@ -5,7 +5,7 @@
 
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
+import SettingsUI from "Renderer/modules/settings/components/settings-ui.component"
 
 storiesOf("Settings/Settings(connection)", module).add(
   "Settings(connection)",

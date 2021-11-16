@@ -5,7 +5,6 @@
 
 import * as React from "react"
 import Button from "Renderer/components/core/button/button.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Header from "Renderer/components/rest/header/header.component"
 import Tabs from "Renderer/components/rest/header/tabs.component"
 import Menu from "Renderer/components/rest/menu/menu.container"
@@ -74,7 +73,6 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
           middleComponent={<HeaderTabs />}
           button={
             <HeaderButton
-              Icon={Type.ExternalLink}
               label={intl.formatMessage({
                 id: "module.news.moreNewsButtonLabel",
               })}

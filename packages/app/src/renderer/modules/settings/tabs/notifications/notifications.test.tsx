@@ -5,7 +5,7 @@
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
-import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.component"
+import NotificationsUI from "Renderer/modules/settings/components/notifications-ui.component"
 
 test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(

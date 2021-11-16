@@ -6,7 +6,7 @@
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
+import SettingsUI from "Renderer/modules/settings/components/settings-ui.component"
 import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
 
 const renderer = (

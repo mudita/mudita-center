@@ -5,7 +5,7 @@
 
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import AudioConversionUI from "Renderer/components/rest/settings/audio-conversion-ui.component"
+import AudioConversionUI from "Renderer/modules/settings/components/audio-conversion-ui.component"
 import {
   conversionFormatRadioGroup,
   conversionRadioGroup,

@@ -5,11 +5,9 @@
 
 import AppSettingsAdapter from "./app-settings-adapter.class"
 import {
+  AppSettings,
   ConversionFormat,
   Convert,
-} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
-import {
-  AppSettings,
   SettingsUpdateOption,
 } from "App/main/store/settings.interface"
 
