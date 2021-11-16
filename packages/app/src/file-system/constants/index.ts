@@ -3,4 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./ipc-files-system.enum"
+export * from "./ipc-file-system.enum"

@@ -20,7 +20,7 @@ import startBackupDeviceRequest from "Renderer/requests/start-backup-device.requ
 import getBackupDeviceStatus from "Renderer/requests/get-backup-device-status.request"
 import downloadDeviceFile from "Renderer/requests/download-device-file.request"
 import writeFile from "Renderer/requests/write-file.request"
-import encryptFile from "App/files-system/requests/encrypt-file.request"
+import encryptFile from "App/file-system/requests/encrypt-file.request"
 import { testError } from "Renderer/store/constants"
 import { StartBackupDeviceError } from "App/backup-device/errors"
 import {
@@ -32,7 +32,7 @@ jest.mock("Renderer/requests/start-backup-device.request")
 jest.mock("Renderer/requests/get-backup-device-status.request")
 jest.mock("Renderer/requests/download-device-file.request")
 jest.mock("Renderer/requests/write-file.request")
-jest.mock("App/files-system/requests/encrypt-file.request")
+jest.mock("App/file-system/requests/encrypt-file.request")
 jest.mock("App/backup/actions/load-backup-data.action", () => ({
   loadBackupData: jest.fn().mockReturnValue({
     type: pendingAction(BackupEvent.Load),

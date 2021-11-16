@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { arrayBufferToBuffer } from "App/files-system/helpers/array-buffer-to-buffer"
+import { arrayBufferToBuffer } from "App/file-system/helpers/array-buffer-to-buffer"
 
 describe("`arrayBufferToBuffer` function", () => {
   const data = [1, 2, 3, 4, 5]

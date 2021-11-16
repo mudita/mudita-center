@@ -8,7 +8,7 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "Renderer/store/helpers"
 import { uploadFileRequest } from "App/uploader"
-import readFile from "App/files-system/requests/read-file.request"
+import readFile from "App/file-system/requests/read-file.request"
 import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.action"
 import { SendingCrashDumpError } from "App/crash-dump/errors"
 import { DeviceConnectionError } from "App/device"
@@ -23,7 +23,7 @@ jest.mock("App/device-file-system", () => ({
     payload: crashDumpsMock,
   }),
 }))
-jest.mock("App/files-system/requests/read-file.request")
+jest.mock("App/file-system/requests/read-file.request")
 
 describe("Crash dumps doesn't downloaded", () => {
   test("fire async `sendCrashDumpData` returns `undefined`", async () => {

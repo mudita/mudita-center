@@ -13,8 +13,8 @@ import { Backup } from "App/backup/reducers"
 import { PureDeviceData } from "App/device"
 import { ReduxRootState, RootState } from "Renderer/store"
 import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers"
-import decryptFile from "App/files-system/requests/decrypt-file.request"
-import readFile from "App/files-system/requests/read-file.request"
+import decryptFile from "App/file-system/requests/decrypt-file.request"
+import readFile from "App/file-system/requests/read-file.request"
 
 export interface StartRestoreOption {
   secretKey: string

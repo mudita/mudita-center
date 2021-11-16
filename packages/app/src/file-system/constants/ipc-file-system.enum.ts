@@ -4,5 +4,7 @@
  */
 
 export enum IpcFileSystem {
-  Remove = "remove",
+  EncryptFile = "file-system-encrypt-file",
+  DecryptFile = "file-system-decrypt-file",
+  ReadFile = "file-system-read-file",
 }
