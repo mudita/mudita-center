@@ -4,5 +4,5 @@
  */
 
 export enum IpcDeviceFileSystem {
-  Remove = "remove",
+  Remove = "device-file-system-remove",
 }
