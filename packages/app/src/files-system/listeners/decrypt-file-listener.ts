@@ -4,14 +4,14 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
-import { IpcFilesSystem } from "App/files-system/constants/ipc-files-system.enum"
+import { IpcFileSystem } from "App/files-system/constants/ipc-files-system.enum"
 import CryptoFileService, {
   CryptoFileOption,
 } from "App/files-system/services/crypto-file-service/crypto-file-service"
 
 const registerDecryptFileListener = (): void => {
   ipcMain.answerRenderer<CryptoFileOption, Uint8Array | undefined>(
-    IpcFilesSystem.DecryptFile,
+    IpcFileSystem.DecryptFile,
     CryptoFileService.decrypt
   )
 }

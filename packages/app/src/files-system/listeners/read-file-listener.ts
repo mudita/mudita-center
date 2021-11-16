@@ -5,11 +5,11 @@
 
 import fs, { PathOrFileDescriptor } from "fs"
 import { ipcMain } from "electron-better-ipc"
-import { IpcFilesSystem } from "App/files-system/constants/ipc-files-system.enum"
+import { IpcFileSystem } from "App/files-system/constants/ipc-files-system.enum"
 
 const registerReadFileListener = (): void => {
   ipcMain.answerRenderer<PathOrFileDescriptor, Uint8Array | undefined>(
-    IpcFilesSystem.ReadFile,
+    IpcFileSystem.ReadFile,
     (path) => {
       return fs.readFileSync(path)
     }

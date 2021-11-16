@@ -4,13 +4,13 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcFilesSystem } from "App/files-system/constants"
+import { IpcFileSystem } from "App/files-system/constants"
 import { CryptoFileOption } from "App/files-system/services/crypto-file-service/crypto-file-service"
 
 const decryptFile = async (
   option: CryptoFileOption
 ): Promise<Uint8Array | undefined> => {
-  return await ipcRenderer.callMain(IpcFilesSystem.DecryptFile, option)
+  return await ipcRenderer.callMain(IpcFileSystem.DecryptFile, option)
 }
 
 export default decryptFile

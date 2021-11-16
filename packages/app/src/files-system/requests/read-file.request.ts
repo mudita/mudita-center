@@ -5,12 +5,12 @@
 
 import { PathOrFileDescriptor } from "fs"
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcFilesSystem } from "App/files-system/constants"
+import { IpcFileSystem } from "App/files-system/constants"
 
 const readFile = async (
   path: PathOrFileDescriptor
 ): Promise<Uint8Array | undefined> => {
-  return await ipcRenderer.callMain(IpcFilesSystem.ReadFile, path)
+  return await ipcRenderer.callMain(IpcFileSystem.ReadFile, path)
 }
 
 export default readFile
