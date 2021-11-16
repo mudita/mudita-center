@@ -12,7 +12,7 @@ import ButtonToggler, {
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
 import { noop } from "Renderer/utils/noop"
-import { SettingsTogglerTestIds } from "Renderer/components/rest/settings/settings-toggler-test-ids.enum"
+import { SettingsTogglerTestIds } from "Renderer/modules/settings/components/settings-toggler-test-ids.enum"
 
 const Toggler = styled(ButtonToggler)`
   margin-right: 4rem;

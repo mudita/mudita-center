@@ -10,7 +10,7 @@ import history from "Renderer/routes/history"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import TetheringUI from "Renderer/modules/tethering/tethering-ui.component"
 import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.enum"
-import { SettingsTogglerTestIds } from "Renderer/components/rest/settings/settings-toggler-test-ids.enum"
+import { SettingsTogglerTestIds } from "Renderer/modules/settings/components/settings-toggler-test-ids.enum"
 import { Provider } from "react-redux"
 import store from "Renderer/store"
 

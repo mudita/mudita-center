@@ -13,10 +13,7 @@ import {
   DataState,
   UpdatingState,
 } from "Renderer/models/basic-info/basic-info.typings"
-import {
-  ConversionFormat,
-  Convert,
-} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
+import { ConversionFormat, Convert } from "App/main/store/settings.interface"
 import store from "Renderer/store"
 import history from "Renderer/routes/history"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"

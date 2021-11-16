@@ -15,8 +15,8 @@ import {
   SettingsDescriptionWrapper,
   SettingsLabel,
   SettingsTableRow,
-} from "Renderer/components/rest/settings/settings-ui.component"
-import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+} from "Renderer/modules/settings/components/settings-ui.component"
+import SettingsToggler from "Renderer/modules/settings/components/settings-toggler.component"
 import { noop } from "Renderer/utils/noop"
 
 export const SettingsWrapper = styled.section`
