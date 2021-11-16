@@ -46,7 +46,6 @@ const DropdownList = styled.ul<{
   min-width: 17rem;
   pointer-events: ${({ visible }) => (visible ? "auto" : "none")};
   opacity: ${({ visible }) => (visible ? 1 : 0)};
-  transition: ${transition("opacity", undefined, "ease")};
   ${({ dropdownPosition }) =>
     dropdownPosition === DropdownPosition.Left
       ? css`
