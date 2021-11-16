@@ -5,7 +5,7 @@
 
 import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
-import { IpcFileSystem } from "App/device-file-system/constants"
+import { IpcDeviceFileSystem } from "App/device-file-system/constants"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const handleRemoveFile = (
@@ -16,6 +16,6 @@ const handleRemoveFile = (
 }
 
 export const registerFileSystemRemoveRequest = createEndpoint({
-  name: IpcFileSystem.Remove,
+  name: IpcDeviceFileSystem.Remove,
   handler: handleRemoveFile,
 })

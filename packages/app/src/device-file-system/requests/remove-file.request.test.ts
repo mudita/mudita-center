@@ -6,13 +6,13 @@
 import { ipcRenderer } from "electron-better-ipc"
 
 import { removeFileRequest } from "./remove-file.request"
-import { IpcFileSystem } from "App/device-file-system/constants"
+import { IpcDeviceFileSystem } from "App/device-file-system/constants"
 
 const filePathMock = "C:/MuditaOs/files"
 
 beforeEach(() => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcFileSystem.Remove]: Promise.resolve("test"),
+    [IpcDeviceFileSystem.Remove]: Promise.resolve("test"),
   }
 })
 

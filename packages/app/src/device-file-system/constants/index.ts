@@ -5,4 +5,4 @@
 
 export * from "./error.enum"
 export * from "./event.enum"
-export * from "./ipc-file-system.enum"
+export * from "./ipc-device-file-system.enum"
