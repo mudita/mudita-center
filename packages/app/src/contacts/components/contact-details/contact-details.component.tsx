@@ -127,22 +127,22 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     )
     const prodIcons = (
       <>
-        <SidebarHeaderButton Icon={Type.Edit} onClick={handleEdit} />
-        {exportIcon}
         <SidebarHeaderButton Icon={Type.Delete} onClick={handleDelete} />
+        {exportIcon}
+        <SidebarHeaderButton Icon={Type.Edit} onClick={handleEdit} />
       </>
     )
     const icons = (
       <>
-        <SidebarHeaderButton Icon={Type.Edit} onClick={handleEdit} />
+        <SidebarHeaderButton Icon={Type.Delete} onClick={handleDelete} />
         {exportIcon}
         <SidebarHeaderButton Icon={Type.Forward} onClick={handleForward} />
+        <SidebarHeaderButton Icon={Type.Edit} onClick={handleEdit} />
         {contact.blocked ? (
           <SidebarHeaderButton Icon={Type.Blocked} onClick={handleUnblock} />
         ) : (
           <SidebarHeaderButton Icon={Type.Blocked} onClick={handleBlock} />
         )}
-        <SidebarHeaderButton Icon={Type.Delete} onClick={handleDelete} />
       </>
     )
 
