@@ -93,7 +93,7 @@ const Tooltip: FunctionComponent<Props> = ({
         )}
         {description && (
           <Text
-            displayStyle={TextDisplayStyle.SmallFadedLightText}
+            displayStyle={TextDisplayStyle.MediumFadedLightText}
             element={"p"}
             message={description}
             data-testid={TooltipTestIds.Description}
