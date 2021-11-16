@@ -50,7 +50,7 @@ const messages = defineMessages({
 
 const PanelWrapper = styled.div<{ showSearchResults: boolean }>`
   padding-bottom: ${({ showSearchResults }) =>
-    showSearchResults ? "0" : "6.3rem"};
+    showSearchResults ? "0" : "2.4rem"};
   border-bottom: solid 0.1rem ${borderColor("list")};
 `
 const SearchTitle = styled(Text)`

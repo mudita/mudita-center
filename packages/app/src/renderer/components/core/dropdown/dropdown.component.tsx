@@ -10,6 +10,7 @@ import {
   backgroundColor,
   boxShadowColor,
   zIndex,
+  textColor,
 } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import useOutsideClick from "Renderer/utils/hooks/useOutsideClick"
@@ -30,6 +31,10 @@ export interface DropdownProps {
 const DropdownWrapper = styled.div<{ visible: boolean }>`
   position: relative;
   z-index: ${({ visible }) => (visible ? zIndex("dropdown") : 0)};
+  svg path {
+    fill: ${({ visible }) =>
+      visible ? textColor("primary") : textColor("secondary")};
+  }
 `
 
 const DropdownList = styled.ul<{

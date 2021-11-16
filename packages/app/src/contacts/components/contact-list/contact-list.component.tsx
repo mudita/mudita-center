@@ -145,6 +145,7 @@ const ContactList: FunctionComponent<Props> = ({
   const tableRef = createRef<HTMLDivElement>()
   const CategoryLabels = styled(Labels)`
     align-items: end;
+    background-color: var(--rowBackground) !important;
     > div:last-child {
       margin-bottom: 1.5rem;
     }
