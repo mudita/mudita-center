@@ -3,4 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./ipc-files-system.enum"
+export enum DeviceFileSystemError {
+  Removing = "DEVICE_FILE_REMOVING_ERROR",
+}

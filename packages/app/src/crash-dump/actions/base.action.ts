@@ -7,4 +7,7 @@ import { createAction } from "@reduxjs/toolkit"
 import { Event } from "App/crash-dump/constants"
 
 export const setCrashDump = createAction<string[]>(Event.SetCrashDump)
-export const setDownloadedCrashDump = createAction<string[]>(Event.SetDownloadCrashDumpPath)
+export const setDownloadedCrashDump = createAction<string[]>(
+  Event.SetDownloadCrashDumpPath
+)
+export const resetCrashDump = createAction(Event.ResetCrashDump)

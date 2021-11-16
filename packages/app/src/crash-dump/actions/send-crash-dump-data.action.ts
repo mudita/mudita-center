@@ -6,14 +6,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { Event } from "App/crash-dump/constants"
 import { uploadFileRequest } from "App/uploader"
-import readFile from "App/files-system/requests/read-file.request"
+import readFile from "App/file-system/requests/read-file.request"
 import { ReduxRootState } from "App/renderer/store"
 import { SendingCrashDumpError } from "App/crash-dump/errors"
 import { DeviceConnectionError } from "App/device"
+import { removeFile } from "App/device-file-system"
+import { resetCrashDump } from "App/crash-dump/actions/base.action"
 
 export const sendCrashDumpData = createAsyncThunk(
   Event.SendCrashDump,
-  async (_, { rejectWithValue, getState }) => {
+  async (_, { dispatch, rejectWithValue, getState }) => {
     const state = getState() as ReduxRootState
 
     if (!state.crashDump.data.downloadedFiles.length) {
@@ -40,6 +42,9 @@ export const sendCrashDumpData = createAsyncThunk(
           fileName: `${new Date().getTime()}-${fileName}`,
           serialNumber: state.device.data.serialNumber,
         })
+
+        await dispatch(removeFile(state.crashDump.data.files[0]))
+        await dispatch(resetCrashDump())
 
         return
       } catch (error) {
