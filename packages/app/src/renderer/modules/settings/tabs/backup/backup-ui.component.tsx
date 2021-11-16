@@ -8,10 +8,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import {
   ActionsWrapper,
-  DataWrapper,
   Message,
-  Name,
-  TableRow,
 } from "Renderer/components/rest/messages/threads-table.component"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
@@ -19,18 +16,15 @@ import { FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import ButtonComponent from "App/renderer/components/core/button/button.component"
 import { AppSettings } from "App/main/store/settings.interface"
+import { Data, SettingsLabel, SettingsTableRow } from "Renderer/components/rest/settings/settings-ui.component"
 
-const BackupTableRow = styled(TableRow)`
+const BackupTableRow = styled(SettingsTableRow)`
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 20rem;
   border-bottom: solid 0.1rem ${borderColor("list")};
 `
 
 const BackupWrapper = styled.section``
-
-const BackupDataWrapper = styled(DataWrapper)`
-  margin-left: 4rem;
-`
 
 const BackupActionsWrapper = styled(ActionsWrapper)`
   width: fit-content;
@@ -46,18 +40,18 @@ interface Props {
 
 const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => (
   <BackupWrapper>
-    <BackupTableRow checkMode={false}>
-      <BackupDataWrapper>
-        <Name displayStyle={TextDisplayStyle.LargeText}>
+    <BackupTableRow>
+      <Data>
+        <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
           <FormattedMessage id="module.settings.backupLabel" />
-        </Name>
-        <Message
-          displayStyle={TextDisplayStyle.MediumFadedLightText}
-          data-testid="backup-location"
-        >
-          {backupLocation}
-        </Message>
-      </BackupDataWrapper>
+          <Message
+            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            data-testid="backup-location"
+          >
+            {backupLocation}
+          </Message>
+        </SettingsLabel>
+      </Data>
       <BackupActionsWrapper>
         <BackupButtonComponent
           onClick={openDialog}
