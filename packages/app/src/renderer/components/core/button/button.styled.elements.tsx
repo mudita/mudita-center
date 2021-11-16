@@ -121,13 +121,13 @@ const buttonStyles = css<{
         return css`
           height: 4rem;
           border-radius: ${borderRadius("medium")};
-          border: 0.1rem solid ${borderColor("hover")};
+          border: 0.1rem solid ${borderColor("primary")};
           g {
             fill: ${textColor("primary")};
           }
           ${disabled && disabledSecondaryStyles};
           &:hover {
-            border-color: ${borderColor("primary")};
+            background: ${backgroundColor("secondaryHover")};
           }
         `
       case DisplayStyle.IconOnly1:
