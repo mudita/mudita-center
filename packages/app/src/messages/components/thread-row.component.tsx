@@ -96,7 +96,14 @@ const LastMessageText = styled(Message)<{ unread?: boolean }>`
   ${({ unread }) => unread && dotStyles};
 `
 
-const ThreadRowContainer = styled(ThreadBaseRow)``
+const ThreadRowContainer = styled(ThreadBaseRow)`
+  &:hover {
+    background-color: ${backgroundColor("minor")};
+    ${InitialsAvatar} {
+      background-color: ${backgroundColor("lightIcon")};
+    }
+  }
+`
 
 const ThreadDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
   margin-right: ${({ sidebarOpened }) => (sidebarOpened ? "4rem" : "0")};

@@ -5,7 +5,6 @@
 
 import * as React from "react"
 import { ReactNode, useRef, useState } from "react"
-import transition from "Renderer/styles/functions/transition"
 import {
   backgroundColor,
   boxShadowColor,
