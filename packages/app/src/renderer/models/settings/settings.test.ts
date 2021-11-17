@@ -7,10 +7,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { init, InitConfig } from "@rematch/core"
 import { version } from "../../../../package.json"
 import settings from "Renderer/models/settings/settings"
-import {
-  ConversionFormat,
-  Convert,
-} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
+import { ConversionFormat, Convert } from "App/main/store/settings.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { fakeAppSettings } from "Backend/adapters/app-settings/app-settings-fake.adapter"
 import { GetApplicationConfigurationEvents } from "App/main/functions/register-get-application-configuration-listener"

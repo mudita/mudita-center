@@ -58,6 +58,7 @@ const theme = {
       minorHover: grey8,
       primary: grey1,
       primaryHover: dark,
+      secondaryHover: grey6,
       row: white,
       scroll: grey3,
       super: black,

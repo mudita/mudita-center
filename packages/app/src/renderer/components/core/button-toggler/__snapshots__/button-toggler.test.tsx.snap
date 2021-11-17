@@ -9,14 +9,15 @@ exports[`matches snapshot 1`] = `
 
 .c9 {
   margin: 0;
-  font-size: 1.2rem;
-  line-height: 1.2;
+  font-size: 1.4rem;
+  line-height: 1.05;
+  line-height: 1.8rem;
   color: #6a6a6a;
+  font-weight: 300;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
-  font-weight: 300;
 }
 
 .c12 {
@@ -79,7 +80,7 @@ exports[`matches snapshot 1`] = `
   width: 17rem;
   height: 4rem;
   border-radius: 0.5rem;
-  border: 0.1rem solid #3b3f42;
+  border: 0.1rem solid #000000;
 }
 
 .c10 g {
@@ -87,7 +88,7 @@ exports[`matches snapshot 1`] = `
 }
 
 .c10:hover {
-  border-color: #000000;
+  background: #f4f5f6;
 }
 
 .c13 {

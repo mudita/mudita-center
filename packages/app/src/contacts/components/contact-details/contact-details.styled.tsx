@@ -49,7 +49,7 @@ export const InfoItemName = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.SmallFadedText,
 }))`
   text-transform: uppercase;
-  color: ${textColor("disabled")};
+  color: ${textColor("secondary")};
 `
 export const InfoItemSpeedDialNumber = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.TertiaryBoldHeading,

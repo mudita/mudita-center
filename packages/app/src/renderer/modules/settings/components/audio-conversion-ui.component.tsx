@@ -18,14 +18,11 @@ import {
   SettingsDescriptionWrapper,
   SettingsLabel,
   SettingsTableRow,
-} from "Renderer/components/rest/settings/settings-ui.component"
-import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
-import AudioConversionRadioGroup from "Renderer/components/rest/settings/audio-conversion-radio-group.component"
+} from "Renderer/modules/settings/components/settings-ui.component"
+import SettingsToggler from "Renderer/modules/settings/components/settings-toggler.component"
+import AudioConversionRadioGroup from "Renderer/modules/settings/components/audio-conversion-radio-group.component"
 import { noop } from "Renderer/utils/noop"
-import {
-  ConversionFormat,
-  Convert,
-} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
+import { ConversionFormat, Convert } from "App/main/store/settings.interface"
 
 const ConvertRadioGroup = styled(AudioConversionRadioGroup)`
   margin-left: 4rem;
@@ -78,7 +75,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
             <FormattedMessage id="module.settings.audioConversionDescription" />
           </SettingsDescription>
         </SettingsDescriptionWrapper>
-        <SettingsTableRow checkMode={false}>
+        <SettingsTableRow>
           <Data>
             <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
               <FormattedMessage id="module.settings.audioConversionConvertNonStandardFilesLabel" />

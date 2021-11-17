@@ -15,7 +15,7 @@ import {
   SettingsLabel,
   SettingsTableRow,
   SettingsWrapper,
-} from "Renderer/components/rest/settings/settings-ui.component"
+} from "Renderer/modules/settings/components/settings-ui.component"
 import { AboutTestIds } from "Renderer/modules/settings/tabs/about/about.enum"
 import {
   letterSpacing,
@@ -86,48 +86,49 @@ const AboutUI: FunctionComponent<AboutProps> = ({
       open={appUpdateStepModalShow && !appUpdateAvailable}
     />
     <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
-      {flags.get(Feature.MCVersion) && <VersionTableRow>
-        <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage
-              id="module.settings.aboutInstalledVersion"
-              values={{ version: appCurrentVersion }}
-            />
-          </SettingsLabel>
-        </Data>
-        {appUpdateAvailable ? (
-          <ActionContainer>
-            <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+      {flags.get(Feature.MCVersion) && (
+        <VersionTableRow>
+          <Data>
+            <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
               <FormattedMessage
-                id="module.settings.aboutAvailableVersion"
-                values={{ version: appLatestVersion }}
+                id="module.settings.aboutInstalledVersion"
+                values={{ version: appCurrentVersion }}
               />
-            </AvailableUpdate>
-            <ButtonComponent
-              labelMessage={{
-                id: "module.settings.aboutAppUpdateAction",
-              }}
-              onClick={click}
-              data-testid={AboutTestIds.UpdateButton}
-            />
-          </ActionContainer>
-        ) : (
-          <ActionContainer>
-            <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
-              <FormattedMessage id="module.overview.systemUpdateUpToDate" />
-            </AvailableUpdate>
-            <ButtonComponent
-              labelMessage={{
-                id: "module.overview.systemCheckForUpdates",
-              }}
-              data-testid={AboutTestIds.UpdateButton}
-              onClick={click}
-            />
-          </ActionContainer>
-        )}
-      </VersionTableRow>
-      }
-      <SettingsTableRow checkMode={false}>
+            </SettingsLabel>
+          </Data>
+          {appUpdateAvailable ? (
+            <ActionContainer>
+              <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+                <FormattedMessage
+                  id="module.settings.aboutAvailableVersion"
+                  values={{ version: appLatestVersion }}
+                />
+              </AvailableUpdate>
+              <ButtonComponent
+                labelMessage={{
+                  id: "module.settings.aboutAppUpdateAction",
+                }}
+                onClick={click}
+                data-testid={AboutTestIds.UpdateButton}
+              />
+            </ActionContainer>
+          ) : (
+            <ActionContainer>
+              <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+                <FormattedMessage id="module.overview.systemUpdateUpToDate" />
+              </AvailableUpdate>
+              <ButtonComponent
+                labelMessage={{
+                  id: "module.overview.systemCheckForUpdates",
+                }}
+                data-testid={AboutTestIds.UpdateButton}
+                onClick={click}
+              />
+            </ActionContainer>
+          )}
+        </VersionTableRow>
+      )}
+      <SettingsTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.aboutTermsOfService" />
@@ -143,7 +144,7 @@ const AboutUI: FunctionComponent<AboutProps> = ({
           />
         </ActionsWrapper>
       </SettingsTableRow>
-      <SettingsTableRow checkMode={false}>
+      <SettingsTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.aboutPrivacyPolicy" />
@@ -159,7 +160,7 @@ const AboutUI: FunctionComponent<AboutProps> = ({
           />
         </ActionsWrapper>
       </SettingsTableRow>
-      <SettingsTableRow checkMode={false} data-testid={AboutTestIds.TableRow}>
+      <SettingsTableRow data-testid={AboutTestIds.TableRow}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.aboutLicense" />
