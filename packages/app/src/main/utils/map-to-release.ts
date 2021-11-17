@@ -107,6 +107,8 @@ export const filterRelease = (release: GithubRelease): boolean => {
     return false
   }
 
+  return true
+
   if (
     OsReleasesManager.isProductionAvailable() &&
     isProductionRelease(release)

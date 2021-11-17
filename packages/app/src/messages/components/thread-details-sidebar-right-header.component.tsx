@@ -9,8 +9,7 @@ import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
-
-const production = process.env.NODE_ENV === "production"
+import { Feature, flags } from "App/feature-flags"
 
 interface Props {
   contactCreated: boolean
@@ -27,7 +26,7 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      {!production && (
+      {flags.get(Feature.DevelopOnly) && (
         <SidebarHeaderButton
           Icon={Type.Calls}
           onClick={noop}
@@ -47,8 +46,7 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
           iconSize={IconSize.Big}
         />
       )}
-      {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
-      {!production && (
+      {flags.get(Feature.DevelopOnly) && (
         <>
           <SidebarHeaderButton
             Icon={Type.BorderCheckIcon}
