@@ -54,8 +54,6 @@ exports[`matches snapshot 1`] = `
   min-width: 17rem;
   pointer-events: none;
   opacity: 0;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
   right: 0;
   top: 100%;
   margin-top: 1rem;
@@ -214,8 +212,6 @@ exports[`renders dropdown 1`] = `
   min-width: 17rem;
   pointer-events: auto;
   opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
   right: 0;
   top: 100%;
   margin-top: 1rem;

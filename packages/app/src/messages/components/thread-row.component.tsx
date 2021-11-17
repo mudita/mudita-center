@@ -51,6 +51,7 @@ import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visib
 import { AppSettings } from "App/main/store/settings.interface"
 import ThreadBaseRow from "App/messages/components/thread-base-row.component"
 import { ListRowProps } from "react-virtualized"
+import { mockThread } from "App/messages/components/messages/messages.component"
 
 export const Checkbox = styled(VisibleCheckbox)`
   position: absolute;
@@ -109,6 +110,8 @@ const ThreadDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
   margin-right: ${({ sidebarOpened }) => (sidebarOpened ? "4rem" : "0")};
 `
 
+const NewThreadWrapper = styled.div``
+
 type SelectHook = Pick<UseTableSelect<Thread>, "noneRowsSelected">
 
 interface Props
@@ -166,39 +169,47 @@ const ThreadRow: FunctionComponent<Props> = ({
         <InitialsAvatar user={contact} light={active} size={AvatarSize.Big} />
       </AvatarCol>
       <ThreadCol onClick={handleRowClick} data-testid={ThreadListTestIds.Row}>
-        <ThreadDataWrapper sidebarOpened={sidebarOpened}>
-          <NameWrapper>
+        {getPrettyCaller(contact, phoneNumber) === mockThread.phoneNumber ? (
+          <NewThreadWrapper>
             <Name displayStyle={TextDisplayStyle.LargeBoldText}>
               {getPrettyCaller(contact, phoneNumber)}
             </Name>
-            {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
-              <Text displayStyle={TextDisplayStyle.LargeFadedText}>
-                &nbsp;
-                {phoneNumber.split(" ").join("") ===
-                contact?.secondaryPhoneNumber?.split(" ").join("")
-                  ? "#2"
-                  : "#1"}
-              </Text>
-            )}
-          </NameWrapper>
-          <Time displayStyle={TextDisplayStyle.SmallFadedText}>
-            {isToday(thread.lastUpdatedAt)
-              ? moment(thread.lastUpdatedAt).format("h:mm A")
-              : moment(thread.lastUpdatedAt)
-                  .locale(language ?? "en")
-                  .format("ll")}
-          </Time>
-          <LastMessageText
-            unread={unread}
-            displayStyle={
-              unread
-                ? TextDisplayStyle.MediumText
-                : TextDisplayStyle.MediumFadedLightText
-            }
-          >
-            {thread?.messageSnippet}
-          </LastMessageText>
-        </ThreadDataWrapper>
+          </NewThreadWrapper>
+        ) : (
+          <ThreadDataWrapper sidebarOpened={sidebarOpened}>
+            <NameWrapper>
+              <Name displayStyle={TextDisplayStyle.LargeBoldText}>
+                {getPrettyCaller(contact, phoneNumber)}
+              </Name>
+              {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
+                <Text displayStyle={TextDisplayStyle.LargeFadedText}>
+                  &nbsp;
+                  {phoneNumber.split(" ").join("") ===
+                  contact?.secondaryPhoneNumber?.split(" ").join("")
+                    ? "#2"
+                    : "#1"}
+                </Text>
+              )}
+            </NameWrapper>
+            <Time displayStyle={TextDisplayStyle.SmallFadedText}>
+              {isToday(thread.lastUpdatedAt)
+                ? moment(thread.lastUpdatedAt).format("h:mm A")
+                : moment(thread.lastUpdatedAt)
+                    .locale(language ?? "en")
+                    .format("ll")}
+            </Time>
+            <LastMessageText
+              unread={unread}
+              displayStyle={
+                unread
+                  ? TextDisplayStyle.MediumText
+                  : TextDisplayStyle.MediumFadedLightText
+              }
+            >
+              {thread?.messageSnippet}
+            </LastMessageText>
+          </ThreadDataWrapper>
+        )}
       </ThreadCol>
       <Col>
         <Actions>

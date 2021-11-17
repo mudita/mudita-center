@@ -59,7 +59,7 @@ const messages = defineMessages({
   },
 })
 
-const mockThread: Thread = {
+export const mockThread: Thread = {
   id: "tmpId",
   phoneNumber: "New Conversation",
   lastUpdatedAt: new Date(),
@@ -430,6 +430,7 @@ const Messages: FunctionComponent<Props> = ({
         searchValue={searchValue}
         onSearchValueChange={changeSearchValue}
         onNewMessageClick={handleNewMessageClick}
+        buttonDisabled={messagesState === MessagesState.NewMessage}
       />
       <TableWithSidebarWrapper>
         {threads.length === 0 &&
