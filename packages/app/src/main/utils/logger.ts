@@ -10,6 +10,7 @@ import getAppPath, {
   AppType,
   resolve,
 } from "App/main/utils/get-app-path"
+import { getAllValues } from "App/metadata/requests"
 
 const DailyRotateFile = require("winston-daily-rotate-file")
 const RollbarTransport = require("winston-transport-rollbar-3")
@@ -20,17 +21,27 @@ const { combine, timestamp, printf, colorize, simple } = format
 type AppLogger = Logger & {
   enableRollbar: () => void
   disableRollbar: () => void
+  updateMetadata: () => void
 }
 
 export const logsPath = path.join(getAppPath(), "logs")
 
-const createDailyRotateFileTransport = (type: AppType) => {
+let defaultMeta: any | null = {}
+
+const createDailyRotateFileTransport = (
+  type: AppType,
+  defaultMetadata: any
+) => {
   const format = combine(
     timestamp(),
     printf(({ level, message, timestamp }) => {
       const paddedProcess = `[${type}]`.padEnd(10, " ")
       const paddedLevel = `[${level}]:`.padEnd(8, " ")
-      return `${paddedProcess} [${timestamp}] ${paddedLevel} ${message}`
+      const metadata = `\n[metadata]:\n${Object.entries(defaultMetadata)
+        .map(([key, value]) => (value ? `${key}: ${value}` : ""))
+        .filter((item) => item)
+        .join("\n")}`
+      return `${paddedProcess} [${timestamp}] ${paddedLevel} ${message} ${metadata}`
     })
   )
   return new DailyRotateFile({
@@ -53,10 +64,10 @@ const consoleTransport = new transports.Console({
 // TODO: test this. https://appnroll.atlassian.net/browse/PDA-764
 export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
   const { app, type } = resolveApp()
-  const transports = [
-    ...(app ? [createDailyRotateFileTransport(type)] : []),
-    consoleTransport,
-  ]
+  const dailyRotateFileTransport = createDailyRotateFileTransport(
+    type,
+    defaultMeta
+  )
 
   const rollbarTransport = new RollbarTransport({
     rollbarConfig: {
@@ -86,8 +97,9 @@ export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
   const appLogger = createLogger({
     level: "info",
     format: format.combine(format.metadata(), format.json()),
+    defaultMeta,
     exitOnError: false,
-    transports,
+    transports: [...(app ? [dailyRotateFileTransport] : []), consoleTransport],
   })
   const enableRollbar = () => {
     appLogger.add(rollbarTransport)
@@ -97,9 +109,16 @@ export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
     appLogger.remove(rollbarTransport)
     rollbarTransport.rollbar.configure({ enabled: false })
   }
+  const updateMetadata = () => {
+    defaultMeta = getAllValues() ?? {}
+    appLogger.defaultMeta = defaultMeta
+    appLogger.remove(dailyRotateFileTransport)
+    appLogger.add(createDailyRotateFileTransport(type, defaultMeta))
+  }
   return Object.assign(appLogger, {
     enableRollbar,
     disableRollbar,
+    updateMetadata,
   })
 }
 const logger = createAppLogger(resolve)
