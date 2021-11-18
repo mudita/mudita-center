@@ -92,6 +92,8 @@ const Input = styled.input<{ indeterminate: boolean }>`
 `
 
 const CheckIcon = styled(Icon)<{ indeterminate?: boolean }>`
+  opacity: 1;
+  visibility: visible;
   display: block;
   position: absolute;
   top: 50%;
