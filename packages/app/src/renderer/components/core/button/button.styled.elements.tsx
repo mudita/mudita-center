@@ -231,7 +231,7 @@ const buttonStyles = css<{
             ${navLinkStyles}
           }
           svg {
-            opacity: 0.75;
+            opacity: 0.6;
           }
         `
       case DisplayStyle.Tab:
