@@ -90,12 +90,23 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     (number: number) =>
     (e: { key: string; code: string; preventDefault: () => void }) => {
       if (/[0-9]/.test(e.key)) {
-        return
+        const backspaceEdgeCase = activeInput === 0 && e.key === ""
+        if (
+          activeInput !== undefined &&
+          activeInput < values.length &&
+          !backspaceEdgeCase
+        ) {
+          setActiveInput(activeInput + 1)
+        }
+        setFromBlur(false)
+        updateInputValue(number, e.key)
       } else if (e.code === "Backspace") {
         if (activeInput !== undefined && activeInput > 0) {
           setActiveInput(activeInput - 1)
           updateInputValue(number, "")
           setFromBlur(false)
+        } else {
+          updateInputValue(0, "")
         }
       } else {
         onNotAllowedKeyDown()
@@ -104,19 +115,6 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
       }
     }
 
-  const onChangeHandler =
-    (number: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const backspaceEdgeCase = activeInput === 0 && e.target.value === ""
-      if (
-        activeInput !== undefined &&
-        activeInput < values.length &&
-        !backspaceEdgeCase
-      ) {
-        setActiveInput(activeInput + 1)
-      }
-      setFromBlur(false)
-      updateInputValue(number, e.target.value)
-    }
   const onBlurHandler = () => {
     setActiveInput(values.indexOf(""))
     setFromBlur(true)
@@ -155,7 +153,6 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
                 e.target.select()
               }}
               onBlur={onBlurHandler}
-              onChange={onChangeHandler(i)}
             />
           )
         })}
