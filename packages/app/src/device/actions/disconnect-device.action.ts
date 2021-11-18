@@ -35,6 +35,7 @@ export const disconnectDevice = createAsyncThunk(
     }
 
     setValue({ key: MetadataKey.DeviceOsVersion, value: null })
+    setValue({ key: MetadataKey.DeviceType, value: null })
     dispatch(setConnectionStatus(false))
 
     return

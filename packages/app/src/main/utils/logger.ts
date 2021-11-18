@@ -10,7 +10,7 @@ import getAppPath, {
   AppType,
   resolve,
 } from "App/main/utils/get-app-path"
-import { getAllValues } from "App/metadata/requests"
+import { getMetadataStore } from "App/metadata/containers"
 
 const DailyRotateFile = require("winston-daily-rotate-file")
 const RollbarTransport = require("winston-transport-rollbar-3")
@@ -110,7 +110,8 @@ export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
     rollbarTransport.rollbar.configure({ enabled: false })
   }
   const updateMetadata = () => {
-    defaultMeta = getAllValues() ?? {}
+    const tmpMetadata = getMetadataStore().metadata ?? {}
+    defaultMeta = Object.fromEntries(tmpMetadata)
     appLogger.defaultMeta = defaultMeta
     appLogger.remove(dailyRotateFileTransport)
     appLogger.add(createDailyRotateFileTransport(type, defaultMeta))

@@ -5,5 +5,6 @@
 
 export enum MetadataKey {
   DeviceOsVersion = "deviceOsVersion",
+  DeviceType = "deviceType",
   MuditaCenterVersion = "muditaCenterVersion",
 }
