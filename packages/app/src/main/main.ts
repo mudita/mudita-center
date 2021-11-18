@@ -75,6 +75,14 @@ import { flags, Feature } from "App/feature-flags"
 import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
 
 import { registerUploadFileListener } from "App/uploader"
+import {
+  createMetadataStore,
+  MetadataStore,
+  MetadataInitializer,
+  registerMetadataAllGetValueListener,
+  registerMetadataGetValueListener,
+  registerMetadataSetValueListener,
+} from "App/metadata"
 
 require("dotenv").config()
 
@@ -87,6 +95,7 @@ let outlookAuthWindow: BrowserWindow | null = null
 const licenseWindow: BrowserWindow | null = null
 const termsWindow: BrowserWindow | null = null
 const policyWindow: BrowserWindow | null = null
+const metadataStore: MetadataStore = createMetadataStore()
 
 // Disables CORS in Electron 9
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
@@ -138,6 +147,8 @@ const createWindow = async () => {
     })
   )
 
+  new MetadataInitializer(metadataStore).init()
+
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
   const enabled = flags.get(Feature.LoggerEnabled)
@@ -165,6 +176,9 @@ const createWindow = async () => {
   registerDecryptFileListener()
   registerPureOsDownloadProxy()
   registerUploadFileListener()
+  registerMetadataAllGetValueListener()
+  registerMetadataGetValueListener()
+  registerMetadataSetValueListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)
@@ -202,6 +216,8 @@ const createWindow = async () => {
   win.on("closed", () => {
     win = null
   })
+
+  logger.updateMetadata()
 }
 
 app.on("ready", createWindow)
