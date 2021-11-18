@@ -12,10 +12,7 @@ import {
   DataState,
   UpdatingState,
 } from "Renderer/models/basic-info/basic-info.typings"
-import {
-  ConversionFormat,
-  Convert,
-} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
+import { ConversionFormat, Convert } from "App/main/store/settings.interface"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import { intl } from "Renderer/utils/intl"

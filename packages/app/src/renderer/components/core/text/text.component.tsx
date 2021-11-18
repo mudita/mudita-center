@@ -128,6 +128,7 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
     case TextDisplayStyle.MediumFadedLightText:
       return css`
         ${mediumTextSharedStyles};
+        line-height: 1.8rem;
         color: ${textColor("secondary")};
         font-weight: ${fontWeight("light")};
         letter-spacing: ${letterSpacing("small")}rem;

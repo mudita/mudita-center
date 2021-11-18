@@ -6,9 +6,9 @@
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
-import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+import SettingsToggler from "Renderer/modules/settings/components/settings-toggler.component"
 import { fireEvent } from "@testing-library/dom"
-import { SettingsTogglerTestIds } from "Renderer/components/rest/settings/settings-toggler-test-ids.enum"
+import { SettingsTogglerTestIds } from "Renderer/modules/settings/components/settings-toggler-test-ids.enum"
 
 test("off button is active by default", async () => {
   const onToggle = jest.fn()

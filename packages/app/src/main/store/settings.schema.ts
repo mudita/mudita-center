@@ -4,13 +4,13 @@
  */
 
 import { Schema } from "electron-store"
-import {
-  ConversionFormat,
-  Convert,
-} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 import { app } from "electron"
 import { name } from "../../../package.json"
-import { AppSettings } from "App/main/store/settings.interface"
+import {
+  AppSettings,
+  ConversionFormat,
+  Convert,
+} from "App/main/store/settings.interface"
 import { defaultLanguage } from "App/translations.config.json"
 import path from "path"
 

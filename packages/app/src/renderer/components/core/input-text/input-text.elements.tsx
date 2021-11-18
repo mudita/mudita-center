@@ -109,6 +109,8 @@ const LeadingIcons = styled.div`
   flex-direction: row;
   align-items: center;
   order: 1;
+  margin-right: 0.8rem;
+  margin-left: -0.8rem;
 `
 
 const TrailingIcons = styled.div`

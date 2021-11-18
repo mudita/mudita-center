@@ -9,7 +9,6 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   ActionsWrapper,
   Name,
-  TableRow,
 } from "Renderer/components/rest/messages/threads-table.component"
 import Text, {
   TextDisplayStyle,
@@ -18,22 +17,21 @@ import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+import SettingsToggler from "Renderer/modules/settings/components/settings-toggler.component"
 import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
 import Tooltip from "Renderer/components/core/tooltip/tooltip.component"
 import { defineMessages } from "react-intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { Feature, flags } from "App/feature-flags"
 
-export const SettingsTableRow = styled(TableRow)`
+export const SettingsTableRow = styled.div`
+  display: grid;
+  box-sizing: border-box;
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 15rem;
   border-bottom: solid 0.1rem ${borderColor("list")};
   height: 7.2rem;
   max-height: 7.2rem;
-  &:hover {
-    background-color: transparent;
-  }
 `
 
 export const Data = styled.div`
@@ -86,10 +84,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
     <SettingsWrapper data-testid={SettingsTestIds.Wrapper}>
       {/*TODO: Remove condition below when tethering will be available on phone*/}
       {!flags.get(Feature.ProductionAndAlpha) && (
-        <SettingsTableRow
-          checkMode={false}
-          data-testid={SettingsTestIds.TableRow}
-        >
+        <SettingsTableRow data-testid={SettingsTestIds.TableRow}>
           <Data>
             <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
               <FormattedMessage id="module.settings.tetheringLabel" />
@@ -103,10 +98,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
           </ActionsWrapper>
         </SettingsTableRow>
       )}
-      <SettingsTableRow
-        checkMode={false}
-        data-testid={SettingsTestIds.TableRow}
-      >
+      <SettingsTableRow data-testid={SettingsTestIds.TableRow}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="module.settings.collectingData" />
