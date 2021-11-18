@@ -18,6 +18,7 @@ import {
   backgroundColor,
   transitionTime,
   transitionTimingFunction,
+  textColor,
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import { URL_MAIN } from "Renderer/constants/urls"
@@ -91,6 +92,12 @@ const ArrowIcon = styled(Icon)`
   transform: rotate(270deg);
 `
 
+const SupportButtonComponent = styled(ButtonComponent)`
+  svg path {
+    fill: ${textColor("secondary")};
+  }
+`
+
 const textFormatters = {
   b: (str: string) => (
     <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading} element={"span"}>
@@ -157,7 +164,7 @@ const Help: FunctionComponent<HelpProps> = ({
           data-testid={HelpComponentTestIds.Title}
         />
         <SearchContainer>
-          <ButtonComponent
+          <SupportButtonComponent
             displayStyle={DisplayStyle.IconOnly3}
             Icon={Type.Support}
             iconSize={IconSize.Small}

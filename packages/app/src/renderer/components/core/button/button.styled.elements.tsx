@@ -258,6 +258,13 @@ const buttonStyles = css<{
             transition: ${transition("width", undefined, "ease")};
           }
 
+          :hover {
+            color: ${textColor("tabHover")};
+            svg {
+              opacity: 0.9;
+            }
+          }
+
           &.${activeClassName} {
             color: ${textColor("primary")};
             &:after {
