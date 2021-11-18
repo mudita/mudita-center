@@ -12,7 +12,8 @@ import { fontWeight } from "Renderer/styles/theming/theme-getters"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 
 export const Form = styled.form`
-  --max-buttons-height: 8.8rem;
+  --buttons-bottom-margin: 3.2rem;
+  --max-buttons-height: calc(3.2rem + 4rem);
   height: 100%;
 `
 
@@ -40,7 +41,7 @@ export const Buttons = styled.div`
   grid-template-columns: repeat(2, minmax(13rem, 1fr));
   grid-column-gap: 1.6rem;
   width: fit-content;
-  margin: 0 0 4.8rem auto;
+  margin: 0 0 var(--buttons-bottom-margin) auto;
   max-height: var(--max-buttons-height);
 
   button {
