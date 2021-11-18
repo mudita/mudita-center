@@ -97,6 +97,7 @@ export const ContactDetailsInfo = styled(Text)`
   white-space: pre-wrap;
   margin: 0;
   border-bottom: 0.1rem solid ${borderColor("secondary")};
+  line-height: 1.8;
 `
 
 export const ContactDetailsLabel = styled(Text)`
