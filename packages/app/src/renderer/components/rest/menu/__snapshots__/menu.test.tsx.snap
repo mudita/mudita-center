@@ -132,7 +132,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 }
 
 .c5 svg {
-  opacity: 0.75;
+  opacity: 0.6;
 }
 
 .c12 {
@@ -200,7 +200,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 }
 
 .c12 svg {
-  opacity: 0.75;
+  opacity: 0.6;
 }
 
 .c7 {
@@ -530,7 +530,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 }
 
 .c5 svg {
-  opacity: 0.75;
+  opacity: 0.6;
 }
 
 .c12 {
@@ -598,7 +598,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 }
 
 .c12 svg {
-  opacity: 0.75;
+  opacity: 0.6;
 }
 
 .c7 {
