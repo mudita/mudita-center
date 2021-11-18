@@ -51,7 +51,6 @@ import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visib
 import { AppSettings } from "App/main/store/settings.interface"
 import ThreadBaseRow from "App/messages/components/thread-base-row.component"
 import { ListRowProps } from "react-virtualized"
-import { mockThread } from "App/messages/components/messages/messages.component"
 
 export const Checkbox = styled(VisibleCheckbox)`
   position: absolute;
@@ -128,6 +127,7 @@ interface Props
   onDeleteClick: (id: Thread["id"]) => void
   onToggleReadClick: (ids: Thread["id"][]) => void
   onContactClick: (phoneNumber: Thread["phoneNumber"]) => void
+  newConversation: string
 }
 
 const ThreadRow: FunctionComponent<Props> = ({
@@ -144,6 +144,7 @@ const ThreadRow: FunctionComponent<Props> = ({
   onDeleteClick,
   onToggleReadClick,
   onContactClick,
+  newConversation,
   ...props
 }) => {
   const contactCreated = contact !== undefined
@@ -169,7 +170,7 @@ const ThreadRow: FunctionComponent<Props> = ({
         <InitialsAvatar user={contact} light={active} size={AvatarSize.Big} />
       </AvatarCol>
       <ThreadCol onClick={handleRowClick} data-testid={ThreadListTestIds.Row}>
-        {getPrettyCaller(contact, phoneNumber) === mockThread.phoneNumber ? (
+        {getPrettyCaller(contact, phoneNumber) === newConversation ? (
           <NewThreadWrapper>
             <Name displayStyle={TextDisplayStyle.LargeBoldText}>
               {getPrettyCaller(contact, phoneNumber)}

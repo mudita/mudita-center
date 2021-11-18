@@ -59,7 +59,7 @@ const messages = defineMessages({
   },
 })
 
-export const mockThread: Thread = {
+const mockThread: Thread = {
   id: "tmpId",
   phoneNumber: "New Conversation",
   lastUpdatedAt: new Date(),
@@ -454,6 +454,7 @@ const Messages: FunctionComponent<Props> = ({
             onToggleReadStatus={toggleReadStatus}
             onContactClick={contactClick}
             loadMoreRows={loadMoreRows}
+            newConversation={mockThread.phoneNumber}
             {...rest}
           />
         )}
