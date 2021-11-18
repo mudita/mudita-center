@@ -69,9 +69,7 @@ describe("async `startRestoreDevice` ", () => {
     test("fire async `startRestoreDevice`", async () => {
       ;(readFile as jest.Mock).mockReturnValue(encryptedBuffer)
       ;(decryptFile as jest.Mock).mockReturnValue(decryptedBuffer)
-      ;(uploadDeviceFile as jest.Mock).mockReturnValue(
-        successDeviceResponse
-      )
+      ;(uploadDeviceFile as jest.Mock).mockReturnValue(successDeviceResponse)
       ;(startRestoreDeviceRequest as jest.Mock).mockReturnValue(
         successDeviceResponse
       )
@@ -185,9 +183,7 @@ describe("async `startRestoreDevice` ", () => {
       )
       ;(readFile as jest.Mock).mockReturnValue(encryptedBuffer)
       ;(decryptFile as jest.Mock).mockReturnValue(decryptedBuffer)
-      ;(uploadDeviceFile as jest.Mock).mockReturnValue(
-        errorDeviceResponse
-      )
+      ;(uploadDeviceFile as jest.Mock).mockReturnValue(errorDeviceResponse)
       const mockStore = createMockStore([thunk])(mockStoreState)
       const {
         meta: { requestId },
@@ -215,9 +211,7 @@ describe("async `startRestoreDevice` ", () => {
       )
       ;(readFile as jest.Mock).mockReturnValue(encryptedBuffer)
       ;(decryptFile as jest.Mock).mockReturnValue(decryptedBuffer)
-      ;(uploadDeviceFile as jest.Mock).mockReturnValue(
-        successDeviceResponse
-      )
+      ;(uploadDeviceFile as jest.Mock).mockReturnValue(successDeviceResponse)
       ;(startRestoreDeviceRequest as jest.Mock).mockReturnValue(
         errorDeviceResponse
       )
@@ -248,9 +242,7 @@ describe("async `startRestoreDevice` ", () => {
       )
       ;(readFile as jest.Mock).mockReturnValue(encryptedBuffer)
       ;(decryptFile as jest.Mock).mockReturnValue(decryptedBuffer)
-      ;(uploadDeviceFile as jest.Mock).mockReturnValue(
-        successDeviceResponse
-      )
+      ;(uploadDeviceFile as jest.Mock).mockReturnValue(successDeviceResponse)
       ;(startRestoreDeviceRequest as jest.Mock).mockReturnValue(
         successDeviceResponse
       )

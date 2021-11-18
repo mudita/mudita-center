@@ -110,6 +110,7 @@ const LeadingIcons = styled.div`
   align-items: center;
   order: 1;
   margin-right: 0.8rem;
+  margin-left: -0.8rem;
 `
 
 const TrailingIcons = styled.div`
@@ -512,10 +513,10 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
 export const InputPasscode: FunctionComponent<InputPasscodeProps> = ({
   className,
   inputRef,
-  error= false,
+  error = false,
   onChange = noop,
   focusable = false,
-  filled= false,
+  filled = false,
   ...rest
 }) => {
   return (
