@@ -64,13 +64,35 @@ const Status: FunctionComponent<StatusProps> = ({
   networkLevel = 0,
 }) => {
   const strength = Math.round(networkLevel * 100)
-  const displayNetworkName = (name: string) => {
-    const orange = "Orange Orange"
+  const findDuplicatesInNetworkName = (name: string) => {
+    const result: string[] = []
+    const wordsArray = name.split(" ")
+    const count: { [key: string]: number } = {}
+    wordsArray.forEach((word) => {
+      if (!count[word]) {
+        count[word] = 1
+      } else {
+        count[word] += 1
+      }
+    })
+    const all = Object.keys(count)
+    all.forEach((key) => {
+      if (count[key] > 1) {
+        result.push(key)
+      }
+    })
+
+    if (result.length === 1) {
+      return result[0]
+    } else {
+      return name
+    }
+  }
+  const displayNetworkName = (name: string): string => {
     const tmobile = "T-Mobile T-Mobile.pl"
-    const names: { [key: string]: string } = {
-      [orange]: "Orange",
+    const names: Record<string, string> = {
       [tmobile]: "T-Mobile",
-      default: name,
+      default: findDuplicatesInNetworkName(name),
     }
     return names[name] || names["default"]
   }
