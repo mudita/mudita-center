@@ -78,7 +78,7 @@ export const Input = styled(InputComponent).attrs<{ label: string }>(
     readOnly: true,
   })
 )<InputComponentProps>`
-  padding: 2.4rem 0 1.6rem 0;
+  padding: 2.4rem 0 0.6rem 0;
 
   div {
     transition: all 0s;
@@ -93,7 +93,7 @@ export const ContactDetailsWrapper = styled(Sidebar)`
 
 export const ContactDetailsInfo = styled(Text)`
   ${generalInputStyles};
-  padding: 2.4rem 0 1.6rem 0;
+  padding: 2.4rem 0 0.6rem 0;
   white-space: pre-wrap;
   margin: 0;
   border-bottom: 0.1rem solid ${borderColor("secondary")};
