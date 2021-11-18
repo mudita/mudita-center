@@ -82,6 +82,20 @@ const BlockedIcon = styled(Icon).attrs(() => ({
   margin-left: 1.6rem;
 `
 
+const NameSpan = styled.span``
+
+const ClickableCol = styled(Col)<{ disabled?: boolean }>`
+  height: 100%;
+
+  ${NameSpan} {
+    color: ${({ disabled }) => (disabled ? textColor("disabled") : "inherit")};
+  }
+
+  ${InitialsAvatar} {
+    color: ${({ disabled }) => (disabled ? textColor("accent") : "inherit")};
+  }
+`
+
 const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   min-width: 32rem;
   flex: 1;
@@ -100,19 +114,6 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
         ${lightAvatarStyles};
       }
     }
-  }
-`
-const NameSpan = styled.span``
-
-const ClickableCol = styled(Col)<{ disabled?: boolean }>`
-  height: 100%;
-
-  ${NameSpan} {
-    color: ${({ disabled }) => (disabled ? textColor("disabled") : "inherit")};
-  }
-
-  ${InitialsAvatar} {
-    color: ${({ disabled }) => (disabled ? textColor("accent") : "inherit")};
   }
 `
 
