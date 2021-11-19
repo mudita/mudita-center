@@ -155,7 +155,7 @@ describe("`ContactList` component", () => {
     ).not.toBeInTheDocument()
   })
 
-  describe("when edit mode is turned on and all rows is inactive (new johnContact state)", () => {
+  describe("when edit mode is turned on and all rows are inactive (new johnContact state)", () => {
     const extraProps: Partial<Props> = {
       resultsState: ResultsState.Loaded,
       contactList,
