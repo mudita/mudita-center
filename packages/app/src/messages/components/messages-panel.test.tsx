@@ -14,6 +14,7 @@ const defaultProps: Props = {
   searchValue: "",
   onSearchValueChange: jest.fn(),
   onNewMessageClick: jest.fn(),
+  buttonDisabled: false,
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

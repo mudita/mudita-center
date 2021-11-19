@@ -9,7 +9,6 @@ import Status from "App/overview/components/status/status.component"
 import System from "App/overview/components/system/system.component"
 import FilesManager from "App/overview/components/files-manager/files-manager.component"
 import Backup from "App/overview/components/backup/backup.component"
-import { Feature, flags } from "App/feature-flags"
 
 export const DeviceInfo = styled(DevicePreview)`
   grid-area: Device;
@@ -44,7 +43,10 @@ export const OverviewWrapper = styled.div`
   grid-template-areas:
     "Device Network"
     "Device System";
-  ${flags.get(Feature.Backup) && overviewWrapperWithBackup};
+`
+
+export const OverviewPureWrapper = styled(OverviewWrapper)`
+  ${overviewWrapperWithBackup};
 `
 
 export const FileManagerInfo = styled(FilesManager)`

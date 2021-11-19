@@ -430,6 +430,7 @@ const Messages: FunctionComponent<Props> = ({
         searchValue={searchValue}
         onSearchValueChange={changeSearchValue}
         onNewMessageClick={handleNewMessageClick}
+        buttonDisabled={messagesState === MessagesState.NewMessage}
       />
       <TableWithSidebarWrapper>
         {threads.length === 0 &&
@@ -453,6 +454,7 @@ const Messages: FunctionComponent<Props> = ({
             onToggleReadStatus={toggleReadStatus}
             onContactClick={contactClick}
             loadMoreRows={loadMoreRows}
+            newConversation={mockThread.phoneNumber}
             {...rest}
           />
         )}

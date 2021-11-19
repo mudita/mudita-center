@@ -18,6 +18,7 @@ import { DeviceTestIds } from "App/overview/components/device-preview/device-pre
 import {
   PhoneCard,
   PhoneInfo,
+  HarmonyInfo,
   PureSystemButtonContainer,
 } from "App/overview/components/device-preview/device-preview.styled"
 import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
@@ -54,9 +55,15 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
 
   return (
     <PhoneCard className={className} onClick={onClick}>
-      <PhoneInfo>
-        <DeviceImage caseColour={caseColour} deviceType={deviceType} />
-      </PhoneInfo>
+      {deviceType === DeviceType.MuditaPure ? (
+        <PhoneInfo>
+          <DeviceImage caseColour={caseColour} deviceType={deviceType} />
+        </PhoneInfo>
+      ) : (
+        <HarmonyInfo>
+          <DeviceImage caseColour={caseColour} deviceType={deviceType} />
+        </HarmonyInfo>
+      )}
       <CardAction>
         <CardActionButton
           active
