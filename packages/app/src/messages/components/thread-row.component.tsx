@@ -170,7 +170,8 @@ const ThreadRow: FunctionComponent<Props> = ({
         <InitialsAvatar user={contact} light={active} size={AvatarSize.Big} />
       </AvatarCol>
       <ThreadCol onClick={handleRowClick} data-testid={ThreadListTestIds.Row}>
-        {getPrettyCaller(contact, phoneNumber) === newConversation ? (
+        {getPrettyCaller(contact, phoneNumber) === newConversation ||
+        !thread.messageSnippet ? (
           <NewThreadWrapper>
             <Name displayStyle={TextDisplayStyle.LargeBoldText}>
               {getPrettyCaller(contact, phoneNumber)}
