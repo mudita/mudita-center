@@ -419,7 +419,7 @@ describe("filterRelease util", () => {
       })
     })
 
-    test("should return only Production Alpha Releases Releases", async () => {
+    test("should return all Releases", async () => {
       const githubReleases: GithubRelease[] = [
         productionGithubRelease,
         testProductionGithubRelease,
@@ -429,7 +429,7 @@ describe("filterRelease util", () => {
 
       const result = await mapToReleases(githubReleases)
 
-      expect(result).toHaveLength(1)
+      expect(result).toHaveLength(4)
       expect(productionAlphaRelease.tag_name).toContain(result[0].version)
     })
   })
@@ -444,7 +444,7 @@ describe("filterRelease util", () => {
       })
     })
 
-    test("should return only Test Production Alpha Releases", async () => {
+    test("should return all Releases", async () => {
       const githubReleases: GithubRelease[] = [
         productionGithubRelease,
         testProductionGithubRelease,
@@ -454,8 +454,7 @@ describe("filterRelease util", () => {
 
       const result = await mapToReleases(githubReleases)
 
-      expect(result).toHaveLength(1)
-      expect(testProductionAlphaRelease.tag_name).toContain(result[0].version)
+      expect(result).toHaveLength(4)
     })
   })
 })
