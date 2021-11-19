@@ -10,6 +10,7 @@ import { ResultsState } from "App/contacts/store/contacts.enum"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import { Contact } from "App/contacts/store/contacts.type"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
+import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 
 const intersectionObserverMock = () => ({
   observe: () => null,
@@ -40,7 +41,7 @@ const defaultProps: Props = {
   editMode: false,
 }
 
-const contact: Contact = {
+const johnContact: Contact = {
   id: "274970a2-13b7-4f42-962d-8fa0b2b48377",
   firstName: "John",
   lastName: "Doe",
@@ -50,10 +51,20 @@ const contact: Contact = {
   firstAddressLine: "",
 }
 
+const kareemContact: Contact = {
+  id: "8fa0b2b48377-13b7-4f42-962d-274970a2",
+  firstName: "Kareem",
+  lastName: "Doe",
+  primaryPhoneNumber: "123 789 456",
+  email: "example@mudita.com",
+  note: "",
+  firstAddressLine: "",
+}
+
 const contactList: ContactCategory[] = [
   {
-    category: contact.lastName?.charAt(0) ?? "#",
-    contacts: [contact],
+    category: johnContact.lastName?.charAt(0) ?? "#",
+    contacts: [kareemContact, johnContact],
   },
 ]
 
@@ -65,76 +76,123 @@ const render = (extraProps?: Partial<Props>) => {
   return renderWithThemeAndIntl(<ContactList {...props} />)
 }
 
-test("Empty phonebook is rendered as default state", () => {
-  const { queryByTestId } = render()
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
-  ).toBeInTheDocument()
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListLoading)
-  ).not.toBeInTheDocument()
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
-  ).not.toBeInTheDocument()
+beforeAll(() => {
+  mockAllIsIntersecting(true)
 })
 
-test("Empty phonebook is rendered if resultState is equal to Error", () => {
-  const { queryByTestId } = render({ resultsState: ResultsState.Error })
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
-  ).toBeInTheDocument()
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListLoading)
-  ).not.toBeInTheDocument()
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
-  ).not.toBeInTheDocument()
-})
-
-test("Loading component is rendered if resultState is Loading", () => {
-  const { queryByTestId } = render({
-    resultsState: ResultsState.Loading,
-    contactList,
+describe("`ContactList` component", () => {
+  test("Empty phonebook is rendered as default state", () => {
+    const { queryByTestId } = render()
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListLoading)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
+    ).not.toBeInTheDocument()
   })
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListLoading)
-  ).toBeInTheDocument()
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
-  ).not.toBeInTheDocument()
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
-  ).not.toBeInTheDocument()
-})
 
-test("No results is rendered if resultState is Loaded and contactList is empty", () => {
-  const { queryByTestId } = render({ resultsState: ResultsState.Loaded })
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
-  ).toBeInTheDocument()
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListLoading)
-  ).not.toBeInTheDocument()
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
-  ).not.toBeInTheDocument()
-})
-
-test("Contact list is rendered if resultState is Loaded and contactList isn't empty", () => {
-  const { queryByTestId, queryAllByTestId } = render({
-    resultsState: ResultsState.Loaded,
-    contactList,
+  test("Empty phonebook is rendered if resultState is equal to Error", () => {
+    const { queryByTestId } = render({ resultsState: ResultsState.Error })
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListLoading)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
+    ).not.toBeInTheDocument()
   })
-  expect(
-    queryAllByTestId(ContactListTestIdsEnum.ContactListGroup)[0]
-  ).toBeInTheDocument()
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListLoading)
-  ).not.toBeInTheDocument()
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
-  ).not.toBeInTheDocument()
-  expect(
-    queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
-  ).not.toBeInTheDocument()
+
+  test("Loading component is rendered if resultState is Loading", () => {
+    const { queryByTestId } = render({
+      resultsState: ResultsState.Loading,
+      contactList,
+    })
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListLoading)
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
+    ).not.toBeInTheDocument()
+  })
+
+  test("No results is rendered if resultState is Loaded and contactList is empty", () => {
+    const { queryByTestId } = render({ resultsState: ResultsState.Loaded })
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListLoading)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
+    ).not.toBeInTheDocument()
+  })
+
+  test("Contact list is rendered if resultState is Loaded and contactList isn't empty", () => {
+    const { queryByTestId, queryAllByTestId } = render({
+      resultsState: ResultsState.Loaded,
+      contactList,
+    })
+    expect(
+      queryAllByTestId(ContactListTestIdsEnum.ContactListGroup)[0]
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListLoading)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
+    ).not.toBeInTheDocument()
+  })
+
+  describe("when edit mode is turned on and all rows are inactive (new johnContact state)", () => {
+    const extraProps: Partial<Props> = {
+      resultsState: ResultsState.Loaded,
+      contactList,
+      editMode: true,
+    }
+
+    test("each row is disabled", () => {
+      const { queryAllByTestId } = render(extraProps)
+
+      mockAllIsIntersecting(0.1)
+
+      queryAllByTestId(ContactListTestIdsEnum.ContactRow).forEach((item) => {
+        expect(item).toHaveAttribute("disabled")
+      })
+    })
+  })
+
+  describe("when edit mode is turned on and one of the rows is active (edit johnContact state)", () => {
+    const extraProps: Partial<Props> = {
+      resultsState: ResultsState.Loaded,
+      contactList,
+      editMode: true,
+      activeRow: contactList[0].contacts[0],
+    }
+
+    test("each row is disabled expect the active one", () => {
+      const { queryAllByTestId } = render(extraProps)
+
+      mockAllIsIntersecting(0.1)
+
+      const rows = queryAllByTestId(ContactListTestIdsEnum.ContactRow)
+      const [firstRow, ...restRows] = rows
+
+      expect(firstRow).not.toHaveAttribute("disabled")
+      restRows.forEach((item) => {
+        expect(item).toHaveAttribute("disabled")
+      })
+    })
+  })
 })
