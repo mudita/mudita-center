@@ -37,6 +37,11 @@ export const PhoneInfo = styled(CardContent)`
     height: 29.7rem;
   }
 `
+
+export const HarmonyInfo = styled(PhoneInfo)`
+  margin-bottom: 12rem;
+`
+
 export const PureSystemButtonContainer = styled.div`
   padding: 2.4rem 0;
   display: flex;

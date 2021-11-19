@@ -318,6 +318,11 @@ describe("Messages component", () => {
       expect(queryByTestId(ThreadListTestIds.Row)).toBeInTheDocument()
     })
 
+    test("New message button is disabled", () => {
+      const { queryByTestId } = renderer(renderProps)
+      expect(queryByTestId(MessagePanelTestIds.NewMessageButton)).toBeDisabled()
+    })
+
     test("value of new message text area is empty", () => {
       const { queryByTestId } = renderer(renderProps)
       const input = queryByTestId(

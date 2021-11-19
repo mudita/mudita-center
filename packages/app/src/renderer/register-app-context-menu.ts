@@ -16,7 +16,7 @@ import { remote } from "electron"
 import { name } from "../../package.json"
 import importDeviceCrashDumpFiles from "Renderer/requests/import-device-crash-dumps-files.request"
 import { loadThreads } from "App/messages/actions"
-import { devClearAllThreads } from "App/messages/actions/base.action"
+import { clearAllThreads } from "App/messages/actions/base.action"
 
 const filePath = `${remote.app.getPath("appData")}/${name}/pure-logs`
 
@@ -57,7 +57,7 @@ const registerAppContextMenu = (menu: ContextMenu) => {
     },
     {
       label: "Clear all threads",
-      click: () => store.dispatch(devClearAllThreads()),
+      click: () => store.dispatch(clearAllThreads()),
     },
   ])
 

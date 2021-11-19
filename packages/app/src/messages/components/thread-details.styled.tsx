@@ -5,7 +5,10 @@
 
 import styled from "styled-components"
 import Text from "Renderer/components/core/text/text.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  textColor,
+} from "Renderer/styles/theming/theme-getters"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
@@ -55,6 +58,24 @@ export const IconButton = styled(ButtonComponent).attrs(() => ({
   displayStyle: DisplayStyle.IconOnly2,
 }))`
   ${buttonComponentAnimationStyles};
+`
+
+export const SendButton = styled(ButtonComponent).attrs(() => ({
+  displayStyle: DisplayStyle.IconOnly2,
+}))`
+  ${buttonComponentAnimationStyles};
+  border-radius: 50%;
+  background-color: ${backgroundColor("primary")};
+  svg path {
+    fill: ${textColor("active")};
+  }
+  :hover {
+    border-radius: 50%;
+    background-color: ${backgroundColor("super")};
+    svg path {
+      fill: ${textColor("active")};
+    }
+  }
 `
 
 export const Content = styled.div`

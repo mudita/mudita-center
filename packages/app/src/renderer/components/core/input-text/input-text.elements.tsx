@@ -133,7 +133,7 @@ const LabeledInputWrapper = styled.div`
 
 const TextInputIcon = styled.span`
   height: 100%;
-  max-height: 6.4rem;
+  max-height: 4.8rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -259,7 +259,7 @@ const InputWrapper = styled.label<InputWrapperProps>`
   transition: ${transition("border-color", "100ms", "ease-in-out")};
   ${TextInputIcon} {
     + ${TextInputIcon} {
-      margin-left: 1.2rem;
+      margin-left: 0.4rem;
     }
   }
 
@@ -300,8 +300,8 @@ const TextAreaInput = styled.textarea`
 
 const textAreaLayout = css`
   height: auto;
-  min-height: 6.4rem;
-  padding: 0 1.5rem;
+  min-height: 4.8rem;
+  padding: 0 1.3rem;
   border-radius: ${borderRadius("big")};
 `
 
@@ -318,14 +318,14 @@ const TextareaWrapper = styled(InputWrapper)<{
     outlined &&
     css`
       ${TextAreaInput} {
-        margin: 1.2rem 1.6rem;
+        margin: 1.2rem;
         padding-right: 0.5rem;
       }
     `}
 
   ${LeadingIcons}, ${TrailingIcons} {
     align-self: flex-end;
-    height: ${({ outlined }) => (outlined ? "6.4rem" : "auto")};
+    height: ${({ outlined }) => (outlined ? "4.8rem" : "auto")};
   }
 `
 

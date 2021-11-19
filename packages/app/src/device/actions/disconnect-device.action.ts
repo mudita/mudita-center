@@ -11,6 +11,7 @@ import { setConnectionStatus } from "App/device/actions/base.action"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { DeviceDisconnectionError } from "App/device/errors"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { setValue, MetadataKey } from "App/metadata"
 
 export const disconnectDevice = createAsyncThunk(
   DeviceEvent.Disconnected,
@@ -33,6 +34,8 @@ export const disconnectDevice = createAsyncThunk(
       )
     }
 
+    setValue({ key: MetadataKey.DeviceOsVersion, value: null })
+    setValue({ key: MetadataKey.DeviceType, value: null })
     dispatch(setConnectionStatus(false))
 
     return

@@ -9,6 +9,7 @@ import { DeviceEvent, ConnectionState } from "App/device/constants"
 import { ReduxRootState } from "App/renderer/store"
 import { setDeviceData } from "App/device/actions/base.action"
 import { DeviceDataLoader } from "App/device/loaders/device-data.loader"
+import { setValue, MetadataKey } from "App/metadata"
 
 export const loadDeviceData = createAsyncThunk<any, DeviceType>(
   DeviceEvent.Loading,
@@ -23,6 +24,14 @@ export const loadDeviceData = createAsyncThunk<any, DeviceType>(
 
     try {
       const data = await loader.loadDeviceData(payload)
+      setValue({
+        key: MetadataKey.DeviceOsVersion,
+        value: data.osVersion ?? null,
+      })
+      setValue({
+        key: MetadataKey.DeviceType,
+        value: state.device.deviceType,
+      })
       dispatch(setDeviceData(data))
     } catch (error) {
       return rejectWithValue(error)

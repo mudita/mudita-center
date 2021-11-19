@@ -14,7 +14,7 @@ export enum MessagesEvent {
   SetThreadsTotalCount = "SET_THREADS_TOTAL_COUNT",
   SetMessages = "SET_MESSAGES",
   AddNewMessage = "ADD_NEW_MESSAGE",
-  DevClearAllThreads = "DEV_CLEAR_ALL_THREADS",
+  ClearAllThreads = "CLEAR_ALL_THREADS",
 
   // TODO: move to UI? :think:
   ChangeVisibilityFilter = "CHANGE_VISIBILITY_FILTER",

@@ -10,6 +10,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { StatusProps } from "App/overview/components/status/status.interface"
 import Status from "App/overview/components/status/status.component"
 import { intl } from "Renderer/utils/intl"
+import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 
 const renderStatus = ({
   deviceType = DeviceType.MuditaPure,
@@ -58,6 +59,20 @@ describe("Device: Mudita pure", () => {
     expect(
       queryByText(intl.formatMessage({ id: "module.overview.statusPureTitle" }))
     ).toBeInTheDocument()
+  })
+  test("renders duplicated network name properly", () => {
+    const { getByTestId } = renderStatus({
+      deviceType: DeviceType.MuditaPure,
+      network: "Orange Orange",
+    })
+    expect(getByTestId(StatusTestIds.NetworkName)).toHaveTextContent("Orange")
+  })
+  test("renders custom duplicated network name properly", () => {
+    const { getByTestId } = renderStatus({
+      deviceType: DeviceType.MuditaPure,
+      network: "T-Mobile T-Mobile.pl",
+    })
+    expect(getByTestId(StatusTestIds.NetworkName)).toHaveTextContent("T-Mobile")
   })
 })
 
