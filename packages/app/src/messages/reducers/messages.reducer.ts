@@ -261,7 +261,7 @@ export const messagesReducer = createReducer<MessagesState>(
         }
       )
 
-      .addCase(MessagesEvent.DevClearAllThreads, (state) => {
+      .addCase(MessagesEvent.ClearAllThreads, (state) => {
         return {
           ...state,
           threadMap: {},
