@@ -32,4 +32,4 @@ export const setThreadsTotalCount = createAction<number>(
 
 export const setMessages = createAction<Message[]>(MessagesEvent.SetMessages)
 
-export const devClearAllThreads = createAction(MessagesEvent.DevClearAllThreads)
+export const clearAllThreads = createAction(MessagesEvent.ClearAllThreads)
