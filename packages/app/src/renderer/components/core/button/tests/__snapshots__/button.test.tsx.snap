@@ -732,7 +732,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 }
 
 .c0 svg {
-  opacity: 0.75;
+  opacity: 0.6;
 }
 
 .c2 {
@@ -849,7 +849,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 }
 
 .c0 svg {
-  opacity: 0.75;
+  opacity: 0.6;
 }
 
 .c2 {
@@ -939,6 +939,14 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   background-color: #000000;
   -webkit-transition: width 500ms ease;
   transition: width 500ms ease;
+}
+
+.c0:hover {
+  color: #3b3f42;
+}
+
+.c0:hover svg {
+  opacity: 0.9;
 }
 
 .c0.active {
@@ -1053,6 +1061,14 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   background-color: #000000;
   -webkit-transition: width 500ms ease;
   transition: width 500ms ease;
+}
+
+.c0:hover {
+  color: #3b3f42;
+}
+
+.c0:hover svg {
+  opacity: 0.9;
 }
 
 .c0.active {

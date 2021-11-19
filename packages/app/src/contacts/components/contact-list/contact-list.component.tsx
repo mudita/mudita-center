@@ -56,13 +56,6 @@ export const lightAvatarStyles = css`
 
 const InitialsAvatar = styled(Avatar)<{ disabled?: boolean }>`
   margin-right: 1.2rem;
-  p {
-    color: ${({ disabled }) => (disabled ? textColor("accent") : "inherit")};
-  }
-`
-
-const ClickableCol = styled(Col)`
-  height: 100%;
 `
 
 export const AvatarPlaceholder = styled.div`
@@ -89,6 +82,20 @@ const BlockedIcon = styled(Icon).attrs(() => ({
   margin-left: 1.6rem;
 `
 
+const NameSpan = styled.span``
+
+const ClickableCol = styled(Col)<{ disabled?: boolean }>`
+  height: 100%;
+
+  ${NameSpan} {
+    color: ${({ disabled }) => (disabled ? textColor("disabled") : "inherit")};
+  }
+
+  ${InitialsAvatar} {
+    color: ${({ disabled }) => (disabled ? textColor("accent") : "inherit")};
+  }
+`
+
 const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   min-width: 32rem;
   flex: 1;
@@ -108,9 +115,6 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
       }
     }
   }
-`
-const NameSpan = styled.span<{ disabled?: boolean }>`
-  color: ${({ disabled }) => (disabled ? textColor("disabled") : "inherit")};
 `
 
 type SelectHook = Pick<
@@ -186,6 +190,8 @@ const ContactList: FunctionComponent<Props> = ({
                 <Col>{category}</Col>
               </CategoryLabels>
               {contacts.map((contact, index) => {
+                const rowActive = activeRow?.id === contact.id
+                const rowDisabled = editMode && !rowActive
                 const { selected } = getRowStatus(contact)
                 const onChange = () => toggleRow(contact)
                 const handleExport = () => onExport([contact])
@@ -203,13 +209,13 @@ const ContactList: FunctionComponent<Props> = ({
                   }
                   if (firstName && lastName) {
                     return (
-                      <NameSpan disabled={editMode}>
+                      <NameSpan>
                         {firstName} <strong>{lastName}</strong>
                       </NameSpan>
                     )
                   }
                   return (
-                    <NameSpan disabled={editMode}>
+                    <NameSpan>
                       <strong>{firstName || lastName}</strong>
                     </NameSpan>
                   )
@@ -223,11 +229,7 @@ const ContactList: FunctionComponent<Props> = ({
                   (nextContact || contacts[index]).id === activeRow?.id
 
                 const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-                  <Row
-                    selected={selected}
-                    active={activeRow?.id === contact.id}
-                    ref={ref}
-                  >
+                  <Row selected={selected} active={rowActive} ref={ref}>
                     <Col>
                       <Checkbox
                         checked={selected}
@@ -239,12 +241,12 @@ const ContactList: FunctionComponent<Props> = ({
                     <ClickableCol
                       onClick={handleSelect}
                       data-testid={ContactListTestIdsEnum.ContactRow}
+                      disabled={rowDisabled}
                     >
                       <InitialsAvatar
                         user={contact}
                         light={selected || activeRow === contact}
                         size={AvatarSize.Medium}
-                        disabled={editMode}
                       />
                       {createStyledFullName() ||
                         intl.formatMessage({

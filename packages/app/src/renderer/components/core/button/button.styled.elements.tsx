@@ -231,7 +231,7 @@ const buttonStyles = css<{
             ${navLinkStyles}
           }
           svg {
-            opacity: 0.75;
+            opacity: 0.6;
           }
         `
       case DisplayStyle.Tab:
@@ -256,6 +256,13 @@ const buttonStyles = css<{
             height: 0.2rem;
             background-color: ${backgroundColor("super")};
             transition: ${transition("width", undefined, "ease")};
+          }
+
+          :hover {
+            color: ${textColor("tabHover")};
+            svg {
+              opacity: 0.9;
+            }
           }
 
           &.${activeClassName} {

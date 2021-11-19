@@ -9,7 +9,7 @@ import {
   changeSearchValue,
   changeVisibilityFilter,
   deleteThreads,
-  devClearAllThreads,
+  clearAllThreads,
   markThreadsAsRead,
   setMessages,
   setThreads,
@@ -108,12 +108,12 @@ describe("Action: setMessages", () => {
   })
 })
 
-describe("Action: devClearAllThreads", () => {
+describe("Action: clearAllThreads", () => {
   test("fire action without payload and `DevClearAllThreads` type", () => {
-    mockStore.dispatch(devClearAllThreads())
+    mockStore.dispatch(clearAllThreads())
     expect(mockStore.getActions()).toEqual([
       {
-        type: MessagesEvent.DevClearAllThreads,
+        type: MessagesEvent.ClearAllThreads,
         payload: undefined,
       },
     ])

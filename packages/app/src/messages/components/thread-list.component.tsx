@@ -68,6 +68,7 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   onContactClick: (phoneNumber: string) => void
   loadMoreRows: (props: IndexRange) => Promise<void>
+  newConversation: string
 }
 
 const ThreadList: FunctionComponent<Props> = ({
@@ -84,6 +85,7 @@ const ThreadList: FunctionComponent<Props> = ({
   getContactByPhoneNumber,
   onContactClick,
   loadMoreRows,
+  newConversation,
   ...props
 }) => {
   const sidebarOpened = Boolean(activeThread)
@@ -115,6 +117,7 @@ const ThreadList: FunctionComponent<Props> = ({
           onContactClick={onContactClick}
           thread={thread}
           style={style}
+          newConversation={newConversation}
         />
       )
     }

@@ -8,6 +8,7 @@ import { MessagesEvent } from "App/messages/constants"
 import getThreads from "Renderer/requests/get-threads.request"
 import { LoadThreadsError } from "App/messages/errors"
 import {
+  clearAllThreads,
   setThreads,
   setThreadsTotalCount,
 } from "App/messages/actions/base.action"
@@ -25,8 +26,13 @@ export const loadThreads = createAsyncThunk<
       return rejectWithValue(new LoadThreadsError("Get Threads request failed"))
     }
 
-    dispatch(setThreads(data.data))
     dispatch(setThreadsTotalCount(data.totalCount))
+
+    if (data.totalCount === 0) {
+      dispatch(clearAllThreads())
+    } else {
+      dispatch(setThreads(data.data))
+    }
 
     return data.nextPage
   }

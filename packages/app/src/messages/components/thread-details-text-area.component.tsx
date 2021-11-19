@@ -12,6 +12,7 @@ import {
   IconButton,
   Textarea,
   TextareaWrapper,
+  SendButton,
 } from "App/messages/components/thread-details.styled"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { Feature, flags } from "App/feature-flags"
@@ -48,7 +49,7 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
 
   const trailingIcon = [
     !isValueEmpty() && (
-      <IconButton
+      <SendButton
         data-testid={ThreadDetailsTextAreaTestIds.SendButton}
         key={Type.Send}
         Icon={Type.Send}

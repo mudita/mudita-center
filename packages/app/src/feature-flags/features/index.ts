@@ -119,13 +119,6 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: true,
     [Environment.TestAlphaProduction]: true,
   },
-  [Feature.Backup]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.TestProduction]: true,
-    [Environment.AlphaProduction]: true,
-    [Environment.TestAlphaProduction]: true,
-  },
   [Feature.NumberOfContactsToImport]: {
     [Environment.Development]: true,
     [Environment.Production]: true,
