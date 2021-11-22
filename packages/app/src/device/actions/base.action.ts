@@ -24,6 +24,6 @@ export const setOsVersionData = createAction<OsVersionPayload>(
 export const setUpdateState = createAction<UpdatingState>(
   DeviceEvent.SetUpdateState
 )
-export const setConnectionStatus = createAction<boolean>(
-  DeviceEvent.SetConnectionState
+export const setInitState = createAction(
+  DeviceEvent.SetInitState
 )

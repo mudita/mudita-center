@@ -47,6 +47,12 @@ jest.mock("App/device/actions/load-device-data.action", () => ({
     payload: undefined,
   }),
 }))
+jest.mock("App/device/actions/set-connection-status.action", () => ({
+  setConnectionStatus: jest.fn().mockReturnValue({
+    type: pendingAction("DEVICE_SET_CONNECTION_STATE"),
+    payload: true,
+  }),
+}))
 jest.mock("Renderer/requests/connect-device.request")
 
 afterEach(() => {
@@ -68,8 +74,8 @@ describe("Connect Device request returns `success` status", () => {
     expect(mockStore.getActions()).toEqual([
       connectDevice.pending(requestId, DeviceType.MuditaPure),
       {
+        type: pendingAction("DEVICE_SET_CONNECTION_STATE"),
         payload: true,
-        type: "DEVICE_SET_CONNECTION_STATE",
       },
       {
         type: pendingAction("DEVICE_DATA_LOADING"),
