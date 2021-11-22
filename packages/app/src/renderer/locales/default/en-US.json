@@ -527,7 +527,7 @@
   "module.overview.updatingFailedHelpButton": "Go to Help",
   "module.overview.updatingFailedOnlySupportDescription": "Please contact support",
   "module.overview.updatingFailedSupportButton": "Go to Support",
-  "module.overview.updatingFailedTitle": "Update failed. Error #{code}",
+  "module.overview.updatingFailedTitle": "Update failed",
   "module.overview.updatingForceActionButton": "Update",
   "module.overview.updatingForceDescription": "Your operating system is too old. Please upgrade your operating system to use Mudita Center",
   "module.overview.updatingForceTitle": "Update your operating system",
