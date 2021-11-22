@@ -65,12 +65,14 @@ export const SendButton = styled(ButtonComponent).attrs(() => ({
 }))`
   ${buttonComponentAnimationStyles};
   border-radius: 50%;
-  background-color: ${backgroundColor("primary")};
+  background-color: ${backgroundColor("super")};
+  opacity: 0.75;
   svg path {
     fill: ${textColor("active")};
   }
   :hover {
     border-radius: 50%;
+    opacity: 1;
     background-color: ${backgroundColor("super")};
     svg path {
       fill: ${textColor("active")};

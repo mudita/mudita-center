@@ -140,7 +140,7 @@ test("Modal should show phoneLocked info when phone have time block", () => {
 
 test("backspace key down event refresh previous input state to default", () => {
   const { inputsList } = renderer()
-  expect(inputsList()[0]).not.toBeDisabled()
+  expect(inputsList()[0]).toBeEnabled()
   expect(inputsList()[0]).not.toHaveStyleRule("background-color", "#f4f5f6")
 
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
@@ -148,13 +148,13 @@ test("backspace key down event refresh previous input state to default", () => {
   expect(inputsList()[0]).toHaveStyleRule("background-color", "#f4f5f6")
 
   fireEvent.keyDown(inputsList()[1] as Element, backspaceKeyEvent)
-  expect(inputsList()[0]).not.toBeDisabled()
+  expect(inputsList()[0]).toBeEnabled()
   expect(inputsList()[0]).not.toHaveStyleRule("background-color", "#f4f5f6")
 })
 
 test("pass digit value in input that with the same value move cursor to the next input", () => {
   const { inputsList } = renderer()
-  expect(inputsList()[0]).not.toBeDisabled()
+  expect(inputsList()[0]).toBeEnabled()
   expect(inputsList()[0]).not.toHaveStyleRule("background-color", "#f4f5f6")
 
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
@@ -162,7 +162,7 @@ test("pass digit value in input that with the same value move cursor to the next
   expect(inputsList()[0]).toHaveStyleRule("background-color", "#f4f5f6")
 
   fireEvent.keyDown(inputsList()[1] as Element, backspaceKeyEvent)
-  expect(inputsList()[0]).not.toBeDisabled()
+  expect(inputsList()[0]).toBeEnabled()
   expect(inputsList()[0]).not.toHaveStyleRule("background-color", "#f4f5f6")
 
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)

@@ -189,7 +189,7 @@ describe("`ContactList` component", () => {
       const rows = queryAllByTestId(ContactListTestIdsEnum.ContactRow)
       const [firstRow, ...restRows] = rows
 
-      expect(firstRow).not.toHaveAttribute("disabled")
+      expect(firstRow).toBeEnabled()
       restRows.forEach((item) => {
         expect(item).toHaveAttribute("disabled")
       })
