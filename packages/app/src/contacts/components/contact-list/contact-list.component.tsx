@@ -117,6 +117,16 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   }
 `
 
+const activeRowStyles = css`
+  ${InitialsAvatar} {
+    ${lightAvatarStyles};
+  }
+`
+
+const ContactListRow = styled(Row)`
+  ${({ active }) => active && activeRowStyles};
+`
+
 type SelectHook = Pick<
   UseTableSelect<Contact>,
   "getRowStatus" | "toggleRow" | "noneRowsSelected"
@@ -229,7 +239,7 @@ const ContactList: FunctionComponent<Props> = ({
                   (nextContact || contacts[index]).id === activeRow?.id
 
                 const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-                  <Row selected={selected} active={rowActive} ref={ref}>
+                  <ContactListRow selected={selected} active={rowActive} ref={ref}>
                     <Col>
                       <Checkbox
                         checked={selected}
@@ -327,12 +337,12 @@ const ContactList: FunctionComponent<Props> = ({
                       key={contact.id}
                       active={scrollActive}
                     />
-                  </Row>
+                  </ContactListRow>
                 )
 
                 const placeholderRow = (ref: Ref<HTMLDivElement>) => {
                   return (
-                    <Row ref={ref}>
+                    <ContactListRow ref={ref}>
                       <Col />
                       <Col>
                         <AvatarPlaceholder />
@@ -347,7 +357,7 @@ const ContactList: FunctionComponent<Props> = ({
                         key={contact.id}
                         active={scrollActive}
                       />
-                    </Row>
+                    </ContactListRow>
                   )
                 }
 
