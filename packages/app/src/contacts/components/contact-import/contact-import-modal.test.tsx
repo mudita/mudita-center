@@ -179,7 +179,7 @@ test("Failed rows have a proper icon attached", () => {
   })
 })
 
-describe("Select text on copntact list", () => {
+describe("Select text on contact list", () => {
   test("should display all selected number", () => {
     const { getByTestId } = renderer()
     expect(
@@ -198,9 +198,7 @@ describe("Select text on copntact list", () => {
   })
   test("should display selected number", () => {
     const { getByTestId, getAllByTestId } = renderer()
-    const allCheckboxes = getAllByTestId(
-      ContactImportModalTestIds.RowCheckbox
-    )
+    const allCheckboxes = getAllByTestId(ContactImportModalTestIds.RowCheckbox)
     allCheckboxes[0].click()
     expect(
       getByTestId(ContactImportModalTestIds.SelectedText)
@@ -211,8 +209,8 @@ test("Import contact list should be sorted by last name", () => {
   const { getAllByTestId } = renderer()
   expect(
     getAllByTestId(ContactImportModalTestIds.ContactRow)[5]
-  ).toHaveTextContent("Sławomir Borewicz")
+  ).toHaveTextContent("Borewicz Sławomir")
   expect(
     getAllByTestId(ContactImportModalTestIds.ContactRow)[6]
-  ).toHaveTextContent("John Doe")
+  ).toHaveTextContent("Doe John")
 })
