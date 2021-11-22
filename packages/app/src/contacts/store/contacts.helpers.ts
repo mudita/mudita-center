@@ -185,6 +185,16 @@ export const createFullName = ({
   return `${firstName} ${lastName}`.trim()
 }
 
+export const createFullNameStartingFromLastName = ({
+  firstName = "",
+  lastName = "",
+}: {
+  firstName?: string
+  lastName?: string
+} = {}): string => {
+  return `${lastName} ${firstName}`.trim()
+}
+
 export const getSortedContactList = ({ collection, db }: PhoneContacts) => {
   const anonymousContacts = []
   const favouriteContacts = []

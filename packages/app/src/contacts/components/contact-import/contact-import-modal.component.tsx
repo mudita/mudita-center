@@ -28,7 +28,7 @@ import Text, {
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullNameStartingFromLastName } from "App/contacts/store/contacts.helpers"
 import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 import { ModalIcon } from "Renderer/components/core/modal-shared/modal-shared"
@@ -136,7 +136,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
               data-testid={ContactImportModalTestIds.RowCheckbox}
             />
           )}
-          <p>{createFullName(data)}</p>
+          <p>{createFullNameStartingFromLastName(data)}</p>
         </Col>
         <Col>
           {data.primaryPhoneNumber || data.secondaryPhoneNumber}
