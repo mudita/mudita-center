@@ -173,11 +173,11 @@ const Messages: FunctionComponent<Props> = ({
         void loadMessagesByThreadId({
           threadId: activeThread.id,
         })
-        void loadLatestThreadsRequest
+        void loadLatestThreadsRequest()
       }, 10000)
     } else {
       interval = setInterval(() => {
-        void loadLatestThreadsRequest
+        void loadLatestThreadsRequest()
       }, 10000)
     }
 
