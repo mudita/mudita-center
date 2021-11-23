@@ -13,6 +13,10 @@ export const ModalText = styled(Text)`
   line-height: 1.8rem;
 `
 
+export const SelectedText = styled(Text)`
+  text-align: right;
+`
+
 export const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-evenly;

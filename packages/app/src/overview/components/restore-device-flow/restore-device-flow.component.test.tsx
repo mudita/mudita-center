@@ -49,6 +49,9 @@ describe("`RestoreDeviceFlow` component", () => {
         queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
       ).toBeInTheDocument()
       expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreSecretKeySetting)
+      ).not.toBeInTheDocument()
+      expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
       ).not.toBeInTheDocument()
       expect(
@@ -75,10 +78,41 @@ describe("`RestoreDeviceFlow` component", () => {
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
       ).toBeInTheDocument()
       expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreSecretKeySetting)
+      ).not.toBeInTheDocument()
+      expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
       ).not.toBeInTheDocument()
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `openState` property is set to `SecretKeySetting`", () => {
+    const extraProps: Partial<Props> = {
+      openState: RestoreDeviceFlowState.SecretKeySetting,
+    }
+    test("should be displayed `RestoreConfirmSecretKeyModal`", () => {
+      const { queryByTestId } = render(extraProps)
+
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreSecretKeySetting)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceStart)
       ).not.toBeInTheDocument()
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
@@ -99,6 +133,9 @@ describe("`RestoreDeviceFlow` component", () => {
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceRunning)
       ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreSecretKeySetting)
+      ).not.toBeInTheDocument()
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
       ).not.toBeInTheDocument()
@@ -125,6 +162,9 @@ describe("`RestoreDeviceFlow` component", () => {
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceFinished)
       ).toBeInTheDocument()
       expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreSecretKeySetting)
+      ).not.toBeInTheDocument()
+      expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
       ).not.toBeInTheDocument()
       expect(
@@ -149,6 +189,9 @@ describe("`RestoreDeviceFlow` component", () => {
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreDeviceError)
       ).toBeInTheDocument()
+      expect(
+        queryByTestId(RestoreDeviceFlowTestIds.RestoreSecretKeySetting)
+      ).not.toBeInTheDocument()
       expect(
         queryByTestId(RestoreDeviceFlowTestIds.RestoreAvailableBackupModal)
       ).not.toBeInTheDocument()

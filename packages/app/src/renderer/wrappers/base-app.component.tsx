@@ -18,12 +18,11 @@ import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-upda
 import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { CrashDump } from "App/crash-dump"
 
 interface Props {
   getConnectedDevice: () => void
   loadContacts: () => void
-  loadMessages: () => void
-
   history: History
   pureFeaturesVisible?: boolean
   deviceConnecting?: boolean
@@ -45,8 +44,6 @@ interface Props {
 const BaseApp: FunctionComponent<Props> = ({
   getConnectedDevice,
   loadContacts,
-  loadMessages,
-
   history,
   pureFeaturesVisible,
   deviceConnecting,
@@ -74,7 +71,7 @@ const BaseApp: FunctionComponent<Props> = ({
     [URL_MAIN.contacts]: [() => loadContacts()],
     [URL_MAIN.phone]: [() => loadContacts()],
     [URL_OVERVIEW.root]: [() => getConnectedDevice()],
-    [URL_MAIN.messages]: [() => loadMessages(), () => loadContacts()],
+    [URL_MAIN.messages]: [],
   })
   useEffect(() => {
     setAppUpdateStepModalVisible(
@@ -141,6 +138,7 @@ const BaseApp: FunctionComponent<Props> = ({
           closeModal={closeAppUpdateStepModal}
         />
       )}
+      <CrashDump />
       <Router history={history}>
         <BaseRoutes />
       </Router>
@@ -151,12 +149,14 @@ const BaseApp: FunctionComponent<Props> = ({
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
     pureFeaturesVisible:
-      (state.device.status.connected && !state.device.status.locked) ||
+      (state.device.status.connected &&
+        Boolean(state.device.status.unlocked)) ||
       state.device.updatingState === UpdatingState.Updating ||
       state.restoreDevice.state === RestoreDeviceDataState.Running,
     deviceConnecting:
-      state.device.status.connected && state.device.status.locked,
-    deviceParred: state.device.status.loaded && !state.device.status.locked,
+      state.device.status.connected && !state.device.status.unlocked,
+    deviceParred:
+      state.device.status.loaded && Boolean(state.device.status.unlocked),
     // TODO Refactor legacy staff
     appUpdateAvailable: state.settings.appUpdateAvailable,
     appCollectingData: state.settings.appCollectingData,
@@ -169,12 +169,11 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
   }
 }
 
-// TODO replace `TmpDispatch` with legit `Dispatch`
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   getConnectedDevice: () => dispatch(getConnectedDevice),
   loadContacts: () => dispatch.contacts.loadData(),
-  loadMessages: () => dispatch.messages.loadData(),
 
+  // TODO Refactor legacy staff
   toggleAppCollectingData: dispatch.settings.toggleAppCollectingData,
   setAppUpdateStepModalDisplayed:
     dispatch.settings.setAppUpdateStepModalDisplayed,

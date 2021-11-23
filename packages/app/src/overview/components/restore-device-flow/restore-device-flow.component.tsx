@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, useState } from "react"
+import React, { ComponentProps, useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   RestoreFailureModal,
@@ -15,9 +15,12 @@ import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.comp
 import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
 import { Backup } from "App/backup/reducers"
 import RestoreAvailableBackupModal from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal"
+import { RestoreConfirmSecretKeyModal } from "App/overview/components/restore-confirm-secret-key-modal-dialog/restore-confirm-secret-key-modal-dialog.component"
+import { StartRestoreOption } from "App/restore-device/actions"
 
 export enum RestoreDeviceFlowState {
   Start = "start",
+  SecretKeySetting = "secret-key-setting",
   Running = "running",
   Finished = "finished",
   Error = "error",
@@ -26,7 +29,7 @@ export enum RestoreDeviceFlowState {
 interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
   openState?: RestoreDeviceFlowState
   backups: Backup[]
-  onStartRestoreDeviceButtonClick: (backup: Backup) => void
+  onStartRestoreDeviceButtonClick: (option: StartRestoreOption) => void
   onSupportButtonClick: () => void
 }
 
@@ -37,24 +40,33 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
   onSupportButtonClick,
   closeModal,
 }) => {
+  const [state, setState] = useState<RestoreDeviceFlowState>(openState)
   const [activeBackup, setActiveBackup] = useState<Backup>()
 
-  const handleActionButtonClick = (): void => {
-    if (activeBackup) {
-      onStartRestoreDeviceButtonClick(activeBackup)
-    }
+  const goToRestoreConfirmSecretKeyModal = (): void => {
+    setState(RestoreDeviceFlowState.SecretKeySetting)
   }
 
   const handleBackupRowClick = (backup: Backup) => {
     setActiveBackup(backup)
   }
 
+  const startBackupDeviceButtonClick = (secretKey = ""): void => {
+    if (activeBackup) {
+      onStartRestoreDeviceButtonClick({ backup: activeBackup, secretKey })
+    }
+  }
+
+  useEffect(() => {
+    setState(openState)
+  }, [openState])
+
   return (
     <>
       {activeBackup === undefined ? (
         <RestoreAvailableBackupModal
           testId={RestoreDeviceFlowTestIds.RestoreAvailableBackupModal}
-          open={RestoreDeviceFlowState.Start === openState}
+          open={RestoreDeviceFlowState.Start === state}
           backups={backups}
           closeModal={closeModal}
           onBackupRowClick={handleBackupRowClick}
@@ -62,25 +74,31 @@ const RestoreDeviceFlow: FunctionComponent<Props> = ({
       ) : (
         <RestoreModal
           testId={RestoreDeviceFlowTestIds.RestoreDeviceStart}
-          open={RestoreDeviceFlowState.Start === openState}
+          open={RestoreDeviceFlowState.Start === state}
           closeModal={closeModal}
-          onActionButtonClick={handleActionButtonClick}
+          onActionButtonClick={goToRestoreConfirmSecretKeyModal}
           backupDate={activeBackup.date}
         />
       )}
+      <RestoreConfirmSecretKeyModal
+        testId={RestoreDeviceFlowTestIds.RestoreSecretKeySetting}
+        open={RestoreDeviceFlowState.SecretKeySetting === state}
+        onSecretKeySet={startBackupDeviceButtonClick}
+        closeModal={closeModal}
+      />
       <RestoreSpinnerModal
         testId={RestoreDeviceFlowTestIds.RestoreDeviceRunning}
-        open={RestoreDeviceFlowState.Running === openState}
+        open={RestoreDeviceFlowState.Running === state}
       />
       <RestoreSuccessModal
         testId={RestoreDeviceFlowTestIds.RestoreDeviceFinished}
-        open={RestoreDeviceFlowState.Finished === openState}
+        open={RestoreDeviceFlowState.Finished === state}
         closeModal={closeModal}
         onActionButtonClick={closeModal}
       />
       <RestoreFailureModal
         testId={RestoreDeviceFlowTestIds.RestoreDeviceError}
-        open={RestoreDeviceFlowState.Error === openState}
+        open={RestoreDeviceFlowState.Error === state}
         secondaryActionButtonClick={onSupportButtonClick}
         closeModal={closeModal}
       />

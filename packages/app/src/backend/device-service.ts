@@ -8,6 +8,7 @@ import {
   DeviceEventName,
   DeviceInfo,
   Endpoint,
+  DeviceType,
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
   PutFileSystemRequestConfig,
@@ -37,6 +38,8 @@ import {
   StartRestoreRequestConfig,
   GetRestoreDeviceStatusRequestConfig,
   GetRestoreDeviceStatusResponseBody,
+  RemoveFileSystemRequestConfig,
+  RemoveFileSystemResponse,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
@@ -59,7 +62,9 @@ class DeviceService {
   constructor(
     private deviceManager: MuditaDeviceManager,
     private ipcMain: MainProcessIpc
-  ) {}
+  ) {
+    EventEmitter.defaultMaxListeners = 15
+  }
 
   public init(): DeviceService {
     this.registerAttachDeviceListener()
@@ -142,7 +147,6 @@ class DeviceService {
   public request(config: GetFileSystemRequestConfig): Promise<
     DeviceResponse<{
       rxID: string
-      fileCrc32: string
       fileSize: number
       chunkSize: number
     }>
@@ -152,6 +156,7 @@ class DeviceService {
       rxID: string
       chunkNo: number
       data: string
+      fileCrc32?: string
     }>
   >
   public request(config: SendFileSystemRequestConfig): Promise<
@@ -176,6 +181,9 @@ class DeviceService {
   public request(
     config: GetRestoreDeviceStatusRequestConfig
   ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>>
+  public request(
+    config: RemoveFileSystemRequestConfig
+  ): Promise<DeviceResponse<RemoveFileSystemResponse>>
   async request(
     config: RequestConfig<any>
   ): Promise<DeviceResponse<unknown> | DeviceResponse<undefined>> {
@@ -314,7 +322,10 @@ class DeviceService {
       this.currentDevice = device
 
       this.registerDeviceDisconnectedListener()
-      this.registerDeviceUnlockedListener()
+
+      if (this.currentDevice.deviceType === DeviceType.MuditaPure) {
+        this.registerDeviceUnlockedListener()
+      }
 
       return {
         data: this.currentDevice,

@@ -41,7 +41,6 @@ test("GetDeviceLogs request works properly", (done) => {
               rxID: "1",
               fileSize: 1,
               chunkSize: 1,
-              fileCrc32: "265B86C6",
             },
           }
         } else if (
@@ -51,6 +50,7 @@ test("GetDeviceLogs request works properly", (done) => {
             status: DeviceResponseStatus.Ok,
             data: {
               data: "SGVsbG8sIFdvcmxk",
+              fileCrc32: "265B86C6",
             },
           }
         } else {

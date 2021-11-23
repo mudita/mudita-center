@@ -14,7 +14,7 @@ type Properties = ComponentProps<typeof MessageDayBubble>
 const defaultProps: Properties = {
   user: {
     firstName: "",
-    lastName: "Mosciski"
+    lastName: "Mosciski",
   },
   interlocutor: true,
   displayAvatar: true,

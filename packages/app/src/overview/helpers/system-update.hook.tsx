@@ -285,7 +285,12 @@ const useSystemUpdateFlow = (
         : releaseInstance
     try {
       await openDownloadingUpdateModal()
-      await delayResponse(downloadOsUpdateRequest(release?.file.url as string))
+      await delayResponse(
+        downloadOsUpdateRequest({
+          url: release?.file.url as string,
+          fileName: release?.file.name as string,
+        })
+      )
       if (release?.devMode) {
         openDevModal(true)
       } else {
@@ -333,7 +338,12 @@ const useSystemUpdateFlow = (
         pureOsDownloaded: false,
         lastAvailableOsVersion: undefined,
       })
+    }
 
+    if (
+      !releaseToInstall?.devMode &&
+      isEqual(response, { status: DeviceResponseStatus.Ok })
+    ) {
       dispatch(
         setOsVersionData({
           osVersion: version,
@@ -372,6 +382,7 @@ const useSystemUpdateFlow = (
   }
 
   return {
+    release: releaseToInstall,
     initialCheck: () => checkForUpdates(true),
     check: () => checkForUpdates(),
     download: downloadUpdate,

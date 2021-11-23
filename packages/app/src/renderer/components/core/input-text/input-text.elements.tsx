@@ -8,7 +8,7 @@ import {
   InputIconsProps,
   InputProps,
   TextareaProps,
-  InputPasswordProps,
+  InputPasscodeProps,
 } from "Renderer/components/core/input-text/input-text.interface"
 import Text, {
   getTextStyles,
@@ -207,7 +207,7 @@ const errorPasswordStyles = css`
   }
 `
 
-const PasswordInput = styled.input<{
+const PasscodeInput = styled.input<{
   error: boolean
   filled: boolean
 }>`
@@ -509,23 +509,24 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   )
 }
 
-export const InputPassword: FunctionComponent<InputPasswordProps> = ({
+export const InputPasscode: FunctionComponent<InputPasscodeProps> = ({
   className,
   inputRef,
-  error,
+  error= false,
   onChange = noop,
-  focusable,
-  filled,
+  focusable = false,
+  filled= false,
   ...rest
 }) => {
   return (
-    <PasswordInput
+    <PasscodeInput
       {...rest}
+      type={"password"}
       maxLength={1}
       ref={inputRef}
       filled={filled}
       onChange={onChange}
-      data-testid={InputTextTestIds.PasswordInput}
+      data-testid={InputTextTestIds.PasscodeInput}
       error={error}
     />
   )

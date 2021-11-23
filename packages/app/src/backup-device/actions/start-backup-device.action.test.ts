@@ -11,12 +11,16 @@ import { BackupEvent } from "App/backup/constants"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import { startBackupDevice } from "App/backup-device/actions/start-backup-device.action"
+import {
+  startBackupDevice,
+  StartBackupOption,
+} from "App/backup-device/actions/start-backup-device.action"
 import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 import startBackupDeviceRequest from "Renderer/requests/start-backup-device.request"
 import getBackupDeviceStatus from "Renderer/requests/get-backup-device-status.request"
 import downloadDeviceFile from "Renderer/requests/download-device-file.request"
 import writeFile from "Renderer/requests/write-file.request"
+import encryptFile from "App/files-system/requests/encrypt-file.request"
 import { testError } from "Renderer/store/constants"
 import { StartBackupDeviceError } from "App/backup-device/errors"
 import {
@@ -28,6 +32,7 @@ jest.mock("Renderer/requests/start-backup-device.request")
 jest.mock("Renderer/requests/get-backup-device-status.request")
 jest.mock("Renderer/requests/download-device-file.request")
 jest.mock("Renderer/requests/write-file.request")
+jest.mock("App/files-system/requests/encrypt-file.request")
 jest.mock("App/backup/actions/load-backup-data.action", () => ({
   loadBackupData: jest.fn().mockReturnValue({
     type: pendingAction(BackupEvent.Load),
@@ -72,12 +77,19 @@ const errorGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusRe
     },
   }
 
+const backupBuffer = Buffer.from("backup data")
+const encryptedBuffer = Buffer.from("encrypted backup data")
+
 const successDownloadDeviceFileResponse: DeviceResponse<DeviceFile> = {
   status: DeviceResponseStatus.Ok,
   data: {
-    data: Buffer.from("backup data"),
+    data: backupBuffer,
     name: backupId,
   },
+}
+
+const option: StartBackupOption = {
+  secretKey: "MySuperSecretKey",
 }
 
 afterEach(() => {
@@ -114,6 +126,7 @@ describe("async `startBackupDevice` ", () => {
       ;(downloadDeviceFile as jest.Mock).mockReturnValue(
         successDownloadDeviceFileResponse
       )
+      ;(encryptFile as jest.Mock).mockReturnValue(encryptedBuffer)
       ;(writeFile as jest.Mock).mockReturnValue(true)
       const mockStore = createMockStore([thunk])({
         settings: {
@@ -127,20 +140,23 @@ describe("async `startBackupDevice` ", () => {
       })
       const {
         meta: { requestId },
-      } = await mockStore.dispatch(startBackupDevice() as unknown as AnyAction)
+      } = await mockStore.dispatch(
+        startBackupDevice(option) as unknown as AnyAction
+      )
 
       expect(mockStore.getActions()).toEqual([
-        startBackupDevice.pending(requestId),
+        startBackupDevice.pending(requestId, option),
         {
           type: pendingAction(BackupEvent.Load),
           payload: undefined,
         },
-        startBackupDevice.fulfilled(undefined, requestId, undefined),
+        startBackupDevice.fulfilled(undefined, requestId, option),
       ])
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
       expect(getBackupDeviceStatus).toHaveBeenCalled()
       expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(encryptFile).toHaveBeenCalled()
       expect(writeFile).toHaveBeenCalled()
     })
   })
@@ -162,16 +178,19 @@ describe("async `startBackupDevice` ", () => {
       })
       const {
         meta: { requestId },
-      } = await mockStore.dispatch(startBackupDevice() as unknown as AnyAction)
+      } = await mockStore.dispatch(
+        startBackupDevice(option) as unknown as AnyAction
+      )
 
       expect(mockStore.getActions()).toEqual([
-        startBackupDevice.pending(requestId),
-        startBackupDevice.rejected(testError, requestId, undefined, errorMock),
+        startBackupDevice.pending(requestId, option),
+        startBackupDevice.rejected(testError, requestId, option, errorMock),
       ])
 
       expect(startBackupDeviceRequest).not.toHaveBeenCalled()
       expect(getBackupDeviceStatus).not.toHaveBeenCalled()
       expect(downloadDeviceFile).not.toHaveBeenCalled()
+      expect(encryptFile).not.toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
   })
@@ -193,16 +212,19 @@ describe("async `startBackupDevice` ", () => {
       })
       const {
         meta: { requestId },
-      } = await mockStore.dispatch(startBackupDevice() as unknown as AnyAction)
+      } = await mockStore.dispatch(
+        startBackupDevice(option) as unknown as AnyAction
+      )
 
       expect(mockStore.getActions()).toEqual([
-        startBackupDevice.pending(requestId),
-        startBackupDevice.rejected(testError, requestId, undefined, errorMock),
+        startBackupDevice.pending(requestId, option),
+        startBackupDevice.rejected(testError, requestId, option, errorMock),
       ])
 
       expect(startBackupDeviceRequest).not.toHaveBeenCalled()
       expect(getBackupDeviceStatus).not.toHaveBeenCalled()
       expect(downloadDeviceFile).not.toHaveBeenCalled()
+      expect(encryptFile).not.toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
   })
@@ -227,16 +249,19 @@ describe("async `startBackupDevice` ", () => {
       })
       const {
         meta: { requestId },
-      } = await mockStore.dispatch(startBackupDevice() as unknown as AnyAction)
+      } = await mockStore.dispatch(
+        startBackupDevice(option) as unknown as AnyAction
+      )
 
       expect(mockStore.getActions()).toEqual([
-        startBackupDevice.pending(requestId),
-        startBackupDevice.rejected(testError, requestId, undefined, errorMock),
+        startBackupDevice.pending(requestId, option),
+        startBackupDevice.rejected(testError, requestId, option, errorMock),
       ])
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
       expect(getBackupDeviceStatus).not.toHaveBeenCalled()
       expect(downloadDeviceFile).not.toHaveBeenCalled()
+      expect(encryptFile).not.toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
   })
@@ -264,16 +289,19 @@ describe("async `startBackupDevice` ", () => {
       })
       const {
         meta: { requestId },
-      } = await mockStore.dispatch(startBackupDevice() as unknown as AnyAction)
+      } = await mockStore.dispatch(
+        startBackupDevice(option) as unknown as AnyAction
+      )
 
       expect(mockStore.getActions()).toEqual([
-        startBackupDevice.pending(requestId),
-        startBackupDevice.rejected(testError, requestId, undefined, errorMock),
+        startBackupDevice.pending(requestId, option),
+        startBackupDevice.rejected(testError, requestId, option, errorMock),
       ])
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
       expect(getBackupDeviceStatus).toHaveBeenCalled()
       expect(downloadDeviceFile).not.toHaveBeenCalled()
+      expect(encryptFile).not.toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
   })
@@ -304,16 +332,61 @@ describe("async `startBackupDevice` ", () => {
       })
       const {
         meta: { requestId },
-      } = await mockStore.dispatch(startBackupDevice() as unknown as AnyAction)
+      } = await mockStore.dispatch(
+        startBackupDevice(option) as unknown as AnyAction
+      )
 
       expect(mockStore.getActions()).toEqual([
-        startBackupDevice.pending(requestId),
-        startBackupDevice.rejected(testError, requestId, undefined, errorMock),
+        startBackupDevice.pending(requestId, option),
+        startBackupDevice.rejected(testError, requestId, option, errorMock),
       ])
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
       expect(getBackupDeviceStatus).toHaveBeenCalled()
       expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(encryptFile).not.toHaveBeenCalled()
+      expect(writeFile).not.toHaveBeenCalled()
+    })
+  })
+
+  describe("when `encryptFile` return error", () => {
+    test("fire async `startBackupDevice` returns `rejected` action", async () => {
+      const errorMock = new StartBackupDeviceError("Encrypt buffer fails")
+      ;(startBackupDeviceRequest as jest.Mock).mockReturnValue(
+        successStartBackupDeviceResponse
+      )
+      ;(getBackupDeviceStatus as jest.Mock).mockImplementation(
+        getBackupDeviceStatusMock()
+      )
+      ;(downloadDeviceFile as jest.Mock).mockReturnValue(
+        successDownloadDeviceFileResponse
+      )
+      ;(encryptFile as jest.Mock).mockReturnValue(undefined)
+      const mockStore = createMockStore([thunk])({
+        settings: {
+          pureOsBackupLocation: "C:\\backups",
+        },
+        device: {
+          data: {
+            backupLocation: "path/to/directory",
+          },
+        },
+      })
+      const {
+        meta: { requestId },
+      } = await mockStore.dispatch(
+        startBackupDevice(option) as unknown as AnyAction
+      )
+
+      expect(mockStore.getActions()).toEqual([
+        startBackupDevice.pending(requestId, option),
+        startBackupDevice.rejected(testError, requestId, option, errorMock),
+      ])
+
+      expect(startBackupDeviceRequest).toHaveBeenCalled()
+      expect(getBackupDeviceStatus).toHaveBeenCalled()
+      expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(encryptFile).toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
   })
@@ -332,6 +405,7 @@ describe("async `startBackupDevice` ", () => {
       ;(downloadDeviceFile as jest.Mock).mockReturnValue(
         successDownloadDeviceFileResponse
       )
+      ;(encryptFile as jest.Mock).mockReturnValue(encryptedBuffer)
       ;(writeFile as jest.Mock).mockReturnValue(false)
       const mockStore = createMockStore([thunk])({
         settings: {
@@ -345,16 +419,19 @@ describe("async `startBackupDevice` ", () => {
       })
       const {
         meta: { requestId },
-      } = await mockStore.dispatch(startBackupDevice() as unknown as AnyAction)
+      } = await mockStore.dispatch(
+        startBackupDevice(option) as unknown as AnyAction
+      )
 
       expect(mockStore.getActions()).toEqual([
-        startBackupDevice.pending(requestId),
-        startBackupDevice.rejected(testError, requestId, undefined, errorMock),
+        startBackupDevice.pending(requestId, option),
+        startBackupDevice.rejected(testError, requestId, option, errorMock),
       ])
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
       expect(getBackupDeviceStatus).toHaveBeenCalled()
       expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(encryptFile).toHaveBeenCalled()
       expect(writeFile).toHaveBeenCalled()
     })
   })

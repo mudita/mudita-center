@@ -18,17 +18,20 @@ import registerGetAllReleasesListener from "App/main/functions/register-get-all-
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
-import registerTranslationListener from "App/main/functions/register-translation-listener"
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/calendar/backend/export-events"
 import registerWriteFileListener from "App/main/functions/register-write-file-listener"
+import registerCopyFileListener from "App/main/functions/register-copy-file-listener"
 import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/main/functions/register-archive-files-listener"
+import registerReadFileListener from "App/files-system/listeners/read-file-listener"
 import registerGetApplicationConfigurationListener from "App/main/functions/register-get-application-configuration-listener"
 import registerGetFileDataListener from "App/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
+import registerEncryptFileListener from "App/files-system/listeners/encrypt-file-listener"
+import registerDecryptFileListener from "App/files-system/listeners/decrypt-file-listener"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
 import {
   registerDownloadHelpHandler,
@@ -70,6 +73,8 @@ import { AboutActions } from "App/common/enums/about-actions.enum"
 import PureLogger from "App/main/utils/pure-logger"
 import { flags, Feature } from "App/feature-flags"
 import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
+
+import { registerUploadFileListener } from "App/uploader"
 
 require("dotenv").config()
 
@@ -146,16 +151,20 @@ const createWindow = async () => {
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()
-  registerTranslationListener()
   registerContactsExportListener()
   registerEventsExportListener()
   registerWriteFileListener()
+  registerCopyFileListener()
   registerRmdirListener()
   registerWriteGzipListener()
   registerGetApplicationConfigurationListener()
   registerArchiveFilesListener()
   registerGetFileDataListener()
+  registerEncryptFileListener()
+  registerReadFileListener()
+  registerDecryptFileListener()
   registerPureOsDownloadProxy()
+  registerUploadFileListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)

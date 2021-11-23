@@ -120,7 +120,10 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
 
   const downloadOS = async (release: Release): Promise<boolean> => {
     try {
-      const response = await downloadOsUpdateRequest(release.file.url)
+      const response = await downloadOsUpdateRequest({
+        url: release.file.url,
+        fileName: release.file.name,
+      })
       return response.status === DownloadStatus.Completed
     } catch {
       return false

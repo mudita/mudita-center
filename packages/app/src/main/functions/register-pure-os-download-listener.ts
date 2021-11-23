@@ -18,15 +18,19 @@ const registerPureOsDownloadListener = (
     params: DownloadListener
   ) => Promise<DownloadFinished>
 ) => {
-  ipcMain.answerRenderer(PureOsDownloadChannels.start, async (url: string) => {
-    const { pureOsDownloadLocation } = await getAppSettingsMain()
+  ipcMain.answerRenderer(
+    PureOsDownloadChannels.start,
+    async ({ url, fileName }: { url: string; fileName: string }) => {
+      const { pureOsDownloadLocation } = await getAppSettingsMain()
 
-    return registerDownloadListener({
-      url,
-      savePath: pureOsDownloadLocation,
-      channels: PureOsDownloadChannels,
-    })
-  })
+      return registerDownloadListener({
+        url,
+        fileName,
+        savePath: pureOsDownloadLocation,
+        channels: PureOsDownloadChannels,
+      })
+    }
+  )
 }
 
 export default registerPureOsDownloadListener

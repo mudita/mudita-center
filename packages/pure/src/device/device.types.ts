@@ -98,3 +98,8 @@ export interface RequestConfig<Body = undefined> {
   body?: Body
   filePath?: string
 }
+
+export interface PaginationBody {
+  limit: number
+  offset: number
+}

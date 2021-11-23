@@ -9,11 +9,11 @@ import {
   Message,
   Receiver,
   ResultState,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import { MessagesWrapper } from "App/messages/components/thread-details.styled"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import ThreadDetailsError from "App/messages/components/thread-details-error.component"
-import ThreadDetailsLoading from "App/messages/components/thread-details-loading.component"
+// import ThreadDetailsLoading from "App/messages/components/thread-details-loading.component"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 import ThreadDetailsTextArea from "App/messages/components/thread-details-text-area.component"
 import ThreadDetailsSidebar from "App/messages/components/thread-details-sidebar.component"
@@ -56,8 +56,10 @@ const ThreadDetails: FunctionComponent<Props> = ({
         {resultState === ResultState.Error && (
           <ThreadDetailsError onClick={onLoadMessagesClick} />
         )}
-        {resultState === ResultState.Loading && <ThreadDetailsLoading />}
-        {resultState === ResultState.Loaded && (
+        {/* TODO: Add loading state as part of pagination task CP-741 */}
+        {/*{resultState === ResultState.Loading && <ThreadDetailsLoading />}*/}
+        {(resultState === ResultState.Loaded ||
+          resultState === ResultState.Loading) && (
           <ThreadDetailsMessages messages={messages} receiver={receiver} />
         )}
       </MessagesWrapper>

@@ -22,7 +22,7 @@ import logger from "App/main/utils/logger"
 import e2eSettings from "Renderer/models/settings/e2e-settings.json"
 import { isToday } from "Renderer/utils/is-today"
 import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
-import sendDiagnosticDataRequest from "Renderer/requests/send-diagnostic-data.request"
+import { uploadFileRequest } from "App/uploader/requests/upload-file.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getApplicationConfiguration from "App/renderer/requests/get-application-configuration.request"
 import archiveFiles from "Renderer/requests/archive-files.request"
@@ -162,7 +162,7 @@ const settings = createModel<RootModel>({
       },
       async sendDiagnosticData(_, state): Promise<void> {
         const { appCollectingData, diagnosticSentTimestamp } = state.settings
-        const { serialNumber } = state.device.data
+        const { serialNumber } = state.device?.data
 
         if (serialNumber === undefined) {
           logger.error(
@@ -205,7 +205,7 @@ const settings = createModel<RootModel>({
         }
 
         try {
-          const response = await sendDiagnosticDataRequest({
+          const response = await uploadFileRequest({
             buffer,
             fileName: attachedFileName,
             serialNumber,

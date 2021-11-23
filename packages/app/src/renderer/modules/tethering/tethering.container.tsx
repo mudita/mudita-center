@@ -8,7 +8,7 @@ import Tethering from "Renderer/modules/tethering/tethering.component"
 import { RootState, ReduxRootState } from "Renderer/store"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
-  deviceUnlocked: !state.device.status.locked,
+  deviceUnlocked: Boolean(state.device.status.unlocked),
 })
 
 export default connect(mapStateToProps)(Tethering)

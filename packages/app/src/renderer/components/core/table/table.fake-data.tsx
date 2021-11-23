@@ -11,7 +11,7 @@ import {
   Message,
   MessageType,
   Thread,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 import { createFakeContact } from "App/messages/helpers/create-fake-contact"
 
 const createCall = (): Call => {
@@ -58,9 +58,8 @@ const createText = () => ({
 
 export const templates = times(random(15, 25), createText)
 
-const createMessage = ({ id, contactId }: Thread): Message => {
+const createMessage = ({ id }: Thread): Message => {
   return {
-    contactId,
     id: Faker.datatype.uuid(),
     date: Faker.date.past(),
     content: Faker.lorem.sentences(2),
@@ -78,7 +77,6 @@ const createThread = (): Thread => {
   return {
     id: threadId,
     phoneNumber: threadId,
-    contactId: contact.id,
     unread: Faker.datatype.boolean(),
     lastUpdatedAt: Faker.date.past(),
     messageSnippet: Faker.lorem.paragraphs(random(1, 3)),

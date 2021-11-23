@@ -11,13 +11,22 @@ import uploadDeviceFile from "Renderer/requests/upload-device-file.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { Backup } from "App/backup/reducers"
 import { PureDeviceData } from "App/device"
-import { StartBackupDeviceError } from "App/backup-device/errors"
 import { ReduxRootState, RootState } from "Renderer/store"
 import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers"
+import decryptFile from "App/files-system/requests/decrypt-file.request"
+import readFile from "App/files-system/requests/read-file.request"
 
-export const startRestoreDevice = createAsyncThunk<undefined, Backup>(
+export interface StartRestoreOption {
+  secretKey: string
+  backup: Backup
+}
+
+export const startRestoreDevice = createAsyncThunk<
+  undefined,
+  StartRestoreOption
+>(
   RestoreDeviceEvent.StartRestoreDevice,
-  async (backup, { getState, rejectWithValue }) => {
+  async ({ secretKey, backup }, { getState, rejectWithValue }) => {
     const backupId = backup.filePath.split("/").pop() as string
     const state = getState() as RootState & ReduxRootState
     const pureOsBackupPureLocation = (
@@ -29,12 +38,29 @@ export const startRestoreDevice = createAsyncThunk<undefined, Backup>(
       pureOsBackupPureLocation === ""
     ) {
       return rejectWithValue(
-        new StartBackupDeviceError("Pure OS Backup Pure Location is undefined")
+        new StartRestoreDeviceError("Pure OS Backup Pure Location is undefined")
+      )
+    }
+
+    const buffer = await readFile(backup.filePath)
+
+    if (buffer === undefined) {
+      return rejectWithValue(new StartRestoreDeviceError("Read File fails"))
+    }
+
+    const decryptedBuffer = await decryptFile({
+      buffer,
+      key: secretKey,
+    })
+
+    if (decryptedBuffer === undefined) {
+      return rejectWithValue(
+        new StartRestoreDeviceError("Decrypt buffer fails")
       )
     }
 
     const uploadDeviceFileResponse = await uploadDeviceFile({
-      filePath: backup.filePath,
+      data: decryptedBuffer,
       targetPath: `${pureOsBackupPureLocation}/${backupId}`,
     })
 

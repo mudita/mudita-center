@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import semver from "semver/preload"
 import { DeviceType } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
 import {
@@ -28,9 +29,19 @@ const getAllReleases = async (
     GetAllReleasesEvents.Request
   )
 
-  const filteredProducts = releases.filter(
-    (release) => release.product === productsMapper[deviceType]
-  )
+  const filteredProducts = releases
+    .sort((prev: Release, next: Release) => {
+      if (semver.gtr(prev.version, next.version)) {
+        return -1
+      }
+
+      if (semver.ltr(prev.version, next.version)) {
+        return 1
+      }
+
+      return 0
+    })
+    .filter((release) => release.product === productsMapper[deviceType])
   const officialReleases = filteredProducts.filter(
     (release) => !release.prerelease
   )

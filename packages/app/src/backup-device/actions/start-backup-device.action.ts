@@ -22,6 +22,11 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { PureDeviceData } from "App/device"
+import encryptFile from "App/files-system/requests/encrypt-file.request"
+
+export interface StartBackupOption {
+  secretKey: string
+}
 
 const waitUntilBackupDeviceFinished = async (
   id: string
@@ -43,9 +48,9 @@ const waitUntilBackupDeviceFinished = async (
   }
 }
 
-export const startBackupDevice = createAsyncThunk(
+export const startBackupDevice = createAsyncThunk<undefined, StartBackupOption>(
   BackupDeviceEvent.StartBackupDevice,
-  async (_, { getState, dispatch, rejectWithValue }) => {
+  async ({ secretKey }, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as RootState & ReduxRootState
     const pureOsBackupPureLocation = (
       state.device.data as PureDeviceData | undefined
@@ -84,7 +89,7 @@ export const startBackupDevice = createAsyncThunk(
     const backupId = startBackupDeviceResponse.data!.id
 
     const getBackupDeviceStatusResponse = await waitUntilBackupDeviceFinished(
-      startBackupDeviceResponse.data!.id
+      backupId
     )
     const location = path.join(pureOsBackupPureLocation, backupId)
     if (!isResponsesSuccessWithData([getBackupDeviceStatusResponse])) {
@@ -102,10 +107,19 @@ export const startBackupDevice = createAsyncThunk(
       )
     }
 
+    const encryptedBuffer = await encryptFile({
+      buffer: downloadDeviceFileResponse.data!.data,
+      key: secretKey,
+    })
+
+    if (encryptedBuffer === undefined) {
+      return rejectWithValue(new StartBackupDeviceError("Encrypt buffer fails"))
+    }
+
     const writeFileSuccess = await writeFile({
       fileName: backupId,
       filePath: pureOsBackupDesktopLocation,
-      data: downloadDeviceFileResponse.data!.data,
+      data: encryptedBuffer,
     })
 
     if (!writeFileSuccess) {

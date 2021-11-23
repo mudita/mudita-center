@@ -4,14 +4,17 @@
  */
 
 import { ChangeEvent } from "react"
-import { MessagesState, Thread } from "App/messages/store/messages.interface"
+import { MessagesState, Thread } from "App/messages/reducers/messages.interface"
 
 export interface Content {
   id: string
   text: string
 }
 
-export type ComponentProps = Pick<MessagesState, "searchValue"> &
+export type ComponentProps = Pick<
+  MessagesState,
+  "searchValue" | "threadsState" | "threadsTotalCount"
+> &
   Readonly<{
     changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
     deleteThreads?: (ids: string[]) => void

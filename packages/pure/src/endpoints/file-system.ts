@@ -112,3 +112,19 @@ export interface DownloadFileSystemErrorResponse
   }> {
   status: ResponseStatus
 }
+
+export interface RemoveFileSystemRequestConfig
+  extends RequestConfig<{
+    removeFile: string
+  }> {
+  endpoint: Endpoint.FileSystem
+  method: Method.Delete
+}
+
+export interface RemoveFileSystemResponse extends Response<{}> {
+  status: ResponseStatus
+}
+
+export interface RemoveFileSystemErrorResponse extends Response<{}> {
+  status: ResponseStatus
+}

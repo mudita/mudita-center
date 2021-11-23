@@ -8,12 +8,37 @@ import {
   Message,
   NewMessage,
   Thread,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
+import { PaginationBody } from "@mudita/pure"
+
+export interface GetThreadsResponse {
+  data: Thread[]
+  totalCount: number
+  nextPage?: PaginationBody
+}
+
+export interface GetMessagesBody {
+  threadId: string
+  nextPage?: PaginationBody
+}
+
+export interface GetMessagesByThreadIdResponse {
+  data: Message[]
+  nextPage?: PaginationBody
+}
 
 export default abstract class PurePhoneMessagesAdapter {
-  public abstract getThreads(): Promise<DeviceResponse<Thread[]>>
+  public abstract loadMoreThreadsInSingleRequest(
+    pagination: PaginationBody
+  ): Promise<DeviceResponse<GetThreadsResponse>>
+  public abstract getThreads(
+    pagination: PaginationBody
+  ): Promise<DeviceResponse<GetThreadsResponse>>
   public abstract getMessagesByThreadId(
-    threadId: string
+    body: GetMessagesBody
+  ): Promise<DeviceResponse<GetMessagesByThreadIdResponse>>
+  public abstract loadAllMessagesByThreadId(
+    threadId: string,
   ): Promise<DeviceResponse<Message[]>>
   public abstract addMessage(
     newMessage: NewMessage

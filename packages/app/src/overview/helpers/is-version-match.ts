@@ -5,6 +5,10 @@
 
 import semver from "semver/preload"
 
-const isVersionMatch = (version = ""): boolean => semver.valid(version) !== null
+const isVersionMatch = (tagName = ""): boolean => {
+  const [version] = tagName.split("_").reverse()
+
+  return semver.valid(version) !== null
+}
 
 export default isVersionMatch

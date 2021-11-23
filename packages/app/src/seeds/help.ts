@@ -262,6 +262,9 @@ export const mockedRouteAndPath = {
   path: `${URL_MAIN.help}/:questionId`,
 }
 
+export const testSerialNumber = "123"
+
 export const helpSeed = {
   list: data,
+  serialNumber: testSerialNumber,
 }

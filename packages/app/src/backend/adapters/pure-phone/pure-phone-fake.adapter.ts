@@ -110,8 +110,15 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async getDeviceCrashDumpFiles(): Promise<
-    DeviceResponse<DeviceFileDeprecated[]>
+  public async getDeviceCrashDumpFiles(): Promise<DeviceResponse<string[]>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: [],
+    }
+  }
+
+  public async downloadDeviceCrashDumpFiles(): Promise<
+    DeviceResponse<string[]>
   > {
     return {
       status: DeviceResponseStatus.Ok,
@@ -177,6 +184,18 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
   }
 
   public async uploadDeviceFile(): Promise<DeviceResponse> {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
+  }
+
+  public async uploadDeviceFileLocally(): Promise<DeviceResponse> {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
+  }
+
+  public async removeDeviceFile(): Promise<DeviceResponse> {
     return {
       status: DeviceResponseStatus.Ok,
     }

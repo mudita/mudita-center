@@ -18,6 +18,7 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 import {
   DeviceFileDeprecated,
   DeviceFile,
+  UploadFileLocallyPayload,
   UploadFilePayload,
 } from "Backend/device-file-system-service/device-file-system-service"
 
@@ -44,7 +45,10 @@ export default abstract class PurePhoneAdapter {
   ): Promise<DeviceResponse<DeviceFileDeprecated[]>>
   public abstract getDeviceCrashDumpFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFileDeprecated[]>>
+  ): Promise<DeviceResponse<string[]>>
+  public abstract downloadDeviceCrashDumpFiles(): Promise<
+    DeviceResponse<string[]>
+  >
   public abstract updateOs(
     filePath: string,
     progressChannel?: string
@@ -70,4 +74,8 @@ export default abstract class PurePhoneAdapter {
   public abstract uploadDeviceFile(
     payload: UploadFilePayload
   ): Promise<DeviceResponse>
+  public abstract uploadDeviceFileLocally(
+    payload: UploadFileLocallyPayload
+  ): Promise<DeviceResponse>
+  public abstract removeDeviceFile(removeFile: string): Promise<DeviceResponse>
 }

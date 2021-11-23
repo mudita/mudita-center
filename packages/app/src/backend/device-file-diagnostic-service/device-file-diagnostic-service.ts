@@ -18,7 +18,7 @@ class DeviceFileDiagnosticService {
   public async getDiagnosticFileList(
     fileList: DiagnosticsFileList
   ): Promise<DeviceResponse<GetFileListResponseBody>> {
-    return await this.deviceService.request({
+    return this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
       body: { fileList },

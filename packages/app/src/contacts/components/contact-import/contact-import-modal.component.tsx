@@ -18,8 +18,13 @@ import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbo
 import styled from "styled-components"
 import { NewContact } from "App/contacts/store/contacts.type"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import {
+  ModalText,
+  SelectedText,
+} from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
@@ -27,6 +32,7 @@ import { createFullName } from "App/contacts/store/contacts.helpers"
 import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 import { ModalIcon } from "Renderer/components/core/modal-shared/modal-shared"
+import { flags, Feature } from "App/feature-flags"
 
 const messages = defineMessages({
   title: { id: "module.contacts.importTitle" },
@@ -44,6 +50,8 @@ const messages = defineMessages({
   importFailedBody: { id: "module.contacts.importFailedBody" },
   importFailedBody2: { id: "module.contacts.importFailedBody2" },
   importFailedButton: { id: "module.contacts.importFailedButton" },
+  importingListTitle: { id: "module.contacts.importingListTitle" },
+  importingListSelected: { id: "module.contacts.importingListSelected" },
 })
 
 const Checkbox = styled(InputCheckbox)`
@@ -100,6 +108,11 @@ const ContactImportModal: FunctionComponent<Props> = ({
     toggleAll()
   }, [])
 
+  const selectedContactsLength = contacts.filter((contact) => {
+    const { selected } = getRowStatus(contact)
+    return selected
+  }).length
+
   const SingleRow = ({
     data,
     index,
@@ -142,6 +155,11 @@ const ContactImportModal: FunctionComponent<Props> = ({
 
   const handleButtonClick = () => onActionButtonClick(selectedRows)
 
+  const sortedContacts = contacts.sort((a, b) => {
+    const lastNameA = a.lastName || a.firstName || ""
+    const lastNameB = b.lastName || b.firstName || ""
+    return lastNameA.localeCompare(lastNameB)
+  })
   return (
     <Modal
       title={intl.formatMessage(messages.title)}
@@ -217,13 +235,34 @@ const ContactImportModal: FunctionComponent<Props> = ({
                 data-testid={ContactImportModalTestIds.ToggleAllCheckbox}
               />
             )}
-            <div>Contacts</div>
+            {flags.get(Feature.NumberOfContactsToImport) ? (
+              <Text
+                message={{
+                  ...messages.importingListTitle,
+                  values: { number: contacts.length },
+                }}
+                displayStyle={TextDisplayStyle.MediumFadedLightText}
+              />
+            ) : (
+              <div>Contacts</div>
+            )}
           </Col>
-          <Col />
+          {flags.get(Feature.NumberOfContactsToImport) ? (
+            <SelectedText
+              displayStyle={TextDisplayStyle.MediumFadedLightText}
+              data-testid={ContactImportModalTestIds.SelectedText}
+            >
+              {`${selectedContactsLength} ${intl.formatMessage(
+                messages.importingListSelected
+              )}`}
+            </SelectedText>
+          ) : (
+            <Col />
+          )}
           <Col />
         </Labels>
         <TableContent>
-          {contacts.map((row, index) => (
+          {sortedContacts.map((row, index) => (
             <React.Fragment key={index}>
               <SingleRow
                 data={row}

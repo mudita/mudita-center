@@ -7,13 +7,12 @@ import {
   Message,
   MessageType,
   Thread,
-} from "App/messages/store/messages.interface"
+} from "App/messages/reducers/messages.interface"
 
 export const threadsData: Thread[] = [
   {
     id: "+28755168255",
     phoneNumber: "+28755168255",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     lastUpdatedAt: new Date("2019-08-14T17:31:16.627Z"),
     messageSnippet:
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
@@ -22,7 +21,6 @@ export const threadsData: Thread[] = [
   {
     id: "+85102096521",
     phoneNumber: "+85102096521",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     lastUpdatedAt: new Date("2020-07-07T17:19:51.563Z"),
     messageSnippet:
       "Et beatae dicta ut consequatur aut. Consequuntur odio voluptas sed eligendi repudiandae quo amet.",
@@ -31,7 +29,6 @@ export const threadsData: Thread[] = [
   {
     id: "+98007298780",
     phoneNumber: "+98007298780",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     lastUpdatedAt: new Date("2020-01-17T13:12:08.037Z"),
     messageSnippet:
       "Rerum quae fugit enim officia quia optio itaque fuga sapiente. Est enim eaque.",
@@ -40,7 +37,6 @@ export const threadsData: Thread[] = [
   {
     id: "+03026752736",
     phoneNumber: "+03026752736",
-    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     lastUpdatedAt: new Date("2019-08-07T13:29:51.401Z"),
     messageSnippet:
       "Sunt autem sed ut aut aspernatur totam modi qui. Atque tenetur est ex totam repudiandae voluptatibus tempora sed.",
@@ -49,7 +45,6 @@ export const threadsData: Thread[] = [
   {
     id: "+48799230788",
     phoneNumber: "+48799230788",
-    contactId: "6b69864b-76e4-4a40-bc9f-457b13e98830",
     lastUpdatedAt: new Date("2019-10-04T21:38:05.708Z"),
     messageSnippet: "Quo omnis est enim. Dolorem tempora recusandae.",
     unread: true,
@@ -57,7 +52,6 @@ export const threadsData: Thread[] = [
   {
     id: "+36724240162",
     phoneNumber: "+36724240162",
-    contactId: "81c60775-cb4d-409f-98a1-79c785bb083a",
     lastUpdatedAt: new Date("2020-01-03T19:22:06.272Z"),
     messageSnippet: "Ipsam expedita sunt est sit. Ea autem laborum et.",
     unread: true,
@@ -65,7 +59,6 @@ export const threadsData: Thread[] = [
   {
     id: "+53137792360",
     phoneNumber: "+53137792360",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     lastUpdatedAt: new Date("2020-01-10T19:16:54.094Z"),
     messageSnippet:
       "Autem impedit dicta officia praesentium magni harum aut repellendus recusandae. Qui et molestiae quam consequuntur.",
@@ -74,7 +67,6 @@ export const threadsData: Thread[] = [
   {
     id: "+46333060911",
     phoneNumber: "+46333060911",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     lastUpdatedAt: new Date("2020-01-14T02:03:11.459Z"),
     messageSnippet:
       "Odit tempore eaque non ratione occaecati magnam voluptatum. Atque unde mollitia natus laborum voluptates cum.",
@@ -83,7 +75,6 @@ export const threadsData: Thread[] = [
   {
     id: "+32964648391",
     phoneNumber: "+32964648391",
-    contactId: "ec8b553c-bb57-4459-9e88-61812a679e38",
     lastUpdatedAt: new Date("2020-01-26T01:45:35.378Z"),
     messageSnippet:
       "Consequuntur vel sunt voluptas numquam incidunt delectus ut possimus. Id quia accusamus minima dolor.",
@@ -92,7 +83,6 @@ export const threadsData: Thread[] = [
   {
     id: "+35160648062",
     phoneNumber: "+35160648062",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     lastUpdatedAt: new Date("2019-09-11T15:47:35.160Z"),
     messageSnippet:
       "Totam repudiandae modi nihil odit et. Porro consequatur tenetur in quis qui.",
@@ -101,7 +91,6 @@ export const threadsData: Thread[] = [
   {
     id: "+31137043005",
     phoneNumber: "+31137043005",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     lastUpdatedAt: new Date("2019-10-13T14:09:50.794Z"),
     messageSnippet:
       "Accusantium voluptates qui sint enim accusantium voluptatem. Beatae recusandae velit deserunt.",
@@ -110,7 +99,6 @@ export const threadsData: Thread[] = [
   {
     id: "+83563598841",
     phoneNumber: "+83563598841",
-    contactId: "75cb5be9-d89a-4707-a5fa-e1b1d61a0c43",
     lastUpdatedAt: new Date("2020-05-28T04:04:24.253Z"),
     messageSnippet:
       "Minima porro voluptatem occaecati. Praesentium eligendi sequi suscipit porro.",
@@ -119,7 +107,6 @@ export const threadsData: Thread[] = [
   {
     id: "+00287614353",
     phoneNumber: "+00287614353",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     lastUpdatedAt: new Date("2019-07-18T00:06:32.157Z"),
     messageSnippet:
       "Architecto accusantium quae harum ipsum quod velit quibusdam corporis quis. Qui molestiae ab sed quas nobis.",
@@ -128,7 +115,6 @@ export const threadsData: Thread[] = [
   {
     id: "+87859344351",
     phoneNumber: "+87859344351",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     lastUpdatedAt: new Date("2020-02-22T06:34:20.344Z"),
     messageSnippet:
       "Exercitationem expedita eos pariatur enim nostrum corrupti. Facilis aperiam minus nihil.",
@@ -137,7 +123,6 @@ export const threadsData: Thread[] = [
   {
     id: "+90669222797",
     phoneNumber: "+90669222797",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     lastUpdatedAt: new Date("2020-06-16T14:44:55.111Z"),
     messageSnippet:
       "Dolorum hic facilis perferendis deserunt et autem recusandae amet corporis. Id vero iste magni aspernatur.",
@@ -146,7 +131,6 @@ export const threadsData: Thread[] = [
   {
     id: "+50051893223",
     phoneNumber: "+50051893223",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     lastUpdatedAt: new Date("2019-10-01T06:53:12.021Z"),
     messageSnippet:
       "Commodi et commodi voluptatem et ullam consectetur libero. Est id eligendi.",
@@ -155,7 +139,6 @@ export const threadsData: Thread[] = [
   {
     id: "+13066262752",
     phoneNumber: "+13066262752",
-    contactId: "29812fa1-5eaa-4a05-a3cf-fe1e2ea9915a",
     lastUpdatedAt: new Date("2020-02-10T08:33:44.908Z"),
     messageSnippet:
       "Accusamus tenetur at a alias aut dicta dolorem enim ut. Iusto ullam totam totam voluptatem et expedita quo quia quas.",
@@ -164,7 +147,6 @@ export const threadsData: Thread[] = [
   {
     id: "+72383361402",
     phoneNumber: "+72383361402",
-    contactId: "90eb6201-4252-4fa3-add3-b60e2b27c8dd",
     lastUpdatedAt: new Date("2019-08-14T23:26:56.059Z"),
     messageSnippet:
       "Rerum quae eum placeat non mollitia ipsum corrupti repudiandae atque. Id molestias aut voluptatem.",
@@ -173,7 +155,6 @@ export const threadsData: Thread[] = [
   {
     id: "+33999999999",
     phoneNumber: "+33999999999",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     lastUpdatedAt: new Date("2019-07-29T17:14:51.779Z"),
     messageSnippet:
       "Et molestias occaecati dignissimos fugit enim dolore. Sed aut maiores.",
@@ -182,7 +163,6 @@ export const threadsData: Thread[] = [
   {
     id: "+47999999999",
     phoneNumber: "+47999999999",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     lastUpdatedAt: new Date("2019-09-29T06:38:52.359Z"),
     messageSnippet:
       "Quis ut consequuntur delectus in deleniti distinctio quisquam enim ut. Aut quo ex possimus blanditiis voluptatem consequatur ut saepe est.",
@@ -196,7 +176,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-02T04:05:06.242Z"),
     content:
       "Repudiandae necessitatibus distinctio iusto voluptatem consectetur consectetur. Numquam perspiciatis velit nulla sit.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.INBOX,
@@ -206,7 +185,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-25T05:18:36.599Z"),
     content:
       "Vero necessitatibus asperiores ut deserunt voluptas vitae est sed. Ex cum beatae aut accusantium libero.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.OUTBOX,
@@ -216,7 +194,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-09T16:28:52.372Z"),
     content:
       "Quaerat iure corrupti cumque quos porro natus. Nostrum est itaque dignissimos impedit sint tempore suscipit fugit.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.INBOX,
@@ -226,7 +203,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-06-05T01:10:28.991Z"),
     content:
       "Voluptatibus est odit in libero voluptates atque iste. Sit optio quae enim est harum dolores.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.OUTBOX,
@@ -236,7 +212,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-24T14:28:36.475Z"),
     content:
       "Quidem eum est. Ipsum sit error veniam non vitae consequatur voluptate.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.INBOX,
@@ -245,7 +220,6 @@ export const messagesData: Message[] = [
     id: "6e6d883c-fffc-401b-a204-1b64d4cd5c38",
     date: new Date("2019-11-18T13:15:09.550Z"),
     content: "Ratione sed ut unde voluptatem odit. Blanditiis assumenda et.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.OUTBOX,
@@ -254,7 +228,6 @@ export const messagesData: Message[] = [
     id: "d5757b60-042f-4b35-9151-667035d9e878",
     date: new Date("2020-06-05T23:29:38.196Z"),
     content: "Ipsum quam vel. Eligendi quia vel numquam tempora rerum.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.OUTBOX,
@@ -264,7 +237,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-18T14:49:45.655Z"),
     content:
       "Nemo voluptate consectetur eligendi eum optio eos sed. Ex aut magnam voluptatibus voluptatem nobis pariatur et dicta.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.INBOX,
@@ -274,7 +246,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-26T23:13:32.701Z"),
     content:
       "Id voluptatum omnis est quam rerum sit in nihil. Architecto doloribus quo totam alias debitis facilis blanditiis et dicta.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.OUTBOX,
@@ -284,7 +255,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-07-05T17:05:03.459Z"),
     content:
       "Odit quia illo quia labore beatae recusandae. Quisquam eos voluptate veritatis molestiae at pariatur tenetur odio.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.INBOX,
@@ -294,7 +264,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-04-17T18:13:11.266Z"),
     content:
       "Expedita dolor dicta quidem est illo. Enim soluta sed vel id ducimus voluptatem soluta ullam.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.INBOX,
@@ -304,7 +273,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-18T02:18:27.288Z"),
     content:
       "Ut autem voluptate in. Nesciunt perferendis voluptas labore distinctio qui et mollitia ut rerum.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.INBOX,
@@ -314,7 +282,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-14T17:31:16.627Z"),
     content:
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
-    contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     threadId: "+28755168255",
     phoneNumber: "+28755168255",
     messageType: MessageType.INBOX,
@@ -324,7 +291,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-07-13T04:18:12.296Z"),
     content:
       "Officia iure excepturi in est dolores explicabo cumque. Ad est cumque.",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.INBOX,
@@ -334,7 +300,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-07-17T10:27:16.279Z"),
     content:
       "Nisi nihil modi sit qui debitis veritatis. Soluta ab rerum quas qui numquam laboriosam assumenda.",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.INBOX,
@@ -344,7 +309,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-17T14:05:35.853Z"),
     content:
       "Facere hic natus iusto pariatur deleniti voluptatem aut rem. Harum sunt voluptas optio facere quia dolor eveniet earum.",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.OUTBOX,
@@ -354,7 +318,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-07-07T03:44:58.056Z"),
     content:
       "Autem cghch onsequatur nobis aperiam deleniti aut. Fuga molestiae sapiente tenetur nesciunt.",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.OUTBOX,
@@ -364,7 +327,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-07-07T03:54:58.056Z"),
     content:
       "Autem onsequatur nobis aperiam deleniti aut. Fuga molestiae sapiente tenetur nesciunt.",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.OUTBOX,
@@ -374,7 +336,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-07-07T17:23:53.563Z"),
     content:
       "Autem cghch onsequatur nobis aperiam deleniti aut. Fuga molestiae sapiente tenetur nesciunt.",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.OUTBOX,
@@ -384,7 +345,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-13T01:52:55.706Z"),
     content:
       "Voluptatem voluptatem rerum debitis tenetur molestias rem sunt ea. Nobis aspernatur distinctio adipisci harum sunt illo.",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.OUTBOX,
@@ -394,7 +354,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-15T15:14:28.572Z"),
     content:
       "Sed non facere nihil velit excepturi quod omnis repellat voluptates. Eveniet sint soluta.",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.INBOX,
@@ -404,7 +363,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-15T00:28:19.657Z"),
     content:
       "Eligendi consequatur est officia nam et aliquid unde illum voluptatem. Voluptates eos eum accusamus dolores saepe explicabo nisi.",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.INBOX,
@@ -414,7 +372,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-25T05:08:16.841Z"),
     content:
       "Iste sit autem voluptas nobis deserunt est. Ipsam eum quas velit non.",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.OUTBOX,
@@ -424,7 +381,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-18T06:59:31.491Z"),
     content:
       "In soluta ab magni cum est pariatur eos. Veritatis consequatur unde ea cum.",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.INBOX,
@@ -434,7 +390,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-07-07T17:19:51.563Z"),
     content:
       "Et beatae dicta ut consequatur aut. Consequuntur odio voluptas sed eligendi repudiandae quo amet.",
-    contactId: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.INBOX,
@@ -444,7 +399,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-07-07T17:20:53.563Z"),
     content:
       "Et beatae dicta ut consequatur aut. Consequuntur odio voluptas sed eligendi repudiandae quo amet.",
-    contactId: "7173ddd-a533-4f1d-a09d-f1fec74d29f9",
     threadId: "+85102096521",
     phoneNumber: "+85102096521",
     messageType: MessageType.INBOX,
@@ -453,7 +407,6 @@ export const messagesData: Message[] = [
     id: "4836e9e3-7938-4096-b1d7-a65d14fc68e6",
     date: new Date("2019-07-31T02:49:27.521Z"),
     content: "Consectetur odio et ut vel. Optio esse est labore deleniti.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.INBOX,
@@ -463,7 +416,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-04T23:04:34.559Z"),
     content:
       "Id culpa facilis et. Molestias dolorem corrupti commodi quia tempora.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.OUTBOX,
@@ -472,7 +424,6 @@ export const messagesData: Message[] = [
     id: "f1743af4-624d-4cad-aadf-38ad004346ed",
     date: new Date("2019-12-03T09:02:16.006Z"),
     content: "Aut nulla illum qui inventore. Et id officiis ex officiis.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.OUTBOX,
@@ -482,7 +433,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-04-09T02:31:51.250Z"),
     content:
       "Esse voluptatibus et. Error ut assumenda voluptatibus ab necessitatibus.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.OUTBOX,
@@ -492,7 +442,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-22T14:55:16.529Z"),
     content:
       "Omnis blanditiis omnis error incidunt at et mollitia voluptates. Dignissimos qui et odit eaque amet praesentium nulla.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.INBOX,
@@ -502,7 +451,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-03T17:47:11.355Z"),
     content:
       "Labore porro consequatur. Facere sunt enim et consequatur ut et hic.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.OUTBOX,
@@ -512,7 +460,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-04-12T01:12:08.284Z"),
     content:
       "Ab expedita maiores suscipit eaque est dicta quia quas. Provident eaque consequatur repellendus non aut id.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.OUTBOX,
@@ -522,7 +469,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-04-30T17:13:25.099Z"),
     content:
       "Cum officiis modi. Sequi dolore qui repellat itaque quis distinctio hic atque quasi.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.INBOX,
@@ -532,7 +478,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-07T12:24:23.982Z"),
     content:
       "Quibusdam soluta corrupti asperiores aliquam sit asperiores expedita nihil ea. Sint ex eligendi sed aliquid neque laborum rem ab deserunt.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.INBOX,
@@ -542,7 +487,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-30T02:17:41.651Z"),
     content:
       "Eos in veniam est officiis ullam sit tenetur iusto. Omnis deleniti pariatur officiis sit est enim.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.OUTBOX,
@@ -551,7 +495,6 @@ export const messagesData: Message[] = [
     id: "70c5ed11-06cf-4419-839a-4c43d876ddf3",
     date: new Date("2019-08-12T07:14:00.415Z"),
     content: "Adipisci eos sed. Nam culpa libero.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.INBOX,
@@ -561,7 +504,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-30T08:37:32.757Z"),
     content:
       "Ea quis ipsum soluta. Voluptas iusto perspiciatis perferendis sint nobis praesentium sunt consectetur.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.INBOX,
@@ -571,7 +513,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-06-13T19:29:16.533Z"),
     content:
       "Et ullam aut dolorem et quisquam sint. Et omnis aliquid pariatur sapiente doloremque cumque.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.INBOX,
@@ -581,7 +522,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-17T13:12:08.037Z"),
     content:
       "Rerum quae fugit enim officia quia optio itaque fuga sapiente. Est enim eaque.",
-    contactId: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
     threadId: "+98007298780",
     phoneNumber: "+98007298780",
     messageType: MessageType.INBOX,
@@ -591,7 +531,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-17T00:34:09.829Z"),
     content:
       "Inventore est aut sed aut cum rem et nulla. Quo ex dolorem incidunt reiciendis.",
-    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     threadId: "+03026752736",
     phoneNumber: "+03026752736",
     messageType: MessageType.INBOX,
@@ -601,7 +540,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-07T03:34:02.349Z"),
     content:
       "Illo et ut voluptas pariatur qui rem dolorem soluta aut. Minus possimus dolorem sit reprehenderit aut.",
-    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     threadId: "+03026752736",
     phoneNumber: "+03026752736",
     messageType: MessageType.INBOX,
@@ -611,7 +549,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-02T08:43:27.348Z"),
     content:
       "In est quae amet perferendis qui non et quae voluptate. Culpa maiores expedita.",
-    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     threadId: "+03026752736",
     phoneNumber: "+03026752736",
     messageType: MessageType.OUTBOX,
@@ -621,7 +558,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-27T17:22:49.609Z"),
     content:
       "Quae fugiat laboriosam blanditiis. Ad expedita modi soluta sed eligendi.",
-    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     threadId: "+03026752736",
     phoneNumber: "+03026752736",
     messageType: MessageType.INBOX,
@@ -631,7 +567,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-31T12:22:15.409Z"),
     content:
       "Eligendi eos molestias aut deserunt occaecati sed et eos ut. Sunt nisi sit debitis quae et numquam voluptatem.",
-    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     threadId: "+03026752736",
     phoneNumber: "+03026752736",
     messageType: MessageType.INBOX,
@@ -640,7 +575,6 @@ export const messagesData: Message[] = [
     id: "c7ba0478-60ad-4e1f-9bc8-6e1747545209",
     date: new Date("2020-04-15T06:29:41.696Z"),
     content: "Sit veritatis et. Rem et dolor iure.",
-    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     threadId: "+03026752736",
     phoneNumber: "+03026752736",
     messageType: MessageType.INBOX,
@@ -650,7 +584,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-25T15:49:42.465Z"),
     content:
       "Quisquam rem quis nemo quia omnis occaecati laborum aut possimus. Perspiciatis id est sequi illo quia harum corrupti cupiditate.",
-    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     threadId: "+03026752736",
     phoneNumber: "+03026752736",
     messageType: MessageType.OUTBOX,
@@ -660,7 +593,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-04T10:37:35.484Z"),
     content:
       "Adipisci fugiat rerum officia sunt atque iure ea dolores. Dolores aut repudiandae quia.",
-    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     threadId: "+03026752736",
     phoneNumber: "+03026752736",
     messageType: MessageType.INBOX,
@@ -670,7 +602,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-08T02:12:36.046Z"),
     content:
       "Id saepe repellat totam unde nihil. Tempore consequatur non ipsam.",
-    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     threadId: "+03026752736",
     phoneNumber: "+03026752736",
     messageType: MessageType.INBOX,
@@ -680,7 +611,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-07-17T04:45:42.892Z"),
     content:
       "Omnis quisquam modi harum aut velit doloremque quo neque. Cupiditate explicabo error voluptas ea reprehenderit alias.",
-    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     threadId: "+03026752736",
     phoneNumber: "+03026752736",
     messageType: MessageType.OUTBOX,
@@ -690,7 +620,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-07T13:29:51.401Z"),
     content:
       "Sunt autem sed ut aut aspernatur totam modi qui. Atque tenetur est ex totam repudiandae voluptatibus tempora sed.",
-    contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     threadId: "+03026752736",
     phoneNumber: "+03026752736",
     messageType: MessageType.INBOX,
@@ -700,7 +629,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-07-01T09:06:52.768Z"),
     content:
       "Quaerat ut modi repellendus. Nesciunt perspiciatis aut dignissimos porro molestias molestiae harum.",
-    contactId: "6b69864b-76e4-4a40-bc9f-457b13e98830",
     threadId: "+48799230788",
     phoneNumber: "+48799230788",
     messageType: MessageType.INBOX,
@@ -709,7 +637,6 @@ export const messagesData: Message[] = [
     id: "53d30a4a-16cf-40a7-b5e5-1dd9f9d4a34f",
     date: new Date("2019-07-31T10:20:11.917Z"),
     content: "Aut sunt unde nemo qui nihil non eum. Sequi non deleniti.",
-    contactId: "6b69864b-76e4-4a40-bc9f-457b13e98830",
     threadId: "+48799230788",
     phoneNumber: "+48799230788",
     messageType: MessageType.OUTBOX,
@@ -718,7 +645,6 @@ export const messagesData: Message[] = [
     id: "6e1c43b6-6fa9-4f28-820b-3fcb94612c2d",
     date: new Date("2019-12-27T18:30:59.224Z"),
     content: "Illum nisi facilis modi maiores. Rerum quae voluptatem.",
-    contactId: "6b69864b-76e4-4a40-bc9f-457b13e98830",
     threadId: "+48799230788",
     phoneNumber: "+48799230788",
     messageType: MessageType.INBOX,
@@ -727,7 +653,6 @@ export const messagesData: Message[] = [
     id: "499b3a80-822b-41ab-b73e-dd54d4f5a303",
     date: new Date("2020-05-18T08:33:25.166Z"),
     content: "Illum illum iste. Minus debitis rerum et sed sequi.",
-    contactId: "6b69864b-76e4-4a40-bc9f-457b13e98830",
     threadId: "+48799230788",
     phoneNumber: "+48799230788",
     messageType: MessageType.OUTBOX,
@@ -737,7 +662,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-09T06:39:24.918Z"),
     content:
       "Necessitatibus quis est et reprehenderit recusandae recusandae. Et modi praesentium quia quaerat.",
-    contactId: "6b69864b-76e4-4a40-bc9f-457b13e98830",
     threadId: "+48799230788",
     phoneNumber: "+48799230788",
     messageType: MessageType.OUTBOX,
@@ -747,7 +671,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-17T11:14:26.735Z"),
     content:
       "Vel voluptatem autem voluptatem expedita aliquid nesciunt. Impedit voluptatibus sequi.",
-    contactId: "6b69864b-76e4-4a40-bc9f-457b13e98830",
     threadId: "+48799230788",
     phoneNumber: "+48799230788",
     messageType: MessageType.INBOX,
@@ -757,7 +680,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-31T20:41:07.658Z"),
     content:
       "Quasi assumenda animi ratione modi asperiores dolorem. Non quidem in dolores magnam sed.",
-    contactId: "6b69864b-76e4-4a40-bc9f-457b13e98830",
     threadId: "+48799230788",
     phoneNumber: "+48799230788",
     messageType: MessageType.OUTBOX,
@@ -767,7 +689,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-17T00:41:29.166Z"),
     content:
       "Officia nam ratione animi consequatur veniam deleniti. Error ducimus blanditiis neque omnis et accusantium mollitia.",
-    contactId: "6b69864b-76e4-4a40-bc9f-457b13e98830",
     threadId: "+48799230788",
     phoneNumber: "+48799230788",
     messageType: MessageType.INBOX,
@@ -777,7 +698,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-06T21:59:45.857Z"),
     content:
       "Illum quis qui incidunt adipisci molestiae vero. Sit laboriosam et est corporis voluptatibus.",
-    contactId: "6b69864b-76e4-4a40-bc9f-457b13e98830",
     threadId: "+48799230788",
     phoneNumber: "+48799230788",
     messageType: MessageType.OUTBOX,
@@ -786,7 +706,6 @@ export const messagesData: Message[] = [
     id: "3de5b26e-0ebf-444b-9bc0-9121fb8d610c",
     date: new Date("2019-10-04T21:38:05.708Z"),
     content: "Quo omnis est enim. Dolorem tempora recusandae.",
-    contactId: "6b69864b-76e4-4a40-bc9f-457b13e98830",
     threadId: "+48799230788",
     phoneNumber: "+48799230788",
     messageType: MessageType.OUTBOX,
@@ -796,7 +715,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-20T08:31:13.453Z"),
     content:
       "Maiores omnis eligendi sequi eius deserunt maiores et facilis quo. In delectus laboriosam quae quas.",
-    contactId: "81c60775-cb4d-409f-98a1-79c785bb083a",
     threadId: "+36724240162",
     phoneNumber: "+36724240162",
     messageType: MessageType.INBOX,
@@ -806,7 +724,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-27T18:22:10.463Z"),
     content:
       "Commodi quia sit rem libero nihil excepturi omnis est adipisci. Enim nihil ea vitae.",
-    contactId: "81c60775-cb4d-409f-98a1-79c785bb083a",
     threadId: "+36724240162",
     phoneNumber: "+36724240162",
     messageType: MessageType.INBOX,
@@ -816,7 +733,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-07-30T01:00:42.192Z"),
     content:
       "Iste eius officiis aut velit ratione animi deleniti nisi. Explicabo a eum debitis.",
-    contactId: "81c60775-cb4d-409f-98a1-79c785bb083a",
     threadId: "+36724240162",
     phoneNumber: "+36724240162",
     messageType: MessageType.INBOX,
@@ -826,7 +742,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-21T06:04:27.199Z"),
     content:
       "Praesentium voluptates eaque accusamus harum perspiciatis necessitatibus molestias id nemo. Deserunt et a fuga.",
-    contactId: "81c60775-cb4d-409f-98a1-79c785bb083a",
     threadId: "+36724240162",
     phoneNumber: "+36724240162",
     messageType: MessageType.OUTBOX,
@@ -835,7 +750,6 @@ export const messagesData: Message[] = [
     id: "ac0ad402-1dd3-4945-9fc5-d0e2cb3b73fd",
     date: new Date("2020-04-17T17:14:55.049Z"),
     content: "Aut ut doloribus ut illum. Id voluptatem ut odit.",
-    contactId: "81c60775-cb4d-409f-98a1-79c785bb083a",
     threadId: "+36724240162",
     phoneNumber: "+36724240162",
     messageType: MessageType.OUTBOX,
@@ -845,7 +759,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-14T21:16:06.550Z"),
     content:
       "Quo aliquid nihil maxime et odit beatae possimus delectus minus. Veritatis fugit delectus aut placeat occaecati alias nisi.",
-    contactId: "81c60775-cb4d-409f-98a1-79c785bb083a",
     threadId: "+36724240162",
     phoneNumber: "+36724240162",
     messageType: MessageType.INBOX,
@@ -855,7 +768,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-03T13:03:04.727Z"),
     content:
       "Ex distinctio fuga. Dolores velit dolores et qui et ex iste debitis.",
-    contactId: "81c60775-cb4d-409f-98a1-79c785bb083a",
     threadId: "+36724240162",
     phoneNumber: "+36724240162",
     messageType: MessageType.OUTBOX,
@@ -865,7 +777,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-02T02:13:19.807Z"),
     content:
       "Ullam molestias quaerat eveniet qui. Et aspernatur et molestias iusto.",
-    contactId: "81c60775-cb4d-409f-98a1-79c785bb083a",
     threadId: "+36724240162",
     phoneNumber: "+36724240162",
     messageType: MessageType.INBOX,
@@ -874,7 +785,6 @@ export const messagesData: Message[] = [
     id: "1fe0df9f-a5f8-4c33-ae05-427fae14c1bd",
     date: new Date("2020-01-03T19:22:06.272Z"),
     content: "Ipsam expedita sunt est sit. Ea autem laborum et.",
-    contactId: "81c60775-cb4d-409f-98a1-79c785bb083a",
     threadId: "+36724240162",
     phoneNumber: "+36724240162",
     messageType: MessageType.OUTBOX,
@@ -884,7 +794,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-26T17:16:37.559Z"),
     content:
       "Assumenda deleniti ut ab maiores nulla odio non ut. Tempore nam commodi.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.INBOX,
@@ -893,7 +802,6 @@ export const messagesData: Message[] = [
     id: "2fb32173-a8db-499c-8a95-69965f019834",
     date: new Date("2020-05-09T18:32:52.617Z"),
     content: "Totam voluptas aspernatur aut. Fugit ducimus eius odio nam.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.OUTBOX,
@@ -903,7 +811,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-06-20T11:11:42.019Z"),
     content:
       "Molestiae culpa ab corporis earum tempore et. Enim ut expedita assumenda rem quis nihil doloremque commodi qui.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.OUTBOX,
@@ -913,7 +820,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-30T14:23:30.371Z"),
     content:
       "Quis voluptas nulla eligendi sequi quas suscipit voluptates facere. Nesciunt accusamus non enim ab id sapiente.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.INBOX,
@@ -923,7 +829,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-04-11T19:01:34.545Z"),
     content:
       "Et adipisci quis aut vel et voluptatem. Facilis facere quia illo iusto possimus sit minus.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.INBOX,
@@ -932,7 +837,6 @@ export const messagesData: Message[] = [
     id: "5a66bae1-a7c5-4def-814a-e7a21e018878",
     date: new Date("2020-04-18T13:42:16.487Z"),
     content: "Consequatur saepe non in et a. Esse non aliquid labore quos est.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.INBOX,
@@ -942,7 +846,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-10T14:19:14.933Z"),
     content:
       "Voluptatem et placeat blanditiis amet. Esse iste laudantium asperiores.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.OUTBOX,
@@ -951,7 +854,6 @@ export const messagesData: Message[] = [
     id: "b6e7da6e-92c6-490b-bd05-f37d0b20c96b",
     date: new Date("2019-10-14T04:01:10.361Z"),
     content: "Nisi repellat maxime id quia. Aliquam non voluptas.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.INBOX,
@@ -961,7 +863,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-05T01:22:36.143Z"),
     content:
       "Voluptas nisi fuga voluptas necessitatibus eum. Error nam qui nihil eaque dignissimos voluptatem officiis rerum.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.OUTBOX,
@@ -970,7 +871,6 @@ export const messagesData: Message[] = [
     id: "909c5b11-0617-466e-b9ee-7e618f4d0d10",
     date: new Date("2020-05-31T15:51:44.684Z"),
     content: "Consectetur et omnis aut omnis. Quasi voluptatem labore fuga.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.OUTBOX,
@@ -980,7 +880,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-04-14T16:54:23.898Z"),
     content:
       "Quis quam ex et quos sed consequatur eum. Dolores tempore molestiae modi dolorum est amet rerum.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.OUTBOX,
@@ -990,7 +889,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-28T23:54:28.984Z"),
     content:
       "Et culpa quod asperiores. Autem dolorum aspernatur excepturi est non aut ipsam aut.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.OUTBOX,
@@ -1000,7 +898,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-07-19T18:19:58.837Z"),
     content:
       "Eos odio ea rerum dolore quae molestiae officiis. Recusandae atque delectus ullam qui.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.OUTBOX,
@@ -1010,7 +907,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-10T19:16:54.094Z"),
     content:
       "Autem impedit dicta officia praesentium magni harum aut repellendus recusandae. Qui et molestiae quam consequuntur.",
-    contactId: "38d0bf34-c258-4a6c-a402-5986cdc33380",
     threadId: "+53137792360",
     phoneNumber: "+53137792360",
     messageType: MessageType.OUTBOX,
@@ -1020,7 +916,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-25T07:01:39.541Z"),
     content:
       "Commodi enim non repellat perferendis sequi dolorem magnam laborum. Corporis hic beatae aliquam sed ipsam sunt.",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     threadId: "+46333060911",
     phoneNumber: "+46333060911",
     messageType: MessageType.INBOX,
@@ -1030,7 +925,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-27T05:00:41.495Z"),
     content:
       "Provident esse sunt voluptas dolore maiores nihil quisquam. Illum neque porro aliquid optio quas asperiores.",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     threadId: "+46333060911",
     phoneNumber: "+46333060911",
     messageType: MessageType.OUTBOX,
@@ -1039,7 +933,6 @@ export const messagesData: Message[] = [
     id: "6bc7df06-88e4-4684-94fa-d9a0d63195a3",
     date: new Date("2020-02-03T05:00:34.105Z"),
     content: "Omnis omnis et qui. Rerum harum eum cupiditate qui ut.",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     threadId: "+46333060911",
     phoneNumber: "+46333060911",
     messageType: MessageType.INBOX,
@@ -1049,7 +942,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-27T15:04:38.289Z"),
     content:
       "Nemo vel nihil consequatur aperiam et quia voluptatem. Dolor repellendus exercitationem non dolor ratione fugiat dolorum et.",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     threadId: "+46333060911",
     phoneNumber: "+46333060911",
     messageType: MessageType.OUTBOX,
@@ -1059,7 +951,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-14T01:47:16.930Z"),
     content:
       "Ut ea non. Maxime temporibus laboriosam dolorem laudantium reiciendis quod aut fuga libero.",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     threadId: "+46333060911",
     phoneNumber: "+46333060911",
     messageType: MessageType.OUTBOX,
@@ -1069,7 +960,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-06-20T06:18:37.913Z"),
     content:
       "Repellendus atque quidem. Quibusdam molestiae eum eos dolor in a veniam architecto.",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     threadId: "+46333060911",
     phoneNumber: "+46333060911",
     messageType: MessageType.OUTBOX,
@@ -1079,7 +969,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-07-09T05:44:07.946Z"),
     content:
       "Voluptatum aliquam recusandae. Facere rerum minus sed saepe nemo ullam qui dignissimos.",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     threadId: "+46333060911",
     phoneNumber: "+46333060911",
     messageType: MessageType.OUTBOX,
@@ -1089,7 +978,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-13T16:04:15.779Z"),
     content:
       "Ipsa eum et nam adipisci eaque aperiam occaecati ab. Nihil distinctio possimus eveniet repellat tempora vel ut.",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     threadId: "+46333060911",
     phoneNumber: "+46333060911",
     messageType: MessageType.OUTBOX,
@@ -1099,7 +987,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-03T03:59:29.051Z"),
     content:
       "Sit eligendi in sit est ut id expedita. Facilis consequatur natus ea fugiat veritatis debitis eius.",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     threadId: "+46333060911",
     phoneNumber: "+46333060911",
     messageType: MessageType.INBOX,
@@ -1109,7 +996,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-27T05:57:48.162Z"),
     content:
       "Magnam neque quos autem beatae et natus laboriosam. Occaecati eum quo.",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     threadId: "+46333060911",
     phoneNumber: "+46333060911",
     messageType: MessageType.OUTBOX,
@@ -1119,7 +1005,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-04-30T09:12:55.045Z"),
     content:
       "Excepturi facere et eaque. Eos et explicabo impedit sed excepturi tempora.",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     threadId: "+46333060911",
     phoneNumber: "+46333060911",
     messageType: MessageType.INBOX,
@@ -1129,7 +1014,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-14T02:03:11.459Z"),
     content:
       "Odit tempore eaque non ratione occaecati magnam voluptatum. Atque unde mollitia natus laborum voluptates cum.",
-    contactId: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
     threadId: "+46333060911",
     phoneNumber: "+46333060911",
     messageType: MessageType.INBOX,
@@ -1139,7 +1023,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-29T15:13:54.156Z"),
     content:
       "In eveniet voluptatem quisquam voluptatibus illum aut. Eius non sunt est.",
-    contactId: "ec8b553c-bb57-4459-9e88-61812a679e38",
     threadId: "+32964648391",
     phoneNumber: "+32964648391",
     messageType: MessageType.OUTBOX,
@@ -1149,7 +1032,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-07T11:24:07.764Z"),
     content:
       "Consequatur aspernatur aut error placeat iure rerum et dolores quia. Nisi assumenda impedit asperiores.",
-    contactId: "ec8b553c-bb57-4459-9e88-61812a679e38",
     threadId: "+32964648391",
     phoneNumber: "+32964648391",
     messageType: MessageType.OUTBOX,
@@ -1158,7 +1040,6 @@ export const messagesData: Message[] = [
     id: "08af1def-31af-43d0-ab2f-5ffe7231d88d",
     date: new Date("2019-08-27T04:41:14.518Z"),
     content: "Voluptatem rerum veritatis cum. Inventore maxime id nam ut est.",
-    contactId: "ec8b553c-bb57-4459-9e88-61812a679e38",
     threadId: "+32964648391",
     phoneNumber: "+32964648391",
     messageType: MessageType.INBOX,
@@ -1168,7 +1049,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-07-06T20:27:06.209Z"),
     content:
       "Voluptas fugiat nihil soluta quasi odio non voluptatem laudantium aut. Quaerat iure omnis quisquam soluta magnam ipsa.",
-    contactId: "ec8b553c-bb57-4459-9e88-61812a679e38",
     threadId: "+32964648391",
     phoneNumber: "+32964648391",
     messageType: MessageType.INBOX,
@@ -1178,7 +1058,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-26T01:45:35.378Z"),
     content:
       "Consequuntur vel sunt voluptas numquam incidunt delectus ut possimus. Id quia accusamus minima dolor.",
-    contactId: "ec8b553c-bb57-4459-9e88-61812a679e38",
     threadId: "+32964648391",
     phoneNumber: "+32964648391",
     messageType: MessageType.INBOX,
@@ -1187,7 +1066,6 @@ export const messagesData: Message[] = [
     id: "09bc4cb5-9e83-43b3-b84c-f5de89e5da4a",
     date: new Date("2019-07-25T10:05:39.480Z"),
     content: "Omnis et incidunt. Vero eum quo in consequuntur nulla sit ea.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.OUTBOX,
@@ -1197,7 +1075,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-18T17:26:46.874Z"),
     content:
       "Esse qui amet sequi magni blanditiis. Veritatis aliquid nesciunt ut aperiam quis.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.OUTBOX,
@@ -1207,7 +1084,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-05T14:58:13.508Z"),
     content:
       "Et nisi ut est dolorum neque optio at quia perferendis. Officia culpa consequatur esse nemo aut sit tenetur.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.OUTBOX,
@@ -1217,7 +1093,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-22T19:01:21.852Z"),
     content:
       "Voluptas ex aut amet repellat quia id sit sed. Nesciunt repellat deserunt et repellendus aut occaecati expedita soluta.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.OUTBOX,
@@ -1227,7 +1102,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-19T05:08:42.486Z"),
     content:
       "At perferendis quod nobis quia nobis reprehenderit est. Eligendi culpa occaecati numquam facere dolores quia dolor tenetur.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.INBOX,
@@ -1237,7 +1111,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-04-25T10:12:57.040Z"),
     content:
       "Sint perspiciatis minima et corporis et non ab corporis. Recusandae nihil temporibus nihil totam.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.INBOX,
@@ -1247,7 +1120,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-13T21:10:42.701Z"),
     content:
       "Aut magni earum qui. Quibusdam aut repellendus at ut culpa delectus odit.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.OUTBOX,
@@ -1257,7 +1129,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-17T05:20:21.309Z"),
     content:
       "Ab quis voluptatem nulla magnam sequi. Ipsum dolore corporis eum temporibus expedita est.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.OUTBOX,
@@ -1267,7 +1138,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-01T06:12:32.711Z"),
     content:
       "Aut aut dolorem et. Fugit iste non nesciunt qui pariatur maiores rem.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.INBOX,
@@ -1277,7 +1147,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-19T23:47:35.975Z"),
     content:
       "Et quisquam velit quasi libero facilis voluptatem inventore nihil. Sed labore labore voluptas exercitationem doloribus.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.INBOX,
@@ -1286,7 +1155,6 @@ export const messagesData: Message[] = [
     id: "ee3ad851-097b-4e00-a219-a618536c6201",
     date: new Date("2020-01-05T10:46:55.703Z"),
     content: "Nemo beatae accusantium alias quae et. Ut minus quidem.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.OUTBOX,
@@ -1296,7 +1164,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-05T18:38:11.339Z"),
     content:
       "Maxime doloribus velit sapiente voluptatum. Eos dignissimos voluptate.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.OUTBOX,
@@ -1306,7 +1173,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-11T15:47:35.160Z"),
     content:
       "Totam repudiandae modi nihil odit et. Porro consequatur tenetur in quis qui.",
-    contactId: "06740d8d-b3c6-4e91-bd00-0720ca451346",
     threadId: "+35160648062",
     phoneNumber: "+35160648062",
     messageType: MessageType.INBOX,
@@ -1316,7 +1182,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-05T20:07:00.199Z"),
     content:
       "Qui est dolorem rerum id ut. Aut nemo quis natus consequatur minus laudantium.",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     threadId: "+31137043005",
     phoneNumber: "+31137043005",
     messageType: MessageType.OUTBOX,
@@ -1326,7 +1191,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-15T23:16:30.977Z"),
     content:
       "Ipsa recusandae rem non veritatis commodi sit mollitia perspiciatis. Est et beatae est deleniti praesentium omnis et voluptatibus a.",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     threadId: "+31137043005",
     phoneNumber: "+31137043005",
     messageType: MessageType.OUTBOX,
@@ -1336,7 +1200,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-07T19:42:10.928Z"),
     content:
       "Asperiores fugit necessitatibus earum. Earum facere voluptas qui assumenda est incidunt sapiente ipsa ullam.",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     threadId: "+31137043005",
     phoneNumber: "+31137043005",
     messageType: MessageType.OUTBOX,
@@ -1346,7 +1209,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-06T20:29:21.143Z"),
     content:
       "Nesciunt hic rerum illum occaecati adipisci eum totam ut. Nulla vel saepe rerum rem adipisci deleniti nihil atque.",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     threadId: "+31137043005",
     phoneNumber: "+31137043005",
     messageType: MessageType.INBOX,
@@ -1356,7 +1218,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-06T18:51:20.842Z"),
     content:
       "Qui vitae magni aut et temporibus minus esse quasi. Recusandae aut est veritatis omnis non aut eos.",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     threadId: "+31137043005",
     phoneNumber: "+31137043005",
     messageType: MessageType.OUTBOX,
@@ -1366,7 +1227,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-04T16:48:24.854Z"),
     content:
       "Veniam rerum quia qui animi et eum fugiat. Corporis aut hic earum beatae est inventore harum animi.",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     threadId: "+31137043005",
     phoneNumber: "+31137043005",
     messageType: MessageType.OUTBOX,
@@ -1376,7 +1236,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-06T14:20:06.044Z"),
     content:
       "Vel velit pariatur accusamus quisquam eum inventore ut labore et. Temporibus veniam ipsam iure voluptatem.",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     threadId: "+31137043005",
     phoneNumber: "+31137043005",
     messageType: MessageType.INBOX,
@@ -1386,7 +1245,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-14T16:30:50.662Z"),
     content:
       "Placeat tenetur ut natus ut cupiditate consectetur voluptatem in. Quaerat aut unde.",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     threadId: "+31137043005",
     phoneNumber: "+31137043005",
     messageType: MessageType.INBOX,
@@ -1396,7 +1254,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-16T02:39:06.910Z"),
     content:
       "Rerum sunt molestiae. Sed deleniti veritatis eum aliquam nihil necessitatibus consequuntur corporis.",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     threadId: "+31137043005",
     phoneNumber: "+31137043005",
     messageType: MessageType.INBOX,
@@ -1406,7 +1263,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-27T02:49:55.093Z"),
     content:
       "Laudantium est consequatur iure id similique labore officia tempora incidunt. Sequi rerum molestiae qui et dolorem blanditiis autem.",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     threadId: "+31137043005",
     phoneNumber: "+31137043005",
     messageType: MessageType.INBOX,
@@ -1416,7 +1272,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-29T11:47:19.757Z"),
     content:
       "Doloribus consectetur qui voluptatem quasi ipsa. Dignissimos est animi asperiores ad ea eaque laborum optio ipsum.",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     threadId: "+31137043005",
     phoneNumber: "+31137043005",
     messageType: MessageType.INBOX,
@@ -1426,7 +1281,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-13T14:09:50.794Z"),
     content:
       "Accusantium voluptates qui sint enim accusantium voluptatem. Beatae recusandae velit deserunt.",
-    contactId: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
     threadId: "+31137043005",
     phoneNumber: "+31137043005",
     messageType: MessageType.INBOX,
@@ -1436,7 +1290,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-02T03:19:39.953Z"),
     content:
       "Aliquid qui optio nostrum ducimus labore. Consequatur ullam ut autem sint occaecati ut distinctio suscipit eos.",
-    contactId: "1a4ef0ee-57e4-4fe9-9e3e-049a31492c4f",
     threadId: "+83563598841",
     phoneNumber: "+83563598841",
     messageType: MessageType.OUTBOX,
@@ -1446,7 +1299,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-30T16:50:02.754Z"),
     content:
       "Veritatis laboriosam velit suscipit sapiente quo officia eaque et. Ipsa qui incidunt distinctio sit ut occaecati molestiae blanditiis sunt.",
-    contactId: "1a4ef0ee-57e4-4fe9-9e3e-049a31492c4f",
     threadId: "+83563598841",
     phoneNumber: "+83563598841",
     messageType: MessageType.INBOX,
@@ -1456,7 +1308,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-15T10:11:53.919Z"),
     content:
       "Molestias et delectus voluptas recusandae unde tempore. Velit aliquid vel ut natus omnis sit.",
-    contactId: "1a4ef0ee-57e4-4fe9-9e3e-049a31492c4f",
     threadId: "+83563598841",
     phoneNumber: "+83563598841",
     messageType: MessageType.OUTBOX,
@@ -1465,7 +1316,6 @@ export const messagesData: Message[] = [
     id: "c6f13d4c-a9d9-44ac-9eca-15c6055d115c",
     date: new Date("2020-01-19T16:57:34.851Z"),
     content: "Neque similique magni. Inventore incidunt illo sunt in.",
-    contactId: "1a4ef0ee-57e4-4fe9-9e3e-049a31492c4f",
     threadId: "+83563598841",
     phoneNumber: "+83563598841",
     messageType: MessageType.INBOX,
@@ -1475,7 +1325,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-03T19:51:45.660Z"),
     content:
       "Cupiditate voluptas omnis at dignissimos inventore. Repellendus nemo inventore animi rerum enim deserunt.",
-    contactId: "1a4ef0ee-57e4-4fe9-9e3e-049a31492c4f",
     threadId: "+83563598841",
     phoneNumber: "+83563598841",
     messageType: MessageType.OUTBOX,
@@ -1485,7 +1334,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-06-15T03:47:33.608Z"),
     content:
       "Dignissimos et repellendus aperiam sunt voluptas. Numquam debitis iste error.",
-    contactId: "1a4ef0ee-57e4-4fe9-9e3e-049a31492c4f",
     threadId: "+83563598841",
     phoneNumber: "+83563598841",
     messageType: MessageType.INBOX,
@@ -1494,7 +1342,6 @@ export const messagesData: Message[] = [
     id: "1fbdb421-9b45-46a4-a58c-632049bce43c",
     date: new Date("2019-12-04T14:56:50.333Z"),
     content: "Et omnis minus velit amet tempora. Molestiae ut voluptatem.",
-    contactId: "1a4ef0ee-57e4-4fe9-9e3e-049a31492c4f",
     threadId: "+83563598841",
     phoneNumber: "+83563598841",
     messageType: MessageType.OUTBOX,
@@ -1503,7 +1350,6 @@ export const messagesData: Message[] = [
     id: "14582aea-4d16-48c6-9ca1-725c9d550b34",
     date: new Date("2020-01-11T07:45:23.616Z"),
     content: "Qui nulla non. Sequi ea expedita suscipit.",
-    contactId: "1a4ef0ee-57e4-4fe9-9e3e-049a31492c4f",
     threadId: "+83563598841",
     phoneNumber: "+83563598841",
     messageType: MessageType.OUTBOX,
@@ -1513,7 +1359,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-05T08:22:58.297Z"),
     content:
       "Blanditiis ducimus at dolore. Cum architecto velit voluptas velit unde tempore omnis voluptatem.",
-    contactId: "1a4ef0ee-57e4-4fe9-9e3e-049a31492c4f",
     threadId: "+83563598841",
     phoneNumber: "+83563598841",
     messageType: MessageType.OUTBOX,
@@ -1523,7 +1368,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-28T04:04:24.253Z"),
     content:
       "Minima porro voluptatem occaecati. Praesentium eligendi sequi suscipit porro.",
-    contactId: "1a4ef0ee-57e4-4fe9-9e3e-049a31492c4f",
     threadId: "+83563598841",
     phoneNumber: "+83563598841",
     messageType: MessageType.INBOX,
@@ -1533,7 +1377,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-04-09T23:08:50.350Z"),
     content:
       "Provident aut minima nesciunt consequuntur voluptatem id et porro similique. Sint ullam illum consequatur eius.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.OUTBOX,
@@ -1542,7 +1385,6 @@ export const messagesData: Message[] = [
     id: "ac144889-acaa-4db5-bfd2-2c61679702ff",
     date: new Date("2020-06-13T10:07:55.334Z"),
     content: "Eius cupiditate perferendis. Aut ratione placeat.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.INBOX,
@@ -1552,7 +1394,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-08T02:57:44.816Z"),
     content:
       "Et omnis ducimus mollitia temporibus cupiditate et atque. Iste sit dolorum magni voluptas debitis.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.OUTBOX,
@@ -1562,7 +1403,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-08T02:15:06.359Z"),
     content:
       "Est tenetur molestiae voluptatem ipsa dolor quae in molestias. Quas magnam sint ut impedit dolorum et molestias qui qui.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.INBOX,
@@ -1572,7 +1412,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-31T13:33:00.737Z"),
     content:
       "Fuga neque maiores nihil quibusdam aut aut molestiae. Voluptate quam ut assumenda nisi assumenda hic expedita.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.INBOX,
@@ -1582,7 +1421,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-22T23:43:23.072Z"),
     content:
       "Ducimus qui praesentium pariatur repudiandae id et. Quae nisi quibusdam quo laborum.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.OUTBOX,
@@ -1592,7 +1430,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-28T14:30:04.542Z"),
     content:
       "Optio incidunt numquam non optio. Quidem perferendis facere consectetur deserunt libero perspiciatis.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.OUTBOX,
@@ -1602,7 +1439,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-06T02:29:28.447Z"),
     content:
       "Consequatur et voluptatem corrupti. Odit eum asperiores doloremque voluptatem accusamus quos perferendis.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.OUTBOX,
@@ -1611,7 +1447,6 @@ export const messagesData: Message[] = [
     id: "a3406300-0601-432a-abeb-c48f2df6f6c3",
     date: new Date("2020-05-06T20:51:35.239Z"),
     content: "Aut neque est. Placeat voluptatum veritatis non temporibus.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.INBOX,
@@ -1621,7 +1456,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-06T18:48:57.844Z"),
     content:
       "Reprehenderit autem in impedit corporis ratione. Et nemo explicabo quia quidem velit in voluptatem consequatur.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.OUTBOX,
@@ -1631,7 +1465,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-25T19:56:13.850Z"),
     content:
       "Sapiente facilis quo suscipit odit quas repellendus. Officiis ut ut quisquam soluta provident facilis qui et.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.INBOX,
@@ -1641,7 +1474,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-21T02:15:47.579Z"),
     content:
       "Qui aut aliquid et sed delectus dicta. Facilis odit est et occaecati id illum corrupti eaque.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.INBOX,
@@ -1651,7 +1483,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-07-18T00:06:32.157Z"),
     content:
       "Architecto accusantium quae harum ipsum quod velit quibusdam corporis quis. Qui molestiae ab sed quas nobis.",
-    contactId: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
     threadId: "+00287614353",
     phoneNumber: "+00287614353",
     messageType: MessageType.OUTBOX,
@@ -1661,7 +1492,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-29T07:44:35.453Z"),
     content:
       "Esse est et vel numquam vitae dicta. Quas iste dolor quis a magnam quas architecto nam impedit.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.OUTBOX,
@@ -1671,7 +1501,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-08T00:15:12.005Z"),
     content:
       "Iure alias voluptas sed ipsum magnam dolores quis. Qui magni enim officia dolores accusantium laboriosam.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.INBOX,
@@ -1681,7 +1510,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-06-15T07:52:42.540Z"),
     content:
       "Neque provident accusantium reprehenderit. Est voluptates omnis quia magnam facilis architecto necessitatibus dicta.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.OUTBOX,
@@ -1691,7 +1519,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-07-27T12:43:59.531Z"),
     content:
       "Enim ut eveniet tempora in cupiditate quidem rerum consequuntur voluptas. Ullam delectus et placeat ut qui magni et.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.INBOX,
@@ -1701,7 +1528,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-07-28T18:43:00.970Z"),
     content:
       "Et voluptas distinctio tempore porro eveniet. Possimus corrupti eveniet distinctio aut omnis corrupti totam exercitationem.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.INBOX,
@@ -1711,7 +1537,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-06-11T02:21:11.391Z"),
     content:
       "Velit perferendis fugiat asperiores blanditiis quibusdam non fuga nihil. Vitae est maiores.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.INBOX,
@@ -1720,7 +1545,6 @@ export const messagesData: Message[] = [
     id: "02c47d8d-4722-4e63-b703-6cfb593cdfe0",
     date: new Date("2020-06-11T02:21:11.391Z"),
     content: "Blanditiis quibusdam non fuga nihil. Vitae est maiores.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.INBOX,
@@ -1729,7 +1553,6 @@ export const messagesData: Message[] = [
     id: "02c47d8d-4722-4e63-b703-6cfb593cdfe9",
     date: new Date("2020-06-11T02:21:11.391Z"),
     content: "No blanditiis.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.OUTBOX,
@@ -1739,7 +1562,6 @@ export const messagesData: Message[] = [
     date: new Date(),
     content:
       "Velit perferendis fugiat asperiores blanditiis quibusdam non fuga nihil. Vitae est maiores.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.OUTBOX,
@@ -1748,7 +1570,6 @@ export const messagesData: Message[] = [
     id: "02c47d8d-4722-4e63-b703-6cfb593cdfeb",
     date: new Date("2020-06-11T02:22:11.391Z"),
     content: "No Velit.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.OUTBOX,
@@ -1757,7 +1578,6 @@ export const messagesData: Message[] = [
     id: "c7873064-ee7c-49ae-a1c0-bd2d73f401eb",
     date: new Date("2020-02-13T22:22:13.615Z"),
     content: "Dolores possimus id. Molestiae molestias voluptate rerum.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.INBOX,
@@ -1766,7 +1586,6 @@ export const messagesData: Message[] = [
     id: "c7873064-ee7c-49ae-a1c0-bd2d73f401ib",
     date: new Date("2021-02-13T22:22:13.615Z"),
     content: "Molestiae molestias voluptate rerum. Dolores possimus id.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.INBOX,
@@ -1775,7 +1594,6 @@ export const messagesData: Message[] = [
     id: "c7873064-ee7c-49ae-a1c0-bd2d73f401ob",
     date: new Date("2021-02-13T22:25:13.615Z"),
     content: "Id?",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.OUTBOX,
@@ -1785,7 +1603,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-14T12:59:40.088Z"),
     content:
       "Velit consectetur asperiores magni vero veniam saepe. Deleniti quas sed enim esse aperiam.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.OUTBOX,
@@ -1795,7 +1612,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-19T08:24:40.668Z"),
     content:
       "Atque asperiores asperiores eius eum qui qui deleniti. Nemo ab et.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.INBOX,
@@ -1804,7 +1620,6 @@ export const messagesData: Message[] = [
     id: "d1085d6d-6fd6-43eb-982c-0500f774b696",
     date: new Date("2019-10-19T08:25:20.668Z"),
     content: "No Atque",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.OUTBOX,
@@ -1814,7 +1629,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-22T06:34:20.344Z"),
     content:
       "Exercitationem expedita eos pariatur enim nostrum corrupti. Facilis aperiam minus nihil.",
-    contactId: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
     threadId: "+87859344351",
     phoneNumber: "+87859344351",
     messageType: MessageType.OUTBOX,
@@ -1824,7 +1638,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-04-16T08:29:33.724Z"),
     content:
       "Provident molestias eveniet molestiae. Hic qui aut facilis ipsum qui quo eos sapiente.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.OUTBOX,
@@ -1833,7 +1646,6 @@ export const messagesData: Message[] = [
     id: "e05871d0-a46a-4920-bc98-a92c0559d699",
     date: new Date("2019-08-21T14:50:33.007Z"),
     content: "Ea et id iusto minima. In aliquid laborum.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.OUTBOX,
@@ -1842,7 +1654,6 @@ export const messagesData: Message[] = [
     id: "c6253972-3fc0-4ff9-a3d9-1a46b21c1fa1",
     date: new Date("2019-11-02T12:26:13.197Z"),
     content: "Ratione odio quo fuga expedita. Odit voluptas et tempora.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.INBOX,
@@ -1852,7 +1663,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-30T18:11:34.799Z"),
     content:
       "Repudiandae quos sequi id dolor qui reprehenderit et assumenda. Error repudiandae quia.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.OUTBOX,
@@ -1862,7 +1672,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-06-23T19:17:08.301Z"),
     content:
       "Non illo quis rerum similique vero saepe fugit voluptatum quia. Veritatis dolorem nihil aut.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.OUTBOX,
@@ -1872,7 +1681,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-07-25T15:39:54.312Z"),
     content:
       "Blanditiis omnis vero ut in enim aut. Explicabo ducimus repellendus voluptatem provident culpa aut voluptatem rerum amet.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.INBOX,
@@ -1882,7 +1690,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-24T05:34:05.255Z"),
     content:
       "Nisi ipsa mollitia aliquam unde inventore non eaque distinctio. Ex excepturi laboriosam nobis.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.OUTBOX,
@@ -1892,7 +1699,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-07-08T07:01:59.052Z"),
     content:
       "Modi sunt cum quia qui alias et. Sapiente et facilis enim quidem.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.OUTBOX,
@@ -1901,7 +1707,6 @@ export const messagesData: Message[] = [
     id: "78cc365d-fa03-4704-8399-0e7bde6014fe",
     date: new Date("2020-06-04T09:48:16.194Z"),
     content: "Atque aut quam tempore est aut reiciendis. Enim eos in cumque.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.INBOX,
@@ -1911,7 +1716,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-17T17:27:51.665Z"),
     content:
       "Est rerum nulla dolorem est est nulla ab sequi minus. Doloremque quaerat dicta magni quo a sed iure illum.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.INBOX,
@@ -1921,7 +1725,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-05T08:23:17.415Z"),
     content:
       "Ipsum doloribus reprehenderit laborum dolor et eligendi. Ab labore quibusdam harum et omnis exercitationem.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.OUTBOX,
@@ -1931,7 +1734,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-18T16:03:22.416Z"),
     content:
       "Officia cupiditate earum voluptates quae ratione dolor sit. Expedita sunt expedita iure est consequatur dolore distinctio reiciendis.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.INBOX,
@@ -1941,7 +1743,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-21T19:07:31.716Z"),
     content:
       "Blanditiis labore nostrum quis facilis expedita accusamus non ipsa magnam. Explicabo molestiae dignissimos tempore aspernatur eius possimus non.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.INBOX,
@@ -1951,7 +1752,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-06-16T14:44:55.111Z"),
     content:
       "Dolorum hic facilis perferendis deserunt et autem recusandae amet corporis. Id vero iste magni aspernatur.",
-    contactId: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
     threadId: "+90669222797",
     phoneNumber: "+90669222797",
     messageType: MessageType.INBOX,
@@ -1961,7 +1761,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-09T17:49:34.588Z"),
     content:
       "Consequatur sed possimus maxime est vel quae provident accusantium voluptatum. Sed vel explicabo aliquid ipsum et.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.OUTBOX,
@@ -1970,7 +1769,6 @@ export const messagesData: Message[] = [
     id: "893a0689-e1a0-47c3-a52e-282dafd244ae",
     date: new Date("2020-04-20T06:06:27.812Z"),
     content: "Quis velit deserunt ex. Aut eaque provident molestiae non.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.INBOX,
@@ -1980,7 +1778,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-27T21:47:31.922Z"),
     content:
       "Aut qui quaerat suscipit consequuntur aut praesentium. Culpa optio libero quae suscipit illo laborum dicta.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.INBOX,
@@ -1990,7 +1787,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-03T00:43:06.846Z"),
     content:
       "Illo ut voluptatibus suscipit illo sed. Consequatur alias harum eum est molestiae laudantium molestias totam.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.OUTBOX,
@@ -2000,7 +1796,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-28T00:51:13.328Z"),
     content:
       "Odit et assumenda id eum ut eius. Totam sed in laborum eum magni reiciendis.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.INBOX,
@@ -2010,7 +1805,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-17T02:10:57.266Z"),
     content:
       "Tenetur dicta est et tempore repellat temporibus. Aperiam vero ea exercitationem temporibus dolore vitae neque optio aliquid.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.INBOX,
@@ -2020,7 +1814,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-03T00:15:46.585Z"),
     content:
       "Corporis qui aut ut alias omnis veniam voluptates consequatur illo. Quam aut est animi id repudiandae laboriosam.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.OUTBOX,
@@ -2030,7 +1823,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-13T05:53:13.622Z"),
     content:
       "Similique aut officia non itaque distinctio est quia rerum. Dolores et ut est aut mollitia.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.OUTBOX,
@@ -2039,7 +1831,6 @@ export const messagesData: Message[] = [
     id: "26736058-83d7-4903-a7db-ce4663238b66",
     date: new Date("2020-03-29T21:36:37.119Z"),
     content: "Sunt vel quasi sint deleniti. Eligendi nam culpa.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.INBOX,
@@ -2048,7 +1839,6 @@ export const messagesData: Message[] = [
     id: "a33a97d1-d8ca-4530-baae-8cefcff4658b",
     date: new Date("2020-06-20T10:19:58.085Z"),
     content: "Et excepturi sint omnis odio. Cum aperiam dolor aut sequi.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.INBOX,
@@ -2057,7 +1847,6 @@ export const messagesData: Message[] = [
     id: "0d141a3c-f827-4021-aab1-4f41c83ceb12",
     date: new Date("2019-08-28T19:48:35.706Z"),
     content: "Nihil beatae nemo pariatur. Quasi accusantium eos quis.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.INBOX,
@@ -2067,7 +1856,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-05T00:02:41.823Z"),
     content:
       "Dolor aut dolorum. Nisi fugit maxime qui aut nemo magni architecto.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.OUTBOX,
@@ -2077,7 +1865,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-03T04:54:45.388Z"),
     content:
       "Qui a ducimus blanditiis similique sapiente impedit. Quos voluptatem est autem et molestiae neque.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.OUTBOX,
@@ -2087,7 +1874,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-17T20:24:15.215Z"),
     content:
       "Illo temporibus maiores est placeat hic asperiores quam atque. Corrupti cupiditate quia repellat sunt.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.OUTBOX,
@@ -2097,7 +1883,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-10-01T06:53:12.021Z"),
     content:
       "Commodi et commodi voluptatem et ullam consectetur libero. Est id eligendi.",
-    contactId: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
     threadId: "+50051893223",
     phoneNumber: "+50051893223",
     messageType: MessageType.INBOX,
@@ -2107,7 +1892,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-11T16:04:35.975Z"),
     content:
       "Natus illum aspernatur minima voluptatem dolorum. Officiis sunt rerum soluta animi est aut qui veritatis et.",
-    contactId: "29812fa1-5eaa-4a05-a3cf-fe1e2ea9915a",
     threadId: "+13066262752",
     phoneNumber: "+13066262752",
     messageType: MessageType.INBOX,
@@ -2117,7 +1901,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-10T03:09:41.421Z"),
     content:
       "Minus enim in consectetur ut. Amet voluptatibus optio rerum eligendi sed.",
-    contactId: "29812fa1-5eaa-4a05-a3cf-fe1e2ea9915a",
     threadId: "+13066262752",
     phoneNumber: "+13066262752",
     messageType: MessageType.OUTBOX,
@@ -2127,7 +1910,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-21T21:51:55.051Z"),
     content:
       "Ipsa commodi sit adipisci autem animi consequuntur. Nihil et distinctio consequatur natus et.",
-    contactId: "29812fa1-5eaa-4a05-a3cf-fe1e2ea9915a",
     threadId: "+13066262752",
     phoneNumber: "+13066262752",
     messageType: MessageType.OUTBOX,
@@ -2137,7 +1919,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-16T18:09:06.821Z"),
     content:
       "Aut dicta tempore aut. Esse sint eos tempora quo vel exercitationem ducimus maiores quibusdam.",
-    contactId: "29812fa1-5eaa-4a05-a3cf-fe1e2ea9915a",
     threadId: "+13066262752",
     phoneNumber: "+13066262752",
     messageType: MessageType.INBOX,
@@ -2147,7 +1928,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-07-02T15:19:13.977Z"),
     content:
       "Officia iusto et dicta qui debitis ea consequuntur. Beatae placeat nihil natus nostrum maiores laborum.",
-    contactId: "29812fa1-5eaa-4a05-a3cf-fe1e2ea9915a",
     threadId: "+13066262752",
     phoneNumber: "+13066262752",
     messageType: MessageType.INBOX,
@@ -2157,7 +1937,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-08T13:10:43.451Z"),
     content:
       "Magni ut quia accusamus ullam sit repudiandae. Eum aperiam est ab excepturi quasi corporis.",
-    contactId: "29812fa1-5eaa-4a05-a3cf-fe1e2ea9915a",
     threadId: "+13066262752",
     phoneNumber: "+13066262752",
     messageType: MessageType.INBOX,
@@ -2167,7 +1946,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-06T17:43:27.147Z"),
     content:
       "Eius architecto temporibus illo aspernatur laudantium. Et officia odio et voluptatum sint quis in.",
-    contactId: "29812fa1-5eaa-4a05-a3cf-fe1e2ea9915a",
     threadId: "+13066262752",
     phoneNumber: "+13066262752",
     messageType: MessageType.INBOX,
@@ -2177,7 +1955,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-02T01:45:10.740Z"),
     content:
       "Ratione unde corporis id est et quae. Ut quidem culpa blanditiis vel aut quia explicabo ducimus.",
-    contactId: "29812fa1-5eaa-4a05-a3cf-fe1e2ea9915a",
     threadId: "+13066262752",
     phoneNumber: "+13066262752",
     messageType: MessageType.INBOX,
@@ -2187,7 +1964,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-08T00:29:35.722Z"),
     content:
       "Sed ea ut et expedita officia. Officia omnis voluptatem quia eos modi expedita doloremque aliquam qui.",
-    contactId: "29812fa1-5eaa-4a05-a3cf-fe1e2ea9915a",
     threadId: "+13066262752",
     phoneNumber: "+13066262752",
     messageType: MessageType.OUTBOX,
@@ -2197,7 +1973,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-02-10T08:33:44.908Z"),
     content:
       "Accusamus tenetur at a alias aut dicta dolorem enim ut. Iusto ullam totam totam voluptatem et expedita quo quia quas.",
-    contactId: "29812fa1-5eaa-4a05-a3cf-fe1e2ea9915a",
     threadId: "+13066262752",
     phoneNumber: "+13066262752",
     messageType: MessageType.INBOX,
@@ -2207,7 +1982,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-05-20T17:44:26.826Z"),
     content:
       "Minus mollitia placeat quod est sunt. Architecto incidunt consequatur voluptatem recusandae enim.",
-    contactId: "90eb6201-4252-4fa3-add3-b60e2b27c8dd",
     threadId: "+72383361402",
     phoneNumber: "+72383361402",
     messageType: MessageType.INBOX,
@@ -2217,7 +1991,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-09T12:17:57.025Z"),
     content:
       "Iusto nihil est corporis. Odit sit corporis sed ipsa ut dolor veniam illum dicta.",
-    contactId: "90eb6201-4252-4fa3-add3-b60e2b27c8dd",
     threadId: "+72383361402",
     phoneNumber: "+72383361402",
     messageType: MessageType.OUTBOX,
@@ -2226,7 +1999,6 @@ export const messagesData: Message[] = [
     id: "93ef791b-be23-4fec-9595-79c9873d3012",
     date: new Date("2019-12-24T12:29:25.296Z"),
     content: "Debitis tempore animi. Tenetur maxime inventore eos.",
-    contactId: "90eb6201-4252-4fa3-add3-b60e2b27c8dd",
     threadId: "+72383361402",
     phoneNumber: "+72383361402",
     messageType: MessageType.OUTBOX,
@@ -2236,7 +2008,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-20T04:40:54.903Z"),
     content:
       "Nulla eius magni. Impedit sit iusto ullam odio odit nam debitis ea.",
-    contactId: "90eb6201-4252-4fa3-add3-b60e2b27c8dd",
     threadId: "+72383361402",
     phoneNumber: "+72383361402",
     messageType: MessageType.INBOX,
@@ -2246,7 +2017,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-19T04:27:25.476Z"),
     content:
       "Nesciunt quia vero recusandae dicta voluptatem quibusdam animi. Velit saepe eligendi et adipisci sit dolor.",
-    contactId: "90eb6201-4252-4fa3-add3-b60e2b27c8dd",
     threadId: "+72383361402",
     phoneNumber: "+72383361402",
     messageType: MessageType.INBOX,
@@ -2256,7 +2026,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-12-24T03:10:55.732Z"),
     content:
       "Beatae et praesentium eaque qui suscipit velit sed. Necessitatibus qui ea neque officia vitae quia sed voluptatem deleniti.",
-    contactId: "90eb6201-4252-4fa3-add3-b60e2b27c8dd",
     threadId: "+72383361402",
     phoneNumber: "+72383361402",
     messageType: MessageType.INBOX,
@@ -2266,7 +2035,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-12T19:52:39.995Z"),
     content:
       "Illo minus porro totam dolorem et sed. Repudiandae atque quia enim.",
-    contactId: "90eb6201-4252-4fa3-add3-b60e2b27c8dd",
     threadId: "+72383361402",
     phoneNumber: "+72383361402",
     messageType: MessageType.INBOX,
@@ -2276,7 +2044,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-04T10:02:01.651Z"),
     content:
       "Excepturi sunt non impedit sequi maxime. Consequatur id ut est maiores aliquam.",
-    contactId: "90eb6201-4252-4fa3-add3-b60e2b27c8dd",
     threadId: "+72383361402",
     phoneNumber: "+72383361402",
     messageType: MessageType.OUTBOX,
@@ -2285,7 +2052,6 @@ export const messagesData: Message[] = [
     id: "b9d073ba-6c74-4b74-864e-316f1fe88e98",
     date: new Date("2020-03-17T20:23:28.795Z"),
     content: "Sed vitae nemo sit enim. Velit suscipit nihil.",
-    contactId: "90eb6201-4252-4fa3-add3-b60e2b27c8dd",
     threadId: "+72383361402",
     phoneNumber: "+72383361402",
     messageType: MessageType.INBOX,
@@ -2295,7 +2061,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-08-14T23:26:56.059Z"),
     content:
       "Rerum quae eum placeat non mollitia ipsum corrupti repudiandae atque. Id molestias aut voluptatem.",
-    contactId: "90eb6201-4252-4fa3-add3-b60e2b27c8dd",
     threadId: "+72383361402",
     phoneNumber: "+72383361402",
     messageType: MessageType.OUTBOX,
@@ -2305,7 +2070,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-14T17:23:55.586Z"),
     content:
       "Aut id eos totam iusto ullam perferendis voluptates. Laudantium eum id non dignissimos.",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     threadId: "+33999999999",
     phoneNumber: "+33999999999",
     messageType: MessageType.OUTBOX,
@@ -2315,7 +2079,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-18T11:30:16.245Z"),
     content:
       "Ratione cum doloribus et illum est. Et itaque sit dolores similique ipsa consequuntur.",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     threadId: "+33999999999",
     phoneNumber: "+33999999999",
     messageType: MessageType.INBOX,
@@ -2324,7 +2087,6 @@ export const messagesData: Message[] = [
     id: "fce4d3af-2d27-4a35-a3e8-4ae57df704e4",
     date: new Date("2020-01-10T16:48:41.223Z"),
     content: "Consequatur sapiente qui sit. Est sed quis est fuga.",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     threadId: "+33999999999",
     phoneNumber: "+33999999999",
     messageType: MessageType.OUTBOX,
@@ -2334,7 +2096,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-29T06:38:52.359Z"),
     content:
       "Quis ut consequuntur delectus in deleniti distinctio quisquam enim ut. Aut quo ex possimus blanditiis voluptatem consequatur ut saepe est.",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     threadId: "+33999999999",
     phoneNumber: "+33999999999",
     messageType: MessageType.INBOX,
@@ -2344,7 +2105,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-06-16T05:18:19.871Z"),
     content:
       "Voluptate a aliquam. Reiciendis doloremque aspernatur ut odit voluptates.",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     threadId: "+33999999999",
     phoneNumber: "+33999999999",
     messageType: MessageType.INBOX,
@@ -2354,7 +2114,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-01-20T11:03:38.232Z"),
     content:
       "Architecto minima eum quia sapiente. Voluptatum nulla unde nostrum quia dolorem soluta illum.",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     threadId: "+33999999999",
     phoneNumber: "+33999999999",
     messageType: MessageType.INBOX,
@@ -2364,7 +2123,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-07-29T17:14:51.779Z"),
     content:
       "Et molestias occaecati dignissimos fugit enim dolore. Sed aut maiores.",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     threadId: "+33999999999",
     phoneNumber: "+33999999999",
     messageType: MessageType.INBOX,
@@ -2374,7 +2132,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-11-14T17:23:55.586Z"),
     content:
       "Aut id eos totam iusto ullam perferendis voluptates. Laudantium eum id non dignissimos.",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     threadId: "+47999999999",
     phoneNumber: "+47999999999",
     messageType: MessageType.OUTBOX,
@@ -2384,7 +2141,6 @@ export const messagesData: Message[] = [
     date: new Date("2020-03-18T11:30:16.245Z"),
     content:
       "Ratione cum doloribus et illum est. Et itaque sit dolores similique ipsa consequuntur.",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     threadId: "+47999999999",
     phoneNumber: "+47999999999",
     messageType: MessageType.INBOX,
@@ -2393,7 +2149,6 @@ export const messagesData: Message[] = [
     id: "fce4d3af-2d27-4a35-a3e8-4ae57df704e4",
     date: new Date("2020-01-10T16:48:41.223Z"),
     content: "Consequatur sapiente qui sit. Est sed quis est fuga.",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     threadId: "+47999999999",
     phoneNumber: "+47999999999",
     messageType: MessageType.OUTBOX,
@@ -2403,7 +2158,6 @@ export const messagesData: Message[] = [
     date: new Date("2019-09-29T06:38:52.359Z"),
     content:
       "Quis ut consequuntur delectus in deleniti distinctio quisquam enim ut. Aut quo ex possimus blanditiis voluptatem consequatur ut saepe est.",
-    contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
     threadId: "+47999999999",
     phoneNumber: "+47999999999",
     messageType: MessageType.INBOX,
@@ -2415,7 +2169,6 @@ export const addedMessageData: Message = {
   date: new Date("2019-09-29T06:38:52.359Z"),
   content:
     "Quis ut consequuntur delectus in deleniti distinctio quisquam enim ut. Aut quo ex possimus blanditiis voluptatem consequatur ut saepe est.",
-  contactId: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
   threadId: "+47999999999",
   phoneNumber: "+47999999999",
   messageType: MessageType.INBOX,

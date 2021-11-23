@@ -5,64 +5,79 @@
 
 import { ChangeEvent } from "react"
 import { connect } from "react-redux"
-import { RootModel } from "Renderer/models/models"
 import Messages from "App/messages/components/messages/messages.component"
-import { select } from "Renderer/store"
+import { ReduxRootState, TmpDispatch, select, RootState } from "Renderer/store"
 import {
   Message,
   NewMessage,
   VisibilityFilter,
-} from "App/messages/store/messages.interface"
-import addMessage from "Renderer/requests/add-message.request"
-import logger from "App/main/utils/logger"
+} from "App/messages/reducers/messages.interface"
+import {
+  changeSearchValue,
+  changeVisibilityFilter,
+  deleteThreads,
+  markThreadsAsRead,
+  toggleThreadsReadStatus,
+} from "App/messages/actions/base.action"
+import {
+  addNewMessage,
+  loadMessagesById,
+  loadThreads,
+} from "App/messages/actions"
+import {
+  filteredThreadsSelector,
+  getMessagesByThreadIdSelector,
+  getMessagesStateByThreadIdSelector,
+  getReceiverSelector,
+  getReceiversSelector,
+} from "App/messages/selectors"
+import { PaginationBody } from "@mudita/pure"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import { loadThreadsTotalCount } from "App/messages/actions/load-threads-total-count.action"
 
-const selector = select(({ messages, contacts }) => ({
-  threads: messages.filteredThreads,
-  receivers: messages.getReceivers,
-  getReceiver: messages.getReceiver,
+const selector = select(({ contacts }) => ({
   getContact: contacts.getContact,
   getContactByPhoneNumber: contacts.getContactByPhoneNumber,
-  getMessagesByThreadId: messages.getMessagesByThreadId,
-  getMessagesResultMapStateByThreadId:
-    messages.getMessagesResultMapStateByThreadId,
   attachContactList: contacts.contactList,
   attachContactFlatList: contacts.flatList,
-  isContactCreated: contacts.isContactCreated,
+  isContactCreatedByPhoneNumber: contacts.isContactCreatedByPhoneNumber,
 }))
 
-const mapStateToProps = (state: RootModel) => ({
-  ...state.messages,
-  ...state.settings,
+const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...selector(state, {}),
+  ...state.settings,
+  threadsState: state.messages.threadsState,
+  threadsTotalCount: state.messages.threadsTotalCount,
+  threads: filteredThreadsSelector(state),
+  receivers: getReceiversSelector(state),
+  getReceiver: (phoneNumber: string) => getReceiverSelector(phoneNumber)(state),
+  getMessagesByThreadId: (threadId: string) =>
+    getMessagesByThreadIdSelector(threadId)(state),
+  getMessagesStateByThreadId: (threadId: string) =>
+    getMessagesStateByThreadIdSelector(threadId)(state),
 })
 
-const mapDispatchToProps = ({ messages }: any) => ({
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  loadThreadsTotalCount: (): Promise<void> =>
+    dispatch(loadThreadsTotalCount()),
+  loadThreads: (
+    pagination: PaginationBody
+  ): Promise<PayloadAction<PaginationBody>> =>
+    dispatch(loadThreads(pagination)),
   changeSearchValue: ({ target }: ChangeEvent<HTMLInputElement>) =>
-    messages.changeSearchValue(target.value),
+    dispatch(changeSearchValue(target.value)),
   changeVisibilityFilter: (filter: VisibilityFilter) =>
-    messages.changeVisibilityFilter(filter),
-  deleteThreads: (ids: string[]) => messages.deleteThreads(ids),
-  markAsRead: (ids: string[]) => messages.markAsRead(ids),
-  toggleReadStatus: (ids: string[]) => messages.toggleReadStatus(ids),
-  loadMessagesByThreadId: (threadId: string) =>
-    messages.loadMessagesByThreadId(threadId),
-  addNewMessage: async (
-    newMessage: NewMessage
-  ): Promise<Message | undefined> => {
-    const { data, error } = await addMessage(newMessage)
-    if (error || !data) {
-      logger.error(
-        `Messages: editing new message throw error. Data: ${JSON.stringify(
-          error
-        )}`
-      )
-      return undefined
-    } else {
-      await messages.loadData()
-      await messages.loadMessagesByThreadId(data.threadId)
-      return data
-    }
-  },
+    dispatch(changeVisibilityFilter(filter)),
+  deleteThreads: (threadIds: string[]) => dispatch(deleteThreads(threadIds)),
+  markAsRead: (threadIds: string[]) => dispatch(markThreadsAsRead(threadIds)),
+  toggleReadStatus: (threadIds: string[]) =>
+    dispatch(toggleThreadsReadStatus(threadIds)),
+  loadMessagesByThreadId: (body: GetMessagesBody) =>
+    dispatch(loadMessagesById(body)),
+  addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
+    dispatch(addNewMessage(newMessage)),
+  loadContacts: () => dispatch.contacts.loadData(),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)
