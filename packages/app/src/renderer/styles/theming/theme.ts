@@ -47,6 +47,7 @@ const theme = {
       secondary: grey2,
       iconBody: white,
       iconUser: blue6,
+      tabHover: grey1,
     },
     background: {
       activity: blue2,
@@ -58,6 +59,7 @@ const theme = {
       minorHover: grey8,
       primary: grey1,
       primaryHover: dark,
+      secondaryHover: grey6,
       row: white,
       scroll: grey3,
       super: black,

@@ -81,6 +81,14 @@ exports[`matches snapshot 1`] = `
   transition: width 500ms ease;
 }
 
+.c0:hover {
+  color: #3b3f42;
+}
+
+.c0:hover svg {
+  opacity: 0.9;
+}
+
 .c0.active {
   color: #000000;
 }

@@ -11,7 +11,7 @@ import {
   DeviceInfo,
   StatusInfo,
   SystemInfo,
-  OverviewWrapper,
+  OverviewPureWrapper,
   FileManagerInfo,
   BackupInfo,
 } from "App/overview/components/overview/overview.styles"
@@ -19,7 +19,6 @@ import { noop } from "Renderer/utils/noop"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import { AppSettings } from "App/main/store/settings.interface"
 import Backup from "App/overview/components/backup/backup.component"
-import { Feature, flags } from "App/feature-flags"
 
 interface OverviewUIProps {
   readonly onUpdateCheck: () => void
@@ -64,7 +63,7 @@ const OverviewContent: FunctionComponent<
   onBackupCreate,
   onBackupRestore,
 }) => (
-  <OverviewWrapper>
+  <OverviewPureWrapper>
     <DeviceInfo
       caseColour={caseColour}
       deviceType={DeviceType.MuditaPure}
@@ -85,19 +84,17 @@ const OverviewContent: FunctionComponent<
       onDownload={onUpdateDownload}
       onUpdate={onUpdateInstall}
     />
-    {flags.get(Feature.Backup) && (
-      <BackupInfo
-        lastBackupDate={lastBackupDate}
-        onBackupCreate={onBackupCreate}
-        onBackupRestore={onBackupRestore}
-      />
-    )}
+    <BackupInfo
+      lastBackupDate={lastBackupDate}
+      onBackupCreate={onBackupCreate}
+      onBackupRestore={onBackupRestore}
+    />
     <FileManagerInfo
       usedSpace={memorySpace.full - memorySpace.free}
       maxSpace={memorySpace.full}
       onFilesOpen={noop}
     />
-  </OverviewWrapper>
+  </OverviewPureWrapper>
 )
 
 export default OverviewContent

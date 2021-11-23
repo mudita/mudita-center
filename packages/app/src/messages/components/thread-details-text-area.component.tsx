@@ -12,10 +12,10 @@ import {
   IconButton,
   Textarea,
   TextareaWrapper,
+  SendButton,
 } from "App/messages/components/thread-details.styled"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
-
-const production = process.env.NODE_ENV === "production"
+import { Feature, flags } from "App/feature-flags"
 
 interface Props {
   value: string
@@ -35,21 +35,21 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
   }
 
   const leadingIcons = [
-    !production && (
+    flags.get(Feature.DevelopOnly) && (
       <IconButton
         key={Type.AttachContact}
         Icon={Type.AttachContact}
         onClick={onAttachContactClick}
       />
     ),
-    !production && (
+    flags.get(Feature.DevelopOnly) && (
       <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />
     ),
   ]
 
   const trailingIcon = [
     !isValueEmpty() && (
-      <IconButton
+      <SendButton
         data-testid={ThreadDetailsTextAreaTestIds.SendButton}
         key={Type.Send}
         Icon={Type.Send}

@@ -5,7 +5,7 @@
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import PasscodeModal from "./passcode-modal.component"
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, KeyboardEvent } from "react"
 import { PasscodeModalTestIds } from "./passcode-modal-test-ids.enum"
 import { fireEvent, waitFor } from "@testing-library/dom"
 import { cleanup } from "@testing-library/react"
@@ -30,6 +30,27 @@ const defaultProps: Props = {
     payload: DeviceResponseStatus.Ok,
   }),
 }
+
+const digitKeyEvent = {
+  key: "2",
+  code: "Digit2",
+  keyCode: 50,
+  charCode: 0,
+} as KeyboardEvent
+
+const letterKeyEvent = {
+  key: "a",
+  code: "a",
+  keyCode: 97,
+  charCode: 0,
+} as KeyboardEvent
+
+const backspaceKeyEvent = {
+  key: "Backspace",
+  code: "Backspace",
+  keyCode: 8,
+  charCode: 0,
+} as KeyboardEvent
 
 const renderer = (extraProps?: Partial<Props>) => {
   const props: Props = {
@@ -59,19 +80,14 @@ test("Passcode modal has 4 inputs", () => {
 
 test("Passcode inputs are disabled when filled", () => {
   const { inputsList } = renderer()
-  fireEvent.change(inputsList()[0] as Element, { target: { value: "2" } })
-  expect(inputsList()[0]).toHaveProperty("disabled")
+  fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
+  expect(inputsList()[0]).toBeDisabled()
   expect(inputsList()[0]).toHaveStyleRule("background-color", "#f4f5f6")
 })
 
 test("Show typing error message", async () => {
   const { inputsList, errorMessage } = renderer()
-  fireEvent.keyDown(inputsList()[0] as Element, {
-    key: "a",
-    code: "a",
-    keyCode: 97,
-    charCode: 97,
-  })
+  fireEvent.keyDown(inputsList()[0] as Element, letterKeyEvent)
   await waitFor(() =>
     expect(errorMessage()).toHaveTextContent(
       "[value] component.passcodeModalErrorTyping"
@@ -85,11 +101,12 @@ test("Message is displayed properly when request about phone lock return interna
       payload: DeviceResponseStatus.InternalServerError,
     }),
   })
+  fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
 
-  fireEvent.change(inputsList()[0] as Element, { target: { value: "2" } })
-  fireEvent.change(inputsList()[1] as Element, { target: { value: "2" } })
-  fireEvent.change(inputsList()[2] as Element, { target: { value: "2" } })
-  fireEvent.change(inputsList()[3] as Element, { target: { value: "2" } })
+  fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
+  fireEvent.keyDown(inputsList()[1] as Element, digitKeyEvent)
+  fireEvent.keyDown(inputsList()[2] as Element, digitKeyEvent)
+  fireEvent.keyDown(inputsList()[3] as Element, digitKeyEvent)
   await waitFor(() =>
     expect(errorMessage()).toHaveTextContent(
       "[value] component.passcodeModalTryAgain"
@@ -103,10 +120,10 @@ test("Message is displayed properly when request about phone lock status return 
       status: DeviceResponseStatus.PhoneLocked,
     }),
   })
-  fireEvent.change(inputsList()[0] as Element, { target: { value: "2" } })
-  fireEvent.change(inputsList()[1] as Element, { target: { value: "2" } })
-  fireEvent.change(inputsList()[2] as Element, { target: { value: "2" } })
-  fireEvent.change(inputsList()[3] as Element, { target: { value: "2" } })
+  fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
+  fireEvent.keyDown(inputsList()[1] as Element, digitKeyEvent)
+  fireEvent.keyDown(inputsList()[2] as Element, digitKeyEvent)
+  fireEvent.keyDown(inputsList()[3] as Element, digitKeyEvent)
   await waitFor(noop)
   await waitFor(() =>
     expect(errorMessage()).toHaveTextContent(
@@ -119,4 +136,36 @@ test("Modal should show phoneLocked info when phone have time block", () => {
   jest.spyOn(flags, "get").mockReturnValueOnce(true)
   const { phoneLockedContainer } = renderer({ openBlocked: 16308881830 })
   expect(phoneLockedContainer()).toBeInTheDocument()
+})
+
+test("backspace key down event refresh previous input state to default", () => {
+  const { inputsList } = renderer()
+  expect(inputsList()[0]).toBeEnabled()
+  expect(inputsList()[0]).not.toHaveStyleRule("background-color", "#f4f5f6")
+
+  fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
+  expect(inputsList()[0]).toBeDisabled()
+  expect(inputsList()[0]).toHaveStyleRule("background-color", "#f4f5f6")
+
+  fireEvent.keyDown(inputsList()[1] as Element, backspaceKeyEvent)
+  expect(inputsList()[0]).toBeEnabled()
+  expect(inputsList()[0]).not.toHaveStyleRule("background-color", "#f4f5f6")
+})
+
+test("pass digit value in input that with the same value move cursor to the next input", () => {
+  const { inputsList } = renderer()
+  expect(inputsList()[0]).toBeEnabled()
+  expect(inputsList()[0]).not.toHaveStyleRule("background-color", "#f4f5f6")
+
+  fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
+  expect(inputsList()[0]).toBeDisabled()
+  expect(inputsList()[0]).toHaveStyleRule("background-color", "#f4f5f6")
+
+  fireEvent.keyDown(inputsList()[1] as Element, backspaceKeyEvent)
+  expect(inputsList()[0]).toBeEnabled()
+  expect(inputsList()[0]).not.toHaveStyleRule("background-color", "#f4f5f6")
+
+  fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
+  expect(inputsList()[0]).toBeDisabled()
+  expect(inputsList()[0]).toHaveStyleRule("background-color", "#f4f5f6")
 })

@@ -121,13 +121,13 @@ const buttonStyles = css<{
         return css`
           height: 4rem;
           border-radius: ${borderRadius("medium")};
-          border: 0.1rem solid ${borderColor("hover")};
+          border: 0.1rem solid ${borderColor("primary")};
           g {
             fill: ${textColor("primary")};
           }
           ${disabled && disabledSecondaryStyles};
           &:hover {
-            border-color: ${borderColor("primary")};
+            background: ${backgroundColor("secondaryHover")};
           }
         `
       case DisplayStyle.IconOnly1:
@@ -231,7 +231,7 @@ const buttonStyles = css<{
             ${navLinkStyles}
           }
           svg {
-            opacity: 0.75;
+            opacity: 0.6;
           }
         `
       case DisplayStyle.Tab:
@@ -256,6 +256,13 @@ const buttonStyles = css<{
             height: 0.2rem;
             background-color: ${backgroundColor("super")};
             transition: ${transition("width", undefined, "ease")};
+          }
+
+          :hover {
+            color: ${textColor("tabHover")};
+            svg {
+              opacity: 0.9;
+            }
           }
 
           &.${activeClassName} {

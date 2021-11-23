@@ -5,11 +5,11 @@
 
 import * as React from "react"
 import { ReactNode, useRef, useState } from "react"
-import transition from "Renderer/styles/functions/transition"
 import {
   backgroundColor,
   boxShadowColor,
   zIndex,
+  textColor,
 } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import useOutsideClick from "Renderer/utils/hooks/useOutsideClick"
@@ -30,6 +30,10 @@ export interface DropdownProps {
 const DropdownWrapper = styled.div<{ visible: boolean }>`
   position: relative;
   z-index: ${({ visible }) => (visible ? zIndex("dropdown") : 0)};
+  svg path {
+    fill: ${({ visible }) =>
+      visible ? textColor("primary") : textColor("secondary")};
+  }
 `
 
 const DropdownList = styled.ul<{
@@ -46,7 +50,6 @@ const DropdownList = styled.ul<{
   min-width: 17rem;
   pointer-events: ${({ visible }) => (visible ? "auto" : "none")};
   opacity: ${({ visible }) => (visible ? 1 : 0)};
-  transition: ${transition("opacity", undefined, "ease")};
   ${({ dropdownPosition }) =>
     dropdownPosition === DropdownPosition.Left
       ? css`

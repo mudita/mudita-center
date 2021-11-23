@@ -80,6 +80,8 @@ exports[`matches snapshot 1`] = `
 }
 
 .c4 {
+  opacity: 1;
+  visibility: visible;
   display: block;
   position: absolute;
   top: 50%;

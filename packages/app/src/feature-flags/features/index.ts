@@ -25,7 +25,7 @@ export const features: EnvironmentConfig = {
     [Environment.Development]: false,
     [Environment.Production]: true,
     [Environment.TestProduction]: true,
-    [Environment.AlphaProduction]: true,
+    [Environment.AlphaProduction]: false,
     [Environment.TestAlphaProduction]: false,
   },
   [Feature.DisabledOnProduction]: {
@@ -114,13 +114,6 @@ export const features: EnvironmentConfig = {
   },
   [Feature.ProductionAndAlpha]: {
     [Environment.Development]: false,
-    [Environment.Production]: true,
-    [Environment.TestProduction]: true,
-    [Environment.AlphaProduction]: true,
-    [Environment.TestAlphaProduction]: true,
-  },
-  [Feature.Backup]: {
-    [Environment.Development]: true,
     [Environment.Production]: true,
     [Environment.TestProduction]: true,
     [Environment.AlphaProduction]: true,

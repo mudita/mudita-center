@@ -5,7 +5,7 @@
 
 import React, { useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.component"
+import NotificationsUI from "Renderer/modules/settings/components/notifications-ui.component"
 
 export interface NotificationsProps {
   appIncomingCalls?: boolean

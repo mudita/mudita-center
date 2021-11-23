@@ -32,12 +32,14 @@ interface Props {
   searchValue: string
   onSearchValueChange: (event: ChangeEvent<HTMLInputElement>) => void
   onNewMessageClick: () => void
+  buttonDisabled: boolean
 }
 
 const MessagesPanel: FunctionComponent<Props> = ({
   searchValue,
   onSearchValueChange,
   onNewMessageClick,
+  buttonDisabled,
 }) => {
   return (
     <MessageFiltersWrapper>
@@ -58,6 +60,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
           size={ButtonSize.FixedBig}
           label={intl.formatMessage(messages.newMessage)}
           onClick={onNewMessageClick}
+          disabled={buttonDisabled}
         />
       </ButtonWrapper>
     </MessageFiltersWrapper>

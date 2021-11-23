@@ -44,6 +44,10 @@ exports[`matches snapshot 1`] = `
   z-index: 0;
 }
 
+.c0 svg path {
+  fill: #6a6a6a;
+}
+
 .c2 {
   position: absolute;
   list-style-type: none;
@@ -54,8 +58,6 @@ exports[`matches snapshot 1`] = `
   min-width: 17rem;
   pointer-events: none;
   opacity: 0;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
   right: 0;
   top: 100%;
   margin-top: 1rem;
@@ -204,6 +206,10 @@ exports[`renders dropdown 1`] = `
   z-index: 3;
 }
 
+.c0 svg path {
+  fill: #000000;
+}
+
 .c4 {
   position: absolute;
   list-style-type: none;
@@ -214,8 +220,6 @@ exports[`renders dropdown 1`] = `
   min-width: 17rem;
   pointer-events: auto;
   opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
   right: 0;
   top: 100%;
   margin-top: 1rem;

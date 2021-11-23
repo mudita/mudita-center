@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
+import SettingsUI from "Renderer/modules/settings/components/settings-ui.component"
 
 type Properties = ComponentProps<typeof SettingsUI>
 

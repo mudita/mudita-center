@@ -19,7 +19,6 @@ export enum Feature {
   PureSystem = "pure-system-button",
   MCVersion = "mc-version",
   DevelopOnly = "development-only",
-  Backup = "backup",
   ProductionAndAlpha = "production-and-alpha",
   NumberOfContactsToImport = "number-of-contacts-to-import",
   MessagesSearch = "messages-search",

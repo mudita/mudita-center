@@ -5,6 +5,7 @@ exports[`matches snapshot 1`] = `
   margin: 0;
   font-size: 1.4rem;
   line-height: 1.05;
+  line-height: 1.8rem;
   color: #6a6a6a;
   font-weight: 300;
   -webkit-letter-spacing: 0.04rem;
@@ -81,6 +82,8 @@ exports[`matches snapshot 1`] = `
 }
 
 .c5 {
+  opacity: 1;
+  visibility: visible;
   display: block;
   position: absolute;
   top: 50%;

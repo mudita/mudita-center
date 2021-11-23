@@ -580,7 +580,7 @@ describe("Dev Clear All Threads data functionality", () => {
             [message.threadId]: [message.id],
           },
         },
-        { type: MessagesEvent.DevClearAllThreads }
+        { type: MessagesEvent.ClearAllThreads }
       )
     ).toEqual({
       ...initialState,

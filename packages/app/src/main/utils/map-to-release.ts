@@ -121,17 +121,11 @@ export const filterRelease = (release: GithubRelease): boolean => {
     return true
   }
 
-  if (
-    OsReleasesManager.isProductionAlphaAvailable() &&
-    isProductionAlphaRelease(release)
-  ) {
+  if (OsReleasesManager.isProductionAlphaAvailable()) {
     return true
   }
 
-  if (
-    OsReleasesManager.isTestProductionAlphaAvailable() &&
-    isTestProductionAlphaRelease(release)
-  ) {
+  if (OsReleasesManager.isTestProductionAlphaAvailable()) {
     return true
   }
 

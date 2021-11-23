@@ -16,14 +16,18 @@ If you would like to help us create Mudita Center as a full-time job - **[we're 
 
 - updating MuditaOS
 - creating backups
+- managing contacts and messages from your desktop
+- enabling using Mudita Pure as a mobile hotspot
+- Windows, macOS, Linux support
+
+### Coming soon
+
 - recovery mode
 - synchronizing calendar and contacts with Google and Apple
-- managing contacts, messages, notes, events from your desktop
+- managing notes and events from your desktop
 - uploading audio files
-- enabling using Mudita Pure as a mobile hotspot
 - managing files
 - viewing meditation stats
-- Windows, macOS, Linux support
 
 ## Table of contents
 

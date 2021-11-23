@@ -81,7 +81,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
     <div>
       <BackWrapper>
         <AutoWidthButtonComponent
-          displayStyle={DisplayStyle.Link2}
+          displayStyle={DisplayStyle.Link1}
           onClick={handleBack}
           labelMessage={messages.back}
           Icon={Type.ArrowLongLeft}

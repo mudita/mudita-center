@@ -96,11 +96,20 @@ const LastMessageText = styled(Message)<{ unread?: boolean }>`
   ${({ unread }) => unread && dotStyles};
 `
 
-const ThreadRowContainer = styled(ThreadBaseRow)``
+const ThreadRowContainer = styled(ThreadBaseRow)`
+  &:hover {
+    background-color: ${backgroundColor("minor")};
+    ${InitialsAvatar} {
+      background-color: ${backgroundColor("lightIcon")};
+    }
+  }
+`
 
 const ThreadDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
   margin-right: ${({ sidebarOpened }) => (sidebarOpened ? "4rem" : "0")};
 `
+
+const NewThreadWrapper = styled.div``
 
 type SelectHook = Pick<UseTableSelect<Thread>, "noneRowsSelected">
 
@@ -118,6 +127,7 @@ interface Props
   onDeleteClick: (id: Thread["id"]) => void
   onToggleReadClick: (ids: Thread["id"][]) => void
   onContactClick: (phoneNumber: Thread["phoneNumber"]) => void
+  newConversation: string
 }
 
 const ThreadRow: FunctionComponent<Props> = ({
@@ -134,6 +144,7 @@ const ThreadRow: FunctionComponent<Props> = ({
   onDeleteClick,
   onToggleReadClick,
   onContactClick,
+  newConversation,
   ...props
 }) => {
   const contactCreated = contact !== undefined
@@ -159,39 +170,48 @@ const ThreadRow: FunctionComponent<Props> = ({
         <InitialsAvatar user={contact} light={active} size={AvatarSize.Big} />
       </AvatarCol>
       <ThreadCol onClick={handleRowClick} data-testid={ThreadListTestIds.Row}>
-        <ThreadDataWrapper sidebarOpened={sidebarOpened}>
-          <NameWrapper>
+        {getPrettyCaller(contact, phoneNumber) === newConversation ||
+        !thread.messageSnippet ? (
+          <NewThreadWrapper>
             <Name displayStyle={TextDisplayStyle.LargeBoldText}>
               {getPrettyCaller(contact, phoneNumber)}
             </Name>
-            {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
-              <Text displayStyle={TextDisplayStyle.LargeFadedText}>
-                &nbsp;
-                {phoneNumber.split(" ").join("") ===
-                contact?.secondaryPhoneNumber?.split(" ").join("")
-                  ? "#2"
-                  : "#1"}
-              </Text>
-            )}
-          </NameWrapper>
-          <Time displayStyle={TextDisplayStyle.SmallFadedText}>
-            {isToday(thread.lastUpdatedAt)
-              ? moment(thread.lastUpdatedAt).format("h:mm A")
-              : moment(thread.lastUpdatedAt)
-                  .locale(language ?? "en")
-                  .format("ll")}
-          </Time>
-          <LastMessageText
-            unread={unread}
-            displayStyle={
-              unread
-                ? TextDisplayStyle.MediumText
-                : TextDisplayStyle.MediumFadedLightText
-            }
-          >
-            {thread?.messageSnippet}
-          </LastMessageText>
-        </ThreadDataWrapper>
+          </NewThreadWrapper>
+        ) : (
+          <ThreadDataWrapper sidebarOpened={sidebarOpened}>
+            <NameWrapper>
+              <Name displayStyle={TextDisplayStyle.LargeBoldText}>
+                {getPrettyCaller(contact, phoneNumber)}
+              </Name>
+              {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
+                <Text displayStyle={TextDisplayStyle.LargeFadedText}>
+                  &nbsp;
+                  {phoneNumber.split(" ").join("") ===
+                  contact?.secondaryPhoneNumber?.split(" ").join("")
+                    ? "#2"
+                    : "#1"}
+                </Text>
+              )}
+            </NameWrapper>
+            <Time displayStyle={TextDisplayStyle.SmallFadedText}>
+              {isToday(thread.lastUpdatedAt)
+                ? moment(thread.lastUpdatedAt).format("h:mm A")
+                : moment(thread.lastUpdatedAt)
+                    .locale(language ?? "en")
+                    .format("ll")}
+            </Time>
+            <LastMessageText
+              unread={unread}
+              displayStyle={
+                unread
+                  ? TextDisplayStyle.MediumText
+                  : TextDisplayStyle.MediumFadedLightText
+              }
+            >
+              {thread?.messageSnippet}
+            </LastMessageText>
+          </ThreadDataWrapper>
+        )}
       </ThreadCol>
       <Col>
         <Actions>

@@ -21,12 +21,12 @@ import { DeviceState } from "App/device"
 import { StartBackupDeviceError } from "App/backup-device/errors"
 import uploadDeviceFile from "Renderer/requests/upload-device-file.request"
 import startRestoreDeviceRequest from "Renderer/requests/start-restore-device.request"
-import readFile from "App/files-system/requests/read-file.request"
-import decryptFile from "App/files-system/requests/decrypt-file.request"
+import readFile from "App/file-system/requests/read-file.request"
+import decryptFile from "App/file-system/requests/decrypt-file.request"
 import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers"
 
-jest.mock("App/files-system/requests/decrypt-file.request")
-jest.mock("App/files-system/requests/read-file.request")
+jest.mock("App/file-system/requests/decrypt-file.request")
+jest.mock("App/file-system/requests/read-file.request")
 jest.mock("Renderer/requests/upload-device-file.request")
 jest.mock("Renderer/requests/start-restore-device.request")
 jest.mock("App/restore-device/helpers/wait-until-restore-device-finished")
@@ -69,9 +69,7 @@ describe("async `startRestoreDevice` ", () => {
     test("fire async `startRestoreDevice`", async () => {
       ;(readFile as jest.Mock).mockReturnValue(encryptedBuffer)
       ;(decryptFile as jest.Mock).mockReturnValue(decryptedBuffer)
-      ;(uploadDeviceFile as jest.Mock).mockReturnValue(
-        successDeviceResponse
-      )
+      ;(uploadDeviceFile as jest.Mock).mockReturnValue(successDeviceResponse)
       ;(startRestoreDeviceRequest as jest.Mock).mockReturnValue(
         successDeviceResponse
       )
@@ -185,9 +183,7 @@ describe("async `startRestoreDevice` ", () => {
       )
       ;(readFile as jest.Mock).mockReturnValue(encryptedBuffer)
       ;(decryptFile as jest.Mock).mockReturnValue(decryptedBuffer)
-      ;(uploadDeviceFile as jest.Mock).mockReturnValue(
-        errorDeviceResponse
-      )
+      ;(uploadDeviceFile as jest.Mock).mockReturnValue(errorDeviceResponse)
       const mockStore = createMockStore([thunk])(mockStoreState)
       const {
         meta: { requestId },
@@ -215,9 +211,7 @@ describe("async `startRestoreDevice` ", () => {
       )
       ;(readFile as jest.Mock).mockReturnValue(encryptedBuffer)
       ;(decryptFile as jest.Mock).mockReturnValue(decryptedBuffer)
-      ;(uploadDeviceFile as jest.Mock).mockReturnValue(
-        successDeviceResponse
-      )
+      ;(uploadDeviceFile as jest.Mock).mockReturnValue(successDeviceResponse)
       ;(startRestoreDeviceRequest as jest.Mock).mockReturnValue(
         errorDeviceResponse
       )
@@ -248,9 +242,7 @@ describe("async `startRestoreDevice` ", () => {
       )
       ;(readFile as jest.Mock).mockReturnValue(encryptedBuffer)
       ;(decryptFile as jest.Mock).mockReturnValue(decryptedBuffer)
-      ;(uploadDeviceFile as jest.Mock).mockReturnValue(
-        successDeviceResponse
-      )
+      ;(uploadDeviceFile as jest.Mock).mockReturnValue(successDeviceResponse)
       ;(startRestoreDeviceRequest as jest.Mock).mockReturnValue(
         successDeviceResponse
       )
