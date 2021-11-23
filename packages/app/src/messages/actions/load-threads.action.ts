@@ -46,6 +46,7 @@ export const loadThreads = createAsyncThunk<
     if (renewedError || renewedData === undefined) {
       return rejectWithValue(new LoadThreadsError("Get Threads request failed"))
     }
+
     dispatch(setThreadsTotalCount(renewedData.totalCount))
     dispatch(setThreads(renewedData.data))
 
