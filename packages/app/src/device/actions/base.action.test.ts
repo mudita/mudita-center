@@ -15,7 +15,8 @@ import {
   setLockTime,
   setSimData,
   setOsVersionData,
-  setUpdateState, setInitState,
+  setUpdateState,
+  setInitState,
 } from "./base.action"
 import { DeviceEvent, UpdatingState } from "App/device/constants"
 import { CaseColour } from "@mudita/pure"

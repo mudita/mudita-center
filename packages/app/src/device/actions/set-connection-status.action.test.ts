@@ -108,7 +108,7 @@ describe("async `setConnectionStatus` ", () => {
       const store = createMockStore([thunk])({
         ...state,
         restoreDevice: {
-          state: RestoreDeviceDataState.Running
+          state: RestoreDeviceDataState.Running,
         },
       })
 
@@ -128,7 +128,7 @@ describe("async `setConnectionStatus` ", () => {
       const store = createMockStore([thunk])({
         ...state,
         restoreDevice: {
-          state: RestoreDeviceDataState.Running
+          state: RestoreDeviceDataState.Running,
         },
       })
 

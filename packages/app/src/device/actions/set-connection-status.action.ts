@@ -12,7 +12,7 @@ import { setInitState } from "App/device/actions/base.action"
 
 export const setConnectionStatus = createAsyncThunk<boolean, boolean>(
   DeviceEvent.SetConnectionState,
-   (payload, { getState, dispatch }) => {
+  (payload, { getState, dispatch }) => {
     const state = getState() as ReduxRootState
 
     if (state.device.updatingState === UpdatingState.Updating) {
@@ -23,11 +23,11 @@ export const setConnectionStatus = createAsyncThunk<boolean, boolean>(
       return payload
     }
 
-     if(!payload) {
-       dispatch(setInitState())
-       void setValue({ key: MetadataKey.DeviceOsVersion, value: null })
-       void setValue({ key: MetadataKey.DeviceType, value: null })
-     }
+    if (!payload) {
+      dispatch(setInitState())
+      void setValue({ key: MetadataKey.DeviceOsVersion, value: null })
+      void setValue({ key: MetadataKey.DeviceType, value: null })
+    }
 
     return payload
   }
