@@ -6,55 +6,26 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { UpdatingState } from "App/device/constants"
+import { pendingAction } from "Renderer/store/helpers"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { disconnectDevice } from "App/device/actions/disconnect-device.action"
 import { DeviceDisconnectionError } from "App/device/errors"
 import disconnectDeviceRequest from "Renderer/requests/disconnect-device.request"
 import { testError } from "App/renderer/store/constants"
-import { RestoreDeviceDataState } from "App/restore-device/reducers"
 
-const mockStore = createMockStore([thunk])({
-  device: {
-    updatingState: null,
-  },
-  restoreDevice: {
-    state: RestoreDeviceDataState.Empty
-  }
-})
+const mockStore = createMockStore([thunk])()
 
 jest.mock("Renderer/requests/disconnect-device.request")
 
+jest.mock("App/device/actions/set-connection-status.action", () => ({
+  setConnectionStatus: jest.fn().mockReturnValue({
+    type: pendingAction("DEVICE_SET_CONNECTION_STATE"),
+    payload: false,
+  }),
+}))
+
 afterEach(() => {
   mockStore.clearActions()
-})
-
-describe("Device with updatingState different than `null`", () => {
-  test("do not call `disconnectDevice`", async () => {
-    const store = createMockStore([thunk])({
-      device: {
-        updatingState: UpdatingState.Updating,
-      },
-    })
-
-    await store.dispatch(disconnectDevice() as unknown as AnyAction)
-
-    expect(disconnectDeviceRequest).not.toHaveBeenCalled()
-  })
-})
-
-describe("`restoreDevice` is set to running", () => {
-  test("do not call `disconnectDevice`", async () => {
-    const store = createMockStore([thunk])({
-      restoreDevice: {
-        state: RestoreDeviceDataState.Running,
-      },
-    })
-
-    await store.dispatch(disconnectDevice() as unknown as AnyAction)
-
-    expect(disconnectDeviceRequest).not.toHaveBeenCalled()
-  })
 })
 
 describe("Disconnect Device request returns `success` status", () => {
@@ -69,8 +40,8 @@ describe("Disconnect Device request returns `success` status", () => {
     expect(mockStore.getActions()).toEqual([
       disconnectDevice.pending(requestId),
       {
+        type: pendingAction("DEVICE_SET_CONNECTION_STATE"),
         payload: false,
-        type: "DEVICE_SET_CONNECTION_STATE",
       },
       disconnectDevice.fulfilled(undefined, requestId, undefined),
     ])
