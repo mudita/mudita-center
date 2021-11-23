@@ -24,7 +24,7 @@ interface Props {
   getConnectedDevice: () => void
   loadContacts: () => void
   history: History
-  pureFeaturesVisible?: boolean
+  deviceFeaturesVisible?: boolean
   deviceConnecting?: boolean
   appUpdateAvailable?: boolean
   settingsLoaded?: boolean
@@ -45,7 +45,7 @@ const BaseApp: FunctionComponent<Props> = ({
   getConnectedDevice,
   loadContacts,
   history,
-  pureFeaturesVisible,
+  deviceFeaturesVisible,
   deviceConnecting,
   appUpdateAvailable,
   settingsLoaded,
@@ -90,12 +90,10 @@ const BaseApp: FunctionComponent<Props> = ({
   useEffect(() => {
     if (deviceConnecting) {
       history.push(URL_ONBOARDING.connecting)
-    } else if (!pureFeaturesVisible) {
-      history.push(URL_ONBOARDING.root)
-    } else {
-      history.push(URL_ONBOARDING.connecting)
+    } else if (!deviceFeaturesVisible) {
+      history.push(URL_ONBOARDING.welcome)
     }
-  }, [pureFeaturesVisible, deviceConnecting])
+  }, [deviceFeaturesVisible, deviceConnecting])
 
   useEffect(() => {
     if (deviceParred && Boolean(settingsLoaded)) {
@@ -148,11 +146,13 @@ const BaseApp: FunctionComponent<Props> = ({
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    pureFeaturesVisible:
+    deviceFeaturesVisible:
       (state.device.status.connected &&
         Boolean(state.device.status.unlocked)) ||
       state.device.updatingState === UpdatingState.Updating ||
-      state.restoreDevice.state === RestoreDeviceDataState.Running,
+      state.restoreDevice.state === RestoreDeviceDataState.Running ||
+      state.restoreDevice.state === RestoreDeviceDataState.Error,
+
     deviceConnecting:
       state.device.status.connected && !state.device.status.unlocked,
     deviceParred:
