@@ -143,6 +143,12 @@ const Messages: FunctionComponent<Props> = ({
     setThreadsPaginationOffset(response.payload?.offset)
   }
 
+  useEffect(() => {
+    if(threadsTotalCount === 0) {
+      setThreadsPaginationOffset(0)
+    }
+  }, [threadsTotalCount])
+
   const fetchData = async () => {
     await loadThreadsTotalCount()
     await loadContacts()
