@@ -32,7 +32,7 @@ export const primaryPhoneNumberValidator = (
     }),
   },
   validate: (value): string | undefined => {
-    if (value === fields.secondaryPhoneNumber) {
+    if (value.length > 0 && value === fields.secondaryPhoneNumber) {
       return intl.formatMessage({
         id: "component.formErrorNumberUnique",
       })
@@ -66,7 +66,7 @@ export const secondaryPhoneNumberValidator = (
     }),
   },
   validate: (value): string | undefined => {
-    if (value === fields.primaryPhoneNumber) {
+    if (value.length > 0 && value === fields.primaryPhoneNumber) {
       return intl.formatMessage({
         id: "component.formErrorNumberUnique",
       })
