@@ -128,7 +128,7 @@ export const isContactMatching = (
 const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const {
     addNewContact,
-    importContacts,
+    importContact,
     editContact,
     getContact,
     deleteContacts,
@@ -550,7 +550,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     const newContactResponses = await contacts.reduce(
       async (lastPromise, contact, index) => {
         const value = await lastPromise
-        const error = await importContacts(contact)
+        const error = await importContact(contact)
         const currentContactIndex = index + 1
         modalService.rerenderModal(
           <ImportingContactsModal

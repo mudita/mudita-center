@@ -100,7 +100,7 @@ const mapDispatch = ({ contacts, auth }: any) => {
         contacts.addContact(data)
       }
     },
-    importContacts: async (contact: NewContact): Promise<string | void> => {
+    importContact: async (contact: NewContact): Promise<string | void> => {
       const { data, error, status } = await addContact(contact)
 
       // Skipping 409 (Conflict) status code for preventing displaying error about duplicated
