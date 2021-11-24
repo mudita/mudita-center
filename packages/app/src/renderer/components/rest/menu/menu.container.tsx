@@ -10,10 +10,11 @@ import { UpdatingState } from "App/device/constants"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
-  pureFeaturesVisible:
+  deviceFeaturesVisible:
     (state.device.status.connected && state.device.status.unlocked) ||
     state.device.updatingState === UpdatingState.Updating ||
-    state.restoreDevice.state === RestoreDeviceDataState.Running,
+    state.restoreDevice.state === RestoreDeviceDataState.Running ||
+    state.restoreDevice.state === RestoreDeviceDataState.Error,
   devModeEnabled: state.devMode.enabled,
 })
 

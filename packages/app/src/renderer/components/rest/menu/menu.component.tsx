@@ -50,7 +50,7 @@ const DevSign = styled.span`
 
 interface Properties {
   deviceType: DeviceType | null
-  pureFeaturesVisible?: boolean
+  deviceFeaturesVisible?: boolean
   openHelpWindow?: () => void
   devModeEnabled?: DevMode["enabled"]
 }
@@ -58,12 +58,12 @@ const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 const Menu: FunctionComponent<Properties> = ({
   deviceType,
-  pureFeaturesVisible,
+  deviceFeaturesVisible,
   devModeEnabled,
 }) => {
   const links = menuElements
     .filter(({ connectedPhoneOnly }) =>
-      pureFeaturesVisible ? true : !connectedPhoneOnly
+      deviceFeaturesVisible ? true : !connectedPhoneOnly
     )
     .filter(({ devModeOnly }) => (devModeEnabled ? true : !devModeOnly))
     .filter(({ simulatePhoneConnection }) =>

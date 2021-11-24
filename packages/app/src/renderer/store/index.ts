@@ -11,7 +11,7 @@ import {
   Middleware,
 } from "@rematch/core"
 import selectPlugin from "@rematch/select"
-import logger from "redux-logger"
+// import logger from "redux-logger"
 import thunk from "redux-thunk"
 import { models, RootModel } from "Renderer/models/models"
 import { filesManagerSeed } from "App/seeds/filesManager"
@@ -24,7 +24,7 @@ import { reducers, combinedReducers } from "./reducers"
 const middlewares: Middleware[] = [thunk]
 
 if (process.env.NODE_ENV === "development") {
-  middlewares.push(logger)
+  // middlewares.push(logger)
 }
 
 const config: InitConfig<RootModel> = {

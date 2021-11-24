@@ -49,6 +49,13 @@ export const deviceReducer = createReducer<DeviceState>(
   initialState,
   (builder) => {
     builder
+      // SetInitState functionality
+      .addCase(DeviceEvent.SetInitState, () => {
+        return {
+          ...initialState,
+        }
+      })
+
       // Connect/Disconnect functionality
       .addCase(pendingAction(DeviceEvent.Connected), (state) => {
         return {
@@ -110,15 +117,22 @@ export const deviceReducer = createReducer<DeviceState>(
         }
       )
       .addCase(
-        DeviceEvent.SetConnectionState,
+        fulfilledAction(DeviceEvent.SetConnectionState),
         (state, action: SetConnectionStateAction) => {
-          return {
-            ...state,
-            status: {
-              ...state.status,
-              connected: action.payload,
-            },
-            error: null,
+          if (action.payload) {
+            return {
+              ...state,
+              status: {
+                ...state.status,
+                connected: action.payload,
+              },
+              error: null,
+            }
+          } else {
+            return {
+              ...initialState,
+              deviceType: state.deviceType,
+            }
           }
         }
       )
