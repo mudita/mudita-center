@@ -100,7 +100,7 @@ const mapDispatch = ({ contacts, auth }: any) => {
         contacts.addContact(data)
       }
     },
-    importContact: async (contact: NewContact): Promise<string | void> => {
+    importContacts: async (contact: NewContact): Promise<string | void> => {
       const { data, error, status } = await addContact(contact)
 
       // Skipping 409 (Conflict) status code for preventing displaying error about duplicated
@@ -109,7 +109,6 @@ const mapDispatch = ({ contacts, auth }: any) => {
           ...contact,
           id: error!.data.id,
         } as Contact)
-        contacts.loadData()
         return
       }
 
@@ -122,7 +121,7 @@ const mapDispatch = ({ contacts, auth }: any) => {
 
         return error?.message ?? "AddNewContact: Something went wrong"
       } else {
-        contacts.addContact(data)
+        await addContact(data)
       }
     },
     editContact: async (

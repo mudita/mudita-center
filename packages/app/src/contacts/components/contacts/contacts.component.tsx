@@ -128,7 +128,7 @@ export const isContactMatching = (
 const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const {
     addNewContact,
-    importContact,
+    importContacts,
     editContact,
     getContact,
     deleteContacts,
@@ -143,6 +143,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     resultsState,
     authorize,
     onExport,
+    loadData,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -545,11 +546,11 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     modalService.openModal(
       <ImportingContactsModal count={0} total={contacts.length} />
     )
-
+    console.log("contacts", contacts)
     const newContactResponses = await contacts.reduce(
       async (lastPromise, contact, index) => {
         const value = await lastPromise
-        const error = await importContact(contact)
+        const error = await importContacts(contact)
         const currentContactIndex = index + 1
         modalService.rerenderModal(
           <ImportingContactsModal
@@ -561,6 +562,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       },
       Promise.resolve<NewContactResponse[]>([])
     )
+    loadData()
 
     const failedNewContacts: NewContact[] = newContactResponses.filter(
       ({ successfullyAdded }) => !successfullyAdded
