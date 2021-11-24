@@ -16,7 +16,7 @@ import {
   setSimData,
   setOsVersionData,
   setUpdateState,
-  setConnectionStatus,
+  setInitState,
 } from "./base.action"
 import { DeviceEvent, UpdatingState } from "App/device/constants"
 import { CaseColour } from "@mudita/pure"
@@ -168,23 +168,13 @@ describe("Action: setUpdateState", () => {
   })
 })
 
-describe("Action: setConnectionStatus", () => {
-  test("fire action with `false` payload and `SetConnectionState` type if `false` value provided", () => {
-    mockStore.dispatch(setConnectionStatus(false))
+describe("Action: setInitState", () => {
+  test("fire action with `SetInitState` type", () => {
+    mockStore.dispatch(setInitState())
     expect(mockStore.getActions()).toEqual([
       {
-        type: DeviceEvent.SetConnectionState,
-        payload: false,
-      },
-    ])
-  })
-
-  test("fire action with `true` payload and `SetConnectionState` type if `true` value provided", () => {
-    mockStore.dispatch(setConnectionStatus(true))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: DeviceEvent.SetConnectionState,
-        payload: true,
+        type: DeviceEvent.SetInitState,
+        payload: undefined,
       },
     ])
   })

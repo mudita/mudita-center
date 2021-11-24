@@ -8,7 +8,7 @@ import { DeviceType } from "@mudita/pure"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import connectDeviceRequest from "Renderer/requests/connect-device.request"
 import { DeviceEvent } from "App/device/constants"
-import { setConnectionStatus } from "App/device/actions/base.action"
+import { setConnectionStatus } from "App/device/actions/set-connection-status.action"
 import { loadDeviceData } from "App/device/actions/load-device-data.action"
 import { DeviceConnectionError } from "App/device/errors"
 

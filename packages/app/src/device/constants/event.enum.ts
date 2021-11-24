@@ -4,6 +4,8 @@
  */
 
 export enum DeviceEvent {
+  SetInitState = "DEVICE_SET_INIT_STATE",
+
   GetConnected = "DEVICE_GET_CONNECTED",
   SetData = "DEVICE_SET_DATA",
 
