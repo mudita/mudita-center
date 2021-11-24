@@ -70,76 +70,99 @@ test("display top level validation error from props", async () => {
   })
 })
 
-test("display too short number error for primary number", async () => {
-  const tooShotMessageError = "[value] component.formErrorTooShort"
-  const { getByTestId, getByText } = renderer()
-  const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
+describe("display too short number error ", () => {
+  test("for primary number", async () => {
+    const tooShotMessageError = "[value] component.formErrorTooShort"
+    const { getByTestId, getByText } = renderer()
+    const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
 
-  fireEvent.input(primaryNumber, { target: { value: "123" } })
+    fireEvent.input(primaryNumber, { target: { value: "123" } })
 
-  await waitFor(() => {
-    expect(getByText(tooShotMessageError)).toBeInTheDocument()
+    await waitFor(() => {
+      expect(getByText(tooShotMessageError)).toBeInTheDocument()
+    })
+  })
+
+  test("for secondary number", async () => {
+    const tooShotMessageError = "[value] component.formErrorTooShort"
+    const { getByTestId, getByText } = renderer()
+    const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
+
+    fireEvent.input(secondaryNumber, { target: { value: "123" } })
+
+    await waitFor(() => {
+      expect(getByText(tooShotMessageError)).toBeInTheDocument()
+    })
   })
 })
 
-test("display too short number error for secondary number", async () => {
-  const tooShotMessageError = "[value] component.formErrorTooShort"
-  const { getByTestId, getByText } = renderer()
+describe("display too long number error", () => {
+  test("for primary number", async () => {
+    const tooLongMessageError = "[value] component.formErrorTooLong"
+    const { getByTestId, getByText } = renderer()
+    const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
+
+    fireEvent.input(primaryNumber, { target: { value: "123123123123123123" } })
+
+    await waitFor(() => {
+      expect(getByText(tooLongMessageError)).toBeInTheDocument()
+    })
+  })
+
+  test("for secondary number", async () => {
+    const tooLongMessageError = "[value] component.formErrorTooLong"
+    const { getByTestId, getByText } = renderer()
+    const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
+
+    fireEvent.input(secondaryNumber, {
+      target: { value: "123123123123123123" },
+    })
+
+    await waitFor(() => {
+      expect(getByText(tooLongMessageError)).toBeInTheDocument()
+    })
+  })
+})
+
+describe("display invalid format error", () => {
+  test("for primary number", async () => {
+    const invalidFormatMessageError =
+      "[value] component.formErrorNumbersAndSpacesOnly"
+    const { getByTestId, getByText } = renderer()
+    const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
+
+    fireEvent.input(primaryNumber, { target: { value: "+-@.,-£§~`'" } })
+
+    await waitFor(() => {
+      expect(getByText(invalidFormatMessageError)).toBeInTheDocument()
+    })
+  })
+
+  test("for secondary number", async () => {
+    const invalidFormatMessageError =
+      "[value] component.formErrorNumbersAndSpacesOnly"
+    const { getByTestId, getByText } = renderer()
+    const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
+
+    fireEvent.input(secondaryNumber, { target: { value: "+-@.,-£§~`'" } })
+
+    await waitFor(() => {
+      expect(getByText(invalidFormatMessageError)).toBeInTheDocument()
+    })
+  })
+})
+
+test("Not display unique numbers error for empty numbers", async () => {
+  const uniqueNumberError = "[value] component.formErrorNumberUnique"
+  const { getByTestId, queryByText } = renderer()
+  const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
   const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
 
-  fireEvent.input(secondaryNumber, { target: { value: "123" } })
+  fireEvent.input(primaryNumber, { target: { value: "" } })
+  await waitFor(noop)
+  fireEvent.input(secondaryNumber, { target: { value: "" } })
 
   await waitFor(() => {
-    expect(getByText(tooShotMessageError)).toBeInTheDocument()
-  })
-})
-
-test("display too long number error for primary number", async () => {
-  const tooLongMessageError = "[value] component.formErrorTooLong"
-  const { getByTestId, getByText } = renderer()
-  const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
-
-  fireEvent.input(primaryNumber, { target: { value: "123123123123123123" } })
-
-  await waitFor(() => {
-    expect(getByText(tooLongMessageError)).toBeInTheDocument()
-  })
-})
-
-test("display too long number error for secondary number", async () => {
-  const tooLongMessageError = "[value] component.formErrorTooLong"
-  const { getByTestId, getByText } = renderer()
-  const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
-
-  fireEvent.input(secondaryNumber, { target: { value: "123123123123123123" } })
-
-  await waitFor(() => {
-    expect(getByText(tooLongMessageError)).toBeInTheDocument()
-  })
-})
-
-test("display invalid format error for primary number", async () => {
-  const invalidFormatMessageError =
-    "[value] component.formErrorNumbersAndSpacesOnly"
-  const { getByTestId, getByText } = renderer()
-  const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
-
-  fireEvent.input(primaryNumber, { target: { value: "+-@.,-£§~`'" } })
-
-  await waitFor(() => {
-    expect(getByText(invalidFormatMessageError)).toBeInTheDocument()
-  })
-})
-
-test("display invalid format error for secondary number", async () => {
-  const invalidFormatMessageError =
-    "[value] component.formErrorNumbersAndSpacesOnly"
-  const { getByTestId, getByText } = renderer()
-  const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
-
-  fireEvent.input(secondaryNumber, { target: { value: "+-@.,-£§~`'" } })
-
-  await waitFor(() => {
-    expect(getByText(invalidFormatMessageError)).toBeInTheDocument()
+    expect(queryByText(uniqueNumberError)).not.toBeInTheDocument()
   })
 })
