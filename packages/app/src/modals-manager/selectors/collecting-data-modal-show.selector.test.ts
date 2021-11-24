@@ -5,22 +5,22 @@
 
 import { ReduxRootState } from "Renderer/store"
 import {
-  globalModalsManagerReducer,
+  modalsManagerReducer,
   initialState,
-} from "App/global-modals-manager/reducers"
-import { collectingDataModalShowSelector } from "App/global-modals-manager/selectors/collecting-data-modal-show.selector"
+} from "App/modals-manager/reducers"
+import { collectingDataModalShowSelector } from "App/modals-manager/selectors/collecting-data-modal-show.selector"
 
 describe("`collectingDataModalShowSelector` selector", () => {
   test("when initial state is set selector returns false", () => {
     const state = {
-      globalModalsManager: globalModalsManagerReducer(initialState, {} as any),
+      modalsManager: modalsManagerReducer(initialState, {} as any),
     } as ReduxRootState
     expect(collectingDataModalShowSelector(state)).toBeFalsy()
   })
 
   test("when `collectingDataModalShow` property is set to true", () => {
     const state = {
-      globalModalsManager: globalModalsManagerReducer(
+      modalsManager: modalsManagerReducer(
         { ...initialState, collectingDataModalShow: true },
         {} as any
       ),
@@ -30,7 +30,7 @@ describe("`collectingDataModalShowSelector` selector", () => {
 
   test("when `collectingDataModalShow` and `allModalsShowBlocked` property are set to true", () => {
     const state = {
-      globalModalsManager: globalModalsManagerReducer(
+      modalsManager: modalsManagerReducer(
         {
           ...initialState,
           allModalsShowBlocked: true,

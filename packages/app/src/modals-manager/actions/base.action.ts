@@ -4,12 +4,12 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import { GlobalModalsManagerEvent } from "App/global-modals-manager/constants"
+import { ModalsManagerEvent } from "App/modals-manager/constants"
 
 export const toggleAllModalsShowBlocked = createAction<boolean>(
-  GlobalModalsManagerEvent.ToggleAllModalsShowBlocked
+  ModalsManagerEvent.ToggleAllModalsShowBlocked
 )
 
 export const toggleCollectingDataModalShow = createAction<boolean>(
-  GlobalModalsManagerEvent.ToggleCollectingDataModalShow
+  ModalsManagerEvent.ToggleCollectingDataModalShow
 )

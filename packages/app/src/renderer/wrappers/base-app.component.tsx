@@ -19,7 +19,7 @@ import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { CrashDump } from "App/crash-dump"
-import { toggleAllModalsShowBlocked } from "App/global-modals-manager/actions"
+import { toggleAllModalsShowBlocked } from "App/modals-manager/actions"
 
 interface Props {
   getConnectedDevice: () => void

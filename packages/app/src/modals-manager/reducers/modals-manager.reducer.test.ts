@@ -4,10 +4,10 @@
  */
 
 import {
-  globalModalsManagerReducer,
+  modalsManagerReducer,
   initialState,
-} from "App/global-modals-manager/reducers/global-modals-manager.reducer"
+} from "App/modals-manager/reducers/modals-manager.reducer"
 
 test("empty event returns initial state", () => {
-  expect(globalModalsManagerReducer(undefined, {} as any)).toEqual(initialState)
+  expect(modalsManagerReducer(undefined, {} as any)).toEqual(initialState)
 })

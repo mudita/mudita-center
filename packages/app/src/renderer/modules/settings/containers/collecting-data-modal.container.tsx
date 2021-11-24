@@ -6,8 +6,8 @@
 import { connect } from "react-redux"
 import { ReduxRootState, RootState, TmpDispatch } from "Renderer/store"
 import CollectingDataModal from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal.component"
-import { toggleCollectingDataModalShow } from "App/global-modals-manager/actions"
-import { collectingDataModalShowSelector } from "App/global-modals-manager/selectors"
+import { toggleCollectingDataModalShow } from "App/modals-manager/actions"
+import { collectingDataModalShowSelector } from "App/modals-manager/selectors"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {

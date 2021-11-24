@@ -5,8 +5,8 @@
 
 import { Selector } from "reselect"
 import { ReduxRootState } from "Renderer/store"
-import { GlobalModalsManagerState } from "App/global-modals-manager/reducers"
+import { ModalsManagerState } from "App/modals-manager/reducers"
 
-export const globalModalsManagerStateSelector: Selector<ReduxRootState, GlobalModalsManagerState> = (
+export const modalsManagerStateSelector: Selector<ReduxRootState, ModalsManagerState> = (
   state
-) => state.globalModalsManager
+) => state.modalsManager

@@ -28,7 +28,7 @@ import getApplicationConfiguration from "App/renderer/requests/get-application-c
 import archiveFiles from "Renderer/requests/archive-files.request"
 import { attachedFileName } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
 import { loadBackupData } from "App/backup/actions"
-import { toggleCollectingDataModalShow } from "App/global-modals-manager/actions"
+import { toggleCollectingDataModalShow } from "App/modals-manager/actions"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 

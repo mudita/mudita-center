@@ -5,8 +5,8 @@
 
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import { GlobalModalsManagerEvent } from "App/global-modals-manager/constants"
-import { toggleAllModalsShowBlocked } from "App/global-modals-manager/actions/base.action"
+import { ModalsManagerEvent } from "App/modals-manager/constants"
+import { toggleAllModalsShowBlocked } from "App/modals-manager/actions/base.action"
 
 const mockStore = createMockStore([thunk])()
 
@@ -19,7 +19,7 @@ describe("Action: toggleAllModalsShowBlocked", () => {
     mockStore.dispatch(toggleAllModalsShowBlocked(true))
     expect(mockStore.getActions()).toEqual([
       {
-        type: GlobalModalsManagerEvent.ToggleAllModalsShowBlocked,
+        type: ModalsManagerEvent.ToggleAllModalsShowBlocked,
         payload: true,
       },
     ])
@@ -29,7 +29,7 @@ describe("Action: toggleAllModalsShowBlocked", () => {
     mockStore.dispatch(toggleAllModalsShowBlocked(false))
     expect(mockStore.getActions()).toEqual([
       {
-        type: GlobalModalsManagerEvent.ToggleAllModalsShowBlocked,
+        type: ModalsManagerEvent.ToggleAllModalsShowBlocked,
         payload: false,
       },
     ])
@@ -41,7 +41,7 @@ describe("Action: toggleCollectingDataModalShow", () => {
     mockStore.dispatch(toggleAllModalsShowBlocked(true))
     expect(mockStore.getActions()).toEqual([
       {
-        type: GlobalModalsManagerEvent.ToggleAllModalsShowBlocked,
+        type: ModalsManagerEvent.ToggleAllModalsShowBlocked,
         payload: true,
       },
     ])
@@ -51,7 +51,7 @@ describe("Action: toggleCollectingDataModalShow", () => {
     mockStore.dispatch(toggleAllModalsShowBlocked(false))
     expect(mockStore.getActions()).toEqual([
       {
-        type: GlobalModalsManagerEvent.ToggleAllModalsShowBlocked,
+        type: ModalsManagerEvent.ToggleAllModalsShowBlocked,
         payload: false,
       },
     ])

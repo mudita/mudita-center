@@ -4,19 +4,19 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import { GlobalModalsManagerEvent } from "App/global-modals-manager/constants"
+import { ModalsManagerEvent } from "App/modals-manager/constants"
 
-export interface GlobalModalsManagerState {
+export interface ModalsManagerState {
   allModalsShowBlocked: boolean
   collectingDataModalShow: boolean
 }
 
 export type ToggleAllModalsShowBlockedAction = PayloadAction<
   boolean,
-  GlobalModalsManagerEvent.ToggleAllModalsShowBlocked
+  ModalsManagerEvent.ToggleAllModalsShowBlocked
 >
 
 export type ToggleCollectingDataModalShow = PayloadAction<
   boolean,
-  GlobalModalsManagerEvent.ToggleCollectingDataModalShow
+  ModalsManagerEvent.ToggleCollectingDataModalShow
 >

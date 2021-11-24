@@ -5,15 +5,15 @@
 
 import { createSelector } from "reselect"
 import { ReduxRootState } from "Renderer/store"
-import { GlobalModalsManagerState } from "App/global-modals-manager/reducers"
-import { globalModalsManagerStateSelector } from "App/global-modals-manager/selectors/global-modals-manager-state.selector"
+import { ModalsManagerState } from "App/modals-manager/reducers"
+import { modalsManagerStateSelector } from "App/modals-manager/selectors/modals-manager-state.selector"
 
 export const collectingDataModalShowSelector = createSelector<
   ReduxRootState,
-  GlobalModalsManagerState,
+  ModalsManagerState,
   boolean
 >(
-  globalModalsManagerStateSelector,
+  modalsManagerStateSelector,
   ({ allModalsShowBlocked, collectingDataModalShow }) => {
     return !allModalsShowBlocked && collectingDataModalShow
   }
