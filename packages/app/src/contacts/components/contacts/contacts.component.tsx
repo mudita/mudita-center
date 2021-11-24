@@ -546,7 +546,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     modalService.openModal(
       <ImportingContactsModal count={0} total={contacts.length} />
     )
-    console.log("contacts", contacts)
+
     const newContactResponses = await contacts.reduce(
       async (lastPromise, contact, index) => {
         const value = await lastPromise
