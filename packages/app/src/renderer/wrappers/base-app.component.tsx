@@ -13,12 +13,13 @@ import { ReduxRootState, RootState, TmpDispatch } from "Renderer/store"
 import { History } from "history"
 import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "Renderer/constants/urls"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
-import CollectingDataModal from "Renderer/wrappers/collecting-data-modal/collecting-data-modal.component"
+import CollectingDataModal from "Renderer/modules/settings/containers/collecting-data-modal.container"
 import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
 import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { CrashDump } from "App/crash-dump"
+import { toggleAllModalsShowBlocked } from "App/global-modals-manager/actions"
 
 interface Props {
   getConnectedDevice: () => void
@@ -29,16 +30,15 @@ interface Props {
   appUpdateAvailable?: boolean
   settingsLoaded?: boolean
   appCollectingData?: boolean
-  appUpdateStepModalDisplayed?: boolean
   appUpdateStepModalShow?: boolean
   deviceParred?: boolean
   appUpdateRequired?: boolean
   appCurrentVersion?: string
-  toggleAppCollectingData: (appCollectingData: boolean) => void
   setAppUpdateStepModalDisplayed: () => void
   toggleAppUpdateStepModalShow: (appUpdateStepModalShow: boolean) => void
   sendDiagnosticData: () => void
   appLatestVersion?: string
+  toggleAllModalsShowBlocked: (flag: boolean) => void
 }
 
 const BaseApp: FunctionComponent<Props> = ({
@@ -50,22 +50,18 @@ const BaseApp: FunctionComponent<Props> = ({
   appUpdateAvailable,
   settingsLoaded,
   appCollectingData,
-  appUpdateStepModalDisplayed,
   appUpdateStepModalShow,
   deviceParred,
-  toggleAppCollectingData,
   setAppUpdateStepModalDisplayed,
   toggleAppUpdateStepModalShow,
   sendDiagnosticData,
   appLatestVersion,
   appUpdateRequired,
   appCurrentVersion,
+  toggleAllModalsShowBlocked,
 }) => {
   const [appUpdateStepModalVisible, setAppUpdateStepModalVisible] =
     useState<boolean>(false)
-
-  const collectingDataModalVisible =
-    Boolean(settingsLoaded) && appCollectingData === undefined
 
   useRouterListener(history, {
     [URL_MAIN.contacts]: [() => loadContacts()],
@@ -73,6 +69,17 @@ const BaseApp: FunctionComponent<Props> = ({
     [URL_OVERVIEW.root]: [() => getConnectedDevice()],
     [URL_MAIN.messages]: [],
   })
+
+  useEffect(() => {
+    return history.listen((location) => {
+      if (URL_ONBOARDING.connecting === location.pathname) {
+        toggleAllModalsShowBlocked(true)
+      } else {
+        toggleAllModalsShowBlocked(false)
+      }
+    })
+  }, [history])
+
   useEffect(() => {
     setAppUpdateStepModalVisible(
       Boolean(settingsLoaded) &&
@@ -101,14 +108,6 @@ const BaseApp: FunctionComponent<Props> = ({
     }
   }, [deviceParred, settingsLoaded])
 
-  const allowToAppCollectingData = (): void => {
-    toggleAppCollectingData(true)
-  }
-
-  const disallowToAppCollectingData = (): void => {
-    toggleAppCollectingData(false)
-  }
-
   const closeAppUpdateStepModal = (): void => {
     setAppUpdateStepModalDisplayed()
     toggleAppUpdateStepModalShow(false)
@@ -117,11 +116,7 @@ const BaseApp: FunctionComponent<Props> = ({
   return (
     <>
       <NetworkStatusChecker />
-      <CollectingDataModal
-        open={collectingDataModalVisible}
-        onActionButtonClick={allowToAppCollectingData}
-        closeModal={disallowToAppCollectingData}
-      />
+      <CollectingDataModal />
       {appUpdateRequired && (
         <AppUpdateStepModal
           forced
@@ -162,7 +157,6 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
     appCollectingData: state.settings.appCollectingData,
     settingsLoaded: state.settings.settingsLoaded,
     appLatestVersion: state.settings.appLatestVersion,
-    appUpdateStepModalDisplayed: state.settings.appUpdateStepModalDisplayed,
     appUpdateStepModalShow: state.settings.appUpdateStepModalShow,
     appUpdateRequired: state.settings.appUpdateRequired,
     appCurrentVersion: state.settings.appCurrentVersion,
@@ -170,11 +164,11 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  toggleAllModalsShowBlocked: (flag: boolean) =>
+    dispatch(toggleAllModalsShowBlocked(flag)),
   getConnectedDevice: () => dispatch(getConnectedDevice),
   loadContacts: () => dispatch.contacts.loadData(),
 
-  // TODO Refactor legacy staff
-  toggleAppCollectingData: dispatch.settings.toggleAppCollectingData,
   setAppUpdateStepModalDisplayed:
     dispatch.settings.setAppUpdateStepModalDisplayed,
   toggleAppUpdateStepModalShow: dispatch.settings.toggleAppUpdateStepModalShow,

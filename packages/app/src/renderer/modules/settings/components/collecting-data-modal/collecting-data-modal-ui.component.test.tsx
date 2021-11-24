@@ -5,15 +5,18 @@
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
-import CollectingDataModal from "Renderer/wrappers/collecting-data-modal/collecting-data-modal.component"
 import { Provider } from "react-redux"
+import CollectingDataModalUi from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal-ui.component"
 import * as appSettingsRequest from "Renderer/requests/app-settings.request"
 import { fakeAppSettings } from "Backend/adapters/app-settings/app-settings-fake.adapter"
 import { act, screen } from "@testing-library/react"
 import settings from "Renderer/models/settings/settings"
 import { init } from "@rematch/core"
-import { CollectingDataModalTestIds } from "Renderer/wrappers/collecting-data-modal/collecting-data-modal-test-ids.enum"
+import { CollectingDataModalTestIds } from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
 import { noop } from "Renderer/utils/noop"
+
+
+//TODO: refactor test
 
 const store = init({
   models: { settings },
@@ -22,7 +25,12 @@ const store = init({
 const renderer = () => {
   return renderWithThemeAndIntl(
     <Provider store={store}>
-      <CollectingDataModal open onActionButtonClick={noop} closeModal={noop} />
+      <CollectingDataModalUi
+        open
+        onActionButtonClick={noop}
+        closeModal={noop}
+        onFullAgreementButtonClick={noop}
+      />
     </Provider>
   )
 }

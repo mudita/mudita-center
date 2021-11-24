@@ -8,9 +8,15 @@ import { GlobalModalsManagerEvent } from "App/global-modals-manager/constants"
 
 export interface GlobalModalsManagerState {
   allModalsShowBlocked: boolean
+  collectingDataModalShow: boolean
 }
 
-export type SetAllModalsShowBlockedAction = PayloadAction<
+export type ToggleAllModalsShowBlockedAction = PayloadAction<
   boolean,
-  GlobalModalsManagerEvent.SetAllModalsShowBlocked
+  GlobalModalsManagerEvent.ToggleAllModalsShowBlocked
+>
+
+export type ToggleCollectingDataModalShow = PayloadAction<
+  boolean,
+  GlobalModalsManagerEvent.ToggleCollectingDataModalShow
 >

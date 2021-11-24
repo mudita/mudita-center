@@ -28,6 +28,7 @@ import getApplicationConfiguration from "App/renderer/requests/get-application-c
 import archiveFiles from "Renderer/requests/archive-files.request"
 import { attachedFileName } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
 import { loadBackupData } from "App/backup/actions"
+import { toggleCollectingDataModalShow } from "App/global-modals-manager/actions"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -93,6 +94,10 @@ const settings = createModel<RootModel>({
 
         // @ts-ignore
         dispatch(loadBackupData())
+        if(appSettings.appCollectingData === undefined) {
+          // @ts-ignore
+          dispatch(toggleCollectingDataModalShow(true))
+        }
       },
       async updateSettings(option: SettingsUpdateOption) {
         await updateAppSettings(option)

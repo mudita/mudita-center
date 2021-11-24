@@ -6,23 +6,35 @@
 import { createReducer } from "@reduxjs/toolkit"
 import {
   GlobalModalsManagerState,
-  SetAllModalsShowBlockedAction,
+  ToggleAllModalsShowBlockedAction,
+  ToggleCollectingDataModalShow,
 } from "App/global-modals-manager/reducers/global-modals-manager.interface"
 import { GlobalModalsManagerEvent } from "App/global-modals-manager/constants"
 
 export const initialState: GlobalModalsManagerState = {
   allModalsShowBlocked: false,
+  collectingDataModalShow: false,
 }
 
 export const globalModalsManagerReducer =
   createReducer<GlobalModalsManagerState>(initialState, (builder) => {
-    builder.addCase(
-      GlobalModalsManagerEvent.SetAllModalsShowBlocked,
-      (state, action: SetAllModalsShowBlockedAction) => {
-        return {
-          ...state,
-          allModalsShowBlocked: action.payload,
+    builder
+      .addCase(
+        GlobalModalsManagerEvent.ToggleAllModalsShowBlocked,
+        (state, action: ToggleAllModalsShowBlockedAction) => {
+          return {
+            ...state,
+            allModalsShowBlocked: action.payload,
+          }
         }
-      }
-    )
+      )
+      .addCase(
+        GlobalModalsManagerEvent.ToggleCollectingDataModalShow,
+        (state, action: ToggleCollectingDataModalShow) => {
+          return {
+            ...state,
+            collectingDataModalShow: action.payload,
+          }
+        }
+      )
   })

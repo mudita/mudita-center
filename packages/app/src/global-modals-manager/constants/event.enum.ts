@@ -4,5 +4,6 @@
  */
 
 export enum GlobalModalsManagerEvent {
-  SetAllModalsShowBlocked = "SET_ALL_MODALS_SHOW_BLOCKED",
+  ToggleAllModalsShowBlocked = "TOGGLE_ALL_MODALS_SHOW_BLOCKED",
+  ToggleCollectingDataModalShow = "TOGGLE_COLLECTING_DATA_MODAL_SHOW",
 }
