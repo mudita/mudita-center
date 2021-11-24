@@ -120,8 +120,6 @@ const mapDispatch = ({ contacts, auth }: any) => {
         )
 
         return error?.message ?? "AddNewContact: Something went wrong"
-      } else {
-        await addContact(data)
       }
     },
     editContact: async (
