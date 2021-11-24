@@ -109,7 +109,6 @@ const mapDispatch = ({ contacts, auth }: any) => {
           ...contact,
           id: error!.data.id,
         } as Contact)
-        contacts.loadData()
         return
       }
 
@@ -121,8 +120,6 @@ const mapDispatch = ({ contacts, auth }: any) => {
         )
 
         return error?.message ?? "AddNewContact: Something went wrong"
-      } else {
-        contacts.addContact(data)
       }
     },
     editContact: async (

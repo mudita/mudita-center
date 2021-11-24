@@ -143,6 +143,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     resultsState,
     authorize,
     onExport,
+    loadData,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -561,6 +562,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       },
       Promise.resolve<NewContactResponse[]>([])
     )
+    loadData()
 
     const failedNewContacts: NewContact[] = newContactResponses.filter(
       ({ successfullyAdded }) => !successfullyAdded
