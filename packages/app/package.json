@@ -295,7 +295,6 @@
     "winston-transport-rollbar-3": "^3.2.0"
   },
   "dependencies": {
-    "react-google-button": "^0.7.2",
     "serialport": "^9.2.0",
     "usb": "^1.6.5"
   },
