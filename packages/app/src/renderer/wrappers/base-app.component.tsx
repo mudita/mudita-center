@@ -19,7 +19,6 @@ import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { CrashDump } from "App/crash-dump"
-import { toggleAllModalsShowBlocked } from "App/modals-manager/actions"
 
 interface Props {
   getConnectedDevice: () => void
@@ -38,7 +37,6 @@ interface Props {
   toggleAppUpdateStepModalShow: (appUpdateStepModalShow: boolean) => void
   sendDiagnosticData: () => void
   appLatestVersion?: string
-  toggleAllModalsShowBlocked: (flag: boolean) => void
 }
 
 const BaseApp: FunctionComponent<Props> = ({
@@ -58,7 +56,6 @@ const BaseApp: FunctionComponent<Props> = ({
   appLatestVersion,
   appUpdateRequired,
   appCurrentVersion,
-  toggleAllModalsShowBlocked,
 }) => {
   const [appUpdateStepModalVisible, setAppUpdateStepModalVisible] =
     useState<boolean>(false)
@@ -69,16 +66,6 @@ const BaseApp: FunctionComponent<Props> = ({
     [URL_OVERVIEW.root]: [() => getConnectedDevice()],
     [URL_MAIN.messages]: [],
   })
-
-  useEffect(() => {
-    return history.listen((location) => {
-      if (URL_ONBOARDING.connecting === location.pathname) {
-        toggleAllModalsShowBlocked(true)
-      } else {
-        toggleAllModalsShowBlocked(false)
-      }
-    })
-  }, [history])
 
   useEffect(() => {
     setAppUpdateStepModalVisible(
@@ -164,8 +151,6 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  toggleAllModalsShowBlocked: (flag: boolean) =>
-    dispatch(toggleAllModalsShowBlocked(flag)),
   getConnectedDevice: () => dispatch(getConnectedDevice),
   loadContacts: () => dispatch.contacts.loadData(),
 

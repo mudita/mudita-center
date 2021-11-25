@@ -24,6 +24,7 @@ const Connecting: FunctionComponent<{
   getUnlockStatus: () => Promise<PayloadAction<DeviceResponseStatus>>
   phoneLockTime: number | undefined
   initialModalsShowed: boolean
+  noModalsVisible: boolean
 }> = ({
   loaded,
   unlocked,
@@ -31,6 +32,7 @@ const Connecting: FunctionComponent<{
   getUnlockStatus,
   phoneLockTime,
   initialModalsShowed,
+  noModalsVisible,
 }) => {
   const [error, setError] = useState(false)
 
@@ -49,14 +51,17 @@ const Connecting: FunctionComponent<{
       }
     }, 500)
 
-    if (unlocked === false && initialModalsShowed) {
+    // TODO: how to avoid window jumping by loading setting async action
+    if (unlocked === false && initialModalsShowed && noModalsVisible) {
       setDialogOpen(true)
+    } else {
+      setDialogOpen(false)
     }
     return () => clearTimeout(timeout)
-  }, [loaded, unlocked, initialModalsShowed])
+  }, [loaded, unlocked, initialModalsShowed, noModalsVisible])
 
   useEffect(() => {
-    if(unlocked !== null) {
+    if (unlocked !== null) {
       return
     }
 

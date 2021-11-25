@@ -4,13 +4,10 @@
  */
 
 import { connect } from "react-redux"
-import { RootState, ReduxRootState, TmpDispatch, select } from "Renderer/store"
+import { RootState, ReduxRootState, TmpDispatch } from "Renderer/store"
 import { PureDeviceData, unlockDevice, getUnlockStatus } from "App/device"
 import Connecting from "App/connecting/components/connecting.component"
-
-const selection = select((models: any) => ({
-  initialModalsShowed: models.settings.initialModalsShowed,
-}))
+import { noModalsShowSelector } from "App/modals-manager/selectors/no-modals-show.selector"
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   unlockDevice: (code: number[]) => dispatch(unlockDevice(code)),
@@ -23,7 +20,10 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   unlocked: state.device.status.unlocked,
   phoneLockTime:
     (state.device.data as PureDeviceData)?.phoneLockTime ?? undefined,
-  ...selection(state, {}),
+  noModalsVisible: noModalsShowSelector(state),
+
+  //TODO: tmp solution to remove
+  initialModalsShowed: true,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Connecting)

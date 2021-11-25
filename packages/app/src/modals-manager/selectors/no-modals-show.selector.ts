@@ -8,13 +8,10 @@ import { ReduxRootState } from "Renderer/store"
 import { ModalsManagerState } from "App/modals-manager/reducers"
 import { modalsManagerStateSelector } from "App/modals-manager/selectors/modals-manager-state.selector"
 
-export const collectingDataModalShowSelector = createSelector<
+export const noModalsShowSelector = createSelector<
   ReduxRootState,
   ModalsManagerState,
   boolean
->(
-  modalsManagerStateSelector,
-  ({ allModalsShowBlocked, collectingDataModalShow }) => {
-    return !allModalsShowBlocked && collectingDataModalShow
-  }
-)
+>(modalsManagerStateSelector, ({ collectingDataModalShow }) => {
+  return [collectingDataModalShow].every((item) => item === false)
+})
