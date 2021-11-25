@@ -5,12 +5,13 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
-import { setModalsState } from "App/modals-manager/actions/base.action"
-import { initialState } from "App/modals-manager/reducers"
+import { hideModals } from "App/modals-manager/actions/base.action"
+import { checkAppForcedUpdateFlowToShow } from "App/modals-manager/actions/check-app-forced-update-flow-to-show.action"
 
 export const hideCollectingDataModal = createAsyncThunk<void, undefined>(
   ModalsManagerEvent.HideCollectingDataModal,
   async (_,{ dispatch }) => {
-    dispatch(setModalsState({...initialState}))
+    dispatch(hideModals())
+    dispatch(checkAppForcedUpdateFlowToShow())
   }
 )

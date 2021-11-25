@@ -10,3 +10,7 @@ import { ModalsManagerEvent } from "App/modals-manager/constants"
 export const setModalsState = createAction<ModalsManagerState>(
   ModalsManagerEvent.SetModalsState
 )
+
+export const hideModals = createAction(
+  ModalsManagerEvent.HideModals
+)

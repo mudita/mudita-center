@@ -8,6 +8,7 @@ import { ModalsManagerEvent } from "App/modals-manager/constants"
 
 export interface ModalsManagerState {
   collectingDataModalShow: boolean
+  appForcedUpdateFlowShow: boolean
 }
 
 export type SetModalsStateAction = PayloadAction<

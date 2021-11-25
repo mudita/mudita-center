@@ -15,7 +15,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  hideCollectingDataModal: () => dispatch(hideCollectingDataModal()),
+  closeModal: () => dispatch(hideCollectingDataModal()),
 
   // TODO refactor legacy staff
   toggleAppCollectingData: dispatch.settings.toggleAppCollectingData,

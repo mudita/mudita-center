@@ -12,19 +12,26 @@ import { ModalsManagerEvent } from "App/modals-manager/constants"
 
 export const initialState: ModalsManagerState = {
   collectingDataModalShow: false,
+  appForcedUpdateFlowShow: false,
 }
 
 export const modalsManagerReducer = createReducer<ModalsManagerState>(
   initialState,
   (builder) => {
-    builder.addCase(
-      ModalsManagerEvent.SetModalsState,
-      (state, action: SetModalsStateAction) => {
-        return {
-          ...state,
-          ...action.payload,
+    builder
+      .addCase(
+        ModalsManagerEvent.SetModalsState,
+        (state, action: SetModalsStateAction) => {
+          return {
+            ...state,
+            ...action.payload,
+          }
         }
-      }
-    )
+      )
+      .addCase(ModalsManagerEvent.HideModals, () => {
+        return {
+          ...initialState,
+        }
+      })
   }
 )

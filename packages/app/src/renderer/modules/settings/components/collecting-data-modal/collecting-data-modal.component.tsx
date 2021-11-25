@@ -12,26 +12,26 @@ import CollectingDataModalUi from "Renderer/modules/settings/components/collecti
 interface Props {
   collectingDataModalShow: boolean
   toggleAppCollectingData: (flag: boolean) => void
-  hideCollectingDataModal: () => void
+  closeModal: () => void
 }
 
 //TODO: add component test
 const CollectingDataModal: FunctionComponent<Props> = ({
   toggleAppCollectingData,
   collectingDataModalShow,
-  hideCollectingDataModal,
+  closeModal,
 }) => {
   const openPrivacyPolicy = () =>
     ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
 
   const allowToAppCollectingData = (): void => {
     toggleAppCollectingData(true)
-    hideCollectingDataModal()
+    closeModal()
   }
 
   const disallowToAppCollectingData = (): void => {
     toggleAppCollectingData(false)
-    hideCollectingDataModal()
+    closeModal()
   }
 
   return (

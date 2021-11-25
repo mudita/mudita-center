@@ -6,7 +6,7 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
-import { setModalsState } from "App/modals-manager/actions/base.action"
+import { hideModals, setModalsState } from "App/modals-manager/actions/base.action"
 import { initialState } from "App/modals-manager/reducers"
 
 const mockStore = createMockStore([thunk])()
@@ -22,6 +22,18 @@ describe("Action: setModalsState", () => {
       {
         type: ModalsManagerEvent.SetModalsState,
         payload: initialState,
+      },
+    ])
+  })
+})
+
+describe("Action: hideModals", () => {
+  test("fire action with `HideModals` type", () => {
+    mockStore.dispatch(hideModals())
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: ModalsManagerEvent.HideModals,
+        payload: undefined,
       },
     ])
   })

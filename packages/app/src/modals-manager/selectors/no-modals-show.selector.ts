@@ -12,6 +12,6 @@ export const noModalsShowSelector = createSelector<
   ReduxRootState,
   ModalsManagerState,
   boolean
->(modalsManagerStateSelector, ({ collectingDataModalShow }) => {
-  return [collectingDataModalShow].every((item) => item === false)
+>(modalsManagerStateSelector, ({ collectingDataModalShow, appForcedUpdateFlowShow }) => {
+  return [collectingDataModalShow, appForcedUpdateFlowShow].every((item) => item === false)
 })
