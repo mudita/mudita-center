@@ -8,9 +8,15 @@ import { ModalsManagerEvent } from "App/modals-manager/constants"
 
 export interface ModalsManagerState {
   collectingDataModalShow: boolean
+  appForcedUpdateFlowShow: boolean
 }
 
-export type ToggleCollectingDataModalShow = PayloadAction<
-  boolean,
-  ModalsManagerEvent.ToggleCollectingDataModalShow
+export enum ModalKey {
+  CollectingDataModal,
+  ForcedUpdateFlow,
+}
+
+export type ShowModalAction = PayloadAction<
+  ModalKey,
+  ModalsManagerEvent.ShowModal
 >

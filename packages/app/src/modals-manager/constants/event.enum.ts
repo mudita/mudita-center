@@ -5,5 +5,5 @@
 
 export enum ModalsManagerEvent {
   HideModals = "HIDE_MODALS",
-  ToggleCollectingDataModalShow = "TOGGLE_COLLECTING_DATA_MODAL_SHOW",
+  ShowModal = "SHOW_MODAL",
 }

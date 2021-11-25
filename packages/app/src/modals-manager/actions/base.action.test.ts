@@ -6,7 +6,8 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
-import { hideModals, toggleCollectingDataModalShow } from "App/modals-manager/actions/base.action"
+import { hideModals, showModal } from "App/modals-manager/actions/base.action"
+import { ModalKey } from "App/modals-manager/reducers"
 
 const mockStore = createMockStore([thunk])()
 
@@ -26,23 +27,23 @@ describe("Action: hideModals", () => {
   })
 })
 
-describe("Action: toggleCollectingDataModalShow", () => {
-  test("fire action with `true` and `ToggleCollectingDataModalShow` type", () => {
-    mockStore.dispatch(toggleCollectingDataModalShow(true))
+describe("Action: showModal", () => {
+  test("fire action with `ModalKey.CollectingDataModal` and `ShowModal` type", () => {
+    mockStore.dispatch(showModal(ModalKey.CollectingDataModal))
     expect(mockStore.getActions()).toEqual([
       {
-        type: ModalsManagerEvent.ToggleCollectingDataModalShow,
-        payload: true,
+        type: ModalsManagerEvent.ShowModal,
+        payload: ModalKey.CollectingDataModal,
       },
     ])
   })
 
-  test("fire action with `false` and `ToggleCollectingDataModalShow` type", () => {
-    mockStore.dispatch(toggleCollectingDataModalShow(false))
+  test("fire action with `ModalKey.ForcedUpdateFlow` and `ShowModal` type", () => {
+    mockStore.dispatch(showModal(ModalKey.ForcedUpdateFlow))
     expect(mockStore.getActions()).toEqual([
       {
-        type: ModalsManagerEvent.ToggleCollectingDataModalShow,
-        payload: false,
+        type: ModalsManagerEvent.ShowModal,
+        payload: ModalKey.ForcedUpdateFlow,
       },
     ])
   })

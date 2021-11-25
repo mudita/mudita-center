@@ -5,20 +5,19 @@
 
 import { connect } from "react-redux"
 import { ReduxRootState, RootState, TmpDispatch } from "Renderer/store"
-import CollectingDataModal from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal.component"
 import { hideModals } from "App/modals-manager/actions"
+import AppForcedUpdateFlow from "Renderer/modules/settings/components/app-forced-update-flow.component"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    collectingDataModalShow: state.modalsManager.collectingDataModalShow
+    appForcedUpdateFlowShow: state.modalsManager.appForcedUpdateFlowShow,
+    appLatestVersion: state.settings.appLatestVersion,
+    appCurrentVersion: state.settings.appCurrentVersion,
   }
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   hideModals: () => dispatch(hideModals()),
-
-  // TODO refactor legacy staff
-  toggleAppCollectingData: dispatch.settings.toggleAppCollectingData,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollectingDataModal)
+export default connect(mapStateToProps, mapDispatchToProps)(AppForcedUpdateFlow)

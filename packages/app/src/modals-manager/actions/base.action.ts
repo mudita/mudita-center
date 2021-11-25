@@ -5,9 +5,10 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
+import { ModalKey } from "App/modals-manager/reducers"
 
 export const hideModals = createAction(ModalsManagerEvent.HideModals)
 
-export const toggleCollectingDataModalShow = createAction<boolean>(
-  ModalsManagerEvent.ToggleCollectingDataModalShow
+export const showModal = createAction<ModalKey>(
+  ModalsManagerEvent.ShowModal
 )

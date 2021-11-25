@@ -5,13 +5,15 @@
 
 import { createReducer } from "@reduxjs/toolkit"
 import {
+  ModalKey,
   ModalsManagerState,
-  ToggleCollectingDataModalShow,
+  ShowModalAction,
 } from "App/modals-manager/reducers/modals-manager.interface"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
 
 export const initialState: ModalsManagerState = {
   collectingDataModalShow: false,
+  appForcedUpdateFlowShow: false,
 }
 
 export const modalsManagerReducer = createReducer<ModalsManagerState>(
@@ -24,12 +26,26 @@ export const modalsManagerReducer = createReducer<ModalsManagerState>(
         }
       })
       .addCase(
-        ModalsManagerEvent.ToggleCollectingDataModalShow,
-        (state, action: ToggleCollectingDataModalShow) => {
-          return {
-            ...state,
-            collectingDataModalShow: action.payload,
+        ModalsManagerEvent.ShowModal,
+        (state, action: ShowModalAction) => {
+          if (action.payload === ModalKey.CollectingDataModal) {
+            return {
+              ...initialState,
+              collectingDataModalShow: true,
+            }
           }
+
+          else if (
+            !state.collectingDataModalShow &&
+            action.payload === ModalKey.ForcedUpdateFlow
+          ) {
+            return {
+              ...initialState,
+              appForcedUpdateFlowShow: true,
+            }
+          }
+
+          return state
         }
       )
   }

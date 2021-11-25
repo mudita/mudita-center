@@ -14,6 +14,7 @@ import { History } from "history"
 import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "Renderer/constants/urls"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
 import CollectingDataModal from "Renderer/modules/settings/containers/collecting-data-modal.container"
+import AppForcedUpdateFlow from "Renderer/modules/settings/containers/app-forced-update-flow.container"
 import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
 import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device"
@@ -120,13 +121,7 @@ const BaseApp: FunctionComponent<Props> = ({
     <>
       <NetworkStatusChecker />
       <CollectingDataModal />
-      {appUpdateRequired && (
-        <AppUpdateStepModal
-          forced
-          appLatestVersion={appLatestVersion}
-          appCurrentVersion={appCurrentVersion}
-        />
-      )}
+      <AppForcedUpdateFlow />
       {!appUpdateRequired && appUpdateStepModalVisible && (
         <AppUpdateStepModal
           appLatestVersion={appLatestVersion}

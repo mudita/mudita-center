@@ -28,7 +28,7 @@ import getApplicationConfiguration from "App/renderer/requests/get-application-c
 import archiveFiles from "Renderer/requests/archive-files.request"
 import { attachedFileName } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
 import { loadBackupData } from "App/backup/actions"
-import { toggleCollectingDataModalShow } from "App/modals-manager/actions"
+import { showModal } from "App/modals-manager/actions"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
@@ -97,6 +97,10 @@ const settings = createModel<RootModel>({
         dispatch(loadBackupData())
         if (!window.location.hash.includes(URL_ONBOARDING.connecting)) {
           dispatch.settings.showCollectingDataModal()
+        }
+        if(appUpdateRequired){
+          // @ts-ignore
+          dispatch(showModal(ModalKey.ForcedUpdateFlow))
         }
       },
       async updateSettings(option: SettingsUpdateOption) {
@@ -238,7 +242,7 @@ const settings = createModel<RootModel>({
           state.settings.appCollectingData === undefined
         ) {
           // @ts-ignore
-          dispatch(toggleCollectingDataModalShow(true))
+          dispatch(showModal(ModalKey.CollectingDataModal))
         }
       },
     }
