@@ -6,7 +6,7 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
-import { toggleAllModalsShowBlocked } from "App/modals-manager/actions/base.action"
+import { hideModals, toggleCollectingDataModalShow } from "App/modals-manager/actions/base.action"
 
 const mockStore = createMockStore([thunk])()
 
@@ -14,23 +14,13 @@ afterEach(() => {
   mockStore.clearActions()
 })
 
-describe("Action: toggleAllModalsShowBlocked", () => {
-  test("fire action with `true` and `ToggleAllModalsShowBlocked` type", () => {
-    mockStore.dispatch(toggleAllModalsShowBlocked(true))
+describe("Action: hideModals", () => {
+  test("fire action with `HideModals` type", () => {
+    mockStore.dispatch(hideModals())
     expect(mockStore.getActions()).toEqual([
       {
-        type: ModalsManagerEvent.ToggleAllModalsShowBlocked,
-        payload: true,
-      },
-    ])
-  })
-
-  test("fire action with `false` and `ToggleAllModalsShowBlocked` type", () => {
-    mockStore.dispatch(toggleAllModalsShowBlocked(false))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: ModalsManagerEvent.ToggleAllModalsShowBlocked,
-        payload: false,
+        type: ModalsManagerEvent.HideModals,
+        payload: undefined,
       },
     ])
   })
@@ -38,20 +28,20 @@ describe("Action: toggleAllModalsShowBlocked", () => {
 
 describe("Action: toggleCollectingDataModalShow", () => {
   test("fire action with `true` and `ToggleCollectingDataModalShow` type", () => {
-    mockStore.dispatch(toggleAllModalsShowBlocked(true))
+    mockStore.dispatch(toggleCollectingDataModalShow(true))
     expect(mockStore.getActions()).toEqual([
       {
-        type: ModalsManagerEvent.ToggleAllModalsShowBlocked,
+        type: ModalsManagerEvent.ToggleCollectingDataModalShow,
         payload: true,
       },
     ])
   })
 
   test("fire action with `false` and `ToggleCollectingDataModalShow` type", () => {
-    mockStore.dispatch(toggleAllModalsShowBlocked(false))
+    mockStore.dispatch(toggleCollectingDataModalShow(false))
     expect(mockStore.getActions()).toEqual([
       {
-        type: ModalsManagerEvent.ToggleAllModalsShowBlocked,
+        type: ModalsManagerEvent.ToggleCollectingDataModalShow,
         payload: false,
       },
     ])

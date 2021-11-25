@@ -19,7 +19,7 @@ import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { CrashDump } from "App/crash-dump"
-import { toggleAllModalsShowBlocked } from "App/modals-manager/actions"
+import { hideModals } from "App/modals-manager/actions"
 
 interface Props {
   getConnectedDevice: () => void
@@ -38,7 +38,8 @@ interface Props {
   toggleAppUpdateStepModalShow: (appUpdateStepModalShow: boolean) => void
   sendDiagnosticData: () => void
   appLatestVersion?: string
-  toggleAllModalsShowBlocked: (flag: boolean) => void
+  hideModals: () => void
+  showCollectingDataModal: () => void
 }
 
 const BaseApp: FunctionComponent<Props> = ({
@@ -58,7 +59,8 @@ const BaseApp: FunctionComponent<Props> = ({
   appLatestVersion,
   appUpdateRequired,
   appCurrentVersion,
-  toggleAllModalsShowBlocked,
+  hideModals,
+  showCollectingDataModal,
 }) => {
   const [appUpdateStepModalVisible, setAppUpdateStepModalVisible] =
     useState<boolean>(false)
@@ -73,9 +75,10 @@ const BaseApp: FunctionComponent<Props> = ({
   useEffect(() => {
     return history.listen((location) => {
       if (URL_ONBOARDING.connecting === location.pathname) {
-        toggleAllModalsShowBlocked(true)
+        hideModals()
       } else {
-        toggleAllModalsShowBlocked(false)
+        // the list of modals to trigger after hideModals action
+        showCollectingDataModal()
       }
     })
   }, [history])
@@ -164,11 +167,11 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  toggleAllModalsShowBlocked: (flag: boolean) =>
-    dispatch(toggleAllModalsShowBlocked(flag)),
+  hideModals: () => dispatch(hideModals()),
   getConnectedDevice: () => dispatch(getConnectedDevice),
   loadContacts: () => dispatch.contacts.loadData(),
 
+  showCollectingDataModal: dispatch.settings.showCollectingDataModal,
   setAppUpdateStepModalDisplayed:
     dispatch.settings.setAppUpdateStepModalDisplayed,
   toggleAppUpdateStepModalShow: dispatch.settings.toggleAppUpdateStepModalShow,

@@ -4,6 +4,6 @@
  */
 
 export enum ModalsManagerEvent {
-  ToggleAllModalsShowBlocked = "TOGGLE_ALL_MODALS_SHOW_BLOCKED",
+  HideModals = "HIDE_MODALS",
   ToggleCollectingDataModalShow = "TOGGLE_COLLECTING_DATA_MODAL_SHOW",
 }

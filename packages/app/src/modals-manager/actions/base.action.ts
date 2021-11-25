@@ -6,9 +6,7 @@
 import { createAction } from "@reduxjs/toolkit"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
 
-export const toggleAllModalsShowBlocked = createAction<boolean>(
-  ModalsManagerEvent.ToggleAllModalsShowBlocked
-)
+export const hideModals = createAction(ModalsManagerEvent.HideModals)
 
 export const toggleCollectingDataModalShow = createAction<boolean>(
   ModalsManagerEvent.ToggleCollectingDataModalShow
