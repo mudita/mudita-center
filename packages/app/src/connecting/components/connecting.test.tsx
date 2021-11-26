@@ -25,7 +25,7 @@ const defaultProps: Props = {
   unlockDevice: jest.fn().mockReturnValue({
     payload: DeviceResponseStatus.Ok,
   }),
-  noModalsVisible: true
+  noModalsVisible: true,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -94,7 +94,9 @@ describe("`BackupDeviceFlow` component", () => {
 
     test("`PasscodeLocked` component is displayed ", () => {
       const { queryByTestId } = render(extraProps)
-      expect(queryByTestId(PasscodeModalTestIds.Container)).not.toBeInTheDocument()
+      expect(
+        queryByTestId(PasscodeModalTestIds.Container)
+      ).not.toBeInTheDocument()
     })
 
     test("`ErrorConnectingModal` component isn't displayed ", () => {

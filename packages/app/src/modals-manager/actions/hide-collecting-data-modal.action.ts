@@ -11,7 +11,7 @@ import { checkAppUpdateFlowToShow } from "App/modals-manager/actions/check-app-u
 
 export const hideCollectingDataModal = createAsyncThunk<void, undefined>(
   ModalsManagerEvent.HideCollectingDataModal,
-  async (_,{ dispatch }) => {
+  async (_, { dispatch }) => {
     dispatch(hideModals())
     dispatch(checkAppUpdateFlowToShow())
     dispatch(checkAppForcedUpdateFlowToShow())

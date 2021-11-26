@@ -25,7 +25,7 @@ const defaultProps: Props = {
   appLatestVersion: "0.20.2",
   appCurrentVersion: "0.19.0",
   appUpdateAvailable: true,
-  appUpdateNotAvailableShow: false
+  appUpdateNotAvailableShow: false,
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

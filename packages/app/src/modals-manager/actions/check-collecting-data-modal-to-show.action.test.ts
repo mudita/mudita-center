@@ -110,7 +110,7 @@ describe("async `checkCollectingDataModalToShow` ", () => {
         checkCollectingDataModalToShow.pending(requestId, undefined),
         {
           payload: ModalStateKey.collectingDataModal,
-          type: ModalsManagerEvent.ShowModal
+          type: ModalsManagerEvent.ShowModal,
         },
         checkCollectingDataModalToShow.fulfilled(
           undefined,

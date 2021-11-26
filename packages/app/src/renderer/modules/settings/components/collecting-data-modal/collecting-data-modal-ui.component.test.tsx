@@ -15,7 +15,6 @@ import { init } from "@rematch/core"
 import { CollectingDataModalTestIds } from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
 import { noop } from "Renderer/utils/noop"
 
-
 //TODO: refactor test
 
 const store = init({

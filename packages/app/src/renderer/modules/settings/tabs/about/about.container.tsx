@@ -19,8 +19,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   toggleAppUpdateAvailable: (value: boolean) =>
     dispatch.settings.toggleAppUpdateAvailable(value),
-  checkAppUpdateAvailable: () =>
-    dispatch.settings.checkAppUpdateAvailable(),
+  checkAppUpdateAvailable: () => dispatch.settings.checkAppUpdateAvailable(),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(About)

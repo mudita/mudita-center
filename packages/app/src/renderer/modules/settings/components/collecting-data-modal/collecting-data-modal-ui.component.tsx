@@ -39,7 +39,10 @@ interface Props
   onFullAgreementButtonClick: () => void
 }
 
-const CollectingDataModalUi: FunctionComponent<Props> = ({ onFullAgreementButtonClick, ...props }) => {
+const CollectingDataModalUi: FunctionComponent<Props> = ({
+  onFullAgreementButtonClick,
+  ...props
+}) => {
   return (
     <ModalDialog
       title={intl.formatMessage(messages.title)}

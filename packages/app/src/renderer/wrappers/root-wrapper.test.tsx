@@ -106,8 +106,6 @@ const store = init({
 }) as Store
 
 const render = (extraProps?: Partial<Props>) => {
-
-
   const props = {
     ...defaultProps,
     ...extraProps,
@@ -130,7 +128,9 @@ test("checkAppUpdateRequest isn't call when online is set to false ", async () =
   render()
 
   await waitFor(() => {
-    expect(store.dispatch.settings.checkAppUpdateAvailable).not.toHaveBeenCalled()
+    expect(
+      store.dispatch.settings.checkAppUpdateAvailable
+    ).not.toHaveBeenCalled()
   })
 })
 

@@ -161,7 +161,7 @@ const settings = createModel<RootModel>({
         this.updateSettings({ key: "appCollectingData", value })
         value ? logger.enableRollbar() : logger.disableRollbar()
       },
-      checkAppUpdateAvailable(){
+      checkAppUpdateAvailable() {
         dispatch.settings.update({ appUpdateAvailable: undefined })
         void checkAppUpdateRequest()
       },

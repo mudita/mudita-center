@@ -13,19 +13,25 @@ import { initialState as settingsInitialState } from "Renderer/models/settings/s
 import { initialState as modalsManagerInitialState } from "App/modals-manager/reducers"
 import { ReduxRootState, RootState } from "Renderer/store"
 
-jest.mock("App/modals-manager/actions/check-app-update-flow-to-show.action", () => ({
-  checkAppUpdateFlowToShow: jest.fn().mockReturnValue({
-    type: pendingAction(ModalsManagerEvent.CheckAppUpdateFlowToShow),
-    payload: undefined,
-  }),
-}))
+jest.mock(
+  "App/modals-manager/actions/check-app-update-flow-to-show.action",
+  () => ({
+    checkAppUpdateFlowToShow: jest.fn().mockReturnValue({
+      type: pendingAction(ModalsManagerEvent.CheckAppUpdateFlowToShow),
+      payload: undefined,
+    }),
+  })
+)
 
-jest.mock("App/modals-manager/actions/check-app-forced-update-flow-to-show.action", () => ({
-  checkAppForcedUpdateFlowToShow: jest.fn().mockReturnValue({
-    type: pendingAction(ModalsManagerEvent.CheckAppForcedUpdateFlowToShow),
-    payload: undefined,
-  }),
-}))
+jest.mock(
+  "App/modals-manager/actions/check-app-forced-update-flow-to-show.action",
+  () => ({
+    checkAppForcedUpdateFlowToShow: jest.fn().mockReturnValue({
+      type: pendingAction(ModalsManagerEvent.CheckAppForcedUpdateFlowToShow),
+      payload: undefined,
+    }),
+  })
+)
 
 describe("async `hideCollectingDataModal` ", () => {
   const storeState: Partial<RootState & ReduxRootState> = {

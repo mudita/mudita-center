@@ -10,7 +10,7 @@ import { hideCollectingDataModal } from "App/modals-manager/actions"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    collectingDataModalShow: state.modalsManager.collectingDataModalShow
+    collectingDataModalShow: state.modalsManager.collectingDataModalShow,
   }
 }
 

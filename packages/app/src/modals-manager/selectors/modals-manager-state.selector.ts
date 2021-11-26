@@ -7,6 +7,7 @@ import { Selector } from "reselect"
 import { ReduxRootState } from "Renderer/store"
 import { ModalsManagerState } from "App/modals-manager/reducers"
 
-export const modalsManagerStateSelector: Selector<ReduxRootState, ModalsManagerState> = (
-  state
-) => state.modalsManager
+export const modalsManagerStateSelector: Selector<
+  ReduxRootState,
+  ModalsManagerState
+> = (state) => state.modalsManager
