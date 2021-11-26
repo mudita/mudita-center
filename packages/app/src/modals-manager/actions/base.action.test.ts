@@ -17,11 +17,11 @@ afterEach(() => {
 
 describe("Action: `showModal`", () => {
   test("fire action with `ModalStateKey` and `ShowModal` type", () => {
-    mockStore.dispatch(showModal(ModalStateKey.appForcedUpdateFlow))
+    mockStore.dispatch(showModal(ModalStateKey.AppForcedUpdateFlow))
     expect(mockStore.getActions()).toEqual([
       {
         type: ModalsManagerEvent.ShowModal,
-        payload: ModalStateKey.appForcedUpdateFlow,
+        payload: ModalStateKey.AppForcedUpdateFlow,
       },
     ])
   })

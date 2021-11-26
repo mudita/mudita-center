@@ -104,7 +104,7 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
       expect(store.getActions()).toEqual([
         checkAppUpdateFlowToShow.pending(requestId, undefined),
         {
-          payload: ModalStateKey.appUpdateFlow,
+          payload: ModalStateKey.AppUpdateFlow,
           type: ModalsManagerEvent.ShowModal,
         },
         checkAppUpdateFlowToShow.fulfilled(undefined, requestId, undefined),

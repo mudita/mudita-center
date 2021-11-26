@@ -109,7 +109,7 @@ describe("async `checkCollectingDataModalToShow` ", () => {
       expect(store.getActions()).toEqual([
         checkCollectingDataModalToShow.pending(requestId, undefined),
         {
-          payload: ModalStateKey.collectingDataModal,
+          payload: ModalStateKey.CollectingDataModal,
           type: ModalsManagerEvent.ShowModal,
         },
         checkCollectingDataModalToShow.fulfilled(

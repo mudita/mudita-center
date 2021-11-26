@@ -17,7 +17,7 @@ export const checkCollectingDataModalToShow = createAsyncThunk<void, undefined>(
       state.settings.settingsLoaded &&
       state.settings.appCollectingData === undefined
     ) {
-      dispatch(showModal(ModalStateKey.collectingDataModal))
+      dispatch(showModal(ModalStateKey.CollectingDataModal))
     }
   }
 )
