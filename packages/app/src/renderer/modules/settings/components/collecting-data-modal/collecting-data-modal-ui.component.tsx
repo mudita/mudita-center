@@ -50,6 +50,7 @@ const CollectingDataModalUi: FunctionComponent<Props> = ({
       actionButtonLabel={intl.formatMessage(messages.agreeButton)}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
       actionButtonSize={Size.FixedMedium}
+      testId={CollectingDataModalTestIds.Container}
       {...props}
     >
       <ModalContent>

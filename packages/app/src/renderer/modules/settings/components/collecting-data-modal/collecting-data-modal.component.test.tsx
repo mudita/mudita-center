@@ -5,29 +5,29 @@
 
 import React, { ComponentProps }  from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import CollectingDataModalUi from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal-ui.component"
+import CollectingDataModal
+  from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal.component"
 import { CollectingDataModalTestIds } from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
 import { noop } from "Renderer/utils/noop"
 
-type Props = ComponentProps<typeof CollectingDataModalUi>
+type Props = ComponentProps<typeof CollectingDataModal>
 
 const defaultProps: Props = {
   open: false,
-  onActionButtonClick: noop,
+  toggleAppCollectingData: noop,
   closeModal: noop,
-  onFullAgreementButtonClick: noop,
 }
 const render = (extraProps?: Partial<Props>) => {
   const props = {
     ...defaultProps,
     ...extraProps,
   }
-  return renderWithThemeAndIntl(<CollectingDataModalUi {...props} />)
+  return renderWithThemeAndIntl(<CollectingDataModal {...props} />)
 }
 
-describe("`CollectingDataModalUi` component", () => {
+describe("`CollectingDataModal` component", () => {
   describe("when component is render with default props", () => {
-    test("`CollectingDataModalUi` isn't visible", () => {
+    test("`CollectingDataModal` isn't visible", () => {
       const { queryByTestId } = render()
       expect(
         queryByTestId(CollectingDataModalTestIds.Container)
@@ -36,7 +36,7 @@ describe("`CollectingDataModalUi` component", () => {
   })
 
   describe("when component`open` is set to `true`", () => {
-    test("`CollectingDataModalUi` is visible", () => {
+    test("`CollectingDataModal` is visible", () => {
       const { queryByTestId } = render({open: true})
       expect(
         queryByTestId(CollectingDataModalTestIds.Container)

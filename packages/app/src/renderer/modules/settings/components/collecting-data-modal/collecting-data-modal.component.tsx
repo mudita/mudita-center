@@ -17,7 +17,6 @@ interface Props
   toggleAppCollectingData: (flag: boolean) => void
 }
 
-//TODO: add component test
 const CollectingDataModal: FunctionComponent<Props> = ({
   open,
   toggleAppCollectingData,

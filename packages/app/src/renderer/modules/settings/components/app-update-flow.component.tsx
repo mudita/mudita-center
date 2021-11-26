@@ -6,6 +6,7 @@
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
+import { AppUpdateFlowTestIds } from "Renderer/modules/settings/components/app-update-flow-test-ids.enum"
 
 interface Props {
   appCurrentVersion?: string
@@ -24,6 +25,7 @@ const AppUpdateFlow: FunctionComponent<Props> = ({
       appCurrentVersion={appCurrentVersion}
       appLatestVersion={appLatestVersion}
       closeModal={closeModal}
+      testId={AppUpdateFlowTestIds.Container}
     />
   )
 }

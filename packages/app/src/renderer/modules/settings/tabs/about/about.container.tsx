@@ -9,7 +9,6 @@ import { ReduxRootState, RootState, TmpDispatch } from "Renderer/store"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    appUpdateFlowShow: state.modalsManager.appUpdateFlowShow,
     appLatestVersion: state.settings.appLatestVersion,
     appCurrentVersion: state.settings.appCurrentVersion,
     appUpdateAvailable: state.settings.appUpdateAvailable,

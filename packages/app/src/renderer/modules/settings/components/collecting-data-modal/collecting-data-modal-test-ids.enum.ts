@@ -4,6 +4,7 @@
  */
 
 export enum CollectingDataModalTestIds {
-  Subtitle = "subtitle",
-  Body = "body",
+  Container = "collecting-data-modal-container",
+  Subtitle = "collecting-data-modal-subtitle",
+  Body = "collecting-data-modal-body",
 }

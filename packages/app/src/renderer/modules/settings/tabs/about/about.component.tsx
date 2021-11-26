@@ -13,17 +13,14 @@ interface Props {
   appLatestVersion?: string
   appCurrentVersion?: string
   appUpdateAvailable?: boolean
-  appUpdateFlowShow?: boolean
   checkAppUpdateAvailable: () => void
   toggleAppUpdateAvailable: (appUpdateAvailable: boolean) => void
 }
 
-//TODO: Fix tests
 const About: FunctionComponent<Props> = ({
   appLatestVersion,
   appCurrentVersion,
   appUpdateAvailable,
-  appUpdateFlowShow,
   checkAppUpdateAvailable,
   toggleAppUpdateAvailable,
 }) => {
