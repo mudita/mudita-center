@@ -21,9 +21,6 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   phoneLockTime:
     (state.device.data as PureDeviceData)?.phoneLockTime ?? undefined,
   noModalsVisible: noModalsShowSelector(state),
-
-  //TODO: tmp solution to remove
-  initialModalsShowed: true,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Connecting)

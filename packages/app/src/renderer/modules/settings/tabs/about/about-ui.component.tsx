@@ -56,34 +56,34 @@ const ActionContainer = styled.div`
   margin-right: 3rem;
 `
 
-interface AboutProps {
+interface Props {
   openLicense: () => void
   openTermsOfService: () => void
   openPrivacyPolicy: () => void
   appLatestVersion?: string
   appCurrentVersion?: string
   appUpdateAvailable?: boolean
-  click: () => void
-  closeUpToDateModal: () => void
-  appUpdateStepModalShow?: boolean
+  appUpdateNotAvailableShow?: boolean
+  onAppUpdateAvailableCheck: () => void
+  hideAppUpdateNotAvailable: () => void
 }
 
-const AboutUI: FunctionComponent<AboutProps> = ({
+const AboutUI: FunctionComponent<Props> = ({
   openLicense,
   openTermsOfService,
   openPrivacyPolicy,
   appLatestVersion = "",
   appCurrentVersion,
+  appUpdateNotAvailableShow = false,
   appUpdateAvailable,
-  click,
-  appUpdateStepModalShow = false,
-  closeUpToDateModal,
+  onAppUpdateAvailableCheck,
+  hideAppUpdateNotAvailable,
 }) => (
   <>
     <AppUpdateNotAvailable
       appCurrentVersion={appCurrentVersion}
-      closeModal={closeUpToDateModal}
-      open={appUpdateStepModalShow && !appUpdateAvailable}
+      open={appUpdateNotAvailableShow}
+      closeModal={hideAppUpdateNotAvailable}
     />
     <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
       {flags.get(Feature.MCVersion) && (
@@ -108,7 +108,7 @@ const AboutUI: FunctionComponent<AboutProps> = ({
                 labelMessage={{
                   id: "module.settings.aboutAppUpdateAction",
                 }}
-                onClick={click}
+                onClick={onAppUpdateAvailableCheck}
                 data-testid={AboutTestIds.UpdateButton}
               />
             </ActionContainer>
@@ -122,7 +122,7 @@ const AboutUI: FunctionComponent<AboutProps> = ({
                   id: "module.overview.systemCheckForUpdates",
                 }}
                 data-testid={AboutTestIds.UpdateButton}
-                onClick={click}
+                onClick={onAppUpdateAvailableCheck}
               />
             </ActionContainer>
           )}

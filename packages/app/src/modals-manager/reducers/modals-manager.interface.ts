@@ -6,12 +6,19 @@
 import { PayloadAction } from "@reduxjs/toolkit"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
 
-export interface ModalsManagerState {
-  collectingDataModalShow: boolean
-  appForcedUpdateFlowShow: boolean
+export enum ModalStateKey {
+  collectingDataModal = "collectingDataModalShow",
+  appForcedUpdateFlow = "appForcedUpdateFlowShow",
+  appUpdateFlow = "appUpdateFlowShow",
 }
 
-export type SetModalsStateAction = PayloadAction<
-  ModalsManagerState,
-  ModalsManagerEvent.SetModalsState
+export interface ModalsManagerState extends Record<ModalStateKey, boolean> {
+  collectingDataModalShow: boolean
+  appForcedUpdateFlowShow: boolean
+  appUpdateFlowShow: boolean
+}
+
+export type ShowModalAction = PayloadAction<
+  ModalStateKey,
+  ModalsManagerEvent.ShowModal
 >

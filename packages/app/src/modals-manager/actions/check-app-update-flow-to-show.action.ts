@@ -9,15 +9,17 @@ import { ModalsManagerEvent } from "App/modals-manager/constants"
 import { showModal } from "App/modals-manager/actions/base.action"
 import { ModalStateKey } from "App/modals-manager/reducers"
 
-export const checkCollectingDataModalToShow = createAsyncThunk<void, undefined>(
-  ModalsManagerEvent.CheckCollectingDataModalToShow,
+export const checkAppUpdateFlowToShow = createAsyncThunk<void, undefined>(
+  ModalsManagerEvent.CheckAppUpdateFlowToShow,
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState & ReduxRootState
     if (
       state.settings.settingsLoaded &&
-      state.settings.appCollectingData === undefined
+      state.settings.appUpdateAvailable &&
+      !state.modalsManager.collectingDataModalShow &&
+      !state.modalsManager.appForcedUpdateFlowShow
     ) {
-      dispatch(showModal(ModalStateKey.collectingDataModal))
+      dispatch(showModal(ModalStateKey.appUpdateFlow))
     }
   }
 )

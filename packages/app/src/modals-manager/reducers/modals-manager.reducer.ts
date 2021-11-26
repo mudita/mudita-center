@@ -6,32 +6,40 @@
 import { createReducer } from "@reduxjs/toolkit"
 import {
   ModalsManagerState,
-  SetModalsStateAction,
+  ModalStateKey,
+  ShowModalAction,
 } from "App/modals-manager/reducers/modals-manager.interface"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
 
-export const initialState: ModalsManagerState = {
+const initialModalsState: Record<ModalStateKey, boolean> = {
   collectingDataModalShow: false,
   appForcedUpdateFlowShow: false,
+  appUpdateFlowShow: false,
+}
+
+export const initialState: ModalsManagerState = {
+  ...initialModalsState,
 }
 
 export const modalsManagerReducer = createReducer<ModalsManagerState>(
   initialState,
   (builder) => {
     builder
+      .addCase(ModalsManagerEvent.HideModals, (state) => {
+        return {
+          ...state,
+          ...initialModalsState,
+        }
+      })
       .addCase(
-        ModalsManagerEvent.SetModalsState,
-        (state, action: SetModalsStateAction) => {
+        ModalsManagerEvent.ShowModal,
+        (state, action: ShowModalAction) => {
           return {
             ...state,
-            ...action.payload,
+            ...initialModalsState,
+            [action.payload]: true,
           }
         }
       )
-      .addCase(ModalsManagerEvent.HideModals, () => {
-        return {
-          ...initialState,
-        }
-      })
   }
 )

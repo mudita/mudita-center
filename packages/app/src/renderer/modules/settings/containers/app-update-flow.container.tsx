@@ -4,23 +4,20 @@
  */
 
 import { connect } from "react-redux"
-import About from "Renderer/modules/settings/tabs/about/about.component"
 import { ReduxRootState, RootState, TmpDispatch } from "Renderer/store"
+import { hideModals } from "App/modals-manager/actions"
+import AppUpdateFlow from "Renderer/modules/settings/components/app-update-flow.component"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
     appUpdateFlowShow: state.modalsManager.appUpdateFlowShow,
     appLatestVersion: state.settings.appLatestVersion,
     appCurrentVersion: state.settings.appCurrentVersion,
-    appUpdateAvailable: state.settings.appUpdateAvailable,
   }
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  toggleAppUpdateAvailable: (value: boolean) =>
-    dispatch.settings.toggleAppUpdateAvailable(value),
-  checkAppUpdateAvailable: () =>
-    dispatch.settings.checkAppUpdateAvailable(),
+  closeModal: () => dispatch(hideModals()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(About)
+export default connect(mapStateToProps, mapDispatchToProps)(AppUpdateFlow)

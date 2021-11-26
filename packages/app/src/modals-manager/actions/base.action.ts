@@ -4,13 +4,11 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import { ModalsManagerState } from "App/modals-manager/reducers"
+import { ModalStateKey } from "App/modals-manager/reducers"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
 
-export const setModalsState = createAction<ModalsManagerState>(
-  ModalsManagerEvent.SetModalsState
-)
+export const hideModals = createAction(ModalsManagerEvent.HideModals)
 
-export const hideModals = createAction(
-  ModalsManagerEvent.HideModals
+export const showModal = createAction<ModalStateKey>(
+  ModalsManagerEvent.ShowModal
 )

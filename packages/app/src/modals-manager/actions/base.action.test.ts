@@ -6,8 +6,8 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
-import { hideModals, setModalsState } from "App/modals-manager/actions/base.action"
-import { initialState } from "App/modals-manager/reducers"
+import { hideModals, showModal } from "App/modals-manager/actions/base.action"
+import { ModalStateKey } from "App/modals-manager/reducers"
 
 const mockStore = createMockStore([thunk])()
 
@@ -15,19 +15,19 @@ afterEach(() => {
   mockStore.clearActions()
 })
 
-describe("Action: setModalsState", () => {
-  test("fire action with `initialState` and `SetModalsState` type", () => {
-    mockStore.dispatch(setModalsState(initialState))
+describe("Action: `showModal`", () => {
+  test("fire action with `ModalStateKey` and `ShowModal` type", () => {
+    mockStore.dispatch(showModal(ModalStateKey.appForcedUpdateFlow))
     expect(mockStore.getActions()).toEqual([
       {
-        type: ModalsManagerEvent.SetModalsState,
-        payload: initialState,
+        type: ModalsManagerEvent.ShowModal,
+        payload: ModalStateKey.appForcedUpdateFlow,
       },
     ])
   })
 })
 
-describe("Action: hideModals", () => {
+describe("Action: `hideModals`", () => {
   test("fire action with `HideModals` type", () => {
     mockStore.dispatch(hideModals())
     expect(mockStore.getActions()).toEqual([

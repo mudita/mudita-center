@@ -5,6 +5,6 @@
 
 export * from "./base.action"
 export * from "./check-app-forced-update-flow-to-show.action"
+export * from "./check-app-update-flow-to-show.action"
 export * from "./check-collecting-data-modal-to-show.action"
 export * from "./hide-collecting-data-modal.action"
-export * from "./show-collecting-data-modal.action"
