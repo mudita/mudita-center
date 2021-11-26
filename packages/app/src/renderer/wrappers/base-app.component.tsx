@@ -4,18 +4,16 @@
  */
 
 import React, { useEffect } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { connect } from "react-redux"
-import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
 import { Router } from "react-router"
+import { History } from "history"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
+import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
 import BaseRoutes from "Renderer/routes/base-routes"
 import { ReduxRootState, RootState, TmpDispatch } from "Renderer/store"
-import { History } from "history"
 import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "Renderer/constants/urls"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
-import CollectingDataModal from "Renderer/modules/settings/containers/collecting-data-modal.container"
-import AppForcedUpdateFlow from "Renderer/modules/settings/containers/app-forced-update-flow.container"
-import AppUpdateFlow from "Renderer/modules/settings/containers/app-update-flow.container"
+import ModalsManager from "App/modals-manager/containers/modals-manager.container"
 import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
@@ -66,9 +64,7 @@ const BaseApp: FunctionComponent<Props> = ({
   return (
     <>
       <NetworkStatusChecker />
-      <CollectingDataModal />
-      <AppForcedUpdateFlow />
-      <AppUpdateFlow />
+      <ModalsManager />
       <CrashDump />
       <Router history={history}>
         <BaseRoutes />

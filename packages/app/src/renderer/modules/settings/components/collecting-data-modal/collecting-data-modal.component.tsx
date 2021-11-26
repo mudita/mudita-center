@@ -3,22 +3,24 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { ipcRenderer } from "electron-better-ipc"
 import { AboutActions } from "Common/enums/about-actions.enum"
 import CollectingDataModalUi from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal-ui.component"
 
-interface Props {
-  collectingDataModalShow: boolean
+interface Props
+  extends Pick<
+    ComponentProps<typeof CollectingDataModalUi>,
+    "closeModal" | "open"
+  > {
   toggleAppCollectingData: (flag: boolean) => void
-  closeModal: () => void
 }
 
 //TODO: add component test
 const CollectingDataModal: FunctionComponent<Props> = ({
+  open,
   toggleAppCollectingData,
-  collectingDataModalShow,
   closeModal,
 }) => {
   const openPrivacyPolicy = () =>
@@ -36,10 +38,10 @@ const CollectingDataModal: FunctionComponent<Props> = ({
 
   return (
     <CollectingDataModalUi
-      open={collectingDataModalShow}
+      open={open}
       onActionButtonClick={allowToAppCollectingData}
-      onFullAgreementButtonClick={openPrivacyPolicy}
       closeModal={disallowToAppCollectingData}
+      onFullAgreementButtonClick={openPrivacyPolicy}
     />
   )
 }

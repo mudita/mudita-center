@@ -10,7 +10,6 @@ import AppForcedUpdateFlow from "Renderer/modules/settings/components/app-forced
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    appForcedUpdateFlowShow: state.modalsManager.appForcedUpdateFlowShow,
     appLatestVersion: state.settings.appLatestVersion,
     appCurrentVersion: state.settings.appCurrentVersion,
   }

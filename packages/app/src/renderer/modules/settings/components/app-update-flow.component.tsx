@@ -8,29 +8,23 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import AppUpdateStepModal from "Renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
 
 interface Props {
-  appUpdateFlowShow: boolean
   appCurrentVersion?: string
   appLatestVersion?: string
   closeModal: () => void
 }
 
 const AppUpdateFlow: FunctionComponent<Props> = ({
-  appUpdateFlowShow,
   appCurrentVersion,
   appLatestVersion,
   closeModal,
 }) => {
   return (
-    <>
-      {appUpdateFlowShow && (
-        <AppUpdateStepModal
-          forced
-          appCurrentVersion={appCurrentVersion}
-          appLatestVersion={appLatestVersion}
-          closeModal={closeModal}
-        />
-      )}
-    </>
+    <AppUpdateStepModal
+      forced
+      appCurrentVersion={appCurrentVersion}
+      appLatestVersion={appLatestVersion}
+      closeModal={closeModal}
+    />
   )
 }
 

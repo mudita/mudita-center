@@ -10,7 +10,6 @@ import AppUpdateFlow from "Renderer/modules/settings/components/app-update-flow.
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    appUpdateFlowShow: state.modalsManager.appUpdateFlowShow,
     appLatestVersion: state.settings.appLatestVersion,
     appCurrentVersion: state.settings.appCurrentVersion,
   }
