@@ -26,7 +26,7 @@ import { uploadFileRequest } from "App/uploader/requests/upload-file.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getApplicationConfiguration from "App/renderer/requests/get-application-configuration.request"
 import archiveFiles from "Renderer/requests/archive-files.request"
-import { attachedFileName } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
+import { attachedFileName } from "App/contact-support/requests/send-ticket.request"
 import { loadBackupData } from "App/backup/actions"
 import {
   checkAppForcedUpdateFlowToShow,

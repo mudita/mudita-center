@@ -11,6 +11,7 @@ import { backupDeviceReducer } from "App/backup-device"
 import { restoreDeviceReducer } from "App/restore-device"
 import { messagesReducer } from "App/messages"
 import { modalsManagerReducer } from "App/modals-manager"
+import { contactSupportReducer } from "App/contact-support"
 
 export const reducers = {
   device: deviceReducer,
@@ -20,6 +21,7 @@ export const reducers = {
   crashDump: crashDumpReducer,
   messages: messagesReducer,
   modalsManager: modalsManagerReducer,
+  contactSupport: contactSupportReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

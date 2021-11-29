@@ -15,7 +15,7 @@ import { Route, RouteComponentProps, Router } from "react-router"
 import React from "react"
 import { createMemoryHistory, MemoryHistory } from "history"
 import { AnswerUiTestIds } from "Renderer/components/rest/help/answer-ui-test-ids.enum"
-import { renderAnswer } from "App/renderer/modules/help/render-utils"
+import { renderAnswer } from "App/help/render-utils"
 import { URL_MAIN } from "Renderer/constants/urls"
 
 const renderWithRouterMatch = ({

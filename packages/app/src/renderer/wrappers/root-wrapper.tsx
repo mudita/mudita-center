@@ -23,7 +23,7 @@ import BaseApp from "Renderer/wrappers/base-app.component"
 import { Mode } from "Common/enums/mode.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
-import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
+import { QuestionAndAnswer } from "App/help/help.component"
 import registerDeviceConnectedListener, {
   removeDeviceConnectedListener,
 } from "Renderer/listeners/register-device-connected.listener"
@@ -56,7 +56,6 @@ import {
   loadDeviceData,
   setConnectionStatus,
 } from "App/device"
-// import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getCrashDump } from "App/crash-dump"
 
 interface Props {

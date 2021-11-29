@@ -102,6 +102,7 @@ jest.mock("Renderer/requests/get-battery-info.request", () =>
 )
 
 const defaultProps: Props = {
+  openContactSupportFlow: jest.fn(),
   backupLocation: "",
   backups: [],
   readRestoreDeviceDataState: jest.fn(),

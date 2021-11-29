@@ -7,7 +7,7 @@ import { storiesOf } from "@storybook/react"
 import React from "react"
 import { MemoryRouter, Route, RouteComponentProps } from "react-router"
 import { data, mockedRouteAndPath } from "App/seeds/help"
-import { renderAnswer } from "Renderer/modules/help/render-utils"
+import { renderAnswer } from "App/help/render-utils"
 
 storiesOf("Views/Help", module)
   .addDecorator((story) => (

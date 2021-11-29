@@ -15,6 +15,7 @@ const initialModalsState: Record<ModalStateKey, boolean> = {
   collectingDataModalShow: false,
   appForcedUpdateFlowShow: false,
   appUpdateFlowShow: false,
+  contactSupportFlowShow: false,
 }
 
 export const initialState: ModalsManagerState = {
