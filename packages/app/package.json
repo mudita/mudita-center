@@ -121,7 +121,7 @@
   "homepage": "https://github.com/Mudita/mudita-center",
   "devDependencies": {
     "@appnroll/delay-response": "^1.0.2",
-    "@aws-sdk/client-s3": "^3.40.1",
+    "@aws-sdk/client-s3": "^3.42.0",
     "@babel/core": "^7.16.0",
     "@babel/plugin-proposal-class-properties": "^7.16.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.16.0",
@@ -137,7 +137,7 @@
     "@hot-loader/react-dom": "^17.0.1",
     "@mudita/pure": "*",
     "@mudita/stylelint-config": "^1.0.4",
-    "@reduxjs/toolkit": "^1.6.1",
+    "@reduxjs/toolkit": "^1.6.2",
     "@rematch/core": "^1.4.0",
     "@rematch/select": "^2.0.5",
     "@seznam/compose-react-refs": "1.0.4",
