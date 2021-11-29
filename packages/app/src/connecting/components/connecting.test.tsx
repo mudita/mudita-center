@@ -92,7 +92,7 @@ describe("`BackupDeviceFlow` component", () => {
       unlocked: false,
     }
 
-    test("`PasscodeLocked` component is displayed ", () => {
+    test("`PasscodeLocked` component isn't displayed ", () => {
       const { queryByTestId } = render(extraProps)
       expect(
         queryByTestId(PasscodeModalTestIds.Container)
