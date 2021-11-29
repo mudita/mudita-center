@@ -11,16 +11,14 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { CollectingDataModalTestIds } from "Renderer/wrappers/collecting-data-modal/collecting-data-modal-test-ids.enum"
+import { CollectingDataModalTestIds } from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
 import {
   FullAgreementButton,
   ModalContent,
   Paragraph,
-} from "Renderer/wrappers/collecting-data-modal/collecting-data-modal.styled"
+} from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal.styled"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { DisplayStyle } from "App/renderer/components/core/button/button.config"
-import { ipcRenderer } from "electron-better-ipc"
-import { AboutActions } from "App/common/enums/about-actions.enum"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Size } from "Renderer/components/core/button/button.config"
 
 const messages = defineMessages({
@@ -31,16 +29,20 @@ const messages = defineMessages({
   agreeButton: { id: "component.collectingDataModalAgree" },
 })
 
-type Properties = Required<
-  Pick<
-    ComponentProps<typeof ModalDialog>,
-    "onActionButtonClick" | "closeModal" | "open"
-  >
->
+interface Props
+  extends Required<
+    Pick<
+      ComponentProps<typeof ModalDialog>,
+      "onActionButtonClick" | "closeModal" | "open"
+    >
+  > {
+  onFullAgreementButtonClick: () => void
+}
 
-const CollectingDataModal: FunctionComponent<Properties> = (props) => {
-  const openPrivacyPolicy = () =>
-    ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
+const CollectingDataModalUi: FunctionComponent<Props> = ({
+  onFullAgreementButtonClick,
+  ...props
+}) => {
   return (
     <ModalDialog
       title={intl.formatMessage(messages.title)}
@@ -48,6 +50,7 @@ const CollectingDataModal: FunctionComponent<Properties> = (props) => {
       actionButtonLabel={intl.formatMessage(messages.agreeButton)}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
       actionButtonSize={Size.FixedMedium}
+      testId={CollectingDataModalTestIds.Container}
       {...props}
     >
       <ModalContent>
@@ -67,11 +70,11 @@ const CollectingDataModal: FunctionComponent<Properties> = (props) => {
           labelMessage={{
             id: "component.collectingDataModalFullAgreement",
           }}
-          onClick={openPrivacyPolicy}
+          onClick={onFullAgreementButtonClick}
         />
       </ModalContent>
     </ModalDialog>
   )
 }
 
-export default CollectingDataModal
+export default CollectingDataModalUi

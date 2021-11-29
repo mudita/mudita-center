@@ -5,7 +5,7 @@
 
 import styled from "styled-components"
 import Text from "Renderer/components/core/text/text.component"
-import ButtonComponent from "App/renderer/components/core/button/button.component"
+import ButtonComponent from "Renderer/components/core/button/button.component"
 
 export const ModalContent = styled.div`
   display: flex;

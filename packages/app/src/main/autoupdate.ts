@@ -26,6 +26,9 @@ export const mockAutoupdate = (win: BrowserWindow): void => {
   ipcMain.answerRenderer(AppUpdateAction.Check, () => {
     void ipcMain.callRenderer(win, AppUpdateEvent.NotAvailable)
   })
+  ipcMain.answerRenderer(AppUpdateAction.Download, () => {
+    void ipcMain.callRenderer(win, AppUpdateEvent.Error)
+  })
 }
 
 export default (win: BrowserWindow): void => {

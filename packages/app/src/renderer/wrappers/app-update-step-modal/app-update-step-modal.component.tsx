@@ -4,7 +4,7 @@
  */
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import React, { useEffect, useState } from "react"
+import React, { ComponentProps, useEffect, useState } from "react"
 import {
   AppUpdateForced,
   AppUpdateAvailable,
@@ -15,8 +15,9 @@ import registerDownloadedAppUpdateListener from "App/main/functions/register-dow
 import registerErrorAppUpdateListener from "App/main/functions/register-error-app-update-listener"
 import installAppUpdateRequest from "Renderer/requests/install-app-update.request"
 import downloadAppUpdateRequest from "Renderer/requests/download-app-update.request"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
-interface Properties {
+interface Props extends Partial<ComponentProps<typeof ModalDialog>>  {
   closeModal?: () => void
   appLatestVersion?: string
   appCurrentVersion?: string
@@ -29,11 +30,12 @@ enum AppUpdateStep {
   Error,
 }
 
-const AppUpdateStepModal: FunctionComponent<Properties> = ({
+const AppUpdateStepModal: FunctionComponent<Props> = ({
   closeModal,
   appLatestVersion,
   appCurrentVersion,
   forced,
+  ...props
 }) => {
   const [appUpdateStep, setAppUpdateStep] = useState<AppUpdateStep>(
     AppUpdateStep.Available
@@ -68,6 +70,7 @@ const AppUpdateStepModal: FunctionComponent<Properties> = ({
           onActionButtonClick={handleProcessDownload}
           appLatestVersion={appLatestVersion}
           appCurrentVersion={appCurrentVersion}
+          {...props}
         />
       ) : (
         <AppUpdateAvailable
@@ -75,6 +78,7 @@ const AppUpdateStepModal: FunctionComponent<Properties> = ({
           closeModal={closeModal}
           onActionButtonClick={handleProcessDownload}
           appLatestVersion={appLatestVersion}
+          {...props}
         />
       )}
       <AppUpdateProgress open={appUpdateStep === AppUpdateStep.Updating} />

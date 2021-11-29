@@ -16,7 +16,6 @@ jest.mock("App/connecting/requests/register-first-phone-connection")
 type Props = ComponentProps<typeof Connecting>
 
 const defaultProps: Props = {
-  initialModalsShowed: false,
   loaded: false,
   unlocked: null,
   phoneLockTime: undefined,
@@ -26,6 +25,7 @@ const defaultProps: Props = {
   unlockDevice: jest.fn().mockReturnValue({
     payload: DeviceResponseStatus.Ok,
   }),
+  noModalsVisible: true,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -74,9 +74,9 @@ describe("`BackupDeviceFlow` component", () => {
     })
   })
 
-  describe("when `initialModalsShowed` is set to true", () => {
+  describe("when `noModalsVisible` is set to `false`", () => {
     const extraProps: Partial<Props> = {
-      initialModalsShowed: true,
+      noModalsVisible: false,
     }
     test("`PasscodeLocked` component isn't displayed ", () => {
       const { queryByTestId } = render(extraProps)
@@ -86,15 +86,17 @@ describe("`BackupDeviceFlow` component", () => {
     })
   })
 
-  describe("when `initialModalsShowed` is set to true and unlocked to `false`", () => {
+  describe("when `noModalsVisible` is set to `false` and unlocked to `false`", () => {
     const extraProps: Partial<Props> = {
-      initialModalsShowed: true,
+      noModalsVisible: false,
       unlocked: false,
     }
 
-    test("`PasscodeLocked` component is displayed ", () => {
+    test("`PasscodeLocked` component isn't displayed ", () => {
       const { queryByTestId } = render(extraProps)
-      expect(queryByTestId(PasscodeModalTestIds.Container)).toBeInTheDocument()
+      expect(
+        queryByTestId(PasscodeModalTestIds.Container)
+      ).not.toBeInTheDocument()
     })
 
     test("`ErrorConnectingModal` component isn't displayed ", () => {
