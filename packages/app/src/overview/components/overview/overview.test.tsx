@@ -116,8 +116,6 @@ const defaultProps: Props = {
   deviceType: DeviceType.MuditaPure,
   appLatestVersion: "",
   appUpdateAvailable: undefined,
-  appUpdateStepModalDisplayed: false,
-  appUpdateStepModalShow: false,
   lowestSupportedOsVersion: undefined,
   lowestSupportedCenterVersion: undefined,
   settingsLoaded: false,

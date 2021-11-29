@@ -16,17 +16,18 @@ import { flags } from "App/feature-flags"
 jest.mock("App/feature-flags")
 
 type Props = ComponentProps<typeof AboutUI>
-const defaultProps = {
+const defaultProps: Props = {
   openLicense: noop,
   openTermsOfService: noop,
   openPrivacyPolicy: noop,
+  onAppUpdateAvailableCheck: noop,
+  hideAppUpdateNotAvailable: noop,
   appLatestVersion: "0.20.2",
   appCurrentVersion: "0.19.0",
   appUpdateAvailable: true,
-  appUpdateStepModalShow: false,
-  click: noop,
-  closeUpToDateModal: noop,
+  appUpdateNotAvailableShow: false,
 }
+
 const renderer = (extraProps?: Partial<Props>) => {
   const props: Props = {
     ...defaultProps,
@@ -54,8 +55,7 @@ test("Opens update modal properly when app update is not available", () => {
   renderer({
     appLatestVersion: "0.20.2",
     appCurrentVersion: "0.20.2",
-    appUpdateStepModalShow: true,
-    appUpdateAvailable: false,
+    appUpdateNotAvailableShow: true,
   })
 
   expect(
@@ -65,8 +65,8 @@ test("Opens update modal properly when app update is not available", () => {
 
 test("Calls AppUpdateAvailableCheck when clicked", () => {
   jest.spyOn(flags, "get").mockReturnValueOnce(true)
-  const click = jest.fn()
-  const { queryByTestId } = renderer({ click })
+  const onAppUpdateAvailableCheck = jest.fn()
+  const { queryByTestId } = renderer({ onAppUpdateAvailableCheck })
   fireEvent.click(queryByTestId(AboutTestIds.UpdateButton) as HTMLElement)
-  expect(click).toHaveBeenCalledTimes(1)
+  expect(onAppUpdateAvailableCheck).toHaveBeenCalledTimes(1)
 })

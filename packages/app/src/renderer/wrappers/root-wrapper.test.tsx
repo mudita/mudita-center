@@ -16,7 +16,7 @@ import networkStatus from "Renderer/models/network-status/network-status"
 import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
 import { restoreDeviceReducer } from "App/restore-device/reducers/restore-device.reducer"
-import checkAppUpdateRequest from "Renderer/requests/check-app-update.request"
+import { modalsManagerReducer } from "App/modals-manager/reducers"
 
 jest.mock("Renderer/register-hotkeys", jest.fn)
 
@@ -92,19 +92,20 @@ const defaultProps: Props = {
   history,
 }
 
-const render = (extraProps?: Partial<Props>) => {
-  const store = init({
-    models: { settings, networkStatus },
-    redux: {
-      middlewares: [thunk],
-      reducers: {
-        device: deviceReducer,
-        restoreDevice: restoreDeviceReducer,
-        crashDump: crashDumpReducer,
-      },
+const store = init({
+  models: { settings, networkStatus },
+  redux: {
+    middlewares: [thunk],
+    reducers: {
+      device: deviceReducer,
+      restoreDevice: restoreDeviceReducer,
+      crashDump: crashDumpReducer,
+      modalsManager: modalsManagerReducer,
     },
-  }) as Store
+  },
+}) as Store
 
+const render = (extraProps?: Partial<Props>) => {
   const props = {
     ...defaultProps,
     ...extraProps,
@@ -123,11 +124,13 @@ const render = (extraProps?: Partial<Props>) => {
 test("checkAppUpdateRequest isn't call when online is set to false ", async () => {
   const online = jest.spyOn(window.navigator, "onLine", "get")
   online.mockReturnValue(false)
-
+  jest.spyOn(store.dispatch.settings, "checkAppUpdateAvailable")
   render()
 
   await waitFor(() => {
-    expect(checkAppUpdateRequest).not.toHaveBeenCalled()
+    expect(
+      store.dispatch.settings.checkAppUpdateAvailable
+    ).not.toHaveBeenCalled()
   })
 })
 
@@ -139,16 +142,5 @@ test("appUpdateAvailable is to false when online is set to false", async () => {
 
   await waitFor(() => {
     expect(store.getState().settings.appUpdateAvailable).toBeFalsy()
-  })
-})
-
-test("appUpdateStepModalDisplayed is to false when online is set to false", async () => {
-  const online = jest.spyOn(window.navigator, "onLine", "get")
-  online.mockReturnValue(false)
-
-  const { store } = render()
-
-  await waitFor(async () => {
-    expect(store.getState().settings.appUpdateStepModalDisplayed).toBeTruthy()
   })
 })
