@@ -11,6 +11,7 @@ import ModalsManager from "App/modals-manager/components/modals-manager.componen
 import { CollectingDataModalTestIds } from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
 import { AppForcedUpdateFlowTestIds } from "Renderer/modules/settings/components/app-forced-update-flow-test-ids.enum"
 import { AppUpdateFlowTestIds } from "Renderer/modules/settings/components/app-update-flow-test-ids.enum"
+import { ContactSupportFlowTestIds } from "App/contact-support/components/contact-support-flow-test-ids.component"
 
 jest.mock("electron-better-ipc", () => ({
   ipcRenderer: {
@@ -24,6 +25,7 @@ const defaultProps: Props = {
   collectingDataModalShow: false,
   appForcedUpdateFlowShow: false,
   appUpdateFlowShow: false,
+  contactSupportFlowShow: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -52,6 +54,9 @@ describe("`ModalsManager` component", () => {
       expect(
         queryByTestId(AppUpdateFlowTestIds.Container)
       ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
+      ).not.toBeInTheDocument()
     })
   })
 
@@ -67,6 +72,9 @@ describe("`ModalsManager` component", () => {
       ).not.toBeInTheDocument()
       expect(
         queryByTestId(AppUpdateFlowTestIds.Container)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
       ).not.toBeInTheDocument()
     })
   })
@@ -84,6 +92,9 @@ describe("`ModalsManager` component", () => {
       expect(
         queryByTestId(AppUpdateFlowTestIds.Container)
       ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
+      ).not.toBeInTheDocument()
     })
   })
 
@@ -92,6 +103,28 @@ describe("`ModalsManager` component", () => {
       const { queryByTestId } = render({ appUpdateFlowShow: true })
 
       expect(queryByTestId(AppUpdateFlowTestIds.Container)).toBeInTheDocument()
+      expect(
+        queryByTestId(AppForcedUpdateFlowTestIds.Container)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(CollectingDataModalTestIds.Container)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when component is render with proper where `contactSupportFlowShow` is set to `true`", () => {
+    test("`ContactSupportModal` is visible", () => {
+      const { queryByTestId } = render({ contactSupportFlowShow: true })
+
+      expect(
+        queryByTestId(ContactSupportFlowTestIds.ContactSupportModal)
+      ).toBeInTheDocument()
+      expect(
+        queryByTestId(AppUpdateFlowTestIds.Container)
+      ).not.toBeInTheDocument()
       expect(
         queryByTestId(AppForcedUpdateFlowTestIds.Container)
       ).not.toBeInTheDocument()

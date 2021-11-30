@@ -5,20 +5,13 @@
 
 import { createSelector } from "reselect"
 import { ReduxRootState } from "Renderer/store"
-import { ModalsManagerState } from "App/modals-manager/reducers"
+import { ModalsManagerState, ModalStateKey } from "App/modals-manager/reducers"
 import { modalsManagerStateSelector } from "App/modals-manager/selectors/modals-manager-state.selector"
 
 export const noModalsShowSelector = createSelector<
   ReduxRootState,
   ModalsManagerState,
   boolean
->(
-  modalsManagerStateSelector,
-  ({ collectingDataModalShow, appForcedUpdateFlowShow, appUpdateFlowShow }) => {
-    return [
-      collectingDataModalShow,
-      appForcedUpdateFlowShow,
-      appUpdateFlowShow,
-    ].every((item) => item === false)
-  }
-)
+>(modalsManagerStateSelector, (state) => {
+  return Object.keys(state).every((key) => !state[key as ModalStateKey])
+})

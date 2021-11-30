@@ -25,6 +25,7 @@ import {
   startRestoreDevice,
   StartRestoreOption,
 } from "App/restore-device/actions"
+import { ModalStateKey, showModal } from "App/modals-manager"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -63,6 +64,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   readRestoreDeviceDataState: () => dispatch(readRestoreDeviceDataState()),
   startRestoreDevice: (option: StartRestoreOption) =>
     dispatch(startRestoreDevice(option)),
+  openContactSupportFlow: () =>
+    dispatch(showModal(ModalStateKey.ContactSupportFlow)),
   // TODO refactor legacy staff
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
     dispatch.phoneUpdate.update(updateInfo),
