@@ -11,20 +11,20 @@ import { AppForcedUpdateFlowTestIds } from "Renderer/modules/settings/components
 interface Props {
   appCurrentVersion?: string
   appLatestVersion?: string
-  closeModal: () => void
+  hideModals: () => void
 }
 
 const AppForcedUpdateFlow: FunctionComponent<Props> = ({
   appCurrentVersion,
   appLatestVersion,
-  closeModal,
+  hideModals,
 }) => {
   return (
     <AppUpdateStepModal
       forced
       appCurrentVersion={appCurrentVersion}
       appLatestVersion={appLatestVersion}
-      closeModal={closeModal}
+      closeModal={hideModals}
       testId={AppForcedUpdateFlowTestIds.Container}
     />
   )

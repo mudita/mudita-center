@@ -5,19 +5,7 @@
 
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 import mockCreateFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
-
-export enum FreshdeskTicketDataType {
-  Problem = "Problem",
-}
-
-export interface FreshdeskTicketData {
-  type: FreshdeskTicketDataType.Problem
-  email: string
-  subject: string
-  description: string
-  serialNumber?: string
-  attachments: File[]
-}
+import { FreshdeskTicketData } from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 
 const url = process.env.FRESHDESK_API_URL
 const token = process.env.FRESHDESK_API_TOKEN
