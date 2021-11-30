@@ -15,24 +15,25 @@ import { SendTicketPayload } from "App/contact-support/actions/send-ticket.actio
 interface Props
   extends Pick<
     ComponentProps<typeof ContactSupportModal>,
-    "files" | "closeModal"
+    "files"
   > {
   state: SendTicketState | null
   sendTicket: (payload: SendTicketPayload) => void
+  closeContactSupportFlow: () => void
 }
 
 const ContactSupportFlow: FunctionComponent<Props> = ({
   state,
   files,
   sendTicket,
-  closeModal,
+  closeContactSupportFlow,
 }) => {
   return (
     <>
       <ContactSupportModal
         testId={ContactSupportFlowTestIds.ContactSupportModal}
         open={state === null || SendTicketState.Sending === state}
-        closeModal={closeModal}
+        closeModal={closeContactSupportFlow}
         onSubmit={sendTicket}
         sending={SendTicketState.Sending === state}
         files={files}
@@ -40,12 +41,12 @@ const ContactSupportFlow: FunctionComponent<Props> = ({
       <ContactSupportModalSuccess
         testId={ContactSupportFlowTestIds.ContactSupportModalSuccess}
         open={SendTicketState.Success === state}
-        closeModal={closeModal}
+        closeModal={closeContactSupportFlow}
       />
       <ContactSupportModalError
         testId={ContactSupportFlowTestIds.ContactSupportModalError}
         open={SendTicketState.Error === state}
-        closeModal={closeModal}
+        closeModal={closeContactSupportFlow}
       />
     </>
   )
