@@ -19,7 +19,6 @@ import { StatusTestIds } from "App/overview/components/status/status-test-ids.en
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import { intl } from "Renderer/utils/intl"
 import { BackupDeviceDataState } from "App/backup-device/reducers"
-import { noop } from "Renderer/utils/noop"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 
 jest.mock("electron", () => ({
@@ -33,6 +32,7 @@ jest.mock("electron", () => ({
 }))
 
 const defaultProps: ComponentProps<typeof PureOverview> = {
+  openContactSupportFlow: jest.fn(),
   backupDeviceState: BackupDeviceDataState.Empty,
   backupLocation: "",
   backups: [],
@@ -40,15 +40,14 @@ const defaultProps: ComponentProps<typeof PureOverview> = {
   diagnosticSentTimestamp: 0,
   networkLevel: "",
   phoneLockTime: 0,
-  readBackupDeviceDataState: noop,
-  readRestoreDeviceDataState: noop,
+  readBackupDeviceDataState: jest.fn(),
+  readRestoreDeviceDataState: jest.fn(),
   restoreDeviceState: RestoreDeviceDataState.Empty,
-  startBackupDevice: noop,
-  startRestoreDevice: noop,
+  startBackupDevice: jest.fn(),
+  startRestoreDevice: jest.fn(),
   deviceType: null,
   appLatestVersion: "",
   appUpdateAvailable: undefined,
-  appUpdateStepModalDisplayed: false,
   lowestSupportedOsVersion: undefined,
   lowestSupportedCenterVersion: undefined,
   settingsLoaded: false,
@@ -61,7 +60,6 @@ const defaultProps: ComponentProps<typeof PureOverview> = {
   appIncomingMessages: false,
   appLowBattery: false,
   appNonStandardAudioFilesConversion: false,
-  appUpdateStepModalShow: false,
   appOsUpdates: false,
   appTethering: false,
   appTray: false,

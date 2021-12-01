@@ -3,31 +3,28 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import AboutUI from "Renderer/modules/settings/tabs/about/about-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { AboutActions } from "App/common/enums/about-actions.enum"
-import checkAppUpdateRequest from "Renderer/requests/check-app-update.request"
 
 interface Props {
   appLatestVersion?: string
   appCurrentVersion?: string
   appUpdateAvailable?: boolean
-  appUpdateStepModalShow?: boolean
-  setAppUpdateStepModalDisplayed: () => void
+  checkAppUpdateAvailable: () => void
   toggleAppUpdateAvailable: (appUpdateAvailable: boolean) => void
-  toggleAppUpdateStepModalShow: (value: boolean) => void
 }
+
 const About: FunctionComponent<Props> = ({
   appLatestVersion,
   appCurrentVersion,
   appUpdateAvailable,
-  setAppUpdateStepModalDisplayed,
+  checkAppUpdateAvailable,
   toggleAppUpdateAvailable,
-  toggleAppUpdateStepModalShow,
-  appUpdateStepModalShow,
 }) => {
+  const [checking, setChecking] = useState(false)
   const openLicenseWindow = () =>
     ipcRenderer.callMain(AboutActions.LicenseOpenWindow)
   const openTermsOfServiceWindow = () =>
@@ -35,18 +32,19 @@ const About: FunctionComponent<Props> = ({
   const openPrivacyPolicyWindow = () =>
     ipcRenderer.callMain(AboutActions.PolicyOpenWindow)
 
+  const hideAppUpdateNotAvailable = () => {
+    setChecking(false)
+  }
+
   const handleAppUpdateAvailableCheck = (): void => {
+    setChecking(true)
     if (!window.navigator.onLine) {
-      setAppUpdateStepModalDisplayed()
       toggleAppUpdateAvailable(false)
     } else {
-      void checkAppUpdateRequest()
-      toggleAppUpdateStepModalShow(true)
+      checkAppUpdateAvailable()
     }
   }
-  const closeUpToDateModal = (): void => {
-    toggleAppUpdateStepModalShow(false)
-  }
+
   return (
     <AboutUI
       openLicense={openLicenseWindow}
@@ -55,9 +53,9 @@ const About: FunctionComponent<Props> = ({
       appLatestVersion={appLatestVersion}
       appCurrentVersion={appCurrentVersion}
       appUpdateAvailable={appUpdateAvailable}
-      click={handleAppUpdateAvailableCheck}
-      closeUpToDateModal={closeUpToDateModal}
-      appUpdateStepModalShow={appUpdateStepModalShow}
+      onAppUpdateAvailableCheck={handleAppUpdateAvailableCheck}
+      appUpdateNotAvailableShow={checking && appUpdateAvailable === false}
+      hideAppUpdateNotAvailable={hideAppUpdateNotAvailable}
     />
   )
 }

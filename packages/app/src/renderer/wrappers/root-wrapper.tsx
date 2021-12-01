@@ -23,14 +23,13 @@ import BaseApp from "Renderer/wrappers/base-app.component"
 import { Mode } from "Common/enums/mode.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
-import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
+import { QuestionAndAnswer } from "App/help/help.component"
 import registerDeviceConnectedListener, {
   removeDeviceConnectedListener,
 } from "Renderer/listeners/register-device-connected.listener"
 import registerDeviceDisconnectedListener, {
   removeDeviceDisconnectedListener,
 } from "Renderer/listeners/register-device-disconnected.listener"
-import checkAppUpdateRequest from "Renderer/requests/check-app-update.request"
 import registerHotkeys from "Renderer/register-hotkeys"
 import registerAppContextMenu from "Renderer/register-app-context-menu"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
@@ -57,7 +56,6 @@ import {
   loadDeviceData,
   setConnectionStatus,
 } from "App/device"
-// import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getCrashDump } from "App/crash-dump"
 
 interface Props {
@@ -69,11 +67,10 @@ interface Props {
   unlockedDevice: () => void
   getCrashDump: () => void
   // TODO remove legacy staff
+  checkAppUpdateAvailable: () => void
   toggleAppUpdateAvailable: (value: boolean) => void
-  setAppUpdateStepModalDisplayed: () => void
   setAppLatestVersion: (value: string) => void
   loadSettings: () => void
-  toggleAppUpdateStepModalShow: (value: boolean) => void
   loadDeviceData: (value: DeviceType) => void
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
@@ -88,11 +85,10 @@ const RootWrapper: FunctionComponent<Props> = ({
   unlockedDevice,
   getCrashDump,
   // TODO remove legacy staff
+  checkAppUpdateAvailable,
   toggleAppUpdateAvailable,
-  setAppUpdateStepModalDisplayed,
   setAppLatestVersion,
   loadSettings,
-  toggleAppUpdateStepModalShow,
   loadDeviceData,
   connectedAndUnlocked,
   deviceType,
@@ -139,10 +135,9 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   const handleAppUpdateAvailableCheck = (): void => {
     if (!window.navigator.onLine) {
-      setAppUpdateStepModalDisplayed()
       toggleAppUpdateAvailable(false)
     } else {
-      void checkAppUpdateRequest()
+      checkAppUpdateAvailable()
     }
   }
 
@@ -208,7 +203,6 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const unregister = registerAvailableAppUpdateListener((version) => {
-      toggleAppUpdateStepModalShow(true)
       toggleAppUpdateAvailable(true)
       setAppLatestVersion(version as string)
     })
@@ -218,7 +212,6 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const unregister = registerNotAvailableAppUpdateListener(() => {
-      setAppUpdateStepModalDisplayed()
       toggleAppUpdateAvailable(false)
     })
 
@@ -276,14 +269,11 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   unlockedDevice: () => dispatch(unlockedDevice()),
   getCrashDump: () => dispatch(getCrashDump()),
   // TODO remove legacy staff
+  checkAppUpdateAvailable: () => dispatch.settings.checkAppUpdateAvailable(),
   toggleAppUpdateAvailable: (value: boolean) =>
     dispatch.settings.toggleAppUpdateAvailable(value),
-  setAppUpdateStepModalDisplayed: () =>
-    dispatch.settings.setAppUpdateStepModalDisplayed(),
   setAppLatestVersion: (value: string) =>
     dispatch.settings.setAppLatestVersion(value),
-  toggleAppUpdateStepModalShow: (value: boolean) =>
-    dispatch.settings.toggleAppUpdateStepModalShow(value),
   loadSettings: () => dispatch.settings.loadSettings(),
 })
 

@@ -15,7 +15,7 @@ import {
   SettingsUpdateOption,
   SettingsState,
 } from "App/main/store/settings.interface"
-import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
+import { Slicer } from "@rematch/select"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
 import logger from "App/main/utils/logger"
@@ -26,8 +26,14 @@ import { uploadFileRequest } from "App/uploader/requests/upload-file.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getApplicationConfiguration from "App/renderer/requests/get-application-configuration.request"
 import archiveFiles from "Renderer/requests/archive-files.request"
-import { attachedFileName } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
+import { attachedFileName } from "App/contact-support/requests/send-ticket.request"
 import { loadBackupData } from "App/backup/actions"
+import {
+  checkAppForcedUpdateFlowToShow,
+  checkCollectingDataModalToShow,
+  checkAppUpdateFlowToShow,
+} from "App/modals-manager/actions"
+import checkAppUpdateRequest from "Renderer/requests/check-app-update.request"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -36,8 +42,6 @@ export const initialState: SettingsState = {
   lowestSupportedOsVersion: undefined,
   lowestSupportedCenterVersion: undefined,
   appCurrentVersion: version,
-  appUpdateStepModalDisplayed: false,
-  appUpdateStepModalShow: false,
   settingsLoaded: false,
   appUpdateRequired: false,
   appLatestVersion: "",
@@ -93,6 +97,12 @@ const settings = createModel<RootModel>({
 
         // @ts-ignore
         dispatch(loadBackupData())
+        // @ts-ignore
+        dispatch(checkAppUpdateFlowToShow())
+        // @ts-ignore
+        dispatch(checkAppForcedUpdateFlowToShow())
+        // @ts-ignore
+        dispatch(checkCollectingDataModalToShow())
       },
       async updateSettings(option: SettingsUpdateOption) {
         await updateAppSettings(option)
@@ -139,12 +149,6 @@ const settings = createModel<RootModel>({
       setLanguage(value: AppSettings["language"]) {
         this.updateSettings({ key: "language", value })
       },
-      setAppUpdateStepModalDisplayed() {
-        dispatch.settings.update({ appUpdateStepModalDisplayed: true })
-      },
-      toggleAppUpdateStepModalShow(appUpdateStepModalShow: boolean) {
-        dispatch.settings.update({ appUpdateStepModalShow })
-      },
       setDiagnosticSentTimestamp(
         value: AppSettings["diagnosticSentTimestamp"]
       ) {
@@ -157,8 +161,14 @@ const settings = createModel<RootModel>({
         this.updateSettings({ key: "appCollectingData", value })
         value ? logger.enableRollbar() : logger.disableRollbar()
       },
+      checkAppUpdateAvailable() {
+        dispatch.settings.update({ appUpdateAvailable: undefined })
+        void checkAppUpdateRequest()
+      },
       toggleAppUpdateAvailable(appUpdateAvailable: boolean) {
         dispatch.settings.update({ appUpdateAvailable })
+        // @ts-ignore
+        dispatch(checkAppUpdateFlowToShow())
       },
       async sendDiagnosticData(_, state): Promise<void> {
         const { appCollectingData, diagnosticSentTimestamp } = state.settings
@@ -233,27 +243,8 @@ const settings = createModel<RootModel>({
     appCollectingData() {
       return slice(({ appCollectingData }) => appCollectingData)
     },
-    appUpdateStepModalDisplayed() {
-      return slice(
-        ({ appUpdateStepModalDisplayed }) => appUpdateStepModalDisplayed
-      )
-    },
     settingsLoaded() {
       return slice(({ settingsLoaded }) => settingsLoaded)
-    },
-    initialModalsShowed(models: StoreSelectors<any>) {
-      return createSelector(
-        models.settings.appCollectingData,
-        models.settings.appUpdateStepModalDisplayed,
-        models.settings.settingsLoaded,
-        (appCollectingData, appUpdateStepModalDisplayed, settingsLoaded) => {
-          return (
-            settingsLoaded &&
-            appUpdateStepModalDisplayed &&
-            appCollectingData !== undefined
-          )
-        }
-      )
     },
   }),
 })

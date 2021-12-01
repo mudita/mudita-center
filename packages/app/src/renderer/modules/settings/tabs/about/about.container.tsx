@@ -4,13 +4,21 @@
  */
 
 import { connect } from "react-redux"
-import { RootModel } from "Renderer/models/models"
 import About from "Renderer/modules/settings/tabs/about/about.component"
+import { ReduxRootState, RootState, TmpDispatch } from "Renderer/store"
 
-const mapStateToProps = (state: RootModel) => {
-	return state.settings
+const mapStateToProps = (state: RootState & ReduxRootState) => {
+  return {
+    appLatestVersion: state.settings.appLatestVersion,
+    appCurrentVersion: state.settings.appCurrentVersion,
+    appUpdateAvailable: state.settings.appUpdateAvailable,
+  }
 }
 
-const mapDispatchToProps = (dispatch: any) => dispatch.settings
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  toggleAppUpdateAvailable: (value: boolean) =>
+    dispatch.settings.toggleAppUpdateAvailable(value),
+  checkAppUpdateAvailable: () => dispatch.settings.checkAppUpdateAvailable(),
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(About)

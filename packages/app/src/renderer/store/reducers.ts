@@ -6,10 +6,12 @@
 import { combineReducers } from "redux"
 import { deviceReducer } from "App/device"
 import { crashDumpReducer } from "App/crash-dump"
-import { backupReducer } from "App/backup/reducers"
-import { backupDeviceReducer } from "App/backup-device/reducers"
-import { restoreDeviceReducer } from "App/restore-device/reducers/restore-device.reducer"
-import { messagesReducer } from "App/messages/reducers"
+import { backupReducer } from "App/backup"
+import { backupDeviceReducer } from "App/backup-device"
+import { restoreDeviceReducer } from "App/restore-device"
+import { messagesReducer } from "App/messages"
+import { modalsManagerReducer } from "App/modals-manager"
+import { contactSupportReducer } from "App/contact-support"
 
 export const reducers = {
   device: deviceReducer,
@@ -18,6 +20,8 @@ export const reducers = {
   restoreDevice: restoreDeviceReducer,
   crashDump: crashDumpReducer,
   messages: messagesReducer,
+  modalsManager: modalsManagerReducer,
+  contactSupport: contactSupportReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

@@ -102,6 +102,7 @@ jest.mock("Renderer/requests/get-battery-info.request", () =>
 )
 
 const defaultProps: Props = {
+  openContactSupportFlow: jest.fn(),
   backupLocation: "",
   backups: [],
   readRestoreDeviceDataState: jest.fn(),
@@ -116,8 +117,6 @@ const defaultProps: Props = {
   deviceType: DeviceType.MuditaPure,
   appLatestVersion: "",
   appUpdateAvailable: undefined,
-  appUpdateStepModalDisplayed: false,
-  appUpdateStepModalShow: false,
   lowestSupportedOsVersion: undefined,
   lowestSupportedCenterVersion: undefined,
   settingsLoaded: false,
