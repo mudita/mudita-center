@@ -400,8 +400,17 @@ const Messages: FunctionComponent<Props> = ({
         phoneNumber: activeThread.phoneNumber,
         identification: ReceiverIdentification.unknown,
       }
+    }
+
+    const receiver = getReceiver(activeThread.phoneNumber)
+
+    if (receiver === undefined) {
+      return {
+        phoneNumber: "",
+        identification: ReceiverIdentification.unknown,
+      }
     } else {
-      return getReceiver(activeThread.phoneNumber)
+      return receiver
     }
   }
 
