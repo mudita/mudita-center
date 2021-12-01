@@ -58,6 +58,12 @@ module.exports = ({ config }) => {
         "__mocks__",
         "electron-better-ipc.js"
       ),
+      "@mudita/pure": path.resolve(
+        __dirname,
+        "..",
+        "__mocks__",
+        "pure.js"
+      ),
     },
   }
 
