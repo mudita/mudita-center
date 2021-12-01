@@ -51,11 +51,11 @@ import SarApp from "./sar-app.component"
 import { TmpDispatch, ReduxRootState } from "Renderer/store"
 import {
   connectDevice,
-  disconnectDevice,
   unlockedDevice,
   lockedDevice,
   getConnectedDevice,
   loadDeviceData,
+  setConnectionStatus,
 } from "App/device"
 // import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
 import { getCrashDump } from "App/crash-dump"
@@ -63,7 +63,7 @@ import { getCrashDump } from "App/crash-dump"
 interface Props {
   history: History
   connect: () => void
-  disconnectDevice: () => void
+  setFalseConnectionStatus: () => void
   connectDevice: (value: DeviceType) => void
   lockedDevice: () => void
   unlockedDevice: () => void
@@ -82,7 +82,7 @@ interface Props {
 const RootWrapper: FunctionComponent<Props> = ({
   history,
   connect,
-  disconnectDevice,
+  setFalseConnectionStatus,
   connectDevice,
   lockedDevice,
   unlockedDevice,
@@ -170,14 +170,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const listener = () => {
-      disconnectDevice()
-
-      // modalService.closeModal(true)
-      // const updatingState = store.getState().basicInfo.updatingState
-      // if (updatingState !== UpdatingState.Updating) {
-      //   modalService.closeModal(true)
-      // }
-      // store.dispatch.basicInfo.toggleDeviceConnected(false)
+      setFalseConnectionStatus()
     }
     const unregister = () => {
       removeDeviceDisconnectedListener(listener)
@@ -277,7 +270,7 @@ const mapStateToProps = (state: ReduxRootState) => ({
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   loadDeviceData: (value: DeviceType) => dispatch(loadDeviceData(value)),
   connect: () => dispatch(getConnectedDevice()),
-  disconnectDevice: () => dispatch(disconnectDevice()),
+  setFalseConnectionStatus: () => dispatch(setConnectionStatus(false)),
   connectDevice: (value: DeviceType) => dispatch(connectDevice(value)),
   lockedDevice: () => dispatch(lockedDevice()),
   unlockedDevice: () => dispatch(unlockedDevice()),

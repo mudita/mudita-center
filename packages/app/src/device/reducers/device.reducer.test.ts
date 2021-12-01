@@ -135,10 +135,10 @@ describe("Connecting/Disconnecting functionality", () => {
     })
   })
 
-  test("Event: SetConnectionState set connection state to `true` if `true` payload is provided", () => {
+  test("Event: SetConnectionState/fulfilled set connection state to `true` if `true` payload is provided", () => {
     expect(
       deviceReducer(undefined, {
-        type: DeviceEvent.SetConnectionState,
+        type: fulfilledAction(DeviceEvent.SetConnectionState),
         payload: true,
       })
     ).toEqual({
@@ -150,18 +150,14 @@ describe("Connecting/Disconnecting functionality", () => {
     })
   })
 
-  test("Event: SetConnectionState set connection state to `false` if `false` payload is provided", () => {
+  test("Event: SetConnectionState/fulfilled set device state to initial if `false` payload is provided", () => {
     expect(
       deviceReducer(undefined, {
-        type: DeviceEvent.SetConnectionState,
+        type: fulfilledAction(DeviceEvent.SetConnectionState),
         payload: false,
       })
     ).toEqual({
       ...initialState,
-      status: {
-        ...initialState.status,
-        connected: false,
-      },
     })
   })
 })
