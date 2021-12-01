@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import React from "react"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
@@ -8,7 +13,6 @@ import { IntlProvider } from "react-intl"
 import { defaultLanguage } from "../src/translations.config.json"
 import { init } from "@rematch/core"
 import devMode from "App/dev-mode/store/dev-mode"
-import { deviceReducer } from "App/device"
 import selectPlugin from "@rematch/select"
 import { Provider } from "react-redux"
 import StorybookWrapper from "../src/renderer/components/storybook/storybook-wrapper.component"
@@ -24,7 +28,6 @@ try {
 const store = init({
   models: { devMode },
   plugins: [selectPlugin()],
-  redux: { reducers: { device: deviceReducer } },
 })
 
 export const decorators = [

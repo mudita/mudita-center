@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 const path = require("path")
 const { resolve } = require("../webpack/common")
 
@@ -43,13 +48,6 @@ module.exports = ({ config }) => {
     },
   })
 
-  config.module.rules.push(
-    {
-      test: /\.node$/,
-      loader: "node-loader",
-    },
-  )
-
   config.resolve = {
     ...resolve(false),
     alias: {
@@ -63,7 +61,7 @@ module.exports = ({ config }) => {
     },
   }
 
-  config.externals = ["child_process", "dns", "fs", "net", "tls"]
+  config.externals = ["child_process"]
 
   return config
 }
