@@ -33,6 +33,9 @@ export const ButtonWrapper = styled.div`
       margin-bottom: 0;
     }
   }
+  div {
+    margin-bottom: 1.6rem;
+  }
 `
 
 export const SyncButton = styled(Button)`

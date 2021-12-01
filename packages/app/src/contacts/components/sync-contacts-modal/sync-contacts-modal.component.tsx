@@ -23,6 +23,7 @@ import {
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 import { defineMessages } from "react-intl"
 import { IconSize } from "App/renderer/components/core/icon/icon.component"
+import GoogleButton from "react-google-button"
 
 const messages = defineMessages({
   title: {
@@ -80,12 +81,10 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
       />
       <ButtonsContainer>
         <ButtonWrapper>
-          <SyncButton
-            displayStyle={DisplayStyle.Primary}
-            label={intl.formatMessage(messages.googleButtonText)}
-            Icon={Type.Google}
-            iconSize={IconSize.Medium}
+          <GoogleButton
             onClick={onGoogleButtonClick}
+            type="dark"
+            label={intl.formatMessage(messages.googleButtonText)}
             data-testid={SyncContactsModalTestIds.GoogleButton}
           />
 
