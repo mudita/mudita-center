@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps }  from "react"
+import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import CollectingDataModalUi from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal-ui.component"
 import { CollectingDataModalTestIds } from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
@@ -37,7 +37,7 @@ describe("`CollectingDataModalUi` component", () => {
 
   describe("when component`open` is set to `true`", () => {
     test("`CollectingDataModalUi` is visible", () => {
-      const { queryByTestId } = render({open: true})
+      const { queryByTestId } = render({ open: true })
       expect(
         queryByTestId(CollectingDataModalTestIds.Container)
       ).toBeInTheDocument()

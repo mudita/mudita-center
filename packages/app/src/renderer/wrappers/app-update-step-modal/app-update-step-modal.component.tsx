@@ -17,7 +17,7 @@ import installAppUpdateRequest from "Renderer/requests/install-app-update.reques
 import downloadAppUpdateRequest from "Renderer/requests/download-app-update.request"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
-interface Props extends Partial<ComponentProps<typeof ModalDialog>>  {
+interface Props extends Partial<ComponentProps<typeof ModalDialog>> {
   closeModal?: () => void
   appLatestVersion?: string
   appCurrentVersion?: string
