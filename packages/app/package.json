@@ -238,7 +238,6 @@
     "moment": "^2.29.1",
     "moxios": "^0.4.0",
     "node-ical": "^0.13.0",
-    "node-loader": "^1.0.3",
     "quoted-printable": "^1.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
