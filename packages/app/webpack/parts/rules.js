@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 const tsxMain = (production) => ({
   test: /\.tsx?$/,
   exclude: /node_modules/,
@@ -118,9 +123,5 @@ module.exports = {
         },
       },
     ],
-  },
-  nodeLoader: {
-    test: /\.node$/,
-    loader: "node-loader",
   },
 }
