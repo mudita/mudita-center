@@ -28,12 +28,16 @@ const githubRelease: GithubRelease = {
       name: "PurePhone-release-0.76.4-RT1051-image.tar.xz",
       content_type: "application/x-xz",
       size: 36763852,
+      browser_download_url:
+        "https://api.github.com/repos/mudita/MuditaOS/releases/assets/44445199/PurePhone-release-0.76.4-RT1051-image.tar.xz",
     },
     {
       url: "https://api.github.com/repos/mudita/MuditaOS/releases/assets/44445203",
       name: "PurePhone-release-0.76.4-RT1051-Update.tar",
       content_type: "application/x-tar",
       size: 43868160,
+      browser_download_url:
+        "https://api.github.com/repos/mudita/MuditaOS/releases/assets/44445203/PurePhone-release-0.76.4-RT1051-Update.tar",
     },
   ],
 }
@@ -77,6 +81,8 @@ describe("findXTarAsset function", () => {
           name: "PurePhone-release-0.76.4-RT1051-image.tar.xz",
           content_type: "application/x-xz",
           size: 36763852,
+          browser_download_url:
+            "https://api.github.com/repos/mudita/MuditaOS/releases/assets/44445199/PurePhone-release-0.76.4-RT1051-image.tar.xz",
         },
       ],
     }
@@ -335,6 +341,8 @@ describe("filterRelease util", () => {
               name: "PurePhone-release-0.76.4-RT1051-image.tar.xz",
               content_type: "application/x-xz",
               size: 36763852,
+              browser_download_url:
+                "https://api.github.com/repos/mudita/MuditaOS/releases/assets/44445199/PurePhone-release-0.76.4-RT1051-image.tar.xz",
             },
           ],
         },
