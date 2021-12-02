@@ -170,7 +170,7 @@ const mapToReleases = async (
             date: published_at || created_at,
             product: item.target,
             file: {
-              url: releaseFile?.url,
+              url: releaseFile?.browser_download_url,
               size: releaseFile?.size,
               name: releaseFile?.name,
             },
@@ -187,7 +187,7 @@ const mapToReleases = async (
             date: published_at || created_at,
             product: Product.PurePhone,
             file: {
-              url: asset.url,
+              url: asset.browser_download_url,
               size: asset.size,
               name: asset.name,
             },
