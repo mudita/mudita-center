@@ -28,7 +28,7 @@ export const sendCrashDumpData = createAsyncThunk(
       )
     }
 
-    for await (const path of state.crashDump.data.downloadedFiles) {
+    for await (const [index, path] of state.crashDump.data.downloadedFiles.entries()) {
       const fileName = path.split("/").pop()
       const buffer = await readFile(path)
 
@@ -43,10 +43,8 @@ export const sendCrashDumpData = createAsyncThunk(
           serialNumber: state.device.data.serialNumber,
         })
 
-        await dispatch(removeFile(state.crashDump.data.files[0]))
-        await dispatch(resetCrashDump())
+        await dispatch(removeFile(state.crashDump.data.files[index]))
 
-        return
       } catch (error) {
         return rejectWithValue(
           new SendingCrashDumpError(
@@ -56,6 +54,8 @@ export const sendCrashDumpData = createAsyncThunk(
         )
       }
     }
+
+    await dispatch(resetCrashDump())
 
     return
   }
