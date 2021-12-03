@@ -18,6 +18,7 @@ export interface GithubReleaseAsset {
   size: number
   url: string
   name: string
+  browser_download_url: string
 }
 
 export interface GithubRelease {
