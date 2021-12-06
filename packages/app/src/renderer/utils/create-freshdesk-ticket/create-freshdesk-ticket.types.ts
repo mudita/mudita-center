@@ -9,9 +9,9 @@ export enum FreshdeskTicketDataType {
 
 export interface FreshdeskTicketData {
   type: FreshdeskTicketDataType.Problem
-  email: string
+  email?: string
   subject: string
-  description: string
+  description?: string
   serialNumber?: string
   attachments: File[]
 }

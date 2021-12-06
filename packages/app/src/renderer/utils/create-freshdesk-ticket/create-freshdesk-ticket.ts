@@ -13,7 +13,7 @@ const env = process.env.NODE_ENV
 
 const createFreshdeskTicket = ({
   type,
-  email,
+  email = "no_email@mudita.com",
   subject,
   description: tmpDescription,
   serialNumber,
@@ -29,7 +29,7 @@ const createFreshdeskTicket = ({
   let description = tmpDescription
 
   // Freshdesk not allow create ticket with empty description
-  if (description === "") {
+  if (description === undefined || description === "") {
     description = "no text"
   }
 
