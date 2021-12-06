@@ -73,8 +73,6 @@ import { AboutActions } from "App/common/enums/about-actions.enum"
 import PureLogger from "App/main/utils/pure-logger"
 import { flags, Feature } from "App/feature-flags"
 import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
-
-import { registerUploadFileListener } from "App/uploader"
 import {
   createMetadataStore,
   MetadataStore,
@@ -175,7 +173,6 @@ const createWindow = async () => {
   registerReadFileListener()
   registerDecryptFileListener()
   registerPureOsDownloadProxy()
-  registerUploadFileListener()
   registerMetadataAllGetValueListener()
   registerMetadataGetValueListener()
   registerMetadataSetValueListener()
