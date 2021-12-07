@@ -340,10 +340,10 @@ class DeviceService {
 
   private registerDeviceUnlockedListener(): void {
     void this.getUnlockedStatusRequest()
-    this.lockedInterval = setInterval(
-      () => void this.getUnlockedStatusRequest(),
-      10000
-    )
+    // this.lockedInterval = setInterval(
+    //   () => void this.getUnlockedStatusRequest(),
+    //   10000
+    // )
   }
 
   private registerDeviceDisconnectedListener(): void {

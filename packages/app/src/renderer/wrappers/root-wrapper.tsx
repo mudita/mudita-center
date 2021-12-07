@@ -155,7 +155,7 @@ const RootWrapper: FunctionComponent<Props> = ({
     let interval: NodeJS.Timeout
 
     if (deviceType && connectedAndUnlocked) {
-      interval = setInterval(() => loadDeviceData(deviceType), 30000)
+      // interval = setInterval(() => loadDeviceData(deviceType), 30000)
     }
 
     return () => {
