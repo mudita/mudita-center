@@ -33,11 +33,14 @@ export const registerMtpConnectListener = (): void => {
     const files: FileInformation[] = []
     const mtp = new Mtp(13072, 256)
 
-    // @ts-ignore
-    mtp.on("error", (err: any) => console.log("Error", err))
-
     return new Promise((resolve => {
       // @ts-ignore
+
+      // @ts-ignore
+      mtp.on("error", (error: any) => {
+        resolve({status: 0, error})
+      })
+
       mtp.on("ready", async () => {
         console.log("ready: ")
         await mtp.openSession()
@@ -63,7 +66,7 @@ export const registerMtpConnectListener = (): void => {
 
         await mtp.close()
 
-        resolve(files)
+        resolve({status: 1, data: files})
       })
     }))
   })

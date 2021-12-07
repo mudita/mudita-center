@@ -7,6 +7,10 @@ import { ipcRenderer } from "electron-better-ipc"
 import { IpcMusic } from "Renderer/modules/music/ipc-event.enum"
 import { FileInformation } from "Renderer/modules/music/mtp-connect.listener"
 
-export const mtpConnectRequest = async (): Promise<FileInformation[]> => {
+export const mtpConnectRequest = async (): Promise<{
+  status: 1 | 0
+  data?: FileInformation[]
+  error?: any
+}> => {
   return ipcRenderer.callMain(IpcMusic.MtpConnect)
 }

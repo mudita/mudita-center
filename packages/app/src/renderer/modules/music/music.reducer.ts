@@ -38,9 +38,9 @@ export const musicReducer = createReducer<MusicState>(
   initialState,
   (builder) => {
     builder
-      .addCase(pendingAction(MusicEvent.MtpConnect), (state) => {
+      .addCase(pendingAction(MusicEvent.MtpConnect), () => {
         return {
-          ...state,
+          ...initialState,
           state: ResultState.Loading,
         }
       })

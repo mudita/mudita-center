@@ -28,6 +28,7 @@ const Music: FunctionComponent<Props> = ({ mtpConnect, files, state }) => (
       onClick={mtpConnect}
     />
     {state === ResultState.Loading && <div>Loading...</div>}
+    {state === ResultState.Error && <div>Error</div>}
     {files.map((file) => {
       const value = JSON.stringify(file)
       return <div key={value}>{value}</div>
