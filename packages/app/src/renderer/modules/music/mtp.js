@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import logger from "App/main/utils/logger"
 import { EventEmitter } from "events"
 import { usb } from "webusb"
 
@@ -59,14 +60,14 @@ class Mtp extends EventEmitter {
 
       if (self.device != null) {
         if (self.device.opened) {
-          console.log("Already open")
+          logger.info("Already open")
           await self.device.close()
         }
         await self.device.open()
-        console.log("Opened:", self.device.opened)
+        logger.info("Opened:", self.device.opened)
 
         if (self.device.configuration === null) {
-          console.log("selectConfiguration")
+          logger.info("selectConfiguration")
           await self.device.selectConfiguration(1)
         }
         await self.device.claimInterface(0)
@@ -76,7 +77,7 @@ class Mtp extends EventEmitter {
             self.device.configuration.interfaces[0].alternate.endpoints[0]
               .packetSize * 2
         } catch (err) {
-          console.log("No packet size found, setting to 1024 bytes")
+          logger.info("No packet size found, setting to 1024 bytes")
           self.packetSize = 1024
         }
 
@@ -85,7 +86,7 @@ class Mtp extends EventEmitter {
         throw new Error("No device available.")
       }
     })().catch((error) => {
-      console.log("Error during MTP setup:", error)
+      logger.info("Error during MTP setup:", error)
 
       self.emit("error", error)
     })
@@ -119,7 +120,7 @@ class Mtp extends EventEmitter {
 
     this.transactionID += 1
 
-    console.log("Sending", buf)
+    logger.info("Sending", buf)
     return buf
   }
 
@@ -138,7 +139,7 @@ class Mtp extends EventEmitter {
       }
     }
 
-    console.log(fields)
+    logger.info(fields)
     return fields
   }
 
@@ -158,12 +159,12 @@ class Mtp extends EventEmitter {
         const bytes = new DataView(result.data.buffer)
         const containerLength = bytes.getUint32(0, true)
 
-        console.log("Container Length:", containerLength)
-        console.log("Length:", raw.byteLength)
+        logger.info("Container Length:", containerLength)
+        logger.info("Length:", raw.byteLength)
 
         while (raw.byteLength !== containerLength) {
           result = await this.device.transferIn(0x01, this.packetSize)
-          console.log(`Adding ${result.data.byteLength} bytes`)
+          logger.info(`Adding ${result.data.byteLength} bytes`)
 
           const uint8array = raw.slice()
           // eslint-disable-next-line no-undef
@@ -183,9 +184,9 @@ class Mtp extends EventEmitter {
       return result
     } catch (error) {
       if (error.message.indexOf("LIBUSB_TRANSFER_NO_DEVICE")) {
-        console.log("Device disconnected")
+        logger.info("Device disconnected")
       } else {
-        console.log("Error reading data:", error)
+        logger.info("Error reading data:", error)
         throw error
       }
     }
@@ -217,7 +218,7 @@ class Mtp extends EventEmitter {
 
   async close() {
     try {
-      console.log("Closing session..")
+      logger.info("Closing session..")
       const closeSession = {
         type: 1, // command block
         code: CODE.CLOSE_SESSION.value,
@@ -228,14 +229,14 @@ class Mtp extends EventEmitter {
       await this.device.releaseInterface(0)
       await this.device.close()
       this.removeAllListeners();
-      console.log("Closed device")
+      logger.info("Closed device")
     } catch (err) {
-      console.log("Error:", err)
+      logger.info("Error:", err)
     }
   }
 
   async openSession() {
-    console.log("Opening session..")
+    logger.info("Opening session..")
     const openSession = {
       type: 1, // command block
       code: CODE.OPEN_SESSION.value,
@@ -243,12 +244,12 @@ class Mtp extends EventEmitter {
     }
     let data = this.buildContainerPacket(openSession)
     let result = await this.write(data)
-    console.log("Result:", result)
-    console.log(await this.read())
+    logger.info("Result:", result)
+    logger.info(await this.read())
   }
 
   async getObjectHandles() {
-    console.log("Getting object handles..")
+    logger.info("Getting object handles..")
     const getObjectHandles = {
       type: 1, // command block
       code: CODE.GET_OBJECT_HANDLES.value,
@@ -260,14 +261,14 @@ class Mtp extends EventEmitter {
     data.parameters.shift() // Remove length element
 
     data.parameters.forEach((element) => {
-      console.log("Object handle", element)
+      logger.info("Object handle", element)
     })
 
     return data.parameters
   }
 
   async getFileName(objectHandle) {
-    console.log("Getting file name with object handle", objectHandle)
+    logger.info("Getting file name with object handle", objectHandle)
     const getFilename = {
       type: 1,
       code: CODE.GET_OBJECT_PROP_VALUE.value,
@@ -280,12 +281,12 @@ class Mtp extends EventEmitter {
     const array = new Uint8Array(data.payload)
     const decoder = new TextDecoder("utf-16le")
     const filename = decoder.decode(array.subarray(1, array.byteLength - 2))
-    console.log("Filename:", filename)
+    logger.info("Filename:", filename)
     return filename
   }
 
   // async getFileSize(objectHandle) {
-  //   console.log("Getting file size with object handle", objectHandle)
+  //   logger.info("Getting file size with object handle", objectHandle)
   //   const getFilename = {
   //     type: 1,
   //     code: CODE.GET_OBJECT_PROP_VALUE.value,
@@ -298,12 +299,12 @@ class Mtp extends EventEmitter {
   //   const array = new Uint8Array(data.payload)
   //   const decoder = new TextDecoder("utf-16le")
   //   const filesize = decoder.decode(array.subarray(1, array.byteLength - 2))
-  //   console.log("FileSize:", filesize)
+  //   logger.info("FileSize:", filesize)
   //   return filesize
   // }
 
   async getFile(objectHandle, filename) {
-    console.log(
+    logger.info(
       `Getting file with object handle ${objectHandle} as ${filename}`
     )
     const getFile = {

@@ -7,6 +7,7 @@ import Mtp from "./mtp"
 // import * as fs from "fs"
 import { ipcMain } from "electron-better-ipc"
 import { IpcMusic } from "Renderer/modules/music/ipc-event.enum"
+import logger from "App/main/utils/logger"
 
 export interface FileInformation {
   fileName: string,
@@ -14,9 +15,9 @@ export interface FileInformation {
 }
 
 const getFileInformation = async (mtp: Mtp, handleId: number): Promise<FileInformation> => {
-  console.log("getFileInformation: ", handleId)
+  logger.info("getFileInformation: ", handleId)
   const fileName = await mtp.getFileName(handleId)
-  console.log("fileName: ", fileName)
+  logger.info("fileName: ", fileName)
   // const size = await mtp.getFileSize(handleId)
   // console.log("size: ", size)
 
@@ -42,15 +43,15 @@ export const registerMtpConnectListener = (): void => {
       })
 
       mtp.on("ready", async () => {
-        console.log("ready: ")
+        logger.info("ready: ")
         await mtp.openSession()
-        console.log("opened: ")
+        logger.info("opened: ")
 
         const handles = await mtp.getObjectHandles()
-        console.log("handles: ", handles)
+        logger.info("handles: ", handles)
 
         // const objectHandle = Math.max(...handles)
-        // console.log("objectHandle: ", objectHandle)
+        // logger.info("objectHandle: ", objectHandle)
 
         for await (const handleId of handles) {
           const fileInformation = await getFileInformation(mtp, handleId)
@@ -59,7 +60,7 @@ export const registerMtpConnectListener = (): void => {
 
 
         // const fileName = await mtp.getFileName(objectHandle)
-        // console.log("fileName: ", fileName)
+        // logger.info("fileName: ", fileName)
 
         // const array = await mtp.getFile(objectHandle, fileName)
         // fs.writeFileSync(fileName, array)
