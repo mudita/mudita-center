@@ -20,10 +20,14 @@ const mapToContact = (vContact: vCardContact): NewContact => {
 
   if (vContact.tel) {
     if (Array.isArray(vContact.tel)) {
-      contact["primaryPhoneNumber"] = vContact.tel[0].valueOf()
-      contact["secondaryPhoneNumber"] = vContact.tel[1].valueOf()
+      contact["primaryPhoneNumber"] = vContact.tel[0]
+        .valueOf()
+        .replace(/\s/g, "")
+      contact["secondaryPhoneNumber"] = vContact.tel[1]
+        .valueOf()
+        .replace(/\s/g, "")
     } else {
-      contact["primaryPhoneNumber"] = vContact.tel.valueOf()
+      contact["primaryPhoneNumber"] = vContact.tel.valueOf().replace(/\s/g, "")
     }
   }
 
