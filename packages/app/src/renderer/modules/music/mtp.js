@@ -27,8 +27,22 @@ const CODE = {
     name: "Invalid_ObjectProp_Format",
   },
   OBJECT_FILE_NAME: { value: 0xdc07, name: "Object file name" },
-  // OBJECT_FILE_SIZE: { value: 0xdc04, name: "Object file size" },
+  OBJECT_FILE_SIZE: { value: 0xdc04, name: "Object file size" },
   GET_OBJECT_PROP_VALUE: { value: 0x9803, name: "GetObjectPropValue" },
+}
+
+function getUint64(dataview, byteOffset, littleEndian) {
+  // split 64-bit number into two 32-bit (4-byte) parts
+  const left =  dataview.getUint32(byteOffset, littleEndian);
+  const right = dataview.getUint32(byteOffset+4, littleEndian);
+
+  // combine the two 32-bit values
+  const combined = littleEndian? left + 2**32*right : 2**32*left + right;
+
+  if (!Number.isSafeInteger(combined))
+    console.warn(combined, 'exceeds MAX_SAFE_INTEGER. Precision may be lost');
+
+  return combined;
 }
 
 class Mtp extends EventEmitter {
@@ -285,23 +299,23 @@ class Mtp extends EventEmitter {
     return filename
   }
 
-  // async getFileSize(objectHandle) {
-  //   logger.info("Getting file size with object handle", objectHandle)
-  //   const getFilename = {
-  //     type: 1,
-  //     code: CODE.GET_OBJECT_PROP_VALUE.value,
-  //     payload: [objectHandle, CODE.OBJECT_FILE_SIZE.value], // objectHandle and objectPropCode
-  //   }
-  //   await this.write(this.buildContainerPacket(getFilename))
-  //   const data = await this.readData()
-  //
-  //   // eslint-disable-next-line no-undef
-  //   const array = new Uint8Array(data.payload)
-  //   const decoder = new TextDecoder("utf-16le")
-  //   const filesize = decoder.decode(array.subarray(1, array.byteLength - 2))
-  //   logger.info("FileSize:", filesize)
-  //   return filesize
-  // }
+
+  async getFileSize(objectHandle) {
+    logger.info("Getting file size with object handle", objectHandle)
+    const getFilename = {
+      type: 1,
+      code: CODE.GET_OBJECT_PROP_VALUE.value,
+      payload: [objectHandle, CODE.OBJECT_FILE_SIZE.value], // objectHandle and objectPropCode
+    }
+    await this.write(this.buildContainerPacket(getFilename))
+    const data = await this.readData()
+
+    const dataview = new DataView(data.payload)
+    const filesize = getUint64(dataview, 0, true)
+    logger.info("FileSize:", filesize)
+
+    return filesize
+  }
 
   async getFile(objectHandle, filename) {
     logger.info(

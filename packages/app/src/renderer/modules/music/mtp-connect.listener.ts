@@ -12,21 +12,20 @@ import logger from "App/main/utils/logger"
 export interface FileInformation {
   id: string,
   fileName: string,
-  // size: number
+  size: number
 }
 
 const getFileInformation = async (mtp: Mtp, handleId: number): Promise<FileInformation> => {
-  logger.info("getFileInformation: ", handleId)
+  logger.info(`getFileInformation: ${handleId}`)
   const fileName = await mtp.getFileName(handleId)
-  logger.info("fileName: ", fileName)
-  // const size = await mtp.getFileSize(handleId)
-  // console.log("size: ", size)
+  logger.info(`fileName: ${fileName}`)
+  const size = await mtp.getFileSize(handleId)
+  logger.info(`size: ${size}`)
 
   return {
     fileName,
     id: String(handleId),
-    // size: Number(size)
-    // size: Number(0)
+    size: Number(size)
   }
 }
 
@@ -38,34 +37,23 @@ export const registerMtpConnectListener = (): void => {
 
     return new Promise((resolve => {
       // @ts-ignore
-
-      // @ts-ignore
       mtp.on("error", (error: any) => {
         resolve({status: 0, error})
       })
 
+      // @ts-ignore
       mtp.on("ready", async () => {
         logger.info("ready: ")
         await mtp.openSession()
         logger.info("opened: ")
 
         const handles = await mtp.getObjectHandles()
-        logger.info("handles: ", handles)
-
-        // const objectHandle = Math.max(...handles)
-        // logger.info("objectHandle: ", objectHandle)
+        logger.info(`handles: ${handles}`)
 
         for await (const handleId of handles) {
           const fileInformation = await getFileInformation(mtp, handleId)
           files.push(fileInformation)
         }
-
-
-        // const fileName = await mtp.getFileName(objectHandle)
-        // logger.info("fileName: ", fileName)
-
-        // const array = await mtp.getFile(objectHandle, fileName)
-        // fs.writeFileSync(fileName, array)
 
         await mtp.close()
 
