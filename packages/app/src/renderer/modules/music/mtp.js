@@ -26,6 +26,7 @@ const CODE = {
     name: "Invalid_ObjectProp_Format",
   },
   OBJECT_FILE_NAME: { value: 0xdc07, name: "Object file name" },
+  // OBJECT_FILE_SIZE: { value: 0xdc04, name: "Object file size" },
   GET_OBJECT_PROP_VALUE: { value: 0x9803, name: "GetObjectPropValue" },
 }
 
@@ -282,6 +283,24 @@ class Mtp extends EventEmitter {
     console.log("Filename:", filename)
     return filename
   }
+
+  // async getFileSize(objectHandle) {
+  //   console.log("Getting file size with object handle", objectHandle)
+  //   const getFilename = {
+  //     type: 1,
+  //     code: CODE.GET_OBJECT_PROP_VALUE.value,
+  //     payload: [objectHandle, CODE.OBJECT_FILE_SIZE.value], // objectHandle and objectPropCode
+  //   }
+  //   await this.write(this.buildContainerPacket(getFilename))
+  //   const data = await this.readData()
+  //
+  //   // eslint-disable-next-line no-undef
+  //   const array = new Uint8Array(data.payload)
+  //   const decoder = new TextDecoder("utf-16le")
+  //   const filesize = decoder.decode(array.subarray(1, array.byteLength - 2))
+  //   console.log("FileSize:", filesize)
+  //   return filesize
+  // }
 
   async getFile(objectHandle, filename) {
     console.log(

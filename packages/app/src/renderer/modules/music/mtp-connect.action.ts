@@ -6,14 +6,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { MusicEvent } from "Renderer/modules/music/event.enum"
 import { mtpConnectRequest } from "Renderer/modules/music/mtp-connect.request"
+import { setState } from "Renderer/modules/music/base.action"
 
 export const mtpConnect = createAsyncThunk<void, void>(
   MusicEvent.MtpConnect,
   // async (_, { getState, dispatch, rejectWithValue }) => {
-  async () => {
+  async (_, {dispatch}) => {
     // const state = getState() as RootState & ReduxRootState
-    await mtpConnectRequest()
-    console.log("mtpConnect action: ", )
+    const files = await mtpConnectRequest()
+    dispatch(setState({ files }))
 
     return
   }

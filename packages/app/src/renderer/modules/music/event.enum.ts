@@ -4,5 +4,6 @@
  */
 
 export enum MusicEvent {
+  SetState = "SET_STATE",
   MtpConnect = "MTP_CONNECT",
 }

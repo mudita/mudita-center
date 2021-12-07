@@ -13,13 +13,13 @@ import {
 } from "Renderer/components/core/button/button.config"
 import { ReduxRootState, RootState, TmpDispatch } from "Renderer/store"
 import { mtpConnect } from "Renderer/modules/music/mtp-connect.action"
-import { MusicState } from "Renderer/modules/music/music.reducer"
+import { MusicState, ResultState } from "Renderer/modules/music/music.reducer"
 
-interface Props extends Pick<MusicState, "files"> {
+interface Props extends Pick<MusicState, "files" | "state"> {
   mtpConnect: () => void
 }
 
-const Music: FunctionComponent<Props> = ({ mtpConnect, files }) => (
+const Music: FunctionComponent<Props> = ({ mtpConnect, files, state }) => (
   <div>
     <Button
       displayStyle={DisplayStyle.Primary}
@@ -27,6 +27,7 @@ const Music: FunctionComponent<Props> = ({ mtpConnect, files }) => (
       label={"MTP Connect"}
       onClick={mtpConnect}
     />
+    {state === ResultState.Loading && <div>Loading...</div>}
     {files.map((file) => {
       const value = JSON.stringify(file)
       return <div key={value}>{value}</div>
@@ -36,6 +37,7 @@ const Music: FunctionComponent<Props> = ({ mtpConnect, files }) => (
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   files: state.music.files,
+  state: state.music.state,
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
