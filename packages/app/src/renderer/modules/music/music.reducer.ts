@@ -21,6 +21,7 @@ export enum ResultState {
 
 export interface MusicState {
   state: ResultState
+  downloadState: ResultState
   files: FileInformation[]
 }
 
@@ -31,6 +32,7 @@ export type SetStateAction = PayloadAction<
 
 export const initialState: MusicState = {
   state: ResultState.Empty,
+  downloadState: ResultState.Empty,
   files: [],
 }
 
@@ -54,6 +56,25 @@ export const musicReducer = createReducer<MusicState>(
         return {
           ...state,
           state: ResultState.Error,
+        }
+      })
+
+      .addCase(pendingAction(MusicEvent.DownloadFile), (state) => {
+        return {
+          ...state,
+          downloadState: ResultState.Loading,
+        }
+      })
+      .addCase(fulfilledAction(MusicEvent.DownloadFile), (state) => {
+        return {
+          ...state,
+          downloadState: ResultState.Loaded,
+        }
+      })
+      .addCase(rejectedAction(MusicEvent.DownloadFile), (state) => {
+        return {
+          ...state,
+          downloadState: ResultState.Error
         }
       })
 

@@ -4,5 +4,6 @@
  */
 
 export enum MusicError {
-  MtpConnect = "MTP_CONNECT",
+  MtpConnect = "MUSIC_MTP_CONNECT",
+  DownloadFile = "MUSIC_DOWNLOAD_FILE",
 }

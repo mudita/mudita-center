@@ -4,6 +4,7 @@
  */
 
 export enum MusicEvent {
-  SetState = "SET_STATE",
-  MtpConnect = "MTP_CONNECT",
+  SetState = "MUSIC_SET_STATE",
+  MtpConnect = "MUSIC_MTP_CONNECT",
+  DownloadFile = "MUSIC_DOWNLOAD_FILE",
 }

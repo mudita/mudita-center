@@ -36,6 +36,7 @@ export interface AppSettings extends Record<string, any> {
   appConversionFormat: ConversionFormat
   appTray: boolean
   pureOsBackupLocation: string
+  pureFilesLocation: string
   pureOsDownloadLocation: string
   language: string
   pureNeverConnected: boolean

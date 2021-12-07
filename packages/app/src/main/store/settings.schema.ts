@@ -65,6 +65,15 @@ const settingsSchema: Schema<AppSettings> = {
       "backups"
     ),
   },
+  pureFilesLocation: {
+    type: "string",
+    default: path.join(
+      app.getPath("appData"),
+      name,
+      "pure",
+      "mtp"
+    ),
+  },
   pureOsDownloadLocation: {
     type: "string",
     default: path.join(app.getPath("appData"), name, "pure", "os", "downloads"),

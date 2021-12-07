@@ -10,6 +10,7 @@ import { IpcMusic } from "Renderer/modules/music/ipc-event.enum"
 import logger from "App/main/utils/logger"
 
 export interface FileInformation {
+  id: string,
   fileName: string,
   // size: number
 }
@@ -23,6 +24,7 @@ const getFileInformation = async (mtp: Mtp, handleId: number): Promise<FileInfor
 
   return {
     fileName,
+    id: String(handleId),
     // size: Number(size)
     // size: Number(0)
   }

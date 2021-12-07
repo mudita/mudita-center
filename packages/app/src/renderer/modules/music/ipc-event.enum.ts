@@ -5,4 +5,5 @@
 
 export enum IpcMusic {
   MtpConnect = "music-mtp-connect",
+  DownloadFile = "music-download-file",
 }
