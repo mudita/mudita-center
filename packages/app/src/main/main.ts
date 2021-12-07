@@ -83,6 +83,7 @@ import {
   registerMetadataGetValueListener,
   registerMetadataSetValueListener,
 } from "App/metadata"
+import { registerMtpConnectListener } from "Renderer/modules/music/mtp-connect.listener"
 
 require("dotenv").config()
 
@@ -179,6 +180,7 @@ const createWindow = async () => {
   registerMetadataAllGetValueListener()
   registerMetadataGetValueListener()
   registerMetadataSetValueListener()
+  registerMtpConnectListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)
