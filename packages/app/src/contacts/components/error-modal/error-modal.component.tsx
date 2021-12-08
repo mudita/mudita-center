@@ -3,17 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Modal from "Renderer/components/core/modal/modal.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
-import { ErrorModalProps } from "App/contacts/components/error-modal/error-modal.interface"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import styled from "styled-components"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const ModalContent = styled.div`
   display: flex;
@@ -32,14 +31,19 @@ const ModalContent = styled.div`
     margin-top: 1.2rem;
   }
 `
+interface Props extends ComponentProps<typeof ModalDialog> {
+  title: string
+  subtitle?: string
+  body?: string
+}
 
-const ErrorModal: FunctionComponent<ErrorModalProps> = ({
+const ErrorModal: FunctionComponent<Props> = ({
   title,
   subtitle,
   body,
   ...rest
 }) => (
-  <Modal title={title} size={ModalSize.Small} {...rest}>
+  <ModalDialog title={title} size={ModalSize.Small} {...rest}>
     <ModalContent>
       <RoundIconWrapper>
         <Icon type={Type.Fail} width={5} />
@@ -55,7 +59,7 @@ const ErrorModal: FunctionComponent<ErrorModalProps> = ({
         </ModalText>
       )}
     </ModalContent>
-  </Modal>
+  </ModalDialog>
 )
 
 export default ErrorModal

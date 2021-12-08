@@ -3,10 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
-import Modal, {
-  ModalProps,
-} from "Renderer/components/core/modal/modal.component"
+import React, { ComponentProps } from "react"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
@@ -20,6 +17,7 @@ import StackedBarChart, {
   DisplayStyle,
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   title: {
@@ -51,18 +49,20 @@ const Content = styled.div`
   padding: 2rem 2rem 0;
 `
 
-export interface ImportingContactsModalProps extends ModalProps {
+export interface ImportingContactsModalProps
+  extends ComponentProps<typeof ModalDialog> {
   count: number
   total: number
 }
 
 const ImportingContactsModal: FunctionComponent<ImportingContactsModalProps> =
-  ({ count, total }) => (
-    <Modal
+  ({ count, total, ...props }) => (
+    <ModalDialog
       size={ModalSize.Small}
       title={intl.formatMessage(messages.title)}
       closeable={false}
       closeButton={false}
+      {...props}
     >
       <Content>
         <RoundIconWrapper>
@@ -87,7 +87,7 @@ const ImportingContactsModal: FunctionComponent<ImportingContactsModalProps> =
           {Math.round((count * 100) / total)}%
         </Info>
       </Content>
-    </Modal>
+    </ModalDialog>
   )
 
 export default ImportingContactsModal

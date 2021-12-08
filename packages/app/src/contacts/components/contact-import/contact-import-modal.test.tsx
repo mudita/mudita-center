@@ -117,8 +117,9 @@ const renderer = (extraProps?: {}) => {
   return renderWithThemeAndIntl(
     <ContactImportModal
       contacts={contacts}
-      onActionButtonClick={noop}
+      handleActionButtonClick={noop}
       modalType={ModalType.Select}
+      open
       {...extraProps}
     />
   )
@@ -136,10 +137,10 @@ describe("Action button", () => {
   })
 
   test("should be called with correct payload", () => {
-    const onActionButtonClick = jest.fn()
-    const { getByTestId } = renderer({ onActionButtonClick })
+    const handleActionButtonClick = jest.fn()
+    const { getByTestId } = renderer({ handleActionButtonClick })
     getByTestId(ModalTestIds.ModalActionButton).click()
-    expect(onActionButtonClick).toBeCalledWith(contacts)
+    expect(handleActionButtonClick).toBeCalledWith(contacts)
   })
 })
 

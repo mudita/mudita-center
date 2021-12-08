@@ -3,10 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useRef } from "react"
-import Modal, {
-  ModalProps,
-} from "Renderer/components/core/modal/modal.component"
+import React, { useRef, ComponentProps } from "react"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
@@ -24,6 +21,7 @@ import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-
 import { defineMessages } from "react-intl"
 import { IconSize } from "App/renderer/components/core/icon/icon.component"
 import GoogleButton from "react-google-button"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   title: {
@@ -46,19 +44,20 @@ const messages = defineMessages({
   },
 })
 
-interface SyncContactsModal extends ModalProps {
+interface Props extends ComponentProps<typeof ModalDialog> {
   onGoogleButtonClick: () => void
   onOutlookButtonClick: () => void
   onAppleButtonClick?: () => void
   onManualImportClick: (inputElement: HTMLInputElement) => void
 }
 
-const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
+const SyncContactsModal: FunctionComponent<Props> = ({
   onClose = noop,
   onAppleButtonClick,
   onOutlookButtonClick,
   onGoogleButtonClick,
   onManualImportClick,
+  ...props
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -69,11 +68,12 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
   }
 
   return (
-    <Modal
+    <ModalDialog
       size={ModalSize.Small}
       title={intl.formatMessage(messages.title)}
       closeButton={false}
       onClose={onClose}
+      {...props}
     >
       <ModalText
         displayStyle={TextDisplayStyle.MediumFadedLightText}
@@ -122,7 +122,7 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
           />
         </ButtonWrapper>
       </ButtonsContainer>
-    </Modal>
+    </ModalDialog>
   )
 }
 

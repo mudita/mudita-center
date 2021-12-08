@@ -10,7 +10,7 @@ import ImportingContactsModal, {
 } from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"
 
 const renderer = (
-  props: ImportingContactsModalProps = { count: 0, total: 0 }
+  props: ImportingContactsModalProps = { count: 0, total: 0, open: true }
 ) => {
   return renderWithThemeAndIntl(<ImportingContactsModal {...props} />)
 }
@@ -22,7 +22,7 @@ test("download icon is rendered properly", () => {
 })
 
 test("percentage value is displayed and calculated properly", () => {
-  const { getByText } = renderer({ count: 9, total: 10 })
+  const { getByText } = renderer({ count: 9, total: 10, open: true })
 
   expect(getByText("90%")).toBeInTheDocument()
 })
