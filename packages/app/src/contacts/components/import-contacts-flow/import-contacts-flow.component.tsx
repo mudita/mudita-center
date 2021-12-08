@@ -100,9 +100,11 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
         onManualImportClick={importFromFile}
         open={ImportContactsFlowState.Start === state}
         testId={ImportContactsFlowTestIds.Start}
+        closeModal={closeModal}
       />
       <DownloadContactsModal
         open={ImportContactsFlowState.Downloading === state}
+        closeModal={closeModal}
         testId={ImportContactsFlowTestIds.Downloading}
       />
       <InfoModal
@@ -114,6 +116,7 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
         actionButtonLabel={intl.formatMessage(messages.importingOkButton)}
         closeButton={false}
         onActionButtonClick={closeModal}
+        closeModal={closeModal}
         testId={ImportContactsFlowTestIds.SelectingEmpty}
       />
       {ImportContactsFlowState.Selecting === state && contacts.length > 0 && (
@@ -124,6 +127,7 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
           contacts={contacts}
           handleActionButtonClick={sendContactsToPhone}
           modalType={ModalType.Select}
+          closeModal={closeModal}
           testId={ImportContactsFlowTestIds.Selecting}
         />
       )}
@@ -131,12 +135,14 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
         open={ImportContactsFlowState.ParsingError === state}
         title={intl.formatMessage(messages.parsingFileErrorTitle)}
         body={intl.formatMessage(messages.parsingFileErrorBody)}
+        closeModal={closeModal}
         testId={ImportContactsFlowTestIds.ParsingError}
       />
       <ErrorModal
         open={ImportContactsFlowState.DownloadingError === state}
         title={intl.formatMessage(messages.downloadingErrorTitle)}
         body={intl.formatMessage(messages.downloadingErrorBody)}
+        closeModal={closeModal}
         testId={ImportContactsFlowTestIds.Start}
       />
       <ErrorModal
@@ -147,6 +153,7 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
         actionButtonLabel={intl.formatMessage(
           messages.authorizationFailedButton
         )}
+        closeModal={closeModal}
         testId={ImportContactsFlowTestIds.AuthorizationError}
       />
       <ImportingContactsModal
@@ -161,6 +168,7 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
           contacts={contacts}
           handleActionButtonClick={closeModal}
           modalType={ModalType.Success}
+          closeModal={closeModal}
           testId={ImportContactsFlowTestIds.Success}
         />
       )}
@@ -171,6 +179,7 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
           handleActionButtonClick={sendContactsToPhone}
           modalType={ModalType.Fail}
           successfulItemsCount={addedContactsCount}
+          closeModal={closeModal}
           testId={ImportContactsFlowTestIds.Failed}
         />
       )}
