@@ -21,12 +21,7 @@ import { RootModel } from "Renderer/models/models"
 import logger from "App/main/utils/logger"
 import e2eSettings from "Renderer/models/settings/e2e-settings.json"
 import { isToday } from "Renderer/utils/is-today"
-import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
-import { uploadFileRequest } from "App/uploader/requests/upload-file.request"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getApplicationConfiguration from "App/renderer/requests/get-application-configuration.request"
-import archiveFiles from "Renderer/requests/archive-files.request"
-import { attachedFileName } from "App/contact-support/requests/send-ticket.request"
 import { loadBackupData } from "App/backup/actions"
 import {
   checkAppForcedUpdateFlowToShow,
@@ -191,48 +186,13 @@ const settings = createModel<RootModel>({
           )
           return
         }
-        const deviceLogFilesResponse = await getDeviceLogFiles({
-          datePrefix: true,
-        })
 
-        if (
-          deviceLogFilesResponse.status !== DeviceResponseStatus.Ok ||
-          deviceLogFilesResponse.data === undefined
-        ) {
-          logger.error(
-            `Send Diagnostic Data: fetch device logs fail. Message: ${deviceLogFilesResponse.error?.message}.`
-          )
-          return
-        }
+        logger.info(
+          `Send Diagnostic Data: skipped until the diagnostic data and storage system will be refined`
+        )
 
-        const buffer = await archiveFiles({
-          files: deviceLogFilesResponse.data,
-        })
-
-        if (buffer === undefined) {
-          logger.error(`Send Diagnostic Data: archives files fail.`)
-          return
-        }
-
-        try {
-          const response = await uploadFileRequest({
-            buffer,
-            fileName: attachedFileName,
-            serialNumber,
-          })
-          if (!response) {
-            logger.error(
-              `Send Diagnostic Data: send diagnostic data request. Status: ${status}`
-            )
-          }
-          const nowTimestamp = Date.now()
-          await dispatch.settings.setDiagnosticSentTimestamp(nowTimestamp)
-          logger.info(
-            `Send Diagnostic Data: data was sent successfully at ${nowTimestamp}, serialNumber: ${serialNumber}`
-          )
-        } catch {
-          logger.error(`Send Diagnostic Data: send diagnostic data request.`)
-        }
+        const nowTimestamp = Date.now()
+        await dispatch.settings.setDiagnosticSentTimestamp(nowTimestamp)
       },
       setAppLatestVersion(appLatestVersion: string) {
         dispatch.settings.update({ appLatestVersion })

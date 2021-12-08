@@ -5,13 +5,21 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { Event } from "App/crash-dump/constants"
-import { uploadFileRequest } from "App/uploader"
-import readFile from "App/file-system/requests/read-file.request"
 import { ReduxRootState } from "App/renderer/store"
 import { SendingCrashDumpError } from "App/crash-dump/errors"
 import { DeviceConnectionError } from "App/device"
 import { removeFile } from "App/device-file-system"
 import { resetCrashDump } from "App/crash-dump/actions/base.action"
+import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
+import {
+  FreshdeskTicketData,
+  FreshdeskTicketDataType,
+} from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
+import createFile from "Renderer/utils/create-file/create-file"
+
+const mapToAttachments = (paths: string[]): File[] => {
+  return paths.map((path) => createFile(path))
+}
 
 export const sendCrashDumpData = createAsyncThunk(
   Event.SendCrashDump,
@@ -28,34 +36,31 @@ export const sendCrashDumpData = createAsyncThunk(
       )
     }
 
-    for await (const path of state.crashDump.data.downloadedFiles) {
-      const fileName = path.split("/").pop()
-      const buffer = await readFile(path)
+    const attachments = mapToAttachments(state.crashDump.data.downloadedFiles)
 
-      if (buffer === undefined) {
-        return
-      }
-
-      try {
-        await uploadFileRequest({
-          buffer,
-          fileName: `${new Date().getTime()}-${fileName}`,
-          serialNumber: state.device.data.serialNumber,
-        })
-
-        await dispatch(removeFile(state.crashDump.data.files[0]))
-        await dispatch(resetCrashDump())
-
-        return
-      } catch (error) {
-        return rejectWithValue(
-          new SendingCrashDumpError(
-            "The error happened during crash dump sending process",
-            error
-          )
-        )
-      }
+    const data: FreshdeskTicketData = {
+      type: FreshdeskTicketDataType.Problem,
+      subject: "Error - Crash dump",
+      serialNumber: state.device.data.serialNumber,
+      attachments,
     }
+
+    try {
+      await createFreshdeskTicket(data)
+    } catch (error) {
+      return rejectWithValue(
+        new SendingCrashDumpError(
+          "The error happened during crash dump sending process",
+          error
+        )
+      )
+    }
+
+    for await (const path of state.crashDump.data.files) {
+      await dispatch(removeFile(path))
+    }
+
+    await dispatch(resetCrashDump())
 
     return
   }
