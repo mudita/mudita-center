@@ -24,7 +24,6 @@ import { timeout } from "../timeout"
 class BaseDevice implements MuditaDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
-  #portBlocked = false
   #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
   constructor(public path: string, public deviceType: DeviceType) {}
@@ -82,7 +81,7 @@ class BaseDevice implements MuditaDevice {
   public request(config: RequestConfig): Promise<Response<{ version: number }>>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
-    if (this.#port === undefined || this.#portBlocked) {
+    if (this.#port === undefined) {
       return { status: ResponseStatus.ConnectionError }
     } else {
       return this.writeRequest(this.#port, config)
