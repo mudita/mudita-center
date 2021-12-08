@@ -143,7 +143,7 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
         title={intl.formatMessage(messages.downloadingErrorTitle)}
         body={intl.formatMessage(messages.downloadingErrorBody)}
         closeModal={closeModal}
-        testId={ImportContactsFlowTestIds.Start}
+        testId={ImportContactsFlowTestIds.DownloadingError}
       />
       <ErrorModal
         open={ImportContactsFlowState.AuthorizationError === state}
