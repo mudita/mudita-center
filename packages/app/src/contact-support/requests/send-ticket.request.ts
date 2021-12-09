@@ -13,6 +13,8 @@ import {
   FreshdeskTicketData,
   FreshdeskTicketDataType,
 } from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
+import downloadDeviceFile from "Renderer/requests/download-device-file.request"
+import { DiagnosticsFilePath } from "@mudita/pure"
 
 export enum CreateBugTicketResponseStatus {
   Ok = "ok",
@@ -44,9 +46,17 @@ const sendTicketRequest = async (
 
   const { data: deviceLogFiles = [] } = await getDeviceLogFiles()
 
-  const buffer = await archiveFiles({
-    files: [...deviceLogFiles, appLogFile],
-  })
+  const { data: deviceUpdaterLogFile } = await downloadDeviceFile(
+    DiagnosticsFilePath.UPDATER_LOG
+  )
+
+  const files = [...deviceLogFiles, appLogFile]
+
+  if (deviceUpdaterLogFile !== undefined) {
+    files.push(deviceUpdaterLogFile)
+  }
+
+  const buffer = await archiveFiles({ files })
 
   if (buffer === undefined) {
     return returnResponseError("Create Bug Ticket - ArchiveFiles error")
