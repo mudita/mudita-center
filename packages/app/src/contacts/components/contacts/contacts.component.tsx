@@ -405,11 +405,11 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const showContactsImportingModal = () => {
     setImportContactsFlowState(ImportContactsFlowState.Importing)
   }
-
+  // Synchronization, step 6: import summary handling
   const showSuccessfulFinishedModalFlow = () => {
     setImportContactsFlowState(ImportContactsFlowState.Success)
   }
-  // Synchronization, step 6: import summary / failure handling
+  // Synchronization, step 6: import failure handling
   const showFailedFinishedModalFlow = () => {
     setImportContactsFlowState(ImportContactsFlowState.Failed)
   }
@@ -535,7 +535,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     <>
       {importContactsFlowState && (
         <ImportContactsFlow
-          openState={importContactsFlowState}
+          state={importContactsFlowState}
           contacts={importedContacts}
           closeModal={closeImportContactsModalFlow}
           authorizeAtGoogle={authorizeAtGoogle}

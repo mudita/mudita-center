@@ -31,7 +31,6 @@ import { createFullNameStartingFromLastName } from "App/contacts/store/contacts.
 import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 import { ModalIcon } from "Renderer/components/core/modal-shared/modal-shared"
-import { flags, Feature } from "App/feature-flags"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
@@ -82,15 +81,16 @@ export enum ModalType {
   Select,
 }
 
-interface Props extends ComponentProps<typeof ModalDialog> {
-  handleActionButtonClick: (contacts: NewContact[]) => void
+interface Props
+  extends Omit<ComponentProps<typeof ModalDialog>, "onActionButtonClick"> {
+  onActionButtonClick: (contacts: NewContact[]) => void
   contacts: NewContact[]
   modalType: ModalType
   successfulItemsCount?: number
 }
 
 const ContactImportModal: FunctionComponent<Props> = ({
-  handleActionButtonClick,
+  onActionButtonClick,
   contacts = [],
   modalType,
   successfulItemsCount,
@@ -151,7 +151,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
     )
   }
 
-  const handleButtonClick = () => handleActionButtonClick(selectedRows)
+  const handleButtonClick = () => onActionButtonClick(selectedRows)
 
   const sortedContacts = contacts.sort((a, b) => {
     const lastNameA = a.lastName || a.firstName || ""
@@ -234,19 +234,15 @@ const ContactImportModal: FunctionComponent<Props> = ({
                 data-testid={ContactImportModalTestIds.ToggleAllCheckbox}
               />
             )}
-            {flags.get(Feature.NumberOfContactsToImport) ? (
-              <Text
-                message={{
-                  ...messages.importingListTitle,
-                  values: { number: contacts.length },
-                }}
-                displayStyle={TextDisplayStyle.MediumFadedLightText}
-              />
-            ) : (
-              <div>Contacts</div>
-            )}
+            <Text
+              message={{
+                ...messages.importingListTitle,
+                values: { number: contacts.length },
+              }}
+              displayStyle={TextDisplayStyle.MediumFadedLightText}
+            />
           </Col>
-          {flags.get(Feature.NumberOfContactsToImport) ? (
+          {[ModalType.Select].includes(modalType) && (
             <SelectedText
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid={ContactImportModalTestIds.SelectedText}
@@ -255,8 +251,6 @@ const ContactImportModal: FunctionComponent<Props> = ({
                 messages.importingListSelected
               )}`}
             </SelectedText>
-          ) : (
-            <Col />
           )}
           <Col />
         </Labels>

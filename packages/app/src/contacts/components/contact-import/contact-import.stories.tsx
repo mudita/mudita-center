@@ -18,7 +18,7 @@ storiesOf("Views|Contacts/Modals", module)
       <ModalWrapper>
         <ContactImportModal
           contacts={contactsSeedInput}
-          handleActionButtonClick={noop}
+          onActionButtonClick={noop}
           modalType={ModalType.Select}
           open
         />
@@ -30,7 +30,7 @@ storiesOf("Views|Contacts/Modals", module)
       <ModalWrapper>
         <ContactImportModal
           contacts={contactsSeedInput}
-          handleActionButtonClick={noop}
+          onActionButtonClick={noop}
           modalType={ModalType.Success}
           open
         />
@@ -42,7 +42,7 @@ storiesOf("Views|Contacts/Modals", module)
       <ModalWrapper>
         <ContactImportModal
           contacts={contactsSeedInput}
-          handleActionButtonClick={noop}
+          onActionButtonClick={noop}
           modalType={ModalType.Fail}
           successfulItemsCount={3}
           open

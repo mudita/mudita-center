@@ -89,7 +89,7 @@ describe("`ImportContactsFlow` component", () => {
 
   describe("when downloading contacts", () => {
     const extraProps: Partial<Props> = {
-      openState: ImportContactsFlowState.Downloading,
+      state: ImportContactsFlowState.Downloading,
     }
     test("DownloadContactsModal should be displayed", () => {
       const { queryByTestId } = render(extraProps)
@@ -130,7 +130,7 @@ describe("`ImportContactsFlow` component", () => {
   describe("when selecting contacts", () => {
     test("ContactImportModal should be displayed if there are some contacts", () => {
       const extraProps: Partial<Props> = {
-        openState: ImportContactsFlowState.Selecting,
+        state: ImportContactsFlowState.Selecting,
       }
       const { queryByTestId } = render(extraProps)
 
@@ -168,7 +168,7 @@ describe("`ImportContactsFlow` component", () => {
 
     test("InfoModal should be displayed if there are no contacts", () => {
       const extraProps: Partial<Props> = {
-        openState: ImportContactsFlowState.Selecting,
+        state: ImportContactsFlowState.Selecting,
         contacts: [],
       }
       const { queryByTestId } = render(extraProps)
@@ -209,7 +209,7 @@ describe("`ImportContactsFlow` component", () => {
   describe("when finish import", () => {
     test("with success", () => {
       const extraProps: Partial<Props> = {
-        openState: ImportContactsFlowState.Success,
+        state: ImportContactsFlowState.Success,
       }
       const { queryByTestId } = render(extraProps)
 
@@ -246,7 +246,7 @@ describe("`ImportContactsFlow` component", () => {
     })
     test("failed", () => {
       const extraProps: Partial<Props> = {
-        openState: ImportContactsFlowState.Failed,
+        state: ImportContactsFlowState.Failed,
       }
       const { queryByTestId } = render(extraProps)
 
@@ -285,7 +285,7 @@ describe("`ImportContactsFlow` component", () => {
   describe("when error occured", () => {
     test("while parsing", () => {
       const extraProps: Partial<Props> = {
-        openState: ImportContactsFlowState.ParsingError,
+        state: ImportContactsFlowState.ParsingError,
       }
       const { queryByTestId } = render(extraProps)
 
@@ -322,7 +322,7 @@ describe("`ImportContactsFlow` component", () => {
     })
     test("while downloading", () => {
       const extraProps: Partial<Props> = {
-        openState: ImportContactsFlowState.DownloadingError,
+        state: ImportContactsFlowState.DownloadingError,
       }
       const { queryByTestId } = render(extraProps)
 
@@ -359,7 +359,7 @@ describe("`ImportContactsFlow` component", () => {
     })
     test("while authorization", () => {
       const extraProps: Partial<Props> = {
-        openState: ImportContactsFlowState.AuthorizationError,
+        state: ImportContactsFlowState.AuthorizationError,
       }
       const { queryByTestId } = render(extraProps)
 

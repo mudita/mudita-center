@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, useEffect, useState } from "react"
+import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import { NewContact } from "App/contacts/store/contacts.type"
@@ -65,7 +65,7 @@ export enum ImportContactsFlowState {
 }
 
 interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
-  openState?: ImportContactsFlowState
+  state?: ImportContactsFlowState
   contacts: NewContact[]
   authorizeAtGoogle: () => Promise<void>
   authorizeAtOutLook: () => Promise<void>
@@ -77,7 +77,7 @@ interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
 }
 
 const ImportContactsFlow: FunctionComponent<Props> = ({
-  openState = ImportContactsFlowState.Start,
+  state = ImportContactsFlowState.Start,
   contacts,
   addedContactsCount,
   authorizeAtGoogle,
@@ -87,11 +87,6 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
   closeModal,
   retryImport,
 }) => {
-  const [state, setState] = useState<ImportContactsFlowState>(openState)
-  useEffect(() => {
-    setState(openState)
-  }, [openState])
-
   return (
     <>
       <SyncContactsModal
@@ -125,7 +120,7 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
             ImportContactsFlowState.Selecting === state && contacts.length > 0
           }
           contacts={contacts}
-          handleActionButtonClick={sendContactsToPhone}
+          onActionButtonClick={sendContactsToPhone}
           modalType={ModalType.Select}
           closeModal={closeModal}
           testId={ImportContactsFlowTestIds.Selecting}
@@ -166,7 +161,7 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
         <ContactImportModal
           open={ImportContactsFlowState.Success === state}
           contacts={contacts}
-          handleActionButtonClick={closeModal}
+          onActionButtonClick={closeModal}
           modalType={ModalType.Success}
           closeModal={closeModal}
           testId={ImportContactsFlowTestIds.Success}
@@ -176,7 +171,7 @@ const ImportContactsFlow: FunctionComponent<Props> = ({
         <ContactImportModal
           open={ImportContactsFlowState.Failed === state}
           contacts={contacts}
-          handleActionButtonClick={sendContactsToPhone}
+          onActionButtonClick={sendContactsToPhone}
           modalType={ModalType.Fail}
           successfulItemsCount={addedContactsCount}
           closeModal={closeModal}
