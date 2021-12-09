@@ -14,6 +14,7 @@ const renderer = (extraProps?: {}) => {
     onGoogleButtonClick: jest.fn(),
     onManualImportClick: jest.fn(),
     onOutlookButtonClick: jest.fn(),
+    open: true,
     ...extraProps,
   }
   return renderWithThemeAndIntl(<SyncContactsModal {...props} />)

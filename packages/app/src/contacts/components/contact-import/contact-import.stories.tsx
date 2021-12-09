@@ -20,6 +20,7 @@ storiesOf("Views|Contacts/Modals", module)
           contacts={contactsSeedInput}
           onActionButtonClick={noop}
           modalType={ModalType.Select}
+          open
         />
       </ModalWrapper>
     )
@@ -31,6 +32,7 @@ storiesOf("Views|Contacts/Modals", module)
           contacts={contactsSeedInput}
           onActionButtonClick={noop}
           modalType={ModalType.Success}
+          open
         />
       </ModalWrapper>
     )
@@ -43,6 +45,7 @@ storiesOf("Views|Contacts/Modals", module)
           onActionButtonClick={noop}
           modalType={ModalType.Fail}
           successfulItemsCount={3}
+          open
         />
       </ModalWrapper>
     )
