@@ -17,7 +17,7 @@ import MuditaDeviceManager, {
 } from "@mudita/pure"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import DeviceFileSystemService, {
-  DeviceFileDeprecated,
+  DeviceFile,
 } from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 
@@ -90,7 +90,7 @@ test("GetDeviceLogs request works properly", (done) => {
     purePhone,
   } as unknown as Adapters)
   const [promise] = (ipcMain as any)._flush(IpcRequest.GetDeviceLogFiles)
-  promise.then((result: DeviceResponse<DeviceFileDeprecated[]>) => {
+  promise.then((result: DeviceResponse<DeviceFile[]>) => {
     expect(result).toMatchInlineSnapshot(`
       Object {
         "data": Array [

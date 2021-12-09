@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceFileDeprecated } from "Backend/device-file-system-service/device-file-system-service"
+import { ArchiveFile } from "App/main/functions/register-archive-files-listener"
 import { formatDate } from "Renderer/utils/format-date"
 import getAppLogs from "Renderer/requests/get-app-logs.request"
 import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
@@ -37,7 +37,7 @@ const sendTicketRequest = async (
 ): Promise<CreateBugTicketResponse> => {
   const mcFileName = `mc-${todayFormatDate}.txt`
   const appLogs = await getAppLogs()
-  const appLogFile: DeviceFileDeprecated = {
+  const appLogFile: ArchiveFile = {
     data: appLogs,
     name: mcFileName,
   }

@@ -18,10 +18,7 @@ import {
   MuditaDevice,
   StartBackupResponseBody,
 } from "@mudita/pure"
-import {
-  DeviceFile,
-  DeviceFileDeprecated,
-} from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 
 class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {
@@ -101,9 +98,7 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async getDeviceLogFiles(): Promise<
-    DeviceResponse<DeviceFileDeprecated[]>
-  > {
+  public async getDeviceLogFiles(): Promise<DeviceResponse<DeviceFile[]>> {
     return {
       status: DeviceResponseStatus.Ok,
       data: [],

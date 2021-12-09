@@ -15,13 +15,13 @@ import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
 import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import mockCreateFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
 import { FreshdeskTicketData } from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
-import { DeviceFileDeprecated } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 
-const successGetDeviceLogsResponse: DeviceResponse<DeviceFileDeprecated[]> = {
+const successGetDeviceLogsResponse: DeviceResponse<DeviceFile[]> = {
   status: DeviceResponseStatus.Ok,
   data: [],
 }
-const errorGetDeviceLogsResponse: DeviceResponse<DeviceFileDeprecated[]> = {
+const errorGetDeviceLogsResponse: DeviceResponse<DeviceFile[]> = {
   status: DeviceResponseStatus.Error,
 }
 
