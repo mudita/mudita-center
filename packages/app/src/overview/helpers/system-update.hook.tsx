@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useState } from "react"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType, DiagnosticsFilePath } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
 import { useDispatch, useSelector } from "react-redux"
 import modalService from "Renderer/components/core/modal/modal.service"
@@ -48,6 +48,7 @@ import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { errorCodeMap } from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
 import { setOsVersionData } from "App/device"
 import { ReduxRootState } from "App/renderer/store"
+import { removeFileRequest } from "App/device-file-system/requests"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -324,6 +325,7 @@ const useSystemUpdateFlow = (
 
     toggleDeviceUpdating(true)
 
+    await removeFileRequest(DiagnosticsFilePath.UPDATER_LOG)
     const response = await updateOs(file.name, IpcEmitter.OsUpdateProgress)
 
     if (response.status === DeviceResponseStatus.Ok) {
