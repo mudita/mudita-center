@@ -19,12 +19,12 @@ export const FormInput = styled(InputComponent)`
 
 export const FieldWrapper = styled.div`
   position: relative;
-  margin-bottom: 1.4rem;
+  margin-bottom: 3.6rem;
 `
 
 export const IconWrapper = styled.div`
   position: absolute;
-  top: 0;
+  top: -1rem;
   right: 0;
   display: flex;
   align-items: center;

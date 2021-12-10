@@ -11,7 +11,7 @@ import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-cont
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import {
   DisplayStyle,
   Type,
@@ -71,12 +71,22 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   padding: 0 0.8rem;
+  min-height: 21.4rem;
 `
 
 const ButtonWrapper = styled.div`
-  margin-top: 5.6rem;
+  margin-top: auto;
   display: flex;
   justify-content: center;
+`
+const FirstPasswordField = styled(PasswordField)<{
+  errorMessage: string | undefined
+}>`
+  ${({ errorMessage }) =>
+    errorMessage &&
+    css`
+      margin-bottom: 1.6rem;
+    `};
 `
 
 const ButtonWithRotatingIcon = styled(Button)``
@@ -129,7 +139,7 @@ export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalP
           message={messages.backupSetSecretKeyModalDescription}
         />
         <Form onSubmit={handleSubmitClick}>
-          <PasswordField
+          <FirstPasswordField
             label={messages.backupSetSecretKeyModalInputLabel}
             errorMessage={errors[FieldKeys.SecretKey]?.message}
             {...register(FieldKeys.SecretKey, backupSecretKeyValidator)}

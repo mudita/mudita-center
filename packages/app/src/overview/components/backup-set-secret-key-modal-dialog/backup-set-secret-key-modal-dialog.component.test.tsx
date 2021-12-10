@@ -80,7 +80,7 @@ describe("validation works properly", () => {
     fireEvent.click(submitButton)
     await waitFor(() => {
       expect(
-        getByText("[value] component.formErrorTooShort")
+        getByText("[value] module.overview.backupSecretKeyValidation")
       ).toBeInTheDocument()
       expect(onSecretKeySet).not.toBeCalled()
     })
@@ -102,7 +102,7 @@ describe("validation works properly", () => {
     fireEvent.click(submitButton)
     await waitFor(() => {
       expect(
-        getByText("[value] module.overview.backupSecretKeyNumber")
+        getByText("[value] module.overview.backupSecretKeyValidation")
       ).toBeInTheDocument()
       expect(onSecretKeySet).not.toBeCalled()
     })
@@ -124,7 +124,7 @@ describe("validation works properly", () => {
     fireEvent.click(submitButton)
     await waitFor(() => {
       expect(
-        getByText("[value] module.overview.backupSecretKeyUppercase")
+        getByText("[value] module.overview.backupSecretKeyValidation")
       ).toBeInTheDocument()
       expect(onSecretKeySet).not.toBeCalled()
     })
@@ -146,7 +146,7 @@ describe("validation works properly", () => {
     fireEvent.click(submitButton)
     await waitFor(() => {
       expect(
-        getByText("[value] module.overview.backupSecretKeyLowercase")
+        getByText("[value] module.overview.backupSecretKeyValidation")
       ).toBeInTheDocument()
       expect(onSecretKeySet).not.toBeCalled()
     })

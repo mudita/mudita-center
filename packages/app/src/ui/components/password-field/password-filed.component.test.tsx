@@ -14,13 +14,12 @@ const renderPasswordField = (props: ComponentProps<typeof PasswordField>) =>
   renderWithThemeAndIntl(<PasswordField {...props} />)
 
 test("renders provided label", () => {
-  const { getByTestId } = renderPasswordField({
+  const { getByLabelText } = renderPasswordField({
     label: { id: "module.overview.backupSetSecretKeyModalInputLabel" },
   })
+  const inputLabel = "[value] module.overview.backupSetSecretKeyModalInputLabel"
 
-  expect(getByTestId(PasswordFieldTestIds.Label)).toHaveTextContent(
-    "[value] module.overview.backupSetSecretKeyModalInputLabel"
-  )
+  expect(getByLabelText(inputLabel)).toBeInTheDocument()
 })
 
 test("disable show/hide password functionality", () => {
