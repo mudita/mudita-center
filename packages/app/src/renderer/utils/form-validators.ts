@@ -8,6 +8,9 @@ import { intl } from "Renderer/utils/intl"
 
 export const phoneNumberRegexp = /^(\+?)(\d(\s?\d)+)$/im
 
+export const passwordRegexp =
+  /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+
 export const primaryPhoneNumberValidator = (
   fields: Record<any, any>
 ): RegisterOptions => ({
@@ -83,4 +86,49 @@ export const emailValidator: RegisterOptions = {
     message: intl.formatMessage({ id: "component.formErrorInvalidEmail" }),
   },
   required: intl.formatMessage({ id: "component.formErrorRequiredEmail" }),
+}
+
+export const backupSecretKeyValidator = {
+  required: {
+    value: true,
+    message: intl.formatMessage({
+      id: "module.overview.backupSecretKeyRequired",
+    }),
+  },
+  minLength: {
+    value: 8,
+    message: intl.formatMessage(
+      { id: "component.formErrorTooShort" },
+      { minLength: 8 }
+    ),
+  },
+  // pattern: {
+  //   value: passwordRegexp,
+  //   message: intl.formatMessage({
+  //     id: "component.formErrorNumbersAndSpacesOnly",
+  //   }),
+  // },
+  validate: (value: string): string | undefined => {
+    if (passwordRegexp.test(value)) {
+      return
+    } else if (value.search(/(?=.*[A-Z])/)) {
+      return intl.formatMessage({
+        id: "module.overview.backupSecretKeyUppercase",
+      })
+    } else if (value.search(/(?=.*\d)/)) {
+      return intl.formatMessage({ id: "module.overview.backupSecretKeyNumber" })
+    } else if (value.search(/(?=.*[!@#$^%&? "])/)) {
+      return intl.formatMessage({
+        id: "module.overview.backupSecretKeySpecialCharacter",
+      })
+    } else if (value.search(/(?=.*[a-z])/)) {
+      return intl.formatMessage({
+        id: "module.overview.backupSecretKeyLowercase",
+      })
+    }
+
+    return intl.formatMessage({
+      id: "module.overview.backupSecretKeyConfirmationDoesntMatch",
+    })
+  },
 }
