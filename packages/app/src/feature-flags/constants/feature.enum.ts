@@ -20,6 +20,5 @@ export enum Feature {
   MCVersion = "mc-version",
   DevelopOnly = "development-only",
   ProductionAndAlpha = "production-and-alpha",
-  NumberOfContactsToImport = "number-of-contacts-to-import",
   MessagesSearch = "messages-search",
 }

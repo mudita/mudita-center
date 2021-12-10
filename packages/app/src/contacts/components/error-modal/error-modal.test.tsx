@@ -3,15 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { ComponentProps } from "react"
 import ErrorModal from "App/contacts/components/error-modal/error-modal.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
-import { ErrorModalProps } from "App/contacts/components/error-modal/error-modal.interface"
 
-const renderModal = (extraProps?: Partial<ErrorModalProps>) => {
+type Props = ComponentProps<typeof ErrorModal>
+
+const renderModal = (extraProps?: Partial<Props>) => {
   const props = {
     title: "Title",
+    open: true,
     ...extraProps,
   }
   return renderWithThemeAndIntl(<ErrorModal {...props} />)

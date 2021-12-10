@@ -3,11 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Modal, {
-  ModalProps,
-} from "Renderer/components/core/modal/modal.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
@@ -15,6 +12,7 @@ import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import styled from "styled-components"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const ModalContent = styled.div`
   display: flex;
@@ -34,7 +32,7 @@ const ModalContent = styled.div`
   }
 `
 
-interface Props extends ModalProps {
+interface Props extends ComponentProps<typeof ModalDialog> {
   title: string
   subtitle?: string
   body?: string
@@ -46,7 +44,7 @@ const InfoModal: FunctionComponent<Props> = ({
   body,
   ...rest
 }) => (
-  <Modal title={title} size={ModalSize.Small} {...rest}>
+  <ModalDialog title={title} size={ModalSize.Small} {...rest}>
     <ModalContent>
       <RoundIconWrapper>
         <Icon type={Type.Info} width={5} />
@@ -62,7 +60,7 @@ const InfoModal: FunctionComponent<Props> = ({
         </ModalText>
       )}
     </ModalContent>
-  </Modal>
+  </ModalDialog>
 )
 
 export default InfoModal
