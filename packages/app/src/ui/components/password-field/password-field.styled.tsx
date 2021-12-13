@@ -24,7 +24,7 @@ export const FieldWrapper = styled.div`
 
 export const IconWrapper = styled.div`
   position: absolute;
-  top: -1rem;
+  top: -33%;
   right: 0;
   display: flex;
   align-items: center;
