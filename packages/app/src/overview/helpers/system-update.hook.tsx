@@ -41,7 +41,6 @@ import {
 } from "Backend/adapters/device-response.interface"
 import { isEqual } from "lodash"
 import logger from "App/main/utils/logger"
-import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-get-all-releases-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
@@ -324,7 +323,7 @@ const useSystemUpdateFlow = (
 
     toggleDeviceUpdating(true)
 
-    const response = await updateOs(file.name, IpcEmitter.OsUpdateProgress)
+    const response = await updateOs(file.name)
 
     if (response.status === DeviceResponseStatus.Ok) {
       modalService.rerenderModal(<UpdatingSpinnerModal />)
@@ -356,7 +355,7 @@ const useSystemUpdateFlow = (
       modalService.openModal(<UpdatingSuccessModal />, true)
     } else {
       logger.error(
-        `Overview: updating pure fails. Code: ${response.error?.code}`
+        `Overview: updating pure fails. Message: ${response.error?.message}`
       )
       displayErrorModal()
     }
