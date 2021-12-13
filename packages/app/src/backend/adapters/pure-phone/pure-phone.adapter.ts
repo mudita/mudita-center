@@ -33,16 +33,6 @@ import DeviceFileSystemService, {
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
 
-export enum DeviceUpdateError {
-  RestartTimedOut = "RestartTimedOut",
-  DeviceDisconnectionBeforeDone = "DeviceDisconnectionBeforeDone",
-}
-
-export const deviceUpdateErrorCodeMap: Record<DeviceUpdateError, number> = {
-  [DeviceUpdateError.RestartTimedOut]: 9900,
-  [DeviceUpdateError.DeviceDisconnectionBeforeDone]: 9901,
-}
-
 class PurePhone extends PurePhoneAdapter {
   static osUpdateStepsMax = 3
   static osUpdateRestartStep = PurePhone.osUpdateStepsMax - 1
