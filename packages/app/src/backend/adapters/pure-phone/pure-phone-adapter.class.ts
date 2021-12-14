@@ -48,10 +48,7 @@ export default abstract class PurePhoneAdapter {
   public abstract downloadDeviceCrashDumpFiles(): Promise<
     DeviceResponse<string[]>
   >
-  public abstract updateOs(
-    filePath: string,
-    progressChannel?: string
-  ): Promise<DeviceResponse>
+  public abstract updateOs(filePath: string): Promise<DeviceResponse>
   public abstract getCaseColour(): Promise<DeviceResponse<CaseColour>>
   public abstract getBackupLocation(): Promise<DeviceResponse<string>>
   public abstract startBackupDevice(): Promise<

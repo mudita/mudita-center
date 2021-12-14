@@ -436,6 +436,7 @@
   "module.overview.backupRestoredBackupModalTitle": "Restoration complete!",
   "module.overview.backupRestoringBackupModalTitle": "Restoring last backup...",
   "module.overview.backupSecretKeyConfirmationDoesntMatch": "Password doesn't match",
+  "module.overview.backupSecretKeyValidation": "Password should contain minimum 8 characters, including one capital letter, one special character, and one number.",
   "module.overview.backupSecretKeyRequired": "Password is required",
   "module.overview.backupSetConfirmationSecretKeyModalInputLabel": "Repeat password",
   "module.overview.backupSetSecretKeyModalDescription": "Enter a password to protect your backup. Note: You won’t be able to change the password.",

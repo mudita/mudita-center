@@ -23,7 +23,6 @@ import { createFullName } from "App/contacts/store/contacts.helpers"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { ContactSection } from "App/contacts/components/contacts/contacts.styled"
-import SyncContactsModal from "App/contacts/components/sync-contacts-modal/sync-contacts-modal.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
@@ -38,9 +37,6 @@ import {
 } from "Renderer/components/rest/data-modal/data.modals"
 import mapVCFsToContacts from "App/contacts/helpers/map-vcfs-to-contacts/map-vcfs-to-contacts"
 import logger from "App/main/utils/logger"
-import ContactImportModal, {
-  ModalType,
-} from "App/contacts/components/contact-import/contact-import-modal.component"
 import {
   ExternalService,
   FileService,
@@ -50,11 +46,11 @@ import {
   PhoneProps,
   FormError,
 } from "App/contacts/components/contacts/contacts.type"
-import ImportingContactsModal from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
-import ErrorModal from "App/contacts/components/error-modal/error-modal.component"
-import InfoModal from "App/contacts/components/info-modal/info-modal.component"
 import ContactSearchResults from "App/contacts/components/contact-search-results/contact-search-results.component"
+import ImportContactsFlow, {
+  ImportContactsFlowState,
+} from "App/contacts/components/import-contacts-flow/import-contacts-flow.component"
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -63,36 +59,6 @@ export const messages = defineMessages({
   deletingText: { id: "module.contacts.deletingText" },
   editingText: { id: "module.contacts.editingText" },
   downloadingText: { id: "module.contacts.downloadingText" },
-  downloadingErrorTitle: {
-    id: "module.contacts.downloadingErrorTitle",
-  },
-  downloadingErrorBody: {
-    id: "module.contacts.downloadingErrorBody",
-  },
-  authorizationFailedTitle: {
-    id: "module.contacts.authorizationFailedTitle",
-  },
-  authorizationFailedBody: {
-    id: "module.calendar.authorizationFailedBody",
-  },
-  authorizationFailedButton: {
-    id: "module.contacts.authorizationFailedButton",
-  },
-  parsingFileErrorTitle: {
-    id: "module.contacts.parsingFileErrorTitle",
-  },
-  parsingFileErrorBody: {
-    id: "module.contacts.parsingFileErrorBody",
-  },
-  importingTitle: {
-    id: "module.contacts.importingTitle",
-  },
-  importingNoDataDescription: {
-    id: "module.contacts.importingNoDataDescription",
-  },
-  importingOkButton: {
-    id: "component.okButton",
-  },
 })
 
 export const isContactMatching = (
@@ -412,15 +378,40 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     return () => unregisterItem()
   }, [parseShouldFail])
 
+  const [importContactsFlowState, setImportContactsFlowState] =
+    useState<ImportContactsFlowState>()
+  const [importedContacts, setImportedContacts] = useState<NewContact[]>([])
+  const [addedContactsCount, setAddedContactsCount] = useState<number>(0)
   // Synchronization, step 1: Show modal with action buttons
-  const showSynchronizationSourceSelectModal = () => {
-    modalService.openModal(
-      <SyncContactsModal
-        onGoogleButtonClick={authorizeAtGoogle}
-        onOutlookButtonClick={authorizeAtOutLook}
-        onManualImportClick={importFromFile}
-      />
-    )
+  const handleImportContacts = () => {
+    setImportContactsFlowState(ImportContactsFlowState.Start)
+  }
+
+  const closeImportContactsModalFlow = () => {
+    setImportContactsFlowState(undefined)
+  }
+  const showAuthorizaionFailedModal = () => {
+    setImportContactsFlowState(ImportContactsFlowState.AuthorizationError)
+  }
+  // Synchronization, step 3: data loading
+  const showDownloadingLoader = () => {
+    setImportContactsFlowState(ImportContactsFlowState.Downloading)
+  }
+  // Synchronization, step 4: selecting contacts
+  const showContactsSelectingModal = () => {
+    setImportContactsFlowState(ImportContactsFlowState.Selecting)
+  }
+
+  const showContactsImportingModal = () => {
+    setImportContactsFlowState(ImportContactsFlowState.Importing)
+  }
+  // Synchronization, step 6: import summary handling
+  const showSuccessfulFinishedModalFlow = () => {
+    setImportContactsFlowState(ImportContactsFlowState.Success)
+  }
+  // Synchronization, step 6: import failure handling
+  const showFailedFinishedModalFlow = () => {
+    setImportContactsFlowState(ImportContactsFlowState.Failed)
   }
 
   // Synchronization, step 2a: file select
@@ -445,119 +436,50 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       await authorize(provider)
       await getContacts({ type: provider })
     } catch {
-      await openAuthorizationFailedModal(provider)
+      await showAuthorizaionFailedModal()
     }
-  }
-
-  const openAuthorizationFailedModal = async (provider: Provider) => {
-    const retry = async () => {
-      await closeModal()
-      showSynchronizationSourceSelectModal()
-      authorizeAtProvider(provider)
-    }
-    await modalService.closeModal()
-    modalService.openModal(
-      <ErrorModal
-        title={intl.formatMessage(messages.authorizationFailedTitle)}
-        body={intl.formatMessage(messages.authorizationFailedBody)}
-        onActionButtonClick={retry}
-        actionButtonLabel={intl.formatMessage(
-          messages.authorizationFailedButton
-        )}
-      />
-    )
-  }
-
-  // Synchronization, step 3: data loading
-  const showSynchronizationInfiniteLoader = () => {
-    return delayResponse(
-      modalService.openModal(
-        <LoadingStateDataModal textMessage={messages.downloadingText} />,
-        true
-      )
-    )
   }
 
   const getContacts = async (service: ExternalService | FileService) => {
     const handleError = () => {
-      modalService.openModal(
-        <ErrorModal
-          title={intl.formatMessage(
-            service.type === "files"
-              ? messages.parsingFileErrorTitle
-              : messages.downloadingErrorTitle
-          )}
-          body={intl.formatMessage(
-            service.type === "files"
-              ? messages.parsingFileErrorBody
-              : messages.downloadingErrorBody
-          )}
-        />,
-        true
+      setImportContactsFlowState(
+        service.type === "files"
+          ? ImportContactsFlowState.ParsingError
+          : ImportContactsFlowState.DownloadingError
       )
     }
 
     try {
-      await showSynchronizationInfiniteLoader()
+      await showDownloadingLoader()
 
       if (parseShouldFail) {
         handleError()
         return
       }
+      setImportedContacts(
+        service.type === "files"
+          ? await mapVCFsToContacts(service.data)
+          : await loadContacts(service.type)
+      )
 
-      const contacts = await (service.type === "files"
-        ? mapVCFsToContacts(service.data)
-        : loadContacts(service.type))
-
-      showContactsSelectingModal(contacts)
+      showContactsSelectingModal()
     } catch (error) {
       handleError()
     }
   }
 
-  // Synchronization, step 4: selecting contacts
-  const showContactsSelectingModal = async (contacts: NewContact[]) => {
-    if (contacts.length === 0) {
-      modalService.openModal(
-        <InfoModal
-          title={intl.formatMessage(messages.importingTitle)}
-          body={intl.formatMessage(messages.importingNoDataDescription)}
-          onActionButtonClick={closeModal}
-          actionButtonLabel={intl.formatMessage(messages.importingOkButton)}
-          closeButton={false}
-        />,
-        true
-      )
-    } else {
-      modalService.openModal(
-        <ContactImportModal
-          contacts={contacts}
-          onActionButtonClick={sendContactsToPhone}
-          modalType={ModalType.Select}
-        />,
-        true
-      )
-    }
-  }
-
   // Synchronization, step 5: sending contacts to phone
   const sendContactsToPhone = async (contacts: NewContact[]) => {
-    await closeModal()
-    modalService.openModal(
-      <ImportingContactsModal count={0} total={contacts.length} />
-    )
+    setImportedContacts(contacts)
+    await showContactsImportingModal()
 
     const newContactResponses = await contacts.reduce(
       async (lastPromise, contact, index) => {
         const value = await lastPromise
         const error = await importContact(contact)
         const currentContactIndex = index + 1
-        modalService.rerenderModal(
-          <ImportingContactsModal
-            count={currentContactIndex}
-            total={contacts.length}
-          />
-        )
+        setAddedContactsCount(currentContactIndex)
+
         return [...value, { ...contact, successfullyAdded: !error }]
       },
       Promise.resolve<NewContactResponse[]>([])
@@ -569,46 +491,13 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     )
 
     const successfulItemsCount = contacts.length - failedNewContacts.length
-
     if (successfulItemsCount === contacts.length) {
-      await closeModal()
-      showSuccessfulFinishedSynchronizationModal(contacts)
+      showSuccessfulFinishedModalFlow()
     } else {
-      await closeModal()
-      showFailedFinishedSynchronizationModal(
-        failedNewContacts,
-        successfulItemsCount
-      )
+      setImportedContacts(failedNewContacts)
+      setAddedContactsCount(successfulItemsCount)
+      showFailedFinishedModalFlow()
     }
-  }
-
-  // Synchronization, step 6: import summary / failure handling
-  const showSuccessfulFinishedSynchronizationModal = async (
-    contacts: NewContact[]
-  ) => {
-    await closeModal()
-    modalService.openModal(
-      <ContactImportModal
-        contacts={contacts}
-        onActionButtonClick={closeModal}
-        modalType={ModalType.Success}
-      />
-    )
-  }
-
-  const showFailedFinishedSynchronizationModal = async (
-    contacts: NewContact[],
-    successfulItemsCount: number
-  ) => {
-    await closeModal()
-    modalService.openModal(
-      <ContactImportModal
-        contacts={contacts}
-        onActionButtonClick={sendContactsToPhone}
-        modalType={ModalType.Fail}
-        successfulItemsCount={successfulItemsCount}
-      />
-    )
   }
 
   const [showSearchResults, setShowSearchResults] = useState<boolean>(false)
@@ -643,92 +532,107 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   )
 
   return (
-    <ContactSection>
-      <ContactPanel
-        onContactSelect={handleContactSelect}
-        onManageButtonClick={showSynchronizationSourceSelectModal}
-        onNewButtonClick={handleAddingContact}
-        selectedContacts={selectedRows}
-        allItemsSelected={allRowsSelected}
-        toggleAll={toggleAll}
-        deleteContacts={deleteContacts}
-        resetRows={resetRows}
-        editMode={Boolean(editedContact || newContact)}
-        onSearchEnterClick={openSearchResults}
-        searchValue={searchValue}
-        onSearchValueChange={setSearchValue}
-        results={results}
-        showSearchResults={showSearchResults}
-      />
-      {showSearchResults ? (
-        <ContactSearchResults
-          results={results}
-          onSelect={handleContactSelect}
-          onExport={noop}
-          onForward={noop}
-          onUnblock={handleUnblock}
-          onBlock={openBlockModal}
-          onDelete={openDeleteModal}
-          resultsState={resultsState}
-          selectedContact={selectedContact}
-          {...rest}
+    <>
+      {importContactsFlowState && (
+        <ImportContactsFlow
+          state={importContactsFlowState}
+          contacts={importedContacts}
+          closeModal={closeImportContactsModalFlow}
+          authorizeAtGoogle={authorizeAtGoogle}
+          authorizeAtOutLook={authorizeAtOutLook}
+          importFromFile={importFromFile}
+          sendContactsToPhone={sendContactsToPhone}
+          retryImport={handleImportContacts}
+          addedContactsCount={addedContactsCount}
         />
-      ) : (
-        <TableWithSidebarWrapper>
-          <ContactList
-            activeRow={activeRow}
-            contactList={contactList}
-            onSelect={openSidebar}
+      )}
+      <ContactSection>
+        <ContactPanel
+          onContactSelect={handleContactSelect}
+          onManageButtonClick={handleImportContacts}
+          onNewButtonClick={handleAddingContact}
+          selectedContacts={selectedRows}
+          allItemsSelected={allRowsSelected}
+          toggleAll={toggleAll}
+          deleteContacts={deleteContacts}
+          resetRows={resetRows}
+          editMode={Boolean(editedContact || newContact)}
+          onSearchEnterClick={openSearchResults}
+          searchValue={searchValue}
+          onSearchValueChange={setSearchValue}
+          results={results}
+          showSearchResults={showSearchResults}
+        />
+        {showSearchResults ? (
+          <ContactSearchResults
+            results={results}
+            onSelect={handleContactSelect}
             onExport={noop}
             onForward={noop}
             onUnblock={handleUnblock}
             onBlock={openBlockModal}
             onDelete={openDeleteModal}
-            editMode={Boolean(editedContact || newContact)}
             resultsState={resultsState}
             selectedContact={selectedContact}
             {...rest}
           />
-          {newContact && (
-            <ContactEdit
-              contact={newContact as Contact}
-              speedDialChosenList={speedDialChosenList}
-              onCancel={cancelOrCloseContactHandler}
-              onSpeedDialSettingsOpen={openSpeedDialModal}
-              onSave={saveNewContact}
-              saving={savingContact}
-              validationError={formErrors}
-            />
-          )}
-          {editedContact && (
-            <ContactEdit
-              contact={editedContact}
-              speedDialChosenList={speedDialChosenList}
-              onCancel={cancelEditingContact}
-              onSpeedDialSettingsOpen={openSpeedDialModal}
-              onSave={saveEditedContact}
-              saving={savingContact}
-              validationError={formErrors}
-            />
-          )}
-          {detailsEnabled && (
-            <ContactDetails
-              contact={contactFreshData(activeRow as Contact)}
-              onClose={closeSidebar}
-              onExport={onExport}
+        ) : (
+          <TableWithSidebarWrapper>
+            <ContactList
+              activeRow={activeRow}
+              contactList={contactList}
+              onSelect={openSidebar}
+              onExport={noop}
               onForward={noop}
               onUnblock={handleUnblock}
               onBlock={openBlockModal}
               onDelete={openDeleteModal}
-              onEdit={handleEditingContact}
-              onCall={onCall}
-              onMessage={handleMessage}
-              isThreadOpened={isThreadOpened}
+              editMode={Boolean(editedContact || newContact)}
+              resultsState={resultsState}
+              selectedContact={selectedContact}
+              {...rest}
             />
-          )}
-        </TableWithSidebarWrapper>
-      )}
-    </ContactSection>
+            {newContact && (
+              <ContactEdit
+                contact={newContact as Contact}
+                speedDialChosenList={speedDialChosenList}
+                onCancel={cancelOrCloseContactHandler}
+                onSpeedDialSettingsOpen={openSpeedDialModal}
+                onSave={saveNewContact}
+                saving={savingContact}
+                validationError={formErrors}
+              />
+            )}
+            {editedContact && (
+              <ContactEdit
+                contact={editedContact}
+                speedDialChosenList={speedDialChosenList}
+                onCancel={cancelEditingContact}
+                onSpeedDialSettingsOpen={openSpeedDialModal}
+                onSave={saveEditedContact}
+                saving={savingContact}
+                validationError={formErrors}
+              />
+            )}
+            {detailsEnabled && (
+              <ContactDetails
+                contact={contactFreshData(activeRow as Contact)}
+                onClose={closeSidebar}
+                onExport={onExport}
+                onForward={noop}
+                onUnblock={handleUnblock}
+                onBlock={openBlockModal}
+                onDelete={openDeleteModal}
+                onEdit={handleEditingContact}
+                onCall={onCall}
+                onMessage={handleMessage}
+                isThreadOpened={isThreadOpened}
+              />
+            )}
+          </TableWithSidebarWrapper>
+        )}
+      </ContactSection>
+    </>
   )
 }
 

@@ -11,15 +11,16 @@ import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-cont
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import {
   DisplayStyle,
   Type,
 } from "Renderer/components/core/button/button.config"
 import Button from "Renderer/components/core/button/button.component"
 import { FieldValues, useForm } from "react-hook-form"
-
+import { backupSecretKeyValidator } from "Renderer/utils/form-validators"
 import { PasswordField } from "App/ui"
+import { BackupSetSecretKeyModalTestIds } from "App/overview/components/backup-set-secret-key-modal-dialog/backup-set-secret-key-modal-dialog-test-ids.enum"
 
 enum FieldKeys {
   SecretKey = "secretKey",
@@ -70,12 +71,22 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   padding: 0 0.8rem;
+  min-height: 21.4rem;
 `
 
 const ButtonWrapper = styled.div`
-  margin-top: 5.6rem;
+  margin-top: auto;
   display: flex;
   justify-content: center;
+`
+const FirstPasswordField = styled(PasswordField)<{
+  errorMessage: string | undefined
+}>`
+  ${({ errorMessage }) =>
+    errorMessage &&
+    css`
+      margin-bottom: 1.6rem;
+    `};
 `
 
 const ButtonWithRotatingIcon = styled(Button)``
@@ -128,19 +139,16 @@ export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalP
           message={messages.backupSetSecretKeyModalDescription}
         />
         <Form onSubmit={handleSubmitClick}>
-          <PasswordField
+          <FirstPasswordField
             label={messages.backupSetSecretKeyModalInputLabel}
             errorMessage={errors[FieldKeys.SecretKey]?.message}
-            {...register(FieldKeys.SecretKey, {
-              required: {
-                value: true,
-                message: intl.formatMessage(messages.backupSecretKeyRequired),
-              },
-            })}
+            {...register(FieldKeys.SecretKey, backupSecretKeyValidator)}
+            data-testId={BackupSetSecretKeyModalTestIds.FirstInput}
           />
           <PasswordField
             label={messages.backupSetConfirmationSecretKeyModalInputLabel}
             errorMessage={errors[FieldKeys.ConfirmationSecretKey]?.message}
+            data-testId={BackupSetSecretKeyModalTestIds.SecondInput}
             {...register(FieldKeys.ConfirmationSecretKey, {
               required: {
                 value: true,
@@ -165,6 +173,7 @@ export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalP
               label={intl.formatMessage(
                 messages.backupSetSecretKeyModalMainButton
               )}
+              data-testId={BackupSetSecretKeyModalTestIds.SubmitButton}
             />
           </ButtonWrapper>
         </Form>

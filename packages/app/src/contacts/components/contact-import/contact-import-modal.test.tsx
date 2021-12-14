@@ -119,6 +119,7 @@ const renderer = (extraProps?: {}) => {
       contacts={contacts}
       onActionButtonClick={noop}
       modalType={ModalType.Select}
+      open
       {...extraProps}
     />
   )

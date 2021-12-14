@@ -7,6 +7,8 @@ import React, { useEffect, useState } from "react"
 import { DeviceType, DiagnosticsFilePath } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
 import { useDispatch, useSelector } from "react-redux"
+import delayResponse from "@appnroll/delay-response"
+import { isEqual } from "lodash"
 import modalService from "Renderer/components/core/modal/modal.service"
 import {
   CheckingUpdatesModal,
@@ -33,19 +35,12 @@ import {
 } from "Renderer/interfaces/file-download.interface"
 import osUpdateAlreadyDownloadedCheck from "Renderer/requests/os-update-already-downloaded.request"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
-import delayResponse from "@appnroll/delay-response"
 import updateOs from "Renderer/requests/update-os.request"
-import {
-  DeviceResponseStatus,
-  ResponseError,
-} from "Backend/adapters/device-response.interface"
-import { isEqual } from "lodash"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import logger from "App/main/utils/logger"
-import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-get-all-releases-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
-import { errorCodeMap } from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
 import { setOsVersionData } from "App/device"
 import { ReduxRootState } from "App/renderer/store"
 import { removeFileRequest } from "App/device-file-system/requests"
@@ -140,30 +135,6 @@ const useSystemUpdateFlow = (
       true
     )
   }
-
-  const [activeResponseError, setResponseError] = useState<
-    ResponseError | undefined
-  >(undefined)
-
-  useEffect(() => {
-    if (activeResponseError) {
-      displayErrorModal()
-      setResponseError(undefined)
-    }
-
-    const unregisterItem = appContextMenu.registerItem("Overview", {
-      label: "Select Pure kind of updating failure",
-      submenu: Object.keys(errorCodeMap).map((key) => {
-        return {
-          label: `${
-            key !== activeResponseError ? `Enable` : `Disabled`
-          } ${key} failure`,
-          click: () => setResponseError(key as ResponseError),
-        }
-      }),
-    })
-    return () => unregisterItem()
-  }, [activeResponseError])
 
   // Checking for updates
   const openCheckingForUpdatesModal = () => {
@@ -326,7 +297,7 @@ const useSystemUpdateFlow = (
     toggleDeviceUpdating(true)
 
     await removeFileRequest(DiagnosticsFilePath.UPDATER_LOG)
-    const response = await updateOs(file.name, IpcEmitter.OsUpdateProgress)
+    const response = await updateOs(file.name)
 
     if (response.status === DeviceResponseStatus.Ok) {
       modalService.rerenderModal(<UpdatingSpinnerModal />)
@@ -358,7 +329,7 @@ const useSystemUpdateFlow = (
       modalService.openModal(<UpdatingSuccessModal />, true)
     } else {
       logger.error(
-        `Overview: updating pure fails. Code: ${response.error?.code}`
+        `Overview: updating pure fails. Message: ${response.error?.message}`
       )
       displayErrorModal()
     }

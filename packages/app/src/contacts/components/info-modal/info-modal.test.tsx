@@ -13,6 +13,7 @@ type Props = ComponentProps<typeof InfoModal>
 const renderModal = (extraProps?: Partial<Props>) => {
   const props = {
     title: "Title",
+    open: true,
     ...extraProps,
   }
   return renderWithThemeAndIntl(<InfoModal {...props} />)
