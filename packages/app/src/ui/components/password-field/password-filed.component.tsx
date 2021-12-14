@@ -5,16 +5,15 @@
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React, { useState } from "react"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { PasswordFieldTestIds } from "App/ui/components/password-field/password-field-test-ids.enum"
 import {
   FieldWrapper,
-  FormInputLabel,
   FormInput,
   IconWrapper,
 } from "App/ui/components/password-field/password-field.styled"
+import { intl } from "Renderer/utils/intl"
 
 interface PasswordFieldProps {
   errorMessage?: string
@@ -38,16 +37,11 @@ export const PasswordField: FunctionComponent<PasswordFieldProps> = ({
 
   return (
     <FieldWrapper>
-      <FormInputLabel
-        data-testid={PasswordFieldTestIds.Label}
-        withError={Boolean(errorMessage)}
-        displayStyle={TextDisplayStyle.SmallFadedText}
-        message={label}
-      />
       <FormInput
         data-testid={PasswordFieldTestIds.Input}
         type={visible ? "text" : "password"}
         errorMessage={errorMessage}
+        label={intl.formatMessage(label)}
         {...props}
       />
       {showPassword && (

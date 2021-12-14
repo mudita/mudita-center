@@ -8,6 +8,9 @@ import { intl } from "Renderer/utils/intl"
 
 export const phoneNumberRegexp = /^(\+?)(\d(\s?\d)+)$/im
 
+export const passwordRegexp =
+  /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+
 export const primaryPhoneNumberValidator = (
   fields: Record<any, any>
 ): RegisterOptions => ({
@@ -83,4 +86,19 @@ export const emailValidator: RegisterOptions = {
     message: intl.formatMessage({ id: "component.formErrorInvalidEmail" }),
   },
   required: intl.formatMessage({ id: "component.formErrorRequiredEmail" }),
+}
+
+export const backupSecretKeyValidator = {
+  required: {
+    value: true,
+    message: intl.formatMessage({
+      id: "module.overview.backupSecretKeyRequired",
+    }),
+  },
+  pattern: {
+    value: passwordRegexp,
+    message: intl.formatMessage({
+      id: "module.overview.backupSecretKeyValidation",
+    }),
+  },
 }
