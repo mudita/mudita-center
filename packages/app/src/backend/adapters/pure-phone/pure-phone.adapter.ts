@@ -26,7 +26,6 @@ import DeviceResponse, {
 import DeviceService from "Backend/device-service"
 import DeviceFileSystemService, {
   DeviceFile,
-  DeviceFileDeprecated,
   UploadFileLocallyPayload,
   UploadFilePayload,
 } from "Backend/device-file-system-service/device-file-system-service"

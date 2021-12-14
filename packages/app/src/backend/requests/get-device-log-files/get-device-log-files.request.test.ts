@@ -95,7 +95,23 @@ test("GetDeviceLogs request works properly", (done) => {
       Object {
         "data": Array [
           Object {
-            "data": "Hello, World",
+            "data": Object {
+              "data": Array [
+                72,
+                101,
+                108,
+                108,
+                111,
+                44,
+                32,
+                87,
+                111,
+                114,
+                108,
+                100,
+              ],
+              "type": "Buffer",
+            },
             "name": "MuditaOS.log",
           },
         ],
