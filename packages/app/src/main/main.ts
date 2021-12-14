@@ -110,7 +110,9 @@ process.on("uncaughtException", (error) => {
 const installExtensions = async () => {
   const installer = require("electron-devtools-installer")
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-  const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
+  // FIXME: electron v9 throw error, you can read more in https://github.com/zalmoxisus/redux-devtools-extension/issues/767
+  // const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
+  const extensions: string[] = []
 
   return Promise.all(
     extensions.map((name) => installer.default(installer[name], forceDownload))
@@ -125,8 +127,17 @@ const commonWindowOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
+    // FIXME: electron v9 throw error: .... ?
+    // enableRemoteModule: true,
   },
 }
+
+// FIXME: electron v9 throw error: Loading non-context-aware native module in renderer
+//  you can read more in
+//  https://github.com/electron/electron/pull/22336
+//  https://github.com/serialport/electron-serialport/commit/0cad5d97f7d1ead1e983b16e9e5b49feb1e6792d#diff-58417e0f781b6656949d37258c8b9052ed266e2eb7a5163cad7b0863e6b2916aR47
+app.allowRendererProcessReuse = false
+
 const getWindowOptions = (
   extendedWindowOptions?: BrowserWindowConstructorOptions
 ) => ({
