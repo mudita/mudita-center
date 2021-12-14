@@ -127,8 +127,11 @@ const commonWindowOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
-    // FIXME: electron v9 throw error: .... ?
-    // enableRemoteModule: true,
+    // FIXME: electron v10 throw error: Uncaught TypeError: Cannot read property 'app' of undefined?
+    //  you can read more in
+    //  https://github.com/electron/electron/issues/21408
+    //  https://www.electronjs.org/blog/electron-10-0
+    enableRemoteModule: true,
   },
 }
 
