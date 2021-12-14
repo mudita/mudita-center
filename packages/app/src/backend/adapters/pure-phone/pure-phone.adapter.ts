@@ -4,18 +4,17 @@
  */
 
 import {
-  Endpoint,
-  Method,
-  DiagnosticsFileList,
-  GetPhoneLockTimeResponseBody,
-  PhoneLockCategory,
-  timeout,
-  MuditaDevice,
   CaseColour,
-  StartBackupResponseBody,
-  GetBackupDeviceStatusResponseBody,
+  DiagnosticsFileList,
+  Endpoint,
   GetBackupDeviceStatusRequestConfigBody,
+  GetBackupDeviceStatusResponseBody,
+  GetPhoneLockTimeResponseBody,
   GetRestoreDeviceStatusResponseBody,
+  Method,
+  MuditaDevice,
+  PhoneLockCategory,
+  StartBackupResponseBody,
   StartRestoreRequestConfigBody,
 } from "@mudita/pure"
 import PurePhoneAdapter, {
@@ -24,26 +23,15 @@ import PurePhoneAdapter, {
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
-import { noop } from "Renderer/utils/noop"
+import DeviceService from "Backend/device-service"
 import DeviceFileSystemService, {
-  DeviceFileDeprecated,
   DeviceFile,
+  DeviceFileDeprecated,
   UploadFileLocallyPayload,
   UploadFilePayload,
 } from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
-
-export enum DeviceUpdateError {
-  RestartTimedOut = "RestartTimedOut",
-  DeviceDisconnectionBeforeDone = "DeviceDisconnectionBeforeDone",
-}
-
-export const deviceUpdateErrorCodeMap: Record<DeviceUpdateError, number> = {
-  [DeviceUpdateError.RestartTimedOut]: 9900,
-  [DeviceUpdateError.DeviceDisconnectionBeforeDone]: 9901,
-}
 
 class PurePhone extends PurePhoneAdapter {
   static osUpdateStepsMax = 3
@@ -288,119 +276,83 @@ class PurePhone extends PurePhoneAdapter {
     return await this.deviceFileSystemService.uploadFileLocally(payload)
   }
 
-  public async updateOs(
-    filePath: string,
-    progressChannel = ""
-  ): Promise<DeviceResponse> {
-    let unregisterListeners = noop
-    return new Promise<DeviceResponse>(async (resolve) => {
-      let step = 0
-      let cancelTimeout = noop
-      const deviceConnectedListener = async () => {
-        if (step === PurePhone.osUpdateRestartStep) {
-          resolve({
-            status: DeviceResponseStatus.Ok,
-          })
-        }
+  public async updateOs(filePath: string): Promise<DeviceResponse> {
+    const getDeviceInfoResponse = await this.getOsVersion()
+
+    if (
+      getDeviceInfoResponse.status !== DeviceResponseStatus.Ok ||
+      getDeviceInfoResponse.data === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "updateOs: getOsVersion request failed" },
       }
+    }
 
-      const deviceDisconnectedListener = () => {
-        const [promise, cancel] = timeout(30000)
-        cancelTimeout = cancel
+    const beforeUpdateOsVersion = getDeviceInfoResponse.data
 
-        promise.then(() => {
-          resolve({
-            status: DeviceResponseStatus.Error,
-            error: {
-              code: deviceUpdateErrorCodeMap[DeviceUpdateError.RestartTimedOut],
-              message: "restart pure has timed out",
-            },
-          })
-        })
-
-        if (step < PurePhone.osUpdateRestartStep) {
-          resolve({
-            status: DeviceResponseStatus.Error,
-            error: {
-              code: deviceUpdateErrorCodeMap[
-                DeviceUpdateError.DeviceDisconnectionBeforeDone
-              ],
-              message: "device has disconnected before updating finish",
-            },
-          })
-        }
-      }
-
-      unregisterListeners = () => {
-        this.deviceService.off(
-          DeviceServiceEventName.DeviceConnected,
-          deviceConnectedListener
-        )
-        this.deviceService.off(
-          DeviceServiceEventName.DeviceDisconnected,
-          deviceDisconnectedListener
-        )
-        cancelTimeout()
-      }
-
-      this.deviceService.on(
-        DeviceServiceEventName.DeviceDisconnected,
-        deviceDisconnectedListener
-      )
-
-      this.deviceService.on(
-        DeviceServiceEventName.DeviceConnected,
-        deviceConnectedListener
-      )
-
-      const fileResponse = await this.deviceFileSystemService.uploadFileLocally(
-        {
-          filePath,
-          targetPath: "/sys/user/update.tar",
-        }
-      )
-
-      if (fileResponse.status === DeviceResponseStatus.Ok) {
-        ++step
-
-        this.deviceService.sendToRenderers(progressChannel, {
-          progress: PurePhone.getUpdateOsProgress(step),
-        })
-
-        const pureUpdateResponse = await this.deviceService.request({
-          endpoint: Endpoint.Update,
-          method: Method.Post,
-          body: {
-            update: true,
-            reboot: true,
-          },
-        })
-
-        if (pureUpdateResponse.status === DeviceResponseStatus.Ok) {
-          ++step
-          this.deviceService.off(
-            DeviceServiceEventName.DeviceDisconnected,
-            deviceDisconnectedListener
-          )
-
-          this.deviceService.sendToRenderers(progressChannel, {
-            progress: PurePhone.getUpdateOsProgress(step),
-          })
-        } else {
-          resolve({
-            status: DeviceResponseStatus.Error,
-            error: pureUpdateResponse.error,
-          })
-        }
-      } else {
-        resolve({
-          status: DeviceResponseStatus.Error,
-        })
-      }
-    }).then((response) => {
-      unregisterListeners()
-      return response
+    const fileResponse = await this.deviceFileSystemService.uploadFileLocally({
+      filePath,
+      targetPath: "/sys/user/update.tar",
     })
+
+    if (fileResponse.status !== DeviceResponseStatus.Ok) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "updateOs: upload OS failed" },
+      }
+    }
+
+    const pureUpdateResponse = await this.deviceService.request({
+      endpoint: Endpoint.Update,
+      method: Method.Post,
+      body: {
+        update: true,
+        reboot: true,
+      },
+    })
+
+    if (pureUpdateResponse.status !== DeviceResponseStatus.Ok) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "updateOs: update request failed" },
+      }
+    }
+
+    const deviceRestartResponse = await this.waitUntilDeviceRestart()
+
+    if (deviceRestartResponse.status !== DeviceResponseStatus.Ok) {
+      return deviceRestartResponse
+    }
+
+    const deviceUnlockedResponse = await this.waitUntilDeviceUnlocked()
+
+    if (deviceUnlockedResponse.status !== DeviceResponseStatus.Ok) {
+      return deviceUnlockedResponse
+    }
+
+    const afterUpdateGetDeviceInfoResponse = await this.getOsVersion()
+
+    if (
+      afterUpdateGetDeviceInfoResponse.status !== DeviceResponseStatus.Ok ||
+      afterUpdateGetDeviceInfoResponse.data === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "updateOs: getOsVersion request failed" },
+      }
+    }
+
+    const afterUpdateOsVersion = afterUpdateGetDeviceInfoResponse.data
+
+    if (beforeUpdateOsVersion === afterUpdateOsVersion) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "updateOs: the version OS isn't changed" },
+      }
+    }
+
+    return { status: DeviceResponseStatus.Ok }
   }
 
   private async downloadDeviceFiles(
@@ -511,8 +463,66 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
-  private static getUpdateOsProgress(step: number): number {
-    return Math.round((step / PurePhone.osUpdateStepsMax) * 100)
+  private async waitUntilDeviceRestart(
+    index = 0,
+    timeout = 5000,
+    callsMax = 36
+  ): Promise<DeviceResponse> {
+    if (index === callsMax) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message: "updateOs: device no restart successful in 3 minutes",
+        },
+      }
+    }
+
+    const response = await this.getUnlockDeviceStatus()
+
+    if (
+      index !== 0 &&
+      (response.status === DeviceResponseStatus.Ok ||
+        response.status === DeviceResponseStatus.PhoneLocked)
+    ) {
+      return {
+        status: DeviceResponseStatus.Ok,
+      }
+    } else {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(this.waitUntilDeviceRestart(++index))
+        }, timeout)
+      })
+    }
+  }
+
+  private async waitUntilDeviceUnlocked(
+    index = 0,
+    timeout = 5000,
+    callsMax = 120
+  ): Promise<DeviceResponse> {
+    if (index === callsMax) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message: "updateOs: device isn't unlocked by user in 10 minutes",
+        },
+      }
+    }
+
+    const response = await this.getUnlockDeviceStatus()
+
+    if (index !== 0 && response.status === DeviceResponseStatus.Ok) {
+      return {
+        status: DeviceResponseStatus.Ok,
+      }
+    } else {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(this.waitUntilDeviceUnlocked(++index))
+        }, timeout)
+      })
+    }
   }
 }
 
