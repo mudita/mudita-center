@@ -15,11 +15,6 @@ import DeviceResponse, {
 import logger from "App/main/utils/logger"
 import countCRC32 from "Backend/helpers/count-crc32"
 
-// FIXME: node application should operate on a buffer to avoids corrupting binary files
-export interface DeviceFileDeprecated extends Pick<File, "name"> {
-  data: string
-}
-
 export interface DeviceFile extends Pick<File, "name"> {
   data: Buffer
 }
@@ -77,11 +72,11 @@ class DeviceFileSystemService {
 
   async downloadDeviceFiles(
     filePaths: string[]
-  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
-    const data: DeviceFileDeprecated[] = []
+  ): Promise<DeviceResponse<DeviceFile[]>> {
+    const data: DeviceFile[] = []
     for (let i = 0; i < filePaths.length; i++) {
       const filePath = filePaths[i]
-      const response = await this.downloadFileDeprecated(filePath)
+      const response = await this.downloadFile(filePath)
 
       if (response.status === DeviceResponseStatus.Ok && response.data) {
         const name = filePath.split("/").pop() as string
@@ -96,23 +91,6 @@ class DeviceFileSystemService {
     return {
       data,
       status: DeviceResponseStatus.Ok,
-    }
-  }
-
-  // FIXME: node application should operate on a buffer to avoids corrupting binary files
-  async downloadFileDeprecated(
-    filePath: string
-  ): Promise<DeviceResponse<string>> {
-    const response = await this.downloadFile(filePath)
-    if (response.data !== undefined) {
-      return {
-        ...response,
-        data: response.data.toString(),
-      }
-    } else {
-      return {
-        status: response.status,
-      }
     }
   }
 

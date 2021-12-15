@@ -26,7 +26,6 @@ import DeviceResponse, {
 import DeviceService from "Backend/device-service"
 import DeviceFileSystemService, {
   DeviceFile,
-  DeviceFileDeprecated,
   UploadFileLocallyPayload,
   UploadFilePayload,
 } from "Backend/device-file-system-service/device-file-system-service"
@@ -191,7 +190,7 @@ class PurePhone extends PurePhoneAdapter {
 
   public async getDeviceLogFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
+  ): Promise<DeviceResponse<DeviceFile[]>> {
     return this.downloadDeviceFiles(DiagnosticsFileList.LOGS, option)
   }
 
@@ -358,7 +357,7 @@ class PurePhone extends PurePhoneAdapter {
   private async downloadDeviceFiles(
     fileList: DiagnosticsFileList,
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
+  ): Promise<DeviceResponse<DeviceFile[]>> {
     const files = await this.getDeviceFiles(fileList)
 
     if (files.status !== DeviceResponseStatus.Ok || !files.data) {

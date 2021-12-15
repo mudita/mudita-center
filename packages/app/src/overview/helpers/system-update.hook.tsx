@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useState } from "react"
-import { DeviceType } from "@mudita/pure"
+import { DeviceType, DiagnosticsFilePath } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
 import { useDispatch, useSelector } from "react-redux"
 import delayResponse from "@appnroll/delay-response"
@@ -43,6 +43,7 @@ import appContextMenu from "Renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { setOsVersionData } from "App/device"
 import { ReduxRootState } from "App/renderer/store"
+import { removeFileRequest } from "App/device-file-system/requests"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -295,6 +296,7 @@ const useSystemUpdateFlow = (
 
     toggleDeviceUpdating(true)
 
+    await removeFileRequest(DiagnosticsFilePath.UPDATER_LOG)
     const response = await updateOs(file.name)
 
     if (response.status === DeviceResponseStatus.Ok) {
