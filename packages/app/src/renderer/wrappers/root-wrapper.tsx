@@ -57,6 +57,7 @@ import {
   setConnectionStatus,
 } from "App/device"
 import { getCrashDump } from "App/crash-dump"
+import { updateIndex } from "App/data-sync"
 
 interface Props {
   history: History
@@ -74,6 +75,7 @@ interface Props {
   loadDeviceData: (value: DeviceType) => void
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
+  updateIndex: () => void
 }
 
 const RootWrapper: FunctionComponent<Props> = ({
@@ -92,6 +94,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   loadDeviceData,
   connectedAndUnlocked,
   deviceType,
+  updateIndex,
 }) => {
   const params = new URLSearchParams(window.location.search)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
@@ -146,8 +149,15 @@ const RootWrapper: FunctionComponent<Props> = ({
   }, [])
 
   useEffect(() => {
+    let interval: NodeJS.Timeout
+
     if (connectedAndUnlocked) {
       getCrashDump()
+      interval = setInterval(() => updateIndex(), 30000)
+    }
+
+    return () => {
+      clearInterval(interval)
     }
   }, [connectedAndUnlocked])
 
@@ -261,6 +271,7 @@ const mapStateToProps = (state: ReduxRootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  updateIndex: () => dispatch(updateIndex()),
   loadDeviceData: (value: DeviceType) => dispatch(loadDeviceData(value)),
   connect: () => dispatch(getConnectedDevice()),
   setFalseConnectionStatus: () => dispatch(setConnectionStatus(false)),

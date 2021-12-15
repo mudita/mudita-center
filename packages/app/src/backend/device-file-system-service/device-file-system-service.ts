@@ -39,8 +39,8 @@ export interface UploadFileLocallyPayload {
   targetPath: string
 }
 
-class DeviceFileSystemService {
-  constructor(private deviceService: DeviceService) {}
+export class DeviceFileSystemService {
+  constructor(public deviceService: DeviceService) {}
 
   async downloadLocally(
     filePaths: string[],

@@ -52,6 +52,7 @@ import registerStartRestoreDeviceRequest from "Backend/requests/start-restore-de
 import registerGetRestoreDeviceStatusRequest from "Backend/requests/get-restore-device-status/get-restore-device-status.request"
 import registerDownloadDeviceCrashDumpFiles from "App/backend/requests/download-crash-dump-files/download-crash-dump-files.request"
 import { registerFileSystemRemoveRequest } from "App/device-file-system"
+import { createIndexService, DataSync } from "App/data-sync"
 
 const bootstrap = (
   deviceManager: MuditaDeviceManager,
@@ -61,6 +62,7 @@ const bootstrap = (
   const deviceFileSystemService = createDeviceFileSystemService(deviceService)
   const deviceFileDiagnosticService =
     createDeviceFileDiagnosticService(deviceService)
+  const indexService = createIndexService(new DataSync(deviceFileSystemService))
 
   const adapters = {
     purePhone: createPurePhoneAdapter(
@@ -114,6 +116,7 @@ const bootstrap = (
     registerFileSystemRemoveRequest,
   ]
 
+  indexService.init()
   new Backend(adapters, getFakeAdapters(), requests).init()
 }
 
