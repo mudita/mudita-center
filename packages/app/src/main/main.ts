@@ -87,6 +87,11 @@ import { registerIndexAllListener } from "App/data-sync/listeners/index-all.list
 
 require("dotenv").config()
 
+// FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+//  There is almost always a better way to accomplish your task than using this module.
+//  You can read more in https://github.com/electron/remote#migrating-from-remote
+require("@electron/remote/main").initialize()
+
 logger.info("Starting the app")
 
 let win: BrowserWindow | null
@@ -128,10 +133,13 @@ const commonWindowOptions = {
     nodeIntegration: true,
     webSecurity: false,
     // FIXME: electron v10 throw error: Uncaught TypeError: Cannot read property 'app' of undefined?
-    //  you can read more in
+    //  You can read more in:
     //  https://github.com/electron/electron/issues/21408
     //  https://www.electronjs.org/blog/electron-10-0
     enableRemoteModule: true,
+    // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
+    //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
+    contextIsolation: false,
   },
 }
 
