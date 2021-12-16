@@ -17,14 +17,14 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import Mock = jest.Mock
 import { deviceReducer } from "App/device"
-import { DeviceFileDeprecated } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 import { ArchiveFilesEvents } from "App/main/functions/register-archive-files-listener"
 
-const getDeviceFileResponse: DeviceResponse<DeviceFileDeprecated[]> = {
+const getDeviceFileResponse: DeviceResponse<DeviceFile[]> = {
   status: DeviceResponseStatus.Ok,
   data: [
     {
-      data: "logs",
+      data: Buffer.from("logs"),
       name: "logs.log",
     },
   ],
@@ -600,7 +600,6 @@ test.skip("sendDiagnosticData effect is fails if request no finish successfully"
     "setDiagnosticSentTimestamp"
   )
   ;(getDeviceLogFiles as Mock).mockReturnValue(getDeviceFileResponse)
-
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcRequest.GetAppSettings]: Promise.resolve({
       ...fakeAppSettings,

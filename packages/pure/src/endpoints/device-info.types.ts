@@ -92,12 +92,19 @@ export interface DeviceInfo {
   backupLocation: string
 }
 
+// this enum is a tmp solution, diagnostics file paths should be fetch dynamically by `FileList` request
+// https://appnroll.atlassian.net/browse/CP-916
+export enum DiagnosticsFilePath {
+  UPDATER_LOG = "/sys/user/updater.log",
+}
+
 export enum DiagnosticsFileList {
   LOGS,
   CRASH_DUMPS,
 }
 
 export interface GetFileListBody {
+  // to be precise the property should be named FileDir
   fileList: DiagnosticsFileList
 }
 

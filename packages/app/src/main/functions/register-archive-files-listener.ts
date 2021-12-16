@@ -5,19 +5,22 @@
 
 import fs from "fs"
 import { ipcMain } from "electron-better-ipc"
-import { DeviceFileDeprecated } from "Backend/device-file-system-service/device-file-system-service"
 import writeFile from "App/main/utils/write-file"
 import writeGzip from "App/main/utils/write-gzip"
 import getAppPath from "App/main/utils/get-app-path"
 import rmdir from "App/main/utils/rmdir"
 import { formatDate } from "Renderer/utils/format-date"
 
+export interface ArchiveFile extends Pick<File, "name"> {
+  data: string | NodeJS.ArrayBufferView
+}
+
 export enum ArchiveFilesEvents {
   Archive = "archive-files",
 }
 
 export interface ArchiveFilesData {
-  files: DeviceFileDeprecated[]
+  files: ArchiveFile[]
 }
 
 const todayFormatDate = formatDate(new Date())

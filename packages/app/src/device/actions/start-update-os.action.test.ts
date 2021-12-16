@@ -6,6 +6,7 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
+import { pendingAction } from "Renderer/store/helpers"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { startUpdateOs } from "./start-update-os.action"
 import { DeviceUpdateProcessError } from "App/device/errors"
@@ -15,7 +16,12 @@ import { testError } from "App/renderer/store/constants"
 const mockStore = createMockStore([thunk])()
 
 jest.mock("Renderer/requests/update-os.request")
-
+jest.mock("App/device-file-system", () => ({
+  removeFile: jest.fn().mockReturnValue({
+    type: pendingAction("DEVICE_FILE_SYSTEM_REMOVE"),
+    payload: undefined,
+  }),
+}))
 afterEach(() => {
   mockStore.clearActions()
 })
@@ -34,6 +40,10 @@ describe("Update Os request returns `success` status", () => {
 
     expect(mockStore.getActions()).toEqual([
       startUpdateOs.pending(requestId, filePathMock),
+      {
+        payload: undefined,
+        type: "DEVICE_FILE_SYSTEM_REMOVE/pending",
+      },
       startUpdateOs.fulfilled(DeviceResponseStatus.Ok, requestId, filePathMock),
     ])
 
@@ -58,6 +68,10 @@ describe("Update Os request returns `error` status", () => {
 
     expect(mockStore.getActions()).toEqual([
       startUpdateOs.pending(requestId, filePathMock),
+      {
+        payload: undefined,
+        type: "DEVICE_FILE_SYSTEM_REMOVE/pending",
+      },
       startUpdateOs.rejected(testError, requestId, filePathMock, errorMock),
     ])
   })
