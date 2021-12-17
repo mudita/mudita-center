@@ -9,7 +9,11 @@ import {
   PureDeviceData,
   HarmonyDeviceData,
 } from "App/device/reducers/device.interface"
-import { DeviceEvent, ConnectionState } from "App/device/constants"
+import {
+  DeviceEvent,
+  ConnectionState,
+  UpdatingState,
+} from "App/device/constants"
 import {
   rejectedAction,
   fulfilledAction,
@@ -158,6 +162,24 @@ describe("Connecting/Disconnecting functionality", () => {
       })
     ).toEqual({
       ...initialState,
+    })
+  })
+
+  test("Event: SetConnectionState/fulfilled set device state to initial and `updatingState` to `Updating` if `false` payload is provided and current updating state is equal `UpdatingState.Updating`", () => {
+    expect(
+      deviceReducer(
+        {
+          ...initialState,
+          updatingState: UpdatingState.Updating,
+        },
+        {
+          type: fulfilledAction(DeviceEvent.SetConnectionState),
+          payload: false,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      updatingState: UpdatingState.Updating,
     })
   })
 })
