@@ -19,6 +19,8 @@ import { getConnectedDevice } from "App/device"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { CrashDump } from "App/crash-dump"
 
+import modalService from "Renderer/components/core/modal/modal.service"
+
 interface Props {
   getConnectedDevice: () => void
   loadContacts: () => void
@@ -27,6 +29,8 @@ interface Props {
   deviceConnecting?: boolean
   settingsLoaded?: boolean
   deviceParred?: boolean
+  deviceConnected: boolean
+  deviceUpdating: boolean
   sendDiagnosticData: () => void
 }
 
@@ -39,6 +43,8 @@ const BaseApp: FunctionComponent<Props> = ({
   settingsLoaded,
   deviceParred,
   sendDiagnosticData,
+  deviceConnected,
+  deviceUpdating,
 }) => {
   useRouterListener(history, {
     [URL_MAIN.contacts]: [() => loadContacts()],
@@ -60,6 +66,12 @@ const BaseApp: FunctionComponent<Props> = ({
       sendDiagnosticData()
     }
   }, [deviceParred, settingsLoaded])
+
+  useEffect(() => {
+    if (!deviceConnected && !deviceUpdating) {
+      modalService.closeModal(true)
+    }
+  }, [deviceConnected])
 
   return (
     <>
@@ -86,6 +98,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
     deviceParred:
       state.device.status.loaded && Boolean(state.device.status.unlocked),
     settingsLoaded: state.settings.settingsLoaded,
+    deviceConnected: state.device.status.connected,
+    deviceUpdating: state.device.updatingState === UpdatingState.Updating,
   }
 }
 

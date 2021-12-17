@@ -119,19 +119,24 @@ export const deviceReducer = createReducer<DeviceState>(
       .addCase(
         fulfilledAction(DeviceEvent.SetConnectionState),
         (state, action: SetConnectionStateAction) => {
-          if (action.payload) {
+          if (state.updatingState === UpdatingState.Updating) {
             return {
               ...state,
               status: {
                 ...state.status,
-                connected: action.payload,
+                connected: action.payload ? action.payload : false,
               },
+              updatingState: UpdatingState.Updating,
               error: null,
             }
           } else {
             return {
-              ...initialState,
-              deviceType: state.deviceType,
+              ...state,
+              status: {
+                ...state.status,
+                connected: action.payload ? action.payload : false,
+              },
+              error: null,
             }
           }
         }
