@@ -143,12 +143,12 @@ export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalP
             label={messages.backupSetSecretKeyModalInputLabel}
             errorMessage={errors[FieldKeys.SecretKey]?.message}
             {...register(FieldKeys.SecretKey, backupSecretKeyValidator)}
-            data-testId={BackupSetSecretKeyModalTestIds.FirstInput}
+            data-testid={BackupSetSecretKeyModalTestIds.FirstInput}
           />
           <PasswordField
             label={messages.backupSetConfirmationSecretKeyModalInputLabel}
             errorMessage={errors[FieldKeys.ConfirmationSecretKey]?.message}
-            data-testId={BackupSetSecretKeyModalTestIds.SecondInput}
+            data-testid={BackupSetSecretKeyModalTestIds.SecondInput}
             {...register(FieldKeys.ConfirmationSecretKey, {
               required: {
                 value: true,
@@ -173,7 +173,7 @@ export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalP
               label={intl.formatMessage(
                 messages.backupSetSecretKeyModalMainButton
               )}
-              data-testId={BackupSetSecretKeyModalTestIds.SubmitButton}
+              data-testid={BackupSetSecretKeyModalTestIds.SubmitButton}
             />
           </ButtonWrapper>
         </Form>
