@@ -44,7 +44,7 @@ export const CardContent = styled.div`
 
 export const CardAction = styled(ButtonToggler)`
   justify-self: end;
-  min-width: 18rem;
+  min-width: 17.6rem;
 `
 
 export const CardText = styled.div`

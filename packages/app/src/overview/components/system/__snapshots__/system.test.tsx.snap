@@ -75,7 +75,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
@@ -186,7 +186,7 @@ exports[`matches snapshot 1`] = `
 
 .c10 {
   justify-self: end;
-  min-width: 18rem;
+  min-width: 17.6rem;
 }
 
 .c4 p:not(:last-of-type) {

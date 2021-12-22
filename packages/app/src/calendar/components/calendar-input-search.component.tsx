@@ -102,7 +102,7 @@ const CalendarInputSearch: FunctionComponent<CalendarInputSelectProps> = ({
       searchable
       minCharsToShowResults={minCharsToShowResults}
       listStyles={css`
-        max-height: 30.5rem;
+        max-height: 31.2rem;
       `}
     />
   )

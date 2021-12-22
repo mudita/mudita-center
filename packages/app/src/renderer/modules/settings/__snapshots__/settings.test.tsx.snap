@@ -102,7 +102,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
@@ -140,7 +140,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
@@ -284,12 +284,12 @@ exports[`matches snapshot 1`] = `
 }
 
 .c7 {
-  margin-right: 4rem;
+  margin-right: 3.2rem;
 }
 
 .c10 {
   padding: 0 3.6rem;
-  width: 75%;
+  width: 8.8rem;
 }
 
 .c0 {
@@ -317,7 +317,7 @@ exports[`matches snapshot 1`] = `
 }
 
 .c4 {
-  margin-left: 4rem;
+  margin-left: 3.2rem;
   margin-bottom: 0;
   -webkit-align-self: center;
   -ms-flex-item-align: center;
