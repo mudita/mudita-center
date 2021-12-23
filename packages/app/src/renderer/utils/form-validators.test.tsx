@@ -168,5 +168,14 @@ describe("Form Validators", () => {
         ).toBeInTheDocument()
       })
     })
+    test("should pass as valid when password value contains at least one of &'()*+,-./:;<=>?@[]^_`{|}~ ", () => {
+      const { getByTestId, queryByText } = render()
+      fireEvent.change(getByTestId(FormTestIds.Input), {
+        target: { value: "Marecki-9" },
+      })
+      expect(
+        queryByText("[value] module.overview.backupSecretKeyValidation")
+      ).not.toBeInTheDocument()
+    })
   })
 })
