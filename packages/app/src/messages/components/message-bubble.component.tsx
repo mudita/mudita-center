@@ -37,7 +37,7 @@ const MessageBubbleDropdown = styled(Dropdown)<{
 }>`
   margin-right: ${({ interlocutor }) => (interlocutor ? "0" : "1.1rem")};
   margin-left: ${({ interlocutor }) => (interlocutor ? "1.1rem" : "0")};
-  opacity: ${({ display }) => (display ? "1" : "0")};
+  opacity: ${({ display }) => (display === "true" ? "1" : "0")};
 `
 
 const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
