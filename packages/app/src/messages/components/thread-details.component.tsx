@@ -46,7 +46,9 @@ const ThreadDetails: FunctionComponent<Props> = ({
   onContentChange,
   ...props
 }) => {
-  const handleTextAreaChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleTextAreaChange = (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ): void => {
     onContentChange(event.target.value)
   }
 

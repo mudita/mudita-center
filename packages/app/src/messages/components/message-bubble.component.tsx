@@ -33,7 +33,7 @@ import { MessageBubbleTestIds } from "App/messages/components/message-bubble-tes
 
 const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean
-  display: boolean
+  display: string
 }>`
   margin-right: ${({ interlocutor }) => (interlocutor ? "0" : "1.1rem")};
   margin-left: ${({ interlocutor }) => (interlocutor ? "1.1rem" : "0")};
@@ -187,7 +187,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                 interlocutor ? DropdownPosition.Left : DropdownPosition.Right
               }
               interlocutor={interlocutor}
-              display={clicked === id}
+              display={(clicked === id).toString()}
               data-testid={MessageBubbleTestIds.Dropdown}
             >
               <ButtonComponent
