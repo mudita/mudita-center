@@ -59,7 +59,7 @@ describe("when Crash dumps doesn't downloaded", () => {
 })
 
 describe("when Crash dumps downloaded", () => {
-  test("fire async `sendCrashDumpData` action and execute `rejected` event is serialNumber is equal to undefined", async () => {
+  test("fire async `sendCrashDumpData` action and execute `rejected` event if serialNumber is equal to undefined", async () => {
     const mockStore = createMockStore([thunk])({
       device: {
         data: {
@@ -85,6 +85,7 @@ describe("when Crash dumps downloaded", () => {
 
     expect(createFile).not.toHaveBeenCalled()
     expect(createFreshdeskTicket).not.toHaveBeenCalled()
+    expect(sendTicketRequest).not.toHaveBeenCalled()
   })
 
   test("fire async `sendCrashDumpData` triggers sending process", async () => {
@@ -181,5 +182,6 @@ describe("when `createFreshdeskTicket` returns `error` status", () => {
     ])
     expect(createFile).toHaveBeenCalled()
     expect(createFreshdeskTicket).toHaveBeenCalled()
+    expect(sendTicketRequest).toHaveBeenCalled()
   })
 })
