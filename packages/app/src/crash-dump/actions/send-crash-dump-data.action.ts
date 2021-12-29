@@ -16,6 +16,7 @@ import {
   FreshdeskTicketDataType,
 } from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 import createFile from "Renderer/utils/create-file/create-file"
+import sendTicketRequest from "App/contact-support/requests/send-ticket.request"
 
 const mapToAttachments = (paths: string[]): File[] => {
   return paths.map((path) => createFile(path))
@@ -45,8 +46,14 @@ export const sendCrashDumpData = createAsyncThunk(
       attachments,
     }
 
+    const logData: Omit<FreshdeskTicketData, "type" | "attachments"> = {
+      subject: "Error - Crash dump - logs",
+      serialNumber: state.device.data.serialNumber,
+    }
+
     try {
       await createFreshdeskTicket(data)
+      await sendTicketRequest(logData)
     } catch (error) {
       return rejectWithValue(
         new SendingCrashDumpError(

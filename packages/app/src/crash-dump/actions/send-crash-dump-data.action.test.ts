@@ -14,6 +14,14 @@ import { SendingCrashDumpError } from "App/crash-dump/errors"
 import { DeviceConnectionError } from "App/device"
 import { testError } from "App/renderer/store/constants"
 import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
+import {
+  sendTicket,
+  SendTicketPayload,
+} from "App/contact-support/actions/send-ticket.action"
+import sendTicketRequest, {
+  CreateBugTicketResponse,
+  CreateBugTicketResponseStatus,
+} from "App/contact-support/requests/send-ticket.request"
 
 const crashDumpsMock: string[] = ["/pure/logs/crash-dumps/file.hex"]
 
@@ -25,6 +33,7 @@ jest.mock("App/device-file-system", () => ({
   }),
 }))
 jest.mock("Renderer/utils/create-file/create-file")
+jest.mock("App/contact-support/requests/send-ticket.request")
 
 describe("when Crash dumps doesn't downloaded", () => {
   test("fire async `sendCrashDumpData` returns `undefined`", async () => {
@@ -79,10 +88,22 @@ describe("when Crash dumps downloaded", () => {
   })
 
   test("fire async `sendCrashDumpData` triggers sending process", async () => {
-    ;(createFile as jest.Mock).mockReturnValue(new File([new Buffer("hello world")], "hello.world"))
+    ;(createFile as jest.Mock).mockReturnValue(
+      new File([new Buffer("hello world")], "hello.world")
+    )
     ;(createFreshdeskTicket as jest.Mock).mockImplementation((data) =>
       mockCreateFreshdeskTicket(data)
     )
+    const successResponse: CreateBugTicketResponse = {
+      status: CreateBugTicketResponseStatus.Ok,
+    }
+
+    const payload: SendTicketPayload = {
+      description: "",
+      email: "",
+    }
+
+    ;(sendTicketRequest as jest.Mock).mockReturnValue(successResponse)
 
     const mockStore = createMockStore([thunk])({
       device: {
@@ -101,6 +122,9 @@ describe("when Crash dumps downloaded", () => {
     const {
       meta: { requestId },
     } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+    const {
+      meta: { requestId: sendTicketRequestId },
+    } = await mockStore.dispatch(sendTicket(payload) as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
       sendCrashDumpData.pending(requestId),
@@ -113,16 +137,21 @@ describe("when Crash dumps downloaded", () => {
         type: "RESET_CRASH_DUMP",
       },
       sendCrashDumpData.fulfilled(undefined, requestId),
+      sendTicket.pending(sendTicketRequestId, payload),
+      sendTicket.fulfilled(undefined, sendTicketRequestId, payload),
     ])
 
     expect(createFile).toHaveBeenCalledWith(crashDumpsMock[0])
     expect(createFreshdeskTicket).toHaveBeenCalled()
+    expect(sendTicketRequest).toHaveBeenCalled()
   })
 })
 
 describe("when `createFreshdeskTicket` returns `error` status", () => {
   test("fire async `sendCrashDumpData` action and execute `rejected` event", async () => {
-    ;(createFile as jest.Mock).mockReturnValue(new File([new Buffer("hello world")], "hello.world"))
+    ;(createFile as jest.Mock).mockReturnValue(
+      new File([new Buffer("hello world")], "hello.world")
+    )
     ;(createFreshdeskTicket as jest.Mock).mockReturnValue(Promise.reject())
 
     const mockStore = createMockStore([thunk])({
