@@ -129,7 +129,7 @@ export const PureOverview: FunctionComponent<Props> = ({
         isVersionGreater(osVersion, lowestSupportedOsVersion)
       )
     } catch (error) {
-      logger.error(`Overview: ${error.message}`)
+      logger.error(`Overview: ${(error as Error).message}`)
     }
   }, [osVersion, lowestSupportedOsVersion])
 

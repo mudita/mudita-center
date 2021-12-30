@@ -17,6 +17,7 @@ import {
   DownloadingUpdateFinishedModal,
   DownloadingUpdateInterruptedModal,
   DownloadingUpdateModal,
+  TooLowBatteryModal,
   UpdateAvailable,
   UpdateNotAvailable,
   UpdateServerError,
@@ -59,9 +60,13 @@ const useSystemUpdateFlow = (
   const currentDeviceType = useSelector(
     (state: ReduxRootState) => state.device.deviceType
   ) as DeviceType
+  const batteryLevel = useSelector(
+    (state: ReduxRootState) => state.device.data?.batteryLevel
+  ) as number
   const [releaseToInstall, setReleaseToInstall] = useState<Release>()
   const dispatch = useDispatch()
   const mounted = useRef<boolean>(false)
+  const enoughBattery = Math.round(batteryLevel * 100) <= 40
 
   useEffect(() => {
     mounted.current = true
@@ -164,6 +169,10 @@ const useSystemUpdateFlow = (
 
     const { version, date } = release
     const onDownload = () => {
+      if (enoughBattery) {
+        openTooLowBatteryModal()
+        return
+      }
       downloadUpdate(release)
       openDownloadingUpdateModal()
     }
@@ -238,7 +247,9 @@ const useSystemUpdateFlow = (
         if (!silent) {
           await openCheckingForUpdatesFailedModal(() => checkForUpdates())
         }
-        logger.error(`Overview: check for updates fail. Data: ${error.message}`)
+        logger.error(
+          `Overview: check for updates fail. Data: ${(error as Error).message}`
+        )
       }
     }
   }
@@ -285,12 +296,22 @@ const useSystemUpdateFlow = (
     )
     modalService.preventClosingModal()
   }
+  const openTooLowBatteryModal = () => {
+    if (!mounted.current) {
+      return
+    }
 
+    return modalService.openModal(<TooLowBatteryModal open />, true)
+  }
   const downloadUpdate = async (releaseInstance?: Release) => {
     const release =
       releaseInstance === undefined || releaseInstance.version === undefined
         ? releaseToInstall
         : releaseInstance
+    if (enoughBattery) {
+      openTooLowBatteryModal()
+      return
+    }
     try {
       await openDownloadingUpdateModal()
       await delayResponse(
@@ -323,6 +344,11 @@ const useSystemUpdateFlow = (
 
     if (release === undefined) {
       displayErrorModal()
+      return
+    }
+
+    if (enoughBattery) {
+      openTooLowBatteryModal()
       return
     }
 
