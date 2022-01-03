@@ -66,7 +66,8 @@ const useSystemUpdateFlow = (
   const [releaseToInstall, setReleaseToInstall] = useState<Release>()
   const dispatch = useDispatch()
   const mounted = useRef<boolean>(false)
-  const enoughBattery = Math.round(batteryLevel * 100) <= 40
+  const minBattery = 40
+  const notEnoughBattery = Math.round(batteryLevel * 100) <= minBattery
 
   useEffect(() => {
     mounted.current = true
@@ -169,7 +170,7 @@ const useSystemUpdateFlow = (
 
     const { version, date } = release
     const onDownload = () => {
-      if (enoughBattery) {
+      if (notEnoughBattery) {
         openTooLowBatteryModal()
         return
       }
@@ -308,7 +309,7 @@ const useSystemUpdateFlow = (
       releaseInstance === undefined || releaseInstance.version === undefined
         ? releaseToInstall
         : releaseInstance
-    if (enoughBattery) {
+    if (notEnoughBattery) {
       openTooLowBatteryModal()
       return
     }
@@ -347,7 +348,7 @@ const useSystemUpdateFlow = (
       return
     }
 
-    if (enoughBattery) {
+    if (notEnoughBattery) {
       openTooLowBatteryModal()
       return
     }
