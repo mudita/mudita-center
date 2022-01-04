@@ -189,7 +189,7 @@ export const PureOverview: FunctionComponent<Props> = ({
       return UpdatingForceModalFlowState.Success
     } else if (updatingState === UpdatingState.Fail) {
       return UpdatingForceModalFlowState.Fail
-    } else if (osVersionSupported) {
+    } else if (!osVersionSupported) {
       return UpdatingForceModalFlowState.Info
     } else {
       return undefined
