@@ -61,6 +61,15 @@ const messages = defineMessages({
   updatingSuccessDescription: {
     id: "module.overview.updatingSuccessDescription",
   },
+  updatingFlatBatteryTitle: {
+    id: "module.overview.updatingFlatBatteryTitle",
+  },
+  updatingFlatBatteryDescription: {
+    id: "module.overview.updatingFlatBatteryDescription",
+  },
+  updatingFlatBatteryActionButton: {
+    id: "module.overview.updatingFlatBatteryActionButton",
+  },
 })
 
 const ModalContent = styled.div`
@@ -198,3 +207,35 @@ export const UpdatingSuccessModal: FunctionComponent<
     </OSUpdateModal>
   )
 }
+
+interface TooLowBatteryModalModalProps
+  extends ComponentProps<typeof ModalDialog> {
+  onCancel?: () => void
+}
+
+export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalModalProps> =
+  ({ onCancel, ...props }) => {
+    return (
+      <OSUpdateModal
+        closeButtonLabel={intl.formatMessage(
+          messages.updatingFlatBatteryActionButton
+        )}
+        title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+        size={ModalSize.Small}
+        onCloseButton={onCancel}
+        {...props}
+      >
+        <ModalContent>
+          <RoundIconWrapper>
+            <Icon type={Type.NoBattery} width={5} />
+          </RoundIconWrapper>
+          <ModalText displayStyle={TextDisplayStyle.LargeBoldText}>
+            {intl.formatMessage(messages.updatingFlatBatteryTitle)}
+          </ModalText>
+          <ModalText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+            {intl.formatMessage(messages.updatingFlatBatteryDescription)}
+          </ModalText>
+        </ModalContent>
+      </OSUpdateModal>
+    )
+  }
