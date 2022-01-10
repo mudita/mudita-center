@@ -49,8 +49,8 @@ const createDailyRotateFileTransport = (
     filename: "mc-%DATE%",
     extension: ".log",
     datePattern: "YYYY-MM-DD",
-    maxFiles: 3,
-    maxSize: "1m",
+    maxFiles: 10,
+    maxSize: "1d",
     level: "info",
     format,
   })

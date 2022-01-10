@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { DeviceType, DiagnosticsFilePath } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
 import { useDispatch, useSelector } from "react-redux"
@@ -61,8 +61,11 @@ const useSystemUpdateFlow = (
   ) as DeviceType
   const [releaseToInstall, setReleaseToInstall] = useState<Release>()
   const dispatch = useDispatch()
+  const mounted = useRef<boolean>(false)
 
   useEffect(() => {
+    mounted.current = true
+
     const downloadListener = (event: Event, progress: DownloadProgress) => {
       const { status, percent, speed, timeLeft } = progress
       if (status === DownloadStatus.Interrupted) {
@@ -79,6 +82,7 @@ const useSystemUpdateFlow = (
     }
     ipcRenderer.on(PureOsDownloadChannels.progress, downloadListener)
     return () => {
+      mounted.current = false
       ipcRenderer.removeListener(
         PureOsDownloadChannels.progress,
         downloadListener
@@ -138,14 +142,26 @@ const useSystemUpdateFlow = (
 
   // Checking for updates
   const openCheckingForUpdatesModal = () => {
+    if (!mounted.current) {
+      return
+    }
+
     return modalService.openModal(<CheckingUpdatesModal />, true)
   }
 
   const openCheckingForUpdatesFailedModal = (onRetry: () => void) => {
+    if (!mounted.current) {
+      return
+    }
+
     return modalService.openModal(<UpdateServerError onRetry={onRetry} />, true)
   }
 
   const openAvailableUpdateModal = (release: Release) => {
+    if (!mounted.current) {
+      return
+    }
+
     const { version, date } = release
     const onDownload = () => {
       downloadUpdate(release)
@@ -159,6 +175,10 @@ const useSystemUpdateFlow = (
   }
 
   const openNotAvailableUpdateModal = () => {
+    if (!mounted.current) {
+      return
+    }
+
     return modalService.openModal(
       <UpdateNotAvailable version={osVersion} />,
       true
@@ -167,7 +187,7 @@ const useSystemUpdateFlow = (
 
   const checkForUpdates = async (silent = false) => {
     if (!silent) {
-      await delayResponse(openCheckingForUpdatesModal(), 1000)
+      await delayResponse(openCheckingForUpdatesModal() as Promise<void>, 1000)
     }
 
     if (osVersion) {
@@ -225,6 +245,10 @@ const useSystemUpdateFlow = (
 
   // Download update
   const openDownloadSucceededModal = (release?: Release) => {
+    if (!mounted.current) {
+      return
+    }
+
     return modalService.openModal(
       <DownloadingUpdateFinishedModal onOsUpdate={() => updatePure(release)} />,
       true
@@ -232,10 +256,18 @@ const useSystemUpdateFlow = (
   }
 
   const openDownloadCanceledModal = () => {
+    if (!mounted.current) {
+      return
+    }
+
     return modalService.openModal(<DownloadingUpdateCancelledModal />, true)
   }
 
   const openDownloadInterruptedModal = (onRetry: () => void) => {
+    if (!mounted.current) {
+      return
+    }
+
     return modalService.openModal(
       <DownloadingUpdateInterruptedModal onRetry={onRetry} />,
       true
@@ -243,6 +275,10 @@ const useSystemUpdateFlow = (
   }
 
   const openDownloadingUpdateModal = async () => {
+    if (!mounted.current) {
+      return
+    }
+
     await modalService.openModal(
       <DownloadingUpdateModal onCancel={onOsDownloadCancel} />,
       true
