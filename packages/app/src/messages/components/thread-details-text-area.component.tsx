@@ -19,7 +19,7 @@ import { Feature, flags } from "App/feature-flags"
 
 interface Props {
   value: string
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
+  onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void
   onSendClick: () => void
   onAttachContactClick: () => void
 }
