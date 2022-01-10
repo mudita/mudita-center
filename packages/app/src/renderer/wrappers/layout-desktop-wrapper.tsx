@@ -23,7 +23,7 @@ const Layout = styled.div`
   display: grid;
   height: 100vh;
   grid-template-rows: 6rem calc(100vh - 6rem);
-  grid-template-columns: 30.5rem 1fr;
+  grid-template-columns: 31.2rem 1fr;
   grid-template-areas: "Menu Header" "Menu View";
   max-width: ${width("viewWidth")};
   margin: 0 auto;

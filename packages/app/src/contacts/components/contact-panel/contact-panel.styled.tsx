@@ -19,7 +19,7 @@ export const Panel = styled.div<{
   grid-auto-flow: column;
   grid-template-columns: 1fr;
   align-items: end;
-  padding: 3.2rem 3rem 0 3rem;
+  padding: 2.4rem 3.2rem 0 3.2rem;
   background-color: ${backgroundColor("main")};
   ${({ selectionMode }) =>
     selectionMode &&

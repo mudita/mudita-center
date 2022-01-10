@@ -236,7 +236,7 @@ const SidebarWrapper = styled.div<{
   --header-background: ${({ appColorSidebarHeader = "transparent" }) =>
     appColorSidebarHeader && backgroundColor("main")};
 
-  width: 62rem;
+  width: 60.8rem;
   display: flex;
   flex-direction: column;
   overflow: hidden;
