@@ -10,7 +10,7 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import React from "react"
+import React, { ComponentProps } from "react"
 import styled from "styled-components"
 import { noop } from "Renderer/utils/noop"
 import {
@@ -36,6 +36,7 @@ import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
 import { Size } from "App/renderer/components/core/button/button.config"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const ModalContent = styled.div`
   display: flex;
@@ -168,6 +169,15 @@ const messages = defineMessages({
   },
   updatingFailedHelpButton: {
     id: "module.overview.updatingFailedHelpButton",
+  },
+  updatingFlatBatteryTitle: {
+    id: "module.overview.updatingFlatBatteryTitle",
+  },
+  updatingFlatBatteryDescription: {
+    id: "module.overview.updatingFlatBatteryDescription",
+  },
+  updatingFlatBatteryActionButton: {
+    id: "module.overview.updatingFlatBatteryActionButton",
   },
 })
 
@@ -468,6 +478,36 @@ export const DevUpdate = ({
         <br />
         Please make sure you know what you're doing!
       </CenteredText>
+    </OSUpdateModal>
+  )
+}
+interface TooLowBatteryModalProps extends ComponentProps<typeof ModalDialog> {
+  closeModal?: () => void
+}
+
+export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
+  ...props
+}) => {
+  return (
+    <OSUpdateModal
+      closeButtonLabel={intl.formatMessage(
+        messages.updatingFlatBatteryActionButton
+      )}
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+      size={ModalSize.Small}
+      {...props}
+    >
+      <ModalContent>
+        <RoundIconWrapper>
+          <Icon type={Type.NoBattery} width={5} />
+        </RoundIconWrapper>
+        <ModalText displayStyle={TextDisplayStyle.LargeBoldText}>
+          {intl.formatMessage(messages.updatingFlatBatteryTitle)}
+        </ModalText>
+        <ModalText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+          {intl.formatMessage(messages.updatingFlatBatteryDescription)}
+        </ModalText>
+      </ModalContent>
     </OSUpdateModal>
   )
 }
