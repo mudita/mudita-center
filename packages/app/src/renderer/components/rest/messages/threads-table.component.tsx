@@ -119,7 +119,7 @@ export const FiltersWrapper = styled.div`
   grid-template-areas: "Filters Search New";
   align-items: center;
   border-bottom: solid 0.1rem ${borderColor("list")};
-  padding: 3.2rem 3rem;
+  padding: 2.4rem 3.2rem;
 `
 
 export const TableWrapper = styled.div`

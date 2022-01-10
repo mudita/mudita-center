@@ -42,7 +42,7 @@ export const Data = styled.div`
 `
 
 export const SettingsLabel = styled(Name)`
-  margin-left: 4rem;
+  margin-left: 3.2rem;
   margin-bottom: 0;
   align-self: center;
 `
@@ -52,7 +52,7 @@ export const SettingsDescriptionWrapper = styled.div`
 `
 
 export const SettingsDescription = styled(Text)`
-  margin-left: 4rem;
+  margin-left: 3.2rem;
   margin-bottom: 3.2rem;
 `
 
