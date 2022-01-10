@@ -31,6 +31,7 @@ const defaultProps: Props = {
   onContact: jest.fn(),
   onHelp: jest.fn(),
   updateOs: jest.fn(),
+  batteryLevel: 0.6,
 }
 
 const releases: Release[] = [
@@ -78,6 +79,9 @@ test("form renders properly", () => {
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingSuccessModal)
   ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceTooLowBatteryModal)
+  ).not.toBeInTheDocument()
 })
 
 test("failure modal is display after runUpdateProcess when osVersion is undefined", () => {
@@ -101,6 +105,9 @@ test("failure modal is display after runUpdateProcess when osVersion is undefine
   ).not.toBeInTheDocument()
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceInfoModal)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceTooLowBatteryModal)
   ).not.toBeInTheDocument()
 })
 
@@ -258,4 +265,31 @@ test("onContact is called from the failure modal source", () => {
 
   getByTestId(ModalTestIds.CloseBottomButton).click()
   expect(onContact).toHaveBeenCalled()
+})
+
+test("TooLowBattery modal is display after runUpdateProcess when battery level is too low", () => {
+  const { getByTestId, queryByTestId } = render({ batteryLevel: 0.2 })
+
+  getByTestId(ModalTestIds.ModalActionButton).click()
+
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceTooLowBatteryModal)
+  ).toBeInTheDocument()
+  expect(
+    queryByTestId(
+      UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal
+    )
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceFailureModal)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingSuccessModal)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceInfoModal)
+  ).not.toBeInTheDocument()
 })
