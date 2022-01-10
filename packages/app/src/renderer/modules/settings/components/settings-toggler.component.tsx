@@ -15,12 +15,12 @@ import { noop } from "Renderer/utils/noop"
 import { SettingsTogglerTestIds } from "Renderer/modules/settings/components/settings-toggler-test-ids.enum"
 
 const Toggler = styled(ButtonToggler)`
-  margin-right: 4rem;
+  margin-right: 3.2rem;
 `
 
 const TogglerItem = styled(ButtonTogglerItem)`
   padding: 0 3.6rem;
-  width: 75%;
+  width: 8.8rem;
 `
 
 export interface SettingsTogglerProps {

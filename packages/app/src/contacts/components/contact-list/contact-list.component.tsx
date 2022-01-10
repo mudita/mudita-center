@@ -100,8 +100,8 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   min-width: 32rem;
   flex: 1;
   overflow: auto;
-  --columnsTemplate: 4rem 63rem 11.5rem 11.5rem auto;
-  --columnsTemplateWithOpenedSidebar: 4rem 1fr;
+  --columnsTemplate: 3.2rem 63rem 11.5rem 11.5rem auto;
+  --columnsTemplateWithOpenedSidebar: 3.2rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
 
@@ -239,7 +239,11 @@ const ContactList: FunctionComponent<Props> = ({
                   (nextContact || contacts[index]).id === activeRow?.id
 
                 const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-                  <ContactListRow selected={selected} active={rowActive} ref={ref}>
+                  <ContactListRow
+                    selected={selected}
+                    active={rowActive}
+                    ref={ref}
+                  >
                     <Col>
                       <Checkbox
                         checked={selected}

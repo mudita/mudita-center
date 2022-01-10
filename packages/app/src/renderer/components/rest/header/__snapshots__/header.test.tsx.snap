@@ -22,7 +22,7 @@ exports[`matches snapshot with tabs 1`] = `
 }
 
 .c2 {
-  margin: 2.4rem 0 1.5rem 4rem;
+  margin: 2.4rem 0 1.5rem 3.2rem;
 }
 
 .c6 {
@@ -71,7 +71,7 @@ exports[`matches snapshot with tabs 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -219,7 +219,7 @@ exports[`matches snapshot without tabs 1`] = `
 }
 
 .c2 {
-  margin: 2.4rem 0 1.5rem 4rem;
+  margin: 2.4rem 0 1.5rem 3.2rem;
 }
 
 .c3 {
