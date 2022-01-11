@@ -168,5 +168,46 @@ describe("Form Validators", () => {
         ).toBeInTheDocument()
       })
     })
+    describe("should pass as valid when password value contains at least one of special character &'()*+,-./:;<=>?@[]^_`{|}~ ", () => {
+      test.each([
+        "&",
+        "'",
+        "(",
+        ")",
+        "*",
+        "+",
+        "-",
+        ".",
+        "/",
+        ":",
+        ";",
+        "<",
+        "=",
+        ">",
+        "?",
+        "@",
+        "[",
+        "]",
+        "^",
+        "_",
+        "`",
+        "{",
+        "|",
+        "}",
+        "~",
+        " ",
+      ])(
+        "should pass as valid when password value contains %s",
+        (specialCharacter) => {
+          const { getByTestId, queryByText } = render()
+          fireEvent.change(getByTestId(FormTestIds.Input), {
+            target: { value: "Abcdef1" + specialCharacter },
+          })
+          expect(
+            queryByText("[value] module.overview.backupSecretKeyValidation")
+          ).not.toBeInTheDocument()
+        }
+      )
+    })
   })
 })
