@@ -14,27 +14,14 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import logger from "App/main/utils/logger"
 import countCRC32 from "Backend/helpers/count-crc32"
+import DeviceFileSystemAdapter, {
+  DeviceFile,
+  EncodedResponse,
+  UploadFileLocallyPayload,
+  UploadFilePayload,
+} from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
-export interface DeviceFile extends Pick<File, "name"> {
-  data: Buffer
-}
-
-export interface EncodedResponse {
-  file: string
-  fileCrc32?: string
-}
-
-export interface UploadFilePayload {
-  data: Buffer
-  targetPath: string
-}
-
-export interface UploadFileLocallyPayload {
-  filePath: string
-  targetPath: string
-}
-
-class DeviceFileSystemService {
+export class DeviceFileSystem implements DeviceFileSystemAdapter {
   constructor(private deviceService: DeviceService) {}
 
   async downloadLocally(
@@ -375,8 +362,8 @@ class DeviceFileSystemService {
   }
 }
 
-export const createDeviceFileSystemService = (
+const createDeviceFileSystemAdapter = (
   deviceService: DeviceService
-): DeviceFileSystemService => new DeviceFileSystemService(deviceService)
+): DeviceFileSystem => new DeviceFileSystem(deviceService)
 
-export default DeviceFileSystemService
+export default createDeviceFileSystemAdapter

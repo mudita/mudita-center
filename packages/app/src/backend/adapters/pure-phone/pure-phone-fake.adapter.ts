@@ -18,7 +18,7 @@ import {
   MuditaDevice,
   StartBackupResponseBody,
 } from "@mudita/pure"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {

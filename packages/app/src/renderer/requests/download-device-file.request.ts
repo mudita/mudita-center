@@ -5,7 +5,7 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 
 const downloadDeviceFile = async (

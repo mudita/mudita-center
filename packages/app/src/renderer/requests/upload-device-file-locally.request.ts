@@ -8,7 +8,7 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 import {
   DeviceFile,
   UploadFileLocallyPayload,
-} from "Backend/device-file-system-service/device-file-system-service"
+} from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 
 const uploadDeviceFileLocally = async (

@@ -16,7 +16,7 @@ import downloadDeviceFile from "Renderer/requests/download-device-file.request"
 import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import mockCreateFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
 import { FreshdeskTicketData } from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 const successGetDeviceUpdaterLogResponse: DeviceResponse<DeviceFile> = {
   status: DeviceResponseStatus.Ok,
@@ -77,9 +77,7 @@ describe("`sendTicketRequest` request", () => {
     test("request return status OK", async () => {
       ;(getAppLogs as jest.Mock).mockReturnValue("")
       ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from(""))
-      ;(getDeviceLogFiles as jest.Mock).mockReturnValue(
-        errorResponse
-      )
+      ;(getDeviceLogFiles as jest.Mock).mockReturnValue(errorResponse)
       ;(downloadDeviceFile as jest.Mock).mockReturnValue(
         successGetDeviceUpdaterLogResponse
       )
@@ -106,9 +104,7 @@ describe("`sendTicketRequest` request", () => {
       ;(getDeviceLogFiles as jest.Mock).mockReturnValue(
         successGetDeviceLogsResponse
       )
-      ;(downloadDeviceFile as jest.Mock).mockReturnValue(
-        errorResponse
-      )
+      ;(downloadDeviceFile as jest.Mock).mockReturnValue(errorResponse)
       ;(createFreshdeskTicket as jest.Mock).mockImplementation((data) =>
         mockCreateFreshdeskTicket(data)
       )
@@ -129,9 +125,7 @@ describe("`sendTicketRequest` request", () => {
     test("request return error", async () => {
       ;(getAppLogs as jest.Mock).mockReturnValue("")
       ;(archiveFiles as jest.Mock).mockReturnValue(undefined)
-      ;(getDeviceLogFiles as jest.Mock).mockReturnValue(
-        errorResponse
-      )
+      ;(getDeviceLogFiles as jest.Mock).mockReturnValue(errorResponse)
       ;(downloadDeviceFile as jest.Mock).mockReturnValue(
         successGetDeviceUpdaterLogResponse
       )

@@ -19,7 +19,7 @@ import {
   DeviceFile,
   UploadFileLocallyPayload,
   UploadFilePayload,
-} from "Backend/device-file-system-service/device-file-system-service"
+} from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export interface DeviceFilesOption {
   datePrefix?: boolean

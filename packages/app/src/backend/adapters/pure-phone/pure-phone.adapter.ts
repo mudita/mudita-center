@@ -24,11 +24,11 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
-import DeviceFileSystemService, {
+import DeviceFileSystemAdapter, {
   DeviceFile,
   UploadFileLocallyPayload,
   UploadFilePayload,
-} from "Backend/device-file-system-service/device-file-system-service"
+} from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
 
@@ -37,7 +37,7 @@ class PurePhone extends PurePhoneAdapter {
   static osUpdateRestartStep = PurePhone.osUpdateStepsMax - 1
   constructor(
     private deviceService: DeviceService,
-    private deviceFileSystemService: DeviceFileSystemService,
+    private deviceFileSystem: DeviceFileSystemAdapter,
     private deviceFileDiagnosticService: DeviceFileDiagnosticService
   ) {
     super()
@@ -246,9 +246,7 @@ class PurePhone extends PurePhoneAdapter {
   public async downloadDeviceFile(
     filePath: string
   ): Promise<DeviceResponse<DeviceFile>> {
-    const { status, data } = await this.deviceFileSystemService.downloadFile(
-      filePath
-    )
+    const { status, data } = await this.deviceFileSystem.downloadFile(filePath)
 
     if (status !== DeviceResponseStatus.Ok || data === undefined) {
       return {
@@ -266,13 +264,13 @@ class PurePhone extends PurePhoneAdapter {
   public async uploadDeviceFile(
     payload: UploadFilePayload
   ): Promise<DeviceResponse> {
-    return await this.deviceFileSystemService.uploadFile(payload)
+    return await this.deviceFileSystem.uploadFile(payload)
   }
 
   public async uploadDeviceFileLocally(
     payload: UploadFileLocallyPayload
   ): Promise<DeviceResponse> {
-    return await this.deviceFileSystemService.uploadFileLocally(payload)
+    return await this.deviceFileSystem.uploadFileLocally(payload)
   }
 
   public async updateOs(filePath: string): Promise<DeviceResponse> {
@@ -290,7 +288,7 @@ class PurePhone extends PurePhoneAdapter {
 
     const beforeUpdateOsVersion = getDeviceInfoResponse.data
 
-    const fileResponse = await this.deviceFileSystemService.uploadFileLocally({
+    const fileResponse = await this.deviceFileSystem.uploadFileLocally({
       filePath,
       targetPath: "/sys/user/update.tar",
     })
@@ -367,7 +365,7 @@ class PurePhone extends PurePhoneAdapter {
     }
 
     const downloadDeviceFilesResponse =
-      await this.deviceFileSystemService.downloadDeviceFiles(files.data)
+      await this.deviceFileSystem.downloadDeviceFiles(files.data)
     const deviceFiles = downloadDeviceFilesResponse.data
 
     if (
@@ -398,10 +396,7 @@ class PurePhone extends PurePhoneAdapter {
     }
 
     const downloadDeviceFilesResponse =
-      await this.deviceFileSystemService.downloadLocally(
-        files.data,
-        "crash-dumps"
-      )
+      await this.deviceFileSystem.downloadLocally(files.data, "crash-dumps")
     const deviceFiles = downloadDeviceFilesResponse.data
 
     if (
@@ -527,13 +522,9 @@ class PurePhone extends PurePhoneAdapter {
 
 const createPurePhoneAdapter = (
   deviceService: DeviceService,
-  deviceFileSystemService: DeviceFileSystemService,
+  deviceFileSystem: DeviceFileSystemAdapter,
   deviceFileDiagnosticService: DeviceFileDiagnosticService
 ): PurePhoneAdapter =>
-  new PurePhone(
-    deviceService,
-    deviceFileSystemService,
-    deviceFileDiagnosticService
-  )
+  new PurePhone(deviceService, deviceFileSystem, deviceFileDiagnosticService)
 
 export default createPurePhoneAdapter

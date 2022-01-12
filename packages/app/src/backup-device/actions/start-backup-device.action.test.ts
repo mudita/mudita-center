@@ -15,7 +15,7 @@ import {
   startBackupDevice,
   StartBackupOption,
 } from "App/backup-device/actions/start-backup-device.action"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import startBackupDeviceRequest from "Renderer/requests/start-backup-device.request"
 import getBackupDeviceStatus from "Renderer/requests/get-backup-device-status.request"
 import downloadDeviceFile from "Renderer/requests/download-device-file.request"
