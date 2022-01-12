@@ -16,8 +16,7 @@ import {
 } from "@mudita/pure"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 import {
-  DeviceFile,
-  UploadFileLocallyPayload
+  DeviceFile
 } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export interface DeviceFilesOption {
@@ -63,8 +62,5 @@ export default abstract class PurePhoneAdapter {
     config: GetRestoreDeviceStatusRequestConfigBody
   ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>>
   //TODO: move to a separate adapter
-  public abstract uploadDeviceFileLocally(
-    payload: UploadFileLocallyPayload
-  ): Promise<DeviceResponse>
   public abstract removeDeviceFile(removeFile: string): Promise<DeviceResponse>
 }
