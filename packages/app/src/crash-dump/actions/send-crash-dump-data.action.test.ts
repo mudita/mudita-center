@@ -15,7 +15,6 @@ import { DeviceConnectionError } from "App/device"
 import { testError } from "App/renderer/store/constants"
 import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import archiveFiles from "Renderer/requests/archive-files.request"
-import { downloadingLogs } from "App/contact-support/helpers/downloading-logs"
 
 const crashDumpsMock: string[] = ["/pure/logs/crash-dumps/file.hex"]
 
@@ -36,7 +35,7 @@ jest.mock("App/contact-support/helpers/downloading-logs", () => ({
 jest.mock("Renderer/requests/archive-files.request")
 
 afterEach(() => {
-  jest.resetAllMocks()
+  jest.clearAllMocks()
 })
 
 describe("when Crash dumps doesn't downloaded", () => {
@@ -95,6 +94,7 @@ describe("when Crash dumps downloaded", () => {
     ;(createFile as jest.Mock).mockReturnValue(
       new File([new Buffer("hello world")], "hello.world")
     )
+    ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from("hello world"))
     ;(createFreshdeskTicket as jest.Mock).mockImplementation((data) =>
       mockCreateFreshdeskTicket(data)
     )
@@ -175,7 +175,6 @@ describe("when `createFreshdeskTicket` returns `error` status", () => {
 
 describe("when logs downloaded", () => {
   test("fire async `sendCrashDumpData` action and execute `rejected` event if archive files buffer is equal to undefined", async () => {
-    ;(downloadingLogs as jest.Mock).mockReturnValue(logsFiles)
     ;(archiveFiles as jest.Mock).mockReturnValue(undefined)
 
     const mockStore = createMockStore([thunk])({
