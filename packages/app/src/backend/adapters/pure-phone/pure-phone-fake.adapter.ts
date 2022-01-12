@@ -167,12 +167,6 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
       },
     }
   }
-
-  public async removeDeviceFile(): Promise<DeviceResponse> {
-    return {
-      status: DeviceResponseStatus.Ok,
-    }
-  }
 }
 
 const createFakePurePhoneAdapter = (): PurePhoneAdapter =>

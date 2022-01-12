@@ -5,13 +5,13 @@
 
 import { ipcMain } from "electron-better-ipc"
 import getFakeAdapters from "App/tests/get-fake-adapters"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
+import { IpcDeviceFileSystem } from "App/device-file-system"
 import registerDownloadDeviceFilesRequest from "App/device-file-system/listeners/download-device-file.listener"
 
 test("`DownloadDeviceFileRequest` returns properly value", async () => {
   registerDownloadDeviceFilesRequest(getFakeAdapters())
   const [pendingResponse] = (ipcMain as any)._flush(
-    IpcRequest.DownloadDeviceFiles
+    IpcDeviceFileSystem.DownloadDeviceFiles
   )
   const result = await pendingResponse
   expect(result).toMatchInlineSnapshot(`

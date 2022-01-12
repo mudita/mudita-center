@@ -5,7 +5,7 @@
 
 import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
+import { IpcDeviceFileSystem } from "App/device-file-system"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
@@ -17,7 +17,7 @@ const handleDownloadDeviceFiles = async (
 }
 
 const registerDownloadDeviceFilesRequest = createEndpoint({
-  name: IpcRequest.DownloadDeviceFiles,
+  name: IpcDeviceFileSystem.DownloadDeviceFiles,
   handler: handleDownloadDeviceFiles,
 })
 

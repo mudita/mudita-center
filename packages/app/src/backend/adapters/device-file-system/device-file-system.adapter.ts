@@ -24,7 +24,7 @@ import DeviceFileSystemAdapter, {
 export class DeviceFileSystem implements DeviceFileSystemAdapter {
   constructor(private deviceService: DeviceService) {}
 
-  async downloadLocally(
+  public async downloadLocally(
     filePaths: string[],
     fileDirectory: string
   ): Promise<DeviceResponse<string[]>> {
@@ -57,7 +57,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
     }
   }
 
-  async downloadDeviceFiles(
+  public async downloadDeviceFiles(
     filePaths: string[]
   ): Promise<DeviceResponse<DeviceFile[]>> {
     const data: DeviceFile[] = []
@@ -81,7 +81,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
     }
   }
 
-  async downloadFile(filePath: string): Promise<DeviceResponse<Buffer>> {
+  public async downloadFile(filePath: string): Promise<DeviceResponse<Buffer>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
@@ -144,7 +144,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
     }
   }
 
-  async uploadFile({
+  public async uploadFile({
     data,
     targetPath,
   }: UploadFilePayload): Promise<DeviceResponse> {
@@ -177,7 +177,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
     return this.sendFileRequest(data, txID, chunkSize)
   }
 
-  async uploadFileLocally({
+  public async uploadFileLocally({
     filePath,
     targetPath,
   }: UploadFileLocallyPayload): Promise<DeviceResponse> {
@@ -217,6 +217,26 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
             "Upload OS update package: Something went wrong in open file",
         },
       }
+    }
+  }
+
+  public async removeDeviceFile(removeFile: string): Promise<DeviceResponse> {
+    if (!removeFile) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+
+    const { status } = await this.deviceService.request({
+      endpoint: Endpoint.FileSystem,
+      method: Method.Delete,
+      body: {
+        removeFile,
+      },
+    })
+
+    return {
+      status,
     }
   }
 

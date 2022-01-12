@@ -12,8 +12,6 @@ import DeviceFileSystemAdapter, {
 } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export class DeviceFileSystemFakeAdapter implements DeviceFileSystemAdapter {
-  constructor() {}
-
   async downloadLocally(
     filePaths: string[],
     fileDirectory: string
@@ -55,6 +53,12 @@ export class DeviceFileSystemFakeAdapter implements DeviceFileSystemAdapter {
   }
 
   async uploadFileLocally(): Promise<DeviceResponse> {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
+  }
+
+  public async removeDeviceFile(): Promise<DeviceResponse> {
     return {
       status: DeviceResponseStatus.Ok,
     }

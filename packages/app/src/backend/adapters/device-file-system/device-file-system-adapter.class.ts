@@ -43,4 +43,5 @@ export default abstract class DeviceFileSystemAdapter {
     filePath,
     targetPath,
   }: UploadFileLocallyPayload): Promise<DeviceResponse>
+  public abstract removeDeviceFile(removeFile: string): Promise<DeviceResponse>
 }

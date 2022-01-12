@@ -405,26 +405,6 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
-  public async removeDeviceFile(removeFile: string): Promise<DeviceResponse> {
-    if (!removeFile) {
-      return {
-        status: DeviceResponseStatus.Error,
-      }
-    }
-
-    const { status } = await this.deviceService.request({
-      endpoint: Endpoint.FileSystem,
-      method: Method.Delete,
-      body: {
-        removeFile,
-      },
-    })
-
-    return {
-      status,
-    }
-  }
-
   private async waitUntilDeviceRestart(
     index = 0,
     timeout = 5000,

@@ -6,12 +6,12 @@
 import { ipcRenderer } from "electron-better-ipc"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
+import { IpcDeviceFileSystem } from "App/device-file-system"
 
 const downloadDeviceFiles = async (
   filePaths: string[]
 ): Promise<DeviceResponse<DeviceFile[]>> => {
-  return await ipcRenderer.callMain(IpcRequest.DownloadDeviceFiles, filePaths)
+  return await ipcRenderer.callMain(IpcDeviceFileSystem.DownloadDeviceFiles, filePaths)
 }
 
 export default downloadDeviceFiles
