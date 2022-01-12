@@ -183,7 +183,7 @@ exports[`matches snapshot 1`] = `
   border-radius: 0.5rem;
   -webkit-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
-  box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
+  box-shadow: 0 1rem 5.5rem -0.5rem rgba(0,0,0,0.08);
 }
 
 .c18 {
@@ -262,12 +262,12 @@ exports[`matches snapshot 1`] = `
 }
 
 .c14:not(:hover) {
-  border: 0.1rem solid #cdcecf;
+  border: 0.1rem solid #d2d6db;
   color: #6a6a6a;
 }
 
 .c14:not(:hover) g {
-  fill: #cdcecf;
+  fill: #f4f5f6;
 }
 
 .c14:not(:first-of-type) {

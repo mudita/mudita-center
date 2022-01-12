@@ -120,7 +120,7 @@ exports[`Button matches snapshots Icon only displayStyle: 4 size: undefined disa
 }
 
 .c0:hover {
-  background: #e9e9e9;
+  background: #f4f5f6;
 }
 
 .c0 g {
@@ -1226,8 +1226,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
-  background: #cdcecf;
-  border: 0.1rem solid #cdcecf;
+  background: #d2d6db;
+  border: 0.1rem solid #d2d6db;
 }
 
 .c0:hover {
@@ -1363,8 +1363,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
-  background: #cdcecf;
-  border: 0.1rem solid #cdcecf;
+  background: #d2d6db;
+  border: 0.1rem solid #d2d6db;
 }
 
 .c0:hover {
@@ -1501,8 +1501,8 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
-  background: #cdcecf;
-  border: 0.1rem solid #cdcecf;
+  background: #d2d6db;
+  border: 0.1rem solid #d2d6db;
 }
 
 .c0:hover {
@@ -1634,7 +1634,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
-  border: 0.1rem solid #cdcecf;
+  border: 0.1rem solid #d2d6db;
   color: #6a6a6a;
 }
 
@@ -1643,7 +1643,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
 }
 
 .c0 g {
-  fill: #cdcecf;
+  fill: #f4f5f6;
 }
 
 .c0:hover {
@@ -1771,7 +1771,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
-  border: 0.1rem solid #cdcecf;
+  border: 0.1rem solid #d2d6db;
   color: #6a6a6a;
 }
 
@@ -1780,7 +1780,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
 }
 
 .c0 g {
-  fill: #cdcecf;
+  fill: #f4f5f6;
 }
 
 .c0:hover {
@@ -1909,7 +1909,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
-  border: 0.1rem solid #cdcecf;
+  border: 0.1rem solid #d2d6db;
   color: #6a6a6a;
 }
 
@@ -1918,7 +1918,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
 }
 
 .c0 g {
-  fill: #cdcecf;
+  fill: #f4f5f6;
 }
 
 .c0:hover {
@@ -2112,8 +2112,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
-  background: #cdcecf;
-  border: 0.1rem solid #cdcecf;
+  background: #d2d6db;
+  border: 0.1rem solid #d2d6db;
 }
 
 .c0:hover {
@@ -2325,8 +2325,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
-  background: #cdcecf;
-  border: 0.1rem solid #cdcecf;
+  background: #d2d6db;
+  border: 0.1rem solid #d2d6db;
 }
 
 .c0:hover {
@@ -2539,8 +2539,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
-  background: #cdcecf;
-  border: 0.1rem solid #cdcecf;
+  background: #d2d6db;
+  border: 0.1rem solid #d2d6db;
 }
 
 .c0:hover {
@@ -2748,7 +2748,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
-  border: 0.1rem solid #cdcecf;
+  border: 0.1rem solid #d2d6db;
   color: #6a6a6a;
 }
 
@@ -2757,7 +2757,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 }
 
 .c0 g {
-  fill: #cdcecf;
+  fill: #f4f5f6;
 }
 
 .c0:hover {
@@ -2961,7 +2961,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
-  border: 0.1rem solid #cdcecf;
+  border: 0.1rem solid #d2d6db;
   color: #6a6a6a;
 }
 
@@ -2970,7 +2970,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 }
 
 .c0 g {
-  fill: #cdcecf;
+  fill: #f4f5f6;
 }
 
 .c0:hover {
@@ -3175,7 +3175,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
-  border: 0.1rem solid #cdcecf;
+  border: 0.1rem solid #d2d6db;
   color: #6a6a6a;
 }
 
@@ -3184,7 +3184,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 }
 
 .c0 g {
-  fill: #cdcecf;
+  fill: #f4f5f6;
 }
 
 .c0:hover {

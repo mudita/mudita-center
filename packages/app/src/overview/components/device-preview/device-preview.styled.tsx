@@ -46,5 +46,5 @@ export const PureSystemButtonContainer = styled.div`
   padding: 2.4rem 0;
   display: flex;
   justify-content: center;
-  border-top: 0.1rem solid ${borderColor("tetheringSeparator")};
+  border-top: 0.1rem solid ${borderColor("separator")};
 `

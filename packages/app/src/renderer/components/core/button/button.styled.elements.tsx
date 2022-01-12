@@ -164,7 +164,7 @@ const buttonStyles = css<{
           background: transparent;
           border: none;
           &:hover {
-            background: ${backgroundColor("minorHover")};
+            background: ${backgroundColor("minor")};
           }
           g {
             fill: ${textColor("action")};

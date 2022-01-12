@@ -7,7 +7,6 @@ import styled, { css } from "styled-components"
 import {
   backgroundColor,
   borderRadius,
-  boxShadowColor,
   textColor,
   transitionTime,
   transitionTimingFunction,
@@ -34,7 +33,7 @@ const activeBarStyles = css`
 `
 
 const disabledBarStyles = css`
-  background-color: ${backgroundColor("chartBarInactive")};
+  background-color: ${backgroundColor("disabled")};
   pointer-events: none;
 `
 
@@ -79,7 +78,7 @@ export const HorizontalLine = styled.div<{ position: number }>`
   left: 8rem;
   width: calc(100% - 8rem);
   height: 0.1rem;
-  background-color: ${backgroundColor("chartAxisLine")};
+  background-color: ${backgroundColor("minor")};
 
   &:first-child {
     left: 0;
@@ -139,8 +138,7 @@ export const Tooltip = styled.div`
   opacity: 0;
   visibility: hidden;
   border-radius: ${borderRadius("medium")};
-  box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("semi")};
-  background-color: ${backgroundColor("chartTooltip")};
+  background-color: ${backgroundColor("minor")};
   transition: opacity ${transitionTime("quick")}
       ${transitionTimingFunction("easeInOut")},
     visibility ${transitionTime("quick")}
@@ -210,7 +208,7 @@ export const GroupWrapper = styled.div<{ active?: boolean; bars: number }>`
   flex: ${({ bars }) => bars};
 
   &:not(:last-of-type) {
-    border-right: solid 0.1rem ${backgroundColor("chartAxisLine")};
+    border-right: solid 0.1rem ${backgroundColor("minor")};
   }
 
   ${Label} {

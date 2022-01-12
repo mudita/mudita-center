@@ -83,7 +83,7 @@ const MessageDate = styled.div`
   opacity: 0;
   background-color: ${backgroundColor("row")};
   border-radius: ${borderRadius("medium")};
-  box-shadow: 0 0.5rem 1.5rem 0 ${boxShadowColor("light")};
+  box-shadow: 0 0.5rem 1.5rem 0 ${boxShadowColor("full")};
   white-space: nowrap;
 
   p {

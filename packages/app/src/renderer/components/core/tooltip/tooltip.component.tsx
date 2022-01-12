@@ -40,7 +40,7 @@ const TooltipContent = styled.div`
   border-radius: ${borderRadius("medium")};
   transition: opacity ${transitionTime("faster")}
     ${transitionTimingFunction("easeInOut")};
-  box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("light")};
+  box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("full")};
 `
 
 const TooltipIcon = styled(Icon)`
