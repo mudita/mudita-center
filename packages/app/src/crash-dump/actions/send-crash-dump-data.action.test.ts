@@ -14,11 +14,13 @@ import { SendingCrashDumpError } from "App/crash-dump/errors"
 import { DeviceConnectionError } from "App/device"
 import { testError } from "App/renderer/store/constants"
 import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
+import archiveFiles from "Renderer/requests/archive-files.request"
+import { downloadingLogs } from "App/contact-support/helpers/downloading-logs"
 
 const crashDumpsMock: string[] = ["/pure/logs/crash-dumps/file.hex"]
 
-const MuditaOSLogs = new File([""], "MuditaOS.log", { type: "text/html" })
-const logsFiles: File[] = [MuditaOSLogs]
+const muditaOSLogs = new File([""], "MuditaOS.log", { type: "text/html" })
+const logsFiles: File[] = [muditaOSLogs]
 
 jest.mock("Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket")
 jest.mock("App/device-file-system", () => ({
@@ -31,9 +33,11 @@ jest.mock("Renderer/utils/create-file/create-file")
 jest.mock("App/contact-support/helpers/downloading-logs", () => ({
   downloadingLogs: jest.fn().mockReturnValue(logsFiles),
 }))
-jest.mock("Renderer/requests/archive-files.request", () =>
-  jest.fn().mockReturnValue(Buffer.from(""))
-)
+jest.mock("Renderer/requests/archive-files.request")
+
+afterEach(() => {
+  jest.resetAllMocks()
+})
 
 describe("when Crash dumps doesn't downloaded", () => {
   test("fire async `sendCrashDumpData` returns `undefined`", async () => {
@@ -136,6 +140,7 @@ describe("when `createFreshdeskTicket` returns `error` status", () => {
     ;(createFile as jest.Mock).mockReturnValue(
       new File([new Buffer("hello world")], "hello.world")
     )
+    ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from(""))
     ;(createFreshdeskTicket as jest.Mock).mockReturnValue(Promise.reject())
 
     const mockStore = createMockStore([thunk])({
@@ -165,5 +170,42 @@ describe("when `createFreshdeskTicket` returns `error` status", () => {
     ])
     expect(createFile).toHaveBeenCalled()
     expect(createFreshdeskTicket).toHaveBeenCalled()
+  })
+})
+
+describe("when logs downloaded", () => {
+  test("fire async `sendCrashDumpData` action and execute `rejected` event if archive files buffer is equal to undefined", async () => {
+    ;(downloadingLogs as jest.Mock).mockReturnValue(logsFiles)
+    ;(archiveFiles as jest.Mock).mockReturnValue(undefined)
+
+    const mockStore = createMockStore([thunk])({
+      device: {
+        data: {
+          serialNumber: "1234567890",
+        },
+      },
+      crashDump: {
+        data: {
+          files: crashDumpsMock,
+          downloadedFiles: crashDumpsMock,
+        },
+      },
+    })
+
+    const errorMock = new DeviceConnectionError(
+      "Create Crash Dump Ticket - ArchiveFiles error"
+    )
+
+    const {
+      meta: { requestId },
+    } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+
+    expect(mockStore.getActions()).toEqual([
+      sendCrashDumpData.pending(requestId),
+      sendCrashDumpData.rejected(testError, requestId, undefined, errorMock),
+    ])
+
+    expect(createFile).not.toHaveBeenCalled()
+    expect(createFreshdeskTicket).not.toHaveBeenCalled()
   })
 })

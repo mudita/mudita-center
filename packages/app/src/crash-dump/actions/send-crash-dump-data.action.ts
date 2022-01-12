@@ -60,7 +60,7 @@ export const sendCrashDumpData = createAsyncThunk(
     const crashDumpAttachments = mapToAttachments(
       state.crashDump.data.downloadedFiles
     )
-    const attachments = logsAttachments.concat(crashDumpAttachments)
+    const attachments = [...logsAttachments, ...crashDumpAttachments]
 
     const data: FreshdeskTicketData = {
       type: FreshdeskTicketDataType.Problem,

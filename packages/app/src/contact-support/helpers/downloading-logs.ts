@@ -9,11 +9,14 @@ import getAppLogs from "Renderer/requests/get-app-logs.request"
 import downloadDeviceFile from "Renderer/requests/download-device-file.request"
 import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
 import { DiagnosticsFilePath } from "@mudita/pure"
+import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
 
 export const todayFormatDate = formatDate(new Date())
 export const attachedFileName = `${todayFormatDate}.zip`
 
-export const downloadingLogs = async () => {
+export const downloadingLogs = async (): Promise<
+  (ArchiveFile | DeviceFile)[]
+> => {
   const mcFileName = `mc-${todayFormatDate}.txt`
   const appLogs = await getAppLogs()
   const appLogFile: ArchiveFile = {
