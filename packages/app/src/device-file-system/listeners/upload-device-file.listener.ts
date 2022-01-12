@@ -5,9 +5,9 @@
 
 import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
+import { IpcDeviceFileSystem } from "App/device-file-system"
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { UploadFilePayload } from "Backend/device-file-system-service/device-file-system-service"
+import { UploadFilePayload } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { arrayBufferToBuffer } from "App/file-system/helpers"
 
 export interface UploadFileUIPayload extends Omit<UploadFilePayload, "data"> {
@@ -25,14 +25,14 @@ const mapToUploadFilePayload = ({
 }
 
 const handleUploadDeviceFile = async (
-  { purePhone }: Adapters,
+  { deviceFileSystem }: Adapters,
   payload: UploadFileUIPayload
 ): Promise<DeviceResponse> => {
-  return purePhone.uploadDeviceFile(mapToUploadFilePayload(payload))
+  return deviceFileSystem.uploadFile(mapToUploadFilePayload(payload))
 }
 
 const registerUploadDeviceFileRequest = createEndpoint({
-  name: IpcRequest.UploadDeviceFile,
+  name: IpcDeviceFileSystem.UploadDeviceFile,
   handler: handleUploadDeviceFile,
 })
 

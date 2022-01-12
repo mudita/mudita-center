@@ -17,7 +17,7 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import Mock = jest.Mock
 import { deviceReducer } from "App/device"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { ArchiveFilesEvents } from "App/main/functions/register-archive-files-listener"
 
 const getDeviceFileResponse: DeviceResponse<DeviceFile[]> = {

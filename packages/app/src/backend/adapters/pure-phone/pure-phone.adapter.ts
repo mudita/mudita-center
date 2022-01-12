@@ -24,11 +24,9 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
-import DeviceFileSystemService, {
-  DeviceFile,
-  UploadFileLocallyPayload,
-  UploadFilePayload,
-} from "Backend/device-file-system-service/device-file-system-service"
+import DeviceFileSystemAdapter, {
+  DeviceFile
+} from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
 
@@ -37,7 +35,7 @@ class PurePhone extends PurePhoneAdapter {
   static osUpdateRestartStep = PurePhone.osUpdateStepsMax - 1
   constructor(
     private deviceService: DeviceService,
-    private deviceFileSystemService: DeviceFileSystemService,
+    private deviceFileSystem: DeviceFileSystemAdapter,
     private deviceFileDiagnosticService: DeviceFileDiagnosticService
   ) {
     super()
@@ -243,38 +241,6 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  public async downloadDeviceFile(
-    filePath: string
-  ): Promise<DeviceResponse<DeviceFile>> {
-    const { status, data } = await this.deviceFileSystemService.downloadFile(
-      filePath
-    )
-
-    if (status !== DeviceResponseStatus.Ok || data === undefined) {
-      return {
-        status: DeviceResponseStatus.Error,
-      }
-    }
-    const name = filePath.split("/").pop() as string
-
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: { name, data },
-    }
-  }
-
-  public async uploadDeviceFile(
-    payload: UploadFilePayload
-  ): Promise<DeviceResponse> {
-    return await this.deviceFileSystemService.uploadFile(payload)
-  }
-
-  public async uploadDeviceFileLocally(
-    payload: UploadFileLocallyPayload
-  ): Promise<DeviceResponse> {
-    return await this.deviceFileSystemService.uploadFileLocally(payload)
-  }
-
   public async updateOs(filePath: string): Promise<DeviceResponse> {
     const getDeviceInfoResponse = await this.getOsVersion()
 
@@ -290,7 +256,7 @@ class PurePhone extends PurePhoneAdapter {
 
     const beforeUpdateOsVersion = getDeviceInfoResponse.data
 
-    const fileResponse = await this.deviceFileSystemService.uploadFileLocally({
+    const fileResponse = await this.deviceFileSystem.uploadFileLocally({
       filePath,
       targetPath: "/sys/user/update.tar",
     })
@@ -367,7 +333,7 @@ class PurePhone extends PurePhoneAdapter {
     }
 
     const downloadDeviceFilesResponse =
-      await this.deviceFileSystemService.downloadDeviceFiles(files.data)
+      await this.deviceFileSystem.downloadDeviceFiles(files.data)
     const deviceFiles = downloadDeviceFilesResponse.data
 
     if (
@@ -398,10 +364,7 @@ class PurePhone extends PurePhoneAdapter {
     }
 
     const downloadDeviceFilesResponse =
-      await this.deviceFileSystemService.downloadLocally(
-        files.data,
-        "crash-dumps"
-      )
+      await this.deviceFileSystem.downloadLocally(files.data, "crash-dumps")
     const deviceFiles = downloadDeviceFilesResponse.data
 
     if (
@@ -439,26 +402,6 @@ class PurePhone extends PurePhoneAdapter {
     return {
       data: filePaths,
       status: DeviceResponseStatus.Ok,
-    }
-  }
-
-  public async removeDeviceFile(removeFile: string): Promise<DeviceResponse> {
-    if (!removeFile) {
-      return {
-        status: DeviceResponseStatus.Error,
-      }
-    }
-
-    const { status } = await this.deviceService.request({
-      endpoint: Endpoint.FileSystem,
-      method: Method.Delete,
-      body: {
-        removeFile,
-      },
-    })
-
-    return {
-      status,
     }
   }
 
@@ -527,13 +470,9 @@ class PurePhone extends PurePhoneAdapter {
 
 const createPurePhoneAdapter = (
   deviceService: DeviceService,
-  deviceFileSystemService: DeviceFileSystemService,
+  deviceFileSystem: DeviceFileSystemAdapter,
   deviceFileDiagnosticService: DeviceFileDiagnosticService
 ): PurePhoneAdapter =>
-  new PurePhone(
-    deviceService,
-    deviceFileSystemService,
-    deviceFileDiagnosticService
-  )
+  new PurePhone(deviceService, deviceFileSystem, deviceFileDiagnosticService)
 
 export default createPurePhoneAdapter
