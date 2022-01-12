@@ -9,16 +9,16 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
-const handleDownloadDeviceFile = async (
-  { purePhone }: Adapters,
-  filePath: string
-): Promise<DeviceResponse<DeviceFile>> => {
-  return purePhone.downloadDeviceFile(filePath)
+const handleDownloadDeviceFiles = async (
+  { deviceFileSystem }: Adapters,
+  filePaths: string[]
+): Promise<DeviceResponse<DeviceFile[]>> => {
+  return deviceFileSystem.downloadDeviceFiles(filePaths)
 }
 
-const registerDownloadDeviceFileRequest = createEndpoint({
-  name: IpcRequest.DownloadDeviceFile,
-  handler: handleDownloadDeviceFile,
+const registerDownloadDeviceFilesRequest = createEndpoint({
+  name: IpcRequest.DownloadDeviceFiles,
+  handler: handleDownloadDeviceFiles,
 })
 
-export default registerDownloadDeviceFileRequest
+export default registerDownloadDeviceFilesRequest

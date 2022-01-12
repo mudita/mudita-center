@@ -43,7 +43,7 @@ import registerGetMessagesByThreadIdRequest from "Backend/requests/messages/get-
 import registerAddMessageRequest from "Backend/requests/messages/add-message.request"
 import registerGetDeviceLogFiles from "Backend/requests/get-device-log-files/get-device-log-files.request"
 import registerGetDeviceCrashDumpFiles from "Backend/requests/get-device-crash-dump-files/get-device-log-files.request"
-import registerDownloadDeviceFileRequest from "Backend/requests/download-device-file/download-device-file.request"
+import registerDownloadDeviceFilesRequest from "App/device-file-system/listeners/download-device-file.listener"
 import registerUploadDeviceFileRequest from "Backend/requests/upload-device-file/upload-device-file.request"
 import registerUploadDeviceFileLocallyRequest from "Backend/requests/upload-device-file-locally/upload-device-file-locally.request"
 import registerStartBackupDeviceRequest from "Backend/requests/start-backup-device/start-backup-device.request"
@@ -63,6 +63,7 @@ const bootstrap = (
     createDeviceFileDiagnosticService(deviceService)
 
   const adapters = {
+    deviceFileSystem,
     purePhone: createPurePhoneAdapter(
       deviceService,
       deviceFileSystem,
@@ -103,7 +104,7 @@ const bootstrap = (
     registerAddMessageRequest,
     registerGetDeviceLogFiles,
     registerGetDeviceCrashDumpFiles,
-    registerDownloadDeviceFileRequest,
+    registerDownloadDeviceFilesRequest,
     registerUploadDeviceFileLocallyRequest,
     registerUploadDeviceFileRequest,
     registerStartBackupDeviceRequest,

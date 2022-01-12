@@ -243,24 +243,6 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  public async downloadDeviceFile(
-    filePath: string
-  ): Promise<DeviceResponse<DeviceFile>> {
-    const { status, data } = await this.deviceFileSystem.downloadFile(filePath)
-
-    if (status !== DeviceResponseStatus.Ok || data === undefined) {
-      return {
-        status: DeviceResponseStatus.Error,
-      }
-    }
-    const name = filePath.split("/").pop() as string
-
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: { name, data },
-    }
-  }
-
   public async uploadDeviceFile(
     payload: UploadFilePayload
   ): Promise<DeviceResponse> {

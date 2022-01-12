@@ -8,10 +8,10 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 
-const downloadDeviceFile = async (
-  filePath: string
-): Promise<DeviceResponse<DeviceFile>> => {
-  return await ipcRenderer.callMain(IpcRequest.DownloadDeviceFile, filePath)
+const downloadDeviceFiles = async (
+  filePaths: string[]
+): Promise<DeviceResponse<DeviceFile[]>> => {
+  return await ipcRenderer.callMain(IpcRequest.DownloadDeviceFiles, filePaths)
 }
 
-export default downloadDeviceFile
+export default downloadDeviceFiles

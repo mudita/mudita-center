@@ -64,9 +64,6 @@ export default abstract class PurePhoneAdapter {
     config: GetRestoreDeviceStatusRequestConfigBody
   ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>>
   //TODO: move to a separate adapter
-  public abstract downloadDeviceFile(
-    filePath: string
-  ): Promise<DeviceResponse<DeviceFile>>
   public abstract uploadDeviceFile(
     payload: UploadFilePayload
   ): Promise<DeviceResponse>
