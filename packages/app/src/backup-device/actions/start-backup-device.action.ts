@@ -14,7 +14,7 @@ import {
   GetBackupDeviceStatusDataState,
   GetBackupDeviceStatusResponseBody,
 } from "@mudita/pure"
-import downloadDeviceFile from "Renderer/requests/download-device-file.request"
+import downloadDeviceFiles from "App/device-file-system/requests/download-device-file.request"
 import writeFile from "Renderer/requests/write-file.request"
 import { ReduxRootState, RootState } from "Renderer/store"
 import { loadBackupData } from "App/backup/actions"
@@ -100,7 +100,7 @@ export const startBackupDevice = createAsyncThunk<undefined, StartBackupOption>(
       )
     }
 
-    const downloadDeviceFileResponse = await downloadDeviceFile(location)
+    const downloadDeviceFileResponse = await downloadDeviceFiles([location])
     if (!isResponsesSuccessWithData([downloadDeviceFileResponse])) {
       return rejectWithValue(
         new StartBackupDeviceError("Download device file request returns error")
@@ -108,7 +108,7 @@ export const startBackupDevice = createAsyncThunk<undefined, StartBackupOption>(
     }
 
     const encryptedBuffer = await encryptFile({
-      buffer: downloadDeviceFileResponse.data!.data,
+      buffer: downloadDeviceFileResponse.data![0].data,
       key: secretKey,
     })
 

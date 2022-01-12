@@ -18,7 +18,7 @@ import {
   MuditaDevice,
   StartBackupResponseBody,
 } from "@mudita/pure"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {
@@ -165,34 +165,6 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
         id: `<YYYY-MM-DD>T<HHMMSS>Z`,
         state: GetRestoreDeviceStatusDataState.Finished,
       },
-    }
-  }
-
-  public async downloadDeviceFile(): Promise<DeviceResponse<DeviceFile>> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: {
-        data: Buffer.from("backup data"),
-        name: `<YYYY-MM-DD>T<HHMMSS>Z`,
-      },
-    }
-  }
-
-  public async uploadDeviceFile(): Promise<DeviceResponse> {
-    return {
-      status: DeviceResponseStatus.Ok,
-    }
-  }
-
-  public async uploadDeviceFileLocally(): Promise<DeviceResponse> {
-    return {
-      status: DeviceResponseStatus.Ok,
-    }
-  }
-
-  public async removeDeviceFile(): Promise<DeviceResponse> {
-    return {
-      status: DeviceResponseStatus.Ok,
     }
   }
 }
