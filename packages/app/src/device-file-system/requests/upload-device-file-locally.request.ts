@@ -8,13 +8,13 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 import {
   DeviceFile,
   UploadFileLocallyPayload,
-} from "Backend/device-file-system-service/device-file-system-service"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
+} from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import { IpcDeviceFileSystem } from "App/device-file-system"
 
 const uploadDeviceFileLocally = async (
   payload: UploadFileLocallyPayload
 ): Promise<DeviceResponse<DeviceFile>> => {
-  return await ipcRenderer.callMain(IpcRequest.UploadDeviceFileLocally, payload)
+  return await ipcRenderer.callMain(IpcDeviceFileSystem.UploadDeviceFileLocally, payload)
 }
 
 export default uploadDeviceFileLocally

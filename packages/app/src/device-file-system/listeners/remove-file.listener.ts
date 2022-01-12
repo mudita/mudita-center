@@ -9,10 +9,10 @@ import { IpcDeviceFileSystem } from "App/device-file-system/constants"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const handleRemoveFile = (
-  { purePhone }: Adapters,
+  { deviceFileSystem }: Adapters,
   filePath: string
 ): Promise<DeviceResponse> => {
-  return purePhone.removeDeviceFile(filePath)
+  return deviceFileSystem.removeDeviceFile(filePath)
 }
 
 export const registerFileSystemRemoveRequest = createEndpoint({

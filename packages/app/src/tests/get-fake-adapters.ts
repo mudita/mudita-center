@@ -16,6 +16,7 @@ import createFakeAppSettingsAdapter from "Backend/adapters/app-settings/app-sett
 import createFakeCalendarAdapter from "Backend/adapters/calendar/calendar-fake.adapter"
 import createFakePurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages-fake.adapter"
 import { SettingsUpdateOption } from "App/main/store/settings.interface"
+import createFakeDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system-fake.adapter"
 
 type FakeAdaptersProps = PhonebookFakeAdapterProps & {
   updateOption: SettingsUpdateOption
@@ -25,6 +26,7 @@ const getFakeAdapters = ({
   updateOption = { key: "appAutostart", value: true },
 }: Partial<FakeAdaptersProps> = {}): Adapters => ({
   app: createFakeElectronAppAdapter(),
+  deviceFileSystem: createFakeDeviceFileSystemAdapter(),
   appSettings: createFakeAppSettingsAdapter(updateOption),
   purePhone: createFakePurePhoneAdapter(),
   pureBatteryService: createFakePurePhoneBatteryAdapter(),

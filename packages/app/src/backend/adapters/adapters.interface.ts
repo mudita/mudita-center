@@ -12,9 +12,11 @@ import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class
 import AppSettingsAdapter from "Backend/adapters/app-settings/app-settings-adapter.class"
 import CalendarAdapter from "Backend/adapters/calendar/calendar-adapter.class"
 import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import DeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export default interface Adapters {
   app: ElectronAppAdapter
+  deviceFileSystem: DeviceFileSystemAdapter
   appSettings: AppSettingsAdapter
   purePhone: PurePhoneAdapter
   pureBatteryService: PurePhoneBatteryServiceAdapter

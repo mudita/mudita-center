@@ -19,7 +19,7 @@ import { Backup } from "App/backup/reducers"
 import { ReduxRootState, RootState } from "Renderer/store"
 import { DeviceState } from "App/device"
 import { StartBackupDeviceError } from "App/backup-device/errors"
-import uploadDeviceFile from "Renderer/requests/upload-device-file.request"
+import uploadDeviceFile from "App/device-file-system/requests/upload-device-file.request"
 import startRestoreDeviceRequest from "Renderer/requests/start-restore-device.request"
 import readFile from "App/file-system/requests/read-file.request"
 import decryptFile from "App/file-system/requests/decrypt-file.request"
@@ -27,7 +27,7 @@ import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers"
 
 jest.mock("App/file-system/requests/decrypt-file.request")
 jest.mock("App/file-system/requests/read-file.request")
-jest.mock("Renderer/requests/upload-device-file.request")
+jest.mock("App/device-file-system/requests/upload-device-file.request")
 jest.mock("Renderer/requests/start-restore-device.request")
 jest.mock("App/restore-device/helpers/wait-until-restore-device-finished")
 

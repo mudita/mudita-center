@@ -17,7 +17,7 @@ import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-pho
 import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
 import createPurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.adapter"
 import createCalendarAdapter from "Backend/adapters/calendar/calendar.adapter"
-import { createDeviceFileSystemService } from "Backend/device-file-system-service/device-file-system-service"
+import createDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system.adapter"
 import { createDeviceFileDiagnosticService } from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
 import registerChangeSimCardRequest from "Backend/requests/change-sim/change-sim.request"
@@ -43,9 +43,9 @@ import registerGetMessagesByThreadIdRequest from "Backend/requests/messages/get-
 import registerAddMessageRequest from "Backend/requests/messages/add-message.request"
 import registerGetDeviceLogFiles from "Backend/requests/get-device-log-files/get-device-log-files.request"
 import registerGetDeviceCrashDumpFiles from "Backend/requests/get-device-crash-dump-files/get-device-log-files.request"
-import registerDownloadDeviceFileRequest from "Backend/requests/download-device-file/download-device-file.request"
-import registerUploadDeviceFileRequest from "Backend/requests/upload-device-file/upload-device-file.request"
-import registerUploadDeviceFileLocallyRequest from "Backend/requests/upload-device-file-locally/upload-device-file-locally.request"
+import registerDownloadDeviceFilesRequest from "App/device-file-system/listeners/download-device-file.listener"
+import registerUploadDeviceFileRequest from "App/device-file-system/listeners/upload-device-file.listener"
+import registerUploadDeviceFileLocallyRequest from "App/device-file-system/listeners/upload-device-file-locally.listener"
 import registerStartBackupDeviceRequest from "Backend/requests/start-backup-device/start-backup-device.request"
 import registerGetBackupDeviceStatusRequest from "Backend/requests/get-backup-device-status/get-backup-device-status.request"
 import registerStartRestoreDeviceRequest from "Backend/requests/start-restore-device/start-restore-device.request"
@@ -58,14 +58,15 @@ const bootstrap = (
   ipcMain: MainProcessIpc
 ): void => {
   const deviceService = createDeviceService(deviceManager, ipcMain)
-  const deviceFileSystemService = createDeviceFileSystemService(deviceService)
+  const deviceFileSystem = createDeviceFileSystemAdapter(deviceService)
   const deviceFileDiagnosticService =
     createDeviceFileDiagnosticService(deviceService)
 
   const adapters = {
+    deviceFileSystem,
     purePhone: createPurePhoneAdapter(
       deviceService,
-      deviceFileSystemService,
+      deviceFileSystem,
       deviceFileDiagnosticService
     ),
     phonebook: createPhonebook(deviceService),
@@ -103,7 +104,7 @@ const bootstrap = (
     registerAddMessageRequest,
     registerGetDeviceLogFiles,
     registerGetDeviceCrashDumpFiles,
-    registerDownloadDeviceFileRequest,
+    registerDownloadDeviceFilesRequest,
     registerUploadDeviceFileLocallyRequest,
     registerUploadDeviceFileRequest,
     registerStartBackupDeviceRequest,

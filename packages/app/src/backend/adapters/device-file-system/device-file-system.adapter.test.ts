@@ -19,8 +19,9 @@ import {
   secondsPartEncodeLog,
 } from "Backend/adapters/pure-phone/mock-data-logs"
 
-import { createDeviceFileSystemService } from "Backend/device-file-system-service/device-file-system-service"
 import path from "path"
+import createDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system.adapter"
+
 jest.mock("Backend/device-service")
 
 test("downloading file handle properly chunks data", async () => {
@@ -67,14 +68,16 @@ test("downloading file handle properly chunks data", async () => {
       },
     }
   })
-  const deviceFileSystemService = createDeviceFileSystemService(
+  const deviceFileSystem = createDeviceFileSystemAdapter(
     new DeviceService(MuditaDeviceManager, ipcMain)
   )
-  const { status, data } = await deviceFileSystemService.downloadFile(
+  const { status, data } = await deviceFileSystem.downloadFile(
     "/sys/user/mock-file-name.log"
   )
   expect(status).toEqual(DeviceResponseStatus.Ok)
-  expect(data?.toString()).toEqual(`${firstsPartDecodeLog}${secondsPartDecodeLog}`)
+  expect(data?.toString()).toEqual(
+    `${firstsPartDecodeLog}${secondsPartDecodeLog}`
+  )
 })
 
 test("downloading file handle properly chunks data if fileSize is less than chunkSize", async () => {
@@ -112,10 +115,10 @@ test("downloading file handle properly chunks data if fileSize is less than chun
       },
     }
   })
-  const deviceFileSystemService = createDeviceFileSystemService(
+  const deviceFileSystem = createDeviceFileSystemAdapter(
     new DeviceService(MuditaDeviceManager, ipcMain)
   )
-  const { status, data } = await deviceFileSystemService.downloadFile(
+  const { status, data } = await deviceFileSystem.downloadFile(
     "/sys/user/mock-file-name.log"
   )
   expect(status).toEqual(DeviceResponseStatus.Ok)
@@ -159,10 +162,10 @@ test("downloading file return error when part of the chunks data is broken", asy
       },
     }
   })
-  const deviceFileSystemService = createDeviceFileSystemService(
+  const deviceFileSystem = createDeviceFileSystemAdapter(
     new DeviceService(MuditaDeviceManager, ipcMain)
   )
-  const { status, data } = await deviceFileSystemService.downloadFile(
+  const { status, data } = await deviceFileSystem.downloadFile(
     "/sys/user/mock-file-name.log"
   )
   expect(status).toEqual(DeviceResponseStatus.Error)
@@ -179,10 +182,10 @@ test("downloading file returns error properly", async () => {
       },
     }
   })
-  const deviceFileSystemService = createDeviceFileSystemService(
+  const deviceFileSystem = createDeviceFileSystemAdapter(
     new DeviceService(MuditaDeviceManager, ipcMain)
   )
-  const { status } = await deviceFileSystemService.downloadFile(
+  const { status } = await deviceFileSystem.downloadFile(
     "/sys/user/mock-file-name.log"
   )
   expect(status).toEqual(DeviceResponseStatus.Error)
@@ -223,11 +226,11 @@ test("upload file file handle properly chunks data", async () => {
       },
     }
   })
-  const deviceFileSystemService = createDeviceFileSystemService(
+  const deviceFileSystem = createDeviceFileSystemAdapter(
     new DeviceService(MuditaDeviceManager, ipcMain)
   )
   const filePath = path.join(__dirname, "./mock-file.txt")
-  const { status } = await deviceFileSystemService.uploadFileLocally({
+  const { status } = await deviceFileSystem.uploadFileLocally({
     filePath,
     targetPath: "/sys/user",
   })

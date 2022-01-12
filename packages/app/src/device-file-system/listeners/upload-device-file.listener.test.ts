@@ -5,13 +5,13 @@
 
 import { ipcMain } from "electron-better-ipc"
 import getFakeAdapters from "App/tests/get-fake-adapters"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
-import registerUploadDeviceFileRequest from "Backend/requests/upload-device-file/upload-device-file.request"
+import { IpcDeviceFileSystem } from "App/device-file-system"
+import registerUploadDeviceFileRequest from "App/device-file-system/listeners/upload-device-file.listener"
 
 test("`UploadDeviceFileRequest` returns properly value", async () => {
   registerUploadDeviceFileRequest(getFakeAdapters())
   const [pendingResponse] = (ipcMain as any)._flush(
-    IpcRequest.UploadDeviceFile,
+    IpcDeviceFileSystem.UploadDeviceFile,
     { data: new Uint8Array([1]), targetPath: "" }
   )
   const result = await pendingResponse

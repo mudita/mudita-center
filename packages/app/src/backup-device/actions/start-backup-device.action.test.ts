@@ -15,10 +15,10 @@ import {
   startBackupDevice,
   StartBackupOption,
 } from "App/backup-device/actions/start-backup-device.action"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import startBackupDeviceRequest from "Renderer/requests/start-backup-device.request"
 import getBackupDeviceStatus from "Renderer/requests/get-backup-device-status.request"
-import downloadDeviceFile from "Renderer/requests/download-device-file.request"
+import downloadDeviceFiles from "App/device-file-system/requests/download-device-file.request"
 import writeFile from "Renderer/requests/write-file.request"
 import encryptFile from "App/file-system/requests/encrypt-file.request"
 import { testError } from "Renderer/store/constants"
@@ -30,7 +30,7 @@ import {
 } from "@mudita/pure"
 jest.mock("Renderer/requests/start-backup-device.request")
 jest.mock("Renderer/requests/get-backup-device-status.request")
-jest.mock("Renderer/requests/download-device-file.request")
+jest.mock("App/device-file-system/requests/download-device-file.request")
 jest.mock("Renderer/requests/write-file.request")
 jest.mock("App/file-system/requests/encrypt-file.request")
 jest.mock("App/backup/actions/load-backup-data.action", () => ({
@@ -80,12 +80,14 @@ const errorGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusRe
 const backupBuffer = Buffer.from("backup data")
 const encryptedBuffer = Buffer.from("encrypted backup data")
 
-const successDownloadDeviceFileResponse: DeviceResponse<DeviceFile> = {
+const successDownloadDeviceFileResponse: DeviceResponse<DeviceFile[]> = {
   status: DeviceResponseStatus.Ok,
-  data: {
-    data: backupBuffer,
-    name: backupId,
-  },
+  data: [
+    {
+      data: backupBuffer,
+      name: backupId,
+    },
+  ],
 }
 
 const option: StartBackupOption = {
@@ -123,7 +125,7 @@ describe("async `startBackupDevice` ", () => {
       ;(getBackupDeviceStatus as jest.Mock).mockImplementation(
         getBackupDeviceStatusMock()
       )
-      ;(downloadDeviceFile as jest.Mock).mockReturnValue(
+      ;(downloadDeviceFiles as jest.Mock).mockReturnValue(
         successDownloadDeviceFileResponse
       )
       ;(encryptFile as jest.Mock).mockReturnValue(encryptedBuffer)
@@ -155,7 +157,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
       expect(getBackupDeviceStatus).toHaveBeenCalled()
-      expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(downloadDeviceFiles).toHaveBeenCalled()
       expect(encryptFile).toHaveBeenCalled()
       expect(writeFile).toHaveBeenCalled()
     })
@@ -189,7 +191,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(startBackupDeviceRequest).not.toHaveBeenCalled()
       expect(getBackupDeviceStatus).not.toHaveBeenCalled()
-      expect(downloadDeviceFile).not.toHaveBeenCalled()
+      expect(downloadDeviceFiles).not.toHaveBeenCalled()
       expect(encryptFile).not.toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
@@ -223,7 +225,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(startBackupDeviceRequest).not.toHaveBeenCalled()
       expect(getBackupDeviceStatus).not.toHaveBeenCalled()
-      expect(downloadDeviceFile).not.toHaveBeenCalled()
+      expect(downloadDeviceFiles).not.toHaveBeenCalled()
       expect(encryptFile).not.toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
@@ -260,7 +262,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
       expect(getBackupDeviceStatus).not.toHaveBeenCalled()
-      expect(downloadDeviceFile).not.toHaveBeenCalled()
+      expect(downloadDeviceFiles).not.toHaveBeenCalled()
       expect(encryptFile).not.toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
@@ -300,7 +302,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
       expect(getBackupDeviceStatus).toHaveBeenCalled()
-      expect(downloadDeviceFile).not.toHaveBeenCalled()
+      expect(downloadDeviceFiles).not.toHaveBeenCalled()
       expect(encryptFile).not.toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
@@ -317,7 +319,7 @@ describe("async `startBackupDevice` ", () => {
       ;(getBackupDeviceStatus as jest.Mock).mockImplementation(
         getBackupDeviceStatusMock()
       )
-      ;(downloadDeviceFile as jest.Mock).mockReturnValue({
+      ;(downloadDeviceFiles as jest.Mock).mockReturnValue({
         status: DeviceResponseStatus.Error,
       })
       const mockStore = createMockStore([thunk])({
@@ -343,7 +345,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
       expect(getBackupDeviceStatus).toHaveBeenCalled()
-      expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(downloadDeviceFiles).toHaveBeenCalled()
       expect(encryptFile).not.toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
@@ -358,7 +360,7 @@ describe("async `startBackupDevice` ", () => {
       ;(getBackupDeviceStatus as jest.Mock).mockImplementation(
         getBackupDeviceStatusMock()
       )
-      ;(downloadDeviceFile as jest.Mock).mockReturnValue(
+      ;(downloadDeviceFiles as jest.Mock).mockReturnValue(
         successDownloadDeviceFileResponse
       )
       ;(encryptFile as jest.Mock).mockReturnValue(undefined)
@@ -385,7 +387,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
       expect(getBackupDeviceStatus).toHaveBeenCalled()
-      expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(downloadDeviceFiles).toHaveBeenCalled()
       expect(encryptFile).toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
@@ -402,7 +404,7 @@ describe("async `startBackupDevice` ", () => {
       ;(getBackupDeviceStatus as jest.Mock).mockImplementation(
         getBackupDeviceStatusMock()
       )
-      ;(downloadDeviceFile as jest.Mock).mockReturnValue(
+      ;(downloadDeviceFiles as jest.Mock).mockReturnValue(
         successDownloadDeviceFileResponse
       )
       ;(encryptFile as jest.Mock).mockReturnValue(encryptedBuffer)
@@ -430,7 +432,7 @@ describe("async `startBackupDevice` ", () => {
 
       expect(startBackupDeviceRequest).toHaveBeenCalled()
       expect(getBackupDeviceStatus).toHaveBeenCalled()
-      expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(downloadDeviceFiles).toHaveBeenCalled()
       expect(encryptFile).toHaveBeenCalled()
       expect(writeFile).toHaveBeenCalled()
     })

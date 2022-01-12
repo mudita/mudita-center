@@ -12,13 +12,13 @@ import sendTicketRequest, {
 import getAppLogs from "Renderer/requests/get-app-logs.request"
 import archiveFiles from "Renderer/requests/archive-files.request"
 import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
-import downloadDeviceFile from "Renderer/requests/download-device-file.request"
+import downloadDeviceFiles from "App/device-file-system/requests/download-device-file.request"
 import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import mockCreateFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
 import { FreshdeskTicketData } from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
-const successGetDeviceUpdaterLogResponse: DeviceResponse<DeviceFile> = {
+const successGetDeviceUpdaterLogResponse: DeviceResponse<DeviceFile[]> = {
   status: DeviceResponseStatus.Ok,
 }
 
@@ -33,7 +33,7 @@ const errorResponse: DeviceResponse<DeviceFile[]> = {
 jest.mock("Renderer/requests/get-app-logs.request")
 jest.mock("Renderer/requests/archive-files.request")
 jest.mock("Renderer/requests/get-device-log-files.request")
-jest.mock("Renderer/requests/download-device-file.request")
+jest.mock("App/device-file-system/requests/download-device-file.request")
 jest.mock("Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket")
 
 const data: Omit<FreshdeskTicketData, "type" | "attachments"> = {
@@ -55,7 +55,7 @@ describe("`sendTicketRequest` request", () => {
       ;(getDeviceLogFiles as jest.Mock).mockReturnValue(
         successGetDeviceLogsResponse
       )
-      ;(downloadDeviceFile as jest.Mock).mockReturnValue(
+      ;(downloadDeviceFiles as jest.Mock).mockReturnValue(
         successGetDeviceUpdaterLogResponse
       )
       ;(createFreshdeskTicket as jest.Mock).mockImplementation((data) =>
@@ -68,7 +68,7 @@ describe("`sendTicketRequest` request", () => {
       })
       expect(getAppLogs).toHaveBeenCalled()
       expect(getDeviceLogFiles).toHaveBeenCalled()
-      expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(downloadDeviceFiles).toHaveBeenCalled()
       expect(archiveFiles).toHaveBeenCalled()
       expect(createFreshdeskTicket).toHaveBeenCalled()
     })
@@ -77,10 +77,8 @@ describe("`sendTicketRequest` request", () => {
     test("request return status OK", async () => {
       ;(getAppLogs as jest.Mock).mockReturnValue("")
       ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from(""))
-      ;(getDeviceLogFiles as jest.Mock).mockReturnValue(
-        errorResponse
-      )
-      ;(downloadDeviceFile as jest.Mock).mockReturnValue(
+      ;(getDeviceLogFiles as jest.Mock).mockReturnValue(errorResponse)
+      ;(downloadDeviceFiles as jest.Mock).mockReturnValue(
         successGetDeviceUpdaterLogResponse
       )
       ;(createFreshdeskTicket as jest.Mock).mockImplementation((data) =>
@@ -94,7 +92,7 @@ describe("`sendTicketRequest` request", () => {
       })
       expect(getAppLogs).toHaveBeenCalled()
       expect(getDeviceLogFiles).toHaveBeenCalled()
-      expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(downloadDeviceFiles).toHaveBeenCalled()
       expect(archiveFiles).toHaveBeenCalled()
       expect(createFreshdeskTicket).toHaveBeenCalled()
     })
@@ -106,9 +104,7 @@ describe("`sendTicketRequest` request", () => {
       ;(getDeviceLogFiles as jest.Mock).mockReturnValue(
         successGetDeviceLogsResponse
       )
-      ;(downloadDeviceFile as jest.Mock).mockReturnValue(
-        errorResponse
-      )
+      ;(downloadDeviceFiles as jest.Mock).mockReturnValue(errorResponse)
       ;(createFreshdeskTicket as jest.Mock).mockImplementation((data) =>
         mockCreateFreshdeskTicket(data)
       )
@@ -120,7 +116,7 @@ describe("`sendTicketRequest` request", () => {
       })
       expect(getAppLogs).toHaveBeenCalled()
       expect(getDeviceLogFiles).toHaveBeenCalled()
-      expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(downloadDeviceFiles).toHaveBeenCalled()
       expect(archiveFiles).toHaveBeenCalled()
       expect(createFreshdeskTicket).toHaveBeenCalled()
     })
@@ -129,10 +125,8 @@ describe("`sendTicketRequest` request", () => {
     test("request return error", async () => {
       ;(getAppLogs as jest.Mock).mockReturnValue("")
       ;(archiveFiles as jest.Mock).mockReturnValue(undefined)
-      ;(getDeviceLogFiles as jest.Mock).mockReturnValue(
-        errorResponse
-      )
-      ;(downloadDeviceFile as jest.Mock).mockReturnValue(
+      ;(getDeviceLogFiles as jest.Mock).mockReturnValue(errorResponse)
+      ;(downloadDeviceFiles as jest.Mock).mockReturnValue(
         successGetDeviceUpdaterLogResponse
       )
 
@@ -148,7 +142,7 @@ describe("`sendTicketRequest` request", () => {
   `)
       expect(getAppLogs).toHaveBeenCalled()
       expect(getDeviceLogFiles).toHaveBeenCalled()
-      expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(downloadDeviceFiles).toHaveBeenCalled()
       expect(archiveFiles).toHaveBeenCalled()
       expect(createFreshdeskTicket).not.toHaveBeenCalled()
     })
@@ -160,7 +154,7 @@ describe("`sendTicketRequest` request", () => {
       ;(getDeviceLogFiles as jest.Mock).mockReturnValue(
         successGetDeviceLogsResponse
       )
-      ;(downloadDeviceFile as jest.Mock).mockReturnValue(
+      ;(downloadDeviceFiles as jest.Mock).mockReturnValue(
         successGetDeviceUpdaterLogResponse
       )
       ;(createFreshdeskTicket as jest.Mock).mockReturnValue(Promise.reject())
@@ -177,7 +171,7 @@ describe("`sendTicketRequest` request", () => {
   `)
       expect(getAppLogs).toHaveBeenCalled()
       expect(getDeviceLogFiles).toHaveBeenCalled()
-      expect(downloadDeviceFile).toHaveBeenCalled()
+      expect(downloadDeviceFiles).toHaveBeenCalled()
       expect(archiveFiles).toHaveBeenCalled()
       expect(createFreshdeskTicket).toHaveBeenCalled()
     })
