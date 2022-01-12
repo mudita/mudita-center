@@ -5,4 +5,6 @@
 
 export enum IpcDeviceFileSystem {
   Remove = "device-file-system-remove",
+  DownloadDeviceFiles = "device-file-system-download-device-files",
+  UploadDeviceFile = "device-file-system-upload-device-file",
 }

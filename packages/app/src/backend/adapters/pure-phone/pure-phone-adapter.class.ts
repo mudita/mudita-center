@@ -17,8 +17,7 @@ import {
 import DeviceResponse from "Backend/adapters/device-response.interface"
 import {
   DeviceFile,
-  UploadFileLocallyPayload,
-  UploadFilePayload,
+  UploadFileLocallyPayload
 } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export interface DeviceFilesOption {
@@ -64,9 +63,6 @@ export default abstract class PurePhoneAdapter {
     config: GetRestoreDeviceStatusRequestConfigBody
   ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>>
   //TODO: move to a separate adapter
-  public abstract uploadDeviceFile(
-    payload: UploadFilePayload
-  ): Promise<DeviceResponse>
   public abstract uploadDeviceFileLocally(
     payload: UploadFileLocallyPayload
   ): Promise<DeviceResponse>

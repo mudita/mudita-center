@@ -26,8 +26,7 @@ import DeviceResponse, {
 import DeviceService from "Backend/device-service"
 import DeviceFileSystemAdapter, {
   DeviceFile,
-  UploadFileLocallyPayload,
-  UploadFilePayload,
+  UploadFileLocallyPayload
 } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
@@ -241,12 +240,6 @@ class PurePhone extends PurePhoneAdapter {
       method: Method.Get,
       body: config,
     })
-  }
-
-  public async uploadDeviceFile(
-    payload: UploadFilePayload
-  ): Promise<DeviceResponse> {
-    return await this.deviceFileSystem.uploadFile(payload)
   }
 
   public async uploadDeviceFileLocally(
