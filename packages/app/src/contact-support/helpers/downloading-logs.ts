@@ -6,10 +6,10 @@
 import { formatDate } from "Renderer/utils/format-date"
 import { ArchiveFile } from "App/main/functions/register-archive-files-listener"
 import getAppLogs from "Renderer/requests/get-app-logs.request"
-import downloadDeviceFile from "Renderer/requests/download-device-file.request"
+import downloadDeviceFiles from "App/device-file-system/requests/download-device-file.request"
 import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
 import { DiagnosticsFilePath } from "@mudita/pure"
-import { DeviceFile } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export const todayFormatDate = formatDate(new Date())
 export const attachedFileName = `${todayFormatDate}.zip`
@@ -26,14 +26,14 @@ export const downloadingLogs = async (): Promise<
 
   const { data: deviceLogFiles = [] } = await getDeviceLogFiles()
 
-  const { data: deviceUpdaterLogFile } = await downloadDeviceFile(
-    DiagnosticsFilePath.UPDATER_LOG
-  )
+  const { data: deviceUpdaterLogFile } = await downloadDeviceFiles([
+    DiagnosticsFilePath.UPDATER_LOG,
+  ])
 
-  const files = [...deviceLogFiles, appLogFile]
+  let files = [...deviceLogFiles, appLogFile]
 
   if (deviceUpdaterLogFile !== undefined) {
-    files.push(deviceUpdaterLogFile)
+    files = files.concat(deviceUpdaterLogFile)
   }
 
   return files
