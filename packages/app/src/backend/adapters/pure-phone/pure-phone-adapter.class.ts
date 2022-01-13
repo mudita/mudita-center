@@ -7,17 +7,12 @@ import {
   GetPhoneLockTimeResponseBody,
   MuditaDevice,
   CaseColour,
-  StartBackupResponseBody,
-  GetBackupDeviceStatusResponseBody,
-  GetBackupDeviceStatusRequestConfigBody,
   StartRestoreRequestConfigBody,
   GetRestoreDeviceStatusRequestConfigBody,
   GetRestoreDeviceStatusResponseBody,
 } from "@mudita/pure"
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import {
-  DeviceFile
-} from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export interface DeviceFilesOption {
   datePrefix?: boolean
@@ -49,12 +44,6 @@ export default abstract class PurePhoneAdapter {
   public abstract updateOs(filePath: string): Promise<DeviceResponse>
   public abstract getCaseColour(): Promise<DeviceResponse<CaseColour>>
   public abstract getBackupLocation(): Promise<DeviceResponse<string>>
-  public abstract startBackupDevice(): Promise<
-    DeviceResponse<StartBackupResponseBody>
-  >
-  public abstract getBackupDeviceStatus(
-    config: GetBackupDeviceStatusRequestConfigBody
-  ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>>
   public abstract startRestoreDevice(
     config: StartRestoreRequestConfigBody
   ): Promise<DeviceResponse>
