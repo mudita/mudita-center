@@ -16,6 +16,11 @@ import {
   FreshdeskTicketDataType,
 } from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 import createFile from "Renderer/utils/create-file/create-file"
+import archiveFiles from "Renderer/requests/archive-files.request"
+import {
+  downloadingLogs,
+  attachedFileName,
+} from "App/contact-support/helpers/downloading-logs"
 
 const mapToAttachments = (paths: string[]): File[] => {
   return paths.map((path) => createFile(path))
@@ -36,7 +41,26 @@ export const sendCrashDumpData = createAsyncThunk(
       )
     }
 
-    const attachments = mapToAttachments(state.crashDump.data.downloadedFiles)
+    const files = await downloadingLogs()
+
+    const buffer = await archiveFiles({ files })
+
+    if (buffer === undefined) {
+      return rejectWithValue(
+        new SendingCrashDumpError(
+          "Create Crash Dump Ticket - ArchiveFiles error"
+        )
+      )
+    }
+
+    const logsAttachments = [
+      new File([buffer], attachedFileName, { type: "application/zip" }),
+    ]
+
+    const crashDumpAttachments = mapToAttachments(
+      state.crashDump.data.downloadedFiles
+    )
+    const attachments = [...logsAttachments, ...crashDumpAttachments]
 
     const data: FreshdeskTicketData = {
       type: FreshdeskTicketDataType.Problem,

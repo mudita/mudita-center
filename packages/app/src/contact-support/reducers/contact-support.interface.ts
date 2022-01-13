@@ -5,7 +5,7 @@
 
 import { PayloadAction } from "@reduxjs/toolkit"
 import { ContactSupportEvent } from "App/contact-support/constants"
-import { attachedFileName } from "App/contact-support/requests/send-ticket.request"
+import { attachedFileName } from "App/contact-support/helpers/downloading-logs"
 import { SendTicketError } from "App/contact-support/errors"
 
 export const files = [
