@@ -54,7 +54,7 @@ exports[`matches snapshot 1`] = `
   padding: 1.4rem 0;
   background-color: #ffffff;
   border-radius: 0.2rem 0.2rem;
-  box-shadow: 0 1rem 5.5rem -0.5rem rgba(188,188,188,0.5);
+  box-shadow: 0 1rem 5.5rem -0.5rem rgba(0,0,0,0.08);
   min-width: 17rem;
   pointer-events: none;
   opacity: 0;
@@ -216,7 +216,7 @@ exports[`renders dropdown 1`] = `
   padding: 1.4rem 0;
   background-color: #ffffff;
   border-radius: 0.2rem 0.2rem;
-  box-shadow: 0 1rem 5.5rem -0.5rem rgba(188,188,188,0.5);
+  box-shadow: 0 1rem 5.5rem -0.5rem rgba(0,0,0,0.08);
   min-width: 17rem;
   pointer-events: auto;
   opacity: 1;

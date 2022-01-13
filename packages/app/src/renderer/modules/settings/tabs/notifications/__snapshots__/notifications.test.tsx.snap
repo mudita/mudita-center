@@ -194,12 +194,12 @@ exports[`matches snapshot 1`] = `
 }
 
 .c18:not(:hover) {
-  border: 0.1rem solid #cdcecf;
+  border: 0.1rem solid #d2d6db;
   color: #6a6a6a;
 }
 
 .c18:not(:hover) g {
-  fill: #cdcecf;
+  fill: #f4f5f6;
 }
 
 .c18:not(:first-of-type) {
