@@ -1,0 +1,22 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
+import { Index } from "elasticlunr"
+import { ContactIndexer } from "App/data-sync/indexes"
+import { ContactPresenter } from "App/data-sync/presenters"
+import { DataIndex } from "App/data-sync/constants"
+
+export class DataSync {
+  private contactIndexer: ContactIndexer | null = null
+  public indexesMap: Map<DataIndex, Index<any>> = new Map()
+
+  constructor() {}
+
+  initialize() {
+    this.contactIndexer = new ContactIndexer(
+      new ContactPresenter()
+    )
+  }
+}
