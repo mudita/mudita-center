@@ -20,7 +20,7 @@ import {
 } from "@mudita/pure"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
-class PurePhoneFakeAdapter extends PurePhoneAdapter {
+export class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {
     return "Ziemniaczek Puree"
   }

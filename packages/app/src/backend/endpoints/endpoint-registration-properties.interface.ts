@@ -7,9 +7,10 @@ import Adapters from "Backend/adapters/adapters.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 
 import { IpcDeviceFileSystem } from "App/device-file-system"
+import { IpcBackupDevice } from "App/backup/constants/ipc-backup.enum"
 
 export default interface EndpointRegistrationProperties<CallerProps, Response> {
-  name: IpcRequest | IpcDeviceFileSystem
+  name: IpcRequest | IpcDeviceFileSystem | IpcBackupDevice
   handler: (
     adapters: Adapters,
     callerProps: CallerProps

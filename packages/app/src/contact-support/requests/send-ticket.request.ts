@@ -3,18 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ArchiveFile } from "App/main/functions/register-archive-files-listener"
-import { formatDate } from "Renderer/utils/format-date"
-import getAppLogs from "Renderer/requests/get-app-logs.request"
-import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
 import archiveFiles from "Renderer/requests/archive-files.request"
 import createFreshdeskTicket from "App/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import {
   FreshdeskTicketData,
   FreshdeskTicketDataType,
 } from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
-import downloadDeviceFiles from "App/device-file-system/requests/download-device-file.request"
-import { DiagnosticsFilePath } from "@mudita/pure"
+import {
+  downloadingLogs,
+  attachedFileName,
+} from "App/contact-support/helpers/downloading-logs"
 
 export enum CreateBugTicketResponseStatus {
   Ok = "ok",
@@ -31,26 +29,10 @@ export interface CreateBugTicketResponse {
   error?: CreateBugTicketResponseError
 }
 
-const todayFormatDate = formatDate(new Date())
-export const attachedFileName = `${todayFormatDate}.zip`
-
 const sendTicketRequest = async (
   freshdeskTicketData: Omit<FreshdeskTicketData, "type" | "attachments">
 ): Promise<CreateBugTicketResponse> => {
-  const mcFileName = `mc-${todayFormatDate}.txt`
-  const appLogs = await getAppLogs()
-  const appLogFile: ArchiveFile = {
-    data: appLogs,
-    name: mcFileName,
-  }
-
-  const { data: deviceLogFiles = [] } = await getDeviceLogFiles()
-
-  const { data: deviceUpdaterLogFile = [] } = await downloadDeviceFiles(
-    [DiagnosticsFilePath.UPDATER_LOG]
-  )
-
-  const files = [...deviceLogFiles, ...deviceUpdaterLogFile, appLogFile]
+  const files = await downloadingLogs()
 
   const buffer = await archiveFiles({ files })
 

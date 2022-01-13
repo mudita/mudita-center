@@ -3,11 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MainProcessIpc } from "electron-better-ipc"
 import { MuditaDeviceManager } from "@mudita/pure"
-import { createDeviceService } from "Backend/device-service"
-import getFakeAdapters from "App/tests/get-fake-adapters"
+import { MainProcessIpc } from "electron-better-ipc"
 import Backend from "Backend/backend"
+import getFakeAdapters from "App/tests/get-fake-adapters"
+import { createDeviceService } from "Backend/device-service"
+import createDeviceBackupService from "./device-backup-service/device-backup-service"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
@@ -18,6 +19,7 @@ import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/p
 import createPurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.adapter"
 import createCalendarAdapter from "Backend/adapters/calendar/calendar.adapter"
 import createDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system.adapter"
+import createDeviceBackupAdapter from "Backend/adapters/device-backup/device-backup.adapter"
 import { createDeviceFileDiagnosticService } from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
 import registerChangeSimCardRequest from "Backend/requests/change-sim/change-sim.request"
@@ -46,29 +48,36 @@ import registerGetDeviceCrashDumpFiles from "Backend/requests/get-device-crash-d
 import registerDownloadDeviceFilesRequest from "App/device-file-system/listeners/download-device-file.listener"
 import registerUploadDeviceFileRequest from "App/device-file-system/listeners/upload-device-file.listener"
 import registerUploadDeviceFileLocallyRequest from "App/device-file-system/listeners/upload-device-file-locally.listener"
-import registerStartBackupDeviceRequest from "Backend/requests/start-backup-device/start-backup-device.request"
-import registerGetBackupDeviceStatusRequest from "Backend/requests/get-backup-device-status/get-backup-device-status.request"
 import registerStartRestoreDeviceRequest from "Backend/requests/start-restore-device/start-restore-device.request"
 import registerGetRestoreDeviceStatusRequest from "Backend/requests/get-restore-device-status/get-restore-device-status.request"
 import registerDownloadDeviceCrashDumpFiles from "App/backend/requests/download-crash-dump-files/download-crash-dump-files.request"
 import { registerFileSystemRemoveRequest } from "App/device-file-system"
+import { registerDownloadDeviceBackupRequest } from "App/backup-device"
 
 const bootstrap = (
   deviceManager: MuditaDeviceManager,
   ipcMain: MainProcessIpc
 ): void => {
   const deviceService = createDeviceService(deviceManager, ipcMain)
-  const deviceFileSystem = createDeviceFileSystemAdapter(deviceService)
   const deviceFileDiagnosticService =
     createDeviceFileDiagnosticService(deviceService)
+  const deviceFileSystem = createDeviceFileSystemAdapter(deviceService)
+  const purePhone = createPurePhoneAdapter(
+    deviceService,
+    deviceFileSystem,
+    deviceFileDiagnosticService
+  )
+  const deviceBackupService = createDeviceBackupService(deviceService)
+  const deviceBackup = createDeviceBackupAdapter(
+    purePhone,
+    deviceBackupService,
+    deviceFileSystem
+  )
 
   const adapters = {
+    deviceBackup,
     deviceFileSystem,
-    purePhone: createPurePhoneAdapter(
-      deviceService,
-      deviceFileSystem,
-      deviceFileDiagnosticService
-    ),
+    purePhone,
     phonebook: createPhonebook(deviceService),
     pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
     pureNetwork: createPurePhoneNetwork(deviceService),
@@ -107,12 +116,11 @@ const bootstrap = (
     registerDownloadDeviceFilesRequest,
     registerUploadDeviceFileLocallyRequest,
     registerUploadDeviceFileRequest,
-    registerStartBackupDeviceRequest,
-    registerGetBackupDeviceStatusRequest,
     registerStartRestoreDeviceRequest,
     registerGetRestoreDeviceStatusRequest,
     registerDownloadDeviceCrashDumpFiles,
     registerFileSystemRemoveRequest,
+    registerDownloadDeviceBackupRequest,
   ]
 
   new Backend(adapters, getFakeAdapters(), requests).init()
