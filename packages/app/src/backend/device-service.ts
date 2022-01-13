@@ -56,6 +56,7 @@ export enum DeviceServiceEventName {
 class DeviceService {
   public devices: Record<string, MuditaDevice> = {}
   public currentDevice: MuditaDevice | undefined
+  public currentDeviceUnlocked = false
   private lockedInterval: NodeJS.Timeout | undefined
   private eventEmitter = new EventEmitter()
 
@@ -195,29 +196,13 @@ class DeviceService {
 
     const eventName = JSON.stringify(config)
 
-    const isEndpointSecure = (response: DeviceResponse<unknown>) => {
-      this.eventEmitter.emit(eventName, response)
-
-      const isConfigEndpointSecurity = config.endpoint === Endpoint.Security
-      const iSetPhoneLockOffEndpoint =
-        isConfigEndpointSecurity && config.method === Method.Put
-      const isPhoneLockTimeEndpoint =
-        isConfigEndpointSecurity &&
-        config.body.category === PhoneLockCategory.Time
-      if (!(iSetPhoneLockOffEndpoint || isPhoneLockTimeEndpoint)) {
-        return true
-      }
-      return false
-    }
-
     if (!this.eventEmitter.eventNames().includes(eventName)) {
       void this.currentDevice
         .request(config)
         .then((response) => DeviceService.mapToDeviceResponse(response))
         .then((response) => {
-          if (isEndpointSecure(response)) {
-            this.emitDeviceUnlockedEvent(response)
-          }
+          this.eventEmitter.emit(eventName, response)
+          this.checkDeviceIsUnlocked(config, response)
         })
     }
 
@@ -356,19 +341,10 @@ class DeviceService {
 
   private clearSubscriptions(): void {
     this.currentDevice = undefined
+    this.currentDeviceUnlocked = false
     this.lockedInterval && clearInterval(this.lockedInterval)
     this.eventEmitter.emit(DeviceServiceEventName.DeviceDisconnected)
     this.ipcMain.sendToRenderers(IpcEmitter.DeviceDisconnected)
-  }
-
-  private emitDeviceUnlockedEvent({ status }: DeviceResponse<unknown>): void {
-    if (status === DeviceResponseStatus.Error) {
-      return
-    }
-
-    status !== DeviceResponseStatus.PhoneLocked
-      ? this.ipcMain.sendToRenderers(IpcEmitter.DeviceUnlocked)
-      : this.ipcMain.sendToRenderers(IpcEmitter.DeviceLocked)
   }
 
   private static mapToDeviceResponse(
@@ -415,6 +391,39 @@ class DeviceService {
         status: DeviceResponseStatus.Error,
       }
     }
+  }
+
+  private checkDeviceIsUnlocked (config: RequestConfig<any>, response: DeviceResponse<unknown>): void {
+    if (!DeviceService.isEndpointSecure(config)) {
+      return
+    }
+
+    if (response.status === DeviceResponseStatus.Error) {
+      return
+    }
+
+    this.currentDeviceUnlocked = response.status !== DeviceResponseStatus.PhoneLocked
+
+    this.emitDeviceUnlockedEvent(response)
+  }
+
+  private emitDeviceUnlockedEvent({ status }: DeviceResponse<unknown>): void {
+    status !== DeviceResponseStatus.PhoneLocked
+      ? this.ipcMain.sendToRenderers(IpcEmitter.DeviceUnlocked)
+      : this.ipcMain.sendToRenderers(IpcEmitter.DeviceLocked)
+  }
+
+  private static isEndpointSecure(config: RequestConfig<any>): boolean {
+    const isConfigEndpointSecurity = config.endpoint === Endpoint.Security
+    const iSetPhoneLockOffEndpoint =
+      isConfigEndpointSecurity && config.method === Method.Put
+    const isPhoneLockTimeEndpoint =
+      isConfigEndpointSecurity &&
+      config.body.category === PhoneLockCategory.Time
+    if (!(iSetPhoneLockOffEndpoint || isPhoneLockTimeEndpoint)) {
+      return true
+    }
+    return false
   }
 }
 
