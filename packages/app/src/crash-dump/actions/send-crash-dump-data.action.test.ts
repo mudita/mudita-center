@@ -14,8 +14,12 @@ import { SendingCrashDumpError } from "App/crash-dump/errors"
 import { DeviceConnectionError } from "App/device"
 import { testError } from "App/renderer/store/constants"
 import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
+import archiveFiles from "Renderer/requests/archive-files.request"
 
 const crashDumpsMock: string[] = ["/pure/logs/crash-dumps/file.hex"]
+
+const muditaOSLogs = new File([""], "MuditaOS.log", { type: "text/html" })
+const logsFiles: File[] = [muditaOSLogs]
 
 jest.mock("Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket")
 jest.mock("App/device-file-system", () => ({
@@ -25,6 +29,14 @@ jest.mock("App/device-file-system", () => ({
   }),
 }))
 jest.mock("Renderer/utils/create-file/create-file")
+jest.mock("App/contact-support/helpers/downloading-logs", () => ({
+  downloadingLogs: jest.fn().mockReturnValue(logsFiles),
+}))
+jest.mock("Renderer/requests/archive-files.request")
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
 
 describe("when Crash dumps doesn't downloaded", () => {
   test("fire async `sendCrashDumpData` returns `undefined`", async () => {
@@ -50,7 +62,7 @@ describe("when Crash dumps doesn't downloaded", () => {
 })
 
 describe("when Crash dumps downloaded", () => {
-  test("fire async `sendCrashDumpData` action and execute `rejected` event is serialNumber is equal to undefined", async () => {
+  test("fire async `sendCrashDumpData` action and execute `rejected` event if serialNumber is equal to undefined", async () => {
     const mockStore = createMockStore([thunk])({
       device: {
         data: {
@@ -79,7 +91,10 @@ describe("when Crash dumps downloaded", () => {
   })
 
   test("fire async `sendCrashDumpData` triggers sending process", async () => {
-    ;(createFile as jest.Mock).mockReturnValue(new File([new Buffer("hello world")], "hello.world"))
+    ;(createFile as jest.Mock).mockReturnValue(
+      new File([new Buffer("hello world")], "hello.world")
+    )
+    ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from("hello world"))
     ;(createFreshdeskTicket as jest.Mock).mockImplementation((data) =>
       mockCreateFreshdeskTicket(data)
     )
@@ -122,7 +137,10 @@ describe("when Crash dumps downloaded", () => {
 
 describe("when `createFreshdeskTicket` returns `error` status", () => {
   test("fire async `sendCrashDumpData` action and execute `rejected` event", async () => {
-    ;(createFile as jest.Mock).mockReturnValue(new File([new Buffer("hello world")], "hello.world"))
+    ;(createFile as jest.Mock).mockReturnValue(
+      new File([new Buffer("hello world")], "hello.world")
+    )
+    ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from(""))
     ;(createFreshdeskTicket as jest.Mock).mockReturnValue(Promise.reject())
 
     const mockStore = createMockStore([thunk])({
@@ -152,5 +170,41 @@ describe("when `createFreshdeskTicket` returns `error` status", () => {
     ])
     expect(createFile).toHaveBeenCalled()
     expect(createFreshdeskTicket).toHaveBeenCalled()
+  })
+})
+
+describe("when logs downloaded", () => {
+  test("fire async `sendCrashDumpData` action and execute `rejected` event if archive files buffer is equal to undefined", async () => {
+    ;(archiveFiles as jest.Mock).mockReturnValue(undefined)
+
+    const mockStore = createMockStore([thunk])({
+      device: {
+        data: {
+          serialNumber: "1234567890",
+        },
+      },
+      crashDump: {
+        data: {
+          files: crashDumpsMock,
+          downloadedFiles: crashDumpsMock,
+        },
+      },
+    })
+
+    const errorMock = new SendingCrashDumpError(
+      "Create Crash Dump Ticket - ArchiveFiles error"
+    )
+
+    const {
+      meta: { requestId },
+    } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+
+    expect(mockStore.getActions()).toEqual([
+      sendCrashDumpData.pending(requestId),
+      sendCrashDumpData.rejected(testError, requestId, undefined, errorMock),
+    ])
+
+    expect(createFile).not.toHaveBeenCalled()
+    expect(createFreshdeskTicket).not.toHaveBeenCalled()
   })
 })
