@@ -82,6 +82,7 @@ import {
   registerMetadataSetValueListener,
 } from "App/metadata"
 import { registerGetIndexListener } from "App/data-sync"
+import { registerIndexAllListener } from "App/data-sync/listeners/index-all.listener"
 
 require("dotenv").config()
 
@@ -178,6 +179,7 @@ const createWindow = async () => {
   registerMetadataGetValueListener()
   registerMetadataSetValueListener()
   registerGetIndexListener()
+  registerIndexAllListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)

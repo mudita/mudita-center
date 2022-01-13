@@ -4,3 +4,4 @@
  */
 
 export * from "./get-index.request"
+export * from "./index-all.request"

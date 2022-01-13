@@ -5,12 +5,12 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DataSyncEvent, DataIndex } from "App/data-sync/constants"
-import { getIndexRequest } from "App/data-sync/requests"
+import { getIndexRequest, indexAllRequest } from "App/data-sync/requests"
 
 export const updateIndex = createAsyncThunk<any>(
   DataSyncEvent.UpdateIndex,
   async () => {
-    // TODO: await indexAllRequest()
+    await indexAllRequest()
     const contacts = await getIndexRequest(DataIndex.Contact)
 
     return {
