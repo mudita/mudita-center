@@ -130,6 +130,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         closeModal={closeUpdatingForceModalFlow}
         onContact={openContactSupportFlow}
         onHelp={goToHelp}
+        batteryLevel={batteryLevel}
       />
       <OverviewContent
         deviceType={DeviceType.MuditaHarmony}

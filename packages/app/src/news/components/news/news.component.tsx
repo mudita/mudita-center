@@ -12,7 +12,7 @@ import { NewsProps } from "App/news/components/news/news.interface"
 
 const MuditaNews = styled.section`
   overflow: auto;
-  padding: 3.2rem 3rem 0 4rem;
+  padding: 3.5rem 3rem 0 3.2rem;
 `
 
 const News: FunctionComponent<NewsProps> = ({ newsItems, loadData = noop }) => {

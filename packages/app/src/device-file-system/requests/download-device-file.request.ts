@@ -3,16 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { DeviceFilesOption } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import { IpcDeviceFileSystem } from "App/device-file-system"
 
-const getDeviceLogFiles = async (
-  option?: DeviceFilesOption
+const downloadDeviceFiles = async (
+  filePaths: string[]
 ): Promise<DeviceResponse<DeviceFile[]>> => {
-  return ipcRenderer.callMain(IpcRequest.GetDeviceLogFiles, option)
+  return await ipcRenderer.callMain(IpcDeviceFileSystem.DownloadDeviceFiles, filePaths)
 }
 
-export default getDeviceLogFiles
+export default downloadDeviceFiles

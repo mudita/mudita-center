@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-const columnWidth = 6.5
-const gutterWidth = 4
+const columnWidth = 7.2
+const gutterWidth = 3.2
 
 const blue1 = "#40749a"
 const blue2 = "#6d9bbc"

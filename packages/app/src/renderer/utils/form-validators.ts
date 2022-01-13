@@ -9,7 +9,7 @@ import { intl } from "Renderer/utils/intl"
 export const phoneNumberRegexp = /^(\+?)(\d(\s?\d)+)$/im
 
 export const passwordRegexp =
-  /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
+  /^(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
 
 export const primaryPhoneNumberValidator = (
   fields: Record<any, any>

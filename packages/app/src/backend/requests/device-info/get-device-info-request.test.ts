@@ -11,8 +11,8 @@ import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapt
 import DeviceService from "Backend/device-service"
 import Adapters from "Backend/adapters/adapters.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import DeviceFileSystemService from "Backend/device-file-system-service/device-file-system-service"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
+import createDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system.adapter"
 
 const mockDeviceInfo: DeviceInfo = {
   accessTechnology: "255",
@@ -45,14 +45,14 @@ test("returns required device info", async () => {
     }
   })
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
-  const deviceFileSystemService = new DeviceFileSystemService(deviceService)
+  const deviceFileSystem = createDeviceFileSystemAdapter(deviceService)
   const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
     deviceService
   )
   registerDeviceInfoRequest({
     purePhone: createPurePhoneAdapter(
       deviceService,
-      deviceFileSystemService,
+      deviceFileSystem,
       deviceFileDiagnosticService
     ),
   } as unknown as Adapters)

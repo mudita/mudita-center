@@ -23,7 +23,7 @@ exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disa
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   width: 4rem;
   border: 0.1rem solid #3b3f42;
@@ -64,7 +64,7 @@ exports[`Button matches snapshots Icon only displayStyle: 3 size: undefined disa
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 3.2rem;
   width: 3.2rem;
   border-radius: 0.2rem;
@@ -111,7 +111,7 @@ exports[`Button matches snapshots Icon only displayStyle: 4 size: undefined disa
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 3.2rem;
   width: 3.2rem;
   border-radius: 0.2rem;
@@ -168,7 +168,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -260,7 +260,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -338,7 +338,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -425,7 +425,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -508,7 +508,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -605,7 +605,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -689,7 +689,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -806,7 +806,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -913,7 +913,7 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -1035,7 +1035,7 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -1153,7 +1153,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.5rem;
+  width: 10.4rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
@@ -1219,7 +1219,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.5rem;
+  width: 10.4rem;
   pointer-events: none;
   height: 4rem;
   color: #ffffff;
@@ -1289,7 +1289,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 12rem;
+  width: 9.600000000000001rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
@@ -1356,7 +1356,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 12rem;
+  width: 9.600000000000001rem;
   pointer-events: none;
   height: 4rem;
   color: #ffffff;
@@ -1427,7 +1427,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
@@ -1494,7 +1494,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   pointer-events: none;
   height: 4rem;
   color: #ffffff;
@@ -1565,7 +1565,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.5rem;
+  width: 10.4rem;
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
@@ -1629,7 +1629,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.5rem;
+  width: 10.4rem;
   pointer-events: none;
   height: 4rem;
   border-radius: 0.5rem;
@@ -1701,7 +1701,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 12rem;
+  width: 9.600000000000001rem;
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
@@ -1766,7 +1766,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 12rem;
+  width: 9.600000000000001rem;
   pointer-events: none;
   height: 4rem;
   border-radius: 0.5rem;
@@ -1839,7 +1839,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
@@ -1904,7 +1904,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   pointer-events: none;
   height: 4rem;
   border-radius: 0.5rem;
@@ -2001,7 +2001,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.5rem;
+  width: 10.4rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
@@ -2105,7 +2105,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.5rem;
+  width: 10.4rem;
   pointer-events: none;
   height: 4rem;
   color: #ffffff;
@@ -2213,7 +2213,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 12rem;
+  width: 9.600000000000001rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
@@ -2318,7 +2318,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 12rem;
+  width: 9.600000000000001rem;
   pointer-events: none;
   height: 4rem;
   color: #ffffff;
@@ -2427,7 +2427,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
@@ -2532,7 +2532,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   pointer-events: none;
   height: 4rem;
   color: #ffffff;
@@ -2641,7 +2641,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.5rem;
+  width: 10.4rem;
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
@@ -2743,7 +2743,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.5rem;
+  width: 10.4rem;
   pointer-events: none;
   height: 4rem;
   border-radius: 0.5rem;
@@ -2853,7 +2853,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 12rem;
+  width: 9.600000000000001rem;
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
@@ -2956,7 +2956,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 12rem;
+  width: 9.600000000000001rem;
   pointer-events: none;
   height: 4rem;
   border-radius: 0.5rem;
@@ -3067,7 +3067,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
@@ -3170,7 +3170,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   pointer-events: none;
   height: 4rem;
   border-radius: 0.5rem;
@@ -3257,7 +3257,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
@@ -3324,7 +3324,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
