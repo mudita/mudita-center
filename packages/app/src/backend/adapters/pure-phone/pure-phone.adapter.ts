@@ -8,13 +8,11 @@ import {
   DiagnosticsFileList,
   Endpoint,
   GetBackupDeviceStatusRequestConfigBody,
-  GetBackupDeviceStatusResponseBody,
   GetPhoneLockTimeResponseBody,
   GetRestoreDeviceStatusResponseBody,
   Method,
   MuditaDevice,
   PhoneLockCategory,
-  StartBackupResponseBody,
   StartRestoreRequestConfigBody,
 } from "@mudita/pure"
 import PurePhoneAdapter, {
@@ -25,7 +23,7 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
 import DeviceFileSystemAdapter, {
-  DeviceFile
+  DeviceFile,
 } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
@@ -200,25 +198,6 @@ class PurePhone extends PurePhoneAdapter {
     DeviceResponse<string[]>
   > {
     return this.downloadDeviceFilesLocally(DiagnosticsFileList.CRASH_DUMPS)
-  }
-
-  public async startBackupDevice(): Promise<
-    DeviceResponse<StartBackupResponseBody>
-  > {
-    return await this.deviceService.request({
-      endpoint: Endpoint.Backup,
-      method: Method.Post,
-    })
-  }
-
-  public async getBackupDeviceStatus(
-    config: GetBackupDeviceStatusRequestConfigBody
-  ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>> {
-    return await this.deviceService.request({
-      endpoint: Endpoint.Backup,
-      method: Method.Get,
-      body: config,
-    })
   }
 
   public async startRestoreDevice(
