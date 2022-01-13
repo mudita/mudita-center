@@ -20,6 +20,8 @@ import DeviceFileSystemAdapter, {
 import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
 
 class DeviceBackup implements DeviceBackupAdapter {
+  public backuping = false
+
   constructor(
     private purePhone: PurePhoneAdapter,
     private deviceBackupService: DeviceBackupService,
@@ -27,6 +29,7 @@ class DeviceBackup implements DeviceBackupAdapter {
   ) {}
 
   async downloadDeviceBackup(): Promise<DeviceResponse<DeviceFile>> {
+    this.backuping = true
     const getBackupLocationResponse = await this.purePhone.getBackupLocation()
 
     if (!isResponsesSuccessWithData([getBackupLocationResponse])) {
@@ -76,6 +79,8 @@ class DeviceBackup implements DeviceBackupAdapter {
         },
       }
     }
+
+    this.backuping = false
 
     return {
       status: DeviceResponseStatus.Ok,
