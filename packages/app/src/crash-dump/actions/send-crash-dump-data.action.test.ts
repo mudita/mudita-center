@@ -191,7 +191,7 @@ describe("when logs downloaded", () => {
       },
     })
 
-    const errorMock = new DeviceConnectionError(
+    const errorMock = new SendingCrashDumpError(
       "Create Crash Dump Ticket - ArchiveFiles error"
     )
 
