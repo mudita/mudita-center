@@ -17,7 +17,7 @@ import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-ad
 
 export default interface Adapters {
   app: ElectronAppAdapter
-  backupDevice: DeviceBackupAdapter
+  deviceBackup: DeviceBackupAdapter
   deviceFileSystem: DeviceFileSystemAdapter
   appSettings: AppSettingsAdapter
   purePhone: PurePhoneAdapter

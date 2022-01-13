@@ -10,9 +10,9 @@ import { IpcBackupDevice } from "App/backup/constants/ipc-backup.enum"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 const handleDownloadDeviceBackup = ({
-  backupDevice,
+  deviceBackup,
 }: Adapters): Promise<DeviceResponse<DeviceFile>> => {
-  return backupDevice.downloadDeviceBackup()
+  return deviceBackup.downloadDeviceBackup()
 }
 
 export const registerDownloadDeviceBackupRequest = createEndpoint({

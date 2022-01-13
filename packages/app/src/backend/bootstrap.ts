@@ -68,14 +68,14 @@ const bootstrap = (
     deviceFileDiagnosticService
   )
   const deviceBackupService = createDeviceBackupService(deviceService)
-  const backupDevice = createDeviceBackupAdapter(
+  const deviceBackup = createDeviceBackupAdapter(
     purePhone,
     deviceBackupService,
     deviceFileSystem
   )
 
   const adapters = {
-    backupDevice,
+    deviceBackup,
     deviceFileSystem,
     purePhone,
     phonebook: createPhonebook(deviceService),
