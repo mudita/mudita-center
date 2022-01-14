@@ -126,7 +126,7 @@ const bootstrap = (
     registerDownloadDeviceBackupRequest,
   ]
 
-  indexService.init()
+  indexService.initialize()
   new Backend(adapters, getFakeAdapters(), requests).init()
 }
 

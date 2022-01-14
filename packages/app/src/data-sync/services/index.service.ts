@@ -11,7 +11,7 @@ import { IndexClass } from "App/data-sync/services/index-class.interface"
 export class IndexService implements IndexClass{
   constructor(private dataSync: DataSyncClass) {}
 
-  init() {
+  initialize(): void {
     this.dataSync.initialize()
   }
 

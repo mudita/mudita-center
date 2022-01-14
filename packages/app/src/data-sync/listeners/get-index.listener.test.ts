@@ -8,7 +8,7 @@ import { IpcDataSyncEvent, registerGetIndexListener } from "App/data-sync"
 import { IndexClass } from "App/data-sync/services/index-class.interface"
 
 const indexService: IndexClass = {
-  init: jest.fn(),
+  initialize: jest.fn(),
   indexAll: jest.fn(),
   getIndex: jest.fn(),
 }
