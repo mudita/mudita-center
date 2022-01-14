@@ -18,7 +18,7 @@ export class IndexService {
     return this.dataSync.indexAll()
   }
 
-  getIndex(indexName: DataIndex): SerialisedIndexData<any> | undefined {
+  getIndex(indexName: DataIndex): SerialisedIndexData<unknown> | undefined {
     return this.dataSync.indexesMap.get(indexName)?.toJSON()
   }
 }

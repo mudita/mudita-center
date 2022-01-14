@@ -9,6 +9,6 @@ import { IpcDataSyncEvent, DataIndex } from "App/data-sync/constants"
 
 export const getIndexRequest = async <Type extends {}>(
   indexName: DataIndex
-): Promise<SerialisedIndexData<Type>> => {
+): Promise<SerialisedIndexData<Type> | undefined> => {
   return ipcRenderer.callMain(IpcDataSyncEvent.GetIndex, indexName)
 }

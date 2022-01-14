@@ -4,5 +4,5 @@
  */
 
 export enum DataSyncEvent {
-  UpdateIndex = "DATA_SYNC_UPDATE_INDEX",
+  UpdateAllIndexes = "DATA_SYNC_UPDATE_ALL_INDEXES",
 }

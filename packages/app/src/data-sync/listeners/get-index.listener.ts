@@ -6,11 +6,12 @@
 import { ipcMain } from "electron-better-ipc"
 import { IpcDataSyncEvent, DataIndex } from "App/data-sync/constants"
 import { getIndexService } from "App/data-sync/containers"
+import { SerialisedIndexData } from "elasticlunr"
 
 export const registerGetIndexListener = (): void => {
-  ipcMain.answerRenderer(
+  ipcMain.answerRenderer<DataIndex, SerialisedIndexData<unknown> | undefined>(
     IpcDataSyncEvent.GetIndex,
-    async (indexName: DataIndex) => {
+    async (indexName) => {
       const indexService = getIndexService()
       return indexService.getIndex(indexName)
     }
