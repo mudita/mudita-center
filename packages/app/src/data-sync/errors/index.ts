@@ -3,4 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./load-backup-data.error"
+export * from "./update-all-indexes-error.error"

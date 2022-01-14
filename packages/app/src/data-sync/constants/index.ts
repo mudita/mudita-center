@@ -4,6 +4,7 @@
  */
 
 export * from "./contact.constant"
+export * from "./errors.enum"
 export * from "./event.enum"
 export * from "./index.constant"
 export * from "./ipc-data-sync.enum"
