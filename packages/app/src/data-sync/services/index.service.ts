@@ -6,8 +6,9 @@
 import { SerialisedIndexData } from "elasticlunr"
 import { DataSyncClass } from "App/data-sync/services/data-sync-class.interface"
 import { DataIndex } from "App/data-sync/constants"
+import { IndexClass } from "App/data-sync/services/index-class.interface"
 
-export class IndexService {
+export class IndexService implements IndexClass{
   constructor(private dataSync: DataSyncClass) {}
 
   init() {

@@ -13,7 +13,7 @@ export const registerGetIndexListener = (): void => {
     IpcDataSyncEvent.GetIndex,
     async (indexName) => {
       const indexService = getIndexService()
-      return indexService.getIndex(indexName)
+      return indexService?.getIndex(indexName)
     }
   )
 }

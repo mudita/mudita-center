@@ -4,8 +4,9 @@
  */
 
 import { IndexService, DataSyncClass } from "App/data-sync/services"
+import { IndexClass } from "App/data-sync/services/index-class.interface"
 
-let indexService: IndexService
+let indexService: IndexClass
 
 export const createIndexService = (dataSyncService: DataSyncClass) => {
   if (!indexService) {
@@ -15,4 +16,4 @@ export const createIndexService = (dataSyncService: DataSyncClass) => {
   return indexService
 }
 
-export const getIndexService = () => indexService
+export const getIndexService = (): IndexClass | undefined => indexService
