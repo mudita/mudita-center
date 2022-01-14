@@ -8,11 +8,11 @@ import { IpcDataSyncEvent } from "App/data-sync/constants"
 import { getIndexService } from "App/data-sync/containers"
 
 export const registerIndexAllListener = (): void => {
-  ipcMain.answerRenderer(
+  ipcMain.answerRenderer<void, void>(
     IpcDataSyncEvent.IndexAll,
     async () => {
       const index = getIndexService()
-      return index.indexAll()
+      return index?.indexAll()
     }
   )
 }
