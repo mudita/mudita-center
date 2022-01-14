@@ -4,4 +4,5 @@
  */
 
 export * from "./data-sync.service"
+export * from "./data-sync-class.interface"
 export * from "./index.service"

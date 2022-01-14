@@ -4,11 +4,11 @@
  */
 
 import { SerialisedIndexData } from "elasticlunr"
-import { DataSync } from "App/data-sync/services/data-sync.service"
+import { DataSyncClass } from "App/data-sync/services/data-sync-class.interface"
 import { DataIndex } from "App/data-sync/constants"
 
 export class IndexService {
-  constructor(private dataSync: DataSync) {}
+  constructor(private dataSync: DataSyncClass) {}
 
   init() {
     this.dataSync.initialize()

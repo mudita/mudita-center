@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IndexService, DataSync } from "App/data-sync/services"
+import { IndexService, DataSyncClass } from "App/data-sync/services"
 
 let indexService: IndexService
 
-export const createIndexService = (dataSyncService: DataSync) => {
+export const createIndexService = (dataSyncService: DataSyncClass) => {
   if (!indexService) {
     indexService = new IndexService(dataSyncService)
   }

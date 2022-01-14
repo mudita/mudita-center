@@ -9,8 +9,9 @@ import { ContactPresenter } from "App/data-sync/presenters"
 import { DataIndex } from "App/data-sync/constants"
 import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
 import DeviceService from "Backend/device-service"
+import { DataSyncClass } from "App/data-sync/services/data-sync-class.interface"
 
-export class DataSync {
+export class DataSync implements DataSyncClass {
   private contactIndexer: ContactIndexer | null = null
   public indexesMap: Map<DataIndex, Index<any>> = new Map()
 
@@ -19,7 +20,7 @@ export class DataSync {
     private deviceBackup: DeviceBackupAdapter
   ) {}
 
-  initialize() {
+  initialize(): void {
     this.contactIndexer = new ContactIndexer(
       new ContactPresenter()
     )
