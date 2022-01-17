@@ -21,12 +21,13 @@ export class ContactIndexer extends BaseIndexer {
   }
 
   async index(): Promise<Index<ContactObject>> {
+    // TODO: Will be covered with test as part of  CP-979
     const db = await this.initTmpDatabase()
     const object = this.dataPresenter.serializeToObject(this.loadTables(db))
     return this.createIndex(object)
   }
 
-  createIndex(data: ContactObject[]): Index<ContactObject> {
+  private createIndex(data: ContactObject[]): Index<ContactObject> {
     const index = elasticlunr<ContactObject>()
 
     index.setRef("id")
@@ -43,7 +44,7 @@ export class ContactIndexer extends BaseIndexer {
     return index
   }
 
-  loadTables(db: Database): ContactInput {
+  private loadTables(db: Database): ContactInput {
     return {
       [ContactTable.Contacts]: db.exec(
         `SELECT * FROM ${ContactTable.Contacts};`
@@ -60,7 +61,7 @@ export class ContactIndexer extends BaseIndexer {
     }
   }
 
-  async initTmpDatabase(): Promise<Database> {
+  private async initTmpDatabase(): Promise<Database> {
     const data = await this.getData("contacts.db")
     return new (await this.sql).Database(data)
   }

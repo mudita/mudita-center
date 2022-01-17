@@ -3,10 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import initSqlJs, { Database, SqlJsStatic } from "sql.js"
+import initSqlJs, { SqlJsStatic } from "sql.js"
 
 export abstract class BaseIndexer {
   get sql(): Promise<SqlJsStatic> {
+    // TODO: Will be covered with test as part of  CP-979
     return initSqlJs({
       locateFile: (fileName: string) =>
         `${__dirname}/../src/data-sync/static/${fileName}`,
@@ -17,6 +18,4 @@ export abstract class BaseIndexer {
     // TODO: Will be Implement in the next subtask -> CP-961
     return null
   }
-
-  abstract initTmpDatabase(): Promise<Database>
 }
