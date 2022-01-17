@@ -22,6 +22,7 @@ export class DataSync implements DataSyncClass {
 
   initialize(): void {
     this.contactIndexer = new ContactIndexer(
+      this.deviceBackup,
       new ContactPresenter()
     )
   }

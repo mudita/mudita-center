@@ -12,12 +12,14 @@ import {
   ContactObject,
   ContactInput,
 } from "App/data-sync/types"
+import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
 
 export class ContactIndexer extends BaseIndexer {
   constructor(
+    deviceBackup: DeviceBackupAdapter,
     private dataPresenter: IndexerPresenter<ContactInput, ContactObject[]>
   ) {
-    super()
+    super(deviceBackup)
   }
 
   async index(): Promise<Index<ContactObject>> {
