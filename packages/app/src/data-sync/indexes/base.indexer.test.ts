@@ -2,6 +2,7 @@
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
+
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
 import createFakeDeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-fake.adapter"
@@ -35,7 +36,7 @@ beforeEach(() => {
 })
 
 describe("`BaseIndexer`", () => {
-  test("listener execute `getIndex` method properly", async () => {
+  test("`getData` execution works properly ", async () => {
     vol.fromJSON(json, "/");
 
     ;(getAppPath as unknown as jest.Mock).mockImplementation(() => "")
