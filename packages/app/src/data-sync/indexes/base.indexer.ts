@@ -10,7 +10,7 @@ export abstract class BaseIndexer {
     // TODO: Will be covered with test as part of  CP-979
     return initSqlJs({
       locateFile: (fileName: string) =>
-        `${__dirname}/../src/data-sync/static/${fileName}`,
+        `${__dirname}/../static/${fileName}`,
     })
   }
 
