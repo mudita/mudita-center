@@ -58,7 +58,7 @@ exports[`matches snapshot 1`] = `
   height: 100%;
   width: 100%;
   background-clip: content-box;
-  border: 0.1rem solid #cdcecf;
+  border: 0.1rem solid #d2d6db;
   border-radius: 0.2rem;
   background-color: #ffffff;
   -webkit-transition: border-color 250ms ease-in-out;

@@ -76,7 +76,7 @@ const Question = styled(Link)`
   transition: background-color ${transitionTime("veryQuick")}
     ${transitionTimingFunction("smooth")};
   &:hover {
-    background-color: ${backgroundColor("minorHover")};
+    background-color: ${backgroundColor("minor")};
   }
 `
 
