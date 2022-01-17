@@ -13,7 +13,7 @@ import {
 } from "App/data-sync/types"
 
 export class ContactPresenter {
-  findRecords<Type extends { contact_id: string }>(
+  public findRecords<Type extends { contact_id: string }>(
     data: { contact_id: string }[],
     contactId: string
   ): Type[] {
@@ -24,7 +24,7 @@ export class ContactPresenter {
     )
   }
 
-  serializeRecord<Type>(values: string[][], columns: string[]): Type[] {
+  public serializeRecord<Type>(values: string[][], columns: string[]): Type[] {
     return values.map((item) => {
       return columns.reduce((acc: Record<string, string>, value, index) => {
         acc[value.trim()] = String(item[index]).trim()
@@ -33,7 +33,7 @@ export class ContactPresenter {
     }) as unknown as Type[]
   }
 
-  serializeToObject(data: ContactInput): ContactObject[] {
+  public serializeToObject(data: ContactInput): ContactObject[] {
     const contacts = this.serializeRecord<ContactEntity>(
       data.contacts.values,
       data.contacts.columns

@@ -45,7 +45,7 @@ export type ContactAddressEntity = Entity<{
 }>
 
 export interface ContactInput {
-  [ContactTable.Contacts]: DBQueryResult<keyof ContactObject, string[]>
+  [ContactTable.Contacts]: DBQueryResult<keyof ContactEntity, string[]>
   [ContactTable.Names]: DBQueryResult<keyof ContactNameEntity, string[]>
   [ContactTable.Numbers]: DBQueryResult<keyof ContactNumberEntity, string[]>
   [ContactTable.Addresses]: DBQueryResult<keyof ContactAddressEntity, string[]>
