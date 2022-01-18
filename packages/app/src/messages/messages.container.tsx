@@ -6,7 +6,7 @@
 import { ChangeEvent } from "react"
 import { connect } from "react-redux"
 import Messages from "App/messages/components/messages/messages.component"
-import { ReduxRootState, TmpDispatch, select, RootState } from "Renderer/store"
+import { ReduxRootState, TmpDispatch, RootState } from "Renderer/store"
 import {
   Message,
   NewMessage,
@@ -35,22 +35,26 @@ import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { loadThreadsTotalCount } from "App/messages/actions/load-threads-total-count.action"
-
-const selector = select(({ contacts }) => ({
-  getContact: contacts.getContact,
-  getContactByPhoneNumber: contacts.getContactByPhoneNumber,
-  attachContactList: contacts.contactList,
-  attachContactFlatList: contacts.flatList,
-  isContactCreatedByPhoneNumber: contacts.isContactCreatedByPhoneNumber,
-}))
+import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
+import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
+import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
+import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
+import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
+import { loadContacts } from "App/contacts/actions/load-contacts.action"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
-  ...selector(state, {}),
   ...state.settings,
   threadsState: state.messages.threadsState,
   threadsTotalCount: state.messages.threadsTotalCount,
+  attachContactList: contactListSelector(state),
+  attachContactFlatList: flatListSelector(state),
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
+  getContactByPhoneNumber: (phoneNumber: string) =>
+    getContactByPhoneNumberSelector(phoneNumber)(state),
+  isContactCreatedByPhoneNumber: (phoneNumber: string) =>
+    isContactCreatedByPhoneNumberSelector(phoneNumber)(state),
+  getContact: (id: string) => getContactSelector(id)(state),
   getReceiver: (phoneNumber: string) => getReceiverSelector(phoneNumber)(state),
   getMessagesByThreadId: (threadId: string) =>
     getMessagesByThreadIdSelector(threadId)(state),
@@ -59,8 +63,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  loadThreadsTotalCount: (): Promise<void> =>
-    dispatch(loadThreadsTotalCount()),
+  loadThreadsTotalCount: (): Promise<void> => dispatch(loadThreadsTotalCount()),
   loadThreads: (
     pagination: PaginationBody
   ): Promise<PayloadAction<PaginationBody>> =>
@@ -77,7 +80,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(loadMessagesById(body)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
     dispatch(addNewMessage(newMessage)),
-  loadContacts: () => dispatch.contacts.loadData(),
+  loadContacts: () => dispatch(loadContacts()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

@@ -33,7 +33,7 @@ export interface CallsProps {
   deleteCall?: (ids: string[]) => void
   isThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
-  getContact: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact | undefined
 }
 
 const Calls: FunctionComponent<CallsProps> = ({

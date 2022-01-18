@@ -81,7 +81,6 @@ const ContactsComponent = ({
     contacts={contactsSeedInput}
     loadContacts={asyncNoop}
     inputValue={""}
-    savingContact={false}
     speedDialContacts={[]}
     deleteContacts={asyncNoop}
     authorize={asyncNoop}

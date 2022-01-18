@@ -57,7 +57,7 @@ interface ContactDetailsProps {
   onClose: () => void
   isThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
-  getContact: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact | undefined
   onDeleteClick: (id: string) => void
 }
 

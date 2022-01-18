@@ -159,7 +159,6 @@ const defaultProps: Props = {
   selectedContacts: [],
   speedDialContacts: [],
   editMode: false,
-  savingContact: false,
   inputValue: "",
   searchValue: "",
   onSearchValueChange: jest.fn(),

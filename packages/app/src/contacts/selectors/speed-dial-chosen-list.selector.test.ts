@@ -4,7 +4,7 @@
  */
 
 import { ReduxRootState } from "Renderer/store"
-import { initialState } from "App/contacts/store/contacts"
+import { initialState } from "App/contacts"
 import { speedDialChosenListSelector } from "App/contacts/selectors/speed-dial-chosen-list.selector"
 
 describe("`speedDialChosenListSelector` selector", () => {

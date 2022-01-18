@@ -36,6 +36,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
+import { PayloadAction } from "@reduxjs/toolkit"
 
 const messages = defineMessages({
   title: { id: "module.contacts.deleteTitle" },
@@ -63,7 +64,9 @@ interface Props {
   selectedContacts: Contact[]
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
-  deleteContacts: (ids: ContactID[]) => Promise<string | void>
+  deleteContacts: (
+    ids: ContactID[]
+  ) => Promise<PayloadAction<Error | undefined>>
   resetRows: UseTableSelect<Contact>["resetRows"]
   editMode: boolean
   onSearchEnterClick?: () => void
@@ -109,8 +112,10 @@ const ContactPanel: FunctionComponent<Props> = ({
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true
       )
-      const error = await delayResponse(deleteContacts(selectedContactsIds))
-      if (error) {
+      const { payload } = await delayResponse(
+        deleteContacts(selectedContactsIds)
+      )
+      if (payload) {
         modalService.openModal(<ErrorDataModal />, true)
       } else {
         modalService.closeModal()

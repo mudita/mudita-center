@@ -4,7 +4,7 @@
  */
 
 import { createSelector } from "reselect"
-import { ReduxRootState, RootState } from "Renderer/store"
+import { ReduxRootState } from "Renderer/store"
 import {
   ContactsState,
   ResultState,

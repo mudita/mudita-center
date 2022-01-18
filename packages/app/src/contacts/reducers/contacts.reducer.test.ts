@@ -14,7 +14,11 @@ import {
   ContactID,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
-import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store"
+import {
+  fulfilledAction,
+  pendingAction,
+  rejectedAction,
+} from "Renderer/store/helpers"
 import { LoadContactsError } from "App/contacts/errors"
 
 describe("Load Contacts data functionality", () => {

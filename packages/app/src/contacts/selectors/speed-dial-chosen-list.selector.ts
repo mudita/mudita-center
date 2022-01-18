@@ -4,7 +4,7 @@
  */
 
 import { createSelector } from "reselect"
-import { ReduxRootState, RootState } from "Renderer/store"
+import { ReduxRootState } from "Renderer/store"
 import { ContactsState } from "App/contacts/reducers/contacts.interface"
 import { contactsStateSelector } from "App/contacts/selectors/contacts-state.selector"
 import { getSpeedDialChosenList } from "App/contacts/helpers/contacts.helpers"

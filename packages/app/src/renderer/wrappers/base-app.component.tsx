@@ -20,6 +20,7 @@ import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { CrashDump } from "App/crash-dump"
 
 import modalService from "Renderer/components/core/modal/modal.service"
+import { loadContacts } from "App/contacts/actions/load-contacts.action"
 
 interface Props {
   getConnectedDevice: () => void
@@ -104,8 +105,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  getConnectedDevice: () => dispatch(getConnectedDevice),
-  loadContacts: () => dispatch.contacts.loadData(),
+  getConnectedDevice: () => dispatch(getConnectedDevice()),
+  loadContacts: () => dispatch(loadContacts()),
   sendDiagnosticData: dispatch.settings.sendDiagnosticData,
 })
 

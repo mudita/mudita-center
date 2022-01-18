@@ -4,7 +4,11 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store"
+import {
+  fulfilledAction,
+  pendingAction,
+  rejectedAction,
+} from "Renderer/store/helpers"
 import {
   AddNewContactToStateAction,
   ContactsState,

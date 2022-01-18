@@ -44,7 +44,7 @@ export interface CallRowProps {
   noneRowsSelected: boolean
   sidebarOpened: boolean
   onDeleteClick: (id: string) => void
-  getContact: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact | undefined
 }
 
 export const CallRow: FunctionComponent<CallRowProps> = ({

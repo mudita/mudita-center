@@ -84,13 +84,11 @@ export enum ResultState {
 export interface StoreData {
   inputValue: string
   contacts: Contact[]
-  savingContact: boolean
   resultState: ResultState
 }
 
 export interface StoreSelectors extends Contacts {
   speedDialContacts: Contact[]
-  savingContact: boolean
 }
 
 export interface StoreEffects {
