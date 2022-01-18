@@ -10,11 +10,14 @@ export abstract class BaseIndexer {
     // TODO: Will be covered with test as part of  CP-979
     return initSqlJs({
       locateFile: (fileName: string) =>
-        `${__dirname}/../static/${fileName}`,
+        // @ts-ignore
+        `${__static}/${fileName}`,
     })
   }
 
-  public async getData(dbFileName: string): Promise<ArrayLike<number> | Buffer | null> {
+  public async getData(
+    dbFileName: string
+  ): Promise<ArrayLike<number> | Buffer | null> {
     // TODO: Will be Implement in the next subtask -> CP-961
     return null
   }
