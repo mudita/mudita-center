@@ -133,28 +133,13 @@ const contacts = createModel<RootModel>({
       return { ...state, ...contacts }
     },
   },
+  /**
+   * moved
+   */
   effects: (d) => {
     const dispatch = d as unknown as RootState
 
     return {
-      authorize(provider: ExternalProvider) {
-        switch (provider) {
-          case Provider.Google:
-            return externalProvidersStore.dispatch.google.authorize(
-              Scope.Contacts
-            )
-          // TODO: update when adding new providers
-          case Provider.Apple:
-            return undefined
-          case Provider.Outlook:
-            return externalProvidersStore.dispatch.outlook.authorize(
-              OutLookScope.Contacts
-            )
-        }
-      },
-      /**
-       * moved
-       */
       async loadData(
         _: any,
         rootState: { contacts: { resultsState: ResultState } }
@@ -174,6 +159,21 @@ const contacts = createModel<RootModel>({
         } else {
           dispatch.contacts.setContacts(contactDatabaseFactory(data))
           dispatch.contacts.setResultsState(ResultState.Loaded)
+        }
+      },
+      authorize(provider: ExternalProvider) {
+        switch (provider) {
+          case Provider.Google:
+            return externalProvidersStore.dispatch.google.authorize(
+              Scope.Contacts
+            )
+          // TODO: update when adding new providers
+          case Provider.Apple:
+            return undefined
+          case Provider.Outlook:
+            return externalProvidersStore.dispatch.outlook.authorize(
+              OutLookScope.Contacts
+            )
         }
       },
     }

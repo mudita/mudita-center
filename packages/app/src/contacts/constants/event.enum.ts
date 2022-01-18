@@ -7,4 +7,5 @@ export enum ContactsEvent {
   DevClearAllContacts = "CONTACTS_DEV_CLEAR_ALL_CONTACTS",
   LoadContacts = "CONTACTS_LOAD_CONTACTS",
   SetContacts = "CONTACTS_SET_CONTACTS",
+  Authorize = "CONTACTS_AUTHORIZE",
 }
