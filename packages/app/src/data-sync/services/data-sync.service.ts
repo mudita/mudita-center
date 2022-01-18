@@ -10,6 +10,12 @@ import { DataIndex } from "App/data-sync/constants"
 import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
 import DeviceService from "Backend/device-service"
 import { DataSyncClass } from "App/data-sync/services/data-sync-class.interface"
+import path from "path"
+import getAppPath from "App/main/utils/get-app-path"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { extract } from "App/data-sync/helpers"
+
+const syncCatalogName = "sync"
 
 export class DataSync implements DataSyncClass {
   private contactIndexer: ContactIndexer | null = null
@@ -21,10 +27,7 @@ export class DataSync implements DataSyncClass {
   ) {}
 
   initialize(): void {
-    this.contactIndexer = new ContactIndexer(
-      this.deviceBackup,
-      new ContactPresenter()
-    )
+    this.contactIndexer = new ContactIndexer(new ContactPresenter())
   }
 
   async indexAll(): Promise<void> {
@@ -40,7 +43,22 @@ export class DataSync implements DataSyncClass {
       return
     }
 
-    const index = await this.contactIndexer.index()
+    const { status, data } =
+      await this.deviceBackup.downloadDeviceBackupLocally(syncCatalogName)
+
+    if (status !== DeviceResponseStatus.Ok || data === undefined) {
+      return
+    }
+
+    const fileDir = path.join(getAppPath(), syncCatalogName)
+
+    try {
+      await extract(data[0], { C: fileDir })
+    } catch {
+      return
+    }
+
+    const index = await this.contactIndexer.index(fileDir)
 
     this.indexesMap.set(DataIndex.Contact, index)
   }
