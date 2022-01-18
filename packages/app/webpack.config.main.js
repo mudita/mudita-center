@@ -21,8 +21,15 @@ module.exports = {
   externals,
   optimization: optimization(production),
   target: target(false),
-  plugins: [plugins.circulars, plugins.define, plugins.minify, plugins.env],
+  plugins: [
+    plugins.static,
+    plugins.circulars,
+    plugins.define,
+    plugins.minify,
+    plugins.env,
+  ],
   module: {
     rules: [woff, woff2, tff, eot, tsx(false, production)],
+    noParse: /node_modules\/sql\.js\/dist\/sql-wasm\.js$/,
   },
 }

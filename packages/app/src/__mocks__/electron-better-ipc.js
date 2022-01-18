@@ -49,7 +49,7 @@ const createMock = () => {
       __rendererCalls: {},
       ...ebi.ipcRenderer,
       callMain: jest.fn((name) => {
-        if (mock.ipcRenderer.__rendererCalls[name]) {
+        if (name in mock.ipcRenderer.__rendererCalls) {
           return mock.ipcRenderer.__rendererCalls[name]
         } else {
           throw new Error(`No call with name: ${name}`)

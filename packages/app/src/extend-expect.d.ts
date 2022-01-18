@@ -28,3 +28,5 @@ declare module "brie" {
 
   export function setup(args: SetupArgs): SetupReturns
 }
+
+declare module "sqlite-parser"
