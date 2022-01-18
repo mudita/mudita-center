@@ -138,6 +138,10 @@ const createWindow = async () => {
     await installExtensions()
   }
 
+  ;(global as any).__static = require("path")
+    .join(__dirname, "/static")
+    .replace(/\\/g, "\\\\")
+
   win = new BrowserWindow(
     getWindowOptions({
       minWidth: WINDOW_SIZE.minWidth,

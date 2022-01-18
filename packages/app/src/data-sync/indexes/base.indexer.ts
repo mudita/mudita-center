@@ -19,7 +19,9 @@ export abstract class BaseIndexer {
   get sql(): Promise<SqlJsStatic> {
     // TODO: Will be covered with test as part of  CP-979
     return initSqlJs({
-      locateFile: (fileName: string) => `${__dirname}/../static/${fileName}`,
+      locateFile: (fileName: string) =>
+        // @ts-ignore
+        `${__static}/${fileName}`,
     })
   }
 
