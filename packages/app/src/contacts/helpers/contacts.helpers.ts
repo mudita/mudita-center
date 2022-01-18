@@ -9,7 +9,7 @@ import { SimpleRecord } from "Common/typings"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import {
   BaseContactModel,
-  Contact,
+  Contact, ContactCategory,
   ContactFactorySignature,
   ContactID,
   ContactsState,
@@ -193,7 +193,7 @@ export const createFullNameStartingFromLastName = ({
   return `${lastName} ${firstName}`.trim()
 }
 
-export const getSortedContactList = ({ collection, db }: PhoneContacts) => {
+export const getSortedContactList = ({ collection, db }: PhoneContacts): ContactCategory[] => {
   const anonymousContacts = []
   const favouriteContacts = []
   const uncategorizedContacts = []
