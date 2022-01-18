@@ -9,6 +9,7 @@ export enum ContactsEvent {
   SetContacts = "CONTACTS_SET_CONTACTS",
   Authorize = "CONTACTS_AUTHORIZE",
   AddNewContact = "CONTACTS_ADD_NEW_CONTACT",
+  ImportContact = "CONTACTS_IMPORT_CONTACT",
   DeleteContacts = "CONTACTS_DELETE_CONTACTS",
   AddNewContactToState = "CONTACTS_ADD_NEW_CONTACT_TO_STATE",
   EditContact = "CONTACTS_EDIT_CONTACT",
