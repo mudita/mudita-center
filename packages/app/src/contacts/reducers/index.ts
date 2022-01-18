@@ -4,3 +4,4 @@
  */
 
 export * from "./contacts.interface"
+export * from "./contacts.reducer"
