@@ -9,6 +9,10 @@ import { Contact } from "App/contacts/reducers"
 
 export const setContacts = createAction<Contact[]>(ContactsEvent.SetContacts)
 
+export const addNewContactToState = createAction<Contact>(
+  ContactsEvent.AddNewContactToState
+)
+
 export const devClearAllContacts = createAction(
   ContactsEvent.DevClearAllContacts
 )

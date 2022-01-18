@@ -9,9 +9,9 @@ import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const addContact = async (
-  contact: NewContact
+  newContact: NewContact
 ): Promise<DeviceResponse<Contact>> => {
-  return ipcRenderer.callMain(IpcRequest.AddContact, contact)
+  return ipcRenderer.callMain(IpcRequest.AddContact, newContact)
 }
 
 export default addContact

@@ -80,20 +80,6 @@ const contacts = createModel<RootModel>({
   state: initialState,
   reducers: {
     // container
-    addContact(state: ContactsState, contact: Contact): ContactsState {
-      let currentState = state
-
-      /**
-       * This is an example situation when two entities share the same (unique)
-       * data, so one has to release it.
-       */
-      if (contact.speedDial) {
-        currentState = revokeField(state, { speedDial: contact.speedDial })
-      }
-
-      return { ...state, ...addContacts(currentState, contact) }
-    },
-    // container
     editContact(state: ContactsState, data: BaseContactModel): ContactsState {
       let currentState = state
 
@@ -113,6 +99,19 @@ const contacts = createModel<RootModel>({
     /**
      * moved
      */
+    addContact(state: ContactsState, contact: Contact): ContactsState {
+      let currentState = state
+
+      /**
+       * This is an example situation when two entities share the same (unique)
+       * data, so one has to release it.
+       */
+      if (contact.speedDial) {
+        currentState = revokeField(state, { speedDial: contact.speedDial })
+      }
+
+      return { ...state, ...addContacts(currentState, contact) }
+    },
     _devClearAllContacts(state: ContactsState) {
       return {
         ...state,

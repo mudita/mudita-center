@@ -102,6 +102,11 @@ export type SetContactsAction = PayloadAction<
   ContactsEvent.SetContacts
 >
 
+export type AddNewContactToStateAction = PayloadAction<
+  Contact,
+  ContactsEvent.AddNewContactToState
+>
+
 export type LoadContactsRejectAction = PayloadAction<
   LoadContactsError,
   ContactsEvent.LoadContacts

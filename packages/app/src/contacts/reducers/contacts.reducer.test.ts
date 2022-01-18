@@ -92,6 +92,46 @@ describe("Set Contacts data functionality", () => {
   })
 })
 
+describe("Add New Contact To State data functionality", () => {
+  const contact: Contact = {
+    id: "0",
+    firstName: "Sławomir",
+    lastName: "Borewicz",
+    primaryPhoneNumber: "+71195069214",
+    secondaryPhoneNumber: "",
+    email: "example@mudita.com",
+    note: "sapiente rem dignissimos sunt",
+    ice: false,
+    favourite: false,
+    blocked: false,
+    firstAddressLine: "Malczewskiego 3, Warszawa",
+    secondAddressLine: "",
+  }
+
+  test("Event: AddNewContactToState set properly collection and db fields", () => {
+    const setContactsAction: PayloadAction<Contact> = {
+      type: ContactsEvent.AddNewContactToState,
+      payload: contact,
+    }
+
+    expect(contactsReducer(undefined, setContactsAction)).toEqual({
+      ...initialState,
+      collection: ["0"],
+      db: {
+        "0": {
+          email: "example@mudita.com",
+          firstAddressLine: "Malczewskiego 3, Warszawa",
+          firstName: "Sławomir",
+          id: "0",
+          lastName: "Borewicz",
+          note: "sapiente rem dignissimos sunt",
+          primaryPhoneNumber: "+71195069214",
+        },
+      },
+    })
+  })
+})
+
 describe("Clear All Contacts data functionality", () => {
   test("Event: DevClearAllContacts clear properly db, collection and resultState", () => {
     expect(

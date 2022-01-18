@@ -6,13 +6,17 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store"
 import {
+  AddNewContactToStateAction,
   ContactsState,
   LoadContactsRejectAction,
   ResultState,
   SetContactsAction,
 } from "App/contacts/reducers/contacts.interface"
 import { ContactsEvent } from "App/contacts/constants"
-import { contactDatabaseFactory } from "App/contacts/helpers/contacts.helpers"
+import {
+  addContacts,
+  contactDatabaseFactory,
+} from "App/contacts/helpers/contacts.helpers"
 
 export const initialState: ContactsState = {
   db: {},
@@ -56,6 +60,13 @@ export const contactsReducer = createReducer<ContactsState>(
             ...state,
             ...contactDatabaseFactory(action.payload),
           }
+        }
+      )
+
+      .addCase(
+        ContactsEvent.AddNewContactToState,
+        (state, action: AddNewContactToStateAction) => {
+          return { ...state, ...addContacts(state, action.payload) }
         }
       )
 
