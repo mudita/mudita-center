@@ -78,17 +78,10 @@ const simulateWriteToPhone = async (time = 2000) => {
 
 const contacts = createModel<RootModel>({
   state: initialState,
+  /**
+   * moved
+   */
   reducers: {
-    // container
-    removeContact(
-      state: ContactsState,
-      input: ContactID | ContactID[]
-    ): ContactsState {
-      return { ...state, ...removeContact(state, input) }
-    },
-    /**
-     * moved
-     */
     editContact(state: ContactsState, data: BaseContactModel): ContactsState {
       let currentState = state
 
@@ -129,6 +122,12 @@ const contacts = createModel<RootModel>({
     // load contacts
     setContacts(state: ContactsState, contacts: PhoneContacts): ContactsState {
       return { ...state, ...contacts }
+    },
+    removeContact(
+      state: ContactsState,
+      input: ContactID | ContactID[]
+    ): ContactsState {
+      return { ...state, ...removeContact(state, input) }
     },
   },
   /**

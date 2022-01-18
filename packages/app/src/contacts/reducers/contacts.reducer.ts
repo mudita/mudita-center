@@ -8,6 +8,7 @@ import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store"
 import {
   AddNewContactToStateAction,
   ContactsState,
+  DeleteContactsInStateAction,
   EditContactInStateAction,
   LoadContactsRejectAction,
   ResultState,
@@ -18,6 +19,7 @@ import {
   addContacts,
   contactDatabaseFactory,
   editContact,
+  removeContact,
 } from "App/contacts/helpers/contacts.helpers"
 
 export const initialState: ContactsState = {
@@ -76,6 +78,13 @@ export const contactsReducer = createReducer<ContactsState>(
         ContactsEvent.EditContactInState,
         (state, action: EditContactInStateAction) => {
           return { ...state, ...editContact(state, action.payload) }
+        }
+      )
+
+      .addCase(
+        ContactsEvent.DeleteContactsInState,
+        (state, action: DeleteContactsInStateAction) => {
+          return { ...state, ...removeContact(state, action.payload) }
         }
       )
 

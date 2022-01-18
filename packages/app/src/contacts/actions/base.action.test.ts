@@ -7,6 +7,7 @@ import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
 import {
   addNewContactToState,
+  deleteContactsInState,
   devClearAllContacts,
   editContactInState,
   setContacts,
@@ -66,6 +67,18 @@ describe("Action: editContactInState", () => {
       {
         type: ContactsEvent.EditContactInState,
         payload: contact,
+      },
+    ])
+  })
+})
+
+describe("Action: deleteContactsInState", () => {
+  test("fire action without payload and `DeleteContactsInState` type", () => {
+    mockStore.dispatch(deleteContactsInState([contact.id]))
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: ContactsEvent.DeleteContactsInState,
+        payload: [contact.id],
       },
     ])
   })

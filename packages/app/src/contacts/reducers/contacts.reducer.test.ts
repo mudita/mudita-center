@@ -9,7 +9,11 @@ import {
   initialState,
 } from "App/contacts/reducers/contacts.reducer"
 import { ContactsEvent } from "App/contacts/constants"
-import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
+import {
+  Contact,
+  ContactID,
+  ResultState,
+} from "App/contacts/reducers/contacts.interface"
 import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store"
 import { LoadContactsError } from "App/contacts/errors"
 
@@ -109,12 +113,12 @@ describe("AddNewContactToState data functionality", () => {
   }
 
   test("Event: AddNewContactToState set properly collection and db fields", () => {
-    const setContactsAction: PayloadAction<Contact> = {
+    const addNewContactToStateAction: PayloadAction<Contact> = {
       type: ContactsEvent.AddNewContactToState,
       payload: contact,
     }
 
-    expect(contactsReducer(undefined, setContactsAction)).toEqual({
+    expect(contactsReducer(undefined, addNewContactToStateAction)).toEqual({
       ...initialState,
       collection: ["0"],
       db: {
@@ -153,7 +157,7 @@ describe("EditContactInState data functionality", () => {
   }
 
   test("Event: EditContactInState set properly collection and db fields", () => {
-    const setContactsAction: PayloadAction<Contact> = {
+    const editContactInStateAction: PayloadAction<Contact> = {
       type: ContactsEvent.EditContactInState,
       payload: editedContact,
     }
@@ -167,7 +171,7 @@ describe("EditContactInState data functionality", () => {
             [contact.id]: contact,
           },
         },
-        setContactsAction
+        editContactInStateAction
       )
     ).toEqual({
       ...initialState,
@@ -188,6 +192,45 @@ describe("EditContactInState data functionality", () => {
           secondaryPhoneNumber: "",
         },
       },
+    })
+  })
+})
+
+describe("DeleteContactsInState data functionality", () => {
+  const contact: Contact = {
+    id: "0",
+    firstName: "Sławomir",
+    lastName: "Borewicz",
+    primaryPhoneNumber: "+71195069214",
+    secondaryPhoneNumber: "",
+    email: "example@mudita.com",
+    note: "sapiente rem dignissimos sunt",
+    ice: false,
+    favourite: false,
+    blocked: false,
+    firstAddressLine: "Malczewskiego 3, Warszawa",
+    secondAddressLine: "",
+  }
+
+  test("Event: DeleteContactsInState set properly collection and db fields", () => {
+    const deleteContactsInStateAction: PayloadAction<ContactID[]> = {
+      type: ContactsEvent.DeleteContactsInState,
+      payload: [contact.id],
+    }
+
+    expect(
+      contactsReducer(
+        {
+          ...initialState,
+          collection: [contact.id],
+          db: {
+            [contact.id]: contact,
+          },
+        },
+        deleteContactsInStateAction
+      )
+    ).toEqual({
+      ...initialState,
     })
   })
 })

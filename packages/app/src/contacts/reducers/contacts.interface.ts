@@ -112,6 +112,11 @@ export type EditContactInStateAction = PayloadAction<
   ContactsEvent.EditContactInState
 >
 
+export type DeleteContactsInStateAction = PayloadAction<
+  ContactID[],
+  ContactsEvent.DeleteContactsInState
+>
+
 export type LoadContactsRejectAction = PayloadAction<
   LoadContactsError,
   ContactsEvent.LoadContacts
