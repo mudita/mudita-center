@@ -176,19 +176,6 @@ const contacts = createModel<RootModel>({
     }
   },
   selectors: (slice: Slicer<StoreData>) => ({
-    getContactMap() {
-      return slice((state) => state.db)
-    },
-    isContactCreatedByPhoneNumber(models: StoreSelectors<PhoneContacts>) {
-      return (state: PhoneContacts) => {
-        const contacts: Contact[] = models.contacts.flatList(state)
-        return (phoneNumber: string) => {
-          return contacts.some((contact) =>
-            isContactMatchingPhoneNumber(contact, phoneNumber)
-          )
-        }
-      }
-    },
     isContactCreated(models: StoreSelectors<PhoneContacts>) {
       return (state: PhoneContacts) => {
         const contacts: Contact[] = models.contacts.flatList(state)
@@ -222,6 +209,19 @@ const contacts = createModel<RootModel>({
         const contacts: Contact[] = models.contacts.flatList(state)
         return (phoneNumber: string) => {
           return contacts.find((contact) =>
+            isContactMatchingPhoneNumber(contact, phoneNumber)
+          )
+        }
+      }
+    },
+    getContactMap() {
+      return slice((state) => state.db)
+    },
+    isContactCreatedByPhoneNumber(models: StoreSelectors<PhoneContacts>) {
+      return (state: PhoneContacts) => {
+        const contacts: Contact[] = models.contacts.flatList(state)
+        return (phoneNumber: string) => {
+          return contacts.some((contact) =>
             isContactMatchingPhoneNumber(contact, phoneNumber)
           )
         }
