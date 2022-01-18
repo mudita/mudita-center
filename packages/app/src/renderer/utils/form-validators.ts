@@ -6,7 +6,7 @@
 import { RegisterOptions } from "react-hook-form/dist/types"
 import { intl } from "Renderer/utils/intl"
 
-export const phoneNumberRegexp = /^(\+?)(\d(\s?\d)+)$/im
+export const phoneNumberRegexp = /^[\ \\.+\-\#\(\)\d]*$/im
 
 export const passwordRegexp =
   /^(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
@@ -15,10 +15,10 @@ export const primaryPhoneNumberValidator = (
   fields: Record<any, any>
 ): RegisterOptions => ({
   minLength: {
-    value: 5,
+    value: 1,
     message: intl.formatMessage(
       { id: "component.formErrorTooShort" },
-      { minLength: 5 }
+      { minLength: 1 }
     ),
   },
   maxLength: {
@@ -49,10 +49,10 @@ export const secondaryPhoneNumberValidator = (
   fields: Record<any, any>
 ): RegisterOptions => ({
   minLength: {
-    value: 5,
+    value: 1,
     message: intl.formatMessage(
       { id: "component.formErrorTooShort" },
-      { minLength: 5 }
+      { minLength: 1 }
     ),
   },
   maxLength: {
