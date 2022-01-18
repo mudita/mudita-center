@@ -16,13 +16,13 @@ import {
   removeContact,
   editContact,
   findContact,
-} from "App/contacts/store/contacts.helpers"
+} from "App/contacts/helpers/contacts.helpers"
 import {
   Contact,
   ContactID,
   ContactsState,
-} from "App/contacts/store/contacts.type"
-import { ResultsState } from "App/contacts/store/contacts.enum"
+  ResultsState,
+} from "App/contacts/reducers/contacts.interface"
 import contacts from "App/contacts/store/contacts"
 
 const TEST_CONTACT = { ...contactsSeed.db[contactsSeed.collection[0]] }

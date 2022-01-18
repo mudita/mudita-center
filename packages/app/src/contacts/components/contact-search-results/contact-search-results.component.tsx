@@ -4,7 +4,6 @@
  */
 
 import React, { createRef, Ref } from "react"
-import { Contact } from "App/contacts/store/contacts.type"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -25,16 +24,16 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { intl } from "Renderer/utils/intl"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
-import { ResultsState } from "App/contacts/store/contacts.enum"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { ContactSearchResultsTestIdsEnum } from "App/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
 import { flags, Feature } from "App/feature-flags"
+import { Contact, ResultsState } from "App/contacts/reducers/contacts.interface"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;

@@ -6,7 +6,6 @@
 import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { NewContact } from "App/contacts/store/contacts.type"
 import { ImportContactsFlowTestIds } from "App/contacts/components/import-contacts-flow/import-contacts-flow-test-ids.component"
 import SyncContactsModal from "App/contacts/components/sync-contacts-modal/sync-contacts-modal.component"
 import { DownloadContactsModal } from "App/contacts/components/contacts/download-contacts-modal/download-contacts-modal"
@@ -18,6 +17,7 @@ import ContactImportModal, {
 } from "App/contacts/components/contact-import/contact-import-modal.component"
 import ErrorModal from "App/contacts/components/error-modal/error-modal.component"
 import ImportingContactsModal from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"
+import { NewContact } from "App/contacts/reducers/contacts.interface"
 
 export const messages = defineMessages({
   downloadingErrorTitle: {

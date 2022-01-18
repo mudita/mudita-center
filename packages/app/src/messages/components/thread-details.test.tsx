@@ -16,7 +16,7 @@ import {
   ResultState,
 } from "App/messages/reducers/messages.interface"
 import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))

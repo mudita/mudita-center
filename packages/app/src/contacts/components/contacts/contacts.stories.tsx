@@ -11,8 +11,6 @@ import Contacts, {
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
-import { Contact, ContactID } from "App/contacts/store/contacts.type"
-import { ResultsState } from "App/contacts/store/contacts.enum"
 import ContactEdit, {
   defaultContact,
 } from "App/contacts/components/contact-edit/contact-edit.component"
@@ -29,9 +27,14 @@ import {
   getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
-} from "App/contacts/store/contacts.helpers"
+} from "App/contacts/helpers/contacts.helpers"
 import { asyncNoop, noop } from "Renderer/utils/noop"
 import { PhoneProps } from "App/contacts/components/contacts/contacts.type"
+import {
+  Contact,
+  ContactID,
+  ResultsState,
+} from "App/contacts/reducers/contacts.interface"
 
 const dummyPromise = (result: any) => () => result
 const getContact = (id: ContactID) => contactsSeed.db[id]

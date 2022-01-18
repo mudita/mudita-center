@@ -15,7 +15,7 @@ import {
   Contact,
   ContactID,
   NewContact,
-} from "App/contacts/store/contacts.type"
+} from "App/contacts/reducers/contacts.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import addContact from "Renderer/requests/add-contact.request"
 import logger from "App/main/utils/logger"
@@ -29,7 +29,7 @@ import externalProvidersStore from "Renderer/store/external-providers"
 import {
   contactDatabaseFactory,
   getFlatList,
-} from "App/contacts/store/contacts.helpers"
+} from "App/contacts/helpers/contacts.helpers"
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 import { ContactErrorResponse } from "App/contacts/components/contacts/contacts.type"
 import { isThreadOpenedSelector } from "App/messages/selectors"

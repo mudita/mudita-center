@@ -4,7 +4,7 @@
  */
 
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import { ResultsState } from "App/contacts/store/contacts.enum"
+import { ResultsState } from "App/contacts/reducers/contacts.interface"
 import RRule from "rrule/dist/esm/src/rrule"
 import RRuleSet from "rrule/dist/esm/src/rruleset"
 

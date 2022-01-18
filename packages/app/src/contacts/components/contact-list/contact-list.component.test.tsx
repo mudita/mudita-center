@@ -6,11 +6,13 @@
 import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import ContactList from "App/contacts/components/contact-list/contact-list.component"
-import { ResultsState } from "App/contacts/store/contacts.enum"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
-import { Contact } from "App/contacts/store/contacts.type"
-import { ContactCategory } from "App/contacts/store/contacts.interface"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
+import {
+  Contact,
+  ContactCategory,
+  ResultsState,
+} from "App/contacts/reducers/contacts.interface"
 
 const intersectionObserverMock = () => ({
   observe: () => null,

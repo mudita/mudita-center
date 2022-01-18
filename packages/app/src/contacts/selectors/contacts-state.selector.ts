@@ -5,7 +5,7 @@
 
 import { Selector } from "reselect"
 import { ReduxRootState, RootState } from "Renderer/store"
-import { ContactsState } from "App/contacts/store/contacts.type"
+import { ContactsState } from "App/contacts/reducers/contacts.interface"
 
 export const contactsStateSelector: Selector<
   RootState & ReduxRootState,

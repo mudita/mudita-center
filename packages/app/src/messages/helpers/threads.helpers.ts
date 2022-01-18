@@ -11,7 +11,7 @@ import {
   Thread,
   VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
-import { Contact, ContactID } from "App/contacts/store/contacts.type"
+import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 
 export const searchThreads = (

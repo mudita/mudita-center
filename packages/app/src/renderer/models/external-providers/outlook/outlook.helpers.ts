@@ -11,7 +11,7 @@ import {
   OutlookFreq,
   OutLookScope,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import axios from "axios"
 import { baseGraphUrl } from "Renderer/models/external-providers/outlook/outlook.constants"
 import { ContactBuilder } from "Renderer/models/external-providers/outlook/contact-builder"

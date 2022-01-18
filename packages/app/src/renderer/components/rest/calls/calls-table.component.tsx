@@ -17,7 +17,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 const messages = defineMessages({
   name: { id: "module.phone.callsName" },

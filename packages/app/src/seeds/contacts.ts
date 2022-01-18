@@ -3,9 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { contactDatabaseFactory } from "App/contacts/store/contacts.helpers"
-import { Contact } from "App/contacts/store/contacts.type"
-import { PhoneContacts } from "App/contacts/store/contacts.interface"
+import { contactDatabaseFactory } from "App/contacts/helpers/contacts.helpers"
+import {
+  Contact,
+  PhoneContacts,
+} from "App/contacts/reducers/contacts.interface"
 
 export const contactsSeedInput: Contact[] = [
   {

@@ -28,8 +28,10 @@ import { useHistory } from "react-router-dom"
 import createRouterPath from "Renderer/utils/create-router-path"
 import { URL_MAIN } from "Renderer/constants/urls"
 import AttachContactModal from "App/messages/components/attach-contact-modal.component"
-import { Contact } from "App/contacts/store/contacts.type"
-import { ContactCategory } from "App/contacts/store/contacts.interface"
+import {
+  Contact,
+  ContactCategory,
+} from "App/contacts/reducers/contacts.interface"
 import {
   Message,
   NewMessage,
@@ -144,7 +146,7 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    if(threadsTotalCount === 0) {
+    if (threadsTotalCount === 0) {
       setThreadsPaginationOffset(0)
     }
   }, [threadsTotalCount])

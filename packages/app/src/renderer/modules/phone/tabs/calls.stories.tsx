@@ -7,7 +7,7 @@ import { storiesOf } from "@storybook/react"
 import { calls } from "Renderer/components/core/table/table.fake-data"
 import React from "react"
 import Calls from "Renderer/modules/phone/tabs/calls.component"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 const isThreadOpened = () => true
 const isContactCreated = () => true

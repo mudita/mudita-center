@@ -6,11 +6,6 @@
 import { Slicer, StoreSelectors } from "@rematch/select"
 import { RootState } from "Renderer/store"
 import {
-  Contact,
-  ContactID,
-  ContactsState,
-} from "App/contacts/store/contacts.type"
-import {
   addContacts,
   contactDatabaseFactory,
   editContact,
@@ -19,7 +14,7 @@ import {
   getSpeedDialChosenList,
   removeContact,
   revokeField,
-} from "App/contacts/store/contacts.helpers"
+} from "App/contacts/helpers/contacts.helpers"
 import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 import getContacts from "Renderer/requests/get-contacts.request"
 import logger from "App/main/utils/logger"
@@ -31,13 +26,16 @@ import {
 import { Scope } from "Renderer/models/external-providers/google/google.interface"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
-import { ResultsState } from "App/contacts/store/contacts.enum"
+import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook.interface"
 import {
   BaseContactModel,
+  Contact,
+  ContactID,
+  ContactsState,
   PhoneContacts,
+  ResultsState,
   StoreData,
-} from "App/contacts/store/contacts.interface"
-import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook.interface"
+} from "App/contacts/reducers/contacts.interface"
 
 export const initialState: ContactsState = {
   db: {},

@@ -6,9 +6,8 @@
 import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import ContactSearchResults from "App/contacts/components/contact-search-results/contact-search-results.component"
-import { ResultsState } from "App/contacts/store/contacts.enum"
-import { Contact } from "App/contacts/store/contacts.type"
 import { ContactSearchResultsTestIdsEnum } from "App/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
+import { Contact, ResultsState } from "App/contacts/reducers/contacts.interface"
 
 const intersectionObserverMock = () => ({
   observe: () => null,

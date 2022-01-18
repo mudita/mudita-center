@@ -8,12 +8,11 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl, textFormatters } from "Renderer/utils/intl"
-import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { defineMessages } from "react-intl"
@@ -36,6 +35,7 @@ import { borderColor } from "Renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 
 const messages = defineMessages({
   title: { id: "module.contacts.deleteTitle" },

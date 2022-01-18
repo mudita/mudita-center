@@ -3,8 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Contact, ContactID } from "App/contacts/store/contacts.type"
-import { ResultsState } from "App/contacts/store/contacts.enum"
+export type ContactID = string
+export type Contact =
+  | ContactWithPhoneNumber
+  | ContactWithEmail
+  | ContactWithFirstName
+  | ContactWithLastName
+export type ContactFactorySignature<T = Contact | null> = (...args: any[]) => T
+export type NewContact = Omit<Contact, "id">
+export type ContactsState = PhoneContacts & Pick<StoreData, "resultsState">
+export type Store = StoreEffects & StoreData & StoreSelectors
 
 export interface BaseContactModel {
   id: ContactID
@@ -59,6 +67,13 @@ export interface ContactCategory {
 
 export interface Contacts {
   contactList: ContactCategory[]
+}
+
+export enum ResultsState {
+  Loading,
+  Loaded,
+  Empty,
+  Error,
 }
 
 export interface StoreData {

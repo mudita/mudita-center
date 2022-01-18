@@ -3,20 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Contact,
-  ContactFactorySignature,
-  ContactID,
-  ContactsState,
-} from "App/contacts/store/contacts.type"
-import {
-  BaseContactModel,
-  PhoneContacts,
-} from "App/contacts/store/contacts.interface"
 import { deburr, find, filter, omit } from "lodash"
 import { intl } from "Renderer/utils/intl"
 import { SimpleRecord } from "Common/typings"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import {
+  BaseContactModel,
+  Contact,
+  ContactFactorySignature,
+  ContactID,
+  ContactsState,
+  PhoneContacts,
+} from "App/contacts/reducers/contacts.interface"
 
 const lengthy = (input = "") => input.length > 0
 const prepareData = <T = any>(input: T | T[]): T[] =>

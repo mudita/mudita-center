@@ -8,17 +8,17 @@ import {
   ContactDetailsActions,
 } from "App/contacts/components/contact-details/contact-details.component"
 import ContactPanel from "App/contacts/components/contact-panel/contact-panel.component"
-import {
-  Contact,
-  ContactID,
-  NewContact,
-  Store,
-} from "App/contacts/store/contacts.type"
 import { AuthProviders } from "Renderer/models/auth/auth.typings"
 import { History, LocationState } from "history"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { ComponentProps } from "react"
+import {
+  Contact,
+  ContactID,
+  NewContact,
+  Store,
+} from "App/contacts/reducers/contacts.interface"
 
 export interface ContactErrorResponse {
   status: DeviceResponseStatus

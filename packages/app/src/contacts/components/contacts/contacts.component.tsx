@@ -10,8 +10,6 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
-import { Contact, NewContact } from "App/contacts/store/contacts.type"
-import { ContactCategory } from "App/contacts/store/contacts.interface"
 import ContactEdit, {
   defaultContact,
 } from "App/contacts/components/contact-edit/contact-edit.component"
@@ -19,7 +17,7 @@ import { noop } from "Renderer/utils/noop"
 import modalService from "Renderer/components/core/modal/modal.service"
 import SpeedDialModal from "App/contacts/components/speed-dial-modal/speed-dial-modal.container"
 import BlockContactModal from "App/contacts/components/block-contact-modal/block-contact-modal.component"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { ContactSection } from "App/contacts/components/contacts/contacts.styled"
@@ -51,6 +49,11 @@ import ContactSearchResults from "App/contacts/components/contact-search-results
 import ImportContactsFlow, {
   ImportContactsFlowState,
 } from "App/contacts/components/import-contacts-flow/import-contacts-flow.component"
+import {
+  Contact,
+  ContactCategory,
+  NewContact,
+} from "App/contacts/reducers/contacts.interface"
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },

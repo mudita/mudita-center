@@ -7,7 +7,7 @@ import {
   ContactsCollection,
   getContactDetails,
 } from "App/messages/helpers/messages.helpers"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 const mockContact: Contact = {
   id: "0",

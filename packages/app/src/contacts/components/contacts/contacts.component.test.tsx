@@ -10,13 +10,12 @@ import { waitFor, fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import Contacts from "App/contacts/components/contacts/contacts.component"
-import { Contact } from "App/contacts/store/contacts.type"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
-import { ResultsState } from "App/contacts/store/contacts.enum"
 import { isContactMatching } from "App/contacts/components/contacts/contacts.component"
 import { InputSearchTestIds } from "Renderer/components/core/input-search/input-search.component"
 import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-search.component"
+import { Contact, ResultsState } from "App/contacts/reducers/contacts.interface"
 
 type Props = ComponentProps<typeof Contacts>
 
