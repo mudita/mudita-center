@@ -45,6 +45,14 @@ const errorDeviceResponse: DeviceResponse = {
   },
 }
 
+const errorDeviceWithExceptionsResponse: DeviceResponse = {
+  status: DeviceResponseStatus.Error,
+  error: {
+    message: "I'm error",
+    data: [contact.id]
+  },
+}
+
 afterEach(() => {
   jest.resetAllMocks()
 })
@@ -95,6 +103,31 @@ describe("async `deleteContacts` ", () => {
       expect(mockStore.getActions()).toEqual([
         deleteContacts.pending(requestId, [contact.id]),
         deleteContacts.rejected(testError, requestId, [contact.id], errorMock),
+      ])
+
+      expect(deleteContactsRequest).toHaveBeenCalled()
+    })
+  })
+
+  describe("when `deleteContactsRequest` request return error with exceptions", () => {
+    test("fire async `deleteContacts` call `deleteContactsInState`", async () => {
+      ;(deleteContactsRequest as jest.Mock).mockReturnValue(errorDeviceWithExceptionsResponse)
+      const mockStore = createMockStore([thunk])({
+        contacts: initialState,
+      })
+      const {
+        meta: { requestId },
+      } = await mockStore.dispatch(
+        deleteContacts([contact.id]) as unknown as AnyAction
+      )
+
+      expect(mockStore.getActions()).toEqual([
+        deleteContacts.pending(requestId, [contact.id]),
+        {
+          type: ContactsEvent.DeleteContactsInState,
+          payload: [contact.id],
+        },
+        deleteContacts.fulfilled(undefined, requestId, [contact.id]),
       ])
 
       expect(deleteContactsRequest).toHaveBeenCalled()
