@@ -12,7 +12,7 @@ import {
 import { contactsStateSelector } from "App/contacts/selectors/contacts-state.selector"
 
 export const resultStateSelector = createSelector<
-  RootState & ReduxRootState,
+  ReduxRootState,
   ContactsState,
   ResultState
 >(contactsStateSelector, ({ resultState }) => {

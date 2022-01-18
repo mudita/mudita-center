@@ -176,11 +176,6 @@ const contacts = createModel<RootModel>({
     }
   },
   selectors: (slice: Slicer<StoreData>) => ({
-    getContact() {
-      return slice((state) => {
-        return (id: ContactID) => state.db[id]
-      })
-    },
     getContactByPhoneNumber(models: StoreSelectors<PhoneContacts>) {
       return (state: PhoneContacts) => {
         const contacts: Contact[] = models.contacts.flatList(state)
@@ -226,6 +221,11 @@ const contacts = createModel<RootModel>({
     },
     speedDialChosenList() {
       return slice((state) => getSpeedDialChosenList(state))
+    },
+    getContact() {
+      return slice((state) => {
+        return (id: ContactID) => state.db[id]
+      })
     },
   }),
 })

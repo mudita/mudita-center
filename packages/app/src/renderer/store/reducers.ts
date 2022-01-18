@@ -12,6 +12,7 @@ import { restoreDeviceReducer } from "App/restore-device"
 import { messagesReducer } from "App/messages"
 import { modalsManagerReducer } from "App/modals-manager"
 import { contactSupportReducer } from "App/contact-support"
+import { contactsReducer } from "App/contacts"
 
 export const reducers = {
   device: deviceReducer,
@@ -20,6 +21,7 @@ export const reducers = {
   restoreDevice: restoreDeviceReducer,
   crashDump: crashDumpReducer,
   messages: messagesReducer,
+  contacts: contactsReducer,
   modalsManager: modalsManagerReducer,
   contactSupport: contactSupportReducer,
 }

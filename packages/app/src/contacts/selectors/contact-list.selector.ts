@@ -4,7 +4,7 @@
  */
 
 import { createSelector } from "reselect"
-import { ReduxRootState, RootState } from "Renderer/store"
+import { ReduxRootState } from "Renderer/store"
 import {
   ContactCategory,
   ContactsState,
@@ -13,7 +13,7 @@ import { contactsStateSelector } from "App/contacts/selectors/contacts-state.sel
 import { getSortedContactList } from "App/contacts/helpers/contacts.helpers"
 
 export const contactListSelector = createSelector<
-  RootState & ReduxRootState,
+  ReduxRootState,
   ContactsState,
   ContactCategory[]
 >(contactsStateSelector, (state) => {

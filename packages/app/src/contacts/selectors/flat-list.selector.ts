@@ -13,7 +13,7 @@ import { contactsStateSelector } from "App/contacts/selectors/contacts-state.sel
 import { getFlatList } from "App/contacts/helpers/contacts.helpers"
 
 export const flatListSelector = createSelector<
-  RootState & ReduxRootState,
+  ReduxRootState,
   ContactsState,
   Contact[]
 >(contactsStateSelector, (state) => {

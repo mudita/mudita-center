@@ -10,7 +10,7 @@ import { contactsStateSelector } from "App/contacts/selectors/contacts-state.sel
 import { getSpeedDialChosenList } from "App/contacts/helpers/contacts.helpers"
 
 export const speedDialChosenListSelector = createSelector<
-  RootState & ReduxRootState,
+  ReduxRootState,
   ContactsState,
   number[]
 >(contactsStateSelector, (state) => {
