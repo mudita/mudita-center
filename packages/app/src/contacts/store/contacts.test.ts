@@ -21,7 +21,7 @@ import {
   Contact,
   ContactID,
   ContactsState,
-  ResultsState,
+  ResultState,
 } from "App/contacts/reducers/contacts.interface"
 import contacts from "App/contacts/store/contacts"
 
@@ -51,7 +51,8 @@ const OLD_DB_SHAPE: ContactsState = {
     [TEST_CONTACT_TO_CLEAN.id]: TEST_CONTACT_TO_CLEAN,
   },
   collection: [TEST_CONTACT_TO_CLEAN.id],
-  resultsState: ResultsState.Empty,
+  resultState: ResultState.Empty,
+  error: null,
 }
 
 describe("typeGuard tests", () => {
@@ -146,7 +147,8 @@ describe("contactDatabaseFactory and mergeContacts tests", () => {
       {
         db: {},
         collection: [],
-        resultsState: ResultsState.Empty,
+        resultState: ResultState.Empty,
+        error: null,
       },
       TEST_CONTACTS_BATCH
     )

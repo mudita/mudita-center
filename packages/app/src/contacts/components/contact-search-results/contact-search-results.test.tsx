@@ -7,7 +7,7 @@ import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import ContactSearchResults from "App/contacts/components/contact-search-results/contact-search-results.component"
 import { ContactSearchResultsTestIdsEnum } from "App/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
-import { Contact, ResultsState } from "App/contacts/reducers/contacts.interface"
+import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
 
 const intersectionObserverMock = () => ({
   observe: () => null,
@@ -34,7 +34,7 @@ const defaultProps: Props = {
   onUnblock: jest.fn(),
   toggleRow: jest.fn(),
   selectedContact: null,
-  resultsState: ResultsState.Empty,
+  resultsState: ResultState.Empty,
 }
 
 const contact: Contact = {
@@ -68,14 +68,14 @@ test("No results should be render as a default state", () => {
 })
 
 test("Loading component is rendered if resultState is Loading", () => {
-  const { queryByTestId } = render({ resultsState: ResultsState.Loading })
+  const { queryByTestId } = render({ resultsState: ResultState.Loading })
   expect(
     queryByTestId(ContactSearchResultsTestIdsEnum.Loading)
   ).toBeInTheDocument()
 })
 
 test("No results is rendered if resultState is Loaded and contactList is empty", () => {
-  const { queryByTestId } = render({ resultsState: ResultsState.Loaded })
+  const { queryByTestId } = render({ resultsState: ResultState.Loaded })
   expect(
     queryByTestId(ContactSearchResultsTestIdsEnum.Empty)
   ).toBeInTheDocument()
@@ -83,7 +83,7 @@ test("No results is rendered if resultState is Loaded and contactList is empty",
 
 test("Results list is rendered if resultState is Loaded and results isn't empty", () => {
   const { queryByTestId } = render({
-    resultsState: ResultsState.Loaded,
+    resultsState: ResultState.Loaded,
     results: [contact, contact],
   })
   expect(

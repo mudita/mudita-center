@@ -15,7 +15,7 @@ import { ContactDetailsTestIds } from "App/contacts/components/contact-details/c
 import { isContactMatching } from "App/contacts/components/contacts/contacts.component"
 import { InputSearchTestIds } from "Renderer/components/core/input-search/input-search.component"
 import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-search.component"
-import { Contact, ResultsState } from "App/contacts/reducers/contacts.interface"
+import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
 
 type Props = ComponentProps<typeof Contacts>
 
@@ -146,7 +146,7 @@ const defaultProps: Props = {
   onUnblock: jest.fn(),
   resetRows: jest.fn(),
   setProviderData: jest.fn(),
-  resultsState: ResultsState.Loaded,
+  resultState: ResultState.Loaded,
   speedDialChosenList: [],
   contactList: [
     {

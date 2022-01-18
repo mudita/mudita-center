@@ -33,7 +33,7 @@ import { InView } from "react-intersection-observer"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { ContactSearchResultsTestIdsEnum } from "App/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
 import { flags, Feature } from "App/feature-flags"
-import { Contact, ResultsState } from "App/contacts/reducers/contacts.interface"
+import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -100,7 +100,7 @@ type SelectHook = Pick<
 interface Props extends ContactActions, SelectHook {
   selectedContact: Contact | null
   onSelect: (contact: Contact) => void
-  resultsState: ResultsState
+  resultsState: ResultState
   results: Contact[]
 }
 
@@ -135,9 +135,9 @@ const ContactSearchResults: FunctionComponent<Props> = ({
       ref={tableRef}
       data-testid={ContactSearchResultsTestIdsEnum.Table}
     >
-      {resultsState === ResultsState.Loaded &&
+      {resultsState === ResultState.Loaded &&
         (results.length
-          ? results.map((contact, index) => {
+          ? results.map((contact) => {
               const { selected } = getRowStatus(contact)
               const handleExport = () => onExport([contact])
               const handleForward = () => onForward(contact)
@@ -280,8 +280,8 @@ const ContactSearchResults: FunctionComponent<Props> = ({
               )
             })
           : emptyList())}
-      {resultsState === ResultsState.Empty && emptyList()}
-      {resultsState === ResultsState.Loading && (
+      {resultsState === ResultState.Empty && emptyList()}
+      {resultsState === ResultState.Loading && (
         <LoadingState data-testid={ContactSearchResultsTestIdsEnum.Loading} />
       )}
     </SelectableContacts>

@@ -33,14 +33,15 @@ import {
   ContactID,
   ContactsState,
   PhoneContacts,
-  ResultsState,
+  ResultState,
   StoreData,
 } from "App/contacts/reducers/contacts.interface"
 
 export const initialState: ContactsState = {
   db: {},
   collection: [],
-  resultsState: ResultsState.Empty,
+  resultState: ResultState.Empty,
+  error: null,
 }
 
 let writeTrials = 0
@@ -78,15 +79,7 @@ const simulateWriteToPhone = async (time = 2000) => {
 const contacts = createModel<RootModel>({
   state: initialState,
   reducers: {
-    setResultsState(
-      state: ContactsState,
-      resultsState: ResultsState
-    ): ContactsState {
-      return { ...state, resultsState }
-    },
-    setContacts(state: ContactsState, contacts: PhoneContacts): ContactsState {
-      return { ...state, ...contacts }
-    },
+    // container
     addContact(state: ContactsState, contact: Contact): ContactsState {
       let currentState = state
 
@@ -100,6 +93,7 @@ const contacts = createModel<RootModel>({
 
       return { ...state, ...addContacts(currentState, contact) }
     },
+    // container
     editContact(state: ContactsState, data: BaseContactModel): ContactsState {
       let currentState = state
 
@@ -109,57 +103,40 @@ const contacts = createModel<RootModel>({
 
       return { ...state, ...editContact(currentState, data) }
     },
+    // container
     removeContact(
       state: ContactsState,
       input: ContactID | ContactID[]
     ): ContactsState {
       return { ...state, ...removeContact(state, input) }
     },
-    updateContacts(state: ContactsState, contacts: PhoneContacts) {
-      return {
-        ...state,
-        db: { ...state.db, ...contacts.db },
-        collection: [...state.collection, ...contacts.collection],
-      }
-    },
+    /**
+     * moved
+     */
     _devClearAllContacts(state: ContactsState) {
       return {
         ...state,
         db: {},
         collection: [],
-        resultsState: ResultsState.Empty,
+        resultsState: ResultState.Empty,
       }
     },
+    // load contacts
+    setResultsState(
+      state: ContactsState,
+      resultsState: ResultState
+    ): ContactsState {
+      return { ...state, resultState: resultsState }
+    },
+    // load contacts
+    setContacts(state: ContactsState, contacts: PhoneContacts): ContactsState {
+      return { ...state, ...contacts }
+    },
   },
-  /**
-   * All these side effects are just for show, since we don't know anything
-   * about phone sync flow at the moment.
-   */
   effects: (d) => {
     const dispatch = d as unknown as RootState
 
     return {
-      async loadData(
-        _: any,
-        rootState: { contacts: { resultsState: ResultsState } }
-      ) {
-        if (rootState.contacts.resultsState === ResultsState.Loading) {
-          return
-        }
-
-        dispatch.contacts.setResultsState(ResultsState.Loading)
-
-        const { data = [], error } = await getContacts()
-        if (error) {
-          logger.error(
-            `Contacts: loads data fails. Data: ${JSON.stringify(error)}`
-          )
-          dispatch.contacts.setResultsState(ResultsState.Error)
-        } else {
-          dispatch.contacts.setContacts(contactDatabaseFactory(data))
-          dispatch.contacts.setResultsState(ResultsState.Loaded)
-        }
-      },
       authorize(provider: ExternalProvider) {
         switch (provider) {
           case Provider.Google:
@@ -173,6 +150,30 @@ const contacts = createModel<RootModel>({
             return externalProvidersStore.dispatch.outlook.authorize(
               OutLookScope.Contacts
             )
+        }
+      },
+      /**
+       * moved
+       */
+      async loadData(
+        _: any,
+        rootState: { contacts: { resultsState: ResultState } }
+      ) {
+        if (rootState.contacts.resultsState === ResultState.Loading) {
+          return
+        }
+
+        dispatch.contacts.setResultsState(ResultState.Loading)
+
+        const { data = [], error } = await getContacts()
+        if (error) {
+          logger.error(
+            `Contacts: loads data fails. Data: ${JSON.stringify(error)}`
+          )
+          dispatch.contacts.setResultsState(ResultState.Error)
+        } else {
+          dispatch.contacts.setContacts(contactDatabaseFactory(data))
+          dispatch.contacts.setResultsState(ResultState.Loaded)
         }
       },
     }

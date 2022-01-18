@@ -3,9 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum ResultsState {
-  Loading,
-  Loaded,
-  Empty,
-  Error,
-}
+export * from "./load-contacts.error"

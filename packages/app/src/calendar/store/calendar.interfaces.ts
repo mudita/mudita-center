@@ -4,7 +4,7 @@
  */
 
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import { ResultsState } from "App/contacts/reducers/contacts.interface"
+import { ResultState } from "App/contacts/reducers/contacts.interface"
 import RRule from "rrule/dist/esm/src/rrule"
 import RRuleSet from "rrule/dist/esm/src/rruleset"
 
@@ -32,5 +32,5 @@ export interface Calendar {
 export interface CalendarState {
   calendars: Calendar[]
   events: CalendarEvent[]
-  resultState: ResultsState
+  resultState: ResultState
 }

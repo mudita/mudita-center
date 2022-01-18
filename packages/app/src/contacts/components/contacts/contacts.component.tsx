@@ -109,7 +109,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     onMessage,
     savingContact,
     isThreadOpened,
-    resultsState,
+    resultState,
     authorize,
     onExport,
     loadData,
@@ -575,7 +575,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
             onUnblock={handleUnblock}
             onBlock={openBlockModal}
             onDelete={openDeleteModal}
-            resultsState={resultsState}
+            resultsState={resultState}
             selectedContact={selectedContact}
             {...rest}
           />
@@ -591,7 +591,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               onBlock={openBlockModal}
               onDelete={openDeleteModal}
               editMode={Boolean(editedContact || newContact)}
-              resultsState={resultsState}
+              resultsState={resultState}
               selectedContact={selectedContact}
               {...rest}
             />

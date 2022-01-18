@@ -4,32 +4,68 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store"
+import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store"
 import {
   ContactsState,
-  ResultsState,
+  LoadContactsRejectAction,
+  ResultState,
+  SetContactsAction,
 } from "App/contacts/reducers/contacts.interface"
 import { ContactsEvent } from "App/contacts/constants"
+import { contactDatabaseFactory } from "App/contacts/helpers/contacts.helpers"
 
 export const initialState: ContactsState = {
   db: {},
   collection: [],
-  resultsState: ResultsState.Empty,
+  resultState: ResultState.Empty,
+  error: null,
 }
 
 export const contactsReducer = createReducer<ContactsState>(
   initialState,
   (builder) => {
-    builder.addCase(
-      pendingAction(ContactsEvent.DevClearAllContacts),
-      (state) => {
+    builder
+      .addCase(pendingAction(ContactsEvent.LoadContacts), (state) => {
+        return {
+          ...state,
+          resultState: ResultState.Loading,
+        }
+      })
+      .addCase(fulfilledAction(ContactsEvent.LoadContacts), (state) => {
+        return {
+          ...state,
+          resultState: ResultState.Loaded,
+          error: null,
+        }
+      })
+      .addCase(
+        rejectedAction(ContactsEvent.LoadContacts),
+        (state, action: LoadContactsRejectAction) => {
+          return {
+            ...state,
+            resultState: ResultState.Error,
+            error: action.payload,
+          }
+        }
+      )
+
+      .addCase(
+        ContactsEvent.SetContacts,
+        (state, action: SetContactsAction) => {
+          return {
+            ...state,
+            ...contactDatabaseFactory(action.payload),
+          }
+        }
+      )
+
+      .addCase(ContactsEvent.DevClearAllContacts, (state) => {
         return {
           ...state,
           db: {},
           collection: [],
-          resultsState: ResultsState.Empty,
+          resultState: ResultState.Empty,
         }
-      }
-    )
+      })
   }
 )

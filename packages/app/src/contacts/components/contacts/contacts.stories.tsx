@@ -33,7 +33,7 @@ import { PhoneProps } from "App/contacts/components/contacts/contacts.type"
 import {
   Contact,
   ContactID,
-  ResultsState,
+  ResultState,
 } from "App/contacts/reducers/contacts.interface"
 
 const dummyPromise = (result: any) => () => result
@@ -50,9 +50,9 @@ const ContactsWrapper = styled.div`
 `
 
 const ContactsComponent = ({
-  resultsState = ResultsState.Empty,
+  resultState = ResultState.Empty,
   contactList = labeledContactList,
-}: Partial<Pick<PhoneProps, "resultsState" | "contactList">>) => (
+}: Partial<Pick<PhoneProps, "resultState" | "contactList">>) => (
   <Contacts
     getContact={getContact as any}
     flatList={flatList}
@@ -69,7 +69,7 @@ const ContactsComponent = ({
     onMessage={action("Send message")}
     onCall={action("Call")}
     onSpeedDialSettingsSave={action("Save speed dial settings")}
-    resultsState={resultsState}
+    resultState={resultState}
     selectedContacts={[]}
     resetRows={action("Reset rows")}
     setProviderData={noop}
@@ -95,7 +95,7 @@ const ContactsComponent = ({
 storiesOf("Views|Phone", module)
   .add("Loading", () => (
     <ContactsWrapper>
-      <ContactsComponent resultsState={ResultsState.Loading} />
+      <ContactsComponent resultState={ResultState.Loading} />
     </ContactsWrapper>
   ))
   .add("Empty", () => (
@@ -105,12 +105,12 @@ storiesOf("Views|Phone", module)
   ))
   .add("Loaded", () => (
     <ContactsWrapper>
-      <ContactsComponent resultsState={ResultsState.Loaded} />
+      <ContactsComponent resultState={ResultState.Loaded} />
     </ContactsWrapper>
   ))
   .add("No search results", () => (
     <ContactsWrapper>
-      <ContactsComponent resultsState={ResultsState.Loaded} contactList={[]} />
+      <ContactsComponent resultState={ResultState.Loaded} contactList={[]} />
     </ContactsWrapper>
   ))
 

@@ -45,7 +45,7 @@ import { flags, Feature } from "App/feature-flags"
 import {
   Contact,
   Contacts,
-  ResultsState,
+  ResultState,
 } from "App/contacts/reducers/contacts.interface"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
@@ -138,7 +138,7 @@ interface Props extends Contacts, ContactActions, SelectHook {
   selectedContact: Contact | null
   onSelect: (contact: Contact) => void
   editMode?: boolean
-  resultsState: ResultsState
+  resultsState: ResultState
 }
 
 const ContactList: FunctionComponent<Props> = ({
@@ -190,7 +190,7 @@ const ContactList: FunctionComponent<Props> = ({
         contactList={contactList}
         selectedContact={selectedContact}
       >
-        {resultsState === ResultsState.Loaded &&
+        {resultsState === ResultState.Loaded &&
           contactList.length !== 0 &&
           contactList.map(({ category, contacts }, categoryIndex) => (
             <Group
@@ -377,7 +377,7 @@ const ContactList: FunctionComponent<Props> = ({
               })}
             </Group>
           ))}
-        {resultsState === ResultsState.Loaded && contactList.length === 0 && (
+        {resultsState === ResultState.Loaded && contactList.length === 0 && (
           <EmptyState
             data-testid={ContactListTestIdsEnum.ContactListNoResult}
             title={{ id: "module.contacts.emptyListTitle" }}
@@ -386,8 +386,8 @@ const ContactList: FunctionComponent<Props> = ({
             }}
           />
         )}
-        {(resultsState === ResultsState.Empty ||
-          resultsState === ResultsState.Error) && (
+        {(resultsState === ResultState.Empty ||
+          resultsState === ResultState.Error) && (
           <EmptyState
             data-testid={ContactListTestIdsEnum.ContactListEmpty}
             title={{ id: "module.contacts.emptyListTitle" }}
@@ -396,7 +396,7 @@ const ContactList: FunctionComponent<Props> = ({
             }}
           />
         )}
-        {resultsState === ResultsState.Loading && (
+        {resultsState === ResultState.Loading && (
           <LoadingState
             data-testid={ContactListTestIdsEnum.ContactListLoading}
           />
