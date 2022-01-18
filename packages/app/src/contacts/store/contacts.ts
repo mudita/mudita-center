@@ -80,16 +80,6 @@ const contacts = createModel<RootModel>({
   state: initialState,
   reducers: {
     // container
-    editContact(state: ContactsState, data: BaseContactModel): ContactsState {
-      let currentState = state
-
-      if (data.speedDial) {
-        currentState = revokeField(state, { speedDial: data.speedDial })
-      }
-
-      return { ...state, ...editContact(currentState, data) }
-    },
-    // container
     removeContact(
       state: ContactsState,
       input: ContactID | ContactID[]
@@ -99,6 +89,15 @@ const contacts = createModel<RootModel>({
     /**
      * moved
      */
+    editContact(state: ContactsState, data: BaseContactModel): ContactsState {
+      let currentState = state
+
+      if (data.speedDial) {
+        currentState = revokeField(state, { speedDial: data.speedDial })
+      }
+
+      return { ...state, ...editContact(currentState, data) }
+    },
     addContact(state: ContactsState, contact: Contact): ContactsState {
       let currentState = state
 

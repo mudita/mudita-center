@@ -5,14 +5,14 @@
 
 import { ContactsEvent } from "App/contacts/constants"
 
-export class AddNewContactError extends Error {
-  public type = ContactsEvent.AddNewContact
+export class EditContactError extends Error {
+  public type = ContactsEvent.EditContact
 
   constructor(public message: string, public payload?: any) {
     super()
 
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, AddNewContactError)
+      Error.captureStackTrace(this, EditContactError)
     }
   }
 }

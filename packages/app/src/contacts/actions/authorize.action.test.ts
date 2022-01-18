@@ -24,7 +24,9 @@ describe("async `authorize` ", () => {
       })
       const {
         meta: { requestId },
-      } = await mockStore.dispatch(authorize(Provider.Google) as unknown as AnyAction)
+      } = await mockStore.dispatch(
+        authorize(Provider.Google) as unknown as AnyAction
+      )
 
       expect(mockStore.getActions()).toEqual([
         authorize.pending(requestId, Provider.Google),

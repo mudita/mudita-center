@@ -10,4 +10,6 @@ export enum ContactsEvent {
   Authorize = "CONTACTS_AUTHORIZE",
   AddNewContact = "CONTACTS_ADD_NEW_CONTACT",
   AddNewContactToState = "CONTACTS_ADD_NEW_CONTACT_TO_STATE",
+  EditContact = "CONTACTS_EDIT_CONTACT",
+  EditContactInState = "CONTACTS_EDIT_CONTACT_IN_STATE",
 }

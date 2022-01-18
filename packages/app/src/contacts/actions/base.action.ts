@@ -12,6 +12,9 @@ export const setContacts = createAction<Contact[]>(ContactsEvent.SetContacts)
 export const addNewContactToState = createAction<Contact>(
   ContactsEvent.AddNewContactToState
 )
+export const editContactInState = createAction<Contact>(
+  ContactsEvent.EditContactInState
+)
 
 export const devClearAllContacts = createAction(
   ContactsEvent.DevClearAllContacts

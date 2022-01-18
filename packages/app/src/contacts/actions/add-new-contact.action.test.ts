@@ -55,7 +55,7 @@ afterEach(() => {
 
 describe("async `addNewContact` ", () => {
   describe("when `addContact` request return success", () => {
-    test("fire async `addNewContact` call `setContacts`", async () => {
+    test("fire async `addNewContact` call `addNewContactToState`", async () => {
       ;(addContact as jest.Mock).mockReturnValue(successDeviceResponse)
       const mockStore = createMockStore([thunk])({
         contacts: initialState,

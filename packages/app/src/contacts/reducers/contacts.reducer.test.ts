@@ -92,7 +92,7 @@ describe("Set Contacts data functionality", () => {
   })
 })
 
-describe("Add New Contact To State data functionality", () => {
+describe("AddNewContactToState data functionality", () => {
   const contact: Contact = {
     id: "0",
     firstName: "Sławomir",
@@ -126,6 +126,66 @@ describe("Add New Contact To State data functionality", () => {
           lastName: "Borewicz",
           note: "sapiente rem dignissimos sunt",
           primaryPhoneNumber: "+71195069214",
+        },
+      },
+    })
+  })
+})
+
+describe("EditContactInState data functionality", () => {
+  const contact: Contact = {
+    id: "0",
+    firstName: "Sławomir",
+    lastName: "Borewicz",
+    primaryPhoneNumber: "+71195069214",
+    secondaryPhoneNumber: "",
+    email: "example@mudita.com",
+    note: "sapiente rem dignissimos sunt",
+    ice: false,
+    favourite: false,
+    blocked: false,
+    firstAddressLine: "Malczewskiego 3, Warszawa",
+    secondAddressLine: "",
+  }
+  const editedContact: Contact = {
+    ...contact,
+    primaryPhoneNumber: "+000000000",
+  }
+
+  test("Event: EditContactInState set properly collection and db fields", () => {
+    const setContactsAction: PayloadAction<Contact> = {
+      type: ContactsEvent.EditContactInState,
+      payload: editedContact,
+    }
+
+    expect(
+      contactsReducer(
+        {
+          ...initialState,
+          collection: [contact.id],
+          db: {
+            [contact.id]: contact,
+          },
+        },
+        setContactsAction
+      )
+    ).toEqual({
+      ...initialState,
+      collection: ["0"],
+      db: {
+        "0": {
+          blocked: false,
+          email: "example@mudita.com",
+          favourite: false,
+          firstAddressLine: "Malczewskiego 3, Warszawa",
+          firstName: "Sławomir",
+          ice: false,
+          id: "0",
+          lastName: "Borewicz",
+          note: "sapiente rem dignissimos sunt",
+          primaryPhoneNumber: "+000000000",
+          secondAddressLine: "",
+          secondaryPhoneNumber: "",
         },
       },
     })
