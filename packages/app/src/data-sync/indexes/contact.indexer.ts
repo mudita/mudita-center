@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import path from "path"
 import { Database } from "sql.js"
 import elasticlunr, { Index } from "elasticlunr"
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
@@ -20,9 +21,9 @@ export class ContactIndexer extends BaseIndexer {
     super()
   }
 
-  async index(): Promise<Index<ContactObject>> {
+  async index(fileDir: string): Promise<Index<ContactObject>> {
     // TODO: Will be covered with test as part of  CP-979
-    const db = await this.initTmpDatabase()
+    const db = await this.initTmpDatabase(fileDir)
     const object = this.dataPresenter.serializeToObject(this.loadTables(db))
     return this.createIndex(object)
   }
@@ -61,8 +62,8 @@ export class ContactIndexer extends BaseIndexer {
     }
   }
 
-  private async initTmpDatabase(): Promise<Database> {
-    const data = await this.getData("contacts.db")
+  private async initTmpDatabase(fileDir: string): Promise<Database> {
+    const data = await this.getData(path.join(fileDir, "contacts.db"))
     return new (await this.sql).Database(data)
   }
 }

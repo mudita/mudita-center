@@ -17,7 +17,6 @@ jest.mock("App/data-sync/containers/index-service.container", () => ({
   getIndexService: () => indexService
 }))
 
-
 describe("`registerGetIndexListener`", () => {
   test("listener execute `getIndex` method properly", async () => {
     registerGetIndexListener()
