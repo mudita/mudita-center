@@ -4,5 +4,6 @@
  */
 
 export * from "./add-new-contact.error"
+export * from "./delete-contacts.error"
 export * from "./edit-contact.error"
-export * from "./load-contacts.error"
+export * from "./import-contact.error"

@@ -6,7 +6,6 @@
 import { createReducer } from "@reduxjs/toolkit"
 import {
   fulfilledAction,
-  pendingAction,
   rejectedAction,
 } from "Renderer/store/helpers"
 import {
@@ -14,7 +13,6 @@ import {
   ContactsState,
   DeleteContactsInStateAction,
   EditContactInStateAction,
-  LoadContactsRejectAction,
   ResultState,
   SetContactsAction,
 } from "App/contacts/reducers/contacts.interface"
@@ -37,29 +35,6 @@ export const contactsReducer = createReducer<ContactsState>(
   initialState,
   (builder) => {
     builder
-      .addCase(pendingAction(ContactsEvent.LoadContacts), (state) => {
-        return {
-          ...state,
-          resultState: ResultState.Loading,
-        }
-      })
-      .addCase(fulfilledAction(ContactsEvent.LoadContacts), (state) => {
-        return {
-          ...state,
-          resultState: ResultState.Loaded,
-          error: null,
-        }
-      })
-      .addCase(
-        rejectedAction(ContactsEvent.LoadContacts),
-        (state, action: LoadContactsRejectAction) => {
-          return {
-            ...state,
-            resultState: ResultState.Error,
-            error: action.payload,
-          }
-        }
-      )
 
       .addCase(
         ContactsEvent.SetContacts,

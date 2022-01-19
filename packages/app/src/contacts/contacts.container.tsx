@@ -37,7 +37,6 @@ import { speedDialChosenListSelector } from "App/contacts/selectors/speed-dial-c
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
 import { authorize } from "App/contacts/actions/authorize"
-import { loadContacts } from "App/contacts/actions/load-contacts.action"
 import { editContact } from "App/contacts/actions/edit-contact.action"
 import { PayloadAction } from "@reduxjs/toolkit"
 
@@ -92,7 +91,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
     authorize: async (
       provider: ExternalProvider
     ): Promise<string | undefined> => dispatch(authorize(provider)),
-    loadData: async (): Promise<void> => dispatch(loadContacts()),
+    // loadData: async (): Promise<void> => dispatch(loadContacts()),
+    loadData: async (): Promise<void> => {},
 
     // TODO: Add proper actions
     onForward: noop,

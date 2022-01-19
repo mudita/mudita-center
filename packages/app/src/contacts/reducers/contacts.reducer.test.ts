@@ -14,51 +14,6 @@ import {
   ContactID,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
-import {
-  fulfilledAction,
-  pendingAction,
-  rejectedAction,
-} from "Renderer/store/helpers"
-import { LoadContactsError } from "App/contacts/errors"
-
-describe("Load Contacts data functionality", () => {
-  test("Event: LoadContacts/pending change `resultState` to Loading", () => {
-    expect(
-      contactsReducer(undefined, {
-        type: pendingAction(ContactsEvent.LoadContacts),
-      })
-    ).toEqual({
-      ...initialState,
-      resultState: ResultState.Loading,
-    })
-  })
-
-  test("Event: LoadContacts/fulfilled change `resultState` to Loaded", () => {
-    expect(
-      contactsReducer(undefined, {
-        type: fulfilledAction(ContactsEvent.LoadContacts),
-      })
-    ).toEqual({
-      ...initialState,
-      resultState: ResultState.Loaded,
-    })
-  })
-
-  test("Event: LoadContacts/rejected change `resultState` to Error", () => {
-    const errorMock = new LoadContactsError("I'm error")
-
-    expect(
-      contactsReducer(undefined, {
-        type: rejectedAction(ContactsEvent.LoadContacts),
-        payload: errorMock,
-      })
-    ).toEqual({
-      ...initialState,
-      resultState: ResultState.Error,
-      error: errorMock,
-    })
-  })
-})
 
 describe("Set Contacts data functionality", () => {
   const contact: Contact = {
