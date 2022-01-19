@@ -26,6 +26,7 @@ const defaultProps: Props = {
     payload: DeviceResponseStatus.Ok,
   }),
   noModalsVisible: true,
+  syncInitialized: false,
 }
 
 const render = (extraProps?: Partial<Props>) => {

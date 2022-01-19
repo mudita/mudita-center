@@ -8,6 +8,7 @@ import { DeviceEvent } from "App/device/constants"
 import { ReduxRootState } from "App/renderer/store"
 import { loadDeviceData } from "App/device/actions/load-device-data.action"
 import { DeviceConnectionError } from "App/device/errors"
+import { updateAllIndexes } from "App/data-sync"
 
 export const unlockedDevice = createAsyncThunk(
   DeviceEvent.Unlocked,
@@ -22,6 +23,10 @@ export const unlockedDevice = createAsyncThunk(
       return rejectWithValue(
         new DeviceConnectionError("Cannot connected to device")
       )
+    }
+
+    if (!state.dataSync.initialized) {
+      dispatch(updateAllIndexes())
     }
 
     dispatch(loadDeviceData(state.device.deviceType))
