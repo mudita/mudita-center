@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 
 const findContactByPhoneNumber = (

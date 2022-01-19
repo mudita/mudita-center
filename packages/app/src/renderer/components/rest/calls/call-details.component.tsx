@@ -37,7 +37,7 @@ import {
 } from "App/contacts/components/contact-details/contact-details.styled"
 import createRouterPath from "Renderer/utils/create-router-path"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 const messages = defineMessages({
   today: { id: "module.phone.callsToday" },
@@ -57,7 +57,7 @@ interface ContactDetailsProps {
   onClose: () => void
   isThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
-  getContact: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact | undefined
   onDeleteClick: (id: string) => void
 }
 

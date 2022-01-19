@@ -5,7 +5,6 @@
 
 import React, { useEffect, FocusEvent } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Contact, NewContact } from "App/contacts/store/contacts.type"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -39,6 +38,7 @@ import {
 import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/contact-panel-test-ids.enum"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
 import { FormError } from "App/contacts/components/contacts/contacts.type"
+import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 
 const messages = defineMessages({
   editTitle: { id: "module.contacts.editTitle" },

@@ -9,7 +9,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { mockData } from "App/__mocks__/calls-mock-data"
 import { intl } from "Renderer/utils/intl"
 import Calls, { CallsProps } from "Renderer/modules/phone/tabs/calls.component"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import { Caller } from "Renderer/models/calls/calls.interface"
 
 const defaultProps: CallsProps = {

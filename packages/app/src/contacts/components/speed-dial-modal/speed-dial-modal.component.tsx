@@ -14,7 +14,6 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
-import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import Table, {
   Col,
   Labels,
@@ -24,7 +23,7 @@ import Table, {
 import styled, { css } from "styled-components"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import InputSelect, {
   RenderInputSelectListItem,
 } from "Renderer/components/core/input-select/input-select.component"
@@ -34,6 +33,7 @@ import {
   upperDropdownListStyles,
 } from "Renderer/components/core/list/list.component"
 import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
+import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 
 const SpeedDialTable = styled(Table)`
   --labelBackground: none;

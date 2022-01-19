@@ -109,7 +109,7 @@ describe("Action: setMessages", () => {
 })
 
 describe("Action: clearAllThreads", () => {
-  test("fire action without payload and `DevClearAllThreads` type", () => {
+  test("fire action without payload and `ClearAllThreads` type", () => {
     mockStore.dispatch(clearAllThreads())
     expect(mockStore.getActions()).toEqual([
       {

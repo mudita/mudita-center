@@ -5,10 +5,10 @@
 
 import { connect } from "react-redux"
 
-import { getFlatList } from "App/contacts/store/contacts.helpers"
-import { Contact, ContactID } from "App/contacts/store/contacts.type"
+import { getFlatList } from "App/contacts/helpers/contacts.helpers"
 
 import View from "./speed-dial-modal.component"
+import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 
 export interface SpeedDialProps {
   flatList: Contact[]

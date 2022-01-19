@@ -18,7 +18,7 @@ import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { Message } from "Renderer/interfaces/message.interface"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 const deleteModalMessages = defineMessages({
   title: { id: "module.calls.deleteModalTitle" },
@@ -33,7 +33,7 @@ export interface CallsProps {
   deleteCall?: (ids: string[]) => void
   isThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
-  getContact: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact | undefined
 }
 
 const Calls: FunctionComponent<CallsProps> = ({

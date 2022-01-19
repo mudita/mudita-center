@@ -8,7 +8,7 @@ import { ReduxRootState, RootState } from "Renderer/store"
 import { threadsSelector } from "App/messages/selectors/threads.selector"
 import { getContactMapSelector } from "App/contacts/selectors/get-contact-map.selector"
 import { Receiver, Thread } from "App/messages/reducers"
-import { PhoneContacts } from "App/contacts/store/contacts.interface"
+import { PhoneContacts } from "App/contacts/reducers/contacts.interface"
 import {
   mapContactsToReceivers,
   mapThreadsToReceivers,

@@ -11,7 +11,7 @@ import { intl } from "Renderer/utils/intl"
 import InputSearch from "Renderer/components/core/input-search/input-search.component"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { Receiver } from "App/messages/reducers/messages.interface"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { renderListItem } from "App/messages/components/receiver-input-search/receiver-input-search.helpers"
 import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
 

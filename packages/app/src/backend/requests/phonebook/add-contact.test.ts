@@ -7,7 +7,7 @@ import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"
 import { getAdapters } from "Backend/requests/phonebook/phonebook-adapters"
-import { NewContact } from "App/contacts/store/contacts.type"
+import { NewContact } from "App/contacts/reducers/contacts.interface"
 import DeviceService from "Backend/device-service"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 

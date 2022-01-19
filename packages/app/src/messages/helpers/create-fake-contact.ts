@@ -4,7 +4,7 @@
  */
 
 import Faker from "faker"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 export const createFakeContact = (): Contact => ({
   id: Faker.datatype.uuid(),

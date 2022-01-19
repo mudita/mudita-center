@@ -4,8 +4,8 @@
  */
 
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "App/contacts/store/contacts.helpers"
-import { Contact } from "App/contacts/store/contacts.type"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 const getPrettyCaller = (
   contact: Contact | undefined,

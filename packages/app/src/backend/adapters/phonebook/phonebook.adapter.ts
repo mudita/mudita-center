@@ -5,7 +5,7 @@
 
 import { Endpoint, Method } from "@mudita/pure"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
-import { Contact, ContactID } from "App/contacts/store/contacts.type"
+import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"

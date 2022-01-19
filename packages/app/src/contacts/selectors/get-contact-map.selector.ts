@@ -4,13 +4,15 @@
  */
 
 import { createSelector } from "reselect"
-import { ReduxRootState, RootState } from "Renderer/store"
-import { PhoneContacts } from "App/contacts/store/contacts.interface"
+import { ReduxRootState } from "Renderer/store"
+import {
+  ContactsState,
+  PhoneContacts,
+} from "App/contacts/reducers/contacts.interface"
 import { contactsStateSelector } from "App/contacts/selectors/contacts-state.selector"
-import { ContactsState } from "App/contacts/store/contacts.type"
 
 export const getContactMapSelector = createSelector<
-  RootState & ReduxRootState,
+  ReduxRootState,
   ContactsState,
   PhoneContacts["db"]
 >(contactsStateSelector, ({ db }) => {

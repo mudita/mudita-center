@@ -3,8 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Contact, ContactID } from "App/contacts/store/contacts.type"
-import { ResultsState } from "App/contacts/store/contacts.enum"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { ContactsEvent } from "App/contacts/constants"
+import { LoadContactsError } from "App/contacts/errors/load-contacts.error"
+
+export type ContactID = string
+export type Contact =
+  | ContactWithPhoneNumber
+  | ContactWithEmail
+  | ContactWithFirstName
+  | ContactWithLastName
+export type ContactFactorySignature<T = Contact | null> = (...args: any[]) => T
+export type NewContact = Omit<Contact, "id">
+export type ContactsState = PhoneContacts &
+  Pick<StoreData, "resultState"> & { error: Error | string | null }
+export type Store = StoreEffects & StoreData & StoreSelectors
 
 export interface BaseContactModel {
   id: ContactID
@@ -61,18 +74,48 @@ export interface Contacts {
   contactList: ContactCategory[]
 }
 
+export enum ResultState {
+  Loading,
+  Loaded,
+  Empty,
+  Error,
+}
+
 export interface StoreData {
   inputValue: string
   contacts: Contact[]
-  savingContact: boolean
-  resultsState: ResultsState
+  resultState: ResultState
 }
 
 export interface StoreSelectors extends Contacts {
   speedDialContacts: Contact[]
-  savingContact: boolean
 }
 
 export interface StoreEffects {
   readonly loadData: () => Promise<void>
 }
+
+export type SetContactsAction = PayloadAction<
+  Contact[],
+  ContactsEvent.SetContacts
+>
+
+export type AddNewContactToStateAction = PayloadAction<
+  Contact,
+  ContactsEvent.AddNewContactToState
+>
+
+export type EditContactInStateAction = PayloadAction<
+  Contact,
+  ContactsEvent.EditContactInState
+>
+
+export type DeleteContactsInStateAction = PayloadAction<
+  ContactID[],
+  ContactsEvent.DeleteContactsInState
+>
+
+export type LoadContactsRejectAction = PayloadAction<
+  LoadContactsError,
+  ContactsEvent.LoadContacts
+>
