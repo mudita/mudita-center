@@ -16,4 +16,3 @@ describe("`indexAllRequest`", () => {
     expect(response).toBeUndefined()
   })
 })
-

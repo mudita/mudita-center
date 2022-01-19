@@ -21,6 +21,15 @@ export class DeviceBackupFakeAdapter implements DeviceBackupAdapter {
       },
     }
   }
+
+  async downloadDeviceBackupLocally(
+    targetPath: string
+  ): Promise<DeviceResponse<string[]>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: [],
+    }
+  }
 }
 
 const createFakeDeviceBackupAdapter = (): DeviceBackupAdapter =>

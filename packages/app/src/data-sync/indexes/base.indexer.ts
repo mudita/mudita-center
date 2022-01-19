@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import fs from "fs"
 import initSqlJs, { SqlJsStatic } from "sql.js"
 
 export abstract class BaseIndexer {
@@ -16,9 +17,12 @@ export abstract class BaseIndexer {
   }
 
   public async getData(
-    dbFileName: string
+    dbFilePath: string
   ): Promise<ArrayLike<number> | Buffer | null> {
-    // TODO: Will be Implement in the next subtask -> CP-961
-    return null
+    try {
+      return fs.readFileSync(dbFilePath)
+    } catch {
+      return null
+    }
   }
 }
