@@ -11,6 +11,7 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import { lockedDevice } from "./locked-device.action"
 import getDeviceLockTime from "App/renderer/requests/get-device-lock-time.request"
 import { flags } from "App/feature-flags"
+import { DeviceEvent } from "App/device"
 
 jest.mock("App/feature-flags")
 jest.mock("App/renderer/requests/get-device-lock-time.request")
@@ -59,7 +60,7 @@ describe("Device: MuditaPure", () => {
       expect(mockStore.getActions()).toEqual([
         lockedDevice.pending(requestId),
         {
-          type: "DEVICE_SET_LOCK_TIME",
+          type: DeviceEvent.SetLockTime,
           payload: 123456789,
         },
         lockedDevice.fulfilled(undefined, requestId, undefined),
@@ -87,7 +88,7 @@ describe("Device: MuditaPure", () => {
       expect(mockStore.getActions()).toEqual([
         lockedDevice.pending(requestId),
         {
-          type: "DEVICE_SET_LOCK_TIME",
+          type: DeviceEvent.SetLockTime,
           payload: undefined,
         },
         lockedDevice.fulfilled(undefined, requestId, undefined),

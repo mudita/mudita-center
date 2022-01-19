@@ -13,6 +13,7 @@ import { messagesReducer } from "App/messages"
 import { modalsManagerReducer } from "App/modals-manager"
 import { contactSupportReducer } from "App/contact-support"
 import { contactsReducer } from "App/contacts"
+import { dataSyncReducer } from "App/data-sync"
 
 export const reducers = {
   device: deviceReducer,
@@ -22,6 +23,7 @@ export const reducers = {
   crashDump: crashDumpReducer,
   messages: messagesReducer,
   contacts: contactsReducer,
+  dataSync: dataSyncReducer,
   modalsManager: modalsManagerReducer,
   contactSupport: contactSupportReducer,
 }
