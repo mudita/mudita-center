@@ -23,7 +23,7 @@ import BaseApp from "Renderer/wrappers/base-app.component"
 import { Mode } from "Common/enums/mode.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
-import { QuestionAndAnswer } from "App/help/help.component"
+import { QuestionAndAnswer } from "App/help/components/help.component"
 import registerDeviceConnectedListener, {
   removeDeviceConnectedListener,
 } from "Renderer/listeners/register-device-connected.listener"
