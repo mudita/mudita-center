@@ -36,7 +36,7 @@ import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
 import { speedDialChosenListSelector } from "App/contacts/selectors/speed-dial-chosen-list.selector"
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
-import { authorize } from "App/contacts/actions/authorize"
+import { authorize } from "App/contacts/actions/authorize.action"
 import { editContact } from "App/contacts/actions/edit-contact.action"
 import { PayloadAction } from "@reduxjs/toolkit"
 

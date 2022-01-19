@@ -7,7 +7,7 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { initialState } from "App/contacts/reducers"
-import { authorize } from "App/contacts/actions/authorize"
+import { authorize } from "App/contacts/actions/authorize.action"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 
 jest.mock("Renderer/store/external-providers")
