@@ -79,16 +79,27 @@ export class ContactPresenter {
           return
         }
 
-        return {
+        const [primaryPhoneNumber = "", secondaryPhoneNumber = ""] =
+          contactNumber.map((number) => number.number_user)
+        const address = contactAddress?.address
+        const firstAddressLine = address.substr(0, address.indexOf("\n"))
+        const secondAddressLine = address.substr(address.indexOf("\n") + 1)
+
+        const contactObject: ContactObject = {
+          primaryPhoneNumber,
+          secondaryPhoneNumber,
+          firstAddressLine,
+          secondAddressLine,
           id: contact._id,
           firstName: contactName?.name_primary,
           lastName: contactName?.name_alternative,
-          numbers: contactNumber.map((number) => number.number_user),
-          address: contactAddress?.address,
           note: contactAddress?.note,
           email: contactAddress?.mail,
         }
+        return contactObject
       })
-      .filter((contact) => typeof contact !== "undefined") as ContactObject[]
+      .filter(
+        (contact): contact is ContactObject => typeof contact !== "undefined"
+      )
   }
 }

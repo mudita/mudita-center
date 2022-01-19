@@ -5,7 +5,6 @@
 
 import { PayloadAction } from "@reduxjs/toolkit"
 import { ContactsEvent } from "App/contacts/constants"
-import { LoadContactsError } from "App/contacts/errors/load-contacts.error"
 
 export type ContactID = string
 export type Contact =
@@ -115,7 +114,3 @@ export type DeleteContactsInStateAction = PayloadAction<
   ContactsEvent.DeleteContactsInState
 >
 
-export type LoadContactsRejectAction = PayloadAction<
-  LoadContactsError,
-  ContactsEvent.LoadContacts
->

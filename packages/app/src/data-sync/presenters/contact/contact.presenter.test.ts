@@ -99,15 +99,15 @@ describe("`ContactPresenter`", () => {
     expect(contactObjects).toMatchInlineSnapshot(`
       Array [
         Object {
-          "address": "Kochmouth",
           "email": "",
+          "firstAddressLine": "",
           "firstName": "Theron",
           "id": "4",
           "lastName": "Paucek",
           "note": "",
-          "numbers": Array [
-            "+91898402777",
-          ],
+          "primaryPhoneNumber": "+91898402777",
+          "secondAddressLine": "Kochmouth",
+          "secondaryPhoneNumber": "",
         },
       ]
     `)

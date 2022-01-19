@@ -23,11 +23,13 @@ import {
   editContact,
   removeContact,
 } from "App/contacts/helpers/contacts.helpers"
+import { DataSyncEvent, UpdateAllIndexesRejectAction } from "App/data-sync"
+import { UpdateAllIndexesAction } from "App/data-sync/reducers/data-sync.interface"
 
 export const initialState: ContactsState = {
   db: {},
   collection: [],
-  resultState: ResultState.Empty,
+  resultState: ResultState.Loading,
   error: null,
 }
 
@@ -35,6 +37,32 @@ export const contactsReducer = createReducer<ContactsState>(
   initialState,
   (builder) => {
     builder
+      .addCase(
+        fulfilledAction(DataSyncEvent.UpdateAllIndexes),
+        (state, action: UpdateAllIndexesAction) => {
+          const contacts = Object.keys(action.payload.contacts).map(
+            (key) => action.payload.contacts[key]
+          )
+
+          return {
+            ...state,
+            ...contactDatabaseFactory(contacts),
+            resultState: ResultState.Loaded,
+            error: null,
+          }
+        }
+      )
+      .addCase(
+        rejectedAction(DataSyncEvent.UpdateAllIndexes),
+        (state, action: UpdateAllIndexesRejectAction) => {
+
+          return {
+            ...state,
+            resultState: ResultState.Error,
+            error: action.payload,
+          }
+        }
+      )
 
       .addCase(
         ContactsEvent.SetContacts,

@@ -5,16 +5,9 @@
 
 import { Entity, DBQueryResult } from "App/data-sync/types/entity.type"
 import { ContactTable } from "App/data-sync/constants"
+import { Contact } from "App/contacts"
 
-export interface ContactObject {
-  id: string
-  firstName: string
-  lastName: string
-  numbers: string[]
-  address: string
-  note: string
-  email: string
-}
+export type ContactObject = Contact
 
 export type ContactEntity = Entity<{
   name_id: string

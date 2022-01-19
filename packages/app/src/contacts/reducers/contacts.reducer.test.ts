@@ -14,6 +14,62 @@ import {
   ContactID,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
+import { fulfilledAction, rejectedAction } from "Renderer/store/helpers"
+import { DataSyncEvent } from "App/data-sync"
+import { UpdateAllIndexesError } from "App/data-sync/errors"
+
+describe("UpdateAllIndexes data functionality", () => {
+  test("Event: UpdateAllIndexes/fulfilled change `resultState` to Loaded", () => {
+    expect(
+      contactsReducer(undefined, {
+        type: fulfilledAction(DataSyncEvent.UpdateAllIndexes),
+        payload: {
+          contacts: {
+            "4": {
+              email: "",
+              firstAddressLine: "",
+              firstName: "Theron",
+              id: "4",
+              lastName: "Paucek",
+              note: "",
+              primaryPhoneNumber: "+91898402777",
+              secondAddressLine: "Kochmouth",
+              secondaryPhoneNumber: "",
+            },
+          },
+        },
+      })
+    ).toEqual({
+      ...initialState,
+      collection: ["4"],
+      db: {
+        "4": {
+          firstName: "Theron",
+          id: "4",
+          lastName: "Paucek",
+          primaryPhoneNumber: "+91898402777",
+          secondAddressLine: "Kochmouth",
+        },
+      },
+      resultState: ResultState.Loaded,
+    })
+  })
+
+  test("Event: UpdateAllIndexes/rejected change `resultState` to Error", () => {
+    const errorMock = new UpdateAllIndexesError("I'm error")
+
+    expect(
+      contactsReducer(undefined, {
+        type: rejectedAction(DataSyncEvent.UpdateAllIndexes),
+        payload: errorMock,
+      })
+    ).toEqual({
+      ...initialState,
+      resultState: ResultState.Error,
+      error: errorMock,
+    })
+  })
+})
 
 describe("Set Contacts data functionality", () => {
   const contact: Contact = {

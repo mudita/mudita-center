@@ -22,7 +22,6 @@ export class ContactIndexer extends BaseIndexer {
   }
 
   async index(fileDir: string): Promise<Index<ContactObject>> {
-    // TODO: Will be covered with test as part of  CP-979
     const db = await this.initTmpDatabase(fileDir)
     const object = this.dataPresenter.serializeToObject(this.loadTables(db))
     return this.createIndex(object)
@@ -34,7 +33,10 @@ export class ContactIndexer extends BaseIndexer {
     index.setRef("id")
     index.addField("firstName")
     index.addField("firstName")
-    index.addField("numbers")
+    index.addField("primaryPhoneNumber")
+    index.addField("secondaryPhoneNumber")
+    index.addField("firstAddressLine")
+    index.addField("secondAddressLine")
     index.addField("note")
     index.addField("email")
 
