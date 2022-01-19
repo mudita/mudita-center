@@ -17,13 +17,10 @@ const fakeData = {
   occupiedMemory: 1024,
 }
 
-storiesOf("Components/FilesSummaryItem", module).add(
-  "With url provided",
-  () => {
-    return (
-      <Router history={history}>
-        <FilesSummaryItem {...fakeData} />
-      </Router>
-    )
-  }
-)
+storiesOf("Components/FilesSummaryItem", module).add("FilesSummaryItem", () => {
+  return (
+    <Router history={history}>
+      <FilesSummaryItem {...fakeData} />
+    </Router>
+  )
+})
