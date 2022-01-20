@@ -5,7 +5,7 @@
 
 import Faker from "faker"
 import { Phonebook } from "Backend/adapters/phonebook/phonebook.adapter"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import DeviceService from "Backend/device-service"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { ipcMain } from "electron-better-ipc"

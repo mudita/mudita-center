@@ -81,6 +81,8 @@ import {
   registerMetadataGetValueListener,
   registerMetadataSetValueListener,
 } from "App/metadata"
+import { registerGetIndexListener } from "App/data-sync"
+import { registerIndexAllListener } from "App/data-sync/listeners/index-all.listener"
 
 require("dotenv").config()
 
@@ -136,6 +138,10 @@ const createWindow = async () => {
     await installExtensions()
   }
 
+  ;(global as any).__static = require("path")
+    .join(__dirname, "/static")
+    .replace(/\\/g, "\\\\")
+
   win = new BrowserWindow(
     getWindowOptions({
       minWidth: WINDOW_SIZE.minWidth,
@@ -176,6 +182,8 @@ const createWindow = async () => {
   registerMetadataAllGetValueListener()
   registerMetadataGetValueListener()
   registerMetadataSetValueListener()
+  registerGetIndexListener()
+  registerIndexAllListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)

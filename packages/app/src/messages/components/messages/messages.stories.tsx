@@ -15,8 +15,10 @@ import {
   ModalBackdrop,
   ModalWrapper,
 } from "Renderer/components/core/modal/modal.styled.elements"
-import { ContactCategory } from "App/contacts/store/contacts.interface"
-import { Contact } from "App/contacts/store/contacts.type"
+import {
+  Contact,
+  ContactCategory,
+} from "App/contacts/reducers/contacts.interface"
 import {
   Receiver,
   ReceiverIdentification,

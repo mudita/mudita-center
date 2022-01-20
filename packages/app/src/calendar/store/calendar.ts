@@ -17,7 +17,7 @@ import { eventsData } from "App/seeds/calendar"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
 import overwriteDuplicates from "App/calendar/helpers/overwrite-duplicates/overwrite-duplicates"
-import { ResultsState } from "App/contacts/store/contacts.enum"
+import { ResultState } from "App/contacts/reducers/contacts.interface"
 import logger from "App/main/utils/logger"
 import getEvents from "Renderer/requests/get-events.request"
 import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook.interface"
@@ -25,13 +25,13 @@ import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook
 export const initialState: CalendarState = {
   calendars: [],
   events: [],
-  resultState: ResultsState.Empty,
+  resultState: ResultState.Empty,
 }
 
 const calendar = createModel<RootModel>({
   state: initialState,
   reducers: {
-    setResultState(state: CalendarState, resultState: ResultsState) {
+    setResultState(state: CalendarState, resultState: ResultState) {
       return { ...state, resultState }
     },
     setCalendars(state: CalendarState, newCalendars: Calendar[]) {
@@ -85,16 +85,16 @@ const calendar = createModel<RootModel>({
           return
         }
         loading = true
-        dispatch.calendar.setResultState(ResultsState.Loading)
+        dispatch.calendar.setResultState(ResultState.Loading)
         const { error, data = [] } = await getEvents()
         if (error) {
           logger.error(
             `Calendar: loads data fails. Data: ${JSON.stringify(error)}`
           )
-          dispatch.calendar.setResultState(ResultsState.Error)
+          dispatch.calendar.setResultState(ResultState.Error)
         } else {
           dispatch.calendar.setEvents(data)
-          dispatch.calendar.setResultState(ResultsState.Loaded)
+          dispatch.calendar.setResultState(ResultState.Loaded)
         }
         loading = false
       },

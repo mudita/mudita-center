@@ -9,15 +9,17 @@ import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
 import { RootModel } from "Renderer/models/models"
 import { TmpDispatch, select, ReduxRootState } from "Renderer/store"
 import { isThreadOpenedSelector } from "App/messages/selectors"
+import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
+import { isContactCreatedSelector } from "App/contacts/selectors/is-contact-created.selector"
 
-const selection = select(({ calls, messages, contacts }) => ({
+const selection = select(({ calls }) => ({
   calls: calls.filteredList,
-  isContactCreated: contacts.isContactCreatedByPhoneNumber,
-  getContact: contacts.getContact,
 }))
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => ({
   ...selection(state, {}),
+  isContactCreated: (id: string) => isContactCreatedSelector(id)(state),
+  getContact: (id: string) => getContactSelector(id)(state),
   isThreadOpened: (phoneNumber: string) =>
     isThreadOpenedSelector(phoneNumber)(state),
 })

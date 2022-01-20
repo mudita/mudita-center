@@ -4,7 +4,6 @@
  */
 
 import React, { createRef, Ref, useEffect } from "react"
-import { Contact } from "App/contacts/store/contacts.type"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -32,7 +31,7 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { intl } from "Renderer/utils/intl"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
@@ -41,10 +40,13 @@ import { InView } from "react-intersection-observer"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
-import { Contacts } from "App/contacts/store/contacts.interface"
-import { ResultsState } from "App/contacts/store/contacts.enum"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { flags, Feature } from "App/feature-flags"
+import {
+  Contact,
+  Contacts,
+  ResultState,
+} from "App/contacts/reducers/contacts.interface"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -136,7 +138,7 @@ interface Props extends Contacts, ContactActions, SelectHook {
   selectedContact: Contact | null
   onSelect: (contact: Contact) => void
   editMode?: boolean
-  resultsState: ResultsState
+  resultsState: ResultState
 }
 
 const ContactList: FunctionComponent<Props> = ({
@@ -188,7 +190,7 @@ const ContactList: FunctionComponent<Props> = ({
         contactList={contactList}
         selectedContact={selectedContact}
       >
-        {resultsState === ResultsState.Loaded &&
+        {resultsState === ResultState.Loaded &&
           contactList.length !== 0 &&
           contactList.map(({ category, contacts }, categoryIndex) => (
             <Group
@@ -375,7 +377,7 @@ const ContactList: FunctionComponent<Props> = ({
               })}
             </Group>
           ))}
-        {resultsState === ResultsState.Loaded && contactList.length === 0 && (
+        {resultsState === ResultState.Loaded && contactList.length === 0 && (
           <EmptyState
             data-testid={ContactListTestIdsEnum.ContactListNoResult}
             title={{ id: "module.contacts.emptyListTitle" }}
@@ -384,8 +386,8 @@ const ContactList: FunctionComponent<Props> = ({
             }}
           />
         )}
-        {(resultsState === ResultsState.Empty ||
-          resultsState === ResultsState.Error) && (
+        {(resultsState === ResultState.Empty ||
+          resultsState === ResultState.Error) && (
           <EmptyState
             data-testid={ContactListTestIdsEnum.ContactListEmpty}
             title={{ id: "module.contacts.emptyListTitle" }}
@@ -394,7 +396,7 @@ const ContactList: FunctionComponent<Props> = ({
             }}
           />
         )}
-        {resultsState === ResultsState.Loading && (
+        {resultsState === ResultState.Loading && (
           <LoadingState
             data-testid={ContactListTestIdsEnum.ContactListLoading}
           />

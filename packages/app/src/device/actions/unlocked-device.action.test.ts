@@ -3,27 +3,95 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceType } from "@mudita/pure"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store/helpers"
-import { unlockedDevice } from "./unlocked-device.action"
-import { DeviceConnectionError } from "App/device/errors"
+import { pendingAction } from "Renderer/store/helpers/action.helper"
+import { DeviceEvent } from "App/device/constants"
+import { DataSyncEvent } from "App/data-sync/constants"
 import { testError } from "App/renderer/store/constants"
+import { unlockedDevice } from "App/device/actions/unlocked-device.action"
+import { DeviceConnectionError } from "App/device/errors"
 
 jest.mock("App/renderer/requests/get-device-lock-time.request")
 jest.mock("App/device/actions/base.action", () => ({
   setLockTime: jest.fn().mockReturnValue({
-    type: "DEVICE_SET_LOCK_TIME",
+    type: DeviceEvent.SetLockTime,
     payload: undefined,
   }),
 }))
 jest.mock("App/device/actions/load-device-data.action", () => ({
   loadDeviceData: jest.fn().mockReturnValue({
-    type: pendingAction("DEVICE_DATA_LOADING"),
+    type: pendingAction(DeviceEvent.Loading),
+    payload: DeviceType.MuditaPure,
+  }),
+}))
+
+jest.mock("App/data-sync/actions/update-all-indexes.action", () => ({
+  updateAllIndexes: jest.fn().mockReturnValue({
+    type: pendingAction(DataSyncEvent.UpdateAllIndexes),
     payload: undefined,
   }),
 }))
+
+test("fire async `unlockedDevice` call `loadDeviceData` action if device is `locked`", async () => {
+  const mockStore = createMockStore([thunk])({
+    device: {
+      status: {
+        unlocked: false,
+      },
+      deviceType: DeviceType.MuditaPure
+    },
+    dataSync: {
+      initialized: true
+    }
+  })
+
+  const {
+    meta: { requestId },
+  } = await mockStore.dispatch(unlockedDevice() as unknown as AnyAction)
+
+  expect(mockStore.getActions()).toEqual([
+    unlockedDevice.pending(requestId),
+    {
+      type: pendingAction(DeviceEvent.Loading),
+      payload: DeviceType.MuditaPure,
+    },
+    unlockedDevice.fulfilled(undefined, requestId),
+  ])
+})
+
+test("fire async `unlockedDevice` call `updateAllIndexes` action if `initialized` od DataSync is false", async () => {
+  const mockStore = createMockStore([thunk])({
+    device: {
+      status: {
+        unlocked: false,
+      },
+      deviceType: DeviceType.MuditaPure
+    },
+    dataSync: {
+      initialized: false
+    }
+  })
+
+  const {
+    meta: { requestId },
+  } = await mockStore.dispatch(unlockedDevice() as unknown as AnyAction)
+
+  expect(mockStore.getActions()).toEqual([
+    unlockedDevice.pending(requestId),
+    {
+      type: pendingAction(DataSyncEvent.UpdateAllIndexes),
+      payload: undefined,
+    },
+    {
+      type: pendingAction(DeviceEvent.Loading),
+      payload: DeviceType.MuditaPure,
+    },
+    unlockedDevice.fulfilled(undefined, requestId),
+  ])
+})
 
 test("fire async `unlockedDevice` doesn't call `loadDeviceData` action if device isn't `locked`", async () => {
   const mockStore = createMockStore([thunk])({

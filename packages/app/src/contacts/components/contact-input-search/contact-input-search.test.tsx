@@ -4,7 +4,7 @@
  */
 
 import { secondParam } from "App/contacts/components/contact-input-search/contact-input-search.component"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 const contacts: Contact[] = [
   {

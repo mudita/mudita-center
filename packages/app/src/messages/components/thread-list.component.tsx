@@ -15,7 +15,7 @@ import {
 } from "Renderer/components/rest/animated-opacity/animated-opacity"
 import { AppSettings } from "App/main/store/settings.interface"
 import { Thread } from "App/messages/reducers/messages.interface"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import {
   AutoSizer,
   Index,

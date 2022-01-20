@@ -18,6 +18,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   device: state.device,
   loaded: state.device.status.loaded,
   unlocked: state.device.status.unlocked,
+  syncInitialized: state.dataSync.initialized,
   phoneLockTime:
     (state.device.data as PureDeviceData)?.phoneLockTime ?? undefined,
   noModalsVisible: noModalsShowSelector(state),

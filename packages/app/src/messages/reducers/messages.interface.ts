@@ -4,7 +4,7 @@
  */
 
 import { Caller } from "Renderer/models/calls/calls.interface"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import { LoadMessagesByIdError, LoadThreadsError } from "App/messages/errors"

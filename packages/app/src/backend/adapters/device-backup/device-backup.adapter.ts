@@ -20,13 +20,79 @@ import DeviceFileSystemAdapter, {
 import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
 
 class DeviceBackup implements DeviceBackupAdapter {
+  public backuping = false
+
   constructor(
     private purePhone: PurePhoneAdapter,
     private deviceBackupService: DeviceBackupService,
     private deviceFileSystem: DeviceFileSystemAdapter
   ) {}
 
+  async downloadDeviceBackupLocally(targetPath: string): Promise<DeviceResponse<string[]>> {
+    this.backuping = true
+    const runDeviceBackupResponse = await this.runDeviceBackup()
+
+    if (!isResponsesSuccessWithData([runDeviceBackupResponse])) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: runDeviceBackupResponse.error,
+      }
+    }
+
+    const filePath = runDeviceBackupResponse.data!
+
+    const downloadDeviceFileResponse =
+      await this.deviceFileSystem.downloadLocally([filePath], targetPath)
+
+    if (!isResponsesSuccessWithData([downloadDeviceFileResponse])) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message: "Download backup fails",
+        },
+      }
+    }
+
+    this.backuping = false
+
+    return downloadDeviceFileResponse
+  }
+
   async downloadDeviceBackup(): Promise<DeviceResponse<DeviceFile>> {
+    this.backuping = true
+    const runDeviceBackupResponse = await this.runDeviceBackup()
+
+    if (!isResponsesSuccessWithData([runDeviceBackupResponse])) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: runDeviceBackupResponse.error,
+      }
+    }
+
+    const filePath = runDeviceBackupResponse.data!
+
+    const downloadDeviceFileResponse =
+      await this.deviceFileSystem.downloadDeviceFiles([filePath])
+
+    if (!isResponsesSuccessWithData([downloadDeviceFileResponse])) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message: "Download backup fails",
+        },
+      }
+    }
+
+    this.backuping = false
+
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: downloadDeviceFileResponse.data![0],
+    }
+  }
+
+  private async runDeviceBackup(): Promise<DeviceResponse<string>> {
+    this.backuping = true
     const getBackupLocationResponse = await this.purePhone.getBackupLocation()
 
     if (!isResponsesSuccessWithData([getBackupLocationResponse])) {
@@ -65,21 +131,9 @@ class DeviceBackup implements DeviceBackupAdapter {
 
     const filePath = path.join(getBackupLocationResponse.data!, backupId)
 
-    const downloadDeviceFileResponse =
-      await this.deviceFileSystem.downloadDeviceFiles([filePath])
-
-    if (!isResponsesSuccessWithData([downloadDeviceFileResponse])) {
-      return {
-        status: DeviceResponseStatus.Error,
-        error: {
-          message: "Download backup fails",
-        },
-      }
-    }
-
     return {
       status: DeviceResponseStatus.Ok,
-      data: downloadDeviceFileResponse.data![0],
+      data: filePath,
     }
   }
 

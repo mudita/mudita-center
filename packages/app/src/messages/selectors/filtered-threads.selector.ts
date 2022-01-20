@@ -13,7 +13,7 @@ import {
   sortThreads,
 } from "App/messages/helpers/threads.helpers"
 import { searchValueSelector } from "App/messages/selectors/search-value.selector"
-import { PhoneContacts } from "App/contacts/store/contacts.interface"
+import { PhoneContacts } from "App/contacts/reducers/contacts.interface"
 import { visibilityFilterSelector } from "App/messages/selectors/visibility-filter.selector"
 import { getContactMapSelector } from "App/contacts/selectors/get-contact-map.selector"
 

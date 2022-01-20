@@ -9,7 +9,7 @@ import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.
 import { getAdapters } from "Backend/requests/phonebook/phonebook-adapters"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { Contact as PureContact } from "@mudita/pure"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import DeviceService from "Backend/device-service"
 
 const pureContactId = "19"

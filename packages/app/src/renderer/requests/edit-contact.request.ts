@@ -5,7 +5,7 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const editContact = (contact: Contact): Promise<DeviceResponse<Contact>> => {

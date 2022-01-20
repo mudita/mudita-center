@@ -15,7 +15,6 @@ import Table, {
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import styled from "styled-components"
-import { NewContact } from "App/contacts/store/contacts.type"
 import Icon from "Renderer/components/core/icon/icon.component"
 import {
   ModalText,
@@ -27,11 +26,12 @@ import Text, {
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
-import { createFullNameStartingFromLastName } from "App/contacts/store/contacts.helpers"
+import { createFullNameStartingFromLastName } from "App/contacts/helpers/contacts.helpers"
 import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 import { ModalIcon } from "Renderer/components/core/modal-shared/modal-shared"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { NewContact } from "App/contacts/reducers/contacts.interface"
 
 const messages = defineMessages({
   title: { id: "module.contacts.importTitle" },
