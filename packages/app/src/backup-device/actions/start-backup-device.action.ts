@@ -12,9 +12,26 @@ import { ReduxRootState, RootState } from "Renderer/store"
 import { loadBackupData } from "App/backup/actions"
 import downloadDeviceBackupRequest from "App/backup-device/requests/download-device-backup.request"
 import encryptFile from "App/file-system/requests/encrypt-file.request"
+import DeviceResponse from "Backend/adapters/device-response.interface"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export interface StartBackupOption {
   secretKey: string
+}
+
+const downloadDeviceBackupWithRetries = async(time = 0): Promise<DeviceResponse<DeviceFile>> => {
+  const response = await downloadDeviceBackupRequest()
+  if(isResponsesSuccessWithData([response]) ){
+    return response
+  } else if(time === 3){
+    return response
+  } else {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(downloadDeviceBackupWithRetries(++time))
+      }, 2500)
+    })
+  }
 }
 
 export const startBackupDevice = createAsyncThunk<undefined, StartBackupOption>(
@@ -34,7 +51,7 @@ export const startBackupDevice = createAsyncThunk<undefined, StartBackupOption>(
       )
     }
 
-    const downloadDeviceBackupResponse = await downloadDeviceBackupRequest()
+    const downloadDeviceBackupResponse = await downloadDeviceBackupWithRetries()
 
     if (!isResponsesSuccessWithData([downloadDeviceBackupResponse])) {
       return rejectWithValue(
