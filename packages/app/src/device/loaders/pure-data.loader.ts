@@ -10,11 +10,15 @@ import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import { DeviceLoadingError } from "App/device/errors"
 import { PureDeviceData } from "App/device/reducers/device.interface"
+import { updateAllIndexes } from "App/data-sync"
+import store from "Renderer/store/index"
 
 type PureData = Partial<PureDeviceData>
 
 export class PureDataLoader extends BaseLoader {
   async load(): Promise<PureData> {
+    store.dispatch(updateAllIndexes())
+
     const responses = await Promise.all([
       getDeviceInfo(),
       getNetworkInfo(),
