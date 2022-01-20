@@ -5,4 +5,5 @@
 
 export enum DataIndex {
   Contact = "contact",
+  Message = "message",
 }

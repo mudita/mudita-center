@@ -4,4 +4,5 @@
  */
 
 export * from "./contact-object.type"
+export * from "./message-object.type"
 export * from "./presenter.type"
