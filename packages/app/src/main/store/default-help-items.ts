@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { QuestionAndAnswer } from "App/help/help.component"
+import { QuestionAndAnswer } from "App/help/components/help.component"
 import { Document } from "@contentful/rich-text-types"
 import { BLOCKS } from "@contentful/rich-text-types"
 

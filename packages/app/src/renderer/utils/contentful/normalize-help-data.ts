@@ -5,7 +5,7 @@
 
 import { Entry, SyncCollection } from "contentful"
 import { Document } from "@contentful/rich-text-types"
-import { QuestionAndAnswer } from "App/help/help.component"
+import { QuestionAndAnswer } from "App/help/components/help.component"
 
 export interface HelpEntry {
   id: string

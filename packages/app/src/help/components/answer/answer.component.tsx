@@ -12,11 +12,11 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
 import { URL_MAIN } from "Renderer/constants/urls"
-import { QuestionAndAnswer } from "App/help/help.component"
+import { QuestionAndAnswer } from "App/help/components/help.component"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { richTextReactComponentOptions } from "Renderer/utils/rich-text/rich-text-renderer"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import { AnswerUiTestIds } from "Renderer/components/rest/help/answer-ui-test-ids.enum"
+import { AnswerUiTestIds } from "App/help/components/answer/answer-test-ids.enum"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -40,7 +40,7 @@ interface Props extends RouteComponentProps<{ questionId: string }> {
   list: QuestionAndAnswer
 }
 
-const AnswerUI: FunctionComponent<Props> = ({ match, list }) => {
+const Answer: FunctionComponent<Props> = ({ match, list }) => {
   const { items } = list
   return (
     <AnswerContainer>
@@ -72,4 +72,4 @@ const AnswerUI: FunctionComponent<Props> = ({ match, list }) => {
   )
 }
 
-export default AnswerUI
+export default Answer
