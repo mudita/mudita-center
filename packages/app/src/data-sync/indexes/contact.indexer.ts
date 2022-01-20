@@ -23,8 +23,12 @@ export class ContactIndexer extends BaseIndexer {
 
   async index(fileDir: string): Promise<Index<ContactObject>> {
     const db = await this.initTmpDatabase(fileDir)
-    const object = this.dataPresenter.serializeToObject(this.loadTables(db))
-    return this.createIndex(object)
+    try {
+      const object = this.dataPresenter.serializeToObject(this.loadTables(db))
+      return this.createIndex(object)
+    } catch (e) {
+      return this.createIndex([])
+    }
   }
 
   private createIndex(data: ContactObject[]): Index<ContactObject> {
