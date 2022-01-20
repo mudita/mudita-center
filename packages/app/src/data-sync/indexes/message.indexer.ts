@@ -24,9 +24,7 @@ export class MessageIndexer extends BaseIndexer {
   async index(fileDir: string): Promise<Index<MessageObject>> {
     const smsDb = await this.initTmpSmsDatabase(fileDir)
     const contactDb = await this.initTmpContactDatabase(fileDir)
-    const object = this.dataPresenter.serializeToObject(
-      this.loadTables(smsDb, contactDb)
-    )
+    const object = this.dataPresenter.serializeToObject(this.loadTables(smsDb, contactDb))
     return this.createIndex(object)
   }
 

@@ -9,15 +9,14 @@ import {
   ThreadEntity,
   ContactNumberEntity,
 } from "App/data-sync/types"
+import { Feature, flags } from "App/feature-flags"
 
 export class ThreadPresenter {
-  public findRecords<Type extends { contact_id: string }>(
-    data: { contact_id: string }[],
-    contactId: string
+  public findRecords<Type extends { _id: string }>(
+    data: { _id: string }[],
+    recordId: string
   ): Type | undefined {
-    return (data as unknown as Type[]).find(
-      (item) => item.contact_id === contactId
-    )
+    return (data as unknown as Type[]).find((item) => item._id === recordId)
   }
 
   public serializeRecord<Type>(values: string[][], columns: string[]): Type[] {
@@ -30,6 +29,10 @@ export class ThreadPresenter {
   }
 
   public serializeToObject(data: ThreadInput): ThreadObject[] {
+    if (!data.threads || !data.contact_number) {
+      return []
+    }
+
     const threads = this.serializeRecord<ThreadEntity>(
       data.threads.values,
       data.threads.columns
@@ -43,15 +46,17 @@ export class ThreadPresenter {
       .map((thread) => {
         const contactNumber = this.findRecords<ContactNumberEntity>(
           contactNumbers,
-          String(thread.contact_id)
+          String(thread.number_id)
         )
 
         return {
           id: thread._id,
           phoneNumber: contactNumber?.number_user,
-          lastUpdatedAt: new Date(thread.date),
+          lastUpdatedAt: new Date(Number(thread.date) * 1000),
           messageSnippet: thread.snippet,
-          unread: Number(thread.read) === 0,
+          unread: flags.get(Feature.ProductionAndAlpha)
+            ? false
+            : Number(thread.read) !== 0,
         }
       })
       .filter((thread) => typeof thread !== "undefined") as ThreadObject[]

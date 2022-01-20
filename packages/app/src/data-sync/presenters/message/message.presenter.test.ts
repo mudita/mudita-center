@@ -49,17 +49,17 @@ describe("`MessagePresenter`", () => {
       Array [
         Object {
           "content": "Test Message #1",
-          "date": 0391-01-01T00:00:00.000Z,
+          "date": 1970-01-01T00:06:31.000Z,
           "id": "1",
-          "messageType": "OUTBOX",
+          "messageType": "INBOX",
           "phoneNumber": "+91898402777",
           "threadId": "1",
         },
         Object {
           "content": "Test Message #2",
-          "date": 0392-01-01T00:00:00.000Z,
+          "date": 1970-01-01T00:06:32.000Z,
           "id": "2",
-          "messageType": "OUTBOX",
+          "messageType": "INBOX",
           "phoneNumber": "+91898402777",
           "threadId": "1",
         },

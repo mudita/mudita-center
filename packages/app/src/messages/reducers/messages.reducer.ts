@@ -29,6 +29,8 @@ import {
   VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
 import { MessagesEvent } from "App/messages/constants"
+import { DataSyncEvent } from "App/data-sync/constants"
+import { UpdateAllIndexesAction } from "App/data-sync/reducers"
 
 export const initialState: MessagesState = {
   threadMap: {},
@@ -269,5 +271,32 @@ export const messagesReducer = createReducer<MessagesState>(
           messageIdsInThreadMap: {},
         }
       })
+
+      .addCase(
+        fulfilledAction(DataSyncEvent.UpdateAllIndexes),
+        (state, action: UpdateAllIndexesAction) => {
+          return {
+            ...state,
+            threadMap: action.payload.threads,
+            messageMap: action.payload.messages,
+            messageIdsInThreadMap: Object.keys(action.payload.messages)
+              .map((messageKey) => {
+                return action.payload.messages[messageKey]
+              })
+              .reduce((prev: MessageIdsInThreadMap, message) => {
+                const messageIds: string[] = prev[message.threadId] ?? []
+                prev[message.threadId] = messageIds.find(
+                  (id) => id === message.id
+                )
+                  ? messageIds
+                  : [...messageIds, message.id]
+
+                return prev
+              }, {}),
+            threadsTotalCount: Object.keys(action.payload.threads).length,
+            threadsState: ResultState.Loaded,
+          }
+        }
+      )
   }
 )

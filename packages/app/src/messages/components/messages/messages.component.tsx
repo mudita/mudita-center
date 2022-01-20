@@ -84,7 +84,6 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   loadThreads: (
     pagination: PaginationBody
   ) => Promise<PayloadAction<PaginationBody | undefined>>
-  loadThreadsTotalCount: () => Promise<void>
   getMessagesByThreadId: (threadId: string) => Message[]
   getContact: (contactId: string) => Contact | undefined
   getReceiver: (phoneNumber: string) => Receiver
@@ -99,7 +98,6 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
 
 const Messages: FunctionComponent<Props> = ({
   loadThreads,
-  loadThreadsTotalCount,
   threadsTotalCount,
   threadsState,
   receivers,
@@ -114,12 +112,11 @@ const Messages: FunctionComponent<Props> = ({
   attachContactList,
   attachContactFlatList,
   loadMessagesByThreadId,
-  getMessagesStateByThreadId,
   getContactByPhoneNumber,
   isContactCreatedByPhoneNumber,
   addNewMessage,
 }) => {
-  const [threadsPaginationOffset, setThreadsPaginationOffset] = useState<
+  const [_, setThreadsPaginationOffset] = useState<
     PaginationBody["offset"] | undefined
   >(0)
 
@@ -130,33 +127,11 @@ const Messages: FunctionComponent<Props> = ({
     })
   }
 
-  const loadThreadsRequest = async () => {
-    if (threadsPaginationOffset === undefined) {
-      return
-    }
-
-    const response = await loadThreads({
-      offset: threadsPaginationOffset,
-      limit: threadsPaginationLimit,
-    })
-
-    setThreadsPaginationOffset(response.payload?.offset)
-  }
-
   useEffect(() => {
     if (threadsTotalCount === 0) {
       setThreadsPaginationOffset(0)
     }
   }, [threadsTotalCount])
-
-  const fetchData = async () => {
-    await loadThreadsTotalCount()
-    await loadThreadsRequest()
-  }
-
-  useEffect(() => {
-    void fetchData()
-  }, [])
 
   const [messagesState, setMessagesState] = useState(MessagesState.List)
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
@@ -433,7 +408,7 @@ const Messages: FunctionComponent<Props> = ({
       if (startIndex > threads.length || threadsState === ResultState.Loading) {
         return resolve()
       }
-      loadThreadsRequest()
+      // loadThreadsRequest()
       return resolve()
     })
   }
@@ -478,7 +453,6 @@ const Messages: FunctionComponent<Props> = ({
             content={content}
             receiver={getViewReceiver(activeThread)}
             messages={getMessagesByThreadId(activeThread.id)}
-            resultState={getMessagesStateByThreadId(activeThread.id)}
             contactCreated={isContactCreatedByPhoneNumber(
               activeThread.phoneNumber
             )}

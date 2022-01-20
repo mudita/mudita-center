@@ -135,14 +135,6 @@ describe("async `loadThreads` ", () => {
       expect(mockStore.getActions()).toEqual([
         loadThreads.pending(requestId, pagination),
         {
-          type: MessagesEvent.ClearAllThreads,
-          payload: undefined,
-        },
-        {
-          type: MessagesEvent.SetThreadsTotalCount,
-          payload: 0,
-        },
-        {
           type: MessagesEvent.SetThreadsTotalCount,
           payload: threads.length,
         },
@@ -158,7 +150,7 @@ describe("async `loadThreads` ", () => {
   })
 
   describe("when messages state has some data and request return lower `threadsTotalCount` value", () => {
-    test("fire `getThreads` call `clearAllThreads` and `getThreads` to loads first records", async () => {
+    test("fire `getThreads` loads first records", async () => {
       let index = 0
       ;(getThreads as jest.Mock).mockImplementation(() => {
         if (index === 0) {
@@ -179,14 +171,6 @@ describe("async `loadThreads` ", () => {
 
       expect(mockStore.getActions()).toEqual([
         loadThreads.pending(requestId, pagination),
-        {
-          type: MessagesEvent.ClearAllThreads,
-          payload: undefined,
-        },
-        {
-          type: MessagesEvent.SetThreadsTotalCount,
-          payload: 0,
-        },
         {
           type: MessagesEvent.SetThreadsTotalCount,
           payload: threads.length,
