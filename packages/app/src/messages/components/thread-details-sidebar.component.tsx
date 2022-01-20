@@ -8,7 +8,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { MessagesSidebar } from "App/messages/components/thread-details.styled"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import ThreadDetailsSidebarLeftHeader from "App/messages/components/thread-details-sidebar-left-header.component"
 import ThreadDetailsSidebarRightHeader from "App/messages/components/thread-details-sidebar-right-header.component"
 import {

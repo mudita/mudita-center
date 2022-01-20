@@ -15,8 +15,10 @@ import {
   ModalBackdrop,
   ModalWrapper,
 } from "Renderer/components/core/modal/modal.styled.elements"
-import { ContactCategory } from "App/contacts/store/contacts.interface"
-import { Contact } from "App/contacts/store/contacts.type"
+import {
+  Contact,
+  ContactCategory,
+} from "App/contacts/reducers/contacts.interface"
 import {
   Receiver,
   ReceiverIdentification,
@@ -157,7 +159,6 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         loadThreads={loadData}
         threadsState={ResultState.Loaded}
         threadsTotalCount={rowThreads.length}
-        loadContacts={jest.fn()}
         loadThreadsTotalCount={jest.fn()}
       />
     </div>

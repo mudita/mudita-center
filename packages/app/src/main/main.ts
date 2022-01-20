@@ -25,13 +25,14 @@ import registerCopyFileListener from "App/main/functions/register-copy-file-list
 import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/main/functions/register-archive-files-listener"
-import registerReadFileListener from "App/file-system/listeners/read-file-listener"
+import registerReadFileListener from "App/file-system/listeners/read-file.listener"
 import registerGetApplicationConfigurationListener from "App/main/functions/register-get-application-configuration-listener"
 import registerGetFileDataListener from "App/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
-import registerEncryptFileListener from "App/file-system/listeners/encrypt-file-listener"
-import registerDecryptFileListener from "App/file-system/listeners/decrypt-file-listener"
+import registerEncryptFileListener from "App/file-system/listeners/encrypt-file.listener"
+import registerDecryptFileListener from "App/file-system/listeners/decrypt-file.listener"
+import registerUnlinkFileListener from "App/file-system/listeners/unlink-file.listener"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
 import {
   registerDownloadHelpHandler,
@@ -81,6 +82,8 @@ import {
   registerMetadataGetValueListener,
   registerMetadataSetValueListener,
 } from "App/metadata"
+import { registerGetIndexListener } from "App/data-sync"
+import { registerIndexAllListener } from "App/data-sync/listeners/index-all.listener"
 
 require("dotenv").config()
 
@@ -136,6 +139,10 @@ const createWindow = async () => {
     await installExtensions()
   }
 
+  ;(global as any).__static = require("path")
+    .join(__dirname, "/static")
+    .replace(/\\/g, "\\\\")
+
   win = new BrowserWindow(
     getWindowOptions({
       minWidth: WINDOW_SIZE.minWidth,
@@ -171,11 +178,14 @@ const createWindow = async () => {
   registerGetFileDataListener()
   registerEncryptFileListener()
   registerReadFileListener()
+  registerUnlinkFileListener()
   registerDecryptFileListener()
   registerPureOsDownloadProxy()
   registerMetadataAllGetValueListener()
   registerMetadataGetValueListener()
   registerMetadataSetValueListener()
+  registerGetIndexListener()
+  registerIndexAllListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)

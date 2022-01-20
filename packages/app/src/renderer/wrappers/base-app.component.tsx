@@ -23,7 +23,6 @@ import modalService from "Renderer/components/core/modal/modal.service"
 
 interface Props {
   getConnectedDevice: () => void
-  loadContacts: () => void
   history: History
   deviceFeaturesVisible?: boolean
   deviceConnecting?: boolean
@@ -36,7 +35,6 @@ interface Props {
 
 const BaseApp: FunctionComponent<Props> = ({
   getConnectedDevice,
-  loadContacts,
   history,
   deviceFeaturesVisible,
   deviceConnecting,
@@ -47,8 +45,8 @@ const BaseApp: FunctionComponent<Props> = ({
   deviceUpdating,
 }) => {
   useRouterListener(history, {
-    [URL_MAIN.contacts]: [() => loadContacts()],
-    [URL_MAIN.phone]: [() => loadContacts()],
+    [URL_MAIN.contacts]: [],
+    [URL_MAIN.phone]: [],
     [URL_OVERVIEW.root]: [() => getConnectedDevice()],
     [URL_MAIN.messages]: [],
   })
@@ -104,8 +102,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  getConnectedDevice: () => dispatch(getConnectedDevice),
-  loadContacts: () => dispatch.contacts.loadData(),
+  getConnectedDevice: () => dispatch(getConnectedDevice()),
   sendDiagnosticData: dispatch.settings.sendDiagnosticData,
 })
 

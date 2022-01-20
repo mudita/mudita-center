@@ -6,7 +6,7 @@
 import vCard from "vcf"
 import utf8 from "utf8"
 import quotedPrintable from "quoted-printable"
-import { NewContact } from "App/contacts/store/contacts.type"
+import { NewContact } from "App/contacts/reducers/contacts.interface"
 import mapFileToString from "Renderer/utils/map-file-to-string/map-file-to-string"
 
 type vCardContact = Record<string, vCard.Property | vCard.Property[]>

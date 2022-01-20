@@ -7,7 +7,7 @@ import { connect } from "react-redux"
 import { History, LocationState } from "history"
 import Contacts from "App/contacts/components/contacts/contacts.component"
 import { noop } from "Renderer/utils/noop"
-import { ReduxRootState, select } from "Renderer/store"
+import { ReduxRootState, TmpDispatch } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { URL_MAIN } from "Renderer/constants/urls"
 import createRouterPath from "Renderer/utils/create-router-path"
@@ -15,12 +15,8 @@ import {
   Contact,
   ContactID,
   NewContact,
-} from "App/contacts/store/contacts.type"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import addContact from "Renderer/requests/add-contact.request"
-import logger from "App/main/utils/logger"
-import editContact from "Renderer/requests/edit-contact.request"
-import deleteContactsRequest from "Renderer/requests/delete-contacts.request"
+} from "App/contacts/reducers/contacts.interface"
+
 import {
   ExternalProvider,
   Provider,
@@ -29,39 +25,40 @@ import externalProvidersStore from "Renderer/store/external-providers"
 import {
   contactDatabaseFactory,
   getFlatList,
-} from "App/contacts/store/contacts.helpers"
+} from "App/contacts/helpers/contacts.helpers"
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 import { ContactErrorResponse } from "App/contacts/components/contacts/contacts.type"
 import { isThreadOpenedSelector } from "App/messages/selectors"
-
-const selector = select(({ contacts }) => ({
-  contactList: contacts.contactList,
-  flatList: contacts.flatList,
-  speedDialChosenList: contacts.speedDialChosenList,
-  getContact: contacts.getContact,
-}))
+import { addNewContact } from "App/contacts/actions/add-new-contacts.action"
+import { deleteContacts } from "App/contacts/actions/delete-contacts.action"
+import { importContact } from "App/contacts/actions/import-contact.action"
+import { addNewContactsToState } from "App/contacts/actions/base.action"
+import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
+import { speedDialChosenListSelector } from "App/contacts/selectors/speed-dial-chosen-list.selector"
+import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
+import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
+import { authorize } from "App/contacts/actions/authorize.action"
+import { editContact } from "App/contacts/actions/edit-contact.action"
+import { PayloadAction } from "@reduxjs/toolkit"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   const { contacts, auth } = state
   return {
-    ...contacts,
     ...auth,
-    ...selector(state, {}),
+    resultState: contacts.resultState,
+    contactList: contactListSelector(state),
+    flatList: flatListSelector(state),
+    speedDialChosenList: speedDialChosenListSelector(state),
+    getContact: (id: string) => getContactSelector(id)(state),
     isThreadOpened: (phoneNumber: string) =>
       isThreadOpenedSelector(phoneNumber)(state),
   }
 }
 
-const mapDispatch = ({ contacts, auth }: any) => {
+const mapDispatchToProps = (dispatch: TmpDispatch) => {
   return {
-    ...contacts,
-    ...auth,
-    // TODO: Add proper actions
+    ...dispatch.auth,
     onExport: exportContacts,
-    onForward: noop,
-    onBlock: noop,
-    onSelect: noop,
-    onCall: noop,
     onMessage: (history: History<LocationState>, phoneNumber: string) =>
       history.push(createRouterPath(URL_MAIN.messages, { phoneNumber })),
     onSpeedDialSettingsSave: noop,
@@ -83,79 +80,28 @@ const mapDispatch = ({ contacts, auth }: any) => {
     },
     addNewContact: async (
       contact: NewContact
-    ): Promise<ContactErrorResponse | void> => {
-      const { data, error, status } = await addContact(contact)
-      if (error || !data) {
-        logger.error(
-          `Contacts: adding new contact throw error. Data: ${JSON.stringify(
-            error
-          )}`
-        )
-
-        return {
-          status,
-          message: error?.message ?? "AddNewContact: Something went wrong",
-        }
-      } else {
-        contacts.addContact(data)
-      }
-    },
-    importContact: async (contact: NewContact): Promise<string | void> => {
-      const { data, error, status } = await addContact(contact)
-
-      // Skipping 409 (Conflict) status code for preventing displaying error about duplicated
-      if (status === DeviceResponseStatus.Duplicated) {
-        await editContact({
-          ...contact,
-          id: error!.data.id,
-        } as Contact)
-        return
-      }
-
-      if (error || !data) {
-        logger.error(
-          `Contacts: adding new contact throw error. Data: ${JSON.stringify(
-            error
-          )}`
-        )
-
-        return error?.message ?? "AddNewContact: Something went wrong"
-      }
-    },
+    ): Promise<ContactErrorResponse | void> => dispatch(addNewContact(contact)),
+    importContact: async (contact: NewContact): Promise<string | void> =>
+      dispatch(importContact(contact)),
     editContact: async (
       contact: Contact
-    ): Promise<ContactErrorResponse | void> => {
-      const { data, error, status } = await editContact(contact)
-      if (error || !data) {
-        logger.error(
-          `Contacts: editing new contact throw error. Data: ${JSON.stringify(
-            error
-          )}`
-        )
-        return {
-          status,
-          message: error?.message ?? "EditContact: Something went wrong",
-        }
-      } else {
-        contacts.editContact(data)
-      }
-    },
-    deleteContacts: async (ids: ContactID[]): Promise<string | void> => {
-      const { error } = await deleteContactsRequest(ids)
-      if (error) {
-        logger.error(
-          `Contacts: deleting new contact throw error. Data: ${JSON.stringify(
-            error
-          )}`
-        )
-        const successIds = ids.filter((id) => !error.data?.includes(id))
-        contacts.removeContact(successIds)
-        return error?.message ?? "DeleteContact: Something went wrong"
-      } else {
-        contacts.removeContact(ids)
-      }
-    },
+    ): Promise<PayloadAction<ContactErrorResponse | undefined>> =>
+      dispatch(editContact(contact)),
+    deleteContacts: async (ids: ContactID[]): Promise<string | void> =>
+      dispatch(deleteContacts(ids)),
+    authorize: async (
+      provider: ExternalProvider
+    ): Promise<string | undefined> => dispatch(authorize(provider)),
+    addNewContactsToState: async (
+      contacts: Contact[]
+    ): Promise<void> => dispatch(addNewContactsToState(contacts)),
+
+    // TODO: Add proper actions
+    onForward: noop,
+    onBlock: noop,
+    onSelect: noop,
+    onCall: noop,
   }
 }
 
-export default connect(mapStateToProps, mapDispatch)(Contacts)
+export default connect(mapStateToProps, mapDispatchToProps)(Contacts)

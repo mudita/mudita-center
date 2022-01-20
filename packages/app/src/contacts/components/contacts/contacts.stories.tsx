@@ -11,8 +11,6 @@ import Contacts, {
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
-import { Contact, ContactID } from "App/contacts/store/contacts.type"
-import { ResultsState } from "App/contacts/store/contacts.enum"
 import ContactEdit, {
   defaultContact,
 } from "App/contacts/components/contact-edit/contact-edit.component"
@@ -29,9 +27,14 @@ import {
   getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
-} from "App/contacts/store/contacts.helpers"
+} from "App/contacts/helpers/contacts.helpers"
 import { asyncNoop, noop } from "Renderer/utils/noop"
 import { PhoneProps } from "App/contacts/components/contacts/contacts.type"
+import {
+  Contact,
+  ContactID,
+  ResultState,
+} from "App/contacts/reducers/contacts.interface"
 
 const dummyPromise = (result: any) => () => result
 const getContact = (id: ContactID) => contactsSeed.db[id]
@@ -47,9 +50,9 @@ const ContactsWrapper = styled.div`
 `
 
 const ContactsComponent = ({
-  resultsState = ResultsState.Empty,
+  resultState = ResultState.Empty,
   contactList = labeledContactList,
-}: Partial<Pick<PhoneProps, "resultsState" | "contactList">>) => (
+}: Partial<Pick<PhoneProps, "resultState" | "contactList">>) => (
   <Contacts
     getContact={getContact as any}
     flatList={flatList}
@@ -66,19 +69,18 @@ const ContactsComponent = ({
     onMessage={action("Send message")}
     onCall={action("Call")}
     onSpeedDialSettingsSave={action("Save speed dial settings")}
-    resultsState={resultsState}
+    resultState={resultState}
     selectedContacts={[]}
     resetRows={action("Reset rows")}
     setProviderData={noop}
     isThreadOpened={isThreadOpened}
-    loadData={asyncNoop}
+    addNewContactsToState={asyncNoop}
     addNewContact={asyncNoop}
     importContact={asyncNoop}
     editContact={asyncNoop}
     contacts={contactsSeedInput}
     loadContacts={asyncNoop}
     inputValue={""}
-    savingContact={false}
     speedDialContacts={[]}
     deleteContacts={asyncNoop}
     authorize={asyncNoop}
@@ -92,7 +94,7 @@ const ContactsComponent = ({
 storiesOf("Views|Phone", module)
   .add("Loading", () => (
     <ContactsWrapper>
-      <ContactsComponent resultsState={ResultsState.Loading} />
+      <ContactsComponent resultState={ResultState.Loading} />
     </ContactsWrapper>
   ))
   .add("Empty", () => (
@@ -102,12 +104,12 @@ storiesOf("Views|Phone", module)
   ))
   .add("Loaded", () => (
     <ContactsWrapper>
-      <ContactsComponent resultsState={ResultsState.Loaded} />
+      <ContactsComponent resultState={ResultState.Loaded} />
     </ContactsWrapper>
   ))
   .add("No search results", () => (
     <ContactsWrapper>
-      <ContactsComponent resultsState={ResultsState.Loaded} contactList={[]} />
+      <ContactsComponent resultState={ResultState.Loaded} contactList={[]} />
     </ContactsWrapper>
   ))
 

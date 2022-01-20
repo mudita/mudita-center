@@ -5,7 +5,7 @@
 
 import { ReduxRootState, RootState } from "Renderer/store"
 import { initialState, messagesReducer, Thread } from "App/messages/reducers"
-import { initialState as contactsInitialState } from "App/contacts/store/contacts"
+import { initialState as contactsInitialState } from "App/contacts"
 import { getReceiverSelector } from "App/messages/selectors/get-receiver.selector"
 
 describe("`getReceiverSelector` selector", () => {

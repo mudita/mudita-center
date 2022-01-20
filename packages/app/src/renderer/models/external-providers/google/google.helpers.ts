@@ -12,7 +12,7 @@ import {
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import { rrulestr } from "rrule"
 
 const messages = defineMessages({

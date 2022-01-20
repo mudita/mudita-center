@@ -4,7 +4,7 @@
  */
 
 import vCard from "vcf"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import mapContactsToVCardStrings from "App/contacts/helpers/convert-contacts/map-contacts-to-v-card-strings"
 
 describe("map Contacts to string list helper", () => {

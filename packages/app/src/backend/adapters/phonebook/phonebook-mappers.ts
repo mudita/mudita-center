@@ -4,7 +4,7 @@
  */
 
 import { Contact as PureContact } from "@mudita/pure"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 export const mapToContact = (pureContact: PureContact): Contact => {
   const {

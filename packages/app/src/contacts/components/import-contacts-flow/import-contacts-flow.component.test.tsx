@@ -8,8 +8,8 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import ImportContactsFlow, {
   ImportContactsFlowState,
 } from "App/contacts/components/import-contacts-flow/import-contacts-flow.component"
-import { NewContact } from "App/contacts/store/contacts.type"
 import { ImportContactsFlowTestIds } from "App/contacts/components/import-contacts-flow/import-contacts-flow-test-ids.component"
+import { NewContact } from "App/contacts/reducers/contacts.interface"
 
 type Props = ComponentProps<typeof ImportContactsFlow>
 

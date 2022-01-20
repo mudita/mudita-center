@@ -12,7 +12,7 @@ import {
   ContactListItem,
   ContactListItemName,
 } from "App/contacts/components/contact-input-search/contact-input-search.styled"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"

@@ -8,7 +8,7 @@ import {
   Contact,
   ContactID,
   NewContact,
-} from "App/contacts/store/contacts.type"
+} from "App/contacts/reducers/contacts.interface"
 
 export default abstract class PhonebookAdapter {
   public abstract getContacts(): Promise<DeviceResponse<Contact[]>>

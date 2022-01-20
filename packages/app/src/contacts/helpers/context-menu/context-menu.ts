@@ -5,15 +5,12 @@
 
 import store from "Renderer/store"
 import { MenuItem } from "App/context-menu/context-menu.interface"
+import { devClearAllContacts } from "App/contacts/actions/base.action"
 
 const contactsContextMenu: MenuItem[] = [
   {
-    label: "Load default contacts",
-    click: () => store.dispatch.contacts.loadData(),
-  },
-  {
     label: "Clear all contacts",
-    click: () => store.dispatch.contacts._devClearAllContacts(),
+    click: () => store.dispatch(devClearAllContacts()),
   },
 ]
 

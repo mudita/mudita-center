@@ -10,8 +10,6 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
-import { Contact, NewContact } from "App/contacts/store/contacts.type"
-import { ContactCategory } from "App/contacts/store/contacts.interface"
 import ContactEdit, {
   defaultContact,
 } from "App/contacts/components/contact-edit/contact-edit.component"
@@ -19,7 +17,7 @@ import { noop } from "Renderer/utils/noop"
 import modalService from "Renderer/components/core/modal/modal.service"
 import SpeedDialModal from "App/contacts/components/speed-dial-modal/speed-dial-modal.container"
 import BlockContactModal from "App/contacts/components/block-contact-modal/block-contact-modal.component"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { ContactSection } from "App/contacts/components/contacts/contacts.styled"
@@ -28,7 +26,10 @@ import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
 import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "App/contacts/helpers/find-contact-by-phone-number/find-contact-by-phone-number"
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import {
+  ExternalProvider,
+  Provider,
+} from "Renderer/models/external-providers/external-providers.interface"
 import delayResponse from "@appnroll/delay-response"
 import {
   ErrorDataModal,
@@ -51,6 +52,12 @@ import ContactSearchResults from "App/contacts/components/contact-search-results
 import ImportContactsFlow, {
   ImportContactsFlowState,
 } from "App/contacts/components/import-contacts-flow/import-contacts-flow.component"
+import {
+  Contact,
+  ContactCategory,
+  NewContact,
+} from "App/contacts/reducers/contacts.interface"
+import { isError } from "Common/helpers/is-error.helpers"
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -93,23 +100,22 @@ export const isContactMatching = (
 
 const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const {
-    addNewContact,
-    importContact,
-    editContact,
+    resultState,
     getContact,
-    deleteContacts,
-    loadContacts,
     contactList = [],
     flatList,
     speedDialChosenList,
+    isThreadOpened,
+    loadContacts,
+    addNewContact,
+    importContact,
+    editContact,
+    deleteContacts,
+    authorize,
     onCall,
     onMessage,
-    savingContact,
-    isThreadOpened,
-    resultsState,
-    authorize,
     onExport,
-    loadData,
+    addNewContactsToState
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -185,9 +191,9 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         true
       )
 
-      const error = await delayResponse(addNewContact(contact))
+      const { payload } = await delayResponse(addNewContact(contact))
 
-      if (error?.status) {
+      if (payload) {
         setFormErrors([
           ...formErrors,
           {
@@ -199,12 +205,12 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         return
       }
 
-      if (error && !retried) {
+      if (payload && !retried) {
         modalService.openModal(
           <ErrorWithRetryDataModal onRetry={() => add(true)} />,
           true
         )
-      } else if (error) {
+      } else if (payload) {
         modalService.openModal(<ErrorDataModal />, true)
       } else {
         cancelOrCloseContactHandler()
@@ -232,14 +238,14 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
           true
         )
 
-        const error = await delayResponse(editContact(contact))
+        const { payload } = await delayResponse(editContact(contact))
 
-        if (error && !retried) {
+        if (payload && !retried) {
           modalService.openModal(
             <ErrorWithRetryDataModal onRetry={() => edit(true)} />,
             true
           )
-        } else if (error) {
+        } else if (payload) {
           modalService.openModal(<ErrorDataModal />, true)
           reject()
         } else {
@@ -275,8 +281,9 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       )
 
       // await can be restored if we will process the result directly in here, not globally
-      const error = await delayResponse(deleteContacts([contact.id]))
-      if (error) {
+      const { payload } = await delayResponse(deleteContacts([contact.id]))
+
+      if (payload) {
         modalService.openModal(<ErrorDataModal />, true)
       } else {
         cancelOrCloseContactHandler()
@@ -431,7 +438,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const authorizeAtGoogle = () => authorizeAtProvider(Provider.Google)
   const authorizeAtOutLook = () => authorizeAtProvider(Provider.Outlook)
 
-  const authorizeAtProvider = async (provider: Provider) => {
+  const authorizeAtProvider = async (provider: ExternalProvider) => {
     try {
       await authorize(provider)
       await getContacts({ type: provider })
@@ -476,19 +483,28 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     const newContactResponses = await contacts.reduce(
       async (lastPromise, contact, index) => {
         const value = await lastPromise
-        const error = await importContact(contact)
+        const { payload } = await importContact(contact)
         const currentContactIndex = index + 1
         setAddedContactsCount(currentContactIndex)
 
-        return [...value, { ...contact, successfullyAdded: !error }]
+        if(isError(payload)){
+          return [...value, { ...contact, successfullyAdded: false  }]
+        } else {
+          return [...value, { ...payload  }]
+        }
       },
-      Promise.resolve<NewContactResponse[]>([])
+      Promise.resolve<(NewContactResponse | Contact)[]>([])
     )
-    loadData()
 
     const failedNewContacts: NewContact[] = newContactResponses.filter(
-      ({ successfullyAdded }) => !successfullyAdded
+      (contact): contact is NewContactResponse => "successfullyAdded" in contact
     )
+
+    const successNewContacts: Contact[] = newContactResponses.filter(
+      (contact): contact is Contact  => !("successfullyAdded" in contact)
+    )
+
+    await addNewContactsToState(successNewContacts)
 
     const successfulItemsCount = contacts.length - failedNewContacts.length
     if (successfulItemsCount === contacts.length) {
@@ -572,7 +588,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
             onUnblock={handleUnblock}
             onBlock={openBlockModal}
             onDelete={openDeleteModal}
-            resultsState={resultsState}
+            resultsState={resultState}
             selectedContact={selectedContact}
             {...rest}
           />
@@ -588,7 +604,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               onBlock={openBlockModal}
               onDelete={openDeleteModal}
               editMode={Boolean(editedContact || newContact)}
-              resultsState={resultsState}
+              resultsState={resultState}
               selectedContact={selectedContact}
               {...rest}
             />
@@ -599,7 +615,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
                 onCancel={cancelOrCloseContactHandler}
                 onSpeedDialSettingsOpen={openSpeedDialModal}
                 onSave={saveNewContact}
-                saving={savingContact}
                 validationError={formErrors}
               />
             )}
@@ -610,7 +625,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
                 onCancel={cancelEditingContact}
                 onSpeedDialSettingsOpen={openSpeedDialModal}
                 onSave={saveEditedContact}
-                saving={savingContact}
                 validationError={formErrors}
               />
             )}

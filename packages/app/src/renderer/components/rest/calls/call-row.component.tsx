@@ -30,7 +30,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import formatDuration from "Renderer/utils/format-duration"
 import { isToday } from "Renderer/utils/is-today"
 import { noop } from "Renderer/utils/noop"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 export interface CallRowProps {
   onRowClick: (detail: Details) => void
@@ -44,7 +44,7 @@ export interface CallRowProps {
   noneRowsSelected: boolean
   sidebarOpened: boolean
   onDeleteClick: (id: string) => void
-  getContact: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact | undefined
 }
 
 export const CallRow: FunctionComponent<CallRowProps> = ({

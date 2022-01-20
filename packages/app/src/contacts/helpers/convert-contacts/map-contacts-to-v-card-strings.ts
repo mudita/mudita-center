@@ -4,8 +4,8 @@
  */
 
 import vCard from "vcf"
-import { Contact } from "App/contacts/store/contacts.type"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { Contact } from "App/contacts/reducers/contacts.interface"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import utf8 from "utf8"
 import quotedPrintable from "quoted-printable"
 

@@ -19,7 +19,7 @@ import {
   ResultState,
   Thread,
 } from "App/messages/reducers/messages.interface"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
@@ -93,7 +93,6 @@ const defaultProps: Props = {
   language: "en",
   loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
   getReceiver: jest.fn().mockReturnValue(receiver),
-  loadContacts: jest.fn(),
   loadThreadsTotalCount: jest.fn(),
   getContactByPhoneNumber: jest.fn(),
   addNewMessage: jest.fn(),

@@ -10,6 +10,8 @@ import { DeviceFile } from "Backend/adapters/device-file-system/device-file-syst
 import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
 
 export class DeviceBackupFakeAdapter implements DeviceBackupAdapter {
+  public backuping = false
+
   async downloadDeviceBackup(): Promise<DeviceResponse<DeviceFile>> {
     return {
       status: DeviceResponseStatus.Ok,
@@ -17,6 +19,15 @@ export class DeviceBackupFakeAdapter implements DeviceBackupAdapter {
         name: `<YYYY-MM-DD>T<HHMMSS>Z`,
         data: Buffer.from("backup data"),
       },
+    }
+  }
+
+  async downloadDeviceBackupLocally(
+    targetPath: string
+  ): Promise<DeviceResponse<string[]>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: [],
     }
   }
 }

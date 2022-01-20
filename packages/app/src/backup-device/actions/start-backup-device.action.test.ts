@@ -20,9 +20,9 @@ import writeFile from "Renderer/requests/write-file.request"
 import encryptFile from "App/file-system/requests/encrypt-file.request"
 import { testError } from "Renderer/store/constants"
 import { StartBackupDeviceError } from "App/backup-device/errors"
-import downloadDeviceBackupRequest from "App/backup-device/requests/download-device-backup.request"
+import { downloadDeviceBackupWithRetries } from "App/backup-device/helpers/download-device-backup-with-retries"
 
-jest.mock("App/backup-device/requests/download-device-backup.request")
+jest.mock("App/backup-device/helpers/download-device-backup-with-retries")
 jest.mock("Renderer/requests/write-file.request")
 jest.mock("App/file-system/requests/encrypt-file.request")
 jest.mock("App/backup/actions/load-backup-data.action", () => ({
@@ -53,8 +53,8 @@ afterEach(() => {
 
 describe("async `startBackupDevice` ", () => {
   describe("when each request is success", () => {
-    test("fire async `downloadDeviceBackupRequest` dispatch `loadBackupData` action", async () => {
-      ;(downloadDeviceBackupRequest as jest.Mock).mockReturnValue(
+    test("fire async `downloadDeviceBackupWithRetries` dispatch `loadBackupData` action", async () => {
+      ;(downloadDeviceBackupWithRetries as jest.Mock).mockReturnValue(
         successDownloadDeviceBackupResponse
       )
       ;(encryptFile as jest.Mock).mockReturnValue(encryptedBuffer)
@@ -79,7 +79,7 @@ describe("async `startBackupDevice` ", () => {
         startBackupDevice.fulfilled(undefined, requestId, option),
       ])
 
-      expect(downloadDeviceBackupRequest).toHaveBeenCalled()
+      expect(downloadDeviceBackupWithRetries).toHaveBeenCalled()
       expect(encryptFile).toHaveBeenCalled()
       expect(writeFile).toHaveBeenCalled()
     })
@@ -88,7 +88,7 @@ describe("async `startBackupDevice` ", () => {
   describe("when `startBackupDeviceRequest` return error", () => {
     test("fire async `startBackupDevice` returns `rejected` action", async () => {
       const errorMock = new StartBackupDeviceError("")
-      ;(downloadDeviceBackupRequest as jest.Mock).mockReturnValue({
+      ;(downloadDeviceBackupWithRetries as jest.Mock).mockReturnValue({
         status: DeviceResponseStatus.Error,
       })
       const mockStore = createMockStore([thunk])({
@@ -107,7 +107,7 @@ describe("async `startBackupDevice` ", () => {
         startBackupDevice.rejected(testError, requestId, option, errorMock),
       ])
 
-      expect(downloadDeviceBackupRequest).toHaveBeenCalled()
+      expect(downloadDeviceBackupWithRetries).toHaveBeenCalled()
       expect(encryptFile).not.toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
@@ -116,7 +116,7 @@ describe("async `startBackupDevice` ", () => {
   describe("when `encryptFile` return error", () => {
     test("fire async `startBackupDevice` returns `rejected` action", async () => {
       const errorMock = new StartBackupDeviceError("Encrypt buffer fails")
-      ;(downloadDeviceBackupRequest as jest.Mock).mockReturnValue(
+      ;(downloadDeviceBackupWithRetries as jest.Mock).mockReturnValue(
         successDownloadDeviceBackupResponse
       )
       ;(encryptFile as jest.Mock).mockReturnValue(undefined)
@@ -136,7 +136,7 @@ describe("async `startBackupDevice` ", () => {
         startBackupDevice.rejected(testError, requestId, option, errorMock),
       ])
 
-      expect(downloadDeviceBackupRequest).toHaveBeenCalled()
+      expect(downloadDeviceBackupWithRetries).toHaveBeenCalled()
       expect(encryptFile).toHaveBeenCalled()
       expect(writeFile).not.toHaveBeenCalled()
     })
@@ -147,7 +147,7 @@ describe("async `startBackupDevice` ", () => {
       const errorMock = new StartBackupDeviceError(
         "write file request returns error"
       )
-      ;(downloadDeviceBackupRequest as jest.Mock).mockReturnValue(
+      ;(downloadDeviceBackupWithRetries as jest.Mock).mockReturnValue(
         successDownloadDeviceBackupResponse
       )
       ;(encryptFile as jest.Mock).mockReturnValue(encryptedBuffer)
@@ -168,7 +168,7 @@ describe("async `startBackupDevice` ", () => {
         startBackupDevice.rejected(testError, requestId, option, errorMock),
       ])
 
-      expect(downloadDeviceBackupRequest).toHaveBeenCalled()
+      expect(downloadDeviceBackupWithRetries).toHaveBeenCalled()
       expect(encryptFile).toHaveBeenCalled()
       expect(writeFile).toHaveBeenCalled()
     })

@@ -23,7 +23,7 @@ import BaseApp from "Renderer/wrappers/base-app.component"
 import { Mode } from "Common/enums/mode.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
-import { QuestionAndAnswer } from "App/help/help.component"
+import { QuestionAndAnswer } from "App/help/components/help.component"
 import registerDeviceConnectedListener, {
   removeDeviceConnectedListener,
 } from "Renderer/listeners/register-device-connected.listener"
@@ -57,6 +57,7 @@ import {
   setConnectionStatus,
 } from "App/device"
 import { getCrashDump } from "App/crash-dump"
+import { updateAllIndexes } from "App/data-sync"
 
 interface Props {
   history: History
@@ -74,6 +75,7 @@ interface Props {
   loadDeviceData: (value: DeviceType) => void
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
+  updateAllIndexes: () => void
 }
 
 const RootWrapper: FunctionComponent<Props> = ({
@@ -92,6 +94,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   loadDeviceData,
   connectedAndUnlocked,
   deviceType,
+  updateAllIndexes,
 }) => {
   const params = new URLSearchParams(window.location.search)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
@@ -146,8 +149,14 @@ const RootWrapper: FunctionComponent<Props> = ({
   }, [])
 
   useEffect(() => {
+    let interval: NodeJS.Timeout
+
     if (connectedAndUnlocked) {
-      getCrashDump()
+      interval = setInterval(() => updateAllIndexes(), 60000)
+    }
+
+    return () => {
+      clearInterval(interval)
     }
   }, [connectedAndUnlocked])
 
@@ -261,6 +270,7 @@ const mapStateToProps = (state: ReduxRootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  updateAllIndexes: () => dispatch(updateAllIndexes()),
   loadDeviceData: (value: DeviceType) => dispatch(loadDeviceData(value)),
   connect: () => dispatch(getConnectedDevice()),
   setFalseConnectionStatus: () => dispatch(setConnectionStatus(false)),
