@@ -93,7 +93,6 @@ const defaultProps: Props = {
   language: "en",
   loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
   getReceiver: jest.fn().mockReturnValue(receiver),
-  loadContacts: jest.fn(),
   loadThreadsTotalCount: jest.fn(),
   getContactByPhoneNumber: jest.fn(),
   addNewMessage: jest.fn(),

@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ContactsEvent } from "App/contacts/constants"
 import { AddNewContactError } from "App/contacts/errors/add-new-contact.error"
-import { addNewContactToState } from "App/contacts/actions/base.action"
+import { addNewContactsToState } from "App/contacts/actions/base.action"
 import addContact from "Renderer/requests/add-contact.request"
 import { NewContact } from "App/contacts/reducers"
 
@@ -21,7 +21,7 @@ export const addNewContact = createAsyncThunk<Error | undefined, NewContact>(
       )
     }
 
-    dispatch(addNewContactToState(data))
+    dispatch(addNewContactsToState([data]))
 
     return
   }

@@ -85,7 +85,6 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
     pagination: PaginationBody
   ) => Promise<PayloadAction<PaginationBody | undefined>>
   loadThreadsTotalCount: () => Promise<void>
-  loadContacts: () => Promise<void>
   getMessagesByThreadId: (threadId: string) => Message[]
   getContact: (contactId: string) => Contact | undefined
   getReceiver: (phoneNumber: string) => Receiver
@@ -101,7 +100,6 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
 const Messages: FunctionComponent<Props> = ({
   loadThreads,
   loadThreadsTotalCount,
-  loadContacts,
   threadsTotalCount,
   threadsState,
   receivers,
@@ -153,7 +151,6 @@ const Messages: FunctionComponent<Props> = ({
 
   const fetchData = async () => {
     await loadThreadsTotalCount()
-    await loadContacts()
     await loadThreadsRequest()
   }
 

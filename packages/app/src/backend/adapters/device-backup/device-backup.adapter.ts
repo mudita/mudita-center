@@ -29,6 +29,15 @@ class DeviceBackup implements DeviceBackupAdapter {
   ) {}
 
   async downloadDeviceBackupLocally(targetPath: string): Promise<DeviceResponse<string[]>> {
+    if(this.backuping) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message: "Backup is in progress",
+        }
+      }
+    }
+
     this.backuping = true
     const runDeviceBackupResponse = await this.runDeviceBackup()
 
@@ -59,6 +68,15 @@ class DeviceBackup implements DeviceBackupAdapter {
   }
 
   async downloadDeviceBackup(): Promise<DeviceResponse<DeviceFile>> {
+    if(this.backuping) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message: "Backup is in progress",
+        }
+      }
+    }
+
     this.backuping = true
     const runDeviceBackupResponse = await this.runDeviceBackup()
 
@@ -157,7 +175,7 @@ class DeviceBackup implements DeviceBackupAdapter {
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(this.waitUntilBackupDeviceFinished(id))
-        }, 30000)
+        }, 1000)
       })
     }
   }

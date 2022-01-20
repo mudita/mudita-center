@@ -55,8 +55,8 @@ const duplicatedErrorDeviceResponse: DeviceResponse = {
   error: {
     message: "I'm error",
     data: {
-      id: 0
-    }
+      id: "0",
+    },
   },
 }
 
@@ -79,7 +79,11 @@ describe("async `importContact` ", () => {
 
       expect(mockStore.getActions()).toEqual([
         importContact.pending(requestId, newContact),
-        importContact.fulfilled(undefined, requestId, newContact),
+        importContact.fulfilled(
+          successDeviceResponse.data as Contact,
+          requestId,
+          newContact
+        ),
       ])
 
       expect(addContact).toHaveBeenCalled()
@@ -109,7 +113,6 @@ describe("async `importContact` ", () => {
   })
 
   describe("when `addContact` request return duplicated error", () => {
-    // TODO: to check that implementation is correct
     test("fire async `importContact` call `editContact` request", async () => {
       ;(addContact as jest.Mock).mockReturnValue(duplicatedErrorDeviceResponse)
       ;(editContact as jest.Mock).mockReturnValue(duplicatedErrorDeviceResponse)
@@ -124,7 +127,14 @@ describe("async `importContact` ", () => {
 
       expect(mockStore.getActions()).toEqual([
         importContact.pending(requestId, newContact),
-        importContact.fulfilled(undefined, requestId, newContact),
+        importContact.fulfilled(
+          {
+            ...newContact,
+            id: duplicatedErrorDeviceResponse.error!.data.id,
+          } as Contact,
+          requestId,
+          newContact
+        ),
       ])
 
       expect(addContact).toHaveBeenCalled()
