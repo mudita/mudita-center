@@ -14,6 +14,7 @@ import path from "path"
 import getAppPath from "App/main/utils/get-app-path"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { extract } from "App/data-sync/helpers"
+import { unlinkSync } from "App/file-system/listeners"
 
 const syncCatalogName = "sync"
 
@@ -54,6 +55,7 @@ export class DataSync implements DataSyncClass {
 
     try {
       await extract(data[0], { C: fileDir })
+      await unlinkSync(data[0])
     } catch {
       return
     }

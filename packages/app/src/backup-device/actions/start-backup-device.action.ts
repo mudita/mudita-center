@@ -10,8 +10,8 @@ import { StartBackupDeviceError } from "App/backup-device/errors"
 import writeFile from "Renderer/requests/write-file.request"
 import { ReduxRootState, RootState } from "Renderer/store"
 import { loadBackupData } from "App/backup/actions"
-import downloadDeviceBackupRequest from "App/backup-device/requests/download-device-backup.request"
 import encryptFile from "App/file-system/requests/encrypt-file.request"
+import { downloadDeviceBackupWithRetries } from "App/backup-device/helpers/download-device-backup-with-retries"
 
 export interface StartBackupOption {
   secretKey: string
@@ -34,7 +34,7 @@ export const startBackupDevice = createAsyncThunk<undefined, StartBackupOption>(
       )
     }
 
-    const downloadDeviceBackupResponse = await downloadDeviceBackupRequest()
+    const downloadDeviceBackupResponse = await downloadDeviceBackupWithRetries()
 
     if (!isResponsesSuccessWithData([downloadDeviceBackupResponse])) {
       return rejectWithValue(
