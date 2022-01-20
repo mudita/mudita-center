@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DataSyncEvent, DataIndex } from "App/data-sync/constants"
 import { getIndexRequest, indexAllRequest } from "App/data-sync/requests"
-import { ContactObject } from "App/data-sync/types"
+import { ContactObject, MessageObject } from "App/data-sync/types"
 import { AllIndexes } from "App/data-sync/types/all-indexes.type"
 import { UpdateAllIndexesError } from "App/data-sync/errors"
 
@@ -15,8 +15,9 @@ export const updateAllIndexes = createAsyncThunk<AllIndexes, void>(
   async (_, { rejectWithValue }) => {
     await indexAllRequest()
     const contacts = await getIndexRequest<ContactObject>(DataIndex.Contact)
+    const messages = await getIndexRequest<MessageObject>(DataIndex.Message)
 
-    if (contacts === undefined) {
+    if (contacts === undefined || messages === undefined) {
       return rejectWithValue(
         new UpdateAllIndexesError("Update All Indexes fails")
       )
@@ -24,6 +25,7 @@ export const updateAllIndexes = createAsyncThunk<AllIndexes, void>(
 
     return {
       contacts: contacts.documentStore.docs,
+      messages: messages.documentStore.docs,
     }
   }
 )

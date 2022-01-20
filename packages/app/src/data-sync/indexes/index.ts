@@ -4,3 +4,4 @@
  */
 
 export * from "./contact.indexer"
+export * from "./message.indexer"

@@ -36,7 +36,7 @@ export class ContactIndexer extends BaseIndexer {
 
     index.setRef("id")
     index.addField("firstName")
-    index.addField("firstName")
+    index.addField("lastName")
     index.addField("primaryPhoneNumber")
     index.addField("secondaryPhoneNumber")
     index.addField("firstAddressLine")
