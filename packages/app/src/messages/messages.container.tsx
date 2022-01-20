@@ -40,7 +40,6 @@ import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is
 import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
-import { loadContacts } from "App/contacts/actions/load-contacts.action"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,
@@ -79,8 +78,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   loadMessagesByThreadId: (body: GetMessagesBody) =>
     dispatch(loadMessagesById(body)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
-    dispatch(addNewMessage(newMessage)),
-  loadContacts: () => dispatch(loadContacts()),
+    dispatch(addNewMessage(newMessage))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

@@ -14,7 +14,7 @@ import { testError } from "Renderer/store/constants"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import { addNewContact } from "App/contacts/actions/add-new-contact.action"
+import { addNewContact } from "App/contacts/actions/add-new-contacts.action"
 
 jest.mock("Renderer/requests/add-contact.request")
 
@@ -69,8 +69,8 @@ describe("async `addNewContact` ", () => {
       expect(mockStore.getActions()).toEqual([
         addNewContact.pending(requestId, newContact),
         {
-          type: ContactsEvent.AddNewContactToState,
-          payload: contact,
+          type: ContactsEvent.AddNewContactsToState,
+          payload: [contact],
         },
         addNewContact.fulfilled(undefined, requestId, newContact),
       ])

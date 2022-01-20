@@ -159,7 +159,6 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         loadThreads={loadData}
         threadsState={ResultState.Loaded}
         threadsTotalCount={rowThreads.length}
-        loadContacts={jest.fn()}
         loadThreadsTotalCount={jest.fn()}
       />
     </div>

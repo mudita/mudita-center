@@ -92,7 +92,7 @@ export const contactDatabaseFactory = (
         const key = contact.id
 
         return {
-          collection: [...acc.collection, key],
+          collection: [...new Set([...acc.collection, key])],
           db: {
             ...acc.db,
             [key]: contact,
@@ -124,7 +124,7 @@ export const addContacts = (
         ...state.db,
         ...db,
       },
-      collection: [...state.collection, ...collection],
+      collection: [...new Set([...state.collection, ...collection])],
     }
   }
 
