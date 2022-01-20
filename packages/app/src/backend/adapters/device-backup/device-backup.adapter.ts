@@ -157,7 +157,7 @@ class DeviceBackup implements DeviceBackupAdapter {
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(this.waitUntilBackupDeviceFinished(id))
-        }, 30000)
+        }, 1000)
       })
     }
   }
