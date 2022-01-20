@@ -67,7 +67,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
   }
 
   const handleSendClick = (): void => {
-    if (searchValue.match(phoneNumberRegexp)) {
+    if (searchValue.match(phoneNumberRegexp) && searchValue.length > 0) {
       onSendClick(searchValue)
     }
   }
