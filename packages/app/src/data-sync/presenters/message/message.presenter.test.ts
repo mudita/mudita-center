@@ -28,7 +28,7 @@ describe("`MessagePresenter`", () => {
         columns: [
           "_id",
           "contact_id",
-          "data",
+          "date",
           "last_dir",
           "msg_count",
           "number_id",
@@ -44,8 +44,8 @@ describe("`MessagePresenter`", () => {
     }
 
     const presenter = new MessagePresenter()
-    const contactObjects = presenter.serializeToObject(messageInput)
-    expect(contactObjects).toMatchInlineSnapshot(`
+    const messageObjects = presenter.serializeToObject(messageInput)
+    expect(messageObjects).toMatchInlineSnapshot(`
       Array [
         Object {
           "content": "Test Message #1",
