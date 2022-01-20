@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { QuestionAndAnswer } from "App/help/help.component"
+import { QuestionAndAnswer } from "App/help/components/help.component"
 import { RouteComponentProps } from "react-router"
-import AnswerUI from "Renderer/components/rest/help/answer-ui.component"
+import Answer from "App/help/components/answer/answer.component"
 import React from "react"
 
 export const renderAnswer = (
   data: QuestionAndAnswer,
   props: RouteComponentProps<{ questionId: string }>
-) => <AnswerUI list={data} {...props} />
+) => <Answer list={data} {...props} />
