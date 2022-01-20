@@ -131,7 +131,7 @@ const defaultProps: Props = {
   deleteContacts: jest.fn(),
   editContact: jest.fn(),
   loadContacts: jest.fn(),
-  loadData: jest.fn(),
+  addNewContactsToState: jest.fn(),
   isThreadOpened: jest.fn(),
   onBlock: jest.fn(),
   onCall: jest.fn(),

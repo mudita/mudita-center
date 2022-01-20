@@ -5,13 +5,12 @@
 
 export enum ContactsEvent {
   DevClearAllContacts = "CONTACTS_DEV_CLEAR_ALL_CONTACTS",
-  LoadContacts = "CONTACTS_LOAD_CONTACTS",
   SetContacts = "CONTACTS_SET_CONTACTS",
   Authorize = "CONTACTS_AUTHORIZE",
   AddNewContact = "CONTACTS_ADD_NEW_CONTACT",
   ImportContact = "CONTACTS_IMPORT_CONTACT",
   DeleteContacts = "CONTACTS_DELETE_CONTACTS",
-  AddNewContactToState = "CONTACTS_ADD_NEW_CONTACT_TO_STATE",
+  AddNewContactsToState = "CONTACTS_ADD_NEW_CONTACTS_TO_STATE",
   EditContact = "CONTACTS_EDIT_CONTACT",
   EditContactInState = "CONTACTS_EDIT_CONTACT_IN_STATE",
   DeleteContactsInState = "CONTACTS_DELETE_CONTACTS_IN_STATE",

@@ -6,7 +6,6 @@
 import { createReducer } from "@reduxjs/toolkit"
 import {
   fulfilledAction,
-  pendingAction,
   rejectedAction,
 } from "Renderer/store/helpers"
 import {
@@ -14,7 +13,6 @@ import {
   ContactsState,
   DeleteContactsInStateAction,
   EditContactInStateAction,
-  LoadContactsRejectAction,
   ResultState,
   SetContactsAction,
 } from "App/contacts/reducers/contacts.interface"
@@ -25,11 +23,13 @@ import {
   editContact,
   removeContact,
 } from "App/contacts/helpers/contacts.helpers"
+import { DataSyncEvent, UpdateAllIndexesRejectAction } from "App/data-sync"
+import { UpdateAllIndexesAction } from "App/data-sync/reducers/data-sync.interface"
 
 export const initialState: ContactsState = {
   db: {},
   collection: [],
-  resultState: ResultState.Empty,
+  resultState: ResultState.Loading,
   error: null,
 }
 
@@ -37,22 +37,25 @@ export const contactsReducer = createReducer<ContactsState>(
   initialState,
   (builder) => {
     builder
-      .addCase(pendingAction(ContactsEvent.LoadContacts), (state) => {
-        return {
-          ...state,
-          resultState: ResultState.Loading,
-        }
-      })
-      .addCase(fulfilledAction(ContactsEvent.LoadContacts), (state) => {
-        return {
-          ...state,
-          resultState: ResultState.Loaded,
-          error: null,
-        }
-      })
       .addCase(
-        rejectedAction(ContactsEvent.LoadContacts),
-        (state, action: LoadContactsRejectAction) => {
+        fulfilledAction(DataSyncEvent.UpdateAllIndexes),
+        (state, action: UpdateAllIndexesAction) => {
+          const contacts = Object.keys(action.payload.contacts).map(
+            (key) => action.payload.contacts[key]
+          )
+
+          return {
+            ...state,
+            ...contactDatabaseFactory(contacts),
+            resultState: ResultState.Loaded,
+            error: null,
+          }
+        }
+      )
+      .addCase(
+        rejectedAction(DataSyncEvent.UpdateAllIndexes),
+        (state, action: UpdateAllIndexesRejectAction) => {
+
           return {
             ...state,
             resultState: ResultState.Error,
@@ -72,7 +75,7 @@ export const contactsReducer = createReducer<ContactsState>(
       )
 
       .addCase(
-        ContactsEvent.AddNewContactToState,
+        ContactsEvent.AddNewContactsToState,
         (state, action: AddNewContactToStateAction) => {
           return { ...state, ...addContacts(state, action.payload) }
         }

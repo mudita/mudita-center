@@ -57,6 +57,7 @@ import {
   ContactCategory,
   NewContact,
 } from "App/contacts/reducers/contacts.interface"
+import { isError } from "Common/helpers/is-error.helpers"
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -111,10 +112,10 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     editContact,
     deleteContacts,
     authorize,
-    loadData,
     onCall,
     onMessage,
     onExport,
+    addNewContactsToState
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -486,15 +487,24 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         const currentContactIndex = index + 1
         setAddedContactsCount(currentContactIndex)
 
-        return [...value, { ...contact, successfullyAdded: !payload }]
+        if(isError(payload)){
+          return [...value, { ...contact, successfullyAdded: false  }]
+        } else {
+          return [...value, { ...payload  }]
+        }
       },
-      Promise.resolve<NewContactResponse[]>([])
+      Promise.resolve<(NewContactResponse | Contact)[]>([])
     )
-    loadData()
 
     const failedNewContacts: NewContact[] = newContactResponses.filter(
-      ({ successfullyAdded }) => !successfullyAdded
+      (contact): contact is NewContactResponse => "successfullyAdded" in contact
     )
+
+    const successNewContacts: Contact[] = newContactResponses.filter(
+      (contact): contact is Contact  => !("successfullyAdded" in contact)
+    )
+
+    await addNewContactsToState(successNewContacts)
 
     const successfulItemsCount = contacts.length - failedNewContacts.length
     if (successfulItemsCount === contacts.length) {

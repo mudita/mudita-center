@@ -14,42 +14,53 @@ import {
   ContactID,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
-import {
-  fulfilledAction,
-  pendingAction,
-  rejectedAction,
-} from "Renderer/store/helpers"
-import { LoadContactsError } from "App/contacts/errors"
+import { fulfilledAction, rejectedAction } from "Renderer/store/helpers"
+import { DataSyncEvent } from "App/data-sync"
+import { UpdateAllIndexesError } from "App/data-sync/errors"
 
-describe("Load Contacts data functionality", () => {
-  test("Event: LoadContacts/pending change `resultState` to Loading", () => {
+describe("UpdateAllIndexes data functionality", () => {
+  test("Event: UpdateAllIndexes/fulfilled change `resultState` to Loaded", () => {
     expect(
       contactsReducer(undefined, {
-        type: pendingAction(ContactsEvent.LoadContacts),
+        type: fulfilledAction(DataSyncEvent.UpdateAllIndexes),
+        payload: {
+          contacts: {
+            "4": {
+              email: "",
+              firstAddressLine: "",
+              firstName: "Theron",
+              id: "4",
+              lastName: "Paucek",
+              note: "",
+              primaryPhoneNumber: "+91898402777",
+              secondAddressLine: "Kochmouth",
+              secondaryPhoneNumber: "",
+            },
+          },
+        },
       })
     ).toEqual({
       ...initialState,
-      resultState: ResultState.Loading,
-    })
-  })
-
-  test("Event: LoadContacts/fulfilled change `resultState` to Loaded", () => {
-    expect(
-      contactsReducer(undefined, {
-        type: fulfilledAction(ContactsEvent.LoadContacts),
-      })
-    ).toEqual({
-      ...initialState,
+      collection: ["4"],
+      db: {
+        "4": {
+          firstName: "Theron",
+          id: "4",
+          lastName: "Paucek",
+          primaryPhoneNumber: "+91898402777",
+          secondAddressLine: "Kochmouth",
+        },
+      },
       resultState: ResultState.Loaded,
     })
   })
 
-  test("Event: LoadContacts/rejected change `resultState` to Error", () => {
-    const errorMock = new LoadContactsError("I'm error")
+  test("Event: UpdateAllIndexes/rejected change `resultState` to Error", () => {
+    const errorMock = new UpdateAllIndexesError("I'm error")
 
     expect(
       contactsReducer(undefined, {
-        type: rejectedAction(ContactsEvent.LoadContacts),
+        type: rejectedAction(DataSyncEvent.UpdateAllIndexes),
         payload: errorMock,
       })
     ).toEqual({
@@ -118,7 +129,7 @@ describe("AddNewContactToState data functionality", () => {
 
   test("Event: AddNewContactToState set properly collection and db fields", () => {
     const addNewContactToStateAction: PayloadAction<Contact> = {
-      type: ContactsEvent.AddNewContactToState,
+      type: ContactsEvent.AddNewContactsToState,
       payload: contact,
     }
 

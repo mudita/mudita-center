@@ -11,18 +11,19 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import editContact from "Renderer/requests/edit-contact.request"
 import { ImportContactError } from "App/contacts/errors/import-contact.error"
 
-export const importContact = createAsyncThunk<Error | undefined, NewContact>(
+export const importContact = createAsyncThunk<Error | Contact, NewContact>(
   ContactsEvent.ImportContact,
-  async (newContact, { dispatch, rejectWithValue }) => {
+  async (newContact, { rejectWithValue }) => {
     const { data, error, status } = await addContact(newContact)
 
     // Skipping 409 (Conflict) status code for preventing displaying error about duplicated
     if (status === DeviceResponseStatus.Duplicated) {
-      await editContact({
+      const contact = {
         ...newContact,
-        id: error!.data.id,
-      } as Contact)
-      return
+        id: String(error!.data.id),
+      } as Contact
+      const response = await editContact(contact)
+      return response.data ?? contact
     }
 
     if (error || !data) {
@@ -31,6 +32,6 @@ export const importContact = createAsyncThunk<Error | undefined, NewContact>(
       )
     }
 
-    return
+    return data
   }
 )
