@@ -151,18 +151,6 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     let interval: NodeJS.Timeout
 
-    if (connectedAndUnlocked) {
-      interval = setInterval(() => updateAllIndexes(), 60000)
-    }
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [connectedAndUnlocked])
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout
-
     if (deviceType && connectedAndUnlocked) {
       interval = setInterval(() => loadDeviceData(deviceType), 60000)
     }
