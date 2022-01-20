@@ -20,6 +20,13 @@ export const dataSyncReducer = createReducer<DataSyncState>(
   initialState,
   (builder) => {
     builder
+      .addCase((DataSyncEvent.SetDataSyncInitialized), (state) => {
+        return {
+          ...state,
+          initialized: true,
+          error: null,
+        }
+      })
       .addCase(pendingAction(DataSyncEvent.UpdateAllIndexes), (state) => {
         return {
           ...state,
