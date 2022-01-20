@@ -129,7 +129,7 @@ describe("AddNewContactToState data functionality", () => {
 
   test("Event: AddNewContactToState set properly collection and db fields", () => {
     const addNewContactToStateAction: PayloadAction<Contact> = {
-      type: ContactsEvent.AddNewContactToState,
+      type: ContactsEvent.AddNewContactsToState,
       payload: contact,
     }
 

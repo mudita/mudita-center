@@ -29,9 +29,10 @@ import {
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 import { ContactErrorResponse } from "App/contacts/components/contacts/contacts.type"
 import { isThreadOpenedSelector } from "App/messages/selectors"
-import { addNewContact } from "App/contacts/actions/add-new-contact.action"
+import { addNewContact } from "App/contacts/actions/add-new-contacts.action"
 import { deleteContacts } from "App/contacts/actions/delete-contacts.action"
 import { importContact } from "App/contacts/actions/import-contact.action"
+import { addNewContactsToState } from "App/contacts/actions/base.action"
 import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
 import { speedDialChosenListSelector } from "App/contacts/selectors/speed-dial-chosen-list.selector"
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
@@ -91,8 +92,9 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
     authorize: async (
       provider: ExternalProvider
     ): Promise<string | undefined> => dispatch(authorize(provider)),
-    // loadData: async (): Promise<void> => dispatch(loadContacts()),
-    loadData: async (): Promise<void> => {},
+    addNewContactsToState: async (
+      contacts: Contact[]
+    ): Promise<void> => dispatch(addNewContactsToState(contacts)),
 
     // TODO: Add proper actions
     onForward: noop,

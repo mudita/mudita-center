@@ -16,7 +16,7 @@ export type ContactFactorySignature<T = Contact | null> = (...args: any[]) => T
 export type NewContact = Omit<Contact, "id">
 export type ContactsState = PhoneContacts &
   Pick<StoreData, "resultState"> & { error: Error | string | null }
-export type Store = StoreEffects & StoreData & StoreSelectors
+export type Store = StoreData & StoreSelectors
 
 export interface BaseContactModel {
   id: ContactID
@@ -90,18 +90,14 @@ export interface StoreSelectors extends Contacts {
   speedDialContacts: Contact[]
 }
 
-export interface StoreEffects {
-  readonly loadData: () => Promise<void>
-}
-
 export type SetContactsAction = PayloadAction<
   Contact[],
   ContactsEvent.SetContacts
 >
 
 export type AddNewContactToStateAction = PayloadAction<
-  Contact,
-  ContactsEvent.AddNewContactToState
+  Contact[],
+  ContactsEvent.AddNewContactsToState
 >
 
 export type EditContactInStateAction = PayloadAction<

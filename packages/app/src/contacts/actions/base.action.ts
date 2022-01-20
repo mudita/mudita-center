@@ -9,8 +9,8 @@ import { Contact, ContactID } from "App/contacts/reducers"
 
 export const setContacts = createAction<Contact[]>(ContactsEvent.SetContacts)
 
-export const addNewContactToState = createAction<Contact>(
-  ContactsEvent.AddNewContactToState
+export const addNewContactsToState = createAction<Contact[]>(
+  ContactsEvent.AddNewContactsToState
 )
 
 export const editContactInState = createAction<Contact>(

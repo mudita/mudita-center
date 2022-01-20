@@ -75,7 +75,7 @@ export const contactsReducer = createReducer<ContactsState>(
       )
 
       .addCase(
-        ContactsEvent.AddNewContactToState,
+        ContactsEvent.AddNewContactsToState,
         (state, action: AddNewContactToStateAction) => {
           return { ...state, ...addContacts(state, action.payload) }
         }

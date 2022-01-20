@@ -50,12 +50,13 @@ export type PhoneProps = ContactActions &
     ) => Promise<PayloadAction<Error | undefined>>
     importContact: (
       contact: NewContact
-    ) => Promise<PayloadAction<Error | undefined>>
+    ) => Promise<PayloadAction<Error | Contact>>
     editContact: (contact: Contact) => Promise<PayloadAction<Error | undefined>>
     deleteContacts: (
       ids: ContactID[]
     ) => Promise<PayloadAction<Error | undefined>>
     loadContacts: (provider: Provider) => Promise<Contact[]>
+    addNewContactsToState: (contacts: Contact[]) => Promise<void>
   } & Store
 
 export interface NewContactResponse extends NewContact {
