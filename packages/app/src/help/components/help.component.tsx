@@ -5,7 +5,7 @@
 
 import React, { ChangeEvent } from "react"
 import { Link } from "react-router-dom"
-import { HelpComponentTestIds } from "App/help/help.enum"
+import { HelpComponentTestIds } from "App/help/components/help.enum"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,

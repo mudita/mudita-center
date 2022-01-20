@@ -14,8 +14,8 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { Route, RouteComponentProps, Router } from "react-router"
 import React from "react"
 import { createMemoryHistory, MemoryHistory } from "history"
-import { AnswerUiTestIds } from "Renderer/components/rest/help/answer-ui-test-ids.enum"
-import { renderAnswer } from "App/help/render-utils"
+import { AnswerUiTestIds } from "App/help/components/answer/answer-test-ids.enum"
+import { renderAnswer } from "App/help/helpers/render-answer"
 import { URL_MAIN } from "Renderer/constants/urls"
 
 const renderWithRouterMatch = ({
