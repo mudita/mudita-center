@@ -4,8 +4,16 @@
  */
 
 import { Index } from "elasticlunr"
-import { ContactIndexer, MessageIndexer } from "App/data-sync/indexes"
-import { ContactPresenter, MessagePresenter } from "App/data-sync/presenters"
+import {
+  ContactIndexer,
+  MessageIndexer,
+  ThreadIndexer,
+} from "App/data-sync/indexes"
+import {
+  ContactPresenter,
+  MessagePresenter,
+  ThreadPresenter,
+} from "App/data-sync/presenters"
 import { DataIndex } from "App/data-sync/constants"
 import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
 import DeviceService from "Backend/device-service"
@@ -20,6 +28,7 @@ const syncCatalogName = "sync"
 export class DataSync implements DataSyncClass {
   private contactIndexer: ContactIndexer | null = null
   private messageIndexer: MessageIndexer | null = null
+  private threadIndexer: ThreadIndexer | null = null
   public indexesMap: Map<DataIndex, Index<any>> = new Map()
 
   constructor(
@@ -30,6 +39,7 @@ export class DataSync implements DataSyncClass {
   initialize(): void {
     this.contactIndexer = new ContactIndexer(new ContactPresenter())
     this.messageIndexer = new MessageIndexer(new MessagePresenter())
+    this.threadIndexer = new ThreadIndexer(new ThreadPresenter())
   }
 
   async indexAll(): Promise<void> {
@@ -41,7 +51,7 @@ export class DataSync implements DataSyncClass {
       return
     }
 
-    if (!this.contactIndexer || !this.messageIndexer) {
+    if (!this.contactIndexer || !this.messageIndexer || !this.threadIndexer) {
       return
     }
 
@@ -62,8 +72,10 @@ export class DataSync implements DataSyncClass {
 
     const contactIndex = await this.contactIndexer.index(fileDir)
     const messageIndex = await this.messageIndexer.index(fileDir)
+    const threadIndex = await this.threadIndexer.index(fileDir)
 
     this.indexesMap.set(DataIndex.Contact, contactIndex)
     this.indexesMap.set(DataIndex.Message, messageIndex)
+    this.indexesMap.set(DataIndex.Thread, threadIndex)
   }
 }

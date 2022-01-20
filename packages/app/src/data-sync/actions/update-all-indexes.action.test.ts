@@ -41,7 +41,7 @@ describe("async `updateAllIndexes` ", () => {
       expect(mockStore.getActions()).toEqual([
         updateAllIndexes.pending(requestId),
         updateAllIndexes.fulfilled(
-          { contacts: {}, messages: {} },
+          { contacts: {}, messages: {}, threads: {} },
           requestId,
           undefined
         ),
