@@ -13,6 +13,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
+import { displaySpace } from "App/files-manager/helpers/display-space"
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,7 +44,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
   color,
   filesAmount,
   filesType,
-  occupiedMemory,
+  occupiedMemory = 0,
   icon,
 }) => {
   return (
@@ -59,8 +60,8 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
         </Text>
         <Text displayStyle={TextDisplayStyle.MediumFadedText} element={"p"}>
           {filesAmount
-            ? `${filesAmount} files (${occupiedMemory} MB)`
-            : `(${occupiedMemory} MB)`}
+            ? `${filesAmount} files (${displaySpace(occupiedMemory)})`
+            : `(${displaySpace(occupiedMemory)})`}
         </Text>
       </TextWrapper>
     </Wrapper>

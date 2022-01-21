@@ -26,6 +26,7 @@ import StackedBarChart, {
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { defineMessages } from "react-intl"
 import { filesSummaryElements } from "App/files-manager/constants"
+import { displaySpace } from "App/files-manager/helpers/display-space"
 
 const FilesSummaryWrapper = styled.div`
   display: flex;
@@ -96,10 +97,10 @@ const FilesSummary: FunctionComponent<Props> = ({ memorySpace }) => {
       />
       <StatsContainer>
         <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-          {`${systemMemory} MB (${fullMemoryPercent}%)`}
+          {`${displaySpace(systemMemory)} (${fullMemoryPercent}%)`}
         </Text>
         <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-          {`${full} MB`}
+          {displaySpace(full)}
         </Text>
       </StatsContainer>
     </FilesSummaryContainer>
