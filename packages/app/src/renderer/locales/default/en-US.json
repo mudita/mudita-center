@@ -64,7 +64,7 @@
   "component.filesManagerSummaryTitle": "All files summary",
   "component.formErrorInvalidEmail": "Email is invalid",
   "component.formErrorNameIsTooBig": "File <i>{name}</i> is too big. Maximum file size allowed is {size}.",
-  "component.formErrorNumbersAndSpacesOnly": "May contain only numbers, spaces and + sign",
+  "component.formErrorNumbersAndSpacesOnly": "May contain only numbers, spaces and +.-#() signs",
   "component.formErrorNumbersOnly": "May contain only numbers and + sign",
   "component.formErrorNumberUnique": "The phone number must be unique",
   "component.formErrorRequiredEmail": "Email is required",
