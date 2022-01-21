@@ -139,6 +139,7 @@ export const messagesReducer = createReducer<MessagesState>(
         MessagesEvent.SetMessages,
         (state, action: SetMessagesAction) => {
           const messages = action.payload
+
           return {
             ...state,
             messageMap: messages.reduce(
@@ -146,7 +147,7 @@ export const messagesReducer = createReducer<MessagesState>(
                 prevMessageMap[message.id] = message
                 return prevMessageMap
               },
-              {}
+              { ...state.messageMap }
             ),
             messageIdsInThreadMap: messages.reduce(
               (prev: MessageIdsInThreadMap, message) => {
@@ -159,7 +160,7 @@ export const messagesReducer = createReducer<MessagesState>(
 
                 return prev
               },
-              {}
+              { ...state.messageIdsInThreadMap }
             ),
           }
         }

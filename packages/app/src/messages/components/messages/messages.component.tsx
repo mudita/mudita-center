@@ -408,7 +408,6 @@ const Messages: FunctionComponent<Props> = ({
       if (startIndex > threads.length || threadsState === ResultState.Loading) {
         return resolve()
       }
-      // loadThreadsRequest()
       return resolve()
     })
   }
