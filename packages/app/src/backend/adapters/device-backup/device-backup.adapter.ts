@@ -4,20 +4,14 @@
  */
 
 import path from "path"
-import {
-  GetBackupDeviceStatusDataState,
-  GetBackupDeviceStatusResponseBody,
-} from "@mudita/pure"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
+import { GetBackupDeviceStatusDataState, GetBackupDeviceStatusResponseBody } from "@mudita/pure"
+import DeviceResponse, { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { isResponsesSuccessWithData } from "Renderer/utils/is-responses-success-with-data.helpers"
 import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
-import DeviceFileSystemAdapter, {
-  DeviceFile,
-} from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import DeviceFileSystemAdapter, { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
+import logger from "App/main/utils/logger"
 
 class DeviceBackup implements DeviceBackupAdapter {
   public backuping = false
@@ -60,6 +54,13 @@ class DeviceBackup implements DeviceBackupAdapter {
           message: "Download backup fails",
         },
       }
+    }
+
+    // TODO: Moved removing backup logic to OS
+    const removeDeviceFileResponse = await this.deviceFileSystem.removeDeviceFile(filePath)
+
+    if(removeDeviceFileResponse.status !== DeviceResponseStatus.Ok){
+      logger.info("Removing device file during backuping locally fails")
     }
 
     this.backuping = false
