@@ -4,16 +4,16 @@
  */
 
 import { combineReducers } from "redux"
-import { deviceReducer } from "App/device"
-import { crashDumpReducer } from "App/crash-dump"
-import { backupReducer } from "App/backup"
-import { backupDeviceReducer } from "App/backup-device"
-import { restoreDeviceReducer } from "App/restore-device"
-import { messagesReducer } from "App/messages"
-import { modalsManagerReducer } from "App/modals-manager"
-import { contactSupportReducer } from "App/contact-support"
-import { contactsReducer } from "App/contacts"
-import { dataSyncReducer } from "App/data-sync"
+import { deviceReducer } from "App/device/reducers"
+import { crashDumpReducer } from "App/crash-dump/reducers"
+import { backupReducer } from "App/backup/reducers"
+import { backupDeviceReducer } from "App/backup-device/reducers"
+import { restoreDeviceReducer } from "App/restore-device/reducers"
+import { messagesReducer } from "App/messages/reducers"
+import { modalsManagerReducer } from "App/modals-manager/reducers"
+import { contactSupportReducer } from "App/contact-support/reducers"
+import { contactsReducer } from "App/contacts/reducers"
+import { dataSyncReducer } from "App/data-sync/reducers"
 
 export const reducers = {
   device: deviceReducer,

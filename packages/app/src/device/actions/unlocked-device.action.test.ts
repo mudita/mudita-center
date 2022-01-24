@@ -9,7 +9,6 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "Renderer/store/helpers/action.helper"
 import { DeviceEvent } from "App/device/constants"
-import { DataSyncEvent } from "App/data-sync/constants"
 import { testError } from "App/renderer/store/constants"
 import { unlockedDevice } from "App/device/actions/unlocked-device.action"
 import { DeviceConnectionError } from "App/device/errors"
@@ -25,13 +24,6 @@ jest.mock("App/device/actions/load-device-data.action", () => ({
   loadDeviceData: jest.fn().mockReturnValue({
     type: pendingAction(DeviceEvent.Loading),
     payload: DeviceType.MuditaPure,
-  }),
-}))
-
-jest.mock("App/data-sync/actions/update-all-indexes.action", () => ({
-  updateAllIndexes: jest.fn().mockReturnValue({
-    type: pendingAction(DataSyncEvent.UpdateAllIndexes),
-    payload: undefined,
   }),
 }))
 
@@ -81,10 +73,6 @@ test("fire async `unlockedDevice` call `updateAllIndexes` action if `initialized
 
   expect(mockStore.getActions()).toEqual([
     unlockedDevice.pending(requestId),
-    {
-      type: pendingAction(DataSyncEvent.UpdateAllIndexes),
-      payload: undefined,
-    },
     {
       type: pendingAction(DeviceEvent.Loading),
       payload: DeviceType.MuditaPure,

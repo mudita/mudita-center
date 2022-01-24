@@ -20,7 +20,7 @@ jest.mock("Backend/adapters/device-backup/device-backup-fake.adapter")
 jest.mock("Backend/device-service")
 jest.mock("App/data-sync/indexes")
 jest.mock("App/main/utils/get-app-path")
-// jest.mock('fs');
+jest.mock("App/file-system/listeners/unlink-file.listener")
 jest.mock('App/data-sync/helpers');
 
 const errorGetBackupLocationResponse: DeviceResponse<string[]> = {
