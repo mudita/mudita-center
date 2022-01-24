@@ -5,8 +5,6 @@
 
 export enum MessageTable {
   Sms = "sms",
-  Templates = "templates",
   Threads = "threads",
-  ThreadsCount = "threads_count",
   Numbers = "contact_number",
 }

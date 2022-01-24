@@ -32,36 +32,38 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
 
   return (
     <MessageBubblesWrapper>
-      {messages.map(({ messageType, date, content, id }, index) => {
-        const interlocutor = messageType === MessageType.INBOX
-        const user = interlocutor && receiver ? receiver : {}
-        const prevMessage = messages[index - 1]
-        const displayAvatar = prevMessage
-          ? prevMessage.messageType !== messageType
-          : true
-        const previousDateIsSame = prevMessage
-          ? moment(prevMessage.date).isSame(date, "day")
-          : false
-        const messageDayBubble: ComponentProps<typeof MessageDayBubble> = {
-          user,
-          id,
-          date,
-          interlocutor,
-          displayAvatar,
-          displayDate: previousDateIsSame,
-          message: content,
-        }
+      {messages
+        .slice(0, 100)
+        .map(({ messageType, date, content, id }, index) => {
+          const interlocutor = messageType === MessageType.INBOX
+          const user = interlocutor && receiver ? receiver : {}
+          const prevMessage = messages[index - 1]
+          const displayAvatar = prevMessage
+            ? prevMessage.messageType !== messageType
+            : true
+          const previousDateIsSame = prevMessage
+            ? moment(prevMessage.date).isSame(date, "day")
+            : false
+          const messageDayBubble: ComponentProps<typeof MessageDayBubble> = {
+            user,
+            id,
+            date,
+            interlocutor,
+            displayAvatar,
+            displayDate: previousDateIsSame,
+            message: content,
+          }
 
-        if (index === messages.length - 1) {
-          return (
-            <div ref={ref} key={id}>
-              <MessageDayBubble {...messageDayBubble} />
-            </div>
-          )
-        } else {
-          return <MessageDayBubble key={id} {...messageDayBubble} />
-        }
-      })}
+          if (index === messages.length - 1) {
+            return (
+              <div ref={ref} key={id}>
+                <MessageDayBubble {...messageDayBubble} />
+              </div>
+            )
+          } else {
+            return <MessageDayBubble key={id} {...messageDayBubble} />
+          }
+        })}
     </MessageBubblesWrapper>
   )
 }

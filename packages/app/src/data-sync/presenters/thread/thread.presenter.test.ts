@@ -34,10 +34,10 @@ describe("`ThreadPresenter`", () => {
       Array [
         Object {
           "id": "1",
-          "lastUpdatedAt": 0391-01-01T00:00:00.000Z,
+          "lastUpdatedAt": 1970-01-01T00:06:31.000Z,
           "messageSnippet": "Test",
           "phoneNumber": "+91898402777",
-          "unread": false,
+          "unread": true,
         },
       ]
     `)

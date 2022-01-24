@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export * from "./all-indexes.type"
 export * from "./contact-object.type"
 export * from "./message-object.type"
 export * from "./thread-object.type"

@@ -18,9 +18,9 @@ describe("`MessageIndexer`", () => {
     expect(index.documentStore.getDoc(1)).toMatchInlineSnapshot(`
       Object {
         "content": "Test",
-        "date": 0391-01-01T00:00:00.000Z,
+        "date": 1970-01-01T00:06:31.000Z,
         "id": "1",
-        "messageType": "OUTBOX",
+        "messageType": "INBOX",
         "phoneNumber": "123123123",
         "threadId": "1",
       }

@@ -18,10 +18,10 @@ describe("`ThreadIndexer`", () => {
     expect(index.documentStore.getDoc(1)).toMatchInlineSnapshot(`
       Object {
         "id": "1",
-        "lastUpdatedAt": 0391-01-01T00:00:00.000Z,
+        "lastUpdatedAt": 1970-01-01T00:06:31.000Z,
         "messageSnippet": "Test",
         "phoneNumber": "123123123",
-        "unread": true,
+        "unread": false,
       }
     `)
   })

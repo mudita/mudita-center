@@ -70,12 +70,16 @@ export class DataSync implements DataSyncClass {
       return
     }
 
-    const contactIndex = await this.contactIndexer.index(fileDir)
-    const messageIndex = await this.messageIndexer.index(fileDir)
-    const threadIndex = await this.threadIndexer.index(fileDir)
+    try {
+      const contactIndex = await this.contactIndexer.index(fileDir)
+      const messageIndex = await this.messageIndexer.index(fileDir)
+      const threadIndex = await this.threadIndexer.index(fileDir)
 
-    this.indexesMap.set(DataIndex.Contact, contactIndex)
-    this.indexesMap.set(DataIndex.Message, messageIndex)
-    this.indexesMap.set(DataIndex.Thread, threadIndex)
+      this.indexesMap.set(DataIndex.Contact, contactIndex)
+      this.indexesMap.set(DataIndex.Message, messageIndex)
+      this.indexesMap.set(DataIndex.Thread, threadIndex)
+    } catch (error) {
+      console.log("ERROR: ", error)
+    }
   }
 }
