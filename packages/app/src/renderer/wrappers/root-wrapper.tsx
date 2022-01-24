@@ -149,15 +149,8 @@ const RootWrapper: FunctionComponent<Props> = ({
   }, [])
 
   useEffect(() => {
-    let interval: NodeJS.Timeout
-
     if (connectedAndUnlocked) {
       getCrashDump()
-      interval = setInterval(() => updateAllIndexes(), 30000)
-    }
-
-    return () => {
-      clearInterval(interval)
     }
   }, [connectedAndUnlocked])
 
