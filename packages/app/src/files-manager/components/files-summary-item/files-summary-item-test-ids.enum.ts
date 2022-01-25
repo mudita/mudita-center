@@ -6,4 +6,5 @@
 export enum FilesSummaryItemTestIds {
   Wrapper = "files-summary-item-wrapper",
   Title = "files-summary-item-title",
+  Description = "files-summary-item-description",
 }

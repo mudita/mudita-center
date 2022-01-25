@@ -9,21 +9,36 @@ import FilesSummaryItem from "App/files-manager/components/files-summary-item/fi
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
+import { FilesType } from "App/files-manager/constants/files-manager.enum"
 
 const defaultProps: ComponentProps<typeof FilesSummaryItem> = {
-  filesType: "System",
+  filesType: FilesType.UsedSpace,
   color: "#DFEFDE",
   icon: Type.MuditaLogo,
   occupiedMemory: 1024,
 }
 
-const render = () => {
-  return renderWithThemeAndIntl(<FilesSummaryItem {...defaultProps} />)
-}
-test("FilesSummaryItem should render properly", () => {
-  const { queryByTestId } = render()
-  expect(queryByTestId(FilesSummaryItemTestIds.Wrapper)).toBeInTheDocument()
-  expect(queryByTestId(FilesSummaryItemTestIds.Title)).toHaveTextContent(
-    "System"
+const render = (extraProps?: {}) => {
+  return renderWithThemeAndIntl(
+    <FilesSummaryItem {...defaultProps} {...extraProps} />
   )
+}
+describe("FilesSummaryItem", () => {
+  test("FilesSummaryItem should render properly", () => {
+    const { queryByTestId } = render()
+    expect(queryByTestId(FilesSummaryItemTestIds.Wrapper)).toBeInTheDocument()
+    expect(queryByTestId(FilesSummaryItemTestIds.Title)).toHaveTextContent(
+      "Used space"
+    )
+    expect(
+      queryByTestId(FilesSummaryItemTestIds.Description)
+    ).toHaveTextContent("(1.0 GB)")
+  })
+
+  test("FilesSummaryItem should render with filesAmount", () => {
+    const { queryByTestId } = render({ filesAmount: 4 })
+    expect(
+      queryByTestId(FilesSummaryItemTestIds.Description)
+    ).toHaveTextContent("4 files (1.0 GB)")
+  })
 })

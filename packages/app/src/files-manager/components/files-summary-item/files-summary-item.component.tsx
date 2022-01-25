@@ -7,7 +7,7 @@ import React from "react"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.component"
+import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -15,15 +15,12 @@ import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
 import { displaySpace } from "App/files-manager/helpers/display-space"
 
-const Wrapper = styled.div`
+const FilesSummaryItemContainer = styled.div`
   display: flex;
   align-items: flex-start;
   background-color: ${backgroundColor("row")};
   padding: 1.6rem;
   width: 28rem;
-  :not(:last-of-type) {
-    margin-right: 3.2rem;
-  }
 `
 
 const SummaryIcon = styled(Icon)<{ fileColor: string }>`
@@ -48,7 +45,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
   icon,
 }) => {
   return (
-    <Wrapper data-testid={FilesSummaryItemTestIds.Wrapper}>
+    <FilesSummaryItemContainer data-testid={FilesSummaryItemTestIds.Wrapper}>
       <SummaryIcon fileColor={color} type={icon} size={IconSize.Medium} />
       <TextWrapper>
         <Text
@@ -58,13 +55,17 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
         >
           {filesType}
         </Text>
-        <Text displayStyle={TextDisplayStyle.MediumFadedText} element={"p"}>
+        <Text
+          displayStyle={TextDisplayStyle.MediumFadedText}
+          element={"p"}
+          data-testid={FilesSummaryItemTestIds.Description}
+        >
           {filesAmount
             ? `${filesAmount} files (${displaySpace(occupiedMemory)})`
             : `(${displaySpace(occupiedMemory)})`}
         </Text>
       </TextWrapper>
-    </Wrapper>
+    </FilesSummaryItemContainer>
   )
 }
 

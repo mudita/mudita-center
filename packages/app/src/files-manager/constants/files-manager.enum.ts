@@ -3,5 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./files-summary-elements"
-export * from "./files-manager.enum"
+export enum FilesType {
+  Music = "Music",
+  UsedSpace = "Used space",
+  Free = "Free",
+}

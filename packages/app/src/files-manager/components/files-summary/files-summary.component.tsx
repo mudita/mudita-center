@@ -10,7 +10,7 @@ import styled from "styled-components"
 import {
   DiskSpaceCategory,
   MemorySpaceCategory,
-} from "App/files-manager/components/files-manager/files-manager.component"
+} from "App/files-manager/components/files-manager/files-manager.interface"
 import { FilesSummaryTestIds } from "App/files-manager/components/files-summary/files-summary-test-ids.enum"
 import {
   FilesSummaryContainer,
@@ -27,10 +27,14 @@ import StackedBarChart, {
 import { defineMessages } from "react-intl"
 import { filesSummaryElements } from "App/files-manager/constants"
 import { displaySpace } from "App/files-manager/helpers/display-space"
+import { FilesType } from "App/files-manager/constants/files-manager.enum"
 
 const FilesSummaryWrapper = styled.div`
   display: flex;
   margin-bottom: 2.4rem;
+  div:not(:last-of-type) {
+    margin-right: 3.2rem;
+  }
 `
 
 export const messages = defineMessages({
@@ -38,24 +42,29 @@ export const messages = defineMessages({
 })
 
 interface Props {
-  memorySpace: MemorySpaceCategory
+  memorySpace?: MemorySpaceCategory
 }
 
-const FilesSummary: FunctionComponent<Props> = ({ memorySpace }) => {
+const FilesSummary: FunctionComponent<Props> = ({
+  memorySpace = {
+    free: 0,
+    full: 0,
+  },
+}) => {
   const { full, free } = memorySpace
   const systemMemory = full - free
   const fullMemoryPercent = Math.floor((systemMemory / full) * 100)
 
   const filesSummaryData: DiskSpaceCategory[] = filesSummaryElements.map(
     (element) => {
-      if (element.filesType === "Free") {
+      if (element.filesType === FilesType.Free) {
         return {
           ...element,
           occupiedMemory: free,
           free: true,
         }
       }
-      if (element.filesType === "Used space") {
+      if (element.filesType === FilesType.UsedSpace) {
         return {
           ...element,
           occupiedMemory: systemMemory,

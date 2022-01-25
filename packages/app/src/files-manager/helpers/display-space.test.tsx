@@ -5,14 +5,17 @@
 
 import { displaySpace } from "App/files-manager/helpers/display-space"
 
-const MBvalue = 124
-const GBvalue = 15000
-test("DisplaySpace should return MB", () => {
-  const result = displaySpace(MBvalue)
-  expect(result).toEqual("124 MB")
-})
+const smallValue = 124
+const biggerValue = 15000
 
-test("DisplaySpace should return GB", () => {
-  const result = displaySpace(GBvalue)
-  expect(result).toEqual("15.0 GB")
+describe("DisplaySpace", () => {
+  test("DisplaySpace should return MB", () => {
+    const result = displaySpace(smallValue)
+    expect(result).toEqual("124 MB")
+  })
+
+  test("DisplaySpace should return GB", () => {
+    const result = displaySpace(biggerValue)
+    expect(result).toEqual("15.0 GB")
+  })
 })

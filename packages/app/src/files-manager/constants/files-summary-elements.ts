@@ -4,29 +4,22 @@
  */
 
 import { Type } from "Renderer/components/core/icon/icon.config"
-
-interface Item {
-  filesType: string
-  filesAmount?: number
-  color: string
-  icon: Type
-  url?: string
-  free?: boolean
-}
+import { Item } from "App/files-manager/components/files-manager/files-manager.interface"
+import { FilesType } from "App/files-manager/constants/files-manager.enum"
 
 export const filesSummaryElements: Item[] = [
   {
-    filesType: "Music",
+    filesType: FilesType.Music,
     color: "#E3F3FF",
     icon: Type.MenuMusic,
   },
   {
-    filesType: "Used space",
+    filesType: FilesType.UsedSpace,
     color: "#DFEFDE",
     icon: Type.MuditaLogo,
   },
   {
-    filesType: "Free",
+    filesType: FilesType.Free,
     color: "#F4F5F6",
     icon: Type.Cloud,
   },

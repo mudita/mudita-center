@@ -5,9 +5,7 @@
 
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import { Router } from "react-router"
 import FilesSummary from "App/files-manager/components/files-summary/files-summary.component"
-import history from "Renderer/routes/history"
 import styled from "styled-components"
 
 const memorySpace = {
@@ -19,12 +17,13 @@ const Container = styled.div`
   width: 98.5rem;
 `
 
-storiesOf("Components/Files Summary", module).add("FilesSummary", () => {
-  return (
-    <Router history={history}>
+storiesOf("Views|Files Manager/Files Summary", module).add(
+  "FilesSummary",
+  () => {
+    return (
       <Container>
         <FilesSummary memorySpace={memorySpace} />
       </Container>
-    </Router>
-  )
-})
+    )
+  }
+)
