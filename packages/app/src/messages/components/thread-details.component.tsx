@@ -53,7 +53,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
   }
 
   return (
-    <ThreadDetailsSidebar receiver={receiver} {...props}>
+    <ThreadDetailsSidebar receiver={receiver} key={receiver.phoneNumber} {...props}>
       <MessagesWrapper>
         {resultState === ResultState.Error && (
           <ThreadDetailsError onClick={onLoadMessagesClick} />
