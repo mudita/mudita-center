@@ -34,6 +34,15 @@ export class ContactPresenter {
   }
 
   public serializeToObject(data: ContactInput): ContactObject[] {
+    if (
+      !data.contacts ||
+      !data.contact_name ||
+      !data.contact_address ||
+      !data.contact_number
+    ) {
+      return []
+    }
+
     const contacts = this.serializeRecord<ContactEntity>(
       data.contacts.values,
       data.contacts.columns

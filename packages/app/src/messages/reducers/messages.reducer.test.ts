@@ -308,9 +308,10 @@ describe("Set Messages data functionality", () => {
       ...initialState,
       messageMap: {
         [message.id]: message,
+        [secondMessage.id]: secondMessage,
       },
       messageIdsInThreadMap: {
-        [message.threadId]: [message.id],
+        [message.threadId]: [message.id, secondMessage.id],
       },
     })
   })
