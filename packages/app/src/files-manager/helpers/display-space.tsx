@@ -3,8 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const displaySpace = (space: number): string => {
+export const displaySpace = (megabyteSize: number): string => {
   const value =
-    space >= 1000 ? `${(space / 1000).toFixed(1)} GB` : `${space} MB`
+    megabyteSize >= 1000
+      ? `${(megabyteSize / 1000).toFixed(1)} GB`
+      : `${megabyteSize} MB`
   return value
 }

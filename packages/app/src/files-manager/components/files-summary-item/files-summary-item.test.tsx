@@ -15,7 +15,7 @@ const defaultProps: ComponentProps<typeof FilesSummaryItem> = {
   filesType: FilesType.UsedSpace,
   color: "#DFEFDE",
   icon: Type.MuditaLogo,
-  occupiedMemory: 1024,
+  megabyteSize: 1024,
 }
 
 const render = (extraProps?: {}) => {

@@ -7,6 +7,24 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import FilesSummary from "App/files-manager/components/files-summary/files-summary.component"
 import styled from "styled-components"
+import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import { FilesType } from "App/files-manager/constants/files-manager.enum"
+
+const fakeData: DiskSpaceCategory[] = [
+  {
+    filesType: FilesType.UsedSpace,
+    color: "#DFEFDE",
+    icon: Type.MuditaLogo,
+    megabyteSize: 1024,
+  },
+  {
+    filesType: FilesType.Free,
+    color: "#F4F5F6",
+    icon: Type.Cloud,
+    megabyteSize: 124,
+  },
+]
 
 const memorySpace = {
   free: 60,
@@ -22,7 +40,7 @@ storiesOf("Views|Files Manager/Files Summary", module).add(
   () => {
     return (
       <Container>
-        <FilesSummary memorySpace={memorySpace} />
+        <FilesSummary memorySpace={memorySpace} data={fakeData} />
       </Container>
     )
   }

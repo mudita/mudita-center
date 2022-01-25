@@ -25,9 +25,7 @@ import StackedBarChart, {
   ChartItem,
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { defineMessages } from "react-intl"
-import { filesSummaryElements } from "App/files-manager/constants"
 import { displaySpace } from "App/files-manager/helpers/display-space"
-import { FilesType } from "App/files-manager/constants/files-manager.enum"
 
 const FilesSummaryWrapper = styled.div`
   display: flex;
@@ -42,47 +40,22 @@ export const messages = defineMessages({
 })
 
 interface Props {
-  memorySpace?: MemorySpaceCategory
+  memorySpace: MemorySpaceCategory
+  data: DiskSpaceCategory[]
 }
 
-const FilesSummary: FunctionComponent<Props> = ({
-  memorySpace = {
-    free: 0,
-    full: 0,
-  },
-}) => {
+const FilesSummary: FunctionComponent<Props> = ({ memorySpace, data }) => {
   const { full, free } = memorySpace
   const systemMemory = full - free
   const fullMemoryPercent = Math.floor((systemMemory / full) * 100)
 
-  const filesSummaryData: DiskSpaceCategory[] = filesSummaryElements.map(
-    (element) => {
-      if (element.filesType === FilesType.Free) {
-        return {
-          ...element,
-          occupiedMemory: free,
-          free: true,
-        }
-      }
-      if (element.filesType === FilesType.UsedSpace) {
-        return {
-          ...element,
-          occupiedMemory: systemMemory,
-        }
-      }
-      return element
-    }
-  )
-  const filteredData = filesSummaryData.filter(
-    (element) => element.occupiedMemory
-  )
   const memoryToStackedBarChartData = (
     data: DiskSpaceCategory[]
   ): ChartItem[] => {
     return data.map((el) => {
-      const { occupiedMemory, color } = el
+      const { megabyteSize, color } = el
       return {
-        value: occupiedMemory ? occupiedMemory : 0,
+        value: megabyteSize ? megabyteSize : 0,
         color,
       }
     })
@@ -96,13 +69,13 @@ const FilesSummary: FunctionComponent<Props> = ({
         message={messages.summaryTitle}
       />
       <FilesSummaryWrapper data-testid={FilesSummaryTestIds.Wrapper}>
-        {filteredData.map((box, index: number) => (
+        {data.map((box, index: number) => (
           <FilesSummaryItem {...box} key={index} />
         ))}
       </FilesSummaryWrapper>
       <StackedBarChart
         displayStyle={DisplayStyle.Thick}
-        chartData={memoryToStackedBarChartData(filteredData)}
+        chartData={memoryToStackedBarChartData(data)}
       />
       <StatsContainer>
         <Text displayStyle={TextDisplayStyle.MediumFadedText}>

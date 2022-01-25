@@ -6,23 +6,16 @@
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { FilesType } from "App/files-manager/constants/files-manager.enum"
 
-export interface DiskSpaceCategory extends Item {
+export interface DiskSpaceCategory {
   filesType: FilesType
-  occupiedMemory?: number
+  megabyteSize?: number
   filesAmount?: number
   color: string
   icon: Type
+  free?: boolean
 }
 
 export interface MemorySpaceCategory {
   free: number
   full: number
-}
-
-export interface Item {
-  filesType: FilesType
-  filesAmount?: number
-  color: string
-  icon: Type
-  free?: boolean
 }

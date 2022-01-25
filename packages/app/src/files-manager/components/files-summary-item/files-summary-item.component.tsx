@@ -41,7 +41,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
   color,
   filesAmount,
   filesType,
-  occupiedMemory = 0,
+  megabyteSize = 0,
   icon,
 }) => {
   return (
@@ -61,8 +61,8 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
           data-testid={FilesSummaryItemTestIds.Description}
         >
           {filesAmount
-            ? `${filesAmount} files (${displaySpace(occupiedMemory)})`
-            : `(${displaySpace(occupiedMemory)})`}
+            ? `${filesAmount} files (${displaySpace(megabyteSize)})`
+            : `(${displaySpace(megabyteSize)})`}
         </Text>
       </TextWrapper>
     </FilesSummaryItemContainer>

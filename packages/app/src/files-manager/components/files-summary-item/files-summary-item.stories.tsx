@@ -14,7 +14,7 @@ const fakeData: DiskSpaceCategory = {
   filesType: FilesType.UsedSpace,
   color: "#DFEFDE",
   icon: Type.MuditaLogo,
-  occupiedMemory: 1024,
+  megabyteSize: 1024,
 }
 
 storiesOf("Views|Files Manager/FilesSummaryItem", module)
