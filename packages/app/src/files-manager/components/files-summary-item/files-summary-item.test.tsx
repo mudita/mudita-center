@@ -32,13 +32,13 @@ describe("FilesSummaryItem", () => {
     )
     expect(
       queryByTestId(FilesSummaryItemTestIds.Description)
-    ).toHaveTextContent("(1.0 GB)")
+    ).toHaveTextContent("(1.1 GB)")
   })
 
   test("FilesSummaryItem should render with filesAmount", () => {
     const { queryByTestId } = render({ filesAmount: 4 })
     expect(
       queryByTestId(FilesSummaryItemTestIds.Description)
-    ).toHaveTextContent("4 files (1.0 GB)")
+    ).toHaveTextContent("4 files (1.1 GB)")
   })
 })

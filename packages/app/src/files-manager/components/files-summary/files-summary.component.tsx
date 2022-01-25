@@ -55,7 +55,7 @@ const FilesSummary: FunctionComponent<Props> = ({ memorySpace, data }) => {
     return data.map((el) => {
       const { megabyteSize, color } = el
       return {
-        value: megabyteSize ? megabyteSize : 0,
+        value: megabyteSize,
         color,
       }
     })

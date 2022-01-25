@@ -8,7 +8,7 @@ import { FilesType } from "App/files-manager/constants/files-manager.enum"
 
 export interface DiskSpaceCategory {
   filesType: FilesType
-  megabyteSize?: number
+  megabyteSize: number
   filesAmount?: number
   color: string
   icon: Type

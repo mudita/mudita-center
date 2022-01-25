@@ -3,10 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const displaySpace = (megabyteSize: number): string => {
-  const value =
-    megabyteSize >= 1000
-      ? `${(megabyteSize / 1000).toFixed(1)} GB`
-      : `${megabyteSize} MB`
-  return value
+import round from "lodash/round"
+
+export const displaySpace = (mebibytesSize: number): string => {
+  const bytesConversion = 1048576
+  const sizes = ["B", "KB", "MB", "GB", "TB"]
+  const bytes = mebibytesSize * bytesConversion
+
+  if (bytes === 0) {
+    return bytes + " " + sizes[0]
+  }
+
+  const i = Math.floor(Math.log(bytes) / Math.log(1000))
+
+  if (i === 0) {
+    return bytes + " " + sizes[i]
+  }
+  const value = bytes / 1000 ** i
+
+  const returnedValue = round(value, 1)
+
+  return returnedValue + " " + sizes[i]
 }
