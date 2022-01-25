@@ -89,6 +89,7 @@ describe("`downloadDeviceBackup` method ", () => {
       ).mockImplementation(() => {
         return {
           downloadDeviceFiles: () => successDownloadDeviceFilesResponse,
+          removeDeviceFile: () => successDownloadDeviceFilesResponse,
         }
       })
 
@@ -198,6 +199,7 @@ describe("`downloadDeviceBackup` method ", () => {
       ).mockImplementation(() => {
         return {
           downloadDeviceFiles: () => errorResponse,
+          removeDeviceFile: () => errorResponse,
         }
       })
 
