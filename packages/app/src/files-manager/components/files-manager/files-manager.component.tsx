@@ -13,7 +13,7 @@ import {
 } from "App/files-manager/components/files-manager/files-manager.interface"
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
 import { filesSummaryElements } from "App/files-manager/constants"
-import { FileType } from "App/files-manager/constants"
+import { DiskSpaceCategoryType } from "App/files-manager/constants"
 interface Props {
   memorySpace?: MemorySpace
 }
@@ -29,13 +29,13 @@ const FilesManager: FunctionComponent<Props> = ({
 
   const mapperDiskSpaceCategory: DiskSpaceCategory[] = filesSummaryElements.map(
     (element) => {
-      if (element.fileType === FileType.Free) {
+      if (element.type === DiskSpaceCategoryType.Free) {
         return {
           ...element,
           size: free,
         }
       }
-      if (element.fileType === FileType.UsedSpace) {
+      if (element.type === DiskSpaceCategoryType.UsedSpace) {
         return {
           ...element,
           size: systemMemory,

@@ -40,7 +40,7 @@ const TextWrapper = styled.div`
 const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
   color,
   filesAmount,
-  fileType,
+  type,
   size = 0,
   icon,
 }) => {
@@ -53,7 +53,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
           element={"p"}
           data-testid={FilesSummaryItemTestIds.Title}
         >
-          {fileType}
+          {type}
         </Text>
         <Text
           displayStyle={TextDisplayStyle.MediumFadedText}

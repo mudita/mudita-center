@@ -4,10 +4,10 @@
  */
 
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { FileType } from "App/files-manager/constants"
+import { DiskSpaceCategoryType } from "App/files-manager/constants"
 
 export interface DiskSpaceCategory {
-  fileType: FileType
+  type: DiskSpaceCategoryType
   size: number
   filesAmount?: number
   color: string
