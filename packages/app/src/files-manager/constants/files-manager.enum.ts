@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum FilesType {
+export enum FileType {
   Music = "Music",
   UsedSpace = "Used space",
   Free = "Free",

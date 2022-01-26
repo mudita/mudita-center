@@ -5,7 +5,7 @@
 
 import round from "lodash/round"
 
-export const displaySpace = (mebibytesSize: number): string => {
+export const convertFromMebibytes = (mebibytesSize: number): string => {
   const bytesConversion = 1048576
   const sizes = ["B", "KB", "MB", "GB", "TB"]
   const bytes = mebibytesSize * bytesConversion

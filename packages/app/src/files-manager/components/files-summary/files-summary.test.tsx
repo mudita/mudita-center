@@ -10,7 +10,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { FilesSummaryTestIds } from "App/files-manager/components/files-summary/files-summary-test-ids.enum"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { FilesType } from "App/files-manager/constants/files-manager.enum"
+import { FileType } from "App/files-manager/constants"
 
 const defaultProps: ComponentProps<typeof FilesSummary> = {
   memorySpace: {
@@ -19,13 +19,13 @@ const defaultProps: ComponentProps<typeof FilesSummary> = {
   },
   data: [
     {
-      filesType: FilesType.UsedSpace,
+      fileType: FileType.UsedSpace,
       color: "#DFEFDE",
       icon: Type.MuditaLogo,
       megabyteSize: 1024,
     },
     {
-      filesType: FilesType.Free,
+      fileType: FileType.Free,
       color: "#F4F5F6",
       icon: Type.Cloud,
       megabyteSize: 124,

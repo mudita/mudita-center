@@ -7,11 +7,11 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import FilesSummaryItem from "App/files-manager/components/files-summary-item/files-summary-item.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { FilesType } from "App/files-manager/constants/files-manager.enum"
+import { FileType } from "App/files-manager/constants"
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
 
 const fakeData: DiskSpaceCategory = {
-  filesType: FilesType.UsedSpace,
+  fileType: FileType.UsedSpace,
   color: "#DFEFDE",
   icon: Type.MuditaLogo,
   megabyteSize: 1024,

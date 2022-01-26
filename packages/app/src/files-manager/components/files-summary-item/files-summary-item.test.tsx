@@ -9,10 +9,10 @@ import FilesSummaryItem from "App/files-manager/components/files-summary-item/fi
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
-import { FilesType } from "App/files-manager/constants/files-manager.enum"
+import { FileType } from "App/files-manager/constants"
 
 const defaultProps: ComponentProps<typeof FilesSummaryItem> = {
-  filesType: FilesType.UsedSpace,
+  fileType: FileType.UsedSpace,
   color: "#DFEFDE",
   icon: Type.MuditaLogo,
   megabyteSize: 1024,

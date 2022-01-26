@@ -5,24 +5,24 @@
 
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
-import { FilesType } from "App/files-manager/constants/files-manager.enum"
+import { FileType } from "App/files-manager/constants"
 
 export const filesSummaryElements: DiskSpaceCategory[] = [
   // Ready for CP-970
   // {
-  //   filesType: FilesType.Music,
+  //   fileType: FileType.Music,
   //   color: "#E3F3FF",
   //   icon: Type.MenuMusic,
   //   megabyteSize: 0,
   // },
   {
-    filesType: FilesType.UsedSpace,
+    fileType: FileType.UsedSpace,
     color: "#DFEFDE",
     icon: Type.MuditaLogo,
     megabyteSize: 0,
   },
   {
-    filesType: FilesType.Free,
+    fileType: FileType.Free,
     color: "#F4F5F6",
     icon: Type.Cloud,
     megabyteSize: 0,

@@ -9,17 +9,17 @@ import FilesSummary from "App/files-manager/components/files-summary/files-summa
 import styled from "styled-components"
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { FilesType } from "App/files-manager/constants/files-manager.enum"
+import { FileType } from "App/files-manager/constants"
 
 const fakeData: DiskSpaceCategory[] = [
   {
-    filesType: FilesType.UsedSpace,
+    fileType: FileType.UsedSpace,
     color: "#DFEFDE",
     icon: Type.MuditaLogo,
     megabyteSize: 1024,
   },
   {
-    filesType: FilesType.Free,
+    fileType: FileType.Free,
     color: "#F4F5F6",
     icon: Type.Cloud,
     megabyteSize: 124,

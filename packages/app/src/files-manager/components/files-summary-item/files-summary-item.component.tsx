@@ -13,7 +13,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
-import { displaySpace } from "App/files-manager/helpers/display-space"
+import { convertFromMebibytes } from "App/files-manager/helpers/convert-from-mebibytes"
 
 const FilesSummaryItemContainer = styled.div`
   display: flex;
@@ -40,7 +40,7 @@ const TextWrapper = styled.div`
 const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
   color,
   filesAmount,
-  filesType,
+  fileType,
   megabyteSize = 0,
   icon,
 }) => {
@@ -53,7 +53,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
           element={"p"}
           data-testid={FilesSummaryItemTestIds.Title}
         >
-          {filesType}
+          {fileType}
         </Text>
         <Text
           displayStyle={TextDisplayStyle.MediumFadedText}
@@ -61,8 +61,8 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
           data-testid={FilesSummaryItemTestIds.Description}
         >
           {filesAmount
-            ? `${filesAmount} files (${displaySpace(megabyteSize)})`
-            : `(${displaySpace(megabyteSize)})`}
+            ? `${filesAmount} files (${convertFromMebibytes(megabyteSize)})`
+            : `(${convertFromMebibytes(megabyteSize)})`}
         </Text>
       </TextWrapper>
     </FilesSummaryItemContainer>

@@ -25,7 +25,7 @@ import StackedBarChart, {
   ChartItem,
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { defineMessages } from "react-intl"
-import { displaySpace } from "App/files-manager/helpers/display-space"
+import { convertFromMebibytes } from "App/files-manager/helpers/convert-from-mebibytes"
 
 const FilesSummaryWrapper = styled.div`
   display: flex;
@@ -79,10 +79,10 @@ const FilesSummary: FunctionComponent<Props> = ({ memorySpace, data }) => {
       />
       <StatsContainer>
         <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-          {`${displaySpace(systemMemory)} (${fullMemoryPercent}%)`}
+          {`${convertFromMebibytes(systemMemory)} (${fullMemoryPercent}%)`}
         </Text>
         <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-          {displaySpace(full)}
+          {convertFromMebibytes(full)}
         </Text>
       </StatsContainer>
     </FilesSummaryContainer>

@@ -4,15 +4,14 @@
  */
 
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { FilesType } from "App/files-manager/constants/files-manager.enum"
+import { FileType } from "App/files-manager/constants"
 
 export interface DiskSpaceCategory {
-  filesType: FilesType
+  fileType: FileType
   megabyteSize: number
   filesAmount?: number
   color: string
   icon: Type
-  free?: boolean
 }
 
 export interface MemorySpaceCategory {
