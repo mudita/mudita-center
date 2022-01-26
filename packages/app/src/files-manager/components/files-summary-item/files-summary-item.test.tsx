@@ -39,6 +39,6 @@ describe("FilesSummaryItem", () => {
     const { queryByTestId } = render({ filesAmount: 4 })
     expect(
       queryByTestId(FilesSummaryItemTestIds.Description)
-    ).toHaveTextContent("4 files (1.1 GB)")
+    ).toHaveTextContent("[value] component.filesManagerSummaryItemDescription")
   })
 })
