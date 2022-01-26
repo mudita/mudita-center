@@ -6,9 +6,8 @@ class GitHubHelper {
   constructor() {
     this.gitHubInstance = axios.create({
       baseURL: "https://api.github.com/repos/mudita/MuditaOS",
-      auth: {
-        username: process.env.TEST_GITHUB_USER,
-        password: process.env.TEST_GITHUB_PASSWORD,
+      headers: {
+        Authorization: `token ${process.env.TEST_GITHUB_TOKEN}`,
       },
     })
   }

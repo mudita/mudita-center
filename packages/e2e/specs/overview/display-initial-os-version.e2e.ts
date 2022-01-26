@@ -1,4 +1,5 @@
 import OverviewPage from "../../page-objects/overview.page"
+import VersionValidateHelper from "../../helpers/version-validate.helper"
 
 describe("Overview Page", () => {
   describe("Have initial OS version", () => {
@@ -10,7 +11,6 @@ describe("Overview Page", () => {
     })
 
     it("should have valid OS version", async () => {
-      const VERSION_REGEXP = /[0-9].[0-9].[0-9]/
       const HARDCODED_VERSION = process.env.TEST_INITIAL_VERSION
 
       const currentVersionField = await OverviewPage.currentDeviceVersion
@@ -18,7 +18,9 @@ describe("Overview Page", () => {
       const currentVersionRow = await currentVersionField.getText()
       const currentVersion = currentVersionRow.split(" ")[1]
 
-      await expect(VERSION_REGEXP.test(currentVersion)).toBeTruthy()
+      await expect(
+        VersionValidateHelper.isVersionValid(currentVersion)
+      ).toBeTruthy()
       await expect(currentVersion).toEqual(HARDCODED_VERSION)
       await expect(currentVersionField).toBeExisting()
     })
