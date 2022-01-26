@@ -62,6 +62,7 @@
   "component.devModeWrapperName": "Developer Options",
   "component.dropdownCall": "Call {name}",
   "component.filesManagerSummaryTitle": "All files summary",
+  "component.filesManagerSummaryItemDescription": "{filesAmount} files ({size})",
   "component.formErrorInvalidEmail": "Email is invalid",
   "component.formErrorNameIsTooBig": "File <i>{name}</i> is too big. Maximum file size allowed is {size}.",
   "component.formErrorNumbersAndSpacesOnly": "May contain only numbers, spaces and +.-#() signs",

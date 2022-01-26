@@ -14,6 +14,7 @@ import styled from "styled-components"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
 import { convertFromBytesToDecimal } from "Renderer/utils/convert-from-bytes-to-decimal/convert-from-bytes-to-decimal"
+import { defineMessages } from "react-intl"
 
 const FilesSummaryItemContainer = styled.div`
   display: flex;
@@ -36,6 +37,11 @@ const TextWrapper = styled.div`
   justify-content: space-between;
   height: 100%;
 `
+export const messages = defineMessages({
+  summaryItemDescription: {
+    id: "component.filesManagerSummaryItemDescription",
+  },
+})
 
 const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
   color,
@@ -55,15 +61,27 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
         >
           {type}
         </Text>
-        <Text
-          displayStyle={TextDisplayStyle.MediumFadedText}
-          element={"p"}
-          data-testid={FilesSummaryItemTestIds.Description}
-        >
-          {filesAmount
-            ? `${filesAmount} files (${convertFromBytesToDecimal(size)})`
-            : `(${convertFromBytesToDecimal(size)})`}
-        </Text>
+        {filesAmount ? (
+          <Text
+            displayStyle={TextDisplayStyle.MediumFadedText}
+            data-testid={FilesSummaryItemTestIds.Description}
+            message={{
+              ...messages.summaryItemDescription,
+              values: {
+                filesAmount: filesAmount,
+                size: convertFromBytesToDecimal(size),
+              },
+            }}
+          />
+        ) : (
+          <Text
+            displayStyle={TextDisplayStyle.MediumFadedText}
+            element={"p"}
+            data-testid={FilesSummaryItemTestIds.Description}
+          >
+            {`(${convertFromBytesToDecimal(size)})`}
+          </Text>
+        )}
       </TextWrapper>
     </FilesSummaryItemContainer>
   )
