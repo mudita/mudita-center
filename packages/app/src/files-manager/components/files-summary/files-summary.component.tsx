@@ -7,10 +7,7 @@ import React from "react"
 import FilesSummaryItem from "App/files-manager/components/files-summary-item/files-summary-item.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
-import {
-  DiskSpaceCategory,
-  MemorySpace,
-} from "App/files-manager/components/files-manager/files-manager.interface"
+import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
 import { FilesSummaryTestIds } from "App/files-manager/components/files-summary/files-summary-test-ids.enum"
 import {
   FilesSummaryContainer,
@@ -40,8 +37,9 @@ export const messages = defineMessages({
 })
 
 interface Props {
-  memorySpace: MemorySpace
   diskSpaceCategories: DiskSpaceCategory[]
+  systemMemory: number
+  totalMemorySpace: number
 }
 
 const memoryToStackedBarChartData = (
@@ -57,12 +55,11 @@ const memoryToStackedBarChartData = (
 }
 
 const FilesSummary: FunctionComponent<Props> = ({
-  memorySpace,
   diskSpaceCategories,
+  systemMemory,
+  totalMemorySpace,
 }) => {
-  const { full, free } = memorySpace
-  const systemMemory = full - free
-  const fullMemoryPercent = Math.floor((systemMemory / full) * 100)
+  const totalMemoryPercent = Math.floor((systemMemory / totalMemorySpace) * 100)
 
   return (
     <FilesSummaryContainer>
@@ -82,10 +79,12 @@ const FilesSummary: FunctionComponent<Props> = ({
       />
       <StatsContainer>
         <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-          {`${convertFromBytesToDecimal(systemMemory)} (${fullMemoryPercent}%)`}
+          {`${convertFromBytesToDecimal(
+            systemMemory
+          )} (${totalMemoryPercent}%)`}
         </Text>
         <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-          {convertFromBytesToDecimal(full)}
+          {convertFromBytesToDecimal(totalMemorySpace)}
         </Text>
       </StatsContainer>
     </FilesSummaryContainer>

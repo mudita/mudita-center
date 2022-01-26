@@ -26,11 +26,6 @@ const fakeData: DiskSpaceCategory[] = [
   },
 ]
 
-const memorySpace = {
-  free: 60,
-  full: 100,
-}
-
 const Container = styled.div`
   width: 98.5rem;
 `
@@ -41,7 +36,8 @@ storiesOf("Views|Files Manager/Files Summary", module).add(
     return (
       <Container>
         <FilesSummary
-          memorySpace={memorySpace}
+          systemMemory={62914560}
+          totalMemorySpace={104857600}
           diskSpaceCategories={fakeData}
         />
       </Container>

@@ -13,10 +13,8 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
 
 const defaultProps: ComponentProps<typeof FilesSummary> = {
-  memorySpace: {
-    free: 62914560,
-    full: 104857600,
-  },
+  systemMemory: 62914560,
+  totalMemorySpace: 104857600,
   diskSpaceCategories: [
     {
       type: DiskSpaceCategoryType.UsedSpace,
