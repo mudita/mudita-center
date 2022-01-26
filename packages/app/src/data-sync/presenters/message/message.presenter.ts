@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MessageType as PureMessageType } from "@mudita/pure"
 import {
   MessageInput,
   MessageObject,
@@ -11,13 +10,6 @@ import {
   ContactNumberEntity,
   ThreadEntity,
 } from "App/data-sync/types"
-import { MessageType } from "App/messages"
-
-type AcceptablePureMessageType =
-  | PureMessageType.FAILED
-  | PureMessageType.QUEUED
-  | PureMessageType.INBOX
-  | PureMessageType.OUTBOX
 
 export class MessagePresenter {
   public findRecords<Type extends { _id: string }>(
@@ -71,23 +63,9 @@ export class MessagePresenter {
           content: message.body,
           phoneNumber: contactNumber?.number_user,
           threadId: String(message.thread_id),
-          messageType: MessagePresenter.getMessageType(message.type),
+          messageType: String(message.type),
         }
       })
       .filter((message) => typeof message !== "undefined") as MessageObject[]
-  }
-
-  private static getMessageType(
-    messageType: AcceptablePureMessageType
-  ): MessageType {
-    if (
-      messageType === PureMessageType.FAILED ||
-      messageType === PureMessageType.QUEUED ||
-      messageType === PureMessageType.OUTBOX
-    ) {
-      return MessageType.OUTBOX
-    } else {
-      return MessageType.INBOX
-    }
   }
 }

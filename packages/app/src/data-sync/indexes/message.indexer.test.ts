@@ -20,7 +20,7 @@ describe("`MessageIndexer`", () => {
         "content": "Test",
         "date": 1970-01-01T00:06:31.000Z,
         "id": "1",
-        "messageType": "INBOX",
+        "messageType": "2",
         "phoneNumber": "123123123",
         "threadId": "1",
       }
