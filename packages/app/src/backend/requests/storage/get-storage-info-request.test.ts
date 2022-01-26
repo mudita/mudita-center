@@ -52,8 +52,8 @@ test("returns required storage info", async () => {
 
   expect(result.data).toMatchInlineSnapshot(`
     Object {
-      "available": 13727,
-      "capacity": 13913,
+      "available": 14393802752,
+      "capacity": 14588837888,
       "categories": Array [],
     }
   `)

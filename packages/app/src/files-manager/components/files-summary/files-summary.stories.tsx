@@ -16,13 +16,13 @@ const fakeData: DiskSpaceCategory[] = [
     fileType: FileType.UsedSpace,
     color: "#DFEFDE",
     icon: Type.MuditaLogo,
-    megabyteSize: 1024,
+    size: 41943040,
   },
   {
     fileType: FileType.Free,
     color: "#F4F5F6",
     icon: Type.Cloud,
-    megabyteSize: 124,
+    size: 62914560,
   },
 ]
 
@@ -40,7 +40,10 @@ storiesOf("Views|Files Manager/Files Summary", module).add(
   () => {
     return (
       <Container>
-        <FilesSummary memorySpace={memorySpace} data={fakeData} />
+        <FilesSummary
+          memorySpace={memorySpace}
+          diskSpaceCategories={fakeData}
+        />
       </Container>
     )
   }

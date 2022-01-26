@@ -10,8 +10,8 @@ import { FilesManagerTestIds } from "App/files-manager/components/files-manager/
 
 const defaultProps: ComponentProps<typeof FilesManager> = {
   memorySpace: {
-    full: 100,
-    free: 60,
+    free: 62914560,
+    full: 104857600,
   },
 }
 

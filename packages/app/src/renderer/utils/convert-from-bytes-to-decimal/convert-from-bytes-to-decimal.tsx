@@ -5,10 +5,8 @@
 
 import round from "lodash/round"
 
-export const convertFromMebibytes = (mebibytesSize: number): string => {
-  const bytesConversion = 1048576
+export const convertFromBytesToDecimal = (bytes: number): string => {
   const sizes = ["B", "KB", "MB", "GB", "TB"]
-  const bytes = mebibytesSize * bytesConversion
 
   if (bytes === 0) {
     return bytes + " " + sizes[0]

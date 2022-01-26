@@ -9,7 +9,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import {
   DiskSpaceCategory,
-  MemorySpaceCategory,
+  MemorySpace,
 } from "App/files-manager/components/files-manager/files-manager.interface"
 import { FilesSummaryTestIds } from "App/files-manager/components/files-summary/files-summary-test-ids.enum"
 import {
@@ -25,7 +25,7 @@ import StackedBarChart, {
   ChartItem,
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { defineMessages } from "react-intl"
-import { convertFromMebibytes } from "App/files-manager/helpers/convert-from-mebibytes"
+import { convertFromBytesToDecimal } from "Renderer/utils/convert-from-bytes-to-decimal/convert-from-bytes-to-decimal"
 
 const FilesSummaryWrapper = styled.div`
   display: flex;
@@ -40,26 +40,29 @@ export const messages = defineMessages({
 })
 
 interface Props {
-  memorySpace: MemorySpaceCategory
-  data: DiskSpaceCategory[]
+  memorySpace: MemorySpace
+  diskSpaceCategories: DiskSpaceCategory[]
 }
 
-const FilesSummary: FunctionComponent<Props> = ({ memorySpace, data }) => {
+const memoryToStackedBarChartData = (
+  diskSpaceCategories: DiskSpaceCategory[]
+): ChartItem[] => {
+  return diskSpaceCategories.map((diskSpaceCategory) => {
+    const { size, color } = diskSpaceCategory
+    return {
+      value: size,
+      color,
+    }
+  })
+}
+
+const FilesSummary: FunctionComponent<Props> = ({
+  memorySpace,
+  diskSpaceCategories,
+}) => {
   const { full, free } = memorySpace
   const systemMemory = full - free
   const fullMemoryPercent = Math.floor((systemMemory / full) * 100)
-
-  const memoryToStackedBarChartData = (
-    data: DiskSpaceCategory[]
-  ): ChartItem[] => {
-    return data.map((el) => {
-      const { megabyteSize, color } = el
-      return {
-        value: megabyteSize,
-        color,
-      }
-    })
-  }
 
   return (
     <FilesSummaryContainer>
@@ -69,20 +72,20 @@ const FilesSummary: FunctionComponent<Props> = ({ memorySpace, data }) => {
         message={messages.summaryTitle}
       />
       <FilesSummaryWrapper data-testid={FilesSummaryTestIds.Wrapper}>
-        {data.map((box, index: number) => (
-          <FilesSummaryItem {...box} key={index} />
+        {diskSpaceCategories.map((diskSpaceCategory, index: number) => (
+          <FilesSummaryItem {...diskSpaceCategory} key={index} />
         ))}
       </FilesSummaryWrapper>
       <StackedBarChart
         displayStyle={DisplayStyle.Thick}
-        chartData={memoryToStackedBarChartData(data)}
+        chartData={memoryToStackedBarChartData(diskSpaceCategories)}
       />
       <StatsContainer>
         <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-          {`${convertFromMebibytes(systemMemory)} (${fullMemoryPercent}%)`}
+          {`${convertFromBytesToDecimal(systemMemory)} (${fullMemoryPercent}%)`}
         </Text>
         <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-          {convertFromMebibytes(full)}
+          {convertFromBytesToDecimal(full)}
         </Text>
       </StatsContainer>
     </FilesSummaryContainer>

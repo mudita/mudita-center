@@ -11,6 +11,10 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 
+const fromMebiToByte = (mebi: number): number => {
+  const factor = 1048576
+  return mebi * factor
+}
 class PurePhoneStorage extends PurePhoneStorageAdapter {
   constructor(private deviceService: DeviceService) {
     super()
@@ -25,7 +29,7 @@ class PurePhoneStorage extends PurePhoneStorageAdapter {
     if (status === DeviceResponseStatus.Ok && data) {
       return {
         status,
-        data: Number(data.fsFree),
+        data: fromMebiToByte(Number(data.fsFree)),
       }
     } else {
       return {
@@ -44,7 +48,7 @@ class PurePhoneStorage extends PurePhoneStorageAdapter {
     if (status === DeviceResponseStatus.Ok && data) {
       return {
         status,
-        data: Number(data.fsTotal),
+        data: fromMebiToByte(Number(data.fsTotal)),
       }
     } else {
       return {

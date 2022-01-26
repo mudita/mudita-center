@@ -13,7 +13,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
-import { convertFromMebibytes } from "App/files-manager/helpers/convert-from-mebibytes"
+import { convertFromBytesToDecimal } from "Renderer/utils/convert-from-bytes-to-decimal/convert-from-bytes-to-decimal"
 
 const FilesSummaryItemContainer = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
   color,
   filesAmount,
   fileType,
-  megabyteSize = 0,
+  size = 0,
   icon,
 }) => {
   return (
@@ -61,8 +61,8 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
           data-testid={FilesSummaryItemTestIds.Description}
         >
           {filesAmount
-            ? `${filesAmount} files (${convertFromMebibytes(megabyteSize)})`
-            : `(${convertFromMebibytes(megabyteSize)})`}
+            ? `${filesAmount} files (${convertFromBytesToDecimal(size)})`
+            : `(${convertFromBytesToDecimal(size)})`}
         </Text>
       </TextWrapper>
     </FilesSummaryItemContainer>

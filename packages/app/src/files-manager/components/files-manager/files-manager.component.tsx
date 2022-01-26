@@ -9,13 +9,13 @@ import { FilesManagerContainer } from "App/files-manager/components/files-manage
 import FilesSummary from "App/files-manager/components/files-summary/files-summary.component"
 import {
   DiskSpaceCategory,
-  MemorySpaceCategory,
+  MemorySpace,
 } from "App/files-manager/components/files-manager/files-manager.interface"
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
 import { filesSummaryElements } from "App/files-manager/constants"
 import { FileType } from "App/files-manager/constants"
 interface Props {
-  memorySpace?: MemorySpaceCategory
+  memorySpace?: MemorySpace
 }
 
 const FilesManager: FunctionComponent<Props> = ({
@@ -32,13 +32,13 @@ const FilesManager: FunctionComponent<Props> = ({
       if (element.fileType === FileType.Free) {
         return {
           ...element,
-          megabyteSize: free,
+          size: free,
         }
       }
       if (element.fileType === FileType.UsedSpace) {
         return {
           ...element,
-          megabyteSize: systemMemory,
+          size: systemMemory,
         }
       }
       return element
@@ -47,7 +47,10 @@ const FilesManager: FunctionComponent<Props> = ({
 
   return (
     <FilesManagerContainer data-testid={FilesManagerTestIds.Container}>
-      <FilesSummary data={mapperDiskSpaceCategory} memorySpace={memorySpace} />
+      <FilesSummary
+        diskSpaceCategories={mapperDiskSpaceCategory}
+        memorySpace={memorySpace}
+      />
     </FilesManagerContainer>
   )
 }

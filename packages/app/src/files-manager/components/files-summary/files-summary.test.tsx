@@ -14,21 +14,21 @@ import { FileType } from "App/files-manager/constants"
 
 const defaultProps: ComponentProps<typeof FilesSummary> = {
   memorySpace: {
-    free: 60,
-    full: 100,
+    free: 62914560,
+    full: 104857600,
   },
-  data: [
+  diskSpaceCategories: [
     {
       fileType: FileType.UsedSpace,
       color: "#DFEFDE",
       icon: Type.MuditaLogo,
-      megabyteSize: 1024,
+      size: 41943040,
     },
     {
       fileType: FileType.Free,
       color: "#F4F5F6",
       icon: Type.Cloud,
-      megabyteSize: 124,
+      size: 62914560,
     },
   ],
 }

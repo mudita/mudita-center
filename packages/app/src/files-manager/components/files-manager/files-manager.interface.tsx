@@ -8,13 +8,13 @@ import { FileType } from "App/files-manager/constants"
 
 export interface DiskSpaceCategory {
   fileType: FileType
-  megabyteSize: number
+  size: number
   filesAmount?: number
   color: string
   icon: Type
 }
 
-export interface MemorySpaceCategory {
+export interface MemorySpace {
   free: number
   full: number
 }
