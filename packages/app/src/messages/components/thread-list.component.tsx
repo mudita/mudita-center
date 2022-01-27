@@ -102,7 +102,7 @@ const ThreadList: FunctionComponent<Props> = ({
 
       return (
         <ThreadRow
-          key={index}
+          key={phoneNumber}
           active={active}
           selected={selected}
           indeterminate={indeterminate}

@@ -4,8 +4,8 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import { AllIndexes } from "App/data-sync/types/all-indexes.type"
-import { DataSyncEvent } from "App/data-sync"
+import { DataSyncEvent } from "App/data-sync/constants"
+import { AllIndexes } from "App/data-sync/types"
 import { UpdateAllIndexesError } from "App/data-sync/errors"
 
 export enum SynchronizationState {
@@ -21,12 +21,12 @@ export interface DataSyncState {
   error: Error | string | null
 }
 
-export type UpdateAllIndexesRejectAction = PayloadAction<
-  UpdateAllIndexesError,
-  DataSyncEvent.UpdateAllIndexes
-  >
-
 export type UpdateAllIndexesAction = PayloadAction<
   AllIndexes,
   DataSyncEvent.UpdateAllIndexes
-  >
+>
+
+export type UpdateAllIndexesRejectAction = PayloadAction<
+  UpdateAllIndexesError,
+  DataSyncEvent.UpdateAllIndexes
+>
