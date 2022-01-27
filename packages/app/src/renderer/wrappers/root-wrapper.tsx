@@ -149,6 +149,12 @@ const RootWrapper: FunctionComponent<Props> = ({
   }, [])
 
   useEffect(() => {
+    if (connectedAndUnlocked) {
+      getCrashDump()
+    }
+  }, [connectedAndUnlocked])
+
+  useEffect(() => {
     let interval: NodeJS.Timeout
 
     if (deviceType && connectedAndUnlocked) {
