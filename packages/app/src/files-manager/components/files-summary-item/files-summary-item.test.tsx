@@ -15,6 +15,7 @@ const defaultProps: ComponentProps<typeof FilesSummaryItem> = {
   type: DiskSpaceCategoryType.UsedSpace,
   color: "#DFEFDE",
   icon: Type.MuditaLogo,
+  label: "Used space",
   size: 1073741824,
 }
 

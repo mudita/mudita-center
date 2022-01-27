@@ -12,6 +12,7 @@ export interface DiskSpaceCategory {
   filesAmount?: number
   color: string
   icon: Type
+  label: string
 }
 
 export interface MemorySpace {

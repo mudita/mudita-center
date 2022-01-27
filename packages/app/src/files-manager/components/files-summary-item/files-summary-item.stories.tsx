@@ -14,6 +14,7 @@ const fakeData: DiskSpaceCategory = {
   type: DiskSpaceCategoryType.UsedSpace,
   color: "#DFEFDE",
   icon: Type.MuditaLogo,
+  label: "Used space",
   size: 62914560,
 }
 

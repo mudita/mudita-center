@@ -46,7 +46,7 @@ export const messages = defineMessages({
 const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
   color,
   filesAmount,
-  type,
+  label,
   size = 0,
   icon,
 }) => {
@@ -59,7 +59,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
           element={"p"}
           data-testid={FilesSummaryItemTestIds.Title}
         >
-          {type}
+          {label}
         </Text>
         {filesAmount ? (
           <Text

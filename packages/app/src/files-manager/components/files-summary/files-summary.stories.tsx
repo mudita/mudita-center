@@ -16,12 +16,14 @@ const fakeData: DiskSpaceCategory[] = [
     type: DiskSpaceCategoryType.UsedSpace,
     color: "#DFEFDE",
     icon: Type.MuditaLogo,
+    label: "Used space",
     size: 41943040,
   },
   {
     type: DiskSpaceCategoryType.Free,
     color: "#F4F5F6",
     icon: Type.Cloud,
+    label: "Free",
     size: 62914560,
   },
 ]
