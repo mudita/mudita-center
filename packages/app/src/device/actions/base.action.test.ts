@@ -43,6 +43,7 @@ const pureDeviceMock: PureDeviceData = {
   memorySpace: {
     free: 124,
     full: 1021,
+    total: 16000000000,
   },
   caseColour: CaseColour.Gray,
   backupLocation: "path/to/directory",
