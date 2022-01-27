@@ -23,11 +23,11 @@ const FilesManager: FunctionComponent<Props> = ({
   memorySpace = {
     free: 0,
     full: 0,
+    total: 0,
   },
 }) => {
-  const totalMemorySpace = 16000000000
-  const { free } = memorySpace
-  const systemMemory = totalMemorySpace - free
+  const { free, total } = memorySpace
+  const systemMemory = total - free
 
   const diskSpaceCategories: DiskSpaceCategory[] = filesSummaryElements.map(
     (element) => {
@@ -51,7 +51,7 @@ const FilesManager: FunctionComponent<Props> = ({
     <FilesManagerContainer data-testid={FilesManagerTestIds.Container}>
       <FilesSummary
         diskSpaceCategories={diskSpaceCategories}
-        totalMemorySpace={totalMemorySpace}
+        totalMemorySpace={total}
         systemMemory={systemMemory}
       />
     </FilesManagerContainer>

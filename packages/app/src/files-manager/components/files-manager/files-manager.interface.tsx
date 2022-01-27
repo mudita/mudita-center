@@ -17,4 +17,5 @@ export interface DiskSpaceCategory {
 export interface MemorySpace {
   free: number
   full: number
+  total: number
 }

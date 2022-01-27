@@ -10,4 +10,5 @@ export default abstract class PurePhoneStorageAdapter {
   public abstract getCapacity(): Promise<DeviceResponse<number>>
   public abstract getAvailableSpace(): Promise<DeviceResponse<number>>
   public abstract getStorageCategories(): StorageCategoryInfo[]
+  public abstract getTotalSpace(): number
 }

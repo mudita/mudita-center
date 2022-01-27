@@ -61,6 +61,10 @@ class PurePhoneStorage extends PurePhoneStorageAdapter {
   public getStorageCategories(): StorageCategoryInfo[] {
     return []
   }
+
+  public getTotalSpace(): number {
+    return 16000000000
+  }
 }
 
 const createPurePhoneStorageAdapter = (

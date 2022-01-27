@@ -12,6 +12,7 @@ const defaultProps: ComponentProps<typeof FilesManager> = {
   memorySpace: {
     free: 62914560,
     full: 104857600,
+    total: 16000000000,
   },
 }
 

@@ -50,6 +50,7 @@ export class PureDataLoader extends BaseLoader {
       memorySpace: {
         full: storageInfo.data!.capacity,
         free: storageInfo.data!.available,
+        total: storageInfo.data!.totalSpace,
       },
       caseColour: info.data!.caseColour,
       backupLocation: info.data!.backupLocation,

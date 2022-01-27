@@ -55,6 +55,7 @@ test("returns required storage info", async () => {
       "available": 14393802752,
       "capacity": 14588837888,
       "categories": Array [],
+      "totalSpace": 16000000000,
     }
   `)
 })
