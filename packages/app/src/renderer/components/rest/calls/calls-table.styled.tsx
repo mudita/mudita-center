@@ -45,7 +45,7 @@ export const SelectableCalls = styled(BaseSelectableCalls)<{
     `};
 `
 export const ContactName = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SecondaryBoldHeading,
+  displayStyle: TextDisplayStyle.TertiaryHeading,
 }))`
   display: flex;
   flex-flow: row wrap;

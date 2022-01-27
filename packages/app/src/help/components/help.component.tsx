@@ -92,7 +92,7 @@ const SupportButtonComponent = styled(ButtonComponent)`
 
 const textFormatters = {
   b: (str: string) => (
-    <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading} element={"span"}>
+    <Text displayStyle={TextDisplayStyle.TertiaryHeading} element={"span"}>
       {str}
     </Text>
   ),

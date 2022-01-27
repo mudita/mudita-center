@@ -28,7 +28,7 @@ const ThreadDetailsSidebarLeftHeader: FunctionComponent<Props> = ({
     <>
       <NameWrapper>
         <Text
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.QuaternaryHeading}
           data-testid="sidebar-fullname"
         >
           {prettyCaller}

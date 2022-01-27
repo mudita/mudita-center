@@ -84,7 +84,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     <Card className={className}>
       <TextInfo>
         <SpaceData>
-          <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
+          <Text displayStyle={TextDisplayStyle.TertiaryHeading}>
             {convertBytes(usedSpace)}
           </Text>
           <Text element={"span"} displayStyle={TextDisplayStyle.SmallText}>

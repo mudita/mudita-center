@@ -42,9 +42,9 @@ export const getTitleStyle = (size: ModalSize) => {
       return TextDisplayStyle.LargeBoldText
     case ModalSize.Small:
     case ModalSize.Medium:
-      return TextDisplayStyle.SecondaryBoldHeading
+      return TextDisplayStyle.TertiaryHeading
     case ModalSize.Large:
-      return TextDisplayStyle.TertiaryBoldHeading
+      return TextDisplayStyle.SecondaryHeading
     default:
       return
   }

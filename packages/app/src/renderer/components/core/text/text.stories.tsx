@@ -73,16 +73,9 @@ storiesOf("Theme/Text", module).add("Text", () => {
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.SecondaryBoldHeading">
-        <Story noUppercase title="SecondaryBoldHeading">
-          <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-            I’m at the meeting now. I will call you later
-          </Text>
-        </Story>
-      </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.TertiaryBoldHeading">
-        <Story noUppercase title="TertiaryBoldHeading">
-          <Text displayStyle={TextDisplayStyle.TertiaryBoldHeading}>
+      <ClickableWrapper text="TextDisplayStyle.SecondaryHeading">
+        <Story noUppercase title="SecondaryHeading">
+          <Text displayStyle={TextDisplayStyle.SecondaryHeading}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
@@ -90,6 +83,20 @@ storiesOf("Theme/Text", module).add("Text", () => {
       <ClickableWrapper text="TextDisplayStyle.TertiaryHeading">
         <Story noUppercase title="TertiaryHeading">
           <Text displayStyle={TextDisplayStyle.TertiaryHeading}>
+            I’m at the meeting now. I will call you later
+          </Text>
+        </Story>
+      </ClickableWrapper>
+      <ClickableWrapper text="TextDisplayStyle.QuaternaryHeading">
+        <Story noUppercase title="QuaternaryHeading">
+          <Text displayStyle={TextDisplayStyle.QuaternaryHeading}>
+            I’m at the meeting now. I will call you later
+          </Text>
+        </Story>
+      </ClickableWrapper>
+      <ClickableWrapper text="TextDisplayStyle.FifthHeading">
+        <Story noUppercase title="FifthHeading">
+          <Text displayStyle={TextDisplayStyle.FifthHeading}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>

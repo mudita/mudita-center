@@ -91,7 +91,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
       </BackWrapper>
       <PureSystemSection>
         <PureSystemTitle
-          displayStyle={TextDisplayStyle.SecondaryBoldHeading}
+          displayStyle={TextDisplayStyle.TertiaryHeading}
           message={messages.title}
         />
         <Text
@@ -101,7 +101,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
       </PureSystemSection>
       <PureSystemSection>
         <PureSystemAbout
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.QuaternaryHeading}
           message={messages.about}
         />
         <PureSystemInfo title={messages.serialNumber}>

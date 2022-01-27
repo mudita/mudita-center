@@ -4,18 +4,18 @@ exports[`matches snapshot 1`] = `
 .c3 {
   margin: 0;
   font-size: 2.4rem;
-  line-height: 0.8;
+  line-height: 1.33;
   font-weight: 700;
-  -webkit-letter-spacing: -0.06rem;
-  -moz-letter-spacing: -0.06rem;
-  -ms-letter-spacing: -0.06rem;
-  letter-spacing: -0.06rem;
+  -webkit-letter-spacing: -0.02rem;
+  -moz-letter-spacing: -0.02rem;
+  -ms-letter-spacing: -0.02rem;
+  letter-spacing: -0.02rem;
 }
 
 .c8 {
   margin: 0;
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.5;
   font-weight: 700;
   -webkit-letter-spacing: 0.02rem;
   -moz-letter-spacing: 0.02rem;
@@ -149,11 +149,11 @@ exports[`matches snapshot 1`] = `
     <div
       class="c1 c2"
     >
-      <h2
+      <h3
         class="c3"
       >
         [value] module.overview.statusPureTitle
-      </h2>
+      </h3>
     </div>
     <div
       class="c4"
@@ -209,12 +209,12 @@ exports[`matches snapshot 1`] = `
             </span>
           </div>
           <div>
-            <p
+            <h4
               class="c8"
               data-testid="network-name"
             >
               Play
-            </p>
+            </h4>
             <p
               class="c9"
             >

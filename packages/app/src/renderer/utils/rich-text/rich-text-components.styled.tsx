@@ -7,10 +7,12 @@ import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { fontWeight } from "Renderer/styles/theming/theme-getters"
 
 export const RichTextSecondaryHeading = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SecondaryBoldHeading,
+  displayStyle: TextDisplayStyle.TertiaryHeading,
 }))`
+  font-weight: ${fontWeight("default")};
   margin-bottom: 4rem;
 `
 

@@ -100,7 +100,7 @@ const Status: FunctionComponent<StatusProps> = ({
   return (
     <Card className={className}>
       <TextInfo>
-        <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
+        <Text displayStyle={TextDisplayStyle.TertiaryHeading}>
           {deviceType === DeviceType.MuditaPure ? (
             <FormattedMessage id="module.overview.statusPureTitle" />
           ) : (
@@ -116,7 +116,7 @@ const Status: FunctionComponent<StatusProps> = ({
             </IconContainer>
             <div>
               <Text
-                displayStyle={TextDisplayStyle.LargeBoldText}
+                displayStyle={TextDisplayStyle.QuaternaryHeading}
                 element={"h2"}
                 data-testid={StatusTestIds.BatteryLevel}
               >
@@ -136,7 +136,7 @@ const Status: FunctionComponent<StatusProps> = ({
               {network ? (
                 <div>
                   <Text
-                    displayStyle={TextDisplayStyle.LargeBoldText}
+                    displayStyle={TextDisplayStyle.QuaternaryHeading}
                     data-testid={StatusTestIds.NetworkName}
                   >
                     {displayNetworkName(network)}

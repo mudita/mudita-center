@@ -182,7 +182,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
 
   const headerLeft = (
     <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
+      displayStyle={TextDisplayStyle.QuaternaryHeading}
       message={contact?.id ? messages.editTitle : messages.newTitle}
     />
   )

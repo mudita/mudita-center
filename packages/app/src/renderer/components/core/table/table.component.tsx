@@ -125,7 +125,7 @@ const rowLabelStyles = css`
   padding: 0;
   z-index: 1;
   ${Col} {
-    ${getTextStyles(TextDisplayStyle.LargeBoldText)};
+    ${getTextStyles(TextDisplayStyle.QuaternaryHeading)};
     line-height: 1.1;
   }
 `

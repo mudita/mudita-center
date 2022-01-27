@@ -16,11 +16,6 @@ import {
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
-export const tertiaryHeadingSharedStyles = css`
-  font-size: 1.8rem;
-  line-height: 1.1;
-`
-
 export const largeTextSharedStyles = css`
   font-size: 1.6rem;
   line-height: 1.05;
@@ -54,33 +49,37 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
   switch (displayStyle) {
     case TextDisplayStyle.PrimaryHeading:
       return css`
-        font-size: 5.6rem;
-        line-height: 1.1;
-        font-weight: ${fontWeight("light")};
+        font-size: 40rem;
+        line-height: 1.2;
+        font-weight: ${fontWeight("default")};
+        letter-spacing: ${letterSpacing("negative")}rem;
       `
     case TextDisplayStyle.SecondaryHeading:
       return css`
-        font-size: 2.4rem;
-        line-height: 0.8;
-        font-weight: ${fontWeight("light")};
-        letter-spacing: ${letterSpacing("negative")}rem;
-      `
-    case TextDisplayStyle.SecondaryBoldHeading:
-      return css`
-        font-size: 2.4rem;
-        line-height: 0.8;
-        font-weight: ${fontWeight("bold")};
-        letter-spacing: ${letterSpacing("negative")}rem;
-      `
-    case TextDisplayStyle.TertiaryBoldHeading:
-      return css`
-        ${tertiaryHeadingSharedStyles};
-        font-weight: ${fontWeight("bold")};
+        font-size: 3.2rem;
+        line-height: 1.25;
+        font-weight: ${fontWeight("default")};
       `
     case TextDisplayStyle.TertiaryHeading:
       return css`
-        ${tertiaryHeadingSharedStyles};
-        font-weight: ${fontWeight("default")};
+        font-size: 2.4rem;
+        line-height: 1.33;
+        font-weight: ${fontWeight("bold")};
+        letter-spacing: ${letterSpacing("negative")}rem;
+      `
+    case TextDisplayStyle.QuaternaryHeading:
+      return css`
+        font-size: 1.6rem;
+        line-height: 1.5;
+        font-weight: ${fontWeight("bold")};
+        letter-spacing: ${letterSpacing("smaller")}rem;
+      `
+    case TextDisplayStyle.FifthHeading:
+      return css`
+        font-size: 1.4rem;
+        line-height: 1.57;
+        font-weight: ${fontWeight("bold")};
+        letter-spacing: ${letterSpacing("small")}rem;
       `
     case TextDisplayStyle.LargeBoldText:
       return css`
@@ -221,9 +220,9 @@ export enum TextDisplayStyle {
   Default,
   PrimaryHeading,
   SecondaryHeading,
-  SecondaryBoldHeading,
-  TertiaryBoldHeading,
   TertiaryHeading,
+  QuaternaryHeading,
+  FifthHeading,
   LargeBoldText,
   LargeText,
   LargeFadedText,
@@ -250,15 +249,15 @@ interface ElementsMapping {
   [key: number]: Element
 }
 
-type Element = "div" | "h1" | "h2" | "h3" | "span" | "p" | "li"
+type Element = "div" | "h1" | "h2" | "h3" | "h4" | "h5" | "span" | "p" | "li"
 
 const mapping: ElementsMapping = {
   [TextDisplayStyle.Default]: "div",
   [TextDisplayStyle.PrimaryHeading]: "h1",
   [TextDisplayStyle.SecondaryHeading]: "h2",
-  [TextDisplayStyle.SecondaryBoldHeading]: "h2",
-  [TextDisplayStyle.TertiaryBoldHeading]: "h3",
   [TextDisplayStyle.TertiaryHeading]: "h3",
+  [TextDisplayStyle.QuaternaryHeading]: "h4",
+  [TextDisplayStyle.FifthHeading]: "h5",
   [TextDisplayStyle.LargeBoldText]: "p",
   [TextDisplayStyle.LargeText]: "p",
   [TextDisplayStyle.LargeFadedText]: "p",

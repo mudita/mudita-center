@@ -53,7 +53,7 @@ const ConnectingContent: FunctionComponent<Props> = () => {
           <Loader type={LoaderType.Spinner} size={6} />
         </LoaderWrapper>
         <Text
-          displayStyle={TextDisplayStyle.SecondaryBoldHeading}
+          displayStyle={TextDisplayStyle.TertiaryHeading}
           message={{ id: "module.onboarding.connectingMessage" }}
         />
       </main>

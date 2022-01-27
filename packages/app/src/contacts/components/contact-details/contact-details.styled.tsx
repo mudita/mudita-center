@@ -26,7 +26,7 @@ export const BasicInfo = styled.div`
   justify-content: center;
 `
 export const Name = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SecondaryBoldHeading,
+  displayStyle: TextDisplayStyle.TertiaryHeading,
 }))`
   grid-area: Name;
   text-align: center;
@@ -52,7 +52,7 @@ export const InfoItemName = styled(Text).attrs(() => ({
   color: ${textColor("secondary")};
 `
 export const InfoItemSpeedDialNumber = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.TertiaryBoldHeading,
+  displayStyle: TextDisplayStyle.TertiaryHeading,
 }))`
   font-size: 2.2rem;
   line-height: 1;

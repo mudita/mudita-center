@@ -194,7 +194,7 @@ const ContactPanel: FunctionComponent<Props> = ({
       </Panel>
       {showSearchResults && (
         <SearchTitle
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.QuaternaryHeading}
           data-testid={ContactPanelTestIdsEnum.SearchTitle}
         >
           {intl.formatMessage(messages.searchResultsTitle, {

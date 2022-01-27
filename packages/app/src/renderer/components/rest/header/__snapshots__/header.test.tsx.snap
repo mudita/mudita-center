@@ -3,9 +3,13 @@
 exports[`matches snapshot with tabs 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.8rem;
-  line-height: 1.1;
+  font-size: 1.6rem;
+  line-height: 1.5;
   font-weight: 700;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
 }
 
 .c8 {
@@ -145,12 +149,12 @@ exports[`matches snapshot with tabs 1`] = `
 <div
   class="c0"
 >
-  <h3
+  <h4
     class="c1 c2"
     data-testid="location"
   >
     [value] module.phone
-  </h3>
+  </h4>
   <div
     class="c3"
   >
@@ -206,9 +210,13 @@ exports[`matches snapshot with tabs 1`] = `
 exports[`matches snapshot without tabs 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.8rem;
-  line-height: 1.1;
+  font-size: 1.6rem;
+  line-height: 1.5;
   font-weight: 700;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
 }
 
 .c0 {
@@ -232,12 +240,12 @@ exports[`matches snapshot without tabs 1`] = `
 <div
   class="c0"
 >
-  <h3
+  <h4
     class="c1 c2"
     data-testid="location"
   >
     [value] module.overview
-  </h3>
+  </h4>
   <div
     class="c3"
   />
