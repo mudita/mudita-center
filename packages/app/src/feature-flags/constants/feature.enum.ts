@@ -15,7 +15,6 @@ export enum Feature {
   McPrereleaseAvailable = "mc-prerelease-available",
   PhoneLockTimer = "phone-lock-timer",
   MessagesHidden = "messages-hidden",
-  PhoneColour = "phone-colour",
   PureSystem = "pure-system-button",
   MCVersion = "mc-version",
   DevelopOnly = "development-only",
