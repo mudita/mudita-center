@@ -7,7 +7,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import getThreads from "Renderer/requests/get-threads.request"
 import { LoadThreadsError } from "App/messages/errors"
-import { clearAllThreads, setThreadsTotalCount } from "App/messages/actions/base.action"
+import { setThreadsTotalCount } from "App/messages/actions/base.action"
 import { ReduxRootState, RootState } from "Renderer/store"
 
 export const loadThreadsTotalCount = createAsyncThunk<undefined, undefined>(
@@ -28,9 +28,6 @@ export const loadThreadsTotalCount = createAsyncThunk<undefined, undefined>(
       dispatch(setThreadsTotalCount(data.totalCount))
       return
     }
-
-    // clear state if totalCount is difference
-    dispatch(clearAllThreads())
 
     return
   }

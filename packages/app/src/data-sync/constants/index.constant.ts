@@ -5,4 +5,6 @@
 
 export enum DataIndex {
   Contact = "contact",
+  Message = "message",
+  Thread = "thread",
 }

@@ -33,6 +33,7 @@ If you would like to help us create Mudita Center as a full-time job - **[we're 
 
 - [Mudita Center](#mudita-center)
   - [Key features](#key-features)
+    - [Coming soon](#coming-soon)
   - [Table of contents](#table-of-contents)
   - [Quickstart](#quickstart)
   - [Scripts](#scripts)
