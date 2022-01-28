@@ -5,7 +5,7 @@
 
 import * as React from "react"
 import { Redirect, Route, Switch } from "react-router"
-import FilesManager from "Renderer/modules/filesManager/files-manager.component"
+import FilesManager from "App/files-manager/files-manager.container"
 import Meditation from "Renderer/modules/meditation/meditation.component"
 import Messages from "App/messages/messages.container"
 import Music from "Renderer/modules/music/music.component"

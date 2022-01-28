@@ -16,6 +16,11 @@ import { MessageBubbleTestIds } from "App/messages/components/message-bubble-tes
 import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
 import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
 
+jest.mock("react-viewport-list", () => {
+  return ({ children, items }: any) => {
+    return <>{items.map((item: any, index: any) => children(item, index))}</>
+  }
+})
 window.HTMLElement.prototype.scrollIntoView = jest.fn()
 
 type Props = ComponentProps<typeof ThreadDetailsMessages>

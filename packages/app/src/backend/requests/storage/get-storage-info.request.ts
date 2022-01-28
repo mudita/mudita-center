@@ -34,6 +34,7 @@ const handleDeviceStorageRequest = async ({
         available: getAvailableSpaceResponse,
         capacity: getCapacityResponse,
         categories: pureStorage.getStorageCategories(),
+        totalSpace: pureStorage.getTotalSpace(),
       },
     }
   } else {

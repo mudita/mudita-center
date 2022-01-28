@@ -4,7 +4,11 @@
  */
 
 import { ContactObject } from "App/data-sync/types/contact-object.type"
+import { MessageObject } from "App/data-sync/types/message-object.type"
+import { ThreadObject } from "App/data-sync/types/thread-object.type"
 
 export interface AllIndexes {
   contacts: Record<string, ContactObject>
+  messages: Record<string, MessageObject>
+  threads: Record<string, ThreadObject>
 }

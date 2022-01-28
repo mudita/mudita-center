@@ -49,6 +49,7 @@ const dataMock = {
     serialNumber: "123",
     capacity: 1024,
     available: 1000,
+    totalSpace: 16000000000,
   },
 }
 
@@ -80,7 +81,7 @@ test("PureDataLoader calls required requests", async () => {
     osVersion: "7.7.7",
     batteryLevel: 50,
     serialNumber: "123",
-    memorySpace: { full: 1024, free: 1000 },
+    memorySpace: { full: 1024, free: 1000, total: 16000000000 },
     networkLevel: "1",
     networkName: "Network",
     simCards: [
