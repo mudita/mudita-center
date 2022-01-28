@@ -276,7 +276,7 @@ storiesOf("Components|Core/Table/Parts", module)
   ))
   .add("Sidebar", () => {
     const HeaderLeft = () => (
-      <CustomSidebarTitle displayStyle={TextDisplayStyle.LargeBoldText}>
+      <CustomSidebarTitle displayStyle={TextDisplayStyle.QuaternaryHeading}>
         Sidebar title
       </CustomSidebarTitle>
     )

@@ -50,14 +50,12 @@ const InfoModal: FunctionComponent<Props> = ({
         <Icon type={Type.Info} width={5} />
       </RoundIconWrapper>
       {subtitle && (
-        <ModalText displayStyle={TextDisplayStyle.LargeBoldText}>
+        <ModalText displayStyle={TextDisplayStyle.QuaternaryHeading}>
           {subtitle}
         </ModalText>
       )}
       {body && (
-        <ModalText displayStyle={TextDisplayStyle.MediumFadedLightText}>
-          {body}
-        </ModalText>
+        <ModalText displayStyle={TextDisplayStyle.LightText}>{body}</ModalText>
       )}
     </ModalContent>
   </ModalDialog>

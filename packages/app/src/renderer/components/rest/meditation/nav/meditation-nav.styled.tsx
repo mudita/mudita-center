@@ -12,7 +12,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 
 export const DateRange = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.LargeBoldText,
+  displayStyle: TextDisplayStyle.Text,
 }))<{ long?: boolean }>`
   margin-bottom: 0.4rem;
   text-align: center;

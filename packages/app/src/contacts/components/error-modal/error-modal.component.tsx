@@ -49,7 +49,7 @@ const ErrorModal: FunctionComponent<Props> = ({
         <Icon type={Type.Fail} width={5} />
       </RoundIconWrapper>
       {subtitle && (
-        <ModalText displayStyle={TextDisplayStyle.LargeBoldText}>
+        <ModalText displayStyle={TextDisplayStyle.QuaternaryHeading}>
           {subtitle}
         </ModalText>
       )}

@@ -83,7 +83,7 @@ const AuthorizationFailedModal: FunctionComponent<AuthorizationFailedModalProps>
             <Icon type={Type.CalendarIcon} width={4} />
           </RoundIconWrapper>
           <Text
-            displayStyle={TextDisplayStyle.LargeBoldText}
+            displayStyle={TextDisplayStyle.QuaternaryHeading}
             message={messages.subtitle}
           />
           <ModalText

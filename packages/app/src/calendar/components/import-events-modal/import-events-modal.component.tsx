@@ -79,7 +79,7 @@ const ImportEventsModal: FunctionComponent<ImportEventsModalProps> = ({
         <Icon type={Type.Download} width={4} />
       </RoundIconWrapper>
       <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.bodyTitle}
       />
       <Body

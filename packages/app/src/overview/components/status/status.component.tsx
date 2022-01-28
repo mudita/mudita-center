@@ -148,7 +148,7 @@ const Status: FunctionComponent<StatusProps> = ({
                 </div>
               ) : (
                 <Text
-                  displayStyle={TextDisplayStyle.LargeBoldText}
+                  displayStyle={TextDisplayStyle.QuaternaryHeading}
                   message={messages.noConnection}
                 />
               )}

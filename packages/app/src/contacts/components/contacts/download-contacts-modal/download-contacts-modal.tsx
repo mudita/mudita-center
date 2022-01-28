@@ -63,7 +63,7 @@ export const DownloadContactsModal: FunctionComponent<Props> = ({
       </RoundIconWrapper>
       {textMessage && (
         <Text
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.QuaternaryHeading}
           message={textMessage}
         />
       )}

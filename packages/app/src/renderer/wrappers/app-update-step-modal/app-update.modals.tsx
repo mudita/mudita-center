@@ -117,7 +117,7 @@ export const AppUpdateAvailable: FunctionComponent<
     {...props}
   >
     <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
+      displayStyle={TextDisplayStyle.QuaternaryHeading}
       message={messages.availableUpdateMessage}
     />
     <Text
@@ -128,7 +128,7 @@ export const AppUpdateAvailable: FunctionComponent<
       }}
     />
     <Text
-      displayStyle={TextDisplayStyle.MediumFadedLightText}
+      displayStyle={TextDisplayStyle.LightText}
       message={messages.availableUpdateDescription}
     />
   </AppUpdateModal>
@@ -150,7 +150,7 @@ export const AppUpdateForced: FunctionComponent<
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
       <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.updateForcedModalMessage}
       />
       <br />
@@ -184,7 +184,7 @@ export const AppUpdateError: FunctionComponent<
     {...props}
   >
     <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
+      displayStyle={TextDisplayStyle.QuaternaryHeading}
       message={messages.errorUpdateMessage}
     />
     <Text
@@ -204,7 +204,7 @@ export const AppUpdateDownloaded: FunctionComponent<
     {...props}
   >
     <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
+      displayStyle={TextDisplayStyle.QuaternaryHeading}
       message={messages.downloadedUpdateMessage}
     />
     <Text
@@ -234,7 +234,7 @@ export const AppUpdateProgress: FunctionComponent<
         <Loader type={LoaderType.Spinner} />
       </RoundIconWrapper>
       <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.progressUpdateTitle}
       />
       <Text
@@ -254,7 +254,7 @@ export const AppUpdateNotAvailable: FunctionComponent<
     {...props}
   >
     <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
+      displayStyle={TextDisplayStyle.QuaternaryHeading}
       message={messages.notAvailableUpdateMessage}
     />
     <Text

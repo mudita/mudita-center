@@ -45,7 +45,7 @@ const SynchronizingEventsModal: FunctionComponent<ModalProps> = (...props) => (
         <Loader type={LoaderType.Spinner} />
       </RoundIconWrapper>
       <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.subtitle}
       />
       <ModalText

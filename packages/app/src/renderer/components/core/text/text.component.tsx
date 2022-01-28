@@ -16,6 +16,26 @@ import {
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
+export const uppercaseTextSharedStyles = css`
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: ${fontWeight("default")};
+  letter-spacing: ${letterSpacing("regular")}rem;
+  text-transform: uppercase;
+`
+
+export const biggerTextSharedStyles = css`
+  font-size: 1.6rem;
+  line-height: 1.5;
+  letter-spacing: ${letterSpacing("smaller")}rem;
+`
+
+export const textSharedStyles = css`
+  font-size: 1.4rem;
+  line-height: 1.57;
+  letter-spacing: ${letterSpacing("small")}rem;
+`
+
 export const largeTextSharedStyles = css`
   font-size: 1.6rem;
   line-height: 1.05;
@@ -81,11 +101,30 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         font-weight: ${fontWeight("bold")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
-    case TextDisplayStyle.LargeBoldText:
+    case TextDisplayStyle.BiggerText:
+      return biggerTextSharedStyles
+    case TextDisplayStyle.BiggerLightText:
       return css`
-        ${largeTextSharedStyles};
-        font-weight: ${fontWeight("bold")};
-        letter-spacing: ${letterSpacing("smaller")}rem;
+        ${biggerTextSharedStyles}
+        font-weight: ${fontWeight("light")};
+      `
+    case TextDisplayStyle.Text:
+      return textSharedStyles
+    case TextDisplayStyle.LightText:
+      return css`
+        ${textSharedStyles}
+        font-weight: ${fontWeight("light")};
+      `
+    case TextDisplayStyle.Title:
+      return uppercaseTextSharedStyles
+    case TextDisplayStyle.Button:
+      return uppercaseTextSharedStyles
+    case TextDisplayStyle.Label:
+      return css`
+        font-size: 1.2rem;
+        line-height: 1.67;
+        font-weight: ${fontWeight("default")};
+        letter-spacing: ${letterSpacing("small")}rem;
       `
     case TextDisplayStyle.LargeText:
       return largeTextSharedStyles
@@ -223,7 +262,13 @@ export enum TextDisplayStyle {
   TertiaryHeading,
   QuaternaryHeading,
   FifthHeading,
-  LargeBoldText,
+  BiggerText,
+  BiggerLightText,
+  Text,
+  LightText,
+  Title,
+  Button,
+  Label,
   LargeText,
   LargeFadedText,
   LargeTextCapitalLetters,
@@ -258,7 +303,6 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.TertiaryHeading]: "h3",
   [TextDisplayStyle.QuaternaryHeading]: "h4",
   [TextDisplayStyle.FifthHeading]: "h5",
-  [TextDisplayStyle.LargeBoldText]: "p",
   [TextDisplayStyle.LargeText]: "p",
   [TextDisplayStyle.LargeFadedText]: "p",
   [TextDisplayStyle.LargeTextCapitalLetters]: "p",
@@ -278,6 +322,13 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.SmallFadedLightText]: "p",
   [TextDisplayStyle.SmallFadedDimText]: "p",
   [TextDisplayStyle.ExtraSmallFadedDimText]: "p",
+  [TextDisplayStyle.BiggerText]: "p",
+  [TextDisplayStyle.BiggerLightText]: "p",
+  [TextDisplayStyle.Text]: "p",
+  [TextDisplayStyle.LightText]: "p",
+  [TextDisplayStyle.Title]: "p",
+  [TextDisplayStyle.Button]: "p",
+  [TextDisplayStyle.Label]: "p",
 }
 
 const Text: FunctionComponent<TextProps> = ({

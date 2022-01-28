@@ -173,14 +173,14 @@ const ThreadRow: FunctionComponent<Props> = ({
         {getPrettyCaller(contact, phoneNumber) === newConversation ||
         !thread.messageSnippet ? (
           <NewThreadWrapper>
-            <Name displayStyle={TextDisplayStyle.LargeBoldText}>
+            <Name displayStyle={TextDisplayStyle.QuaternaryHeading}>
               {getPrettyCaller(contact, phoneNumber)}
             </Name>
           </NewThreadWrapper>
         ) : (
           <ThreadDataWrapper sidebarOpened={sidebarOpened}>
             <NameWrapper>
-              <Name displayStyle={TextDisplayStyle.LargeBoldText}>
+              <Name displayStyle={TextDisplayStyle.QuaternaryHeading}>
                 {getPrettyCaller(contact, phoneNumber)}
               </Name>
               {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (

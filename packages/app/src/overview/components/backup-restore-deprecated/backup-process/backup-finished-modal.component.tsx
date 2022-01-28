@@ -53,7 +53,7 @@ export const BackupFinishedModal: FunctionComponent<
   >
     <Text
       message={messages.title}
-      displayStyle={TextDisplayStyle.LargeBoldText}
+      displayStyle={TextDisplayStyle.QuaternaryHeading}
     />
     <Text
       message={{
@@ -63,7 +63,7 @@ export const BackupFinishedModal: FunctionComponent<
           ...textFormatters,
         },
       }}
-      displayStyle={TextDisplayStyle.MediumFadedLightText}
+      displayStyle={TextDisplayStyle.LightText}
     />
     <FileList>
       <Labels>

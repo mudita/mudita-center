@@ -57,12 +57,12 @@ const CollectingDataModalUi: FunctionComponent<Props> = ({
         <Icon type={Type.MuditaLogoBg} width={12} height={12} />
         <Paragraph
           data-testid={CollectingDataModalTestIds.Subtitle}
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.QuaternaryHeading}
           message={messages.text}
         />
         <Paragraph
           data-testid={CollectingDataModalTestIds.Body}
-          displayStyle={TextDisplayStyle.MediumFadedText}
+          displayStyle={TextDisplayStyle.LightText}
           message={messages.body}
         />
         <FullAgreementButton

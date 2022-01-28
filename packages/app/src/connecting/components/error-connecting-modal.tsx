@@ -65,7 +65,7 @@ const ErrorConnectingModal: FunctionComponent<
           <Icon type={Type.Fail} width={4} />
         </RoundIconWrapper>
         <ModalText
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.QuaternaryHeading}
           message={messages.errorConnectingModalTitle}
         />
         <ModalText

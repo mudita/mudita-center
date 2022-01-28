@@ -69,11 +69,11 @@ const ImportingContactsModal: FunctionComponent<ImportingContactsModalProps> =
           <Icon type={Type.Download} width={4} />
         </RoundIconWrapper>
         <ModalText
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.QuaternaryHeading}
           message={messages.subtitle}
         />
         <ModalText
-          displayStyle={TextDisplayStyle.MediumFadedText}
+          displayStyle={TextDisplayStyle.LightText}
           message={messages.body}
         />
         <ProgressBar
@@ -83,7 +83,7 @@ const ImportingContactsModal: FunctionComponent<ImportingContactsModalProps> =
           ]}
           displayStyle={DisplayStyle.Thin}
         />
-        <Info displayStyle={TextDisplayStyle.MediumLightText}>
+        <Info displayStyle={TextDisplayStyle.Text}>
           {Math.round((count * 100) / total)}%
         </Info>
       </Content>

@@ -76,10 +76,13 @@ export const ErrorDataModal = ({
     <RoundIconWrapper>
       <Icon type={Type.Fail} width={4} />
     </RoundIconWrapper>
-    <Text displayStyle={TextDisplayStyle.LargeBoldText} message={textMessage} />
+    <Text
+      displayStyle={TextDisplayStyle.QuaternaryHeading}
+      message={textMessage}
+    />
     {descriptionMessage && (
       <Text
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.LightText}
         message={descriptionMessage}
       />
     )}
@@ -113,7 +116,7 @@ export const LoadingStateDataModal = ({
     </RoundIconWrapper>
     {textMessage && (
       <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={textMessage}
       />
     )}

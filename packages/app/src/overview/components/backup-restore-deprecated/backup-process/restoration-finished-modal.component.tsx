@@ -31,11 +31,8 @@ export const BackupRestorationFinishedModal: FunctionComponent<
   >
     <Text
       message={messages.title}
-      displayStyle={TextDisplayStyle.LargeBoldText}
+      displayStyle={TextDisplayStyle.QuaternaryHeading}
     />
-    <Text
-      message={messages.body}
-      displayStyle={TextDisplayStyle.MediumFadedLightText}
-    />
+    <Text message={messages.body} displayStyle={TextDisplayStyle.LightText} />
   </PureBackupModal>
 )

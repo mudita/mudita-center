@@ -110,14 +110,14 @@ export const RestoreModal: FunctionComponent<RestoreModalProps> = ({
         <Icon type={Type.BackupFolder} width={4} />
       </RoundIconWrapper>
       <ModalText
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.restoreModalTitle}
       />
       <ModalText displayStyle={TextDisplayStyle.MediumFadedText}>
         {moment(backupDate).format("dddd, MMMM D, h:mm a")}
       </ModalText>
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.LightText}
         message={messages.restoreModalDescription}
       />
     </Modal>
@@ -133,11 +133,11 @@ export const RestoreSpinnerModal: FunctionComponent<
         <Loader type={LoaderType.Spinner} size={3} />
       </RoundIconWrapper>
       <ModalText
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.restoreSpinnerModalTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.LightText}
         message={messages.restoreSpinnerModalDescription}
       />
     </Modal>
@@ -170,11 +170,11 @@ export const RestoreFailureModal: FunctionComponent<RestoreFailureWithHelpModalP
           <Icon type={Type.Fail} width={4} />
         </RoundIconWrapper>
         <ModalText
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.QuaternaryHeading}
           message={messages.restoreFailureModalTitle}
         />
         <ModalText
-          displayStyle={TextDisplayStyle.MediumFadedText}
+          displayStyle={TextDisplayStyle.LightText}
           message={messages.restoreFailureModalDescription}
         />
       </Modal>
@@ -196,11 +196,11 @@ export const RestoreSuccessModal: FunctionComponent<
         <Icon type={Type.CheckCircle} width={3} />
       </RoundIconWrapper>
       <ModalText
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.restoreSuccessModalTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.LightText}
         message={messages.restoreSuccessModalDescription}
       />
     </Modal>

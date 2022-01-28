@@ -104,7 +104,7 @@ const RestoreAvailableBackupModal: FunctionComponent<Props> = ({
           <Icon type={Type.BackupFolder} width={4} />
         </RoundIconWrapper>
         <ModalText
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.QuaternaryHeading}
           message={messages.restoreAvailableBackupModalTitle}
         />
       </ModalContent>

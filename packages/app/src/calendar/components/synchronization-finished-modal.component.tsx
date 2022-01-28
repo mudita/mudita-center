@@ -55,7 +55,7 @@ const EventsSynchronizationFinishedModal: FunctionComponent<EventsSynchronizatio
           <Icon type={Type.ThinCheck} width={8} />
         </RoundIconWrapper>
         <Text
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.QuaternaryHeading}
           message={messages.subtitle}
         />
         <ModalText

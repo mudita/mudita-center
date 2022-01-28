@@ -110,7 +110,7 @@ export const UpdatingForceModal: FunctionComponent<
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
       <ModalText
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.updatingForceTitle}
       />
       <ModalText
@@ -130,7 +130,7 @@ export const UpdatingSpinnerModal: FunctionComponent<
         <Loader type={LoaderType.Spinner} size={6} />
       </RoundIconWrapper>
       <ModalText
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.updatingProgressTitle}
       />
       <ModalText
@@ -177,7 +177,7 @@ export const UpdatingFailureWithHelpModal = ({
         <Icon type={Type.Fail} width={4} />
       </RoundIconWrapper>
       <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.updatingFailedTitle}
       />
       <Text
@@ -197,7 +197,7 @@ export const UpdatingSuccessModal: FunctionComponent<
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
       <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.updatingSuccessTitle}
       />
       <ModalText
@@ -229,7 +229,7 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalModalProps>
           <RoundIconWrapper>
             <Icon type={Type.NoBattery} width={5} />
           </RoundIconWrapper>
-          <ModalText displayStyle={TextDisplayStyle.LargeBoldText}>
+          <ModalText displayStyle={TextDisplayStyle.QuaternaryHeading}>
             {intl.formatMessage(messages.updatingFlatBatteryTitle)}
           </ModalText>
           <ModalText displayStyle={TextDisplayStyle.MediumFadedLightText}>
