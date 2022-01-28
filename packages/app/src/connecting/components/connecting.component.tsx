@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { timeoutMs } from "@mudita/pure"
 import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "Renderer/constants/urls"
 import ConnectingContent from "App/connecting/components/connecting-content.component"
 import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
@@ -70,8 +71,8 @@ const Connecting: FunctionComponent<{
       if (mounted) {
         setError(true)
       }
-      // the value is a little higher than API timeout which is set to 30000
-    }, 35000)
+      // the value is a little higher than API timeoutMs
+    }, timeoutMs + 5000)
 
     return () => {
       mounted = false
