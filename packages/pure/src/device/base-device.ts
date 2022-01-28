@@ -21,6 +21,8 @@ import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator"
 import { timeout } from "../timeout"
 
+export const timeoutMs = 30000
+
 class BaseDevice implements MuditaDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
@@ -131,7 +133,7 @@ class BaseDevice implements MuditaDevice {
     payload: RequestPayload
   ): Promise<Response<any>> {
     return new Promise((resolve) => {
-      const [promise, cancel] = timeout(30000)
+      const [promise, cancel] = timeout(timeoutMs)
       promise.then(() => {
         resolve(this.returnTimeoutResponse(payload))
       })
