@@ -57,7 +57,6 @@ import {
   setConnectionStatus,
 } from "App/device"
 import { getCrashDump } from "App/crash-dump"
-import { updateAllIndexes } from "App/data-sync"
 
 interface Props {
   history: History
@@ -94,7 +93,6 @@ const RootWrapper: FunctionComponent<Props> = ({
   loadDeviceData,
   connectedAndUnlocked,
   deviceType,
-  updateAllIndexes,
 }) => {
   const params = new URLSearchParams(window.location.search)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
@@ -198,11 +196,13 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const listener = () => {
-      unlockedDevice()
+      if(!connectedAndUnlocked){
+        unlockedDevice()
+      }
     }
     registerDeviceUnlockedListener(listener)
     return () => removeDeviceUnlockedListener(listener)
-  })
+  }, [connectedAndUnlocked])
 
   useEffect(() => {
     const unregister = registerAvailableAppUpdateListener((version) => {
@@ -264,7 +264,6 @@ const mapStateToProps = (state: ReduxRootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  updateAllIndexes: () => dispatch(updateAllIndexes()),
   loadDeviceData: (value: DeviceType) => dispatch(loadDeviceData(value)),
   connect: () => dispatch(getConnectedDevice()),
   setFalseConnectionStatus: () => dispatch(setConnectionStatus(false)),
