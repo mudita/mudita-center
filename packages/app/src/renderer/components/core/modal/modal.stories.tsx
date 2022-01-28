@@ -31,7 +31,7 @@ storiesOf("Components|Core/Modal", module)
           <Story title="With title" transparentMode>
             <StoryModalWrapper>
               <Modal title={"Title"}>
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -40,7 +40,7 @@ storiesOf("Components|Core/Modal", module)
           <Story title="With title and subtitle" transparentMode>
             <StoryModalWrapper>
               <Modal title={"Title"} subtitle={"Subtitle"}>
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -53,7 +53,7 @@ storiesOf("Components|Core/Modal", module)
                 subtitle={"Subtitle"}
                 titleOrder={TitleOrder.SubtitleFirst}
               >
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -67,7 +67,7 @@ storiesOf("Components|Core/Modal", module)
                 actionButtonLabel={"Done"}
                 onActionButtonClick={noop}
               >
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -84,7 +84,7 @@ storiesOf("Components|Core/Modal", module)
           <Story title="With title" transparentMode>
             <StoryModalWrapper>
               <Modal size={ModalSize.Medium} title={"Title"}>
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -97,7 +97,7 @@ storiesOf("Components|Core/Modal", module)
                 title={"Title"}
                 subtitle={"Subtitle"}
               >
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -111,7 +111,7 @@ storiesOf("Components|Core/Modal", module)
                 subtitle={"Subtitle"}
                 titleOrder={TitleOrder.SubtitleFirst}
               >
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -126,7 +126,7 @@ storiesOf("Components|Core/Modal", module)
                 actionButtonLabel={"Done"}
                 onActionButtonClick={noop}
               >
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -143,7 +143,7 @@ storiesOf("Components|Core/Modal", module)
           <Story title="With title" transparentMode>
             <StoryModalWrapper>
               <Modal size={ModalSize.Small} title={"Title"}>
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -156,7 +156,7 @@ storiesOf("Components|Core/Modal", module)
                 title={"Title"}
                 subtitle={"Subtitle"}
               >
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -170,7 +170,7 @@ storiesOf("Components|Core/Modal", module)
                 subtitle={"Subtitle"}
                 titleOrder={TitleOrder.SubtitleFirst}
               >
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -185,7 +185,7 @@ storiesOf("Components|Core/Modal", module)
                 actionButtonLabel={"Done"}
                 onActionButtonClick={noop}
               >
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -202,7 +202,7 @@ storiesOf("Components|Core/Modal", module)
           <Story title="With title" transparentMode>
             <StoryModalWrapper>
               <Modal size={ModalSize.VerySmall} title={"Title"}>
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -215,7 +215,7 @@ storiesOf("Components|Core/Modal", module)
                 title={"Title"}
                 subtitle={"Subtitle"}
               >
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -229,7 +229,7 @@ storiesOf("Components|Core/Modal", module)
                 subtitle={"Subtitle"}
                 titleOrder={TitleOrder.SubtitleFirst}
               >
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>
@@ -244,7 +244,7 @@ storiesOf("Components|Core/Modal", module)
                 actionButtonLabel={"Done"}
                 onActionButtonClick={noop}
               >
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.BiggerText}>
                   Lorem ipsum dolor sit amet
                 </Text>
               </Modal>

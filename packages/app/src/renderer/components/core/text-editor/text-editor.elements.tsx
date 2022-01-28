@@ -19,7 +19,7 @@ export const Info = styled(Text).attrs(() => ({
 `
 
 export const Textarea = styled.textarea`
-  ${getTextStyles(TextDisplayStyle.LargeText)};
+  ${getTextStyles(TextDisplayStyle.BiggerText)};
   resize: none;
   appearance: none;
   outline: none;

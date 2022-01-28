@@ -55,7 +55,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
       <SummaryIcon fileColor={color} type={icon} size={IconSize.Medium} />
       <TextWrapper>
         <Text
-          displayStyle={TextDisplayStyle.LargeText}
+          displayStyle={TextDisplayStyle.BiggerText}
           element={"p"}
           data-testid={FilesSummaryItemTestIds.Title}
         >
@@ -63,7 +63,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
         </Text>
         {filesAmount ? (
           <Text
-            displayStyle={TextDisplayStyle.MediumFadedText}
+            displayStyle={TextDisplayStyle.LightText}
             data-testid={FilesSummaryItemTestIds.Description}
             message={{
               ...messages.summaryItemDescription,
@@ -75,7 +75,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
           />
         ) : (
           <Text
-            displayStyle={TextDisplayStyle.MediumFadedText}
+            displayStyle={TextDisplayStyle.LightText}
             element={"p"}
             data-testid={FilesSummaryItemTestIds.Description}
           >

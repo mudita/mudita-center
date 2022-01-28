@@ -34,14 +34,14 @@ const OnboardingWelcome: FunctionComponent<Props> = ({
   <OnboardingWrapper>
     <header>
       <Title
-        displayStyle={TextDisplayStyle.PrimaryHeading}
+        displayStyle={TextDisplayStyle.SecondaryHeading}
         message={{
           id: "module.onboarding.welcomeTitle",
           values: textFormatters,
         }}
       />
       <InstructionText
-        displayStyle={TextDisplayStyle.LargeText}
+        displayStyle={TextDisplayStyle.BiggerText}
         message={{ id: "module.onboarding.welcomeInstruction" }}
       />
     </header>

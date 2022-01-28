@@ -15,27 +15,29 @@ exports[`matches snapshot 1`] = `
 .c5 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
-  line-height: 1.8rem;
-  color: #6a6a6a;
-  font-weight: 300;
+  line-height: 1.57;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  font-weight: 300;
 }
 
 .c6 {
   margin: 0;
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
 }
 
 .c7 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  color: #6a6a6a;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;

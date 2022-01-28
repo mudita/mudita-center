@@ -28,7 +28,7 @@ import { tetheringMessages } from "Renderer/modules/tethering/tethering-messages
 const PureDisconnected: FunctionComponent = () => (
   <TetheringContainer data-testid={TetheringTestIds.DisconnectedWrapper}>
     <Text
-      displayStyle={TextDisplayStyle.LargeText}
+      displayStyle={TextDisplayStyle.BiggerText}
       data-testid={TetheringTestIds.DisconnectedNotificationTitle}
     >
       <IconHolder>

@@ -431,7 +431,7 @@ storiesOf("Components|Core/Table/Basic", module)
       useTableSidebar<typeof basicRows[number]>()
 
     const SidebarTitle = () => (
-      <Text displayStyle={TextDisplayStyle.LargeText}>
+      <Text displayStyle={TextDisplayStyle.BiggerText}>
         {activeRow?.firstName} {activeRow?.lastName}
       </Text>
     )
@@ -719,7 +719,7 @@ storiesOf("Components|Core/Table/Grouped", module)
       useTableSidebar<typeof labeledRows[number][number]>()
 
     const SidebarTitle = () => (
-      <Text displayStyle={TextDisplayStyle.LargeText}>
+      <Text displayStyle={TextDisplayStyle.BiggerText}>
         {activeRow?.firstName} {activeRow?.lastName}
       </Text>
     )

@@ -55,7 +55,7 @@ const messages = defineMessages({
 })
 
 const AvailableUpdateText = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallFadedText,
+  displayStyle: TextDisplayStyle.Label,
 }))`
   margin-left: 2rem;
   text-transform: none;
@@ -92,11 +92,11 @@ const System: FunctionComponent<Props> = ({
       <CardBody>
         <CardContent>
           <CardText>
-            <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+            <Text displayStyle={TextDisplayStyle.LightText}>
               <FormattedMessage {...messages.systemVersionTitle} />
             </Text>
             <Text
-              displayStyle={TextDisplayStyle.LargeText}
+              displayStyle={TextDisplayStyle.BiggerText}
               data-testid={SystemTestIds.OsVersion}
             >
               <FormattedMessage {...messages.muditaOsUpdateTitle} />

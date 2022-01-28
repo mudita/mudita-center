@@ -77,7 +77,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
         </SettingsDescriptionWrapper>
         <SettingsTableRow>
           <Data>
-            <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+            <SettingsLabel displayStyle={TextDisplayStyle.BiggerText}>
               <FormattedMessage id="module.settings.audioConversionConvertNonStandardFilesLabel" />
             </SettingsLabel>
           </Data>

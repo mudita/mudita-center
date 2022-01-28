@@ -313,7 +313,11 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 .c1 {
   margin: 0;
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
 }
 
 .c0 {
@@ -376,7 +380,11 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 .c3 {
   margin: 0;
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
 }
 
 .c1 {
@@ -888,7 +896,11 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
 .c1 {
   margin: 0;
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
 }
 
 .c0 {
@@ -986,7 +998,11 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
 .c3 {
   margin: 0;
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
 }
 
 .c1 {

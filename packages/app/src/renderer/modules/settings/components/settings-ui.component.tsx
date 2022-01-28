@@ -86,7 +86,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
       {!flags.get(Feature.ProductionAndAlpha) && (
         <SettingsTableRow data-testid={SettingsTestIds.TableRow}>
           <Data>
-            <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+            <SettingsLabel displayStyle={TextDisplayStyle.BiggerText}>
               <FormattedMessage id="module.settings.tetheringLabel" />
             </SettingsLabel>
           </Data>
@@ -100,7 +100,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
       )}
       <SettingsTableRow data-testid={SettingsTestIds.TableRow}>
         <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+          <SettingsLabel displayStyle={TextDisplayStyle.BiggerText}>
             <FormattedMessage id="module.settings.collectingData" />
           </SettingsLabel>
           <SettingsTooltip

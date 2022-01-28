@@ -95,7 +95,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
           message={messages.title}
         />
         <Text
-          displayStyle={TextDisplayStyle.MediumFadedLightText}
+          displayStyle={TextDisplayStyle.LightText}
           message={messages.subtitle}
         />
       </PureSystemSection>
@@ -106,7 +106,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
         />
         <PureSystemInfo title={messages.serialNumber}>
           <Text
-            displayStyle={TextDisplayStyle.LargeText}
+            displayStyle={TextDisplayStyle.BiggerText}
             data-testid={PureSystemTestIds.SerialNumber}
           >
             {serialNumber}
