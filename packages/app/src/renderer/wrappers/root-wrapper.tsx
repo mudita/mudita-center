@@ -74,7 +74,6 @@ interface Props {
   loadDeviceData: (value: DeviceType) => void
   connectedAndUnlocked: boolean
   deviceType: DeviceType | null
-  updateAllIndexes: () => void
 }
 
 const RootWrapper: FunctionComponent<Props> = ({

@@ -10,6 +10,7 @@ import Connecting from "App/connecting/components/connecting.component"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
 import { PasscodeModalTestIds } from "App/passcode-modal/passcode-modal-test-ids.enum"
+import { SynchronizationState } from "App/data-sync"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")
 
@@ -27,6 +28,7 @@ const defaultProps: Props = {
   }),
   noModalsVisible: true,
   syncInitialized: false,
+  syncState: SynchronizationState.Empty,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -63,7 +65,6 @@ describe("`BackupDeviceFlow` component", () => {
         queryByTestId(ErrorConnectingModalTestIds.Container)
       ).not.toBeInTheDocument()
     })
-
     test("`ErrorConnectingModal` is displayed if timeout pass ", () => {
       const { queryByTestId } = render()
       act(() => {
@@ -112,6 +113,27 @@ describe("`BackupDeviceFlow` component", () => {
       act(() => {
         jest.runAllTimers()
       })
+      expect(
+        queryByTestId(ErrorConnectingModalTestIds.Container)
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `syncInitialized` is set to `true` and `syncState` is set to Error", () => {
+    const extraProps: Partial<Props> = {
+      syncInitialized: true,
+      syncState: SynchronizationState.Error,
+    }
+
+    test("`PasscodeLocked` component isn't displayed ", () => {
+      const { queryByTestId } = render(extraProps)
+      expect(
+        queryByTestId(PasscodeModalTestIds.Container)
+      ).not.toBeInTheDocument()
+    })
+
+    test("`ErrorConnectingModal` component is displayed ", () => {
+      const { queryByTestId } = render(extraProps)
       expect(
         queryByTestId(ErrorConnectingModalTestIds.Container)
       ).not.toBeInTheDocument()

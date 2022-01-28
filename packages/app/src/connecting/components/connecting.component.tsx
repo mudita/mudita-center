@@ -15,6 +15,7 @@ import PasscodeModal from "App/passcode-modal/passcode-modal.component"
 import { togglePureSimulation } from "App/dev-mode/store/dev-mode.helpers"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import registerFirstPhoneConnection from "App/connecting/requests/register-first-phone-connection"
+import { SynchronizationState } from "App/data-sync/reducers"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -22,6 +23,7 @@ const Connecting: FunctionComponent<{
   loaded: boolean
   unlocked: boolean | null
   syncInitialized: boolean
+  syncState: SynchronizationState
   unlockDevice: (code: number[]) => Promise<PayloadAction<DeviceResponseStatus>>
   getUnlockStatus: () => Promise<PayloadAction<DeviceResponseStatus>>
   phoneLockTime: number | undefined
@@ -30,6 +32,7 @@ const Connecting: FunctionComponent<{
   loaded,
   unlocked,
   syncInitialized,
+  syncState,
   unlockDevice,
   getUnlockStatus,
   phoneLockTime,
@@ -79,6 +82,12 @@ const Connecting: FunctionComponent<{
       clearTimeout(timeout)
     }
   }, [unlocked])
+
+  useEffect(() => {
+    if(unlocked && !syncInitialized && syncState === SynchronizationState.Error){
+      setError(true)
+    }
+  }, [syncInitialized, syncState, unlocked])
 
   useEffect(() => {
     registerFirstPhoneConnection()
