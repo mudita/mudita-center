@@ -103,6 +103,7 @@ const TextSorry = styled(Text)`
 const Instruction = styled(Text)`
   margin-bottom: 2.4rem;
   margin-top: 1.6rem;
+  color: ${textColor("secondary")};
 `
 const AccordionButton = styled.button<{ openMore?: boolean }>`
   border: none;
@@ -152,7 +153,7 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
           }}
         />
         <Instruction
-          displayStyle={TextDisplayStyle.LargeFadedText}
+          displayStyle={TextDisplayStyle.BiggerText}
           message={{ id: "module.onboarding.troubleshootingInstruction" }}
         />
       </header>

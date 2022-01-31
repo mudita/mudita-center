@@ -184,7 +184,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 {getPrettyCaller(contact, phoneNumber)}
               </Name>
               {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
-                <Text displayStyle={TextDisplayStyle.LargeFadedText}>
+                <Text displayStyle={TextDisplayStyle.BiggerLightText}>
                   &nbsp;
                   {phoneNumber.split(" ").join("") ===
                   contact?.secondaryPhoneNumber?.split(" ").join("")

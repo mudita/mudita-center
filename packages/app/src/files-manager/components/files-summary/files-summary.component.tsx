@@ -65,7 +65,7 @@ const FilesSummary: FunctionComponent<Props> = ({
     <FilesSummaryContainer>
       <FilesSummaryHeading
         data-testid={FilesSummaryTestIds.Title}
-        displayStyle={TextDisplayStyle.SecondaryBoldHeading}
+        displayStyle={TextDisplayStyle.TertiaryHeading}
         message={messages.summaryTitle}
       />
       <FilesSummaryWrapper data-testid={FilesSummaryTestIds.Wrapper}>

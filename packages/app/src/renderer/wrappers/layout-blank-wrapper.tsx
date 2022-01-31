@@ -46,7 +46,7 @@ const Header = styled.header`
     display: flex;
     flex-direction: row;
     align-items: center;
-    color: ${textColor("secondary")};
+    color: ${textColor("disabled")};
 
     &:before {
       margin: 0 0.8rem;
@@ -79,7 +79,7 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
       <Header>
         <Icon type={Type.MuditaLogoWithText} width={8.6} height={2} />
         <MainTitle
-          displayStyle={TextDisplayStyle.LargeFadedText}
+          displayStyle={TextDisplayStyle.Text}
           message={{ id: "module.onboarding.mainTitle" }}
         />
         {!recoveryMode && (

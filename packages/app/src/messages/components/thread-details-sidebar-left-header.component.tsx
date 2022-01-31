@@ -35,7 +35,7 @@ const ThreadDetailsSidebarLeftHeader: FunctionComponent<Props> = ({
         </Text>
         {callerIdentification !== "" && (
           <Text
-            displayStyle={TextDisplayStyle.LargeFadedText}
+            displayStyle={TextDisplayStyle.LightText}
             data-testid="multiple-number"
           >
             &nbsp;
@@ -45,7 +45,7 @@ const ThreadDetailsSidebarLeftHeader: FunctionComponent<Props> = ({
       </NameWrapper>
       {callerNumber !== "" && (
         <PhoneNumberText
-          displayStyle={TextDisplayStyle.MediumFadedLightText}
+          displayStyle={TextDisplayStyle.LightText}
           data-testid="sidebar-phone-number"
         >
           {callerNumber}

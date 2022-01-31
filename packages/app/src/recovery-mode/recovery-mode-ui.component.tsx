@@ -139,7 +139,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
           message={{ ...messages.title, values: textFormatters }}
         />
         <DescriptionText
-          displayStyle={TextDisplayStyle.LargeFadedText}
+          displayStyle={TextDisplayStyle.BiggerLightText}
           message={messages.description}
         />
       </RecoveryModeHeader>

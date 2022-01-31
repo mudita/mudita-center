@@ -3,9 +3,12 @@
 exports[`Device: Mudita harmony matches snapshot 1`] = `
 .c8 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.05;
-  color: #6a6a6a;
+  font-size: 1.4rem;
+  line-height: 1.57;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
 }
 
 .c11 {
@@ -401,9 +404,12 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 exports[`Device: Mudita pure matches snapshot 1`] = `
 .c8 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.05;
-  color: #6a6a6a;
+  font-size: 1.4rem;
+  line-height: 1.57;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
 }
 
 .c11 {

@@ -670,9 +670,12 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.05;
-  color: #6a6a6a;
+  font-size: 1.4rem;
+  line-height: 1.57;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
 }
 
 .c0 {
@@ -763,9 +766,12 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 2`] = `
 .c3 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.05;
-  color: #6a6a6a;
+  font-size: 1.4rem;
+  line-height: 1.57;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
 }
 
 .c1 {

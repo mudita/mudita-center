@@ -4,6 +4,7 @@
  */
 
 import {
+  textColor,
   backgroundColor,
   borderColor,
 } from "App/renderer/styles/theming/theme-getters"
@@ -44,6 +45,9 @@ export const PureSystemInfoContainer = styled.div<{
   padding: ${({ withButton }) => (withButton ? "1.2rem 2.4rem" : "2.4rem")};
   :not(:last-of-type) {
     margin-bottom: 0.8rem;
+  }
+  p {
+    color: ${textColor("secondary")};
   }
 `
 

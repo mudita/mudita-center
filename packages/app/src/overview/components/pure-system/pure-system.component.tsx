@@ -60,7 +60,7 @@ const PureSystemInfo: FunctionComponent<InfoProps> = ({
 }) => {
   return (
     <PureSystemInfoContainer withButton={withButton}>
-      <Text displayStyle={TextDisplayStyle.LargeFadedText} message={title} />
+      <Text displayStyle={TextDisplayStyle.BiggerText} message={title} />
       {children}
     </PureSystemInfoContainer>
   )
