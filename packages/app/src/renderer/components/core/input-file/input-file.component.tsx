@@ -339,7 +339,7 @@ const InputFile: FunctionComponent<InputFileProps> = ({
         />
         <Message
           dragging={draggingState}
-          displayStyle={TextDisplayStyle.MediumLightText}
+          displayStyle={TextDisplayStyle.LightText}
           message={{
             ...(multiple ? messages.multiple : messages.single),
             values: textFormatters,

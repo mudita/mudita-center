@@ -76,10 +76,7 @@ const StatBoxes: FunctionComponent<Props> = ({
             >
               {dataSentValue}
             </Text>
-            <UnitText
-              displayStyle={TextDisplayStyle.MediumLightText}
-              element={"span"}
-            >
+            <UnitText displayStyle={TextDisplayStyle.Label} element={"span"}>
               {dataSentUnit}
             </UnitText>
           </div>
@@ -100,10 +97,7 @@ const StatBoxes: FunctionComponent<Props> = ({
             >
               {dataReceivedValue}
             </Text>
-            <UnitText
-              displayStyle={TextDisplayStyle.MediumLightText}
-              element={"span"}
-            >
+            <UnitText displayStyle={TextDisplayStyle.Label} element={"span"}>
               {dataReceivedUnit}
             </UnitText>
           </div>

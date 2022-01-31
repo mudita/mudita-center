@@ -49,8 +49,8 @@ const InputLabel = styled(Text)`
   position: absolute;
   left: 0;
   top: 0.3rem;
-  color: ${textColor("secondary")};
-  ${getTextStyles(TextDisplayStyle.MediumLightText)};
+  color: ${textColor("disabled")};
+  ${getTextStyles(TextDisplayStyle.Text)};
   line-height: 1.5rem;
   pointer-events: none;
   user-select: none;
@@ -151,7 +151,7 @@ export const generalInputStyles = css`
   color: ${textColor("primary")};
   width: 100%;
 
-  ${getTextStyles(TextDisplayStyle.MediumLightText)};
+  ${getTextStyles(TextDisplayStyle.Text)};
   line-height: 1.5rem;
 
   &:not(:placeholder-shown) {

@@ -214,7 +214,7 @@ const MessageBubble: FunctionComponent<Props> = ({
             interlocutor={interlocutor}
             data-testid={MessageBubbleTestIds.MessageContent}
           >
-            <MessageBubbleText displayStyle={TextDisplayStyle.MediumLightText}>
+            <MessageBubbleText displayStyle={TextDisplayStyle.LightText}>
               {message}
             </MessageBubbleText>
             <MessageDate>

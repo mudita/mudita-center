@@ -24,7 +24,7 @@ export const RichTextTertiaryHeading = styled(Text).attrs(() => ({
 `
 
 export const RichTextParagraph = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.MediumLightText,
+  displayStyle: TextDisplayStyle.LightText,
 }))`
   margin-bottom: 1.6rem;
 `

@@ -61,7 +61,7 @@ storiesOf("Theme/Text", module).add("Text", () => {
   return (
     <>
       <Text displayStyle={TextDisplayStyle.PrimaryHeading}>TYPOGRAPHY</Text>
-      <Text displayStyle={TextDisplayStyle.MediumLightText}>
+      <Text displayStyle={TextDisplayStyle.Text}>
         Click on the box to copy text style
       </Text>
       <br />
@@ -97,13 +97,6 @@ storiesOf("Theme/Text", module).add("Text", () => {
       <ClickableWrapper text="TextDisplayStyle.FifthHeading">
         <Story noUppercase title="FifthHeading">
           <Text displayStyle={TextDisplayStyle.FifthHeading}>
-            I’m at the meeting now. I will call you later
-          </Text>
-        </Story>
-      </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.MediumLightText">
-        <Story noUppercase title="MediumLightText">
-          <Text displayStyle={TextDisplayStyle.MediumLightText}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
