@@ -126,11 +126,6 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         font-weight: ${fontWeight("default")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
-    case TextDisplayStyle.LargeTextCapitalLetters:
-      return css`
-        ${largeTextSharedStyles};
-        ${uppercaseStyles};
-      `
     case TextDisplayStyle.LargeFadedTextCapitalLetters:
       return css`
         ${largeTextSharedStyles};
@@ -262,7 +257,6 @@ export enum TextDisplayStyle {
   Title,
   Button,
   Label,
-  LargeTextCapitalLetters,
   LargeFadedTextCapitalLetters,
   LargeFadedDimTextCapitalLetters,
   MediumBoldText,
@@ -294,7 +288,6 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.TertiaryHeading]: "h3",
   [TextDisplayStyle.QuaternaryHeading]: "h4",
   [TextDisplayStyle.FifthHeading]: "h5",
-  [TextDisplayStyle.LargeTextCapitalLetters]: "p",
   [TextDisplayStyle.LargeFadedTextCapitalLetters]: "p",
   [TextDisplayStyle.LargeFadedDimTextCapitalLetters]: "p",
   [TextDisplayStyle.MediumBoldText]: "p",
