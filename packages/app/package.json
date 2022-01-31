@@ -46,6 +46,7 @@
     "app-configuration:download": "ts-node ./scripts/download-configuration.ts",
     "UTILITY/AUTO COMMANDS": "=================================================",
     "postinstall": "npm run fonts:download && npm run news:download && npm run app-configuration:download && npm run help:download",
+    "electron:rebuild-serialport": "electron-rebuild -f -w serialport",
     "prerelease": "npm run translations:overwrite && npm run build",
     "prestart": "npm run build",
     "predist:prod": "npm run translations:sync",
@@ -316,7 +317,7 @@
   "dependencies": {
     "mock-fs": "^5.2.0",
     "react-virtuoso": "^2.18.0",
-    "serialport": "9.2.0",
+    "serialport": "^10.0.2",
     "usb": "^1.6.5"
   },
   "engines": {
