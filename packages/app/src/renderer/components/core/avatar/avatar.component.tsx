@@ -10,6 +10,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import {
   backgroundColor,
+  textColor,
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
@@ -43,7 +44,7 @@ const getAvatarTextStyle = (size: AvatarSize): TextDisplayStyle => {
     case AvatarSize.Medium:
       return TextDisplayStyle.SmallFadedDimText
     case AvatarSize.Big:
-      return TextDisplayStyle.LargeFadedDimTextCapitalLetters
+      return TextDisplayStyle.FifthHeading
   }
 }
 
@@ -53,6 +54,7 @@ export const basicAvatarStyles = css<{ size?: AvatarSize }>`
   height: ${({ size = AvatarSize.Small }) => getAvatarSize(size)}rem;
   border-radius: 50%;
   background-color: ${backgroundColor("minor")};
+  color: ${textColor("disabled")};
 `
 
 const AvatarImage = styled(Image)`
