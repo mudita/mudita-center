@@ -34,7 +34,7 @@
   "dependencies": {
     "p-queue": "^7.1.0",
     "serialport": "^10.0.2",
-    "usb": "^1.6.5"
+    "usb": "^2.1.0"
   },
   "engines": {
     "node": "14.17.3",
