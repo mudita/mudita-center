@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "p-queue": "^7.1.0",
-    "serialport": "9.2.0",
+    "serialport": "^10.0.2",
     "usb": "^1.6.5"
   },
   "engines": {
