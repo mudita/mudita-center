@@ -13,6 +13,7 @@ import {
   WindowTitle,
   LightText,
   LightTextNested,
+  NoteText,
 } from "Renderer/modules/settings/tabs/about/components/shared"
 
 export const LicenseUI: FunctionComponent = () => (
@@ -23,13 +24,13 @@ export const LicenseUI: FunctionComponent = () => (
     >
       Mudita Center Software – Terms of Use
     </WindowHeader>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedTextUppercased}>
+    <NoteText displayStyle={TextDisplayStyle.Paragraph4}>
       NOTE: BY USING THE MUDITA CENTER SOFTWARE, YOU AGREE TO COMPLY WITH THE
       TERMS LISTED BELOW. WITHOUT ACCEPTING THEM, YOU WILL NOT ACQUIRE THE RIGHT
       TO USE THE SOFTWARE. THEREFORE, YOU SHOULD READ THESE TERMS THOROUGHLY
       BEFORE INSTALLING MUDITA CENTER. IF YOU DO NOT AGREE WITH THESE TERMS, YOU
       CANNOT OBTAIN AND USE THE SOFTWARE OR DOWNLOAD OR USE ITS UPDATES.
-    </LightText>
+    </NoteText>
     <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
       Definitions:
     </WindowTitle>

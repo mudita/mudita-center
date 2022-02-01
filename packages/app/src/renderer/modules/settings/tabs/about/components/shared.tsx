@@ -17,16 +17,15 @@ export const WindowHeader = styled(Text)`
 export const WindowTitle = styled(Text)`
   margin: 1.8rem 0 1.6rem;
 `
+export const NoteText = styled(Text)`
+  text-transform: uppercase;
+`
 
 export const LightText = styled(Text)`
-  font-weight: 300;
-  line-height: 1.57;
   margin-bottom: 1.6rem;
 `
 
 export const LightTextNested = styled(Text)`
-  font-weight: 300;
-  line-height: 1.57;
   margin-bottom: 1.6rem;
   margin-left: 3rem;
 `

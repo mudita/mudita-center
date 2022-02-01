@@ -140,12 +140,6 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         ${mediumTextSharedStyles};
         color: ${textColor("secondary")};
       `
-    case TextDisplayStyle.MediumFadedTextUppercased:
-      return css`
-        ${mediumTextSharedStyles};
-        text-transform: uppercase;
-        color: ${textColor("secondary")};
-      `
     case TextDisplayStyle.SmallText:
       return css`
         ${smallTextSharedStyles};
@@ -230,7 +224,6 @@ export enum TextDisplayStyle {
   Title,
   Button,
   Label,
-  MediumFadedTextUppercased,
   MediumTextUppercased,
   MediumText,
   MediumFadedText,
@@ -258,7 +251,6 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.FifthHeading]: "h5",
   [TextDisplayStyle.MediumText]: "p",
   [TextDisplayStyle.MediumFadedText]: "p",
-  [TextDisplayStyle.MediumFadedTextUppercased]: "p",
   [TextDisplayStyle.MediumTextUppercased]: "p",
   [TextDisplayStyle.SmallText]: "p",
   [TextDisplayStyle.SmallSupplementaryText]: "p",
