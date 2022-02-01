@@ -10,6 +10,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: -0.02rem;
   -ms-letter-spacing: -0.02rem;
   letter-spacing: -0.02rem;
+  color: #000000;
 }
 
 .c5 {
@@ -21,6 +22,7 @@ exports[`matches snapshot 1`] = `
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
   font-weight: 300;
+  color: #000000;
 }
 
 .c6 {
@@ -31,6 +33,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.02rem;
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c7 {
@@ -42,6 +45,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  color: #000000;
 }
 
 .c14 {
@@ -53,6 +57,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  color: #000000;
 }
 
 .c11 {
@@ -225,6 +230,7 @@ exports[`matches snapshot 1`] = `
   >
     <h3
       class="c1 "
+      color="primary"
     >
       [value] module.overview.muditaOsUpdateTitle
     </h3>
@@ -239,11 +245,13 @@ exports[`matches snapshot 1`] = `
         >
           <p
             class="c5"
+            color="primary"
           >
             [value] module.overview.systemVersionTitle
           </p>
           <p
             class="c6"
+            color="primary"
             data-testid="os-version"
           >
             [value] module.overview.muditaOsUpdateTitle
@@ -252,6 +260,7 @@ exports[`matches snapshot 1`] = `
         </div>
         <p
           class="c7 c8"
+          color="primary"
         >
           [value] module.overview.systemUpdateUpToDate
         </p>
@@ -266,6 +275,7 @@ exports[`matches snapshot 1`] = `
         >
           <p
             class="c14 c15"
+            color="primary"
           >
             [value] module.overview.systemCheckForUpdates
           </p>

@@ -9,6 +9,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.02rem;
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c1 {
@@ -136,6 +137,7 @@ exports[`matches snapshot 1`] = `
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     [value] module.phone
   </p>

@@ -4,14 +4,13 @@ exports[`matches snapshot 1`] = `
 .c2 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
-  line-height: 1.8rem;
-  color: #6a6a6a;
-  font-weight: 300;
+  line-height: 1.57;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  font-weight: 300;
+  color: #000000;
 }
 
 .c6 {
@@ -22,6 +21,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.02rem;
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c15 {
@@ -33,6 +33,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  color: #000000;
 }
 
 .c7 {
@@ -40,7 +41,6 @@ exports[`matches snapshot 1`] = `
   -webkit-align-self: end;
   -ms-flex-item-align: end;
   align-self: end;
-  margin-bottom: 0.4rem;
 }
 
 .c9 {
@@ -282,6 +282,7 @@ exports[`matches snapshot 1`] = `
     >
       <p
         class="c2 c3"
+        color="primary"
       >
         [value] module.settings.notificationsDescription
       </p>
@@ -294,6 +295,7 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c6 c7 c8"
+          color="primary"
         >
           [value] module.settings.notificationsIncomingCallsNotificationsLabel
         </p>
@@ -312,6 +314,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.offLabel
             </p>
@@ -324,6 +327,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.onLabel
             </p>
@@ -339,6 +343,7 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c6 c7 c8"
+          color="primary"
         >
           [value] module.settings.notificationsIncomingMessagesNotifications
         </p>
@@ -357,6 +362,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.offLabel
             </p>
@@ -369,6 +375,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.onLabel
             </p>
@@ -384,6 +391,7 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c6 c7 c8"
+          color="primary"
         >
           [value] module.settings.notificationsLowBatteryNotifications
         </p>
@@ -402,6 +410,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.offLabel
             </p>
@@ -414,6 +423,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.onLabel
             </p>
@@ -429,6 +439,7 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c6 c7 c8"
+          color="primary"
         >
           [value] module.settings.notificationsPureOsUpdatesNotifications
         </p>
@@ -447,6 +458,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.offLabel
             </p>
@@ -459,6 +471,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.onLabel
             </p>

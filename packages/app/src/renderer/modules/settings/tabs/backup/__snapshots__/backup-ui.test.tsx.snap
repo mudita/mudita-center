@@ -9,19 +9,18 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.02rem;
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c6 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
-  line-height: 1.8rem;
-  color: #6a6a6a;
-  font-weight: 300;
+  line-height: 1.57;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  color: #6a6a6a;
 }
 
 .c12 {
@@ -33,6 +32,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  color: #000000;
 }
 
 .c4 {
@@ -40,7 +40,6 @@ exports[`matches snapshot 1`] = `
   -webkit-align-self: end;
   -ms-flex-item-align: end;
   align-self: end;
-  margin-bottom: 0.4rem;
 }
 
 .c7 {
@@ -51,7 +50,6 @@ exports[`matches snapshot 1`] = `
   -webkit-align-self: flex-start;
   -ms-flex-item-align: start;
   align-self: flex-start;
-  margin-top: 0.4rem;
 }
 
 .c8 {
@@ -173,10 +171,12 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c3 c4 c5"
+          color="primary"
         >
           [value] module.settings.backupLabel
           <p
             class="c6 c7"
+            color="secondary"
             data-testid="backup-location"
           >
             C:/MuditaOs
@@ -193,6 +193,7 @@ exports[`matches snapshot 1`] = `
         >
           <p
             class="c12 c13"
+            color="primary"
           >
             [value] module.settings.backupButtonLabel
           </p>

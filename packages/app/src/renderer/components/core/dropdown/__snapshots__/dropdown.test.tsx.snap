@@ -90,6 +90,7 @@ exports[`renders dropdown 1`] = `
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  color: #000000;
 }
 
 .c6 {
@@ -236,6 +237,7 @@ exports[`renders dropdown 1`] = `
     >
       <p
         class="c2 c3"
+        color="primary"
       >
         Example
       </p>
@@ -262,6 +264,7 @@ exports[`renders dropdown 1`] = `
         </span>
         <p
           class="c2 c3"
+          color="primary"
         >
           I open Google in new tab
         </p>

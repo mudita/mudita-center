@@ -10,6 +10,7 @@ exports[`matches snapshot with tabs 1`] = `
   -moz-letter-spacing: 0.02rem;
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c8 {
@@ -20,6 +21,7 @@ exports[`matches snapshot with tabs 1`] = `
   -moz-letter-spacing: 0.02rem;
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c0 {
@@ -155,6 +157,7 @@ exports[`matches snapshot with tabs 1`] = `
 >
   <h4
     class="c1 c2"
+    color="primary"
     data-testid="location"
   >
     [value] module.phone
@@ -181,6 +184,7 @@ exports[`matches snapshot with tabs 1`] = `
       </span>
       <p
         class="c8 c9"
+        color="primary"
       >
         [value] module.phone.calls
       </p>
@@ -203,6 +207,7 @@ exports[`matches snapshot with tabs 1`] = `
       </span>
       <p
         class="c8 c9"
+        color="primary"
       >
         [value] module.dial
       </p>
@@ -221,6 +226,7 @@ exports[`matches snapshot without tabs 1`] = `
   -moz-letter-spacing: 0.02rem;
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c0 {
@@ -246,6 +252,7 @@ exports[`matches snapshot without tabs 1`] = `
 >
   <h4
     class="c1 c2"
+    color="primary"
     data-testid="location"
   >
     [value] module.overview

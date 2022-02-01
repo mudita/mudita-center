@@ -10,6 +10,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: -0.02rem;
   -ms-letter-spacing: -0.02rem;
   letter-spacing: -0.02rem;
+  color: #000000;
 }
 
 .c8 {
@@ -21,6 +22,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.02rem;
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c9 {
@@ -32,6 +34,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  color: #000000;
 }
 
 .c7 {
@@ -151,6 +154,7 @@ exports[`matches snapshot 1`] = `
     >
       <h3
         class="c3"
+        color="primary"
       >
         [value] module.overview.statusPureTitle
       </h3>
@@ -179,6 +183,7 @@ exports[`matches snapshot 1`] = `
           <div>
             <h2
               class="c8"
+              color="primary"
               data-testid="battery-level"
             >
               75
@@ -186,6 +191,7 @@ exports[`matches snapshot 1`] = `
             </h2>
             <p
               class="c9"
+              color="primary"
             >
               [value] module.overview.phoneBattery
             </p>
@@ -211,12 +217,14 @@ exports[`matches snapshot 1`] = `
           <div>
             <h4
               class="c8"
+              color="primary"
               data-testid="network-name"
             >
               Play
             </h4>
             <p
               class="c9"
+              color="primary"
             >
               [value] module.overview.networkName
             </p>

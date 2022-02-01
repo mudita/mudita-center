@@ -5,6 +5,7 @@ exports[`matches snapshot 1`] = `
   margin: 0;
   font-size: 1.4rem;
   line-height: 1.05;
+  color: #000000;
 }
 
 .c3 {
@@ -134,6 +135,7 @@ exports[`matches snapshot 1`] = `
     </div>
     <span
       class="c5 c6"
+      color="primary"
     >
       label
     </span>

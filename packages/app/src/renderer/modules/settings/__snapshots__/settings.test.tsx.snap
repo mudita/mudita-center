@@ -9,6 +9,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.02rem;
   -ms-letter-spacing: 0.02rem;
   letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c11 {
@@ -20,19 +21,19 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  color: #000000;
 }
 
 .c21 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
-  line-height: 1.8rem;
-  color: #6a6a6a;
-  font-weight: 300;
+  line-height: 1.57;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  font-weight: 300;
+  color: #000000;
 }
 
 .c17 {
@@ -64,7 +65,6 @@ exports[`matches snapshot 1`] = `
   -webkit-align-self: end;
   -ms-flex-item-align: end;
   align-self: end;
-  margin-bottom: 0.4rem;
 }
 
 .c5 {
@@ -346,6 +346,7 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c2 c3 c4"
+          color="primary"
         >
           [value] module.settings.tetheringLabel
         </p>
@@ -364,6 +365,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c11 c12"
+              color="primary"
             >
               [value] module.settings.offLabel
             </p>
@@ -376,6 +378,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c11 c12"
+              color="primary"
             >
               [value] module.settings.onLabel
             </p>
@@ -392,6 +395,7 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c2 c3 c4"
+          color="primary"
         >
           [value] module.settings.collectingData
         </p>
@@ -413,6 +417,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c21"
+              color="primary"
               data-testid="tooltip-description"
             >
               [value] module.settings.collectingDataTooltip
@@ -434,6 +439,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c11 c12"
+              color="primary"
             >
               [value] module.settings.offLabel
             </p>
@@ -446,6 +452,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c11 c12"
+              color="primary"
             >
               [value] module.settings.onLabel
             </p>
