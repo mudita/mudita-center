@@ -5,7 +5,7 @@
 
 jest.mock("usb", () => ({
   __esModule: true,
-  default: {
+  usb: {
     on: jest.fn,
   },
 }))
