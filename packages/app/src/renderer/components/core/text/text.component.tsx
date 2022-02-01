@@ -127,12 +127,6 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         font-weight: ${fontWeight("default")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
-    case TextDisplayStyle.MediumTextUppercased:
-      return css`
-        ${mediumTextSharedStyles};
-        text-transform: uppercase;
-        letter-spacing: ${letterSpacing("medium")}rem;
-      `
     case TextDisplayStyle.MediumText:
       return mediumTextSharedStyles
     case TextDisplayStyle.MediumFadedText:
@@ -224,7 +218,6 @@ export enum TextDisplayStyle {
   Title,
   Button,
   Label,
-  MediumTextUppercased,
   MediumText,
   MediumFadedText,
   SmallText,
@@ -251,7 +244,6 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.FifthHeading]: "h5",
   [TextDisplayStyle.MediumText]: "p",
   [TextDisplayStyle.MediumFadedText]: "p",
-  [TextDisplayStyle.MediumTextUppercased]: "p",
   [TextDisplayStyle.SmallText]: "p",
   [TextDisplayStyle.SmallSupplementaryText]: "p",
   [TextDisplayStyle.SmallTextInverted]: "p",
