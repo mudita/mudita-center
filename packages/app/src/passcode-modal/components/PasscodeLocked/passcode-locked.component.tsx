@@ -28,7 +28,7 @@ export const TimeText = styled(Text)`
 `
 
 export const messages = defineMessages({
-  modalLockedTitle: { id: "component.passcodeModalLocked" }
+  modalLockedTitle: { id: "component.passcodeModalLocked" },
 })
 
 interface Props {
@@ -37,9 +37,11 @@ interface Props {
 
 const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
   const calculateInitDifference = () => {
-    return moment.unix(time).diff(moment(), 's')
+    return moment.unix(time).diff(moment(), "s")
   }
-  const [currentDifference, setCurrentDifference] = useState<number>(calculateInitDifference)
+  const [currentDifference, setCurrentDifference] = useState<number>(
+    calculateInitDifference
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,8 +58,8 @@ const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
   }, [currentDifference])
 
   const formatTime = () => {
-      const endDate = moment.unix(time)
-      return moment(endDate).fromNow() + "."
+    const endDate = moment.unix(time)
+    return moment(endDate).fromNow() + "."
   }
   return (
     <PasscodeLockedContainer data-testid={PasscodeLockedTestIds.Container}>
@@ -68,8 +70,9 @@ const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
         }}
       />
       <TimeText
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.LightText}
         data-testid={PasscodeLockedTestIds.Timer}
+        color="secondary"
       >
         <FormattedMessage id="component.passcodeModalTryAgain" />
         {" " + formatTime()}

@@ -504,7 +504,7 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
         <ModalText displayStyle={TextDisplayStyle.QuaternaryHeading}>
           {intl.formatMessage(messages.updatingFlatBatteryTitle)}
         </ModalText>
-        <ModalText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+        <ModalText displayStyle={TextDisplayStyle.LightText} color="secondary">
           {intl.formatMessage(messages.updatingFlatBatteryDescription)}
         </ModalText>
       </ModalContent>

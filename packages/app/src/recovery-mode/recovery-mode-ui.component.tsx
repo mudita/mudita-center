@@ -156,7 +156,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
                     element={"p"}
                   />
                   <OptionText
-                    displayStyle={TextDisplayStyle.MediumFadedLightText}
+                    displayStyle={TextDisplayStyle.LightText}
                     message={description}
                   />
                 </TextWrapper>

@@ -35,10 +35,7 @@ const ContactSupportModalSuccess: FunctionComponent<
         message={messages.title}
         displayStyle={TextDisplayStyle.QuaternaryHeading}
       />
-      <Text
-        message={messages.body}
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
-      />
+      <Text message={messages.body} displayStyle={TextDisplayStyle.LightText} />
     </SimpleModal>
   </ModalDialog>
 )

@@ -5,8 +5,6 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import {
   NoStatsLargeText,
@@ -23,16 +21,16 @@ const messages = defineMessages({
 
 const MeditationNoStats: FunctionComponent = () => (
   <NoStatsWrapper>
-    <Icon type={Type.MuditaFlower} height={5.6} />
     <NoStatsLargeText
-      displayStyle={TextDisplayStyle.TertiaryHeading}
+      displayStyle={TextDisplayStyle.BiggerText}
       message={messages.title}
       data-testid={MeditationNoStatsTestIdsEnum.NoStatsTitle}
     />
     <NoStatsLightText
-      displayStyle={TextDisplayStyle.MediumFadedLightText}
+      displayStyle={TextDisplayStyle.Text}
       message={messages.subtitle}
       data-testid={MeditationNoStatsTestIdsEnum.NoStatsSubtitle}
+      color="secondary"
     />
   </NoStatsWrapper>
 )

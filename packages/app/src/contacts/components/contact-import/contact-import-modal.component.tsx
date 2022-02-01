@@ -188,11 +188,11 @@ const ContactImportModal: FunctionComponent<Props> = ({
               ...messages.importFailedBody,
               values: { ...textFormatters, num: successfulItemsCount },
             }}
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.LightText}
           />
           <ModalText
             message={messages.importFailedBody2}
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.LightText}
           />
         </>
       )}
@@ -207,7 +207,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
               ...messages.importSuccessBody,
               values: { ...textFormatters, num: contacts.length },
             }}
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.Text}
           />
         </>
       )}
@@ -219,7 +219,8 @@ const ContactImportModal: FunctionComponent<Props> = ({
           />
           <ModalText
             message={messages.importingBody}
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.LightText}
+            color="secondary"
           />
         </>
       )}
@@ -239,13 +240,15 @@ const ContactImportModal: FunctionComponent<Props> = ({
                 ...messages.importingListTitle,
                 values: { number: contacts.length },
               }}
-              displayStyle={TextDisplayStyle.MediumFadedLightText}
+              displayStyle={TextDisplayStyle.Title}
+              color="secondary"
             />
           </Col>
           {[ModalType.Select].includes(modalType) && (
             <SelectedText
-              displayStyle={TextDisplayStyle.MediumFadedLightText}
+              displayStyle={TextDisplayStyle.LightText}
               data-testid={ContactImportModalTestIds.SelectedText}
+              color="secondary"
             >
               {`${selectedContactsLength} ${intl.formatMessage(
                 messages.importingListSelected

@@ -47,9 +47,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
   return (
     <SettingsWrapper>
       <SettingsDescriptionWrapper>
-        <SettingsDescription
-          displayStyle={TextDisplayStyle.MediumFadedLightText}
-        >
+        <SettingsDescription displayStyle={TextDisplayStyle.LightText}>
           <FormattedMessage id="module.settings.notificationsDescription" />
         </SettingsDescription>
       </SettingsDescriptionWrapper>

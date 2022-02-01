@@ -69,9 +69,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
     <>
       <SettingsWrapper>
         <SettingsDescriptionWrapper>
-          <SettingsDescription
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
-          >
+          <SettingsDescription displayStyle={TextDisplayStyle.LightText}>
             <FormattedMessage id="module.settings.audioConversionDescription" />
           </SettingsDescription>
         </SettingsDescriptionWrapper>
@@ -96,7 +94,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
         radioGroupName={"convert"}
       />
       <ConversionFormatWrapper>
-        <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+        <Text displayStyle={TextDisplayStyle.LightText}>
           <FormattedMessage id="module.settings.audioConversionConversionFormat" />
         </Text>
         <ConversionFormatRadioGroup

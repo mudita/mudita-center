@@ -103,8 +103,9 @@ const FormInputLabelComponent: FunctionComponent<FormInputLabelProps> = ({
     <FormattedMessage {...label} />
     {optional && (
       <Text
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.Text}
         element={"span"}
+        color="disabled"
       >
         {" "}
         (<FormattedMessage {...messages.optional} />)

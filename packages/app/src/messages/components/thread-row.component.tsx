@@ -62,8 +62,8 @@ const dotStyles = css`
     display: block;
     content: "";
     position: absolute;
-    top: 0.2rem;
-    margin-left: -1.8rem;
+    top: 0.8rem;
+    margin-left: -1.4rem;
     height: 0.6rem;
     width: 0.6rem;
     border-radius: 50%;
@@ -90,8 +90,7 @@ export const InitialsAvatar = styled(Avatar)<{ light?: boolean }>`
 `
 
 const LastMessageText = styled(Message)<{ unread?: boolean }>`
-  margin-top: 0.8rem;
-  padding-left: ${({ unread }) => (unread ? "1.8rem" : "0")};
+  padding-left: ${({ unread }) => (unread ? "1.4rem" : "0")};
   position: relative;
   ${({ unread }) => unread && dotStyles};
 `
@@ -202,10 +201,9 @@ const ThreadRow: FunctionComponent<Props> = ({
             </Time>
             <LastMessageText
               unread={unread}
+              color="secondary"
               displayStyle={
-                unread
-                  ? TextDisplayStyle.MediumText
-                  : TextDisplayStyle.MediumFadedLightText
+                unread ? TextDisplayStyle.Text : TextDisplayStyle.LightText
               }
             >
               {thread?.messageSnippet}

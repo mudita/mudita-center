@@ -69,7 +69,7 @@ const ErrorConnectingModal: FunctionComponent<
           message={messages.errorConnectingModalTitle}
         />
         <ModalText
-          displayStyle={TextDisplayStyle.MediumFadedText}
+          displayStyle={TextDisplayStyle.LightText}
           message={messages.errorConnectingDescription}
         />
       </ModalContent>

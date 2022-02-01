@@ -84,7 +84,7 @@ export const Row = styled.div<TableRowProps>`
   height: ${({ size }) => {
     switch (size) {
       case RowSize.Big:
-        return 9
+        return 8
       case RowSize.Small:
         return 4.8
       case RowSize.Tiny:
@@ -290,8 +290,9 @@ export const EmptyState: FunctionComponent<EmptyStateProps> = ({
     <Text displayStyle={TextDisplayStyle.TertiaryHeading} message={title} />
     {description && (
       <Text
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.Text}
         message={description}
+        color="secondary"
       />
     )}
   </EmptyStateWrapper>

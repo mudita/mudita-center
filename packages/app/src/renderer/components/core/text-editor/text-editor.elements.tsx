@@ -13,7 +13,7 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 import { StyledIcon } from "Renderer/components/core/button/button.styled.elements"
 
 export const Info = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.MediumFadedLightText,
+  displayStyle: TextDisplayStyle.LightText,
 }))`
   margin-bottom: 2.4rem;
 `
@@ -68,7 +68,7 @@ export const Buttons = styled.div`
 `
 
 export const StatsInfo = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.MediumFadedLightText,
+  displayStyle: TextDisplayStyle.LightText,
 }))<{ error?: boolean }>`
   align-self: flex-end;
   margin-top: 3.2rem;

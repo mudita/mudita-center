@@ -37,7 +37,7 @@ const CardContent = styled.div`
 `
 
 const CardDescription = styled(Text)`
-  margin-top: 1.8rem;
+  margin-top: 1.2rem;
   margin-bottom: 2.4rem;
   overflow: hidden;
   line-height: 2.2rem;
@@ -50,8 +50,6 @@ const CardDescription = styled(Text)`
 `
 
 const CardDate = styled(Text)`
-  margin-top: 0.4rem;
-  font-weight: 300;
   text-transform: uppercase;
 `
 
@@ -88,16 +86,15 @@ const Card: FunctionComponent<Props> = ({
           target="_blank"
           rel="noreferrer"
         >
-          <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
-            {title}
-          </Text>
-          <CardDate displayStyle={TextDisplayStyle.SmallFadedText}>
+          <Text displayStyle={TextDisplayStyle.Title}>{title}</Text>
+          <CardDate displayStyle={TextDisplayStyle.Label} color="secondary">
             {moment(date).format("ll")}
           </CardDate>
         </a>
         <CardDescription
-          displayStyle={TextDisplayStyle.MediumFadedLightText}
+          displayStyle={TextDisplayStyle.BiggerLightText}
           data-testid="content"
+          color="secondary"
         >
           {content}
         </CardDescription>

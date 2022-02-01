@@ -38,7 +38,7 @@ const PureDisconnected: FunctionComponent = () => (
     </Text>
     <ButtonWrapper>
       <Text
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.BiggerLightText}
         data-testid={TetheringTestIds.StartTetheringNotification}
       >
         {intl.formatMessage(tetheringMessages.enablingInfo, textFormatters)}

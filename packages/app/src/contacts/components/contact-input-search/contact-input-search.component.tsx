@@ -48,7 +48,7 @@ const renderListItem: RenderListItem<Contact> = ({
           {intl.formatMessage(messages.noNameProvided)}
         </ContactListItemName>
       )}
-      <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+      <Text color="secondary" displayStyle={TextDisplayStyle.LightText}>
         {secondParam(item, searchString)}
       </Text>
     </span>

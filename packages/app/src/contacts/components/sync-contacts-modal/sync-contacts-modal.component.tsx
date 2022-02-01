@@ -76,7 +76,7 @@ const SyncContactsModal: FunctionComponent<Props> = ({
       {...props}
     >
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.BiggerLightText}
         message={messages.text}
       />
       <ButtonsContainer>

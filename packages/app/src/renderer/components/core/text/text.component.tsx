@@ -15,6 +15,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
+import { Theme } from "Renderer/styles/theming/theme"
 
 export const uppercaseTextSharedStyles = css`
   font-size: 1.2rem;
@@ -126,14 +127,6 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         font-weight: ${fontWeight("default")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
-    case TextDisplayStyle.MediumFadedLightText:
-      return css`
-        ${mediumTextSharedStyles};
-        line-height: 1.8rem;
-        color: ${textColor("secondary")};
-        font-weight: ${fontWeight("light")};
-        letter-spacing: ${letterSpacing("small")}rem;
-      `
     case TextDisplayStyle.MediumTextUppercased:
       return css`
         ${mediumTextSharedStyles};
@@ -207,15 +200,20 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
   }
 }
 
-const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
+const TextWrapper = styled.div<{
+  displayStyle: TextDisplayStyle
+  color: keyof Theme["color"]["text"]
+}>`
   margin: 0;
   ${({ displayStyle }) => getTextStyles(displayStyle)};
+  color: ${({ color }) => textColor(color)};
 `
 
 export interface TextProps {
   readonly element?: Element
   readonly message?: MessageInterface
   readonly displayStyle?: TextDisplayStyle
+  readonly color?: keyof Theme["color"]["text"]
 }
 
 export enum TextDisplayStyle {
@@ -232,7 +230,6 @@ export enum TextDisplayStyle {
   Title,
   Button,
   Label,
-  MediumFadedLightText,
   MediumFadedTextUppercased,
   MediumTextUppercased,
   MediumText,
@@ -259,7 +256,6 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.TertiaryHeading]: "h3",
   [TextDisplayStyle.QuaternaryHeading]: "h4",
   [TextDisplayStyle.FifthHeading]: "h5",
-  [TextDisplayStyle.MediumFadedLightText]: "p",
   [TextDisplayStyle.MediumText]: "p",
   [TextDisplayStyle.MediumFadedText]: "p",
   [TextDisplayStyle.MediumFadedTextUppercased]: "p",
@@ -286,6 +282,7 @@ const Text: FunctionComponent<TextProps> = ({
   message,
   element,
   className = "",
+  color = "primary",
   ...rest
 }) => (
   <TextWrapper
@@ -293,6 +290,7 @@ const Text: FunctionComponent<TextProps> = ({
     as={element || mapping[displayStyle]}
     displayStyle={displayStyle}
     {...rest}
+    color={color}
   >
     {message ? <FormattedMessage {...message} /> : children}
   </TextWrapper>
