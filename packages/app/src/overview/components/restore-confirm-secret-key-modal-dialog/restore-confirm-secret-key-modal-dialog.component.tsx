@@ -117,7 +117,8 @@ export const RestoreConfirmSecretKeyModal: FunctionComponent<RestoreConfirmSecre
         {...props}
       >
         <ModalText
-          displayStyle={TextDisplayStyle.MediumFadedText}
+          displayStyle={TextDisplayStyle.Paragraph4}
+          color="secondary"
           message={messages.restoreConfirmSecretKeyModalDescription}
         />
         <Form onSubmit={handleSubmitClick}>

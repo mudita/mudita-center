@@ -80,7 +80,7 @@ const FileList: FunctionComponent<Props> = ({
         return (
           <File key={index} data-testid={FileListTestIds.File}>
             <Icon type={Type.Attachment} height={1.6} />
-            <Text displayStyle={TextDisplayStyle.MediumFadedText}>
+            <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
               {file.name}
             </Text>
             {onClick && (

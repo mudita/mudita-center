@@ -113,12 +113,13 @@ export const RestoreModal: FunctionComponent<RestoreModalProps> = ({
         displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.restoreModalTitle}
       />
-      <ModalText displayStyle={TextDisplayStyle.MediumFadedText}>
+      <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
         {moment(backupDate).format("dddd, MMMM D, h:mm a")}
       </ModalText>
       <ModalText
         displayStyle={TextDisplayStyle.Paragraph4}
         message={messages.restoreModalDescription}
+        color="secondary"
       />
     </Modal>
   )

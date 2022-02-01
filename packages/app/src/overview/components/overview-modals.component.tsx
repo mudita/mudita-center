@@ -220,7 +220,8 @@ export const UpdateAvailable = ({
       message={messages.updateAvailableMessage}
     />
     <Text
-      displayStyle={TextDisplayStyle.MediumFadedText}
+      displayStyle={TextDisplayStyle.Paragraph4}
+      color="secondary"
       message={{
         ...messages.updateAvailableDescription,
         values: {
@@ -246,7 +247,8 @@ export const UpdateNotAvailable = ({ version = "" }) => (
       message={messages.updateNotAvailableMessage}
     />
     <Text
-      displayStyle={TextDisplayStyle.MediumFadedText}
+      displayStyle={TextDisplayStyle.Paragraph4}
+      color="secondary"
       message={{
         ...messages.updateNotAvailableDescription,
         values: {
@@ -301,7 +303,7 @@ export const DownloadingUpdateModal = ({
         displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.downloadingUpdateMessage}
       />
-      <Text displayStyle={TextDisplayStyle.MediumFadedText}>
+      <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
         {timeLeft === undefined
           ? starting
           : timeLeft < 1
@@ -331,7 +333,8 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
       message={messages.downloadCompletedMessage}
     />
     <Text
-      displayStyle={TextDisplayStyle.MediumFadedText}
+      displayStyle={TextDisplayStyle.Paragraph4}
+      color="secondary"
       message={messages.downloadCompletedDescription}
     />
   </OSUpdateModal>
@@ -365,7 +368,8 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
         message={messages.updatingProgressTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.updatingProgressDescription}
       />
     </OSUpdateModal>
@@ -383,7 +387,8 @@ export const UpdatingSuccessModal = () => (
       message={messages.updatingSuccessTitle}
     />
     <ModalText
-      displayStyle={TextDisplayStyle.MediumFadedText}
+      displayStyle={TextDisplayStyle.Paragraph4}
+      color="secondary"
       message={messages.updatingSuccessDescription}
     />
   </OSUpdateModal>

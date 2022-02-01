@@ -49,7 +49,7 @@ const ExportErrorModal: FunctionComponent<ModalProps> = ({ ...props }) => (
         data-testid={ExportErrorModalTestIds.Subtitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         message={messages.body}
         data-testid={ExportErrorModalTestIds.Body}
       />

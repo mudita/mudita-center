@@ -110,7 +110,9 @@ const RestoreAvailableBackupModal: FunctionComponent<Props> = ({
       </ModalContent>
       <ModalTable>
         <RowHeader>
-          <Text displayStyle={TextDisplayStyle.MediumFadedText}>Backups</Text>
+          <Text displayStyle={TextDisplayStyle.Title} color="disabled">
+            Backups
+          </Text>
         </RowHeader>
         <ModalTableBody>
           {sortBackups(backups).map((backup) => {

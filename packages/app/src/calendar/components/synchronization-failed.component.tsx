@@ -56,7 +56,7 @@ const EventsSynchronizationFailedModal: FunctionComponent<ModalProps> = (
         message={messages.subtitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         message={messages.body}
       />
     </ModalContent>

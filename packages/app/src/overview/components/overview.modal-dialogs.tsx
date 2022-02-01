@@ -114,7 +114,8 @@ export const UpdatingForceModal: FunctionComponent<
         message={messages.updatingForceTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.updatingForceDescription}
       />
     </OSUpdateModal>
@@ -134,7 +135,8 @@ export const UpdatingSpinnerModal: FunctionComponent<
         message={messages.updatingProgressTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.updatingProgressDescription}
       />
     </OSUpdateModal>
@@ -181,7 +183,8 @@ export const UpdatingFailureWithHelpModal = ({
         message={messages.updatingFailedTitle}
       />
       <Text
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.updatingFailedDescription}
       />
     </OSUpdateModal>
@@ -201,7 +204,8 @@ export const UpdatingSuccessModal: FunctionComponent<
         message={messages.updatingSuccessTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.updatingSuccessDescription}
       />
     </OSUpdateModal>

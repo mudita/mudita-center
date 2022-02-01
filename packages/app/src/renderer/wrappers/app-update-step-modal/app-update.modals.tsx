@@ -130,6 +130,7 @@ export const AppUpdateAvailable: FunctionComponent<
     />
     <Text
       displayStyle={TextDisplayStyle.Paragraph4}
+      color="secondary"
       message={messages.availableUpdateDescription}
     />
   </AppUpdateModal>
@@ -191,7 +192,8 @@ export const AppUpdateError: FunctionComponent<
       message={messages.errorUpdateMessage}
     />
     <Text
-      displayStyle={TextDisplayStyle.MediumFadedText}
+      displayStyle={TextDisplayStyle.Paragraph4}
+      color="secondary"
       message={messages.errorUpdateDescription}
     />
   </AppUpdateModal>
@@ -211,11 +213,13 @@ export const AppUpdateDownloaded: FunctionComponent<
       message={messages.downloadedUpdateMessage}
     />
     <Text
-      displayStyle={TextDisplayStyle.MediumFadedText}
+      displayStyle={TextDisplayStyle.Paragraph4}
+      color="secondary"
       message={messages.appUpdateTitle}
     />
     <Text
-      displayStyle={TextDisplayStyle.MediumFadedText}
+      displayStyle={TextDisplayStyle.Paragraph4}
+      color="secondary"
       message={messages.downloadedUpdateDescription}
     />
   </AppUpdateModal>
@@ -241,7 +245,8 @@ export const AppUpdateProgress: FunctionComponent<
         message={messages.progressUpdateTitle}
       />
       <Text
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.progressUpdateDescription}
       />
     </ModalContent>

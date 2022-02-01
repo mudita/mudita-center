@@ -83,7 +83,7 @@ const ImportEventsModal: FunctionComponent<ImportEventsModalProps> = ({
         message={messages.bodyTitle}
       />
       <Body
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         message={{
           ...messages.text,
           values: { count: events?.length, ...textFormatters },

@@ -129,11 +129,6 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
       `
     case TextDisplayStyle.MediumText:
       return mediumTextSharedStyles
-    case TextDisplayStyle.MediumFadedText:
-      return css`
-        ${mediumTextSharedStyles};
-        color: ${textColor("secondary")};
-      `
     case TextDisplayStyle.SmallText:
       return css`
         ${smallTextSharedStyles};
@@ -219,7 +214,6 @@ export enum TextDisplayStyle {
   Button,
   Label,
   MediumText,
-  MediumFadedText,
   SmallText,
   SmallSupplementaryText,
   SmallTextInverted,
@@ -243,7 +237,6 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.QuaternaryHeading]: "h4",
   [TextDisplayStyle.FifthHeading]: "h5",
   [TextDisplayStyle.MediumText]: "p",
-  [TextDisplayStyle.MediumFadedText]: "p",
   [TextDisplayStyle.SmallText]: "p",
   [TextDisplayStyle.SmallSupplementaryText]: "p",
   [TextDisplayStyle.SmallTextInverted]: "p",

@@ -108,7 +108,8 @@ export const BackupModal: FunctionComponent<
         message={messages.backupModalTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.backupModalDescription}
       />
     </Modal>
@@ -128,7 +129,8 @@ export const BackupSpinnerModal: FunctionComponent<
         message={messages.backupSpinnerModalTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.backupSpinnerModalDescription}
       />
     </Modal>
@@ -165,7 +167,8 @@ export const BackupFailureModal: FunctionComponent<BackupFailureWithHelpModalPro
           message={messages.backupFailureModalTitle}
         />
         <ModalText
-          displayStyle={TextDisplayStyle.MediumFadedText}
+          displayStyle={TextDisplayStyle.Paragraph4}
+          color="secondary"
           message={messages.backupFailureModalDescription}
         />
       </Modal>
