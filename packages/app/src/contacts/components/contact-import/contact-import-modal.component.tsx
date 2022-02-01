@@ -188,11 +188,11 @@ const ContactImportModal: FunctionComponent<Props> = ({
               ...messages.importFailedBody,
               values: { ...textFormatters, num: successfulItemsCount },
             }}
-            displayStyle={TextDisplayStyle.LightText}
+            displayStyle={TextDisplayStyle.Paragraph4}
           />
           <ModalText
             message={messages.importFailedBody2}
-            displayStyle={TextDisplayStyle.LightText}
+            displayStyle={TextDisplayStyle.Paragraph4}
           />
         </>
       )}
@@ -207,7 +207,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
               ...messages.importSuccessBody,
               values: { ...textFormatters, num: contacts.length },
             }}
-            displayStyle={TextDisplayStyle.Text}
+            displayStyle={TextDisplayStyle.Paragraph3}
           />
         </>
       )}
@@ -219,7 +219,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
           />
           <ModalText
             message={messages.importingBody}
-            displayStyle={TextDisplayStyle.LightText}
+            displayStyle={TextDisplayStyle.Paragraph4}
             color="secondary"
           />
         </>
@@ -246,7 +246,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
           </Col>
           {[ModalType.Select].includes(modalType) && (
             <SelectedText
-              displayStyle={TextDisplayStyle.LightText}
+              displayStyle={TextDisplayStyle.Paragraph4}
               data-testid={ContactImportModalTestIds.SelectedText}
               color="secondary"
             >

@@ -92,11 +92,11 @@ const System: FunctionComponent<Props> = ({
       <CardBody>
         <CardContent>
           <CardText>
-            <Text displayStyle={TextDisplayStyle.LightText}>
+            <Text displayStyle={TextDisplayStyle.Paragraph4}>
               <FormattedMessage {...messages.systemVersionTitle} />
             </Text>
             <Text
-              displayStyle={TextDisplayStyle.BiggerText}
+              displayStyle={TextDisplayStyle.Paragraph1}
               data-testid={SystemTestIds.OsVersion}
             >
               <FormattedMessage {...messages.muditaOsUpdateTitle} />

@@ -74,13 +74,13 @@ const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
       {lastBackupDate !== undefined ? (
         <CardContent>
           <CardText>
-            <Text displayStyle={TextDisplayStyle.LightText}>
+            <Text displayStyle={TextDisplayStyle.Paragraph4}>
               <FormattedMessage
                 {...messages.backupInfoBackupAvaibleDescription}
               />
             </Text>
             <Text
-              displayStyle={TextDisplayStyle.BiggerText}
+              displayStyle={TextDisplayStyle.Paragraph1}
               data-testid={SystemTestIds.OsVersion}
             >
               {moment(lastBackupDate).format("MMMM D, YYYY")}
@@ -97,7 +97,7 @@ const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
       ) : (
         <CardContent>
           <CardText>
-            <Text displayStyle={TextDisplayStyle.LightText}>
+            <Text displayStyle={TextDisplayStyle.Paragraph4}>
               <FormattedMessage
                 {...messages.backupInfoBackupNotAvaibleDescription}
               />

@@ -290,7 +290,7 @@ export const EmptyState: FunctionComponent<EmptyStateProps> = ({
     <Text displayStyle={TextDisplayStyle.TertiaryHeading} message={title} />
     {description && (
       <Text
-        displayStyle={TextDisplayStyle.Text}
+        displayStyle={TextDisplayStyle.Paragraph3}
         message={description}
         color="secondary"
       />

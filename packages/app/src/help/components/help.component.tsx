@@ -162,7 +162,7 @@ const Help: FunctionComponent<Props> = ({
                   to={`${URL_MAIN.help}/${id}`}
                   data-testid={HelpComponentTestIds.Question}
                 >
-                  <Text displayStyle={TextDisplayStyle.BiggerText}>
+                  <Text displayStyle={TextDisplayStyle.Paragraph1}>
                     {items[id].question}
                   </Text>
                   <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />

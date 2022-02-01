@@ -89,7 +89,7 @@ const AboutUI: FunctionComponent<Props> = ({
       {flags.get(Feature.MCVersion) && (
         <VersionTableRow>
           <Data>
-            <SettingsLabel displayStyle={TextDisplayStyle.BiggerText}>
+            <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
               <FormattedMessage
                 id="module.settings.aboutInstalledVersion"
                 values={{ version: appCurrentVersion }}
@@ -130,7 +130,7 @@ const AboutUI: FunctionComponent<Props> = ({
       )}
       <SettingsTableRow>
         <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.BiggerText}>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id="module.settings.aboutTermsOfService" />
           </SettingsLabel>
         </Data>
@@ -146,7 +146,7 @@ const AboutUI: FunctionComponent<Props> = ({
       </SettingsTableRow>
       <SettingsTableRow>
         <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.BiggerText}>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id="module.settings.aboutPrivacyPolicy" />
           </SettingsLabel>
         </Data>
@@ -162,7 +162,7 @@ const AboutUI: FunctionComponent<Props> = ({
       </SettingsTableRow>
       <SettingsTableRow data-testid={AboutTestIds.TableRow}>
         <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.BiggerText}>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id="module.settings.aboutLicense" />
           </SettingsLabel>
         </Data>

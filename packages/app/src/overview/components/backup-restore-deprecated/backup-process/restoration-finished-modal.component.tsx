@@ -33,6 +33,6 @@ export const BackupRestorationFinishedModal: FunctionComponent<
       message={messages.title}
       displayStyle={TextDisplayStyle.QuaternaryHeading}
     />
-    <Text message={messages.body} displayStyle={TextDisplayStyle.LightText} />
+    <Text message={messages.body} displayStyle={TextDisplayStyle.Paragraph4} />
   </PureBackupModal>
 )

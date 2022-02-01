@@ -102,7 +102,7 @@ export const ContactDetailsInfo = styled(Text)`
 
 export const ContactDetailsLabel = styled(Text)`
   color: ${textColor("secondary")};
-  ${getTextStyles(TextDisplayStyle.Text)};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
   margin: 0;
   padding: 2.4rem 0 1.6rem 0;
   border-bottom: 0.1rem solid ${borderColor("secondary")};

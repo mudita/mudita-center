@@ -79,7 +79,7 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
       <Header>
         <Icon type={Type.MuditaLogoWithText} width={8.6} height={2} />
         <MainTitle
-          displayStyle={TextDisplayStyle.Text}
+          displayStyle={TextDisplayStyle.Paragraph3}
           message={{ id: "module.onboarding.mainTitle" }}
         />
         {!recoveryMode && (

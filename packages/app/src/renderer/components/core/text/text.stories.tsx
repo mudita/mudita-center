@@ -61,7 +61,7 @@ storiesOf("Theme/Text", module).add("Text", () => {
   return (
     <>
       <Text displayStyle={TextDisplayStyle.PrimaryHeading}>TYPOGRAPHY</Text>
-      <Text displayStyle={TextDisplayStyle.Text}>
+      <Text displayStyle={TextDisplayStyle.Paragraph3}>
         Click on the box to copy text style
       </Text>
       <br />

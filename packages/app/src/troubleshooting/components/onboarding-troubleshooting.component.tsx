@@ -153,7 +153,7 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
           }}
         />
         <Instruction
-          displayStyle={TextDisplayStyle.BiggerText}
+          displayStyle={TextDisplayStyle.Paragraph1}
           message={{ id: "module.onboarding.troubleshootingInstruction" }}
         />
       </header>
@@ -161,22 +161,22 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
         <Steps>
           <Text
             element={"li"}
-            displayStyle={TextDisplayStyle.BiggerText}
+            displayStyle={TextDisplayStyle.Paragraph1}
             message={{ id: "module.onboarding.troubleshootingSteps1" }}
           />
           <Text
             element={"li"}
-            displayStyle={TextDisplayStyle.BiggerText}
+            displayStyle={TextDisplayStyle.Paragraph1}
             message={{ id: "module.onboarding.troubleshootingSteps2" }}
           />
           <Text
             element={"li"}
-            displayStyle={TextDisplayStyle.BiggerText}
+            displayStyle={TextDisplayStyle.Paragraph1}
             message={{ id: "module.onboarding.troubleshootingSteps3" }}
           />
           <Text
             element={"li"}
-            displayStyle={TextDisplayStyle.BiggerText}
+            displayStyle={TextDisplayStyle.Paragraph1}
             message={{ id: "module.onboarding.troubleshootingSteps4" }}
           />
         </Steps>

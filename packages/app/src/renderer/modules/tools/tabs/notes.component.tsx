@@ -324,7 +324,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                       />
                     </Col>
                     <TextPreview onClick={handleTextPreviewClick}>
-                      <TextCut displayStyle={TextDisplayStyle.BiggerText}>
+                      <TextCut displayStyle={TextDisplayStyle.Paragraph1}>
                         {emptyNote ? <em>{text}</em> : text}
                       </TextCut>
                     </TextPreview>
@@ -342,7 +342,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                       )}
                     </Col>
                     <Col onClick={noop}>
-                      <Text displayStyle={TextDisplayStyle.BiggerText}>
+                      <Text displayStyle={TextDisplayStyle.Paragraph1}>
                         {isToday(date)
                           ? intl.formatMessage(messages.today)
                           : moment(date).format("ll")}

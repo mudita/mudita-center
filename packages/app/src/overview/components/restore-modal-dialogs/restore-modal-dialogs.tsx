@@ -117,7 +117,7 @@ export const RestoreModal: FunctionComponent<RestoreModalProps> = ({
         {moment(backupDate).format("dddd, MMMM D, h:mm a")}
       </ModalText>
       <ModalText
-        displayStyle={TextDisplayStyle.LightText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         message={messages.restoreModalDescription}
       />
     </Modal>
@@ -137,7 +137,7 @@ export const RestoreSpinnerModal: FunctionComponent<
         message={messages.restoreSpinnerModalTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.LightText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         message={messages.restoreSpinnerModalDescription}
       />
     </Modal>
@@ -174,7 +174,7 @@ export const RestoreFailureModal: FunctionComponent<RestoreFailureWithHelpModalP
           message={messages.restoreFailureModalTitle}
         />
         <ModalText
-          displayStyle={TextDisplayStyle.LightText}
+          displayStyle={TextDisplayStyle.Paragraph4}
           message={messages.restoreFailureModalDescription}
         />
       </Modal>
@@ -200,7 +200,7 @@ export const RestoreSuccessModal: FunctionComponent<
         message={messages.restoreSuccessModalTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.LightText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         message={messages.restoreSuccessModalDescription}
       />
     </Modal>

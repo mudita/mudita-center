@@ -102,16 +102,16 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         font-weight: ${fontWeight("bold")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
-    case TextDisplayStyle.BiggerText:
+    case TextDisplayStyle.Paragraph1:
       return biggerTextSharedStyles
-    case TextDisplayStyle.BiggerLightText:
+    case TextDisplayStyle.Paragraph2:
       return css`
         ${biggerTextSharedStyles}
         font-weight: ${fontWeight("light")};
       `
-    case TextDisplayStyle.Text:
+    case TextDisplayStyle.Paragraph3:
       return textSharedStyles
-    case TextDisplayStyle.LightText:
+    case TextDisplayStyle.Paragraph4:
       return css`
         ${textSharedStyles}
         font-weight: ${fontWeight("light")};
@@ -223,10 +223,10 @@ export enum TextDisplayStyle {
   TertiaryHeading,
   QuaternaryHeading,
   FifthHeading,
-  BiggerText,
-  BiggerLightText,
-  Text,
-  LightText,
+  Paragraph1,
+  Paragraph2,
+  Paragraph3,
+  Paragraph4,
   Title,
   Button,
   Label,
@@ -267,10 +267,10 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.SmallFadedLightText]: "p",
   [TextDisplayStyle.SmallFadedDimText]: "p",
   [TextDisplayStyle.ExtraSmallFadedDimText]: "p",
-  [TextDisplayStyle.BiggerText]: "p",
-  [TextDisplayStyle.BiggerLightText]: "p",
-  [TextDisplayStyle.Text]: "p",
-  [TextDisplayStyle.LightText]: "p",
+  [TextDisplayStyle.Paragraph1]: "p",
+  [TextDisplayStyle.Paragraph2]: "p",
+  [TextDisplayStyle.Paragraph3]: "p",
+  [TextDisplayStyle.Paragraph4]: "p",
   [TextDisplayStyle.Title]: "p",
   [TextDisplayStyle.Button]: "p",
   [TextDisplayStyle.Label]: "p",

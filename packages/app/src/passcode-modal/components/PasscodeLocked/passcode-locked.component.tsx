@@ -70,7 +70,7 @@ const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
         }}
       />
       <TimeText
-        displayStyle={TextDisplayStyle.LightText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         data-testid={PasscodeLockedTestIds.Timer}
         color="secondary"
       >

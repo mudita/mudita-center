@@ -196,10 +196,12 @@ export const BackupSuccessModal: FunctionComponent<BackupSuccessModalProps> = ({
         message={messages.backupSuccessModalTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.LightText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         message={messages.backupSuccessModalDescription}
       />
-      <ModalText displayStyle={TextDisplayStyle.Text}>{description}</ModalText>
+      <ModalText displayStyle={TextDisplayStyle.Paragraph3}>
+        {description}
+      </ModalText>
     </Modal>
   )
 }

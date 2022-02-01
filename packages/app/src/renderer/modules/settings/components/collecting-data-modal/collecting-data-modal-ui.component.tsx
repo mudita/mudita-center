@@ -62,7 +62,7 @@ const CollectingDataModalUi: FunctionComponent<Props> = ({
         />
         <Paragraph
           data-testid={CollectingDataModalTestIds.Body}
-          displayStyle={TextDisplayStyle.LightText}
+          displayStyle={TextDisplayStyle.Paragraph4}
           message={messages.body}
         />
         <FullAgreementButton

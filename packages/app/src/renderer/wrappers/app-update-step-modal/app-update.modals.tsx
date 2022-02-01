@@ -121,7 +121,7 @@ export const AppUpdateAvailable: FunctionComponent<
       message={messages.availableUpdateMessage}
     />
     <Text
-      displayStyle={TextDisplayStyle.LightText}
+      displayStyle={TextDisplayStyle.Paragraph4}
       message={{
         ...messages.availableUpdateAppVersion,
         values: { version: appLatestVersion },
@@ -129,7 +129,7 @@ export const AppUpdateAvailable: FunctionComponent<
       color="secondary"
     />
     <Text
-      displayStyle={TextDisplayStyle.LightText}
+      displayStyle={TextDisplayStyle.Paragraph4}
       message={messages.availableUpdateDescription}
     />
   </AppUpdateModal>
@@ -156,7 +156,7 @@ export const AppUpdateForced: FunctionComponent<
       />
       <br />
       <Text
-        displayStyle={TextDisplayStyle.LightText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         message={{
           ...messages.updateForcedModalVersion,
           values: { version: appLatestVersion },
@@ -168,7 +168,7 @@ export const AppUpdateForced: FunctionComponent<
         message={messages.updateForcedModalDescription}
       />
       <Text
-        displayStyle={TextDisplayStyle.LightText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         message={{
           ...messages.updateForcedModalCurrentVersion,
           values: { version: appCurrentVersion },
@@ -261,7 +261,7 @@ export const AppUpdateNotAvailable: FunctionComponent<
       message={messages.notAvailableUpdateMessage}
     />
     <Text
-      displayStyle={TextDisplayStyle.LightText}
+      displayStyle={TextDisplayStyle.Paragraph4}
       message={{
         ...messages.notAvailableUpdateDescription,
         values: { version: appCurrentVersion },

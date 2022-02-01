@@ -41,7 +41,7 @@ const OnboardingWelcome: FunctionComponent<Props> = ({
         }}
       />
       <InstructionText
-        displayStyle={TextDisplayStyle.BiggerText}
+        displayStyle={TextDisplayStyle.Paragraph1}
         message={{ id: "module.onboarding.welcomeInstruction" }}
       />
     </header>

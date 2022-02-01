@@ -183,7 +183,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 {getPrettyCaller(contact, phoneNumber)}
               </Name>
               {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
-                <Text displayStyle={TextDisplayStyle.BiggerLightText}>
+                <Text displayStyle={TextDisplayStyle.Paragraph2}>
                   &nbsp;
                   {phoneNumber.split(" ").join("") ===
                   contact?.secondaryPhoneNumber?.split(" ").join("")
@@ -203,7 +203,9 @@ const ThreadRow: FunctionComponent<Props> = ({
               unread={unread}
               color="secondary"
               displayStyle={
-                unread ? TextDisplayStyle.Text : TextDisplayStyle.LightText
+                unread
+                  ? TextDisplayStyle.Paragraph3
+                  : TextDisplayStyle.Paragraph4
               }
             >
               {thread?.messageSnippet}

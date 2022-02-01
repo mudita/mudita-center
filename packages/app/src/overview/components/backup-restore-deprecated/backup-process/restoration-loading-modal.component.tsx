@@ -44,7 +44,7 @@ export const BackupRestorationLoadingModal: FunctionComponent<
       message={messages.title}
       displayStyle={TextDisplayStyle.QuaternaryHeading}
     />
-    <Text message={messages.body} displayStyle={TextDisplayStyle.LightText} />
+    <Text message={messages.body} displayStyle={TextDisplayStyle.Paragraph4} />
     <LoadingBar
       chartData={[
         { value: progress, color: backgroundColor("chartBar")({ theme }) },

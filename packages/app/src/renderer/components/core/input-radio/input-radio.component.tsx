@@ -85,7 +85,7 @@ const InputRadio: FunctionComponent<InputProps> = ({
               )}
               {subLabel && (
                 <Text
-                  displayStyle={TextDisplayStyle.LightText}
+                  displayStyle={TextDisplayStyle.Paragraph4}
                   element={"span"}
                 >
                   {subLabel}

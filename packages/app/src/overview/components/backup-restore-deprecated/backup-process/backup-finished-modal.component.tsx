@@ -63,7 +63,7 @@ export const BackupFinishedModal: FunctionComponent<
           ...textFormatters,
         },
       }}
-      displayStyle={TextDisplayStyle.LightText}
+      displayStyle={TextDisplayStyle.Paragraph4}
     />
     <FileList>
       <Labels>

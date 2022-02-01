@@ -50,7 +50,7 @@ const TetheringDisabled: FunctionComponent<TetheringDisabledProps> = ({
     </TextWrapper>
     <ButtonWrapper>
       <Text
-        displayStyle={TextDisplayStyle.BiggerLightText}
+        displayStyle={TextDisplayStyle.Paragraph2}
         data-testid={TetheringTestIds.StartTetheringNotification}
       >
         {intl.formatMessage(tetheringMessages.enablingInfo, textFormatters)}

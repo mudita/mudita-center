@@ -33,7 +33,7 @@ export const renderListItem: RenderListItem<Receiver> = ({ item, props }) => (
           {intl.formatMessage(messages.noNameProvided)}
         </ContactListItemName>
       )}
-      <Text displayStyle={TextDisplayStyle.LightText}>{item.phoneNumber}</Text>
+      <Text displayStyle={TextDisplayStyle.Paragraph4}>{item.phoneNumber}</Text>
     </span>
   </ContactListItem>
 )

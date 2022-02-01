@@ -82,7 +82,7 @@ export const ErrorDataModal = ({
     />
     {descriptionMessage && (
       <Text
-        displayStyle={TextDisplayStyle.LightText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         message={descriptionMessage}
       />
     )}

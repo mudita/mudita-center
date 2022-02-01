@@ -54,7 +54,7 @@ const ErrorModal: FunctionComponent<Props> = ({
         </ModalText>
       )}
       {body && (
-        <ModalText displayStyle={TextDisplayStyle.LightText} color="secondary">
+        <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
           {body}
         </ModalText>
       )}

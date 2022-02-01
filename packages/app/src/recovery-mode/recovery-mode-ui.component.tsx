@@ -139,7 +139,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
           message={{ ...messages.title, values: textFormatters }}
         />
         <DescriptionText
-          displayStyle={TextDisplayStyle.BiggerLightText}
+          displayStyle={TextDisplayStyle.Paragraph2}
           message={messages.description}
         />
       </RecoveryModeHeader>
@@ -156,7 +156,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
                     element={"p"}
                   />
                   <OptionText
-                    displayStyle={TextDisplayStyle.LightText}
+                    displayStyle={TextDisplayStyle.Paragraph4}
                     message={description}
                   />
                 </TextWrapper>

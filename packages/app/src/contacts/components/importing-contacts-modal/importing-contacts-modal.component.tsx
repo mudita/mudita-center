@@ -73,7 +73,7 @@ const ImportingContactsModal: FunctionComponent<ImportingContactsModalProps> =
           message={messages.subtitle}
         />
         <ModalText
-          displayStyle={TextDisplayStyle.LightText}
+          displayStyle={TextDisplayStyle.Paragraph4}
           message={messages.body}
         />
         <ProgressBar
@@ -83,7 +83,7 @@ const ImportingContactsModal: FunctionComponent<ImportingContactsModalProps> =
           ]}
           displayStyle={DisplayStyle.Thin}
         />
-        <Info displayStyle={TextDisplayStyle.Text}>
+        <Info displayStyle={TextDisplayStyle.Paragraph3}>
           {Math.round((count * 100) / total)}%
         </Info>
       </Content>

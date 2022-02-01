@@ -156,7 +156,7 @@ const StackedBarChart: FunctionComponent<StackedBarChartProps> = ({
                 >
                   {usedMemoryConverted}
                   <PercentageLabel
-                    displayStyle={TextDisplayStyle.Text}
+                    displayStyle={TextDisplayStyle.Paragraph3}
                     element="span"
                   >
                     {`( ${formatPercentage(

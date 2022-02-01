@@ -55,7 +55,7 @@ const InfoModal: FunctionComponent<Props> = ({
         </ModalText>
       )}
       {body && (
-        <ModalText displayStyle={TextDisplayStyle.LightText}>{body}</ModalText>
+        <ModalText displayStyle={TextDisplayStyle.Paragraph4}>{body}</ModalText>
       )}
     </ModalContent>
   </ModalDialog>

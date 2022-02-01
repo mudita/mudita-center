@@ -31,7 +31,7 @@ const ThreadDetailsError: FunctionComponent<Properties> = ({ onClick }) => {
   return (
     <ColumnContent>
       <Text
-        displayStyle={TextDisplayStyle.BiggerText}
+        displayStyle={TextDisplayStyle.Paragraph1}
         message={translations.errorText}
         data-testid={ThreadDetailsTestIds.ErrorText}
       />

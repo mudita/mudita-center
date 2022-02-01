@@ -62,7 +62,7 @@ export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({
         />
         <Text
           data-testid={CrashDumpModalTestingIds.Text}
-          displayStyle={TextDisplayStyle.LightText}
+          displayStyle={TextDisplayStyle.Paragraph4}
           message={messages.text}
         />
       </ContentWrapper>

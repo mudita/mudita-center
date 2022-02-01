@@ -22,12 +22,12 @@ const messages = defineMessages({
 const MeditationNoStats: FunctionComponent = () => (
   <NoStatsWrapper>
     <NoStatsLargeText
-      displayStyle={TextDisplayStyle.BiggerText}
+      displayStyle={TextDisplayStyle.Paragraph1}
       message={messages.title}
       data-testid={MeditationNoStatsTestIdsEnum.NoStatsTitle}
     />
     <NoStatsLightText
-      displayStyle={TextDisplayStyle.Text}
+      displayStyle={TextDisplayStyle.Paragraph3}
       message={messages.subtitle}
       data-testid={MeditationNoStatsTestIdsEnum.NoStatsSubtitle}
       color="secondary"
