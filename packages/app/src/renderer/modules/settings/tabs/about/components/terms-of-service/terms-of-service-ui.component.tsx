@@ -24,7 +24,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
     >
       Mudita Center Terms of Use
     </WindowHeader>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       GENERAL PROVISIONS
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -124,7 +124,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
       </a>
       ) where the App is made available.
     </LightTextNested>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       PURPOSE AND USE OF THE APP
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -147,7 +147,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
       4. Personal data of the User obtained by Mudita through The App shall be
       processed for the purposes and in accordance with the Privacy Policy.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Intellectual Property Rights, License, and Ownership
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -165,7 +165,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
       3. Mudita reserves all rights in and to the Services and the Content not
       expressly granted to you under these Terms.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Restrictions
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -191,7 +191,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
       of the law, including but not limited to bringing civil or criminal legal
       proceedings.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       RESPONSIBILITY
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -235,7 +235,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
       these Terms and/or you are engaged in the illegal or fraudulent use of the
       Services or Content.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Health Disclaimer
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -263,7 +263,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
       consulting a licensed professional who will take such circumstances into
       account.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       CONDITIONS OF USE
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -287,7 +287,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
       due regard to the safety of yourself and others, requires your attention
       and concentration.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       COMMUNICATION AND FEEDBACK
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -326,7 +326,7 @@ const TermsOfServiceUI: FunctionComponent = () => (
       6. The response to the Feedback is the final outcome of the internal
       Feedback procedure.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       FINAL PROVISIONS
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>

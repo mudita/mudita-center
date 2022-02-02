@@ -31,7 +31,7 @@ export const LicenseUI: FunctionComponent = () => (
       BEFORE INSTALLING MUDITA CENTER. IF YOU DO NOT AGREE WITH THESE TERMS, YOU
       CANNOT OBTAIN AND USE THE SOFTWARE OR DOWNLOAD OR USE ITS UPDATES.
     </NoteText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Definitions:
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -59,7 +59,7 @@ export const LicenseUI: FunctionComponent = () => (
       the Terms of Use for the Mudita Center Software and installed the
       Software.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       License terms:
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -99,7 +99,7 @@ export const LicenseUI: FunctionComponent = () => (
       Software. Upon losing such rights, you should stop using the Software and
       destroy any remaining copies.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Transfer of data:
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -119,7 +119,7 @@ export const LicenseUI: FunctionComponent = () => (
       Software or the Mudita Pure device. No other data will be accessed by
       Mudita in connection with your use of the Software.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Limitation of liability:
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -128,7 +128,7 @@ export const LicenseUI: FunctionComponent = () => (
       the use of the Software, with the exception of situations resulting from
       willful misconduct or gross negligence by Mudita.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Copyright / Third-party services:
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -140,7 +140,7 @@ export const LicenseUI: FunctionComponent = () => (
       any service, you will be asked to give your permission and accept the
       terms defined by the service’s provider.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Amendments to the Terms:
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -152,7 +152,7 @@ export const LicenseUI: FunctionComponent = () => (
       information about amendments to the Terms will be deemed to constitute
       acceptance of the changes.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Applicable law:
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>

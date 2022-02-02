@@ -29,12 +29,15 @@ storiesOf("Components/Rest/Meditation", module)
               >
                 6
               </Text>
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+              <Text
+                displayStyle={TextDisplayStyle.TertiaryHeading}
+                element={"span"}
+              >
                 /7
               </Text>
             </TextWrapper>
             <Text
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Label}
               element={"p"}
               message={messages.daysPracticed}
             />
@@ -49,7 +52,7 @@ storiesOf("Components/Rest/Meditation", module)
               >
                 1
               </Text>
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+              <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 h
               </Text>
               <Text
@@ -58,7 +61,7 @@ storiesOf("Components/Rest/Meditation", module)
               >
                 11
               </Text>
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+              <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 m
               </Text>
               <Text
@@ -67,12 +70,12 @@ storiesOf("Components/Rest/Meditation", module)
               >
                 14
               </Text>
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+              <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 s
               </Text>
             </TextWrapper>
             <Text
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Label}
               element={"p"}
               message={messages.totalPracticeTime}
             />
@@ -87,7 +90,7 @@ storiesOf("Components/Rest/Meditation", module)
               >
                 17
               </Text>
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+              <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 m
               </Text>
               <Text
@@ -96,12 +99,12 @@ storiesOf("Components/Rest/Meditation", module)
               >
                 32
               </Text>
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+              <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 s
               </Text>
             </TextWrapper>
             <Text
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Label}
               element={"p"}
               message={messages.averageSessionLength}
             />

@@ -99,7 +99,7 @@ const FormInputLabelComponent: FunctionComponent<FormInputLabelProps> = ({
   label,
   optional,
 }) => (
-  <Text className={className} displayStyle={TextDisplayStyle.MediumText}>
+  <Text className={className} displayStyle={TextDisplayStyle.Paragraph3}>
     <FormattedMessage {...label} />
     {optional && (
       <Text
@@ -115,7 +115,7 @@ const FormInputLabelComponent: FunctionComponent<FormInputLabelProps> = ({
 )
 
 const FormInputLabel = styled(FormInputLabelComponent)`
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.4rem;
 
   &:not(:first-of-type) {
     margin-top: 2.4rem;
@@ -198,8 +198,9 @@ const ContactSupportModal: FunctionComponent<Props> = ({
         />
         <FormInputLabel label={messages.filesLabel} />
         <Text
-          displayStyle={TextDisplayStyle.SmallFadedText}
+          displayStyle={TextDisplayStyle.Label}
           element={"p"}
+          color="secondary"
           message={messages.filesLabelDescription}
         />
         <FileList

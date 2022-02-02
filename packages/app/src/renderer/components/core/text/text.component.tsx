@@ -42,11 +42,6 @@ export const largeTextSharedStyles = css`
   line-height: 1.05;
 `
 
-export const mediumTextSharedStyles = css`
-  font-size: 1.4rem;
-  line-height: 1.05;
-`
-
 export const smallTextSharedStyles = css`
   font-size: 1.2rem;
   line-height: 1.2;
@@ -70,7 +65,7 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
   switch (displayStyle) {
     case TextDisplayStyle.PrimaryHeading:
       return css`
-        font-size: 40rem;
+        font-size: 4rem;
         line-height: 1.2;
         font-weight: ${fontWeight("default")};
         letter-spacing: ${letterSpacing("negative")}rem;
@@ -127,8 +122,6 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         font-weight: ${fontWeight("default")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
-    case TextDisplayStyle.MediumText:
-      return mediumTextSharedStyles
     case TextDisplayStyle.SmallText:
       return css`
         ${smallTextSharedStyles};
@@ -213,7 +206,6 @@ export enum TextDisplayStyle {
   Title,
   Button,
   Label,
-  MediumText,
   SmallText,
   SmallSupplementaryText,
   SmallTextInverted,
@@ -236,7 +228,6 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.TertiaryHeading]: "h3",
   [TextDisplayStyle.QuaternaryHeading]: "h4",
   [TextDisplayStyle.FifthHeading]: "h5",
-  [TextDisplayStyle.MediumText]: "p",
   [TextDisplayStyle.SmallText]: "p",
   [TextDisplayStyle.SmallSupplementaryText]: "p",
   [TextDisplayStyle.SmallTextInverted]: "p",

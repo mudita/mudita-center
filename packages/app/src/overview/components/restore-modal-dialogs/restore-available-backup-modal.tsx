@@ -127,7 +127,7 @@ const RestoreAvailableBackupModal: FunctionComponent<Props> = ({
                   RestoreAvailableBackupModalTestIds.RestoreAvailableBackupModalBodyRow
                 }
               >
-                <Text displayStyle={TextDisplayStyle.MediumText}>
+                <Text displayStyle={TextDisplayStyle.Paragraph3}>
                   {moment(backup.date).format("dddd, MMMM D, h:mm a")}
                 </Text>
                 <Button

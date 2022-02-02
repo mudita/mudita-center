@@ -142,7 +142,7 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
     <OnboardingTroubleshootingWrapper>
       <header>
         <TextSorry
-          displayStyle={TextDisplayStyle.MediumText}
+          displayStyle={TextDisplayStyle.Paragraph1}
           message={{ id: "module.onboarding.troubleshootingSorry" }}
         />
         <Title

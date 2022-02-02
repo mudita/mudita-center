@@ -39,12 +39,12 @@ const DataBoxes: FunctionComponent<{}> = () => (
         <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
           6
         </Text>
-        <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+        <Text displayStyle={TextDisplayStyle.TertiaryHeading} element={"span"}>
           /7
         </Text>
       </TextWrapper>
       <Text
-        displayStyle={TextDisplayStyle.SmallFadedText}
+        displayStyle={TextDisplayStyle.Label}
         element={"p"}
         message={messages.daysPracticed}
       />
@@ -54,24 +54,24 @@ const DataBoxes: FunctionComponent<{}> = () => (
         <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
           1
         </Text>
-        <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+        <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
           h
         </Text>
         <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
           11
         </Text>
-        <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+        <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
           m
         </Text>
         <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
           14
         </Text>
-        <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+        <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
           s
         </Text>
       </TextWrapper>
       <Text
-        displayStyle={TextDisplayStyle.SmallFadedText}
+        displayStyle={TextDisplayStyle.Label}
         element={"p"}
         message={messages.totalPracticeTime}
       />
@@ -81,18 +81,18 @@ const DataBoxes: FunctionComponent<{}> = () => (
         <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
           17
         </Text>
-        <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+        <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
           m
         </Text>
         <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
           32
         </Text>
-        <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+        <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
           s
         </Text>
       </TextWrapper>
       <Text
-        displayStyle={TextDisplayStyle.SmallFadedText}
+        displayStyle={TextDisplayStyle.Label}
         element={"p"}
         message={messages.averageSessionLength}
       />

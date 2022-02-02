@@ -153,7 +153,7 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
         <Label>
           {checkbox}
           <LabelText
-            displayStyle={TextDisplayStyle.MediumText}
+            displayStyle={TextDisplayStyle.Paragraph3}
             className={className}
             element={"span"}
           >

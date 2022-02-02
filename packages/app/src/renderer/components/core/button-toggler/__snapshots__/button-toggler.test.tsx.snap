@@ -4,7 +4,11 @@ exports[`matches snapshot 1`] = `
 .c7 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
+  line-height: 1.57;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
   color: #000000;
 }
 
@@ -17,7 +21,7 @@ exports[`matches snapshot 1`] = `
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
   font-weight: 300;
-  color: #000000;
+  color: #6a6a6a;
 }
 
 .c12 {
@@ -236,7 +240,7 @@ exports[`matches snapshot 1`] = `
           </p>
           <p
             class="c9"
-            color="primary"
+            color="secondary"
             data-testid="tooltip-description"
           >
             [value] module.news

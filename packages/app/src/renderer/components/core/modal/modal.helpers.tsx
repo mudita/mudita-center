@@ -56,7 +56,7 @@ export const getSubtitleStyle = (size: ModalSize) => {
     case ModalSize.Medium:
       return TextDisplayStyle.SmallFadedText
     case ModalSize.Large:
-      return TextDisplayStyle.MediumText
+      return TextDisplayStyle.Paragraph3
     default:
       return
   }

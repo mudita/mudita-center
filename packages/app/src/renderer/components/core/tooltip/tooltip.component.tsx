@@ -86,7 +86,7 @@ const Tooltip: FunctionComponent<Props> = ({
       <TooltipContent>
         {title && (
           <TooltipTitle
-            displayStyle={TextDisplayStyle.MediumText}
+            displayStyle={TextDisplayStyle.Paragraph3}
             element={"p"}
             message={title}
           />
@@ -94,6 +94,7 @@ const Tooltip: FunctionComponent<Props> = ({
         {description && (
           <Text
             displayStyle={TextDisplayStyle.Paragraph4}
+            color="secondary"
             element={"p"}
             message={description}
             data-testid={TooltipTestIds.Description}

@@ -106,7 +106,7 @@ export const Row = styled.div<TableRowProps>`
 
 /* Column */
 export const Col = styled.div`
-  ${getTextStyles(TextDisplayStyle.MediumText)};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
   display: flex;
   align-items: center;
   ${({ onClick }) => onClick && clickableRowStyles};

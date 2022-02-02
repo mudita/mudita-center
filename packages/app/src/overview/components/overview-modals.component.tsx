@@ -468,7 +468,7 @@ export const DevUpdate = ({
       <Text displayStyle={TextDisplayStyle.QuaternaryHeading}>
         {install ? "Installing" : "Downloading"}. Are you sure?
       </Text>
-      <CenteredText displayStyle={TextDisplayStyle.MediumText}>
+      <CenteredText displayStyle={TextDisplayStyle.Paragraph3}>
         You're about to {install ? "install" : "download"} an update that{" "}
         {prerelease ? (
           <span>may be unstable</span>

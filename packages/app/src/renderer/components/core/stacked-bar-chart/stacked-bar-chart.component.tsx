@@ -151,7 +151,7 @@ const StackedBarChart: FunctionComponent<StackedBarChartProps> = ({
                 key={index}
               >
                 <BarLabel
-                  displayStyle={TextDisplayStyle.MediumText}
+                  displayStyle={TextDisplayStyle.Paragraph3}
                   data-testid="occupied-space"
                 >
                   {usedMemoryConverted}

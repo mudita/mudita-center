@@ -165,7 +165,8 @@ export const AppUpdateForced: FunctionComponent<
         color="secondary"
       />
       <Text
-        displayStyle={TextDisplayStyle.MediumText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.updateForcedModalDescription}
       />
       <Text

@@ -77,7 +77,7 @@ const InputRadio: FunctionComponent<InputProps> = ({
             <TextWrapper>
               {label && (
                 <LabelText
-                  displayStyle={TextDisplayStyle.MediumText}
+                  displayStyle={TextDisplayStyle.Paragraph3}
                   element={"span"}
                 >
                   {label}

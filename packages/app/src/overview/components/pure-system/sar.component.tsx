@@ -16,7 +16,9 @@ import { PureSystemTestIds } from "App/overview/components/pure-system//pure-sys
 
 const SarComponent: FunctionComponent = () => (
   <WindowContainer data-testid={PureSystemTestIds.SarWrapper}>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>SAR</WindowTitle>
+    <WindowTitle displayStyle={TextDisplayStyle.TertiaryHeading}>
+      SAR
+    </WindowTitle>
     <LightText
       displayStyle={TextDisplayStyle.Paragraph4}
       data-testid={PureSystemTestIds.SarParagraph}

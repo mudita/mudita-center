@@ -23,7 +23,7 @@ const PrivacyPolicyUI: FunctionComponent = () => (
     >
       Mudita Center Privacy Policy
     </WindowHeader>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Privacy policy - rules for the processing and protection of personal data
       in Mudita sp. z o.o.
     </WindowTitle>
