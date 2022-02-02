@@ -165,6 +165,7 @@ export const RestoreFailureModal: FunctionComponent<RestoreFailureWithHelpModalP
         )}
         onCloseButton={secondaryActionButtonClick}
         onClose={handleOnClose}
+        actionButtonSize={Size.FixedBig}
         {...props}
       >
         <RoundIconWrapper>
