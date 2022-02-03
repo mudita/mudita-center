@@ -5,7 +5,7 @@
 
 import { MenuItemConstructorOptions } from "electron"
 
-export interface MenuItem extends MenuItemConstructorOptions {
+export interface ContextMenuItem extends MenuItemConstructorOptions {
   devModeOnly?: boolean
   labelCreator?: () => string
 }

@@ -33,11 +33,11 @@
   },
   "dependencies": {
     "p-queue": "^7.1.0",
-    "serialport": "^9.0.2",
-    "usb": "^1.6.5"
+    "serialport": "^10.1.0",
+    "usb": "1.9.2"
   },
   "engines": {
-    "node": "14.17.3",
-    "npm": "6.14.13"
+    "node": "16.13.0",
+    "npm": "8.1.0"
   }
 }

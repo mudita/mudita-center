@@ -4,10 +4,10 @@
  */
 
 import store from "Renderer/store"
-import { MenuItem } from "App/context-menu/context-menu.interface"
+import { ContextMenuItem } from "App/context-menu/context-menu.interface"
 import { devClearAllContacts } from "App/contacts/actions/base.action"
 
-const contactsContextMenu: MenuItem[] = [
+const contactsContextMenu: ContextMenuItem[] = [
   {
     label: "Clear all contacts",
     click: () => store.dispatch(devClearAllContacts()),

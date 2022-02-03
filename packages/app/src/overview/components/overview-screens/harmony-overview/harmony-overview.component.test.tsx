@@ -17,14 +17,12 @@ import { StatusTestIds } from "App/overview/components/status/status-test-ids.en
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import { intl } from "Renderer/utils/intl"
 
-jest.mock("electron", () => ({
-  remote: {
-    Menu: () => ({
-      popup: jest.fn(),
-      append: jest.fn(),
-    }),
-    MenuItem: () => jest.fn(),
-  },
+jest.mock("@electron/remote", () => ({
+  Menu: () => ({
+    popup: jest.fn(),
+    append: jest.fn(),
+  }),
+  MenuItem: () => jest.fn(),
 }))
 
 const defaultProps: ComponentProps<typeof HarmonyOverview> = {
