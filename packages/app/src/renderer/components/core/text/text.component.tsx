@@ -135,20 +135,6 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         letter-spacing: ${letterSpacing("small")}rem;
         font-weight: ${fontWeight("light")};
       `
-    case TextDisplayStyle.SmallFadedDimText:
-      return css`
-        ${smallTextSharedStyles};
-        ${uppercaseStyles};
-        ${fadedDimStyles};
-        letter-spacing: ${letterSpacing("medium")}rem;
-      `
-    case TextDisplayStyle.ExtraSmallFadedDimText:
-      return css`
-        ${extraSmallTextSharedStyles};
-        ${uppercaseStyles};
-        ${fadedDimStyles};
-        letter-spacing: ${letterSpacing("medium")}rem;
-      `
     default:
       return null
   }
@@ -186,8 +172,6 @@ export enum TextDisplayStyle {
   Label,
   SmallFadedText,
   SmallFadedLightText,
-  SmallFadedDimText,
-  ExtraSmallFadedDimText,
 }
 
 interface ElementsMapping {
@@ -205,8 +189,6 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.FifthHeading]: "h5",
   [TextDisplayStyle.SmallFadedText]: "p",
   [TextDisplayStyle.SmallFadedLightText]: "p",
-  [TextDisplayStyle.SmallFadedDimText]: "p",
-  [TextDisplayStyle.ExtraSmallFadedDimText]: "p",
   [TextDisplayStyle.Paragraph1]: "p",
   [TextDisplayStyle.Paragraph2]: "p",
   [TextDisplayStyle.Paragraph3]: "p",

@@ -108,13 +108,6 @@ storiesOf("Theme/Text", module).add("Text", () => {
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.SmallFadedDimText">
-        <Story noUppercase title="SmallFadedDimText">
-          <Text displayStyle={TextDisplayStyle.SmallFadedDimText}>
-            I’m at the meeting now. I will call you later
-          </Text>
-        </Story>
-      </ClickableWrapper>
     </>
   )
 })

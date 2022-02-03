@@ -40,11 +40,11 @@ export const getAvatarSize = (size: AvatarSize): number => {
 const getAvatarTextStyle = (size: AvatarSize): TextDisplayStyle => {
   switch (size) {
     case AvatarSize.Small:
-      return TextDisplayStyle.SmallFadedDimText
-    case AvatarSize.Medium:
-      return TextDisplayStyle.SmallFadedDimText
-    case AvatarSize.Big:
       return TextDisplayStyle.FifthHeading
+    case AvatarSize.Medium:
+      return TextDisplayStyle.FifthHeading
+    case AvatarSize.Big:
+      return TextDisplayStyle.QuaternaryHeading
   }
 }
 
