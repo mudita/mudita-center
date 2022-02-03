@@ -15,7 +15,7 @@ import {
   transitionTimingFunction,
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
-import { textSharedStyles } from "Renderer/components/core/text/text.component"
+import { paragraph3SharedStyles } from "Renderer/components/core/text/text.component"
 import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
 
 export const ListItem = styled.li<{
@@ -25,7 +25,7 @@ export const ListItem = styled.li<{
 }>`
   cursor: pointer;
   padding: 1.2rem 2.4rem;
-  ${textSharedStyles};
+  ${paragraph3SharedStyles};
   font-weight: 300;
 
   :not(:last-of-type) {

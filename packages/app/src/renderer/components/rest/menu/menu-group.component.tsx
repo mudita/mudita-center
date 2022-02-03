@@ -43,7 +43,7 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
     <>
       {label && (
         <HeaderWrapper data-testid={label.id}>
-          <Text displayStyle={TextDisplayStyle.SmallText} message={label} />
+          <Text displayStyle={TextDisplayStyle.Title} message={label} />
           {icons && (
             <HeaderIconContainer>
               {icons.map((icon: Type, index) => {

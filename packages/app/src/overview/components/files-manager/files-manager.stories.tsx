@@ -30,14 +30,14 @@ storiesOf("Views|Overview/FilesManager", module)
     return (
       <div style={{ maxWidth: "63rem" }}>
         <Part>
-          <Text displayStyle={TextDisplayStyle.SmallText}>No space used</Text>
+          <Text displayStyle={TextDisplayStyle.Label}>No space used</Text>
           <FilesManager
             usedSpace={0}
             onFilesOpen={action("open files manager")}
           />
         </Part>
         <Part>
-          <Text displayStyle={TextDisplayStyle.SmallText}>
+          <Text displayStyle={TextDisplayStyle.Label}>
             Custom parameters
           </Text>
           <FilesManager
@@ -47,14 +47,14 @@ storiesOf("Views|Overview/FilesManager", module)
           />
         </Part>
         <Part>
-          <Text displayStyle={TextDisplayStyle.SmallText}>Half space used</Text>
+          <Text displayStyle={TextDisplayStyle.Label}>Half space used</Text>
           <FilesManager
             usedSpace={7.99}
             onFilesOpen={action("open files manager")}
           />
         </Part>
         <Part>
-          <Text displayStyle={TextDisplayStyle.SmallText}>Full space used</Text>
+          <Text displayStyle={TextDisplayStyle.Label}>Full space used</Text>
           <FilesManager
             usedSpace={16}
             onFilesOpen={action("open files manager")}

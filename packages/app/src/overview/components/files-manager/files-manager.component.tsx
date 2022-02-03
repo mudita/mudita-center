@@ -87,7 +87,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           <Text displayStyle={TextDisplayStyle.TertiaryHeading}>
             {convertBytes(usedSpace)}
           </Text>
-          <Text element={"span"} displayStyle={TextDisplayStyle.SmallText}>
+          <Text element={"span"} displayStyle={TextDisplayStyle.Label}>
             / {convertBytes(maxSpace)}
           </Text>
         </SpaceData>

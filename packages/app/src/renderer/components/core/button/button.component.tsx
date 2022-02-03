@@ -90,11 +90,11 @@ const ButtonComponent: FunctionComponent<Props> = ({
       case DisplayStyle.Tab:
         return TextDisplayStyle.Paragraph1
       case DisplayStyle.Dropdown:
-        return TextDisplayStyle.SmallText
+        return TextDisplayStyle.Button
       case DisplayStyle.Link2:
         return TextDisplayStyle.Paragraph1
       default:
-        return TextDisplayStyle.SmallText
+        return TextDisplayStyle.Button
     }
   }
 

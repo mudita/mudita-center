@@ -25,13 +25,13 @@ export const uppercaseTextSharedStyles = css`
   text-transform: uppercase;
 `
 
-export const biggerTextSharedStyles = css`
+export const paragraph1SharedStyles = css`
   font-size: 1.6rem;
   line-height: 1.5;
   letter-spacing: ${letterSpacing("smaller")}rem;
 `
 
-export const textSharedStyles = css`
+export const paragraph3SharedStyles = css`
   font-size: 1.4rem;
   line-height: 1.57;
   letter-spacing: ${letterSpacing("small")}rem;
@@ -98,17 +98,17 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         letter-spacing: ${letterSpacing("small")}rem;
       `
     case TextDisplayStyle.Paragraph1:
-      return biggerTextSharedStyles
+      return paragraph1SharedStyles
     case TextDisplayStyle.Paragraph2:
       return css`
-        ${biggerTextSharedStyles}
+        ${paragraph1SharedStyles}
         font-weight: ${fontWeight("light")};
       `
     case TextDisplayStyle.Paragraph3:
-      return textSharedStyles
+      return paragraph3SharedStyles
     case TextDisplayStyle.Paragraph4:
       return css`
-        ${textSharedStyles}
+        ${paragraph3SharedStyles}
         font-weight: ${fontWeight("light")};
       `
     case TextDisplayStyle.Title:
@@ -121,12 +121,6 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         line-height: 1.67;
         font-weight: ${fontWeight("default")};
         letter-spacing: ${letterSpacing("small")}rem;
-      `
-    case TextDisplayStyle.SmallText:
-      return css`
-        ${smallTextSharedStyles};
-        ${uppercaseStyles};
-        letter-spacing: ${letterSpacing("regular")}rem;
       `
     case TextDisplayStyle.SmallSupplementaryText:
       return css`
@@ -206,7 +200,6 @@ export enum TextDisplayStyle {
   Title,
   Button,
   Label,
-  SmallText,
   SmallSupplementaryText,
   SmallTextInverted,
   SmallFadedText,
@@ -228,7 +221,6 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.TertiaryHeading]: "h3",
   [TextDisplayStyle.QuaternaryHeading]: "h4",
   [TextDisplayStyle.FifthHeading]: "h5",
-  [TextDisplayStyle.SmallText]: "p",
   [TextDisplayStyle.SmallSupplementaryText]: "p",
   [TextDisplayStyle.SmallTextInverted]: "p",
   [TextDisplayStyle.SmallFadedText]: "p",

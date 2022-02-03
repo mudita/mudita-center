@@ -12,7 +12,7 @@ import {
 } from "Renderer/components/core/input-text/input-text.interface"
 import Text, {
   getTextStyles,
-  smallTextSharedStyles,
+  paragraph3SharedStyles,
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import transition from "Renderer/styles/functions/transition"
@@ -42,7 +42,7 @@ export const searchIcon = (
 
 const focusedLabelStyles = css`
   top: -2rem;
-  ${smallTextSharedStyles};
+  ${paragraph3SharedStyles};
 `
 
 const InputLabel = styled(Text)`
@@ -75,7 +75,7 @@ export const InputError = styled(Text)<{ visible: boolean }>`
   visibility: hidden;
   transition: all ${transitionTime("quick")}
     ${transitionTimingFunction("smooth")};
-  ${smallTextSharedStyles};
+  ${paragraph3SharedStyles};
 
   ${({ visible }) =>
     visible &&
