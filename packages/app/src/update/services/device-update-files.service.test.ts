@@ -23,6 +23,7 @@ beforeEach(() => {
     .spyOn(getAppSettingsMainModule, "default")
     .mockResolvedValue(mockedSettings)
 
+  // @ts-ignore
   jest.spyOn(fs, "readdir").mockResolvedValue(["file-one.tar", "file-two.tar"])
 
   jest

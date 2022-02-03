@@ -15,11 +15,9 @@ const storeMock = init({
   },
 })
 
-jest.mock("electron", () => ({
-  remote: {
-    app: {
-      getPath: () => "/mocked/path",
-    },
+jest.mock("@electron/remote", () => ({
+  app: {
+    getPath: () => "/mocked/path",
   },
 }))
 
