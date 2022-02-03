@@ -192,7 +192,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 </Text>
               )}
             </NameWrapper>
-            <Time displayStyle={TextDisplayStyle.SmallFadedText}>
+            <Time displayStyle={TextDisplayStyle.Label} color="secondary">
               {isToday(thread.lastUpdatedAt)
                 ? moment(thread.lastUpdatedAt).format("h:mm A")
                 : moment(thread.lastUpdatedAt)

@@ -61,8 +61,8 @@ const StatBoxes: FunctionComponent<Props> = ({
           </Text>
         </TextWrapper>
         <Text
-          displayStyle={TextDisplayStyle.SmallFadedText}
-          element={"p"}
+          displayStyle={TextDisplayStyle.Label}
+          color="secondary"
           message={messages.timeActive}
         />
       </DataBox>
@@ -82,8 +82,8 @@ const StatBoxes: FunctionComponent<Props> = ({
           </div>
         </StatTextWrapper>
         <Text
-          displayStyle={TextDisplayStyle.SmallFadedText}
-          element={"p"}
+          displayStyle={TextDisplayStyle.Label}
+          color="secondary"
           message={messages.dataSent}
         />
       </DataBox>
@@ -103,8 +103,8 @@ const StatBoxes: FunctionComponent<Props> = ({
           </div>
         </StatTextWrapper>
         <Text
-          displayStyle={TextDisplayStyle.SmallFadedText}
-          element={"p"}
+          displayStyle={TextDisplayStyle.Label}
+          color="secondary"
           message={messages.dataReceived}
         />
       </DataBox>

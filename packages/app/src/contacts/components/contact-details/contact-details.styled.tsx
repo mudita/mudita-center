@@ -45,12 +45,7 @@ export const InfoItem = styled.div`
   align-items: center;
   margin: 0 2.4rem;
 `
-export const InfoItemName = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallFadedText,
-}))`
-  text-transform: uppercase;
-  color: ${textColor("secondary")};
-`
+
 export const InfoItemSpeedDialNumber = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.TertiaryHeading,
 }))`

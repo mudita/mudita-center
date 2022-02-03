@@ -98,7 +98,10 @@ const AboutUI: FunctionComponent<Props> = ({
           </Data>
           {appUpdateAvailable ? (
             <ActionContainer>
-              <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+              <AvailableUpdate
+                displayStyle={TextDisplayStyle.Label}
+                color="secondary"
+              >
                 <FormattedMessage
                   id="module.settings.aboutAvailableVersion"
                   values={{ version: appLatestVersion }}
@@ -114,7 +117,10 @@ const AboutUI: FunctionComponent<Props> = ({
             </ActionContainer>
           ) : (
             <ActionContainer>
-              <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+              <AvailableUpdate
+                displayStyle={TextDisplayStyle.Label}
+                color="secondary"
+              >
                 <FormattedMessage id="module.overview.systemUpdateUpToDate" />
               </AvailableUpdate>
               <ButtonComponent

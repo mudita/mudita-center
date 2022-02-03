@@ -123,7 +123,8 @@ export const RestoreConfirmSecretKeyModal: FunctionComponent<RestoreConfirmSecre
         />
         <Form onSubmit={handleSubmitClick}>
           <FormInputLabel
-            displayStyle={TextDisplayStyle.SmallFadedText}
+            displayStyle={TextDisplayStyle.Label}
+            color="secondary"
             message={messages.restoreConfirmSecretKeyModalInputLabel}
           />
           <FormInput type={"password"} {...register(FieldKeys.SecretKey)} />

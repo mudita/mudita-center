@@ -50,7 +50,8 @@ const PureDisconnected: FunctionComponent = () => (
       />
     </ButtonWrapper>
     <Text
-      displayStyle={TextDisplayStyle.SmallFadedText}
+      displayStyle={TextDisplayStyle.Label}
+      color="secondary"
       data-testid={TetheringTestIds.ModemNotification}
     >
       <IconHolder>

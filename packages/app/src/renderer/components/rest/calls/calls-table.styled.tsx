@@ -55,7 +55,8 @@ export const ContactName = styled(Text).attrs(() => ({
   margin-bottom: 1rem;
 `
 export const CallDescription = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallFadedText,
+  displayStyle: TextDisplayStyle.Label,
+  color: "secondary",
 }))`
   text-align: center;
 `

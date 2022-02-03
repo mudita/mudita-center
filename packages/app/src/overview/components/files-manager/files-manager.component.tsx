@@ -91,7 +91,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
             / {convertBytes(maxSpace)}
           </Text>
         </SpaceData>
-        <Text displayStyle={TextDisplayStyle.SmallFadedText}>
+        <Text displayStyle={TextDisplayStyle.Label}>
           <FormattedMessage id="module.overview.filesManagerUsedSpace" />
         </Text>
         <BarChart chartData={stackedBarData} displayStyle={DisplayStyle.Thin} />

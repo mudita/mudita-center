@@ -21,7 +21,7 @@ export const DateRange = styled(Text).attrs(() => ({
 `
 
 export const WeekIndicator = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallFadedText,
+  displayStyle: TextDisplayStyle.Paragraph4,
 }))`
   width: 100%;
   text-align: center;

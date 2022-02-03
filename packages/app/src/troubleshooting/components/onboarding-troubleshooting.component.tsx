@@ -198,22 +198,22 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
           <MoreSteps data-testid="more-steps">
             <Text
               element={"li"}
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Paragraph4}
               message={{ id: "module.onboarding.troubleshootingMoreSteps1" }}
             />
             <Text
               element={"li"}
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Paragraph4}
               message={{ id: "module.onboarding.troubleshootingMoreSteps2" }}
             />
             <Text
               element={"li"}
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Paragraph4}
               message={{ id: "module.onboarding.troubleshootingMoreSteps3" }}
             />
             <Text
               element={"li"}
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Paragraph4}
               message={{ id: "module.onboarding.troubleshootingMoreSteps4" }}
             />
           </MoreSteps>
@@ -230,7 +230,8 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
         />
         <Support>
           <Text
-            displayStyle={TextDisplayStyle.SmallFadedText}
+            displayStyle={TextDisplayStyle.Label}
+            color="disabled"
             message={{
               id: "module.onboarding.troubleshootingSupportMessage",
             }}

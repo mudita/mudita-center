@@ -123,7 +123,7 @@ const Status: FunctionComponent<StatusProps> = ({
                 {Math.round(batteryLevel * 100)} %
               </Text>
               <Text
-                displayStyle={TextDisplayStyle.SmallFadedText}
+                displayStyle={TextDisplayStyle.Label}
                 message={messages.battery}
               />
             </div>
@@ -142,7 +142,7 @@ const Status: FunctionComponent<StatusProps> = ({
                     {displayNetworkName(network)}
                   </Text>
                   <Text
-                    displayStyle={TextDisplayStyle.SmallFadedText}
+                    displayStyle={TextDisplayStyle.Label}
                     message={messages.network}
                   />
                 </div>

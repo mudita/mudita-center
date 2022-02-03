@@ -133,7 +133,7 @@ const rowLabelStyles = css`
 const columnLabelStyles = css`
   z-index: 2;
   ${Col} {
-    ${getTextStyles(TextDisplayStyle.SmallFadedText)};
+    ${getTextStyles(TextDisplayStyle.Title)};
     color: ${textColor("secondary")};
     text-transform: uppercase;
     padding-top: 1.5rem;

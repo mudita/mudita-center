@@ -168,7 +168,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
       <RecoveryModeFooter>
         <Support>
           <SupportText
-            displayStyle={TextDisplayStyle.SmallFadedText}
+            displayStyle={TextDisplayStyle.Label}
             message={messages.supportMessage}
           />
           <ButtonComponent

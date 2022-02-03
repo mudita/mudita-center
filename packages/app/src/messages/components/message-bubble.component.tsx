@@ -218,7 +218,7 @@ const MessageBubble: FunctionComponent<Props> = ({
               {message}
             </MessageBubbleText>
             <MessageDate>
-              <Text displayStyle={TextDisplayStyle.SmallFadedText}>
+              <Text displayStyle={TextDisplayStyle.Label}>
                 {moment(date).format("dd h:mm A")}
               </Text>
             </MessageDate>

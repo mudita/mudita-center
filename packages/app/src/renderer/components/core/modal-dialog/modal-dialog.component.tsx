@@ -151,7 +151,11 @@ const ModalDialog: FunctionComponent<Properties> = ({
           {title}
         </ModalTitle>
         {Boolean(closeModal) && close}
-        <ModalSubTitle displayStyle={getSubtitleStyle(size)} element={"p"}>
+        <ModalSubTitle
+          displayStyle={getSubtitleStyle(size)}
+          color="secondary"
+          element={"p"}
+        >
           {subtitle}
         </ModalSubTitle>
       </Header>
