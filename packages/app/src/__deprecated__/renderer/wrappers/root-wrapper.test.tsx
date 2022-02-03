@@ -10,15 +10,18 @@ import { Provider } from "react-redux"
 import thunk from "redux-thunk"
 import { deviceReducer } from "App/device"
 import { crashDumpReducer } from "App/crash-dump/reducers"
-import RootWrapper from "Renderer/wrappers/root-wrapper"
-import settings from "Renderer/models/settings/settings"
-import networkStatus from "Renderer/models/network-status/network-status"
-import history from "Renderer/routes/history"
-import { Store } from "Renderer/store"
-import { restoreDeviceReducer } from "App/restore-device/reducers/restore-device.reducer"
+import RootWrapper from "App/__deprecated__/renderer/wrappers/root-wrapper"
+import networkStatus from "App/__deprecated__/renderer/models/network-status/network-status"
+import history from "App/__deprecated__/renderer/routes/history"
+import { Store, ReduxRootState } from "App/__deprecated__/renderer/store"
+import { backupReducer } from "App/backup/reducers/backup.reducer"
 import { modalsManagerReducer } from "App/modals-manager/reducers"
+import { settingsReducer } from "App/settings/reducers"
+import { checkUpdateAvailable } from "App/settings/actions/check-update-available.action"
+import { updateOsReducer } from "App/update/reducers"
+import { dataSyncReducer } from "App/data-sync/reducers"
 
-jest.mock("Renderer/register-hotkeys", jest.fn)
+jest.mock("App/settings/actions/check-update-available.action")
 
 jest.mock("@electron/remote", () => ({
   Menu: () => ({
@@ -51,41 +54,44 @@ jest.mock(
   { virtual: true }
 )
 
-jest.mock("Renderer/requests/connect-device.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/connect-device.request", () =>
   jest.fn().mockReturnValue({
     status: "ok",
   })
 )
 
-jest.mock("App/renderer/requests/get-application-configuration.request", () =>
-  jest.fn().mockReturnValue({
-    centerVersion: "20.1.0",
-    osVersion: "76.0.1",
-  })
-)
+jest.mock("App/settings/requests", () => ({
+  getConfiguration: jest.fn().mockReturnValue({
+    centerVersion: "1.0.0",
+    productVersions: {
+      MuditaHarmony: "1.0.0",
+      MuditaPure: "1.0.0",
+    },
+  }),
+}))
 
-jest.mock("Renderer/requests/app-settings.request", () => ({
+jest.mock("App/settings/requests/get-settings.request.ts", () => ({
   getAppSettings: jest.fn().mockReturnValue({
-    appAutostart: false,
-    appTethering: false,
-    appIncomingCalls: false,
-    appIncomingMessages: false,
-    appLowBattery: false,
-    appOsUpdates: false,
-    appNonStandardAudioFilesConversion: false,
-    appConvert: "Convert automatically",
-    appConversionFormat: "WAV",
-    appTray: true,
-    pureOsBackupLocation: `fake/path/pure/phone/backups/`,
-    pureOsDownloadLocation: `fake/path/pure/os/downloads/`,
+    autostart: false,
+    tethering: false,
+    incomingCalls: false,
+    incomingMessages: false,
+    lowBattery: false,
+    osUpdates: false,
+    nonStandardAudioFilesConversion: false,
+    convert: "Convert automatically",
+    conversionFormat: "WAV",
+    tray: true,
+    osBackupLocation: `fake/path/pure/phone/backups/`,
+    osDownloadLocation: `fake/path/pure/os/downloads/`,
     language: "en-US",
-    pureNeverConnected: true,
-    appCollectingData: undefined,
+    neverConnected: true,
+    collectingData: undefined,
     diagnosticSentTimestamp: 0,
   }),
 }))
 
-jest.mock("Renderer/requests/check-app-update.request")
+jest.mock("App/__deprecated__/renderer/requests/check-app-update.request")
 
 type Props = ComponentProps<typeof RootWrapper>
 
@@ -94,14 +100,17 @@ const defaultProps: Props = {
 }
 
 const store = init({
-  models: { settings, networkStatus },
+  models: { networkStatus },
   redux: {
     middlewares: [thunk],
     reducers: {
       device: deviceReducer,
-      restoreDevice: restoreDeviceReducer,
+      backup: backupReducer,
       crashDump: crashDumpReducer,
       modalsManager: modalsManagerReducer,
+      settings: settingsReducer,
+      update: updateOsReducer,
+      dataSync: dataSyncReducer,
     },
   },
 }) as Store
@@ -125,13 +134,11 @@ const render = (extraProps?: Partial<Props>) => {
 test("checkAppUpdateRequest isn't call when online is set to false ", async () => {
   const online = jest.spyOn(window.navigator, "onLine", "get")
   online.mockReturnValue(false)
-  jest.spyOn(store.dispatch.settings, "checkAppUpdateAvailable")
+
   render()
 
   await waitFor(() => {
-    expect(
-      store.dispatch.settings.checkAppUpdateAvailable
-    ).not.toHaveBeenCalled()
+    expect(checkUpdateAvailable).not.toHaveBeenCalled()
   })
 })
 
@@ -142,6 +149,8 @@ test("appUpdateAvailable is to false when online is set to false", async () => {
   const { store } = render()
 
   await waitFor(() => {
-    expect(store.getState().settings.appUpdateAvailable).toBeFalsy()
+    expect(
+      (store.getState() as unknown as ReduxRootState).settings.updateAvailable
+    ).toBeFalsy()
   })
 })
