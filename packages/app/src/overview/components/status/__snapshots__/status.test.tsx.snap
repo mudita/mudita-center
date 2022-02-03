@@ -28,8 +28,8 @@ exports[`matches snapshot 1`] = `
 .c9 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  color: #6a6a6a;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;

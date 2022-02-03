@@ -7,10 +7,8 @@ import * as React from "react"
 import { FormattedMessage } from "react-intl"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import {
-  backgroundColor,
   fontWeight,
   letterSpacing,
-  opacity,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -45,20 +43,6 @@ export const largeTextSharedStyles = css`
 export const smallTextSharedStyles = css`
   font-size: 1.2rem;
   line-height: 1.2;
-`
-
-const extraSmallTextSharedStyles = css`
-  font-size: 1rem;
-`
-
-const fadedDimStyles = css`
-  font-weight: ${fontWeight("bold")};
-  color: ${textColor("secondary")};
-  opacity: ${opacity("regular")};
-`
-
-const uppercaseStyles = css`
-  text-transform: uppercase;
 `
 
 export const getTextStyles = (displayStyle: TextDisplayStyle) => {
@@ -122,13 +106,6 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         font-weight: ${fontWeight("default")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
-    case TextDisplayStyle.SmallFadedLightText:
-      return css`
-        ${smallTextSharedStyles};
-        color: ${textColor("secondary")};
-        letter-spacing: ${letterSpacing("small")}rem;
-        font-weight: ${fontWeight("light")};
-      `
     default:
       return null
   }
@@ -164,7 +141,6 @@ export enum TextDisplayStyle {
   Title,
   Button,
   Label,
-  SmallFadedLightText,
 }
 
 interface ElementsMapping {
@@ -180,7 +156,6 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.TertiaryHeading]: "h3",
   [TextDisplayStyle.QuaternaryHeading]: "h4",
   [TextDisplayStyle.FifthHeading]: "h5",
-  [TextDisplayStyle.SmallFadedLightText]: "p",
   [TextDisplayStyle.Paragraph1]: "p",
   [TextDisplayStyle.Paragraph2]: "p",
   [TextDisplayStyle.Paragraph3]: "p",
