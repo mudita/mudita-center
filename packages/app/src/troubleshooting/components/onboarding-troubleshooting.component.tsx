@@ -186,7 +186,8 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
           data-testid="more-instructions"
         >
           <Text
-            displayStyle={TextDisplayStyle.SmallSupplementaryText}
+            displayStyle={TextDisplayStyle.Button}
+            color="action"
             message={{
               id: "module.onboarding.troubleshootingMoreInstructions",
             }}

@@ -122,13 +122,6 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         font-weight: ${fontWeight("default")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
-    case TextDisplayStyle.SmallSupplementaryText:
-      return css`
-        ${smallTextSharedStyles};
-        ${uppercaseStyles};
-        color: ${textColor("action")};
-        letter-spacing: ${letterSpacing("regular")}rem;
-      `
     case TextDisplayStyle.SmallTextInverted:
       return css`
         ${smallTextSharedStyles};
@@ -200,7 +193,6 @@ export enum TextDisplayStyle {
   Title,
   Button,
   Label,
-  SmallSupplementaryText,
   SmallTextInverted,
   SmallFadedText,
   SmallFadedLightText,
@@ -221,7 +213,6 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.TertiaryHeading]: "h3",
   [TextDisplayStyle.QuaternaryHeading]: "h4",
   [TextDisplayStyle.FifthHeading]: "h5",
-  [TextDisplayStyle.SmallSupplementaryText]: "p",
   [TextDisplayStyle.SmallTextInverted]: "p",
   [TextDisplayStyle.SmallFadedText]: "p",
   [TextDisplayStyle.SmallFadedLightText]: "p",

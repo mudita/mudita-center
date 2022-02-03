@@ -101,13 +101,6 @@ storiesOf("Theme/Text", module).add("Text", () => {
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.SmallSupplementaryText">
-        <Story noUppercase title="SmallSupplementaryText">
-          <Text displayStyle={TextDisplayStyle.SmallSupplementaryText}>
-            I’m at the meeting now. I will call you later
-          </Text>
-        </Story>
-      </ClickableWrapper>
       <ClickableWrapper text="TextDisplayStyle.SmallTextInverted">
         <Story noUppercase title="SmallTextInverted">
           <Text displayStyle={TextDisplayStyle.SmallTextInverted}>
