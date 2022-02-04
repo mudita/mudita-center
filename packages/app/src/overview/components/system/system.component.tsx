@@ -19,10 +19,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import {
-  backgroundColor,
-  letterSpacing,
-} from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { noop } from "Renderer/utils/noop"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 
@@ -56,13 +53,13 @@ const messages = defineMessages({
 
 const AvailableUpdateText = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.Label,
+  color: "secondary",
 }))`
-  margin-left: 2rem;
+  margin-left: 1.6rem;
   text-transform: none;
   display: inline-box;
   padding: 0.3rem 0.5rem;
   border-radius: 0.4rem;
-  letter-spacing: ${letterSpacing("small")}rem;
   background-color: ${backgroundColor("minor")};
 `
 
@@ -92,7 +89,7 @@ const System: FunctionComponent<Props> = ({
       <CardBody>
         <CardContent>
           <CardText>
-            <Text displayStyle={TextDisplayStyle.Paragraph4}>
+            <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
               <FormattedMessage {...messages.systemVersionTitle} />
             </Text>
             <Text

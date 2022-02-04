@@ -5,6 +5,7 @@
 
 import styled from "styled-components"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import Text from "Renderer/components/core/text/text.component"
 
 export const ModalContentWithoutMargin = styled.div`
   display: flex;
@@ -42,5 +43,9 @@ export const RoundIconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 3.2rem;
+  margin-bottom: 2.4rem;
+`
+
+export const ModalMainText = styled(Text)`
+  margin-bottom: 0.8rem;
 `

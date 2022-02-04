@@ -109,7 +109,6 @@ exports[`matches snapshot 1`] = `
   box-sizing: border-box;
   width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -121,6 +120,10 @@ exports[`matches snapshot 1`] = `
 
 .c8 g {
   fill: #ffffff;
+}
+
+.c8 p {
+  color: #ffffff;
 }
 
 .c13 {

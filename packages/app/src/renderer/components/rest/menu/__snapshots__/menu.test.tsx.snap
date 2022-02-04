@@ -3,12 +3,12 @@
 exports[`Device: Mudita harmony matches snapshot 1`] = `
 .c8 {
   margin: 0;
-  font-size: 1.4rem;
-  line-height: 1.57;
-  -webkit-letter-spacing: 0.04rem;
-  -moz-letter-spacing: 0.04rem;
-  -ms-letter-spacing: 0.04rem;
-  letter-spacing: 0.04rem;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
   color: #000000;
 }
 
@@ -104,7 +104,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   padding: 0.8rem;
   border: none;
   border-radius: 0.2rem;
-  color: #6a6a6a;
   font-weight: 400;
   width: 100%;
 }
@@ -141,6 +140,10 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   opacity: 0.6;
 }
 
+.c5 p {
+  color: #6a6a6a;
+}
+
 .c12 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -172,7 +175,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   padding: 0.8rem;
   border: none;
   border-radius: 0.2rem;
-  color: #6a6a6a;
   font-weight: 400;
   width: 100%;
 }
@@ -207,6 +209,10 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 
 .c12 svg {
   opacity: 0.6;
+}
+
+.c12 p {
+  color: #6a6a6a;
 }
 
 .c7 {
@@ -290,6 +296,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
     >
       <a
         class="c5"
+        color="secondary"
         displaystyle="8"
         href="#/news"
         size="2"
@@ -328,6 +335,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
     >
       <a
         class="c5"
+        color="secondary"
         data-testid="tethering-link"
         displaystyle="8"
         href="#/tethering"
@@ -356,6 +364,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
     >
       <a
         class="c5"
+        color="secondary"
         displaystyle="8"
         href="#/settings"
         size="2"
@@ -383,6 +392,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
     >
       <button
         class="c12 c13"
+        color="secondary"
         data-testid="help-menu-button"
         size="2"
         type="button"
@@ -412,12 +422,12 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 exports[`Device: Mudita pure matches snapshot 1`] = `
 .c8 {
   margin: 0;
-  font-size: 1.4rem;
-  line-height: 1.57;
-  -webkit-letter-spacing: 0.04rem;
-  -moz-letter-spacing: 0.04rem;
-  -ms-letter-spacing: 0.04rem;
-  letter-spacing: 0.04rem;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
   color: #000000;
 }
 
@@ -513,7 +523,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   padding: 0.8rem;
   border: none;
   border-radius: 0.2rem;
-  color: #6a6a6a;
   font-weight: 400;
   width: 100%;
 }
@@ -550,6 +559,10 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   opacity: 0.6;
 }
 
+.c5 p {
+  color: #6a6a6a;
+}
+
 .c12 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -581,7 +594,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   padding: 0.8rem;
   border: none;
   border-radius: 0.2rem;
-  color: #6a6a6a;
   font-weight: 400;
   width: 100%;
 }
@@ -616,6 +628,10 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 
 .c12 svg {
   opacity: 0.6;
+}
+
+.c12 p {
+  color: #6a6a6a;
 }
 
 .c7 {
@@ -699,6 +715,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
     >
       <a
         class="c5"
+        color="secondary"
         displaystyle="8"
         href="#/news"
         size="2"
@@ -737,6 +754,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
     >
       <a
         class="c5"
+        color="secondary"
         data-testid="tethering-link"
         displaystyle="8"
         href="#/tethering"
@@ -765,6 +783,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
     >
       <a
         class="c5"
+        color="secondary"
         displaystyle="8"
         href="#/settings"
         size="2"
@@ -792,6 +811,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
     >
       <button
         class="c12 c13"
+        color="secondary"
         data-testid="help-menu-button"
         size="2"
         type="button"

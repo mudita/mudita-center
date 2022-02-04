@@ -66,6 +66,13 @@ storiesOf("Theme/Text", module).add("Text", () => {
       </Text>
       <br />
       <br />
+      <ClickableWrapper text="TextDisplayStyle.Default">
+        <Story noUppercase title="Default">
+          <Text displayStyle={TextDisplayStyle.Default}>
+            I’m at the meeting now. I will call you later
+          </Text>
+        </Story>
+      </ClickableWrapper>
       <ClickableWrapper text="TextDisplayStyle.PrimaryHeading">
         <Story noUppercase title="PrimaryHeading">
           <Text displayStyle={TextDisplayStyle.PrimaryHeading}>
@@ -97,6 +104,62 @@ storiesOf("Theme/Text", module).add("Text", () => {
       <ClickableWrapper text="TextDisplayStyle.FifthHeading">
         <Story noUppercase title="FifthHeading">
           <Text displayStyle={TextDisplayStyle.FifthHeading}>
+            I’m at the meeting now. I will call you later
+          </Text>
+        </Story>
+      </ClickableWrapper>
+      <ClickableWrapper text="TextDisplayStyle.Paragraph1">
+        <Story noUppercase title="Paragraph1">
+          <Text displayStyle={TextDisplayStyle.Paragraph1}>
+            I’m at the meeting now. I will call you later
+          </Text>
+        </Story>
+      </ClickableWrapper>
+      <ClickableWrapper text="TextDisplayStyle.Paragraph2">
+        <Story noUppercase title="Paragraph2">
+          <Text displayStyle={TextDisplayStyle.Paragraph2}>
+            I’m at the meeting now. I will call you later
+          </Text>
+        </Story>
+      </ClickableWrapper>
+      <ClickableWrapper text="TextDisplayStyle.Paragraph3">
+        <Story noUppercase title="Paragraph3">
+          <Text displayStyle={TextDisplayStyle.Paragraph3}>
+            I’m at the meeting now. I will call you later
+          </Text>
+        </Story>
+      </ClickableWrapper>
+      <ClickableWrapper text="TextDisplayStyle.Paragraph4">
+        <Story noUppercase title="Paragraph4">
+          <Text displayStyle={TextDisplayStyle.Paragraph4}>
+            I’m at the meeting now. I will call you later
+          </Text>
+        </Story>
+      </ClickableWrapper>
+      <ClickableWrapper text="TextDisplayStyle.Paragraph4">
+        <Story noUppercase title="Paragraph4 color secondary">
+          <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+            I’m at the meeting now. I will call you later
+          </Text>
+        </Story>
+      </ClickableWrapper>
+      <ClickableWrapper text="TextDisplayStyle.Title">
+        <Story noUppercase title="Title">
+          <Text displayStyle={TextDisplayStyle.Title}>
+            I’m at the meeting now. I will call you later
+          </Text>
+        </Story>
+      </ClickableWrapper>
+      <ClickableWrapper text="TextDisplayStyle.Button">
+        <Story noUppercase title="Button">
+          <Text displayStyle={TextDisplayStyle.Button}>
+            I’m at the meeting now. I will call you later
+          </Text>
+        </Story>
+      </ClickableWrapper>
+      <ClickableWrapper text="TextDisplayStyle.Label">
+        <Story noUppercase title="Label">
+          <Text displayStyle={TextDisplayStyle.Label}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>

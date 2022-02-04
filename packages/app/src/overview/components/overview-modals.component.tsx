@@ -34,7 +34,10 @@ import {
 import { OverviewModalsTestIds } from "App/overview/components/overview-modals-test-ids.enum"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import {
+  RoundIconWrapper,
+  ModalMainText,
+} from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 import { Size } from "App/renderer/components/core/button/button.config"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
@@ -215,7 +218,7 @@ export const UpdateAvailable = ({
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
-    <Text
+    <ModalMainText
       displayStyle={TextDisplayStyle.QuaternaryHeading}
       message={messages.updateAvailableMessage}
     />
@@ -242,7 +245,7 @@ export const UpdateNotAvailable = ({ version = "" }) => (
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
-    <Text
+    <ModalMainText
       displayStyle={TextDisplayStyle.QuaternaryHeading}
       message={messages.updateNotAvailableMessage}
     />
@@ -299,7 +302,7 @@ export const DownloadingUpdateModal = ({
       <RoundIconWrapper>
         <Icon type={Type.Download} width={4} />
       </RoundIconWrapper>
-      <Text
+      <ModalMainText
         displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.downloadingUpdateMessage}
       />
@@ -328,7 +331,7 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
     <RoundIconWrapper>
       <Icon type={Type.Download} width={4} />
     </RoundIconWrapper>
-    <Text
+    <ModalMainText
       displayStyle={TextDisplayStyle.QuaternaryHeading}
       message={messages.downloadCompletedMessage}
     />
@@ -363,7 +366,7 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
       <RoundIconWrapper>
         <Loader type={LoaderType.Spinner} size={6} />
       </RoundIconWrapper>
-      <ModalText
+      <ModalMainText
         displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.updatingProgressTitle}
       />
@@ -382,7 +385,7 @@ export const UpdatingSuccessModal = () => (
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
-    <Text
+    <ModalMainText
       displayStyle={TextDisplayStyle.QuaternaryHeading}
       message={messages.updatingSuccessTitle}
     />
@@ -465,9 +468,9 @@ export const DevUpdate = ({
       <RoundIconWrapper>
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
-      <Text displayStyle={TextDisplayStyle.QuaternaryHeading}>
+      <ModalMainText displayStyle={TextDisplayStyle.QuaternaryHeading}>
         {install ? "Installing" : "Downloading"}. Are you sure?
-      </Text>
+      </ModalMainText>
       <CenteredText displayStyle={TextDisplayStyle.Paragraph3}>
         You're about to {install ? "install" : "download"} an update that{" "}
         {prerelease ? (
@@ -506,12 +509,12 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
         <RoundIconWrapper>
           <Icon type={Type.NoBattery} width={5} />
         </RoundIconWrapper>
-        <ModalText displayStyle={TextDisplayStyle.QuaternaryHeading}>
+        <ModalMainText displayStyle={TextDisplayStyle.QuaternaryHeading}>
           {intl.formatMessage(messages.updatingFlatBatteryTitle)}
-        </ModalText>
-        <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+        </ModalMainText>
+        <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
           {intl.formatMessage(messages.updatingFlatBatteryDescription)}
-        </ModalText>
+        </Text>
       </ModalContent>
     </OSUpdateModal>
   )

@@ -537,7 +537,6 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   padding: 0.8rem;
   border: none;
   border-radius: 0.2rem;
-  color: #6d9bbc;
   font-weight: 400;
   width: 100%;
 }
@@ -548,6 +547,10 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 .c0 g {
   fill: #6d9bbc;
+}
+
+.c0 p {
+  color: #6d9bbc;
 }
 
 .c2 {
@@ -637,7 +640,6 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   padding: 0.8rem;
   border: none;
   border-radius: 0.2rem;
-  color: #6d9bbc;
   font-weight: 400;
   width: 100%;
 }
@@ -648,6 +650,10 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 .c0 g {
   fill: #6d9bbc;
+}
+
+.c0 p {
+  color: #6d9bbc;
 }
 
 .c2 {
@@ -686,12 +692,12 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.4rem;
-  line-height: 1.57;
-  -webkit-letter-spacing: 0.04rem;
-  -moz-letter-spacing: 0.04rem;
-  -ms-letter-spacing: 0.04rem;
-  letter-spacing: 0.04rem;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
   color: #000000;
 }
 
@@ -726,7 +732,6 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   padding: 0.8rem;
   border: none;
   border-radius: 0.2rem;
-  color: #6a6a6a;
   font-weight: 400;
   width: 100%;
 }
@@ -763,6 +768,10 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   opacity: 0.6;
 }
 
+.c0 p {
+  color: #6a6a6a;
+}
+
 .c2 {
   white-space: nowrap;
 }
@@ -784,12 +793,12 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 2`] = `
 .c3 {
   margin: 0;
-  font-size: 1.4rem;
-  line-height: 1.57;
-  -webkit-letter-spacing: 0.04rem;
-  -moz-letter-spacing: 0.04rem;
-  -ms-letter-spacing: 0.04rem;
-  letter-spacing: 0.04rem;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
   color: #000000;
 }
 
@@ -848,7 +857,6 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   padding: 0.8rem;
   border: none;
   border-radius: 0.2rem;
-  color: #6a6a6a;
   font-weight: 400;
   width: 100%;
 }
@@ -883,6 +891,10 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 
 .c0 svg {
   opacity: 0.6;
+}
+
+.c0 p {
+  color: #6a6a6a;
 }
 
 .c2 {
@@ -962,7 +974,6 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   border: none;
   position: relative;
   border-radius: 0.2remrem;
-  color: #6a6a6a;
   font-weight: 400;
   width: 100%;
 }
@@ -986,6 +997,10 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
 
 .c0:hover svg {
   opacity: 0.9;
+}
+
+.c0 p {
+  color: #6a6a6a;
 }
 
 .c0.active {
@@ -1090,7 +1105,6 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   border: none;
   position: relative;
   border-radius: 0.2remrem;
-  color: #6a6a6a;
   font-weight: 400;
   width: 100%;
 }
@@ -1114,6 +1128,10 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
 
 .c0:hover svg {
   opacity: 0.9;
+}
+
+.c0 p {
+  color: #6a6a6a;
 }
 
 .c0.active {
@@ -1203,7 +1221,6 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   box-sizing: border-box;
   width: 10.4rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -1215,6 +1232,10 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -1273,7 +1294,6 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   width: 10.4rem;
   pointer-events: none;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -1287,6 +1307,10 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -1345,7 +1369,6 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   box-sizing: border-box;
   width: 9.600000000000001rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -1357,6 +1380,10 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -1416,7 +1443,6 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   width: 9.600000000000001rem;
   pointer-events: none;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -1430,6 +1456,10 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -1489,7 +1519,6 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   box-sizing: border-box;
   width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -1501,6 +1530,10 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -1560,7 +1593,6 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   width: 17.6rem;
   pointer-events: none;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -1574,6 +1606,10 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -2087,7 +2123,6 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   box-sizing: border-box;
   width: 10.4rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -2099,6 +2134,10 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -2195,7 +2234,6 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   width: 10.4rem;
   pointer-events: none;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -2209,6 +2247,10 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -2305,7 +2347,6 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   box-sizing: border-box;
   width: 9.600000000000001rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -2317,6 +2358,10 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -2414,7 +2459,6 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   width: 9.600000000000001rem;
   pointer-events: none;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -2428,6 +2472,10 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -2525,7 +2573,6 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   box-sizing: border-box;
   width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -2537,6 +2584,10 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -2634,7 +2685,6 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   width: 17.6rem;
   pointer-events: none;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -2648,6 +2698,10 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -3379,7 +3433,6 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   box-sizing: border-box;
   width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -3391,6 +3444,10 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {
@@ -3449,7 +3506,6 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   box-sizing: border-box;
   width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -3461,6 +3517,10 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
 
 .c0 g {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #ffffff;
 }
 
 .c2 {

@@ -49,7 +49,7 @@ export const CardAction = styled(ButtonToggler)`
 
 export const CardText = styled.div`
   p:not(:last-of-type) {
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.4rem;
   }
 `
 

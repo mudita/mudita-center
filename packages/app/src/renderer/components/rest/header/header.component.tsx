@@ -31,7 +31,7 @@ interface HeaderProps {
 }
 
 const HeaderText = styled(Text)`
-  margin: 2.4rem 0 1.5rem 3.2rem;
+  margin: 1.6rem 0 1.5rem 3.2rem;
 `
 
 const Header: FunctionComponent<HeaderProps> = ({

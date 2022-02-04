@@ -68,7 +68,6 @@ exports[`matches snapshot 1`] = `
   border: none;
   position: relative;
   border-radius: 0.2remrem;
-  color: #6a6a6a;
   font-weight: 400;
   width: 100%;
 }
@@ -92,6 +91,10 @@ exports[`matches snapshot 1`] = `
 
 .c0:hover svg {
   opacity: 0.9;
+}
+
+.c0 p {
+  color: #6a6a6a;
 }
 
 .c0.active {

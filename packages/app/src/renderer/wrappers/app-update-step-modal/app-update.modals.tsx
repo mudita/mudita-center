@@ -20,6 +20,7 @@ import {
   ModalContent,
   ModalContentWithoutMargin,
   RoundIconWrapper,
+  ModalMainText,
 } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 import { Size } from "Renderer/components/core/button/button.config"
 import { AppUpdateStepModalTestIds } from "Renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
@@ -116,7 +117,7 @@ export const AppUpdateAvailable: FunctionComponent<
     actionButtonSize={Size.FixedBig}
     {...props}
   >
-    <Text
+    <ModalMainText
       displayStyle={TextDisplayStyle.QuaternaryHeading}
       message={messages.availableUpdateMessage}
     />
@@ -151,11 +152,10 @@ export const AppUpdateForced: FunctionComponent<
       <RoundIconWrapper>
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
-      <Text
+      <ModalMainText
         displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.updateForcedModalMessage}
       />
-      <br />
       <Text
         displayStyle={TextDisplayStyle.Paragraph4}
         message={{
@@ -209,7 +209,7 @@ export const AppUpdateDownloaded: FunctionComponent<
     actionButtonSize={Size.FixedBig}
     {...props}
   >
-    <Text
+    <ModalMainText
       displayStyle={TextDisplayStyle.QuaternaryHeading}
       message={messages.downloadedUpdateMessage}
     />
@@ -241,7 +241,7 @@ export const AppUpdateProgress: FunctionComponent<
       <RoundIconWrapper>
         <Loader type={LoaderType.Spinner} />
       </RoundIconWrapper>
-      <Text
+      <ModalMainText
         displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.progressUpdateTitle}
       />
@@ -262,7 +262,7 @@ export const AppUpdateNotAvailable: FunctionComponent<
     closeButton={false}
     {...props}
   >
-    <Text
+    <ModalMainText
       displayStyle={TextDisplayStyle.QuaternaryHeading}
       message={messages.notAvailableUpdateMessage}
     />

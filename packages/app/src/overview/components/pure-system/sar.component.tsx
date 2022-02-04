@@ -10,15 +10,15 @@ import {
   WindowContainer,
   LightText,
   LightTextNested,
-  WindowTitle,
+  WindowHeader,
 } from "Renderer/modules/settings/tabs/about/components/shared"
 import { PureSystemTestIds } from "App/overview/components/pure-system//pure-system-test-ids.enum"
 
 const SarComponent: FunctionComponent = () => (
   <WindowContainer data-testid={PureSystemTestIds.SarWrapper}>
-    <WindowTitle displayStyle={TextDisplayStyle.TertiaryHeading}>
+    <WindowHeader displayStyle={TextDisplayStyle.TertiaryHeading}>
       SAR
-    </WindowTitle>
+    </WindowHeader>
     <LightText
       displayStyle={TextDisplayStyle.Paragraph4}
       data-testid={PureSystemTestIds.SarParagraph}

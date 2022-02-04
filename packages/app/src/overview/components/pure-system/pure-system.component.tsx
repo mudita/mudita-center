@@ -60,7 +60,11 @@ const PureSystemInfo: FunctionComponent<InfoProps> = ({
 }) => {
   return (
     <PureSystemInfoContainer withButton={withButton}>
-      <Text displayStyle={TextDisplayStyle.Paragraph1} message={title} />
+      <Text
+        displayStyle={TextDisplayStyle.Paragraph1}
+        color="secondary"
+        message={title}
+      />
       {children}
     </PureSystemInfoContainer>
   )
@@ -96,6 +100,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
         />
         <Text
           displayStyle={TextDisplayStyle.Paragraph4}
+          color="secondary"
           message={messages.subtitle}
         />
       </PureSystemSection>

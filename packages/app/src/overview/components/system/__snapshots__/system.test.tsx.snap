@@ -22,7 +22,7 @@ exports[`matches snapshot 1`] = `
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
   font-weight: 300;
-  color: #000000;
+  color: #6a6a6a;
 }
 
 .c6 {
@@ -45,7 +45,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
-  color: #000000;
+  color: #6a6a6a;
 }
 
 .c14 {
@@ -85,7 +85,6 @@ exports[`matches snapshot 1`] = `
   box-sizing: border-box;
   width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -97,6 +96,10 @@ exports[`matches snapshot 1`] = `
 
 .c11 g {
   fill: #ffffff;
+}
+
+.c11 p {
+  color: #ffffff;
 }
 
 .c15 {
@@ -198,7 +201,7 @@ exports[`matches snapshot 1`] = `
 }
 
 .c4 p:not(:last-of-type) {
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.4rem;
 }
 
 .c13 {
@@ -212,16 +215,12 @@ exports[`matches snapshot 1`] = `
 }
 
 .c8 {
-  margin-left: 2rem;
+  margin-left: 1.6rem;
   text-transform: none;
   display: -webkit-inline-box;
   display: inline-box;
   padding: 0.3rem 0.5rem;
   border-radius: 0.4rem;
-  -webkit-letter-spacing: 0.04rem;
-  -moz-letter-spacing: 0.04rem;
-  -ms-letter-spacing: 0.04rem;
-  letter-spacing: 0.04rem;
   background-color: #f4f5f6;
 }
 
@@ -246,7 +245,7 @@ exports[`matches snapshot 1`] = `
         >
           <p
             class="c5"
-            color="primary"
+            color="secondary"
           >
             [value] module.overview.systemVersionTitle
           </p>
@@ -261,7 +260,7 @@ exports[`matches snapshot 1`] = `
         </div>
         <p
           class="c7 c8"
-          color="primary"
+          color="secondary"
         >
           [value] module.overview.systemUpdateUpToDate
         </p>

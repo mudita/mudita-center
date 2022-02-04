@@ -47,10 +47,10 @@ const messages = defineMessages({
 })
 
 const RestoreButtonContainer = styled.div`
-  margin-left: 2rem;
+  margin-left: 0.8rem;
 
   button {
-    margin-bottom: -1.2rem;
+    margin-bottom: -0.9rem;
   }
 `
 

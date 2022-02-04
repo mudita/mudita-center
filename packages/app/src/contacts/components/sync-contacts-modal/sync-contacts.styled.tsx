@@ -9,8 +9,6 @@ import Button from "Renderer/components/core/button/button.component"
 
 export const ModalText = styled(Text)`
   text-align: center;
-  margin-top: 1.2rem;
-  line-height: 1.8rem;
 `
 
 export const SelectedText = styled(Text)`

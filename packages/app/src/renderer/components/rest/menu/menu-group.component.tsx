@@ -78,6 +78,7 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
               nav: true,
               displayStyle: DisplayStyle.Link4,
               labelMessage: button.label,
+              color: "secondary",
               Icon: icon,
               iconSize: IconSize.Bigger,
             }
