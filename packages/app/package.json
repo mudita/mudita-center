@@ -298,8 +298,8 @@
     "webpack-dev-middleware": "3.7.2",
     "webpack-dev-server": "^3.11.2",
     "webpack-hot-middleware": "2.25.0",
-    "winston": "^3.3.3",
-    "winston-daily-rotate-file": "^4.5.5",
+    "winston": "^3.5.1",
+    "winston-daily-rotate-file": "^4.6.0",
     "winston-transport-rollbar-3": "^3.2.0"
   },
   "dependencies": {
