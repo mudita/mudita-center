@@ -14,8 +14,10 @@ export type AppResolver = () => {
 
 export const resolve: AppResolver = () => {
   const isRenderer = require("is-electron-renderer")
+  // FIXME: Using remote module in renderer process isn't a good pattern.
+  //  You can read more in https://github.com/electron/remote#migrating-from-remote
   const app = isRenderer
-    ? require("electron").remote.app
+    ? require("@electron/remote").app
     : require("electron").app
   const type = isRenderer ? "renderer" : "main"
   return {

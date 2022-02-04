@@ -13,8 +13,20 @@ class GitHubHelper {
   }
 
   public async getLatestReleaseVersion(): Promise<string> {
-    const { data } = await this.gitHubInstance.get("/releases/latest")
-    return data.tag_name.split("_")[1]
+    const { data } = await this.gitHubInstance.get("/releases", {
+      params: {
+        per_page: 100,
+      },
+    })
+
+    const release = data.find(
+      (release) =>
+        !release.draft &&
+        !release.prerelease &&
+        release.tag_name.includes("pure_")
+    )
+
+    return release.tag_name.split("_")[1]
   }
 }
 

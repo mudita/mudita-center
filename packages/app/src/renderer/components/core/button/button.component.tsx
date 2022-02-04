@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, MouseEventHandler } from "react"
+import React, { MouseEventHandler } from "react"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -62,7 +62,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   type = Type.Button,
   ...rest
 }) => {
-  let Component: FunctionComponent<ComponentProps<typeof StyledButton>>
+  let Component: any
   const filteredProps = {}
 
   if (to && nav) {
