@@ -198,7 +198,6 @@
     "brie": "^3.0.4",
     "chromedriver": "^80.0.2",
     "circular-dependency-plugin": "^5.2.2",
-    "concurrently": "^6.5.1",
     "contentful": "^9.1.6",
     "copy-webpack-plugin": "^6.4.1",
     "core-js": "^3.20.1",
