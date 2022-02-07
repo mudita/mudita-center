@@ -119,6 +119,7 @@ import ThinFail from "Renderer/svg/thin-fail.svg"
 import Support from "Renderer/svg/support.svg"
 import Visible from "Renderer/svg/password-show.svg"
 import Hidden from "Renderer/svg/password-hide.svg"
+import Cloud from "Renderer/svg/cloud.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -135,6 +136,7 @@ export enum Type {
   Check,
   CheckCircle,
   CheckIndeterminate,
+  Cloud,
   Close,
   Delete,
   FilesManager,
@@ -256,6 +258,7 @@ const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
   [Type.CheckCircle]: CheckCircle,
   [Type.CheckIndeterminate]: CheckIndeterminate,
   [Type.Close]: Close,
+  [Type.Cloud]: Cloud,
   [Type.Delete]: Delete,
   [Type.FilesManager]: FilesManager,
   [Type.HighBattery]: HighBattery,

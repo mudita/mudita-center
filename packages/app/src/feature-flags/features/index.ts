@@ -84,13 +84,6 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: true,
     [Environment.TestAlphaProduction]: true,
   },
-  [Feature.PhoneColour]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.TestProduction]: true,
-    [Environment.AlphaProduction]: true,
-    [Environment.TestAlphaProduction]: true,
-  },
   [Feature.PureSystem]: {
     [Environment.Development]: true,
     [Environment.Production]: true,

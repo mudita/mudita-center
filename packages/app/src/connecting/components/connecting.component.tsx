@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { timeoutMs } from "@mudita/pure"
 import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "Renderer/constants/urls"
 import ConnectingContent from "App/connecting/components/connecting-content.component"
 import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
@@ -14,6 +15,7 @@ import PasscodeModal from "App/passcode-modal/passcode-modal.component"
 import { togglePureSimulation } from "App/dev-mode/store/dev-mode.helpers"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import registerFirstPhoneConnection from "App/connecting/requests/register-first-phone-connection"
+import { SynchronizationState } from "App/data-sync/reducers"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -21,6 +23,7 @@ const Connecting: FunctionComponent<{
   loaded: boolean
   unlocked: boolean | null
   syncInitialized: boolean
+  syncState: SynchronizationState
   unlockDevice: (code: number[]) => Promise<PayloadAction<DeviceResponseStatus>>
   getUnlockStatus: () => Promise<PayloadAction<DeviceResponseStatus>>
   phoneLockTime: number | undefined
@@ -29,6 +32,7 @@ const Connecting: FunctionComponent<{
   loaded,
   unlocked,
   syncInitialized,
+  syncState,
   unlockDevice,
   getUnlockStatus,
   phoneLockTime,
@@ -70,14 +74,20 @@ const Connecting: FunctionComponent<{
       if (mounted) {
         setError(true)
       }
-      // the value is a little higher than API timeout which is set to 30000
-    }, 35000)
+      // the value is a little higher than API timeoutMs
+    }, timeoutMs + 5000)
 
     return () => {
       mounted = false
       clearTimeout(timeout)
     }
   }, [unlocked])
+
+  useEffect(() => {
+    if(unlocked && !syncInitialized && syncState === SynchronizationState.Error){
+      setError(true)
+    }
+  }, [syncInitialized, syncState, unlocked])
 
   useEffect(() => {
     registerFirstPhoneConnection()

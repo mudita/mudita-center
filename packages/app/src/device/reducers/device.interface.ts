@@ -28,6 +28,7 @@ export interface PureDeviceData {
   memorySpace: {
     free: number
     full: number
+    total: number
   }
   caseColour: CaseColour
   backupLocation: string

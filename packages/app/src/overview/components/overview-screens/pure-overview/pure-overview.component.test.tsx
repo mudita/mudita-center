@@ -21,14 +21,12 @@ import { intl } from "Renderer/utils/intl"
 import { BackupDeviceDataState } from "App/backup-device/reducers"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 
-jest.mock("electron", () => ({
-  remote: {
-    Menu: () => ({
-      popup: jest.fn(),
-      append: jest.fn(),
-    }),
-    MenuItem: () => jest.fn(),
-  },
+jest.mock("@electron/remote", () => ({
+  Menu: () => ({
+    popup: jest.fn(),
+    append: jest.fn(),
+  }),
+  MenuItem: () => jest.fn(),
 }))
 
 const defaultProps: ComponentProps<typeof PureOverview> = {

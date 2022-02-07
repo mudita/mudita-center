@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import usb, { Device } from "usb"
+import usb from "usb"
 import { EventEmitter } from "events"
 import { PortInfo } from "serialport"
 import log, { LogConfig } from "./logger/log-decorator"
@@ -35,7 +35,7 @@ class UsbDetector {
   }
 
   private registerAttachDeviceEmitter() {
-    usb.on("attach", (device: Device) => {
+    usb.on("attach", (device) => {
       const { idVendor, idProduct } = device.deviceDescriptor
 
       const portInfo = {
@@ -49,7 +49,6 @@ class UsbDetector {
 
   @log("==== usb detector: attached device ====", LogConfig.Args)
   private emitAttachedDeviceEvent(event: UsbDetectorPortInfo) {
-    console.log("event: ", event)
     this.#eventEmitter.emit(UsbDetectorEventName.Attach, event)
   }
 }

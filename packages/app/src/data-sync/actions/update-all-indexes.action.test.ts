@@ -40,7 +40,11 @@ describe("async `updateAllIndexes` ", () => {
 
       expect(mockStore.getActions()).toEqual([
         updateAllIndexes.pending(requestId),
-        updateAllIndexes.fulfilled({ contacts: {} }, requestId, undefined),
+        updateAllIndexes.fulfilled(
+          { contacts: {}, messages: {}, threads: {} },
+          requestId,
+          undefined
+        ),
       ])
 
       expect(indexAllRequest).toHaveBeenCalled()
@@ -51,9 +55,7 @@ describe("async `updateAllIndexes` ", () => {
   describe("when `getIndexRequest` return undefined", () => {
     test("fire async `updateAllIndexes` returns `rejected` action", async () => {
       ;(getIndexRequest as jest.Mock).mockReturnValue(undefined)
-      const errorMock = new UpdateAllIndexesError(
-        "Update All Indexes fails"
-      )
+      const errorMock = new UpdateAllIndexesError("Update All Indexes fails")
 
       const mockStore = createMockStore([thunk])()
 

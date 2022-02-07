@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import * as electron from "electron"
-import { MenuItem } from "App/context-menu/context-menu.interface"
+import { getCurrentWindow, Menu, MenuItem } from "@electron/remote"
+import { ContextMenuItem } from "App/context-menu/context-menu.interface"
 import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 
 interface DevModeProps {
@@ -57,8 +57,8 @@ interface DevModeProps {
 class ContextMenu {
   private readonly isDevModeEnabled?: () => boolean
   private readonly devModeToggler?: () => void
-  private contextMenu = new electron.remote.Menu()
-  private customMenu: Record<string, MenuItem[]> = {}
+  private contextMenu = new Menu()
+  private customMenu: Record<string, ContextMenuItem[]> = {}
 
   constructor(devMode?: DevModeProps) {
     this.isDevModeEnabled = devMode?.isEnabled
@@ -66,7 +66,7 @@ class ContextMenu {
   }
 
   private addSeparator() {
-    this.contextMenu.append(new electron.remote.MenuItem({ type: "separator" }))
+    this.contextMenu.append(new MenuItem({ type: "separator" }))
   }
 
   private mapCustomItems() {
@@ -91,7 +91,7 @@ class ContextMenu {
         }
 
         this.contextMenu.append(
-          new electron.remote.MenuItem({
+          new MenuItem({
             label: mainMenuLabel,
             submenu: visibleMenuItems.map(
               ({ devModeOnly, labelCreator, ...options }) => ({
@@ -106,11 +106,11 @@ class ContextMenu {
   }
 
   private rebuildMenu({ clientX, clientY }: MouseEvent) {
-    this.contextMenu = new electron.remote.Menu()
+    this.contextMenu = new Menu()
 
     if (this.isDevModeEnabled && this.devModeToggler) {
       this.contextMenu.append(
-        new electron.remote.MenuItem({
+        new MenuItem({
           label: `${
             this.isDevModeEnabled() ? "Disable" : "Enable"
           } developer mode`,
@@ -125,18 +125,15 @@ class ContextMenu {
     this.addSeparator()
 
     this.contextMenu.append(
-      new electron.remote.MenuItem({
+      new MenuItem({
         label: "Inspect element",
-        click: () => {
-          electron.remote
-            .getCurrentWindow()
-            .webContents.inspectElement(clientX, clientY)
-        },
+        click: () =>
+          getCurrentWindow().webContents.inspectElement(clientX, clientY),
       })
     )
 
     this.contextMenu.append(
-      new electron.remote.MenuItem({
+      new MenuItem({
         label: "Toggle Developer Tools",
         role: "toggleDevTools",
       })
@@ -156,8 +153,8 @@ class ContextMenu {
     )
   }
 
-  public registerItem(mainLabel: string, menuItem: MenuItem): Function {
-    const newItem: MenuItem = {
+  public registerItem(mainLabel: string, menuItem: ContextMenuItem): Function {
+    const newItem: ContextMenuItem = {
       devModeOnly: true,
       ...menuItem,
     }
@@ -181,7 +178,10 @@ class ContextMenu {
     }
   }
 
-  public registerItems(mainLabel: string, menuItems: MenuItem[]): Function {
+  public registerItems(
+    mainLabel: string,
+    menuItems: ContextMenuItem[]
+  ): Function {
     const unregisterItemsFunctions = menuItems.map((item) =>
       this.registerItem(mainLabel, item)
     )

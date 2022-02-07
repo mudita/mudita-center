@@ -14,4 +14,7 @@ export default interface StorageInfo {
 
   // Categories of the occupied storage
   readonly categories: StorageCategoryInfo[]
+
+  //Total space of Pure device in bytes
+  readonly totalSpace: number
 }

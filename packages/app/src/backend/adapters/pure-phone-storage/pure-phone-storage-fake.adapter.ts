@@ -24,6 +24,10 @@ class PurePhoneStorageFakeAdapter extends PurePhoneStorageAdapter {
     }
   }
 
+  public getTotalSpace(): number {
+    return 16000000000
+  }
+
   public getStorageCategories(): StorageCategoryInfo[] {
     return [
       {

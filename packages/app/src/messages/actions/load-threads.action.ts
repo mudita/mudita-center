@@ -8,7 +8,6 @@ import { MessagesEvent } from "App/messages/constants"
 import getThreads from "Renderer/requests/get-threads.request"
 import { LoadThreadsError } from "App/messages/errors"
 import {
-  clearAllThreads,
   setThreads,
   setThreadsTotalCount,
 } from "App/messages/actions/base.action"
@@ -38,11 +37,10 @@ export const loadThreads = createAsyncThunk<
       return data.nextPage
     }
 
-    // clear state and loads threads again
-    dispatch(clearAllThreads())
-    dispatch(setThreadsTotalCount(0))
-
-    const { data: renewedData, error: renewedError } = await getThreads({ ...pagination, offset: 0 })
+    const { data: renewedData, error: renewedError } = await getThreads({
+      ...pagination,
+      offset: 0,
+    })
     if (renewedError || renewedData === undefined) {
       return rejectWithValue(new LoadThreadsError("Get Threads request failed"))
     }
