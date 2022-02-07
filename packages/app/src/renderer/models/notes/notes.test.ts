@@ -97,6 +97,6 @@ test("today's note is at the beginning of the list by default, after toggle is p
   const notesAfterToggle = store.select.notes.sortedNotes(stateAfterToggle)
   expect(stateAfterToggle.notes.sortOrder).toEqual(SortOrder.Ascending)
   expect(todaysNote).toMatchObject(
-    notesAfterToggle[notesAfterToggle.length - 1]
+    notesAfterToggle.at(-1)
   )
 })
