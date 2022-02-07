@@ -19,6 +19,7 @@ import { Size } from "Renderer/components/core/button/button.config"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
 import moment from "moment"
+import { ModalMainText } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 
 const messages = defineMessages({
   restoreModalHeaderTitle: {
@@ -109,7 +110,7 @@ export const RestoreModal: FunctionComponent<RestoreModalProps> = ({
       <RoundIconWrapper>
         <Icon type={Type.BackupFolder} width={4} />
       </RoundIconWrapper>
-      <ModalText
+      <ModalMainText
         displayStyle={TextDisplayStyle.QuaternaryHeading}
         message={messages.restoreModalTitle}
       />
@@ -150,38 +151,39 @@ interface RestoreFailureWithHelpModalProps
   secondaryActionButtonClick: () => void
 }
 
-export const RestoreFailureModal: FunctionComponent<RestoreFailureWithHelpModalProps> =
-  ({ secondaryActionButtonClick, onClose, ...props }) => {
-    const handleOnClose = (): void => {
-      if (onClose) {
-        onClose()
-      }
+export const RestoreFailureModal: FunctionComponent<
+  RestoreFailureWithHelpModalProps
+> = ({ secondaryActionButtonClick, onClose, ...props }) => {
+  const handleOnClose = (): void => {
+    if (onClose) {
+      onClose()
     }
-
-    return (
-      <Modal
-        closeButtonLabel={intl.formatMessage(
-          messages.restoreFailureModalSecondaryButton
-        )}
-        onCloseButton={secondaryActionButtonClick}
-        onClose={handleOnClose}
-        actionButtonSize={Size.FixedBig}
-        {...props}
-      >
-        <RoundIconWrapper>
-          <Icon type={Type.Fail} width={4} />
-        </RoundIconWrapper>
-        <ModalText
-          displayStyle={TextDisplayStyle.QuaternaryHeading}
-          message={messages.restoreFailureModalTitle}
-        />
-        <ModalText
-          displayStyle={TextDisplayStyle.Paragraph4}
-          message={messages.restoreFailureModalDescription}
-        />
-      </Modal>
-    )
   }
+
+  return (
+    <Modal
+      closeButtonLabel={intl.formatMessage(
+        messages.restoreFailureModalSecondaryButton
+      )}
+      onCloseButton={secondaryActionButtonClick}
+      onClose={handleOnClose}
+      actionButtonSize={Size.FixedBig}
+      {...props}
+    >
+      <RoundIconWrapper>
+        <Icon type={Type.Fail} width={4} />
+      </RoundIconWrapper>
+      <ModalText
+        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        message={messages.restoreFailureModalTitle}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.Paragraph4}
+        message={messages.restoreFailureModalDescription}
+      />
+    </Modal>
+  )
+}
 
 export const RestoreSuccessModal: FunctionComponent<
   ComponentProps<typeof ModalDialog>
