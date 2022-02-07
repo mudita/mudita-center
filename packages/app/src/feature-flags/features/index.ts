@@ -17,9 +17,9 @@ export const features: EnvironmentConfig = {
   [Feature.LogsScrubbed]: {
     [Environment.Development]: false,
     [Environment.Production]: true,
-    [Environment.TestProduction]: false,
-    [Environment.AlphaProduction]: false,
-    [Environment.TestAlphaProduction]: false,
+    [Environment.TestProduction]: true,
+    [Environment.AlphaProduction]: true,
+    [Environment.TestAlphaProduction]: true,
   },
   [Feature.DeveloperModeHidden]: {
     [Environment.Development]: false,
