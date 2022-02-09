@@ -5,13 +5,12 @@
 
 import { ipcMain } from "electron-better-ipc"
 import { createClient } from "App/api/mudita-center-server"
-// import logger from "App/main/utils/logger"
 import { IpcUpdate } from "App/update/constants"
 import { Product } from "App/main/constants"
 
 export const registerGetProductionReleaseListener = () => {
   ipcMain.answerRenderer(
-    IpcUpdate.GetProductionRelease,
+    IpcUpdate.GetProductionReleases,
     async (product: Product) => {
       const client = createClient()
       const { data } = await client.getLatestProductionRelease(product)

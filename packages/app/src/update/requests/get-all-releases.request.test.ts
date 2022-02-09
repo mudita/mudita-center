@@ -55,7 +55,7 @@ const prodBellReleases: Release[] = [bellRelease]
 describe("Environment: development", () => {
   describe("Device: MuditaPure", () => {
     test("returns all releases and latestRelease for Mudita Pure correctly", async () => {
-      jest.spyOn(flags, "get").mockReturnValueOnce(true)
+      jest.spyOn(flags, "get").mockReturnValueOnce(false)
       ;(ipcRenderer as any).__rendererCalls = {
         [IpcUpdate.GetAllReleases]: devReleases,
       }
@@ -69,7 +69,7 @@ describe("Environment: development", () => {
 
   describe("Device: MuditaHarmony", () => {
     test("returns all releases and latestRelease for Mudita Harmony correctly", async () => {
-      jest.spyOn(flags, "get").mockReturnValueOnce(true)
+      jest.spyOn(flags, "get").mockReturnValueOnce(false)
       ;(ipcRenderer as any).__rendererCalls = {
         [IpcUpdate.GetAllReleases]: devReleases,
       }
@@ -85,7 +85,7 @@ describe("Environment: development", () => {
 describe("Environment: production", () => {
   describe("Device: MuditaPure", () => {
     test("returns all releases and latestRelease for Mudita Pure correctly", async () => {
-      jest.spyOn(flags, "get").mockReturnValueOnce(false)
+      jest.spyOn(flags, "get").mockReturnValueOnce(true)
       ;(ipcRenderer as any).__rendererCalls = {
         [IpcUpdate.GetProductionReleases]: prodPureReleases,
       }
@@ -99,7 +99,7 @@ describe("Environment: production", () => {
 
   describe("Device: MuditaHarmony", () => {
     test("returns all releases and latestRelease for Mudita Harmony correctly", async () => {
-      jest.spyOn(flags, "get").mockReturnValueOnce(false)
+      jest.spyOn(flags, "get").mockReturnValueOnce(true)
       ;(ipcRenderer as any).__rendererCalls = {
         [IpcUpdate.GetProductionReleases]: prodBellReleases,
       }

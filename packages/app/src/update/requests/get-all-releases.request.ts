@@ -27,14 +27,14 @@ export const getAllReleases = async (
   const productName = productsMapper[deviceType]
   let releases: Release[] = []
 
-  if (flags.get(Feature.DevelopOnly)) {
-    releases = await ipcRenderer.callMain<undefined, Release[]>(
-      IpcUpdate.GetAllReleases
-    )
-  } else {
+  if (flags.get(Feature.ProductionReleaseOnly)) {
     releases = await ipcRenderer.callMain<Product, Release[]>(
       IpcUpdate.GetProductionReleases,
       productName
+    )
+  } else {
+    releases = await ipcRenderer.callMain<undefined, Release[]>(
+      IpcUpdate.GetAllReleases
     )
   }
 
