@@ -383,7 +383,6 @@ const useSystemUpdateFlow = (
       dispatch(
         setOsVersionData({
           osVersion: version,
-          osUpdateDate: new Date().toISOString(),
         })
       )
     }

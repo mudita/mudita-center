@@ -51,7 +51,6 @@ const defaultProps: ComponentProps<typeof HarmonyOverview> = {
   language: "en-US",
   loadData: jest.fn(),
   networkName: "network name",
-  osUpdateDate: "2020-01-14T11:31:08.244Z",
   osVersion: "release-1.0.0",
   pureNeverConnected: false,
   pureOsBackupLocation: "path/location/backup",

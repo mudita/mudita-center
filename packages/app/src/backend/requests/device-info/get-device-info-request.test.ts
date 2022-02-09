@@ -7,12 +7,10 @@ import MuditaDeviceManager, { DeviceInfo } from "@mudita/pure"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 import registerDeviceInfoRequest from "./get-device-info.request"
-import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import DeviceService from "Backend/device-service"
 import Adapters from "Backend/adapters/adapters.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
-import createDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system.adapter"
+import createDeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info.adapter"
 
 const mockDeviceInfo: DeviceInfo = {
   accessTechnology: "255",
@@ -45,16 +43,8 @@ test("returns required device info", async () => {
     }
   })
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
-  const deviceFileSystem = createDeviceFileSystemAdapter(deviceService)
-  const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
-    deviceService
-  )
   registerDeviceInfoRequest({
-    purePhone: createPurePhoneAdapter(
-      deviceService,
-      deviceFileSystem,
-      deviceFileDiagnosticService
-    ),
+    deviceBaseInfo: createDeviceBaseInfoAdapter(deviceService),
   } as unknown as Adapters)
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetDeviceInfo)
   const result = await pendingResponse
@@ -63,10 +53,6 @@ test("returns required device info", async () => {
     Object {
       "backupLocation": "",
       "caseColour": "grey",
-      "modelName": "Ziemniaczek Puree",
-      "modelNumber": "Y0105W4GG1N5",
-      "name": "Mudita Pure",
-      "osUpdateDate": "2020-01-14T11:31:08.244Z",
       "osVersion": "release-0.46.1-33-g4973babd",
       "serialNumber": "1UB13213MN14K1",
     }

@@ -32,7 +32,6 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   batteryLevel = 0,
   disconnectDevice = noop,
   osVersion = "",
-  osUpdateDate = "",
   lastAvailableOsVersion,
   pureOsDownloaded,
   updatePhoneOsInfo = noop,
@@ -137,7 +136,6 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         batteryLevel={batteryLevel}
         disconnectDevice={disconnectDevice}
         osVersion={osVersion}
-        osUpdateDate={osUpdateDate}
         memorySpace={memorySpace}
         pureOsAvailable={isPureOsAvailable()}
         pureOsDownloaded={pureOsDownloaded}

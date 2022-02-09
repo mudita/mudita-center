@@ -46,7 +46,6 @@ export class PureDataLoader extends BaseLoader {
     return {
       networkName,
       networkLevel,
-      osUpdateDate: info.data!.osUpdateDate,
       osVersion: info.data!.osVersion,
       batteryLevel: batteryInfo.data!.level,
       simCards: networkInfo.data!.simCards,

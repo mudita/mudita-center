@@ -33,7 +33,6 @@ export class HarmonyDataLoader extends BaseLoader {
     const [info, storageInfo, batteryInfo] = responses
 
     return {
-      osUpdateDate: info.data!.osUpdateDate,
       osVersion: info.data!.osVersion,
       batteryLevel: batteryInfo.data!.level,
       serialNumber: info.data!.serialNumber,

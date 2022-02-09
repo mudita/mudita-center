@@ -8,7 +8,7 @@ import thunk from "redux-thunk"
 import { DeviceType } from "@mudita/pure"
 import { AnyAction } from "@reduxjs/toolkit"
 import { ConnectionState } from "App/device/constants"
-import { loadDeviceData } from "./load-device-data.action"
+import { loadDeviceData } from "App/device/actions"
 import { DeviceLoadingError } from "App/device/errors"
 import { DeviceDataLoader } from "App/device/loaders/device-data.loader"
 import { PureDeviceData, HarmonyDeviceData } from "App/device/reducers"
@@ -52,7 +52,6 @@ describe("Device type: MuditaPure", () => {
             full: 1024,
             free: 1000,
           },
-          osUpdateDate: "2020-01-14T11:31:08.244Z",
           osVersion: "7.7.7",
           serialNumber: "123",
           simCards: [
@@ -89,7 +88,6 @@ describe("Device type: MuditaPure", () => {
               full: 1024,
               free: 1000,
             },
-            osUpdateDate: "2020-01-14T11:31:08.244Z",
             osVersion: "7.7.7",
             serialNumber: "123",
             simCards: [
@@ -150,7 +148,6 @@ describe("Device type: MuditaHarmony", () => {
             full: 1024,
             free: 1000,
           },
-          osUpdateDate: "2020-01-14T11:31:08.244Z",
           osVersion: "7.7.7",
           serialNumber: "123",
         } as HarmonyDeviceData)
@@ -176,7 +173,6 @@ describe("Device type: MuditaHarmony", () => {
               full: 1024,
               free: 1000,
             },
-            osUpdateDate: "2020-01-14T11:31:08.244Z",
             osVersion: "7.7.7",
             serialNumber: "123",
           },

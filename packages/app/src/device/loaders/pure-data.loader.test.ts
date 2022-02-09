@@ -43,7 +43,6 @@ const dataMock = {
         active: true,
       },
     ],
-    osUpdateDate: "2020-01-14T11:31:08.244Z",
     osVersion: "7.7.7",
     level: 50,
     serialNumber: "123",
@@ -76,7 +75,6 @@ test("PureDataLoader calls required requests", async () => {
 
   expect(result).toEqual({
     backupLocation: undefined,
-    osUpdateDate: "2020-01-14T11:31:08.244Z",
     caseColour: undefined,
     osVersion: "7.7.7",
     batteryLevel: 50,

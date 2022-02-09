@@ -19,6 +19,7 @@ import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapt
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import createDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system.adapter"
+import { DeviceBaseInfo } from "Backend/adapters/device-base-info/device-base-info.adapter"
 
 jest.mock("Backend/device-service")
 jest.mock(
@@ -76,11 +77,13 @@ test("GetDeviceLogs request works properly", (done) => {
   )
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystem = createDeviceFileSystemAdapter(deviceService)
+  const deviceBaseInfo = new DeviceBaseInfo(deviceService)
   const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
     deviceService
   )
   const purePhone = createPurePhoneAdapter(
     deviceService,
+    deviceBaseInfo,
     deviceFileSystem,
     deviceFileDiagnosticService
   )

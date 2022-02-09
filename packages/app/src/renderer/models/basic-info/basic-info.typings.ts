@@ -40,7 +40,6 @@ export interface StoreValues {
   readonly batteryLevel: number
   readonly networkName: string
   readonly osVersion: string | undefined
-  readonly osUpdateDate: string
   readonly memorySpace: MemorySpace
   readonly simCards: SimCard[]
   readonly basicInfoDataState: DataState

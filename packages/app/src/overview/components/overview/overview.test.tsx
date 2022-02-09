@@ -45,7 +45,6 @@ jest.mock("Renderer/requests/get-device-info.request", () =>
       modelNumber: "A1239999",
       serilaNumber: "a-b-3d",
       osVersion: "0.123v",
-      osUpdateDate: "12-12-2003",
     },
   }))
 )
@@ -137,7 +136,6 @@ const defaultProps: Props = {
   language: "en-US",
   loadData: jest.fn(),
   networkName: "network name",
-  osUpdateDate: "2020-01-14T11:31:08.244Z",
   osVersion: "release-1.0.0",
   pureNeverConnected: false,
   pureOsBackupLocation: "path/location/backup",
