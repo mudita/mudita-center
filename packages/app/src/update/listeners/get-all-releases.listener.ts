@@ -37,9 +37,9 @@ const releasesRequest = async (
   }
 }
 
-export const registerGetAllDevelopmentReleasesListener = () => {
+export const registerGetAllReleasesListener = () => {
   if (osUpdateServerUrl) {
-    ipcMain.answerRenderer(IpcUpdate.GetDevelopmentReleases, async () => {
+    ipcMain.answerRenderer(IpcUpdate.GetAllReleases, async () => {
       let releases: GithubRelease[] = []
       let retry = true
       let page = 1

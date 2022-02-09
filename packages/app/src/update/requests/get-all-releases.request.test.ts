@@ -50,7 +50,7 @@ const releases: Release[] = [bellRelease, pureReleaseOne, pureReleaseTwo]
 describe("Device: MuditaPure", () => {
   test("returns all releases and latestRelease for Mudita Pure correctly", async () => {
     ;(ipcRenderer as any).__rendererCalls = {
-      [IpcUpdate.GetDevelopmentReleases]: releases,
+      [IpcUpdate.GetAllReleases]: releases,
     }
     const { allReleases, latestRelease } = await getAllReleases(
       DeviceType.MuditaPure
@@ -63,7 +63,7 @@ describe("Device: MuditaPure", () => {
 describe("Device: MuditaHarmony", () => {
   test("returns all releases and latestRelease for Mudita Harmony correctly", async () => {
     ;(ipcRenderer as any).__rendererCalls = {
-      [IpcUpdate.GetDevelopmentReleases]: releases,
+      [IpcUpdate.GetAllReleases]: releases,
     }
     const { allReleases, latestRelease } = await getAllReleases(
       DeviceType.MuditaHarmony
