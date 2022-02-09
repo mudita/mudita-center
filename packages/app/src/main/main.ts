@@ -14,7 +14,6 @@ import {
 import { ipcMain } from "electron-better-ipc"
 import * as path from "path"
 import * as url from "url"
-import registerGetAllReleasesListener from "App/main/functions/register-get-all-releases-listener"
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
@@ -33,7 +32,6 @@ import createDownloadListenerRegistrar from "App/main/functions/create-download-
 import registerEncryptFileListener from "App/file-system/listeners/encrypt-file.listener"
 import registerDecryptFileListener from "App/file-system/listeners/decrypt-file.listener"
 import registerUnlinkFileListener from "App/file-system/listeners/unlink-file.listener"
-import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
 import {
   registerDownloadHelpHandler,
   removeDownloadHelpHandler,
@@ -84,6 +82,8 @@ import {
 } from "App/metadata"
 import { registerGetIndexListener } from "App/data-sync"
 import { registerIndexAllListener } from "App/data-sync/listeners/index-all.listener"
+import { registerGetAllDevelopmentReleasesListener } from "App/update/listeners/get-all-development-releases.listener"
+import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests/register-os-update-already-downloaded-checker.request"
 
 require("dotenv").config()
 
@@ -178,7 +178,7 @@ const createWindow = async () => {
 
   startBackend(MuditaDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
-  registerGetAllReleasesListener()
+  registerGetAllDevelopmentReleasesListener()
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()

@@ -5,10 +5,9 @@
 
 import { DeviceType } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
-import { Release } from "App/main/functions/register-get-all-releases-listener"
+import { Release, IpcUpdate } from "App/update"
 import { Product } from "App/main/constants"
-import { GetAllReleasesEvents } from "App/main/functions/register-get-all-releases-listener"
-import getAllReleases from "Renderer/requests/get-all-releases.request"
+import { getAllReleases } from "App/update/requests/get-all-releases.request"
 
 const bellRelease: Release = {
   version: "1.0.0",
@@ -51,7 +50,7 @@ const releases: Release[] = [bellRelease, pureReleaseOne, pureReleaseTwo]
 describe("Device: MuditaPure", () => {
   test("returns all releases and latestRelease for Mudita Pure correctly", async () => {
     ;(ipcRenderer as any).__rendererCalls = {
-      [GetAllReleasesEvents.Request]: releases,
+      [IpcUpdate.GetDevelopmentRelease]: releases,
     }
     const { allReleases, latestRelease } = await getAllReleases(
       DeviceType.MuditaPure
@@ -64,7 +63,7 @@ describe("Device: MuditaPure", () => {
 describe("Device: MuditaHarmony", () => {
   test("returns all releases and latestRelease for Mudita Harmony correctly", async () => {
     ;(ipcRenderer as any).__rendererCalls = {
-      [GetAllReleasesEvents.Request]: releases,
+      [IpcUpdate.GetDevelopmentRelease]: releases,
     }
     const { allReleases, latestRelease } = await getAllReleases(
       DeviceType.MuditaHarmony

@@ -6,54 +6,10 @@
 import { ipcMain } from "electron-better-ipc"
 import { githubInstance } from "App/main/utils/github-instance"
 import logger from "App/main/utils/logger"
-import { Product } from "App/main/constants"
-import mapToReleases from "App/main/utils/map-to-release"
 
-export enum GetAllReleasesEvents {
-  Request = "get-all-releases-request",
-}
-
-export interface GithubReleaseAsset {
-  content_type: string
-  size: number
-  url: string
-  name: string
-  browser_download_url: string
-}
-
-export interface GithubRelease {
-  tag_name: string
-  created_at: string
-  published_at: string
-  draft: boolean
-  prerelease: boolean
-  assets: GithubReleaseAsset[]
-}
-
-export interface Release {
-  version: string
-  date: string
-  prerelease: boolean
-  product: Product
-  file: {
-    url: string
-    name: string
-    size: number
-  }
-  devMode?: boolean
-}
-
-export interface ManifestReleases {
-  version: string
-  platform: string
-  target: Product
-  options: string
-  files: {
-    tar: string
-    image: string
-  }
-  checksums: Record<string, string>
-}
+import { mapToReleases } from "App/update/helpers"
+import { IpcUpdate } from "App/update/constants"
+import { GithubRelease } from "App/update/types"
 
 const osUpdateServerUrl = process.env.OS_UPDATE_SERVER
 
@@ -81,9 +37,9 @@ const releasesRequest = async (
   }
 }
 
-const registerGetAllReleasesListener = () => {
+export const registerGetAllDevelopmentReleasesListener = () => {
   if (osUpdateServerUrl) {
-    ipcMain.answerRenderer(GetAllReleasesEvents.Request, async () => {
+    ipcMain.answerRenderer(IpcUpdate.GetDevelopmentRelease, async () => {
       let releases: GithubRelease[] = []
       let retry = true
       let page = 1
@@ -112,5 +68,3 @@ const registerGetAllReleasesListener = () => {
     })
   }
 }
-
-export default registerGetAllReleasesListener

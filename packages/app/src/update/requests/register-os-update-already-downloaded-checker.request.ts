@@ -5,13 +5,13 @@
 
 import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
-import { Release } from "App/main/functions/register-get-all-releases-listener"
 import path from "path"
+import { Release } from "App/update/types"
 import getAppSettingsMain from "App/main/functions/get-app-settings"
 
 export const osUpdateAlreadyDownloadedChannel = "os-update-exists-check"
 
-const registerOsUpdateAlreadyDownloadedCheck = () => {
+export const registerOsUpdateAlreadyDownloadedCheck = () => {
   ipcMain.answerRenderer<Release["file"], boolean>(
     osUpdateAlreadyDownloadedChannel,
     async ({ url, size }) => {
@@ -23,5 +23,3 @@ const registerOsUpdateAlreadyDownloadedCheck = () => {
     }
   )
 }
-
-export default registerOsUpdateAlreadyDownloadedCheck

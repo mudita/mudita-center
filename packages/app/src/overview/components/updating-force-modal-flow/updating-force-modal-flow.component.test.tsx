@@ -14,10 +14,7 @@ import UpdatingForceModalFlow, {
 import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.component"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { ipcRenderer } from "electron-better-ipc"
-import {
-  GetAllReleasesEvents,
-  Release,
-} from "App/main/functions/register-get-all-releases-listener"
+import { Release, IpcUpdate } from "App/update"
 import { waitFor } from "@testing-library/dom"
 import { PureOsDownloadChannels } from "App/main/functions/register-pure-os-download-listener"
 import { DownloadStatus } from "Renderer/interfaces/file-download.interface"
@@ -138,7 +135,7 @@ test("Force modal is visible even fail modal was read ", () => {
 
 test("failure modal is display if no is latestRelease", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [GetAllReleasesEvents.Request]: [],
+    [IpcUpdate.GetDevelopmentRelease]: [],
   }
   const { getByTestId, queryByTestId } = render()
 
@@ -167,7 +164,7 @@ test("failure modal is display if no is latestRelease", async () => {
 
 test("failure modal is display if latestRelease isn't higher than os", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [GetAllReleasesEvents.Request]: releases,
+    [IpcUpdate.GetDevelopmentRelease]: releases,
   }
   const { getByTestId, queryByTestId } = render({
     osVersion: releases[0].version,
@@ -198,7 +195,7 @@ test("failure modal is display if latestRelease isn't higher than os", async () 
 
 test("failure modal is display if failure download os", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [GetAllReleasesEvents.Request]: [],
+    [IpcUpdate.GetDevelopmentRelease]: [],
     [PureOsDownloadChannels.start]: {
       status: DownloadStatus.Cancelled,
     },

@@ -5,7 +5,7 @@
 
 import { Feature, flags } from "App/feature-flags"
 
-class OsReleasesManager {
+export class OsReleasesManager {
   public static isProductionAvailable(): boolean {
     return flags.get(Feature.OsProductionReleaseAvailable)
   }
@@ -19,5 +19,3 @@ class OsReleasesManager {
     return flags.get(Feature.OsTestProductionAlphaReleaseAvailable)
   }
 }
-
-export default OsReleasesManager
