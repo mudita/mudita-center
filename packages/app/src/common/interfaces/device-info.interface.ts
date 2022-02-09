@@ -6,15 +6,9 @@
 import { CaseColour } from "@mudita/pure"
 
 export default interface DeviceInfo {
-  // Device's serial number.
   readonly serialNumber: string
-
-  // Current OS version.
   readonly osVersion: string
-
-  // Device's case colour.
   readonly caseColour: CaseColour
-
-  //  path to the location of backup files on device file-system
   readonly backupLocation: string
+  readonly deviceToken: string
 }

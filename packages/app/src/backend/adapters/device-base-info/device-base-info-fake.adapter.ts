@@ -20,6 +20,7 @@ class DeviceBaseInfo extends DeviceBaseInfoAdapter {
     return {
       status: DeviceResponseStatus.Ok,
       data: {
+        deviceToken: "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa",
         osVersion: osVersion,
         serialNumber: "1UB13213MN14K1",
         caseColour: CaseColour.Gray,

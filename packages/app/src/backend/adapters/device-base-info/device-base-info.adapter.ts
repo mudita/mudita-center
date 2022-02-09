@@ -10,6 +10,7 @@ import DeviceResponse, {
 import DeviceService from "Backend/device-service"
 import DeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-adapter.class"
 import DeviceInfo from "Common/interfaces/device-info.interface"
+import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
 
 export class DeviceBaseInfo extends DeviceBaseInfoAdapter {
   constructor(private deviceService: DeviceService) {
@@ -28,9 +29,13 @@ export class DeviceBaseInfo extends DeviceBaseInfoAdapter {
         error: { message: "Get Device Info: Something went wrong" },
       }
     } else {
+
+      const deviceToken = data.deviceToken ? data.deviceToken : DeviceBaseInfo.generateDeviceToken();
+
       return {
         status,
         data: {
+          deviceToken,
           osVersion: data.version,
           serialNumber: data.serialNumber,
           caseColour: data.caseColour ? data.caseColour : CaseColour.Gray,
@@ -38,6 +43,10 @@ export class DeviceBaseInfo extends DeviceBaseInfoAdapter {
         },
       }
     }
+  }
+
+  static generateDeviceToken(): string {
+    return CryptoFileService.createHash({key: Math.random().toString(36).slice(-8)})
   }
 }
 
