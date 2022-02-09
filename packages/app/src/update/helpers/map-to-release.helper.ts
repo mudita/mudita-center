@@ -3,15 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Product } from "App/main/constants"
 import { githubInstance } from "App/main/utils/github-instance"
 import {
-  GithubRelease,
-  GithubReleaseAsset,
   Release,
+  GithubReleaseAsset,
+  GithubRelease,
   ManifestReleases,
-} from "App/main/functions/register-get-all-releases-listener"
-import { Product } from "App/main/constants"
-import OsReleasesManager from "App/main/utils/os-releases-manager"
+} from "App/update/types"
+import { OsReleasesManager } from "App/update/helpers/os-releases-manager.helper"
 import isVersionMatch from "App/overview/helpers/is-version-match"
 import isPrereleaseSet from "App/overview/helpers/is-prerelease-set"
 import getPrereleaseLabels from "App/overview/helpers/get-prerelease-labels"
@@ -141,7 +141,7 @@ export const getPrerelease = (release: GithubRelease): boolean => {
   ].some((fn) => fn(release))
 }
 
-const mapToReleases = async (
+export const mapToReleases = async (
   githubReleases: GithubRelease[]
 ): Promise<Release[]> => {
   const result = await Promise.all(
@@ -199,5 +199,3 @@ const mapToReleases = async (
 
   return result.flat()
 }
-
-export default mapToReleases
