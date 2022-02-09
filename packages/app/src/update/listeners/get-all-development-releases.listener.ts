@@ -39,7 +39,7 @@ const releasesRequest = async (
 
 export const registerGetAllDevelopmentReleasesListener = () => {
   if (osUpdateServerUrl) {
-    ipcMain.answerRenderer(IpcUpdate.GetDevelopmentRelease, async () => {
+    ipcMain.answerRenderer(IpcUpdate.GetDevelopmentReleases, async () => {
       let releases: GithubRelease[] = []
       let retry = true
       let page = 1

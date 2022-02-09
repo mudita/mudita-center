@@ -24,7 +24,7 @@ export const getAllReleases = async (
   deviceType: DeviceType
 ): Promise<AllReleasesResponse> => {
   const releases: Release[] = await ipcRenderer.callMain<undefined, Release[]>(
-    IpcUpdate.GetDevelopmentRelease
+    IpcUpdate.GetDevelopmentReleases
   )
 
   const filteredProducts = releases

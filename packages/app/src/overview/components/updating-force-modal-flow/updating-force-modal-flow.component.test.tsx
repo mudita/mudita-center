@@ -135,7 +135,7 @@ test("Force modal is visible even fail modal was read ", () => {
 
 test("failure modal is display if no is latestRelease", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcUpdate.GetDevelopmentRelease]: [],
+    [IpcUpdate.GetDevelopmentReleases]: [],
   }
   const { getByTestId, queryByTestId } = render()
 
@@ -164,7 +164,7 @@ test("failure modal is display if no is latestRelease", async () => {
 
 test("failure modal is display if latestRelease isn't higher than os", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcUpdate.GetDevelopmentRelease]: releases,
+    [IpcUpdate.GetDevelopmentReleases]: releases,
   }
   const { getByTestId, queryByTestId } = render({
     osVersion: releases[0].version,
@@ -195,7 +195,7 @@ test("failure modal is display if latestRelease isn't higher than os", async () 
 
 test("failure modal is display if failure download os", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcUpdate.GetDevelopmentRelease]: [],
+    [IpcUpdate.GetDevelopmentReleases]: [],
     [PureOsDownloadChannels.start]: {
       status: DownloadStatus.Cancelled,
     },
