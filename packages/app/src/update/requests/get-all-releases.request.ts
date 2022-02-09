@@ -6,11 +6,9 @@
 import semver from "semver/preload"
 import { DeviceType } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
-import {
-  GetAllReleasesEvents,
-  Release,
-} from "App/main/functions/register-get-all-releases-listener"
+import { IpcUpdate } from "App/update/constants"
 import { Product } from "App/main/constants"
+import { Release } from "App/update/types"
 
 interface AllReleasesResponse {
   allReleases: Release[]
@@ -22,11 +20,11 @@ const productsMapper = {
   [DeviceType.MuditaHarmony]: Product.BellHybrid,
 }
 
-const getAllReleases = async (
+export const getAllReleases = async (
   deviceType: DeviceType
 ): Promise<AllReleasesResponse> => {
   const releases: Release[] = await ipcRenderer.callMain<undefined, Release[]>(
-    GetAllReleasesEvents.Request
+    IpcUpdate.GetAllReleases
   )
 
   const filteredProducts = releases
@@ -52,5 +50,3 @@ const getAllReleases = async (
     latestRelease: newestOfficialRelease,
   }
 }
-
-export default getAllReleases

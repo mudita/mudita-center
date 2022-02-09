@@ -3,8 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { GithubRelease } from "App/main/functions/register-get-all-releases-listener"
-import mapToReleases, {
+import { GithubRelease } from "App/update/types"
+import {
+  mapToReleases,
   findXTarAsset,
   isProductionAlphaRelease,
   isDraft,
@@ -13,8 +14,8 @@ import mapToReleases, {
   isTestProductionRelease,
   getPrerelease,
   getVersion,
-} from "App/main/utils/map-to-release"
-import OsReleasesManager from "App/main/utils/os-releases-manager"
+} from "App/update/helpers/map-to-release.helper"
+import { OsReleasesManager } from "App/update/helpers/os-releases-manager.helper"
 
 const githubRelease: GithubRelease = {
   tag_name: "0.76.4",
@@ -276,7 +277,7 @@ describe("getPrerelease util", () => {
   })
 })
 
-jest.mock("App/main/utils/os-releases-manager")
+jest.mock("App/update/helpers/os-releases-manager.helper")
 
 interface MockOsReleasesManagerConfig {
   productionAvailable: boolean
