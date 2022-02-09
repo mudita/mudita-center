@@ -7,7 +7,7 @@ import { DeviceType } from "@mudita/pure"
 import React, { ComponentProps, useEffect, useState } from "react"
 import logger from "App/main/utils/logger"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Release, getAllReleases } from "App/update"
+import { Release, getAllReleases, downloadOsUpdateRequest } from "App/update"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import {
   TooLowBatteryModal,
@@ -17,7 +17,6 @@ import {
   UpdatingFailureWithHelpModal,
 } from "App/overview/components/overview.modal-dialogs"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
-import downloadOsUpdateRequest from "Renderer/requests/download-os-update.request"
 import { DownloadStatus } from "Renderer/interfaces/file-download.interface"
 import {
   ApplicationUpdateError,
