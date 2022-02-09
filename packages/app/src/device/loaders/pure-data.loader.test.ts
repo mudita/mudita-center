@@ -4,6 +4,7 @@
  */
 
 import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 import { indexAllRequest, SynchronizationState } from "App/data-sync"
 import { PureDataLoader } from "App/device/loaders/pure-data.loader"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
@@ -19,19 +20,14 @@ jest.mock("Renderer/requests/get-storage-info.request")
 jest.mock("Renderer/requests/get-battery-info.request")
 jest.mock("App/data-sync/requests/index-all.request")
 
-jest.mock("Renderer/store/index", () => {
-  console.log(createMockStore)
-  return {
-    default: {
-      getState: () => ({
-        dataSync: {
-          initialized: true,
-          state: SynchronizationState.Empty,
-        },
-      }),
+jest.mock("Renderer/store/index", () =>
+  createMockStore([thunk])({
+    dataSync: {
+      initialized: true,
+      state: SynchronizationState.Empty,
     },
-  }
-})
+  })
+)
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -130,42 +126,5 @@ describe("PureDataLoader", () => {
     expect(getNetworkInfo).toHaveBeenCalled()
     expect(getStorageInfo).toHaveBeenCalled()
     expect(getBatteryInfo).toHaveBeenCalled()
-  })
-
-  test("doesn't call data base sync if already loaded", async () => {
-    requestStatusFactory(DeviceResponseStatus.Ok)
-
-    await subject.load()
-
-    requestStatusFactory(DeviceResponseStatus.Ok)
-
-    const result = await subject.load()
-
-    expect(result).toEqual({
-      backupLocation: undefined,
-      osUpdateDate: "2020-01-14T11:31:08.244Z",
-      caseColour: undefined,
-      osVersion: "7.7.7",
-      batteryLevel: 50,
-      serialNumber: "123",
-      memorySpace: { full: 1024, free: 1000, total: 16000000000 },
-      networkLevel: "1",
-      networkName: "Network",
-      simCards: [
-        {
-          active: true,
-          network: "Network",
-          networkLevel: 1,
-          number: 1,
-          slot: 1,
-        },
-      ],
-    })
-
-    expect(indexAllRequest).toHaveBeenCalledTimes(1)
-    expect(getDeviceInfo).toHaveBeenCalledTimes(2)
-    expect(getNetworkInfo).toHaveBeenCalledTimes(2)
-    expect(getStorageInfo).toHaveBeenCalledTimes(2)
-    expect(getBatteryInfo).toHaveBeenCalledTimes(2)
   })
 })
