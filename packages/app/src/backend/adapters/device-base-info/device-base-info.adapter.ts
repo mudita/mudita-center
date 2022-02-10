@@ -13,6 +13,10 @@ import DeviceInfo from "Common/interfaces/device-info.interface"
 import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
 
 export class DeviceBaseInfo extends DeviceBaseInfoAdapter {
+  private token: string = CryptoFileService.createHash({
+    key: Math.random().toString(36).slice(-8),
+  })
+
   constructor(private deviceService: DeviceService) {
     super()
   }
@@ -29,8 +33,7 @@ export class DeviceBaseInfo extends DeviceBaseInfoAdapter {
         error: { message: "Get Device Info: Something went wrong" },
       }
     } else {
-
-      const deviceToken = data.deviceToken ? data.deviceToken : DeviceBaseInfo.generateDeviceToken();
+      const deviceToken = data.deviceToken ? data.deviceToken : this.token
 
       return {
         status,
@@ -43,10 +46,6 @@ export class DeviceBaseInfo extends DeviceBaseInfoAdapter {
         },
       }
     }
-  }
-
-  static generateDeviceToken(): string {
-    return CryptoFileService.createHash({key: Math.random().toString(36).slice(-8)})
   }
 }
 
