@@ -8,11 +8,11 @@ import { DataSyncClass } from "App/data-sync/services/data-sync-class.interface"
 import { DataIndex } from "App/data-sync/constants"
 import { IndexClass } from "App/data-sync/services/index-class.interface"
 
-export class IndexService implements IndexClass{
+export class IndexService implements IndexClass {
   constructor(private dataSync: DataSyncClass) {}
 
-  initialize(): void {
-    this.dataSync.initialize()
+  initialize(token: string): void {
+    this.dataSync.initialize(token)
   }
 
   indexAll(): Promise<void> {

@@ -8,6 +8,6 @@ import { Index } from "elasticlunr"
 
 export interface DataSyncClass {
   indexesMap: Map<DataIndex, Index<any>>
-  initialize(): void
+  initialize(token: string): void
   indexAll(): Promise<void>
 }

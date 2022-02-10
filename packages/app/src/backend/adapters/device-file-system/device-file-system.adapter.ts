@@ -3,11 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import path from "path"
 import * as fs from "fs"
+import stream from "stream"
+import path from "path"
 import { Endpoint, Method } from "@mudita/pure"
-import getAppPath from "App/main/utils/get-app-path"
-import writeFile from "App/main/utils/write-file"
 import DeviceService from "Backend/device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
@@ -16,34 +15,30 @@ import logger from "App/main/utils/logger"
 import countCRC32 from "Backend/helpers/count-crc32"
 import DeviceFileSystemAdapter, {
   DeviceFile,
+  DownloadDeviceFileLocallyOptions,
   EncodedResponse,
   UploadFileLocallyPayload,
   UploadFilePayload,
 } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import { FileSystemService } from "App/file-system/services/file-system.service"
 
 export class DeviceFileSystem implements DeviceFileSystemAdapter {
   constructor(private deviceService: DeviceService) {}
 
-  public async downloadLocally(
+  public async downloadDeviceFilesLocally(
     filePaths: string[],
-    fileDirectory: string
+    options: DownloadDeviceFileLocallyOptions
   ): Promise<DeviceResponse<string[]>> {
     const data: string[] = []
 
     for (let i = 0; i < filePaths.length; i++) {
-      const filePath = filePaths[i]
-      const response = await this.downloadFile(filePath)
+      const response = await this.downloadDeviceFileLocally(
+        filePaths[i],
+        options
+      )
 
       if (response.status === DeviceResponseStatus.Ok && response.data) {
-        const name = filePath.split("/").pop() as string
-        const targetPath = path.join(getAppPath(), fileDirectory)
-
-        await writeFile({
-          filePath: targetPath,
-          data: response.data,
-          fileName: name,
-        })
-        data.push(`${targetPath}/${name}`)
+        data.push(...response.data)
       } else {
         return {
           status: DeviceResponseStatus.Error,
@@ -237,6 +232,64 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
 
     return {
       status,
+    }
+  }
+
+  private async downloadDeviceFileLocally(
+    filePath: string,
+    options: DownloadDeviceFileLocallyOptions
+  ): Promise<DeviceResponse<string[]>> {
+    const response = await this.downloadFile(filePath)
+    if (
+      response.status !== DeviceResponseStatus.Ok ||
+      response.data === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    } else {
+      const data: string[] = []
+      const { cwd, extract, token, key } = options
+      const name = filePath.split("/").pop() as string
+      const entryFilePath = path.join(cwd, name)
+      const input = new stream.PassThrough()
+      input.end(response.data)
+
+      try {
+        if (extract === true && token !== undefined) {
+          await FileSystemService.encryptViaTokenWithExtractionAndStreamToFiles(
+            input,
+            cwd,
+            token
+          )
+        } else if (token !== undefined) {
+          const entryFilePaths =
+            await FileSystemService.encryptViaTokenAndStreamToFile(
+              input,
+              entryFilePath,
+              token
+            )
+          data.push(...entryFilePaths)
+        } else if (key !== undefined) {
+          await FileSystemService.encryptAndStreamToFile(
+            input,
+            entryFilePath,
+            key
+          )
+          data.push(entryFilePath)
+        } else {
+          await FileSystemService.streamToFile(input, entryFilePath)
+          data.push(entryFilePath)
+        }
+        return {
+          status: DeviceResponseStatus.Ok,
+          data,
+        }
+      } catch {
+        return {
+          status: DeviceResponseStatus.Error,
+        }
+      }
     }
   }
 

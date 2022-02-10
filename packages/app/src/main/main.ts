@@ -85,6 +85,7 @@ import { registerIndexAllListener } from "App/data-sync/listeners/index-all.list
 import { registerGetAllReleasesListener } from "App/update/listeners/get-all-releases.listener"
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests/register-os-update-already-downloaded-checker.request"
 import { registerGetProductionReleaseListener } from "App/update/listeners/get-production-release.listener"
+import { registerInitializeDataSyncListener } from "App/data-sync/listeners/initialize-data-sync.listener"
 
 require("dotenv").config()
 
@@ -203,6 +204,7 @@ const createWindow = async () => {
   registerMetadataSetValueListener()
   registerGetIndexListener()
   registerIndexAllListener()
+  registerInitializeDataSyncListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)

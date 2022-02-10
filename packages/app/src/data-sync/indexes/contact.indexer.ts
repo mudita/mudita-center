@@ -13,12 +13,14 @@ import {
   ContactObject,
   ContactInput,
 } from "App/data-sync/types"
+import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
 
 export class ContactIndexer extends BaseIndexer {
   constructor(
+    syncFileSystemService: SyncFileSystemService,
     private dataPresenter: IndexerPresenter<ContactInput, ContactObject[]>
   ) {
-    super()
+    super(syncFileSystemService)
   }
 
   async index(fileDir: string): Promise<Index<ContactObject>> {

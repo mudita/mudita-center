@@ -21,12 +21,12 @@ import { DataSyncClass } from "App/data-sync/services/data-sync-class.interface"
 import path from "path"
 import getAppPath from "App/main/utils/get-app-path"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import { extract } from "App/data-sync/helpers"
-import { unlinkSync } from "App/file-system/listeners"
+import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
 
 const syncCatalogName = "sync"
 
 export class DataSync implements DataSyncClass {
+  private token = ""
   private contactIndexer: ContactIndexer | null = null
   private messageIndexer: MessageIndexer | null = null
   private threadIndexer: ThreadIndexer | null = null
@@ -37,10 +37,22 @@ export class DataSync implements DataSyncClass {
     private deviceBackup: DeviceBackupAdapter
   ) {}
 
-  initialize(): void {
-    this.contactIndexer = new ContactIndexer(new ContactPresenter())
-    this.messageIndexer = new MessageIndexer(new MessagePresenter())
-    this.threadIndexer = new ThreadIndexer(new ThreadPresenter())
+  initialize(token: string): void {
+    this.token = token
+
+    const syncFileSystemService = new SyncFileSystemService(token)
+    this.contactIndexer = new ContactIndexer(
+      syncFileSystemService,
+      new ContactPresenter()
+    )
+    this.messageIndexer = new MessageIndexer(
+      syncFileSystemService,
+      new MessagePresenter()
+    )
+    this.threadIndexer = new ThreadIndexer(
+      syncFileSystemService,
+      new ThreadPresenter()
+    )
   }
 
   async indexAll(): Promise<void> {
@@ -56,19 +68,14 @@ export class DataSync implements DataSyncClass {
       return
     }
 
-    const { status, data } =
-      await this.deviceBackup.downloadDeviceBackupLocally(syncCatalogName)
+    const fileDir = path.join(getAppPath(), syncCatalogName)
+    const { status, data } = await this.deviceBackup.downloadDeviceBackup({
+      token: this.token,
+      extract: true,
+      cwd: fileDir,
+    })
 
     if (status !== DeviceResponseStatus.Ok || data === undefined) {
-      return
-    }
-
-    const fileDir = path.join(getAppPath(), syncCatalogName)
-
-    try {
-      await extract(data[0], { C: fileDir })
-      await unlinkSync(data[0])
-    } catch {
       return
     }
 

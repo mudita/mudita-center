@@ -3,21 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceResponse, { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
 import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
 import writeFile from "Renderer/requests/write-file.request"
 
-const importDeviceLogFiles = async (
-  filePath: string
-): Promise<DeviceResponse> => {
-  const { status, data = [] } = await getDeviceLogFiles({datePrefix: true})
+const importDeviceLogFiles = async (cwd: string): Promise<DeviceResponse> => {
+  const { status, data = [] } = await getDeviceLogFiles({ datePrefix: true })
   if (status === DeviceResponseStatus.Ok && data) {
     for (let i = 0; i < data.length; i++) {
       const deviceLogFile = data[i]
-      const writeFileSuccess = await writeFile({ filePath, data: deviceLogFile.data, fileName: deviceLogFile.name })
-      if(!writeFileSuccess){
+      const writeFileSuccess = await writeFile({
+        cwd,
+        data: deviceLogFile.data,
+        fileName: deviceLogFile.name,
+      })
+      if (!writeFileSuccess) {
         return {
-          status: DeviceResponseStatus.Error
+          status: DeviceResponseStatus.Error,
         }
       }
     }

@@ -3,10 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import fs from "fs"
 import initSqlJs, { SqlJsStatic } from "sql.js"
+import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
 
 export abstract class BaseIndexer {
+  constructor(private syncFileSystemService: SyncFileSystemService) {}
   get sql(): Promise<SqlJsStatic> {
     // TODO: Will be covered with test as part of  CP-979
     return initSqlJs({
@@ -16,13 +17,7 @@ export abstract class BaseIndexer {
     })
   }
 
-  public async getData(
-    dbFilePath: string
-  ): Promise<ArrayLike<number> | Buffer | null> {
-    try {
-      return fs.readFileSync(dbFilePath)
-    } catch {
-      return null
-    }
+  public async getData(filePath: string): Promise<Buffer | undefined | null> {
+    return this.syncFileSystemService.readFileSync(filePath)
   }
 }

@@ -6,4 +6,5 @@
 export enum DataSyncEvent {
   UpdateAllIndexes = "DATA_SYNC_UPDATE_ALL_INDEXES",
   SetDataSyncInitialized = "DATA_SYNC_SET_DATA_SYNC_INITIALIZED",
+  InitializeDataSync = "DATA_SYNC_SET_DATA_SYNC_INITIALIZE",
 }

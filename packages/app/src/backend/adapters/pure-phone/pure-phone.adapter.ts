@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import path from "path"
 import {
   DiagnosticsFileList,
   Endpoint,
@@ -27,6 +28,7 @@ import DeviceFileSystemAdapter, {
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
 import DeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-adapter.class"
+import getAppPath from "App/main/utils/get-app-path"
 
 class PurePhone extends PurePhoneAdapter {
   constructor(
@@ -253,7 +255,9 @@ class PurePhone extends PurePhoneAdapter {
     }
 
     const downloadDeviceFilesResponse =
-      await this.deviceFileSystem.downloadLocally(files.data, "crash-dumps")
+      await this.deviceFileSystem.downloadDeviceFilesLocally(files.data, {
+        cwd: path.join(getAppPath(), "crash-dumps"),
+      })
     const deviceFiles = downloadDeviceFilesResponse.data
 
     if (

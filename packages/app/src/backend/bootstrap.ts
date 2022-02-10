@@ -78,9 +78,7 @@ const bootstrap = (
     deviceFileSystem
   )
 
-  const indexService = createIndexService(
-    new DataSync(deviceService, deviceBackup)
-  )
+  createIndexService(new DataSync(deviceService, deviceBackup))
 
   const adapters = {
     deviceBackup,
@@ -132,7 +130,6 @@ const bootstrap = (
     registerDownloadDeviceBackupRequest,
   ]
 
-  indexService.initialize()
   new Backend(adapters, getFakeAdapters(), requests).init()
 }
 

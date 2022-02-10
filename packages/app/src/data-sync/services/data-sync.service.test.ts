@@ -21,7 +21,8 @@ jest.mock("Backend/device-service")
 jest.mock("App/data-sync/indexes")
 jest.mock("App/main/utils/get-app-path")
 jest.mock("App/file-system/listeners/unlink-file.listener")
-jest.mock('App/data-sync/helpers');
+
+const token = "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa"
 
 const errorGetBackupLocationResponse: DeviceResponse<string[]> = {
   status: DeviceResponseStatus.Error,
@@ -33,8 +34,8 @@ const successGetBackupLocationResponse: DeviceResponse<string[]> = {
 }
 
 const json: DirectoryJSON = {
-  'path/to/directory': '',
-};
+  "path/to/directory": "",
+}
 
 beforeEach(() => {
   ;(ContactIndexer as unknown as jest.Mock).mockClear()
@@ -61,7 +62,7 @@ describe("`DataSync`", () => {
 
       const dataSync = new DataSync(deviceService, deviceBackup)
 
-      expect(dataSync.initialize()).toBeUndefined()
+      expect(dataSync.initialize(token)).toBeUndefined()
     })
 
     test("`indexAll` no return value", async () => {
@@ -99,7 +100,7 @@ describe("`DataSync`", () => {
       const deviceBackup = createFakeDeviceBackupAdapter()
 
       const dataSync = new DataSync(deviceService, deviceBackup)
-      dataSync.initialize()
+      dataSync.initialize(token)
       jest.spyOn(dataSync.indexesMap, "set")
 
       expect(await dataSync.indexAll()).toBeUndefined()
@@ -134,14 +135,14 @@ describe("`DataSync`", () => {
 
   describe("when data Sync is initialized, device connected and the backuping isn't go on and backup fails", () => {
     test("`indexAll` no call set", async () => {
-      vol.fromJSON(json, "/");
+      vol.fromJSON(json, "/")
       ;(getAppPath as unknown as jest.Mock).mockImplementation(() => "")
       ;(
         createFakeDeviceBackupAdapter as unknown as jest.Mock
       ).mockImplementation(() => {
         return {
           backuping: false,
-          downloadDeviceBackupLocally: () => errorGetBackupLocationResponse,
+          downloadDeviceBackup: () => errorGetBackupLocationResponse,
         }
       })
       ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
@@ -154,7 +155,7 @@ describe("`DataSync`", () => {
 
       const dataSync = new DataSync(deviceService, deviceBackup)
       jest.spyOn(dataSync.indexesMap, "set")
-      dataSync.initialize()
+      dataSync.initialize(token)
 
       expect(await dataSync.indexAll()).toBeUndefined()
       expect(dataSync.indexesMap.set).not.toHaveBeenCalled()
@@ -162,14 +163,14 @@ describe("`DataSync`", () => {
   })
   describe("when data Sync is initialized, device connected and the backuping isn't go on", () => {
     test("`indexAll` call set", async () => {
-      vol.fromJSON(json, "/");
+      vol.fromJSON(json, "/")
       ;(getAppPath as unknown as jest.Mock).mockImplementation(() => "")
       ;(
         createFakeDeviceBackupAdapter as unknown as jest.Mock
       ).mockImplementation(() => {
         return {
           backuping: false,
-          downloadDeviceBackupLocally: () => successGetBackupLocationResponse,
+          downloadDeviceBackup: () => successGetBackupLocationResponse,
         }
       })
       ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
@@ -182,7 +183,7 @@ describe("`DataSync`", () => {
 
       const dataSync = new DataSync(deviceService, deviceBackup)
       jest.spyOn(dataSync.indexesMap, "set")
-      dataSync.initialize()
+      dataSync.initialize(token)
 
       expect(await dataSync.indexAll()).toBeUndefined()
       expect(dataSync.indexesMap.set).toHaveBeenCalled()

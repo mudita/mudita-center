@@ -13,18 +13,22 @@ import {
   MessageObject,
   MessageInput,
 } from "App/data-sync/types"
+import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
 
 export class MessageIndexer extends BaseIndexer {
   constructor(
+    syncFileSystemService: SyncFileSystemService,
     private dataPresenter: IndexerPresenter<MessageInput, MessageObject[]>
   ) {
-    super()
+    super(syncFileSystemService)
   }
 
   async index(fileDir: string): Promise<Index<MessageObject>> {
     const smsDb = await this.initTmpSmsDatabase(fileDir)
     const contactDb = await this.initTmpContactDatabase(fileDir)
-    const object = this.dataPresenter.serializeToObject(this.loadTables(smsDb, contactDb))
+    const object = this.dataPresenter.serializeToObject(
+      this.loadTables(smsDb, contactDb)
+    )
     return this.createIndex(object)
   }
 

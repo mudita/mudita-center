@@ -13,12 +13,14 @@ import {
   ThreadObject,
   ThreadInput,
 } from "App/data-sync/types"
+import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
 
 export class ThreadIndexer extends BaseIndexer {
   constructor(
+    syncFileSystemService: SyncFileSystemService,
     private dataPresenter: IndexerPresenter<ThreadInput, ThreadObject[]>
   ) {
-    super()
+    super(syncFileSystemService)
   }
 
   async index(fileDir: string): Promise<Index<ThreadObject>> {

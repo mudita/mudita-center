@@ -6,14 +6,14 @@
 import fs, { RmDirOptions } from "fs"
 
 export interface RmdirProps {
-  filePath: string
+  cwd: string
   options: RmDirOptions
 }
 
-const rmdir = ({ filePath, options }: RmdirProps): boolean => {
+const rmdir = ({ cwd, options }: RmdirProps): boolean => {
   try {
-    if (fs.existsSync(filePath)) {
-      fs.rmdirSync(filePath, options)
+    if (fs.existsSync(cwd)) {
+      fs.rmdirSync(cwd, options)
     }
     return true
   } catch {

@@ -5,6 +5,7 @@
 
 import { MessageIndexer } from "App/data-sync/indexes/message.indexer"
 import { MessagePresenter } from "App/data-sync/presenters/message/message.presenter"
+import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
 
 afterAll(() => {
   jest.clearAllMocks()
@@ -12,7 +13,10 @@ afterAll(() => {
 
 describe("`MessageIndexer`", () => {
   test("`index` methods returns serialized index with objects", async () => {
-    const indexer = new MessageIndexer(new MessagePresenter())
+    const indexer = new MessageIndexer(
+      new SyncFileSystemService("Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa"),
+      new MessagePresenter()
+    )
     const index = await indexer.index("./src/testing-support/mocks/")
 
     expect(index.documentStore.getDoc(1)).toMatchInlineSnapshot(`

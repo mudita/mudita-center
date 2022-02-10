@@ -11,11 +11,13 @@ const dataSyncService: DataSyncClass = {
   initialize: jest.fn(),
 }
 
+const token = "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa"
+
 describe("`IndexService`", () => {
   test("`initialize` no return value", () => {
     const indexService = new IndexService(dataSyncService)
 
-    expect(indexService.initialize()).toBeUndefined()
+    expect(indexService.initialize(token)).toBeUndefined()
   })
 
   test("`indexAll` no return value", async () => {
