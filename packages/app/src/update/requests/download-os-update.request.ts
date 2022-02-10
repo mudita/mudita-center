@@ -14,7 +14,7 @@ export const cancelOsDownload = (interrupt = false) => {
   ipcRenderer.send(PureOsDownloadChannels.cancel, interrupt)
 }
 
-const downloadOsUpdateRequest = async (props: {
+export const downloadOsUpdateRequest = async (props: {
   url: string
   fileName: string
 }): Promise<DownloadFinished> => {
@@ -28,5 +28,3 @@ const downloadOsUpdateRequest = async (props: {
     throw new Error("There was a problem when downloading OS update")
   }
 }
-
-export default downloadOsUpdateRequest

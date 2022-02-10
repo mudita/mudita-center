@@ -119,4 +119,11 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: false,
     [Environment.TestAlphaProduction]: false,
   },
+  [Feature.ProductionReleaseOnly]: {
+    [Environment.Development]: false,
+    [Environment.Production]: true,
+    [Environment.TestProduction]: false,
+    [Environment.AlphaProduction]: false,
+    [Environment.TestAlphaProduction]: false,
+  },
 }
