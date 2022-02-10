@@ -21,7 +21,7 @@ export const PhoneCard = styled(Card)`
     display: flex;
     align-items: flex-end;
     margin-top: auto;
-    margin-bottom: "2.4rem"};
+    margin-bottom: "2.4rem";
     padding: 0 5.3rem;
   }
 `
