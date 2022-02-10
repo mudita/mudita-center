@@ -77,27 +77,6 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: false,
     [Environment.TestAlphaProduction]: false,
   },
-  [Feature.PhoneLockTimer]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.TestProduction]: true,
-    [Environment.AlphaProduction]: true,
-    [Environment.TestAlphaProduction]: true,
-  },
-  [Feature.PureSystem]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.TestProduction]: true,
-    [Environment.AlphaProduction]: true,
-    [Environment.TestAlphaProduction]: true,
-  },
-  [Feature.MCVersion]: {
-    [Environment.Development]: true,
-    [Environment.Production]: true,
-    [Environment.TestProduction]: true,
-    [Environment.AlphaProduction]: true,
-    [Environment.TestAlphaProduction]: true,
-  },
   [Feature.DevelopOnly]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
