@@ -15,8 +15,10 @@ import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapt
 import MockDate from "mockdate"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { DeviceFileSystem } from "Backend/adapters/device-file-system/device-file-system.adapter"
+import { DeviceBaseInfo } from "Backend/adapters/device-base-info/device-base-info.adapter"
 
 jest.mock("Backend/device-service")
+jest.mock("Backend/adapters/device-base-info/device-base-info.adapter")
 jest.mock("Backend/adapters/device-file-system/device-file-system.adapter")
 jest.mock(
   "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
@@ -34,12 +36,14 @@ test("Unlock device returns properly value", async () => {
   })
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystem = new DeviceFileSystem(deviceService)
+  const deviceBaseInfo = new DeviceBaseInfo(deviceService)
   const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
     deviceService
   )
 
   const purePhoneAdapter = createPurePhoneAdapter(
     deviceService,
+    deviceBaseInfo,
     deviceFileSystem,
     deviceFileDiagnosticService
   )
@@ -59,12 +63,14 @@ test("Get unlock device status returns properly value", async () => {
   })
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
   const deviceFileSystem = new DeviceFileSystem(deviceService)
+  const deviceBaseInfo = new DeviceBaseInfo(deviceService)
   const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
     deviceService
   )
 
   const purePhoneAdapter = createPurePhoneAdapter(
     deviceService,
+    deviceBaseInfo,
     deviceFileSystem,
     deviceFileDiagnosticService
   )
@@ -105,30 +111,30 @@ describe("getDeviceLogFiles method", () => {
         }
       }
     )
-    ;(DeviceFileSystem as unknown as jest.Mock).mockImplementation(
-      () => {
-        return {
-          downloadDeviceFiles: () => {
-            return {
-              status: DeviceResponseStatus.Ok,
-              data: [
-                {
-                  data: text1kb,
-                  name: firstFileName,
-                },
-              ],
-            }
-          },
-        }
+    ;(DeviceFileSystem as unknown as jest.Mock).mockImplementation(() => {
+      return {
+        downloadDeviceFiles: () => {
+          return {
+            status: DeviceResponseStatus.Ok,
+            data: [
+              {
+                data: text1kb,
+                name: firstFileName,
+              },
+            ],
+          }
+        },
       }
-    )
+    })
     const deviceFileSystem = new DeviceFileSystem(deviceService)
+    const deviceBaseInfo = new DeviceBaseInfo(deviceService)
     const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
       deviceService
     )
 
     const purePhoneAdapter = createPurePhoneAdapter(
       deviceService,
+      deviceBaseInfo,
       deviceFileSystem,
       deviceFileDiagnosticService
     )
@@ -175,34 +181,34 @@ describe("getDeviceLogFiles method", () => {
         }
       }
     )
-    ;(DeviceFileSystem as unknown as jest.Mock).mockImplementation(
-      () => {
-        return {
-          downloadDeviceFiles: () => {
-            return {
-              status: DeviceResponseStatus.Ok,
-              data: [
-                {
-                  data: text1kb,
-                  name: firstFileName,
-                },
-                {
-                  data: text1kb,
-                  name: secondFileName,
-                },
-              ],
-            }
-          },
-        }
+    ;(DeviceFileSystem as unknown as jest.Mock).mockImplementation(() => {
+      return {
+        downloadDeviceFiles: () => {
+          return {
+            status: DeviceResponseStatus.Ok,
+            data: [
+              {
+                data: text1kb,
+                name: firstFileName,
+              },
+              {
+                data: text1kb,
+                name: secondFileName,
+              },
+            ],
+          }
+        },
       }
-    )
+    })
     const deviceFileSystem = new DeviceFileSystem(deviceService)
+    const deviceBaseInfo = new DeviceBaseInfo(deviceService)
     const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
       deviceService
     )
 
     const purePhoneAdapter = createPurePhoneAdapter(
       deviceService,
+      deviceBaseInfo,
       deviceFileSystem,
       deviceFileDiagnosticService
     )
@@ -231,12 +237,14 @@ describe("getDeviceLogFiles method", () => {
       }
     )
     const deviceFileSystem = new DeviceFileSystem(deviceService)
+    const deviceBaseInfo = new DeviceBaseInfo(deviceService)
     const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
       deviceService
     )
 
     const purePhoneAdapter = createPurePhoneAdapter(
       deviceService,
+      deviceBaseInfo,
       deviceFileSystem,
       deviceFileDiagnosticService
     )
@@ -257,24 +265,24 @@ describe("getDeviceLogFiles method", () => {
         }
       }
     )
-    ;(DeviceFileSystem as unknown as jest.Mock).mockImplementation(
-      () => {
-        return {
-          downloadDeviceFiles: () => {
-            return {
-              status: DeviceResponseStatus.Error,
-            }
-          },
-        }
+    ;(DeviceFileSystem as unknown as jest.Mock).mockImplementation(() => {
+      return {
+        downloadDeviceFiles: () => {
+          return {
+            status: DeviceResponseStatus.Error,
+          }
+        },
       }
-    )
+    })
     const deviceFileSystem = new DeviceFileSystem(deviceService)
+    const deviceBaseInfo = new DeviceBaseInfo(deviceService)
     const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
       deviceService
     )
 
     const purePhoneAdapter = createPurePhoneAdapter(
       deviceService,
+      deviceBaseInfo,
       deviceFileSystem,
       deviceFileDiagnosticService
     )

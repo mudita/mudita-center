@@ -57,7 +57,6 @@ export const PureOverview: FunctionComponent<Props> = ({
   changeSim = noop,
   disconnectDevice = noop,
   osVersion = "",
-  osUpdateDate = "",
   lastAvailableOsVersion,
   updatePhoneOsInfo = noop,
   memorySpace = {
@@ -279,7 +278,6 @@ export const PureOverview: FunctionComponent<Props> = ({
         changeSim={changeSim}
         disconnectDevice={disconnectDevice}
         osVersion={osVersion}
-        osUpdateDate={osUpdateDate}
         memorySpace={memorySpace}
         simCards={simCards}
         networkName={networkName}

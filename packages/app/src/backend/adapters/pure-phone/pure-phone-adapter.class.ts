@@ -6,7 +6,6 @@
 import {
   GetPhoneLockTimeResponseBody,
   MuditaDevice,
-  CaseColour,
   StartRestoreRequestConfigBody,
   GetRestoreDeviceStatusRequestConfigBody,
   GetRestoreDeviceStatusResponseBody,
@@ -19,12 +18,6 @@ export interface DeviceFilesOption {
 }
 
 export default abstract class PurePhoneAdapter {
-  public abstract getName(): string
-  public abstract getModelName(): string
-  public abstract getModelNumber(): string
-  public abstract getSerialNumber(): Promise<DeviceResponse<string>>
-  public abstract getOsVersion(): Promise<DeviceResponse<string>>
-  public abstract getOsUpdateDate(): string
   public abstract disconnectDevice(): Promise<DeviceResponse>
   public abstract connectDevice(): Promise<DeviceResponse<MuditaDevice>>
   public abstract unlockDevice(code: string): Promise<DeviceResponse>
@@ -42,8 +35,6 @@ export default abstract class PurePhoneAdapter {
     DeviceResponse<string[]>
   >
   public abstract updateOs(filePath: string): Promise<DeviceResponse>
-  public abstract getCaseColour(): Promise<DeviceResponse<CaseColour>>
-  public abstract getBackupLocation(): Promise<DeviceResponse<string>>
   public abstract startRestoreDevice(
     config: StartRestoreRequestConfigBody
   ): Promise<DeviceResponse>

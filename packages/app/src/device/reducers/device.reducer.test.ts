@@ -28,7 +28,6 @@ import {
 const pureDeviceMock: PureDeviceData = {
   networkName: "Network",
   networkLevel: "5",
-  osUpdateDate: "2020-01-14T11:31:08.244Z",
   osVersion: "0.75.1",
   batteryLevel: 0.99,
   simCards: [
@@ -52,7 +51,6 @@ const pureDeviceMock: PureDeviceData = {
 }
 
 const harmonyDeviceMock: HarmonyDeviceData = {
-  osUpdateDate: "2020-01-14T11:31:08.244Z",
   osVersion: "0.75.1",
   batteryLevel: 0.99,
   serialNumber: "303",
@@ -315,7 +313,6 @@ describe("Set device data functionality", () => {
       data: {
         networkLevel: "5",
         networkName: "Network",
-        osUpdateDate: "2020-01-14T11:31:08.244Z",
         osVersion: "0.75.1",
         batteryLevel: 0.99,
         simCards: [
@@ -349,7 +346,6 @@ describe("Set device data functionality", () => {
     ).toEqual({
       ...initialState,
       data: {
-        osUpdateDate: "2020-01-14T11:31:08.244Z",
         osVersion: "0.75.1",
         batteryLevel: 0.99,
         serialNumber: "303",
@@ -470,7 +466,6 @@ describe("Update functionality", () => {
         type: DeviceEvent.SetOsVersionData,
         payload: {
           osVersion: "7.7.7",
-          osUpdateDate: "2020-01-14T11:31:08.244Z",
         },
       })
     ).toEqual({
@@ -478,7 +473,6 @@ describe("Update functionality", () => {
       data: {
         ...initialState.data,
         osVersion: "7.7.7",
-        osUpdateDate: "2020-01-14T11:31:08.244Z",
       },
     })
   })
@@ -491,14 +485,12 @@ describe("Update functionality", () => {
           data: {
             ...initialState.data,
             osVersion: "0.0.0",
-            osUpdateDate: "2019-01-14T11:31:08.244Z",
           },
         },
         {
           type: DeviceEvent.SetOsVersionData,
           payload: {
             osVersion: "7.7.7",
-            osUpdateDate: "2020-01-14T11:31:08.244Z",
           },
         }
       )
@@ -507,7 +499,6 @@ describe("Update functionality", () => {
       data: {
         ...initialState.data,
         osVersion: "7.7.7",
-        osUpdateDate: "2020-01-14T11:31:08.244Z",
       },
     })
   })

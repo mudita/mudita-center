@@ -33,7 +33,6 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     deviceType: state.device.deviceType,
     batteryLevel: state.device.data?.batteryLevel,
     osVersion: state.device.data?.osVersion,
-    osUpdateDate: state.device.data?.osUpdateDate,
     memorySpace: state.device.data?.memorySpace,
     serialNumber: state.device.data?.serialNumber,
     simCards: (state.device.data as PureDeviceData)?.simCards,

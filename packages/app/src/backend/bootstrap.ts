@@ -54,33 +54,39 @@ import registerGetRestoreDeviceStatusRequest from "Backend/requests/get-restore-
 import registerDownloadDeviceCrashDumpFiles from "App/backend/requests/download-crash-dump-files/download-crash-dump-files.request"
 import { registerFileSystemRemoveRequest } from "App/device-file-system"
 import { registerDownloadDeviceBackupRequest } from "App/backup-device"
+import createDeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info.adapter"
 
 const bootstrap = (
   deviceManager: MuditaDeviceManager,
   ipcMain: MainProcessIpc
 ): void => {
   const deviceService = createDeviceService(deviceManager, ipcMain)
+  const deviceBaseInfo = createDeviceBaseInfoAdapter(deviceService)
   const deviceFileDiagnosticService =
     createDeviceFileDiagnosticService(deviceService)
   const deviceFileSystem = createDeviceFileSystemAdapter(deviceService)
   const purePhone = createPurePhoneAdapter(
     deviceService,
+    deviceBaseInfo,
     deviceFileSystem,
     deviceFileDiagnosticService
   )
   const deviceBackupService = createDeviceBackupService(deviceService)
   const deviceBackup = createDeviceBackupAdapter(
-    purePhone,
+    deviceBaseInfo,
     deviceBackupService,
     deviceFileSystem
   )
 
-  const indexService = createIndexService(new DataSync(deviceService, deviceBackup))
+  const indexService = createIndexService(
+    new DataSync(deviceService, deviceBackup)
+  )
 
   const adapters = {
     deviceBackup,
     deviceFileSystem,
     purePhone,
+    deviceBaseInfo,
     phonebook: createPhonebook(deviceService),
     pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
     pureNetwork: createPurePhoneNetwork(deviceService),

@@ -27,15 +27,15 @@ export interface CryptoFileOption
 }
 
 interface HashOptions {
-  algorithm: HashAlgorithm
+  algorithm?: HashAlgorithm
   key: string
   encoding?: BinaryToTextEncoding
 }
 
 class CryptoFileService {
   static encrypt({
-    hashAlgorithm = defaultHashAlgorithm,
     cipherAlgorithm = defaultCipherAlgorithm,
+    hashAlgorithm,
     buffer,
     key,
     encoding,
@@ -55,8 +55,8 @@ class CryptoFileService {
   }
 
   static decrypt({
-    hashAlgorithm = defaultHashAlgorithm,
     cipherAlgorithm = defaultCipherAlgorithm,
+    hashAlgorithm,
     buffer,
     key,
     encoding,
@@ -77,8 +77,8 @@ class CryptoFileService {
     return Buffer.concat([decipher.update(buffer), decipher.final()])
   }
 
-  private static createHash({
-    algorithm,
+  static createHash({
+    algorithm = defaultHashAlgorithm,
     key,
     encoding = "base64",
   }: HashOptions) {
