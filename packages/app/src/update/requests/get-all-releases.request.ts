@@ -9,6 +9,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { IpcUpdate } from "App/update/constants"
 import { Product } from "App/main/constants"
 import { Release } from "App/update/types"
+import { flags, Feature } from "App/feature-flags"
 
 interface AllReleasesResponse {
   allReleases: Release[]
@@ -23,9 +24,19 @@ const productsMapper = {
 export const getAllReleases = async (
   deviceType: DeviceType
 ): Promise<AllReleasesResponse> => {
-  const releases: Release[] = await ipcRenderer.callMain<undefined, Release[]>(
-    IpcUpdate.GetAllReleases
-  )
+  const productName = productsMapper[deviceType]
+  let releases: Release[] = []
+
+  if (flags.get(Feature.ProductionReleaseOnly)) {
+    releases = await ipcRenderer.callMain<Product, Release[]>(
+      IpcUpdate.GetProductionReleases,
+      productName
+    )
+  } else {
+    releases = await ipcRenderer.callMain<undefined, Release[]>(
+      IpcUpdate.GetAllReleases
+    )
+  }
 
   const filteredProducts = releases
     .sort((prev: Release, next: Release) => {
@@ -39,7 +50,7 @@ export const getAllReleases = async (
 
       return 0
     })
-    .filter((release) => release.product === productsMapper[deviceType])
+    .filter((release) => release.product === productName)
   const officialReleases = filteredProducts.filter(
     (release) => !release.prerelease
   )
