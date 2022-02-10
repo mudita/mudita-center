@@ -25,7 +25,6 @@ import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
 import Button from "App/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { Type } from "App/renderer/components/core/icon/icon.config"
-import { flags, Feature } from "App/feature-flags"
 import { DeviceImage } from "App/overview/components/device-preview/device-image.component"
 
 const DeviceSystemButton = styled(Button)`
@@ -74,7 +73,7 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
           data-testid={DeviceTestIds.DisconnectButton}
         />
       </CardAction>
-      {flags.get(Feature.PureSystem) && deviceType === DeviceType.MuditaPure && (
+      {deviceType === DeviceType.MuditaPure && (
         <PureSystemButtonContainer>
           <DeviceSystemButton
             label={intl.formatMessage({

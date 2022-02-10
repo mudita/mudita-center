@@ -10,14 +10,13 @@ import { DeviceEvent } from "App/device/constants"
 import getDeviceLockTime from "App/renderer/requests/get-device-lock-time.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { setLockTime } from "App/device/actions/base.action"
-import { flags, Feature } from "App/feature-flags"
 
 export const lockedDevice = createAsyncThunk(
   DeviceEvent.Locked,
   async (_, { getState, dispatch }) => {
     const state = getState() as ReduxRootState
 
-    if (flags.get(Feature.PhoneLockTimer) && state.device.deviceType === DeviceType.MuditaPure) {
+    if (state.device.deviceType === DeviceType.MuditaPure) {
       const response = await getDeviceLockTime()
 
       if (
