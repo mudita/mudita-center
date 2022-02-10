@@ -4,10 +4,10 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { osUpdateAlreadyDownloadedChannel } from "App/main/functions/register-os-update-already-downloaded-checker"
-import { Release } from "App/main/functions/register-get-all-releases-listener"
+import { osUpdateAlreadyDownloadedChannel } from "App/update/requests/register-os-update-already-downloaded-checker.request"
+import { Release } from "App/update/types"
 
-const osUpdateAlreadyDownloadedCheck = (
+export const osUpdateAlreadyDownloadedCheck = (
   file: Release["file"]
 ): Promise<boolean> => {
   return new Promise((resolve, reject) => {
@@ -22,5 +22,3 @@ const osUpdateAlreadyDownloadedCheck = (
     }
   })
 }
-
-export default osUpdateAlreadyDownloadedCheck
