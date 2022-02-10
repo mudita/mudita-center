@@ -20,4 +20,5 @@ export enum Feature {
   DevelopOnly = "development-only",
   ProductionAndAlpha = "production-and-alpha",
   MessagesSearch = "messages-search",
+  ProductionReleaseOnly = "production-release-only",
 }

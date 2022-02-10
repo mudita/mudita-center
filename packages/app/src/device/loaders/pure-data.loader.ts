@@ -19,7 +19,10 @@ export class PureDataLoader extends BaseLoader {
   async load(): Promise<PureData> {
     const state = store.getState() as unknown as ReduxRootState
 
-    if (state.dataSync.state !== SynchronizationState.Loading) {
+    if (
+      state.dataSync.state ===
+      (SynchronizationState.Empty || SynchronizationState.Error)
+    ) {
       store.dispatch(updateAllIndexes())
     }
 

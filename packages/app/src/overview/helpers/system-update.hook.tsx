@@ -25,9 +25,6 @@ import {
   UpdatingSpinnerModal,
   UpdatingSuccessModal,
 } from "App/overview/components/overview-modals.component"
-import downloadOsUpdateRequest, {
-  cancelOsDownload,
-} from "Renderer/requests/download-os-update.request"
 import { PureOsDownloadChannels } from "App/main/functions/register-pure-os-download-listener"
 import {
   DownloadProgress,
@@ -41,6 +38,8 @@ import {
   Release,
   getAllReleases,
   osUpdateAlreadyDownloadedCheck,
+  downloadOsUpdateRequest,
+  cancelOsDownload,
 } from "App/update"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
