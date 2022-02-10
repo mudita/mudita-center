@@ -8,7 +8,7 @@ import { GetBackupDeviceStatusDataState, GetBackupDeviceStatusResponseBody } fro
 import DeviceResponse, { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { isResponsesSuccessWithData } from "Renderer/utils/is-responses-success-with-data.helpers"
 import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
-import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
+import DeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-adapter.class"
 import DeviceFileSystemAdapter, { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
 import logger from "App/main/utils/logger"
@@ -17,7 +17,7 @@ class DeviceBackup implements DeviceBackupAdapter {
   public backuping = false
 
   constructor(
-    private purePhone: PurePhoneAdapter,
+    private deviceBaseInfo: DeviceBaseInfoAdapter,
     private deviceBackupService: DeviceBackupService,
     private deviceFileSystem: DeviceFileSystemAdapter
   ) {}
@@ -112,7 +112,7 @@ class DeviceBackup implements DeviceBackupAdapter {
 
   private async runDeviceBackup(): Promise<DeviceResponse<string>> {
     this.backuping = true
-    const getBackupLocationResponse = await this.purePhone.getBackupLocation()
+    const getBackupLocationResponse = await this.deviceBaseInfo.getDeviceInfo()
 
     if (!isResponsesSuccessWithData([getBackupLocationResponse])) {
       return {
@@ -148,7 +148,7 @@ class DeviceBackup implements DeviceBackupAdapter {
       }
     }
 
-    const filePath = path.join(getBackupLocationResponse.data!, backupId)
+    const filePath = path.join(getBackupLocationResponse.data!.backupLocation, backupId)
 
     return {
       status: DeviceResponseStatus.Ok,
@@ -183,10 +183,10 @@ class DeviceBackup implements DeviceBackupAdapter {
 }
 
 const createDeviceBackupAdapter = (
-  purePhone: PurePhoneAdapter,
+  deviceBaseInfo: DeviceBaseInfoAdapter,
   deviceBackupService: DeviceBackupService,
   deviceFileSystem: DeviceFileSystemAdapter
 ): DeviceBackup =>
-  new DeviceBackup(purePhone, deviceBackupService, deviceFileSystem)
+  new DeviceBackup(deviceBaseInfo, deviceBackupService, deviceFileSystem)
 
 export default createDeviceBackupAdapter

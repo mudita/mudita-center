@@ -4,7 +4,6 @@
  */
 
 import {
-  CaseColour,
   DiagnosticsFileList,
   Endpoint,
   GetBackupDeviceStatusRequestConfigBody,
@@ -27,106 +26,16 @@ import DeviceFileSystemAdapter, {
 } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
+import DeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-adapter.class"
 
 class PurePhone extends PurePhoneAdapter {
-  static osUpdateStepsMax = 3
-  static osUpdateRestartStep = PurePhone.osUpdateStepsMax - 1
   constructor(
     private deviceService: DeviceService,
+    private deviceBaseInfo: DeviceBaseInfoAdapter,
     private deviceFileSystem: DeviceFileSystemAdapter,
     private deviceFileDiagnosticService: DeviceFileDiagnosticService
   ) {
     super()
-  }
-
-  public getModelName(): string {
-    return "Ziemniaczek Puree"
-  }
-
-  public getModelNumber(): string {
-    return "Y0105W4GG1N5"
-  }
-
-  public getName(): string {
-    return "Mudita Pure"
-  }
-
-  //TODO: handle it after add missed fields in API -> https://appnroll.atlassian.net/browse/PDA-590
-  public getOsUpdateDate(): string {
-    return "2020-01-14T11:31:08.244Z"
-  }
-
-  public async getOsVersion(): Promise<DeviceResponse<string>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-
-    if (status === DeviceResponseStatus.Ok && data) {
-      return {
-        status,
-        data: data.version,
-      }
-    } else {
-      return {
-        status,
-        error: { message: "Get os version: Something went wrong" },
-      }
-    }
-  }
-
-  public async getSerialNumber(): Promise<DeviceResponse<string>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-    if (status === DeviceResponseStatus.Ok && data) {
-      return {
-        status,
-        data: data.serialNumber,
-      }
-    } else {
-      return {
-        status,
-        error: { message: "Get serial number: Something went wrong" },
-      }
-    }
-  }
-
-  public async getCaseColour(): Promise<DeviceResponse<CaseColour>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-    if (status === DeviceResponseStatus.Ok && data) {
-      return {
-        status,
-        data: data.caseColour ? data.caseColour : CaseColour.Gray,
-      }
-    } else {
-      return {
-        status,
-        error: { message: "Get case colour: Something went wrong" },
-      }
-    }
-  }
-
-  public async getBackupLocation(): Promise<DeviceResponse<string>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-    if (status === DeviceResponseStatus.Ok && data) {
-      return {
-        status,
-        data: data.backupLocation ? data.backupLocation : "",
-      }
-    } else {
-      return {
-        status,
-        error: { message: "Get backup location: Something went wrong" },
-      }
-    }
   }
 
   public disconnectDevice(): Promise<DeviceResponse> {
@@ -221,7 +130,7 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public async updateOs(filePath: string): Promise<DeviceResponse> {
-    const getDeviceInfoResponse = await this.getOsVersion()
+    const getDeviceInfoResponse = await this.deviceBaseInfo.getDeviceInfo()
 
     if (
       getDeviceInfoResponse.status !== DeviceResponseStatus.Ok ||
@@ -233,7 +142,7 @@ class PurePhone extends PurePhoneAdapter {
       }
     }
 
-    const beforeUpdateOsVersion = getDeviceInfoResponse.data
+    const beforeUpdateOsVersion = getDeviceInfoResponse.data.osVersion
 
     const fileResponse = await this.deviceFileSystem.uploadFileLocally({
       filePath,
@@ -275,7 +184,8 @@ class PurePhone extends PurePhoneAdapter {
       return deviceUnlockedResponse
     }
 
-    const afterUpdateGetDeviceInfoResponse = await this.getOsVersion()
+    const afterUpdateGetDeviceInfoResponse =
+      await this.deviceBaseInfo.getDeviceInfo()
 
     if (
       afterUpdateGetDeviceInfoResponse.status !== DeviceResponseStatus.Ok ||
@@ -287,7 +197,7 @@ class PurePhone extends PurePhoneAdapter {
       }
     }
 
-    const afterUpdateOsVersion = afterUpdateGetDeviceInfoResponse.data
+    const afterUpdateOsVersion = afterUpdateGetDeviceInfoResponse.data.osVersion
 
     if (beforeUpdateOsVersion === afterUpdateOsVersion) {
       return {
@@ -449,9 +359,15 @@ class PurePhone extends PurePhoneAdapter {
 
 const createPurePhoneAdapter = (
   deviceService: DeviceService,
+  deviceBaseInfo: DeviceBaseInfoAdapter,
   deviceFileSystem: DeviceFileSystemAdapter,
   deviceFileDiagnosticService: DeviceFileDiagnosticService
 ): PurePhoneAdapter =>
-  new PurePhone(deviceService, deviceFileSystem, deviceFileDiagnosticService)
+  new PurePhone(
+    deviceService,
+    deviceBaseInfo,
+    deviceFileSystem,
+    deviceFileDiagnosticService
+  )
 
 export default createPurePhoneAdapter

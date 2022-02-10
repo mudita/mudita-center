@@ -18,6 +18,7 @@ import createFakePurePhoneMessagesAdapter from "Backend/adapters/pure-phone-mess
 import { SettingsUpdateOption } from "App/main/store/settings.interface"
 import createFakeDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system-fake.adapter"
 import createFakeDeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-fake.adapter"
+import createFakeDeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-fake.adapter"
 
 type FakeAdaptersProps = PhonebookFakeAdapterProps & {
   updateOption: SettingsUpdateOption
@@ -28,6 +29,7 @@ const getFakeAdapters = ({
 }: Partial<FakeAdaptersProps> = {}): Adapters => ({
   app: createFakeElectronAppAdapter(),
   deviceBackup: createFakeDeviceBackupAdapter(),
+  deviceBaseInfo: createFakeDeviceBaseInfoAdapter(),
   deviceFileSystem: createFakeDeviceFileSystemAdapter(),
   appSettings: createFakeAppSettingsAdapter(updateOption),
   purePhone: createFakePurePhoneAdapter(),

@@ -19,7 +19,6 @@ import {
 export interface PureDeviceData {
   networkName: string
   networkLevel: string
-  osUpdateDate?: string
   osVersion: string
   batteryLevel: number
   simCards: SimCard[]
@@ -35,7 +34,6 @@ export interface PureDeviceData {
 }
 
 export interface HarmonyDeviceData {
-  osUpdateDate?: string
   osVersion: string
   batteryLevel: number
   serialNumber: string
@@ -60,7 +58,6 @@ export interface DeviceState {
 
 export interface OsVersionPayload {
   osVersion: string
-  osUpdateDate: string
 }
 
 export type ConnectedFulfilledAction = PayloadAction<
