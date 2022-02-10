@@ -6,4 +6,5 @@
 export enum MuditaCenterServerRoutes {
   News = "news",
   Help = "help",
+  GetRelease = "get-release",
 }
