@@ -104,6 +104,7 @@ export const config: WebdriverIO.Config = {
       // acceptInsecureCerts: true,
       "goog:chromeOptions": {
         binary: process.env.TEST_BINARY_PATH,
+        args: ["--headless", "--no-sandbox"],
       },
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
