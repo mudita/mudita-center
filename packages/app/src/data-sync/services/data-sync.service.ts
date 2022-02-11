@@ -24,12 +24,21 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
 
 const syncCatalogName = "sync"
+const cacheCatalogName = "cache"
+const cacheFileDir = path.join(getAppPath(), cacheCatalogName)
+
+const cacheFilePaths: Record<DataIndex, string> = {
+  [DataIndex.Contact]: path.join(cacheFileDir, "contacts.json"),
+  [DataIndex.Message]: path.join(cacheFileDir, "messages.json"),
+  [DataIndex.Thread]: path.join(cacheFileDir, "threads.json"),
+}
 
 export class DataSync implements DataSyncClass {
   private token = ""
   private contactIndexer: ContactIndexer | null = null
   private messageIndexer: MessageIndexer | null = null
   private threadIndexer: ThreadIndexer | null = null
+  private syncFileSystemService: SyncFileSystemService | null = null
   public indexesMap: Map<DataIndex, Index<any>> = new Map()
 
   constructor(
@@ -40,17 +49,17 @@ export class DataSync implements DataSyncClass {
   initialize(token: string): void {
     this.token = token
 
-    const syncFileSystemService = new SyncFileSystemService(token)
+    this.syncFileSystemService = new SyncFileSystemService(token)
     this.contactIndexer = new ContactIndexer(
-      syncFileSystemService,
+      this.syncFileSystemService,
       new ContactPresenter()
     )
     this.messageIndexer = new MessageIndexer(
-      syncFileSystemService,
+      this.syncFileSystemService,
       new MessagePresenter()
     )
     this.threadIndexer = new ThreadIndexer(
-      syncFileSystemService,
+      this.syncFileSystemService,
       new ThreadPresenter()
     )
   }
@@ -68,11 +77,15 @@ export class DataSync implements DataSyncClass {
       return
     }
 
-    const fileDir = path.join(getAppPath(), syncCatalogName)
+    if (!this.syncFileSystemService) {
+      return
+    }
+
+    const syncFileDir = path.join(getAppPath(), syncCatalogName)
     const { status, data } = await this.deviceBackup.downloadDeviceBackup({
       token: this.token,
       extract: true,
-      cwd: fileDir,
+      cwd: syncFileDir,
     })
 
     if (status !== DeviceResponseStatus.Ok || data === undefined) {
@@ -80,9 +93,22 @@ export class DataSync implements DataSyncClass {
     }
 
     try {
-      const contactIndex = await this.contactIndexer.index(fileDir)
-      const messageIndex = await this.messageIndexer.index(fileDir)
-      const threadIndex = await this.threadIndexer.index(fileDir)
+      const contactIndex = await this.contactIndexer.index(syncFileDir)
+      const messageIndex = await this.messageIndexer.index(syncFileDir)
+      const threadIndex = await this.threadIndexer.index(syncFileDir)
+
+      this.syncFileSystemService.writeFileSync(
+        cacheFilePaths[DataIndex.Contact],
+        contactIndex
+      )
+      this.syncFileSystemService.writeFileSync(
+        cacheFilePaths[DataIndex.Message],
+        messageIndex
+      )
+      this.syncFileSystemService.writeFileSync(
+        cacheFilePaths[DataIndex.Thread],
+        threadIndex
+      )
 
       this.indexesMap.set(DataIndex.Contact, contactIndex)
       this.indexesMap.set(DataIndex.Message, messageIndex)

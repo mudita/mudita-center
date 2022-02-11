@@ -17,4 +17,18 @@ export class SyncFileSystemService {
       return null
     }
   }
+
+  writeFileSync(filePath: string, data: Object): void {
+    const buffer = Buffer.from(JSON.stringify(data))
+    const encryptedBuffer = CryptoFileService.encryptViaToken({
+      buffer,
+      token: this.token,
+    })
+
+    if (encryptedBuffer === undefined) {
+      throw new Error("Encryption fails")
+    }
+
+    fs.writeFileSync(filePath, encryptedBuffer)
+  }
 }
