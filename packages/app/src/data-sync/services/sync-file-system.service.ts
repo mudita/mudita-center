@@ -4,6 +4,7 @@
  */
 
 import fs from "fs"
+import { SerialisedIndexData } from "elasticlunr"
 import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
 
 export class SyncFileSystemService {
@@ -18,8 +19,8 @@ export class SyncFileSystemService {
     }
   }
 
-  writeFileSync(filePath: string, data: Object): void {
-    const buffer = Buffer.from(JSON.stringify(data))
+  writeIndexSync(filePath: string, index: SerialisedIndexData<any>): void {
+    const buffer = Buffer.from(JSON.stringify(index))
     const encryptedBuffer = CryptoFileService.encryptViaToken({
       buffer,
       token: this.token,
@@ -30,5 +31,11 @@ export class SyncFileSystemService {
     }
 
     fs.writeFileSync(filePath, encryptedBuffer)
+  }
+
+  readIndexSync(filePath: string): SerialisedIndexData<any> {
+    const index = this.readFileSync(filePath)
+
+    return JSON.parse(index as unknown as string)
   }
 }

@@ -15,14 +15,14 @@ import {
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
 import { fulfilledAction, rejectedAction } from "Renderer/store/helpers"
-import { DataSyncEvent } from "App/data-sync"
-import { UpdateAllIndexesError } from "App/data-sync/errors"
+import { DataSyncEvent } from "App/data-sync/constants"
+import { ReadAllIndexesError } from "App/data-sync/errors"
 
-describe("UpdateAllIndexes data functionality", () => {
-  test("Event: UpdateAllIndexes/fulfilled change `resultState` to Loaded", () => {
+describe("ReadAllIndexes data functionality", () => {
+  test("Event: ReadAllIndexes/fulfilled change `resultState` to Loaded", () => {
     expect(
       contactsReducer(undefined, {
-        type: fulfilledAction(DataSyncEvent.UpdateAllIndexes),
+        type: fulfilledAction(DataSyncEvent.ReadAllIndexes),
         payload: {
           contacts: {
             "4": {
@@ -55,12 +55,12 @@ describe("UpdateAllIndexes data functionality", () => {
     })
   })
 
-  test("Event: UpdateAllIndexes/rejected change `resultState` to Error", () => {
-    const errorMock = new UpdateAllIndexesError("I'm error")
+  test("Event: ReadAllIndexes/rejected change `resultState` to Error", () => {
+    const errorMock = new ReadAllIndexesError("I'm error")
 
     expect(
       contactsReducer(undefined, {
-        type: rejectedAction(DataSyncEvent.UpdateAllIndexes),
+        type: rejectedAction(DataSyncEvent.ReadAllIndexes),
         payload: errorMock,
       })
     ).toEqual({

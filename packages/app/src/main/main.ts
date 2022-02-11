@@ -80,7 +80,7 @@ import {
   registerMetadataGetValueListener,
   registerMetadataSetValueListener,
 } from "App/metadata"
-import { registerGetIndexListener } from "App/data-sync"
+import { registerGetIndexListener } from "App/data-sync/listeners"
 import { registerIndexAllListener } from "App/data-sync/listeners/index-all.listener"
 import { registerGetAllReleasesListener } from "App/update/listeners/get-all-releases.listener"
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests/register-os-update-already-downloaded-checker.request"

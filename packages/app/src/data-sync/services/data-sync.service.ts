@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Index } from "elasticlunr"
+import { SerialisedIndexData } from "elasticlunr"
 import {
   ContactIndexer,
   MessageIndexer,
@@ -39,14 +39,14 @@ export class DataSync implements DataSyncClass {
   private messageIndexer: MessageIndexer | null = null
   private threadIndexer: ThreadIndexer | null = null
   private syncFileSystemService: SyncFileSystemService | null = null
-  public indexesMap: Map<DataIndex, Index<any>> = new Map()
+  public indexesMap: Map<DataIndex, SerialisedIndexData<any>> = new Map()
 
   constructor(
     private deviceService: DeviceService,
     private deviceBackup: DeviceBackupAdapter
   ) {}
 
-  initialize(token: string): void {
+  async initialize(token: string): Promise<boolean> {
     this.token = token
 
     this.syncFileSystemService = new SyncFileSystemService(token)
@@ -62,6 +62,7 @@ export class DataSync implements DataSyncClass {
       this.syncFileSystemService,
       new ThreadPresenter()
     )
+    return await this.loadsIndexesFromCache()
   }
 
   async indexAll(): Promise<void> {
@@ -97,24 +98,54 @@ export class DataSync implements DataSyncClass {
       const messageIndex = await this.messageIndexer.index(syncFileDir)
       const threadIndex = await this.threadIndexer.index(syncFileDir)
 
-      this.syncFileSystemService.writeFileSync(
+      const serialisedContactIndex = contactIndex.toJSON()
+      const serialisedMessageIndex = messageIndex.toJSON()
+      const serialisedThreadIndex = threadIndex.toJSON()
+
+      this.syncFileSystemService.writeIndexSync(
         cacheFilePaths[DataIndex.Contact],
-        contactIndex
+        serialisedContactIndex
       )
-      this.syncFileSystemService.writeFileSync(
+      this.syncFileSystemService.writeIndexSync(
         cacheFilePaths[DataIndex.Message],
-        messageIndex
+        serialisedMessageIndex
       )
-      this.syncFileSystemService.writeFileSync(
+      this.syncFileSystemService.writeIndexSync(
         cacheFilePaths[DataIndex.Thread],
-        threadIndex
+        serialisedThreadIndex
+      )
+
+      this.indexesMap.set(DataIndex.Contact, serialisedContactIndex)
+      this.indexesMap.set(DataIndex.Message, serialisedMessageIndex)
+      this.indexesMap.set(DataIndex.Thread, serialisedThreadIndex)
+    } catch (error) {
+      console.log("ERROR: ", error)
+    }
+  }
+
+  private async loadsIndexesFromCache(): Promise<boolean> {
+    if (!this.syncFileSystemService) {
+      return false
+    }
+
+    try {
+      const contactIndex = this.syncFileSystemService.readIndexSync(
+        cacheFilePaths[DataIndex.Contact]
+      )
+      const messageIndex = this.syncFileSystemService.readIndexSync(
+        cacheFilePaths[DataIndex.Message]
+      )
+      const threadIndex = this.syncFileSystemService.readIndexSync(
+        cacheFilePaths[DataIndex.Thread]
       )
 
       this.indexesMap.set(DataIndex.Contact, contactIndex)
       this.indexesMap.set(DataIndex.Message, messageIndex)
       this.indexesMap.set(DataIndex.Thread, threadIndex)
-    } catch (error) {
-      console.log("ERROR: ", error)
+
+      return true
+    } catch {
+      return false
     }
   }
 }

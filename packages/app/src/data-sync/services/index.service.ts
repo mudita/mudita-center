@@ -11,8 +11,8 @@ import { IndexClass } from "App/data-sync/services/index-class.interface"
 export class IndexService implements IndexClass {
   constructor(private dataSync: DataSyncClass) {}
 
-  initialize(token: string): void {
-    this.dataSync.initialize(token)
+  initialize(token: string): Promise<boolean> {
+    return this.dataSync.initialize(token)
   }
 
   indexAll(): Promise<void> {
@@ -20,6 +20,6 @@ export class IndexService implements IndexClass {
   }
 
   getIndex(indexName: DataIndex): SerialisedIndexData<unknown> | undefined {
-    return this.dataSync.indexesMap.get(indexName)?.toJSON()
+    return this.dataSync.indexesMap.get(indexName)
   }
 }

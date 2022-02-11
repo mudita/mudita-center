@@ -5,3 +5,4 @@
 
 export * from "./get-index.request"
 export * from "./index-all.request"
+export * from "./initialize-data-sync.request"

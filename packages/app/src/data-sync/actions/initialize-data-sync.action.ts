@@ -5,13 +5,20 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DataSyncEvent } from "App/data-sync/constants"
-import { initializeDataSyncRequest } from "App/data-sync/requests/initialize-data-sync.request"
-import { updateAllIndexes } from "App/data-sync"
+import { initializeDataSyncRequest } from "App/data-sync/requests"
+import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
+import { readAllIndexes } from "App/data-sync/actions/read-all-indexes.action"
+import { setCacheState } from "App/data-sync/actions/base-app.action"
 
 export const initializeDataSync = createAsyncThunk<void, string>(
   DataSyncEvent.InitializeDataSync,
   async (token: string, { dispatch }) => {
-    await initializeDataSyncRequest(token)
+    const cache = await initializeDataSyncRequest(token)
     dispatch(updateAllIndexes())
+
+    if (cache) {
+      dispatch(readAllIndexes())
+      dispatch(setCacheState())
+    }
   }
 )

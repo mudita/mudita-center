@@ -10,7 +10,7 @@ import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import { DeviceLoadingError } from "App/device/errors"
 import { PureDeviceData } from "App/device/reducers/device.interface"
-import { SynchronizationState } from "App/data-sync"
+import { SynchronizationState } from "App/data-sync/reducers"
 import store, { ReduxRootState } from "Renderer/store/index"
 import { initializeDataSync } from "App/data-sync/actions/initialize-data-sync.action"
 

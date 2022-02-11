@@ -2,8 +2,9 @@
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
-
-import { DataIndex, DataSyncClass, IndexService } from "App/data-sync"
+import { DataSyncClass } from "App/data-sync/services/data-sync-class.interface"
+import { IndexService } from "App/data-sync/services/index.service"
+import { DataIndex } from "App/data-sync/constants"
 
 const dataSyncService: DataSyncClass = {
   indexesMap: new Map(),

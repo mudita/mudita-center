@@ -4,6 +4,9 @@
  */
 
 import { createAction } from "@reduxjs/toolkit"
-import { DataSyncEvent } from "App/data-sync"
+import { DataSyncEvent } from "App/data-sync/constants"
 
-export const setDataSyncInitialized = createAction(DataSyncEvent.SetDataSyncInitialized)
+export const setDataSyncInitialized = createAction(
+  DataSyncEvent.SetDataSyncInitialized
+)
+export const setCacheState = createAction(DataSyncEvent.SetCacheState)

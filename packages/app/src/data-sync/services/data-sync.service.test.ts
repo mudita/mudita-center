@@ -5,7 +5,7 @@
 
 import MuditaDeviceManager from "@mudita/pure"
 import { ipcMain } from "electron-better-ipc"
-import { DataSync } from "App/data-sync"
+import { DataSync } from "App/data-sync/services/data-sync.service"
 import DeviceService from "Backend/device-service"
 import createFakeDeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-fake.adapter"
 import { ContactIndexer } from "App/data-sync/indexes"

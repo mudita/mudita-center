@@ -8,6 +8,6 @@ import { IpcDataSyncEvent } from "App/data-sync/constants"
 
 export const initializeDataSyncRequest = async (
   token: string
-): Promise<void> => {
+): Promise<boolean> => {
   return ipcRenderer.callMain(IpcDataSyncEvent.InitializeDataSync, token)
 }

@@ -2,12 +2,11 @@
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
-
+import { DataSyncClass } from "App/data-sync/services"
 import {
   createIndexService,
-  DataSyncClass,
   getIndexService,
-} from "App/data-sync"
+} from "App/data-sync/containers/index-service.container"
 
 const dataSyncService: DataSyncClass = {
   indexesMap: new Map(),
