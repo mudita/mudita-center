@@ -5,9 +5,10 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcDataSyncEvent } from "App/data-sync/constants"
+import { InitializeOptions } from "App/data-sync/types"
 
 export const initializeDataSyncRequest = async (
-  token: string
+  options: InitializeOptions
 ): Promise<boolean> => {
-  return ipcRenderer.callMain(IpcDataSyncEvent.InitializeDataSync, token)
+  return ipcRenderer.callMain(IpcDataSyncEvent.InitializeDataSync, options)
 }

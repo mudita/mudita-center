@@ -22,19 +22,20 @@ import path from "path"
 import getAppPath from "App/main/utils/get-app-path"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
+import { InitializeOptions } from "App/data-sync/types"
+import { SyncFileSystemServiceFactory } from "App/data-sync/services/sync-file-system-service-factory"
 
 const syncCatalogName = "sync"
 const cacheCatalogName = "cache"
-const cacheFileDir = path.join(getAppPath(), cacheCatalogName)
-
-const cacheFilePaths: Record<DataIndex, string> = {
-  [DataIndex.Contact]: path.join(cacheFileDir, "contacts.json"),
-  [DataIndex.Message]: path.join(cacheFileDir, "messages.json"),
-  [DataIndex.Thread]: path.join(cacheFileDir, "threads.json"),
+const cacheFileNamse: Record<DataIndex, string> = {
+  [DataIndex.Contact]: "contacts.json",
+  [DataIndex.Message]: "messages.json",
+  [DataIndex.Thread]: "threads.json",
 }
 
 export class DataSync implements DataSyncClass {
   private token = ""
+  private serialNumber = ""
   private contactIndexer: ContactIndexer | null = null
   private messageIndexer: MessageIndexer | null = null
   private threadIndexer: ThreadIndexer | null = null
@@ -46,10 +47,19 @@ export class DataSync implements DataSyncClass {
     private deviceBackup: DeviceBackupAdapter
   ) {}
 
-  async initialize(token: string): Promise<boolean> {
+  async initialize({
+    token,
+    serialNumber,
+  }: InitializeOptions): Promise<boolean> {
     this.token = token
+    this.serialNumber = serialNumber
+    this.initializeAllIndexers(token)
 
-    this.syncFileSystemService = new SyncFileSystemService(token)
+    return await this.loadsIndexesFromCache()
+  }
+
+  initializeAllIndexers(token: string): void {
+    this.syncFileSystemService = SyncFileSystemServiceFactory.create(token)
     this.contactIndexer = new ContactIndexer(
       this.syncFileSystemService,
       new ContactPresenter()
@@ -62,7 +72,6 @@ export class DataSync implements DataSyncClass {
       this.syncFileSystemService,
       new ThreadPresenter()
     )
-    return await this.loadsIndexesFromCache()
   }
 
   async indexAll(): Promise<void> {
@@ -98,26 +107,22 @@ export class DataSync implements DataSyncClass {
       const messageIndex = await this.messageIndexer.index(syncFileDir)
       const threadIndex = await this.threadIndexer.index(syncFileDir)
 
-      const serialisedContactIndex = contactIndex.toJSON()
-      const serialisedMessageIndex = messageIndex.toJSON()
-      const serialisedThreadIndex = threadIndex.toJSON()
-
       this.syncFileSystemService.writeIndexSync(
-        cacheFilePaths[DataIndex.Contact],
-        serialisedContactIndex
+        this.getCacheFilePath(DataIndex.Contact),
+        contactIndex
       )
       this.syncFileSystemService.writeIndexSync(
-        cacheFilePaths[DataIndex.Message],
-        serialisedMessageIndex
+        this.getCacheFilePath(DataIndex.Message),
+        messageIndex
       )
       this.syncFileSystemService.writeIndexSync(
-        cacheFilePaths[DataIndex.Thread],
-        serialisedThreadIndex
+        this.getCacheFilePath(DataIndex.Thread),
+        threadIndex
       )
 
-      this.indexesMap.set(DataIndex.Contact, serialisedContactIndex)
-      this.indexesMap.set(DataIndex.Message, serialisedMessageIndex)
-      this.indexesMap.set(DataIndex.Thread, serialisedThreadIndex)
+      this.indexesMap.set(DataIndex.Contact, contactIndex)
+      this.indexesMap.set(DataIndex.Message, messageIndex)
+      this.indexesMap.set(DataIndex.Thread, threadIndex)
     } catch (error) {
       console.log("ERROR: ", error)
     }
@@ -130,13 +135,13 @@ export class DataSync implements DataSyncClass {
 
     try {
       const contactIndex = this.syncFileSystemService.readIndexSync(
-        cacheFilePaths[DataIndex.Contact]
+        this.getCacheFilePath(DataIndex.Contact)
       )
       const messageIndex = this.syncFileSystemService.readIndexSync(
-        cacheFilePaths[DataIndex.Message]
+        this.getCacheFilePath(DataIndex.Message)
       )
       const threadIndex = this.syncFileSystemService.readIndexSync(
-        cacheFilePaths[DataIndex.Thread]
+        this.getCacheFilePath(DataIndex.Thread)
       )
 
       this.indexesMap.set(DataIndex.Contact, contactIndex)
@@ -147,5 +152,13 @@ export class DataSync implements DataSyncClass {
     } catch {
       return false
     }
+  }
+
+  private getCacheFilePath(dataIndex: DataIndex): string {
+    return path.join(
+      path.join(getAppPath(), cacheCatalogName),
+      this.serialNumber,
+      cacheFileNamse[dataIndex]
+    )
   }
 }

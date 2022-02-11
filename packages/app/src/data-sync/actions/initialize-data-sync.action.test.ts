@@ -10,6 +10,7 @@ import { initializeDataSyncRequest } from "App/data-sync/requests"
 import { pendingAction } from "Renderer/store"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { initializeDataSync } from "App/data-sync/actions/initialize-data-sync.action"
+import { InitializeOptions } from "App/data-sync/types"
 
 jest.mock("App/data-sync/requests/initialize-data-sync.request.ts")
 jest.mock("App/data-sync/actions/update-all-indexes.action", () => ({
@@ -25,7 +26,11 @@ jest.mock("App/data-sync/actions/read-all-indexes.action", () => ({
   }),
 }))
 
-const token = "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa"
+const options: InitializeOptions = {
+  token: "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa",
+  serialNumber: "1UB13213MN14K1",
+}
+
 
 describe("async `initializeDataSync` ", () => {
   describe("when initializeDataSyncRequest return false", () => {
@@ -37,16 +42,16 @@ describe("async `initializeDataSync` ", () => {
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        initializeDataSync(token) as unknown as AnyAction
+        initializeDataSync(options) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        initializeDataSync.pending(requestId, token),
+        initializeDataSync.pending(requestId, options),
         {
           type: pendingAction(DataSyncEvent.UpdateAllIndexes),
           payload: undefined,
         },
-        initializeDataSync.fulfilled(undefined, requestId, token),
+        initializeDataSync.fulfilled(undefined, requestId, options),
       ])
 
       expect(initializeDataSyncRequest).toHaveBeenCalled()
@@ -62,11 +67,11 @@ describe("async `initializeDataSync` ", () => {
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        initializeDataSync(token) as unknown as AnyAction
+        initializeDataSync(options) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        initializeDataSync.pending(requestId, token),
+        initializeDataSync.pending(requestId, options),
         {
           type: pendingAction(DataSyncEvent.UpdateAllIndexes),
           payload: undefined,
@@ -78,7 +83,7 @@ describe("async `initializeDataSync` ", () => {
         {
           type: DataSyncEvent.SetCacheState,
         },
-        initializeDataSync.fulfilled(undefined, requestId, token),
+        initializeDataSync.fulfilled(undefined, requestId, options),
       ])
 
       expect(initializeDataSyncRequest).toHaveBeenCalled()

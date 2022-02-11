@@ -6,13 +6,14 @@
 import { ipcMain } from "electron-better-ipc"
 import { IpcDataSyncEvent } from "App/data-sync/constants"
 import { getIndexService } from "App/data-sync/containers"
+import { InitializeOptions } from "App/data-sync/types"
 
 export const registerInitializeDataSyncListener = (): void => {
-  ipcMain.answerRenderer<string, boolean>(
+  ipcMain.answerRenderer<InitializeOptions, boolean>(
     IpcDataSyncEvent.InitializeDataSync,
-    async (token: string) => {
+    async (options: InitializeOptions) => {
       const indexService = getIndexService()
-      return indexService?.initialize(token) ?? false
+      return indexService?.initialize(options) ?? false
     }
   )
 }

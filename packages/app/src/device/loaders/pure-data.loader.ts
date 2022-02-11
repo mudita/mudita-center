@@ -44,7 +44,12 @@ export class PureDataLoader extends BaseLoader {
       state.dataSync.state ===
       (SynchronizationState.Empty || SynchronizationState.Error)
     ) {
-      store.dispatch(initializeDataSync(info.data!.deviceToken))
+      store.dispatch(
+        initializeDataSync({
+          token: info.data!.deviceToken,
+          serialNumber: info.data!.serialNumber,
+        })
+      )
     }
 
     return {

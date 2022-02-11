@@ -9,11 +9,12 @@ import { initializeDataSyncRequest } from "App/data-sync/requests"
 import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
 import { readAllIndexes } from "App/data-sync/actions/read-all-indexes.action"
 import { setCacheState } from "App/data-sync/actions/base-app.action"
+import { InitializeOptions } from "App/data-sync/types"
 
-export const initializeDataSync = createAsyncThunk<void, string>(
+export const initializeDataSync = createAsyncThunk<void, InitializeOptions>(
   DataSyncEvent.InitializeDataSync,
-  async (token: string, { dispatch }) => {
-    const cache = await initializeDataSyncRequest(token)
+  async (options: InitializeOptions, { dispatch }) => {
+    const cache = await initializeDataSyncRequest(options)
     dispatch(updateAllIndexes())
 
     if (cache) {
