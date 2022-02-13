@@ -16,10 +16,24 @@ const Wrapper = styled.div`
   justify-items: stretch;
 `
 
-storiesOf("Components/Connecting", module).add("Connecting", () => {
-  return (
-    <Wrapper>
-      <ConnectingContent onCancel={action("Cancel")} />
-    </Wrapper>
-  )
-})
+storiesOf("Components/Connecting", module)
+  .add("Connecting", () => {
+    return (
+      <Wrapper>
+        <ConnectingContent
+          longerConnection={false}
+          onCancel={action("Cancel")}
+        />
+      </Wrapper>
+    )
+  })
+  .add("Longer Connecting", () => {
+    return (
+      <Wrapper>
+        <ConnectingContent
+          longerConnection={true}
+          onCancel={action("Cancel")}
+        />
+      </Wrapper>
+    )
+  })
