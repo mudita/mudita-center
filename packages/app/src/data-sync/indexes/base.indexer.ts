@@ -18,6 +18,10 @@ export abstract class BaseIndexer {
   }
 
   public async getData(filePath: string): Promise<Buffer | undefined | null> {
-    return this.syncFileSystemService.readFileSync(filePath)
+    try {
+      return this.syncFileSystemService.readFileSync(filePath)
+    } catch {
+      return null
+    }
   }
 }

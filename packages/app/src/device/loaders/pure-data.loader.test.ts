@@ -5,7 +5,7 @@
 
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import { SynchronizationState } from "App/data-sync"
+import { SynchronizationState } from "App/data-sync/reducers"
 import { PureDataLoader } from "App/device/loaders/pure-data.loader"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"

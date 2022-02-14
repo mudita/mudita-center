@@ -5,7 +5,7 @@
 
 import path from "path"
 import { Database } from "sql.js"
-import elasticlunr, { Index } from "elasticlunr"
+import elasticlunr, { Index, SerialisedIndexData } from "elasticlunr"
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import { ContactTable } from "App/data-sync/constants"
 import {
@@ -23,14 +23,10 @@ export class ContactIndexer extends BaseIndexer {
     super(syncFileSystemService)
   }
 
-  async index(fileDir: string): Promise<Index<ContactObject>> {
+  async index(fileDir: string): Promise<SerialisedIndexData<ContactObject>> {
     const db = await this.initTmpDatabase(fileDir)
-    try {
-      const object = this.dataPresenter.serializeToObject(this.loadTables(db))
-      return this.createIndex(object)
-    } catch (e) {
-      return this.createIndex([])
-    }
+    const object = this.dataPresenter.serializeToObject(this.loadTables(db))
+    return this.createIndex(object).toJSON()
   }
 
   private createIndex(data: ContactObject[]): Index<ContactObject> {

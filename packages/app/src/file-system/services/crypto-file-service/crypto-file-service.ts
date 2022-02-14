@@ -104,6 +104,20 @@ class CryptoFileService {
     return Buffer.concat([decipher.update(buffer), decipher.final()])
   }
 
+  static encryptViaToken({
+    cipherAlgorithm = defaultCipherAlgorithm,
+    buffer,
+    token,
+  }: CryptoFileViaTokenOptions): Buffer | undefined {
+    const iv = crypto.randomBytes(16)
+    const cipher = CryptoFileService.createCipherivViaToken({
+      token,
+      iv,
+      cipherAlgorithm,
+    })
+    return Buffer.concat([iv, cipher.update(buffer), cipher.final()])
+  }
+
   static createCipheriv({
     hashAlgorithm,
     key,

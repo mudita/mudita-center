@@ -19,7 +19,7 @@ describe("`ThreadIndexer`", () => {
     )
     const index = await indexer.index("./src/testing-support/mocks/")
 
-    expect(index.documentStore.getDoc(1)).toMatchInlineSnapshot(`
+    expect(index.documentStore.docs[1]).toMatchInlineSnapshot(`
       Object {
         "id": "1",
         "lastUpdatedAt": 1970-01-01T00:06:31.000Z,

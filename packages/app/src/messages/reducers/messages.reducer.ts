@@ -30,7 +30,7 @@ import {
 } from "App/messages/reducers/messages.interface"
 import { MessagesEvent } from "App/messages/constants"
 import { DataSyncEvent } from "App/data-sync/constants"
-import { UpdateAllIndexesAction } from "App/data-sync/reducers"
+import { ReadAllIndexesAction } from "App/data-sync/reducers"
 
 export const initialState: MessagesState = {
   threadMap: {},
@@ -274,8 +274,8 @@ export const messagesReducer = createReducer<MessagesState>(
       })
 
       .addCase(
-        fulfilledAction(DataSyncEvent.UpdateAllIndexes),
-        (state, action: UpdateAllIndexesAction) => {
+        fulfilledAction(DataSyncEvent.ReadAllIndexes),
+        (state, action: ReadAllIndexesAction) => {
           return {
             ...state,
             threadMap: action.payload.threads,

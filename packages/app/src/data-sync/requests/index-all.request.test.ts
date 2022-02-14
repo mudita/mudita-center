@@ -5,7 +5,7 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcDataSyncEvent } from "App/data-sync/constants"
-import { indexAllRequest } from "App/data-sync"
+import { indexAllRequest } from "App/data-sync/requests/index-all.request"
 
 describe("`indexAllRequest`", () => {
   test("return properly value", async () => {

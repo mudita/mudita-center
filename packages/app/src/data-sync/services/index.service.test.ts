@@ -3,7 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DataIndex, DataSyncClass, IndexService } from "App/data-sync"
+import { DataSyncClass } from "App/data-sync/services/data-sync-class.interface"
+import { IndexService } from "App/data-sync/services/index.service"
+import { DataIndex } from "App/data-sync/constants"
+import { InitializeOptions } from "App/data-sync/types"
 
 const dataSyncService: DataSyncClass = {
   indexesMap: new Map(),
@@ -12,12 +15,16 @@ const dataSyncService: DataSyncClass = {
 }
 
 const token = "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa"
+const options: InitializeOptions = {
+  token,
+  serialNumber: "1UB13213MN14K1",
+}
 
 describe("`IndexService`", () => {
   test("`initialize` no return value", () => {
     const indexService = new IndexService(dataSyncService)
 
-    expect(indexService.initialize(token)).toBeUndefined()
+    expect(indexService.initialize(options)).toBeUndefined()
   })
 
   test("`indexAll` no return value", async () => {

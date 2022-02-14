@@ -33,11 +33,11 @@ test("fire async `unlockedDevice` call `loadDeviceData` action if device is `loc
       status: {
         unlocked: false,
       },
-      deviceType: DeviceType.MuditaPure
+      deviceType: DeviceType.MuditaPure,
     },
     dataSync: {
-      initialized: true
-    }
+      initialized: true,
+    },
   })
 
   const {
@@ -54,17 +54,17 @@ test("fire async `unlockedDevice` call `loadDeviceData` action if device is `loc
   ])
 })
 
-test("fire async `unlockedDevice` call `updateAllIndexes` action if `initialized` od DataSync is false", async () => {
+test("fire async `unlockedDevice` call `readAllIndexes` action if `initialized` od DataSync is false", async () => {
   const mockStore = createMockStore([thunk])({
     device: {
       status: {
         unlocked: false,
       },
-      deviceType: DeviceType.MuditaPure
+      deviceType: DeviceType.MuditaPure,
     },
     dataSync: {
-      initialized: false
-    }
+      initialized: false,
+    },
   })
 
   const {
