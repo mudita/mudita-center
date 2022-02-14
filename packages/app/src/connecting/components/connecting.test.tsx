@@ -138,7 +138,6 @@ describe("`BackupDeviceFlow` component", () => {
   describe("when `syncInitialized` is set to `true` and `syncState` is set to Error", () => {
     const extraProps: Partial<Props> = {
       unlocked: true,
-      syncInitialized: true,
       syncState: SynchronizationState.Error,
     }
 

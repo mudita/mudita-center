@@ -17,6 +17,7 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import registerFirstPhoneConnection from "App/connecting/requests/register-first-phone-connection"
 import { SynchronizationState } from "App/data-sync/reducers"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
+import { ConnectingError } from "App/connecting/components/connecting-error.enum"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -39,7 +40,7 @@ const Connecting: FunctionComponent<{
   phoneLockTime,
   noModalsVisible,
 }) => {
-  const [error, setError] = useState(false)
+  const [error, setError] = useState<ConnectingError | undefined>(undefined)
   const [longerConnection, setLongerConnection] = useState(false)
 
   useEffect(() => {
@@ -81,7 +82,7 @@ const Connecting: FunctionComponent<{
     let mounted = true
     const timeout = setTimeout(() => {
       if (mounted) {
-        setError(true)
+        setError(ConnectingError.Connecting)
       }
       // the value is a little higher than API timeoutMs
     }, timeoutMs + 5000)
@@ -94,7 +95,7 @@ const Connecting: FunctionComponent<{
 
   useEffect(() => {
     if (unlocked && syncState === SynchronizationState.Error) {
-      setError(true)
+      setError(ConnectingError.Sync)
     }
   }, [syncInitialized, syncState, unlocked])
 
@@ -124,12 +125,12 @@ const Connecting: FunctionComponent<{
 
   return (
     <>
-      {error &&
-        (syncInitialized ? (
-          <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
-        ) : (
-          <ErrorConnectingModal open closeModal={close} />
-        ))}
+      {error === ConnectingError.Sync && (
+        <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
+      )}
+      {error === ConnectingError.Connecting && (
+        <ErrorConnectingModal open closeModal={close} />
+      )}
       <PasscodeModal
         openModal={dialogOpen}
         close={close}
