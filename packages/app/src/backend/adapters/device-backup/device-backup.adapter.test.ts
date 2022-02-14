@@ -17,7 +17,10 @@ import createDeviceBackupAdapter from "Backend/adapters/device-backup/device-bac
 import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
 import createFakeDeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-fake.adapter"
 import createFakeDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system-fake.adapter"
-import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import {
+  DeviceFile,
+  DownloadDeviceFileLocallyOptions,
+} from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceInfo from "Common/interfaces/device-info.interface"
 
 jest.mock("Backend/device-service")
@@ -32,7 +35,7 @@ const errorResponse: DeviceResponse = {
 const successDeviceInfoResponse: DeviceResponse<DeviceInfo> = {
   status: DeviceResponseStatus.Ok,
   data: {
-    backupLocation: "path/to/directory"
+    backupLocation: "path/to/directory",
   } as DeviceInfo,
 }
 const successDownloadDeviceFilesResponse: DeviceResponse<DeviceFile[]> = {
@@ -71,16 +74,20 @@ const errorGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusRe
     },
   }
 
+const options: DownloadDeviceFileLocallyOptions = {
+  cwd: "path/to/directory",
+}
+
 describe("`downloadDeviceBackup` method ", () => {
   describe("when each request is success", () => {
     test("fire `downloadDeviceBackup` return Backup", async () => {
-      ;(createFakeDeviceBaseInfoAdapter as unknown as jest.Mock).mockImplementation(
-        () => {
-          return {
-            getDeviceInfo: () => successDeviceInfoResponse,
-          }
+      ;(
+        createFakeDeviceBaseInfoAdapter as unknown as jest.Mock
+      ).mockImplementation(() => {
+        return {
+          getDeviceInfo: () => successDeviceInfoResponse,
         }
-      )
+      })
       ;(DeviceBackupService as unknown as jest.Mock).mockImplementation(() => {
         return {
           startBackupDevice: () => successStartBackupDeviceResponse,
@@ -91,7 +98,7 @@ describe("`downloadDeviceBackup` method ", () => {
         createFakeDeviceFileSystemAdapter as unknown as jest.Mock
       ).mockImplementation(() => {
         return {
-          downloadDeviceFiles: () => successDownloadDeviceFilesResponse,
+          downloadDeviceFilesLocally: () => successDownloadDeviceFilesResponse,
           removeDeviceFile: () => successDownloadDeviceFilesResponse,
         }
       })
@@ -102,7 +109,9 @@ describe("`downloadDeviceBackup` method ", () => {
         new DeviceBackupService(deviceService),
         createFakeDeviceFileSystemAdapter()
       )
-      const { status, data } = await deviceBackupAdapter.downloadDeviceBackup()
+      const { status, data } = await deviceBackupAdapter.downloadDeviceBackup(
+        options
+      )
       expect(status).toEqual(DeviceResponseStatus.Ok)
       expect(data).not.toBeUndefined()
     })
@@ -110,13 +119,13 @@ describe("`downloadDeviceBackup` method ", () => {
 
   describe("when `getDeviceInfo` returns error", () => {
     test("fire `downloadDeviceBackup` return error", async () => {
-      ;(createFakeDeviceBaseInfoAdapter as unknown as jest.Mock).mockImplementation(
-        () => {
-          return {
-            getDeviceInfo: () => errorResponse,
-          }
+      ;(
+        createFakeDeviceBaseInfoAdapter as unknown as jest.Mock
+      ).mockImplementation(() => {
+        return {
+          getDeviceInfo: () => errorResponse,
         }
-      )
+      })
 
       const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
       const deviceBackupAdapter = createDeviceBackupAdapter(
@@ -124,20 +133,20 @@ describe("`downloadDeviceBackup` method ", () => {
         new DeviceBackupService(deviceService),
         createFakeDeviceFileSystemAdapter()
       )
-      const { status } = await deviceBackupAdapter.downloadDeviceBackup()
+      const { status } = await deviceBackupAdapter.downloadDeviceBackup(options)
       expect(status).toEqual(DeviceResponseStatus.Error)
     })
   })
 
   describe("when `startBackupDevice` request is fail", () => {
     test("fire `downloadDeviceBackup` return error", async () => {
-      ;(createFakeDeviceBaseInfoAdapter as unknown as jest.Mock).mockImplementation(
-        () => {
-          return {
-            getDeviceInfo: () => successDeviceInfoResponse,
-          }
+      ;(
+        createFakeDeviceBaseInfoAdapter as unknown as jest.Mock
+      ).mockImplementation(() => {
+        return {
+          getDeviceInfo: () => successDeviceInfoResponse,
         }
-      )
+      })
       ;(DeviceBackupService as unknown as jest.Mock).mockImplementation(() => {
         return {
           startBackupDevice: () => errorResponse,
@@ -150,20 +159,20 @@ describe("`downloadDeviceBackup` method ", () => {
         new DeviceBackupService(deviceService),
         createFakeDeviceFileSystemAdapter()
       )
-      const { status } = await deviceBackupAdapter.downloadDeviceBackup()
+      const { status } = await deviceBackupAdapter.downloadDeviceBackup(options)
       expect(status).toEqual(DeviceResponseStatus.Error)
     })
   })
 
   describe("when `getBackupDeviceStatus` return error", () => {
     test("fire `downloadDeviceBackup` return error", async () => {
-      ;(createFakeDeviceBaseInfoAdapter as unknown as jest.Mock).mockImplementation(
-        () => {
-          return {
-            getDeviceInfo: () => successDeviceInfoResponse,
-          }
+      ;(
+        createFakeDeviceBaseInfoAdapter as unknown as jest.Mock
+      ).mockImplementation(() => {
+        return {
+          getDeviceInfo: () => successDeviceInfoResponse,
         }
-      )
+      })
       ;(DeviceBackupService as unknown as jest.Mock).mockImplementation(() => {
         return {
           startBackupDevice: () => successStartBackupDeviceResponse,
@@ -177,20 +186,20 @@ describe("`downloadDeviceBackup` method ", () => {
         new DeviceBackupService(deviceService),
         createFakeDeviceFileSystemAdapter()
       )
-      const { status } = await deviceBackupAdapter.downloadDeviceBackup()
+      const { status } = await deviceBackupAdapter.downloadDeviceBackup(options)
       expect(status).toEqual(DeviceResponseStatus.Error)
     })
   })
 
   describe("when `downloadDeviceFile` return error", () => {
     test("fire `downloadDeviceBackup` return error", async () => {
-      ;(createFakeDeviceBaseInfoAdapter as unknown as jest.Mock).mockImplementation(
-        () => {
-          return {
-            getDeviceInfo: () => successDeviceInfoResponse,
-          }
+      ;(
+        createFakeDeviceBaseInfoAdapter as unknown as jest.Mock
+      ).mockImplementation(() => {
+        return {
+          getDeviceInfo: () => successDeviceInfoResponse,
         }
-      )
+      })
       ;(DeviceBackupService as unknown as jest.Mock).mockImplementation(() => {
         return {
           startBackupDevice: () => successStartBackupDeviceResponse,
@@ -212,7 +221,7 @@ describe("`downloadDeviceBackup` method ", () => {
         new DeviceBackupService(deviceService),
         createFakeDeviceFileSystemAdapter()
       )
-      const { status } = await deviceBackupAdapter.downloadDeviceBackup()
+      const { status } = await deviceBackupAdapter.downloadDeviceBackup(options)
       expect(status).toEqual(DeviceResponseStatus.Error)
     })
   })

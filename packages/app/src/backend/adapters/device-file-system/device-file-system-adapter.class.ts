@@ -4,6 +4,14 @@
  */
 
 import DeviceResponse from "Backend/adapters/device-response.interface"
+import { TokenOptions } from "App/file-system/services/crypto-file-service/crypto-file-service"
+
+export interface DownloadDeviceFileLocallyOptions
+  extends Pick<Partial<TokenOptions>, "key"> {
+  cwd: string
+  token?: string
+  extract?: boolean
+}
 
 export interface DeviceFile extends Pick<File, "name"> {
   data: Buffer
@@ -25,9 +33,9 @@ export interface UploadFileLocallyPayload {
 }
 
 export default abstract class DeviceFileSystemAdapter {
-  public abstract downloadLocally(
+  public abstract downloadDeviceFilesLocally(
     filePaths: string[],
-    fileDirectory: string
+    options: DownloadDeviceFileLocallyOptions
   ): Promise<DeviceResponse<string[]>>
   public abstract downloadDeviceFiles(
     filePaths: string[]

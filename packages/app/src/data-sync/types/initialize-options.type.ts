@@ -3,4 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./extract"
+export interface InitializeOptions {
+  token: string
+  serialNumber: string
+}

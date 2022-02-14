@@ -5,11 +5,16 @@
 
 import {
   DataSyncState,
-  SynchronizationState, UpdateAllIndexesRejectAction,
+  SynchronizationState,
+  UpdateAllIndexesRejectAction,
 } from "App/data-sync/reducers/data-sync.interface"
 import { createReducer } from "@reduxjs/toolkit"
 import { DataSyncEvent } from "App/data-sync/constants/event.enum"
-import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store/helpers"
+import {
+  fulfilledAction,
+  pendingAction,
+  rejectedAction,
+} from "Renderer/store/helpers"
 
 export const initialState: DataSyncState = {
   initialized: false,
@@ -20,11 +25,17 @@ export const dataSyncReducer = createReducer<DataSyncState>(
   initialState,
   (builder) => {
     builder
-      .addCase((DataSyncEvent.SetDataSyncInitialized), (state) => {
+      .addCase(DataSyncEvent.SetDataSyncInitialized, (state) => {
         return {
           ...state,
           initialized: true,
           error: null,
+        }
+      })
+      .addCase(pendingAction(DataSyncEvent.InitializeDataSync), (state) => {
+        return {
+          ...state,
+          state: SynchronizationState.Loading,
         }
       })
       .addCase(pendingAction(DataSyncEvent.UpdateAllIndexes), (state) => {
@@ -36,8 +47,8 @@ export const dataSyncReducer = createReducer<DataSyncState>(
       .addCase(fulfilledAction(DataSyncEvent.UpdateAllIndexes), (state) => {
         return {
           ...state,
-          initialized: true,
           state: SynchronizationState.Loaded,
+          initialized: true,
           error: null,
         }
       })
@@ -51,5 +62,12 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           }
         }
       )
+      .addCase(DataSyncEvent.SetCacheState, (state) => {
+        return {
+          ...state,
+          state: SynchronizationState.Cache,
+          initialized: true,
+        }
+      })
   }
 )

@@ -5,12 +5,12 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcFileSystem } from "App/file-system/constants"
-import { CryptoFileOption } from "App/file-system/services/crypto-file-service/crypto-file-service"
+import { CryptoFileOptions } from "App/file-system/services/crypto-file-service/crypto-file-service"
 
 const encryptFile = async (
-  option: CryptoFileOption
+  options: CryptoFileOptions
 ): Promise<Uint8Array | undefined> => {
-  return await ipcRenderer.callMain(IpcFileSystem.EncryptFile, option)
+  return await ipcRenderer.callMain(IpcFileSystem.EncryptFile, options)
 }
 
 export default encryptFile
