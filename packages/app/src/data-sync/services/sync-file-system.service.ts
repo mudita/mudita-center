@@ -12,13 +12,9 @@ import path from "path"
 export class SyncFileSystemService implements SyncFileSystemClass {
   constructor(private token: string) {}
 
-  readFileSync(filePath: string): Buffer | undefined | null {
-    try {
-      const buffer = fs.readFileSync(filePath)
-      return CryptoFileService.decryptViaToken({ buffer, token: this.token })
-    } catch {
-      return null
-    }
+  readFileSync(filePath: string): Buffer | undefined {
+    const buffer = fs.readFileSync(filePath)
+    return CryptoFileService.decryptViaToken({ buffer, token: this.token })
   }
 
   writeIndexSync(filePath: string, index: SerialisedIndexData<any>): void {
