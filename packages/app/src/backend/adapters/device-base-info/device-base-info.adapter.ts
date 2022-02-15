@@ -33,7 +33,9 @@ export class DeviceBaseInfo extends DeviceBaseInfoAdapter {
         error: { message: "Get Device Info: Something went wrong" },
       }
     } else {
-      const deviceToken = data.deviceToken ? data.deviceToken.substr(0, 32) : this.token
+      const deviceToken = data.deviceToken
+        ? data.deviceToken.substr(0, 32)
+        : this.token
 
       return {
         status,

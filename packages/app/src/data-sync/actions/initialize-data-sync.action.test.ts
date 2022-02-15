@@ -31,7 +31,6 @@ const options: InitializeOptions = {
   serialNumber: "1UB13213MN14K1",
 }
 
-
 describe("async `initializeDataSync` ", () => {
   describe("when initializeDataSyncRequest return false", () => {
     test("fire async `initializeDataSync` dispatch `updateAllIndexes`", async () => {
