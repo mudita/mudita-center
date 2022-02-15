@@ -7,18 +7,18 @@ import fs from "fs"
 
 export interface WriteData {
   data: string | NodeJS.ArrayBufferView
-  filePath: string
+  cwd: string
   fileName: string
 }
 
-const writeFile = ({ data, filePath, fileName }: WriteData): boolean => {
+const writeFile = ({ data, cwd, fileName }: WriteData): boolean => {
   try {
-    if (!fs.existsSync(filePath)) {
-      fs.mkdirSync(filePath, {
+    if (!fs.existsSync(cwd)) {
+      fs.mkdirSync(cwd, {
         recursive: true,
       })
     }
-    fs.writeFileSync(`${filePath}/${fileName}`, data)
+    fs.writeFileSync(`${cwd}/${fileName}`, data)
     return true
   } catch {
     return false

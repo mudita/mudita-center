@@ -10,14 +10,14 @@ import copyFile from "Renderer/requests/copy-file.request"
 import downloadDeviceCrashDumpFiles from "Renderer/requests/download-crash-dump.request"
 
 const importDeviceCrashDumpFiles = async (
-  targetPath: string
+  cwd: string
 ): Promise<DeviceResponse> => {
   const { status, data = [] } = await downloadDeviceCrashDumpFiles()
   if (status === DeviceResponseStatus.Ok && data) {
     for await (const deviceLogFile of data) {
       const copyFileSuccess = await copyFile({
         sourcePath: deviceLogFile,
-        targetPath,
+        cwd,
       })
       if (!copyFileSuccess) {
         return {

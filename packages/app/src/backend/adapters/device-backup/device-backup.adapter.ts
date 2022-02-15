@@ -4,12 +4,19 @@
  */
 
 import path from "path"
-import { GetBackupDeviceStatusDataState, GetBackupDeviceStatusResponseBody } from "@mudita/pure"
-import DeviceResponse, { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import {
+  GetBackupDeviceStatusDataState,
+  GetBackupDeviceStatusResponseBody,
+} from "@mudita/pure"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
 import { isResponsesSuccessWithData } from "Renderer/utils/is-responses-success-with-data.helpers"
 import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
 import DeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-adapter.class"
-import DeviceFileSystemAdapter, { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import DeviceFileSystemAdapter, {
+  DownloadDeviceFileLocallyOptions,
+} from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
 import logger from "App/main/utils/logger"
 
@@ -22,13 +29,15 @@ class DeviceBackup implements DeviceBackupAdapter {
     private deviceFileSystem: DeviceFileSystemAdapter
   ) {}
 
-  async downloadDeviceBackupLocally(targetPath: string): Promise<DeviceResponse<string[]>> {
-    if(this.backuping) {
+  async downloadDeviceBackup(
+    options: DownloadDeviceFileLocallyOptions
+  ): Promise<DeviceResponse<string[]>> {
+    if (this.backuping) {
       return {
         status: DeviceResponseStatus.Error,
         error: {
           message: "Backup is in progress",
-        }
+        },
       }
     }
 
@@ -45,7 +54,10 @@ class DeviceBackup implements DeviceBackupAdapter {
     const filePath = runDeviceBackupResponse.data!
 
     const downloadDeviceFileResponse =
-      await this.deviceFileSystem.downloadLocally([filePath], targetPath)
+      await this.deviceFileSystem.downloadDeviceFilesLocally(
+        [filePath],
+        options
+      )
 
     if (!isResponsesSuccessWithData([downloadDeviceFileResponse])) {
       return {
@@ -57,57 +69,16 @@ class DeviceBackup implements DeviceBackupAdapter {
     }
 
     // TODO: Moved removing backup logic to OS
-    const removeDeviceFileResponse = await this.deviceFileSystem.removeDeviceFile(filePath)
+    const removeDeviceFileResponse =
+      await this.deviceFileSystem.removeDeviceFile(filePath)
 
-    if(removeDeviceFileResponse.status !== DeviceResponseStatus.Ok){
+    if (removeDeviceFileResponse.status !== DeviceResponseStatus.Ok) {
       logger.info("Removing device file during backuping locally fails")
     }
 
     this.backuping = false
 
     return downloadDeviceFileResponse
-  }
-
-  async downloadDeviceBackup(): Promise<DeviceResponse<DeviceFile>> {
-    if(this.backuping) {
-      return {
-        status: DeviceResponseStatus.Error,
-        error: {
-          message: "Backup is in progress",
-        }
-      }
-    }
-
-    this.backuping = true
-    const runDeviceBackupResponse = await this.runDeviceBackup()
-
-    if (!isResponsesSuccessWithData([runDeviceBackupResponse])) {
-      return {
-        status: DeviceResponseStatus.Error,
-        error: runDeviceBackupResponse.error,
-      }
-    }
-
-    const filePath = runDeviceBackupResponse.data!
-
-    const downloadDeviceFileResponse =
-      await this.deviceFileSystem.downloadDeviceFiles([filePath])
-
-    if (!isResponsesSuccessWithData([downloadDeviceFileResponse])) {
-      return {
-        status: DeviceResponseStatus.Error,
-        error: {
-          message: "Download backup fails",
-        },
-      }
-    }
-
-    this.backuping = false
-
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: downloadDeviceFileResponse.data![0],
-    }
   }
 
   private async runDeviceBackup(): Promise<DeviceResponse<string>> {
@@ -148,7 +119,10 @@ class DeviceBackup implements DeviceBackupAdapter {
       }
     }
 
-    const filePath = path.join(getBackupLocationResponse.data!.backupLocation, backupId)
+    const filePath = path.join(
+      getBackupLocationResponse.data!.backupLocation,
+      backupId
+    )
 
     return {
       status: DeviceResponseStatus.Ok,

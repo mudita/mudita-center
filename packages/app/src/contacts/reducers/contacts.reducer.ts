@@ -4,10 +4,7 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import {
-  fulfilledAction,
-  rejectedAction,
-} from "Renderer/store/helpers"
+import { fulfilledAction, rejectedAction } from "Renderer/store/helpers"
 import {
   AddNewContactToStateAction,
   ContactsState,
@@ -23,8 +20,11 @@ import {
   editContact,
   removeContact,
 } from "App/contacts/helpers/contacts.helpers"
-import { DataSyncEvent, UpdateAllIndexesRejectAction } from "App/data-sync"
-import { UpdateAllIndexesAction } from "App/data-sync/reducers/data-sync.interface"
+import { DataSyncEvent } from "App/data-sync/constants"
+import {
+  ReadAllIndexesAction,
+  ReadAllIndexesRejectAction,
+} from "App/data-sync/reducers/data-sync.interface"
 
 export const initialState: ContactsState = {
   db: {},
@@ -38,8 +38,8 @@ export const contactsReducer = createReducer<ContactsState>(
   (builder) => {
     builder
       .addCase(
-        fulfilledAction(DataSyncEvent.UpdateAllIndexes),
-        (state, action: UpdateAllIndexesAction) => {
+        fulfilledAction(DataSyncEvent.ReadAllIndexes),
+        (state, action: ReadAllIndexesAction) => {
           const contacts = Object.keys(action.payload.contacts).map(
             (key) => action.payload.contacts[key]
           )
@@ -53,9 +53,8 @@ export const contactsReducer = createReducer<ContactsState>(
         }
       )
       .addCase(
-        rejectedAction(DataSyncEvent.UpdateAllIndexes),
-        (state, action: UpdateAllIndexesRejectAction) => {
-
+        rejectedAction(DataSyncEvent.ReadAllIndexes),
+        (state, action: ReadAllIndexesRejectAction) => {
           return {
             ...state,
             resultState: ResultState.Error,

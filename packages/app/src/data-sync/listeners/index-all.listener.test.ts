@@ -4,7 +4,8 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
-import { IpcDataSyncEvent, registerIndexAllListener } from "App/data-sync"
+import { registerIndexAllListener } from "App/data-sync/listeners/index-all.listener"
+import { IpcDataSyncEvent } from "App/data-sync/constants"
 import { IndexClass } from "App/data-sync/services/index-class.interface"
 
 const indexService: IndexClass = {
@@ -14,15 +15,13 @@ const indexService: IndexClass = {
 }
 
 jest.mock("App/data-sync/containers/index-service.container", () => ({
-  getIndexService: () => indexService
+  getIndexService: () => indexService,
 }))
 
 describe("`registerIndexAllListener`", () => {
   test("listener execute `indexAll` method properly", async () => {
     registerIndexAllListener()
-    void (ipcMain as any)._flush(
-      IpcDataSyncEvent.IndexAll
-    )
+    void (ipcMain as any)._flush(IpcDataSyncEvent.IndexAll)
     expect(indexService.indexAll).toHaveBeenCalled()
   })
 })

@@ -5,3 +5,4 @@
 
 export * from "./get-index.listener"
 export * from "./index-all.listener"
+export * from "./initialize-data-sync.listener"

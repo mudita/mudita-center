@@ -5,7 +5,7 @@
 
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import { indexAllRequest, SynchronizationState } from "App/data-sync"
+import { SynchronizationState } from "App/data-sync/reducers"
 import { PureDataLoader } from "App/device/loaders/pure-data.loader"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
@@ -13,12 +13,13 @@ import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { DeviceLoadingError } from "App/device/errors"
+import { initializeDataSyncRequest } from "App/data-sync/requests/initialize-data-sync.request"
 
 jest.mock("Renderer/requests/get-device-info.request")
 jest.mock("Renderer/requests/get-network-info.request")
 jest.mock("Renderer/requests/get-storage-info.request")
 jest.mock("Renderer/requests/get-battery-info.request")
-jest.mock("App/data-sync/requests/index-all.request")
+jest.mock("App/data-sync/requests/initialize-data-sync.request")
 
 jest.mock("Renderer/store/index", () =>
   createMockStore([thunk])({
@@ -107,7 +108,7 @@ describe("PureDataLoader", () => {
       ],
     })
 
-    expect(indexAllRequest).toHaveBeenCalled()
+    expect(initializeDataSyncRequest).toHaveBeenCalled()
     expect(getDeviceInfo).toHaveBeenCalled()
     expect(getNetworkInfo).toHaveBeenCalled()
     expect(getStorageInfo).toHaveBeenCalled()
@@ -119,7 +120,7 @@ describe("PureDataLoader", () => {
 
     expect(async () => await subject.load()).rejects.toThrowError(errorMock)
 
-    expect(indexAllRequest).toHaveBeenCalled()
+    expect(initializeDataSyncRequest).not.toHaveBeenCalled()
     expect(getDeviceInfo).toHaveBeenCalled()
     expect(getNetworkInfo).toHaveBeenCalled()
     expect(getStorageInfo).toHaveBeenCalled()

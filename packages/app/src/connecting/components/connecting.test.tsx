@@ -10,8 +10,8 @@ import Connecting from "App/connecting/components/connecting.component"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
 import { PasscodeModalTestIds } from "App/passcode-modal/passcode-modal-test-ids.enum"
-import { SynchronizationState } from "App/data-sync"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
+import { SynchronizationState } from "App/data-sync/reducers"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")
 
