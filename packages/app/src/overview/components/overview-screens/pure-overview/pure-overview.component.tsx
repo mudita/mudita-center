@@ -4,6 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
+import { useHistory } from "react-router"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
@@ -37,6 +38,9 @@ import {
 } from "App/restore-device/reducers"
 import { DeviceType } from "@mudita/pure"
 import { StartRestoreOption } from "App/restore-device/actions"
+import { SynchronizationState } from "App/data-sync/reducers"
+import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
+import { URL_ONBOARDING } from "Renderer/constants/urls"
 
 type Props = DeviceState["data"] &
   PhoneUpdateStore &
@@ -50,6 +54,7 @@ type Props = DeviceState["data"] &
     startRestoreDevice: (option: StartRestoreOption) => void
     readRestoreDeviceDataState: () => void
     openContactSupportFlow: () => void
+    syncState: SynchronizationState
   }
 
 export const PureOverview: FunctionComponent<Props> = ({
@@ -90,6 +95,7 @@ export const PureOverview: FunctionComponent<Props> = ({
   backups,
   pureOsDownloaded,
   openContactSupportFlow,
+  syncState,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -243,6 +249,13 @@ export const PureOverview: FunctionComponent<Props> = ({
     }
   }, [restoreDeviceState])
 
+  const history = useHistory()
+
+  const onRetry = () => {
+    // TODO: do some logic to retry connection
+    history.push(URL_ONBOARDING.connecting)
+  }
+
   return (
     <>
       <UpdatingForceModalFlow
@@ -272,6 +285,9 @@ export const PureOverview: FunctionComponent<Props> = ({
           closeModal={closeRestoreDeviceFlowState}
           onSupportButtonClick={openContactSupportFlow}
         />
+      )}
+      {syncState === SynchronizationState.Error && (
+        <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
       )}
       <OverviewContent
         batteryLevel={batteryLevel}

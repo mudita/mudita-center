@@ -20,6 +20,8 @@ import { SystemTestIds } from "App/overview/components/system/system-test-ids.en
 import { intl } from "Renderer/utils/intl"
 import { BackupDeviceDataState } from "App/backup-device/reducers"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { SynchronizationState } from "App/data-sync/reducers"
+import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
 
 jest.mock("@electron/remote", () => ({
   Menu: () => ({
@@ -29,7 +31,9 @@ jest.mock("@electron/remote", () => ({
   MenuItem: () => jest.fn(),
 }))
 
-const defaultProps: ComponentProps<typeof PureOverview> = {
+type Props = ComponentProps<typeof PureOverview>
+
+const defaultProps: Props = {
   openContactSupportFlow: jest.fn(),
   backupDeviceState: BackupDeviceDataState.Empty,
   backupLocation: "",
@@ -93,13 +97,18 @@ const defaultProps: ComponentProps<typeof PureOverview> = {
     free: 100,
     full: 200,
   },
+  syncState: SynchronizationState.Loaded,
 }
 
-const render = () => {
+const render = (extraProps?: Partial<Props>) => {
+  const props = {
+    ...defaultProps,
+    ...extraProps,
+  }
   return renderWithThemeAndIntl(
     <Router history={history}>
       <Provider store={store}>
-        <PureOverview {...defaultProps} />
+        <PureOverview {...props} />
       </Provider>
     </Router>
   )
@@ -113,4 +122,9 @@ test("Renders Mudita pure data", () => {
   )
   queryByText(intl.formatMessage({ id: "module.overview.statusPureTitle" }))
   expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
+})
+
+test("PureOverview shows Sync error modal if sync error occurred", () => {
+  const { getByTestId } = render({ syncState: SynchronizationState.Error })
+  expect(getByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
 })

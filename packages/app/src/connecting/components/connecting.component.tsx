@@ -60,7 +60,13 @@ const Connecting: FunctionComponent<{
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (unlocked && loaded && syncInitialized) {
+      if (
+        unlocked &&
+        loaded &&
+        syncInitialized &&
+        (syncState === SynchronizationState.Cache ||
+          SynchronizationState.Loaded)
+      ) {
         history.push(URL_OVERVIEW.root)
       }
     }, 500)
