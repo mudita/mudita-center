@@ -43,9 +43,10 @@ const LoaderWrapper = styled.div`
 
 interface Props {
   onCancel?: () => void
+  longerConnection: boolean
 }
 
-const ConnectingContent: FunctionComponent<Props> = () => {
+const ConnectingContent: FunctionComponent<Props> = ({ longerConnection }) => {
   return (
     <Container>
       <main>
@@ -54,7 +55,11 @@ const ConnectingContent: FunctionComponent<Props> = () => {
         </LoaderWrapper>
         <Text
           displayStyle={TextDisplayStyle.SecondaryBoldHeading}
-          message={{ id: "module.onboarding.connectingMessage" }}
+          message={{
+            id: longerConnection
+              ? "module.onboarding.connectingLongMessage"
+              : "module.onboarding.connectingMessage",
+          }}
         />
       </main>
     </Container>

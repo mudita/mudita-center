@@ -16,6 +16,8 @@ import { togglePureSimulation } from "App/dev-mode/store/dev-mode.helpers"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import registerFirstPhoneConnection from "App/connecting/requests/register-first-phone-connection"
 import { SynchronizationState } from "App/data-sync/reducers"
+import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
+import { ConnectingError } from "App/connecting/components/connecting-error.enum"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -38,7 +40,8 @@ const Connecting: FunctionComponent<{
   phoneLockTime,
   noModalsVisible,
 }) => {
-  const [error, setError] = useState(false)
+  const [error, setError] = useState<ConnectingError | undefined>(undefined)
+  const [longerConnection, setLongerConnection] = useState(false)
 
   useEffect(() => {
     if (simulatePhoneConnectionEnabled) {
@@ -47,6 +50,13 @@ const Connecting: FunctionComponent<{
   }, [simulatePhoneConnectionEnabled])
 
   const [dialogOpen, setDialogOpen] = useState(false)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLongerConnection(true)
+    }, 6000)
+    return () => clearTimeout(timeout)
+  }, [])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -72,7 +82,7 @@ const Connecting: FunctionComponent<{
     let mounted = true
     const timeout = setTimeout(() => {
       if (mounted) {
-        setError(true)
+        setError(ConnectingError.Connecting)
       }
       // the value is a little higher than API timeoutMs
     }, timeoutMs + 5000)
@@ -84,8 +94,8 @@ const Connecting: FunctionComponent<{
   }, [unlocked])
 
   useEffect(() => {
-    if(unlocked && !syncInitialized && syncState === SynchronizationState.Error){
-      setError(true)
+    if (unlocked && syncState === SynchronizationState.Error) {
+      setError(ConnectingError.Sync)
     }
   }, [syncInitialized, syncState, unlocked])
 
@@ -108,9 +118,19 @@ const Connecting: FunctionComponent<{
     history.push(URL_MAIN.news)
   }
 
+  const onRetry = () => {
+    // TODO: do some logic to retry connection
+    history.push(URL_ONBOARDING.connecting)
+  }
+
   return (
     <>
-      {error && <ErrorConnectingModal open closeModal={close} />}
+      {error === ConnectingError.Sync && (
+        <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
+      )}
+      {error === ConnectingError.Connecting && (
+        <ErrorConnectingModal open closeModal={close} />
+      )}
       <PasscodeModal
         openModal={dialogOpen}
         close={close}
@@ -118,7 +138,10 @@ const Connecting: FunctionComponent<{
         unlockDevice={unlockDevice}
         getUnlockStatus={getUnlockStatus}
       />
-      <ConnectingContent onCancel={onCancel} />
+      <ConnectingContent
+        onCancel={onCancel}
+        longerConnection={longerConnection}
+      />
     </>
   )
 }
