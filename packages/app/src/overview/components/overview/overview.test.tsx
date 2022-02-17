@@ -164,6 +164,7 @@ const defaultProps: Props = {
   },
   caseColour: CaseColour.Gray,
   syncState: SynchronizationState.Loaded,
+  updateAllIndexes: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {
