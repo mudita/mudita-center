@@ -3,9 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-// FIXME: Using remote module in renderer process isn't a good pattern.
-//  You can read more in https://github.com/electron/remote#migrating-from-remote
-const { dialog } = require("@electron/remote")
+const { dialog } = require("electron").remote
 
 const useLocationPicker = async (
   defaultPath?: string
