@@ -20,18 +20,17 @@ import { modalsManagerReducer } from "App/modals-manager/reducers"
 
 jest.mock("Renderer/register-hotkeys", jest.fn)
 
-jest.mock("@electron/remote", () => ({
-  Menu: () => ({
-    popup: jest.fn,
-    append: jest.fn,
-  }),
-  MenuItem: () => jest.fn(),
-  app: {
-    getPath: () => "",
-  },
-}))
-
 jest.mock("electron", () => ({
+  remote: {
+    Menu: () => ({
+      popup: jest.fn,
+      append: jest.fn,
+    }),
+    MenuItem: () => jest.fn(),
+    app: {
+      getPath: () => "",
+    },
+  },
   app: {
     getPath: () => "",
   },
