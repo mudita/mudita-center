@@ -134,11 +134,22 @@ const commonWindowOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
+    // FIXME: electron v10 throw error: Uncaught TypeError: Cannot read property 'app' of undefined?
+    //  You can read more in:
+    //  https://github.com/electron/electron/issues/21408
+    //  https://www.electronjs.org/blog/electron-10-0
+    enableRemoteModule: true,
     // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
     //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
     contextIsolation: false,
   },
 }
+
+// FIXME: electron v9 throw error: Loading non-context-aware native module in renderer
+//  you can read more in
+//  https://github.com/electron/electron/pull/22336
+//  https://github.com/serialport/electron-serialport/commit/0cad5d97f7d1ead1e983b16e9e5b49feb1e6792d#diff-58417e0f781b6656949d37258c8b9052ed266e2eb7a5163cad7b0863e6b2916aR47
+app.allowRendererProcessReuse = false
 
 const getWindowOptions = (
   extendedWindowOptions?: BrowserWindowConstructorOptions
@@ -164,10 +175,6 @@ const createWindow = async () => {
       height: WINDOW_SIZE.height,
     })
   )
-  // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-  //  There is almost always a better way to accomplish your task than using this module.
-  //  You can read more in https://github.com/electron/remote#migrating-from-remote
-  require("@electron/remote/main").enable(win.webContents)
 
   new MetadataInitializer(metadataStore).init()
 
@@ -268,10 +275,6 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
         height: DEFAULT_WINDOWS_SIZE.height,
       })
     )
-    // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-    //  There is almost always a better way to accomplish your task than using this module.
-    //  You can read more in https://github.com/electron/remote#migrating-from-remote
-    require("@electron/remote/main").enable(helpWindow.webContents)
     helpWindow.loadURL(
       !productionEnvironment
         ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
@@ -317,10 +320,6 @@ const createOpenWindowListener = (
           height: DEFAULT_WINDOWS_SIZE.height,
         })
       )
-      // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-      //  There is almost always a better way to accomplish your task than using this module.
-      //  You can read more in https://github.com/electron/remote#migrating-from-remote
-      require("@electron/remote/main").enable(newWindow.webContents)
       await newWindow.loadURL(
         !productionEnvironment
           ? `http://localhost:2003/?mode=${mode}#${urlMain}`
