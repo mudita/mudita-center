@@ -269,5 +269,7 @@ test("today's template is at the beginning of the list by default, after toggle 
   const templatesListAfterToggle =
     store.select.templates.filteredList(stateAfterToggle)
   expect(stateAfterToggle.templates.sortOrder).toEqual(SortOrder.Ascending)
-  expect(todaysTemplate).toMatchObject(templatesListAfterToggle.at(-1))
+  expect(todaysTemplate).toMatchObject(
+    templatesListAfterToggle[templatesListAfterToggle.length - 1]
+  )
 })
