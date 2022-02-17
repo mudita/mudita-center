@@ -30,6 +30,7 @@ const Connecting: FunctionComponent<{
   getUnlockStatus: () => Promise<PayloadAction<DeviceResponseStatus>>
   phoneLockTime: number | undefined
   noModalsVisible: boolean
+  updateAllIndexes: () => Promise<void>
 }> = ({
   loaded,
   unlocked,
@@ -39,6 +40,7 @@ const Connecting: FunctionComponent<{
   getUnlockStatus,
   phoneLockTime,
   noModalsVisible,
+  updateAllIndexes,
 }) => {
   const [error, setError] = useState<ConnectingError | undefined>(undefined)
   const [longerConnection, setLongerConnection] = useState(false)
@@ -119,8 +121,7 @@ const Connecting: FunctionComponent<{
   }
 
   const onRetry = () => {
-    // TODO: do some logic to retry connection
-    history.push(URL_ONBOARDING.connecting)
+    updateAllIndexes()
   }
 
   return (

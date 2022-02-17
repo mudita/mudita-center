@@ -30,6 +30,7 @@ const defaultProps: Props = {
   noModalsVisible: true,
   syncInitialized: false,
   syncState: SynchronizationState.Empty,
+  updateAllIndexes: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {

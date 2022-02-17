@@ -8,10 +8,12 @@ import { RootState, ReduxRootState, TmpDispatch } from "Renderer/store"
 import { PureDeviceData, unlockDevice, getUnlockStatus } from "App/device"
 import Connecting from "App/connecting/components/connecting.component"
 import { noModalsShowSelector } from "App/modals-manager/selectors/no-modals-show.selector"
+import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   unlockDevice: (code: number[]) => dispatch(unlockDevice(code)),
   getUnlockStatus: () => dispatch(getUnlockStatus()),
+  updateAllIndexes: () => dispatch(updateAllIndexes()),
 })
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({

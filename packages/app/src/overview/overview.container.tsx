@@ -26,6 +26,7 @@ import {
   StartRestoreOption,
 } from "App/restore-device/actions"
 import { ModalStateKey, showModal } from "App/modals-manager"
+import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -45,6 +46,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     ...state.phoneUpdate,
     ...state.settings,
     ...state.devMode,
+    syncState: state.dataSync.state,
   }
 }
 
@@ -68,6 +70,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // TODO refactor legacy staff
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
     dispatch.phoneUpdate.update(updateInfo),
+  updateAllIndexes: () => dispatch(updateAllIndexes()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview)

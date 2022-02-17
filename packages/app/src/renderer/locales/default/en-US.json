@@ -84,6 +84,7 @@
   "component.menuHeaderDesktopApp": "Mudita Center",
   "component.menuHeaderYourHarmony": "Your Harmony",
   "component.menuHeaderYourPure": "Your Pure",
+  "component.menuHeaderSync": "Sync in progress...",
   "component.modalCloseButton": "Close",
   "component.modalProvidersApple": "Apple",
   "component.modalProvidersGoogle": "Google",
