@@ -3,6 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { SynchronizationState } from "App/data-sync/reducers"
 import { PureDataLoader } from "App/device/loaders/pure-data.loader"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
@@ -10,11 +13,22 @@ import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { DeviceLoadingError } from "App/device/errors"
+import { initializeDataSyncRequest } from "App/data-sync/requests/initialize-data-sync.request"
 
 jest.mock("Renderer/requests/get-device-info.request")
 jest.mock("Renderer/requests/get-network-info.request")
 jest.mock("Renderer/requests/get-storage-info.request")
 jest.mock("Renderer/requests/get-battery-info.request")
+jest.mock("App/data-sync/requests/initialize-data-sync.request")
+
+jest.mock("Renderer/store/index", () =>
+  createMockStore([thunk])({
+    dataSync: {
+      initialized: true,
+      state: SynchronizationState.Empty,
+    },
+  })
+)
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -43,7 +57,6 @@ const dataMock = {
         active: true,
       },
     ],
-    osUpdateDate: "2020-01-14T11:31:08.244Z",
     osVersion: "7.7.7",
     level: 50,
     serialNumber: "123",
@@ -69,45 +82,48 @@ const requestStatusFactory = (
 
 const subject = new PureDataLoader()
 
-test("PureDataLoader calls required requests", async () => {
-  requestStatusFactory(DeviceResponseStatus.Ok)
+describe("PureDataLoader", () => {
+  test("calls required requests", async () => {
+    requestStatusFactory(DeviceResponseStatus.Ok)
 
-  const result = await subject.load()
+    const result = await subject.load()
 
-  expect(result).toEqual({
-    backupLocation: undefined,
-    osUpdateDate: "2020-01-14T11:31:08.244Z",
-    caseColour: undefined,
-    osVersion: "7.7.7",
-    batteryLevel: 50,
-    serialNumber: "123",
-    memorySpace: { full: 1024, free: 1000, total: 16000000000 },
-    networkLevel: "1",
-    networkName: "Network",
-    simCards: [
-      {
-        active: true,
-        network: "Network",
-        networkLevel: 1,
-        number: 1,
-        slot: 1,
-      },
-    ],
+    expect(result).toEqual({
+      backupLocation: undefined,
+      caseColour: undefined,
+      osVersion: "7.7.7",
+      batteryLevel: 50,
+      serialNumber: "123",
+      memorySpace: { full: 1024, free: 1000, total: 16000000000 },
+      networkLevel: "1",
+      networkName: "Network",
+      simCards: [
+        {
+          active: true,
+          network: "Network",
+          networkLevel: 1,
+          number: 1,
+          slot: 1,
+        },
+      ],
+    })
+
+    expect(initializeDataSyncRequest).toHaveBeenCalled()
+    expect(getDeviceInfo).toHaveBeenCalled()
+    expect(getNetworkInfo).toHaveBeenCalled()
+    expect(getStorageInfo).toHaveBeenCalled()
+    expect(getBatteryInfo).toHaveBeenCalled()
   })
 
-  expect(getDeviceInfo).toHaveBeenCalled()
-  expect(getNetworkInfo).toHaveBeenCalled()
-  expect(getStorageInfo).toHaveBeenCalled()
-  expect(getBatteryInfo).toHaveBeenCalled()
-})
+  test("throw error if one of the request returns failed status", () => {
+    requestStatusFactory(DeviceResponseStatus.Error)
 
-test("PureDataLoader throw error if one of the request returns failed status", () => {
-  requestStatusFactory(DeviceResponseStatus.Error)
+    expect(async () => await subject.load()).rejects.toThrowError(errorMock)
 
-  expect(async () => await subject.load()).rejects.toThrowError(errorMock)
-
-  expect(getDeviceInfo).toHaveBeenCalled()
-  expect(getNetworkInfo).toHaveBeenCalled()
-  expect(getStorageInfo).toHaveBeenCalled()
-  expect(getBatteryInfo).toHaveBeenCalled()
+    expect(initializeDataSyncRequest).not.toHaveBeenCalled()
+    expect(getDeviceInfo).toHaveBeenCalled()
+    expect(getNetworkInfo).toHaveBeenCalled()
+    expect(getStorageInfo).toHaveBeenCalled()
+    expect(getBatteryInfo).toHaveBeenCalled()
+  })
 })

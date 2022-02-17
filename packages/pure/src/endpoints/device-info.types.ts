@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-enum BatteryState {
+export enum BatteryState {
   Discharging,
   Charging,
 }
@@ -25,12 +25,12 @@ export enum SignalStrength {
   Five = "5",
 }
 
-enum Tray {
+export enum Tray {
   Out,
   In,
 }
 
-enum AccessTechnology {
+export enum AccessTechnology {
   Gsm = 0x00,
   Utran = 0x02,
   GsmWEgprs,
@@ -41,7 +41,7 @@ enum AccessTechnology {
   Unknown = 0xff,
 }
 
-enum NetworkStatus {
+export enum NetworkStatus {
   NotRegistered,
   RegisteredHomeNetwork,
   Searching,
@@ -90,6 +90,7 @@ export interface DeviceInfo {
   serialNumber: string
   caseColour: CaseColour
   backupLocation: string
+  deviceToken?: string
 }
 
 // this enum is a tmp solution, diagnostics file paths should be fetch dynamically by `FileList` request

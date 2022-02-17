@@ -7,16 +7,16 @@ import fs from "fs"
 import archiver from "archiver"
 
 export interface WriteGzipData {
-  filePath: string
+  cwd: string
 }
 
-const writeGzip = ({ filePath }: WriteGzipData): Promise<boolean> => {
+const writeGzip = ({ cwd }: WriteGzipData): Promise<boolean> => {
   return new Promise((resolve) => {
     const archive = archiver("zip", {
       zlib: { level: 9 },
     })
 
-    const output = fs.createWriteStream(`${filePath}.zip`)
+    const output = fs.createWriteStream(`${cwd}.zip`)
 
     output.on("close", function () {
       resolve(true)
@@ -28,7 +28,7 @@ const writeGzip = ({ filePath }: WriteGzipData): Promise<boolean> => {
 
     archive.pipe(output)
 
-    archive.directory(`${filePath}/`, false)
+    archive.directory(`${cwd}/`, false)
 
     void archive.finalize()
   })

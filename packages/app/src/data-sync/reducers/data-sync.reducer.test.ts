@@ -3,13 +3,20 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store/helpers"
-import { dataSyncReducer, initialState } from "App/data-sync/reducers/data-sync.reducer"
-import { DataSyncEvent } from "App/data-sync"
+import {
+  fulfilledAction,
+  pendingAction,
+  rejectedAction,
+} from "Renderer/store/helpers"
+import {
+  dataSyncReducer,
+  initialState,
+  SynchronizationState,
+} from "App/data-sync/reducers"
+import { DataSyncEvent } from "App/data-sync/constants"
 import { UpdateAllIndexesError } from "App/data-sync/errors"
-import { SynchronizationState } from "App/data-sync/reducers/data-sync.interface"
 
-describe("Load Contacts data functionality", () => {
+describe("Update all indexes data functionality", () => {
   test("Event: UpdateAllIndexes/pending change `state` to Loading", () => {
     expect(
       dataSyncReducer(undefined, {
@@ -45,6 +52,47 @@ describe("Load Contacts data functionality", () => {
       ...initialState,
       state: SynchronizationState.Error,
       error: errorMock,
+    })
+  })
+})
+
+describe("`InitializeDataSync` data functionality", () => {
+  test("Event: InitializeDataSync/pending change `state` to Loading", () => {
+    expect(
+      dataSyncReducer(undefined, {
+        type: pendingAction(DataSyncEvent.UpdateAllIndexes),
+      })
+    ).toEqual({
+      ...initialState,
+      state: SynchronizationState.Loading,
+    })
+  })
+})
+
+describe("`InitializeDataSync` data functionality", () => {
+  test("Event: SetDataSyncInitialized change `initialized` to true and `error` to null", () => {
+    expect(
+      dataSyncReducer(undefined, {
+        type: DataSyncEvent.SetDataSyncInitialized,
+      })
+    ).toEqual({
+      ...initialState,
+      initialized: true,
+      error: null,
+    })
+  })
+})
+
+describe("`InitializeDataSync` data functionality", () => {
+  test("Event: SetDataSyncInitialized change `state` to Cache and initialized to true ", () => {
+    expect(
+      dataSyncReducer(undefined, {
+        type: DataSyncEvent.SetCacheState,
+      })
+    ).toEqual({
+      ...initialState,
+      initialized: true,
+      state: SynchronizationState.Cache,
     })
   })
 })

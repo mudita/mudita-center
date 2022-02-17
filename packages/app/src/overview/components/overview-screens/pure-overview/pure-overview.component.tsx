@@ -37,6 +37,8 @@ import {
 } from "App/restore-device/reducers"
 import { DeviceType } from "@mudita/pure"
 import { StartRestoreOption } from "App/restore-device/actions"
+import { SynchronizationState } from "App/data-sync/reducers"
+import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 
 type Props = DeviceState["data"] &
   PhoneUpdateStore &
@@ -50,6 +52,8 @@ type Props = DeviceState["data"] &
     startRestoreDevice: (option: StartRestoreOption) => void
     readRestoreDeviceDataState: () => void
     openContactSupportFlow: () => void
+    syncState: SynchronizationState
+    updateAllIndexes: () => Promise<void>
   }
 
 export const PureOverview: FunctionComponent<Props> = ({
@@ -57,7 +61,6 @@ export const PureOverview: FunctionComponent<Props> = ({
   changeSim = noop,
   disconnectDevice = noop,
   osVersion = "",
-  osUpdateDate = "",
   lastAvailableOsVersion,
   updatePhoneOsInfo = noop,
   memorySpace = {
@@ -91,6 +94,8 @@ export const PureOverview: FunctionComponent<Props> = ({
   backups,
   pureOsDownloaded,
   openContactSupportFlow,
+  syncState,
+  updateAllIndexes,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -244,6 +249,10 @@ export const PureOverview: FunctionComponent<Props> = ({
     }
   }, [restoreDeviceState])
 
+  const onRetry = () => {
+    updateAllIndexes()
+  }
+
   return (
     <>
       <UpdatingForceModalFlow
@@ -274,12 +283,14 @@ export const PureOverview: FunctionComponent<Props> = ({
           onSupportButtonClick={openContactSupportFlow}
         />
       )}
+      {syncState === SynchronizationState.Error && (
+        <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
+      )}
       <OverviewContent
         batteryLevel={batteryLevel}
         changeSim={changeSim}
         disconnectDevice={disconnectDevice}
         osVersion={osVersion}
-        osUpdateDate={osUpdateDate}
         memorySpace={memorySpace}
         simCards={simCards}
         networkName={networkName}

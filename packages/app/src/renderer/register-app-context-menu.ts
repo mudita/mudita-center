@@ -18,7 +18,7 @@ import importDeviceCrashDumpFiles from "Renderer/requests/import-device-crash-du
 import { loadThreads } from "App/messages/actions"
 import { clearAllThreads } from "App/messages/actions/base.action"
 
-const filePath = `${app.getPath("appData")}/${name}/pure-logs`
+const cwd = `${app.getPath("appData")}/${name}/pure-logs`
 
 const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Device", [
@@ -42,11 +42,11 @@ const registerAppContextMenu = (menu: ContextMenu) => {
     },
     {
       label: "Download logs file",
-      click: () => importDeviceLogFiles(filePath),
+      click: () => importDeviceLogFiles(cwd),
     },
     {
       label: "Download crash dumps file",
-      click: () => importDeviceCrashDumpFiles(filePath),
+      click: () => importDeviceCrashDumpFiles(cwd),
     },
   ])
 

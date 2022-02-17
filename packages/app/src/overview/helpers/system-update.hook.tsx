@@ -25,21 +25,22 @@ import {
   UpdatingSpinnerModal,
   UpdatingSuccessModal,
 } from "App/overview/components/overview-modals.component"
-import getAllReleases from "Renderer/requests/get-all-releases.request"
-import downloadOsUpdateRequest, {
-  cancelOsDownload,
-} from "Renderer/requests/download-os-update.request"
 import { PureOsDownloadChannels } from "App/main/functions/register-pure-os-download-listener"
 import {
   DownloadProgress,
   DownloadStatus,
 } from "Renderer/interfaces/file-download.interface"
-import osUpdateAlreadyDownloadedCheck from "Renderer/requests/os-update-already-downloaded.request"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import updateOs from "Renderer/requests/update-os.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import logger from "App/main/utils/logger"
-import { Release } from "App/main/functions/register-get-all-releases-listener"
+import {
+  Release,
+  getAllReleases,
+  osUpdateAlreadyDownloadedCheck,
+  downloadOsUpdateRequest,
+  cancelOsDownload,
+} from "App/update"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { setOsVersionData } from "App/device"
@@ -383,7 +384,6 @@ const useSystemUpdateFlow = (
       dispatch(
         setOsVersionData({
           osVersion: version,
-          osUpdateDate: new Date().toISOString(),
         })
       )
     }

@@ -15,16 +15,11 @@ import {
   startBackupDevice,
   StartBackupOption,
 } from "App/backup-device/actions/start-backup-device.action"
-import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
-import writeFile from "Renderer/requests/write-file.request"
-import encryptFile from "App/file-system/requests/encrypt-file.request"
 import { testError } from "Renderer/store/constants"
 import { StartBackupDeviceError } from "App/backup-device/errors"
 import { downloadDeviceBackupWithRetries } from "App/backup-device/helpers/download-device-backup-with-retries"
 
 jest.mock("App/backup-device/helpers/download-device-backup-with-retries")
-jest.mock("Renderer/requests/write-file.request")
-jest.mock("App/file-system/requests/encrypt-file.request")
 jest.mock("App/backup/actions/load-backup-data.action", () => ({
   loadBackupData: jest.fn().mockReturnValue({
     type: pendingAction(BackupEvent.Load),
@@ -32,15 +27,9 @@ jest.mock("App/backup/actions/load-backup-data.action", () => ({
   }),
 }))
 
-const backupBuffer = Buffer.from("backup data")
-const encryptedBuffer = Buffer.from("encrypted backup data")
-
-const successDownloadDeviceBackupResponse: DeviceResponse<DeviceFile> = {
+const successDownloadDeviceBackupResponse: DeviceResponse<string[]> = {
   status: DeviceResponseStatus.Ok,
-  data: {
-    data: backupBuffer,
-    name: `<YYYY-MM-DD>T<HHMMSS>Z`,
-  },
+  data: [],
 }
 
 const option: StartBackupOption = {
@@ -57,8 +46,6 @@ describe("async `startBackupDevice` ", () => {
       ;(downloadDeviceBackupWithRetries as jest.Mock).mockReturnValue(
         successDownloadDeviceBackupResponse
       )
-      ;(encryptFile as jest.Mock).mockReturnValue(encryptedBuffer)
-      ;(writeFile as jest.Mock).mockReturnValue(true)
       const mockStore = createMockStore([thunk])({
         settings: {
           pureOsBackupLocation: "C:\\backups",
@@ -80,8 +67,6 @@ describe("async `startBackupDevice` ", () => {
       ])
 
       expect(downloadDeviceBackupWithRetries).toHaveBeenCalled()
-      expect(encryptFile).toHaveBeenCalled()
-      expect(writeFile).toHaveBeenCalled()
     })
   })
 
@@ -108,69 +93,6 @@ describe("async `startBackupDevice` ", () => {
       ])
 
       expect(downloadDeviceBackupWithRetries).toHaveBeenCalled()
-      expect(encryptFile).not.toHaveBeenCalled()
-      expect(writeFile).not.toHaveBeenCalled()
-    })
-  })
-
-  describe("when `encryptFile` return error", () => {
-    test("fire async `startBackupDevice` returns `rejected` action", async () => {
-      const errorMock = new StartBackupDeviceError("Encrypt buffer fails")
-      ;(downloadDeviceBackupWithRetries as jest.Mock).mockReturnValue(
-        successDownloadDeviceBackupResponse
-      )
-      ;(encryptFile as jest.Mock).mockReturnValue(undefined)
-      const mockStore = createMockStore([thunk])({
-        settings: {
-          pureOsBackupLocation: "C:\\backups",
-        },
-      })
-      const {
-        meta: { requestId },
-      } = await mockStore.dispatch(
-        startBackupDevice(option) as unknown as AnyAction
-      )
-
-      expect(mockStore.getActions()).toEqual([
-        startBackupDevice.pending(requestId, option),
-        startBackupDevice.rejected(testError, requestId, option, errorMock),
-      ])
-
-      expect(downloadDeviceBackupWithRetries).toHaveBeenCalled()
-      expect(encryptFile).toHaveBeenCalled()
-      expect(writeFile).not.toHaveBeenCalled()
-    })
-  })
-
-  describe("when `writeFile` return error", () => {
-    test("fire async `startBackupDevice` returns `rejected` action", async () => {
-      const errorMock = new StartBackupDeviceError(
-        "write file request returns error"
-      )
-      ;(downloadDeviceBackupWithRetries as jest.Mock).mockReturnValue(
-        successDownloadDeviceBackupResponse
-      )
-      ;(encryptFile as jest.Mock).mockReturnValue(encryptedBuffer)
-      ;(writeFile as jest.Mock).mockReturnValue(false)
-      const mockStore = createMockStore([thunk])({
-        settings: {
-          pureOsBackupLocation: "C:\\backups",
-        },
-      })
-      const {
-        meta: { requestId },
-      } = await mockStore.dispatch(
-        startBackupDevice(option) as unknown as AnyAction
-      )
-
-      expect(mockStore.getActions()).toEqual([
-        startBackupDevice.pending(requestId, option),
-        startBackupDevice.rejected(testError, requestId, option, errorMock),
-      ])
-
-      expect(downloadDeviceBackupWithRetries).toHaveBeenCalled()
-      expect(encryptFile).toHaveBeenCalled()
-      expect(writeFile).toHaveBeenCalled()
     })
   })
 })

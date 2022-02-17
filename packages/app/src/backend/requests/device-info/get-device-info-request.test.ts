@@ -3,21 +3,30 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import MuditaDeviceManager, { DeviceInfo } from "@mudita/pure"
+import MuditaDeviceManager, {
+  AccessTechnology,
+  BatteryState,
+  CaseColour,
+  DeviceInfo,
+  NetworkStatus,
+  SignalStrength,
+  SIM,
+  Tray,
+} from "@mudita/pure"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 import registerDeviceInfoRequest from "./get-device-info.request"
-import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import DeviceService from "Backend/device-service"
 import Adapters from "Backend/adapters/adapters.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
-import createDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system.adapter"
+import createDeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info.adapter"
 
 const mockDeviceInfo: DeviceInfo = {
-  accessTechnology: "255",
+  backupLocation: "",
+  networkOperatorName: "",
+  accessTechnology: AccessTechnology.Gsm,
   batteryLevel: "35",
-  batteryState: "1",
+  batteryState: BatteryState.Discharging,
   currentRTCTime: "3000",
   fsFree: "13727",
   fsFreePercent: "99",
@@ -25,13 +34,14 @@ const mockDeviceInfo: DeviceInfo = {
   gitBranch: "EGD-4318_enable_service_desktop",
   gitRevision: "4973bab",
   version: "release-0.46.1-33-g4973babd",
-  networkStatus: "2",
-  selectedSim: "0",
-  signalStrength: "1",
-  trayState: "1",
+  networkStatus: NetworkStatus.NotRegistered,
+  selectedSim: SIM.One,
+  signalStrength: SignalStrength.One,
+  trayState: Tray.In,
   serialNumber: "1UB13213MN14K1",
-  caseColour: "grey",
-} as unknown as DeviceInfo
+  caseColour: CaseColour.Gray,
+  deviceToken: "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa",
+}
 
 jest.mock("Backend/device-service")
 
@@ -45,16 +55,8 @@ test("returns required device info", async () => {
     }
   })
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
-  const deviceFileSystem = createDeviceFileSystemAdapter(deviceService)
-  const deviceFileDiagnosticService = new DeviceFileDiagnosticService(
-    deviceService
-  )
   registerDeviceInfoRequest({
-    purePhone: createPurePhoneAdapter(
-      deviceService,
-      deviceFileSystem,
-      deviceFileDiagnosticService
-    ),
+    deviceBaseInfo: createDeviceBaseInfoAdapter(deviceService),
   } as unknown as Adapters)
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetDeviceInfo)
   const result = await pendingResponse
@@ -62,11 +64,8 @@ test("returns required device info", async () => {
   expect(result.data).toMatchInlineSnapshot(`
     Object {
       "backupLocation": "",
-      "caseColour": "grey",
-      "modelName": "Ziemniaczek Puree",
-      "modelNumber": "Y0105W4GG1N5",
-      "name": "Mudita Pure",
-      "osUpdateDate": "2020-01-14T11:31:08.244Z",
+      "caseColour": "gray",
+      "deviceToken": "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa",
       "osVersion": "release-0.46.1-33-g4973babd",
       "serialNumber": "1UB13213MN14K1",
     }

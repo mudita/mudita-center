@@ -7,17 +7,17 @@ import fs from "fs"
 
 export interface CopyData {
   sourcePath: string
-  targetPath: string
+  cwd: string
 }
 
-const copyFile = ({ sourcePath, targetPath }: CopyData): boolean => {
+const copyFile = ({ sourcePath, cwd }: CopyData): boolean => {
   try {
-    if (!fs.existsSync(targetPath)) {
-      fs.mkdirSync(targetPath, {
+    if (!fs.existsSync(cwd)) {
+      fs.mkdirSync(cwd, {
         recursive: true,
       })
     }
-    fs.copyFileSync(sourcePath, targetPath)
+    fs.copyFileSync(sourcePath, cwd)
     return true
   } catch {
     return false

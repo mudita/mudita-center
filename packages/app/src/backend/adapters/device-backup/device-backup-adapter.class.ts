@@ -4,10 +4,11 @@
  */
 
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import { DownloadDeviceFileLocallyOptions } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export default abstract class DeviceBackupAdapter {
-  public abstract backuping : boolean
-  public abstract downloadDeviceBackup(): Promise<DeviceResponse<DeviceFile>>
-  public abstract downloadDeviceBackupLocally(targetPath: string): Promise<DeviceResponse<string[]>>
+  public abstract backuping: boolean
+  public abstract downloadDeviceBackup(
+    options: DownloadDeviceFileLocallyOptions
+  ): Promise<DeviceResponse<string[]>>
 }

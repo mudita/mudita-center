@@ -259,6 +259,11 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   -ms-flex-direction: column;
   flex-direction: column;
   margin: 0 3.2rem;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  min-height: 100%;
 }
 
 .c1 {
@@ -279,141 +284,143 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   <div
     class="c0"
   >
-    <div
-      class="c1"
-    >
-      <span
-        class="c2 c3"
-        data-testid="icon-MuditaLogoWithText"
-      >
-        <test-file-stub
-          image="test-file-stub"
-        />
-      </span>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        color="secondary"
-        displaystyle="8"
-        href="#/news"
-        size="2"
+    <div>
+      <div
+        class="c1"
       >
         <span
-          class="c6 c7"
-          data-testid="icon-MenuNews"
-          height="3.2"
-          width="3.2"
+          class="c2 c3"
+          data-testid="icon-MuditaLogoWithText"
         >
           <test-file-stub
             image="test-file-stub"
           />
         </span>
+      </div>
+      <div
+        class="c4"
+      >
+        <a
+          class="c5"
+          color="secondary"
+          displaystyle="8"
+          href="#/news"
+          size="2"
+        >
+          <span
+            class="c6 c7"
+            data-testid="icon-MenuNews"
+            height="3.2"
+            width="3.2"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </span>
+          <p
+            class="c8 c9"
+            color="primary"
+          >
+            [value] module.news
+          </p>
+        </a>
+      </div>
+      <div
+        class="c10"
+        data-testid="component.menuHeaderDesktopApp"
+      >
         <p
-          class="c8 c9"
+          class="c11"
           color="primary"
         >
-          [value] module.news
+          [value] component.menuHeaderDesktopApp
         </p>
-      </a>
-    </div>
-    <div
-      class="c10"
-      data-testid="component.menuHeaderDesktopApp"
-    >
-      <p
-        class="c11"
-        color="primary"
+      </div>
+      <div
+        class="c4"
       >
-        [value] component.menuHeaderDesktopApp
-      </p>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        color="secondary"
-        data-testid="tethering-link"
-        displaystyle="8"
-        href="#/tethering"
-        size="2"
+        <a
+          class="c5"
+          color="secondary"
+          data-testid="tethering-link"
+          displaystyle="8"
+          href="#/tethering"
+          size="2"
+        >
+          <span
+            class="c6 c7"
+            data-testid="icon-MenuTethering"
+            height="3.2"
+            width="3.2"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </span>
+          <p
+            class="c8 c9"
+            color="primary"
+          >
+            [value] module.tethering
+          </p>
+        </a>
+      </div>
+      <div
+        class="c4"
       >
-        <span
-          class="c6 c7"
-          data-testid="icon-MenuTethering"
-          height="3.2"
-          width="3.2"
+        <a
+          class="c5"
+          color="secondary"
+          displaystyle="8"
+          href="#/settings"
+          size="2"
         >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </span>
-        <p
-          class="c8 c9"
-          color="primary"
-        >
-          [value] module.tethering
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        color="secondary"
-        displaystyle="8"
-        href="#/settings"
-        size="2"
+          <span
+            class="c6 c7"
+            data-testid="icon-MenuSettings"
+            height="3.2"
+            width="3.2"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </span>
+          <p
+            class="c8 c9"
+            color="primary"
+          >
+            [value] module.settings
+          </p>
+        </a>
+      </div>
+      <div
+        class="c4"
       >
-        <span
-          class="c6 c7"
-          data-testid="icon-MenuSettings"
-          height="3.2"
-          width="3.2"
+        <button
+          class="c12 c13"
+          color="secondary"
+          data-testid="help-menu-button"
+          size="2"
+          type="button"
         >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </span>
-        <p
-          class="c8 c9"
-          color="primary"
-        >
-          [value] module.settings
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <button
-        class="c12 c13"
-        color="secondary"
-        data-testid="help-menu-button"
-        size="2"
-        type="button"
-      >
-        <span
-          class="c6 c7"
-          data-testid="icon-MenuHelp"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </span>
-        <p
-          class="c8 c9"
-          color="primary"
-        >
-          [value] module.help
-        </p>
-      </button>
+          <span
+            class="c6 c7"
+            data-testid="icon-MenuHelp"
+            height="3.2"
+            width="3.2"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </span>
+          <p
+            class="c8 c9"
+            color="primary"
+          >
+            [value] module.help
+          </p>
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -678,6 +685,11 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   -ms-flex-direction: column;
   flex-direction: column;
   margin: 0 3.2rem;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  min-height: 100%;
 }
 
 .c1 {
@@ -698,141 +710,143 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   <div
     class="c0"
   >
-    <div
-      class="c1"
-    >
-      <span
-        class="c2 c3"
-        data-testid="icon-MuditaLogoWithText"
-      >
-        <test-file-stub
-          image="test-file-stub"
-        />
-      </span>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        color="secondary"
-        displaystyle="8"
-        href="#/news"
-        size="2"
+    <div>
+      <div
+        class="c1"
       >
         <span
-          class="c6 c7"
-          data-testid="icon-MenuNews"
-          height="3.2"
-          width="3.2"
+          class="c2 c3"
+          data-testid="icon-MuditaLogoWithText"
         >
           <test-file-stub
             image="test-file-stub"
           />
         </span>
+      </div>
+      <div
+        class="c4"
+      >
+        <a
+          class="c5"
+          color="secondary"
+          displaystyle="8"
+          href="#/news"
+          size="2"
+        >
+          <span
+            class="c6 c7"
+            data-testid="icon-MenuNews"
+            height="3.2"
+            width="3.2"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </span>
+          <p
+            class="c8 c9"
+            color="primary"
+          >
+            [value] module.news
+          </p>
+        </a>
+      </div>
+      <div
+        class="c10"
+        data-testid="component.menuHeaderDesktopApp"
+      >
         <p
-          class="c8 c9"
+          class="c11"
           color="primary"
         >
-          [value] module.news
+          [value] component.menuHeaderDesktopApp
         </p>
-      </a>
-    </div>
-    <div
-      class="c10"
-      data-testid="component.menuHeaderDesktopApp"
-    >
-      <p
-        class="c11"
-        color="primary"
+      </div>
+      <div
+        class="c4"
       >
-        [value] component.menuHeaderDesktopApp
-      </p>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        color="secondary"
-        data-testid="tethering-link"
-        displaystyle="8"
-        href="#/tethering"
-        size="2"
+        <a
+          class="c5"
+          color="secondary"
+          data-testid="tethering-link"
+          displaystyle="8"
+          href="#/tethering"
+          size="2"
+        >
+          <span
+            class="c6 c7"
+            data-testid="icon-MenuTethering"
+            height="3.2"
+            width="3.2"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </span>
+          <p
+            class="c8 c9"
+            color="primary"
+          >
+            [value] module.tethering
+          </p>
+        </a>
+      </div>
+      <div
+        class="c4"
       >
-        <span
-          class="c6 c7"
-          data-testid="icon-MenuTethering"
-          height="3.2"
-          width="3.2"
+        <a
+          class="c5"
+          color="secondary"
+          displaystyle="8"
+          href="#/settings"
+          size="2"
         >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </span>
-        <p
-          class="c8 c9"
-          color="primary"
-        >
-          [value] module.tethering
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        color="secondary"
-        displaystyle="8"
-        href="#/settings"
-        size="2"
+          <span
+            class="c6 c7"
+            data-testid="icon-MenuSettings"
+            height="3.2"
+            width="3.2"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </span>
+          <p
+            class="c8 c9"
+            color="primary"
+          >
+            [value] module.settings
+          </p>
+        </a>
+      </div>
+      <div
+        class="c4"
       >
-        <span
-          class="c6 c7"
-          data-testid="icon-MenuSettings"
-          height="3.2"
-          width="3.2"
+        <button
+          class="c12 c13"
+          color="secondary"
+          data-testid="help-menu-button"
+          size="2"
+          type="button"
         >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </span>
-        <p
-          class="c8 c9"
-          color="primary"
-        >
-          [value] module.settings
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <button
-        class="c12 c13"
-        color="secondary"
-        data-testid="help-menu-button"
-        size="2"
-        type="button"
-      >
-        <span
-          class="c6 c7"
-          data-testid="icon-MenuHelp"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </span>
-        <p
-          class="c8 c9"
-          color="primary"
-        >
-          [value] module.help
-        </p>
-      </button>
+          <span
+            class="c6 c7"
+            data-testid="icon-MenuHelp"
+            height="3.2"
+            width="3.2"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </span>
+          <p
+            class="c8 c9"
+            color="primary"
+          >
+            [value] module.help
+          </p>
+        </button>
+      </div>
     </div>
   </div>
 </div>

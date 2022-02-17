@@ -8,13 +8,14 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import DeviceFileSystemAdapter, {
   DeviceFile,
+  DownloadDeviceFileLocallyOptions,
   UploadFilePayload,
 } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export class DeviceFileSystemFakeAdapter implements DeviceFileSystemAdapter {
-  async downloadLocally(
+  async downloadDeviceFilesLocally(
     filePaths: string[],
-    fileDirectory: string
+    options: DownloadDeviceFileLocallyOptions
   ): Promise<DeviceResponse<string[]>> {
     return {
       status: DeviceResponseStatus.Ok,

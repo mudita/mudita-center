@@ -15,6 +15,7 @@ import history from "Renderer/routes/history"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { flags } from "App/feature-flags"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
+import { SynchronizationState } from "App/data-sync/reducers"
 
 jest.mock("App/feature-flags")
 
@@ -37,6 +38,24 @@ describe("Device: Mudita pure", () => {
       </Provider>
     )
     expect(container).toMatchSnapshot()
+  })
+
+  test("should show sync state if not loaded yet", () => {
+    jest.spyOn(flags, "get").mockReturnValue(true)
+    const { getByTestId } = renderWithThemeAndIntl(
+      <Provider
+        store={mockStore({
+          device: {
+            deviceType: DeviceType.MuditaPure,
+          },
+        })}
+      >
+        <Router history={history}>
+          <Menu syncState={SynchronizationState.Cache} />
+        </Router>
+      </Provider>
+    )
+    expect(getByTestId(MenuGroupTestIds.Sync)).toBeInTheDocument()
   })
 })
 

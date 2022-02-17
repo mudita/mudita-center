@@ -22,7 +22,6 @@ const errorMock = new DeviceLoadingError("Device data loading error")
 
 const dataMock = {
   data: {
-    osUpdateDate: "2020-01-14T11:31:08.244Z",
     osVersion: "7.7.7",
     level: 50,
     serialNumber: "123",
@@ -51,7 +50,6 @@ test("HarmonyDataLoader calls required requests", async () => {
   const result = await subject.load()
 
   expect(result).toEqual({
-    osUpdateDate: "2020-01-14T11:31:08.244Z",
     osVersion: "7.7.7",
     batteryLevel: 50,
     serialNumber: "123",

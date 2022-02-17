@@ -6,7 +6,8 @@
 import { MuditaDeviceManager } from "@mudita/pure"
 import { MainProcessIpc } from "electron-better-ipc"
 import Backend from "Backend/backend"
-import { createIndexService, DataSync } from "App/data-sync"
+import { DataSync } from "App/data-sync/services"
+import { createIndexService } from "App/data-sync/containers"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import { createDeviceService } from "Backend/device-service"
 import createDeviceBackupService from "./device-backup-service/device-backup-service"
@@ -54,33 +55,37 @@ import registerGetRestoreDeviceStatusRequest from "Backend/requests/get-restore-
 import registerDownloadDeviceCrashDumpFiles from "App/backend/requests/download-crash-dump-files/download-crash-dump-files.request"
 import { registerFileSystemRemoveRequest } from "App/device-file-system"
 import { registerDownloadDeviceBackupRequest } from "App/backup-device"
+import createDeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info.adapter"
 
 const bootstrap = (
   deviceManager: MuditaDeviceManager,
   ipcMain: MainProcessIpc
 ): void => {
   const deviceService = createDeviceService(deviceManager, ipcMain)
+  const deviceBaseInfo = createDeviceBaseInfoAdapter(deviceService)
   const deviceFileDiagnosticService =
     createDeviceFileDiagnosticService(deviceService)
   const deviceFileSystem = createDeviceFileSystemAdapter(deviceService)
   const purePhone = createPurePhoneAdapter(
     deviceService,
+    deviceBaseInfo,
     deviceFileSystem,
     deviceFileDiagnosticService
   )
   const deviceBackupService = createDeviceBackupService(deviceService)
   const deviceBackup = createDeviceBackupAdapter(
-    purePhone,
+    deviceBaseInfo,
     deviceBackupService,
     deviceFileSystem
   )
 
-  const indexService = createIndexService(new DataSync(deviceService, deviceBackup))
+  createIndexService(new DataSync(deviceService, deviceBackup))
 
   const adapters = {
     deviceBackup,
     deviceFileSystem,
     purePhone,
+    deviceBaseInfo,
     phonebook: createPhonebook(deviceService),
     pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
     pureNetwork: createPurePhoneNetwork(deviceService),
@@ -126,7 +131,6 @@ const bootstrap = (
     registerDownloadDeviceBackupRequest,
   ]
 
-  indexService.initialize()
   new Backend(adapters, getFakeAdapters(), requests).init()
 }
 

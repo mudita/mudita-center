@@ -25,6 +25,7 @@ import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
 import { intl } from "Renderer/utils/intl"
 import { flags } from "App/feature-flags"
+import { SynchronizationState } from "App/data-sync/reducers"
 
 type Props = ComponentProps<typeof Overview>
 
@@ -45,7 +46,6 @@ jest.mock("Renderer/requests/get-device-info.request", () =>
       modelNumber: "A1239999",
       serilaNumber: "a-b-3d",
       osVersion: "0.123v",
-      osUpdateDate: "12-12-2003",
     },
   }))
 )
@@ -137,7 +137,6 @@ const defaultProps: Props = {
   language: "en-US",
   loadData: jest.fn(),
   networkName: "network name",
-  osUpdateDate: "2020-01-14T11:31:08.244Z",
   osVersion: "release-1.0.0",
   pureNeverConnected: false,
   pureOsBackupLocation: "path/location/backup",
@@ -164,6 +163,8 @@ const defaultProps: Props = {
     full: 200,
   },
   caseColour: CaseColour.Gray,
+  syncState: SynchronizationState.Loaded,
+  updateAllIndexes: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {

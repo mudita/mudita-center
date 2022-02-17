@@ -7,12 +7,13 @@ import { SerialisedIndexData } from "elasticlunr"
 import { DataSyncClass } from "App/data-sync/services/data-sync-class.interface"
 import { DataIndex } from "App/data-sync/constants"
 import { IndexClass } from "App/data-sync/services/index-class.interface"
+import { InitializeOptions } from "App/data-sync/types"
 
-export class IndexService implements IndexClass{
+export class IndexService implements IndexClass {
   constructor(private dataSync: DataSyncClass) {}
 
-  initialize(): void {
-    this.dataSync.initialize()
+  initialize(options: InitializeOptions): Promise<boolean> {
+    return this.dataSync.initialize(options)
   }
 
   indexAll(): Promise<void> {
@@ -20,6 +21,6 @@ export class IndexService implements IndexClass{
   }
 
   getIndex(indexName: DataIndex): SerialisedIndexData<unknown> | undefined {
-    return this.dataSync.indexesMap.get(indexName)?.toJSON()
+    return this.dataSync.indexesMap.get(indexName)
   }
 }

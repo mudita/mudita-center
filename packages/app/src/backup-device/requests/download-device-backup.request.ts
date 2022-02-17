@@ -6,12 +6,15 @@
 import { ipcRenderer } from "electron-better-ipc"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 import { IpcBackupDevice } from "App/backup/constants/ipc-backup.enum"
-import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import { DownloadDeviceFileLocallyOptions } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
-const downloadDeviceBackupRequest = async (): Promise<
-  DeviceResponse<DeviceFile>
-> => {
-  return await ipcRenderer.callMain(IpcBackupDevice.DownloadDeviceBackup)
+const downloadDeviceBackupRequest = async (
+  options: DownloadDeviceFileLocallyOptions
+): Promise<DeviceResponse<string[]>> => {
+  return await ipcRenderer.callMain(
+    IpcBackupDevice.DownloadDeviceBackup,
+    options
+  )
 }
 
 export default downloadDeviceBackupRequest

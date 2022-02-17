@@ -6,11 +6,10 @@
 import semver from "semver/preload"
 import { DeviceType } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
-import {
-  GetAllReleasesEvents,
-  Release,
-} from "App/main/functions/register-get-all-releases-listener"
+import { IpcUpdate } from "App/update/constants"
 import { Product } from "App/main/constants"
+import { Release } from "App/update/types"
+import { flags, Feature } from "App/feature-flags"
 
 interface AllReleasesResponse {
   allReleases: Release[]
@@ -22,12 +21,22 @@ const productsMapper = {
   [DeviceType.MuditaHarmony]: Product.BellHybrid,
 }
 
-const getAllReleases = async (
+export const getAllReleases = async (
   deviceType: DeviceType
 ): Promise<AllReleasesResponse> => {
-  const releases: Release[] = await ipcRenderer.callMain<undefined, Release[]>(
-    GetAllReleasesEvents.Request
-  )
+  const productName = productsMapper[deviceType]
+  let releases: Release[] = []
+
+  if (flags.get(Feature.ProductionReleaseOnly)) {
+    releases = await ipcRenderer.callMain<Product, Release[]>(
+      IpcUpdate.GetProductionReleases,
+      productName
+    )
+  } else {
+    releases = await ipcRenderer.callMain<undefined, Release[]>(
+      IpcUpdate.GetAllReleases
+    )
+  }
 
   const filteredProducts = releases
     .sort((prev: Release, next: Release) => {
@@ -41,7 +50,7 @@ const getAllReleases = async (
 
       return 0
     })
-    .filter((release) => release.product === productsMapper[deviceType])
+    .filter((release) => release.product === productName)
   const officialReleases = filteredProducts.filter(
     (release) => !release.prerelease
   )
@@ -52,5 +61,3 @@ const getAllReleases = async (
     latestRelease: newestOfficialRelease,
   }
 }
-
-export default getAllReleases
