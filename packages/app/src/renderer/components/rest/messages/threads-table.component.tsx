@@ -33,8 +33,8 @@ export const NameWrapper = styled.div`
 export const Time = styled(Text)`
   grid-area: Time;
   align-self: end;
-  margin-left: 1rem;
-  margin-bottom: 0.4rem;
+  margin-left: 0.8rem;
+  margin-bottom: 0.2rem;
 `
 
 export const Message = styled(Text)`

@@ -10,7 +10,6 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import {
   backgroundColor,
-  textColor,
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
@@ -54,7 +53,6 @@ export const basicAvatarStyles = css<{ size?: AvatarSize }>`
   height: ${({ size = AvatarSize.Small }) => getAvatarSize(size)}rem;
   border-radius: 50%;
   background-color: ${backgroundColor("minor")};
-  color: ${textColor("disabled")};
 `
 
 const AvatarImage = styled(Image)`
@@ -102,6 +100,7 @@ const Avatar: FunctionComponent<AvatarProps> = ({
       <Text
         displayStyle={getAvatarTextStyle(size)}
         data-testid={AvatarTestIds.AvatarText}
+        color="disabled"
       >
         {user.firstName?.charAt(0)}
         {user.lastName?.charAt(0)}

@@ -113,7 +113,7 @@ const Menu: FunctionComponent<Properties> = ({
           <LoaderWrapper>
             <Loader type={LoaderType.Spinner} size={1.5} />
           </LoaderWrapper>
-          <Text displayStyle={TextDisplayStyle.LargeText}>
+          <Text displayStyle={TextDisplayStyle.Paragraph1}>
             {intl.formatMessage({ id: "component.menuHeaderSync" })}
           </Text>
         </SyncProgressWrapper>
