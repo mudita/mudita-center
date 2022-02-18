@@ -84,7 +84,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
       }
     }
 
-    if (values.at(-1) !== "") {
+    if (values[values.length - 1] !== "") {
       const code = values.map((value) => parseInt(value))
 
       if (openBlocked === undefined) {

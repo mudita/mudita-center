@@ -42,7 +42,7 @@ const Connecting: FunctionComponent<{
   noModalsVisible,
   updateAllIndexes,
 }) => {
-  const [error, setError] = useState<ConnectingError | undefined>(undefined)
+  const [error, setError] = useState<ConnectingError | null>(null)
   const [longerConnection, setLongerConnection] = useState(false)
 
   useEffect(() => {
@@ -121,7 +121,8 @@ const Connecting: FunctionComponent<{
   }
 
   const onRetry = () => {
-    updateAllIndexes()
+    setError(null)
+    void updateAllIndexes()
   }
 
   return (
