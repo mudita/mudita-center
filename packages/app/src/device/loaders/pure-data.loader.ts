@@ -18,8 +18,6 @@ type PureData = Partial<PureDeviceData>
 
 export class PureDataLoader extends BaseLoader {
   async load(): Promise<PureData> {
-    const state = store.getState() as unknown as ReduxRootState
-
     const responses = await Promise.all([
       getDeviceInfo(),
       getNetworkInfo(),
@@ -39,6 +37,8 @@ export class PureDataLoader extends BaseLoader {
     const networkLevel = this.getActiveNetworkLevelFromSim(
       networkInfo.data!.simCards
     )
+
+    const state = store.getState() as unknown as ReduxRootState
 
     if (
       state.dataSync.state ===
