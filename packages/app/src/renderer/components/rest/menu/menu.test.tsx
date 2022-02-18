@@ -23,16 +23,23 @@ jest.mock("App/feature-flags")
 
 type Props = ComponentProps<typeof Menu>
 
-const initialStateMock = {} as unknown as ReduxRootState
+const defaultState = {
+  device: {
+    deviceType: DeviceType.MuditaPure,
+  } as unknown as DeviceState,
+} as unknown as ReduxRootState
 
 const defaultProps: Props = {
   syncState: SynchronizationState.Empty,
 }
 
-const render = (initialState?: ReduxRootState, extraProps?: Partial<Props>) => {
+const render = (
+  extraState?: Partial<ReduxRootState>,
+  extraProps?: Partial<Props>
+) => {
   const storeMock = createMockStore([thunk])({
-    ...initialStateMock,
-    ...initialState,
+    ...defaultState,
+    ...extraState,
   })
 
   const props = {
@@ -50,37 +57,48 @@ const render = (initialState?: ReduxRootState, extraProps?: Partial<Props>) => {
 }
 
 describe("Device: Mudita pure", () => {
+  jest.spyOn(flags, "get").mockReturnValue(true)
+
   test("matches snapshot", () => {
-    jest.spyOn(flags, "get").mockReturnValue(true)
-    const { container } = render({
-      ...initialStateMock,
-      device: {
-        deviceType: DeviceType.MuditaPure,
-      } as unknown as DeviceState,
-    })
+    const { container } = render(defaultState)
     expect(container).toMatchSnapshot()
   })
 
-  test("should show sync state if not loaded yet", () => {
-    jest.spyOn(flags, "get").mockReturnValue(true)
-    const { getByTestId } = render(
-      {
-        ...initialStateMock,
-        device: {
-          deviceType: DeviceType.MuditaPure,
-        } as unknown as DeviceState,
-      },
-      { syncState: SynchronizationState.Cache }
-    )
-    expect(getByTestId(MenuGroupTestIds.Sync)).toBeInTheDocument()
+  describe("Sync spinner functionality", () => {
+    test("when `syncState` is set to `Empty` the spinner isn't visible", () => {
+      const { queryByTestId } = render(defaultState, {
+        syncState: SynchronizationState.Empty,
+      })
+      expect(queryByTestId(MenuGroupTestIds.Sync)).not.toBeInTheDocument()
+    })
+    test("when `syncState` is set to `Loaded` the spinner isn't visible", () => {
+      const { queryByTestId } = render(defaultState, {
+        syncState: SynchronizationState.Loaded,
+      })
+      expect(queryByTestId(MenuGroupTestIds.Sync)).not.toBeInTheDocument()
+    })
+    test("when `syncState` is set to `Cache` the spinner is visible", () => {
+      const { queryByTestId } = render(defaultState, {
+        syncState: SynchronizationState.Cache,
+      })
+      expect(queryByTestId(MenuGroupTestIds.Sync)).toBeInTheDocument()
+    })
+
+    test("when `syncState` is set to `Loading` the spinner is visible", () => {
+      const { queryByTestId } = render(defaultState, {
+        syncState: SynchronizationState.Loading,
+      })
+      expect(queryByTestId(MenuGroupTestIds.Sync)).toBeInTheDocument()
+    })
   })
 })
 
 describe("Device: Mudita harmony", () => {
+  jest.spyOn(flags, "get").mockReturnValue(true)
+
   test("matches snapshot", () => {
-    jest.spyOn(flags, "get").mockReturnValue(true)
     const { container } = render({
-      ...initialStateMock,
+      ...defaultState,
       device: {
         deviceType: DeviceType.MuditaHarmony,
       } as unknown as DeviceState,
@@ -91,13 +109,14 @@ describe("Device: Mudita harmony", () => {
 
 test("Menu should have overview item", () => {
   jest.spyOn(flags, "get").mockReturnValue(true)
-  const { getByTestId } = render({
-    ...initialStateMock,
+
+  const { queryByTestId } = render({
+    ...defaultState,
     device: {
       deviceType: DeviceType.MuditaHarmony,
     } as unknown as DeviceState,
   })
-  expect(getByTestId(MenuGroupTestIds.Help)).toHaveTextContent(
+  expect(queryByTestId(MenuGroupTestIds.Help)).toHaveTextContent(
     "[value] module.help"
   )
 })
