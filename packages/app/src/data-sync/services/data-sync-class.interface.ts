@@ -3,11 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DataIndex } from "App/data-sync"
-import { Index } from "elasticlunr"
+import { SerialisedIndexData } from "elasticlunr"
+import { DataIndex } from "App/data-sync/constants"
+import { InitializeOptions } from "App/data-sync/types"
 
 export interface DataSyncClass {
-  indexesMap: Map<DataIndex, Index<any>>
-  initialize(): void
+  indexesMap: Map<DataIndex, SerialisedIndexData<any>>
+  initialize(options: InitializeOptions): Promise<boolean>
   indexAll(): Promise<void>
 }

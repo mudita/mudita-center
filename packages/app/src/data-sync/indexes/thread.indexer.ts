@@ -5,7 +5,7 @@
 
 import path from "path"
 import { Database } from "sql.js"
-import elasticlunr, { Index } from "elasticlunr"
+import elasticlunr, { Index, SerialisedIndexData } from "elasticlunr"
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import { ThreadTable } from "App/data-sync/constants"
 import {
@@ -13,21 +13,23 @@ import {
   ThreadObject,
   ThreadInput,
 } from "App/data-sync/types"
+import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
 
 export class ThreadIndexer extends BaseIndexer {
   constructor(
+    syncFileSystemService: SyncFileSystemService,
     private dataPresenter: IndexerPresenter<ThreadInput, ThreadObject[]>
   ) {
-    super()
+    super(syncFileSystemService)
   }
 
-  async index(fileDir: string): Promise<Index<ThreadObject>> {
+  async index(fileDir: string): Promise<SerialisedIndexData<ThreadObject>> {
     const smsDb = await this.initTmpSmsDatabase(fileDir)
     const contactDb = await this.initTmpContactDatabase(fileDir)
     const object = this.dataPresenter.serializeToObject(
       this.loadTables(smsDb, contactDb)
     )
-    return this.createIndex(object)
+    return this.createIndex(object).toJSON()
   }
 
   private createIndex(data: ThreadObject[]): Index<ThreadObject> {

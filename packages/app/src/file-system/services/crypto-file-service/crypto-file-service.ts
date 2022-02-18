@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import crypto, { BinaryToTextEncoding } from "crypto"
+import crypto, { BinaryToTextEncoding, Cipher } from "crypto"
 
 /**
  * You can get a list of hash types your OpenSSL supports by typing
@@ -19,14 +19,35 @@ const defaultHashAlgorithm: HashAlgorithm = "sha256"
 type CipherAlgorithm = string
 const defaultCipherAlgorithm: CipherAlgorithm = "aes-256-ctr"
 
-export interface CryptoFileOption
-  extends Pick<HashOptions, "key" | "encoding"> {
-  buffer: Buffer | Uint8Array
+export interface CryptoFileOptions
+  extends Pick<TokenOptions, "key" | "encoding"> {
   cipherAlgorithm?: CipherAlgorithm
+  hashAlgorithm?: HashAlgorithm
+  buffer: Buffer | Uint8Array
+}
+
+interface BaseCipherivOptions {
+  cipherAlgorithm?: CipherAlgorithm
+  iv: Buffer
+}
+
+export interface CipherivOptions
+  extends Pick<TokenOptions, "key" | "encoding">,
+    BaseCipherivOptions {
   hashAlgorithm?: HashAlgorithm
 }
 
-interface HashOptions {
+export interface CipherivOptionViaTokenOptions extends BaseCipherivOptions {
+  token: string
+}
+
+export interface CryptoFileViaTokenOptions {
+  cipherAlgorithm?: CipherAlgorithm
+  token: string
+  buffer: Buffer | Uint8Array
+}
+
+export interface TokenOptions {
   algorithm?: HashAlgorithm
   key: string
   encoding?: BinaryToTextEncoding
@@ -34,23 +55,23 @@ interface HashOptions {
 
 class CryptoFileService {
   static encrypt({
-    cipherAlgorithm = defaultCipherAlgorithm,
+    cipherAlgorithm,
     hashAlgorithm,
     buffer,
     key,
     encoding,
-  }: CryptoFileOption): Buffer | undefined {
-    const hash = CryptoFileService.createHash({
+  }: CryptoFileOptions): Buffer | undefined {
+    const token = CryptoFileService.createToken({
       algorithm: hashAlgorithm,
       key,
       encoding,
     })
-    // Create an initialization vector
     const iv = crypto.randomBytes(16)
-    // Create a new cipher using the algorithm, hash, and iv
-    const cipher = crypto.createCipheriv(cipherAlgorithm, hash, iv)
-
-    // Create the new (encrypted) buffer
+    const cipher = CryptoFileService.createCipherivViaToken({
+      token,
+      iv,
+      cipherAlgorithm,
+    })
     return Buffer.concat([iv, cipher.update(buffer), cipher.final()])
   }
 
@@ -60,28 +81,69 @@ class CryptoFileService {
     buffer,
     key,
     encoding,
-  }: CryptoFileOption): Buffer | undefined {
-    const hash = CryptoFileService.createHash({
+  }: CryptoFileOptions): Buffer | undefined {
+    const token = CryptoFileService.createToken({
       algorithm: hashAlgorithm,
       key,
       encoding,
     })
-
-    // Get the iv: the first 16 bytes
     const iv = buffer.slice(0, 16)
-    // Get the rest
     buffer = buffer.slice(16)
-    // Create a decipher
-    const decipher = crypto.createDecipheriv(cipherAlgorithm, hash, iv)
-    // Actually decrypt it
+    const decipher = crypto.createDecipheriv(cipherAlgorithm, token, iv)
     return Buffer.concat([decipher.update(buffer), decipher.final()])
   }
 
-  static createHash({
+  static decryptViaToken({
+    cipherAlgorithm = defaultCipherAlgorithm,
+    buffer,
+    token,
+  }: CryptoFileViaTokenOptions): Buffer | undefined {
+    const iv = buffer.slice(0, 16)
+    buffer = buffer.slice(16)
+    const decipher = crypto.createDecipheriv(cipherAlgorithm, token, iv)
+    return Buffer.concat([decipher.update(buffer), decipher.final()])
+  }
+
+  static encryptViaToken({
+    cipherAlgorithm = defaultCipherAlgorithm,
+    buffer,
+    token,
+  }: CryptoFileViaTokenOptions): Buffer | undefined {
+    const iv = crypto.randomBytes(16)
+    const cipher = CryptoFileService.createCipherivViaToken({
+      token,
+      iv,
+      cipherAlgorithm,
+    })
+    return Buffer.concat([iv, cipher.update(buffer), cipher.final()])
+  }
+
+  static createCipheriv({
+    hashAlgorithm,
+    key,
+    encoding,
+    ...rest
+  }: CipherivOptions): Cipher {
+    const token = CryptoFileService.createToken({
+      algorithm: hashAlgorithm,
+      key,
+      encoding,
+    })
+    return CryptoFileService.createCipherivViaToken({ token, ...rest })
+  }
+  static createCipherivViaToken({
+    cipherAlgorithm = defaultCipherAlgorithm,
+    token,
+    iv,
+  }: CipherivOptionViaTokenOptions): Cipher {
+    return crypto.createCipheriv(cipherAlgorithm, token, iv)
+  }
+
+  static createToken({
     algorithm = defaultHashAlgorithm,
     key,
     encoding = "base64",
-  }: HashOptions) {
+  }: TokenOptions) {
     return crypto
       .createHash(algorithm)
       .update(key)

@@ -25,6 +25,7 @@ import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
 import { intl } from "Renderer/utils/intl"
 import { flags } from "App/feature-flags"
+import { SynchronizationState } from "App/data-sync/reducers"
 
 type Props = ComponentProps<typeof Overview>
 
@@ -162,6 +163,8 @@ const defaultProps: Props = {
     full: 200,
   },
   caseColour: CaseColour.Gray,
+  syncState: SynchronizationState.Loaded,
+  updateAllIndexes: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {

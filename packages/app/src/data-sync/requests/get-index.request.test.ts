@@ -5,7 +5,7 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcDataSyncEvent, DataIndex } from "App/data-sync/constants"
-import { getIndexRequest } from "App/data-sync"
+import { getIndexRequest } from "App/data-sync/requests"
 import { SerialisedIndexData } from "elasticlunr"
 
 const getIndexResponse: SerialisedIndexData<any> = {
@@ -26,4 +26,3 @@ describe("`getIndexRequest`", () => {
     expect(response).toEqual(getIndexResponse)
   })
 })
-

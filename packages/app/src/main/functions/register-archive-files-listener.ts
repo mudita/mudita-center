@@ -24,8 +24,8 @@ export interface ArchiveFilesData {
 }
 
 const todayFormatDate = formatDate(new Date())
-const filePath = `${getAppPath()}/archive-tmp-${todayFormatDate}`
-const gzipFilePath = `${filePath}.zip`
+const cwd = `${getAppPath()}/archive-tmp-${todayFormatDate}`
+const gzipFilePath = `${cwd}.zip`
 
 const registerArchiveFilesListener = (): void => {
   ipcMain.answerRenderer<ArchiveFilesData, Promise<Buffer | undefined>>(
@@ -33,14 +33,14 @@ const registerArchiveFilesListener = (): void => {
     async ({ files }) => {
       let buffer: Buffer | undefined
 
-      const removeTmpFiles = (filePath: string): boolean => {
-        return rmdir({ filePath, options: { recursive: true } })
+      const removeTmpFiles = (cwd: string): boolean => {
+        return rmdir({ cwd, options: { recursive: true } })
       }
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
-        const writeFileSuccess = await writeFile({
-          filePath,
+        const writeFileSuccess = writeFile({
+          cwd,
           data: file.data,
           fileName: file.name,
         })
@@ -49,12 +49,12 @@ const registerArchiveFilesListener = (): void => {
           return undefined
         }
       }
-      const writeGzipSuccess = await writeGzip({ filePath })
+      const writeGzipSuccess = await writeGzip({ cwd })
       if (writeGzipSuccess) {
         buffer = fs.readFileSync(gzipFilePath)
       }
 
-      await removeTmpFiles(filePath)
+      removeTmpFiles(cwd)
 
       return buffer
     }

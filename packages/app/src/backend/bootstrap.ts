@@ -6,7 +6,8 @@
 import { MuditaDeviceManager } from "@mudita/pure"
 import { MainProcessIpc } from "electron-better-ipc"
 import Backend from "Backend/backend"
-import { createIndexService, DataSync } from "App/data-sync"
+import { DataSync } from "App/data-sync/services"
+import { createIndexService } from "App/data-sync/containers"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import { createDeviceService } from "Backend/device-service"
 import createDeviceBackupService from "./device-backup-service/device-backup-service"
@@ -78,9 +79,7 @@ const bootstrap = (
     deviceFileSystem
   )
 
-  const indexService = createIndexService(
-    new DataSync(deviceService, deviceBackup)
-  )
+  createIndexService(new DataSync(deviceService, deviceBackup))
 
   const adapters = {
     deviceBackup,
@@ -132,7 +131,6 @@ const bootstrap = (
     registerDownloadDeviceBackupRequest,
   ]
 
-  indexService.initialize()
   new Backend(adapters, getFakeAdapters(), requests).init()
 }
 
