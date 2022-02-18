@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { getCurrentWindow, Menu, MenuItem } from "@electron/remote"
+import * as electron from "electron"
 import { ContextMenuItem } from "App/context-menu/context-menu.interface"
 import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 
@@ -57,7 +57,7 @@ interface DevModeProps {
 class ContextMenu {
   private readonly isDevModeEnabled?: () => boolean
   private readonly devModeToggler?: () => void
-  private contextMenu = new Menu()
+  private contextMenu = new electron.remote.Menu()
   private customMenu: Record<string, ContextMenuItem[]> = {}
 
   constructor(devMode?: DevModeProps) {
@@ -66,7 +66,7 @@ class ContextMenu {
   }
 
   private addSeparator() {
-    this.contextMenu.append(new MenuItem({ type: "separator" }))
+    this.contextMenu.append(new electron.remote.MenuItem({ type: "separator" }))
   }
 
   private mapCustomItems() {
@@ -91,7 +91,7 @@ class ContextMenu {
         }
 
         this.contextMenu.append(
-          new MenuItem({
+          new electron.remote.MenuItem({
             label: mainMenuLabel,
             submenu: visibleMenuItems.map(
               ({ devModeOnly, labelCreator, ...options }) => ({
@@ -106,11 +106,11 @@ class ContextMenu {
   }
 
   private rebuildMenu({ clientX, clientY }: MouseEvent) {
-    this.contextMenu = new Menu()
+    this.contextMenu = new electron.remote.Menu()
 
     if (this.isDevModeEnabled && this.devModeToggler) {
       this.contextMenu.append(
-        new MenuItem({
+        new electron.remote.MenuItem({
           label: `${
             this.isDevModeEnabled() ? "Disable" : "Enable"
           } developer mode`,
@@ -125,15 +125,18 @@ class ContextMenu {
     this.addSeparator()
 
     this.contextMenu.append(
-      new MenuItem({
+      new electron.remote.MenuItem({
         label: "Inspect element",
-        click: () =>
-          getCurrentWindow().webContents.inspectElement(clientX, clientY),
+        click: () => {
+          electron.remote
+            .getCurrentWindow()
+            .webContents.inspectElement(clientX, clientY)
+        },
       })
     )
 
     this.contextMenu.append(
-      new MenuItem({
+      new electron.remote.MenuItem({
         label: "Toggle Developer Tools",
         role: "toggleDevTools",
       })
