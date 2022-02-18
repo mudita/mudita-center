@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { app } from "@electron/remote"
+import { remote } from "electron"
 import store from "Renderer/store"
 import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 import {
@@ -18,7 +18,7 @@ import importDeviceCrashDumpFiles from "Renderer/requests/import-device-crash-du
 import { loadThreads } from "App/messages/actions"
 import { clearAllThreads } from "App/messages/actions/base.action"
 
-const cwd = `${app.getPath("appData")}/${name}/pure-logs`
+const cwd = `${remote.app.getPath("appData")}/${name}/pure-logs`
 
 const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Device", [

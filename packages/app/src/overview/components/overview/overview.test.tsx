@@ -29,12 +29,14 @@ import { SynchronizationState } from "App/data-sync/reducers"
 
 type Props = ComponentProps<typeof Overview>
 
-jest.mock("@electron/remote", () => ({
-  Menu: () => ({
-    popup: jest.fn(),
-    append: jest.fn(),
-  }),
-  MenuItem: () => jest.fn(),
+jest.mock("electron", () => ({
+  remote: {
+    Menu: () => ({
+      popup: jest.fn(),
+      append: jest.fn(),
+    }),
+    MenuItem: () => jest.fn(),
+  },
 }))
 
 jest.mock("Renderer/requests/get-device-info.request", () =>

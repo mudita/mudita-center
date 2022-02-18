@@ -89,11 +89,6 @@ import { registerInitializeDataSyncListener } from "App/data-sync/listeners/init
 
 require("dotenv").config()
 
-// FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-//  There is almost always a better way to accomplish your task than using this module.
-//  You can read more in https://github.com/electron/remote#migrating-from-remote
-require("@electron/remote/main").initialize()
-
 logger.info("Starting the app")
 
 let win: BrowserWindow | null
@@ -117,9 +112,7 @@ process.on("uncaughtException", (error) => {
 const installExtensions = async () => {
   const installer = require("electron-devtools-installer")
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-  // FIXME: electron v9 throw error, you can read more in https://github.com/zalmoxisus/redux-devtools-extension/issues/767
-  // const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
-  const extensions: string[] = []
+  const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
 
   return Promise.all(
     extensions.map((name) => installer.default(installer[name], forceDownload))
@@ -134,12 +127,8 @@ const commonWindowOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
-    // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
-    //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
-    contextIsolation: false,
   },
 }
-
 const getWindowOptions = (
   extendedWindowOptions?: BrowserWindowConstructorOptions
 ) => ({
@@ -164,10 +153,6 @@ const createWindow = async () => {
       height: WINDOW_SIZE.height,
     })
   )
-  // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-  //  There is almost always a better way to accomplish your task than using this module.
-  //  You can read more in https://github.com/electron/remote#migrating-from-remote
-  require("@electron/remote/main").enable(win.webContents)
 
   new MetadataInitializer(metadataStore).init()
 
@@ -222,8 +207,6 @@ const createWindow = async () => {
     mockAutoupdate(win)
   }
 
-  // FIXME: Note: the new-window event itself is already deprecated and has been replaced by setWindowOpenHandler,
-  //  you can read more in https://www.electronjs.org/blog/electron-14-0#removed-additionalfeatures
   win.webContents.on("new-window", (event, href) => {
     event.preventDefault()
     shell.openExternal(href)
@@ -268,10 +251,6 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
         height: DEFAULT_WINDOWS_SIZE.height,
       })
     )
-    // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-    //  There is almost always a better way to accomplish your task than using this module.
-    //  You can read more in https://github.com/electron/remote#migrating-from-remote
-    require("@electron/remote/main").enable(helpWindow.webContents)
     helpWindow.loadURL(
       !productionEnvironment
         ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
@@ -317,10 +296,6 @@ const createOpenWindowListener = (
           height: DEFAULT_WINDOWS_SIZE.height,
         })
       )
-      // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
-      //  There is almost always a better way to accomplish your task than using this module.
-      //  You can read more in https://github.com/electron/remote#migrating-from-remote
-      require("@electron/remote/main").enable(newWindow.webContents)
       await newWindow.loadURL(
         !productionEnvironment
           ? `http://localhost:2003/?mode=${mode}#${urlMain}`
@@ -332,8 +307,6 @@ const createOpenWindowListener = (
               search: `?mode=${mode}`,
             })
       )
-      // FIXME: Note: the new-window event itself is already deprecated and has been replaced by setWindowOpenHandler,
-      //  you can read more in https://www.electronjs.org/blog/electron-14-0#removed-additionalfeatures
       newWindow.webContents.on("new-window", (event, href) => {
         event.preventDefault()
         shell.openExternal(href)
