@@ -108,16 +108,18 @@ const Menu: FunctionComponent<Properties> = ({
         </LogoWrapper>
         {links}
       </div>
-      {syncState && syncState !== SynchronizationState.Loaded && (
-        <SyncProgressWrapper data-testid={MenuGroupTestIds.Sync}>
-          <LoaderWrapper>
-            <Loader type={LoaderType.Spinner} size={1.5} />
-          </LoaderWrapper>
-          <Text displayStyle={TextDisplayStyle.LargeText}>
-            {intl.formatMessage({ id: "component.menuHeaderSync" })}
-          </Text>
-        </SyncProgressWrapper>
-      )}
+      {syncState !== undefined &&
+        (syncState === SynchronizationState.Loading ||
+          syncState === SynchronizationState.Cache) && (
+          <SyncProgressWrapper data-testid={MenuGroupTestIds.Sync}>
+            <LoaderWrapper>
+              <Loader type={LoaderType.Spinner} size={1.5} />
+            </LoaderWrapper>
+            <Text displayStyle={TextDisplayStyle.LargeText}>
+              {intl.formatMessage({ id: "component.menuHeaderSync" })}
+            </Text>
+          </SyncProgressWrapper>
+        )}
     </MenuWrapper>
   )
 }
