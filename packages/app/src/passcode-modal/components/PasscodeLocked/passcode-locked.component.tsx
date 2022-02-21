@@ -20,7 +20,7 @@ const PasscodeLockedContainer = styled.div`
 export const Title = styled(Text)`
   font-size: 3rem;
   font-weight: ${fontWeight("default")};
-  margin-bottom: 1.6rem;
+  margin-bottom: 0.8rem;
 `
 
 export const TimeText = styled(Text)`
@@ -64,7 +64,7 @@ const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
   return (
     <PasscodeLockedContainer data-testid={PasscodeLockedTestIds.Container}>
       <Title
-        displayStyle={TextDisplayStyle.PrimaryHeading}
+        displayStyle={TextDisplayStyle.SecondaryHeading}
         message={{
           ...messages.modalLockedTitle,
         }}

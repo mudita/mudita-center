@@ -92,7 +92,7 @@ const Card: FunctionComponent<Props> = ({
           </CardDate>
         </a>
         <CardDescription
-          displayStyle={TextDisplayStyle.Paragraph2}
+          displayStyle={TextDisplayStyle.Paragraph4}
           data-testid="content"
           color="secondary"
         >

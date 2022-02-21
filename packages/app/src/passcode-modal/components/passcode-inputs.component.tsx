@@ -23,7 +23,7 @@ const InputContainer = styled.div`
 `
 const ErrorMessage = styled(Text)`
   color: ${textColor("error")};
-  margin-top: 4rem;
+  margin-top: 2.4rem;
   text-align: center;
 `
 
@@ -31,7 +31,7 @@ const PasscodeInputsContainer = styled.div<{
   errorMessage: string
 }>`
   margin-bottom: ${({ errorMessage }) =>
-    errorMessage !== "" ? "1.4rem" : "6.8rem"};
+    errorMessage !== "" ? "1.4rem" : "5.8rem"};
 `
 
 export const Title = styled(Text)`
@@ -123,7 +123,7 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
   return (
     <PasscodeInputsContainer errorMessage={errorMessage}>
       <Title
-        displayStyle={TextDisplayStyle.PrimaryHeading}
+        displayStyle={TextDisplayStyle.SecondaryHeading}
         message={{
           id: "component.passcodeModalTitle",
         }}

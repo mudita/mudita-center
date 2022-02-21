@@ -18,7 +18,7 @@ export const SelectedText = styled(Text)`
 export const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
-  margin-top: 4.8rem;
+  margin-top: 4rem;
 `
 
 export const ButtonWrapper = styled.div`

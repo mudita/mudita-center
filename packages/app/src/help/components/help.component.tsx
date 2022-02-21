@@ -28,7 +28,7 @@ import { NormalizedHelpEntry } from "Renderer/utils/contentful/normalize-help-da
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ModalsManager from "App/modals-manager/containers/modals-manager.container"
-
+import { fontWeight } from "Renderer/styles/theming/theme-getters"
 export interface QuestionAndAnswer {
   collection: string[]
   items: Record<string, NormalizedHelpEntry>
@@ -89,12 +89,18 @@ const SupportButtonComponent = styled(ButtonComponent)`
     fill: ${textColor("secondary")};
   }
 `
+const NormalHeading = styled(Text)`
+  font-weight: ${fontWeight("default")};
+`
 
 const textFormatters = {
   b: (str: string) => (
-    <Text displayStyle={TextDisplayStyle.TertiaryHeading} element={"span"}>
+    <NormalHeading
+      displayStyle={TextDisplayStyle.TertiaryHeading}
+      element={"span"}
+    >
       {str}
-    </Text>
+    </NormalHeading>
   ),
 }
 
@@ -118,7 +124,7 @@ const Help: FunctionComponent<Props> = ({
               id: "module.help.title",
               values: textFormatters,
             }}
-            displayStyle={TextDisplayStyle.SecondaryHeading}
+            displayStyle={TextDisplayStyle.TertiaryHeading}
             data-testid={HelpComponentTestIds.Title}
           />
           <SearchContainer>

@@ -75,6 +75,10 @@ const Failed = styled(Col)`
   color: ${textColor("error")};
 `
 
+const SubtitleText = styled(Text)`
+  margin-bottom: 0.8rem;
+`
+
 export enum ModalType {
   Success,
   Fail,
@@ -179,7 +183,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
       </Image>
       {modalType === ModalType.Fail && (
         <>
-          <ModalText
+          <SubtitleText
             message={messages.importFailedSubtitle}
             displayStyle={TextDisplayStyle.QuaternaryHeading}
           />
@@ -198,7 +202,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
       )}
       {modalType === ModalType.Success && (
         <>
-          <ModalText
+          <SubtitleText
             message={messages.importSuccessSubtitle}
             displayStyle={TextDisplayStyle.QuaternaryHeading}
           />
@@ -213,7 +217,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
       )}
       {modalType === ModalType.Select && (
         <>
-          <ModalText
+          <SubtitleText
             message={messages.importingSubtitle}
             displayStyle={TextDisplayStyle.QuaternaryHeading}
           />
