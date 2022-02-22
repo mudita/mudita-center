@@ -80,8 +80,8 @@ export const TableRow = styled.div<{
   grid-template-columns: 11rem 1fr 9rem;
   grid-template-areas: "Checkbox . Actions";
   align-content: center;
-  height: 9rem;
-  min-height: 9rem;
+  height: 8rem;
+  min-height: 8rem;
   box-sizing: border-box;
   border-bottom: solid 0.1rem ${borderColor("list")};
   transition: background-color 0.15s ease-in-out;

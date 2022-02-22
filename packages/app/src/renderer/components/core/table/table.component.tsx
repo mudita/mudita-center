@@ -84,7 +84,7 @@ export const Row = styled.div<TableRowProps>`
   height: ${({ size }) => {
     switch (size) {
       case RowSize.Big:
-        return 9
+        return 8
       case RowSize.Small:
         return 4.8
       case RowSize.Tiny:
