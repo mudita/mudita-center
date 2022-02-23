@@ -17,7 +17,10 @@ import Table, {
 } from "Renderer/components/core/table/table.component"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
-import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
+import {
+  animatedOpacityActiveStyles,
+  animatedOpacityStyles,
+} from "Renderer/components/rest/animated-opacity/animated-opacity"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Avatar, {
   AvatarSize,
@@ -51,8 +54,14 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 
+const checkboxShowedStyles = css`
+  margin-left: 4.4rem;
+  margin-right: 2.8rem;
+  display: block;
+`
+
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
-  margin: 0 auto;
+  ${({ visible }) => (visible ? checkboxShowedStyles : "display: none;")};
 `
 
 export const lightAvatarStyles = css`
@@ -60,12 +69,14 @@ export const lightAvatarStyles = css`
 `
 
 const InitialsAvatar = styled(Avatar)<{ disabled?: boolean }>`
-  margin-right: 1.2rem;
+  margin-right: 1.6rem;
+  margin-left: 3.2rem;
 `
 
 export const AvatarPlaceholder = styled.div`
   ${basicAvatarStyles};
-  margin-right: 1.2rem;
+  margin-right: 1.6rem;
+  margin-left: 3.2rem;
 `
 
 const ActionsButton = styled.span`
@@ -105,21 +116,10 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   min-width: 32rem;
   flex: 1;
   overflow: auto;
-  --columnsTemplate: 3.2rem 62.4rem 11.5rem 11.5rem auto;
-  --columnsTemplateWithOpenedSidebar: 3.2rem 1fr;
+  --columnsTemplate: 8.8rem 1fr 11.5rem 11.5rem auto;
+  --columnsTemplateWithOpenedSidebar: 8.8rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
-
-  ${Row} {
-    :hover {
-      ${Checkbox} {
-        ${animatedOpacityActiveStyles};
-      }
-      ${InitialsAvatar} {
-        ${lightAvatarStyles};
-      }
-    }
-  }
 `
 
 const activeRowStyles = css`
@@ -130,6 +130,16 @@ const activeRowStyles = css`
 
 const ContactListRow = styled(Row)`
   ${({ active }) => active && activeRowStyles};
+  :hover {
+    ${Checkbox} {
+      ${animatedOpacityActiveStyles};
+      ${checkboxShowedStyles};
+    }
+    ${InitialsAvatar} {
+      ${animatedOpacityStyles};
+      display: none;
+    }
+  }
 `
 
 type SelectHook = Pick<
@@ -165,8 +175,9 @@ const ContactList: FunctionComponent<Props> = ({
   const CategoryLabels = styled(Labels)`
     align-items: end;
     background-color: var(--rowBackground) !important;
-    > div:last-child {
+    > div:first-child {
       margin-bottom: 1.5rem;
+      margin-left: 3.2rem;
     }
   `
 
@@ -201,12 +212,12 @@ const ContactList: FunctionComponent<Props> = ({
               data-testid={ContactListTestIdsEnum.ContactListGroup}
             >
               <CategoryLabels>
-                <Col />
                 <Col>
                   <Text displayStyle={TextDisplayStyle.Headline4}>
                     {category}
                   </Text>
                 </Col>
+                <Col />
               </CategoryLabels>
               {contacts.map((contact, index) => {
                 const rowActive = activeRow?.id === contact.id
@@ -260,17 +271,19 @@ const ContactList: FunctionComponent<Props> = ({
                         size={Size.Medium}
                         visible={!noneRowsSelected}
                       />
+                      {noneRowsSelected && (
+                        <InitialsAvatar
+                          user={contact}
+                          light={selected || activeRow === contact}
+                          size={AvatarSize.Medium}
+                        />
+                      )}
                     </Col>
                     <ClickableCol
                       onClick={handleSelect}
                       data-testid={ContactListTestIdsEnum.ContactRow}
                       disabled={rowDisabled}
                     >
-                      <InitialsAvatar
-                        user={contact}
-                        light={selected || activeRow === contact}
-                        size={AvatarSize.Medium}
-                      />
                       {createStyledFullName() ||
                         intl.formatMessage({
                           id: "module.contacts.listUnnamedContact",
