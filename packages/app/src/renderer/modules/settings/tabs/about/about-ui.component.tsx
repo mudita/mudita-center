@@ -17,10 +17,7 @@ import {
   SettingsWrapper,
 } from "Renderer/modules/settings/components/settings-ui.component"
 import { AboutTestIds } from "Renderer/modules/settings/tabs/about/about.enum"
-import {
-  letterSpacing,
-  backgroundColor,
-} from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import styled from "styled-components"
 import Text from "Renderer/components/core/text/text.component"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
@@ -28,11 +25,9 @@ import { AppUpdateNotAvailable } from "Renderer/wrappers/app-update-step-modal/a
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
-  text-transform: none;
   display: inline-box;
   padding: 0.3rem 0.5rem;
   border-radius: 0.4rem;
-  letter-spacing: ${letterSpacing("small")}rem;
   background-color: ${backgroundColor("minor")};
   margin-right: 1.6rem;
 `
@@ -87,7 +82,7 @@ const AboutUI: FunctionComponent<Props> = ({
     <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
       <VersionTableRow>
         <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage
               id="module.settings.aboutInstalledVersion"
               values={{ version: appCurrentVersion }}
@@ -96,7 +91,10 @@ const AboutUI: FunctionComponent<Props> = ({
         </Data>
         {appUpdateAvailable ? (
           <ActionContainer>
-            <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+            <AvailableUpdate
+              displayStyle={TextDisplayStyle.Label}
+              color="secondary"
+            >
               <FormattedMessage
                 id="module.settings.aboutAvailableVersion"
                 values={{ version: appLatestVersion }}
@@ -112,7 +110,10 @@ const AboutUI: FunctionComponent<Props> = ({
           </ActionContainer>
         ) : (
           <ActionContainer>
-            <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+            <AvailableUpdate
+              displayStyle={TextDisplayStyle.Label}
+              color="secondary"
+            >
               <FormattedMessage id="module.overview.systemUpdateUpToDate" />
             </AvailableUpdate>
             <ButtonComponent
@@ -127,7 +128,7 @@ const AboutUI: FunctionComponent<Props> = ({
       </VersionTableRow>
       <SettingsTableRow>
         <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id="module.settings.aboutTermsOfService" />
           </SettingsLabel>
         </Data>
@@ -143,7 +144,7 @@ const AboutUI: FunctionComponent<Props> = ({
       </SettingsTableRow>
       <SettingsTableRow>
         <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id="module.settings.aboutPrivacyPolicy" />
           </SettingsLabel>
         </Data>
@@ -159,7 +160,7 @@ const AboutUI: FunctionComponent<Props> = ({
       </SettingsTableRow>
       <SettingsTableRow data-testid={AboutTestIds.TableRow}>
         <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id="module.settings.aboutLicense" />
           </SettingsLabel>
         </Data>

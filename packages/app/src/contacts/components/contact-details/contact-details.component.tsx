@@ -24,13 +24,15 @@ import {
   ContactDetailsLabel,
   ContactDetailsWrapper,
   InfoItem,
-  InfoItemName,
   Input,
   Name,
 } from "App/contacts/components/contact-details/contact-details.styled"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 import { flags, Feature } from "App/feature-flags"
 import { Contact } from "App/contacts/reducers/contacts.interface"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 
 const messages = defineMessages({
   favourites: { id: "module.contacts.favourites" },
@@ -169,14 +171,22 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
           {contact.favourite && (
             <InfoItem>
               <Icon type={Type.Favourites} />
-              <InfoItemName message={messages.favourites} />
+              <Text
+                displayStyle={TextDisplayStyle.Title}
+                color="secondary"
+                message={messages.favourites}
+              />
             </InfoItem>
           )}
         </BasicInfo>
         <AdditionalInfo key={contact.id}>
           <div>
             <AdditionalInfoItem>
-              <InfoItemName message={messages.information} />
+              <Text
+                displayStyle={TextDisplayStyle.Title}
+                color="secondary"
+                message={messages.information}
+              />
               {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber ? (
                 <Input label={intl.formatMessage(messages.noPhoneNumber)} />
               ) : (
@@ -223,7 +233,11 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
           </div>
           <div>
             <AdditionalInfoItem>
-              <InfoItemName message={messages.address} />
+              <Text
+                displayStyle={TextDisplayStyle.Title}
+                color="secondary"
+                message={messages.address}
+              />
               {fullAddress.length ? (
                 <ContactDetailsInfo
                   data-testid={ContactDetailsTestIds.AddressDetails}

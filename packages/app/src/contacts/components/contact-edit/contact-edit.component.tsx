@@ -182,7 +182,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
 
   const headerLeft = (
     <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
+      displayStyle={TextDisplayStyle.Headline4}
       message={contact?.id ? messages.editTitle : messages.newTitle}
     />
   )
@@ -241,7 +241,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
                 {...register("favourite")}
                 defaultChecked={contact?.favourite}
               />
-              <Text displayStyle={TextDisplayStyle.SmallText}>
+              <Text displayStyle={TextDisplayStyle.Label}>
                 {intl.formatMessage(messages.addToFavourites)}
               </Text>
               <Icon type={IconType.Favourites} height={1} />

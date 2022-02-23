@@ -104,13 +104,15 @@ const RestoreAvailableBackupModal: FunctionComponent<Props> = ({
           <Icon type={Type.BackupFolder} width={4} />
         </RoundIconWrapper>
         <ModalText
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.Headline4}
           message={messages.restoreAvailableBackupModalTitle}
         />
       </ModalContent>
       <ModalTable>
         <RowHeader>
-          <Text displayStyle={TextDisplayStyle.MediumFadedText}>Backups</Text>
+          <Text displayStyle={TextDisplayStyle.Title} color="disabled">
+            Backups
+          </Text>
         </RowHeader>
         <ModalTableBody>
           {sortBackups(backups).map((backup) => {
@@ -125,7 +127,7 @@ const RestoreAvailableBackupModal: FunctionComponent<Props> = ({
                   RestoreAvailableBackupModalTestIds.RestoreAvailableBackupModalBodyRow
                 }
               >
-                <Text displayStyle={TextDisplayStyle.MediumText}>
+                <Text displayStyle={TextDisplayStyle.Paragraph3}>
                   {moment(backup.date).format("dddd, MMMM D, h:mm a")}
                 </Text>
                 <Button

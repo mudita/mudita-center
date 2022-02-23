@@ -57,12 +57,12 @@ export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({
         </IconWrapper>
         <Text
           data-testid={CrashDumpModalTestingIds.Label}
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.Headline4}
           message={messages.label}
         />
         <Text
           data-testid={CrashDumpModalTestingIds.Text}
-          displayStyle={TextDisplayStyle.MediumFadedLightText}
+          displayStyle={TextDisplayStyle.Paragraph4}
           message={messages.text}
         />
       </ContentWrapper>

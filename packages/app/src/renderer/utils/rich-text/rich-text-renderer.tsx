@@ -23,7 +23,7 @@ export const richTextReactComponentOptions: Options = {
   },
   renderNode: {
     [BLOCKS.HEADING_1]: (_, children) => (
-      <Text displayStyle={TextDisplayStyle.PrimaryHeading}>{children}</Text>
+      <Text displayStyle={TextDisplayStyle.Headline1}>{children}</Text>
     ),
     [BLOCKS.HEADING_2]: (_, children) => (
       <RichTextSecondaryHeading>{children}</RichTextSecondaryHeading>

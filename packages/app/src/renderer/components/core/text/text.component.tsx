@@ -7,278 +7,152 @@ import * as React from "react"
 import { FormattedMessage } from "react-intl"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import {
-  backgroundColor,
   fontWeight,
   letterSpacing,
-  opacity,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
+import { Theme } from "Renderer/styles/theming/theme"
 
-export const tertiaryHeadingSharedStyles = css`
-  font-size: 1.8rem;
-  line-height: 1.1;
-`
-
-export const largeTextSharedStyles = css`
-  font-size: 1.6rem;
-  line-height: 1.05;
-`
-
-export const mediumTextSharedStyles = css`
-  font-size: 1.4rem;
-  line-height: 1.05;
-`
-
-export const smallTextSharedStyles = css`
+const uppercaseTextSharedStyles = css`
   font-size: 1.2rem;
-  line-height: 1.2;
-`
-
-const extraSmallTextSharedStyles = css`
-  font-size: 1rem;
-`
-
-const fadedDimStyles = css`
-  font-weight: ${fontWeight("bold")};
-  color: ${textColor("secondary")};
-  opacity: ${opacity("regular")};
-`
-
-const uppercaseStyles = css`
+  line-height: 1.67;
+  font-weight: ${fontWeight("default")};
+  letter-spacing: ${letterSpacing("regular")}rem;
   text-transform: uppercase;
+`
+
+const paragraph1SharedStyles = css`
+  font-size: 1.6rem;
+  line-height: 1.5;
+  letter-spacing: ${letterSpacing("smaller")}rem;
+`
+
+const paragraph3SharedStyles = css`
+  font-size: 1.4rem;
+  line-height: 1.57;
+  letter-spacing: ${letterSpacing("small")}rem;
 `
 
 export const getTextStyles = (displayStyle: TextDisplayStyle) => {
   switch (displayStyle) {
-    case TextDisplayStyle.PrimaryHeading:
+    case TextDisplayStyle.Headline1:
       return css`
-        font-size: 5.6rem;
-        line-height: 1.1;
-        font-weight: ${fontWeight("light")};
-      `
-    case TextDisplayStyle.SecondaryHeading:
-      return css`
-        font-size: 2.4rem;
-        line-height: 0.8;
-        font-weight: ${fontWeight("light")};
+        font-size: 4rem;
+        line-height: 1.2;
+        font-weight: ${fontWeight("default")};
         letter-spacing: ${letterSpacing("negative")}rem;
       `
-    case TextDisplayStyle.SecondaryBoldHeading:
+    case TextDisplayStyle.Headline2:
       return css`
-        font-size: 2.4rem;
-        line-height: 0.8;
-        font-weight: ${fontWeight("bold")};
-        letter-spacing: ${letterSpacing("negative")}rem;
-      `
-    case TextDisplayStyle.TertiaryBoldHeading:
-      return css`
-        ${tertiaryHeadingSharedStyles};
-        font-weight: ${fontWeight("bold")};
-      `
-    case TextDisplayStyle.TertiaryHeading:
-      return css`
-        ${tertiaryHeadingSharedStyles};
+        font-size: 3.2rem;
+        line-height: 1.25;
         font-weight: ${fontWeight("default")};
       `
-    case TextDisplayStyle.LargeBoldText:
+    case TextDisplayStyle.Headline3:
       return css`
-        ${largeTextSharedStyles};
+        font-size: 2.4rem;
+        line-height: 1.33;
+        font-weight: ${fontWeight("bold")};
+        letter-spacing: ${letterSpacing("negative")}rem;
+      `
+    case TextDisplayStyle.Headline4:
+      return css`
+        font-size: 1.6rem;
+        line-height: 1.5;
         font-weight: ${fontWeight("bold")};
         letter-spacing: ${letterSpacing("smaller")}rem;
       `
-    case TextDisplayStyle.LargeText:
-      return largeTextSharedStyles
-    case TextDisplayStyle.LargeFadedText:
+    case TextDisplayStyle.FifthHeading:
       return css`
-        ${largeTextSharedStyles};
-        color: ${textColor("secondary")};
-      `
-    case TextDisplayStyle.LargeTextCapitalLetters:
-      return css`
-        ${largeTextSharedStyles};
-        ${uppercaseStyles};
-      `
-    case TextDisplayStyle.LargeFadedTextCapitalLetters:
-      return css`
-        ${largeTextSharedStyles};
-        ${uppercaseStyles};
-        color: ${textColor("secondary")};
-      `
-    case TextDisplayStyle.LargeFadedDimTextCapitalLetters:
-      return css`
-        ${largeTextSharedStyles};
-        ${uppercaseStyles};
-        ${fadedDimStyles};
-        letter-spacing: ${letterSpacing("regular")}rem;
-      `
-    case TextDisplayStyle.MediumBoldText:
-      return css`
-        ${mediumTextSharedStyles};
+        font-size: 1.4rem;
+        line-height: 1.57;
         font-weight: ${fontWeight("bold")};
-      `
-    case TextDisplayStyle.MediumLightText:
-      return css`
-        ${mediumTextSharedStyles};
-        line-height: 1.8rem;
-        font-weight: ${fontWeight("light")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
-    case TextDisplayStyle.MediumFadedLightText:
+    case TextDisplayStyle.Paragraph1:
+      return paragraph1SharedStyles
+    case TextDisplayStyle.Paragraph2:
       return css`
-        ${mediumTextSharedStyles};
-        line-height: 1.8rem;
-        color: ${textColor("secondary")};
-        font-weight: ${fontWeight("light")};
-        letter-spacing: ${letterSpacing("small")}rem;
-      `
-    case TextDisplayStyle.MediumTextUppercased:
-      return css`
-        ${mediumTextSharedStyles};
-        text-transform: uppercase;
-        letter-spacing: ${letterSpacing("medium")}rem;
-      `
-    case TextDisplayStyle.MediumText:
-      return mediumTextSharedStyles
-    case TextDisplayStyle.MediumFadedText:
-      return css`
-        ${mediumTextSharedStyles};
-        color: ${textColor("secondary")};
-      `
-    case TextDisplayStyle.MediumFadedTextUppercased:
-      return css`
-        ${mediumTextSharedStyles};
-        text-transform: uppercase;
-        color: ${textColor("secondary")};
-      `
-    case TextDisplayStyle.SmallText:
-      return css`
-        ${smallTextSharedStyles};
-        ${uppercaseStyles};
-        letter-spacing: ${letterSpacing("regular")}rem;
-      `
-    case TextDisplayStyle.SmallSupplementaryText:
-      return css`
-        ${smallTextSharedStyles};
-        ${uppercaseStyles};
-        color: ${textColor("action")};
-        letter-spacing: ${letterSpacing("regular")}rem;
-      `
-    case TextDisplayStyle.SmallTextInverted:
-      return css`
-        ${smallTextSharedStyles};
-        ${uppercaseStyles};
-        display: inline;
-        color: ${textColor("active")};
-        background-color: ${backgroundColor("super")};
-        letter-spacing: ${letterSpacing("regular")}rem;
-      `
-    case TextDisplayStyle.SmallFadedText:
-      return css`
-        ${smallTextSharedStyles};
-        color: ${textColor("secondary")};
-        letter-spacing: ${letterSpacing("small")}rem;
-      `
-    case TextDisplayStyle.SmallFadedLightText:
-      return css`
-        ${smallTextSharedStyles};
-        color: ${textColor("secondary")};
-        letter-spacing: ${letterSpacing("small")}rem;
+        ${paragraph1SharedStyles}
         font-weight: ${fontWeight("light")};
       `
-    case TextDisplayStyle.SmallFadedDimText:
+    case TextDisplayStyle.Paragraph3:
+      return paragraph3SharedStyles
+    case TextDisplayStyle.Paragraph4:
       return css`
-        ${smallTextSharedStyles};
-        ${uppercaseStyles};
-        ${fadedDimStyles};
-        letter-spacing: ${letterSpacing("medium")}rem;
+        ${paragraph3SharedStyles}
+        font-weight: ${fontWeight("light")};
       `
-    case TextDisplayStyle.ExtraSmallFadedDimText:
+    case TextDisplayStyle.Title:
+      return uppercaseTextSharedStyles
+    case TextDisplayStyle.Button:
+      return uppercaseTextSharedStyles
+    case TextDisplayStyle.Label:
       return css`
-        ${extraSmallTextSharedStyles};
-        ${uppercaseStyles};
-        ${fadedDimStyles};
-        letter-spacing: ${letterSpacing("medium")}rem;
+        font-size: 1.2rem;
+        line-height: 1.67;
+        font-weight: ${fontWeight("default")};
+        letter-spacing: ${letterSpacing("small")}rem;
       `
     default:
       return null
   }
 }
 
-const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
+const TextWrapper = styled.div<{
+  displayStyle: TextDisplayStyle
+  color: keyof Theme["color"]["text"]
+}>`
   margin: 0;
   ${({ displayStyle }) => getTextStyles(displayStyle)};
+  color: ${({ color }) => textColor(color)};
 `
 
 export interface TextProps {
   readonly element?: Element
   readonly message?: MessageInterface
   readonly displayStyle?: TextDisplayStyle
+  readonly color?: keyof Theme["color"]["text"]
 }
 
 export enum TextDisplayStyle {
   Default,
-  PrimaryHeading,
-  SecondaryHeading,
-  SecondaryBoldHeading,
-  TertiaryBoldHeading,
-  TertiaryHeading,
-  LargeBoldText,
-  LargeText,
-  LargeFadedText,
-  LargeTextCapitalLetters,
-  LargeFadedTextCapitalLetters,
-  LargeFadedDimTextCapitalLetters,
-  MediumBoldText,
-  MediumLightText,
-  MediumFadedLightText,
-  MediumFadedTextUppercased,
-  MediumTextUppercased,
-  MediumText,
-  MediumFadedText,
-  SmallText,
-  SmallSupplementaryText,
-  SmallTextInverted,
-  SmallFadedText,
-  SmallFadedLightText,
-  SmallFadedDimText,
-  ExtraSmallFadedDimText,
+  Headline1,
+  Headline2,
+  Headline3,
+  Headline4,
+  FifthHeading,
+  Paragraph1,
+  Paragraph2,
+  Paragraph3,
+  Paragraph4,
+  Title,
+  Button,
+  Label,
 }
 
 interface ElementsMapping {
   [key: number]: Element
 }
 
-type Element = "div" | "h1" | "h2" | "h3" | "span" | "p" | "li"
+type Element = "div" | "h1" | "h2" | "h3" | "h4" | "h5" | "span" | "p" | "li"
 
 const mapping: ElementsMapping = {
   [TextDisplayStyle.Default]: "div",
-  [TextDisplayStyle.PrimaryHeading]: "h1",
-  [TextDisplayStyle.SecondaryHeading]: "h2",
-  [TextDisplayStyle.SecondaryBoldHeading]: "h2",
-  [TextDisplayStyle.TertiaryBoldHeading]: "h3",
-  [TextDisplayStyle.TertiaryHeading]: "h3",
-  [TextDisplayStyle.LargeBoldText]: "p",
-  [TextDisplayStyle.LargeText]: "p",
-  [TextDisplayStyle.LargeFadedText]: "p",
-  [TextDisplayStyle.LargeTextCapitalLetters]: "p",
-  [TextDisplayStyle.LargeFadedTextCapitalLetters]: "p",
-  [TextDisplayStyle.LargeFadedDimTextCapitalLetters]: "p",
-  [TextDisplayStyle.MediumBoldText]: "p",
-  [TextDisplayStyle.MediumLightText]: "p",
-  [TextDisplayStyle.MediumFadedLightText]: "p",
-  [TextDisplayStyle.MediumText]: "p",
-  [TextDisplayStyle.MediumFadedText]: "p",
-  [TextDisplayStyle.MediumFadedTextUppercased]: "p",
-  [TextDisplayStyle.MediumTextUppercased]: "p",
-  [TextDisplayStyle.SmallText]: "p",
-  [TextDisplayStyle.SmallSupplementaryText]: "p",
-  [TextDisplayStyle.SmallTextInverted]: "p",
-  [TextDisplayStyle.SmallFadedText]: "p",
-  [TextDisplayStyle.SmallFadedLightText]: "p",
-  [TextDisplayStyle.SmallFadedDimText]: "p",
-  [TextDisplayStyle.ExtraSmallFadedDimText]: "p",
+  [TextDisplayStyle.Headline1]: "h1",
+  [TextDisplayStyle.Headline2]: "h2",
+  [TextDisplayStyle.Headline3]: "h3",
+  [TextDisplayStyle.Headline4]: "h4",
+  [TextDisplayStyle.FifthHeading]: "h5",
+  [TextDisplayStyle.Paragraph1]: "p",
+  [TextDisplayStyle.Paragraph2]: "p",
+  [TextDisplayStyle.Paragraph3]: "p",
+  [TextDisplayStyle.Paragraph4]: "p",
+  [TextDisplayStyle.Title]: "p",
+  [TextDisplayStyle.Button]: "p",
+  [TextDisplayStyle.Label]: "p",
 }
 
 const Text: FunctionComponent<TextProps> = ({
@@ -287,6 +161,7 @@ const Text: FunctionComponent<TextProps> = ({
   message,
   element,
   className = "",
+  color = "primary",
   ...rest
 }) => (
   <TextWrapper
@@ -294,6 +169,7 @@ const Text: FunctionComponent<TextProps> = ({
     as={element || mapping[displayStyle]}
     displayStyle={displayStyle}
     {...rest}
+    color={color}
   >
     {message ? <FormattedMessage {...message} /> : children}
   </TextWrapper>

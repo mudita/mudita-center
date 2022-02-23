@@ -63,7 +63,7 @@ const Answer: FunctionComponent<Props> = ({ match, list }) => {
           )
         ) : (
           <Text
-            displayStyle={TextDisplayStyle.MediumText}
+            displayStyle={TextDisplayStyle.Paragraph3}
             message={{ id: "module.help.answerError" }}
           />
         )}

@@ -52,47 +52,49 @@ interface AuthorizationFailedModalProps extends ModalProps {
   provider: ExternalProvider
 }
 
-const AuthorizationFailedModal: FunctionComponent<AuthorizationFailedModalProps> =
-  ({ provider, ...props }) => {
-    const providerName = (() => {
-      switch (provider) {
-        case Provider.Google:
-          return intl.formatMessage(messages.google)
-        case Provider.Apple:
-          return intl.formatMessage(messages.apple)
-        case Provider.Outlook:
-          return intl.formatMessage(messages.microsoft)
-      }
-    })()
+const AuthorizationFailedModal: FunctionComponent<
+  AuthorizationFailedModalProps
+> = ({ provider, ...props }) => {
+  const providerName = (() => {
+    switch (provider) {
+      case Provider.Google:
+        return intl.formatMessage(messages.google)
+      case Provider.Apple:
+        return intl.formatMessage(messages.apple)
+      case Provider.Outlook:
+        return intl.formatMessage(messages.microsoft)
+    }
+  })()
 
-    return (
-      <Modal
-        {...props}
-        size={ModalSize.Small}
-        title={
-          <FormattedMessage
-            {...messages.title}
-            values={{ provider: providerName }}
-          />
-        }
-        closeButton={false}
-        actionButtonLabel={intl.formatMessage(messages.button)}
-      >
-        <ModalContent>
-          <RoundIconWrapper>
-            <Icon type={Type.CalendarIcon} width={4} />
-          </RoundIconWrapper>
-          <Text
-            displayStyle={TextDisplayStyle.LargeBoldText}
-            message={messages.subtitle}
-          />
-          <ModalText
-            displayStyle={TextDisplayStyle.MediumFadedText}
-            message={messages.body}
-          />
-        </ModalContent>
-      </Modal>
-    )
-  }
+  return (
+    <Modal
+      {...props}
+      size={ModalSize.Small}
+      title={
+        <FormattedMessage
+          {...messages.title}
+          values={{ provider: providerName }}
+        />
+      }
+      closeButton={false}
+      actionButtonLabel={intl.formatMessage(messages.button)}
+    >
+      <ModalContent>
+        <RoundIconWrapper>
+          <Icon type={Type.CalendarIcon} width={4} />
+        </RoundIconWrapper>
+        <Text
+          displayStyle={TextDisplayStyle.Headline4}
+          message={messages.subtitle}
+        />
+        <ModalText
+          displayStyle={TextDisplayStyle.Paragraph4}
+          message={messages.body}
+          color="secondary"
+        />
+      </ModalContent>
+    </Modal>
+  )
+}
 
 export default AuthorizationFailedModal

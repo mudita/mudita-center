@@ -79,11 +79,11 @@ const ImportEventsModal: FunctionComponent<ImportEventsModalProps> = ({
         <Icon type={Type.Download} width={4} />
       </RoundIconWrapper>
       <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.bodyTitle}
       />
       <Body
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         message={{
           ...messages.text,
           values: { count: events?.length, ...textFormatters },

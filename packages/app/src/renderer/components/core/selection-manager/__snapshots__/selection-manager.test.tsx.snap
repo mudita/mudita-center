@@ -4,14 +4,13 @@ exports[`matches snapshot 1`] = `
 .c6 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
-  line-height: 1.8rem;
-  color: #6a6a6a;
-  font-weight: 300;
+  line-height: 1.57;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  font-weight: 300;
+  color: #6a6a6a;
 }
 
 .c4 {
@@ -161,6 +160,7 @@ exports[`matches snapshot 1`] = `
     </div>
     <p
       class="c6 c7"
+      color="secondary"
       data-testid="info"
     >
       [value] module.messages.conversationsSelectionsNumber

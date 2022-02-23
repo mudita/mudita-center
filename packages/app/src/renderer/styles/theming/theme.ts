@@ -104,7 +104,8 @@ const theme = {
     big: 1.2,
   },
   letterSpacing: {
-    negative: -0.06,
+    negative: -0.02,
+    neutral: 0,
     smaller: 0.02,
     small: 0.04,
     medium: 0.075,

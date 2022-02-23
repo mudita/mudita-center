@@ -25,7 +25,7 @@ const Card = styled.section`
 `
 
 export const CardHeader = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SecondaryBoldHeading,
+  displayStyle: TextDisplayStyle.Headline3,
 }))``
 
 export const CardBody = styled.div`
@@ -49,7 +49,7 @@ export const CardAction = styled(ButtonToggler)`
 
 export const CardText = styled.div`
   p:not(:last-of-type) {
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.4rem;
   }
 `
 
