@@ -95,10 +95,7 @@ const NormalHeading = styled(Text)`
 
 const textFormatters = {
   b: (str: string) => (
-    <NormalHeading
-      displayStyle={TextDisplayStyle.TertiaryHeading}
-      element={"span"}
-    >
+    <NormalHeading displayStyle={TextDisplayStyle.Headline3} element={"span"}>
       {str}
     </NormalHeading>
   ),
@@ -124,7 +121,7 @@ const Help: FunctionComponent<Props> = ({
               id: "module.help.title",
               values: textFormatters,
             }}
-            displayStyle={TextDisplayStyle.TertiaryHeading}
+            displayStyle={TextDisplayStyle.Headline3}
             data-testid={HelpComponentTestIds.Title}
           />
           <SearchContainer>

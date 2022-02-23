@@ -64,7 +64,7 @@ const ErrorSyncModal: FunctionComponent<Props> = ({ onRetry, ...props }) => {
           <Icon type={Type.Fail} width={4} />
         </RoundIconWrapper>
         <ModalText
-          displayStyle={TextDisplayStyle.QuaternaryHeading}
+          displayStyle={TextDisplayStyle.Headline4}
           message={messages.errorSyncModalTitle}
         />
         <ModalText

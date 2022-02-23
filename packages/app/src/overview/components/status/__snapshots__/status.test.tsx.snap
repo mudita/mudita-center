@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.c3 {
+.c1 {
   margin: 0;
   font-size: 2.4rem;
   line-height: 1.33;
@@ -13,7 +13,7 @@ exports[`matches snapshot 1`] = `
   color: #000000;
 }
 
-.c8 {
+.c6 {
   margin: 0;
   font-size: 1.6rem;
   line-height: 1.5;
@@ -25,7 +25,7 @@ exports[`matches snapshot 1`] = `
   color: #000000;
 }
 
-.c9 {
+.c7 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.67;
@@ -37,7 +37,7 @@ exports[`matches snapshot 1`] = `
   color: #000000;
 }
 
-.c7 {
+.c5 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -56,7 +56,7 @@ exports[`matches snapshot 1`] = `
   font-style: normal;
 }
 
-.c7 svg {
+.c5 svg {
   width: 100%;
   height: 100%;
 }
@@ -75,7 +75,7 @@ exports[`matches snapshot 1`] = `
   background-color: #ffffff;
 }
 
-.c4 {
+.c2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -94,30 +94,7 @@ exports[`matches snapshot 1`] = `
   margin-top: auto;
 }
 
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-}
-
-.c2 p {
-  margin-top: 1.2rem;
-  -webkit-letter-spacing: 0.04rem;
-  -moz-letter-spacing: 0.04rem;
-  -ms-letter-spacing: 0.04rem;
-  letter-spacing: 0.04rem;
-  color: #6a6a6a;
-}
-
-.c5 {
+.c3 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -131,15 +108,15 @@ exports[`matches snapshot 1`] = `
   align-items: center;
 }
 
-.c5 p {
+.c3 p {
   margin-top: 0.4rem;
 }
 
-.c5:not(:last-child) {
+.c3:not(:last-child) {
   margin-bottom: 1.6rem;
 }
 
-.c6 {
+.c4 {
   background-color: #fbfbfb;
   margin-right: 1.6rem;
   padding: 0.7rem;
@@ -149,28 +126,24 @@ exports[`matches snapshot 1`] = `
   <section
     class="c0"
   >
-    <div
-      class="c1 c2"
+    <h3
+      class="c1"
+      color="primary"
     >
-      <h3
-        class="c3"
-        color="primary"
-      >
-        [value] module.overview.statusPureTitle
-      </h3>
-    </div>
+      [value] module.overview.statusPureTitle
+    </h3>
     <div
-      class="c4"
+      class="c2"
     >
       <div>
         <div
-          class="c5"
+          class="c3"
         >
           <div
-            class="c6"
+            class="c4"
           >
             <span
-              class="c7"
+              class="c5"
               data-testid="icon-HighBattery"
               height="2.6"
               width="2.6"
@@ -182,7 +155,7 @@ exports[`matches snapshot 1`] = `
           </div>
           <div>
             <h2
-              class="c8"
+              class="c6"
               color="primary"
               data-testid="battery-level"
             >
@@ -190,7 +163,7 @@ exports[`matches snapshot 1`] = `
                %
             </h2>
             <p
-              class="c9"
+              class="c7"
               color="primary"
             >
               [value] module.overview.phoneBattery
@@ -198,13 +171,13 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c5"
+          class="c3"
         >
           <div
-            class="c6"
+            class="c4"
           >
             <span
-              class="c7"
+              class="c5"
               data-testid="icon-HighRange"
               height="2.6"
               width="2.6"
@@ -216,14 +189,14 @@ exports[`matches snapshot 1`] = `
           </div>
           <div>
             <h4
-              class="c8"
+              class="c6"
               color="primary"
               data-testid="network-name"
             >
               Play
             </h4>
             <p
-              class="c9"
+              class="c7"
               color="primary"
             >
               [value] module.overview.networkName

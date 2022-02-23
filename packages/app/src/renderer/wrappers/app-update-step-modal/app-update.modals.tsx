@@ -118,7 +118,7 @@ export const AppUpdateAvailable: FunctionComponent<
     {...props}
   >
     <ModalMainText
-      displayStyle={TextDisplayStyle.QuaternaryHeading}
+      displayStyle={TextDisplayStyle.Headline4}
       message={messages.availableUpdateMessage}
     />
     <Text
@@ -153,7 +153,7 @@ export const AppUpdateForced: FunctionComponent<
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
       <ModalMainText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.updateForcedModalMessage}
       />
       <Text
@@ -189,7 +189,7 @@ export const AppUpdateError: FunctionComponent<
     {...props}
   >
     <Text
-      displayStyle={TextDisplayStyle.QuaternaryHeading}
+      displayStyle={TextDisplayStyle.Headline4}
       message={messages.errorUpdateMessage}
     />
     <Text
@@ -210,7 +210,7 @@ export const AppUpdateDownloaded: FunctionComponent<
     {...props}
   >
     <ModalMainText
-      displayStyle={TextDisplayStyle.QuaternaryHeading}
+      displayStyle={TextDisplayStyle.Headline4}
       message={messages.downloadedUpdateMessage}
     />
     <Text
@@ -242,7 +242,7 @@ export const AppUpdateProgress: FunctionComponent<
         <Loader type={LoaderType.Spinner} />
       </RoundIconWrapper>
       <ModalMainText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.progressUpdateTitle}
       />
       <Text
@@ -263,7 +263,7 @@ export const AppUpdateNotAvailable: FunctionComponent<
     {...props}
   >
     <ModalMainText
-      displayStyle={TextDisplayStyle.QuaternaryHeading}
+      displayStyle={TextDisplayStyle.Headline4}
       message={messages.notAvailableUpdateMessage}
     />
     <Text

@@ -62,10 +62,7 @@ export const DownloadContactsModal: FunctionComponent<Props> = ({
         <Loader type={LoaderType.Spinner} />
       </RoundIconWrapper>
       {textMessage && (
-        <Text
-          displayStyle={TextDisplayStyle.QuaternaryHeading}
-          message={textMessage}
-        />
+        <Text displayStyle={TextDisplayStyle.Headline4} message={textMessage} />
       )}
     </ModalContent>
   </ModalDialog>

@@ -61,7 +61,7 @@ const Header: FunctionComponent<HeaderProps> = ({
   return (
     <HeaderWrapper>
       <HeaderText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={currentLocation}
         data-testid={"location"}
       />

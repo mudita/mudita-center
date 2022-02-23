@@ -135,7 +135,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
     <RecoveryModeWrapper>
       <RecoveryModeHeader>
         <Title
-          displayStyle={TextDisplayStyle.PrimaryHeading}
+          displayStyle={TextDisplayStyle.Headline1}
           message={{ ...messages.title, values: textFormatters }}
         />
         <DescriptionText
@@ -151,7 +151,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
                 <OptionBoxIcon type={iconType} size={IconSize.Big} />
                 <TextWrapper>
                   <Text
-                    displayStyle={TextDisplayStyle.TertiaryHeading}
+                    displayStyle={TextDisplayStyle.Headline3}
                     message={title}
                     element={"p"}
                   />

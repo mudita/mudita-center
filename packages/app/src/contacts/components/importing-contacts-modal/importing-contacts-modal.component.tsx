@@ -55,39 +55,40 @@ export interface ImportingContactsModalProps
   total: number
 }
 
-const ImportingContactsModal: FunctionComponent<ImportingContactsModalProps> =
-  ({ count, total, ...props }) => (
-    <ModalDialog
-      size={ModalSize.Small}
-      title={intl.formatMessage(messages.title)}
-      closeable={false}
-      closeButton={false}
-      {...props}
-    >
-      <Content>
-        <RoundIconWrapper>
-          <Icon type={Type.Download} width={4} />
-        </RoundIconWrapper>
-        <ModalText
-          displayStyle={TextDisplayStyle.QuaternaryHeading}
-          message={messages.subtitle}
-        />
-        <ModalText
-          displayStyle={TextDisplayStyle.Paragraph4}
-          message={messages.body}
-        />
-        <ProgressBar
-          chartData={[
-            { value: count, color: "#6d9bbc" },
-            { value: total - count, color: "#f4f5f6" },
-          ]}
-          displayStyle={DisplayStyle.Thin}
-        />
-        <Info displayStyle={TextDisplayStyle.Paragraph3}>
-          {Math.round((count * 100) / total)}%
-        </Info>
-      </Content>
-    </ModalDialog>
-  )
+const ImportingContactsModal: FunctionComponent<
+  ImportingContactsModalProps
+> = ({ count, total, ...props }) => (
+  <ModalDialog
+    size={ModalSize.Small}
+    title={intl.formatMessage(messages.title)}
+    closeable={false}
+    closeButton={false}
+    {...props}
+  >
+    <Content>
+      <RoundIconWrapper>
+        <Icon type={Type.Download} width={4} />
+      </RoundIconWrapper>
+      <ModalText
+        displayStyle={TextDisplayStyle.Headline4}
+        message={messages.subtitle}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.Paragraph4}
+        message={messages.body}
+      />
+      <ProgressBar
+        chartData={[
+          { value: count, color: "#6d9bbc" },
+          { value: total - count, color: "#f4f5f6" },
+        ]}
+        displayStyle={DisplayStyle.Thin}
+      />
+      <Info displayStyle={TextDisplayStyle.Paragraph3}>
+        {Math.round((count * 100) / total)}%
+      </Info>
+    </Content>
+  </ModalDialog>
+)
 
 export default ImportingContactsModal

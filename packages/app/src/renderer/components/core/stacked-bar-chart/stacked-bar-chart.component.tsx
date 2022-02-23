@@ -180,10 +180,7 @@ const StackedBarChart: FunctionComponent<StackedBarChartProps> = ({
         })}
       </Progress>
       {labels && (
-        <MemoryLabel
-          displayStyle={TextDisplayStyle.TertiaryHeading}
-          element={"p"}
-        >
+        <MemoryLabel displayStyle={TextDisplayStyle.Headline3} element={"p"}>
           {convertBytes(availableSpace(chartData), {
             fixedFractionDigits: false,
           })}

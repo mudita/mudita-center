@@ -219,7 +219,7 @@ export const UpdateAvailable = ({
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
     <ModalMainText
-      displayStyle={TextDisplayStyle.QuaternaryHeading}
+      displayStyle={TextDisplayStyle.Headline4}
       message={messages.updateAvailableMessage}
     />
     <Text
@@ -246,7 +246,7 @@ export const UpdateNotAvailable = ({ version = "" }) => (
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
     <ModalMainText
-      displayStyle={TextDisplayStyle.QuaternaryHeading}
+      displayStyle={TextDisplayStyle.Headline4}
       message={messages.updateNotAvailableMessage}
     />
     <Text
@@ -303,7 +303,7 @@ export const DownloadingUpdateModal = ({
         <Icon type={Type.Download} width={4} />
       </RoundIconWrapper>
       <ModalMainText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.downloadingUpdateMessage}
       />
       <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
@@ -332,7 +332,7 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
       <Icon type={Type.Download} width={4} />
     </RoundIconWrapper>
     <ModalMainText
-      displayStyle={TextDisplayStyle.QuaternaryHeading}
+      displayStyle={TextDisplayStyle.Headline4}
       message={messages.downloadCompletedMessage}
     />
     <Text
@@ -367,7 +367,7 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
         <Loader type={LoaderType.Spinner} size={6} />
       </RoundIconWrapper>
       <ModalMainText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.updatingProgressTitle}
       />
       <ModalText
@@ -386,7 +386,7 @@ export const UpdatingSuccessModal = () => (
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
     <ModalMainText
-      displayStyle={TextDisplayStyle.QuaternaryHeading}
+      displayStyle={TextDisplayStyle.Headline4}
       message={messages.updatingSuccessTitle}
     />
     <ModalText
@@ -468,7 +468,7 @@ export const DevUpdate = ({
       <RoundIconWrapper>
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
-      <ModalMainText displayStyle={TextDisplayStyle.QuaternaryHeading}>
+      <ModalMainText displayStyle={TextDisplayStyle.Headline4}>
         {install ? "Installing" : "Downloading"}. Are you sure?
       </ModalMainText>
       <CenteredText displayStyle={TextDisplayStyle.Paragraph3}>
@@ -509,7 +509,7 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
         <RoundIconWrapper>
           <Icon type={Type.NoBattery} width={5} />
         </RoundIconWrapper>
-        <ModalMainText displayStyle={TextDisplayStyle.QuaternaryHeading}>
+        <ModalMainText displayStyle={TextDisplayStyle.Headline4}>
           {intl.formatMessage(messages.updatingFlatBatteryTitle)}
         </ModalMainText>
         <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">

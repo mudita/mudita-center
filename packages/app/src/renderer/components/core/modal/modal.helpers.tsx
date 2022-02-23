@@ -39,12 +39,12 @@ export const getModalSize = (size: ModalSize) => {
 export const getTitleStyle = (size: ModalSize) => {
   switch (size) {
     case ModalSize.VerySmall:
-      return TextDisplayStyle.QuaternaryHeading
+      return TextDisplayStyle.Headline4
     case ModalSize.Small:
     case ModalSize.Medium:
-      return TextDisplayStyle.TertiaryHeading
+      return TextDisplayStyle.Headline3
     case ModalSize.Large:
-      return TextDisplayStyle.SecondaryHeading
+      return TextDisplayStyle.Headline2
     default:
       return
   }

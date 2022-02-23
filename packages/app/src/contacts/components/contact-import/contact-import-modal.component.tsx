@@ -185,7 +185,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
         <>
           <SubtitleText
             message={messages.importFailedSubtitle}
-            displayStyle={TextDisplayStyle.QuaternaryHeading}
+            displayStyle={TextDisplayStyle.Headline4}
           />
           <ModalText
             message={{
@@ -204,7 +204,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
         <>
           <SubtitleText
             message={messages.importSuccessSubtitle}
-            displayStyle={TextDisplayStyle.QuaternaryHeading}
+            displayStyle={TextDisplayStyle.Headline4}
           />
           <ModalText
             message={{
@@ -219,7 +219,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
         <>
           <SubtitleText
             message={messages.importingSubtitle}
-            displayStyle={TextDisplayStyle.QuaternaryHeading}
+            displayStyle={TextDisplayStyle.Headline4}
           />
           <ModalText
             message={messages.importingBody}

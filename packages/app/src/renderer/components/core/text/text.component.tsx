@@ -15,7 +15,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import { Theme } from "Renderer/styles/theming/theme"
 
-export const uppercaseTextSharedStyles = css`
+const uppercaseTextSharedStyles = css`
   font-size: 1.2rem;
   line-height: 1.67;
   font-weight: ${fontWeight("default")};
@@ -23,51 +23,41 @@ export const uppercaseTextSharedStyles = css`
   text-transform: uppercase;
 `
 
-export const paragraph1SharedStyles = css`
+const paragraph1SharedStyles = css`
   font-size: 1.6rem;
   line-height: 1.5;
   letter-spacing: ${letterSpacing("smaller")}rem;
 `
 
-export const paragraph3SharedStyles = css`
+const paragraph3SharedStyles = css`
   font-size: 1.4rem;
   line-height: 1.57;
   letter-spacing: ${letterSpacing("small")}rem;
 `
 
-export const largeTextSharedStyles = css`
-  font-size: 1.6rem;
-  line-height: 1.05;
-`
-
-export const smallTextSharedStyles = css`
-  font-size: 1.2rem;
-  line-height: 1.2;
-`
-
 export const getTextStyles = (displayStyle: TextDisplayStyle) => {
   switch (displayStyle) {
-    case TextDisplayStyle.PrimaryHeading:
+    case TextDisplayStyle.Headline1:
       return css`
         font-size: 4rem;
         line-height: 1.2;
         font-weight: ${fontWeight("default")};
         letter-spacing: ${letterSpacing("negative")}rem;
       `
-    case TextDisplayStyle.SecondaryHeading:
+    case TextDisplayStyle.Headline2:
       return css`
         font-size: 3.2rem;
         line-height: 1.25;
         font-weight: ${fontWeight("default")};
       `
-    case TextDisplayStyle.TertiaryHeading:
+    case TextDisplayStyle.Headline3:
       return css`
         font-size: 2.4rem;
         line-height: 1.33;
         font-weight: ${fontWeight("bold")};
         letter-spacing: ${letterSpacing("negative")}rem;
       `
-    case TextDisplayStyle.QuaternaryHeading:
+    case TextDisplayStyle.Headline4:
       return css`
         font-size: 1.6rem;
         line-height: 1.5;
@@ -129,10 +119,10 @@ export interface TextProps {
 
 export enum TextDisplayStyle {
   Default,
-  PrimaryHeading,
-  SecondaryHeading,
-  TertiaryHeading,
-  QuaternaryHeading,
+  Headline1,
+  Headline2,
+  Headline3,
+  Headline4,
   FifthHeading,
   Paragraph1,
   Paragraph2,
@@ -151,10 +141,10 @@ type Element = "div" | "h1" | "h2" | "h3" | "h4" | "h5" | "span" | "p" | "li"
 
 const mapping: ElementsMapping = {
   [TextDisplayStyle.Default]: "div",
-  [TextDisplayStyle.PrimaryHeading]: "h1",
-  [TextDisplayStyle.SecondaryHeading]: "h2",
-  [TextDisplayStyle.TertiaryHeading]: "h3",
-  [TextDisplayStyle.QuaternaryHeading]: "h4",
+  [TextDisplayStyle.Headline1]: "h1",
+  [TextDisplayStyle.Headline2]: "h2",
+  [TextDisplayStyle.Headline3]: "h3",
+  [TextDisplayStyle.Headline4]: "h4",
   [TextDisplayStyle.FifthHeading]: "h5",
   [TextDisplayStyle.Paragraph1]: "p",
   [TextDisplayStyle.Paragraph2]: "p",

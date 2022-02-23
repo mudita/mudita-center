@@ -125,7 +125,7 @@ const rowLabelStyles = css`
   padding: 0;
   z-index: 1;
   ${Col} {
-    ${getTextStyles(TextDisplayStyle.QuaternaryHeading)};
+    ${getTextStyles(TextDisplayStyle.Headline4)};
     line-height: 1.1;
   }
 `
@@ -287,7 +287,7 @@ export const EmptyState: FunctionComponent<EmptyStateProps> = ({
   ...rest
 }) => (
   <EmptyStateWrapper {...rest}>
-    <Text displayStyle={TextDisplayStyle.TertiaryHeading} message={title} />
+    <Text displayStyle={TextDisplayStyle.Headline3} message={title} />
     {description && (
       <Text
         displayStyle={TextDisplayStyle.Paragraph3}

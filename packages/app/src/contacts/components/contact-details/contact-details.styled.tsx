@@ -26,7 +26,7 @@ export const BasicInfo = styled.div`
   justify-content: center;
 `
 export const Name = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.TertiaryHeading,
+  displayStyle: TextDisplayStyle.Headline3,
 }))`
   grid-area: Name;
   text-align: center;
@@ -47,7 +47,7 @@ export const InfoItem = styled.div`
 `
 
 export const InfoItemSpeedDialNumber = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.TertiaryHeading,
+  displayStyle: TextDisplayStyle.Headline3,
 }))`
   font-size: 2.2rem;
   line-height: 1;

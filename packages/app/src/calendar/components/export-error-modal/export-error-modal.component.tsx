@@ -44,7 +44,7 @@ const ExportErrorModal: FunctionComponent<ModalProps> = ({ ...props }) => (
         <Icon type={Type.CalendarIcon} width={4} />
       </RoundIconWrapper>
       <Text
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.subtitle}
         data-testid={ExportErrorModalTestIds.Subtitle}
       />

@@ -10,14 +10,14 @@ import Text, {
 import { fontWeight } from "Renderer/styles/theming/theme-getters"
 
 export const RichTextSecondaryHeading = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.TertiaryHeading,
+  displayStyle: TextDisplayStyle.Headline2,
 }))`
   font-weight: ${fontWeight("default")};
   margin-bottom: 4rem;
 `
 
 export const RichTextTertiaryHeading = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.TertiaryHeading,
+  displayStyle: TextDisplayStyle.Headline3,
 }))`
   margin-top: 4rem;
   margin-bottom: 1.6rem;

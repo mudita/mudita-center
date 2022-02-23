@@ -25,7 +25,7 @@ const Card = styled.section`
 `
 
 export const CardHeader = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.TertiaryHeading,
+  displayStyle: TextDisplayStyle.Headline3,
 }))``
 
 export const CardBody = styled.div`

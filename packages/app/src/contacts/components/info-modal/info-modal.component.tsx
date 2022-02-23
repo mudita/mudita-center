@@ -50,7 +50,7 @@ const InfoModal: FunctionComponent<Props> = ({
         <Icon type={Type.Info} width={5} />
       </RoundIconWrapper>
       {subtitle && (
-        <ModalText displayStyle={TextDisplayStyle.QuaternaryHeading}>
+        <ModalText displayStyle={TextDisplayStyle.Headline4}>
           {subtitle}
         </ModalText>
       )}

@@ -60,7 +60,7 @@ const ClickableWrapper = styled(
 storiesOf("Theme/Text", module).add("Text", () => {
   return (
     <>
-      <Text displayStyle={TextDisplayStyle.PrimaryHeading}>TYPOGRAPHY</Text>
+      <Text displayStyle={TextDisplayStyle.Headline1}>TYPOGRAPHY</Text>
       <Text displayStyle={TextDisplayStyle.Paragraph3}>
         Click on the box to copy text style
       </Text>
@@ -73,30 +73,30 @@ storiesOf("Theme/Text", module).add("Text", () => {
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.PrimaryHeading">
-        <Story noUppercase title="PrimaryHeading">
-          <Text displayStyle={TextDisplayStyle.PrimaryHeading}>
+      <ClickableWrapper text="TextDisplayStyle.Headline1">
+        <Story noUppercase title="Headline1">
+          <Text displayStyle={TextDisplayStyle.Headline1}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.SecondaryHeading">
-        <Story noUppercase title="SecondaryHeading">
-          <Text displayStyle={TextDisplayStyle.SecondaryHeading}>
+      <ClickableWrapper text="TextDisplayStyle.Headline2">
+        <Story noUppercase title="Headline2">
+          <Text displayStyle={TextDisplayStyle.Headline2}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.TertiaryHeading">
-        <Story noUppercase title="TertiaryHeading">
-          <Text displayStyle={TextDisplayStyle.TertiaryHeading}>
+      <ClickableWrapper text="TextDisplayStyle.Headline3">
+        <Story noUppercase title="Headline3">
+          <Text displayStyle={TextDisplayStyle.Headline3}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.QuaternaryHeading">
-        <Story noUppercase title="QuaternaryHeading">
-          <Text displayStyle={TextDisplayStyle.QuaternaryHeading}>
+      <ClickableWrapper text="TextDisplayStyle.Headline4">
+        <Story noUppercase title="Headline4">
+          <Text displayStyle={TextDisplayStyle.Headline4}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>

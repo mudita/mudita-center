@@ -54,7 +54,7 @@ const ConnectingContent: FunctionComponent<Props> = ({ longerConnection }) => {
           <Loader type={LoaderType.Spinner} size={6} />
         </LoaderWrapper>
         <Text
-          displayStyle={TextDisplayStyle.TertiaryHeading}
+          displayStyle={TextDisplayStyle.Headline3}
           message={{
             id: longerConnection
               ? "module.onboarding.connectingLongMessage"

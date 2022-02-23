@@ -203,7 +203,7 @@ const ContactList: FunctionComponent<Props> = ({
               <CategoryLabels>
                 <Col />
                 <Col>
-                  <Text displayStyle={TextDisplayStyle.QuaternaryHeading}>
+                  <Text displayStyle={TextDisplayStyle.Headline4}>
                     {category}
                   </Text>
                 </Col>

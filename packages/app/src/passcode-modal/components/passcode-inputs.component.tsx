@@ -12,7 +12,6 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { PasscodeModalTestIds } from "../passcode-modal-test-ids.enum"
-import { fontWeight } from "Renderer/styles/theming/theme-getters"
 
 const InputContainer = styled.div`
   width: 100%;
@@ -34,10 +33,6 @@ const PasscodeInputsContainer = styled.div<{
     errorMessage !== "" ? "1.4rem" : "5.8rem"};
 `
 
-export const Title = styled(Text)`
-  font-size: 3rem;
-  font-weight: ${fontWeight("default")};
-`
 interface Props {
   values: string[]
   updateValues: (values: string[]) => void
@@ -122,8 +117,8 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
 
   return (
     <PasscodeInputsContainer errorMessage={errorMessage}>
-      <Title
-        displayStyle={TextDisplayStyle.SecondaryHeading}
+      <Text
+        displayStyle={TextDisplayStyle.Headline2}
         message={{
           id: "component.passcodeModalTitle",
         }}

@@ -23,16 +23,10 @@ storiesOf("Components/Rest/Meditation", module)
         <Story title="First box" darkMode>
           <DataBox>
             <TextWrapper>
-              <Text
-                displayStyle={TextDisplayStyle.PrimaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
                 6
               </Text>
-              <Text
-                displayStyle={TextDisplayStyle.TertiaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline3} element={"span"}>
                 /7
               </Text>
             </TextWrapper>
@@ -46,28 +40,19 @@ storiesOf("Components/Rest/Meditation", module)
         <Story title="Second box" darkMode>
           <DataBox>
             <TextWrapper>
-              <Text
-                displayStyle={TextDisplayStyle.PrimaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
                 1
               </Text>
               <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 h
               </Text>
-              <Text
-                displayStyle={TextDisplayStyle.PrimaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
                 11
               </Text>
               <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 m
               </Text>
-              <Text
-                displayStyle={TextDisplayStyle.PrimaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
                 14
               </Text>
               <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
@@ -84,19 +69,13 @@ storiesOf("Components/Rest/Meditation", module)
         <Story title="Third box" darkMode>
           <DataBox>
             <TextWrapper>
-              <Text
-                displayStyle={TextDisplayStyle.PrimaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
                 17
               </Text>
               <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 m
               </Text>
-              <Text
-                displayStyle={TextDisplayStyle.PrimaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
                 32
               </Text>
               <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>

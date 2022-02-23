@@ -17,10 +17,7 @@ import {
   SettingsWrapper,
 } from "Renderer/modules/settings/components/settings-ui.component"
 import { AboutTestIds } from "Renderer/modules/settings/tabs/about/about.enum"
-import {
-  letterSpacing,
-  backgroundColor,
-} from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import styled from "styled-components"
 import Text from "Renderer/components/core/text/text.component"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
@@ -28,11 +25,9 @@ import { AppUpdateNotAvailable } from "Renderer/wrappers/app-update-step-modal/a
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
-  text-transform: none;
   display: inline-box;
   padding: 0.3rem 0.5rem;
   border-radius: 0.4rem;
-  letter-spacing: ${letterSpacing("small")}rem;
   background-color: ${backgroundColor("minor")};
   margin-right: 1.6rem;
 `

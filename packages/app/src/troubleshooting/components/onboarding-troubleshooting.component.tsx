@@ -146,7 +146,7 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
           message={{ id: "module.onboarding.troubleshootingSorry" }}
         />
         <Title
-          displayStyle={TextDisplayStyle.PrimaryHeading}
+          displayStyle={TextDisplayStyle.Headline1}
           message={{
             id: "module.onboarding.troubleshootingTitle",
             values: textFormatters,

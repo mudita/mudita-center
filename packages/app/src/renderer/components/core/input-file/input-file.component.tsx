@@ -33,7 +33,6 @@ const Message = styled(Text)<{ dragging?: boolean }>`
   position: relative;
   z-index: ${({ dragging }) => (dragging ? -1 : 1)};
   color: ${textColor("secondary")};
-  letter-spacing: normal;
 
   strong {
     font-weight: inherit;

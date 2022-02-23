@@ -18,7 +18,7 @@ import {
 const PrivacyPolicyUI: FunctionComponent = () => (
   <WindowContainer data-testid={PrivacyPolicyComponentTestIds.Wrapper}>
     <WindowHeader
-      displayStyle={TextDisplayStyle.SecondaryHeading}
+      displayStyle={TextDisplayStyle.Headline2}
       data-testid={PrivacyPolicyComponentTestIds.Title}
     >
       Mudita Center Privacy Policy

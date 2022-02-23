@@ -111,7 +111,7 @@ export const RestoreModal: FunctionComponent<RestoreModalProps> = ({
         <Icon type={Type.BackupFolder} width={4} />
       </RoundIconWrapper>
       <ModalMainText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.restoreModalTitle}
       />
       <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
@@ -135,7 +135,7 @@ export const RestoreSpinnerModal: FunctionComponent<
         <Loader type={LoaderType.Spinner} size={3} />
       </RoundIconWrapper>
       <ModalText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.restoreSpinnerModalTitle}
       />
       <ModalText
@@ -174,7 +174,7 @@ export const RestoreFailureModal: FunctionComponent<
         <Icon type={Type.Fail} width={4} />
       </RoundIconWrapper>
       <ModalText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.restoreFailureModalTitle}
       />
       <ModalText
@@ -200,7 +200,7 @@ export const RestoreSuccessModal: FunctionComponent<
         <Icon type={Type.CheckCircle} width={3} />
       </RoundIconWrapper>
       <ModalText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.restoreSuccessModalTitle}
       />
       <ModalText

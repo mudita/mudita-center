@@ -33,7 +33,7 @@ const ContactSupportModalSuccess: FunctionComponent<
       </RoundIconWrapper>
       <Text
         message={messages.title}
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
       />
       <Text
         message={messages.body}

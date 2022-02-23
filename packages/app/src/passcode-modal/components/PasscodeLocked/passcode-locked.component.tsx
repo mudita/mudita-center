@@ -9,7 +9,6 @@ import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { fontWeight } from "Renderer/styles/theming/theme-getters"
 import { defineMessages, FormattedMessage } from "react-intl"
 import moment from "moment"
 import { PasscodeLockedTestIds } from "App/passcode-modal/components/PasscodeLocked/passcode-locked-test-ids.enum"
@@ -18,8 +17,6 @@ const PasscodeLockedContainer = styled.div`
   margin-bottom: 4.2rem;
 `
 export const Title = styled(Text)`
-  font-size: 3rem;
-  font-weight: ${fontWeight("default")};
   margin-bottom: 0.8rem;
 `
 
@@ -64,7 +61,7 @@ const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
   return (
     <PasscodeLockedContainer data-testid={PasscodeLockedTestIds.Container}>
       <Title
-        displayStyle={TextDisplayStyle.SecondaryHeading}
+        displayStyle={TextDisplayStyle.Headline2}
         message={{
           ...messages.modalLockedTitle,
         }}

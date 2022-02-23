@@ -57,7 +57,7 @@ const CollectingDataModalUi: FunctionComponent<Props> = ({
         <Icon type={Type.MuditaLogoBg} width={12} height={12} />
         <Paragraph
           data-testid={CollectingDataModalTestIds.Subtitle}
-          displayStyle={TextDisplayStyle.QuaternaryHeading}
+          displayStyle={TextDisplayStyle.Headline4}
           message={messages.text}
         />
         <Paragraph

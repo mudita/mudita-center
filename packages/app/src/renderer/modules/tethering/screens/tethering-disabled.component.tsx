@@ -40,7 +40,7 @@ const TetheringDisabled: FunctionComponent<TetheringDisabledProps> = ({
 }) => (
   <TetheringContainer data-testid={TetheringTestIds.DisabledWrapper}>
     <TextWrapper>
-      <Text displayStyle={TextDisplayStyle.TertiaryHeading}>
+      <Text displayStyle={TextDisplayStyle.Headline3}>
         {intl.formatMessage(tetheringMessages.usbTethering, textFormatters)}
       </Text>
       <TetheringToggler

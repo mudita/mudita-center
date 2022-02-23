@@ -53,7 +53,7 @@ const StatBoxes: FunctionComponent<Props> = ({
       <DataBox>
         <TextWrapper>
           <Text
-            displayStyle={TextDisplayStyle.PrimaryHeading}
+            displayStyle={TextDisplayStyle.Headline1}
             element={"span"}
             data-testid={StatBoxesTestIds.TimeActiveText}
           >
@@ -70,10 +70,7 @@ const StatBoxes: FunctionComponent<Props> = ({
         <StatTextWrapper>
           <RotatedArrowIcon type={Type.LongArrow} size={IconSize.Bigger} />
           <div data-testid={StatBoxesTestIds.DataSentText}>
-            <Text
-              displayStyle={TextDisplayStyle.PrimaryHeading}
-              element={"span"}
-            >
+            <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
               {dataSentValue}
             </Text>
             <UnitText displayStyle={TextDisplayStyle.Label} element={"span"}>
@@ -91,10 +88,7 @@ const StatBoxes: FunctionComponent<Props> = ({
         <StatTextWrapper>
           <Icon type={Type.LongArrow} size={IconSize.Bigger} />
           <div data-testid={StatBoxesTestIds.DataReceivedText}>
-            <Text
-              displayStyle={TextDisplayStyle.PrimaryHeading}
-              element={"span"}
-            >
+            <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
               {dataReceivedValue}
             </Text>
             <UnitText displayStyle={TextDisplayStyle.Label} element={"span"}>

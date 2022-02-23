@@ -107,7 +107,7 @@ export const BackupModal: FunctionComponent<
         <Icon type={Type.BackupFolder} width={4} />
       </RoundIconWrapper>
       <ModalMainText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.backupModalTitle}
       />
       <ModalText
@@ -128,7 +128,7 @@ export const BackupSpinnerModal: FunctionComponent<
         <Loader type={LoaderType.Spinner} size={3} />
       </RoundIconWrapper>
       <ModalMainText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.backupSpinnerModalTitle}
       />
       <ModalText
@@ -167,7 +167,7 @@ export const BackupFailureModal: FunctionComponent<
         <Icon type={Type.Fail} width={4} />
       </RoundIconWrapper>
       <ModalMainText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.backupFailureModalTitle}
       />
       <ModalText
@@ -199,7 +199,7 @@ export const BackupSuccessModal: FunctionComponent<BackupSuccessModalProps> = ({
         <Icon type={Type.CheckCircle} width={3} />
       </RoundIconWrapper>
       <ModalMainText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.backupSuccessModalTitle}
       />
       <ModalText

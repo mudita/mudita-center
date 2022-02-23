@@ -19,7 +19,7 @@ import {
 export const LicenseUI: FunctionComponent = () => (
   <WindowContainer data-testid={LicenseComponentTestIds.Wrapper}>
     <WindowHeader
-      displayStyle={TextDisplayStyle.SecondaryHeading}
+      displayStyle={TextDisplayStyle.Headline2}
       data-testid={LicenseComponentTestIds.Title}
     >
       Mudita Center Software – Terms of Use

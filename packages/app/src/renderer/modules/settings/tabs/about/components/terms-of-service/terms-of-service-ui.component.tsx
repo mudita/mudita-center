@@ -19,7 +19,7 @@ import { EXTERNAL_URLS } from "App/renderer/constants/external-urls"
 const TermsOfServiceUI: FunctionComponent = () => (
   <WindowContainer data-testid={TermsOfServiceComponentTestIds.Wrapper}>
     <WindowHeader
-      displayStyle={TextDisplayStyle.SecondaryHeading}
+      displayStyle={TextDisplayStyle.Headline2}
       data-testid={TermsOfServiceComponentTestIds.Title}
     >
       Mudita Center Terms of Use

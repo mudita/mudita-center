@@ -110,7 +110,7 @@ export const UpdatingForceModal: FunctionComponent<
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
       <ModalText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.updatingForceTitle}
       />
       <ModalText
@@ -131,7 +131,7 @@ export const UpdatingSpinnerModal: FunctionComponent<
         <Loader type={LoaderType.Spinner} size={6} />
       </RoundIconWrapper>
       <ModalText
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.updatingProgressTitle}
       />
       <ModalText
@@ -179,7 +179,7 @@ export const UpdatingFailureWithHelpModal = ({
         <Icon type={Type.Fail} width={4} />
       </RoundIconWrapper>
       <Text
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.updatingFailedTitle}
       />
       <Text
@@ -200,7 +200,7 @@ export const UpdatingSuccessModal: FunctionComponent<
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
       <Text
-        displayStyle={TextDisplayStyle.QuaternaryHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.updatingSuccessTitle}
       />
       <ModalText
@@ -217,29 +217,30 @@ interface TooLowBatteryModalModalProps
   onCancel?: () => void
 }
 
-export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalModalProps> =
-  ({ onCancel, ...props }) => {
-    return (
-      <OSUpdateModal
-        closeButtonLabel={intl.formatMessage(
-          messages.updatingFlatBatteryActionButton
-        )}
-        title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-        size={ModalSize.Small}
-        onCloseButton={onCancel}
-        {...props}
-      >
-        <ModalContent>
-          <RoundIconWrapper>
-            <Icon type={Type.NoBattery} width={5} />
-          </RoundIconWrapper>
-          <ModalText displayStyle={TextDisplayStyle.QuaternaryHeading}>
-            {intl.formatMessage(messages.updatingFlatBatteryTitle)}
-          </ModalText>
-          <ModalText displayStyle={TextDisplayStyle.Paragraph4}>
-            {intl.formatMessage(messages.updatingFlatBatteryDescription)}
-          </ModalText>
-        </ModalContent>
-      </OSUpdateModal>
-    )
-  }
+export const TooLowBatteryModal: FunctionComponent<
+  TooLowBatteryModalModalProps
+> = ({ onCancel, ...props }) => {
+  return (
+    <OSUpdateModal
+      closeButtonLabel={intl.formatMessage(
+        messages.updatingFlatBatteryActionButton
+      )}
+      title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+      size={ModalSize.Small}
+      onCloseButton={onCancel}
+      {...props}
+    >
+      <ModalContent>
+        <RoundIconWrapper>
+          <Icon type={Type.NoBattery} width={5} />
+        </RoundIconWrapper>
+        <ModalText displayStyle={TextDisplayStyle.Headline4}>
+          {intl.formatMessage(messages.updatingFlatBatteryTitle)}
+        </ModalText>
+        <ModalText displayStyle={TextDisplayStyle.Paragraph4}>
+          {intl.formatMessage(messages.updatingFlatBatteryDescription)}
+        </ModalText>
+      </ModalContent>
+    </OSUpdateModal>
+  )
+}

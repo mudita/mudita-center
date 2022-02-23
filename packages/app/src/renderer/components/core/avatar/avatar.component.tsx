@@ -43,7 +43,7 @@ const getAvatarTextStyle = (size: AvatarSize): TextDisplayStyle => {
     case AvatarSize.Medium:
       return TextDisplayStyle.FifthHeading
     case AvatarSize.Big:
-      return TextDisplayStyle.QuaternaryHeading
+      return TextDisplayStyle.Headline4
   }
 }
 
