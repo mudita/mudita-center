@@ -47,7 +47,7 @@ const DeleteTemplateModal: FunctionComponent<DeleteTemplateModalProps> = ({
     >
       <ModalContent>
         <Icon type={Type.DeleteBig} width={12} height={12} />
-        <Text displayStyle={TextDisplayStyle.MediumText}>{text}</Text>
+        <Text displayStyle={TextDisplayStyle.Paragraph2}>{text}</Text>
       </ModalContent>
     </Modal>
   )

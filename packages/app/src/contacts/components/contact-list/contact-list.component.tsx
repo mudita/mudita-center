@@ -47,6 +47,9 @@ import {
   Contacts,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -84,7 +87,7 @@ const BlockedIcon = styled(Icon).attrs(() => ({
   margin-left: 1.6rem;
 `
 
-const NameSpan = styled.span``
+const NameSpan = styled(Text)``
 
 const ClickableCol = styled(Col)<{ disabled?: boolean }>`
   height: 100%;
@@ -199,7 +202,11 @@ const ContactList: FunctionComponent<Props> = ({
             >
               <CategoryLabels>
                 <Col />
-                <Col>{category}</Col>
+                <Col>
+                  <Text displayStyle={TextDisplayStyle.Headline4}>
+                    {category}
+                  </Text>
+                </Col>
               </CategoryLabels>
               {contacts.map((contact, index) => {
                 const rowActive = activeRow?.id === contact.id
@@ -221,13 +228,13 @@ const ContactList: FunctionComponent<Props> = ({
                   }
                   if (firstName && lastName) {
                     return (
-                      <NameSpan>
+                      <NameSpan displayStyle={TextDisplayStyle.Paragraph1}>
                         {firstName} <strong>{lastName}</strong>
                       </NameSpan>
                     )
                   }
                   return (
-                    <NameSpan>
+                    <NameSpan displayStyle={TextDisplayStyle.Paragraph1}>
                       <strong>{firstName || lastName}</strong>
                     </NameSpan>
                   )
@@ -272,11 +279,17 @@ const ContactList: FunctionComponent<Props> = ({
                         <BlockedIcon width={1.4} height={1.4} />
                       )}
                     </ClickableCol>
-                    <Col>{phoneNumber}</Col>
                     <Col>
-                      {contact.primaryPhoneNumber &&
-                        contact.secondaryPhoneNumber &&
-                        contact.secondaryPhoneNumber}
+                      <Text displayStyle={TextDisplayStyle.Paragraph1}>
+                        {phoneNumber}
+                      </Text>
+                    </Col>
+                    <Col>
+                      <Text displayStyle={TextDisplayStyle.Paragraph1}>
+                        {contact.primaryPhoneNumber &&
+                          contact.secondaryPhoneNumber &&
+                          contact.secondaryPhoneNumber}
+                      </Text>
                     </Col>
                     <Col>
                       <Actions>

@@ -31,7 +31,7 @@ interface HeaderProps {
 }
 
 const HeaderText = styled(Text)`
-  margin: 2.4rem 0 1.5rem 3.2rem;
+  margin: 1.6rem 0 1.5rem 3.2rem;
 `
 
 const Header: FunctionComponent<HeaderProps> = ({
@@ -61,7 +61,7 @@ const Header: FunctionComponent<HeaderProps> = ({
   return (
     <HeaderWrapper>
       <HeaderText
-        displayStyle={TextDisplayStyle.TertiaryBoldHeading}
+        displayStyle={TextDisplayStyle.Headline4}
         message={currentLocation}
         data-testid={"location"}
       />

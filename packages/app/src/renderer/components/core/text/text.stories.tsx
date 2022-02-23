@@ -60,162 +60,106 @@ const ClickableWrapper = styled(
 storiesOf("Theme/Text", module).add("Text", () => {
   return (
     <>
-      <Text displayStyle={TextDisplayStyle.PrimaryHeading}>TYPOGRAPHY</Text>
-      <Text displayStyle={TextDisplayStyle.MediumLightText}>
+      <Text displayStyle={TextDisplayStyle.Headline1}>TYPOGRAPHY</Text>
+      <Text displayStyle={TextDisplayStyle.Paragraph3}>
         Click on the box to copy text style
       </Text>
       <br />
       <br />
-      <ClickableWrapper text="TextDisplayStyle.PrimaryHeading">
-        <Story noUppercase title="PrimaryHeading">
-          <Text displayStyle={TextDisplayStyle.PrimaryHeading}>
+      <ClickableWrapper text="TextDisplayStyle.Default">
+        <Story noUppercase title="Default">
+          <Text displayStyle={TextDisplayStyle.Default}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.SecondaryBoldHeading">
-        <Story noUppercase title="SecondaryBoldHeading">
-          <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
+      <ClickableWrapper text="TextDisplayStyle.Headline1">
+        <Story noUppercase title="Headline1">
+          <Text displayStyle={TextDisplayStyle.Headline1}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.TertiaryBoldHeading">
-        <Story noUppercase title="TertiaryBoldHeading">
-          <Text displayStyle={TextDisplayStyle.TertiaryBoldHeading}>
+      <ClickableWrapper text="TextDisplayStyle.Headline2">
+        <Story noUppercase title="Headline2">
+          <Text displayStyle={TextDisplayStyle.Headline2}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.TertiaryHeading">
-        <Story noUppercase title="TertiaryHeading">
-          <Text displayStyle={TextDisplayStyle.TertiaryHeading}>
+      <ClickableWrapper text="TextDisplayStyle.Headline3">
+        <Story noUppercase title="Headline3">
+          <Text displayStyle={TextDisplayStyle.Headline3}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.LargeBoldText">
-        <Story noUppercase title="LargeBoldText">
-          <Text displayStyle={TextDisplayStyle.LargeBoldText}>
+      <ClickableWrapper text="TextDisplayStyle.Headline4">
+        <Story noUppercase title="Headline4">
+          <Text displayStyle={TextDisplayStyle.Headline4}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.LargeText">
-        <Story noUppercase title="LargeText">
-          <Text displayStyle={TextDisplayStyle.LargeText}>
+      <ClickableWrapper text="TextDisplayStyle.FifthHeading">
+        <Story noUppercase title="FifthHeading">
+          <Text displayStyle={TextDisplayStyle.FifthHeading}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.LargeFadedText">
-        <Story noUppercase title="LargeFadedText">
-          <Text displayStyle={TextDisplayStyle.LargeFadedText}>
+      <ClickableWrapper text="TextDisplayStyle.Paragraph1">
+        <Story noUppercase title="Paragraph1">
+          <Text displayStyle={TextDisplayStyle.Paragraph1}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.LargeTextCapitalLetters">
-        <Story noUppercase title="LargeTextCapitalLetters">
-          <Text displayStyle={TextDisplayStyle.LargeTextCapitalLetters}>
+      <ClickableWrapper text="TextDisplayStyle.Paragraph2">
+        <Story noUppercase title="Paragraph2">
+          <Text displayStyle={TextDisplayStyle.Paragraph2}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.LargeFadedTextCapitalLetters">
-        <Story noUppercase title="LargeFadedTextCapitalLetters">
-          <Text displayStyle={TextDisplayStyle.LargeFadedTextCapitalLetters}>
+      <ClickableWrapper text="TextDisplayStyle.Paragraph3">
+        <Story noUppercase title="Paragraph3">
+          <Text displayStyle={TextDisplayStyle.Paragraph3}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.LargeFadedDimTextCapitalLetters">
-        <Story noUppercase title="LargeFadedDimTextCapitalLetters">
-          <Text displayStyle={TextDisplayStyle.LargeFadedDimTextCapitalLetters}>
+      <ClickableWrapper text="TextDisplayStyle.Paragraph4">
+        <Story noUppercase title="Paragraph4">
+          <Text displayStyle={TextDisplayStyle.Paragraph4}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.MediumBoldText">
-        <Story noUppercase title="MediumBoldText">
-          <Text displayStyle={TextDisplayStyle.MediumBoldText}>
+      <ClickableWrapper text="TextDisplayStyle.Paragraph4">
+        <Story noUppercase title="Paragraph4 color secondary">
+          <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.MediumLightText">
-        <Story noUppercase title="MediumLightText">
-          <Text displayStyle={TextDisplayStyle.MediumLightText}>
+      <ClickableWrapper text="TextDisplayStyle.Title">
+        <Story noUppercase title="Title">
+          <Text displayStyle={TextDisplayStyle.Title}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.MediumFadedLightText">
-        <Story noUppercase title="MediumFadedLightText">
-          <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+      <ClickableWrapper text="TextDisplayStyle.Button">
+        <Story noUppercase title="Button">
+          <Text displayStyle={TextDisplayStyle.Button}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>
       </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.MediumText">
-        <Story noUppercase title="MediumText">
-          <Text displayStyle={TextDisplayStyle.MediumText}>
-            I’m at the meeting now. I will call you later
-          </Text>
-        </Story>
-      </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.MediumFadedText">
-        <Story noUppercase title="MediumFadedText">
-          <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-            I’m at the meeting now. I will call you later
-          </Text>
-        </Story>
-      </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.MediumFadedTextUppercased">
-        <Story noUppercase title="MediumFadedTextUppercased">
-          <Text displayStyle={TextDisplayStyle.MediumFadedTextUppercased}>
-            I’m at the meeting now. I will call you later
-          </Text>
-        </Story>
-      </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.MediumTextUppercased">
-        <Story noUppercase title="MediumTextUppercased">
-          <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
-            I’m at the meeting now. I will call you later
-          </Text>
-        </Story>
-      </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.SmallText">
-        <Story noUppercase title="SmallText">
-          <Text displayStyle={TextDisplayStyle.SmallText}>
-            I’m at the meeting now. I will call you later
-          </Text>
-        </Story>
-      </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.SmallSupplementaryText">
-        <Story noUppercase title="SmallSupplementaryText">
-          <Text displayStyle={TextDisplayStyle.SmallSupplementaryText}>
-            I’m at the meeting now. I will call you later
-          </Text>
-        </Story>
-      </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.SmallTextInverted">
-        <Story noUppercase title="SmallTextInverted">
-          <Text displayStyle={TextDisplayStyle.SmallTextInverted}>
-            I’m at the meeting now. I will call you later
-          </Text>
-        </Story>
-      </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.SmallFadedText">
-        <Story noUppercase title="SmallFadedText">
-          <Text displayStyle={TextDisplayStyle.SmallFadedText}>
-            I’m at the meeting now. I will call you later
-          </Text>
-        </Story>
-      </ClickableWrapper>
-      <ClickableWrapper text="TextDisplayStyle.SmallFadedDimText">
-        <Story noUppercase title="SmallFadedDimText">
-          <Text displayStyle={TextDisplayStyle.SmallFadedDimText}>
+      <ClickableWrapper text="TextDisplayStyle.Label">
+        <Story noUppercase title="Label">
+          <Text displayStyle={TextDisplayStyle.Label}>
             I’m at the meeting now. I will call you later
           </Text>
         </Story>

@@ -5,7 +5,9 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import Image from "Renderer/components/core/image/image.component"
 import Infographic from "Renderer/images/onboarding/infographicx2.png"
 import {
@@ -16,12 +18,10 @@ import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import {
   OnboardingWrapper,
-  InstructionText,
   WelcomeButton,
   TroubleshootingButton,
 } from "App/onboarding/components/onboarding-welcome.styled"
 import { Title } from "Renderer/components/core/text/title-text.styled"
-
 export interface Props {
   onCancel?: () => void
   onTroubleshooting?: () => void
@@ -34,14 +34,14 @@ const OnboardingWelcome: FunctionComponent<Props> = ({
   <OnboardingWrapper>
     <header>
       <Title
-        displayStyle={TextDisplayStyle.PrimaryHeading}
+        displayStyle={TextDisplayStyle.Headline2}
         message={{
           id: "module.onboarding.welcomeTitle",
           values: textFormatters,
         }}
       />
-      <InstructionText
-        displayStyle={TextDisplayStyle.LargeText}
+      <Text
+        displayStyle={TextDisplayStyle.Paragraph1}
         message={{ id: "module.onboarding.welcomeInstruction" }}
       />
     </header>

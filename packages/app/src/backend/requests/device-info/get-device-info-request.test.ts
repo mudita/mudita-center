@@ -46,7 +46,7 @@ const mockDeviceInfo: DeviceInfo = {
 jest.mock("Backend/device-service")
 
 test("returns required device info", async () => {
-  ;((DeviceService as unknown) as jest.Mock).mockImplementation(() => {
+  ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => ({
         data: mockDeviceInfo,
@@ -55,9 +55,9 @@ test("returns required device info", async () => {
     }
   })
   const deviceService = new DeviceService(MuditaDeviceManager, ipcMain)
-  registerDeviceInfoRequest(({
+  registerDeviceInfoRequest({
     deviceBaseInfo: createDeviceBaseInfoAdapter(deviceService),
-  } as unknown) as Adapters)
+  } as unknown as Adapters)
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetDeviceInfo)
   const result = await pendingResponse
 

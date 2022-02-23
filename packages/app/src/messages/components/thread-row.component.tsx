@@ -62,8 +62,8 @@ const dotStyles = css`
     display: block;
     content: "";
     position: absolute;
-    top: 0.2rem;
-    margin-left: -1.8rem;
+    top: 0.8rem;
+    margin-left: -1.4rem;
     height: 0.6rem;
     width: 0.6rem;
     border-radius: 50%;
@@ -90,8 +90,7 @@ export const InitialsAvatar = styled(Avatar)<{ light?: boolean }>`
 `
 
 const LastMessageText = styled(Message)<{ unread?: boolean }>`
-  margin-top: 0.8rem;
-  padding-left: ${({ unread }) => (unread ? "1.8rem" : "0")};
+  padding-left: ${({ unread }) => (unread ? "1.4rem" : "0")};
   position: relative;
   ${({ unread }) => unread && dotStyles};
 `
@@ -173,18 +172,18 @@ const ThreadRow: FunctionComponent<Props> = ({
         {getPrettyCaller(contact, phoneNumber) === newConversation ||
         !thread.messageSnippet ? (
           <NewThreadWrapper>
-            <Name displayStyle={TextDisplayStyle.LargeBoldText}>
+            <Name displayStyle={TextDisplayStyle.Headline4}>
               {getPrettyCaller(contact, phoneNumber)}
             </Name>
           </NewThreadWrapper>
         ) : (
           <ThreadDataWrapper sidebarOpened={sidebarOpened}>
             <NameWrapper>
-              <Name displayStyle={TextDisplayStyle.LargeBoldText}>
+              <Name displayStyle={TextDisplayStyle.Headline4}>
                 {getPrettyCaller(contact, phoneNumber)}
               </Name>
               {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
-                <Text displayStyle={TextDisplayStyle.LargeFadedText}>
+                <Text displayStyle={TextDisplayStyle.Paragraph2}>
                   &nbsp;
                   {phoneNumber.split(" ").join("") ===
                   contact?.secondaryPhoneNumber?.split(" ").join("")
@@ -193,7 +192,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 </Text>
               )}
             </NameWrapper>
-            <Time displayStyle={TextDisplayStyle.SmallFadedText}>
+            <Time displayStyle={TextDisplayStyle.Label} color="secondary">
               {isToday(thread.lastUpdatedAt)
                 ? moment(thread.lastUpdatedAt).format("h:mm A")
                 : moment(thread.lastUpdatedAt)
@@ -202,10 +201,11 @@ const ThreadRow: FunctionComponent<Props> = ({
             </Time>
             <LastMessageText
               unread={unread}
+              color="secondary"
               displayStyle={
                 unread
-                  ? TextDisplayStyle.MediumText
-                  : TextDisplayStyle.MediumFadedLightText
+                  ? TextDisplayStyle.Paragraph3
+                  : TextDisplayStyle.Paragraph4
               }
             >
               {thread?.messageSnippet}

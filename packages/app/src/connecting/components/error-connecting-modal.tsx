@@ -65,11 +65,11 @@ const ErrorConnectingModal: FunctionComponent<
           <Icon type={Type.Fail} width={4} />
         </RoundIconWrapper>
         <ModalText
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.Headline4}
           message={messages.errorConnectingModalTitle}
         />
         <ModalText
-          displayStyle={TextDisplayStyle.MediumFadedText}
+          displayStyle={TextDisplayStyle.Paragraph4}
           message={messages.errorConnectingDescription}
         />
       </ModalContent>

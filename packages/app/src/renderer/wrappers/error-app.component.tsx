@@ -26,7 +26,7 @@ const ErrorApp: FunctionComponent<Props> = ({ history }) => (
   <Router history={history}>
     <Route path={URL_MAIN.error}>
       <Text
-        displayStyle={TextDisplayStyle.SecondaryHeading}
+        displayStyle={TextDisplayStyle.Headline2}
         message={messages.errorBody}
       />
     </Route>

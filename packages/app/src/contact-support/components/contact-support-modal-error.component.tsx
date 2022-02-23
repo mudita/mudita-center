@@ -33,11 +33,12 @@ const ContactSupportModalError: FunctionComponent<
       </RoundIconWrapper>
       <Text
         message={messages.title}
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.Headline4}
       />
       <Text
         message={messages.body}
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
       />
     </SimpleModal>
   </ModalDialog>

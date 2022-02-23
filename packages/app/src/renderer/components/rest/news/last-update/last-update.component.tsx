@@ -20,10 +20,7 @@ const LastUpdate: FunctionComponent<Props> = ({
   online = false,
   date,
 }) => (
-  <Text
-    displayStyle={TextDisplayStyle.MediumFadedLightText}
-    className={className}
-  >
+  <Text displayStyle={TextDisplayStyle.Paragraph4} className={className}>
     {!online && <FormattedMessage id="module.news.offlineText" />}{" "}
     {date && (
       <>

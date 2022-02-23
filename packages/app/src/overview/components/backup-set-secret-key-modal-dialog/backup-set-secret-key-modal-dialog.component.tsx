@@ -135,7 +135,8 @@ export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalP
         {...props}
       >
         <ModalText
-          displayStyle={TextDisplayStyle.MediumFadedText}
+          displayStyle={TextDisplayStyle.Paragraph4}
+          color="secondary"
           message={messages.backupSetSecretKeyModalDescription}
         />
         <Form onSubmit={handleSubmitClick}>

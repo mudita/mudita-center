@@ -89,11 +89,11 @@ const SelectCalendarsModal: FunctionComponent<SelectCalendarsModalProps> = ({
           <Icon type={Type.CalendarIcon} width={4} />
         </RoundIconWrapper>
         <Text
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.Headline4}
           message={messages.subtitle}
         />
         <ModalText
-          displayStyle={TextDisplayStyle.MediumFadedText}
+          displayStyle={TextDisplayStyle.Paragraph4}
           message={messages.body}
         />
         <Select

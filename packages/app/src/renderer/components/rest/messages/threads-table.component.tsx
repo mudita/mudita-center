@@ -22,7 +22,6 @@ import styled, { css } from "styled-components"
 export const Name = styled(Text)`
   grid-area: Name;
   align-self: end;
-  margin-bottom: 0.4rem;
 `
 
 export const NameWrapper = styled.div`
@@ -34,8 +33,8 @@ export const NameWrapper = styled.div`
 export const Time = styled(Text)`
   grid-area: Time;
   align-self: end;
-  margin-left: 1rem;
-  margin-bottom: 0.4rem;
+  margin-left: 0.8rem;
+  margin-bottom: 0.2rem;
 `
 
 export const Message = styled(Text)`
@@ -44,7 +43,6 @@ export const Message = styled(Text)`
   text-overflow: ellipsis;
   overflow: hidden;
   align-self: flex-start;
-  margin-top: 0.4rem;
 `
 
 export const Checkbox = styled(VisibleCheckbox)`
@@ -69,7 +67,7 @@ export const ActionsWrapper = styled.div`
 export const DataWrapper = styled.div`
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-template-rows: 2.4rem 2.4rem;
+  grid-template-rows: 2.4rem 2.2rem;
   grid-template-areas: "Name Time" "Message Message";
 `
 

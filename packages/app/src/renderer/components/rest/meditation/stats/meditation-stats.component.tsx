@@ -84,7 +84,7 @@ const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
           data-active={activeBarIndex === index}
         >
           <Tooltip>
-            <Text displayStyle={TextDisplayStyle.SmallFadedText}>
+            <Text displayStyle={TextDisplayStyle.Label}>
               {formatDuration(time)}
             </Text>
           </Tooltip>

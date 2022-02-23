@@ -86,15 +86,15 @@ const ButtonComponent: FunctionComponent<Props> = ({
   const getButtonTextDisplayStyle = (style: DisplayStyle) => {
     switch (style) {
       case DisplayStyle.Link4:
-        return TextDisplayStyle.LargeFadedText
+        return TextDisplayStyle.Paragraph1
       case DisplayStyle.Tab:
-        return TextDisplayStyle.LargeText
+        return TextDisplayStyle.Paragraph1
       case DisplayStyle.Dropdown:
-        return TextDisplayStyle.SmallText
+        return TextDisplayStyle.Button
       case DisplayStyle.Link2:
-        return TextDisplayStyle.LargeText
+        return TextDisplayStyle.Paragraph1
       default:
-        return TextDisplayStyle.SmallText
+        return TextDisplayStyle.Button
     }
   }
 

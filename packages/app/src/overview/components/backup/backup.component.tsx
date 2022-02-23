@@ -47,10 +47,10 @@ const messages = defineMessages({
 })
 
 const RestoreButtonContainer = styled.div`
-  margin-left: 2rem;
+  margin-left: 0.8rem;
 
   button {
-    margin-bottom: -1.2rem;
+    margin-bottom: -0.9rem;
   }
 `
 
@@ -74,13 +74,13 @@ const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
       {lastBackupDate !== undefined ? (
         <CardContent>
           <CardText>
-            <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+            <Text displayStyle={TextDisplayStyle.Paragraph4}>
               <FormattedMessage
                 {...messages.backupInfoBackupAvaibleDescription}
               />
             </Text>
             <Text
-              displayStyle={TextDisplayStyle.LargeText}
+              displayStyle={TextDisplayStyle.Paragraph1}
               data-testid={SystemTestIds.OsVersion}
             >
               {moment(lastBackupDate).format("MMMM D, YYYY")}
@@ -97,7 +97,7 @@ const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
       ) : (
         <CardContent>
           <CardText>
-            <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+            <Text displayStyle={TextDisplayStyle.Paragraph4}>
               <FormattedMessage
                 {...messages.backupInfoBackupNotAvaibleDescription}
               />

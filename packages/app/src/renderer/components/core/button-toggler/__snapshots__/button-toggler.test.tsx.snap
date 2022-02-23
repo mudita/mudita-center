@@ -4,31 +4,37 @@ exports[`matches snapshot 1`] = `
 .c7 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
+  line-height: 1.57;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+  color: #000000;
 }
 
 .c9 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
-  line-height: 1.8rem;
-  color: #6a6a6a;
-  font-weight: 300;
+  line-height: 1.57;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  font-weight: 300;
+  color: #6a6a6a;
 }
 
 .c12 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c3 {
@@ -229,11 +235,13 @@ exports[`matches snapshot 1`] = `
         >
           <p
             class="c7 c8"
+            color="primary"
           >
             [value] module.news
           </p>
           <p
             class="c9"
+            color="secondary"
             data-testid="tooltip-description"
           >
             [value] module.news
@@ -248,6 +256,7 @@ exports[`matches snapshot 1`] = `
     >
       <p
         class="c12 c13"
+        color="primary"
       >
         On
       </p>
@@ -259,6 +268,7 @@ exports[`matches snapshot 1`] = `
     >
       <p
         class="c12 c13"
+        color="primary"
       >
         Off
       </p>

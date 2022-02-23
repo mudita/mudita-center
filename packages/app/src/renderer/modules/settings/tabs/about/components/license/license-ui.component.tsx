@@ -13,27 +13,28 @@ import {
   WindowTitle,
   LightText,
   LightTextNested,
+  NoteText,
 } from "Renderer/modules/settings/tabs/about/components/shared"
 
 export const LicenseUI: FunctionComponent = () => (
   <WindowContainer data-testid={LicenseComponentTestIds.Wrapper}>
     <WindowHeader
-      displayStyle={TextDisplayStyle.SecondaryHeading}
+      displayStyle={TextDisplayStyle.Headline2}
       data-testid={LicenseComponentTestIds.Title}
     >
       Mudita Center Software – Terms of Use
     </WindowHeader>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedTextUppercased}>
+    <NoteText displayStyle={TextDisplayStyle.Paragraph4}>
       NOTE: BY USING THE MUDITA CENTER SOFTWARE, YOU AGREE TO COMPLY WITH THE
       TERMS LISTED BELOW. WITHOUT ACCEPTING THEM, YOU WILL NOT ACQUIRE THE RIGHT
       TO USE THE SOFTWARE. THEREFORE, YOU SHOULD READ THESE TERMS THOROUGHLY
       BEFORE INSTALLING MUDITA CENTER. IF YOU DO NOT AGREE WITH THESE TERMS, YOU
       CANNOT OBTAIN AND USE THE SOFTWARE OR DOWNLOAD OR USE ITS UPDATES.
-    </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    </NoteText>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Definitions:
     </WindowTitle>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       "Software" refers to the Mudita Center computer application available on
       computers, used primarily for managing the Mudita Pure and Mudita Harmony.
       As of the publication date of these Terms, the application can be
@@ -42,26 +43,26 @@ export const LicenseUI: FunctionComponent = () => (
       subject to change with subsequent Updates, e.g., they can be limited or
       expanded.
     </LightText>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       "Update" refers to any update to the Software, including the addition or
       changing of features or replacing the Software with a new application.
     </LightText>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       "Mudita" refers to Mudita sp. z o.o. with its registered office in Warsaw
       (address: Jana Czeczota 6, 02- 607 Warsaw, Poland), entered into the
       Register of Entrepreneurs of the National Court Register under KRS number
       0000467620, tax identification number (NIP) 5252558282, share capital PLN
       21,100.00.
     </LightText>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       "User" (also referred to as "you") refers to any person who has accepted
       the Terms of Use for the Mudita Center Software and installed the
       Software.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       License terms:
     </WindowTitle>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       - Upon your acceptance of these Terms, Mudita will grant you a free
       license to use the Software. When you download an Update, you will
       similarly acquire a free license to use the Update. This license grants
@@ -70,38 +71,38 @@ export const LicenseUI: FunctionComponent = () => (
       computers, provided that you are entitled to use those computers and
       install software on them. The license includes:
     </LightText>
-    <LightTextNested displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       {"  "} - storing the Software and/or Updates using the computer’s disk
       space or on data storage devices,
     </LightTextNested>
-    <LightTextNested displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
       {"  "} - running, displaying, and using the Software and/or Updates on the
       computer in accordance with their intended purpose.
     </LightTextNested>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       - This license does not grant you any rights to use the Software and/or
       Updates for purposes other than those specified in these Terms.
     </LightText>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       - You may not modify, translate, disassemble, decompile, or reproduce the
       Software in whole or in part (except for cases in which it is expressly
       permitted by the generally applicable laws or an open- source license
       covering the source code of the Software).
     </LightText>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       - You may not use the Software on devices whose malfunction or misuse may
       cause death, injury, major physical harm, or major environmental damage.
     </LightText>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       - The license shall remain effective until terminated. However, if you
       violate these Terms in any way, you shall lose the rights to use the
       Software. Upon losing such rights, you should stop using the Software and
       destroy any remaining copies.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Transfer of data:
     </WindowTitle>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       With your permission, Mudita will gain access to information concerning
       the following errors (general errors, crash dumps, warnings, hard faults;
       Bluetooth data - state, signal power, controls state; VoLTE - network
@@ -118,19 +119,19 @@ export const LicenseUI: FunctionComponent = () => (
       Software or the Mudita Pure device. No other data will be accessed by
       Mudita in connection with your use of the Software.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Limitation of liability:
     </WindowTitle>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       To the maximum extent permitted by the generally applicable laws that
       apply to the User, Mudita shall not be liable for any losses related to
       the use of the Software, with the exception of situations resulting from
       willful misconduct or gross negligence by Mudita.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Copyright / Third-party services:
     </WindowTitle>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Mudita holds all copyrights and licenses for the Software. Certain
       elements of the Software use or contain software provided by third parties
       as well as other copyrighted material, which you are entitled to use as
@@ -139,10 +140,10 @@ export const LicenseUI: FunctionComponent = () => (
       any service, you will be asked to give your permission and accept the
       terms defined by the service’s provider.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Amendments to the Terms:
     </WindowTitle>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       Mudita reserves the right to amend these Terms under justified
       circumstances (such as changes to the applicable law, the Software’s
       functionality, or the nature of Mudita’s business). The updated Terms will
@@ -151,10 +152,10 @@ export const LicenseUI: FunctionComponent = () => (
       information about amendments to the Terms will be deemed to constitute
       acceptance of the changes.
     </LightText>
-    <WindowTitle displayStyle={TextDisplayStyle.MediumText}>
+    <WindowTitle displayStyle={TextDisplayStyle.Paragraph3}>
       Applicable law:
     </WindowTitle>
-    <LightText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+    <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       The agreement entered into by accepting these Terms is governed by the
       laws of the Republic of Poland. However, it does not deprive the consumer
       of protection granted by the legal regulations of their country of

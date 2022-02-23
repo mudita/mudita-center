@@ -75,6 +75,10 @@ const Failed = styled(Col)`
   color: ${textColor("error")};
 `
 
+const SubtitleText = styled(Text)`
+  margin-bottom: 0.8rem;
+`
+
 export enum ModalType {
   Success,
   Fail,
@@ -179,47 +183,48 @@ const ContactImportModal: FunctionComponent<Props> = ({
       </Image>
       {modalType === ModalType.Fail && (
         <>
-          <ModalText
+          <SubtitleText
             message={messages.importFailedSubtitle}
-            displayStyle={TextDisplayStyle.LargeBoldText}
+            displayStyle={TextDisplayStyle.Headline4}
           />
           <ModalText
             message={{
               ...messages.importFailedBody,
               values: { ...textFormatters, num: successfulItemsCount },
             }}
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.Paragraph4}
           />
           <ModalText
             message={messages.importFailedBody2}
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.Paragraph4}
           />
         </>
       )}
       {modalType === ModalType.Success && (
         <>
-          <ModalText
+          <SubtitleText
             message={messages.importSuccessSubtitle}
-            displayStyle={TextDisplayStyle.LargeBoldText}
+            displayStyle={TextDisplayStyle.Headline4}
           />
           <ModalText
             message={{
               ...messages.importSuccessBody,
               values: { ...textFormatters, num: contacts.length },
             }}
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.Paragraph3}
           />
         </>
       )}
       {modalType === ModalType.Select && (
         <>
-          <ModalText
+          <SubtitleText
             message={messages.importingSubtitle}
-            displayStyle={TextDisplayStyle.LargeBoldText}
+            displayStyle={TextDisplayStyle.Headline4}
           />
           <ModalText
             message={messages.importingBody}
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.Paragraph4}
+            color="secondary"
           />
         </>
       )}
@@ -239,13 +244,15 @@ const ContactImportModal: FunctionComponent<Props> = ({
                 ...messages.importingListTitle,
                 values: { number: contacts.length },
               }}
-              displayStyle={TextDisplayStyle.MediumFadedLightText}
+              displayStyle={TextDisplayStyle.Title}
+              color="secondary"
             />
           </Col>
           {[ModalType.Select].includes(modalType) && (
             <SelectedText
-              displayStyle={TextDisplayStyle.MediumFadedLightText}
+              displayStyle={TextDisplayStyle.Paragraph4}
               data-testid={ContactImportModalTestIds.SelectedText}
+              color="secondary"
             >
               {`${selectedContactsLength} ${intl.formatMessage(
                 messages.importingListSelected

@@ -135,11 +135,11 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
     <RecoveryModeWrapper>
       <RecoveryModeHeader>
         <Title
-          displayStyle={TextDisplayStyle.PrimaryHeading}
+          displayStyle={TextDisplayStyle.Headline1}
           message={{ ...messages.title, values: textFormatters }}
         />
         <DescriptionText
-          displayStyle={TextDisplayStyle.LargeFadedText}
+          displayStyle={TextDisplayStyle.Paragraph2}
           message={messages.description}
         />
       </RecoveryModeHeader>
@@ -151,12 +151,12 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
                 <OptionBoxIcon type={iconType} size={IconSize.Big} />
                 <TextWrapper>
                   <Text
-                    displayStyle={TextDisplayStyle.TertiaryHeading}
+                    displayStyle={TextDisplayStyle.Headline3}
                     message={title}
                     element={"p"}
                   />
                   <OptionText
-                    displayStyle={TextDisplayStyle.MediumFadedLightText}
+                    displayStyle={TextDisplayStyle.Paragraph4}
                     message={description}
                   />
                 </TextWrapper>
@@ -168,7 +168,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
       <RecoveryModeFooter>
         <Support>
           <SupportText
-            displayStyle={TextDisplayStyle.SmallFadedText}
+            displayStyle={TextDisplayStyle.Label}
             message={messages.supportMessage}
           />
           <ButtonComponent
