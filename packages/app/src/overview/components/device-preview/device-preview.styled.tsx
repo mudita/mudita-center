@@ -31,7 +31,7 @@ export const PhoneInfo = styled(CardContent)`
   flex-direction: column;
   align-items: center;
   padding: 0 5.3rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2.4rem;
   img {
     height: 29.7rem;
   }
@@ -46,4 +46,13 @@ export const PureSystemButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   border-top: 0.1rem solid ${borderColor("separator")};
+`
+
+export const SerialNumberWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  :first-child {
+    margin-bottom: 0.8rem;
+  }
 `
