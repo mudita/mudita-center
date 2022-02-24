@@ -48,7 +48,7 @@ exports[`matches snapshot 1`] = `
 }
 
 .c0 svg path {
-  fill: #6a6a6a;
+  fill: textColor("primary");
 }
 
 .c2 {
@@ -215,7 +215,7 @@ exports[`renders dropdown 1`] = `
 }
 
 .c0 svg path {
-  fill: #000000;
+  fill: textColor("primary");
 }
 
 .c4 {
