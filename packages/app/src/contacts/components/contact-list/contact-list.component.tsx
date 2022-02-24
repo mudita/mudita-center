@@ -240,13 +240,13 @@ const ContactList: FunctionComponent<Props> = ({
                   if (firstName && lastName) {
                     return (
                       <NameSpan displayStyle={TextDisplayStyle.Paragraph1}>
-                        {firstName} <strong>{lastName}</strong>
+                        {firstName} {lastName}
                       </NameSpan>
                     )
                   }
                   return (
                     <NameSpan displayStyle={TextDisplayStyle.Paragraph1}>
-                      <strong>{firstName || lastName}</strong>
+                      {firstName || lastName}
                     </NameSpan>
                   )
                 }
