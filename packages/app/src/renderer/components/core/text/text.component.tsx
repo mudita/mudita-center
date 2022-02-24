@@ -64,7 +64,7 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         font-weight: ${fontWeight("bold")};
         letter-spacing: ${letterSpacing("smaller")}rem;
       `
-    case TextDisplayStyle.FifthHeading:
+    case TextDisplayStyle.Headline5:
       return css`
         font-size: 1.4rem;
         line-height: 1.57;
@@ -123,7 +123,7 @@ export enum TextDisplayStyle {
   Headline2,
   Headline3,
   Headline4,
-  FifthHeading,
+  Headline5,
   Paragraph1,
   Paragraph2,
   Paragraph3,
@@ -145,7 +145,7 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.Headline2]: "h2",
   [TextDisplayStyle.Headline3]: "h3",
   [TextDisplayStyle.Headline4]: "h4",
-  [TextDisplayStyle.FifthHeading]: "h5",
+  [TextDisplayStyle.Headline5]: "h5",
   [TextDisplayStyle.Paragraph1]: "p",
   [TextDisplayStyle.Paragraph2]: "p",
   [TextDisplayStyle.Paragraph3]: "p",
