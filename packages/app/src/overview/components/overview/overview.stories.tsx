@@ -66,6 +66,7 @@ const defaultProps: Props = {
   pureOsBackupLocation: "",
   pureOsDownloadLocation: "",
   simCards: [],
+  serialNumber: "123456",
 }
 
 storiesOf("Views|Overview", module).add("Overview", () => (
