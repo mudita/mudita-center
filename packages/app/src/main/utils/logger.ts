@@ -18,7 +18,7 @@ const testing = process.env.NODE_ENV === "test"
 const { combine, timestamp, printf, colorize, simple } = format
 
 // TODO: This type should only have some of the log methods instead of using the full Winston’s interface.
-type AppLogger = Logger & {
+export type AppLogger = Logger & {
   enableRollbar: () => void
   disableRollbar: () => void
   updateMetadata: () => void

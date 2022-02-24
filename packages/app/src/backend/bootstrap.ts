@@ -57,6 +57,8 @@ import { registerFileSystemRemoveRequest } from "App/device-file-system"
 import { registerDownloadDeviceBackupRequest } from "App/backup-device"
 import createDeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info.adapter"
 
+import { ApplicationModule } from "App/core/application.module"
+
 const bootstrap = (
   deviceManager: MuditaDeviceManager,
   ipcMain: MainProcessIpc
@@ -131,6 +133,7 @@ const bootstrap = (
     registerDownloadDeviceBackupRequest,
   ]
 
+  new ApplicationModule()
   new Backend(adapters, getFakeAdapters(), requests).init()
 }
 
