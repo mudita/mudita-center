@@ -3,33 +3,30 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import fs from "fs-extra"
 import { ipcMain } from "electron-better-ipc"
-import path from "path"
 import logger, { logsPath } from "App/main/utils/logger"
+import { mergeToSingleFileString } from "App/main/utils/merge-to-single-file-string/merge-to-single-file-string"
 
 export enum AppLogsEvents {
   Get = "get-app-logs",
 }
 
 const registerAppLogsListeners = (): void => {
-  ipcMain.answerRenderer(AppLogsEvents.Get, async () => {
-    const logs: string[] = []
+  ipcMain.answerRenderer(AppLogsEvents.Get, (maxSize?: number) => {
     try {
-      const files = await fs.readdir(logsPath)
-      for (const fileName of files) {
-        if (/^mc-.*\.log$/.test(fileName)) {
-          const log = await fs.readFile(path.join(logsPath, fileName), "utf-8")
-          logs.push(`========== ${fileName} ==========`)
-          logs.push(log + "\n")
-        }
-      }
+      return mergeToSingleFileString({
+        cwd: logsPath,
+        fileNameRegExp: /^mc-.*\.log$/,
+        fileNameDivider: true,
+        maxSize,
+      })
     } catch (error) {
       logger.error(
         `Application Logs: getting logs fail. Data: ${JSON.stringify(error)}`
       )
     }
-    return logs.join("\n")
+
+    return ""
   })
 }
 
