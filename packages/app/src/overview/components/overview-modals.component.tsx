@@ -37,6 +37,7 @@ import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
 import { Size } from "App/renderer/components/core/button/button.config"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { DeviceType } from "@mudita/pure"
 
 const ModalContent = styled.div`
   display: flex;
@@ -170,14 +171,20 @@ const messages = defineMessages({
   updatingFailedHelpButton: {
     id: "module.overview.updatingFailedHelpButton",
   },
-  updatingFlatBatteryTitle: {
-    id: "module.overview.updatingFlatBatteryTitle",
+  updatingFlatBatteryPureTitle: {
+    id: "module.overview.updatingFlatBatteryPureTitle",
   },
-  updatingFlatBatteryDescription: {
-    id: "module.overview.updatingFlatBatteryDescription",
+  updatingFlatBatteryPureDescription: {
+    id: "module.overview.updatingFlatBatteryPureDescription",
   },
   updatingFlatBatteryActionButton: {
     id: "module.overview.updatingFlatBatteryActionButton",
+  },
+  updatingFlatBatteryHarmonyTitle: {
+    id: "module.overview.updatingFlatBatteryHarmonyDescription",
+  },
+  updatingFlatBatteryHarmonyDescription: {
+    id: "module.overview.updatingFlatBatteryHarmonyDescription",
   },
 })
 
@@ -483,9 +490,11 @@ export const DevUpdate = ({
 }
 interface TooLowBatteryModalProps extends ComponentProps<typeof ModalDialog> {
   closeModal?: () => void
+  deviceType?: DeviceType
 }
 
 export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
+  deviceType,
   ...props
 }) => {
   return (
@@ -501,12 +510,27 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
         <RoundIconWrapper>
           <Icon type={Type.NoBattery} width={5} />
         </RoundIconWrapper>
-        <ModalText displayStyle={TextDisplayStyle.LargeBoldText}>
-          {intl.formatMessage(messages.updatingFlatBatteryTitle)}
-        </ModalText>
-        <ModalText displayStyle={TextDisplayStyle.MediumFadedLightText}>
-          {intl.formatMessage(messages.updatingFlatBatteryDescription)}
-        </ModalText>
+        {deviceType === DeviceType.MuditaPure ? (
+          <>
+            <ModalText displayStyle={TextDisplayStyle.LargeBoldText}>
+              {intl.formatMessage(messages.updatingFlatBatteryPureTitle)}
+            </ModalText>
+            <ModalText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+              {intl.formatMessage(messages.updatingFlatBatteryPureDescription)}
+            </ModalText>
+          </>
+        ) : (
+          <>
+            <ModalText displayStyle={TextDisplayStyle.LargeBoldText}>
+              {intl.formatMessage(messages.updatingFlatBatteryHarmonyTitle)}
+            </ModalText>
+            <ModalText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+              {intl.formatMessage(
+                messages.updatingFlatBatteryHarmonyDescription
+              )}
+            </ModalText>
+          </>
+        )}
       </ModalContent>
     </OSUpdateModal>
   )

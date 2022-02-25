@@ -303,7 +303,10 @@ const useSystemUpdateFlow = (
       return
     }
 
-    return modalService.openModal(<TooLowBatteryModal open />, true)
+    return modalService.openModal(
+      <TooLowBatteryModal deviceType={currentDeviceType} open />,
+      true
+    )
   }
   const downloadUpdate = async (releaseInstance?: Release) => {
     const release =
