@@ -20,6 +20,7 @@ import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
 import { Size } from "App/renderer/components/core/button/button.config"
+import { DeviceType } from "@mudita/pure"
 
 const messages = defineMessages({
   muditaOsUpdateTitle: {
@@ -61,14 +62,20 @@ const messages = defineMessages({
   updatingSuccessDescription: {
     id: "module.overview.updatingSuccessDescription",
   },
-  updatingFlatBatteryTitle: {
-    id: "module.overview.updatingFlatBatteryTitle",
+  updatingFlatBatteryPureTitle: {
+    id: "module.overview.updatingFlatBatteryPureTitle",
   },
-  updatingFlatBatteryDescription: {
-    id: "module.overview.updatingFlatBatteryDescription",
+  updatingFlatBatteryPureDescription: {
+    id: "module.overview.updatingFlatBatteryPureDescription",
   },
   updatingFlatBatteryActionButton: {
     id: "module.overview.updatingFlatBatteryActionButton",
+  },
+  updatingFlatBatteryHarmonyTitle: {
+    id: "module.overview.updatingFlatBatteryHarmonyDescription",
+  },
+  updatingFlatBatteryHarmonyDescription: {
+    id: "module.overview.updatingFlatBatteryHarmonyDescription",
   },
 })
 
@@ -215,11 +222,12 @@ export const UpdatingSuccessModal: FunctionComponent<
 interface TooLowBatteryModalModalProps
   extends ComponentProps<typeof ModalDialog> {
   onCancel?: () => void
+  deviceType?: DeviceType
 }
 
 export const TooLowBatteryModal: FunctionComponent<
   TooLowBatteryModalModalProps
-> = ({ onCancel, ...props }) => {
+> = ({ onCancel, deviceType, ...props }) => {
   return (
     <OSUpdateModal
       closeButtonLabel={intl.formatMessage(
@@ -234,12 +242,27 @@ export const TooLowBatteryModal: FunctionComponent<
         <RoundIconWrapper>
           <Icon type={Type.NoBattery} width={5} />
         </RoundIconWrapper>
-        <ModalText displayStyle={TextDisplayStyle.Headline4}>
-          {intl.formatMessage(messages.updatingFlatBatteryTitle)}
-        </ModalText>
-        <ModalText displayStyle={TextDisplayStyle.Paragraph4}>
-          {intl.formatMessage(messages.updatingFlatBatteryDescription)}
-        </ModalText>
+        {deviceType === DeviceType.MuditaPure ? (
+          <>
+            <ModalText displayStyle={TextDisplayStyle.Headline4}>
+              {intl.formatMessage(messages.updatingFlatBatteryPureTitle)}
+            </ModalText>
+            <ModalText displayStyle={TextDisplayStyle.Paragraph4}>
+              {intl.formatMessage(messages.updatingFlatBatteryPureDescription)}
+            </ModalText>
+          </>
+        ) : (
+          <>
+            <ModalText displayStyle={TextDisplayStyle.Headline4}>
+              {intl.formatMessage(messages.updatingFlatBatteryHarmonyTitle)}
+            </ModalText>
+            <ModalText displayStyle={TextDisplayStyle.Paragraph4}>
+              {intl.formatMessage(
+                messages.updatingFlatBatteryHarmonyDescription
+              )}
+            </ModalText>
+          </>
+        )}
       </ModalContent>
     </OSUpdateModal>
   )

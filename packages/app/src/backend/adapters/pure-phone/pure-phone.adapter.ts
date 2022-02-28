@@ -5,6 +5,7 @@
 
 import path from "path"
 import {
+  DeviceType,
   DiagnosticsFileList,
   Endpoint,
   GetBackupDeviceStatusRequestConfigBody,
@@ -180,10 +181,14 @@ class PurePhone extends PurePhoneAdapter {
       return deviceRestartResponse
     }
 
-    const deviceUnlockedResponse = await this.waitUntilDeviceUnlocked()
+    if (
+      this.deviceService.currentDevice?.deviceType === DeviceType.MuditaPure
+    ) {
+      const deviceUnlockedResponse = await this.waitUntilDeviceUnlocked()
 
-    if (deviceUnlockedResponse.status !== DeviceResponseStatus.Ok) {
-      return deviceUnlockedResponse
+      if (deviceUnlockedResponse.status !== DeviceResponseStatus.Ok) {
+        return deviceUnlockedResponse
+      }
     }
 
     const afterUpdateGetDeviceInfoResponse =
@@ -300,6 +305,7 @@ class PurePhone extends PurePhoneAdapter {
 
   private async waitUntilDeviceRestart(
     index = 0,
+    deviceType = this.deviceService.currentDevice?.deviceType,
     timeout = 5000,
     callsMax = 36
   ): Promise<DeviceResponse> {
@@ -312,7 +318,13 @@ class PurePhone extends PurePhoneAdapter {
       }
     }
 
-    const response = await this.getUnlockDeviceStatus()
+    let response
+
+    if (deviceType === DeviceType.MuditaHarmony) {
+      response = await this.deviceBaseInfo.getDeviceInfo()
+    } else {
+      response = await this.getUnlockDeviceStatus()
+    }
 
     if (
       index !== 0 &&
@@ -325,7 +337,7 @@ class PurePhone extends PurePhoneAdapter {
     } else {
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(this.waitUntilDeviceRestart(++index))
+          resolve(this.waitUntilDeviceRestart(++index, deviceType))
         }, timeout)
       })
     }

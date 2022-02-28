@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import path from "path"
 import {
   GetBackupDeviceStatusDataState,
   GetBackupDeviceStatusResponseBody,
@@ -119,10 +118,7 @@ class DeviceBackup implements DeviceBackupAdapter {
       }
     }
 
-    const filePath = path.join(
-      getBackupLocationResponse.data!.backupLocation,
-      backupId
-    )
+    const filePath = `${getBackupLocationResponse.data!.backupLocation}/${backupId}`
 
     return {
       status: DeviceResponseStatus.Ok,
