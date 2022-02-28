@@ -53,7 +53,7 @@ export enum DeviceServiceEventName {
   DeviceDisconnected = "deviceDisconnected",
 }
 
-class DeviceService {
+export class DeviceService {
   public devices: Record<string, MuditaDevice> = {}
   public currentDevice: MuditaDevice | undefined
   public currentDeviceUnlocked = false
@@ -393,7 +393,10 @@ class DeviceService {
     }
   }
 
-  private checkDeviceIsUnlocked (config: RequestConfig<any>, response: DeviceResponse<unknown>): void {
+  private checkDeviceIsUnlocked(
+    config: RequestConfig<any>,
+    response: DeviceResponse<unknown>
+  ): void {
     if (!DeviceService.isEndpointSecure(config)) {
       return
     }
@@ -402,7 +405,8 @@ class DeviceService {
       return
     }
 
-    this.currentDeviceUnlocked = response.status !== DeviceResponseStatus.PhoneLocked
+    this.currentDeviceUnlocked =
+      response.status !== DeviceResponseStatus.PhoneLocked
 
     this.emitDeviceUnlockedEvent(response)
   }

@@ -34,7 +34,7 @@ const Template: StoryInterface<
           size={args.size}
           open
         >
-          <Text displayStyle={TextDisplayStyle.LargeText}>
+          <Text displayStyle={TextDisplayStyle.Paragraph1}>
             Lorem ipsum dolor sit amet
           </Text>
         </ModalDialog>

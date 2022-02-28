@@ -84,8 +84,9 @@ const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
         />
       </CheckboxWrapper>
       <Info
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         data-testid="info"
+        color="secondary"
       >
         <FormattedMessage
           {...message}

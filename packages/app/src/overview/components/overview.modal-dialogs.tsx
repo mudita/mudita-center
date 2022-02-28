@@ -117,11 +117,12 @@ export const UpdatingForceModal: FunctionComponent<
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
       <ModalText
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.updatingForceTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.updatingForceDescription}
       />
     </OSUpdateModal>
@@ -137,11 +138,12 @@ export const UpdatingSpinnerModal: FunctionComponent<
         <Loader type={LoaderType.Spinner} size={6} />
       </RoundIconWrapper>
       <ModalText
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.updatingProgressTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.updatingProgressDescription}
       />
     </OSUpdateModal>
@@ -184,11 +186,12 @@ export const UpdatingFailureWithHelpModal = ({
         <Icon type={Type.Fail} width={4} />
       </RoundIconWrapper>
       <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.updatingFailedTitle}
       />
       <Text
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.updatingFailedDescription}
       />
     </OSUpdateModal>
@@ -204,11 +207,12 @@ export const UpdatingSuccessModal: FunctionComponent<
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
       <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.updatingSuccessTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.updatingSuccessDescription}
       />
     </OSUpdateModal>
@@ -240,19 +244,19 @@ export const TooLowBatteryModal: FunctionComponent<
         </RoundIconWrapper>
         {deviceType === DeviceType.MuditaPure ? (
           <>
-            <ModalText displayStyle={TextDisplayStyle.LargeBoldText}>
+            <ModalText displayStyle={TextDisplayStyle.Headline4}>
               {intl.formatMessage(messages.updatingFlatBatteryPureTitle)}
             </ModalText>
-            <ModalText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+            <ModalText displayStyle={TextDisplayStyle.Paragraph4}>
               {intl.formatMessage(messages.updatingFlatBatteryPureDescription)}
             </ModalText>
           </>
         ) : (
           <>
-            <ModalText displayStyle={TextDisplayStyle.LargeBoldText}>
+            <ModalText displayStyle={TextDisplayStyle.Headline4}>
               {intl.formatMessage(messages.updatingFlatBatteryHarmonyTitle)}
             </ModalText>
-            <ModalText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+            <ModalText displayStyle={TextDisplayStyle.Paragraph4}>
               {intl.formatMessage(
                 messages.updatingFlatBatteryHarmonyDescription
               )}

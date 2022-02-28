@@ -30,7 +30,7 @@ export const getAvatarSize = (size: AvatarSize): number => {
     case AvatarSize.Small:
       return 2.4
     case AvatarSize.Medium:
-      return 3.2
+      return 4
     case AvatarSize.Big:
       return 4.8
   }
@@ -39,11 +39,11 @@ export const getAvatarSize = (size: AvatarSize): number => {
 const getAvatarTextStyle = (size: AvatarSize): TextDisplayStyle => {
   switch (size) {
     case AvatarSize.Small:
-      return TextDisplayStyle.SmallFadedDimText
+      return TextDisplayStyle.Headline5
     case AvatarSize.Medium:
-      return TextDisplayStyle.SmallFadedDimText
+      return TextDisplayStyle.Headline5
     case AvatarSize.Big:
-      return TextDisplayStyle.LargeFadedDimTextCapitalLetters
+      return TextDisplayStyle.Headline4
   }
 }
 
@@ -100,6 +100,7 @@ const Avatar: FunctionComponent<AvatarProps> = ({
       <Text
         displayStyle={getAvatarTextStyle(size)}
         data-testid={AvatarTestIds.AvatarText}
+        color="disabled"
       >
         {user.firstName?.charAt(0)}
         {user.lastName?.charAt(0)}

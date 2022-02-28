@@ -518,6 +518,7 @@
   "module.overview.restoreSuccessModalDescription": "Your Pure backup was successfully restored from this computer",
   "module.overview.restoreSuccessModalMainButton": "Done",
   "module.overview.restoreSuccessModalTitle": "Restore complete!",
+  "module.overview.serialNumber": "Serial Number",
   "module.overview.statusHarmonyTitle": "Harmony Status",
   "module.overview.statusPureTitle": "Pure Status",
   "module.overview.systemCheckForUpdates": "Check for updates",

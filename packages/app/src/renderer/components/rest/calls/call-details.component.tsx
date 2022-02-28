@@ -32,12 +32,14 @@ import { noop } from "Renderer/utils/noop"
 import {
   AdditionalInfoItem,
   ContactDetailsWrapper,
-  InfoItemName,
   Input,
 } from "App/contacts/components/contact-details/contact-details.styled"
 import createRouterPath from "Renderer/utils/create-router-path"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { Contact } from "App/contacts/reducers/contacts.interface"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 
 const messages = defineMessages({
   today: { id: "module.phone.callsToday" },
@@ -139,7 +141,11 @@ export const CallDetails = ({
               <AdditionalInfo>
                 {details.caller.phoneNumber && (
                   <AdditionalInfoItem>
-                    <InfoItemName message={messages.information} />
+                    <Text
+                      displayStyle={TextDisplayStyle.Title}
+                      color="secondary"
+                      message={messages.information}
+                    />
                     <Input
                       value={details.caller.phoneNumber}
                       trailingIcons={phoneActions(
@@ -152,7 +158,11 @@ export const CallDetails = ({
                   </AdditionalInfoItem>
                 )}
                 <AdditionalInfoItem>
-                  <InfoItemName message={messages.type} />
+                  <Text
+                    displayStyle={TextDisplayStyle.Title}
+                    color="secondary"
+                    message={messages.type}
+                  />
                   <Input
                     leadingIcons={[
                       <Icon
@@ -169,10 +179,18 @@ export const CallDetails = ({
               </AdditionalInfo>
               <AdditionalInfo large heading>
                 <AdditionalInfoItem>
-                  <InfoItemName message={messages.duration} />
+                  <Text
+                    displayStyle={TextDisplayStyle.Title}
+                    color="secondary"
+                    message={messages.duration}
+                  />
                 </AdditionalInfoItem>
                 <AdditionalInfoItem>
-                  <InfoItemName message={messages.date} />
+                  <Text
+                    displayStyle={TextDisplayStyle.Title}
+                    color="secondary"
+                    message={messages.date}
+                  />
                 </AdditionalInfoItem>
               </AdditionalInfo>
               <AdditionalInfo large>

@@ -276,7 +276,7 @@ storiesOf("Components|Core/Table/Parts", module)
   ))
   .add("Sidebar", () => {
     const HeaderLeft = () => (
-      <CustomSidebarTitle displayStyle={TextDisplayStyle.LargeBoldText}>
+      <CustomSidebarTitle displayStyle={TextDisplayStyle.Headline4}>
         Sidebar title
       </CustomSidebarTitle>
     )
@@ -431,7 +431,7 @@ storiesOf("Components|Core/Table/Basic", module)
       useTableSidebar<typeof basicRows[number]>()
 
     const SidebarTitle = () => (
-      <Text displayStyle={TextDisplayStyle.LargeText}>
+      <Text displayStyle={TextDisplayStyle.Paragraph1}>
         {activeRow?.firstName} {activeRow?.lastName}
       </Text>
     )
@@ -719,7 +719,7 @@ storiesOf("Components|Core/Table/Grouped", module)
       useTableSidebar<typeof labeledRows[number][number]>()
 
     const SidebarTitle = () => (
-      <Text displayStyle={TextDisplayStyle.LargeText}>
+      <Text displayStyle={TextDisplayStyle.Paragraph1}>
         {activeRow?.firstName} {activeRow?.lastName}
       </Text>
     )

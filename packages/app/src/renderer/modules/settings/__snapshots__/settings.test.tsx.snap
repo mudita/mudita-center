@@ -4,31 +4,37 @@ exports[`matches snapshot 1`] = `
 .c2 {
   margin: 0;
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c11 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c21 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
-  line-height: 1.8rem;
-  color: #6a6a6a;
-  font-weight: 300;
+  line-height: 1.57;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  font-weight: 300;
+  color: #6a6a6a;
 }
 
 .c17 {
@@ -60,7 +66,6 @@ exports[`matches snapshot 1`] = `
   -webkit-align-self: end;
   -ms-flex-item-align: end;
   align-self: end;
-  margin-bottom: 0.4rem;
 }
 
 .c5 {
@@ -104,7 +109,6 @@ exports[`matches snapshot 1`] = `
   box-sizing: border-box;
   width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -116,6 +120,10 @@ exports[`matches snapshot 1`] = `
 
 .c8 g {
   fill: #ffffff;
+}
+
+.c8 p {
+  color: #ffffff;
 }
 
 .c13 {
@@ -342,6 +350,7 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c2 c3 c4"
+          color="primary"
         >
           [value] module.settings.tetheringLabel
         </p>
@@ -360,6 +369,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c11 c12"
+              color="primary"
             >
               [value] module.settings.offLabel
             </p>
@@ -372,6 +382,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c11 c12"
+              color="primary"
             >
               [value] module.settings.onLabel
             </p>
@@ -388,6 +399,7 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c2 c3 c4"
+          color="primary"
         >
           [value] module.settings.collectingData
         </p>
@@ -409,6 +421,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c21"
+              color="secondary"
               data-testid="tooltip-description"
             >
               [value] module.settings.collectingDataTooltip
@@ -430,6 +443,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c11 c12"
+              color="primary"
             >
               [value] module.settings.offLabel
             </p>
@@ -442,6 +456,7 @@ exports[`matches snapshot 1`] = `
           >
             <p
               class="c11 c12"
+              color="primary"
             >
               [value] module.settings.onLabel
             </p>

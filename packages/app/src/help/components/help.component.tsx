@@ -28,7 +28,7 @@ import { NormalizedHelpEntry } from "Renderer/utils/contentful/normalize-help-da
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ModalsManager from "App/modals-manager/containers/modals-manager.container"
-
+import { fontWeight } from "Renderer/styles/theming/theme-getters"
 export interface QuestionAndAnswer {
   collection: string[]
   items: Record<string, NormalizedHelpEntry>
@@ -89,12 +89,15 @@ const SupportButtonComponent = styled(ButtonComponent)`
     fill: ${textColor("secondary")};
   }
 `
+const NormalHeading = styled(Text)`
+  font-weight: ${fontWeight("default")};
+`
 
 const textFormatters = {
   b: (str: string) => (
-    <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading} element={"span"}>
+    <NormalHeading displayStyle={TextDisplayStyle.Headline3} element={"span"}>
       {str}
-    </Text>
+    </NormalHeading>
   ),
 }
 
@@ -118,7 +121,7 @@ const Help: FunctionComponent<Props> = ({
               id: "module.help.title",
               values: textFormatters,
             }}
-            displayStyle={TextDisplayStyle.SecondaryHeading}
+            displayStyle={TextDisplayStyle.Headline3}
             data-testid={HelpComponentTestIds.Title}
           />
           <SearchContainer>
@@ -162,7 +165,7 @@ const Help: FunctionComponent<Props> = ({
                   to={`${URL_MAIN.help}/${id}`}
                   data-testid={HelpComponentTestIds.Question}
                 >
-                  <Text displayStyle={TextDisplayStyle.LargeText}>
+                  <Text displayStyle={TextDisplayStyle.Paragraph1}>
                     {items[id].question}
                   </Text>
                   <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />

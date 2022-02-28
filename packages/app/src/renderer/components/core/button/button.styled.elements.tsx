@@ -105,7 +105,6 @@ const buttonStyles = css<{
       case DisplayStyle.Primary:
         return css`
           height: 4rem;
-          color: ${textColor("active")};
           border-radius: ${borderRadius("medium")};
           background: ${backgroundColor("primary")};
           border: 0.1rem solid ${backgroundColor("primary")};
@@ -115,6 +114,9 @@ const buttonStyles = css<{
           }
           g {
             fill: ${textColor("active")};
+          }
+          p {
+            color: ${textColor("active")};
           }
         `
       case DisplayStyle.Secondary:
@@ -203,7 +205,6 @@ const buttonStyles = css<{
           padding: 0.8rem;
           border: none;
           border-radius: ${borderRadius("small")};
-          color: ${textColor("action")};
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
@@ -211,6 +212,9 @@ const buttonStyles = css<{
           }
           g {
             fill: ${textColor("action")};
+          }
+          p {
+            color: ${textColor("action")};
           }
         `
       case DisplayStyle.Link4:
@@ -220,10 +224,8 @@ const buttonStyles = css<{
           padding: 0.8rem;
           border: none;
           border-radius: ${borderRadius("small")};
-          color: ${textColor("secondary")};
           font-weight: ${fontWeight("default")};
           width: 100%;
-
           &.${activeClassName} {
             ${navLinkStyles}
           }
@@ -232,6 +234,9 @@ const buttonStyles = css<{
           }
           svg {
             opacity: 0.6;
+          }
+          p {
+            color: ${textColor("secondary")};
           }
         `
       case DisplayStyle.Tab:
@@ -242,7 +247,6 @@ const buttonStyles = css<{
           border: none;
           position: relative;
           border-radius: ${borderRadius("small")}rem;
-          color: ${textColor("secondary")};
           font-weight: ${fontWeight("default")};
           width: 100%;
 
@@ -265,6 +269,10 @@ const buttonStyles = css<{
             }
           }
 
+          p {
+            color: ${textColor("secondary")};
+          }
+
           &.${activeClassName} {
             color: ${textColor("primary")};
             &:after {
@@ -285,7 +293,6 @@ const buttonStyles = css<{
           padding: 0 2.4rem;
           border: none;
           border-radius: ${borderRadius("small")};
-          color: ${textColor("secondary")};
           font-weight: ${fontWeight("default")};
           width: 100%;
 
@@ -297,6 +304,9 @@ const buttonStyles = css<{
           }
           svg {
             opacity: 0.75;
+          }
+          p {
+            color: ${textColor("secondary")};
           }
         `
       case DisplayStyle.InputIcon:

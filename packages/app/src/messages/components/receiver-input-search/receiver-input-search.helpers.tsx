@@ -25,17 +25,18 @@ export const renderListItem: RenderListItem<Receiver> = ({ item, props }) => (
   <ContactListItem {...props}>
     <span>
       {createFullName(item) ? (
-        <ContactListItemName displayStyle={TextDisplayStyle.MediumText}>
+        <ContactListItemName displayStyle={TextDisplayStyle.Paragraph3}>
           {createFullName(item)}
         </ContactListItemName>
       ) : (
-        <ContactListItemName displayStyle={TextDisplayStyle.MediumFadedText}>
+        <ContactListItemName
+          displayStyle={TextDisplayStyle.Paragraph3}
+          color="secondary"
+        >
           {intl.formatMessage(messages.noNameProvided)}
         </ContactListItemName>
       )}
-      <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
-        {item.phoneNumber}
-      </Text>
+      <Text displayStyle={TextDisplayStyle.Paragraph4}>{item.phoneNumber}</Text>
     </span>
   </ContactListItem>
 )

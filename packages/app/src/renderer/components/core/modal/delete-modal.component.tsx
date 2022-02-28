@@ -65,7 +65,7 @@ const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
     >
       <ModalContent data-testid={DeleteModalTestIds.Content}>
         <Icon type={Type.DeleteBig} width={12} height={12} />
-        <Text displayStyle={TextDisplayStyle.MediumText} message={message} />
+        <Text displayStyle={TextDisplayStyle.Paragraph2} message={message} />
       </ModalContent>
     </Modal>
   )

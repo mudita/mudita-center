@@ -103,6 +103,7 @@ const TextSorry = styled(Text)`
 const Instruction = styled(Text)`
   margin-bottom: 2.4rem;
   margin-top: 1.6rem;
+  color: ${textColor("secondary")};
 `
 const AccordionButton = styled.button<{ openMore?: boolean }>`
   border: none;
@@ -141,18 +142,18 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
     <OnboardingTroubleshootingWrapper>
       <header>
         <TextSorry
-          displayStyle={TextDisplayStyle.MediumText}
+          displayStyle={TextDisplayStyle.Paragraph1}
           message={{ id: "module.onboarding.troubleshootingSorry" }}
         />
         <Title
-          displayStyle={TextDisplayStyle.PrimaryHeading}
+          displayStyle={TextDisplayStyle.Headline1}
           message={{
             id: "module.onboarding.troubleshootingTitle",
             values: textFormatters,
           }}
         />
         <Instruction
-          displayStyle={TextDisplayStyle.LargeFadedText}
+          displayStyle={TextDisplayStyle.Paragraph1}
           message={{ id: "module.onboarding.troubleshootingInstruction" }}
         />
       </header>
@@ -160,22 +161,22 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
         <Steps>
           <Text
             element={"li"}
-            displayStyle={TextDisplayStyle.LargeText}
+            displayStyle={TextDisplayStyle.Paragraph1}
             message={{ id: "module.onboarding.troubleshootingSteps1" }}
           />
           <Text
             element={"li"}
-            displayStyle={TextDisplayStyle.LargeText}
+            displayStyle={TextDisplayStyle.Paragraph1}
             message={{ id: "module.onboarding.troubleshootingSteps2" }}
           />
           <Text
             element={"li"}
-            displayStyle={TextDisplayStyle.LargeText}
+            displayStyle={TextDisplayStyle.Paragraph1}
             message={{ id: "module.onboarding.troubleshootingSteps3" }}
           />
           <Text
             element={"li"}
-            displayStyle={TextDisplayStyle.LargeText}
+            displayStyle={TextDisplayStyle.Paragraph1}
             message={{ id: "module.onboarding.troubleshootingSteps4" }}
           />
         </Steps>
@@ -185,7 +186,8 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
           data-testid="more-instructions"
         >
           <Text
-            displayStyle={TextDisplayStyle.SmallSupplementaryText}
+            displayStyle={TextDisplayStyle.Button}
+            color="action"
             message={{
               id: "module.onboarding.troubleshootingMoreInstructions",
             }}
@@ -196,22 +198,22 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
           <MoreSteps data-testid="more-steps">
             <Text
               element={"li"}
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Paragraph4}
               message={{ id: "module.onboarding.troubleshootingMoreSteps1" }}
             />
             <Text
               element={"li"}
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Paragraph4}
               message={{ id: "module.onboarding.troubleshootingMoreSteps2" }}
             />
             <Text
               element={"li"}
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Paragraph4}
               message={{ id: "module.onboarding.troubleshootingMoreSteps3" }}
             />
             <Text
               element={"li"}
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Paragraph4}
               message={{ id: "module.onboarding.troubleshootingMoreSteps4" }}
             />
           </MoreSteps>
@@ -228,7 +230,8 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
         />
         <Support>
           <Text
-            displayStyle={TextDisplayStyle.SmallFadedText}
+            displayStyle={TextDisplayStyle.Label}
+            color="disabled"
             message={{
               id: "module.onboarding.troubleshootingSupportMessage",
             }}

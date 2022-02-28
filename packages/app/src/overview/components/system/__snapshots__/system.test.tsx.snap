@@ -4,53 +4,61 @@ exports[`matches snapshot 1`] = `
 .c1 {
   margin: 0;
   font-size: 2.4rem;
-  line-height: 0.8;
+  line-height: 1.33;
   font-weight: 700;
-  -webkit-letter-spacing: -0.06rem;
-  -moz-letter-spacing: -0.06rem;
-  -ms-letter-spacing: -0.06rem;
-  letter-spacing: -0.06rem;
+  -webkit-letter-spacing: -0.02rem;
+  -moz-letter-spacing: -0.02rem;
+  -ms-letter-spacing: -0.02rem;
+  letter-spacing: -0.02rem;
+  color: #000000;
 }
 
 .c5 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
-  line-height: 1.8rem;
-  color: #6a6a6a;
-  font-weight: 300;
+  line-height: 1.57;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  font-weight: 300;
+  color: #6a6a6a;
 }
 
 .c6 {
   margin: 0;
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c7 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  color: #6a6a6a;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  color: #6a6a6a;
 }
 
 .c14 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c11 {
@@ -77,7 +85,6 @@ exports[`matches snapshot 1`] = `
   box-sizing: border-box;
   width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -89,6 +96,10 @@ exports[`matches snapshot 1`] = `
 
 .c11 g {
   fill: #ffffff;
+}
+
+.c11 p {
+  color: #ffffff;
 }
 
 .c15 {
@@ -190,7 +201,7 @@ exports[`matches snapshot 1`] = `
 }
 
 .c4 p:not(:last-of-type) {
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.4rem;
 }
 
 .c13 {
@@ -204,16 +215,12 @@ exports[`matches snapshot 1`] = `
 }
 
 .c8 {
-  margin-left: 2rem;
+  margin-left: 1.6rem;
   text-transform: none;
   display: -webkit-inline-box;
   display: inline-box;
   padding: 0.3rem 0.5rem;
   border-radius: 0.4rem;
-  -webkit-letter-spacing: 0.04rem;
-  -moz-letter-spacing: 0.04rem;
-  -ms-letter-spacing: 0.04rem;
-  letter-spacing: 0.04rem;
   background-color: #f4f5f6;
 }
 
@@ -221,11 +228,12 @@ exports[`matches snapshot 1`] = `
   <section
     class="c0"
   >
-    <h2
+    <h3
       class="c1 "
+      color="primary"
     >
       [value] module.overview.muditaOsUpdateTitle
-    </h2>
+    </h3>
     <div
       class="c2"
     >
@@ -237,11 +245,13 @@ exports[`matches snapshot 1`] = `
         >
           <p
             class="c5"
+            color="secondary"
           >
             [value] module.overview.systemVersionTitle
           </p>
           <p
             class="c6"
+            color="primary"
             data-testid="os-version"
           >
             [value] module.overview.muditaOsUpdateTitle
@@ -250,6 +260,7 @@ exports[`matches snapshot 1`] = `
         </div>
         <p
           class="c7 c8"
+          color="secondary"
         >
           [value] module.overview.systemUpdateUpToDate
         </p>
@@ -264,6 +275,7 @@ exports[`matches snapshot 1`] = `
         >
           <p
             class="c14 c15"
+            color="primary"
           >
             [value] module.overview.systemCheckForUpdates
           </p>

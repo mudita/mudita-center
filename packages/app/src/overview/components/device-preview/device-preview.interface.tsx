@@ -10,4 +10,5 @@ export interface DevicePreviewProps {
   onClick?: () => void
   deviceType: DeviceType | null
   caseColour?: CaseColour
+  serialNumber?: string | undefined
 }

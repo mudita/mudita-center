@@ -9,8 +9,6 @@ import Button from "Renderer/components/core/button/button.component"
 
 export const ModalText = styled(Text)`
   text-align: center;
-  margin-top: 1.2rem;
-  line-height: 1.8rem;
 `
 
 export const SelectedText = styled(Text)`
@@ -20,7 +18,7 @@ export const SelectedText = styled(Text)`
 export const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
-  margin-top: 4.8rem;
+  margin-top: 4rem;
 `
 
 export const ButtonWrapper = styled.div`

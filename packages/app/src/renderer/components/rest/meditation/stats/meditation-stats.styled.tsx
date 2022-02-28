@@ -87,7 +87,8 @@ export const HorizontalLine = styled.div<{ position: number }>`
 `
 
 export const Label = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallFadedText,
+  displayStyle: TextDisplayStyle.Label,
+  color: "disabled"
 }))<{ position?: number }>`
   bottom: ${({ position = 0 }) => position}%;
 `
