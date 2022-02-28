@@ -193,7 +193,7 @@
     "babel-runtime": "^6.26.0",
     "boiler-room-custodian": "^0.6.2",
     "brie": "^3.0.4",
-    "chromedriver": "^97.0.4",
+    "chromedriver": "^98.0.1",
     "circular-dependency-plugin": "^5.2.2",
     "contentful": "^9.1.12",
     "copy-webpack-plugin": "^6.4.1",
