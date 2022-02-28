@@ -3,10 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState } from "react"
-import { DeviceType } from "@mudita/pure"
+import React, { useEffect, useState, useRef } from "react"
+import { DeviceType, DiagnosticsFilePath } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
 import { useDispatch, useSelector } from "react-redux"
+import delayResponse from "@appnroll/delay-response"
+import { isEqual } from "lodash"
 import modalService from "Renderer/components/core/modal/modal.service"
 import {
   CheckingUpdatesModal,
@@ -15,6 +17,7 @@ import {
   DownloadingUpdateFinishedModal,
   DownloadingUpdateInterruptedModal,
   DownloadingUpdateModal,
+  TooLowBatteryModal,
   UpdateAvailable,
   UpdateNotAvailable,
   UpdateServerError,
@@ -22,32 +25,27 @@ import {
   UpdatingSpinnerModal,
   UpdatingSuccessModal,
 } from "App/overview/components/overview-modals.component"
-import getAllReleases from "Renderer/requests/get-all-releases.request"
-import downloadOsUpdateRequest, {
-  cancelOsDownload,
-} from "Renderer/requests/download-os-update.request"
 import { PureOsDownloadChannels } from "App/main/functions/register-pure-os-download-listener"
 import {
   DownloadProgress,
   DownloadStatus,
 } from "Renderer/interfaces/file-download.interface"
-import osUpdateAlreadyDownloadedCheck from "Renderer/requests/os-update-already-downloaded.request"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
-import delayResponse from "@appnroll/delay-response"
 import updateOs from "Renderer/requests/update-os.request"
-import {
-  DeviceResponseStatus,
-  ResponseError,
-} from "Backend/adapters/device-response.interface"
-import { isEqual } from "lodash"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import logger from "App/main/utils/logger"
-import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
-import { Release } from "App/main/functions/register-get-all-releases-listener"
+import {
+  Release,
+  getAllReleases,
+  osUpdateAlreadyDownloadedCheck,
+  downloadOsUpdateRequest,
+  cancelOsDownload,
+} from "App/update"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
-import { errorCodeMap } from "App/overview/components/updating-force-modal-flow/no-critical-errors-codes.const"
 import { setOsVersionData } from "App/device"
 import { ReduxRootState } from "App/renderer/store"
+import { removeFileRequest } from "App/device-file-system/requests"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -63,10 +61,18 @@ const useSystemUpdateFlow = (
   const currentDeviceType = useSelector(
     (state: ReduxRootState) => state.device.deviceType
   ) as DeviceType
+  const batteryLevel = useSelector(
+    (state: ReduxRootState) => state.device.data?.batteryLevel
+  ) as number
   const [releaseToInstall, setReleaseToInstall] = useState<Release>()
   const dispatch = useDispatch()
+  const mounted = useRef<boolean>(false)
+  const minBattery = 40
+  const notEnoughBattery = Math.round(batteryLevel * 100) <= minBattery
 
   useEffect(() => {
+    mounted.current = true
+
     const downloadListener = (event: Event, progress: DownloadProgress) => {
       const { status, percent, speed, timeLeft } = progress
       if (status === DownloadStatus.Interrupted) {
@@ -83,6 +89,7 @@ const useSystemUpdateFlow = (
     }
     ipcRenderer.on(PureOsDownloadChannels.progress, downloadListener)
     return () => {
+      mounted.current = false
       ipcRenderer.removeListener(
         PureOsDownloadChannels.progress,
         downloadListener
@@ -140,42 +147,34 @@ const useSystemUpdateFlow = (
     )
   }
 
-  const [activeResponseError, setResponseError] = useState<
-    ResponseError | undefined
-  >(undefined)
-
-  useEffect(() => {
-    if (activeResponseError) {
-      displayErrorModal()
-      setResponseError(undefined)
-    }
-
-    const unregisterItem = appContextMenu.registerItem("Overview", {
-      label: "Select Pure kind of updating failure",
-      submenu: Object.keys(errorCodeMap).map((key) => {
-        return {
-          label: `${
-            key !== activeResponseError ? `Enable` : `Disabled`
-          } ${key} failure`,
-          click: () => setResponseError(key as ResponseError),
-        }
-      }),
-    })
-    return () => unregisterItem()
-  }, [activeResponseError])
-
   // Checking for updates
   const openCheckingForUpdatesModal = () => {
+    if (!mounted.current) {
+      return
+    }
+
     return modalService.openModal(<CheckingUpdatesModal />, true)
   }
 
   const openCheckingForUpdatesFailedModal = (onRetry: () => void) => {
+    if (!mounted.current) {
+      return
+    }
+
     return modalService.openModal(<UpdateServerError onRetry={onRetry} />, true)
   }
 
   const openAvailableUpdateModal = (release: Release) => {
+    if (!mounted.current) {
+      return
+    }
+
     const { version, date } = release
     const onDownload = () => {
+      if (notEnoughBattery) {
+        openTooLowBatteryModal()
+        return
+      }
       downloadUpdate(release)
       openDownloadingUpdateModal()
     }
@@ -187,6 +186,10 @@ const useSystemUpdateFlow = (
   }
 
   const openNotAvailableUpdateModal = () => {
+    if (!mounted.current) {
+      return
+    }
+
     return modalService.openModal(
       <UpdateNotAvailable version={osVersion} />,
       true
@@ -195,7 +198,7 @@ const useSystemUpdateFlow = (
 
   const checkForUpdates = async (silent = false) => {
     if (!silent) {
-      await delayResponse(openCheckingForUpdatesModal(), 1000)
+      await delayResponse(openCheckingForUpdatesModal() as Promise<void>, 1000)
     }
 
     if (osVersion) {
@@ -246,13 +249,19 @@ const useSystemUpdateFlow = (
         if (!silent) {
           await openCheckingForUpdatesFailedModal(() => checkForUpdates())
         }
-        logger.error(`Overview: check for updates fail. Data: ${error.message}`)
+        logger.error(
+          `Overview: check for updates fail. Data: ${(error as Error).message}`
+        )
       }
     }
   }
 
   // Download update
   const openDownloadSucceededModal = (release?: Release) => {
+    if (!mounted.current) {
+      return
+    }
+
     return modalService.openModal(
       <DownloadingUpdateFinishedModal onOsUpdate={() => updatePure(release)} />,
       true
@@ -260,10 +269,18 @@ const useSystemUpdateFlow = (
   }
 
   const openDownloadCanceledModal = () => {
+    if (!mounted.current) {
+      return
+    }
+
     return modalService.openModal(<DownloadingUpdateCancelledModal />, true)
   }
 
   const openDownloadInterruptedModal = (onRetry: () => void) => {
+    if (!mounted.current) {
+      return
+    }
+
     return modalService.openModal(
       <DownloadingUpdateInterruptedModal onRetry={onRetry} />,
       true
@@ -271,18 +288,35 @@ const useSystemUpdateFlow = (
   }
 
   const openDownloadingUpdateModal = async () => {
+    if (!mounted.current) {
+      return
+    }
+
     await modalService.openModal(
       <DownloadingUpdateModal onCancel={onOsDownloadCancel} />,
       true
     )
     modalService.preventClosingModal()
   }
+  const openTooLowBatteryModal = () => {
+    if (!mounted.current) {
+      return
+    }
 
+    return modalService.openModal(
+      <TooLowBatteryModal deviceType={currentDeviceType} open />,
+      true
+    )
+  }
   const downloadUpdate = async (releaseInstance?: Release) => {
     const release =
       releaseInstance === undefined || releaseInstance.version === undefined
         ? releaseToInstall
         : releaseInstance
+    if (notEnoughBattery) {
+      openTooLowBatteryModal()
+      return
+    }
     try {
       await openDownloadingUpdateModal()
       await delayResponse(
@@ -318,13 +352,19 @@ const useSystemUpdateFlow = (
       return
     }
 
+    if (notEnoughBattery) {
+      openTooLowBatteryModal()
+      return
+    }
+
     const { file, version } = release
 
     modalService.openModal(<UpdatingSpinnerModal />, true)
 
     toggleDeviceUpdating(true)
 
-    const response = await updateOs(file.name, IpcEmitter.OsUpdateProgress)
+    await removeFileRequest(DiagnosticsFilePath.UPDATER_LOG)
+    const response = await updateOs(file.name)
 
     if (response.status === DeviceResponseStatus.Ok) {
       modalService.rerenderModal(<UpdatingSpinnerModal />)
@@ -347,7 +387,6 @@ const useSystemUpdateFlow = (
       dispatch(
         setOsVersionData({
           osVersion: version,
-          osUpdateDate: new Date().toISOString(),
         })
       )
     }
@@ -356,7 +395,7 @@ const useSystemUpdateFlow = (
       modalService.openModal(<UpdatingSuccessModal />, true)
     } else {
       logger.error(
-        `Overview: updating pure fails. Code: ${response.error?.code}`
+        `Overview: updating pure fails. Message: ${response.error?.message}`
       )
       displayErrorModal()
     }

@@ -33,11 +33,11 @@ import { MessageBubbleTestIds } from "App/messages/components/message-bubble-tes
 
 const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean
-  display: boolean
+  display: string
 }>`
   margin-right: ${({ interlocutor }) => (interlocutor ? "0" : "1.1rem")};
   margin-left: ${({ interlocutor }) => (interlocutor ? "1.1rem" : "0")};
-  opacity: ${({ display }) => (display ? "1" : "0")};
+  opacity: ${({ display }) => (display === "true" ? "1" : "0")};
 `
 
 const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
@@ -83,7 +83,7 @@ const MessageDate = styled.div`
   opacity: 0;
   background-color: ${backgroundColor("row")};
   border-radius: ${borderRadius("medium")};
-  box-shadow: 0 0.5rem 1.5rem 0 ${boxShadowColor("light")};
+  box-shadow: 0 0.5rem 1.5rem 0 ${boxShadowColor("full")};
   white-space: nowrap;
 
   p {
@@ -187,7 +187,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                 interlocutor ? DropdownPosition.Left : DropdownPosition.Right
               }
               interlocutor={interlocutor}
-              display={clicked === id}
+              display={(clicked === id).toString()}
               data-testid={MessageBubbleTestIds.Dropdown}
             >
               <ButtonComponent

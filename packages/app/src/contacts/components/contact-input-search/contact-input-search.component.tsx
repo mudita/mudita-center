@@ -10,8 +10,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import { RenderListItem } from "Renderer/components/core/list/list.component"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
-import { Contact } from "App/contacts/store/contacts.type"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -21,6 +20,7 @@ import {
   ContactListItem,
   ContactListItemName,
 } from "App/contacts/components/contact-input-search/contact-input-search.styled"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 export enum ContactInputSelectTestIds {
   Input = "contact-input-select-input",

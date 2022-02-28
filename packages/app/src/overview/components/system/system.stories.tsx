@@ -4,15 +4,13 @@
  */
 
 import { storiesOf } from "@storybook/react"
-import React, { useEffect, useState } from "react"
+import React from "react"
 import System from "App/overview/components/system/system.component"
-import getFakeAdapters from "App/tests/get-fake-adapters"
 import { action } from "@storybook/addon-actions"
 import { css } from "styled-components"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
-
-const fakeSystemInfo = getFakeAdapters().purePhone
+import { osVersion } from "App/main/default-app-configuration.json"
 
 const storyStyle = css`
   > * {
@@ -22,15 +20,6 @@ const storyStyle = css`
 `
 
 storiesOf("Views|Overview/System", module).add("System", () => {
-  const [osVersion, setOsVersion] = useState("")
-  useEffect(() => {
-    const fetch = async () => {
-      const { data = "" } = await fakeSystemInfo.getOsVersion()
-      setOsVersion(data)
-    }
-    fetch()
-  }, [])
-
   return (
     <StoryContainer column>
       <Story title="Not updated yet" customStyle={storyStyle}>

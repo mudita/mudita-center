@@ -102,7 +102,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
@@ -140,7 +140,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
@@ -183,7 +183,7 @@ exports[`matches snapshot 1`] = `
   border-radius: 0.5rem;
   -webkit-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
-  box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
+  box-shadow: 0 1rem 5.5rem -0.5rem rgba(0,0,0,0.08);
 }
 
 .c18 {
@@ -262,12 +262,12 @@ exports[`matches snapshot 1`] = `
 }
 
 .c14:not(:hover) {
-  border: 0.1rem solid #cdcecf;
+  border: 0.1rem solid #d2d6db;
   color: #6a6a6a;
 }
 
 .c14:not(:hover) g {
-  fill: #cdcecf;
+  fill: #f4f5f6;
 }
 
 .c14:not(:first-of-type) {
@@ -284,12 +284,12 @@ exports[`matches snapshot 1`] = `
 }
 
 .c7 {
-  margin-right: 4rem;
+  margin-right: 3.2rem;
 }
 
 .c10 {
   padding: 0 3.6rem;
-  width: 75%;
+  width: 8.8rem;
 }
 
 .c0 {
@@ -317,7 +317,7 @@ exports[`matches snapshot 1`] = `
 }
 
 .c4 {
-  margin-left: 4rem;
+  margin-left: 3.2rem;
   margin-bottom: 0;
   -webkit-align-self: center;
   -ms-flex-item-align: center;

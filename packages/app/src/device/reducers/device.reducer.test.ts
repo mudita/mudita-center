@@ -9,7 +9,11 @@ import {
   PureDeviceData,
   HarmonyDeviceData,
 } from "App/device/reducers/device.interface"
-import { DeviceEvent, ConnectionState } from "App/device/constants"
+import {
+  DeviceEvent,
+  ConnectionState,
+  UpdatingState,
+} from "App/device/constants"
 import {
   rejectedAction,
   fulfilledAction,
@@ -24,7 +28,6 @@ import {
 const pureDeviceMock: PureDeviceData = {
   networkName: "Network",
   networkLevel: "5",
-  osUpdateDate: "2020-01-14T11:31:08.244Z",
   osVersion: "0.75.1",
   batteryLevel: 0.99,
   simCards: [
@@ -41,13 +44,13 @@ const pureDeviceMock: PureDeviceData = {
   memorySpace: {
     free: 124,
     full: 1021,
+    total: 16000000000,
   },
   caseColour: CaseColour.Gray,
   backupLocation: "path/to/directory",
 }
 
 const harmonyDeviceMock: HarmonyDeviceData = {
-  osUpdateDate: "2020-01-14T11:31:08.244Z",
   osVersion: "0.75.1",
   batteryLevel: 0.99,
   serialNumber: "303",
@@ -158,6 +161,24 @@ describe("Connecting/Disconnecting functionality", () => {
       })
     ).toEqual({
       ...initialState,
+    })
+  })
+
+  test("Event: SetConnectionState/fulfilled set device state to initial and `updatingState` to `Updating` if `false` payload is provided and current updating state is equal `UpdatingState.Updating`", () => {
+    expect(
+      deviceReducer(
+        {
+          ...initialState,
+          updatingState: UpdatingState.Updating,
+        },
+        {
+          type: fulfilledAction(DeviceEvent.SetConnectionState),
+          payload: false,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      updatingState: UpdatingState.Updating,
     })
   })
 })
@@ -292,7 +313,6 @@ describe("Set device data functionality", () => {
       data: {
         networkLevel: "5",
         networkName: "Network",
-        osUpdateDate: "2020-01-14T11:31:08.244Z",
         osVersion: "0.75.1",
         batteryLevel: 0.99,
         simCards: [
@@ -309,6 +329,7 @@ describe("Set device data functionality", () => {
         memorySpace: {
           free: 124,
           full: 1021,
+          total: 16000000000,
         },
         caseColour: CaseColour.Gray,
         backupLocation: "path/to/directory",
@@ -325,7 +346,6 @@ describe("Set device data functionality", () => {
     ).toEqual({
       ...initialState,
       data: {
-        osUpdateDate: "2020-01-14T11:31:08.244Z",
         osVersion: "0.75.1",
         batteryLevel: 0.99,
         serialNumber: "303",
@@ -446,7 +466,6 @@ describe("Update functionality", () => {
         type: DeviceEvent.SetOsVersionData,
         payload: {
           osVersion: "7.7.7",
-          osUpdateDate: "2020-01-14T11:31:08.244Z",
         },
       })
     ).toEqual({
@@ -454,7 +473,6 @@ describe("Update functionality", () => {
       data: {
         ...initialState.data,
         osVersion: "7.7.7",
-        osUpdateDate: "2020-01-14T11:31:08.244Z",
       },
     })
   })
@@ -467,14 +485,12 @@ describe("Update functionality", () => {
           data: {
             ...initialState.data,
             osVersion: "0.0.0",
-            osUpdateDate: "2019-01-14T11:31:08.244Z",
           },
         },
         {
           type: DeviceEvent.SetOsVersionData,
           payload: {
             osVersion: "7.7.7",
-            osUpdateDate: "2020-01-14T11:31:08.244Z",
           },
         }
       )
@@ -483,7 +499,6 @@ describe("Update functionality", () => {
       data: {
         ...initialState.data,
         osVersion: "7.7.7",
-        osUpdateDate: "2020-01-14T11:31:08.244Z",
       },
     })
   })

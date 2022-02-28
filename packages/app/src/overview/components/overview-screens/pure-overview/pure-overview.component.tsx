@@ -18,19 +18,10 @@ import logger from "App/main/utils/logger"
 import BackupDeviceFlow, {
   BackupDeviceFlowState,
 } from "App/overview/components/backup-device-flow/backup-device-flow.component"
-import ContactSupportModalFlow, {
-  ContactSupportModalFlowState,
-} from "Renderer/components/rest/contact-support-modal/contact-support-modal-flow.component"
-import { CreateBugTicketResponseStatus } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
-import { ContactSupportFieldValues } from "Renderer/components/rest/contact-support-modal/contact-support-modal.component"
-import useCreateBugTicket, {
-  files,
-} from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import UpdatingForceModalFlow, {
   UpdatingForceModalFlowState,
 } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
-
 import { DeviceState } from "App/device"
 import {
   BackupDeviceDataState,
@@ -46,6 +37,8 @@ import {
 } from "App/restore-device/reducers"
 import { DeviceType } from "@mudita/pure"
 import { StartRestoreOption } from "App/restore-device/actions"
+import { SynchronizationState } from "App/data-sync/reducers"
+import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 
 type Props = DeviceState["data"] &
   PhoneUpdateStore &
@@ -58,6 +51,9 @@ type Props = DeviceState["data"] &
     restoreDeviceState: RestoreDeviceState["state"]
     startRestoreDevice: (option: StartRestoreOption) => void
     readRestoreDeviceDataState: () => void
+    openContactSupportFlow: () => void
+    syncState: SynchronizationState
+    updateAllIndexes: () => Promise<void>
   }
 
 export const PureOverview: FunctionComponent<Props> = ({
@@ -65,7 +61,6 @@ export const PureOverview: FunctionComponent<Props> = ({
   changeSim = noop,
   disconnectDevice = noop,
   osVersion = "",
-  osUpdateDate = "",
   lastAvailableOsVersion,
   updatePhoneOsInfo = noop,
   memorySpace = {
@@ -88,7 +83,6 @@ export const PureOverview: FunctionComponent<Props> = ({
   updatingState,
   startUpdateOs,
   setUpdateState,
-  serialNumber,
   caseColour,
   lastBackupDate,
   startBackupDevice,
@@ -99,6 +93,9 @@ export const PureOverview: FunctionComponent<Props> = ({
   readRestoreDeviceDataState,
   backups,
   pureOsDownloaded,
+  openContactSupportFlow,
+  syncState,
+  updateAllIndexes,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -108,37 +105,6 @@ export const PureOverview: FunctionComponent<Props> = ({
     failedModal: false,
   })
   const [progress, setProgress] = useState(0)
-  const [contactSupportOpenState, setContactSupportOpenState] =
-    useState<ContactSupportModalFlowState>()
-  const [sendBugTicketRequest, sending] = useCreateBugTicket()
-  const [bugTicketSubject, setBugTicketSubject] = useState("")
-
-  const openContactSupportModalFlow = () => {
-    setBugTicketSubject(`Error - UpdateOS`)
-    setContactSupportOpenState(ContactSupportModalFlowState.Form)
-  }
-
-  const closeContactSupportModalFlow = () => {
-    setContactSupportOpenState(undefined)
-  }
-
-  const sendBugTicket = async ({
-    email,
-    description,
-  }: ContactSupportFieldValues) => {
-    const response = await sendBugTicketRequest({
-      email,
-      description,
-      serialNumber,
-      subject: bugTicketSubject,
-    })
-    if (response.status === CreateBugTicketResponseStatus.Ok) {
-      setContactSupportOpenState(ContactSupportModalFlowState.Success)
-    } else {
-      setContactSupportOpenState(ContactSupportModalFlowState.Fail)
-      logger.error(`Overview: ${response.error?.message}`)
-    }
-  }
 
   const goToHelp = (): void => {
     void ipcRenderer.callMain(HelpActions.OpenWindow)
@@ -158,7 +124,7 @@ export const PureOverview: FunctionComponent<Props> = ({
       osVersion,
       updatePhoneOsInfo,
       toggleDeviceUpdating,
-      openContactSupportModalFlow,
+      openContactSupportFlow,
       goToHelp
     )
 
@@ -168,7 +134,7 @@ export const PureOverview: FunctionComponent<Props> = ({
         isVersionGreater(osVersion, lowestSupportedOsVersion)
       )
     } catch (error) {
-      logger.error(`Overview: ${error.message}`)
+      logger.error(`Overview: ${(error as Error).message}`)
     }
   }, [osVersion, lowestSupportedOsVersion])
 
@@ -228,7 +194,7 @@ export const PureOverview: FunctionComponent<Props> = ({
       return UpdatingForceModalFlowState.Success
     } else if (updatingState === UpdatingState.Fail) {
       return UpdatingForceModalFlowState.Fail
-    } else if (!osVersionSupported && contactSupportOpenState === undefined) {
+    } else if (!osVersionSupported) {
       return UpdatingForceModalFlowState.Info
     } else {
       return undefined
@@ -283,6 +249,10 @@ export const PureOverview: FunctionComponent<Props> = ({
     }
   }, [restoreDeviceState])
 
+  const onRetry = () => {
+    updateAllIndexes()
+  }
+
   return (
     <>
       <UpdatingForceModalFlow
@@ -291,25 +261,17 @@ export const PureOverview: FunctionComponent<Props> = ({
         updateOs={startUpdateOs}
         osVersion={osVersion}
         closeModal={closeUpdatingForceModalFlow}
-        onContact={openContactSupportModalFlow}
+        onContact={openContactSupportFlow}
         onHelp={goToHelp}
+        batteryLevel={batteryLevel}
       />
-      {contactSupportOpenState && (
-        <ContactSupportModalFlow
-          openState={contactSupportOpenState}
-          files={files}
-          onSubmit={sendBugTicket}
-          sending={sending}
-          closeModal={closeContactSupportModalFlow}
-        />
-      )}
       {backupDeviceFlowState && (
         <BackupDeviceFlow
           openState={backupDeviceFlowState}
           pureOsBackupLocation={pureOsBackupLocation}
           onStartBackupDeviceButtonClick={startBackupDevice}
           closeModal={closeBackupDeviceFlowState}
-          onSupportButtonClick={openContactSupportModalFlow}
+          onSupportButtonClick={openContactSupportFlow}
         />
       )}
       {restoreDeviceFlowState && (
@@ -318,15 +280,17 @@ export const PureOverview: FunctionComponent<Props> = ({
           backups={backups}
           onStartRestoreDeviceButtonClick={startRestoreDevice}
           closeModal={closeRestoreDeviceFlowState}
-          onSupportButtonClick={openContactSupportModalFlow}
+          onSupportButtonClick={openContactSupportFlow}
         />
+      )}
+      {syncState === SynchronizationState.Error && (
+        <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
       )}
       <OverviewContent
         batteryLevel={batteryLevel}
         changeSim={changeSim}
         disconnectDevice={disconnectDevice}
         osVersion={osVersion}
-        osUpdateDate={osUpdateDate}
         memorySpace={memorySpace}
         simCards={simCards}
         networkName={networkName}

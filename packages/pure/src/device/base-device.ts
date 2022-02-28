@@ -21,10 +21,11 @@ import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator"
 import { timeout } from "../timeout"
 
+export const timeoutMs = 30000
+
 class BaseDevice implements MuditaDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
-  #portBlocked = false
   #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
   constructor(public path: string, public deviceType: DeviceType) {}
@@ -82,7 +83,7 @@ class BaseDevice implements MuditaDevice {
   public request(config: RequestConfig): Promise<Response<{ version: number }>>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
-    if (this.#port === undefined || this.#portBlocked) {
+    if (this.#port === undefined) {
       return { status: ResponseStatus.ConnectionError }
     } else {
       return this.writeRequest(this.#port, config)
@@ -132,7 +133,7 @@ class BaseDevice implements MuditaDevice {
     payload: RequestPayload
   ): Promise<Response<any>> {
     return new Promise((resolve) => {
-      const [promise, cancel] = timeout(30000)
+      const [promise, cancel] = timeout(timeoutMs)
       promise.then(() => {
         resolve(this.returnTimeoutResponse(payload))
       })

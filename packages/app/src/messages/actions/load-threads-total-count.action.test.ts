@@ -74,7 +74,7 @@ describe("async `loadThreadsTotalCount` ", () => {
     test("fire async `loadThreadsTotalCount` returns `rejected` action", async () => {
       ;(getThreads as jest.Mock).mockReturnValue(errorDeviceResponse)
       const errorMock = new LoadThreadsError("Get Threads request failed")
-      const mockStore = createMockStore([thunk])({ messages: initialState } )
+      const mockStore = createMockStore([thunk])({ messages: initialState })
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
@@ -96,11 +96,11 @@ describe("async `loadThreadsTotalCount` ", () => {
   })
 
   describe("when messages state has some data and request return lower `threadsTotalCount` value", () => {
-    test("fire `loadThreadsTotalCount` call `clearAllThreads`", async () => {
+    test("fire `loadThreadsTotalCount`", async () => {
       ;(getThreads as jest.Mock).mockReturnValue(successDeviceResponse)
       const mockStore = createMockStore([thunk])({
         messages: { ...initialState, threadsTotalCount: 2 },
-      } )
+      })
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
@@ -109,10 +109,6 @@ describe("async `loadThreadsTotalCount` ", () => {
 
       expect(mockStore.getActions()).toEqual([
         loadThreadsTotalCount.pending(requestId, undefined),
-        {
-          type: MessagesEvent.ClearAllThreads,
-          payload: undefined,
-        },
         loadThreadsTotalCount.fulfilled(undefined, requestId, undefined),
       ])
 

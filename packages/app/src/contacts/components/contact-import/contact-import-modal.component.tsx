@@ -3,9 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect } from "react"
+import React, { useEffect, ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Table, {
   Col,
@@ -16,7 +15,6 @@ import Table, {
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import styled from "styled-components"
-import { NewContact } from "App/contacts/store/contacts.type"
 import Icon from "Renderer/components/core/icon/icon.component"
 import {
   ModalText,
@@ -28,11 +26,12 @@ import Text, {
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
-import { createFullNameStartingFromLastName } from "App/contacts/store/contacts.helpers"
+import { createFullNameStartingFromLastName } from "App/contacts/helpers/contacts.helpers"
 import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 import { ModalIcon } from "Renderer/components/core/modal-shared/modal-shared"
-import { flags, Feature } from "App/feature-flags"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { NewContact } from "App/contacts/reducers/contacts.interface"
 
 const messages = defineMessages({
   title: { id: "module.contacts.importTitle" },
@@ -82,7 +81,8 @@ export enum ModalType {
   Select,
 }
 
-interface Props {
+interface Props
+  extends Omit<ComponentProps<typeof ModalDialog>, "onActionButtonClick"> {
   onActionButtonClick: (contacts: NewContact[]) => void
   contacts: NewContact[]
   modalType: ModalType
@@ -94,6 +94,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
   contacts = [],
   modalType,
   successfulItemsCount,
+  ...props
 }) => {
   const {
     toggleRow,
@@ -108,10 +109,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
     toggleAll()
   }, [])
 
-  const selectedContactsLength = contacts.filter((contact) => {
-    const { selected } = getRowStatus(contact)
-    return selected
-  }).length
+  const selectedContactsLength = selectedRows.length
 
   const SingleRow = ({
     data,
@@ -161,7 +159,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
     return lastNameA.localeCompare(lastNameB)
   })
   return (
-    <Modal
+    <ModalDialog
       title={intl.formatMessage(messages.title)}
       closeButton={false}
       actionButtonLabel={intl.formatMessage(
@@ -174,6 +172,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
       onActionButtonClick={handleButtonClick}
       size={ModalSize.Medium}
       actionButtonDisabled={noneRowsSelected}
+      {...props}
     >
       <Image>
         <Icon type={Type.Download} width={5} />
@@ -235,19 +234,15 @@ const ContactImportModal: FunctionComponent<Props> = ({
                 data-testid={ContactImportModalTestIds.ToggleAllCheckbox}
               />
             )}
-            {flags.get(Feature.NumberOfContactsToImport) ? (
-              <Text
-                message={{
-                  ...messages.importingListTitle,
-                  values: { number: contacts.length },
-                }}
-                displayStyle={TextDisplayStyle.MediumFadedLightText}
-              />
-            ) : (
-              <div>Contacts</div>
-            )}
+            <Text
+              message={{
+                ...messages.importingListTitle,
+                values: { number: contacts.length },
+              }}
+              displayStyle={TextDisplayStyle.MediumFadedLightText}
+            />
           </Col>
-          {flags.get(Feature.NumberOfContactsToImport) ? (
+          {[ModalType.Select].includes(modalType) && (
             <SelectedText
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid={ContactImportModalTestIds.SelectedText}
@@ -256,8 +251,6 @@ const ContactImportModal: FunctionComponent<Props> = ({
                 messages.importingListSelected
               )}`}
             </SelectedText>
-          ) : (
-            <Col />
           )}
           <Col />
         </Labels>
@@ -273,7 +266,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
           ))}
         </TableContent>
       </SyncTable>
-    </Modal>
+    </ModalDialog>
   )
 }
 

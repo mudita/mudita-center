@@ -308,9 +308,10 @@ describe("Set Messages data functionality", () => {
       ...initialState,
       messageMap: {
         [message.id]: message,
+        [secondMessage.id]: secondMessage,
       },
       messageIdsInThreadMap: {
-        [message.threadId]: [message.id],
+        [message.threadId]: [message.id, secondMessage.id],
       },
     })
   })
@@ -545,7 +546,7 @@ describe("Change Visibility Filter data functionality", () => {
   })
 })
 
-describe("Dev Clear All Threads data functionality", () => {
+describe("Clear All Threads data functionality", () => {
   const thread: Thread = {
     id: "1",
     phoneNumber: "+48 755 853 216",
@@ -565,7 +566,7 @@ describe("Dev Clear All Threads data functionality", () => {
     messageType: MessageType.INBOX,
   }
 
-  test("Event: DevClearAllThreads clear properly threadMap, messageMap and messageIdsInThreadMap fields", () => {
+  test("Event: ClearAllThreads clear properly threadMap, messageMap and messageIdsInThreadMap fields", () => {
     expect(
       messagesReducer(
         {

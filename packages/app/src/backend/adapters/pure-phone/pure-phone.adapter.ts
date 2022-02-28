@@ -3,19 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import path from "path"
 import {
-  Endpoint,
-  Method,
+  DeviceType,
   DiagnosticsFileList,
-  GetPhoneLockTimeResponseBody,
-  PhoneLockCategory,
-  timeout,
-  MuditaDevice,
-  CaseColour,
-  StartBackupResponseBody,
-  GetBackupDeviceStatusResponseBody,
+  Endpoint,
   GetBackupDeviceStatusRequestConfigBody,
+  GetPhoneLockTimeResponseBody,
   GetRestoreDeviceStatusResponseBody,
+  Method,
+  MuditaDevice,
+  PhoneLockCategory,
   StartRestoreRequestConfigBody,
 } from "@mudita/pure"
 import PurePhoneAdapter, {
@@ -24,126 +22,23 @@ import PurePhoneAdapter, {
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
-import { noop } from "Renderer/utils/noop"
-import DeviceFileSystemService, {
-  DeviceFileDeprecated,
+import DeviceService from "Backend/device-service"
+import DeviceFileSystemAdapter, {
   DeviceFile,
-  UploadFileLocallyPayload,
-  UploadFilePayload,
-} from "Backend/device-file-system-service/device-file-system-service"
+} from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
-
-export enum DeviceUpdateError {
-  RestartTimedOut = "RestartTimedOut",
-  DeviceDisconnectionBeforeDone = "DeviceDisconnectionBeforeDone",
-}
-
-export const deviceUpdateErrorCodeMap: Record<DeviceUpdateError, number> = {
-  [DeviceUpdateError.RestartTimedOut]: 9900,
-  [DeviceUpdateError.DeviceDisconnectionBeforeDone]: 9901,
-}
+import DeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-adapter.class"
+import getAppPath from "App/main/utils/get-app-path"
 
 class PurePhone extends PurePhoneAdapter {
-  static osUpdateStepsMax = 3
-  static osUpdateRestartStep = PurePhone.osUpdateStepsMax - 1
   constructor(
     private deviceService: DeviceService,
-    private deviceFileSystemService: DeviceFileSystemService,
+    private deviceBaseInfo: DeviceBaseInfoAdapter,
+    private deviceFileSystem: DeviceFileSystemAdapter,
     private deviceFileDiagnosticService: DeviceFileDiagnosticService
   ) {
     super()
-  }
-
-  public getModelName(): string {
-    return "Ziemniaczek Puree"
-  }
-
-  public getModelNumber(): string {
-    return "Y0105W4GG1N5"
-  }
-
-  public getName(): string {
-    return "Mudita Pure"
-  }
-
-  //TODO: handle it after add missed fields in API -> https://appnroll.atlassian.net/browse/PDA-590
-  public getOsUpdateDate(): string {
-    return "2020-01-14T11:31:08.244Z"
-  }
-
-  public async getOsVersion(): Promise<DeviceResponse<string>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-
-    if (status === DeviceResponseStatus.Ok && data) {
-      return {
-        status,
-        data: data.version,
-      }
-    } else {
-      return {
-        status,
-        error: { message: "Get os version: Something went wrong" },
-      }
-    }
-  }
-
-  public async getSerialNumber(): Promise<DeviceResponse<string>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-    if (status === DeviceResponseStatus.Ok && data) {
-      return {
-        status,
-        data: data.serialNumber,
-      }
-    } else {
-      return {
-        status,
-        error: { message: "Get serial number: Something went wrong" },
-      }
-    }
-  }
-
-  public async getCaseColour(): Promise<DeviceResponse<CaseColour>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-    if (status === DeviceResponseStatus.Ok && data) {
-      return {
-        status,
-        data: data.caseColour ? data.caseColour : CaseColour.Gray,
-      }
-    } else {
-      return {
-        status,
-        error: { message: "Get case colour: Something went wrong" },
-      }
-    }
-  }
-
-  public async getBackupLocation(): Promise<DeviceResponse<string>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.DeviceInfo,
-      method: Method.Get,
-    })
-    if (status === DeviceResponseStatus.Ok && data) {
-      return {
-        status,
-        data: data.backupLocation ? data.backupLocation : "",
-      }
-    } else {
-      return {
-        status,
-        error: { message: "Get backup location: Something went wrong" },
-      }
-    }
   }
 
   public disconnectDevice(): Promise<DeviceResponse> {
@@ -203,7 +98,7 @@ class PurePhone extends PurePhoneAdapter {
 
   public async getDeviceLogFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
+  ): Promise<DeviceResponse<DeviceFile[]>> {
     return this.downloadDeviceFiles(DiagnosticsFileList.LOGS, option)
   }
 
@@ -215,25 +110,6 @@ class PurePhone extends PurePhoneAdapter {
     DeviceResponse<string[]>
   > {
     return this.downloadDeviceFilesLocally(DiagnosticsFileList.CRASH_DUMPS)
-  }
-
-  public async startBackupDevice(): Promise<
-    DeviceResponse<StartBackupResponseBody>
-  > {
-    return await this.deviceService.request({
-      endpoint: Endpoint.Backup,
-      method: Method.Post,
-    })
-  }
-
-  public async getBackupDeviceStatus(
-    config: GetBackupDeviceStatusRequestConfigBody
-  ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>> {
-    return await this.deviceService.request({
-      endpoint: Endpoint.Backup,
-      method: Method.Get,
-      body: config,
-    })
   }
 
   public async startRestoreDevice(
@@ -256,157 +132,94 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  public async downloadDeviceFile(
-    filePath: string
-  ): Promise<DeviceResponse<DeviceFile>> {
-    const { status, data } = await this.deviceFileSystemService.downloadFile(
-      filePath
-    )
+  public async updateOs(filePath: string): Promise<DeviceResponse> {
+    const getDeviceInfoResponse = await this.deviceBaseInfo.getDeviceInfo()
 
-    if (status !== DeviceResponseStatus.Ok || data === undefined) {
+    if (
+      getDeviceInfoResponse.status !== DeviceResponseStatus.Ok ||
+      getDeviceInfoResponse.data === undefined
+    ) {
       return {
         status: DeviceResponseStatus.Error,
+        error: { message: "updateOs: getOsVersion request failed" },
       }
     }
-    const name = filePath.split("/").pop() as string
 
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: { name, data },
-    }
-  }
+    const beforeUpdateOsVersion = getDeviceInfoResponse.data.osVersion
 
-  public async uploadDeviceFile(
-    payload: UploadFilePayload
-  ): Promise<DeviceResponse> {
-    return await this.deviceFileSystemService.uploadFile(payload)
-  }
-
-  public async uploadDeviceFileLocally(
-    payload: UploadFileLocallyPayload
-  ): Promise<DeviceResponse> {
-    return await this.deviceFileSystemService.uploadFileLocally(payload)
-  }
-
-  public async updateOs(
-    filePath: string,
-    progressChannel = ""
-  ): Promise<DeviceResponse> {
-    let unregisterListeners = noop
-    return new Promise<DeviceResponse>(async (resolve) => {
-      let step = 0
-      let cancelTimeout = noop
-      const deviceConnectedListener = async () => {
-        if (step === PurePhone.osUpdateRestartStep) {
-          resolve({
-            status: DeviceResponseStatus.Ok,
-          })
-        }
-      }
-
-      const deviceDisconnectedListener = () => {
-        const [promise, cancel] = timeout(30000)
-        cancelTimeout = cancel
-
-        promise.then(() => {
-          resolve({
-            status: DeviceResponseStatus.Error,
-            error: {
-              code: deviceUpdateErrorCodeMap[DeviceUpdateError.RestartTimedOut],
-              message: "restart pure has timed out",
-            },
-          })
-        })
-
-        if (step < PurePhone.osUpdateRestartStep) {
-          resolve({
-            status: DeviceResponseStatus.Error,
-            error: {
-              code: deviceUpdateErrorCodeMap[
-                DeviceUpdateError.DeviceDisconnectionBeforeDone
-              ],
-              message: "device has disconnected before updating finish",
-            },
-          })
-        }
-      }
-
-      unregisterListeners = () => {
-        this.deviceService.off(
-          DeviceServiceEventName.DeviceConnected,
-          deviceConnectedListener
-        )
-        this.deviceService.off(
-          DeviceServiceEventName.DeviceDisconnected,
-          deviceDisconnectedListener
-        )
-        cancelTimeout()
-      }
-
-      this.deviceService.on(
-        DeviceServiceEventName.DeviceDisconnected,
-        deviceDisconnectedListener
-      )
-
-      this.deviceService.on(
-        DeviceServiceEventName.DeviceConnected,
-        deviceConnectedListener
-      )
-
-      const fileResponse = await this.deviceFileSystemService.uploadFileLocally(
-        {
-          filePath,
-          targetPath: "/sys/user/update.tar",
-        }
-      )
-
-      if (fileResponse.status === DeviceResponseStatus.Ok) {
-        ++step
-
-        this.deviceService.sendToRenderers(progressChannel, {
-          progress: PurePhone.getUpdateOsProgress(step),
-        })
-
-        const pureUpdateResponse = await this.deviceService.request({
-          endpoint: Endpoint.Update,
-          method: Method.Post,
-          body: {
-            update: true,
-            reboot: true,
-          },
-        })
-
-        if (pureUpdateResponse.status === DeviceResponseStatus.Ok) {
-          ++step
-          this.deviceService.off(
-            DeviceServiceEventName.DeviceDisconnected,
-            deviceDisconnectedListener
-          )
-
-          this.deviceService.sendToRenderers(progressChannel, {
-            progress: PurePhone.getUpdateOsProgress(step),
-          })
-        } else {
-          resolve({
-            status: DeviceResponseStatus.Error,
-            error: pureUpdateResponse.error,
-          })
-        }
-      } else {
-        resolve({
-          status: DeviceResponseStatus.Error,
-        })
-      }
-    }).then((response) => {
-      unregisterListeners()
-      return response
+    const fileResponse = await this.deviceFileSystem.uploadFileLocally({
+      filePath,
+      targetPath: "/sys/user/update.tar",
     })
+
+    if (fileResponse.status !== DeviceResponseStatus.Ok) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "updateOs: upload OS failed" },
+      }
+    }
+
+    const pureUpdateResponse = await this.deviceService.request({
+      endpoint: Endpoint.Update,
+      method: Method.Post,
+      body: {
+        update: true,
+        reboot: true,
+      },
+    })
+
+    if (pureUpdateResponse.status !== DeviceResponseStatus.Ok) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "updateOs: update request failed" },
+      }
+    }
+
+    const deviceRestartResponse = await this.waitUntilDeviceRestart()
+
+    if (deviceRestartResponse.status !== DeviceResponseStatus.Ok) {
+      return deviceRestartResponse
+    }
+
+    if (
+      this.deviceService.currentDevice?.deviceType === DeviceType.MuditaPure
+    ) {
+      const deviceUnlockedResponse = await this.waitUntilDeviceUnlocked()
+
+      if (deviceUnlockedResponse.status !== DeviceResponseStatus.Ok) {
+        return deviceUnlockedResponse
+      }
+    }
+
+    const afterUpdateGetDeviceInfoResponse =
+      await this.deviceBaseInfo.getDeviceInfo()
+
+    if (
+      afterUpdateGetDeviceInfoResponse.status !== DeviceResponseStatus.Ok ||
+      afterUpdateGetDeviceInfoResponse.data === undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "updateOs: getOsVersion request failed" },
+      }
+    }
+
+    const afterUpdateOsVersion = afterUpdateGetDeviceInfoResponse.data.osVersion
+
+    if (beforeUpdateOsVersion === afterUpdateOsVersion) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "updateOs: the version OS isn't changed" },
+      }
+    }
+
+    return { status: DeviceResponseStatus.Ok }
   }
 
   private async downloadDeviceFiles(
     fileList: DiagnosticsFileList,
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFileDeprecated[]>> {
+  ): Promise<DeviceResponse<DeviceFile[]>> {
     const files = await this.getDeviceFiles(fileList)
 
     if (files.status !== DeviceResponseStatus.Ok || !files.data) {
@@ -416,7 +229,7 @@ class PurePhone extends PurePhoneAdapter {
     }
 
     const downloadDeviceFilesResponse =
-      await this.deviceFileSystemService.downloadDeviceFiles(files.data)
+      await this.deviceFileSystem.downloadDeviceFiles(files.data)
     const deviceFiles = downloadDeviceFilesResponse.data
 
     if (
@@ -447,10 +260,9 @@ class PurePhone extends PurePhoneAdapter {
     }
 
     const downloadDeviceFilesResponse =
-      await this.deviceFileSystemService.downloadLocally(
-        files.data,
-        "crash-dumps"
-      )
+      await this.deviceFileSystem.downloadDeviceFilesLocally(files.data, {
+        cwd: path.join(getAppPath(), "crash-dumps"),
+      })
     const deviceFiles = downloadDeviceFilesResponse.data
 
     if (
@@ -491,39 +303,86 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
-  public async removeDeviceFile(removeFile: string): Promise<DeviceResponse> {
-    if (!removeFile) {
+  private async waitUntilDeviceRestart(
+    index = 0,
+    deviceType = this.deviceService.currentDevice?.deviceType,
+    timeout = 5000,
+    callsMax = 36
+  ): Promise<DeviceResponse> {
+    if (index === callsMax) {
       return {
         status: DeviceResponseStatus.Error,
+        error: {
+          message: "updateOs: device no restart successful in 3 minutes",
+        },
       }
     }
 
-    const { status } = await this.deviceService.request({
-      endpoint: Endpoint.FileSystem,
-      method: Method.Delete,
-      body: {
-        removeFile,
-      },
-    })
+    let response
 
-    return {
-      status,
+    if (deviceType === DeviceType.MuditaHarmony) {
+      response = await this.deviceBaseInfo.getDeviceInfo()
+    } else {
+      response = await this.getUnlockDeviceStatus()
+    }
+
+    if (
+      index !== 0 &&
+      (response.status === DeviceResponseStatus.Ok ||
+        response.status === DeviceResponseStatus.PhoneLocked)
+    ) {
+      return {
+        status: DeviceResponseStatus.Ok,
+      }
+    } else {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(this.waitUntilDeviceRestart(++index, deviceType))
+        }, timeout)
+      })
     }
   }
 
-  private static getUpdateOsProgress(step: number): number {
-    return Math.round((step / PurePhone.osUpdateStepsMax) * 100)
+  private async waitUntilDeviceUnlocked(
+    index = 0,
+    timeout = 5000,
+    callsMax = 120
+  ): Promise<DeviceResponse> {
+    if (index === callsMax) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message: "updateOs: device isn't unlocked by user in 10 minutes",
+        },
+      }
+    }
+
+    const response = await this.getUnlockDeviceStatus()
+
+    if (index !== 0 && response.status === DeviceResponseStatus.Ok) {
+      return {
+        status: DeviceResponseStatus.Ok,
+      }
+    } else {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(this.waitUntilDeviceUnlocked(++index))
+        }, timeout)
+      })
+    }
   }
 }
 
 const createPurePhoneAdapter = (
   deviceService: DeviceService,
-  deviceFileSystemService: DeviceFileSystemService,
+  deviceBaseInfo: DeviceBaseInfoAdapter,
+  deviceFileSystem: DeviceFileSystemAdapter,
   deviceFileDiagnosticService: DeviceFileDiagnosticService
 ): PurePhoneAdapter =>
   new PurePhone(
     deviceService,
-    deviceFileSystemService,
+    deviceBaseInfo,
+    deviceFileSystem,
     deviceFileDiagnosticService
   )
 

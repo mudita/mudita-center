@@ -4,7 +4,7 @@
  */
 
 import findContactByPhoneNumber from "App/contacts/helpers/find-contact-by-phone-number/find-contact-by-phone-number"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 const contacts: Contact[] = [
   {

@@ -2,6 +2,7 @@ const dotenv = require("dotenv")
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin")
 const HTMLWebpackPlugin = require("html-webpack-plugin")
 const CircularDependencyPlugin = require("circular-dependency-plugin")
+const CopyPlugin = require("copy-webpack-plugin")
 const { DefinePlugin, EnvironmentPlugin } = require("webpack")
 const path = require("path")
 
@@ -45,5 +46,8 @@ module.exports = {
         process.env.STATIC_CONFIGURATION_FILE_PATH ||
         path.join(__dirname, "../../../../.env"),
     }).parsed,
+  }),
+  static: new CopyPlugin({
+    patterns: [{ from: "static", to: "static" }],
   }),
 }

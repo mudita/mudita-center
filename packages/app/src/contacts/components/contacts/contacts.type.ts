@@ -8,17 +8,21 @@ import {
   ContactDetailsActions,
 } from "App/contacts/components/contact-details/contact-details.component"
 import ContactPanel from "App/contacts/components/contact-panel/contact-panel.component"
+import { AuthProviders } from "Renderer/models/auth/auth.typings"
+import { History, LocationState } from "history"
+import {
+  ExternalProvider,
+  Provider,
+} from "Renderer/models/external-providers/external-providers.interface"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { ComponentProps } from "react"
 import {
   Contact,
   ContactID,
   NewContact,
   Store,
-} from "App/contacts/store/contacts.type"
-import { AuthProviders } from "Renderer/models/auth/auth.typings"
-import { History, LocationState } from "history"
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import { ComponentProps } from "react"
+} from "App/contacts/reducers/contacts.interface"
+import { PayloadAction } from "@reduxjs/toolkit"
 
 export interface ContactErrorResponse {
   status: DeviceResponseStatus
@@ -38,12 +42,21 @@ export type PhoneProps = ContactActions &
     onManageButtonClick: (cb?: any) => Promise<void>
     isThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
-    authorize: (provider: Provider) => Promise<string | undefined>
-    addNewContact: (contact: NewContact) => Promise<ContactErrorResponse | void>
-    importContact: (contact: NewContact) => Promise<string | void>
-    editContact: (contact: Contact) => Promise<string | void>
-    deleteContacts: (ids: ContactID[]) => Promise<string | void>
+    authorize: (
+      provider: ExternalProvider
+    ) => Promise<PayloadAction<Error | any>>
+    addNewContact: (
+      contact: NewContact
+    ) => Promise<PayloadAction<Error | undefined>>
+    importContact: (
+      contact: NewContact
+    ) => Promise<PayloadAction<Error | Contact>>
+    editContact: (contact: Contact) => Promise<PayloadAction<Error | undefined>>
+    deleteContacts: (
+      ids: ContactID[]
+    ) => Promise<PayloadAction<Error | undefined>>
     loadContacts: (provider: Provider) => Promise<Contact[]>
+    addNewContactsToState: (contacts: Contact[]) => Promise<void>
   } & Store
 
 export interface NewContactResponse extends NewContact {

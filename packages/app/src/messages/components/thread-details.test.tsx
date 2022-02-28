@@ -13,10 +13,8 @@ import {
   MessageType,
   Receiver,
   ReceiverIdentification,
-  ResultState,
 } from "App/messages/reducers/messages.interface"
-import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
@@ -65,7 +63,6 @@ const defaultProps: Props = {
   messages: messages,
   content: "",
   contactCreated: false,
-  resultState: ResultState.Loaded,
   onCheckClick: jest.fn(),
   onContentChange: jest.fn(),
   onLoadMessagesClick: jest.fn(),
@@ -133,31 +130,4 @@ test("Show info about contact with multiple numbers", () => {
   })
   expect(getByTestId("multiple-number")).toBeInTheDocument()
   expect(getByText("#2")).toBeInTheDocument()
-})
-
-test("Error text renders with retry button when thread won't load", () => {
-  const { getByTestId } = renderer({
-    resultState: ResultState.Error,
-  })
-
-  expect(getByTestId(ThreadDetailsTestIds.ErrorText)).toBeInTheDocument()
-  expect(getByTestId(ThreadDetailsTestIds.RetryButton)).toBeInTheDocument()
-})
-
-// TODO: Add loading state as part of pagination task CP-741
-test.skip("Loader renders when thread is loading", () => {
-  const { getByTestId } = renderer({
-    resultState: ResultState.Loading,
-  })
-  expect(getByTestId(ThreadDetailsTestIds.Loader)).toBeInTheDocument()
-})
-
-test("Retry button tries to load thread again after initial call", () => {
-  const onLoadMessagesClick = jest.fn()
-  const { getByTestId } = renderer({
-    resultState: ResultState.Error,
-    onLoadMessagesClick,
-  })
-  getByTestId(ThreadDetailsTestIds.RetryButton).click()
-  expect(onLoadMessagesClick).toBeCalled()
 })

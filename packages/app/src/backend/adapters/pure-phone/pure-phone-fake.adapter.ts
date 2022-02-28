@@ -7,9 +7,7 @@ import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.cla
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import { osVersion } from "App/main/default-app-configuration.json"
 import {
-  CaseColour,
   GetBackupDeviceStatusDataState,
   GetBackupDeviceStatusResponseBody,
   GetPhoneLockTimeResponseBody,
@@ -18,56 +16,9 @@ import {
   MuditaDevice,
   StartBackupResponseBody,
 } from "@mudita/pure"
-import {
-  DeviceFile,
-  DeviceFileDeprecated,
-} from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
-class PurePhoneFakeAdapter extends PurePhoneAdapter {
-  public getModelName(): string {
-    return "Ziemniaczek Puree"
-  }
-
-  public getModelNumber(): string {
-    return "Y0105W4GG1N5"
-  }
-
-  public getName(): string {
-    return "Mudita Pure"
-  }
-
-  public getOsUpdateDate(): string {
-    return "2020-01-14T11:31:08.244Z"
-  }
-
-  public async getOsVersion(): Promise<DeviceResponse<string>> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: osVersion,
-    }
-  }
-
-  public async getSerialNumber(): Promise<DeviceResponse<string>> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: "1UB13213MN14K1",
-    }
-  }
-
-  public async getCaseColour(): Promise<DeviceResponse<CaseColour>> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: CaseColour.Gray,
-    }
-  }
-
-  public async getBackupLocation(): Promise<DeviceResponse<string>> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: "path/to/directory",
-    }
-  }
-
+export class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public async disconnectDevice(): Promise<DeviceResponse> {
     return {
       status: DeviceResponseStatus.Ok,
@@ -101,9 +52,7 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async getDeviceLogFiles(): Promise<
-    DeviceResponse<DeviceFileDeprecated[]>
-  > {
+  public async getDeviceLogFiles(): Promise<DeviceResponse<DeviceFile[]>> {
     return {
       status: DeviceResponseStatus.Ok,
       data: [],
@@ -170,34 +119,6 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
         id: `<YYYY-MM-DD>T<HHMMSS>Z`,
         state: GetRestoreDeviceStatusDataState.Finished,
       },
-    }
-  }
-
-  public async downloadDeviceFile(): Promise<DeviceResponse<DeviceFile>> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: {
-        data: Buffer.from("backup data"),
-        name: `<YYYY-MM-DD>T<HHMMSS>Z`,
-      },
-    }
-  }
-
-  public async uploadDeviceFile(): Promise<DeviceResponse> {
-    return {
-      status: DeviceResponseStatus.Ok,
-    }
-  }
-
-  public async uploadDeviceFileLocally(): Promise<DeviceResponse> {
-    return {
-      status: DeviceResponseStatus.Ok,
-    }
-  }
-
-  public async removeDeviceFile(): Promise<DeviceResponse> {
-    return {
-      status: DeviceResponseStatus.Ok,
     }
   }
 }

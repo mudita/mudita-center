@@ -15,7 +15,7 @@ import {
 } from "Renderer/components/rest/animated-opacity/animated-opacity"
 import { AppSettings } from "App/main/store/settings.interface"
 import { Thread } from "App/messages/reducers/messages.interface"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import {
   AutoSizer,
   Index,
@@ -34,8 +34,8 @@ const Threads = styled(Table)<{
   noneRowsSelected?: boolean
 }>`
   min-width: 32rem;
-  --columnsTemplate: 11.2rem 60.5rem 1fr;
-  --columnsTemplateWithOpenedSidebar: 11.2rem 1fr;
+  --columnsTemplate: 10.4rem 60.5rem 1fr;
+  --columnsTemplateWithOpenedSidebar: 10.4rem 1fr;
   --columnsGap: 0;
 
   ${({ noneRowsSelected }) =>
@@ -102,7 +102,7 @@ const ThreadList: FunctionComponent<Props> = ({
 
       return (
         <ThreadRow
-          key={index}
+          key={phoneNumber}
           active={active}
           selected={selected}
           indeterminate={indeterminate}

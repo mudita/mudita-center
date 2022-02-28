@@ -13,7 +13,6 @@
     "lint:fix": "lerna run lint:fix",
     "lint:typecheck": "lerna run lint:typecheck",
     "test:coverage": "lerna run test:coverage --",
-    "test:e2e": "lerna run test:e2e",
     "prerelease": "npm run app:prerelease",
     "storybook:serve": "npm run app:storybook:serve --",
     "storybook:build": "npm run app:storybook:build --",
@@ -30,7 +29,6 @@
     "app:lint": "lerna run --scope @mudita/mudita-center-app lint",
     "app:lint:typecheck": "lerna run --scope @mudita/mudita-center-app lint:typecheck",
     "app:test:coverage": "lerna run --scope @mudita/mudita-center-app test:coverage",
-    "app:test:e2e": "lerna run --scope @mudita/mudita-center-app test:e2e",
     "app:prerelease": "lerna run --scope @mudita/mudita-center-app prerelease",
     "app:storybook:serve": "lerna run --scope @mudita/mudita-center-app storybook:serve",
     "app:storybook:build": "lerna run --scope @mudita/mudita-center-app storybook:build",
@@ -41,13 +39,9 @@
     "pure:lint:typecheck": "lerna run --scope @mudita/pure lint:typecheck",
     "pure:test:coverage": "lerna run --scope @mudita/pure test:coverage",
     "pure:command": "lerna run --scope @mudita/pure command --",
-    "DESIGN SYSTEM COMMANDS": "========================================================",
-    "design-system:prerelease": "lerna run --scope @mudita/mudita-center-design-system prerelease",
-    "CONTRACT TEST COMMANDS": "========================================================",
-    "contract:test": "lerna run --scope @mudita/contract-test test",
-    "contract:build": "lerna run --scope @mudita/contract-test build",
-    "contract:lint": "lerna run --scope @mudita/contract-test lint",
-    "contract:lint:typecheck": "lerna run --scope @mudita/contract-test lint:typecheck"
+    "E2E TEST COMMANDS": "========================================================",
+    "test:e2e": "lerna run --scope @mudita/mudita-center-e2e test --",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -65,16 +59,15 @@
   "devDependencies": {
     "@mudita/eslint-config": "1.0.14",
     "@types/react-syntax-highlighter": "^13.5.2",
-    "eslint-plugin-license-header": "^0.2.0",
-    "husky": "^4.3.8",
+    "eslint-plugin-license-header": "^0.4.0",
+    "husky": "^7.0.0",
     "lerna": "^4.0.0",
-    "lint-staged": "^10.5.4",
-    "prettier": "^2.3.2",
+    "lint-staged": "^12.3.3",
+    "prettier": "^2.5.1",
     "typescript": "^4.3.5"
   },
   "engines": {
     "node": "14.17.3",
     "npm": "6.14.13"
-  },
-  "dependencies": {}
+  }
 }

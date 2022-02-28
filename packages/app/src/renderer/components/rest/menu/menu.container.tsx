@@ -16,6 +16,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
     state.restoreDevice.state === RestoreDeviceDataState.Running ||
     state.restoreDevice.state === RestoreDeviceDataState.Error,
   devModeEnabled: state.devMode.enabled,
+  syncState: state.dataSync.state,
 })
 
 export default connect(mapStateToProps)(Menu)

@@ -7,17 +7,16 @@ import { DeviceType } from "@mudita/pure"
 import React, { ComponentProps, useEffect, useState } from "react"
 import logger from "App/main/utils/logger"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Release } from "App/main/functions/register-get-all-releases-listener"
+import { Release, getAllReleases, downloadOsUpdateRequest } from "App/update"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import {
+  TooLowBatteryModal,
   UpdatingForceModal,
   UpdatingSpinnerModal,
   UpdatingSuccessModal,
   UpdatingFailureWithHelpModal,
 } from "App/overview/components/overview.modal-dialogs"
-import getAllReleases from "Renderer/requests/get-all-releases.request"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
-import downloadOsUpdateRequest from "Renderer/requests/download-os-update.request"
 import { DownloadStatus } from "Renderer/interfaces/file-download.interface"
 import {
   ApplicationUpdateError,
@@ -27,6 +26,7 @@ import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-
 
 export enum UpdatingForceModalFlowState {
   Info = "Info",
+  TooLowBattery = "too-low-battery",
   Updating = "updating",
   Success = "success",
   Fail = "fail",
@@ -39,6 +39,7 @@ interface Props extends Omit<ComponentProps<typeof ModalDialog>, "open"> {
   onHelp: () => void
   updateOs: (fileName: string) => void
   deviceType: DeviceType
+  batteryLevel: number
 }
 
 const UpdatingForceModalFlow: FunctionComponent<Props> = ({
@@ -49,11 +50,13 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
   closeModal,
   updateOs,
   deviceType,
+  batteryLevel,
 }) => {
   const [updatingForceOpenState, setUpdatingForceOpenState] = useState<
     UpdatingForceModalFlowState | undefined
   >(state)
-
+  const minBattery = 40
+  const notEnoughBattery = Math.round(batteryLevel * 100) <= minBattery
   useEffect(() => {
     setUpdatingForceOpenState(state)
   }, [state])
@@ -65,6 +68,11 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
           ApplicationUpdateError.UnableReadOSVersion
         ]
       )
+      return
+    }
+
+    if (notEnoughBattery) {
+      setUpdatingForceOpenState(UpdatingForceModalFlowState.TooLowBattery)
       return
     }
 
@@ -112,7 +120,9 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
         : false
     } catch (error) {
       logger.error(
-        `Overview: force updating pure. Check that isNewestPureOsAvailable fails ${error.message}`
+        `Overview: force updating pure. Check that isNewestPureOsAvailable fails ${
+          (error as Error).message
+        }`
       )
       return false
     }
@@ -130,7 +140,7 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
     }
   }
 
-  const closeFailureModal = (): void => {
+  const backToInfoModal = (): void => {
     setUpdatingForceOpenState(UpdatingForceModalFlowState.Info)
   }
 
@@ -141,6 +151,14 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
         open={updatingForceOpenState === UpdatingForceModalFlowState.Info}
         onActionButtonClick={runUpdateProcess}
       />
+      <TooLowBatteryModal
+        testId={UpdatingForceModalFlowTestIds.UpdatingForceTooLowBatteryModal}
+        open={
+          updatingForceOpenState === UpdatingForceModalFlowState.TooLowBattery
+        }
+        onCancel={backToInfoModal}
+        deviceType={deviceType}
+      />
       <UpdatingSpinnerModal
         testId={UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal}
         open={updatingForceOpenState === UpdatingForceModalFlowState.Updating}
@@ -149,7 +167,7 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
         testId={UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal}
         onContact={onContact}
         onHelp={onHelp}
-        closeModal={closeFailureModal}
+        closeModal={backToInfoModal}
         open={updatingForceOpenState === UpdatingForceModalFlowState.Fail}
       />
       <UpdatingSuccessModal

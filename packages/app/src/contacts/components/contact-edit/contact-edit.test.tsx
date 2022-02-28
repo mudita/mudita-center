@@ -70,32 +70,6 @@ test("display top level validation error from props", async () => {
   })
 })
 
-describe("display too short number error ", () => {
-  test("for primary number", async () => {
-    const tooShotMessageError = "[value] component.formErrorTooShort"
-    const { getByTestId, getByText } = renderer()
-    const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
-
-    fireEvent.input(primaryNumber, { target: { value: "123" } })
-
-    await waitFor(() => {
-      expect(getByText(tooShotMessageError)).toBeInTheDocument()
-    })
-  })
-
-  test("for secondary number", async () => {
-    const tooShotMessageError = "[value] component.formErrorTooShort"
-    const { getByTestId, getByText } = renderer()
-    const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
-
-    fireEvent.input(secondaryNumber, { target: { value: "123" } })
-
-    await waitFor(() => {
-      expect(getByText(tooShotMessageError)).toBeInTheDocument()
-    })
-  })
-})
-
 describe("display too long number error", () => {
   test("for primary number", async () => {
     const tooLongMessageError = "[value] component.formErrorTooLong"
@@ -125,31 +99,34 @@ describe("display too long number error", () => {
 })
 
 describe("display invalid format error", () => {
-  test("for primary number", async () => {
-    const invalidFormatMessageError =
-      "[value] component.formErrorNumbersAndSpacesOnly"
-    const { getByTestId, getByText } = renderer()
-    const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
-
-    fireEvent.input(primaryNumber, { target: { value: "+-@.,-£§~`'" } })
-
-    await waitFor(() => {
-      expect(getByText(invalidFormatMessageError)).toBeInTheDocument()
-    })
-  })
-
-  test("for secondary number", async () => {
-    const invalidFormatMessageError =
-      "[value] component.formErrorNumbersAndSpacesOnly"
-    const { getByTestId, getByText } = renderer()
-    const secondaryNumber = getByTestId(ContactEditTestIdsEnum.SecondaryNumber)
-
-    fireEvent.input(secondaryNumber, { target: { value: "+-@.,-£§~`'" } })
-
-    await waitFor(() => {
-      expect(getByText(invalidFormatMessageError)).toBeInTheDocument()
-    })
-  })
+  test.each(["@", ",", "£", "§", "~", "`", "'"])(
+    "for primary number",
+    async (specialCharacter) => {
+      const invalidFormatMessageError =
+        "[value] component.formErrorNumbersAndSpacesOnly"
+      const { getByTestId, queryByText } = renderer()
+      const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
+      fireEvent.input(primaryNumber, { target: { value: specialCharacter } })
+      await waitFor(() => {
+        expect(queryByText(invalidFormatMessageError)).toBeInTheDocument()
+      })
+    }
+  )
+  test.each(["@", ",", "£", "§", "~", "`", "'"])(
+    "for secondary number",
+    async (specialCharacter) => {
+      const invalidFormatMessageError =
+        "[value] component.formErrorNumbersAndSpacesOnly"
+      const { getByTestId, queryByText } = renderer()
+      const secondaryNumber = getByTestId(
+        ContactEditTestIdsEnum.SecondaryNumber
+      )
+      fireEvent.input(secondaryNumber, { target: { value: specialCharacter } })
+      await waitFor(() => {
+        expect(queryByText(invalidFormatMessageError)).toBeInTheDocument()
+      })
+    }
+  )
 })
 
 test("Not display unique numbers error for empty numbers", async () => {
@@ -165,4 +142,33 @@ test("Not display unique numbers error for empty numbers", async () => {
   await waitFor(() => {
     expect(queryByText(uniqueNumberError)).not.toBeInTheDocument()
   })
+})
+
+describe("Not display error for phone number regexp match", () => {
+  const invalidFormatMessageError =
+    "[value] component.formErrorNumbersAndSpacesOnly"
+  test.each([" ", "(", ")", "+", "-", ".", "#"])(
+    "for primary number should pass as valid when password value contains %s",
+    async (specialCharacter) => {
+      const { getByTestId, queryByText } = renderer()
+      const primaryNumber = getByTestId(ContactEditTestIdsEnum.PrimaryNumber)
+      fireEvent.input(primaryNumber, { target: { value: specialCharacter } })
+      await waitFor(() => {
+        expect(queryByText(invalidFormatMessageError)).not.toBeInTheDocument()
+      })
+    }
+  )
+  test.each([" ", "(", ")", "+", "-", ".", "#"])(
+    "for secondary number should pass as valid when password value contains %s",
+    async (specialCharacter) => {
+      const { getByTestId, queryByText } = renderer()
+      const secondaryNumber = getByTestId(
+        ContactEditTestIdsEnum.SecondaryNumber
+      )
+      fireEvent.input(secondaryNumber, { target: { value: specialCharacter } })
+      await waitFor(() => {
+        expect(queryByText(invalidFormatMessageError)).not.toBeInTheDocument()
+      })
+    }
+  )
 })

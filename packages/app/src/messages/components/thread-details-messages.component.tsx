@@ -3,8 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, useEffect, useRef } from "react"
+import React, { ComponentProps, useRef } from "react"
 import moment from "moment"
+import ViewportList from "react-viewport-list";
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { MessageBubblesWrapper } from "App/messages/components/thread-details.styled"
 import MessageDayBubble from "App/messages/components/message-day-bubble.component"
@@ -23,45 +24,40 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   messages,
   receiver,
 }) => {
-  const ref = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.scrollIntoView()
-    }
-  }, [ref.current])
+  const ref = useRef(null);
 
   return (
-    <MessageBubblesWrapper>
-      {messages.map(({ messageType, date, content, id }, index) => {
-        const interlocutor = messageType === MessageType.INBOX
-        const user = interlocutor && receiver ? receiver : {}
-        const prevMessage = messages[index - 1]
-        const displayAvatar = prevMessage
-          ? prevMessage.messageType !== messageType
-          : true
-        const previousDateIsSame = prevMessage
-          ? moment(prevMessage.date).isSame(date, "day")
-          : false
-        const messageDayBubble: ComponentProps<typeof MessageDayBubble> = {
-          user,
-          id,
-          date,
-          interlocutor,
-          displayAvatar,
-          displayDate: previousDateIsSame,
-          message: content,
-        }
+    <MessageBubblesWrapper ref={ref}>
+      <ViewportList
+        viewportRef={ref}
+        items={messages}
+        itemMinSize={48}
+        initialIndex={messages.length - 1}
+      >
+        {(item, index) => {
+          const { messageType, date, content, id } = item
+          const interlocutor = messageType === MessageType.INBOX
+          const user = interlocutor && receiver ? receiver : {}
+          const prevMessage = messages[index - 1]
+          const displayAvatar = prevMessage
+            ? prevMessage.messageType !== messageType
+            : true
+          const previousDateIsSame = prevMessage
+            ? moment(prevMessage.date).isSame(date, "day")
+            : false
+          const messageDayBubble: ComponentProps<typeof MessageDayBubble> = {
+            user,
+            id,
+            date,
+            interlocutor,
+            displayAvatar,
+            displayDate: previousDateIsSame,
+            message: content,
+          }
 
-        if (index === messages.length - 1) {
-          return (
-            <div ref={ref} key={id}>
-              <MessageDayBubble {...messageDayBubble} />
-            </div>
-          )
-        } else {
           return <MessageDayBubble key={id} {...messageDayBubble} />
-        }
-      })}
+        }}
+      </ViewportList>
     </MessageBubblesWrapper>
   )
 }

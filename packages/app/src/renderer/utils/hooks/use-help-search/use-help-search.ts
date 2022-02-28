@@ -4,7 +4,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
+import { QuestionAndAnswer } from "App/help/components/help.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import debounce from "lodash/debounce"

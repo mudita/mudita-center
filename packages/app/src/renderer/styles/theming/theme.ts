@@ -3,15 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-const columnWidth = 6.5
-const gutterWidth = 4
+const columnWidth = 7.2
+const gutterWidth = 3.2
 
-const blue1 = "#3e6988"
+const blue1 = "#40749a"
 const blue2 = "#6d9bbc"
+const blue3 = "#aebec9"
 const blue4 = "#e3f3ff"
-const blue5 = "#f3f8fc"
-const blue6 = "#aebec9"
-const messageBlue = "#f2f7fa"
+const blue5 = "#f2f7fa"
 
 const black = "#000000"
 const dark = "#232426"
@@ -19,18 +18,14 @@ const grey1 = "#3b3f42"
 const grey2 = "#6a6a6a"
 const grey3 = "#a5a5a5"
 const grey4 = "#d2d6db"
-const grey5 = "#cdcecf"
-const grey6 = "#f4f5f6"
-const grey7 = "#fbfbfb"
-const grey8 = "#e9e9e9"
-const grey9 = "#e6e8eb"
-const grey10 = "rgba(0, 0, 0, 0.08)"
-const grey11 = "rgba(0, 0, 0, 0.3)"
-const transparentGrey1 = "rgba(188,188,188,0.5)"
-const transparentGrey2 = "rgba(214, 214, 214, 0.5)"
-const transparentBlue1 = "rgba(148,162,174,0.2)"
+const grey5 = "#f4f5f6"
+const grey6 = "#fbfbfb"
+const transparentBlack1 = "rgba(0, 0, 0, 0.05)"
+const transparentBlack2 = "rgba(0, 0, 0, 0.08)"
+const transparentBlack3 = "rgba(0, 0, 0, 0.3)"
 
-const red1 = "#e96a6a"
+const red = "#e96a6a"
+const green = "#dfefde"
 
 const white = "#ffffff"
 
@@ -41,52 +36,48 @@ const theme = {
       action: blue2,
       active: white,
       disabled: grey3,
-      error: red1,
-      iconHighlight: blue1,
+      error: red,
       primary: black,
       secondary: grey2,
       iconBody: white,
-      iconUser: blue6,
+      iconUser: blue3,
       tabHover: grey1,
+      seeAll: blue1,
     },
     background: {
       activity: blue2,
-      disabled: grey5,
+      disabled: grey4,
       icon: blue5,
-      main: grey7,
-      message: messageBlue,
-      minor: grey6,
-      minorHover: grey8,
+      main: grey6,
+      message: blue5,
+      minor: grey5,
       primary: grey1,
       primaryHover: dark,
-      secondaryHover: grey6,
+      secondaryHover: grey5,
       row: white,
       scroll: grey3,
       super: black,
       chartBar: blue4,
-      chartBarInactive: grey9,
-      chartAxisLine: transparentBlue1,
-      chartTooltip: white,
       modal: white,
-      modalBackdrop: grey11,
-      error: red1,
+      modalBackdrop: transparentBlack3,
+      error: red,
       lightIcon: white,
+      green: green,
     },
     border: {
-      error: red1,
+      error: red,
       hover: grey1,
       list: grey4,
       primary: black,
-      secondary: grey5,
-      separator: grey9,
+      secondary: grey4,
+      separator: grey4,
       smallSeparator: grey4,
       verticalSeparator: grey3,
-      tetheringSeparator: grey8,
+      tetheringSeparator: blue3,
     },
     boxShadow: {
-      full: grey10,
-      light: transparentGrey2,
-      semi: transparentGrey1,
+      full: transparentBlack2,
+      light: transparentBlack1,
     },
   },
   layout: {

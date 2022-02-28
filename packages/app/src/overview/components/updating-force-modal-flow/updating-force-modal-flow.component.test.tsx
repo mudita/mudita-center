@@ -14,10 +14,7 @@ import UpdatingForceModalFlow, {
 import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.component"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { ipcRenderer } from "electron-better-ipc"
-import {
-  GetAllReleasesEvents,
-  Release,
-} from "App/main/functions/register-get-all-releases-listener"
+import { Release, IpcUpdate } from "App/update"
 import { waitFor } from "@testing-library/dom"
 import { PureOsDownloadChannels } from "App/main/functions/register-pure-os-download-listener"
 import { DownloadStatus } from "Renderer/interfaces/file-download.interface"
@@ -31,6 +28,7 @@ const defaultProps: Props = {
   onContact: jest.fn(),
   onHelp: jest.fn(),
   updateOs: jest.fn(),
+  batteryLevel: 0.6,
 }
 
 const releases: Release[] = [
@@ -78,6 +76,9 @@ test("form renders properly", () => {
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingSuccessModal)
   ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceTooLowBatteryModal)
+  ).not.toBeInTheDocument()
 })
 
 test("failure modal is display after runUpdateProcess when osVersion is undefined", () => {
@@ -101,6 +102,9 @@ test("failure modal is display after runUpdateProcess when osVersion is undefine
   ).not.toBeInTheDocument()
   expect(
     queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceInfoModal)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceTooLowBatteryModal)
   ).not.toBeInTheDocument()
 })
 
@@ -131,7 +135,7 @@ test("Force modal is visible even fail modal was read ", () => {
 
 test("failure modal is display if no is latestRelease", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [GetAllReleasesEvents.Request]: [],
+    [IpcUpdate.GetAllReleases]: [],
   }
   const { getByTestId, queryByTestId } = render()
 
@@ -160,7 +164,7 @@ test("failure modal is display if no is latestRelease", async () => {
 
 test("failure modal is display if latestRelease isn't higher than os", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [GetAllReleasesEvents.Request]: releases,
+    [IpcUpdate.GetAllReleases]: releases,
   }
   const { getByTestId, queryByTestId } = render({
     osVersion: releases[0].version,
@@ -191,7 +195,7 @@ test("failure modal is display if latestRelease isn't higher than os", async () 
 
 test("failure modal is display if failure download os", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [GetAllReleasesEvents.Request]: [],
+    [IpcUpdate.GetAllReleases]: [],
     [PureOsDownloadChannels.start]: {
       status: DownloadStatus.Cancelled,
     },
@@ -258,4 +262,31 @@ test("onContact is called from the failure modal source", () => {
 
   getByTestId(ModalTestIds.CloseBottomButton).click()
   expect(onContact).toHaveBeenCalled()
+})
+
+test("TooLowBattery modal is display after runUpdateProcess when battery level is too low", () => {
+  const { getByTestId, queryByTestId } = render({ batteryLevel: 0.2 })
+
+  getByTestId(ModalTestIds.ModalActionButton).click()
+
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceTooLowBatteryModal)
+  ).toBeInTheDocument()
+  expect(
+    queryByTestId(
+      UpdatingForceModalFlowTestIds.UpdatingForceFailureWithHelpModal
+    )
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceFailureModal)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingSuccessModal)
+  ).not.toBeInTheDocument()
+  expect(
+    queryByTestId(UpdatingForceModalFlowTestIds.UpdatingForceInfoModal)
+  ).not.toBeInTheDocument()
 })

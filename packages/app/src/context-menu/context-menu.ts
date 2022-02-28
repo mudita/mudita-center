@@ -4,7 +4,7 @@
  */
 
 import * as electron from "electron"
-import { MenuItem } from "App/context-menu/context-menu.interface"
+import { ContextMenuItem } from "App/context-menu/context-menu.interface"
 import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 
 interface DevModeProps {
@@ -58,7 +58,7 @@ class ContextMenu {
   private readonly isDevModeEnabled?: () => boolean
   private readonly devModeToggler?: () => void
   private contextMenu = new electron.remote.Menu()
-  private customMenu: Record<string, MenuItem[]> = {}
+  private customMenu: Record<string, ContextMenuItem[]> = {}
 
   constructor(devMode?: DevModeProps) {
     this.isDevModeEnabled = devMode?.isEnabled
@@ -156,8 +156,8 @@ class ContextMenu {
     )
   }
 
-  public registerItem(mainLabel: string, menuItem: MenuItem): Function {
-    const newItem: MenuItem = {
+  public registerItem(mainLabel: string, menuItem: ContextMenuItem): Function {
+    const newItem: ContextMenuItem = {
       devModeOnly: true,
       ...menuItem,
     }
@@ -181,7 +181,10 @@ class ContextMenu {
     }
   }
 
-  public registerItems(mainLabel: string, menuItems: MenuItem[]): Function {
+  public registerItems(
+    mainLabel: string,
+    menuItems: ContextMenuItem[]
+  ): Function {
     const unregisterItemsFunctions = menuItems.map((item) =>
       this.registerItem(mainLabel, item)
     )

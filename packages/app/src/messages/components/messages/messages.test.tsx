@@ -19,7 +19,7 @@ import {
   ResultState,
   Thread,
 } from "App/messages/reducers/messages.interface"
-import { Contact } from "App/contacts/store/contacts.type"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
@@ -93,15 +93,13 @@ const defaultProps: Props = {
   language: "en",
   loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
   getReceiver: jest.fn().mockReturnValue(receiver),
-  loadContacts: jest.fn(),
-  loadThreadsTotalCount: jest.fn(),
   getContactByPhoneNumber: jest.fn(),
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
-  getMessagesByThreadId: jest.fn(),
   getMessagesStateByThreadId: jest.fn(),
   loadMessagesByThreadId: jest.fn(),
   isContactCreatedByPhoneNumber: jest.fn(),
+  getMessagesByThreadId: jest.fn().mockReturnValue([contact]),
   attachContactList: [],
   attachContactFlatList: [],
 }
@@ -112,6 +110,24 @@ const propsWithSingleThread: Partial<Props> = {
   threads: [firstThread],
   receivers: [receiver],
   attachContactFlatList: [contact],
+  loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
+  getReceiver: jest.fn().mockReturnValue(receiver),
+  getContactByPhoneNumber: jest.fn(),
+  addNewMessage: jest.fn(),
+  getContact: jest.fn(),
+  getMessagesStateByThreadId: jest.fn(),
+  loadMessagesByThreadId: jest.fn(),
+  isContactCreatedByPhoneNumber: jest.fn(),
+  getMessagesByThreadId: jest.fn().mockReturnValue([
+    {
+      content: "Test Message #1",
+      date: new Date("1970-01-01T00:06:31.000Z"),
+      id: "1",
+      messageType: "INBOX",
+      phoneNumber: "123 456 789",
+      threadId: "1",
+    },
+  ]),
 }
 
 type callback = (outcome: RenderResult) => void
@@ -358,7 +374,19 @@ describe("Messages component", () => {
     })
 
     test("choosing the receiver at form opens ThreadDetails component", async () => {
-      const { queryByTestId } = renderer(renderProps)
+      const { queryByTestId } = renderer({
+        ...renderProps,
+        getMessagesByThreadId: jest.fn().mockReturnValue([
+          {
+            content: "Test Message #1",
+            date: new Date("1970-01-01T00:06:31.000Z"),
+            id: "1",
+            messageType: "INBOX",
+            phoneNumber: "123 456 789",
+            threadId: "1",
+          },
+        ]),
+      })
       const input = queryByTestId(
         ReceiverInputSelectTestIds.Input
       ) as HTMLInputElement
@@ -589,9 +617,10 @@ describe("Messages component", () => {
   test("dropdown contact details button has correct content", () => {
     const getContactByPhoneNumber = jest.fn().mockReturnValue(contact)
     const { getAllByTestId } = renderer({
-      getContactByPhoneNumber,
       ...propsWithSingleThread,
+      getContactByPhoneNumber,
     })
+
     expect(getAllByTestId("dropdown-contact-details")[0]).toHaveTextContent(
       intl.formatMessage({
         id: "module.messages.dropdownContactDetails",
@@ -602,8 +631,9 @@ describe("Messages component", () => {
   test("displays correct amount of dropdown contact details buttons for contacts", () => {
     const getContactByPhoneNumber = jest.fn().mockReturnValue(contact)
     const { getByTestId } = renderer({
-      getContactByPhoneNumber,
       ...propsWithSingleThread,
+      getContactByPhoneNumber,
+      getMessagesByThreadId: jest.fn(),
     })
     expect(getByTestId("dropdown-contact-details")).toBeInTheDocument()
   })

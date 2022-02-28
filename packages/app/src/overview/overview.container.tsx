@@ -25,6 +25,8 @@ import {
   startRestoreDevice,
   StartRestoreOption,
 } from "App/restore-device/actions"
+import { ModalStateKey, showModal } from "App/modals-manager"
+import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
@@ -32,7 +34,6 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     deviceType: state.device.deviceType,
     batteryLevel: state.device.data?.batteryLevel,
     osVersion: state.device.data?.osVersion,
-    osUpdateDate: state.device.data?.osUpdateDate,
     memorySpace: state.device.data?.memorySpace,
     serialNumber: state.device.data?.serialNumber,
     simCards: (state.device.data as PureDeviceData)?.simCards,
@@ -45,6 +46,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     ...state.phoneUpdate,
     ...state.settings,
     ...state.devMode,
+    syncState: state.dataSync.state,
   }
 }
 
@@ -63,9 +65,12 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   readRestoreDeviceDataState: () => dispatch(readRestoreDeviceDataState()),
   startRestoreDevice: (option: StartRestoreOption) =>
     dispatch(startRestoreDevice(option)),
+  openContactSupportFlow: () =>
+    dispatch(showModal(ModalStateKey.ContactSupportFlow)),
   // TODO refactor legacy staff
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
     dispatch.phoneUpdate.update(updateInfo),
+  updateAllIndexes: () => dispatch(updateAllIndexes()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview)

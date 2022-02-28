@@ -10,7 +10,6 @@ import {
   SidebarProps,
 } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { Contact } from "App/contacts/store/contacts.type"
 import Icon from "Renderer/components/core/icon/icon.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
@@ -31,6 +30,7 @@ import {
 } from "App/contacts/components/contact-details/contact-details.styled"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 import { flags, Feature } from "App/feature-flags"
+import { Contact } from "App/contacts/reducers/contacts.interface"
 
 const messages = defineMessages({
   favourites: { id: "module.contacts.favourites" },

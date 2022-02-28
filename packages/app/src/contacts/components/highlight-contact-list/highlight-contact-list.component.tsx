@@ -3,12 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Contact } from "App/contacts/store/contacts.type"
-import { ContactCategory } from "App/contacts/store/contacts.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import React, { useEffect, useRef } from "react"
 import { HighLightContactListWrapper } from "App/contacts/components/highlight-contact-list/highlight-contact-list.styled"
+import {
+  Contact,
+  ContactCategory,
+} from "App/contacts/reducers/contacts.interface"
 
 interface Props {
   contactList: ContactCategory[]

@@ -60,12 +60,14 @@ const NewMessageForm: FunctionComponent<Props> = ({
     setSearchValue(value)
   }
 
-  const handleTextAreaChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleTextAreaChange = (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ): void => {
     onContentChange(event.target.value)
   }
 
   const handleSendClick = (): void => {
-    if (searchValue.match(phoneNumberRegexp)) {
+    if (searchValue.match(phoneNumberRegexp) && searchValue.length > 0) {
       onSendClick(searchValue)
     }
   }

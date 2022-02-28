@@ -21,6 +21,7 @@ storiesOf("Components|Rest/Sync Contacts Modal", module)
           onOutlookButtonClick={noop}
           onGoogleButtonClick={noop}
           onManualImportClick={action("Import")}
+          open
         />
       </StoryModalWrapper>
     </Story>
@@ -29,12 +30,12 @@ storiesOf("Components|Rest/Sync Contacts Modal", module)
     <StoryContainer>
       <Story transparentMode title="Importing in progress">
         <StoryModalWrapper>
-          <ImportingContactsModal count={15} total={50} />
+          <ImportingContactsModal open count={15} total={50} />
         </StoryModalWrapper>
       </Story>
       <Story transparentMode title="Importing finished">
         <StoryModalWrapper>
-          <ImportingContactsModal count={50} total={50} />
+          <ImportingContactsModal open count={50} total={50} />
         </StoryModalWrapper>
       </Story>
     </StoryContainer>

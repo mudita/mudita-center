@@ -25,7 +25,6 @@ import styled from "styled-components"
 import Text from "Renderer/components/core/text/text.component"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import { AppUpdateNotAvailable } from "Renderer/wrappers/app-update-step-modal/app-update.modals"
-import { flags, Feature } from "App/feature-flags"
 
 const AvailableUpdate = styled(Text)`
   margin-top: 0.8rem;
@@ -56,78 +55,76 @@ const ActionContainer = styled.div`
   margin-right: 3rem;
 `
 
-interface AboutProps {
+interface Props {
   openLicense: () => void
   openTermsOfService: () => void
   openPrivacyPolicy: () => void
   appLatestVersion?: string
   appCurrentVersion?: string
   appUpdateAvailable?: boolean
-  click: () => void
-  closeUpToDateModal: () => void
-  appUpdateStepModalShow?: boolean
+  appUpdateNotAvailableShow?: boolean
+  onAppUpdateAvailableCheck: () => void
+  hideAppUpdateNotAvailable: () => void
 }
 
-const AboutUI: FunctionComponent<AboutProps> = ({
+const AboutUI: FunctionComponent<Props> = ({
   openLicense,
   openTermsOfService,
   openPrivacyPolicy,
   appLatestVersion = "",
   appCurrentVersion,
+  appUpdateNotAvailableShow = false,
   appUpdateAvailable,
-  click,
-  appUpdateStepModalShow = false,
-  closeUpToDateModal,
+  onAppUpdateAvailableCheck,
+  hideAppUpdateNotAvailable,
 }) => (
   <>
     <AppUpdateNotAvailable
       appCurrentVersion={appCurrentVersion}
-      closeModal={closeUpToDateModal}
-      open={appUpdateStepModalShow && !appUpdateAvailable}
+      open={appUpdateNotAvailableShow}
+      closeModal={hideAppUpdateNotAvailable}
     />
     <SettingsWrapper data-testid={AboutTestIds.Wrapper}>
-      {flags.get(Feature.MCVersion) && (
-        <VersionTableRow>
-          <Data>
-            <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+      <VersionTableRow>
+        <Data>
+          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+            <FormattedMessage
+              id="module.settings.aboutInstalledVersion"
+              values={{ version: appCurrentVersion }}
+            />
+          </SettingsLabel>
+        </Data>
+        {appUpdateAvailable ? (
+          <ActionContainer>
+            <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
               <FormattedMessage
-                id="module.settings.aboutInstalledVersion"
-                values={{ version: appCurrentVersion }}
+                id="module.settings.aboutAvailableVersion"
+                values={{ version: appLatestVersion }}
               />
-            </SettingsLabel>
-          </Data>
-          {appUpdateAvailable ? (
-            <ActionContainer>
-              <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
-                <FormattedMessage
-                  id="module.settings.aboutAvailableVersion"
-                  values={{ version: appLatestVersion }}
-                />
-              </AvailableUpdate>
-              <ButtonComponent
-                labelMessage={{
-                  id: "module.settings.aboutAppUpdateAction",
-                }}
-                onClick={click}
-                data-testid={AboutTestIds.UpdateButton}
-              />
-            </ActionContainer>
-          ) : (
-            <ActionContainer>
-              <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
-                <FormattedMessage id="module.overview.systemUpdateUpToDate" />
-              </AvailableUpdate>
-              <ButtonComponent
-                labelMessage={{
-                  id: "module.overview.systemCheckForUpdates",
-                }}
-                data-testid={AboutTestIds.UpdateButton}
-                onClick={click}
-              />
-            </ActionContainer>
-          )}
-        </VersionTableRow>
-      )}
+            </AvailableUpdate>
+            <ButtonComponent
+              labelMessage={{
+                id: "module.settings.aboutAppUpdateAction",
+              }}
+              onClick={onAppUpdateAvailableCheck}
+              data-testid={AboutTestIds.UpdateButton}
+            />
+          </ActionContainer>
+        ) : (
+          <ActionContainer>
+            <AvailableUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
+              <FormattedMessage id="module.overview.systemUpdateUpToDate" />
+            </AvailableUpdate>
+            <ButtonComponent
+              labelMessage={{
+                id: "module.overview.systemCheckForUpdates",
+              }}
+              data-testid={AboutTestIds.UpdateButton}
+              onClick={onAppUpdateAvailableCheck}
+            />
+          </ActionContainer>
+        )}
+      </VersionTableRow>
       <SettingsTableRow>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>

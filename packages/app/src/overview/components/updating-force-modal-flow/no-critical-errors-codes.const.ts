@@ -3,9 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { deviceUpdateErrorCodeMap as muditaDeviceUpdateErrorCodeMap } from "@mudita/pure"
-import { deviceUpdateErrorCodeMap } from "Backend/adapters/pure-phone/pure-phone.adapter"
-
 export enum ApplicationUpdateError {
   UnableReadOSVersion = "UnableReadOSVersion",
   FetchReleaseFromGithub = "FetchReleaseFromGithub",
@@ -19,10 +16,4 @@ export const ApplicationUpdateErrorCodeMap: Record<
   [ApplicationUpdateError.UnableReadOSVersion]: 9800,
   [ApplicationUpdateError.FetchReleaseFromGithub]: 9801,
   [ApplicationUpdateError.DownloadOS]: 9802,
-}
-
-export const errorCodeMap = {
-  ...muditaDeviceUpdateErrorCodeMap,
-  ...deviceUpdateErrorCodeMap,
-  ...ApplicationUpdateErrorCodeMap,
 }

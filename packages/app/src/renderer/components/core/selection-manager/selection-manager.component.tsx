@@ -29,7 +29,7 @@ const Buttons = styled.div`
 
   button {
     &:hover {
-      background-color: ${backgroundColor("minorHover")};
+      background-color: ${backgroundColor("minor")};
     }
   }
 `

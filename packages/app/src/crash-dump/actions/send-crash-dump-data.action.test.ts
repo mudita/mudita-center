@@ -7,25 +7,38 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "Renderer/store/helpers"
-import { uploadFileRequest } from "App/uploader"
-import readFile from "App/file-system/requests/read-file.request"
+import mockCreateFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
+import createFile from "Renderer/utils/create-file/create-file"
 import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.action"
 import { SendingCrashDumpError } from "App/crash-dump/errors"
 import { DeviceConnectionError } from "App/device"
 import { testError } from "App/renderer/store/constants"
+import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
+import archiveFiles from "Renderer/requests/archive-files.request"
 
 const crashDumpsMock: string[] = ["/pure/logs/crash-dumps/file.hex"]
 
-jest.mock("App/uploader")
+const muditaOSLogs = new File([""], "MuditaOS.log", { type: "text/html" })
+const logsFiles: File[] = [muditaOSLogs]
+
+jest.mock("Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket")
 jest.mock("App/device-file-system", () => ({
   removeFile: jest.fn().mockReturnValue({
     type: pendingAction("DEVICE_FILE_SYSTEM_REMOVE"),
     payload: crashDumpsMock,
   }),
 }))
-jest.mock("App/file-system/requests/read-file.request")
+jest.mock("Renderer/utils/create-file/create-file")
+jest.mock("App/contact-support/helpers/downloading-logs", () => ({
+  downloadingLogs: jest.fn().mockReturnValue(logsFiles),
+}))
+jest.mock("Renderer/requests/archive-files.request")
 
-describe("Crash dumps doesn't downloaded", () => {
+afterEach(() => {
+  jest.clearAllMocks()
+})
+
+describe("when Crash dumps doesn't downloaded", () => {
   test("fire async `sendCrashDumpData` returns `undefined`", async () => {
     const mockStore = createMockStore([thunk])({
       crashDump: {
@@ -44,12 +57,12 @@ describe("Crash dumps doesn't downloaded", () => {
       sendCrashDumpData.fulfilled(undefined, requestId),
     ])
 
-    expect(readFile).not.toHaveBeenCalled()
+    expect(createFile).not.toHaveBeenCalled()
   })
 })
 
-describe("Crash dumps downloaded", () => {
-  test("fire async `sendCrashDumpData` action and execute `rejected` event is serialNumber is equal to undefined", async () => {
+describe("when Crash dumps downloaded", () => {
+  test("fire async `sendCrashDumpData` action and execute `rejected` event if serialNumber is equal to undefined", async () => {
     const mockStore = createMockStore([thunk])({
       device: {
         data: {
@@ -62,7 +75,6 @@ describe("Crash dumps downloaded", () => {
         },
       },
     })
-
     const errorMock = new DeviceConnectionError("Device isn't connected")
 
     const {
@@ -74,12 +86,18 @@ describe("Crash dumps downloaded", () => {
       sendCrashDumpData.rejected(testError, requestId, undefined, errorMock),
     ])
 
-    expect(readFile).not.toHaveBeenCalled()
-    expect(uploadFileRequest).not.toHaveBeenCalled()
+    expect(createFile).not.toHaveBeenCalled()
+    expect(createFreshdeskTicket).not.toHaveBeenCalled()
   })
 
   test("fire async `sendCrashDumpData` triggers sending process", async () => {
-    ;(readFile as jest.Mock).mockReturnValue(new Buffer("hello world"))
+    ;(createFile as jest.Mock).mockReturnValue(
+      new File([new Buffer("hello world")], "hello.world")
+    )
+    ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from("hello world"))
+    ;(createFreshdeskTicket as jest.Mock).mockImplementation((data) =>
+      mockCreateFreshdeskTicket(data)
+    )
 
     const mockStore = createMockStore([thunk])({
       device: {
@@ -112,15 +130,18 @@ describe("Crash dumps downloaded", () => {
       sendCrashDumpData.fulfilled(undefined, requestId),
     ])
 
-    expect(readFile).toHaveBeenCalledWith(crashDumpsMock[0])
-    expect(uploadFileRequest).toHaveBeenCalled()
+    expect(createFile).toHaveBeenCalledWith(crashDumpsMock[0])
+    expect(createFreshdeskTicket).toHaveBeenCalled()
   })
 })
 
-describe("Upload Data To FTP Request returns `error` status", () => {
+describe("when `createFreshdeskTicket` returns `error` status", () => {
   test("fire async `sendCrashDumpData` action and execute `rejected` event", async () => {
-    ;(readFile as jest.Mock).mockReturnValue(new Buffer("hello world"))
-    ;(uploadFileRequest as jest.Mock).mockRejectedValue(new Error("Some error"))
+    ;(createFile as jest.Mock).mockReturnValue(
+      new File([new Buffer("hello world")], "hello.world")
+    )
+    ;(archiveFiles as jest.Mock).mockReturnValue(Buffer.from(""))
+    ;(createFreshdeskTicket as jest.Mock).mockReturnValue(Promise.reject())
 
     const mockStore = createMockStore([thunk])({
       device: {
@@ -147,12 +168,14 @@ describe("Upload Data To FTP Request returns `error` status", () => {
       sendCrashDumpData.pending(requestId),
       sendCrashDumpData.rejected(testError, requestId, undefined, errorMock),
     ])
+    expect(createFile).toHaveBeenCalled()
+    expect(createFreshdeskTicket).toHaveBeenCalled()
   })
 })
 
-describe("Create Freshdesk Ticket returns `error` status", () => {
-  test("fire async `sendCrashDumpData` action and execute `rejected` event", async () => {
-    ;(readFile as jest.Mock).mockReturnValue(new Buffer("hello world"))
+describe("when logs downloaded", () => {
+  test("fire async `sendCrashDumpData` action and execute `rejected` event if archive files buffer is equal to undefined", async () => {
+    ;(archiveFiles as jest.Mock).mockReturnValue(undefined)
 
     const mockStore = createMockStore([thunk])({
       device: {
@@ -169,8 +192,9 @@ describe("Create Freshdesk Ticket returns `error` status", () => {
     })
 
     const errorMock = new SendingCrashDumpError(
-      "The error happened during crash dump sending process"
+      "Create Crash Dump Ticket - ArchiveFiles error"
     )
+
     const {
       meta: { requestId },
     } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
@@ -179,5 +203,8 @@ describe("Create Freshdesk Ticket returns `error` status", () => {
       sendCrashDumpData.pending(requestId),
       sendCrashDumpData.rejected(testError, requestId, undefined, errorMock),
     ])
+
+    expect(createFile).not.toHaveBeenCalled()
+    expect(createFreshdeskTicket).not.toHaveBeenCalled()
   })
 })

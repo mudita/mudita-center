@@ -10,13 +10,14 @@ import Connecting from "App/connecting/components/connecting.component"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
 import { PasscodeModalTestIds } from "App/passcode-modal/passcode-modal-test-ids.enum"
+import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
+import { SynchronizationState } from "App/data-sync/reducers"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")
 
 type Props = ComponentProps<typeof Connecting>
 
 const defaultProps: Props = {
-  initialModalsShowed: false,
   loaded: false,
   unlocked: null,
   phoneLockTime: undefined,
@@ -26,6 +27,10 @@ const defaultProps: Props = {
   unlockDevice: jest.fn().mockReturnValue({
     payload: DeviceResponseStatus.Ok,
   }),
+  noModalsVisible: true,
+  syncInitialized: false,
+  syncState: SynchronizationState.Empty,
+  updateAllIndexes: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -63,6 +68,13 @@ describe("`BackupDeviceFlow` component", () => {
       ).not.toBeInTheDocument()
     })
 
+    test("`ErrorSyncModal` component isn't displayed ", () => {
+      const { queryByTestId } = render()
+      expect(
+        queryByTestId(ErrorSyncModalTestIds.Container)
+      ).not.toBeInTheDocument()
+    })
+
     test("`ErrorConnectingModal` is displayed if timeout pass ", () => {
       const { queryByTestId } = render()
       act(() => {
@@ -74,9 +86,9 @@ describe("`BackupDeviceFlow` component", () => {
     })
   })
 
-  describe("when `initialModalsShowed` is set to true", () => {
+  describe("when `noModalsVisible` is set to `false`", () => {
     const extraProps: Partial<Props> = {
-      initialModalsShowed: true,
+      noModalsVisible: false,
     }
     test("`PasscodeLocked` component isn't displayed ", () => {
       const { queryByTestId } = render(extraProps)
@@ -86,21 +98,30 @@ describe("`BackupDeviceFlow` component", () => {
     })
   })
 
-  describe("when `initialModalsShowed` is set to true and unlocked to `false`", () => {
+  describe("when `noModalsVisible` is set to `false` and unlocked to `false`", () => {
     const extraProps: Partial<Props> = {
-      initialModalsShowed: true,
+      noModalsVisible: false,
       unlocked: false,
     }
 
-    test("`PasscodeLocked` component is displayed ", () => {
+    test("`PasscodeLocked` component isn't displayed ", () => {
       const { queryByTestId } = render(extraProps)
-      expect(queryByTestId(PasscodeModalTestIds.Container)).toBeInTheDocument()
+      expect(
+        queryByTestId(PasscodeModalTestIds.Container)
+      ).not.toBeInTheDocument()
     })
 
     test("`ErrorConnectingModal` component isn't displayed ", () => {
       const { queryByTestId } = render(extraProps)
       expect(
         queryByTestId(ErrorConnectingModalTestIds.Container)
+      ).not.toBeInTheDocument()
+    })
+
+    test("`ErrorSyncModal` component isn't displayed ", () => {
+      const { queryByTestId } = render(extraProps)
+      expect(
+        queryByTestId(ErrorSyncModalTestIds.Container)
       ).not.toBeInTheDocument()
     })
 
@@ -112,6 +133,32 @@ describe("`BackupDeviceFlow` component", () => {
       expect(
         queryByTestId(ErrorConnectingModalTestIds.Container)
       ).not.toBeInTheDocument()
+    })
+  })
+
+  describe("when `syncInitialized` is set to `true` and `syncState` is set to Error", () => {
+    const extraProps: Partial<Props> = {
+      unlocked: true,
+      syncState: SynchronizationState.Error,
+    }
+
+    test("`PasscodeLocked` component isn't displayed ", () => {
+      const { queryByTestId } = render(extraProps)
+      expect(
+        queryByTestId(PasscodeModalTestIds.Container)
+      ).not.toBeInTheDocument()
+    })
+
+    test("`ErrorConnectingModal` component isn't displayed ", () => {
+      const { queryByTestId } = render(extraProps)
+      expect(
+        queryByTestId(ErrorConnectingModalTestIds.Container)
+      ).not.toBeInTheDocument()
+    })
+
+    test("`ErrorSyncModal` component is displayed ", () => {
+      const { queryByTestId } = render(extraProps)
+      expect(queryByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
     })
   })
 })

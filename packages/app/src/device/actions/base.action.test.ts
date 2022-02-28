@@ -26,7 +26,6 @@ const mockStore = createMockStore([thunk])()
 const pureDeviceMock: PureDeviceData = {
   networkName: "Network",
   networkLevel: "5",
-  osUpdateDate: "2020-01-14T11:31:08.244Z",
   osVersion: "0.75.1",
   batteryLevel: 0.99,
   simCards: [
@@ -43,13 +42,13 @@ const pureDeviceMock: PureDeviceData = {
   memorySpace: {
     free: 124,
     full: 1021,
+    total: 16000000000,
   },
   caseColour: CaseColour.Gray,
   backupLocation: "path/to/directory",
 }
 
 const harmonyDeviceMock: HarmonyDeviceData = {
-  osUpdateDate: "2020-01-14T11:31:08.244Z",
   osVersion: "0.75.1",
   batteryLevel: 0.99,
   serialNumber: "303",
@@ -60,7 +59,6 @@ const harmonyDeviceMock: HarmonyDeviceData = {
 }
 
 const osVersionMock: OsVersionPayload = {
-  osUpdateDate: "2021-01-14T11:31:08.244Z",
   osVersion: "7.7.7",
 }
 

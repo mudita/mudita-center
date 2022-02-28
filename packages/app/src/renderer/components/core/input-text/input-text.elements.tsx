@@ -262,6 +262,13 @@ const InputWrapper = styled.label<InputWrapperProps>`
       margin-left: 0.4rem;
     }
   }
+  ${InputLabel} {
+    ${({ error }) =>
+      error &&
+      css`
+        color: ${textColor("error")};
+      `};
+  }
 
   ${({ initialTransparentBorder }) =>
     initialTransparentBorder &&

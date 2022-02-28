@@ -6,33 +6,18 @@
 import {
   GetPhoneLockTimeResponseBody,
   MuditaDevice,
-  CaseColour,
-  StartBackupResponseBody,
-  GetBackupDeviceStatusResponseBody,
-  GetBackupDeviceStatusRequestConfigBody,
   StartRestoreRequestConfigBody,
   GetRestoreDeviceStatusRequestConfigBody,
   GetRestoreDeviceStatusResponseBody,
 } from "@mudita/pure"
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import {
-  DeviceFileDeprecated,
-  DeviceFile,
-  UploadFileLocallyPayload,
-  UploadFilePayload,
-} from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export interface DeviceFilesOption {
   datePrefix?: boolean
 }
 
 export default abstract class PurePhoneAdapter {
-  public abstract getName(): string
-  public abstract getModelName(): string
-  public abstract getModelNumber(): string
-  public abstract getSerialNumber(): Promise<DeviceResponse<string>>
-  public abstract getOsVersion(): Promise<DeviceResponse<string>>
-  public abstract getOsUpdateDate(): string
   public abstract disconnectDevice(): Promise<DeviceResponse>
   public abstract connectDevice(): Promise<DeviceResponse<MuditaDevice>>
   public abstract unlockDevice(code: string): Promise<DeviceResponse>
@@ -42,40 +27,18 @@ export default abstract class PurePhoneAdapter {
   >
   public abstract getDeviceLogFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFileDeprecated[]>>
+  ): Promise<DeviceResponse<DeviceFile[]>>
   public abstract getDeviceCrashDumpFiles(
     option?: DeviceFilesOption
   ): Promise<DeviceResponse<string[]>>
   public abstract downloadDeviceCrashDumpFiles(): Promise<
     DeviceResponse<string[]>
   >
-  public abstract updateOs(
-    filePath: string,
-    progressChannel?: string
-  ): Promise<DeviceResponse>
-  public abstract getCaseColour(): Promise<DeviceResponse<CaseColour>>
-  public abstract getBackupLocation(): Promise<DeviceResponse<string>>
-  public abstract startBackupDevice(): Promise<
-    DeviceResponse<StartBackupResponseBody>
-  >
-  public abstract getBackupDeviceStatus(
-    config: GetBackupDeviceStatusRequestConfigBody
-  ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>>
+  public abstract updateOs(filePath: string): Promise<DeviceResponse>
   public abstract startRestoreDevice(
     config: StartRestoreRequestConfigBody
   ): Promise<DeviceResponse>
   public abstract getRestoreDeviceStatus(
     config: GetRestoreDeviceStatusRequestConfigBody
   ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>>
-  //TODO: move to a separate adapter
-  public abstract downloadDeviceFile(
-    filePath: string
-  ): Promise<DeviceResponse<DeviceFile>>
-  public abstract uploadDeviceFile(
-    payload: UploadFilePayload
-  ): Promise<DeviceResponse>
-  public abstract uploadDeviceFileLocally(
-    payload: UploadFileLocallyPayload
-  ): Promise<DeviceResponse>
-  public abstract removeDeviceFile(removeFile: string): Promise<DeviceResponse>
 }

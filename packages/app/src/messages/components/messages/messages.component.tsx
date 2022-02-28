@@ -28,8 +28,10 @@ import { useHistory } from "react-router-dom"
 import createRouterPath from "Renderer/utils/create-router-path"
 import { URL_MAIN } from "Renderer/constants/urls"
 import AttachContactModal from "App/messages/components/attach-contact-modal.component"
-import { Contact } from "App/contacts/store/contacts.type"
-import { ContactCategory } from "App/contacts/store/contacts.interface"
+import {
+  Contact,
+  ContactCategory,
+} from "App/contacts/reducers/contacts.interface"
 import {
   Message,
   NewMessage,
@@ -82,8 +84,6 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   loadThreads: (
     pagination: PaginationBody
   ) => Promise<PayloadAction<PaginationBody | undefined>>
-  loadThreadsTotalCount: () => Promise<void>
-  loadContacts: () => Promise<void>
   getMessagesByThreadId: (threadId: string) => Message[]
   getContact: (contactId: string) => Contact | undefined
   getReceiver: (phoneNumber: string) => Receiver
@@ -98,8 +98,6 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
 
 const Messages: FunctionComponent<Props> = ({
   loadThreads,
-  loadThreadsTotalCount,
-  loadContacts,
   threadsTotalCount,
   threadsState,
   receivers,
@@ -114,12 +112,11 @@ const Messages: FunctionComponent<Props> = ({
   attachContactList,
   attachContactFlatList,
   loadMessagesByThreadId,
-  getMessagesStateByThreadId,
   getContactByPhoneNumber,
   isContactCreatedByPhoneNumber,
   addNewMessage,
 }) => {
-  const [threadsPaginationOffset, setThreadsPaginationOffset] = useState<
+  const [_, setThreadsPaginationOffset] = useState<
     PaginationBody["offset"] | undefined
   >(0)
 
@@ -130,34 +127,11 @@ const Messages: FunctionComponent<Props> = ({
     })
   }
 
-  const loadThreadsRequest = async () => {
-    if (threadsPaginationOffset === undefined) {
-      return
-    }
-
-    const response = await loadThreads({
-      offset: threadsPaginationOffset,
-      limit: threadsPaginationLimit,
-    })
-
-    setThreadsPaginationOffset(response.payload?.offset)
-  }
-
   useEffect(() => {
-    if(threadsTotalCount === 0) {
+    if (threadsTotalCount === 0) {
       setThreadsPaginationOffset(0)
     }
   }, [threadsTotalCount])
-
-  const fetchData = async () => {
-    await loadThreadsTotalCount()
-    await loadContacts()
-    await loadThreadsRequest()
-  }
-
-  useEffect(() => {
-    void fetchData()
-  }, [])
 
   const [messagesState, setMessagesState] = useState(MessagesState.List)
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
@@ -400,8 +374,17 @@ const Messages: FunctionComponent<Props> = ({
         phoneNumber: activeThread.phoneNumber,
         identification: ReceiverIdentification.unknown,
       }
+    }
+
+    const receiver = getReceiver(activeThread.phoneNumber)
+
+    if (receiver === undefined) {
+      return {
+        phoneNumber: "",
+        identification: ReceiverIdentification.unknown,
+      }
     } else {
-      return getReceiver(activeThread.phoneNumber)
+      return receiver
     }
   }
 
@@ -425,7 +408,6 @@ const Messages: FunctionComponent<Props> = ({
       if (startIndex > threads.length || threadsState === ResultState.Loading) {
         return resolve()
       }
-      loadThreadsRequest()
       return resolve()
     })
   }
@@ -470,7 +452,6 @@ const Messages: FunctionComponent<Props> = ({
             content={content}
             receiver={getViewReceiver(activeThread)}
             messages={getMessagesByThreadId(activeThread.id)}
-            resultState={getMessagesStateByThreadId(activeThread.id)}
             contactCreated={isContactCreatedByPhoneNumber(
               activeThread.phoneNumber
             )}

@@ -14,7 +14,6 @@ import {
 import { ipcMain } from "electron-better-ipc"
 import * as path from "path"
 import * as url from "url"
-import registerGetAllReleasesListener from "App/main/functions/register-get-all-releases-listener"
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
@@ -25,14 +24,14 @@ import registerCopyFileListener from "App/main/functions/register-copy-file-list
 import registerWriteGzipListener from "App/main/functions/register-write-gzip-listener"
 import registerRmdirListener from "App/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/main/functions/register-archive-files-listener"
-import registerReadFileListener from "App/file-system/listeners/read-file-listener"
+import registerReadFileListener from "App/file-system/listeners/read-file.listener"
 import registerGetApplicationConfigurationListener from "App/main/functions/register-get-application-configuration-listener"
 import registerGetFileDataListener from "App/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
-import registerEncryptFileListener from "App/file-system/listeners/encrypt-file-listener"
-import registerDecryptFileListener from "App/file-system/listeners/decrypt-file-listener"
-import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
+import registerEncryptFileListener from "App/file-system/listeners/encrypt-file.listener"
+import registerDecryptFileListener from "App/file-system/listeners/decrypt-file.listener"
+import registerUnlinkFileListener from "App/file-system/listeners/unlink-file.listener"
 import {
   registerDownloadHelpHandler,
   removeDownloadHelpHandler,
@@ -73,8 +72,6 @@ import { AboutActions } from "App/common/enums/about-actions.enum"
 import PureLogger from "App/main/utils/pure-logger"
 import { flags, Feature } from "App/feature-flags"
 import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
-
-import { registerUploadFileListener } from "App/uploader"
 import {
   createMetadataStore,
   MetadataStore,
@@ -83,6 +80,12 @@ import {
   registerMetadataGetValueListener,
   registerMetadataSetValueListener,
 } from "App/metadata"
+import { registerGetIndexListener } from "App/data-sync/listeners"
+import { registerIndexAllListener } from "App/data-sync/listeners/index-all.listener"
+import { registerGetAllReleasesListener } from "App/update/listeners/get-all-releases.listener"
+import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests/register-os-update-already-downloaded-checker.request"
+import { registerGetProductionReleaseListener } from "App/update/listeners/get-production-release.listener"
+import { registerInitializeDataSyncListener } from "App/data-sync/listeners/initialize-data-sync.listener"
 
 require("dotenv").config()
 
@@ -138,6 +141,10 @@ const createWindow = async () => {
     await installExtensions()
   }
 
+  ;(global as any).__static = require("path")
+    .join(__dirname, "/static")
+    .replace(/\\/g, "\\\\")
+
   win = new BrowserWindow(
     getWindowOptions({
       minWidth: WINDOW_SIZE.minWidth,
@@ -159,6 +166,7 @@ const createWindow = async () => {
   startBackend(MuditaDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerGetAllReleasesListener()
+  registerGetProductionReleaseListener()
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()
@@ -173,12 +181,15 @@ const createWindow = async () => {
   registerGetFileDataListener()
   registerEncryptFileListener()
   registerReadFileListener()
+  registerUnlinkFileListener()
   registerDecryptFileListener()
   registerPureOsDownloadProxy()
-  registerUploadFileListener()
   registerMetadataAllGetValueListener()
   registerMetadataGetValueListener()
   registerMetadataSetValueListener()
+  registerGetIndexListener()
+  registerIndexAllListener()
+  registerInitializeDataSyncListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)
@@ -228,7 +239,7 @@ app.on("window-all-closed", () => {
 
 app.on("activate", () => {
   if (win === null) {
-    createWindow()
+    void createWindow()
   }
 })
 

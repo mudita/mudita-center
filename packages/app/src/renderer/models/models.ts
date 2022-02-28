@@ -6,11 +6,9 @@
 import auth from "Renderer/models/auth/auth"
 import calls from "Renderer/models/calls/calls"
 import devMode from "App/dev-mode/store/dev-mode"
-import filesManager from "Renderer/models/files-manager/files-manager"
 import muditaNews from "App/news/store/mudita-news"
 import networkStatus from "Renderer/models/network-status/network-status"
 import notes from "Renderer/models/notes/notes"
-import contacts from "App/contacts/store/contacts"
 import phoneUpdate from "Renderer/models/phone-update/phone-update"
 import settings from "Renderer/models/settings/settings"
 import templates from "App/templates/store/templates"
@@ -20,11 +18,9 @@ export interface RootModel {
   auth: typeof auth
   calls: typeof calls
   devMode: typeof devMode
-  filesManager: typeof filesManager
   muditaNews: typeof muditaNews
   networkStatus: typeof networkStatus
   notes: typeof notes
-  contacts: typeof contacts
   phoneUpdate: typeof phoneUpdate
   settings: typeof settings
   templates: typeof templates
@@ -35,11 +31,9 @@ export const models: RootModel = {
   auth,
   calls,
   devMode,
-  filesManager,
   muditaNews,
   networkStatus,
   notes,
-  contacts,
   phoneUpdate,
   settings,
   templates,

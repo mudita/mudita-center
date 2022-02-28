@@ -16,14 +16,6 @@ import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.inte
 import { SettingsState } from "App/main/store/settings.interface"
 import useSystemUpdateFlow from "App/overview/helpers/system-update.hook"
 import logger from "App/main/utils/logger"
-import ContactSupportModalFlow, {
-  ContactSupportModalFlowState,
-} from "Renderer/components/rest/contact-support-modal/contact-support-modal-flow.component"
-import { CreateBugTicketResponseStatus } from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket-builder"
-import { ContactSupportFieldValues } from "Renderer/components/rest/contact-support-modal/contact-support-modal.component"
-import useCreateBugTicket, {
-  files,
-} from "Renderer/utils/hooks/use-create-bug-ticket/use-create-bug-ticket"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import UpdatingForceModalFlow, {
   UpdatingForceModalFlowState,
@@ -40,7 +32,6 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   batteryLevel = 0,
   disconnectDevice = noop,
   osVersion = "",
-  osUpdateDate = "",
   lastAvailableOsVersion,
   pureOsDownloaded,
   updatePhoneOsInfo = noop,
@@ -52,43 +43,12 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   updatingState,
   startUpdateOs,
   setUpdateState,
-  serialNumber,
+  openContactSupportFlow,
 }) => {
   /**
    * Temporary state to demo failure
    */
   const [osVersionSupported, setOsVersionSupported] = useState(true)
-  const [contactSupportOpenState, setContactSupportOpenState] =
-    useState<ContactSupportModalFlowState>()
-  const [sendBugTicketRequest, sending] = useCreateBugTicket()
-  const [bugTicketSubject, setBugTicketSubject] = useState("")
-
-  const openContactSupportModalFlow = () => {
-    setBugTicketSubject(`Error - UpdateOS`)
-    setContactSupportOpenState(ContactSupportModalFlowState.Form)
-  }
-
-  const closeContactSupportModalFlow = () => {
-    setContactSupportOpenState(undefined)
-  }
-
-  const sendBugTicket = async ({
-    email,
-    description,
-  }: ContactSupportFieldValues) => {
-    const response = await sendBugTicketRequest({
-      email,
-      description,
-      serialNumber,
-      subject: bugTicketSubject,
-    })
-    if (response.status === CreateBugTicketResponseStatus.Ok) {
-      setContactSupportOpenState(ContactSupportModalFlowState.Success)
-    } else {
-      setContactSupportOpenState(ContactSupportModalFlowState.Fail)
-      logger.error(`Overview: ${response.error?.message}`)
-    }
-  }
 
   const goToHelp = (): void => {
     void ipcRenderer.callMain(HelpActions.OpenWindow)
@@ -108,7 +68,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
       osVersion,
       updatePhoneOsInfo,
       toggleDeviceUpdating,
-      openContactSupportModalFlow,
+      openContactSupportFlow,
       goToHelp
     )
 
@@ -152,7 +112,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
       return UpdatingForceModalFlowState.Success
     } else if (updatingState === UpdatingState.Fail) {
       return UpdatingForceModalFlowState.Fail
-    } else if (!osVersionSupported && contactSupportOpenState === undefined) {
+    } else if (!osVersionSupported) {
       return UpdatingForceModalFlowState.Info
     } else {
       return undefined
@@ -167,24 +127,15 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         updateOs={startUpdateOs}
         osVersion={osVersion}
         closeModal={closeUpdatingForceModalFlow}
-        onContact={openContactSupportModalFlow}
+        onContact={openContactSupportFlow}
         onHelp={goToHelp}
+        batteryLevel={batteryLevel}
       />
-      {contactSupportOpenState && (
-        <ContactSupportModalFlow
-          openState={contactSupportOpenState}
-          files={files}
-          onSubmit={sendBugTicket}
-          sending={sending}
-          closeModal={closeContactSupportModalFlow}
-        />
-      )}
       <OverviewContent
         deviceType={DeviceType.MuditaHarmony}
         batteryLevel={batteryLevel}
         disconnectDevice={disconnectDevice}
         osVersion={osVersion}
-        osUpdateDate={osUpdateDate}
         memorySpace={memorySpace}
         pureOsAvailable={isPureOsAvailable()}
         pureOsDownloaded={pureOsDownloaded}

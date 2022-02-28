@@ -6,11 +6,13 @@
 import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import ContactList from "App/contacts/components/contact-list/contact-list.component"
-import { ResultsState } from "App/contacts/store/contacts.enum"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
-import { Contact } from "App/contacts/store/contacts.type"
-import { ContactCategory } from "App/contacts/store/contacts.interface"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
+import {
+  Contact,
+  ContactCategory,
+  ResultState,
+} from "App/contacts/reducers/contacts.interface"
 
 const intersectionObserverMock = () => ({
   observe: () => null,
@@ -37,7 +39,7 @@ const defaultProps: Props = {
   onUnblock: jest.fn(),
   toggleRow: jest.fn(),
   selectedContact: null,
-  resultsState: ResultsState.Empty,
+  resultsState: ResultState.Empty,
   editMode: false,
 }
 
@@ -95,7 +97,7 @@ describe("`ContactList` component", () => {
   })
 
   test("Empty phonebook is rendered if resultState is equal to Error", () => {
-    const { queryByTestId } = render({ resultsState: ResultsState.Error })
+    const { queryByTestId } = render({ resultsState: ResultState.Error })
     expect(
       queryByTestId(ContactListTestIdsEnum.ContactListEmpty)
     ).toBeInTheDocument()
@@ -109,7 +111,7 @@ describe("`ContactList` component", () => {
 
   test("Loading component is rendered if resultState is Loading", () => {
     const { queryByTestId } = render({
-      resultsState: ResultsState.Loading,
+      resultsState: ResultState.Loading,
       contactList,
     })
     expect(
@@ -124,7 +126,7 @@ describe("`ContactList` component", () => {
   })
 
   test("No results is rendered if resultState is Loaded and contactList is empty", () => {
-    const { queryByTestId } = render({ resultsState: ResultsState.Loaded })
+    const { queryByTestId } = render({ resultsState: ResultState.Loaded })
     expect(
       queryByTestId(ContactListTestIdsEnum.ContactListNoResult)
     ).toBeInTheDocument()
@@ -138,7 +140,7 @@ describe("`ContactList` component", () => {
 
   test("Contact list is rendered if resultState is Loaded and contactList isn't empty", () => {
     const { queryByTestId, queryAllByTestId } = render({
-      resultsState: ResultsState.Loaded,
+      resultsState: ResultState.Loaded,
       contactList,
     })
     expect(
@@ -157,7 +159,7 @@ describe("`ContactList` component", () => {
 
   describe("when edit mode is turned on and all rows are inactive (new johnContact state)", () => {
     const extraProps: Partial<Props> = {
-      resultsState: ResultsState.Loaded,
+      resultsState: ResultState.Loaded,
       contactList,
       editMode: true,
     }
@@ -175,7 +177,7 @@ describe("`ContactList` component", () => {
 
   describe("when edit mode is turned on and one of the rows is active (edit johnContact state)", () => {
     const extraProps: Partial<Props> = {
-      resultsState: ResultsState.Loaded,
+      resultsState: ResultState.Loaded,
       contactList,
       editMode: true,
       activeRow: contactList[0].contacts[0],

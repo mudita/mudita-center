@@ -23,7 +23,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
@@ -54,7 +54,7 @@ exports[`matches snapshot 1`] = `
   padding: 1.4rem 0;
   background-color: #ffffff;
   border-radius: 0.2rem 0.2rem;
-  box-shadow: 0 1rem 5.5rem -0.5rem rgba(188,188,188,0.5);
+  box-shadow: 0 1rem 5.5rem -0.5rem rgba(0,0,0,0.08);
   min-width: 17rem;
   pointer-events: none;
   opacity: 0;
@@ -138,7 +138,7 @@ exports[`renders dropdown 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -177,7 +177,7 @@ exports[`renders dropdown 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   color: #ffffff;
   border-radius: 0.5rem;
@@ -216,7 +216,7 @@ exports[`renders dropdown 1`] = `
   padding: 1.4rem 0;
   background-color: #ffffff;
   border-radius: 0.2rem 0.2rem;
-  box-shadow: 0 1rem 5.5rem -0.5rem rgba(188,188,188,0.5);
+  box-shadow: 0 1rem 5.5rem -0.5rem rgba(0,0,0,0.08);
   min-width: 17rem;
   pointer-events: auto;
   opacity: 1;

@@ -19,8 +19,8 @@ const messages = defineMessages({
   },
 })
 
-const getAppLogs = async (): Promise<string> => {
-  const appLogs = await ipcRenderer.callMain(AppLogsEvents.Get)
+const getAppLogs = async (maxSize?: number): Promise<string> => {
+  const appLogs = await ipcRenderer.callMain(AppLogsEvents.Get, maxSize)
 
   const logParts = [
     `${intl.formatMessage(messages.appVersion)}: ${version}`,

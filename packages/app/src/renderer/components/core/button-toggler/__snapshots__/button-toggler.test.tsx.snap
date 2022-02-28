@@ -77,7 +77,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17rem;
+  width: 17.6rem;
   height: 4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #000000;
@@ -120,7 +120,7 @@ exports[`matches snapshot 1`] = `
   border-radius: 0.5rem;
   -webkit-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
-  box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
+  box-shadow: 0 1rem 5.5rem -0.5rem rgba(0,0,0,0.08);
 }
 
 .c4 {
@@ -172,12 +172,12 @@ exports[`matches snapshot 1`] = `
 }
 
 .c11:not(:hover) {
-  border: 0.1rem solid #cdcecf;
+  border: 0.1rem solid #d2d6db;
   color: #6a6a6a;
 }
 
 .c11:not(:hover) g {
-  fill: #cdcecf;
+  fill: #f4f5f6;
 }
 
 .c11:not(:first-of-type) {

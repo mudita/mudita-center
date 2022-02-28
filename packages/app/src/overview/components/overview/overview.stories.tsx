@@ -61,7 +61,6 @@ const defaultProps: Props = {
   onUpdateCheck: noop,
   onUpdateDownload: noop,
   onUpdateInstall: noop,
-  osUpdateDate: "2020-01-14T11:31:08.244Z",
   osVersion: "3.0",
   pureNeverConnected: false,
   pureOsBackupLocation: "",

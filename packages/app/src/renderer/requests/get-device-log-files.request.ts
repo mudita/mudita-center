@@ -7,11 +7,11 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 import { DeviceFilesOption } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
-import { DeviceFileDeprecated } from "Backend/device-file-system-service/device-file-system-service"
+import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 
 const getDeviceLogFiles = async (
   option?: DeviceFilesOption
-): Promise<DeviceResponse<DeviceFileDeprecated[]>> => {
+): Promise<DeviceResponse<DeviceFile[]>> => {
   return ipcRenderer.callMain(IpcRequest.GetDeviceLogFiles, option)
 }
 
