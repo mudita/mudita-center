@@ -30,7 +30,7 @@ export const getAvatarSize = (size: AvatarSize): number => {
     case AvatarSize.Small:
       return 2.4
     case AvatarSize.Medium:
-      return 3.2
+      return 4
     case AvatarSize.Big:
       return 4.8
   }
@@ -39,9 +39,9 @@ export const getAvatarSize = (size: AvatarSize): number => {
 const getAvatarTextStyle = (size: AvatarSize): TextDisplayStyle => {
   switch (size) {
     case AvatarSize.Small:
-      return TextDisplayStyle.FifthHeading
+      return TextDisplayStyle.Headline5
     case AvatarSize.Medium:
-      return TextDisplayStyle.FifthHeading
+      return TextDisplayStyle.Headline5
     case AvatarSize.Big:
       return TextDisplayStyle.Headline4
   }
