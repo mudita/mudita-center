@@ -251,6 +251,11 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
       const data: string[] = []
       const { cwd, extract, token, key } = options
       const name = filePath.split("/").pop() as string
+      if (!fs.existsSync(cwd)) {
+        fs.mkdirSync(cwd, {
+          recursive: true,
+        })
+      }
       const entryFilePath = path.join(cwd, name)
       const input = new stream.PassThrough()
       input.end(response.data)
