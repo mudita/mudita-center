@@ -20,12 +20,16 @@ import {
   PhoneInfo,
   HarmonyInfo,
   PureSystemButtonContainer,
+  SerialNumberWrapper,
 } from "App/overview/components/device-preview/device-preview.styled"
 import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
 import Button from "App/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { Type } from "App/renderer/components/core/icon/icon.config"
 import { DeviceImage } from "App/overview/components/device-preview/device-image.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 
 const DeviceSystemButton = styled(Button)`
   width: auto;
@@ -37,6 +41,7 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
   onClick,
   caseColour,
   deviceType,
+  serialNumber,
 }) => {
   const history = useHistory()
   const handleDisconnect = () => {
@@ -62,6 +67,18 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
         <HarmonyInfo>
           <DeviceImage caseColour={caseColour} deviceType={deviceType} />
         </HarmonyInfo>
+      )}
+      {deviceType === DeviceType.MuditaPure && (
+        <SerialNumberWrapper>
+          <Text
+            displayStyle={TextDisplayStyle.Paragraph4}
+            color="secondary"
+            message={{
+              id: "module.overview.serialNumber",
+            }}
+          />
+          <Text displayStyle={TextDisplayStyle.Paragraph1}>{serialNumber}</Text>
+        </SerialNumberWrapper>
       )}
       <CardAction>
         <CardActionButton

@@ -96,6 +96,7 @@ export const PureOverview: FunctionComponent<Props> = ({
   openContactSupportFlow,
   syncState,
   updateAllIndexes,
+  serialNumber,
 }) => {
   const [osVersionSupported, setOsVersionSupported] = useState(true)
   const [openModal, setOpenModal] = useState({
@@ -305,6 +306,7 @@ export const PureOverview: FunctionComponent<Props> = ({
         lastBackupDate={lastBackupDate}
         onBackupCreate={handleBackupCreate}
         onBackupRestore={handleRestoreCreate}
+        serialNumber={serialNumber}
       />
     </>
   )
