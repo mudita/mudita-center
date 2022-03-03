@@ -157,6 +157,7 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
           updatingForceOpenState === UpdatingForceModalFlowState.TooLowBattery
         }
         onCancel={backToInfoModal}
+        deviceType={deviceType}
       />
       <UpdatingSpinnerModal
         testId={UpdatingForceModalFlowTestIds.UpdatingForceSpinnerModal}
