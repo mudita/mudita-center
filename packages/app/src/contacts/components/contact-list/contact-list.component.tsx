@@ -68,8 +68,11 @@ const messages = defineMessages({
   exportAsVcard: {
     id: "module.contacts.exportAsVcard",
   },
-  delete: {
-    id: "module.contacts.delete",
+  editBulkAction: {
+    id: "module.contacts.editBulkAction",
+  },
+  deleteBulkAction: {
+    id: "module.contacts.deleteBulkAction",
   },
   emptyListTitle: {
     id: "module.contacts.emptyListTitle",
@@ -191,6 +194,7 @@ const ContactList: FunctionComponent<Props> = ({
   selectedContact,
   onSelect,
   onExport,
+  onEdit,
   onForward,
   onBlock,
   onUnblock,
@@ -256,6 +260,7 @@ const ContactList: FunctionComponent<Props> = ({
                 const { selected } = getRowStatus(contact)
                 const onChange = () => toggleRow(contact)
                 const handleExport = () => onExport([contact])
+                const handleEdit = () => onEdit(contact)
                 const handleForward = () => onForward(contact)
                 const handleBlock = () => onBlock(contact)
                 const handleUnblock = () => onUnblock(contact)
@@ -369,13 +374,19 @@ const ContactList: FunctionComponent<Props> = ({
                             />
                           )}
                           <ButtonComponent
+                            labelMessage={messages.editBulkAction}
+                            Icon={Type.Edit}
+                            onClick={handleEdit}
+                            displayStyle={DisplayStyle.Dropdown}
+                          />
+                          <ButtonComponent
                             labelMessage={messages.exportAsVcard}
                             Icon={Type.UploadDark}
                             onClick={handleExport}
                             displayStyle={DisplayStyle.Dropdown}
                           />
                           <ButtonComponent
-                            labelMessage={messages.delete}
+                            labelMessage={messages.deleteBulkAction}
                             Icon={Type.Delete}
                             onClick={handleDelete}
                             displayStyle={DisplayStyle.Dropdown}

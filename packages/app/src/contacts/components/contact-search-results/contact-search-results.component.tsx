@@ -97,7 +97,7 @@ type SelectHook = Pick<
   "getRowStatus" | "toggleRow" | "noneRowsSelected"
 >
 
-interface Props extends ContactActions, SelectHook {
+interface Props extends Omit<ContactActions, "onEdit">, SelectHook {
   selectedContact: Contact | null
   onSelect: (contact: Contact) => void
   resultsState: ResultState

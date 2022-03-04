@@ -612,6 +612,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               onUnblock={handleUnblock}
               onBlock={openBlockModal}
               onDelete={openDeleteModal}
+              onEdit={handleEditingContact}
               editMode={Boolean(editedContact || newContact)}
               resultsState={resultState}
               selectedContact={selectedContact}

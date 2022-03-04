@@ -56,6 +56,7 @@ export interface ContactActions {
   onBlock: (contact: Contact) => void
   onUnblock: (contact: Contact) => void
   onDelete: (contact: Contact) => void
+  onEdit: (contact: Contact) => void
 }
 
 export interface ContactDetailsActions {
