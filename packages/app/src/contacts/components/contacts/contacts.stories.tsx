@@ -88,7 +88,7 @@ const ContactsComponent = ({
     searchValue={""}
     onSearchValueChange={asyncNoop}
     results={[]}
-  />
+    exportContacts={asyncNoop}/>
 )
 
 storiesOf("Views|Phone", module)

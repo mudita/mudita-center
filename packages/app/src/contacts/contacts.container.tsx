@@ -58,7 +58,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
 const mapDispatchToProps = (dispatch: TmpDispatch) => {
   return {
     ...dispatch.auth,
-    onExport: exportContacts,
+    exportContacts: exportContacts,
     onMessage: (history: History<LocationState>, phoneNumber: string) =>
       history.push(createRouterPath(URL_MAIN.messages, { phoneNumber })),
     onSpeedDialSettingsSave: noop,
@@ -92,9 +92,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
     authorize: async (
       provider: ExternalProvider
     ): Promise<string | undefined> => dispatch(authorize(provider)),
-    addNewContactsToState: async (
-      contacts: Contact[]
-    ): Promise<void> => dispatch(addNewContactsToState(contacts)),
+    addNewContactsToState: async (contacts: Contact[]): Promise<void> =>
+      dispatch(addNewContactsToState(contacts)),
 
     // TODO: Add proper actions
     onForward: noop,

@@ -114,8 +114,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     authorize,
     onCall,
     onMessage,
-    onExport,
-    addNewContactsToState
+    exportContacts,
+    addNewContactsToState,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -487,10 +487,10 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         const currentContactIndex = index + 1
         setAddedContactsCount(currentContactIndex)
 
-        if(isError(payload)){
-          return [...value, { ...contact, successfullyAdded: false  }]
+        if (isError(payload)) {
+          return [...value, { ...contact, successfullyAdded: false }]
         } else {
-          return [...value, { ...payload  }]
+          return [...value, { ...payload }]
         }
       },
       Promise.resolve<(NewContactResponse | Contact)[]>([])
@@ -501,7 +501,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     )
 
     const successNewContacts: Contact[] = newContactResponses.filter(
-      (contact): contact is Contact  => !("successfullyAdded" in contact)
+      (contact): contact is Contact => !("successfullyAdded" in contact)
     )
 
     await addNewContactsToState(successNewContacts)
@@ -547,6 +547,14 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     isContactMatching(item, searchValue || "")
   )
 
+  const handleExport = async (contacts: Contact[]): Promise<void> => {
+    const exported = await exportContacts(contacts)
+
+    if (exported) {
+      resetRows()
+    }
+  }
+
   return (
     <>
       {importContactsFlowState && (
@@ -578,12 +586,13 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
           onSearchValueChange={setSearchValue}
           results={results}
           showSearchResults={showSearchResults}
+          onExport={handleExport}
         />
         {showSearchResults ? (
           <ContactSearchResults
             results={results}
             onSelect={handleContactSelect}
-            onExport={noop}
+            onExport={handleExport}
             onForward={noop}
             onUnblock={handleUnblock}
             onBlock={openBlockModal}
@@ -598,7 +607,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               activeRow={activeRow}
               contactList={contactList}
               onSelect={openSidebar}
-              onExport={noop}
+              onExport={handleExport}
               onForward={noop}
               onUnblock={handleUnblock}
               onBlock={openBlockModal}
@@ -632,7 +641,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               <ContactDetails
                 contact={contactFreshData(activeRow as Contact)}
                 onClose={closeSidebar}
-                onExport={onExport}
+                onExport={exportContacts}
                 onForward={noop}
                 onUnblock={handleUnblock}
                 onBlock={openBlockModal}

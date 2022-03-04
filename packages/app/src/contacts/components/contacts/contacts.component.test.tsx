@@ -125,6 +125,7 @@ const defaultProps: Props = {
   getContact: (id: string) => {
     return [contactOne, contactTwo].find((contact) => contact.id === id)!
   },
+  exportContacts: jest.fn(),
   addNewContact: jest.fn(),
   importContact: jest.fn(),
   authorize: jest.fn(),

@@ -261,7 +261,7 @@
   "module.contacts.emptyResultsListTitle": "No results found",
   "module.contacts.emptySearchDescription": "Search results do not match any contact.",
   "module.contacts.errorWrongEmail": "The email you entered is wrong",
-  "module.contacts.exportAsVcard": "Export as vCard",
+  "module.contacts.exportAsVcard": "Export contact",
   "module.contacts.exportButton": "Export",
   "module.contacts.exportDefaultFilename": "{name}{contactsLeft, plural, =0 {} =1 { and other} other { and others (#)}}",
   "module.contacts.exportSaveDialogTitle": "{count, plural, one {Exporting a contact} other {Exporting # contacts}}",

@@ -3,13 +3,27 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import React from "react"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
-import { noop } from "Renderer/utils/noop"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
+import { Contact } from "App/contacts"
 
-const contactRich = {
+type Props = ComponentProps<typeof ContactDetails>
+
+const defaultProps: Props = {
+  onUnblock: jest.fn(),
+  onBlock: jest.fn(),
+  onCall: jest.fn(),
+  onDelete: jest.fn(),
+  onEdit: jest.fn(),
+  onExport: jest.fn(),
+  onForward: jest.fn(),
+  onMessage: jest.fn(),
+  isThreadOpened: () => false,
+}
+
+const contactRich: Contact = {
   id: "0",
   firstName: "Sławomir",
   lastName: "Borewicz",
@@ -24,7 +38,7 @@ const contactRich = {
   secondAddressLine: "",
 }
 
-const contactBasic = {
+const contactBasic: Contact = {
   id: "274970a2-13b7-4f42-962d-8fa0b2b48377",
   firstName: "",
   lastName: "",
@@ -41,35 +55,30 @@ const contactBasic = {
 
 const noAddress = "[value] module.contacts.noAddress"
 
-const renderer = (props: {}) => {
-  const defaultProps = {
-    onUnblock: noop,
-    onBlock: noop,
-    onCall: noop,
-    onDelete: noop,
-    onEdit: noop,
-    onExport: noop,
-    onForward: noop,
-    onMessage: noop,
-    isThreadOpened: () => false,
+const render = (extraProps?: Partial<Props>) => {
+  const props = {
+    ...defaultProps,
+    ...extraProps,
   }
 
   return renderWithThemeAndIntl(<ContactDetails {...defaultProps} {...props} />)
 }
 
-test("contact with address displays the address", () => {
-  const { getByText } = renderer({ contact: contactRich })
-  expect(getByText(contactRich.firstAddressLine)).toBeInTheDocument()
-})
+describe("`ContactDetails` component", () => {
+  test("contact with address displays the address", () => {
+    const { getByText } = render({ contact: contactRich })
+    expect(getByText(contactRich.firstAddressLine ?? "")).toBeInTheDocument()
+  })
 
-test("contact without address displays no address info", () => {
-  const { getByText } = renderer({ contact: contactBasic })
-  expect(getByText(noAddress)).toBeInTheDocument()
-})
+  test("contact without address displays no address info", () => {
+    const { getByText } = render({ contact: contactBasic })
+    expect(getByText(noAddress)).toBeInTheDocument()
+  })
 
-test("export button performs export action", () => {
-  const onExport = jest.fn()
-  const { getByTestId } = renderer({ contact: contactBasic, onExport })
-  getByTestId(ContactDetailsTestIds.ExportButton).click()
-  expect(onExport).toBeCalledWith([contactBasic])
+  test("export button performs export action", () => {
+    const onExport = jest.fn()
+    const { getByTestId } = render({ contact: contactBasic, onExport })
+    getByTestId(ContactDetailsTestIds.ExportButton).click()
+    expect(onExport).toBeCalledWith([contactBasic])
+  })
 })
