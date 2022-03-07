@@ -184,7 +184,7 @@ const messages = defineMessages({
     id: "module.overview.updatingFlatBatteryActionButton",
   },
   updatingFlatBatteryHarmonyTitle: {
-    id: "module.overview.updatingFlatBatteryHarmonyDescription",
+    id: "module.overview.updatingFlatBatteryHarmonyTitle",
   },
   updatingFlatBatteryHarmonyDescription: {
     id: "module.overview.updatingFlatBatteryHarmonyDescription",
@@ -523,7 +523,10 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
             <ModalText displayStyle={TextDisplayStyle.Headline4}>
               {intl.formatMessage(messages.updatingFlatBatteryPureTitle)}
             </ModalText>
-            <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+            <ModalText
+              displayStyle={TextDisplayStyle.Paragraph4}
+              color="secondary"
+            >
               {intl.formatMessage(messages.updatingFlatBatteryPureDescription)}
             </ModalText>
           </>
@@ -532,7 +535,10 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
             <ModalText displayStyle={TextDisplayStyle.Headline4}>
               {intl.formatMessage(messages.updatingFlatBatteryHarmonyTitle)}
             </ModalText>
-            <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+            <ModalText
+              displayStyle={TextDisplayStyle.Paragraph4}
+              color="secondary"
+            >
               {intl.formatMessage(
                 messages.updatingFlatBatteryHarmonyDescription
               )}
