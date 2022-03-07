@@ -53,6 +53,40 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { defineMessages } from "react-intl"
+
+const messages = defineMessages({
+  forwardNamecard: {
+    id: "module.contacts.forwardNamecard",
+  },
+  unblock: {
+    id: "module.contacts.unblock",
+  },
+  block: {
+    id: "module.contacts.block",
+  },
+  exportAsVcard: {
+    id: "module.contacts.exportAsVcard",
+  },
+  editBulkAction: {
+    id: "module.contacts.editBulkAction",
+  },
+  deleteBulkAction: {
+    id: "module.contacts.deleteBulkAction",
+  },
+  emptyListTitle: {
+    id: "module.contacts.emptyListTitle",
+  },
+  emptySearchDescription: {
+    id: "module.contacts.emptySearchDescription",
+  },
+  emptyPhonebook: {
+    id: "module.contacts.emptyPhonebook",
+  },
+  listUnnamedContact: {
+    id: "module.contacts.listUnnamedContact",
+  },
+})
 
 const checkboxShowedStyles = css`
   margin-left: 4.4rem;
@@ -160,6 +194,7 @@ const ContactList: FunctionComponent<Props> = ({
   selectedContact,
   onSelect,
   onExport,
+  onEdit,
   onForward,
   onBlock,
   onUnblock,
@@ -225,6 +260,7 @@ const ContactList: FunctionComponent<Props> = ({
                 const { selected } = getRowStatus(contact)
                 const onChange = () => toggleRow(contact)
                 const handleExport = () => onExport([contact])
+                const handleEdit = () => onEdit(contact)
                 const handleForward = () => onForward(contact)
                 const handleBlock = () => onBlock(contact)
                 const handleUnblock = () => onUnblock(contact)
@@ -285,9 +321,7 @@ const ContactList: FunctionComponent<Props> = ({
                       disabled={rowDisabled}
                     >
                       {createStyledFullName() ||
-                        intl.formatMessage({
-                          id: "module.contacts.listUnnamedContact",
-                        })}
+                        intl.formatMessage(messages.listUnnamedContact)}
                       {contact.blocked && (
                         <BlockedIcon width={1.4} height={1.4} />
                       )}
@@ -316,18 +350,7 @@ const ContactList: FunctionComponent<Props> = ({
                           onClose={enableScroll}
                         >
                           <HiddenButton
-                            labelMessage={{
-                              id: "module.contacts.exportAsVcard",
-                            }}
-                            Icon={Type.Upload}
-                            onClick={handleExport}
-                            displayStyle={DisplayStyle.Dropdown}
-                            hide={flags.get(Feature.ProductionAndAlpha)}
-                          />
-                          <HiddenButton
-                            labelMessage={{
-                              id: "module.contacts.forwardNamecard",
-                            }}
+                            labelMessage={messages.forwardNamecard}
                             Icon={Type.Forward}
                             onClick={handleForward}
                             displayStyle={DisplayStyle.Dropdown}
@@ -335,9 +358,7 @@ const ContactList: FunctionComponent<Props> = ({
                           />
                           {contact.blocked ? (
                             <HiddenButton
-                              labelMessage={{
-                                id: "module.contacts.unblock",
-                              }}
+                              labelMessage={messages.unblock}
                               Icon={Type.Blocked}
                               onClick={handleUnblock}
                               displayStyle={DisplayStyle.Dropdown}
@@ -345,9 +366,7 @@ const ContactList: FunctionComponent<Props> = ({
                             />
                           ) : (
                             <HiddenButton
-                              labelMessage={{
-                                id: "module.contacts.block",
-                              }}
+                              labelMessage={messages.block}
                               Icon={Type.Blocked}
                               onClick={handleBlock}
                               displayStyle={DisplayStyle.Dropdown}
@@ -355,9 +374,19 @@ const ContactList: FunctionComponent<Props> = ({
                             />
                           )}
                           <ButtonComponent
-                            labelMessage={{
-                              id: "module.contacts.delete",
-                            }}
+                            labelMessage={messages.editBulkAction}
+                            Icon={Type.Edit}
+                            onClick={handleEdit}
+                            displayStyle={DisplayStyle.Dropdown}
+                          />
+                          <ButtonComponent
+                            labelMessage={messages.exportAsVcard}
+                            Icon={Type.UploadDark}
+                            onClick={handleExport}
+                            displayStyle={DisplayStyle.Dropdown}
+                          />
+                          <ButtonComponent
+                            labelMessage={messages.deleteBulkAction}
                             Icon={Type.Delete}
                             onClick={handleDelete}
                             displayStyle={DisplayStyle.Dropdown}
@@ -406,20 +435,16 @@ const ContactList: FunctionComponent<Props> = ({
         {resultsState === ResultState.Loaded && contactList.length === 0 && (
           <EmptyState
             data-testid={ContactListTestIdsEnum.ContactListNoResult}
-            title={{ id: "module.contacts.emptyListTitle" }}
-            description={{
-              id: "module.contacts.emptySearchDescription",
-            }}
+            title={messages.emptyListTitle}
+            description={messages.emptySearchDescription}
           />
         )}
         {(resultsState === ResultState.Empty ||
           resultsState === ResultState.Error) && (
           <EmptyState
             data-testid={ContactListTestIdsEnum.ContactListEmpty}
-            title={{ id: "module.contacts.emptyListTitle" }}
-            description={{
-              id: "module.contacts.emptyPhonebook",
-            }}
+            title={messages.emptyListTitle}
+            description={messages.emptyPhonebook}
           />
         )}
         {resultsState === ResultState.Loading && (

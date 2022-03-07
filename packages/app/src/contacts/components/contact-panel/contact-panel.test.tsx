@@ -44,18 +44,19 @@ const contacts: Contact[] = [
 
 const defaultProps: Props = {
   editMode: false,
+  searchValue: "",
+  results: contacts,
   onManageButtonClick: jest.fn(),
   onNewButtonClick: jest.fn(),
   resetRows: jest.fn(),
   selectedContacts: [],
   deleteContacts: jest.fn(),
   onContactSelect: jest.fn(),
-  searchValue: "",
   onSearchValueChange: jest.fn(),
-  results: contacts,
+  onExport: jest.fn(),
 }
 
-const renderer = (extraProps?: Partial<Props>) => {
+const render = (extraProps?: Partial<Props>) => {
   const props = {
     ...defaultProps,
     ...extraProps,
@@ -64,28 +65,30 @@ const renderer = (extraProps?: Partial<Props>) => {
   return renderWithThemeAndIntl(<ContactPanel {...props} />)
 }
 
-test("selection manager is displayed when there is at least one contact selected", () => {
-  const { getByTestId } = renderer({
-    selectedContacts: [contacts[0]],
+describe("`ContactPanel` component", () => {
+  test("selection manager is displayed when there is at least one contact selected", () => {
+    const { getByTestId } = render({
+      selectedContacts: [contacts[0]],
+    })
+    expect(
+      getByTestId(ContactPanelTestIdsEnum.SelectionManager)
+    ).toBeInTheDocument()
   })
-  expect(
-    getByTestId(ContactPanelTestIdsEnum.SelectionManager)
-  ).toBeInTheDocument()
-})
 
-test("new contact button is blocked while in editing mode", () => {
-  const { getByTestId } = renderer({
-    editMode: true,
+  test("new contact button is blocked while in editing mode", () => {
+    const { getByTestId } = render({
+      editMode: true,
+    })
+    expect(getByTestId(ContactPanelTestIdsEnum.NewButton)).toBeDisabled()
   })
-  expect(getByTestId(ContactPanelTestIdsEnum.NewButton)).toBeDisabled()
-})
 
-test("In search results view, contactPanel should render search results title", () => {
-  const { getByTestId } = renderer({
-    showSearchResults: true,
-    searchValue: "test",
+  test("In search results view, contactPanel should render search results title", () => {
+    const { getByTestId } = render({
+      showSearchResults: true,
+      searchValue: "test",
+    })
+    expect(getByTestId(ContactPanelTestIdsEnum.SearchTitle)).toHaveTextContent(
+      "[value] module.contacts.searchResultsTitle"
+    )
   })
-  expect(getByTestId(ContactPanelTestIdsEnum.SearchTitle)).toHaveTextContent(
-    "[value] module.contacts.searchResultsTitle"
-  )
 })

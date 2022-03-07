@@ -290,11 +290,12 @@ const buttonStyles = css<{
         return css`
           justify-content: flex-start;
           height: 3.2rem;
-          padding: 0 2.4rem;
+          padding: 0 1.1rem;
           border: none;
           border-radius: ${borderRadius("small")};
           font-weight: ${fontWeight("default")};
           width: 100%;
+          min-width: 17.6rem;
 
           &.${activeClassName} {
             ${navLinkStyles}
