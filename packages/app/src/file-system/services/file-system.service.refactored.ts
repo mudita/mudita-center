@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import * as fs from "fs"
-import * as path from "path"
+import fs from "fs"
+import path from "path"
 import tar from "tar-stream"
 import stream, { Transform } from "stream"
 import crypto from "crypto"
