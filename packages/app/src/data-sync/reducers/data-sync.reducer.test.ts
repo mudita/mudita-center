@@ -54,6 +54,18 @@ describe("Update all indexes data functionality", () => {
       error: errorMock,
     })
   })
+
+  test("Event: ReadAllIndexes/fulfilled change `state` to Loaded", () => {
+    expect(
+      dataSyncReducer(undefined, {
+        type: fulfilledAction(DataSyncEvent.ReadAllIndexes),
+      })
+    ).toEqual({
+      ...initialState,
+      initialized: true,
+      state: SynchronizationState.Loaded,
+    })
+  })
 })
 
 describe("`InitializeDataSync` data functionality", () => {

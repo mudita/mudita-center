@@ -5,10 +5,10 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { SerialisedIndexData } from "elasticlunr"
-import { IpcDataSyncEvent, DataIndex } from "App/data-sync/constants"
+import { IpcDataSyncRequest, DataIndex } from "App/data-sync/constants"
 
 export const getIndexRequest = async <Type extends {}>(
   indexName: DataIndex
 ): Promise<SerialisedIndexData<Type> | undefined> => {
-  return ipcRenderer.callMain(IpcDataSyncEvent.GetIndex, indexName)
+  return ipcRenderer.callMain(IpcDataSyncRequest.GetIndex, indexName)
 }

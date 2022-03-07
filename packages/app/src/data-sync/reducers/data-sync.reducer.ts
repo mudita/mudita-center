@@ -69,5 +69,12 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           initialized: true,
         }
       })
+      .addCase(fulfilledAction(DataSyncEvent.ReadAllIndexes), (state) => {
+        return {
+          ...state,
+          state: SynchronizationState.Loaded,
+          initialized: true,
+        }
+      })
   }
 )

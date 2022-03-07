@@ -4,4 +4,5 @@
  */
 
 export * from "./errors.enum"
+export * from "./model.constant"
 export * from "./reflect-key.enum"

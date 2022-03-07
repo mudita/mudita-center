@@ -51,6 +51,8 @@ import { MainProcessIpc } from "electron-better-ipc"
 export enum DeviceServiceEventName {
   DeviceConnected = "deviceConnected",
   DeviceDisconnected = "deviceDisconnected",
+  DeviceUnlocked = "deviceUnlocked",
+  DeviceLocked = "deviceLocked",
 }
 
 export class DeviceService {
@@ -412,9 +414,13 @@ export class DeviceService {
   }
 
   private emitDeviceUnlockedEvent({ status }: DeviceResponse<unknown>): void {
-    status !== DeviceResponseStatus.PhoneLocked
-      ? this.ipcMain.sendToRenderers(IpcEmitter.DeviceUnlocked)
-      : this.ipcMain.sendToRenderers(IpcEmitter.DeviceLocked)
+    if (status !== DeviceResponseStatus.PhoneLocked) {
+      this.eventEmitter.emit(DeviceServiceEventName.DeviceUnlocked)
+      this.ipcMain.sendToRenderers(IpcEmitter.DeviceUnlocked)
+    } else {
+      this.eventEmitter.emit(DeviceServiceEventName.DeviceLocked)
+      this.ipcMain.sendToRenderers(IpcEmitter.DeviceLocked)
+    }
   }
 
   private static isEndpointSecure(config: RequestConfig<any>): boolean {

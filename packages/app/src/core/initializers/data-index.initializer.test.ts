@@ -3,15 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IndexStorageService } from "App/index-storage/services"
+import { Index } from "elasticlunr"
+import { EventEmitter } from "events"
+import { IndexFactory } from "App/index-storage/factories"
+import { DataIndex } from "App/index-storage/constants"
 import { Model, Field } from "App/core/decorators"
-import { ReflectKey } from "App/core/constants"
 import { BaseModel } from "App/core/models"
 import { DataIndexInitializer } from "./data-index.initializer"
 
 type TestingRecord = { id: string; text: string }
 
-@Model("fake-model")
+@Model(DataIndex.Message)
 class FakeModel extends BaseModel<TestingRecord> {
   @Field("ref")
   public id: string | undefined
@@ -20,25 +22,24 @@ class FakeModel extends BaseModel<TestingRecord> {
   public text: string | undefined
 }
 
-const fakeIndex = new IndexStorageService()
-const fakeInstance = new FakeModel(fakeIndex.indexesMap)
+const fakeEventEmitter = new EventEmitter()
+const fakeIndex = new IndexFactory().create()
+const fakeInstance = new FakeModel(fakeIndex, fakeEventEmitter)
 const subject = new DataIndexInitializer(fakeIndex)
 
-test("registers model metadata", () => {
-  subject.initialize([fakeInstance])
-  expect(
-    Reflect.getMetadata(ReflectKey.Model, fakeInstance.constructor)
-  ).toEqual("fake-model")
-  expect(
-    Reflect.getMetadata(ReflectKey.Field, fakeInstance.constructor)
-  ).toEqual([
-    {
-      propertyName: "id",
-      type: "ref",
-    },
-    {
-      propertyName: "text",
-      type: "",
-    },
-  ])
+describe("Method: initialize", () => {
+  test("fills index map with `DataIndex.Message` model data", () => {
+    expect(fakeIndex.size).toEqual(0)
+
+    subject.initialize([fakeInstance])
+
+    expect(fakeIndex.size).toEqual(1)
+    expect(
+      (fakeIndex.get(DataIndex.Message) as Index<any> & { _fields: string[] })
+        ._fields
+    ).toEqual(["text"])
+    expect(
+      (fakeIndex.get(DataIndex.Message) as Index<any> & { _ref: string })._ref
+    ).toEqual("id")
+  })
 })

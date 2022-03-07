@@ -5,7 +5,7 @@
 
 import path from "path"
 import { Database } from "sql.js"
-import elasticlunr, { Index, SerialisedIndexData } from "elasticlunr"
+import elasticlunr, { Index } from "elasticlunr"
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import { ContactTable } from "App/data-sync/constants"
 import {
@@ -13,20 +13,20 @@ import {
   ContactObject,
   ContactInput,
 } from "App/data-sync/types"
-import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
+import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 
 export class ContactIndexer extends BaseIndexer {
   constructor(
-    syncFileSystemService: SyncFileSystemService,
+    fileSystemService: FileSystemService,
     private dataPresenter: IndexerPresenter<ContactInput, ContactObject[]>
   ) {
-    super(syncFileSystemService)
+    super(fileSystemService)
   }
 
-  async index(fileDir: string): Promise<SerialisedIndexData<ContactObject>> {
-    const db = await this.initTmpDatabase(fileDir)
+  async index(fileDir: string, token: string): Promise<Index<ContactObject>> {
+    const db = await this.initTmpDatabase(fileDir, token)
     const object = this.dataPresenter.serializeToObject(this.loadTables(db))
-    return this.createIndex(object).toJSON()
+    return this.createIndex(object)
   }
 
   private createIndex(data: ContactObject[]): Index<ContactObject> {
@@ -66,8 +66,11 @@ export class ContactIndexer extends BaseIndexer {
     }
   }
 
-  private async initTmpDatabase(fileDir: string): Promise<Database> {
-    const data = await this.getData(path.join(fileDir, "contacts.db"))
+  private async initTmpDatabase(
+    fileDir: string,
+    token: string
+  ): Promise<Database> {
+    const data = await this.getData(path.join(fileDir, "contacts.db"), token)
     return new (await this.sql).Database(data)
   }
 }

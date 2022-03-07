@@ -4,15 +4,17 @@
  */
 
 import { Index, SerialisedIndexData } from "elasticlunr"
+import { EventEmitter } from "events"
 import { IndexStorage } from "App/index-storage/types"
 import { DataIndex } from "App/index-storage/constants"
 import { IndexConnectionError } from "App/core/errors"
+import { ModelEvent } from "App/core/constants"
 
 export class BaseModel<Type extends { id: string }> {
   private _modelName: DataIndex = "" as DataIndex
   public connection: Index<Type> | undefined = undefined
 
-  constructor(public index: IndexStorage) {}
+  constructor(public index: IndexStorage, public eventEmitter: EventEmitter) {}
 
   set modelName(value: DataIndex) {
     this._modelName = value
@@ -39,6 +41,7 @@ export class BaseModel<Type extends { id: string }> {
     this.checkConnection()
     const changedData = this.beforeCreate(data)
     this.connection?.addDoc(changedData)
+    this.eventEmitter.emit(ModelEvent.Created)
     const record = this.findById(data.id)
 
     if (record) {
@@ -52,6 +55,7 @@ export class BaseModel<Type extends { id: string }> {
     this.checkConnection()
     const changedData = this.beforeUpdate(data)
     this.connection?.updateDoc(changedData)
+    this.eventEmitter.emit(ModelEvent.Updated)
     const record = this.findById(data.id)
 
     if (record) {
@@ -65,6 +69,7 @@ export class BaseModel<Type extends { id: string }> {
     this.checkConnection()
     this.beforeDelete(id)
     this.connection?.removeDocByRef(id)
+    this.eventEmitter.emit(ModelEvent.Deleted)
     this.afterDelete(id)
   }
 

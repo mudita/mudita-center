@@ -18,18 +18,20 @@ class FakeController {
 const fakeInstance = new FakeController()
 const subject = new ControllerInitializer()
 
-test("registers controller metadata", () => {
-  subject.initialize([fakeInstance])
-  expect(
-    Reflect.getMetadata(ReflectKey.Prefix, fakeInstance.constructor)
-  ).toEqual("fake-controller")
-  expect(
-    Reflect.getMetadata(ReflectKey.Event, fakeInstance.constructor)
-  ).toEqual([
-    {
-      controller: "FakeController",
-      methodName: "fakeEventHandler",
-      name: "event",
-    },
-  ])
+describe("Method: initialize", () => {
+  test("registers controller metadata", () => {
+    subject.initialize([fakeInstance])
+    expect(
+      Reflect.getMetadata(ReflectKey.Prefix, fakeInstance.constructor)
+    ).toEqual("fake-controller")
+    expect(
+      Reflect.getMetadata(ReflectKey.Event, fakeInstance.constructor)
+    ).toEqual([
+      {
+        controller: "FakeController",
+        methodName: "fakeEventHandler",
+        name: "event",
+      },
+    ])
+  })
 })
