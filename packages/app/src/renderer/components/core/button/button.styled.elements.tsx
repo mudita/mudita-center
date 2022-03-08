@@ -56,13 +56,21 @@ const navLinkStyles = css`
 export const disabledPrimaryStyles = css`
   background: ${backgroundColor("disabled")};
   border: 0.1rem solid ${backgroundColor("disabled")};
+  p {
+    color: ${textColor("secondary")};
+  }
+  g path {
+    fill: ${textColor("secondary")};
+  }
 `
 
 export const disabledSecondaryStyles = css`
   border: 0.1rem solid ${borderColor("secondary")};
-  color: ${textColor("secondary")};
-  g {
-    fill: ${textColor("accent")};
+  p {
+    color: ${textColor("disabled")};
+  }
+  g path {
+    fill: ${textColor("disabled")};
   }
 `
 
@@ -108,23 +116,24 @@ const buttonStyles = css<{
           border-radius: ${borderRadius("medium")};
           background: ${backgroundColor("primary")};
           border: 0.1rem solid ${backgroundColor("primary")};
-          ${disabled && disabledPrimaryStyles};
+
           &:hover {
             background: ${backgroundColor("primaryHover")};
           }
-          g {
+          g path {
             fill: ${textColor("active")};
           }
           p {
             color: ${textColor("active")};
           }
+          ${disabled && disabledPrimaryStyles};
         `
       case DisplayStyle.Secondary:
         return css`
           height: 4rem;
           border-radius: ${borderRadius("medium")};
           border: 0.1rem solid ${borderColor("primary")};
-          g {
+          g path {
             fill: ${textColor("primary")};
           }
           ${disabled && disabledSecondaryStyles};
@@ -246,10 +255,8 @@ const buttonStyles = css<{
           padding: 0.8rem;
           border: none;
           position: relative;
-          border-radius: ${borderRadius("small")}rem;
-          font-weight: ${fontWeight("default")};
           width: 100%;
-
+          color: ${textColor("secondary")};
           &:after {
             content: "";
             position: absolute;
