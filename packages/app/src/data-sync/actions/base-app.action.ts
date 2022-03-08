@@ -9,4 +9,10 @@ import { DataSyncEvent } from "App/data-sync/constants"
 export const setDataSyncInitialized = createAction(
   DataSyncEvent.SetDataSyncInitialized
 )
+export const setDataSyncInitializing = createAction(
+  DataSyncEvent.InitializingDataSync
+)
+export const setDataSyncInitializingError = createAction<Error | null>(
+  DataSyncEvent.InitializingDataError
+)
 export const setCacheState = createAction(DataSyncEvent.SetCacheState)

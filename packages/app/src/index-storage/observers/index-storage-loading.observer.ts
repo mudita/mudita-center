@@ -54,7 +54,7 @@ export class IndexStorageLoadingObserver implements Observer {
       this.keyStorage.setValue(MetadataKey.DeviceToken, token)
       this.dataRetrieved = true
 
-      await this.indexStorageService.loadIndex()
+      const restored = await this.indexStorageService.loadIndex()
 
       await this.eventEmitter.on(ModelEvent.Loaded, () =>
         this.indexStorageService.saveIndex()
@@ -69,7 +69,9 @@ export class IndexStorageLoadingObserver implements Observer {
         this.indexStorageService.saveIndex()
       )
 
-      await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
+      if (restored) {
+        await this.ipc.sendToRenderers(IpcEvent.DataRestored)
+      }
     })
 
     this.deviceService.on(

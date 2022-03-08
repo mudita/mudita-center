@@ -39,29 +39,35 @@ export class DeviceConnectionObserver implements Observer {
         return
       }
 
-      // TODO move those logic to DeviceModule
-      const deviceInfo = await this.deviceService.request({
-        endpoint: Endpoint.DeviceInfo,
-        method: Method.Get,
-      })
+      try {
+        await this.ipc.sendToRenderers(IpcEvent.DataInitialized)
 
-      const token = CryptoFileService.createToken({
-        key:
-          deviceInfo.data?.deviceToken ??
-          (deviceInfo.data?.serialNumber as string),
-      })
+        // TODO move those logic to DeviceModule
+        const deviceInfo = await this.deviceService.request({
+          endpoint: Endpoint.DeviceInfo,
+          method: Method.Get,
+        })
 
-      this.keyStorage.setValue(
-        MetadataKey.DeviceSerialNumber,
-        deviceInfo.data?.serialNumber
-      )
-      this.keyStorage.setValue(MetadataKey.DeviceToken, token)
-      this.dataRetrieved = true
+        const token = CryptoFileService.createToken({
+          key:
+            deviceInfo.data?.deviceToken ??
+            (deviceInfo.data?.serialNumber as string),
+        })
 
-      await this.dataSyncService.indexAll()
+        this.keyStorage.setValue(
+          MetadataKey.DeviceSerialNumber,
+          deviceInfo.data?.serialNumber
+        )
+        this.keyStorage.setValue(MetadataKey.DeviceToken, token)
+        this.dataRetrieved = true
 
-      await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
-      await this.eventEmitter.emit(ModelEvent.Loaded)
+        await this.dataSyncService.indexAll()
+
+        await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
+        await this.eventEmitter.emit(ModelEvent.Loaded)
+      } catch (error) {
+        await this.ipc.sendToRenderers(IpcEvent.DataError, error)
+      }
     })
 
     this.deviceService.on(

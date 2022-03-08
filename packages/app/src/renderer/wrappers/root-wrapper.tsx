@@ -57,7 +57,10 @@ import {
   setConnectionStatus,
 } from "App/device"
 import { getCrashDump } from "App/crash-dump"
-import { registerDataSyncListener } from "App/data-sync/listeners/data-sync.listener"
+import {
+  registerDataSyncListener,
+  registerCacheDataListener,
+} from "App/data-sync/listeners"
 
 interface Props {
   history: History
@@ -148,6 +151,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     registerDataSyncListener()
+    registerCacheDataListener()
   }, [])
 
   useEffect(() => {

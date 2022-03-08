@@ -61,10 +61,10 @@ export class DataSyncService {
   }
 
   public async indexAll(): Promise<void> {
-    const serialNumber = this.keyStorage.getValue(
-      MetadataKey.DeviceSerialNumber
-    ) as string
-    const token = this.keyStorage.getValue(MetadataKey.DeviceToken) as string
+    const serialNumber = String(
+      this.keyStorage.getValue(MetadataKey.DeviceSerialNumber)
+    )
+    const token = String(this.keyStorage.getValue(MetadataKey.DeviceToken))
 
     if (!this.deviceService.currentDeviceUnlocked) {
       return

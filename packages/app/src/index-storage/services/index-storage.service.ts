@@ -24,33 +24,50 @@ export class IndexStorageService {
     private fileSystemService: FileSystemService
   ) {}
 
-  public async loadIndex() {
-    const token = this.keyStorage.getValue(MetadataKey.DeviceToken) as string
-    const serialNumber = this.keyStorage.getValue(
-      MetadataKey.DeviceSerialNumber
-    ) as string
+  public async loadIndex(): Promise<boolean> {
+    const token = String(this.keyStorage.getValue(MetadataKey.DeviceToken))
+    const serialNumber = String(
+      this.keyStorage.getValue(MetadataKey.DeviceSerialNumber)
+    )
 
     if (!token || !serialNumber) {
-      return
+      return false
     }
 
-    Object.entries(cacheFileNames).forEach(async (value) => {
-      const [indexName, fileName] = value as [DataIndex, string]
+    const files = Object.entries(cacheFileNames)
 
-      const data = await this.fileSystemService.readEncryptedFile(
-        this.getCacheFilePath(fileName, serialNumber),
-        token
-      )
+    const results = await Promise.all<boolean>(
+      files.map(async (value) => {
+        return new Promise(async (resolve) => {
+          const [indexName, fileName] = value as [DataIndex, string]
+          const filePath = this.getCacheFilePath(fileName, serialNumber)
+          const exists = await this.fileSystemService.exists(filePath)
 
-      this.index.set(indexName, JSON.parse(data?.toString("utf-8") as string))
-    })
+          if (exists) {
+            const data = await this.fileSystemService.readEncryptedFile(
+              filePath,
+              token
+            )
+            this.index.set(
+              indexName,
+              JSON.parse(data?.toString("utf-8") as string)
+            )
+            resolve(true)
+          } else {
+            resolve(false)
+          }
+        })
+      })
+    )
+
+    return results.every((value: boolean) => value)
   }
 
   public saveIndex() {
-    const token = this.keyStorage.getValue(MetadataKey.DeviceToken) as string
-    const serialNumber = this.keyStorage.getValue(
-      MetadataKey.DeviceSerialNumber
-    ) as string
+    const token = String(this.keyStorage.getValue(MetadataKey.DeviceToken))
+    const serialNumber = String(
+      this.keyStorage.getValue(MetadataKey.DeviceSerialNumber)
+    )
 
     if (!token || !serialNumber) {
       return

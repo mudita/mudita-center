@@ -36,19 +36,16 @@ export class FileSystemService {
     return fs.readFileSync(filePath)
   }
 
-  public async extractFile(
-    sourceFile: string,
-    destinationDirectory: string
-  ): Promise<string[]> {
+  public async extractFile(filePath: string, cwd: string): Promise<string[]> {
     const input = new stream.PassThrough()
-    const file = this.readFile(sourceFile)
+    const file = this.readFile(filePath)
     input.end(file)
 
     const entryFilePaths: string[] = []
     const extract = tar.extract({ allowUnknownFormat: true })
 
     extract.on("entry", function (header, inputStream, next) {
-      const entryFilePath = path.join(destinationDirectory, header.name)
+      const entryFilePath = path.join(cwd, header.name)
       const output = fs.createWriteStream(entryFilePath)
       inputStream.pipe(output)
       inputStream.on("end", function () {
@@ -64,19 +61,19 @@ export class FileSystemService {
   }
 
   public async extractEncryptedFile(
-    sourceFile: string,
-    destinationDirectory: string,
+    filePath: string,
+    cwd: string,
     token: string
   ): Promise<string[]> {
     const input = new stream.PassThrough()
-    const file = this.readFile(sourceFile)
+    const file = this.readFile(filePath)
     input.end(file)
 
     const entryFilePaths: string[] = []
     const extract = tar.extract({ allowUnknownFormat: true })
 
     extract.on("entry", function (header, inputStream, next) {
-      const entryFilePath = path.join(destinationDirectory, header.name)
+      const entryFilePath = path.join(cwd, header.name)
       const iv = crypto.randomBytes(16)
       const cipher = CryptoFileService.createCipherivViaToken({ token, iv })
       const appendIv = new AppendIv(iv)
