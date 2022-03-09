@@ -15,6 +15,7 @@ const eventEmitterMock = new EventEmitter()
 const deviceService = {
   request: jest.fn().mockReturnValue({
     data: {
+      deviceToken: "1234567890",
       serialNumber: "0000000000",
     },
   }),

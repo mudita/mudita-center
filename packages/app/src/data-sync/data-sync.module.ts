@@ -52,7 +52,10 @@ export class DataSyncModule extends BaseModule {
       this.ipc,
       this.eventEmitter
     )
-    this.dataSyncController = new DataSyncController(this.index)
+    this.dataSyncController = new DataSyncController(
+      this.index,
+      this.dataSyncService
+    )
 
     this.controllers = [this.dataSyncController]
 

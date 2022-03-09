@@ -60,22 +60,22 @@ export class DataSyncService {
     )
   }
 
-  public async indexAll(): Promise<void> {
+  public async indexAll(): Promise<boolean> {
     const serialNumber = String(
       this.keyStorage.getValue(MetadataKey.DeviceSerialNumber)
     )
     const token = String(this.keyStorage.getValue(MetadataKey.DeviceToken))
 
     if (!this.deviceService.currentDeviceUnlocked) {
-      return
+      return true
     }
 
     if (!this.contactIndexer || !this.messageIndexer || !this.threadIndexer) {
-      return
+      return false
     }
 
     if (!token || !serialNumber) {
-      return
+      return false
     }
 
     const syncFileDir = path.join(getAppPath(), "sync", serialNumber)
@@ -87,7 +87,7 @@ export class DataSyncService {
       })
 
     if (status !== DeviceResponseStatus.Ok || data === undefined) {
-      return
+      return false
     }
 
     const contactIndex = await this.contactIndexer.index(syncFileDir, token)
@@ -97,5 +97,7 @@ export class DataSyncService {
     this.index.set(DataIndex.Contact, contactIndex)
     this.index.set(DataIndex.Message, messageIndex)
     this.index.set(DataIndex.Thread, threadIndex)
+
+    return true
   }
 }

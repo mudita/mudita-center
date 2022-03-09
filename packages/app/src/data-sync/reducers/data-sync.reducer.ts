@@ -60,7 +60,7 @@ export const dataSyncReducer = createReducer<DataSyncState>(
         }
       })
       .addCase(
-        DataSyncEvent.SetDataSyncInitializingError,
+        DataSyncEvent.InitializingDataError,
         (state, action: DataInitializingError) => {
           return {
             ...state,

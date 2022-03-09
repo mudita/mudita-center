@@ -13,17 +13,27 @@ import {
 import { readAllIndexes } from "App/data-sync/actions/read-all-indexes.action"
 import { IpcEvent } from "App/data-sync/constants"
 
+const dataLoaded = () => {
+  store.dispatch(readAllIndexes())
+  store.dispatch(setDataSyncInitialized())
+}
+
+const dataInitialized = () => {
+  store.dispatch(setDataSyncInitializing())
+}
+
+const dataError = (error: any) => {
+  store.dispatch(setDataSyncInitializingError(error))
+}
+
 export const registerDataSyncListener = () => {
-  ipcRenderer.on(IpcEvent.DataLoaded, () => {
-    store.dispatch(readAllIndexes())
-    store.dispatch(setDataSyncInitialized())
-  })
+  ipcRenderer.on(IpcEvent.DataLoaded, dataLoaded)
+  ipcRenderer.on(IpcEvent.DataInitialized, dataInitialized)
+  ipcRenderer.on(IpcEvent.DataError, dataError)
 
-  ipcRenderer.on(IpcEvent.DataInitialized, () => {
-    store.dispatch(setDataSyncInitializing())
-  })
-
-  ipcRenderer.on(IpcEvent.DataError, (error) => {
-    store.dispatch(setDataSyncInitializingError(error as unknown as Error))
-  })
+  return () => {
+    ipcRenderer.off(IpcEvent.DataLoaded, dataLoaded)
+    ipcRenderer.off(IpcEvent.DataInitialized, dataInitialized)
+    ipcRenderer.off(IpcEvent.DataError, dataError)
+  }
 }

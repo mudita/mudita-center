@@ -41,10 +41,12 @@ export class IndexStorageLoadingObserver implements Observer {
         method: Method.Get,
       })
 
+      if (!deviceInfo.data?.deviceToken) {
+        return
+      }
+
       const token = CryptoFileService.createToken({
-        key:
-          deviceInfo.data?.deviceToken ??
-          (deviceInfo.data?.serialNumber as string),
+        key: deviceInfo.data.deviceToken,
       })
 
       this.keyStorage.setValue(

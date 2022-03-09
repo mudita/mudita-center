@@ -150,8 +150,13 @@ const RootWrapper: FunctionComponent<Props> = ({
   }, [])
 
   useEffect(() => {
-    registerDataSyncListener()
-    registerCacheDataListener()
+    const dataSync = registerDataSyncListener()
+    const dataCache = registerCacheDataListener()
+
+    return () => {
+      dataSync()
+      dataCache()
+    }
   }, [])
 
   useEffect(() => {

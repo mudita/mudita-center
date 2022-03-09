@@ -8,6 +8,7 @@ import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 import { Observer } from "App/core/types"
 import { ModelEvent } from "App/core/constants"
+import { delay } from "lodash"
 import {
   DeviceService,
   DeviceServiceEventName,
@@ -48,10 +49,12 @@ export class DeviceConnectionObserver implements Observer {
           method: Method.Get,
         })
 
+        if (!deviceInfo.data?.deviceToken) {
+          return
+        }
+
         const token = CryptoFileService.createToken({
-          key:
-            deviceInfo.data?.deviceToken ??
-            (deviceInfo.data?.serialNumber as string),
+          key: deviceInfo.data.deviceToken,
         })
 
         this.keyStorage.setValue(
@@ -61,10 +64,14 @@ export class DeviceConnectionObserver implements Observer {
         this.keyStorage.setValue(MetadataKey.DeviceToken, token)
         this.dataRetrieved = true
 
-        await this.dataSyncService.indexAll()
+        const indexed = await delay(this.dataSyncService.indexAll, 100)
 
-        await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
-        await this.eventEmitter.emit(ModelEvent.Loaded)
+        if (indexed) {
+          await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
+          await this.eventEmitter.emit(ModelEvent.Loaded)
+        } else {
+          await this.ipc.sendToRenderers(IpcEvent.DataError)
+        }
       } catch (error) {
         await this.ipc.sendToRenderers(IpcEvent.DataError, error)
       }
