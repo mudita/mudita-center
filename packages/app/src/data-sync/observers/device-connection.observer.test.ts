@@ -15,6 +15,7 @@ const eventEmitterMock = new EventEmitter()
 const deviceService = {
   request: jest.fn().mockReturnValue({
     data: {
+      deviceToken: "0000000000",
       serialNumber: "0000000000",
     },
   }),
@@ -24,7 +25,7 @@ const deviceService = {
 } as unknown as DeviceService
 const keyStorage = new MetadataStore()
 const indexStorageService = {
-  indexAll: jest.fn(),
+  indexAll: jest.fn().mockReturnValue(true),
 } as unknown as DataSyncService
 
 describe("Method: observe", () => {
@@ -45,6 +46,7 @@ describe("Method: observe", () => {
     subject.observe()
 
     await eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+    await new Promise((resolve) => setTimeout(resolve, 200))
 
     expect(indexStorageService.indexAll).toHaveBeenCalledTimes(1)
     expect(deviceService.request).toHaveBeenCalledTimes(1)
