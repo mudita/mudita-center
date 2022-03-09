@@ -8,6 +8,7 @@ import store from "Renderer/store"
 import {
   setDataSyncInitialized,
   setDataSyncInitializing,
+  setLoadedState,
   setDataSyncInitializingError,
 } from "App/data-sync/actions/base-app.action"
 import { readAllIndexes } from "App/data-sync/actions/read-all-indexes.action"
@@ -15,6 +16,7 @@ import { IpcEvent } from "App/data-sync/constants"
 
 const dataLoaded = () => {
   store.dispatch(readAllIndexes())
+  store.dispatch(setLoadedState())
   store.dispatch(setDataSyncInitialized())
 }
 

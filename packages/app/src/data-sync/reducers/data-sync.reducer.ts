@@ -33,6 +33,12 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           error: null,
         }
       })
+      .addCase(DataSyncEvent.SetLoadedState, (state) => {
+        return {
+          ...state,
+          state: SynchronizationState.Loaded,
+        }
+      })
       .addCase(pendingAction(DataSyncEvent.InitializeDataSync), (state) => {
         return {
           ...state,
@@ -83,13 +89,6 @@ export const dataSyncReducer = createReducer<DataSyncState>(
         return {
           ...state,
           state: SynchronizationState.Cache,
-          initialized: true,
-        }
-      })
-      .addCase(fulfilledAction(DataSyncEvent.ReadAllIndexes), (state) => {
-        return {
-          ...state,
-          state: SynchronizationState.Loaded,
           initialized: true,
         }
       })
