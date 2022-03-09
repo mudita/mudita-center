@@ -207,30 +207,23 @@ storiesOf("Components|Core/Button", module)
   .add("Icon", () => (
     <>
       <StoryContainer title="Themes">
-        <Story title="Style 1">
+        <Story title="Icon only">
           <Button
-            Icon={Type.Upload}
-            displayStyle={DisplayStyle.IconOnly1}
+            Icon={Type.UploadDark}
+            displayStyle={DisplayStyle.IconOnly}
             iconSize={IconSize.Small}
           />
         </Story>
-        <Story title="Style 2">
+        <Story title="Icon only wiht background">
           <Button
-            Icon={Type.Upload}
-            displayStyle={DisplayStyle.IconOnly2}
-            iconSize={IconSize.Small}
+            Icon={Type.Send}
+            displayStyle={DisplayStyle.IconOnlyWithBackground}
+            iconSize={IconSize.Big}
           />
         </Story>
-        <Story title="Style 3">
+        <Story title="Input icon">
           <Button
-            Icon={Type.Upload}
-            displayStyle={DisplayStyle.IconOnly3}
-            iconSize={IconSize.Small}
-          />
-        </Story>
-        <Story title="Style 4">
-          <Button
-            Icon={Type.Upload}
+            Icon={Type.UploadDark}
             displayStyle={DisplayStyle.InputIcon}
             iconSize={IconSize.Small}
           />

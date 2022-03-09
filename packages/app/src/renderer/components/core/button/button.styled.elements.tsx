@@ -18,7 +18,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 import { DisplayStyle, Size } from "./button.config"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const getSize = (size: Size) => {
   switch (size) {
@@ -53,7 +53,7 @@ const navLinkStyles = css`
   }
 `
 
-export const disabledPrimaryStyles = css`
+const disabledPrimaryStyles = css`
   background: ${backgroundColor("disabled")};
   border: 0.1rem solid ${backgroundColor("disabled")};
   p {
@@ -78,6 +78,7 @@ const buttonStyles = css<{
   displaystyle: DisplayStyle
   disabled: boolean
   size: Size
+  iconSize?: IconSize
 }>`
   display: flex;
   align-items: center;
@@ -141,44 +142,63 @@ const buttonStyles = css<{
             background: ${backgroundColor("secondaryHover")};
           }
         `
-      case DisplayStyle.IconOnly1:
+      case DisplayStyle.IconOnly:
         return css`
-          height: 4rem;
-          width: 4rem;
-          border: 0.1rem solid ${borderColor("hover")};
+          opacity: 0.6;
+          transition: opacity ${transitionTime("quick")}
+            ${transitionTimingFunction("smooth")};
           border-radius: ${borderRadius("small")};
-          &:hover {
-            border-color: ${borderColor("primary")};
-          }
-        `
-      case DisplayStyle.IconOnly2:
-        return css`
-          height: 3.2rem;
-          width: 3.2rem;
-          border-radius: ${borderRadius("small")};
+          width: 2.8rem;
+          height: 2.8rem;
           background: transparent;
           border: none;
           &:hover {
             background: ${backgroundColor("minor")};
+            opacity: 1;
           }
-
           svg {
             height: initial;
             width: initial;
           }
         `
-      case DisplayStyle.IconOnly3:
+      case DisplayStyle.IconOnlyWithBackground:
         return css`
-          height: 3.2rem;
+          opacity: 0.75;
+          transition: opacity ${transitionTime("quick")}
+            ${transitionTimingFunction("smooth")};
+          background-color: ${backgroundColor("super")};
+          border-radius: 50%;
           width: 3.2rem;
-          border-radius: ${borderRadius("small")};
-          background: transparent;
+          height: 3.2rem;
           border: none;
           &:hover {
-            background: ${backgroundColor("minor")};
+            border-radius: 50%;
+            opacity: 1;
+            background-color: ${backgroundColor("super")};
+            svg path {
+              fill: ${textColor("active")};
+            }
           }
-          g {
-            fill: ${textColor("action")};
+          svg {
+            height: initial;
+            width: initial;
+            path {
+              fill: ${textColor("active")};
+            }
+          }
+        `
+      case DisplayStyle.InputIcon:
+        return css`
+          justify-content: flex-start;
+          height: 2.4rem;
+          width: 2.4rem;
+          border: none;
+          padding: 0;
+          ${disabled && {
+            opacity: 0.4,
+          }};
+          &:hover {
+            background: ${backgroundColor("minor")};
           }
         `
       case DisplayStyle.Link1:
@@ -317,17 +337,6 @@ const buttonStyles = css<{
             color: ${textColor("secondary")};
           }
         `
-      case DisplayStyle.InputIcon:
-        return css`
-          justify-content: flex-start;
-          height: 2.4rem;
-          width: 2.4rem;
-          border: none;
-          padding: 0;
-          ${disabled && {
-            opacity: 0.4,
-          }};
-        `
       default:
         return
     }
@@ -387,14 +396,4 @@ export const StyledIcon = styled(Icon)<{
       width: 100%;
       height: 100%;
     `};
-`
-
-export const buttonComponentAnimationStyles = css`
-  opacity: 0.6;
-  transition: opacity ${transitionTime("quick")}
-    ${transitionTimingFunction("smooth")};
-
-  &:hover {
-    opacity: 1;
-  }
 `

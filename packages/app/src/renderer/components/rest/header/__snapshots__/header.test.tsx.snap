@@ -81,7 +81,7 @@ exports[`matches snapshot with tabs 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  width: 28rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -90,9 +90,8 @@ exports[`matches snapshot with tabs 1`] = `
   padding: 0.8rem;
   border: none;
   position: relative;
-  border-radius: 0.2remrem;
-  font-weight: 400;
   width: 100%;
+  color: #6a6a6a;
 }
 
 .c4:after {
@@ -171,7 +170,7 @@ exports[`matches snapshot with tabs 1`] = `
     <a
       aria-current="page"
       class="c4 c5 active"
-      displaystyle="9"
+      displaystyle="8"
       href="/phone"
       size="2"
     >
@@ -194,7 +193,7 @@ exports[`matches snapshot with tabs 1`] = `
     </a>
     <a
       class="c4 c5"
-      displaystyle="9"
+      displaystyle="8"
       href="/phone/dial"
       size="2"
     >

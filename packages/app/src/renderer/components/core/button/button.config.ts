@@ -6,9 +6,8 @@
 export enum DisplayStyle {
   Primary,
   Secondary,
-  IconOnly1,
-  IconOnly2,
-  IconOnly3,
+  IconOnly,
+  IconOnlyWithBackground,
   Link1,
   Link2,
   Link3,

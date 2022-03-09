@@ -27,8 +27,8 @@ import { Message as MessageInterface } from "Renderer/interfaces/message.interfa
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { SortOrder } from "Common/enums/sort-order.enum"
-import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
+import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 /* Row */
 export enum RowSize {
@@ -189,7 +189,7 @@ const SidebarHeaderLeft = styled.div`
 const SidebarHeaderRight = styled.div`
   grid-area: Right;
   position: relative;
-  padding-right: 1.6rem;
+  padding-right: 0.3rem;
   display: flex;
   flex-direction: row;
 
@@ -210,7 +210,7 @@ const SidebarHeader = styled.div<{
 }>`
   display: grid;
   height: var(--header-height);
-  grid-template-columns: 1fr auto 3.8rem;
+  grid-template-columns: 1fr auto 3.2rem;
   grid-template-areas: "Left Right Close";
   align-items: center;
   background-color: var(--header-background);
@@ -247,11 +247,9 @@ const SidebarWrapper = styled.div<{
 `
 
 export const SidebarHeaderButton = styled(ButtonComponent).attrs(() => ({
-  displayStyle: DisplayStyle.IconOnly2,
-}))`
-  ${buttonComponentAnimationStyles};
-  margin-left: 0.6rem;
-`
+  displayStyle: DisplayStyle.IconOnly,
+  iconSize: IconSize.Medium,
+}))``
 
 /* Empty state */
 const EmptyStateWrapper = styled.div`

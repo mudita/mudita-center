@@ -86,13 +86,7 @@ export default [
     name: "Icon only",
     cases: [
       {
-        displayStyle: DisplayStyle.IconOnly1,
-      },
-      {
-        displayStyle: DisplayStyle.IconOnly2,
-      },
-      {
-        displayStyle: DisplayStyle.IconOnly3,
+        displayStyle: DisplayStyle.IconOnly,
       },
     ],
   },

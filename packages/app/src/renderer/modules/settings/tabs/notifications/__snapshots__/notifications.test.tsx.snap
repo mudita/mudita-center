@@ -83,18 +83,18 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  width: 28rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c12:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c12 g {
+.c12 g path {
   fill: #ffffff;
 }
 
@@ -124,13 +124,13 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  width: 28rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
 }
 
-.c17 g {
+.c17 g path {
   fill: #000000;
 }
 
@@ -154,7 +154,7 @@ exports[`matches snapshot 1`] = `
 }
 
 .c13 {
-  --radius: 0.5rem;
+  --radius: 0.4rem;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -185,7 +185,7 @@ exports[`matches snapshot 1`] = `
 }
 
 .c18 {
-  --radius: 0.5rem;
+  --radius: 0.4rem;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -203,11 +203,14 @@ exports[`matches snapshot 1`] = `
 
 .c18:not(:hover) {
   border: 0.1rem solid #d2d6db;
-  color: #6a6a6a;
 }
 
-.c18:not(:hover) g {
-  fill: #f4f5f6;
+.c18:not(:hover) p {
+  color: #a5a5a5;
+}
+
+.c18:not(:hover) g path {
+  fill: #a5a5a5;
 }
 
 .c18:not(:first-of-type) {

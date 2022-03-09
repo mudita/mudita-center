@@ -95,7 +95,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  width: 28rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -166,7 +166,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  width: 28rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -303,7 +303,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
         <a
           class="c5"
           color="secondary"
-          displaystyle="8"
+          displaystyle="7"
           href="#/news"
           size="2"
         >
@@ -343,7 +343,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
           class="c5"
           color="secondary"
           data-testid="tethering-link"
-          displaystyle="8"
+          displaystyle="7"
           href="#/tethering"
           size="2"
         >
@@ -371,7 +371,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
         <a
           class="c5"
           color="secondary"
-          displaystyle="8"
+          displaystyle="7"
           href="#/settings"
           size="2"
         >
@@ -521,7 +521,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  width: 28rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -592,7 +592,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  width: 28rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -729,7 +729,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
         <a
           class="c5"
           color="secondary"
-          displaystyle="8"
+          displaystyle="7"
           href="#/news"
           size="2"
         >
@@ -769,7 +769,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
           class="c5"
           color="secondary"
           data-testid="tethering-link"
-          displaystyle="8"
+          displaystyle="7"
           href="#/tethering"
           size="2"
         >
@@ -797,7 +797,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
         <a
           class="c5"
           color="secondary"
-          displaystyle="8"
+          displaystyle="7"
           href="#/settings"
           size="2"
         >
