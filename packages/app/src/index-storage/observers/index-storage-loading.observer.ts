@@ -19,7 +19,7 @@ import { IpcEvent } from "App/data-sync/constants"
 import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
 
 export class IndexStorageLoadingObserver implements Observer {
-  private dataRetrieved = false
+  private invoked = false
 
   constructor(
     private deviceService: DeviceService,
@@ -31,9 +31,11 @@ export class IndexStorageLoadingObserver implements Observer {
 
   public observe(): void {
     this.deviceService.on(DeviceServiceEventName.DeviceUnlocked, async () => {
-      if (this.dataRetrieved) {
+      if (this.invoked) {
         return
       }
+
+      this.invoked = true
 
       // TODO move those logic to DeviceModule
       const deviceInfo = await this.deviceService.request({
@@ -54,7 +56,6 @@ export class IndexStorageLoadingObserver implements Observer {
         deviceInfo.data?.serialNumber
       )
       this.keyStorage.setValue(MetadataKey.DeviceToken, token)
-      this.dataRetrieved = true
 
       const restored = await this.indexStorageService.loadIndex()
 
@@ -79,7 +80,7 @@ export class IndexStorageLoadingObserver implements Observer {
     this.deviceService.on(
       DeviceServiceEventName.DeviceDisconnected,
       async () => {
-        this.dataRetrieved = false
+        this.invoked = false
       }
     )
   }

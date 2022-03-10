@@ -8,7 +8,6 @@ import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 import { Observer } from "App/core/types"
 import { ModelEvent } from "App/core/constants"
-import { delay } from "lodash"
 import {
   DeviceService,
   DeviceServiceEventName,
@@ -20,7 +19,7 @@ import { IpcEvent } from "App/data-sync/constants/ipc-event.constant"
 import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
 
 export class DeviceConnectionObserver implements Observer {
-  private dataRetrieved = false
+  private invoked = false
 
   constructor(
     private deviceService: DeviceService,
@@ -36,9 +35,11 @@ export class DeviceConnectionObserver implements Observer {
 
   private registerListener(): void {
     this.deviceService.on(DeviceServiceEventName.DeviceUnlocked, async () => {
-      if (this.dataRetrieved) {
+      if (this.invoked) {
         return
       }
+
+      this.invoked = true
 
       try {
         await this.ipc.sendToRenderers(IpcEvent.DataInitialized)
@@ -62,9 +63,13 @@ export class DeviceConnectionObserver implements Observer {
           deviceInfo.data?.serialNumber
         )
         this.keyStorage.setValue(MetadataKey.DeviceToken, token)
-        this.dataRetrieved = true
 
-        const indexed = await delay(this.dataSyncService.indexAll, 100)
+        const indexed = await new Promise((resolve) => {
+          setTimeout(async () => {
+            const result = await this.dataSyncService.indexAll()
+            resolve(result)
+          }, 1000)
+        })
 
         if (indexed) {
           await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
@@ -80,7 +85,7 @@ export class DeviceConnectionObserver implements Observer {
     this.deviceService.on(
       DeviceServiceEventName.DeviceDisconnected,
       async () => {
-        this.dataRetrieved = false
+        this.invoked = false
       }
     )
   }
