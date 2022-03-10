@@ -99,6 +99,7 @@ const theme = {
   borderRadius: {
     small: 0.2,
     medium: 0.4,
+    regular: 0.8,
     big: 1.2,
   },
   letterSpacing: {

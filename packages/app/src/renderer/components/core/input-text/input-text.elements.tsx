@@ -212,7 +212,7 @@ const PasscodeInput = styled.input<{
   filled: boolean
 }>`
   border: solid 0.1rem ${borderColor("secondary")};
-  border-radius: 0.4rem;
+  border-radius: ${borderRadius("medium")};
   width: 4.6rem;
   height: 7.6rem;
   margin: 0 1.2rem;
@@ -308,7 +308,7 @@ const textAreaLayout = css`
   height: auto;
   min-height: 4.8rem;
   padding: 0 1.3rem;
-  border-radius: ${borderRadius("big")};
+  border-radius: ${borderRadius("regular")};
 `
 
 const TextareaWrapper = styled(InputWrapper)<{

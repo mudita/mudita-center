@@ -15,6 +15,7 @@ import styled from "styled-components"
 import { noop } from "Renderer/utils/noop"
 import {
   backgroundColor,
+  borderRadius,
   transitionTime,
 } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
@@ -57,7 +58,7 @@ const DownloadBar = styled.div`
   margin-top: 3.2rem;
   height: 0.4rem;
   position: relative;
-  border-radius: 0.4rem;
+  border-radius: ${borderRadius("medium")};
   background-color: ${backgroundColor("minor")};
 
   span {
