@@ -46,7 +46,7 @@ describe("Method: observe", () => {
     subject.observe()
 
     await eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
-    await new Promise((resolve) => setTimeout(resolve, 200))
+    await new Promise((resolve) => setTimeout(resolve, 1100))
 
     expect(indexStorageService.indexAll).toHaveBeenCalledTimes(1)
     expect(deviceService.request).toHaveBeenCalledTimes(1)
