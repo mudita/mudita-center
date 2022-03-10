@@ -132,7 +132,7 @@ const LabeledInputWrapper = styled.div`
 
 const TextInputIcon = styled.span`
   height: 100%;
-  max-height: 4.8rem;
+  max-height: 4.6rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -331,7 +331,7 @@ const TextareaWrapper = styled(InputWrapper)<{
 
   ${LeadingIcons}, ${TrailingIcons} {
     align-self: flex-end;
-    height: ${({ outlined }) => (outlined ? "4.8rem" : "auto")};
+    height: ${({ outlined }) => (outlined ? "4.6rem" : "auto")};
   }
 `
 
