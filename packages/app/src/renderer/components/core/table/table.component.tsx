@@ -189,7 +189,6 @@ const SidebarHeaderLeft = styled.div`
 const SidebarHeaderRight = styled.div`
   grid-area: Right;
   position: relative;
-  padding-right: 0.3rem;
   display: flex;
   flex-direction: row;
 
@@ -249,7 +248,9 @@ const SidebarWrapper = styled.div<{
 export const SidebarHeaderButton = styled(ButtonComponent).attrs(() => ({
   displayStyle: DisplayStyle.IconOnly,
   iconSize: IconSize.Medium,
-}))``
+}))`
+  margin-right: 0.4rem;
+`
 
 /* Empty state */
 const EmptyStateWrapper = styled.div`

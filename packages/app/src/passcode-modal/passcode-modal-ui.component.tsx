@@ -104,7 +104,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
         )}
         <ButtonContainer>
           <ButtonComponent
-            displayStyle={DisplayStyle.Link3}
+            displayStyle={DisplayStyle.ActionLink}
             labelMessage={{
               id: "component.passcodeModalHelp",
             }}

@@ -28,8 +28,8 @@ exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disa
   -webkit-transition: opacity 250ms ease-in-out;
   transition: opacity 250ms ease-in-out;
   border-radius: 0.2rem;
-  width: 2.8rem;
-  height: 2.8rem;
+  width: 2.4rem;
+  height: 2.4rem;
   background: transparent;
   border: none;
 }
@@ -92,16 +92,15 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  height: 3rem;
-  padding: 0.8rem;
+  height: 2.4rem;
+  padding: 0;
   border: none;
-  border-radius: 0.2rem;
-  font-weight: 400;
+  opacity: 0.8;
   width: 100%;
 }
 
 .c0:hover {
-  background-color: #f4f5f6;
+  opacity: 1;
 }
 
 .c2 {
@@ -187,20 +186,19 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  height: 3rem;
-  padding: 0.8rem;
+  height: 2.4rem;
+  padding: 0;
   border: none;
-  border-radius: 0.2rem;
-  font-weight: 400;
+  opacity: 0.8;
   width: 100%;
 }
 
 .c0:hover {
-  background-color: #f4f5f6;
+  opacity: 1;
 }
 
 .c2 {
-  margin: 0 0.8rem 0 0;
+  margin-right: 0.4rem;
 }
 
 .c4 {
@@ -271,11 +269,10 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  height: 4rem;
-  padding: 0.8rem;
+  height: 3.2rem;
+  padding: 0;
   border: none;
-  border-radius: 0.4rem;
-  font-weight: 400;
+  border-radius: 0.2rem;
   width: 100%;
 }
 
@@ -364,11 +361,10 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  height: 4rem;
-  padding: 0.8rem;
+  height: 3.2rem;
+  padding: 0;
   border: none;
-  border-radius: 0.4rem;
-  font-weight: 400;
+  border-radius: 0.2rem;
   width: 100%;
 }
 
@@ -377,7 +373,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 }
 
 .c2 {
-  margin: 0 1.2rem 0 0;
+  margin-right: 0.4rem;
 }
 
 .c4 {
@@ -462,7 +458,15 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   background-color: #f4f5f6;
 }
 
-.c0 g {
+.c0:hover p {
+  color: #40749a;
+}
+
+.c0:hover g path {
+  fill: #40749a;
+}
+
+.c0 g path {
   fill: #6d9bbc;
 }
 
@@ -565,7 +569,15 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   background-color: #f4f5f6;
 }
 
-.c0 g {
+.c0:hover p {
+  color: #40749a;
+}
+
+.c0:hover g path {
+  fill: #40749a;
+}
+
+.c0 g path {
   fill: #6d9bbc;
 }
 
@@ -646,9 +658,9 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 4rem;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.4rem;
   font-weight: 400;
   width: 100%;
 }
@@ -771,9 +783,9 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 4rem;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.4rem;
   font-weight: 400;
   width: 100%;
 }

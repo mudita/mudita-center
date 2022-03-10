@@ -60,7 +60,7 @@ const SearchContainer = styled.div`
 
 const SearchInput = styled(InputText)`
   width: 27.5rem;
-  margin-left: 0.8rem;
+  margin-left: 1.6rem;
 `
 
 const QuestionsContainer = styled.div`

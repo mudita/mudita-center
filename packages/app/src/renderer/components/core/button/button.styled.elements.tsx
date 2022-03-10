@@ -18,7 +18,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 import { DisplayStyle, Size } from "./button.config"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
+import Icon from "Renderer/components/core/icon/icon.component"
 
 const getSize = (size: Size) => {
   switch (size) {
@@ -78,7 +78,6 @@ const buttonStyles = css<{
   displaystyle: DisplayStyle
   disabled: boolean
   size: Size
-  iconSize?: IconSize
 }>`
   display: flex;
   align-items: center;
@@ -148,8 +147,8 @@ const buttonStyles = css<{
           transition: opacity ${transitionTime("quick")}
             ${transitionTimingFunction("smooth")};
           border-radius: ${borderRadius("small")};
-          width: 2.8rem;
-          height: 2.8rem;
+          width: 2.4rem;
+          height: 2.4rem;
           background: transparent;
           border: none;
           &:hover {
@@ -190,8 +189,8 @@ const buttonStyles = css<{
       case DisplayStyle.InputIcon:
         return css`
           justify-content: flex-start;
-          height: 2.4rem;
-          width: 2.4rem;
+          height: 3.2rem;
+          width: 3.2rem;
           border: none;
           padding: 0;
           ${disabled && {
@@ -201,10 +200,43 @@ const buttonStyles = css<{
             background: ${backgroundColor("minor")};
           }
         `
-      case DisplayStyle.Link1:
+      case DisplayStyle.Link:
         return css`
           justify-content: flex-start;
-          height: 3rem;
+          height: 2.4rem;
+          padding: 0;
+          border: none;
+          opacity: 0.8;
+          width: 100%;
+          &:hover {
+            opacity: 1;
+          }
+          ${disabled &&
+          css`
+            p {
+              color: ${textColor("disabled")};
+            }
+            g path {
+              fill: ${textColor("disabled")};
+            }
+          `}
+        `
+      case DisplayStyle.LinkWithParagraph:
+        return css`
+          justify-content: flex-start;
+          height: 3.2rem;
+          padding: 0;
+          border: none;
+          border-radius: ${borderRadius("small")};
+          width: 100%;
+          &:hover {
+            background-color: ${backgroundColor("minor")};
+          }
+        `
+      case DisplayStyle.ActionLink:
+        return css`
+          justify-content: flex-start;
+          height: 4rem;
           padding: 0.8rem;
           border: none;
           border-radius: ${borderRadius("small")};
@@ -212,47 +244,27 @@ const buttonStyles = css<{
           width: 100%;
           &:hover {
             background-color: ${backgroundColor("minor")};
+            p {
+              color: ${textColor("actionHover")};
+            }
+            g path {
+              fill: ${textColor("actionHover")};
+            }
           }
-        `
-      case DisplayStyle.Link2:
-        return css`
-          justify-content: flex-start;
-          height: 4rem;
-          padding: 0.8rem;
-          border: none;
-          border-radius: ${borderRadius("medium")};
-          font-weight: ${fontWeight("default")};
-          width: 100%;
-          &:hover {
-            background-color: ${backgroundColor("minor")};
-          }
-        `
-      case DisplayStyle.Link3:
-        return css`
-          justify-content: flex-start;
-          height: 4rem;
-          padding: 0.8rem;
-          border: none;
-          border-radius: ${borderRadius("small")};
-          font-weight: ${fontWeight("default")};
-          width: 100%;
-          &:hover {
-            background-color: ${backgroundColor("minor")};
-          }
-          g {
+          g path {
             fill: ${textColor("action")};
           }
           p {
             color: ${textColor("action")};
           }
         `
-      case DisplayStyle.Link4:
+      case DisplayStyle.MenuLink:
         return css`
           justify-content: flex-start;
           height: 4rem;
-          padding: 0.8rem;
+          padding: 0.4rem;
           border: none;
-          border-radius: ${borderRadius("small")};
+          border-radius: ${borderRadius("medium")};
           font-weight: ${fontWeight("default")};
           width: 100%;
           &.${activeClassName} {
@@ -378,9 +390,12 @@ export const StyledIcon = styled(Icon)<{
 }>`
   ${({ displaystyle, withMargin }) => {
     if (withMargin) {
-      if (displaystyle === DisplayStyle.Link2) {
+      if (
+        displaystyle === DisplayStyle.Link ||
+        displaystyle === DisplayStyle.LinkWithParagraph
+      ) {
         return css`
-          margin: 0 1.2rem 0 0;
+          margin-right: 0.4rem;
         `
       }
       return css`

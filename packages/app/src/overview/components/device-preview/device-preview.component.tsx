@@ -30,6 +30,7 @@ import { DeviceImage } from "App/overview/components/device-preview/device-image
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const DeviceSystemButton = styled(Button)`
   width: auto;
@@ -98,8 +99,9 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
             })}
             onClick={openPureSystem}
             data-testid={DeviceTestIds.PureSystemButton}
-            displayStyle={DisplayStyle.Link2}
+            displayStyle={DisplayStyle.LinkWithParagraph}
             Icon={Type.MenuPhone}
+            iconSize={IconSize.Bigger}
           />
         </PureSystemButtonContainer>
       )}

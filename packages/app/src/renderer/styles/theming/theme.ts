@@ -41,7 +41,7 @@ const theme = {
       iconBody: white,
       iconUser: blue3,
       tabHover: grey1,
-      seeAll: blue1,
+      actionHover: blue1,
     },
     background: {
       activity: blue2,

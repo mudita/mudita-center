@@ -33,7 +33,7 @@ test("renders dropdown", () => {
   const { getByTestId, getByText, container } = renderWithThemeAndIntl(
     <Dropdown toggler={<ButtonComponent label={buttonText} />}>
       <Button
-        displayStyle={DisplayStyle.Link1}
+        displayStyle={DisplayStyle.Link}
         label="I open Google in new tab"
         href="http://www.google.pl"
         target="_blank"
@@ -54,7 +54,7 @@ test("renders children", () => {
   const { getByText } = renderWithThemeAndIntl(
     <Dropdown toggler={<ButtonComponent label={buttonText} />}>
       <Button
-        displayStyle={DisplayStyle.Link1}
+        displayStyle={DisplayStyle.Link}
         label={childText}
         href="http://www.google.pl"
         target="_blank"

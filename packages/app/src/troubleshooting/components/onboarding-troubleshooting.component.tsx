@@ -237,7 +237,7 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
             }}
           />
           <ButtonComponent
-            displayStyle={DisplayStyle.Link3}
+            displayStyle={DisplayStyle.ActionLink}
             labelMessage={{
               id: "module.onboarding.supportButton",
             }}

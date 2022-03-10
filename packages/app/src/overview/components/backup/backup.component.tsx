@@ -88,7 +88,7 @@ const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
           </CardText>
           <RestoreButtonContainer>
             <Button
-              displayStyle={DisplayStyle.Link3}
+              displayStyle={DisplayStyle.ActionLink}
               onClick={onBackupRestore}
               label={intl.formatMessage(messages.restoreAction)}
             />

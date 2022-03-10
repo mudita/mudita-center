@@ -47,7 +47,7 @@ const Answer: FunctionComponent<Props> = ({ match, list }) => {
       <AnswerHeader>
         <BackLink
           Icon={Type.ArrowLongLeft}
-          displayStyle={DisplayStyle.Link1}
+          displayStyle={DisplayStyle.Link}
           label={intl.formatMessage({
             id: "module.help.backLinkText",
           })}

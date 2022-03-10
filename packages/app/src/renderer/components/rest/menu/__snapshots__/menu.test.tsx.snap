@@ -101,9 +101,9 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 4rem;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.4rem;
   font-weight: 400;
   width: 100%;
 }
@@ -172,9 +172,9 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 4rem;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.4rem;
   font-weight: 400;
   width: 100%;
 }
@@ -221,10 +221,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 
 .c9 {
   white-space: nowrap;
-}
-
-.c13 {
-  padding: 0.4rem 0.8rem;
 }
 
 .c10 {
@@ -302,7 +298,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
       >
         <a
           class="c5"
-          color="secondary"
           displaystyle="7"
           href="#/news"
           size="2"
@@ -341,7 +336,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
       >
         <a
           class="c5"
-          color="secondary"
           data-testid="tethering-link"
           displaystyle="7"
           href="#/tethering"
@@ -370,7 +364,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
       >
         <a
           class="c5"
-          color="secondary"
           displaystyle="7"
           href="#/settings"
           size="2"
@@ -397,8 +390,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
         class="c4"
       >
         <button
-          class="c12 c13"
-          color="secondary"
+          class="c12"
           data-testid="help-menu-button"
           size="2"
           type="button"
@@ -527,9 +519,9 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 4rem;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.4rem;
   font-weight: 400;
   width: 100%;
 }
@@ -598,9 +590,9 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 4rem;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.4rem;
   font-weight: 400;
   width: 100%;
 }
@@ -647,10 +639,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 
 .c9 {
   white-space: nowrap;
-}
-
-.c13 {
-  padding: 0.4rem 0.8rem;
 }
 
 .c10 {
@@ -728,7 +716,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
       >
         <a
           class="c5"
-          color="secondary"
           displaystyle="7"
           href="#/news"
           size="2"
@@ -767,7 +754,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
       >
         <a
           class="c5"
-          color="secondary"
           data-testid="tethering-link"
           displaystyle="7"
           href="#/tethering"
@@ -796,7 +782,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
       >
         <a
           class="c5"
-          color="secondary"
           displaystyle="7"
           href="#/settings"
           size="2"
@@ -823,8 +808,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
         class="c4"
       >
         <button
-          class="c12 c13"
-          color="secondary"
+          class="c12"
           data-testid="help-menu-button"
           size="2"
           type="button"

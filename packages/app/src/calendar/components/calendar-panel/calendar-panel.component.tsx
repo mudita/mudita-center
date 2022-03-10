@@ -83,7 +83,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
             <ButtonComponent
               key="export"
               label={intl.formatMessage(messages.exportButton)}
-              displayStyle={DisplayStyle.Link1}
+              displayStyle={DisplayStyle.Link}
               Icon={Type.UploadDark}
               onClick={exportEventsAction}
               data-testid={CalendarPanelTestIds.ExportButton}
@@ -91,7 +91,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
             <ButtonComponent
               key="delete"
               label={intl.formatMessage(messages.deleteButton)}
-              displayStyle={DisplayStyle.Link1}
+              displayStyle={DisplayStyle.Link}
               Icon={Type.Delete}
               onClick={noop}
             />,

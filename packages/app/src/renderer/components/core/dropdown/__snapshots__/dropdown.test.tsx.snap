@@ -148,16 +148,15 @@ exports[`renders dropdown 1`] = `
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  height: 3rem;
-  padding: 0.8rem;
+  height: 2.4rem;
+  padding: 0;
   border: none;
-  border-radius: 0.2rem;
-  font-weight: 400;
+  opacity: 0.8;
   width: 100%;
 }
 
 .c5:hover {
-  background-color: #f4f5f6;
+  opacity: 1;
 }
 
 .c1 {
@@ -202,7 +201,7 @@ exports[`renders dropdown 1`] = `
 }
 
 .c7 {
-  margin: 0 0.8rem 0 0;
+  margin-right: 0.4rem;
 }
 
 .c3 {

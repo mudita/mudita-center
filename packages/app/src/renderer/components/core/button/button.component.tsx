@@ -85,13 +85,13 @@ const ButtonComponent: FunctionComponent<Props> = ({
 
   const getButtonTextDisplayStyle = (style: DisplayStyle) => {
     switch (style) {
-      case DisplayStyle.Link4:
+      case DisplayStyle.MenuLink:
         return TextDisplayStyle.Paragraph1
       case DisplayStyle.Tab:
         return TextDisplayStyle.Paragraph1
       case DisplayStyle.Dropdown:
         return TextDisplayStyle.Button
-      case DisplayStyle.Link2:
+      case DisplayStyle.LinkWithParagraph:
         return TextDisplayStyle.Paragraph1
       default:
         return TextDisplayStyle.Button

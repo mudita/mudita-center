@@ -221,7 +221,7 @@ const Notes: FunctionComponent<NotesProps> = ({
               <ButtonComponent
                 key="delete"
                 label={intl.formatMessage(messages.deleteButton)}
-                displayStyle={DisplayStyle.Link1}
+                displayStyle={DisplayStyle.Link}
                 Icon={Type.Delete}
                 onClick={removeSelectedRows}
               />,
