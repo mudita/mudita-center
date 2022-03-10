@@ -64,11 +64,10 @@ exports[`matches snapshot 1`] = `
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 100%;
-  padding: 0.8rem;
+  padding: 0.8rem 0;
   border: none;
   position: relative;
   width: 100%;
-  color: #6a6a6a;
 }
 
 .c0:after {
@@ -84,7 +83,15 @@ exports[`matches snapshot 1`] = `
   transition: width 500ms ease;
 }
 
-.c0:hover {
+.c0 p {
+  color: #6a6a6a;
+}
+
+.c0 svg {
+  opacity: 0.75;
+}
+
+.c0:hover p {
   color: #3b3f42;
 }
 
@@ -92,11 +99,7 @@ exports[`matches snapshot 1`] = `
   opacity: 0.9;
 }
 
-.c0 p {
-  color: #6a6a6a;
-}
-
-.c0.active {
+.c0.active p {
   color: #000000;
 }
 
@@ -106,10 +109,6 @@ exports[`matches snapshot 1`] = `
 
 .c0.active svg {
   opacity: 1;
-}
-
-.c0 svg {
-  opacity: 0.75;
 }
 
 .c2 {

@@ -284,11 +284,10 @@ const buttonStyles = css<{
         return css`
           justify-content: flex-start;
           height: 100%;
-          padding: 0.8rem;
+          padding: 0.8rem 0;
           border: none;
           position: relative;
           width: 100%;
-          color: ${textColor("secondary")};
           &:after {
             content: "";
             position: absolute;
@@ -300,29 +299,32 @@ const buttonStyles = css<{
             background-color: ${backgroundColor("super")};
             transition: ${transition("width", undefined, "ease")};
           }
+          p {
+            color: ${textColor("secondary")};
+          }
+          svg {
+            opacity: 0.75;
+          }
 
-          :hover {
-            color: ${textColor("tabHover")};
+          &:hover {
+            p {
+              color: ${textColor("tabHover")};
+            }
             svg {
               opacity: 0.9;
             }
           }
 
-          p {
-            color: ${textColor("secondary")};
-          }
-
           &.${activeClassName} {
-            color: ${textColor("primary")};
+            p {
+              color: ${textColor("primary")};
+            }
             &:after {
               width: 100%;
             }
             svg {
               opacity: 1;
             }
-          }
-          svg {
-            opacity: 0.75;
           }
         `
       case DisplayStyle.Dropdown:
