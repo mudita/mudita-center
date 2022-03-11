@@ -25,7 +25,6 @@ exports[`matches snapshot 1`] = `
   box-sizing: border-box;
   width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -39,13 +38,17 @@ exports[`matches snapshot 1`] = `
   fill: #ffffff;
 }
 
+.c1 p {
+  color: #ffffff;
+}
+
 .c0 {
   position: relative;
   z-index: 0;
 }
 
 .c0 svg path {
-  fill: #6a6a6a;
+  fill: textColor("primary");
 }
 
 .c2 {
@@ -84,12 +87,14 @@ exports[`renders dropdown 1`] = `
 .c2 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c6 {
@@ -179,7 +184,6 @@ exports[`renders dropdown 1`] = `
   box-sizing: border-box;
   width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
   border-radius: 0.5rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
@@ -191,6 +195,10 @@ exports[`renders dropdown 1`] = `
 
 .c1 g {
   fill: #ffffff;
+}
+
+.c1 p {
+  color: #ffffff;
 }
 
 .c7 {
@@ -207,7 +215,7 @@ exports[`renders dropdown 1`] = `
 }
 
 .c0 svg path {
-  fill: #000000;
+  fill: textColor("primary");
 }
 
 .c4 {
@@ -236,6 +244,7 @@ exports[`renders dropdown 1`] = `
     >
       <p
         class="c2 c3"
+        color="primary"
       >
         Example
       </p>
@@ -262,6 +271,7 @@ exports[`renders dropdown 1`] = `
         </span>
         <p
           class="c2 c3"
+          color="primary"
         >
           I open Google in new tab
         </p>

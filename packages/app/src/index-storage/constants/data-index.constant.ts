@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface BackupItem {
-  name: string
-  size: string
+export enum DataIndex {
+  Contact = "contact",
+  Message = "message",
+  Thread = "thread",
 }

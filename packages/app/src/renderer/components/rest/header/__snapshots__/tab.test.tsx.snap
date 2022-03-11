@@ -4,7 +4,12 @@ exports[`matches snapshot 1`] = `
 .c3 {
   margin: 0;
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c1 {
@@ -63,7 +68,6 @@ exports[`matches snapshot 1`] = `
   border: none;
   position: relative;
   border-radius: 0.2remrem;
-  color: #6a6a6a;
   font-weight: 400;
   width: 100%;
 }
@@ -87,6 +91,10 @@ exports[`matches snapshot 1`] = `
 
 .c0:hover svg {
   opacity: 0.9;
+}
+
+.c0 p {
+  color: #6a6a6a;
 }
 
 .c0.active {
@@ -132,6 +140,7 @@ exports[`matches snapshot 1`] = `
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     [value] module.phone
   </p>

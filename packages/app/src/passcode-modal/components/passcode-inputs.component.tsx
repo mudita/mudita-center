@@ -12,7 +12,6 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { PasscodeModalTestIds } from "../passcode-modal-test-ids.enum"
-import { fontWeight } from "Renderer/styles/theming/theme-getters"
 
 const InputContainer = styled.div`
   width: 100%;
@@ -23,7 +22,7 @@ const InputContainer = styled.div`
 `
 const ErrorMessage = styled(Text)`
   color: ${textColor("error")};
-  margin-top: 4rem;
+  margin-top: 2.4rem;
   text-align: center;
 `
 
@@ -31,13 +30,9 @@ const PasscodeInputsContainer = styled.div<{
   errorMessage: string
 }>`
   margin-bottom: ${({ errorMessage }) =>
-    errorMessage !== "" ? "1.4rem" : "6.8rem"};
+    errorMessage !== "" ? "1.4rem" : "5.8rem"};
 `
 
-export const Title = styled(Text)`
-  font-size: 3rem;
-  font-weight: ${fontWeight("default")};
-`
 interface Props {
   values: string[]
   updateValues: (values: string[]) => void
@@ -122,8 +117,8 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
 
   return (
     <PasscodeInputsContainer errorMessage={errorMessage}>
-      <Title
-        displayStyle={TextDisplayStyle.PrimaryHeading}
+      <Text
+        displayStyle={TextDisplayStyle.Headline2}
         message={{
           id: "component.passcodeModalTitle",
         }}
@@ -159,7 +154,8 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
       </InputContainer>
       {errorMessage !== "" && (
         <ErrorMessage
-          displayStyle={TextDisplayStyle.SmallText}
+          displayStyle={TextDisplayStyle.Label}
+          color="error"
           data-testid={PasscodeModalTestIds.ErrorMessage}
           message={{ id: errorMessage }}
         />

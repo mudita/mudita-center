@@ -60,7 +60,7 @@ const MessageDateTag: FunctionComponent<Properties> = ({ date, ...props }) => {
   return (
     <TagContainer {...props}>
       <DateTag>
-        <Text displayStyle={TextDisplayStyle.SmallFadedText}>
+        <Text displayStyle={TextDisplayStyle.Label}>
           {formatToMessageDate(date)}
         </Text>
       </DateTag>

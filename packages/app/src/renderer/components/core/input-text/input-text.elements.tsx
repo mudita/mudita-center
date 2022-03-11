@@ -12,7 +12,6 @@ import {
 } from "Renderer/components/core/input-text/input-text.interface"
 import Text, {
   getTextStyles,
-  smallTextSharedStyles,
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import transition from "Renderer/styles/functions/transition"
@@ -42,15 +41,15 @@ export const searchIcon = (
 
 const focusedLabelStyles = css`
   top: -2rem;
-  ${smallTextSharedStyles};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
 `
 
 const InputLabel = styled(Text)`
   position: absolute;
   left: 0;
   top: 0.3rem;
-  color: ${textColor("secondary")};
-  ${getTextStyles(TextDisplayStyle.MediumLightText)};
+  color: ${textColor("disabled")};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
   line-height: 1.5rem;
   pointer-events: none;
   user-select: none;
@@ -75,7 +74,7 @@ export const InputError = styled(Text)<{ visible: boolean }>`
   visibility: hidden;
   transition: all ${transitionTime("quick")}
     ${transitionTimingFunction("smooth")};
-  ${smallTextSharedStyles};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
 
   ${({ visible }) =>
     visible &&
@@ -151,7 +150,7 @@ export const generalInputStyles = css`
   color: ${textColor("primary")};
   width: 100%;
 
-  ${getTextStyles(TextDisplayStyle.MediumLightText)};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
   line-height: 1.5rem;
 
   &:not(:placeholder-shown) {

@@ -84,7 +84,7 @@ export const Row = styled.div<TableRowProps>`
   height: ${({ size }) => {
     switch (size) {
       case RowSize.Big:
-        return 9
+        return 8
       case RowSize.Small:
         return 4.8
       case RowSize.Tiny:
@@ -106,7 +106,7 @@ export const Row = styled.div<TableRowProps>`
 
 /* Column */
 export const Col = styled.div`
-  ${getTextStyles(TextDisplayStyle.MediumText)};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
   display: flex;
   align-items: center;
   ${({ onClick }) => onClick && clickableRowStyles};
@@ -125,7 +125,7 @@ const rowLabelStyles = css`
   padding: 0;
   z-index: 1;
   ${Col} {
-    ${getTextStyles(TextDisplayStyle.LargeBoldText)};
+    ${getTextStyles(TextDisplayStyle.Headline4)};
     line-height: 1.1;
   }
 `
@@ -133,7 +133,7 @@ const rowLabelStyles = css`
 const columnLabelStyles = css`
   z-index: 2;
   ${Col} {
-    ${getTextStyles(TextDisplayStyle.SmallFadedText)};
+    ${getTextStyles(TextDisplayStyle.Title)};
     color: ${textColor("secondary")};
     text-transform: uppercase;
     padding-top: 1.5rem;
@@ -287,11 +287,12 @@ export const EmptyState: FunctionComponent<EmptyStateProps> = ({
   ...rest
 }) => (
   <EmptyStateWrapper {...rest}>
-    <Text displayStyle={TextDisplayStyle.TertiaryHeading} message={title} />
+    <Text displayStyle={TextDisplayStyle.Headline3} message={title} />
     {description && (
       <Text
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.Paragraph3}
         message={description}
+        color="secondary"
       />
     )}
   </EmptyStateWrapper>

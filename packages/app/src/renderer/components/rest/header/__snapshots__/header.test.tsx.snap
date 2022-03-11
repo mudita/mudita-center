@@ -3,15 +3,25 @@
 exports[`matches snapshot with tabs 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.8rem;
-  line-height: 1.1;
+  font-size: 1.6rem;
+  line-height: 1.5;
   font-weight: 700;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c8 {
   margin: 0;
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c0 {
@@ -22,7 +32,7 @@ exports[`matches snapshot with tabs 1`] = `
 }
 
 .c2 {
-  margin: 2.4rem 0 1.5rem 3.2rem;
+  margin: 1.6rem 0 1.5rem 3.2rem;
 }
 
 .c6 {
@@ -81,7 +91,6 @@ exports[`matches snapshot with tabs 1`] = `
   border: none;
   position: relative;
   border-radius: 0.2remrem;
-  color: #6a6a6a;
   font-weight: 400;
   width: 100%;
 }
@@ -105,6 +114,10 @@ exports[`matches snapshot with tabs 1`] = `
 
 .c4:hover svg {
   opacity: 0.9;
+}
+
+.c4 p {
+  color: #6a6a6a;
 }
 
 .c4.active {
@@ -145,12 +158,13 @@ exports[`matches snapshot with tabs 1`] = `
 <div
   class="c0"
 >
-  <h3
+  <h4
     class="c1 c2"
+    color="primary"
     data-testid="location"
   >
     [value] module.phone
-  </h3>
+  </h4>
   <div
     class="c3"
   >
@@ -173,6 +187,7 @@ exports[`matches snapshot with tabs 1`] = `
       </span>
       <p
         class="c8 c9"
+        color="primary"
       >
         [value] module.phone.calls
       </p>
@@ -195,6 +210,7 @@ exports[`matches snapshot with tabs 1`] = `
       </span>
       <p
         class="c8 c9"
+        color="primary"
       >
         [value] module.dial
       </p>
@@ -206,9 +222,14 @@ exports[`matches snapshot with tabs 1`] = `
 exports[`matches snapshot without tabs 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.8rem;
-  line-height: 1.1;
+  font-size: 1.6rem;
+  line-height: 1.5;
   font-weight: 700;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c0 {
@@ -219,7 +240,7 @@ exports[`matches snapshot without tabs 1`] = `
 }
 
 .c2 {
-  margin: 2.4rem 0 1.5rem 3.2rem;
+  margin: 1.6rem 0 1.5rem 3.2rem;
 }
 
 .c3 {
@@ -232,12 +253,13 @@ exports[`matches snapshot without tabs 1`] = `
 <div
   class="c0"
 >
-  <h3
+  <h4
     class="c1 c2"
+    color="primary"
     data-testid="location"
   >
     [value] module.overview
-  </h3>
+  </h4>
   <div
     class="c3"
   />

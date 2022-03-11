@@ -4,7 +4,12 @@ exports[`matches snapshot 1`] = `
 .c6 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
+  line-height: 1.57;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+  color: #000000;
 }
 
 .c1 {
@@ -109,6 +114,7 @@ exports[`matches snapshot 1`] = `
         >
           <span
             class="c6 c7"
+            color="primary"
           >
             label
           </span>

@@ -13,13 +13,13 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 import { StyledIcon } from "Renderer/components/core/button/button.styled.elements"
 
 export const Info = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.MediumFadedLightText,
+  displayStyle: TextDisplayStyle.Paragraph4,
 }))`
   margin-bottom: 2.4rem;
 `
 
 export const Textarea = styled.textarea`
-  ${getTextStyles(TextDisplayStyle.LargeText)};
+  ${getTextStyles(TextDisplayStyle.Paragraph1)};
   resize: none;
   appearance: none;
   outline: none;
@@ -68,7 +68,7 @@ export const Buttons = styled.div`
 `
 
 export const StatsInfo = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.MediumFadedLightText,
+  displayStyle: TextDisplayStyle.Paragraph4,
 }))<{ error?: boolean }>`
   align-self: flex-end;
   margin-top: 3.2rem;

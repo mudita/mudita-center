@@ -22,6 +22,10 @@ const CommentsLine = styled.div`
   margin-bottom: 2.4rem;
 `
 
+const CommentsText = styled(Text)`
+  text-transform: uppercase;
+`
+
 const CommunityCommentsCount: FunctionComponent<Props> = ({
   count,
   communityLink,
@@ -35,7 +39,7 @@ const CommunityCommentsCount: FunctionComponent<Props> = ({
         target="_blank"
         rel="noreferrer"
       >
-        <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
+        <CommentsText displayStyle={TextDisplayStyle.Paragraph3}>
           {count === undefined ? (
             <FormattedMessage id="module.news.cardCommunityCommentsLoading" />
           ) : (
@@ -44,7 +48,7 @@ const CommunityCommentsCount: FunctionComponent<Props> = ({
               values={{ count }}
             />
           )}
-        </Text>
+        </CommentsText>
       </a>
     </>
   )

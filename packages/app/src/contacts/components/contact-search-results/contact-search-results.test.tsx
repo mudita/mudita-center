@@ -60,33 +60,35 @@ const render = (extraProps?: Partial<Props>) => {
   return renderWithThemeAndIntl(<ContactSearchResults {...props} />)
 }
 
-test("No results should be render as a default state", () => {
-  const { queryByTestId } = render()
-  expect(
-    queryByTestId(ContactSearchResultsTestIdsEnum.Empty)
-  ).toBeInTheDocument()
-})
-
-test("Loading component is rendered if resultState is Loading", () => {
-  const { queryByTestId } = render({ resultsState: ResultState.Loading })
-  expect(
-    queryByTestId(ContactSearchResultsTestIdsEnum.Loading)
-  ).toBeInTheDocument()
-})
-
-test("No results is rendered if resultState is Loaded and contactList is empty", () => {
-  const { queryByTestId } = render({ resultsState: ResultState.Loaded })
-  expect(
-    queryByTestId(ContactSearchResultsTestIdsEnum.Empty)
-  ).toBeInTheDocument()
-})
-
-test("Results list is rendered if resultState is Loaded and results isn't empty", () => {
-  const { queryByTestId } = render({
-    resultsState: ResultState.Loaded,
-    results: [contact, contact],
+describe("`ContactSearchResults` component", () => {
+  test("No results should be render as a default state", () => {
+    const { queryByTestId } = render()
+    expect(
+      queryByTestId(ContactSearchResultsTestIdsEnum.Empty)
+    ).toBeInTheDocument()
   })
-  expect(
-    queryByTestId(ContactSearchResultsTestIdsEnum.Table)?.childNodes
-  ).toHaveLength(2)
+
+  test("Loading component is rendered if resultState is Loading", () => {
+    const { queryByTestId } = render({ resultsState: ResultState.Loading })
+    expect(
+      queryByTestId(ContactSearchResultsTestIdsEnum.Loading)
+    ).toBeInTheDocument()
+  })
+
+  test("No results is rendered if resultState is Loaded and contactList is empty", () => {
+    const { queryByTestId } = render({ resultsState: ResultState.Loaded })
+    expect(
+      queryByTestId(ContactSearchResultsTestIdsEnum.Empty)
+    ).toBeInTheDocument()
+  })
+
+  test("Results list is rendered if resultState is Loaded and results isn't empty", () => {
+    const { queryByTestId } = render({
+      resultsState: ResultState.Loaded,
+      results: [contact, contact],
+    })
+    expect(
+      queryByTestId(ContactSearchResultsTestIdsEnum.Table)?.childNodes
+    ).toHaveLength(2)
+  })
 })

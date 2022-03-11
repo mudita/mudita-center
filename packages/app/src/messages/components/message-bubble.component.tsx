@@ -214,11 +214,11 @@ const MessageBubble: FunctionComponent<Props> = ({
             interlocutor={interlocutor}
             data-testid={MessageBubbleTestIds.MessageContent}
           >
-            <MessageBubbleText displayStyle={TextDisplayStyle.MediumLightText}>
+            <MessageBubbleText displayStyle={TextDisplayStyle.Paragraph4}>
               {message}
             </MessageBubbleText>
             <MessageDate>
-              <Text displayStyle={TextDisplayStyle.SmallFadedText}>
+              <Text displayStyle={TextDisplayStyle.Label}>
                 {moment(date).format("dd h:mm A")}
               </Text>
             </MessageDate>

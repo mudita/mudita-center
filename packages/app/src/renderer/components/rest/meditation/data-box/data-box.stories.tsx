@@ -23,18 +23,15 @@ storiesOf("Components/Rest/Meditation", module)
         <Story title="First box" darkMode>
           <DataBox>
             <TextWrapper>
-              <Text
-                displayStyle={TextDisplayStyle.PrimaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
                 6
               </Text>
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+              <Text displayStyle={TextDisplayStyle.Headline3} element={"span"}>
                 /7
               </Text>
             </TextWrapper>
             <Text
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Label}
               element={"p"}
               message={messages.daysPracticed}
             />
@@ -43,36 +40,27 @@ storiesOf("Components/Rest/Meditation", module)
         <Story title="Second box" darkMode>
           <DataBox>
             <TextWrapper>
-              <Text
-                displayStyle={TextDisplayStyle.PrimaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
                 1
               </Text>
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+              <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 h
               </Text>
-              <Text
-                displayStyle={TextDisplayStyle.PrimaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
                 11
               </Text>
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+              <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 m
               </Text>
-              <Text
-                displayStyle={TextDisplayStyle.PrimaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
                 14
               </Text>
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+              <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 s
               </Text>
             </TextWrapper>
             <Text
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Label}
               element={"p"}
               message={messages.totalPracticeTime}
             />
@@ -81,27 +69,21 @@ storiesOf("Components/Rest/Meditation", module)
         <Story title="Third box" darkMode>
           <DataBox>
             <TextWrapper>
-              <Text
-                displayStyle={TextDisplayStyle.PrimaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
                 17
               </Text>
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+              <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 m
               </Text>
-              <Text
-                displayStyle={TextDisplayStyle.PrimaryHeading}
-                element={"span"}
-              >
+              <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
                 32
               </Text>
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+              <Text displayStyle={TextDisplayStyle.Paragraph1} element={"span"}>
                 s
               </Text>
             </TextWrapper>
             <Text
-              displayStyle={TextDisplayStyle.SmallFadedText}
+              displayStyle={TextDisplayStyle.Label}
               element={"p"}
               message={messages.averageSessionLength}
             />

@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import "reflect-metadata"
 import Adapters from "Backend/adapters/adapters.interface"
 import { ipcMain } from "electron-better-ipc"
 import { backendAdaptersChannel, EndpointRemover } from "Backend/backend.types"

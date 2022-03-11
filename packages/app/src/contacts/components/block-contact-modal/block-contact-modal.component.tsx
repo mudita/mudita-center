@@ -72,7 +72,7 @@ const BlockContactModal: FunctionComponent<DeleteContactModalProps> = ({
       <ModalContent>
         <Icon type={Type.DeleteBig} width={12} height={12} />
         <Text
-          displayStyle={TextDisplayStyle.MediumText}
+          displayStyle={TextDisplayStyle.Paragraph3}
           message={{
             ...messages.text,
             values: { name: createFullName(contact), ...textFormatters },

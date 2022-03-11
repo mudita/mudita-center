@@ -38,7 +38,6 @@ const OverviewContent: FunctionComponent<
     | "deviceConnected"
     | "deviceUnlocked"
     | "initialDataLoaded"
-    | "serialNumber"
     | "deviceType"
   > &
     PhoneUpdate &
@@ -62,6 +61,7 @@ const OverviewContent: FunctionComponent<
   lastBackupDate,
   onBackupCreate,
   onBackupRestore,
+  serialNumber,
 }) => (
   <OverviewPureWrapper>
     <DeviceInfo
@@ -69,6 +69,7 @@ const OverviewContent: FunctionComponent<
       deviceType={DeviceType.MuditaPure}
       onClick={toggleDevMode}
       onDisconnect={disconnectDevice}
+      serialNumber={serialNumber}
     />
     <StatusInfo
       deviceType={DeviceType.MuditaPure}

@@ -34,7 +34,10 @@ import {
 import { OverviewModalsTestIds } from "App/overview/components/overview-modals-test-ids.enum"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import {
+  RoundIconWrapper,
+  ModalMainText,
+} from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 import { Size } from "App/renderer/components/core/button/button.config"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import { DeviceType } from "@mudita/pure"
@@ -222,12 +225,13 @@ export const UpdateAvailable = ({
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
-    <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
+    <ModalMainText
+      displayStyle={TextDisplayStyle.Headline4}
       message={messages.updateAvailableMessage}
     />
     <Text
-      displayStyle={TextDisplayStyle.MediumFadedText}
+      displayStyle={TextDisplayStyle.Paragraph4}
+      color="secondary"
       message={{
         ...messages.updateAvailableDescription,
         values: {
@@ -248,12 +252,13 @@ export const UpdateNotAvailable = ({ version = "" }) => (
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
-    <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
+    <ModalMainText
+      displayStyle={TextDisplayStyle.Headline4}
       message={messages.updateNotAvailableMessage}
     />
     <Text
-      displayStyle={TextDisplayStyle.MediumFadedText}
+      displayStyle={TextDisplayStyle.Paragraph4}
+      color="secondary"
       message={{
         ...messages.updateNotAvailableDescription,
         values: {
@@ -304,11 +309,11 @@ export const DownloadingUpdateModal = ({
       <RoundIconWrapper>
         <Icon type={Type.Download} width={4} />
       </RoundIconWrapper>
-      <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
+      <ModalMainText
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.downloadingUpdateMessage}
       />
-      <Text displayStyle={TextDisplayStyle.MediumFadedText}>
+      <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
         {timeLeft === undefined
           ? starting
           : timeLeft < 1
@@ -333,12 +338,13 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
     <RoundIconWrapper>
       <Icon type={Type.Download} width={4} />
     </RoundIconWrapper>
-    <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
+    <ModalMainText
+      displayStyle={TextDisplayStyle.Headline4}
       message={messages.downloadCompletedMessage}
     />
     <Text
-      displayStyle={TextDisplayStyle.MediumFadedText}
+      displayStyle={TextDisplayStyle.Paragraph4}
+      color="secondary"
       message={messages.downloadCompletedDescription}
     />
   </OSUpdateModal>
@@ -367,12 +373,13 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
       <RoundIconWrapper>
         <Loader type={LoaderType.Spinner} size={6} />
       </RoundIconWrapper>
-      <ModalText
-        displayStyle={TextDisplayStyle.LargeBoldText}
+      <ModalMainText
+        displayStyle={TextDisplayStyle.Headline4}
         message={messages.updatingProgressTitle}
       />
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
         message={messages.updatingProgressDescription}
       />
     </OSUpdateModal>
@@ -385,12 +392,13 @@ export const UpdatingSuccessModal = () => (
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
-    <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
+    <ModalMainText
+      displayStyle={TextDisplayStyle.Headline4}
       message={messages.updatingSuccessTitle}
     />
     <ModalText
-      displayStyle={TextDisplayStyle.MediumFadedText}
+      displayStyle={TextDisplayStyle.Paragraph4}
+      color="secondary"
       message={messages.updatingSuccessDescription}
     />
   </OSUpdateModal>
@@ -467,10 +475,10 @@ export const DevUpdate = ({
       <RoundIconWrapper>
         <Icon type={Type.Pure} width={4} />
       </RoundIconWrapper>
-      <Text displayStyle={TextDisplayStyle.LargeBoldText}>
+      <ModalMainText displayStyle={TextDisplayStyle.Headline4}>
         {install ? "Installing" : "Downloading"}. Are you sure?
-      </Text>
-      <CenteredText displayStyle={TextDisplayStyle.MediumText}>
+      </ModalMainText>
+      <CenteredText displayStyle={TextDisplayStyle.Paragraph3}>
         You're about to {install ? "install" : "download"} an update that{" "}
         {prerelease ? (
           <span>may be unstable</span>
@@ -512,19 +520,19 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
         </RoundIconWrapper>
         {deviceType === DeviceType.MuditaPure ? (
           <>
-            <ModalText displayStyle={TextDisplayStyle.LargeBoldText}>
+            <ModalText displayStyle={TextDisplayStyle.Headline4}>
               {intl.formatMessage(messages.updatingFlatBatteryPureTitle)}
             </ModalText>
-            <ModalText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+            <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
               {intl.formatMessage(messages.updatingFlatBatteryPureDescription)}
             </ModalText>
           </>
         ) : (
           <>
-            <ModalText displayStyle={TextDisplayStyle.LargeBoldText}>
+            <ModalText displayStyle={TextDisplayStyle.Headline4}>
               {intl.formatMessage(messages.updatingFlatBatteryHarmonyTitle)}
             </ModalText>
-            <ModalText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+            <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
               {intl.formatMessage(
                 messages.updatingFlatBatteryHarmonyDescription
               )}
