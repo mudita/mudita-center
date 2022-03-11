@@ -207,6 +207,7 @@ const buttonStyles = css<{
           border: none;
           opacity: 0.8;
           width: 100%;
+          ${getButtonContentColor("primary")}
           &:hover {
             opacity: 1;
           }
@@ -216,10 +217,11 @@ const buttonStyles = css<{
         return css`
           justify-content: flex-start;
           height: 3.2rem;
-          padding: 0;
+          padding: 0 0.4rem 0 0;
           border: none;
           border-radius: ${borderRadius("small")};
           width: 100%;
+          ${getButtonContentColor("primary")}
           &:hover {
             background-color: ${backgroundColor("minor")};
           }
@@ -265,6 +267,7 @@ const buttonStyles = css<{
           p {
             color: ${textColor("secondary")};
           }
+          ${disabled && getButtonContentColor("disabled")}
         `
       case DisplayStyle.Tab:
         return css`

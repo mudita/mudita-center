@@ -56,7 +56,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   label,
   labelMessage,
   nav,
-  size = Size.FixedBig,
+  size = Size.FixedMedium,
   target,
   to,
   type = Type.Button,

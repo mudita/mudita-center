@@ -24,7 +24,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   height: 4rem;
   border-radius: 0.4rem;
   background: #3b3f42;
@@ -73,7 +73,7 @@ exports[`matches snapshot 1`] = `
   >
     <button
       class="c1"
-      size="2"
+      size="1"
       type="button"
     />
     <ul
@@ -145,7 +145,7 @@ exports[`renders dropdown 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -155,6 +155,14 @@ exports[`renders dropdown 1`] = `
   border: none;
   opacity: 0.8;
   width: 100%;
+}
+
+.c5 p {
+  color: #000000;
+}
+
+.c5 g path {
+  fill: #000000;
 }
 
 .c5:hover {
@@ -184,7 +192,7 @@ exports[`renders dropdown 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   height: 4rem;
   border-radius: 0.4rem;
   background: #3b3f42;
@@ -241,7 +249,7 @@ exports[`renders dropdown 1`] = `
   >
     <button
       class="c1"
-      size="2"
+      size="1"
       type="button"
     >
       <p
@@ -258,7 +266,7 @@ exports[`renders dropdown 1`] = `
       <a
         class="c5"
         href="http://www.google.pl"
-        size="2"
+        size="1"
         target="_blank"
       >
         <span

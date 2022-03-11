@@ -89,8 +89,6 @@ const FirstPasswordField = styled(PasswordField)<{
     `};
 `
 
-const ButtonWithRotatingIcon = styled(Button)``
-
 const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   children,
   size = ModalSize.Small,
@@ -169,7 +167,7 @@ export const BackupSetSecretKeyModal: FunctionComponent<
         />
 
         <ButtonWrapper>
-          <ButtonWithRotatingIcon
+          <Button
             type={Type.Submit}
             displayStyle={DisplayStyle.Primary}
             labelMessage={messages.backupSetSecretKeyModalMainButton}

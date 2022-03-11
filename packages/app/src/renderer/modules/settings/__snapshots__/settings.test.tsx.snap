@@ -108,7 +108,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   height: 4rem;
   border-radius: 0.4rem;
   background: #3b3f42;
@@ -150,7 +150,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   height: 4rem;
   border-radius: 0.4rem;
   border: 0.1rem solid #000000;
@@ -308,7 +308,7 @@ exports[`matches snapshot 1`] = `
   display: grid;
   box-sizing: border-box;
   grid-template-areas: "Checkbox Actions";
-  grid-template-columns: 1fr 15rem;
+  grid-template-columns: 1fr 16.4rem;
   border-bottom: solid 0.1rem #d2d6db;
   height: 7.2rem;
   max-height: 7.2rem;
@@ -368,7 +368,7 @@ exports[`matches snapshot 1`] = `
           <button
             class="c8 c9 c10"
             data-testid="toggler-active"
-            size="2"
+            size="1"
             type="button"
           >
             <p
@@ -381,7 +381,7 @@ exports[`matches snapshot 1`] = `
           <button
             class="c13 c14 c10"
             data-testid="toggler-inactive"
-            size="2"
+            size="1"
             type="button"
           >
             <p
@@ -442,7 +442,7 @@ exports[`matches snapshot 1`] = `
           <button
             class="c8 c9 c10"
             data-testid="toggler-active"
-            size="2"
+            size="1"
             type="button"
           >
             <p
@@ -455,7 +455,7 @@ exports[`matches snapshot 1`] = `
           <button
             class="c13 c14 c10"
             data-testid="toggler-inactive"
-            size="2"
+            size="1"
             type="button"
           >
             <p

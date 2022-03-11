@@ -94,7 +94,7 @@ storiesOf("Components|Core/Button", module)
   ))
   .add("Link", () => (
     <>
-      <StoryContainer title="Style 1">
+      <StoryContainer title="Link">
         <Story title="Default">
           <Button
             displayStyle={DisplayStyle.Link}
@@ -122,7 +122,7 @@ storiesOf("Components|Core/Button", module)
           />
         </Story>
       </StoryContainer>
-      <StoryContainer title="Style 2">
+      <StoryContainer title="Link With Paragraph">
         <Story title="Default">
           <Button
             displayStyle={DisplayStyle.LinkWithParagraph}
@@ -199,7 +199,7 @@ storiesOf("Components|Core/Button", module)
         </Story>
         <Story title="With icon">
           <Button
-            Icon={Type.Upload}
+            Icon={Type.UploadDark}
             displayStyle={DisplayStyle.Tab}
             label="I open Google in new tab"
             href="http://www.google.pl"

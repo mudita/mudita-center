@@ -61,7 +61,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -127,7 +127,7 @@ exports[`matches snapshot 1`] = `
   class="c0 active"
   displaystyle="8"
   href="/phone"
-  size="2"
+  size="1"
 >
   <span
     class="c1 c2"

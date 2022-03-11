@@ -74,8 +74,6 @@ const ButtonWrapper = styled.div`
   justify-content: center;
 `
 
-const ButtonWithRotatingIcon = styled(Button)``
-
 const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   children,
   size = ModalSize.Small,
@@ -130,7 +128,7 @@ export const RestoreConfirmSecretKeyModal: FunctionComponent<
         />
         <FormInput type={"password"} {...register(FieldKeys.SecretKey)} />
         <ButtonWrapper>
-          <ButtonWithRotatingIcon
+          <Button
             type={Type.Submit}
             displayStyle={DisplayStyle.Primary}
             labelMessage={messages.restoreConfirmSecretKeyModalMainButton}

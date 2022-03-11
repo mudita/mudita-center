@@ -20,6 +20,7 @@ import { AnswerUiTestIds } from "App/help/components/answer/answer-test-ids.enum
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const AnswerContainer = styled.div`
   padding: 0 10.5rem;
@@ -52,6 +53,7 @@ const Answer: FunctionComponent<Props> = ({ match, list }) => {
             id: "module.help.backLinkText",
           })}
           to={URL_MAIN.help}
+          iconSize={IconSize.Medium}
           data-testid={AnswerUiTestIds.BackLink}
         />
       </AnswerHeader>

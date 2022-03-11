@@ -24,7 +24,7 @@ exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disa
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   opacity: 0.6;
   -webkit-transition: opacity 250ms ease-in-out;
   transition: opacity 250ms ease-in-out;
@@ -47,7 +47,7 @@ exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disa
 
 <button
   class="c0"
-  size="2"
+  size="1"
   type="button"
 />
 `;
@@ -89,7 +89,7 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -99,6 +99,14 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
   border: none;
   opacity: 0.8;
   width: 100%;
+}
+
+.c0 p {
+  color: #000000;
+}
+
+.c0 g path {
+  fill: #000000;
 }
 
 .c0:hover {
@@ -111,7 +119,7 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
 
 <button
   class="c0"
-  size="2"
+  size="1"
   type="button"
 >
   <p
@@ -184,7 +192,7 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -194,6 +202,14 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
   border: none;
   opacity: 0.8;
   width: 100%;
+}
+
+.c0 p {
+  color: #000000;
+}
+
+.c0 g path {
+  fill: #000000;
 }
 
 .c0:hover {
@@ -211,7 +227,7 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
 <a
   class="c0"
   href="http://www.google.pl"
-  size="2"
+  size="1"
   target="_blank"
 >
   <span
@@ -270,16 +286,24 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 3.2rem;
-  padding: 0;
+  padding: 0 0.4rem 0 0;
   border: none;
   border-radius: 0.2rem;
   width: 100%;
+}
+
+.c0 p {
+  color: #000000;
+}
+
+.c0 g path {
+  fill: #000000;
 }
 
 .c0:hover {
@@ -292,7 +316,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 
 <button
   class="c0"
-  size="2"
+  size="1"
   type="button"
 >
   <p
@@ -365,16 +389,24 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 3.2rem;
-  padding: 0;
+  padding: 0 0.4rem 0 0;
   border: none;
   border-radius: 0.2rem;
   width: 100%;
+}
+
+.c0 p {
+  color: #000000;
+}
+
+.c0 g path {
+  fill: #000000;
 }
 
 .c0:hover {
@@ -392,7 +424,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 <a
   class="c0"
   href="http://www.google.pl"
-  size="2"
+  size="1"
   target="_blank"
 >
   <span
@@ -451,7 +483,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -490,7 +522,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 
 <button
   class="c0"
-  size="2"
+  size="1"
   type="button"
 >
   <p
@@ -563,7 +595,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -607,7 +639,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 <a
   class="c0"
   href="http://www.google.pl"
-  size="2"
+  size="1"
   target="_blank"
 >
   <span
@@ -664,7 +696,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -719,7 +751,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 <button
   class="c0"
-  size="2"
+  size="1"
   type="button"
 >
   <p
@@ -790,7 +822,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -850,7 +882,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 <a
   class="c0"
   href="http://www.google.pl"
-  size="2"
+  size="1"
   target="_blank"
 >
   <span
@@ -909,7 +941,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -968,7 +1000,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 
 <button
   class="c0"
-  size="2"
+  size="1"
   type="button"
 >
   <p
@@ -1041,7 +1073,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -1105,7 +1137,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 <a
   class="c0"
   href="http://www.google.pl"
-  size="2"
+  size="1"
   target="_blank"
 >
   <span

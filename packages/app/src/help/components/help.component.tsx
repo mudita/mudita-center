@@ -73,6 +73,7 @@ const Question = styled(Link)`
   padding: 1.6rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   transition: background-color ${transitionTime("veryQuick")}
     ${transitionTimingFunction("smooth")};
   &:hover {

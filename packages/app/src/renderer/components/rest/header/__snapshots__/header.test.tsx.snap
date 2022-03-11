@@ -84,7 +84,7 @@ exports[`matches snapshot with tabs 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -174,7 +174,7 @@ exports[`matches snapshot with tabs 1`] = `
       class="c4 c5 active"
       displaystyle="8"
       href="/phone"
-      size="2"
+      size="1"
     >
       <span
         class="c6 c7"
@@ -197,7 +197,7 @@ exports[`matches snapshot with tabs 1`] = `
       class="c4 c5"
       displaystyle="8"
       href="/phone/dial"
-      size="2"
+      size="1"
     >
       <span
         class="c6 c7"

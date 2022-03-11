@@ -96,7 +96,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -168,7 +168,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -302,7 +302,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
           class="c5"
           displaystyle="7"
           href="#/news"
-          size="2"
+          size="1"
         >
           <span
             class="c6 c7"
@@ -341,7 +341,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
           data-testid="tethering-link"
           displaystyle="7"
           href="#/tethering"
-          size="2"
+          size="1"
         >
           <span
             class="c6 c7"
@@ -368,7 +368,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
           class="c5"
           displaystyle="7"
           href="#/settings"
-          size="2"
+          size="1"
         >
           <span
             class="c6 c7"
@@ -394,7 +394,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
         <button
           class="c12"
           data-testid="help-menu-button"
-          size="2"
+          size="1"
           type="button"
         >
           <span
@@ -516,7 +516,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -588,7 +588,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -722,7 +722,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
           class="c5"
           displaystyle="7"
           href="#/news"
-          size="2"
+          size="1"
         >
           <span
             class="c6 c7"
@@ -761,7 +761,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
           data-testid="tethering-link"
           displaystyle="7"
           href="#/tethering"
-          size="2"
+          size="1"
         >
           <span
             class="c6 c7"
@@ -788,7 +788,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
           class="c5"
           displaystyle="7"
           href="#/settings"
-          size="2"
+          size="1"
         >
           <span
             class="c6 c7"
@@ -814,7 +814,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
         <button
           class="c12"
           data-testid="help-menu-button"
-          size="2"
+          size="1"
           type="button"
         >
           <span

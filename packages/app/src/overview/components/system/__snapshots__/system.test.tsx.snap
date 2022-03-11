@@ -84,7 +84,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 28rem;
+  width: 17.6rem;
   height: 4rem;
   border-radius: 0.4rem;
   background: #3b3f42;
@@ -271,7 +271,7 @@ exports[`matches snapshot 1`] = `
       >
         <button
           class="c11 c12 c13"
-          size="2"
+          size="1"
           type="button"
         >
           <p

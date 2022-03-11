@@ -113,7 +113,7 @@ const AccordionButton = styled.button<{ openMore?: boolean }>`
   align-items: center;
   cursor: pointer;
   margin-top: 2.9rem;
-  margin-bottom: 1.9rem;
+  margin-bottom: 1.4rem;
   &:focus {
     outline: none;
   }
