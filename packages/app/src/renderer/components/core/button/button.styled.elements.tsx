@@ -87,6 +87,7 @@ const buttonStyles = css<{
   justify-content: center;
   appearance: none;
   background: none;
+  padding: 0.1rem 0.7rem;
   transition: ${transition(
       "background",
       theme.transitionTime.quick,
