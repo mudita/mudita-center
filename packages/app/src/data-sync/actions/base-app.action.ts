@@ -10,3 +10,4 @@ export const setDataSyncInitialized = createAction(
   DataSyncEvent.SetDataSyncInitialized
 )
 export const setCacheState = createAction(DataSyncEvent.SetCacheState)
+export const setDataSyncInitState = createAction(DataSyncEvent.SetDataSyncInitState)
