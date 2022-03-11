@@ -90,7 +90,7 @@ const SyncContactsModal: FunctionComponent<Props> = ({
 
           <SyncButton
             displayStyle={DisplayStyle.Primary}
-            label={intl.formatMessage(messages.outlookButtonText)}
+            labelMessage={messages.outlookButtonText}
             Icon={Type.Outlook}
             iconSize={IconSize.Medium}
             onClick={onOutlookButtonClick}
@@ -99,7 +99,7 @@ const SyncContactsModal: FunctionComponent<Props> = ({
           {onAppleButtonClick && (
             <SyncButton
               displayStyle={DisplayStyle.Primary}
-              label={intl.formatMessage(messages.appleButtonText)}
+              labelMessage={messages.appleButtonText}
               Icon={Type.Apple}
               iconSize={IconSize.Medium}
               onClick={onAppleButtonClick}
@@ -107,7 +107,7 @@ const SyncContactsModal: FunctionComponent<Props> = ({
           )}
           <SyncButton
             displayStyle={DisplayStyle.Primary}
-            label={intl.formatMessage(messages.manualImportText)}
+            labelMessage={messages.manualImportText}
             Icon={Type.Upload}
             iconSize={IconSize.Medium}
             onClick={handleManualImportClick}

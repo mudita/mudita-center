@@ -103,12 +103,12 @@ exports[`matches snapshot 1`] = `
   background: #000000;
 }
 
-.c10 g path {
-  fill: #ffffff;
-}
-
 .c10 p {
   color: #ffffff;
+}
+
+.c10 g path {
+  fill: #ffffff;
 }
 
 .c13 {

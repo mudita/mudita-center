@@ -220,7 +220,7 @@ const Notes: FunctionComponent<NotesProps> = ({
             buttons={[
               <ButtonComponent
                 key="delete"
-                label={intl.formatMessage(messages.deleteButton)}
+                labelMessage={messages.deleteButton}
                 displayStyle={DisplayStyle.Link}
                 Icon={Type.Delete}
                 onClick={removeSelectedRows}
@@ -242,7 +242,7 @@ const Notes: FunctionComponent<NotesProps> = ({
         <NewNoteButton
           displayStyle={DisplayStyle.Primary}
           size={ButtonSize.FixedBig}
-          label={intl.formatMessage(messages.newButton)}
+          labelMessage={messages.newButton}
           onClick={onNewButtonClick}
           Icon={Type.PlusSign}
           data-testid={NotesTestIds.NewNoteButton}

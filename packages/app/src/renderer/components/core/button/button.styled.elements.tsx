@@ -19,6 +19,7 @@ import {
 import styled, { css } from "styled-components"
 import { DisplayStyle, Size } from "./button.config"
 import Icon from "Renderer/components/core/icon/icon.component"
+import { Theme } from "Renderer/styles/theming/theme"
 
 const getSize = (size: Size) => {
   switch (size) {
@@ -41,6 +42,18 @@ const getSize = (size: Size) => {
 
 export const activeClassName = "active"
 
+const getButtonContentColor = (color: keyof Theme["color"]["text"]) => {
+  const styles = css`
+    p {
+      color: ${textColor(color)};
+    }
+    g path {
+      fill: ${textColor(color)};
+    }
+  `
+  return styles
+}
+
 const navLinkStyles = css`
   background-color: ${backgroundColor("minor")};
   * {
@@ -56,22 +69,12 @@ const navLinkStyles = css`
 const disabledPrimaryStyles = css`
   background: ${backgroundColor("disabled")};
   border: 0.1rem solid ${backgroundColor("disabled")};
-  p {
-    color: ${textColor("secondary")};
-  }
-  g path {
-    fill: ${textColor("secondary")};
-  }
+  ${getButtonContentColor("secondary")}
 `
 
 export const disabledSecondaryStyles = css`
   border: 0.1rem solid ${borderColor("secondary")};
-  p {
-    color: ${textColor("disabled")};
-  }
-  g path {
-    fill: ${textColor("disabled")};
-  }
+  ${getButtonContentColor("disabled")}
 `
 
 const buttonStyles = css<{
@@ -120,12 +123,7 @@ const buttonStyles = css<{
           &:hover {
             background: ${backgroundColor("primaryHover")};
           }
-          g path {
-            fill: ${textColor("active")};
-          }
-          p {
-            color: ${textColor("active")};
-          }
+          ${getButtonContentColor("active")}
           ${disabled && disabledPrimaryStyles};
         `
       case DisplayStyle.Secondary:
@@ -138,7 +136,7 @@ const buttonStyles = css<{
           }
           ${disabled && disabledSecondaryStyles};
           &:hover {
-            background: ${backgroundColor("secondaryHover")};
+            background: ${backgroundColor("minor")};
           }
         `
       case DisplayStyle.IconOnly:
@@ -211,15 +209,7 @@ const buttonStyles = css<{
           &:hover {
             opacity: 1;
           }
-          ${disabled &&
-          css`
-            p {
-              color: ${textColor("disabled")};
-            }
-            g path {
-              fill: ${textColor("disabled")};
-            }
-          `}
+          ${disabled && getButtonContentColor("disabled")}
         `
       case DisplayStyle.LinkWithParagraph:
         return css`
@@ -244,12 +234,7 @@ const buttonStyles = css<{
           width: 100%;
           &:hover {
             background-color: ${backgroundColor("minor")};
-            p {
-              color: ${textColor("actionHover")};
-            }
-            g path {
-              fill: ${textColor("actionHover")};
-            }
+            ${getButtonContentColor("actionHover")}
           }
           g path {
             fill: ${textColor("action")};
@@ -307,23 +292,13 @@ const buttonStyles = css<{
           }
 
           &:hover {
-            p {
-              color: ${textColor("tabHover")};
-            }
-            svg {
-              opacity: 0.9;
-            }
+            ${getButtonContentColor("tabHover")}
           }
 
           &.${activeClassName} {
-            p {
-              color: ${textColor("primary")};
-            }
+            ${getButtonContentColor("primary")}
             &:after {
               width: 100%;
-            }
-            svg {
-              opacity: 1;
             }
           }
         `
@@ -331,25 +306,20 @@ const buttonStyles = css<{
         return css`
           justify-content: flex-start;
           height: 3.2rem;
-          padding: 0 1.1rem;
+          padding: 0.4rem 0.8rem;
           border: none;
-          border-radius: ${borderRadius("small")};
-          font-weight: ${fontWeight("default")};
           width: 100%;
           min-width: 17.6rem;
-
+          opacity: 0.9;
           &.${activeClassName} {
-            ${navLinkStyles}
+            background-color: ${backgroundColor("minor")};
           }
           &:hover {
-            ${navLinkStyles}
+            background-color: ${backgroundColor("minor")};
+            ${getButtonContentColor("primary")}
           }
-          svg {
-            opacity: 0.75;
-          }
-          p {
-            color: ${textColor("secondary")};
-          }
+          ${getButtonContentColor("tabHover")}
+          ${disabled && getButtonContentColor("disabled")}
         `
       default:
         return
@@ -394,7 +364,8 @@ export const StyledIcon = styled(Icon)<{
     if (withMargin) {
       if (
         displaystyle === DisplayStyle.Link ||
-        displaystyle === DisplayStyle.LinkWithParagraph
+        displaystyle === DisplayStyle.LinkWithParagraph ||
+        displaystyle === DisplayStyle.Dropdown
       ) {
         return css`
           margin-right: 0.4rem;

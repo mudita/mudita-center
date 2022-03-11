@@ -58,7 +58,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
           data-testid={MessagePanelTestIds.NewMessageButton}
           displayStyle={DisplayStyle.Primary}
           size={ButtonSize.FixedBig}
-          label={intl.formatMessage(messages.newMessage)}
+          labelMessage={messages.newMessage}
           onClick={onNewMessageClick}
           disabled={buttonDisabled}
         />

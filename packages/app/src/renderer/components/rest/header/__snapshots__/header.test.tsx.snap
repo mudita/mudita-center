@@ -15,12 +15,14 @@ exports[`matches snapshot with tabs 1`] = `
 
 .c8 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.5;
-  -webkit-letter-spacing: 0.02rem;
-  -moz-letter-spacing: 0.02rem;
-  -ms-letter-spacing: 0.02rem;
-  letter-spacing: 0.02rem;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
   color: #000000;
 }
 
@@ -118,20 +120,20 @@ exports[`matches snapshot with tabs 1`] = `
   color: #3b3f42;
 }
 
-.c4:hover svg {
-  opacity: 0.9;
+.c4:hover g path {
+  fill: #3b3f42;
 }
 
 .c4.active p {
   color: #000000;
 }
 
-.c4.active:after {
-  width: 100%;
+.c4.active g path {
+  fill: #000000;
 }
 
-.c4.active svg {
-  opacity: 1;
+.c4.active:after {
+  width: 100%;
 }
 
 .c7 {

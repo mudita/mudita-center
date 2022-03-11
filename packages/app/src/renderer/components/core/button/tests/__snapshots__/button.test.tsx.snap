@@ -233,12 +233,14 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.5;
-  -webkit-letter-spacing: 0.02rem;
-  -moz-letter-spacing: 0.02rem;
-  -ms-letter-spacing: 0.02rem;
-  letter-spacing: 0.02rem;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
   color: #000000;
 }
 
@@ -301,12 +303,14 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 2`] = `
 .c3 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.5;
-  -webkit-letter-spacing: 0.02rem;
-  -moz-letter-spacing: 0.02rem;
-  -ms-letter-spacing: 0.02rem;
-  letter-spacing: 0.02rem;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
   color: #000000;
 }
 
@@ -862,12 +866,14 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.5;
-  -webkit-letter-spacing: 0.02rem;
-  -moz-letter-spacing: 0.02rem;
-  -ms-letter-spacing: 0.02rem;
-  letter-spacing: 0.02rem;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
   color: #000000;
 }
 
@@ -930,20 +936,20 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   color: #3b3f42;
 }
 
-.c0:hover svg {
-  opacity: 0.9;
+.c0:hover g path {
+  fill: #3b3f42;
 }
 
 .c0.active p {
   color: #000000;
 }
 
-.c0.active:after {
-  width: 100%;
+.c0.active g path {
+  fill: #000000;
 }
 
-.c0.active svg {
-  opacity: 1;
+.c0.active:after {
+  width: 100%;
 }
 
 .c2 {
@@ -967,12 +973,14 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 2`] = `
 .c3 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.5;
-  -webkit-letter-spacing: 0.02rem;
-  -moz-letter-spacing: 0.02rem;
-  -ms-letter-spacing: 0.02rem;
-  letter-spacing: 0.02rem;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
   color: #000000;
 }
 
@@ -1059,20 +1067,20 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   color: #3b3f42;
 }
 
-.c0:hover svg {
-  opacity: 0.9;
+.c0:hover g path {
+  fill: #3b3f42;
 }
 
 .c0.active p {
   color: #000000;
 }
 
-.c0.active:after {
-  width: 100%;
+.c0.active g path {
+  fill: #000000;
 }
 
-.c0.active svg {
-  opacity: 1;
+.c0.active:after {
+  width: 100%;
 }
 
 .c2 {
@@ -1155,12 +1163,12 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c2 {
@@ -1230,12 +1238,12 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c0 p {
@@ -1311,12 +1319,12 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c2 {
@@ -1387,12 +1395,12 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c0 p {
@@ -1469,12 +1477,12 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c2 {
@@ -1545,12 +1553,12 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c0 p {
@@ -2090,12 +2098,12 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c2 {
@@ -2203,12 +2211,12 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c0 p {
@@ -2322,12 +2330,12 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c2 {
@@ -2436,12 +2444,12 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c0 p {
@@ -2556,12 +2564,12 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c2 {
@@ -2670,12 +2678,12 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c0 p {
@@ -3433,12 +3441,12 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c2 {
@@ -3506,12 +3514,12 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   background: #000000;
 }
 
-.c0 g path {
-  fill: #ffffff;
-}
-
 .c0 p {
   color: #ffffff;
+}
+
+.c0 g path {
+  fill: #ffffff;
 }
 
 .c2 {

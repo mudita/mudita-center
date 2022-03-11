@@ -34,12 +34,12 @@ exports[`matches snapshot 1`] = `
   background: #000000;
 }
 
-.c1 g path {
-  fill: #ffffff;
-}
-
 .c1 p {
   color: #ffffff;
+}
+
+.c1 g path {
+  fill: #ffffff;
 }
 
 .c0 {
@@ -192,12 +192,12 @@ exports[`renders dropdown 1`] = `
   background: #000000;
 }
 
-.c1 g path {
-  fill: #ffffff;
-}
-
 .c1 p {
   color: #ffffff;
+}
+
+.c1 g path {
+  fill: #ffffff;
 }
 
 .c7 {
