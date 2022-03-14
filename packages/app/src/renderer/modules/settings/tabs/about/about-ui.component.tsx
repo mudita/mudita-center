@@ -134,7 +134,7 @@ const AboutUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <ButtonComponent
-            displayStyle={DisplayStyle.Link3}
+            displayStyle={DisplayStyle.ActionLink}
             labelMessage={{
               id: "module.settings.aboutLearnMore",
             }}
@@ -150,7 +150,7 @@ const AboutUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <ButtonComponent
-            displayStyle={DisplayStyle.Link3}
+            displayStyle={DisplayStyle.ActionLink}
             labelMessage={{
               id: "module.settings.aboutLearnMore",
             }}
@@ -166,7 +166,7 @@ const AboutUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <ButtonComponent
-            displayStyle={DisplayStyle.Link3}
+            displayStyle={DisplayStyle.ActionLink}
             labelMessage={{
               id: "module.settings.aboutLearnMore",
             }}

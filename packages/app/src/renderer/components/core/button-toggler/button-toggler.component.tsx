@@ -15,11 +15,31 @@ import { borderRadius, zIndex } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Tooltip from "Renderer/components/core/tooltip/tooltip.component"
+import transition from "Renderer/styles/functions/transition"
+import theme from "Renderer/styles/theming/theme"
 
 const ButtonTogglerWrapper = styled.section`
   display: flex;
   flex-direction: row;
   position: relative;
+`
+
+const buttonTogglerTransitionStyles = css`
+  transition: ${transition(
+      "background",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )},
+    ${transition(
+      "color",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )},
+    ${transition(
+      "border",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )};
 `
 
 export const ButtonTogglerItem = styled(({ filled, active, ...props }) => (
@@ -41,6 +61,11 @@ export const ButtonTogglerItem = styled(({ filled, active, ...props }) => (
     css`
       z-index: 3;
     `};
+
+  &,
+  * {
+    ${buttonTogglerTransitionStyles};
+  }
 
   &:disabled {
     pointer-events: none;

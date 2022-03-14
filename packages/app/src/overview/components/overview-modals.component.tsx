@@ -199,6 +199,7 @@ const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
   <Modal
     size={size}
     title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+    actionButtonSize={Size.FixedSmall}
     {...props}
   >
     <ModalContent>{children}</ModalContent>
@@ -333,7 +334,6 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
     closeButtonLabel={intl.formatMessage(messages.downloadCompletedCloseButton)}
     onActionButtonClick={onOsUpdate}
     data-testid={OverviewModalsTestIds.DownloadingUpdateFinishedModal}
-    actionButtonSize={Size.FixedMedium}
   >
     <RoundIconWrapper>
       <Icon type={Type.Download} width={4} />
@@ -523,7 +523,10 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
             <ModalText displayStyle={TextDisplayStyle.Headline4}>
               {intl.formatMessage(messages.updatingFlatBatteryPureTitle)}
             </ModalText>
-            <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+            <ModalText
+              displayStyle={TextDisplayStyle.Paragraph4}
+              color="secondary"
+            >
               {intl.formatMessage(messages.updatingFlatBatteryPureDescription)}
             </ModalText>
           </>
@@ -532,7 +535,10 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
             <ModalText displayStyle={TextDisplayStyle.Headline4}>
               {intl.formatMessage(messages.updatingFlatBatteryHarmonyTitle)}
             </ModalText>
-            <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+            <ModalText
+              displayStyle={TextDisplayStyle.Paragraph4}
+              color="secondary"
+            >
               {intl.formatMessage(
                 messages.updatingFlatBatteryHarmonyDescription
               )}

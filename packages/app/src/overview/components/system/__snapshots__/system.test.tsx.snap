@@ -78,28 +78,29 @@ exports[`matches snapshot 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c11:hover {
-  background: #232426;
-}
-
-.c11 g {
-  fill: #ffffff;
+  background: #000000;
 }
 
 .c11 p {
   color: #ffffff;
+}
+
+.c11 g path {
+  fill: #ffffff;
 }
 
 .c15 {
@@ -118,13 +119,19 @@ exports[`matches snapshot 1`] = `
 }
 
 .c12 {
-  --radius: 0.5rem;
+  --radius: 0.4rem;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   z-index: 1;
   pointer-events: all;
   z-index: 3;
+}
+
+.c12,
+.c12 * {
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c12:disabled {
@@ -158,7 +165,7 @@ exports[`matches snapshot 1`] = `
   flex-direction: column;
   padding: 2.4rem;
   box-sizing: border-box;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background-color: #ffffff;
 }
 
@@ -270,7 +277,7 @@ exports[`matches snapshot 1`] = `
       >
         <button
           class="c11 c12 c13"
-          size="2"
+          size="1"
           type="button"
         >
           <p

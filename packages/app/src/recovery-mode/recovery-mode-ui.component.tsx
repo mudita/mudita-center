@@ -172,7 +172,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
             message={messages.supportMessage}
           />
           <ButtonComponent
-            displayStyle={DisplayStyle.Link3}
+            displayStyle={DisplayStyle.ActionLink}
             labelMessage={messages.supportButtonText}
             onClick={onSupportButtonClick}
           />

@@ -40,7 +40,7 @@ export const ButtonWrapper = styled.div`
 `
 
 export const StyledButton = styled(Button).attrs({
-  displayStyle: DisplayStyle.Link3,
+  displayStyle: DisplayStyle.ActionLink,
 })`
   margin-left: auto;
   width: auto;

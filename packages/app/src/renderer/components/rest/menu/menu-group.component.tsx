@@ -24,7 +24,6 @@ import {
   HeaderIconBg,
   HeaderIconContainer,
   HeaderWrapper,
-  HelpButton,
   HiddenIconBg,
   LinkWrapper,
 } from "Renderer/components/rest/menu/menu-group.styled"
@@ -76,9 +75,8 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
           .map(({ button, icon, testId }, index) => {
             const buttonMenuConfig = {
               nav: true,
-              displayStyle: DisplayStyle.Link4,
+              displayStyle: DisplayStyle.MenuLink,
               labelMessage: button.label,
-              color: "secondary",
               Icon: icon,
               iconSize: IconSize.Bigger,
             }
@@ -87,7 +85,7 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
                 ipcRenderer.callMain(HelpActions.OpenWindow)
               return (
                 <LinkWrapper key={index}>
-                  <HelpButton
+                  <Button
                     {...buttonMenuConfig}
                     onClick={openHelpWindow}
                     data-testid={testId}

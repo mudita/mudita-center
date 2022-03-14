@@ -117,21 +117,21 @@ export const CallDetails = ({
             <ButtonWrapper>
               <Button
                 displayStyle={DisplayStyle.Dropdown}
-                label={intl.formatMessage(messages.deleteCallLabel)}
+                labelMessage={messages.deleteCallLabel}
                 onClick={emitDeleteClick}
                 Icon={Type.Delete}
               />
               {contactCreated ? (
                 <Button
                   displayStyle={DisplayStyle.Dropdown}
-                  label={intl.formatMessage(messages.contactCallLabel)}
+                  labelMessage={messages.contactCallLabel}
                   onClick={redirectToContactsPage}
                   Icon={Type.Contact}
                 />
               ) : (
                 <Button
                   displayStyle={DisplayStyle.Dropdown}
-                  label={intl.formatMessage(messages.newContactCallLabel)}
+                  labelMessage={messages.newContactCallLabel}
                   onClick={redirectToContactsPage}
                   Icon={Type.NewContact}
                 />

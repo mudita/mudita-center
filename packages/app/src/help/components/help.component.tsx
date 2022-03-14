@@ -60,7 +60,7 @@ const SearchContainer = styled.div`
 
 const SearchInput = styled(InputText)`
   width: 27.5rem;
-  margin-left: 1.2rem;
+  margin-left: 1.6rem;
 `
 
 const QuestionsContainer = styled.div`
@@ -73,6 +73,7 @@ const Question = styled(Link)`
   padding: 1.6rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   transition: background-color ${transitionTime("veryQuick")}
     ${transitionTimingFunction("smooth")};
   &:hover {
@@ -126,7 +127,7 @@ const Help: FunctionComponent<Props> = ({
           />
           <SearchContainer>
             <SupportButtonComponent
-              displayStyle={DisplayStyle.IconOnly3}
+              displayStyle={DisplayStyle.IconOnly}
               Icon={Type.Support}
               iconSize={IconSize.Small}
               onClick={openContactSupportFlow}

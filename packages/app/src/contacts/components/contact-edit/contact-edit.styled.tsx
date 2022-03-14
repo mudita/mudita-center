@@ -38,7 +38,7 @@ export const Content = styled.div`
 export const Buttons = styled.div`
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: repeat(2, minmax(13rem, 1fr));
+  grid-template-columns: repeat(2, minmax(13.2rem, 1fr));
   grid-column-gap: 1.6rem;
   width: fit-content;
   margin: 0 0 var(--buttons-bottom-margin) auto;

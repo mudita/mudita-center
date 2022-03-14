@@ -59,7 +59,7 @@ const OnboardingWelcome: FunctionComponent<Props> = ({
         displayStyle={DisplayStyle.Secondary}
       />
       <TroubleshootingButton
-        displayStyle={DisplayStyle.Link3}
+        displayStyle={DisplayStyle.ActionLink}
         labelMessage={{
           id: "module.onboarding.welcomeTroubleshootingButton",
         }}
