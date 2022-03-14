@@ -79,11 +79,11 @@ exports[`matches snapshot 1`] = `
   appearance: none;
   background: none;
   padding: 0.1rem 0.7rem;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
   border-radius: 0.4rem;
@@ -126,6 +126,12 @@ exports[`matches snapshot 1`] = `
   z-index: 1;
   pointer-events: all;
   z-index: 3;
+}
+
+.c12,
+.c12 * {
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c12:disabled {

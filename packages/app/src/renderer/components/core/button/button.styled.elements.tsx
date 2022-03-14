@@ -43,7 +43,7 @@ const getSize = (size: Size) => {
 export const activeClassName = "active"
 
 const getButtonContentColor = (color: keyof Theme["color"]["text"]) => {
-  const styles = css`
+  return css`
     p {
       color: ${textColor(color)};
     }
@@ -51,13 +51,31 @@ const getButtonContentColor = (color: keyof Theme["color"]["text"]) => {
       fill: ${textColor(color)};
     }
   `
-  return styles
 }
+
+export const buttonTransitionStyles = css`
+  transition: ${transition(
+      "background",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )},
+    ${transition(
+      "color",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )},
+    ${transition(
+      "border",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )};
+`
 
 const navLinkStyles = css`
   background-color: ${backgroundColor("minor")};
   * {
     color: ${textColor("primary")};
+    ${buttonTransitionStyles};
   }
 
   svg {
@@ -88,24 +106,10 @@ const buttonStyles = css<{
   appearance: none;
   background: none;
   padding: 0.1rem 0.7rem;
-  transition: ${transition(
-      "background",
-      theme.transitionTime.quick,
-      theme.transitionTimingFunction.easeInOut
-    )},
-    ${transition(
-      "color",
-      theme.transitionTime.quick,
-      theme.transitionTimingFunction.easeInOut
-    )},
-    ${transition(
-      "border",
-      theme.transitionTime.quick,
-      theme.transitionTimingFunction.easeInOut
-    )};
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  ${buttonTransitionStyles};
   ${({ size }) => getSize(size)}
   ${({ disabled }) =>
     disabled &&
