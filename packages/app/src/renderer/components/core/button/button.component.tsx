@@ -83,7 +83,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Object.assign(filteredProps, { type, disabled })
   }
 
-  const getButtonTextDisplayStyle = (style: DisplayStyle) => {
+  const getButtonTextDisplayStyle = (style: DisplayStyle): TextDisplayStyle => {
     if (
       style ===
       (DisplayStyle.MenuLink ||
@@ -126,13 +126,13 @@ const ButtonComponent: FunctionComponent<Props> = ({
       {...filteredProps}
       {...rest}
       className={className}
-      displaystyle={displayStyle}
+      displayStyle={displayStyle}
       size={size}
       disabled={disabled}
     >
       {Icon && (
         <StyledIcon
-          displaystyle={displayStyle}
+          displayStyle={displayStyle}
           withMargin={Boolean(label || labelMessage)}
           type={Icon}
           size={iconSize}

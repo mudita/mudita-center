@@ -78,7 +78,7 @@ export const disabledSecondaryStyles = css`
 `
 
 const buttonStyles = css<{
-  displaystyle: DisplayStyle
+  displayStyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
@@ -112,8 +112,8 @@ const buttonStyles = css<{
     `
       pointer-events: none;
   `}
-  ${({ displaystyle, disabled }) => {
-    switch (displaystyle) {
+  ${({ displayStyle, disabled }) => {
+    switch (displayStyle) {
       case DisplayStyle.Primary:
         return css`
           height: 4rem;
@@ -332,7 +332,7 @@ const buttonStyles = css<{
 `
 
 export const StyledNavLink = styled(NavLink)<{
-  displaystyle: DisplayStyle
+  displayStyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
@@ -340,36 +340,36 @@ export const StyledNavLink = styled(NavLink)<{
 `
 
 export const StyledLink = styled(Link)<{
-  displaystyle: DisplayStyle
+  displayStyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
   ${buttonStyles}
 `
 export const StyledA = styled.a<{
-  displaystyle: DisplayStyle
+  displayStyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
   ${buttonStyles}
 `
 export const StyledButton = styled.button<{
-  displaystyle: DisplayStyle
+  displayStyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
   ${buttonStyles}
 `
 export const StyledIcon = styled(Icon)<{
-  displaystyle: DisplayStyle
+  displayStyle: DisplayStyle
   withMargin: boolean
 }>`
-  ${({ displaystyle, withMargin }) => {
+  ${({ displayStyle, withMargin }) => {
     if (withMargin) {
       if (
-        displaystyle === DisplayStyle.Link ||
-        displaystyle === DisplayStyle.LinkWithParagraph ||
-        displaystyle === DisplayStyle.Dropdown
+        displayStyle === DisplayStyle.Link ||
+        displayStyle === DisplayStyle.LinkWithParagraph ||
+        displayStyle === DisplayStyle.Dropdown
       ) {
         return css`
           margin-right: 0.4rem;
@@ -382,8 +382,8 @@ export const StyledIcon = styled(Icon)<{
     return css``
   }}
 
-  ${({ displaystyle }) =>
-    displaystyle === DisplayStyle.InputIcon &&
+  ${({ displayStyle }) =>
+    displayStyle === DisplayStyle.InputIcon &&
     css`
       width: 100%;
       height: 100%;
