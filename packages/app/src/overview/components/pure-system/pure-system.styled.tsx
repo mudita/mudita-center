@@ -6,6 +6,7 @@
 import {
   backgroundColor,
   borderColor,
+  borderRadius,
 } from "App/renderer/styles/theming/theme-getters"
 import styled from "styled-components"
 import Text from "App/renderer/components/core/text/text.component"
@@ -40,7 +41,7 @@ export const PureSystemInfoContainer = styled.div<{
   justify-content: space-between;
   align-items: center;
   background-color: ${backgroundColor("row")};
-  border-radius: 0.4rem;
+  border-radius: ${borderRadius("medium")};
   padding: ${({ withButton }) =>
     withButton ? "1.2rem 2.4rem" : "2.2rem 2.4rem 1.8rem"};
   :not(:last-of-type) {
