@@ -185,7 +185,7 @@ const messages = defineMessages({
     id: "module.overview.updatingFlatBatteryActionButton",
   },
   updatingFlatBatteryHarmonyTitle: {
-    id: "module.overview.updatingFlatBatteryHarmonyDescription",
+    id: "module.overview.updatingFlatBatteryHarmonyTitle",
   },
   updatingFlatBatteryHarmonyDescription: {
     id: "module.overview.updatingFlatBatteryHarmonyDescription",
