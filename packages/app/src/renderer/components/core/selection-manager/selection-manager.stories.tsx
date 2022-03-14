@@ -19,7 +19,7 @@ export const deleteButton = (
   <ButtonComponent
     key="delete"
     label={"Delete"}
-    displayStyle={DisplayStyle.Link1}
+    displayStyle={DisplayStyle.Link}
     Icon={Type.Delete}
     data-testid="button"
     onClick={action("delete")}
@@ -30,7 +30,7 @@ export const exportButton = (
   <ButtonComponent
     key="export"
     label={"Export"}
-    displayStyle={DisplayStyle.Link1}
+    displayStyle={DisplayStyle.Link}
     Icon={Type.Upload}
     data-testid="button"
     onClick={action("export")}

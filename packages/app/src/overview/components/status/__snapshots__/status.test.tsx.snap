@@ -71,7 +71,7 @@ exports[`matches snapshot 1`] = `
   flex-direction: column;
   padding: 2.4rem;
   box-sizing: border-box;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background-color: #ffffff;
 }
 

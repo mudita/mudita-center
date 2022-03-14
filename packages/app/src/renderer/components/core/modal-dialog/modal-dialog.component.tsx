@@ -85,7 +85,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
   onClose,
   close = (
     <Close
-      displayStyle={DisplayStyle.IconOnly2}
+      displayStyle={DisplayStyle.IconOnly}
       onClick={closeModal}
       Icon={Type.Close}
       data-testid={ModalTestIds.CloseButton}

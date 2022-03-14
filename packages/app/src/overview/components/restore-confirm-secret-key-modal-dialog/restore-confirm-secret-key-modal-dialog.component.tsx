@@ -74,8 +74,6 @@ const ButtonWrapper = styled.div`
   justify-content: center;
 `
 
-const ButtonWithRotatingIcon = styled(Button)``
-
 const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   children,
   size = ModalSize.Small,
@@ -97,47 +95,46 @@ interface RestoreConfirmSecretKeyModalProps
 
 // TODO: Provide some abstraction to hide structure modal behind core
 //  https://appnroll.atlassian.net/browse/CP-757
-export const RestoreConfirmSecretKeyModal: FunctionComponent<RestoreConfirmSecretKeyModalProps> =
-  ({ onSecretKeySet, ...props }) => {
-    const { register, handleSubmit } =
-      useForm<RestoreConfirmSecretKeyFieldValues>({
-        mode: "onChange",
-      })
-
-    const handleSubmitClick = handleSubmit((data) => {
-      onSecretKeySet(data.secretKey)
+export const RestoreConfirmSecretKeyModal: FunctionComponent<
+  RestoreConfirmSecretKeyModalProps
+> = ({ onSecretKeySet, ...props }) => {
+  const { register, handleSubmit } =
+    useForm<RestoreConfirmSecretKeyFieldValues>({
+      mode: "onChange",
     })
 
-    return (
-      <Modal
-        closeButton={false}
-        title={intl.formatMessage(
-          messages.restoreConfirmSecretKeyModalHeaderTitle
-        )}
-        {...props}
-      >
-        <ModalText
-          displayStyle={TextDisplayStyle.Paragraph4}
+  const handleSubmitClick = handleSubmit((data) => {
+    onSecretKeySet(data.secretKey)
+  })
+
+  return (
+    <Modal
+      closeButton={false}
+      title={intl.formatMessage(
+        messages.restoreConfirmSecretKeyModalHeaderTitle
+      )}
+      {...props}
+    >
+      <ModalText
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
+        message={messages.restoreConfirmSecretKeyModalDescription}
+      />
+      <Form onSubmit={handleSubmitClick}>
+        <FormInputLabel
+          displayStyle={TextDisplayStyle.Label}
           color="secondary"
-          message={messages.restoreConfirmSecretKeyModalDescription}
+          message={messages.restoreConfirmSecretKeyModalInputLabel}
         />
-        <Form onSubmit={handleSubmitClick}>
-          <FormInputLabel
-            displayStyle={TextDisplayStyle.Label}
-            color="secondary"
-            message={messages.restoreConfirmSecretKeyModalInputLabel}
+        <FormInput type={"password"} {...register(FieldKeys.SecretKey)} />
+        <ButtonWrapper>
+          <Button
+            type={Type.Submit}
+            displayStyle={DisplayStyle.Primary}
+            labelMessage={messages.restoreConfirmSecretKeyModalMainButton}
           />
-          <FormInput type={"password"} {...register(FieldKeys.SecretKey)} />
-          <ButtonWrapper>
-            <ButtonWithRotatingIcon
-              type={Type.Submit}
-              displayStyle={DisplayStyle.Primary}
-              label={intl.formatMessage(
-                messages.restoreConfirmSecretKeyModalMainButton
-              )}
-            />
-          </ButtonWrapper>
-        </Form>
-      </Modal>
-    )
-  }
+        </ButtonWrapper>
+      </Form>
+    </Modal>
+  )
+}

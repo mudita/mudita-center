@@ -77,6 +77,7 @@ const Failed = styled(Col)`
 
 const SubtitleText = styled(Text)`
   margin-bottom: 0.8rem;
+  text-align: center;
 `
 
 export enum ModalType {

@@ -8,7 +8,6 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
-import { IconSize } from "Renderer/components/core/icon/icon.component"
 import { Feature, flags } from "App/feature-flags"
 
 interface Props {
@@ -27,37 +26,20 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
   return (
     <>
       {flags.get(Feature.DevelopOnly) && (
-        <SidebarHeaderButton
-          Icon={Type.Calls}
-          onClick={noop}
-          iconSize={IconSize.Big}
-        />
+        <SidebarHeaderButton Icon={Type.Calls} onClick={noop} />
       )}
       {contactCreated ? (
-        <SidebarHeaderButton
-          Icon={Type.Contact}
-          onClick={onContactClick}
-          iconSize={IconSize.Big}
-        />
+        <SidebarHeaderButton Icon={Type.Contact} onClick={onContactClick} />
       ) : (
-        <SidebarHeaderButton
-          Icon={Type.NewContact}
-          onClick={onContactClick}
-          iconSize={IconSize.Big}
-        />
+        <SidebarHeaderButton Icon={Type.NewContact} onClick={onContactClick} />
       )}
       {flags.get(Feature.DevelopOnly) && (
         <>
           <SidebarHeaderButton
             Icon={Type.BorderCheckIcon}
             onClick={onCheckClick}
-            iconSize={IconSize.Big}
           />
-          <SidebarHeaderButton
-            Icon={Type.Delete}
-            onClick={onDeleteClick}
-            iconSize={IconSize.Big}
-          />
+          <SidebarHeaderButton Icon={Type.Delete} onClick={onDeleteClick} />
         </>
       )}
     </>

@@ -84,7 +84,7 @@ const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   <ModalDialog
     size={size}
     title={intl.formatMessage(messages.restoreModalHeaderTitle)}
-    actionButtonSize={Size.FixedMedium}
+    actionButtonSize={Size.FixedSmall}
     {...props}
   >
     <ModalContent>{children}</ModalContent>
@@ -167,7 +167,7 @@ export const RestoreFailureModal: FunctionComponent<
       )}
       onCloseButton={secondaryActionButtonClick}
       onClose={handleOnClose}
-      actionButtonSize={Size.FixedBig}
+      actionButtonSize={Size.FixedSmall}
       {...props}
     >
       <RoundIconWrapper>

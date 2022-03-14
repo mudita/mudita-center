@@ -18,28 +18,29 @@ exports[`matches snapshot 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c1:hover {
-  background: #232426;
-}
-
-.c1 g {
-  fill: #ffffff;
+  background: #000000;
 }
 
 .c1 p {
   color: #ffffff;
+}
+
+.c1 g path {
+  fill: #ffffff;
 }
 
 .c0 {
@@ -72,7 +73,7 @@ exports[`matches snapshot 1`] = `
   >
     <button
       class="c1"
-      size="2"
+      size="1"
       type="button"
     />
     <ul
@@ -138,26 +139,34 @@ exports[`renders dropdown 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  height: 3rem;
-  padding: 0.8rem;
+  height: 2.4rem;
+  padding: 0;
   border: none;
-  border-radius: 0.2rem;
-  font-weight: 400;
+  opacity: 0.8;
   width: 100%;
 }
 
+.c5 p {
+  color: #000000;
+}
+
+.c5 g path {
+  fill: #000000;
+}
+
 .c5:hover {
-  background-color: #f4f5f6;
+  opacity: 1;
 }
 
 .c1 {
@@ -177,32 +186,33 @@ exports[`renders dropdown 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c1:hover {
-  background: #232426;
-}
-
-.c1 g {
-  fill: #ffffff;
+  background: #000000;
 }
 
 .c1 p {
   color: #ffffff;
 }
 
+.c1 g path {
+  fill: #ffffff;
+}
+
 .c7 {
-  margin: 0 0.8rem 0 0;
+  margin-right: 0.4rem;
 }
 
 .c3 {
@@ -239,7 +249,7 @@ exports[`renders dropdown 1`] = `
   >
     <button
       class="c1"
-      size="2"
+      size="1"
       type="button"
     >
       <p
@@ -256,7 +266,7 @@ exports[`renders dropdown 1`] = `
       <a
         class="c5"
         href="http://www.google.pl"
-        size="2"
+        size="1"
         target="_blank"
       >
         <span

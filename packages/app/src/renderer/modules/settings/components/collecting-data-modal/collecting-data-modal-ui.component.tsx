@@ -66,7 +66,7 @@ const CollectingDataModalUi: FunctionComponent<Props> = ({
           message={messages.body}
         />
         <FullAgreementButton
-          displayStyle={DisplayStyle.Link3}
+          displayStyle={DisplayStyle.ActionLink}
           labelMessage={{
             id: "component.collectingDataModalFullAgreement",
           }}

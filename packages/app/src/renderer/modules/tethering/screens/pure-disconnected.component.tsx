@@ -45,7 +45,7 @@ const PureDisconnected: FunctionComponent = () => (
       </Text>
       <StyledButton
         data-testid={TetheringTestIds.GoToButton}
-        label={intl.formatMessage(tetheringMessages.openConnectionSettings)}
+        labelMessage={tetheringMessages.openConnectionSettings}
         to={URL_MAIN.settings}
       />
     </ButtonWrapper>

@@ -56,7 +56,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   label,
   labelMessage,
   nav,
-  size = Size.FixedBig,
+  size = Size.FixedMedium,
   target,
   to,
   type = Type.Button,
@@ -83,19 +83,16 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Object.assign(filteredProps, { type, disabled })
   }
 
-  const getButtonTextDisplayStyle = (style: DisplayStyle) => {
-    switch (style) {
-      case DisplayStyle.Link4:
-        return TextDisplayStyle.Paragraph1
-      case DisplayStyle.Tab:
-        return TextDisplayStyle.Paragraph1
-      case DisplayStyle.Dropdown:
-        return TextDisplayStyle.Button
-      case DisplayStyle.Link2:
-        return TextDisplayStyle.Paragraph1
-      default:
-        return TextDisplayStyle.Button
+  const getButtonTextDisplayStyle = (style: DisplayStyle): TextDisplayStyle => {
+    if (
+      style ===
+      (DisplayStyle.MenuLink ||
+        DisplayStyle.Tab ||
+        DisplayStyle.LinkWithParagraph)
+    ) {
+      return TextDisplayStyle.Paragraph1
     }
+    return TextDisplayStyle.Button
   }
 
   const getLabel = () => {
@@ -129,13 +126,13 @@ const ButtonComponent: FunctionComponent<Props> = ({
       {...filteredProps}
       {...rest}
       className={className}
-      displaystyle={displayStyle}
+      displayStyle={displayStyle}
       size={size}
       disabled={disabled}
     >
       {Icon && (
         <StyledIcon
-          displaystyle={displayStyle}
+          displayStyle={displayStyle}
           withMargin={Boolean(label || labelMessage)}
           type={Icon}
           size={iconSize}

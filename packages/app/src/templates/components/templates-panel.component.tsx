@@ -107,8 +107,8 @@ const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
           buttons={[
             <ButtonComponent
               key="delete"
-              label={intl.formatMessage(messages.deleteButton)}
-              displayStyle={DisplayStyle.Link1}
+              labelMessage={messages.deleteButton}
+              displayStyle={DisplayStyle.Link}
               Icon={Type.Delete}
               onClick={onDeleteButtonClick}
             />,

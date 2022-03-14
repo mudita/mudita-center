@@ -15,7 +15,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
 export enum IconSize {
-  Small = 1.4,
+  Small = 1.6,
   Medium = 2.4,
   Big = 2.8,
   Bigger = 3.2,

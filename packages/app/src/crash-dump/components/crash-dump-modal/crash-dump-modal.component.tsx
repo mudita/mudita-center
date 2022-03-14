@@ -49,7 +49,7 @@ export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({
       closeButtonLabel={intl.formatMessage(messages.close)}
       onActionButtonClick={onAccept}
       actionButtonLabel={intl.formatMessage(messages.accept)}
-      actionButtonSize={Size.FixedMedium}
+      actionButtonSize={Size.FixedSmall}
     >
       <ContentWrapper data-testid={CrashDumpModalTestingIds.Content}>
         <IconWrapper>

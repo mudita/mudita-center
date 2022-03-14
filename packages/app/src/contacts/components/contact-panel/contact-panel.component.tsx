@@ -147,15 +147,15 @@ const ContactPanel: FunctionComponent<Props> = ({
             buttons={[
               <ButtonComponent
                 key="export"
-                label={intl.formatMessage(messages.export)}
-                displayStyle={DisplayStyle.Link1}
+                labelMessage={messages.export}
+                displayStyle={DisplayStyle.Link}
                 Icon={Type.UploadDark}
                 onClick={handleExport}
               />,
               <ButtonComponent
                 key="delete"
-                label={intl.formatMessage(messages.deleteButton)}
-                displayStyle={DisplayStyle.Link1}
+                labelMessage={messages.deleteButton}
+                displayStyle={DisplayStyle.Link}
                 Icon={Type.Delete}
                 onClick={openModal}
               />,

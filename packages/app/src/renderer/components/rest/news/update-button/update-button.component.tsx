@@ -55,7 +55,7 @@ const UpdateButtonComponent: FunctionComponent<
 }) => {
   return (
     <UpdateButton
-      displayStyle={DisplayStyle.Link2}
+      displayStyle={DisplayStyle.LinkWithParagraph}
       label={label}
       Icon={Type.Refresh}
       onClick={onClick}
