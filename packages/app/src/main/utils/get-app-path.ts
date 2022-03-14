@@ -6,7 +6,10 @@
 import path from "path"
 import { name } from "../../../package.json"
 
-export type AppType = "main" | "renderer"
+export enum AppType {
+  Main = "main",
+  Renderer = "renderer",
+}
 export type AppResolver = () => {
   type: AppType
   app: { getPath: (arg0: string) => string }
@@ -17,7 +20,7 @@ export const resolve: AppResolver = () => {
   const app = isRenderer
     ? require("electron").remote.app
     : require("electron").app
-  const type = isRenderer ? "renderer" : "main"
+  const type = isRenderer ? AppType.Renderer : AppType.Main
   return {
     app,
     type,
