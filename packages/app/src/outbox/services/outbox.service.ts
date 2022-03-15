@@ -18,7 +18,7 @@ import { DeviceService } from "App/backend/device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import { ContactRepository } from "App/data-sync/repositories"
+import { ContactRepository } from "App/contacts/repositories"
 
 export class OutboxService {
   // @ts-ignore

@@ -5,7 +5,6 @@
 
 // TODO: fully implementation will be https://appnroll.atlassian.net/browse/CP-1049
 export class ContactRepository {
-  constructor() {}
 
   public create(data: any): void {
     return

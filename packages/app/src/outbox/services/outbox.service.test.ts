@@ -15,10 +15,10 @@ import { OutboxService } from "App/outbox/services/outbox.service"
 import DeviceService from "Backend/device-service"
 import { IpcEvent } from "App/data-sync/constants"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import { ContactRepository } from "App/data-sync/repositories"
+import { ContactRepository } from "App/contacts/repositories"
 
 jest.mock("Backend/device-service")
-jest.mock("App/data-sync/repositories")
+jest.mock("App/contacts/repositories")
 beforeEach(() => {
   jest.resetAllMocks()
 })

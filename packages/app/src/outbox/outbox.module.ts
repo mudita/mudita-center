@@ -13,7 +13,7 @@ import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { OutboxService } from "App/outbox/services"
 import { OutboxObserver } from "App/outbox/observers/outbox.observer"
-import { ContactRepository } from "App/data-sync/repositories"
+import { ContactRepository } from "App/contacts/repositories"
 
 export class OutboxModule extends BaseModule {
   constructor(
