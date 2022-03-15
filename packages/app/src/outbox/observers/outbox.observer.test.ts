@@ -5,8 +5,13 @@
 
 import { EventEmitter } from "events"
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
-import { OutboxObserver, outboxTime } from "App/outbox/observers/outbox.observer"
+import {
+  OutboxObserver,
+  outboxTime,
+} from "App/outbox/observers/outbox.observer"
 import { OutboxService } from "App/outbox/services"
+import { ipcMain } from "electron-better-ipc"
+import { IpcEvent } from "App/data-sync/constants"
 
 describe("Method: observe", () => {
   beforeEach(() => {
@@ -30,7 +35,7 @@ describe("Method: observe", () => {
       outboxService = {
         readOutboxEntries: jest.fn(),
       } as unknown as OutboxService
-      subject = new OutboxObserver(deviceService, outboxService)
+      subject = new OutboxObserver(ipcMain, deviceService, outboxService)
     })
 
     test("`readOutboxEntries` has been called", async () => {
@@ -40,6 +45,18 @@ describe("Method: observe", () => {
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
 
       expect(outboxService.readOutboxEntries).toHaveBeenCalled()
+    })
+
+    test("`DataLoaded` is emits", async () => {
+      expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
+
+      subject.observe()
+      eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+
+      expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
+      expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
+        IpcEvent.DataLoaded
+      )
     })
 
     test("`readOutboxEntries` has been called every `outboxTime`", async () => {

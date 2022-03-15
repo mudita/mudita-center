@@ -37,11 +37,14 @@ export class OutboxModule extends BaseModule {
     const contactRepository = new ContactRepository()
 
     const outboxService = new OutboxService(
-      this.ipc,
       this.deviceService,
       contactRepository
     )
-    const outboxObserver = new OutboxObserver(this.deviceService, outboxService)
+    const outboxObserver = new OutboxObserver(
+      this.ipc,
+      this.deviceService,
+      outboxService
+    )
 
     this.controllers = []
 

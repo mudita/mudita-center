@@ -13,10 +13,8 @@ import {
   OutboxEntryChange,
   OutboxEntryType,
 } from "@mudita/pure"
-import { MainProcessIpc } from "electron-better-ipc"
 import { asyncNoop } from "Renderer/utils/noop"
 import { DeviceService } from "App/backend/device-service"
-import { IpcEvent } from "App/data-sync/constants"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -33,7 +31,6 @@ export class OutboxService {
   }
 
   constructor(
-    private ipc: MainProcessIpc,
     private deviceService: DeviceService,
     private contactRepository: ContactRepository
   ) {}
@@ -57,8 +54,6 @@ export class OutboxService {
     }
 
     await this.deleteOutboxEntriesRequest(entries.map(({ uid }) => uid))
-
-    await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
   }
 
   private async handleContactEntry(entry: OutboxEntry): Promise<void> {

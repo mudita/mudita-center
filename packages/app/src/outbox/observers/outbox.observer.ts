@@ -9,14 +9,17 @@ import {
   DeviceServiceEventName,
 } from "App/backend/device-service"
 import { OutboxService } from "App/outbox/services/outbox.service"
+import { MainProcessIpc } from "electron-better-ipc"
+import { IpcEvent } from "App/data-sync/constants"
 
-export const outboxTime = 30000;
+export const outboxTime = 30000
 
 export class OutboxObserver implements Observer {
   private invoked = false
   private disconnected = true
 
   constructor(
+    private ipc: MainProcessIpc,
     private deviceService: DeviceService,
     private outboxService: OutboxService
   ) {}
@@ -53,6 +56,7 @@ export class OutboxObserver implements Observer {
     }
 
     await this.outboxService.readOutboxEntries()
+    this.ipc.sendToRenderers(IpcEvent.DataLoaded)
     return new Promise((resolve) => {
       setTimeout(async () => {
         resolve(await this.watchOutboxEntries())

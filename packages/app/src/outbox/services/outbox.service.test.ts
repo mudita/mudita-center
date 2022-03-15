@@ -47,7 +47,7 @@ describe("`OutboxService`", () => {
       contactRepository = {
         delete: jest.fn(),
       } as unknown as ContactRepository
-      subject = new OutboxService(ipcMain, deviceService, contactRepository)
+      subject = new OutboxService(deviceService, contactRepository)
     })
 
     test("`delete` method in contactRepository was called", async () => {
@@ -64,13 +64,6 @@ describe("`OutboxService`", () => {
           entries: [1],
         },
       })
-    })
-
-    test("`DataLoaded` is emits", async () => {
-      await subject.readOutboxEntries()
-      expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
-        IpcEvent.DataLoaded
-      )
     })
   })
 
@@ -97,7 +90,7 @@ describe("`OutboxService`", () => {
       contactRepository = {
         create: jest.fn(),
       } as unknown as ContactRepository
-      subject = new OutboxService(ipcMain, deviceService, contactRepository)
+      subject = new OutboxService(deviceService, contactRepository)
     })
 
     test("`create` method in contactRepository was called", async () => {
@@ -114,13 +107,6 @@ describe("`OutboxService`", () => {
           entries: [1],
         },
       })
-    })
-
-    test("`DataLoaded` is emits", async () => {
-      await subject.readOutboxEntries()
-      expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
-        IpcEvent.DataLoaded
-      )
     })
   })
 
@@ -147,7 +133,7 @@ describe("`OutboxService`", () => {
       contactRepository = {
         update: jest.fn(),
       } as unknown as ContactRepository
-      subject = new OutboxService(ipcMain, deviceService, contactRepository)
+      subject = new OutboxService(deviceService, contactRepository)
     })
 
     test("`update` method in contactRepository was called", async () => {
@@ -165,13 +151,6 @@ describe("`OutboxService`", () => {
         },
       })
     })
-
-    test("`DataLoaded` is emits", async () => {
-      await subject.readOutboxEntries()
-      expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
-        IpcEvent.DataLoaded
-      )
-    })
   })
 
   describe("when Get Outbox Entries returns Entries with empty list", () => {
@@ -186,7 +165,7 @@ describe("`OutboxService`", () => {
         }),
       } as unknown as DeviceService
       contactRepository = {} as unknown as ContactRepository
-      subject = new OutboxService(ipcMain, deviceService, contactRepository)
+      subject = new OutboxService(deviceService, contactRepository)
     })
 
     test("`DataLoaded` isn't emits", async () => {
@@ -208,7 +187,7 @@ describe("`OutboxService`", () => {
         }),
       } as unknown as DeviceService
       contactRepository = {} as unknown as ContactRepository
-      subject = new OutboxService(ipcMain, deviceService, contactRepository)
+      subject = new OutboxService(deviceService, contactRepository)
     })
 
     test("`DataLoaded` isn't emits", async () => {
