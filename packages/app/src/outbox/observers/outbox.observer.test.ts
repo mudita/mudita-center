@@ -5,7 +5,7 @@
 
 import { EventEmitter } from "events"
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
-import { OutboxObserver } from "App/outbox/observers/outbox.observer"
+import { OutboxObserver, outboxTime } from "App/outbox/observers/outbox.observer"
 import { OutboxService } from "App/outbox/services"
 
 describe("Method: observe", () => {
@@ -42,7 +42,7 @@ describe("Method: observe", () => {
       expect(outboxService.readOutboxEntries).toHaveBeenCalled()
     })
 
-    test("`readOutboxEntries` has been called every single second", async () => {
+    test("`readOutboxEntries` has been called every `outboxTime`", async () => {
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
@@ -50,10 +50,10 @@ describe("Method: observe", () => {
 
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
 
-      await Promise.resolve().then(() => jest.advanceTimersByTime(1000))
+      await Promise.resolve().then(() => jest.advanceTimersByTime(outboxTime))
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(2)
 
-      await Promise.resolve().then(() => jest.advanceTimersByTime(1000))
+      await Promise.resolve().then(() => jest.advanceTimersByTime(outboxTime))
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(3)
     })
 
@@ -65,12 +65,12 @@ describe("Method: observe", () => {
 
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
 
-      await Promise.resolve().then(() => jest.advanceTimersByTime(1000))
+      await Promise.resolve().then(() => jest.advanceTimersByTime(outboxTime))
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(2)
 
       eventEmitterMock.emit(DeviceServiceEventName.DeviceDisconnected)
 
-      await Promise.resolve().then(() => jest.advanceTimersByTime(1000))
+      await Promise.resolve().then(() => jest.advanceTimersByTime(outboxTime))
       expect(outboxService.readOutboxEntries).not.toHaveBeenCalledTimes(3)
     })
 

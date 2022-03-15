@@ -10,6 +10,8 @@ import {
 } from "App/backend/device-service"
 import { OutboxService } from "App/outbox/services/outbox.service"
 
+export const outboxTime = 30000;
+
 export class OutboxObserver implements Observer {
   private invoked = false
   private disconnected = true
@@ -54,7 +56,7 @@ export class OutboxObserver implements Observer {
     return new Promise((resolve) => {
       setTimeout(async () => {
         resolve(await this.watchOutboxEntries())
-      }, 1000)
+      }, outboxTime)
     })
   }
 }
