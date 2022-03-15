@@ -63,7 +63,7 @@ export class OutboxService {
 
   private async handleContactEntry(entry: OutboxEntry): Promise<void> {
     if (entry.change === OutboxEntryChange.Deleted) {
-      this.contactRepository.delete(entry.record_id)
+      return this.contactRepository.delete(entry.record_id)
     }
 
     const { status, data } = await this.getContactRequest(entry.record_id)
@@ -73,11 +73,11 @@ export class OutboxService {
     }
 
     if (entry.change === OutboxEntryChange.Created) {
-      this.contactRepository.create(data)
+      return this.contactRepository.create(data)
     }
 
     if (entry.change === OutboxEntryChange.Updated) {
-      this.contactRepository.update(data)
+      return this.contactRepository.update(data)
     }
   }
 
