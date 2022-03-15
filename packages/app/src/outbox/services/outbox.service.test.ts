@@ -19,6 +19,7 @@ beforeEach(() => {
 
 describe("`OutboxService`", () => {
   describe("when Get Outbox Entries returns Contact Deleted Entry", () => {
+    let subject: OutboxService
     let deviceService: DeviceService
     let contactRepository: ContactRepository
     const entries: Entry[] = [
@@ -40,24 +41,15 @@ describe("`OutboxService`", () => {
       contactRepository = {
         delete: jest.fn(),
       } as unknown as ContactRepository
+      subject = new OutboxService(ipcMain, deviceService, contactRepository)
     })
 
     test("`delete` method in contactRepository was called", async () => {
-      const subject = new OutboxService(
-        ipcMain,
-        deviceService,
-        contactRepository
-      )
       await subject.readOutboxEntries()
       expect(contactRepository.delete).toHaveBeenCalledWith(1)
     })
 
     test("outbox `delete` request was called", async () => {
-      const subject = new OutboxService(
-        ipcMain,
-        deviceService,
-        contactRepository
-      )
       await subject.readOutboxEntries()
       expect(deviceService.request).toHaveBeenCalledWith({
         endpoint: Endpoint.Outbox,
@@ -69,11 +61,6 @@ describe("`OutboxService`", () => {
     })
 
     test("`DataLoaded` is emits", async () => {
-      const subject = new OutboxService(
-        ipcMain,
-        deviceService,
-        contactRepository
-      )
       await subject.readOutboxEntries()
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
         IpcEvent.DataLoaded
@@ -82,6 +69,7 @@ describe("`OutboxService`", () => {
   })
 
   describe("when Get Outbox Entries returns Contact Created Entry", () => {
+    let subject: OutboxService
     let deviceService: DeviceService
     let contactRepository: ContactRepository
     const entries: Entry[] = [
@@ -103,24 +91,15 @@ describe("`OutboxService`", () => {
       contactRepository = {
         create: jest.fn(),
       } as unknown as ContactRepository
+      subject = new OutboxService(ipcMain, deviceService, contactRepository)
     })
 
     test("`create` method in contactRepository was called", async () => {
-      const subject = new OutboxService(
-        ipcMain,
-        deviceService,
-        contactRepository
-      )
       await subject.readOutboxEntries()
       expect(contactRepository.create).toHaveBeenCalled()
     })
 
     test("outbox `delete` request was called", async () => {
-      const subject = new OutboxService(
-        ipcMain,
-        deviceService,
-        contactRepository
-      )
       await subject.readOutboxEntries()
       expect(deviceService.request).toHaveBeenCalledWith({
         endpoint: Endpoint.Outbox,
@@ -132,11 +111,6 @@ describe("`OutboxService`", () => {
     })
 
     test("`DataLoaded` is emits", async () => {
-      const subject = new OutboxService(
-        ipcMain,
-        deviceService,
-        contactRepository
-      )
       await subject.readOutboxEntries()
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
         IpcEvent.DataLoaded
@@ -145,6 +119,7 @@ describe("`OutboxService`", () => {
   })
 
   describe("when Get Outbox Entries returns Contact Updated Entry", () => {
+    let subject: OutboxService
     let deviceService: DeviceService
     let contactRepository: ContactRepository
     const entries: Entry[] = [
@@ -166,24 +141,15 @@ describe("`OutboxService`", () => {
       contactRepository = {
         update: jest.fn(),
       } as unknown as ContactRepository
+      subject = new OutboxService(ipcMain, deviceService, contactRepository)
     })
 
     test("`update` method in contactRepository was called", async () => {
-      const subject = new OutboxService(
-        ipcMain,
-        deviceService,
-        contactRepository
-      )
       await subject.readOutboxEntries()
       expect(contactRepository.update).toHaveBeenCalled()
     })
 
     test("outbox `delete` request was called", async () => {
-      const subject = new OutboxService(
-        ipcMain,
-        deviceService,
-        contactRepository
-      )
       await subject.readOutboxEntries()
       expect(deviceService.request).toHaveBeenCalledWith({
         endpoint: Endpoint.Outbox,
@@ -195,11 +161,6 @@ describe("`OutboxService`", () => {
     })
 
     test("`DataLoaded` is emits", async () => {
-      const subject = new OutboxService(
-        ipcMain,
-        deviceService,
-        contactRepository
-      )
       await subject.readOutboxEntries()
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
         IpcEvent.DataLoaded
@@ -208,6 +169,7 @@ describe("`OutboxService`", () => {
   })
 
   describe("when Get Outbox Entries returns Entries with empty list", () => {
+    let subject: OutboxService
     let deviceService: DeviceService
     let contactRepository: ContactRepository
     beforeEach(() => {
@@ -218,14 +180,10 @@ describe("`OutboxService`", () => {
         }),
       } as unknown as DeviceService
       contactRepository = {} as unknown as ContactRepository
+      subject = new OutboxService(ipcMain, deviceService, contactRepository)
     })
 
     test("`DataLoaded` isn't emits", async () => {
-      const subject = new OutboxService(
-        ipcMain,
-        deviceService,
-        contactRepository
-      )
       await subject.readOutboxEntries()
       expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
         IpcEvent.DataLoaded
@@ -234,6 +192,7 @@ describe("`OutboxService`", () => {
   })
 
   describe("when Get Outbox Entries returns error", () => {
+    let subject: OutboxService
     let deviceService: DeviceService
     let contactRepository: ContactRepository
     beforeEach(() => {
@@ -243,14 +202,10 @@ describe("`OutboxService`", () => {
         }),
       } as unknown as DeviceService
       contactRepository = {} as unknown as ContactRepository
+      subject = new OutboxService(ipcMain, deviceService, contactRepository)
     })
 
     test("`DataLoaded` isn't emits", async () => {
-      const subject = new OutboxService(
-        ipcMain,
-        deviceService,
-        contactRepository
-      )
       await subject.readOutboxEntries()
       expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
         IpcEvent.DataLoaded

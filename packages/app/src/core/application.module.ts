@@ -25,11 +25,13 @@ import { IndexStorageModule } from "App/index-storage/index-storage.module"
 import { DataSyncModule } from "App/data-sync/data-sync.module"
 import { ContactModule } from "App/contacts/contact.module"
 import { MessageModule } from "App/messages/message.module"
+import { OutboxModule } from "App/outbox/outbox.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
     IndexStorageModule,
     DataSyncModule,
+    OutboxModule,
     ContactModule,
     MessageModule,
   ]
