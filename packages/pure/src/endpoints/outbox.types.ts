@@ -5,22 +5,22 @@
 
 import { Endpoint, Method, RequestConfig } from "../device"
 
-export enum EntryType {
+export enum OutboxEntryType {
   Message = 1,
   Thread,
   Contact,
 }
 
-export enum EntryChange {
+export enum OutboxEntryChange {
   Created = 1,
   Updated,
   Deleted,
 }
 
-export interface Entry {
+export interface OutboxEntry {
   uid: number
-  type: EntryType
-  change: EntryChange
+  type: OutboxEntryType
+  change: OutboxEntryChange
   record_id: number
 }
 
@@ -39,7 +39,7 @@ export interface GetEntriesRequestConfig
 }
 
 export interface DeleteEntriesConfigBody {
-  entries: Entry["uid"][]
+  entries: OutboxEntry["uid"][]
 }
 
 export interface DeleteEntriesRequestConfig
@@ -49,5 +49,5 @@ export interface DeleteEntriesRequestConfig
 }
 
 export interface GetEntriesResponseBody {
-  entries: Entry[]
+  entries: OutboxEntry[]
 }

@@ -3,7 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Entry, EntryChange, EntryType, Method } from "@mudita/pure"
+import {
+  Endpoint,
+  OutboxEntry,
+  OutboxEntryChange,
+  OutboxEntryType,
+  Method,
+} from "@mudita/pure"
 import { ipcMain } from "electron-better-ipc"
 import { OutboxService } from "App/outbox/services/outbox.service"
 import DeviceService from "Backend/device-service"
@@ -22,11 +28,11 @@ describe("`OutboxService`", () => {
     let subject: OutboxService
     let deviceService: DeviceService
     let contactRepository: ContactRepository
-    const entries: Entry[] = [
+    const entries: OutboxEntry[] = [
       {
         uid: 1,
-        type: EntryType.Contact,
-        change: EntryChange.Deleted,
+        type: OutboxEntryType.Contact,
+        change: OutboxEntryChange.Deleted,
         record_id: 1,
       },
     ]
@@ -72,11 +78,11 @@ describe("`OutboxService`", () => {
     let subject: OutboxService
     let deviceService: DeviceService
     let contactRepository: ContactRepository
-    const entries: Entry[] = [
+    const entries: OutboxEntry[] = [
       {
         uid: 1,
-        type: EntryType.Contact,
-        change: EntryChange.Created,
+        type: OutboxEntryType.Contact,
+        change: OutboxEntryChange.Created,
         record_id: 1,
       },
     ]
@@ -122,11 +128,11 @@ describe("`OutboxService`", () => {
     let subject: OutboxService
     let deviceService: DeviceService
     let contactRepository: ContactRepository
-    const entries: Entry[] = [
+    const entries: OutboxEntry[] = [
       {
         uid: 1,
-        type: EntryType.Contact,
-        change: EntryChange.Updated,
+        type: OutboxEntryType.Contact,
+        change: OutboxEntryChange.Updated,
         record_id: 1,
       },
     ]

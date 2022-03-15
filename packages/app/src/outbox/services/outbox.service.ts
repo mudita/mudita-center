@@ -6,12 +6,12 @@
 import {
   Contact,
   Endpoint,
-  Entry,
-  EntryChange,
-  EntryType,
   GetEntriesResponseBody,
   Method,
   OutboxCategory,
+  OutboxEntry,
+  OutboxEntryChange,
+  OutboxEntryType,
 } from "@mudita/pure"
 import { MainProcessIpc } from "electron-better-ipc"
 import { asyncNoop } from "Renderer/utils/noop"
@@ -24,11 +24,13 @@ import { ContactRepository } from "App/data-sync/repositories"
 
 export class OutboxService {
   // @ts-ignore
-  private entryHandlersMap: Record<EntryType, (entry: Entry) => Promise<void>> =
-    {
-      [EntryType.Contact]: this.handleContactEntry.bind(this),
-      // TODO: add Thread, Message handlers
-    }
+  private entryHandlersMap: Record<
+    OutboxEntryType,
+    (entry: OutboxEntry) => Promise<void>
+  > = {
+    [OutboxEntryType.Contact]: this.handleContactEntry.bind(this),
+    // TODO: add Thread, Message handlers
+  }
 
   constructor(
     private ipc: MainProcessIpc,
@@ -59,8 +61,8 @@ export class OutboxService {
     await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
   }
 
-  private async handleContactEntry(entry: Entry): Promise<void> {
-    if (entry.change === EntryChange.Deleted) {
+  private async handleContactEntry(entry: OutboxEntry): Promise<void> {
+    if (entry.change === OutboxEntryChange.Deleted) {
       this.contactRepository.delete(entry.record_id)
     }
 
@@ -70,11 +72,11 @@ export class OutboxService {
       return
     }
 
-    if (entry.change === EntryChange.Created) {
+    if (entry.change === OutboxEntryChange.Created) {
       this.contactRepository.create(data)
     }
 
-    if (entry.change === EntryChange.Updated) {
+    if (entry.change === OutboxEntryChange.Updated) {
       this.contactRepository.update(data)
     }
   }
