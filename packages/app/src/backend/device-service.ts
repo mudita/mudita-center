@@ -106,10 +106,6 @@ export class DeviceService {
     method: Method.Get
     body: GetFileListBody
   }): Promise<DeviceResponse<GetFileListResponseBody>>
-  async request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
-  }): Promise<DeviceResponse<{ entries: Contact[]; totalCount: number }>>
   public request(config: {
     endpoint: Endpoint.Messages
     method: Method.Get
@@ -125,6 +121,15 @@ export class DeviceService {
     method: Method.Post
     body: PostMessagesBody
   }): Promise<DeviceResponse<PostMessagesResponseBody>>
+  async request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Get
+  }): Promise<DeviceResponse<{ entries: Contact[]; totalCount: number }>>
+  async request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Get
+    body: { id: number }
+  }): Promise<DeviceResponse<Contact>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
