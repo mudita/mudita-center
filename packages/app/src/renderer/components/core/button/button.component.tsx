@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { MouseEventHandler } from "react"
+import React, { ComponentProps, MouseEventHandler, Ref } from "react"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -38,6 +38,7 @@ export interface Props {
   target?: string
   to?: string
   type?: Type
+  buttonRef?: Ref<HTMLElement>
 }
 
 const ButtonText = styled(Text)`
@@ -60,6 +61,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   target,
   to,
   type = Type.Button,
+  buttonRef,
   ...rest
 }) => {
   let Component: any
@@ -125,6 +127,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
     <Component
       {...filteredProps}
       {...rest}
+      ref={buttonRef}
       className={className}
       displayStyle={displayStyle}
       size={size}
@@ -143,4 +146,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   )
 }
 
-export default ButtonComponent
+export default React.forwardRef<
+  HTMLElement,
+  ComponentProps<typeof ButtonComponent>
+>((props, ref) => <ButtonComponent {...props} buttonRef={ref} />)

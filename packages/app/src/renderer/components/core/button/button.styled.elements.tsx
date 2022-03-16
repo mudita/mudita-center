@@ -109,6 +109,7 @@ const buttonStyles = css<{
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   ${buttonTransitionStyles};
   ${({ size }) => getSize(size)}
   ${({ disabled }) =>

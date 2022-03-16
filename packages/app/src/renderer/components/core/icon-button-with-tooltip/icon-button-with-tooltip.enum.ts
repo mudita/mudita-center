@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum TooltipTestIds {
-  Icon = "tooltip-icon",
-  Description = "tooltip-description",
+export enum IconButtonWithTooltipTestIds {
+  Icon = "icon-button-with-tooltip-icon",
+  Description = "icon-button-with-tooltip-description",
 }

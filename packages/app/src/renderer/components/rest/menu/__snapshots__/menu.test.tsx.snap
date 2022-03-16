@@ -94,6 +94,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -170,6 +171,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -522,6 +524,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -598,6 +601,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;

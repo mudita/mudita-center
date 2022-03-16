@@ -56,10 +56,6 @@ export const IconButton = styled(ButtonComponent).attrs(() => ({
   iconSize: IconSize.Medium,
 }))``
 
-export const SendButton = styled(ButtonComponent).attrs(() => ({
-  displayStyle: DisplayStyle.IconOnlyWithBackground,
-}))``
-
 export const Content = styled.div`
   height: 100%;
   display: flex;

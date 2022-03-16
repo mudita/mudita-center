@@ -4,6 +4,7 @@
  */
 
 export enum ButtonTogglerTestIds {
-  ActiveState = "active",
-  InactiveState = "inactive",
+  Item = "button-toggler-item",
+  ActiveState = "button-toggler-active",
+  InactiveState = "button-toggler-inactive",
 }

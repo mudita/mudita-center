@@ -22,6 +22,7 @@ exports[`matches snapshot 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -45,7 +46,7 @@ exports[`matches snapshot 1`] = `
 
 .c0 {
   position: relative;
-  z-index: 0;
+  z-index: 2;
 }
 
 .c0 svg path {
@@ -143,6 +144,7 @@ exports[`renders dropdown 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -190,6 +192,7 @@ exports[`renders dropdown 1`] = `
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;

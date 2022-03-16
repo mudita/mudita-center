@@ -12,10 +12,15 @@ import {
   IconButton,
   Textarea,
   TextareaWrapper,
-  SendButton,
 } from "App/messages/components/thread-details.styled"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { Feature, flags } from "App/feature-flags"
+import { IconBackgroundWithTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-background-with-tooltip.component"
+import { defineMessages } from "react-intl"
+
+const messages = defineMessages({
+  sendButtonTooltipDescription: { id: "module.messages.sendButtonTooltipDescription" },
+})
 
 interface Props {
   value: string
@@ -49,11 +54,12 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
 
   const trailingIcon = [
     !isValueEmpty() && (
-      <SendButton
+      <IconBackgroundWithTooltip
         data-testid={ThreadDetailsTextAreaTestIds.SendButton}
         key={Type.Send}
-        Icon={Type.Send}
+        iconType={Type.Send}
         onClick={onSendClick}
+        description={messages.sendButtonTooltipDescription}
       />
     ),
   ]
