@@ -17,11 +17,6 @@ const renderer = (
   }
 ) => renderWithThemeAndIntl(<SettingsUI {...config} />)
 
-test("matches snapshot", () => {
-  const { container } = renderer()
-  expect(container).toMatchSnapshot()
-})
-
 test("renders wrapper properly", () => {
   const { queryByTestId } = renderer()
   expect(queryByTestId(SettingsTestIds.Wrapper)).toBeInTheDocument()
