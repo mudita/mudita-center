@@ -20,28 +20,47 @@ const IconButton = styled(ButtonComponent).attrs(() => ({
   iconSize: IconSize.Medium,
 }))``
 
-interface Props extends Omit<TooltipProps, "children"> {
+export enum IconButtonWithTooltipPlace {
+  BottomRight = "bottom-right",
+  BottomLeft = "bottom-left",
+}
+
+interface Props extends Omit<TooltipProps, "children" | "place"> {
+  place?: IconButtonWithTooltipPlace
   iconType?: Type
 }
 
-const overridePosition: TooltipProps["overridePosition"] = (
-  { left, top },
-  event,
-  triggerElement
-) => {
-  const arrowLeft = (triggerElement as HTMLElement).getBoundingClientRect().left
-  const arrowTop =
-    (triggerElement as HTMLElement).getBoundingClientRect().top +
-    (triggerElement as HTMLElement).offsetHeight +
-    15
+const overridePosition =
+  (place: Props["place"]): TooltipProps["overridePosition"] =>
+  ({ left, top }, event, triggerElement, tooltipElement) => {
+    if (place === IconButtonWithTooltipPlace.BottomRight) {
+      const arrowLeft = (triggerElement as HTMLElement).getBoundingClientRect()
+        .left
+      const arrowTop =
+        (triggerElement as HTMLElement).getBoundingClientRect().top +
+        (triggerElement as HTMLElement).offsetHeight +
+        15
 
-  return { left: arrowLeft, top: arrowTop }
-}
+      return { left: arrowLeft, top: arrowTop }
+    } else if (place === IconButtonWithTooltipPlace.BottomLeft) {
+      const arrowLeft = (triggerElement as HTMLElement).getBoundingClientRect()
+        .left - (tooltipElement as HTMLElement).offsetWidth + (triggerElement as HTMLElement).offsetWidth
+      const arrowTop =
+        (triggerElement as HTMLElement).getBoundingClientRect().top +
+        (triggerElement as HTMLElement).offsetHeight +
+        15
+
+      return { left: arrowLeft, top: arrowTop }
+    } else {
+      return { left, top }
+    }
+  }
 
 const IconButtonWithTooltip: FunctionComponent<Props> = ({
   iconType = Type.Tooltip,
   children,
   className,
+  place = IconButtonWithTooltipPlace.BottomRight,
   ...props
 }) => {
   const [id] = useState(_uniqueId("prefix-"))
@@ -61,7 +80,7 @@ const IconButtonWithTooltip: FunctionComponent<Props> = ({
         data-border={false}
         arrowColor="transparent"
         backgroundColor={"transparent"}
-        overridePosition={overridePosition}
+        overridePosition={overridePosition(place)}
         {...props}
       >
         {children}
