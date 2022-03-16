@@ -48,7 +48,7 @@ import ThreadBaseRow from "App/messages/components/thread-base-row.component"
 import { ListRowProps } from "react-virtualized"
 import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
 import { defineMessages } from "react-intl"
-import { IconButtonWithTooltipPlace } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-tooltip.component"
+import { ElementWithTooltipPlace } from "Renderer/components/core/tooltip/element-with-tooltip.component"
 
 const messages = defineMessages({
   dropdownTogllerTooltipDescription: {
@@ -226,7 +226,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 description={messages.dropdownTogllerTooltipDescription}
                 // FIXME: The position based on offset is a sticky. However, this is a quick workaround
                 //  for buggy overridePosition lib feature
-                place={IconButtonWithTooltipPlace.Bottom}
+                place={ElementWithTooltipPlace.Bottom}
                 offset={{ left: 15, bottom: 5 }}
               />
             }

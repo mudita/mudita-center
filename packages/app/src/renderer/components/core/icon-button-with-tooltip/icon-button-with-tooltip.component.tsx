@@ -20,7 +20,7 @@ const IconButton = styled(ButtonComponent).attrs(() => ({
 interface Props
   extends Omit<
       ComponentProps<typeof ButtonComponent>,
-      "children" | "displayStyle"
+      "children" | "displayStyle" | "onClick"
     >,
     Omit<ComponentProps<typeof ElementWithTooltip>, "Element"> {
   iconType?: Type

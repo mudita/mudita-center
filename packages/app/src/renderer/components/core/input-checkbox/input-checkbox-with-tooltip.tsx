@@ -9,7 +9,7 @@ import { TooltipSecondaryContent } from "Renderer/components/core/icon-button-wi
 import { InputProps } from "Renderer/interfaces/input.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ElementWithTooltip, {
-  IconButtonWithTooltipPlace,
+  ElementWithTooltipPlace,
 } from "Renderer/components/core/tooltip/element-with-tooltip.component"
 import styled, { css } from "styled-components"
 import {
@@ -68,7 +68,7 @@ export const InputCheckboxWithTooltip: FunctionComponent<Props> = ({
       ) : (
         <ElementWithTooltip
           Element={<Input type="checkbox" ref={inputRef} {...props} />}
-          place={IconButtonWithTooltipPlace.BottomLeft}
+          place={ElementWithTooltipPlace.BottomLeft}
         >
           <TooltipSecondaryContent description={description} />
         </ElementWithTooltip>

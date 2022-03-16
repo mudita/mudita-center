@@ -7,7 +7,7 @@ import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import IconButtonWithTooltip from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-tooltip.component"
 import { TooltipSecondaryContent } from "Renderer/components/core/icon-button-with-tooltip/tooltip-secondary-content.component"
-import { IconButtonWithTooltipPlace } from "Renderer/components/core/tooltip/element-with-tooltip.component"
+import { ElementWithTooltipPlace } from "Renderer/components/core/tooltip/element-with-tooltip.component"
 
 interface Props
   extends ComponentProps<typeof TooltipSecondaryContent>,
@@ -19,7 +19,7 @@ export const IconButtonWithSecondaryTooltip: FunctionComponent<Props> = ({
 }) => {
   return (
     <IconButtonWithTooltip
-      place={IconButtonWithTooltipPlace.BottomLeft}
+      place={ElementWithTooltipPlace.BottomLeft}
       {...props}
     >
       <TooltipSecondaryContent description={description} />

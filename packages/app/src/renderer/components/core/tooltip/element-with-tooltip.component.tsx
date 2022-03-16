@@ -3,13 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, ReactElement, useState } from "react"
+import React, { ComponentProps, ReactElement, useRef, useState } from "react"
 import _uniqueId from "lodash/uniqueId"
 import { TooltipProps } from "react-tooltip"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Tooltip from "Renderer/components/core/tooltip/tooltip.component"
 
-export enum IconButtonWithTooltipPlace {
+export enum ElementWithTooltipPlace {
   Bottom = "bottom",
   BottomRight = "bottom-right",
   BottomLeft = "bottom-left",
@@ -17,14 +17,15 @@ export enum IconButtonWithTooltipPlace {
 
 interface Props {
   Element: ReactElement
-  place?: IconButtonWithTooltipPlace
+  place?: ElementWithTooltipPlace
   offset?: TooltipProps["offset"]
+  onClick?: any
 }
 
 const overridePosition =
   (place: Props["place"]): TooltipProps["overridePosition"] =>
   ({ left, top }, event, triggerElement, tooltipElement) => {
-    if (place === IconButtonWithTooltipPlace.BottomRight) {
+    if (place === ElementWithTooltipPlace.BottomRight) {
       const arrowLeft = (triggerElement as HTMLElement).getBoundingClientRect()
         .left
       const arrowTop =
@@ -33,7 +34,7 @@ const overridePosition =
         15
 
       return { left: arrowLeft, top: arrowTop }
-    } else if (place === IconButtonWithTooltipPlace.BottomLeft) {
+    } else if (place === ElementWithTooltipPlace.BottomLeft) {
       const arrowLeft =
         (triggerElement as HTMLElement).getBoundingClientRect().left -
         (tooltipElement as HTMLElement).offsetWidth +
@@ -52,12 +53,14 @@ const overridePosition =
 const ElementWithTooltip: FunctionComponent<Props> = ({
   children,
   className,
-  place = IconButtonWithTooltipPlace.BottomRight,
+  place = ElementWithTooltipPlace.BottomRight,
   Element,
   offset,
+  onClick,
   ...props
 }) => {
   const [id] = useState(_uniqueId("prefix-"))
+  const ref = useRef<Element>(null)
 
   // FIXME: a sticky option workaround for `ThreadRow` component
   const tooltipProps: Partial<ComponentProps<typeof Tooltip>> = offset
@@ -68,12 +71,22 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
     : {
         overridePosition: overridePosition(place),
       }
+  const handleOnClick = () => {
+    if (onClick) {
+      onClick()
+    }
+    if (ref.current !== null) {
+      Tooltip.hide(ref.current)
+    }
+  }
 
   return (
     <>
       {React.cloneElement(Element as ReactElement, {
         "data-tip": true,
         "data-for": id,
+        onClick: handleOnClick,
+        ref: ref,
         ...props,
       })}
       <Tooltip
