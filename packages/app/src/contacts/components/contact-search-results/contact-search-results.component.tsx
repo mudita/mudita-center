@@ -57,10 +57,6 @@ export const AvatarPlaceholder = styled.div`
   margin-right: 1.2rem;
 `
 
-const ActionsButton = styled.span`
-  cursor: pointer;
-`
-
 const Actions = styled.div`
   display: flex;
   flex-direction: row;
@@ -192,15 +188,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                   </Col>
                   <Col>
                     <Actions>
-                      <Dropdown
-                        toggler={
-                          <ActionsButton>
-                            <Icon type={Type.More} />
-                          </ActionsButton>
-                        }
-                        onOpen={disableScroll}
-                        onClose={enableScroll}
-                      >
+                      <Dropdown onOpen={disableScroll} onClose={enableScroll}>
                         <HiddenButton
                           labelMessage={{
                             id: "module.contacts.exportAsVcard",

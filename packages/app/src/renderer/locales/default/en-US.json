@@ -60,6 +60,7 @@
   "component.devModeHeader": "DEV",
   "component.devModeToggle": "Toggle dev window",
   "component.devModeWrapperName": "Developer Options",
+  "component.dropdownTogllerTooltipDescription": "Options",
   "component.dropdownCall": "Call {name}",
   "component.filesManagerSummaryTitle": "All files summary",
   "component.filesManagerSummaryItemDescription": "{filesAmount} files ({size})",

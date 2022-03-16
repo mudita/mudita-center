@@ -20,6 +20,7 @@ const IconButton = styled(ButtonComponent).attrs(() => ({
 }))``
 
 export enum IconButtonWithTooltipPlace {
+  Bottom = "bottom",
   BottomRight = "bottom-right",
   BottomLeft = "bottom-left",
 }
@@ -31,6 +32,7 @@ interface Props
   > {
   place?: IconButtonWithTooltipPlace
   iconType?: Type
+  offset?: TooltipProps["offset"]
 }
 
 const overridePosition =
@@ -67,9 +69,20 @@ const IconButtonWithTooltip: FunctionComponent<Props> = ({
   className,
   place = IconButtonWithTooltipPlace.BottomRight,
   iconSize = IconSize.Medium,
+  offset,
   ...props
 }) => {
   const [id] = useState(_uniqueId("prefix-"))
+
+  // FIXME: a sticky option workaround for `ThreadRow` component
+  const tooltipProps: Partial<ComponentProps<typeof Tooltip>> = offset
+    ? {
+        offset,
+        place: "bottom",
+      }
+    : {
+        overridePosition: overridePosition(place),
+      }
 
   return (
     <div>
@@ -88,7 +101,7 @@ const IconButtonWithTooltip: FunctionComponent<Props> = ({
         data-border={false}
         arrowColor="transparent"
         backgroundColor={"transparent"}
-        overridePosition={overridePosition(place)}
+        {...tooltipProps}
       >
         {children}
       </Tooltip>

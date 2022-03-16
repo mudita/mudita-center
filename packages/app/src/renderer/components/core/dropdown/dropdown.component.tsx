@@ -4,7 +4,7 @@
  */
 
 import * as React from "react"
-import { ReactNode, useRef, useState } from "react"
+import { ReactElement, useRef, useState } from "react"
 import {
   backgroundColor,
   boxShadowColor,
@@ -13,6 +13,15 @@ import {
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import useOutsideClick from "Renderer/utils/hooks/useOutsideClick"
 import styled, { css } from "styled-components"
+import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import { defineMessages } from "react-intl"
+
+const messages = defineMessages({
+  dropdownTogllerTooltipDescription: {
+    id: "component.dropdownTogllerTooltipDescription",
+  },
+})
 
 export enum DropdownPosition {
   Left,
@@ -20,7 +29,7 @@ export enum DropdownPosition {
 }
 
 export interface DropdownProps {
-  toggler: ReactNode
+  toggler?: ReactElement
   dropdownPosition?: DropdownPosition
   onOpen?: () => void
   onClose?: () => void
@@ -28,7 +37,7 @@ export interface DropdownProps {
 
 const DropdownWrapper = styled.div<{ visible: boolean }>`
   position: relative;
-  z-index: ${({ visible }) => (visible ? zIndex("dropdown") : 0)};
+  z-index: ${({ visible }) => (visible ? zIndex("dropdown") : zIndex("menu"))};
   svg path {
     fill: textColor("primary");
   }
@@ -69,7 +78,12 @@ const DropdownList = styled.ul<{
 `
 
 const Dropdown: FunctionComponent<DropdownProps> = ({
-  toggler,
+  toggler = (
+    <IconButtonWithSecondaryTooltip
+      iconType={Type.More}
+      description={messages.dropdownTogllerTooltipDescription}
+    />
+  ),
   children,
   dropdownPosition = DropdownPosition.Right,
   onOpen,
@@ -101,8 +115,8 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
 
   return (
     <DropdownWrapper visible={visible} {...props}>
-      {React.isValidElement(toggler) &&
-        React.cloneElement(toggler, {
+      {React.isValidElement(toggler as ReactElement) &&
+        React.cloneElement(toggler as ReactElement, {
           onClick: () => {
             calculateVerticalPosition()
             setVisible(!visible)
