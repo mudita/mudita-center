@@ -8,9 +8,7 @@ import { ComponentProps } from "react"
 import { TooltipSecondaryContent } from "Renderer/components/core/icon-button-with-tooltip/tooltip-secondary-content.component"
 import { InputProps } from "Renderer/interfaces/input.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import ElementWithTooltip, {
-  ElementWithTooltipPlace,
-} from "Renderer/components/core/tooltip/element-with-tooltip.component"
+import ElementWithTooltip from "Renderer/components/core/tooltip/element-with-tooltip.component"
 import styled, { css } from "styled-components"
 import {
   backgroundColor,
@@ -68,7 +66,6 @@ export const InputCheckboxWithTooltip: FunctionComponent<Props> = ({
       ) : (
         <ElementWithTooltip
           Element={<Input type="checkbox" ref={inputRef} {...props} />}
-          place={ElementWithTooltipPlace.BottomLeft}
         >
           <TooltipSecondaryContent description={description} />
         </ElementWithTooltip>
