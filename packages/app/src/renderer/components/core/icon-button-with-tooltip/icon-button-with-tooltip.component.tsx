@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState } from "react"
+import React, { ComponentProps, useState } from "react"
 import styled from "styled-components"
 import _uniqueId from "lodash/uniqueId"
 import { TooltipProps } from "react-tooltip"
@@ -17,7 +17,6 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 
 const IconButton = styled(ButtonComponent).attrs(() => ({
   displayStyle: DisplayStyle.IconOnly,
-  iconSize: IconSize.Medium,
 }))``
 
 export enum IconButtonWithTooltipPlace {
@@ -25,7 +24,11 @@ export enum IconButtonWithTooltipPlace {
   BottomLeft = "bottom-left",
 }
 
-interface Props extends Omit<TooltipProps, "children" | "place"> {
+interface Props
+  extends Omit<
+    ComponentProps<typeof ButtonComponent>,
+    "children" | "displayStyle"
+  > {
   place?: IconButtonWithTooltipPlace
   iconType?: Type
 }
@@ -43,8 +46,10 @@ const overridePosition =
 
       return { left: arrowLeft, top: arrowTop }
     } else if (place === IconButtonWithTooltipPlace.BottomLeft) {
-      const arrowLeft = (triggerElement as HTMLElement).getBoundingClientRect()
-        .left - (tooltipElement as HTMLElement).offsetWidth + (triggerElement as HTMLElement).offsetWidth
+      const arrowLeft =
+        (triggerElement as HTMLElement).getBoundingClientRect().left -
+        (tooltipElement as HTMLElement).offsetWidth +
+        (triggerElement as HTMLElement).offsetWidth
       const arrowTop =
         (triggerElement as HTMLElement).getBoundingClientRect().top +
         (triggerElement as HTMLElement).offsetHeight +
@@ -61,6 +66,7 @@ const IconButtonWithTooltip: FunctionComponent<Props> = ({
   children,
   className,
   place = IconButtonWithTooltipPlace.BottomRight,
+  iconSize = IconSize.Medium,
   ...props
 }) => {
   const [id] = useState(_uniqueId("prefix-"))
@@ -73,6 +79,8 @@ const IconButtonWithTooltip: FunctionComponent<Props> = ({
         Icon={iconType}
         data-testid={IconButtonWithTooltipTestIds.Icon}
         className={className}
+        iconSize={iconSize}
+        {...props}
       />
       <Tooltip
         id={id}
@@ -81,7 +89,6 @@ const IconButtonWithTooltip: FunctionComponent<Props> = ({
         arrowColor="transparent"
         backgroundColor={"transparent"}
         overridePosition={overridePosition(place)}
-        {...props}
       >
         {children}
       </Tooltip>

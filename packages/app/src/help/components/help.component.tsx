@@ -18,17 +18,21 @@ import {
   backgroundColor,
   transitionTime,
   transitionTimingFunction,
-  textColor,
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { NormalizedHelpEntry } from "Renderer/utils/contentful/normalize-help-data"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ModalsManager from "App/modals-manager/containers/modals-manager.container"
 import { fontWeight } from "Renderer/styles/theming/theme-getters"
+import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { defineMessages } from "react-intl"
+
+const messages = defineMessages({
+  supportTooltipDescription: { id: "module.help.supportTooltipDescription" },
+})
+
 export interface QuestionAndAnswer {
   collection: string[]
   items: Record<string, NormalizedHelpEntry>
@@ -85,11 +89,6 @@ const ArrowIcon = styled(Icon)`
   transform: rotate(270deg);
 `
 
-const SupportButtonComponent = styled(ButtonComponent)`
-  svg path {
-    fill: ${textColor("secondary")};
-  }
-`
 const NormalHeading = styled(Text)`
   font-weight: ${fontWeight("default")};
 `
@@ -126,12 +125,12 @@ const Help: FunctionComponent<Props> = ({
             data-testid={HelpComponentTestIds.Title}
           />
           <SearchContainer>
-            <SupportButtonComponent
-              displayStyle={DisplayStyle.IconOnly}
-              Icon={Type.Support}
+            <IconButtonWithSecondaryTooltip
+              iconType={Type.Support}
               iconSize={IconSize.Small}
               onClick={openContactSupportFlow}
               data-testid={HelpComponentTestIds.SupportButton}
+              description={messages.supportTooltipDescription}
             />
             <SearchInput
               type={"search"}
