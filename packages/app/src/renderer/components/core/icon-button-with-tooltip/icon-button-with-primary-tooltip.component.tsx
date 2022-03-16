@@ -10,7 +10,7 @@ import { TooltipPrimaryContent } from "Renderer/components/core/icon-button-with
 
 interface Props
   extends ComponentProps<typeof TooltipPrimaryContent>,
-    ComponentProps<typeof IconButtonWithTooltip> {}
+    Omit<ComponentProps<typeof IconButtonWithTooltip>, "children"> {}
 
 export const IconButtonWithPrimaryTooltip: FunctionComponent<Props> = ({
   description,
