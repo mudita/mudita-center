@@ -3,7 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, ReactElement, useRef, useState } from "react"
+import React, {
+  ComponentProps,
+  MouseEventHandler,
+  ReactElement,
+  useRef,
+  useState,
+} from "react"
 import _uniqueId from "lodash/uniqueId"
 import { TooltipProps } from "react-tooltip"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -13,13 +19,14 @@ export enum ElementWithTooltipPlace {
   Bottom = "bottom",
   BottomRight = "bottom-right",
   BottomLeft = "bottom-left",
+  TopLeft = "top-left",
 }
 
 interface Props {
   Element: ReactElement
   place?: ElementWithTooltipPlace
   offset?: TooltipProps["offset"]
-  onClick?: any
+  onClick?: MouseEventHandler
 }
 
 const overridePosition =
@@ -31,7 +38,7 @@ const overridePosition =
       const arrowTop =
         (triggerElement as HTMLElement).getBoundingClientRect().top +
         (triggerElement as HTMLElement).offsetHeight +
-        15
+        5
 
       return { left: arrowLeft, top: arrowTop }
     } else if (place === ElementWithTooltipPlace.BottomLeft) {
@@ -42,7 +49,19 @@ const overridePosition =
       const arrowTop =
         (triggerElement as HTMLElement).getBoundingClientRect().top +
         (triggerElement as HTMLElement).offsetHeight +
-        15
+        5
+
+      return { left: arrowLeft, top: arrowTop }
+    } else if (place === ElementWithTooltipPlace.TopLeft) {
+      const arrowLeft =
+        (triggerElement as HTMLElement).getBoundingClientRect().left -
+        (tooltipElement as HTMLElement).offsetWidth +
+        (triggerElement as HTMLElement).offsetWidth
+
+      const arrowTop =
+        (triggerElement as HTMLElement).getBoundingClientRect().top -
+        (tooltipElement as HTMLElement).offsetHeight -
+        5
 
       return { left: arrowLeft, top: arrowTop }
     } else {
@@ -71,9 +90,9 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
     : {
         overridePosition: overridePosition(place),
       }
-  const handleOnClick = () => {
+  const handleOnClick: MouseEventHandler = (event) => {
     if (onClick) {
-      onClick()
+      onClick(event)
     }
     if (ref.current !== null) {
       Tooltip.hide(ref.current)
@@ -82,7 +101,7 @@ const ElementWithTooltip: FunctionComponent<Props> = ({
 
   return (
     <>
-      {React.cloneElement(Element as ReactElement, {
+      {React.cloneElement(Element, {
         "data-tip": true,
         "data-for": id,
         onClick: handleOnClick,

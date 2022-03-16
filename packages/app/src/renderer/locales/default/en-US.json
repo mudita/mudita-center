@@ -383,6 +383,7 @@
   "module.messages.messageDropdownForward": "Forward message",
   "module.messages.newMessage": "New message",
   "module.messages.search": "Search",
+  "module.messages.sendButtonTooltipDescription": "Send message",
   "module.messages.textAreaPlaceholder": "Type your message",
   "module.messages.unreadOnly": "Unread only",
   "module.messages.callsTooltipDescription": "Call contact",

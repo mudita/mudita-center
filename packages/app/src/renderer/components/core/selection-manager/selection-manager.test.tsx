@@ -42,11 +42,6 @@ const renderSelectionManager = (props: Partial<SelectionManagerProps> = {}) => {
   }
 }
 
-test("matches snapshot", () => {
-  const { container } = renderSelectionManager()
-  expect(container).toMatchSnapshot()
-})
-
 test("has checkbox element", () => {
   const { getCheckbox } = renderSelectionManager()
   expect(getCheckbox()).toBeInTheDocument()

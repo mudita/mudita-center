@@ -8,12 +8,10 @@ import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
-import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
   Actions,
-  ActionsButton,
   Col,
   Row,
 } from "Renderer/components/core/table/table.component"

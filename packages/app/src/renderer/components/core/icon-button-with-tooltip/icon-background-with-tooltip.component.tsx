@@ -6,15 +6,18 @@
 import React, { ComponentProps } from "react"
 import styled from "styled-components"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Type } from "Renderer/components/core/icon/icon.config"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import { IconSize } from "Renderer/components/core/icon/icon.component"
+import { TooltipSecondaryContent } from "Renderer/components/core/icon-button-with-tooltip/tooltip-secondary-content.component"
+import ElementWithTooltip, {
+  ElementWithTooltipPlace,
+} from "Renderer/components/core/tooltip/element-with-tooltip.component"
 import { IconButtonWithTooltipTestIds } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-tooltip.enum"
+import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import ElementWithTooltip from "Renderer/components/core/tooltip/element-with-tooltip.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const IconButton = styled(ButtonComponent).attrs(() => ({
-  displayStyle: DisplayStyle.IconOnly,
+  displayStyle: DisplayStyle.IconOnlyWithBackground,
 }))``
 
 interface Props
@@ -22,11 +25,13 @@ interface Props
       ComponentProps<typeof ButtonComponent>,
       "children" | "displayStyle"
     >,
-    Omit<ComponentProps<typeof ElementWithTooltip>, "Element"> {
+    Omit<ComponentProps<typeof ElementWithTooltip>, "Element">,
+    ComponentProps<typeof TooltipSecondaryContent> {
   iconType?: Type
 }
 
-const IconButtonWithTooltip: FunctionComponent<Props> = ({
+export const IconBackgroundWithTooltip: FunctionComponent<Props> = ({
+  description,
   iconType = Type.Tooltip,
   iconSize = IconSize.Medium,
   ...props
@@ -40,9 +45,10 @@ const IconButtonWithTooltip: FunctionComponent<Props> = ({
           iconSize={iconSize}
         />
       }
+      place={ElementWithTooltipPlace.TopLeft}
       {...props}
-    />
+    >
+      <TooltipSecondaryContent description={description} />
+    </ElementWithTooltip>
   )
 }
-
-export default IconButtonWithTooltip

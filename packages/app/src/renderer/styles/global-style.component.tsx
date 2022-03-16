@@ -81,6 +81,9 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     &.place-bottom {
       margin-top: -0px !important;
     }
+    &.place-top {
+      margin-top: -0px !important;
+    }
   }
 `
 export default GlobalStyle

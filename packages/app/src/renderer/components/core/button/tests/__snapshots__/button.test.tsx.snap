@@ -22,6 +22,7 @@ exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disa
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -87,6 +88,7 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -190,6 +192,7 @@ exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -284,6 +287,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -387,6 +391,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -481,6 +486,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -593,6 +599,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -694,6 +701,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -824,6 +832,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -947,6 +956,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -1079,6 +1089,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -1202,6 +1213,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 13.2rem;
@@ -1275,6 +1287,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 13.2rem;
@@ -1360,6 +1373,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -1434,6 +1448,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -1520,6 +1535,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 28rem;
@@ -1594,6 +1610,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 28rem;
@@ -1680,6 +1697,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 13.2rem;
@@ -1748,6 +1766,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 13.2rem;
@@ -1827,6 +1846,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -1896,6 +1916,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -1976,6 +1997,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 28rem;
@@ -2045,6 +2067,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 28rem;
@@ -2149,6 +2172,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 13.2rem;
@@ -2260,6 +2284,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 13.2rem;
@@ -2383,6 +2408,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -2495,6 +2521,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -2619,6 +2646,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 28rem;
@@ -2731,6 +2759,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 28rem;
@@ -2855,6 +2884,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 13.2rem;
@@ -2961,6 +2991,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 13.2rem;
@@ -3078,6 +3109,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -3185,6 +3217,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
@@ -3303,6 +3336,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 28rem;
@@ -3410,6 +3444,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 28rem;
@@ -3504,6 +3539,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 28rem;
@@ -3578,6 +3614,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 28rem;

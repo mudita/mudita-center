@@ -283,16 +283,19 @@ storiesOf("Components|Core/Table/Parts", module)
     const HeaderRight = () => (
       <>
         <SidebarHeaderButton
-          Icon={Type.Notes}
+          iconType={Type.Notes}
           onClick={action("Notes icon click")}
+          description={{ id: "Notes icon click" }}
         />
         <SidebarHeaderButton
-          Icon={Type.Upload}
+          iconType={Type.Upload}
           onClick={action("Upload icon click")}
+          description={{ id: "Upload icon click" }}
         />
         <SidebarHeaderButton
-          Icon={Type.Delete}
+          iconType={Type.Delete}
           onClick={action("Delete icon click")}
+          description={{ id: "Delete icon click" }}
         />
       </>
     )
@@ -726,8 +729,8 @@ storiesOf("Components|Core/Table/Grouped", module)
 
     const SidebarActions = () => (
       <>
-        <SidebarHeaderButton Icon={Type.Upload} onClick={action("Export")} />
-        <SidebarHeaderButton Icon={Type.Delete} onClick={action("Delete")} />
+        <SidebarHeaderButton iconType={Type.Upload} onClick={action("Export")} description={{ id: "Export" }} />
+        <SidebarHeaderButton iconType={Type.Delete} onClick={action("Delete")} description={{ id: "Delete" }} />
       </>
     )
 
