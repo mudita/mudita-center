@@ -12,13 +12,19 @@ import { UpdateAllIndexesError } from "App/data-sync/errors"
 export const updateAllIndexes = createAsyncThunk<void, void>(
   DataSyncEvent.UpdateAllIndexes,
   async (_, { dispatch, rejectWithValue }) => {
-    await indexAllRequest()
+    const indexed = await indexAllRequest()
+
+    if (!indexed) {
+      return rejectWithValue(
+        new UpdateAllIndexesError("Update All Indexes fails:request")
+      )
+    }
 
     const action = await dispatch(readAllIndexes())
 
     if (action.payload instanceof Error) {
       return rejectWithValue(
-        new UpdateAllIndexesError("Update All Indexes fails")
+        new UpdateAllIndexesError("Update All Indexes fails:read indexes")
       )
     } else {
       return
