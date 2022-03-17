@@ -10,6 +10,7 @@ import { IndexStorage } from "App/index-storage/types"
 import { MetadataStore } from "App/metadata/services"
 import { MetadataKey } from "App/metadata/constants"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
+import elasticlunr from "elasticlunr"
 
 const cacheFileNames: Record<DataIndex, string> = {
   [DataIndex.Contact]: "contacts.json",
@@ -59,8 +60,7 @@ export class IndexStorageService {
           }
 
           try {
-            // FIXME: try to restore Index<any> instead of the SerialisedIndexData<any> during read cache
-            this.index.set(indexName, JSON.parse(data.toString("utf-8")))
+            this.index.set(indexName, elasticlunr.Index.load(JSON.parse(data.toString("utf-8"))))
             resolve(true)
           } catch {
             resolve(false)

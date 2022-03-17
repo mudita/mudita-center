@@ -13,10 +13,6 @@ import {
 } from "App/data-sync/constants"
 import { SerialisedIndexData } from "elasticlunr"
 
-const isSerialisedIndexData = (index: any): index is SerialisedIndexData<any> => {
-  return index.toJSON === undefined
-}
-
 @Controller(ControllerPrefix)
 export class DataSyncController {
   constructor(
@@ -30,8 +26,6 @@ export class DataSyncController {
 
     if(index === undefined){
       return undefined
-    } else if (isSerialisedIndexData(index)) {
-      return index
     } else {
       return index.toJSON()
     }
