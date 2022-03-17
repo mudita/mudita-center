@@ -30,6 +30,7 @@ export class IndexStorageLoadingObserver implements Observer {
   ) {}
 
   public observe(): void {
+    this.registerListeners()
     this.deviceService.on(DeviceServiceEventName.DeviceUnlocked, async () => {
       if (this.invoked) {
         return
@@ -59,19 +60,6 @@ export class IndexStorageLoadingObserver implements Observer {
 
       const restored = await this.indexStorageService.loadIndex()
 
-      await this.eventEmitter.on(ModelEvent.Loaded, () =>
-        this.indexStorageService.saveIndex()
-      )
-      await this.eventEmitter.on(ModelEvent.Created, () =>
-        this.indexStorageService.saveIndex()
-      )
-      await this.eventEmitter.on(ModelEvent.Updated, () =>
-        this.indexStorageService.saveIndex()
-      )
-      await this.eventEmitter.on(ModelEvent.Deleted, () =>
-        this.indexStorageService.saveIndex()
-      )
-
       if (restored) {
         await this.ipc.sendToRenderers(IpcEvent.DataRestored)
       }
@@ -83,5 +71,20 @@ export class IndexStorageLoadingObserver implements Observer {
         this.invoked = false
       }
     )
+  }
+
+  private registerListeners(): void {
+    this.eventEmitter.on(ModelEvent.Loaded, () => {
+      this.indexStorageService.saveIndex()
+    })
+    this.eventEmitter.on(ModelEvent.Created, () => {
+      this.indexStorageService.saveIndex()
+    })
+    this.eventEmitter.on(ModelEvent.Updated, () => {
+      this.indexStorageService.saveIndex()
+    })
+    this.eventEmitter.on(ModelEvent.Deleted, () => {
+      this.indexStorageService.saveIndex()
+    })
   }
 }
