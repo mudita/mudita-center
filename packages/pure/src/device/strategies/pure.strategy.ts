@@ -36,16 +36,16 @@ import {
   StartBackupRequestConfig,
   StartBackupResponseBody,
   StartRestoreRequestConfig,
-} from "../../endpoints"
-import { Formatter } from "../../formatter/formatter"
-import { FormatterFactory } from "../../formatter/formatter-factory"
-import { GetThreadsBody } from "../../endpoints/messages.types"
-import {
   DownloadFileSystemErrorResponse,
   DownloadFileSystemResponse,
   GetFileSystemErrorResponse,
   GetFileSystemResponse,
-} from "../../endpoints/file-system"
+  DeleteEntriesRequestConfig,
+  GetEntriesResponseBody,
+  GetEntriesRequestConfig,
+  GetThreadsBody,
+} from "../../endpoints"
+import { Formatter, FormatterFactory } from "../../formatter"
 
 export class PureStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
@@ -147,6 +147,10 @@ export class PureStrategy extends BaseDevice {
   public request(
     config: GetRestoreDeviceStatusRequestConfig
   ): Promise<Response<GetRestoreDeviceStatusResponseBody>>
+  public request(
+    config: GetEntriesRequestConfig
+  ): Promise<Response<GetEntriesResponseBody>>
+  public request(config: DeleteEntriesRequestConfig): Promise<Response>
   public request(config: RequestConfig<any>): Promise<Response<any>>
   public async request(config: RequestConfig<any>): Promise<Response<any>> {
     const response = await super.request(config)
