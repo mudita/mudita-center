@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "@mudita/pure"
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 import { ModelEvent } from "App/core/constants"
@@ -16,7 +15,7 @@ import { MetadataStore } from "App/metadata/services"
 import { MetadataKey } from "App/metadata/constants"
 import { IndexStorageService } from "App/index-storage/services"
 import { IpcEvent } from "App/data-sync/constants"
-import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
+import { getDeviceInfoRequest } from "Backend/adapters/device-base-info/device-base-info.adapter"
 
 export class IndexStorageLoadingObserver implements Observer {
   private invoked = false
@@ -35,28 +34,19 @@ export class IndexStorageLoadingObserver implements Observer {
       if (this.invoked) {
         return
       }
-
       this.invoked = true
 
-      // TODO move those logic to DeviceModule
-      const deviceInfo = await this.deviceService.request({
-        endpoint: Endpoint.DeviceInfo,
-        method: Method.Get,
-      })
-
-      if (!deviceInfo.data?.deviceToken) {
+      const { data } = await getDeviceInfoRequest(this.deviceService)
+      if (data === undefined) {
+        await this.ipc.sendToRenderers(IpcEvent.DataError)
         return
       }
 
-      const token = CryptoFileService.createToken({
-        key: deviceInfo.data.deviceToken,
-      })
-
       this.keyStorage.setValue(
         MetadataKey.DeviceSerialNumber,
-        deviceInfo.data?.serialNumber
+        data.serialNumber
       )
-      this.keyStorage.setValue(MetadataKey.DeviceToken, token)
+      this.keyStorage.setValue(MetadataKey.DeviceToken, data.deviceToken)
 
       const restored = await this.indexStorageService.loadIndex()
 
