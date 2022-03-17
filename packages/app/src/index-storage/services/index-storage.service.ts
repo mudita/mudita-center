@@ -43,17 +43,26 @@ export class IndexStorageService {
           const filePath = this.getCacheFilePath(fileName, serialNumber)
           const exists = await this.fileSystemService.exists(filePath)
 
-          if (exists) {
-            const data = await this.fileSystemService.readEncryptedFile(
-              filePath,
-              token
-            )
-            this.index.set(
-              indexName,
-              JSON.parse(data?.toString("utf-8") as string)
-            )
+          if (!exists) {
+            resolve(false)
+            return
+          }
+
+          const data = await this.fileSystemService.readEncryptedFile(
+            filePath,
+            token
+          )
+
+          if (data === undefined) {
+            resolve(false)
+            return
+          }
+
+          try {
+            // FIXME: try to restore Index<any> instead of the SerialisedIndexData<any> during read cache
+            this.index.set(indexName, JSON.parse(data.toString("utf-8")))
             resolve(true)
-          } else {
+          } catch {
             resolve(false)
           }
         })
