@@ -54,12 +54,7 @@ export class DeviceConnectionObserver implements Observer {
         )
         this.keyStorage.setValue(MetadataKey.DeviceToken, data.deviceToken)
 
-        const indexed = await new Promise((resolve) => {
-          setTimeout(async () => {
-            const result = await this.dataSyncService.indexAll()
-            resolve(result)
-          }, 1000)
-        })
+        const indexed = await this.dataSyncService.indexAll()
 
         if (indexed) {
           await this.ipc.sendToRenderers(IpcEvent.DataLoaded)

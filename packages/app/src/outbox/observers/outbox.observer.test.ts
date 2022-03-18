@@ -33,7 +33,7 @@ describe("Method: observe", () => {
         },
       } as unknown as DeviceService
       outboxService = {
-        readOutboxEntries: jest.fn(),
+        readOutboxEntries: jest.fn().mockReturnValue(true),
       } as unknown as OutboxService
       subject = new OutboxObserver(ipcMain, deviceService, outboxService)
     })
@@ -47,7 +47,7 @@ describe("Method: observe", () => {
       expect(outboxService.readOutboxEntries).toHaveBeenCalled()
     })
 
-    test("`DataLoaded` is emits", async () => {
+    test("`DataUpdated` is emits", async () => {
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
       subject.observe()
@@ -55,7 +55,7 @@ describe("Method: observe", () => {
 
       expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
-        IpcEvent.DataLoaded
+        IpcEvent.DataUpdated
       )
     })
 
