@@ -4,9 +4,10 @@
  */
 
 export * from "./contact.constant"
+export * from "./controller.constant"
 export * from "./message.constant"
 export * from "./thread.constant"
 export * from "./errors.enum"
 export * from "./event.enum"
 export * from "./index.constant"
-export * from "./ipc-data-sync.enum"
+export * from "./ipc-event.constant"

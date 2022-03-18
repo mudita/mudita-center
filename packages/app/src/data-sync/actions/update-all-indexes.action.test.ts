@@ -26,6 +26,7 @@ jest.mock("App/data-sync/actions/read-all-indexes.action")
 describe("async `updateAllIndexes` ", () => {
   describe("when each requests return success", () => {
     test("fire async `updateAllIndexes` dispatch `readAllIndexes`", async () => {
+      ;(indexAllRequest as unknown as jest.Mock).mockReturnValue(true)
       ;(readAllIndexes as unknown as jest.Mock).mockReturnValue({
         type: pendingAction(DataSyncEvent.ReadAllIndexes),
         payload: undefined,
@@ -51,12 +52,13 @@ describe("async `updateAllIndexes` ", () => {
 
   describe("when `updateAllIndexes` return error", () => {
     test("fire async `updateAllIndexes` returns `rejected` action", async () => {
+      ;(indexAllRequest as unknown as jest.Mock).mockReturnValue(true)
       const readErrorMock = new ReadAllIndexesError("Read All Indexes fails")
       ;(readAllIndexes as unknown as jest.Mock).mockReturnValue({
         type: rejectedAction(DataSyncEvent.ReadAllIndexes),
         payload: readErrorMock,
       })
-      const errorMock = new UpdateAllIndexesError("Update All Indexes fails")
+      const errorMock = new UpdateAllIndexesError("Update All Indexes fails:read indexes")
       const mockStore = createMockStore([thunk])()
 
       const {

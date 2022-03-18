@@ -3,12 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { IndexStorageService } from "App/index-storage/services"
+import elasticlunr from "elasticlunr"
+import { IndexStorage } from "App/index-storage/types"
 import { ReflectKey } from "App/core/constants"
 import { FieldDefinition, Model } from "App/core/types"
 
 export class DataIndexInitializer {
-  constructor(private index: IndexStorageService) {}
+  constructor(private index: IndexStorage) {}
 
   public initialize(models: Model[]): void {
     models.forEach((model) => {
@@ -17,7 +18,18 @@ export class DataIndexInitializer {
         ReflectKey.Field,
         model.constructor
       )
-      this.index.createIndex(prefix, fields)
+
+      const index = elasticlunr<any>()
+
+      fields.forEach((field) => {
+        if (field.type === "ref") {
+          index.setRef(field.propertyName)
+        } else {
+          index.addField(field.propertyName)
+        }
+      })
+
+      this.index.set(prefix, index)
     })
   }
 }

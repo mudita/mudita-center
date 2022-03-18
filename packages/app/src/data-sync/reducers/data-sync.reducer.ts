@@ -7,6 +7,7 @@ import {
   DataSyncState,
   SynchronizationState,
   UpdateAllIndexesRejectAction,
+  DataInitializingError,
 } from "App/data-sync/reducers/data-sync.interface"
 import { createReducer } from "@reduxjs/toolkit"
 import { DataSyncEvent } from "App/data-sync/constants/event.enum"
@@ -25,14 +26,17 @@ export const dataSyncReducer = createReducer<DataSyncState>(
   initialState,
   (builder) => {
     builder
-      .addCase(DataSyncEvent.SetDataSyncInitState, (state) => {
-        return initialState
-      })
       .addCase(DataSyncEvent.SetDataSyncInitialized, (state) => {
         return {
           ...state,
           initialized: true,
           error: null,
+        }
+      })
+      .addCase(DataSyncEvent.SetLoadedState, (state) => {
+        return {
+          ...state,
+          state: SynchronizationState.Loaded,
         }
       })
       .addCase(pendingAction(DataSyncEvent.InitializeDataSync), (state) => {
@@ -47,6 +51,12 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           state: SynchronizationState.Loading,
         }
       })
+      .addCase(DataSyncEvent.InitializingDataSync, (state) => {
+        return {
+          ...state,
+          state: SynchronizationState.Loading,
+        }
+      })
       .addCase(fulfilledAction(DataSyncEvent.UpdateAllIndexes), (state) => {
         return {
           ...state,
@@ -55,6 +65,16 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           error: null,
         }
       })
+      .addCase(
+        DataSyncEvent.InitializingDataError,
+        (state, action: DataInitializingError) => {
+          return {
+            ...state,
+            state: SynchronizationState.Error,
+            error: action.payload,
+          }
+        }
+      )
       .addCase(
         rejectedAction(DataSyncEvent.UpdateAllIndexes),
         (state, action: UpdateAllIndexesRejectAction) => {

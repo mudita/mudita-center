@@ -9,25 +9,12 @@ import { DataSyncEvent } from "App/data-sync/constants"
 import {
   setCacheState,
   setDataSyncInitialized,
-  setDataSyncInitState,
 } from "App/data-sync/actions/base-app.action"
 
 const mockStore = createMockStore([thunk])()
 
 afterEach(() => {
   mockStore.clearActions()
-})
-
-describe("Action: SetDataSyncInitState", () => {
-  test("fire action without payload and `SetDataSyncInitState` type", () => {
-    mockStore.dispatch(setDataSyncInitState())
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: DataSyncEvent.SetDataSyncInitState,
-        payload: undefined,
-      },
-    ])
-  })
 })
 
 describe("Action: SetDataSyncInitialized", () => {

@@ -4,6 +4,7 @@
  */
 
 import elasticlunr, { Index } from "elasticlunr"
+import { EventEmitter } from "events"
 import { BaseModel } from "./base.model"
 import { DataIndex } from "App/index-storage/constants"
 import { IndexConnectionError } from "App/core/errors"
@@ -14,7 +15,8 @@ let index = elasticlunr<TestingRecord>()
 const dataIndexMap = new Map<DataIndex, Index<TestingRecord>>()
 dataIndexMap.set(DataIndex.Contact, index)
 
-const subject = new BaseModel<TestingRecord>(dataIndexMap)
+const fakeEventEmitter = new EventEmitter()
+const subject = new BaseModel<TestingRecord>(dataIndexMap, fakeEventEmitter)
 
 describe("Index: exists", () => {
   beforeAll(() => {

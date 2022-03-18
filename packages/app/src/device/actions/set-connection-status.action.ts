@@ -9,16 +9,11 @@ import { MetadataKey, setValue } from "App/metadata"
 import { ReduxRootState } from "Renderer/store"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { setInitState } from "App/device/actions/base.action"
-import { setDataSyncInitState } from "App/data-sync/actions"
 
 export const setConnectionStatus = createAsyncThunk<boolean, boolean>(
   DeviceEvent.SetConnectionState,
   (payload, { getState, dispatch }) => {
     const state = getState() as ReduxRootState
-
-    if(!payload){
-      dispatch(setDataSyncInitState())
-    }
 
     if (state.device.updatingState === UpdatingState.Updating) {
       return payload

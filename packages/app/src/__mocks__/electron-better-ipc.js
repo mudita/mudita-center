@@ -44,6 +44,7 @@ const createMock = () => {
           return mock.__calls[name].map((call) => call(...values))
         }
       },
+      sendToRenderers: jest.fn(),
     },
     ipcRenderer: {
       __rendererCalls: {},

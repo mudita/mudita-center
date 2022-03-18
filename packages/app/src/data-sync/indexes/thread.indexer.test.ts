@@ -5,7 +5,7 @@
 
 import { ThreadIndexer } from "App/data-sync/indexes/thread.indexer"
 import { ThreadPresenter } from "App/data-sync/presenters/thread/thread.presenter"
-import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
+import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 
 afterAll(() => {
   jest.clearAllMocks()
@@ -14,12 +14,15 @@ afterAll(() => {
 describe("`ThreadIndexer`", () => {
   test("`index` methods returns serialized index with objects", async () => {
     const indexer = new ThreadIndexer(
-      new SyncFileSystemService("Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa"),
+      new FileSystemService(),
       new ThreadPresenter()
     )
-    const index = await indexer.index("./src/testing-support/mocks/")
+    const index = await indexer.index(
+      "./src/testing-support/mocks/",
+      "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa"
+    )
 
-    expect(index.documentStore.docs[1]).toMatchInlineSnapshot(`
+    expect(index.documentStore.toJSON().docs[1]).toMatchInlineSnapshot(`
       Object {
         "id": "1",
         "lastUpdatedAt": 1970-01-01T00:06:31.000Z,

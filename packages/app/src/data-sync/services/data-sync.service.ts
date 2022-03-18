@@ -3,162 +3,101 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { SerialisedIndexData } from "elasticlunr"
+import path from "path"
+import { DeviceBackup } from "Backend/adapters/device-backup/device-backup.adapter"
+import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
+import { DeviceBaseInfo } from "Backend/adapters/device-base-info/device-base-info.adapter"
+import { DeviceFileSystem } from "Backend/adapters/device-file-system/device-file-system.adapter"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import getAppPath from "App/main/utils/get-app-path"
+import { IndexStorage } from "App/index-storage/types"
+import { DataIndex } from "App/index-storage/constants"
+import { DeviceService } from "App/backend/device-service"
+import { MetadataStore } from "App/metadata/services"
+import { MetadataKey } from "App/metadata/constants"
 import {
   ContactIndexer,
   MessageIndexer,
   ThreadIndexer,
 } from "App/data-sync/indexes"
+import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import {
   ContactPresenter,
   MessagePresenter,
   ThreadPresenter,
 } from "App/data-sync/presenters"
-import { DataIndex } from "App/data-sync/constants"
-import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
-import DeviceService from "Backend/device-service"
-import { DataSyncClass } from "App/data-sync/services/data-sync-class.interface"
-import path from "path"
-import getAppPath from "App/main/utils/get-app-path"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
-import { InitializeOptions } from "App/data-sync/types"
-import { SyncFileSystemServiceFactory } from "App/data-sync/services/sync-file-system-service-factory"
 
-const syncCatalogName = "sync"
-const cacheCatalogName = "cache"
-const cacheFileNamse: Record<DataIndex, string> = {
-  [DataIndex.Contact]: "contacts.json",
-  [DataIndex.Message]: "messages.json",
-  [DataIndex.Thread]: "threads.json",
-}
-
-export class DataSync implements DataSyncClass {
-  private token = ""
-  private serialNumber = ""
+export class DataSyncService {
   private contactIndexer: ContactIndexer | null = null
   private messageIndexer: MessageIndexer | null = null
   private threadIndexer: ThreadIndexer | null = null
-  private syncFileSystemService: SyncFileSystemService | null = null
-  public indexesMap: Map<DataIndex, SerialisedIndexData<any>> = new Map()
+  // TODO implement device backup service and use it instead of adapter
+  private deviceBackupService: DeviceBackup
 
   constructor(
+    private index: IndexStorage,
     private deviceService: DeviceService,
-    private deviceBackup: DeviceBackupAdapter
-  ) {}
+    private keyStorage: MetadataStore,
+    private fileSystemStorage: FileSystemService
+  ) {
+    this.deviceBackupService = new DeviceBackup(
+      new DeviceBaseInfo(this.deviceService),
+      new DeviceBackupService(this.deviceService),
+      new DeviceFileSystem(this.deviceService)
+    )
 
-  async initialize({
-    token,
-    serialNumber,
-  }: InitializeOptions): Promise<boolean> {
-    this.token = token
-    this.serialNumber = serialNumber
-    this.initializeAllIndexers(token)
-
-    return await this.loadsIndexesFromCache()
-  }
-
-  initializeAllIndexers(token: string): void {
-    this.syncFileSystemService = SyncFileSystemServiceFactory.create(token)
     this.contactIndexer = new ContactIndexer(
-      this.syncFileSystemService,
+      this.fileSystemStorage,
       new ContactPresenter()
     )
     this.messageIndexer = new MessageIndexer(
-      this.syncFileSystemService,
+      this.fileSystemStorage,
       new MessagePresenter()
     )
     this.threadIndexer = new ThreadIndexer(
-      this.syncFileSystemService,
+      this.fileSystemStorage,
       new ThreadPresenter()
     )
   }
 
-  async indexAll(): Promise<void> {
-    if (this.deviceBackup.backuping) {
-      return
-    }
+  public async indexAll(): Promise<boolean> {
+    const serialNumber = String(
+      this.keyStorage.getValue(MetadataKey.DeviceSerialNumber)
+    )
+    const token = String(this.keyStorage.getValue(MetadataKey.DeviceToken))
 
     if (!this.deviceService.currentDeviceUnlocked) {
-      return
+      return true
     }
 
     if (!this.contactIndexer || !this.messageIndexer || !this.threadIndexer) {
-      return
+      return false
     }
 
-    if (!this.syncFileSystemService) {
-      return
+    if (!token || !serialNumber) {
+      return false
     }
 
-    const syncFileDir = path.join(getAppPath(), syncCatalogName)
-    const { status, data } = await this.deviceBackup.downloadDeviceBackup({
-      token: this.token,
-      extract: true,
-      cwd: syncFileDir,
-    })
+    const syncFileDir = path.join(getAppPath(), "sync", serialNumber)
+    const { status, data } =
+      await this.deviceBackupService.downloadDeviceBackup({
+        token,
+        extract: true,
+        cwd: syncFileDir,
+      })
 
     if (status !== DeviceResponseStatus.Ok || data === undefined) {
-      return
-    }
-
-    try {
-      const contactIndex = await this.contactIndexer.index(syncFileDir)
-      const messageIndex = await this.messageIndexer.index(syncFileDir)
-      const threadIndex = await this.threadIndexer.index(syncFileDir)
-
-      this.syncFileSystemService.writeIndexSync(
-        this.getCacheFilePath(DataIndex.Contact),
-        contactIndex
-      )
-      this.syncFileSystemService.writeIndexSync(
-        this.getCacheFilePath(DataIndex.Message),
-        messageIndex
-      )
-      this.syncFileSystemService.writeIndexSync(
-        this.getCacheFilePath(DataIndex.Thread),
-        threadIndex
-      )
-
-      this.indexesMap.set(DataIndex.Contact, contactIndex)
-      this.indexesMap.set(DataIndex.Message, messageIndex)
-      this.indexesMap.set(DataIndex.Thread, threadIndex)
-    } catch (error) {
-      console.log("ERROR: ", error)
-    }
-  }
-
-  private async loadsIndexesFromCache(): Promise<boolean> {
-    if (!this.syncFileSystemService) {
       return false
     }
 
-    try {
-      const contactIndex = this.syncFileSystemService.readIndexSync(
-        this.getCacheFilePath(DataIndex.Contact)
-      )
-      const messageIndex = this.syncFileSystemService.readIndexSync(
-        this.getCacheFilePath(DataIndex.Message)
-      )
-      const threadIndex = this.syncFileSystemService.readIndexSync(
-        this.getCacheFilePath(DataIndex.Thread)
-      )
+    const contactIndex = await this.contactIndexer.index(syncFileDir, token)
+    const messageIndex = await this.messageIndexer.index(syncFileDir, token)
+    const threadIndex = await this.threadIndexer.index(syncFileDir, token)
 
-      this.indexesMap.set(DataIndex.Contact, contactIndex)
-      this.indexesMap.set(DataIndex.Message, messageIndex)
-      this.indexesMap.set(DataIndex.Thread, threadIndex)
+    this.index.set(DataIndex.Contact, contactIndex)
+    this.index.set(DataIndex.Message, messageIndex)
+    this.index.set(DataIndex.Thread, threadIndex)
 
-      return true
-    } catch {
-      return false
-    }
-  }
-
-  private getCacheFilePath(dataIndex: DataIndex): string {
-    return path.join(
-      path.join(getAppPath(), cacheCatalogName),
-      this.serialNumber,
-      cacheFileNamse[dataIndex]
-    )
+    return true
   }
 }

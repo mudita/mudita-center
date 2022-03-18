@@ -4,10 +4,10 @@
  */
 
 import initSqlJs, { SqlJsStatic } from "sql.js"
-import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
+import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 
 export abstract class BaseIndexer {
-  constructor(private syncFileSystemService: SyncFileSystemService) {}
+  constructor(private fileSystemService: FileSystemService) {}
   get sql(): Promise<SqlJsStatic> {
     // TODO: Will be covered with test as part of  CP-979
     return initSqlJs({
@@ -17,9 +17,12 @@ export abstract class BaseIndexer {
     })
   }
 
-  public async getData(filePath: string): Promise<Buffer | undefined | null> {
+  public async getData(
+    filePath: string,
+    token: string
+  ): Promise<Buffer | undefined | null> {
     try {
-      return this.syncFileSystemService.readFileSync(filePath)
+      return this.fileSystemService.readEncryptedFile(filePath, token)
     } catch {
       return null
     }

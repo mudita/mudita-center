@@ -5,7 +5,7 @@
 
 import path from "path"
 import { Database } from "sql.js"
-import elasticlunr, { Index, SerialisedIndexData } from "elasticlunr"
+import elasticlunr, { Index } from "elasticlunr"
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import { ThreadTable } from "App/data-sync/constants"
 import {
@@ -13,23 +13,23 @@ import {
   ThreadObject,
   ThreadInput,
 } from "App/data-sync/types"
-import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
+import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 
 export class ThreadIndexer extends BaseIndexer {
   constructor(
-    syncFileSystemService: SyncFileSystemService,
+    fileSystemService: FileSystemService,
     private dataPresenter: IndexerPresenter<ThreadInput, ThreadObject[]>
   ) {
-    super(syncFileSystemService)
+    super(fileSystemService)
   }
 
-  async index(fileDir: string): Promise<SerialisedIndexData<ThreadObject>> {
-    const smsDb = await this.initTmpSmsDatabase(fileDir)
-    const contactDb = await this.initTmpContactDatabase(fileDir)
+  async index(fileDir: string, token: string): Promise<Index<ThreadObject>> {
+    const smsDb = await this.initTmpSmsDatabase(fileDir, token)
+    const contactDb = await this.initTmpContactDatabase(fileDir, token)
     const object = this.dataPresenter.serializeToObject(
       this.loadTables(smsDb, contactDb)
     )
-    return this.createIndex(object).toJSON()
+    return this.createIndex(object)
   }
 
   private createIndex(data: ThreadObject[]): Index<ThreadObject> {
@@ -59,13 +59,19 @@ export class ThreadIndexer extends BaseIndexer {
     }
   }
 
-  private async initTmpSmsDatabase(fileDir: string): Promise<Database> {
-    const data = await this.getData(path.join(fileDir, "sms.db"))
+  private async initTmpSmsDatabase(
+    fileDir: string,
+    token: string
+  ): Promise<Database> {
+    const data = await this.getData(path.join(fileDir, "sms.db"), token)
     return new (await this.sql).Database(data)
   }
 
-  private async initTmpContactDatabase(fileDir: string): Promise<Database> {
-    const data = await this.getData(path.join(fileDir, "contacts.db"))
+  private async initTmpContactDatabase(
+    fileDir: string,
+    token: string
+  ): Promise<Database> {
+    const data = await this.getData(path.join(fileDir, "contacts.db"), token)
     return new (await this.sql).Database(data)
   }
 }
