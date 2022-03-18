@@ -55,8 +55,10 @@ export class OutboxObserver implements Observer {
       return
     }
 
-    await this.outboxService.readOutboxEntries()
-    this.ipc.sendToRenderers(IpcEvent.DataLoaded)
+    const dataUpdated = await this.outboxService.readOutboxEntries()
+    if (dataUpdated) {
+      this.ipc.sendToRenderers(IpcEvent.DataUpdated)
+    }
     return new Promise((resolve) => {
       setTimeout(async () => {
         resolve(await this.watchOutboxEntries())

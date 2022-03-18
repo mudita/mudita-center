@@ -12,13 +12,13 @@ import {
 } from "App/data-sync/actions/base-app.action"
 import { IpcEvent } from "App/data-sync/constants"
 
-const dataRestored = () => {
+const dataRestored = (): void => {
   store.dispatch(setCacheState())
   store.dispatch(readAllIndexes())
   store.dispatch(setDataSyncInitialized())
 }
 
-export const registerCacheDataListener = () => {
+export const registerCacheDataListener = (): (() => void) => {
   ipcRenderer.on(IpcEvent.DataRestored, dataRestored)
 
   return () => {

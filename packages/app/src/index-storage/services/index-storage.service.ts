@@ -10,6 +10,7 @@ import { IndexStorage } from "App/index-storage/types"
 import { MetadataStore } from "App/metadata/services"
 import { MetadataKey } from "App/metadata/constants"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
+import elasticlunr from "elasticlunr"
 
 const cacheFileNames: Record<DataIndex, string> = {
   [DataIndex.Contact]: "contacts.json",
@@ -43,17 +44,25 @@ export class IndexStorageService {
           const filePath = this.getCacheFilePath(fileName, serialNumber)
           const exists = await this.fileSystemService.exists(filePath)
 
-          if (exists) {
-            const data = await this.fileSystemService.readEncryptedFile(
-              filePath,
-              token
-            )
-            this.index.set(
-              indexName,
-              JSON.parse(data?.toString("utf-8") as string)
-            )
+          if (!exists) {
+            resolve(false)
+            return
+          }
+
+          const data = await this.fileSystemService.readEncryptedFile(
+            filePath,
+            token
+          )
+
+          if (data === undefined) {
+            resolve(false)
+            return
+          }
+
+          try {
+            this.index.set(indexName, elasticlunr.Index.load(JSON.parse(data.toString("utf-8"))))
             resolve(true)
-          } else {
+          } catch {
             resolve(false)
           }
         })

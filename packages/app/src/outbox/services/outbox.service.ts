@@ -35,17 +35,17 @@ export class OutboxService {
     private contactRepository: ContactRepository
   ) {}
 
-  public async readOutboxEntries(): Promise<void> {
+  public async readOutboxEntries(): Promise<boolean> {
     const { status, data } = await this.getOutboxEntriesRequest()
 
     const entries = data?.entries
 
     if (status !== DeviceResponseStatus.Ok || entries === undefined) {
-      return
+      return false
     }
 
     if (entries.length === 0) {
-      return
+      return false
     }
 
     for (const entry of entries) {
@@ -54,6 +54,7 @@ export class OutboxService {
     }
 
     await this.deleteOutboxEntriesRequest(entries.map(({ uid }) => uid))
+    return true
   }
 
   private async handleContactEntry(entry: OutboxEntry): Promise<void> {
