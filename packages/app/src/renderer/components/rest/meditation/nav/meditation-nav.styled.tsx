@@ -45,7 +45,7 @@ export const Wrapper = styled.div`
 `
 
 export const GotoButton = styled(ButtonComponent).attrs(() => ({
-  displayStyle: DisplayStyle.Link3,
+  displayStyle: DisplayStyle.ActionLink,
 }))`
   width: auto;
   position: relative;

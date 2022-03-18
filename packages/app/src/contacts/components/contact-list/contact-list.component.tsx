@@ -30,7 +30,7 @@ import {
   backgroundColor,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
@@ -111,10 +111,6 @@ export const AvatarPlaceholder = styled.div`
   ${basicAvatarStyles};
   margin-right: 1.6rem;
   margin-left: 3.2rem;
-`
-
-const ActionsButton = styled.span`
-  cursor: pointer;
 `
 
 const Actions = styled.div`
@@ -340,21 +336,14 @@ const ContactList: FunctionComponent<Props> = ({
                     </Col>
                     <Col>
                       <Actions>
-                        <Dropdown
-                          toggler={
-                            <ActionsButton>
-                              <Icon type={Type.More} />
-                            </ActionsButton>
-                          }
-                          onOpen={disableScroll}
-                          onClose={enableScroll}
-                        >
+                        <Dropdown onOpen={disableScroll} onClose={enableScroll}>
                           <HiddenButton
                             labelMessage={messages.forwardNamecard}
                             Icon={Type.Forward}
                             onClick={handleForward}
                             displayStyle={DisplayStyle.Dropdown}
                             hide={flags.get(Feature.ProductionAndAlpha)}
+                            iconSize={IconSize.Medium}
                           />
                           {contact.blocked ? (
                             <HiddenButton
@@ -363,6 +352,7 @@ const ContactList: FunctionComponent<Props> = ({
                               onClick={handleUnblock}
                               displayStyle={DisplayStyle.Dropdown}
                               hide={flags.get(Feature.ProductionAndAlpha)}
+                              iconSize={IconSize.Medium}
                             />
                           ) : (
                             <HiddenButton
@@ -371,10 +361,12 @@ const ContactList: FunctionComponent<Props> = ({
                               onClick={handleBlock}
                               displayStyle={DisplayStyle.Dropdown}
                               hide={flags.get(Feature.ProductionAndAlpha)}
+                              iconSize={IconSize.Medium}
                             />
                           )}
                           <ButtonComponent
                             labelMessage={messages.editBulkAction}
+                            iconSize={IconSize.Medium}
                             Icon={Type.Edit}
                             onClick={handleEdit}
                             displayStyle={DisplayStyle.Dropdown}
@@ -383,12 +375,14 @@ const ContactList: FunctionComponent<Props> = ({
                             labelMessage={messages.exportAsVcard}
                             Icon={Type.UploadDark}
                             onClick={handleExport}
+                            iconSize={IconSize.Medium}
                             displayStyle={DisplayStyle.Dropdown}
                           />
                           <ButtonComponent
                             labelMessage={messages.deleteBulkAction}
                             Icon={Type.Delete}
                             onClick={handleDelete}
+                            iconSize={IconSize.Medium}
                             displayStyle={DisplayStyle.Dropdown}
                           />
                         </Dropdown>

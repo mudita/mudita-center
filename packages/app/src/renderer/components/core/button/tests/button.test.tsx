@@ -48,14 +48,14 @@ describe("Button matches snapshots", () => {
 test("link-button should have active class when clicked", () => {
   const currentPath = "/music"
   const data = {
-    displayStyle: DisplayStyle.Link4,
+    displayStyle: DisplayStyle.MenuLink,
     label: "Example",
     to: "/overview",
     Icon: Type.Upload,
     nav: true,
   }
   const data2 = {
-    displayStyle: DisplayStyle.Link4,
+    displayStyle: DisplayStyle.MenuLink,
     label: "Music",
     to: currentPath,
     Icon: Type.Upload,

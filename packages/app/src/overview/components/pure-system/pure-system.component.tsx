@@ -85,7 +85,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
     <div>
       <BackWrapper>
         <AutoWidthButtonComponent
-          displayStyle={DisplayStyle.Link1}
+          displayStyle={DisplayStyle.Link}
           onClick={handleBack}
           labelMessage={messages.back}
           Icon={Type.ArrowLongLeft}
@@ -119,7 +119,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
         </PureSystemInfo>
         <PureSystemInfo title={messages.sar} withButton>
           <AutoWidthButtonComponent
-            displayStyle={DisplayStyle.Link3}
+            displayStyle={DisplayStyle.ActionLink}
             labelMessage={messages.sarInfo}
             onClick={openSarInfo}
           />

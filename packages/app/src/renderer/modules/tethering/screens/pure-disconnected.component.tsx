@@ -17,7 +17,7 @@ import {
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Image from "Renderer/components/core/image/image.component"
-import NoTethering from "Renderer/images/tethering/tethering-disabled@2x.png"
+import NoTethering from "Renderer/images/tethering-disabled.png"
 import React from "react"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -45,7 +45,7 @@ const PureDisconnected: FunctionComponent = () => (
       </Text>
       <StyledButton
         data-testid={TetheringTestIds.GoToButton}
-        label={intl.formatMessage(tetheringMessages.openConnectionSettings)}
+        labelMessage={tetheringMessages.openConnectionSettings}
         to={URL_MAIN.settings}
       />
     </ButtonWrapper>

@@ -18,8 +18,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { defineMessages, FormattedMessage } from "react-intl"
-import { intl } from "Renderer/utils/intl"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import { backgroundColor, borderRadius } from "Renderer/styles/theming/theme-getters"
 import { noop } from "Renderer/utils/noop"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 
@@ -59,7 +58,7 @@ const AvailableUpdateText = styled(Text).attrs(() => ({
   text-transform: none;
   display: inline-box;
   padding: 0.3rem 0.5rem;
-  border-radius: 0.4rem;
+  border-radius: ${borderRadius("medium")};
   background-color: ${backgroundColor("minor")};
 `
 
@@ -119,13 +118,13 @@ const System: FunctionComponent<Props> = ({
             updateDownloaded ? (
               <CardActionButton
                 active
-                label={intl.formatMessage(messages.systemUpdateAction)}
+                labelMessage={messages.systemUpdateAction}
                 onClick={onUpdate}
               />
             ) : (
               <CardActionButton
                 active
-                label={intl.formatMessage(messages.systemDownloadAction)}
+                labelMessage={messages.systemDownloadAction}
                 onClick={onDownload}
                 data-testid={SystemTestIds.DownloadButton}
               />
@@ -133,7 +132,7 @@ const System: FunctionComponent<Props> = ({
           ) : (
             <CardActionButton
               active
-              label={intl.formatMessage(messages.systemCheckForUpdates)}
+              labelMessage={messages.systemCheckForUpdates}
               onClick={onUpdateCheck}
             />
           )}

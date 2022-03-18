@@ -85,7 +85,7 @@ const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   <ModalDialog
     size={size}
     title={intl.formatMessage(messages.backupModalHeaderTitle)}
-    actionButtonSize={Size.FixedMedium}
+    actionButtonSize={Size.FixedSmall}
     {...props}
   >
     <ModalContent>{children}</ModalContent>

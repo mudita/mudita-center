@@ -86,8 +86,9 @@ export const getModalButtonsSize = (size: ModalSize) => {
     case ModalSize.VerySmall:
       return Size.FixedSmall
     case ModalSize.Small:
-      return Size.FixedMedium
+      return Size.FixedSmall
     case ModalSize.Medium:
+      return Size.FixedMedium
     case ModalSize.Large:
       return Size.FixedBig
     default:

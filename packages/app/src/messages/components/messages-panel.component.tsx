@@ -9,10 +9,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import Button from "Renderer/components/core/button/button.component"
-import {
-  DisplayStyle,
-  Size as ButtonSize,
-} from "Renderer/components/core/button/button.config"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import {
   ButtonWrapper,
   MessageFiltersWrapper,
@@ -57,8 +54,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
         <Button
           data-testid={MessagePanelTestIds.NewMessageButton}
           displayStyle={DisplayStyle.Primary}
-          size={ButtonSize.FixedBig}
-          label={intl.formatMessage(messages.newMessage)}
+          labelMessage={messages.newMessage}
           onClick={onNewMessageClick}
           disabled={buttonDisabled}
         />

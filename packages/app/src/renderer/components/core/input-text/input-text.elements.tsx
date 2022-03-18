@@ -132,7 +132,7 @@ const LabeledInputWrapper = styled.div`
 
 const TextInputIcon = styled.span`
   height: 100%;
-  max-height: 4.8rem;
+  max-height: 4.6rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -212,7 +212,7 @@ const PasscodeInput = styled.input<{
   filled: boolean
 }>`
   border: solid 0.1rem ${borderColor("secondary")};
-  border-radius: 0.4rem;
+  border-radius: ${borderRadius("medium")};
   width: 4.6rem;
   height: 7.6rem;
   margin: 0 1.2rem;
@@ -308,7 +308,7 @@ const textAreaLayout = css`
   height: auto;
   min-height: 4.8rem;
   padding: 0 1.3rem;
-  border-radius: ${borderRadius("big")};
+  border-radius: ${borderRadius("regular")};
 `
 
 const TextareaWrapper = styled(InputWrapper)<{
@@ -331,7 +331,7 @@ const TextareaWrapper = styled(InputWrapper)<{
 
   ${LeadingIcons}, ${TrailingIcons} {
     align-self: flex-end;
-    height: ${({ outlined }) => (outlined ? "4.8rem" : "auto")};
+    height: ${({ outlined }) => (outlined ? "4.6rem" : "auto")};
   }
 `
 

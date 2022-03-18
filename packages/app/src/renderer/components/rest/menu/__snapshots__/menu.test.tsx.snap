@@ -90,20 +90,22 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 4rem;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.4rem;
   font-weight: 400;
   width: 100%;
 }
@@ -114,6 +116,8 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 
 .c5.active * {
   color: #000000;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c5.active svg {
@@ -128,6 +132,8 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 
 .c5:hover * {
   color: #000000;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c5:hover svg {
@@ -161,20 +167,22 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 4rem;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.4rem;
   font-weight: 400;
   width: 100%;
 }
@@ -185,6 +193,8 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 
 .c12.active * {
   color: #000000;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c12.active svg {
@@ -199,6 +209,8 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 
 .c12:hover * {
   color: #000000;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c12:hover svg {
@@ -221,10 +233,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 
 .c9 {
   white-space: nowrap;
-}
-
-.c13 {
-  padding: 0.4rem 0.8rem;
 }
 
 .c10 {
@@ -302,10 +310,9 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
       >
         <a
           class="c5"
-          color="secondary"
-          displaystyle="8"
+          displaystyle="7"
           href="#/news"
-          size="2"
+          size="1"
         >
           <span
             class="c6 c7"
@@ -341,11 +348,10 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
       >
         <a
           class="c5"
-          color="secondary"
           data-testid="tethering-link"
-          displaystyle="8"
+          displaystyle="7"
           href="#/tethering"
-          size="2"
+          size="1"
         >
           <span
             class="c6 c7"
@@ -370,10 +376,9 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
       >
         <a
           class="c5"
-          color="secondary"
-          displaystyle="8"
+          displaystyle="7"
           href="#/settings"
-          size="2"
+          size="1"
         >
           <span
             class="c6 c7"
@@ -397,10 +402,9 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
         class="c4"
       >
         <button
-          class="c12 c13"
-          color="secondary"
+          class="c12"
           data-testid="help-menu-button"
-          size="2"
+          size="1"
           type="button"
         >
           <span
@@ -516,20 +520,22 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 4rem;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.4rem;
   font-weight: 400;
   width: 100%;
 }
@@ -540,6 +546,8 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 
 .c5.active * {
   color: #000000;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c5.active svg {
@@ -554,6 +562,8 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 
 .c5:hover * {
   color: #000000;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c5:hover svg {
@@ -587,20 +597,22 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 4rem;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border: none;
-  border-radius: 0.2rem;
+  border-radius: 0.4rem;
   font-weight: 400;
   width: 100%;
 }
@@ -611,6 +623,8 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 
 .c12.active * {
   color: #000000;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c12.active svg {
@@ -625,6 +639,8 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 
 .c12:hover * {
   color: #000000;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c12:hover svg {
@@ -647,10 +663,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 
 .c9 {
   white-space: nowrap;
-}
-
-.c13 {
-  padding: 0.4rem 0.8rem;
 }
 
 .c10 {
@@ -728,10 +740,9 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
       >
         <a
           class="c5"
-          color="secondary"
-          displaystyle="8"
+          displaystyle="7"
           href="#/news"
-          size="2"
+          size="1"
         >
           <span
             class="c6 c7"
@@ -767,11 +778,10 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
       >
         <a
           class="c5"
-          color="secondary"
           data-testid="tethering-link"
-          displaystyle="8"
+          displaystyle="7"
           href="#/tethering"
-          size="2"
+          size="1"
         >
           <span
             class="c6 c7"
@@ -796,10 +806,9 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
       >
         <a
           class="c5"
-          color="secondary"
-          displaystyle="8"
+          displaystyle="7"
           href="#/settings"
-          size="2"
+          size="1"
         >
           <span
             class="c6 c7"
@@ -823,10 +832,9 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
         class="c4"
       >
         <button
-          class="c12 c13"
-          color="secondary"
+          class="c12"
           data-testid="help-menu-button"
-          size="2"
+          size="1"
           type="button"
         >
           <span

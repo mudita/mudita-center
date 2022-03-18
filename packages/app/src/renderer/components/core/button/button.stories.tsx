@@ -94,10 +94,10 @@ storiesOf("Components|Core/Button", module)
   ))
   .add("Link", () => (
     <>
-      <StoryContainer title="Style 1">
+      <StoryContainer title="Link">
         <Story title="Default">
           <Button
-            displayStyle={DisplayStyle.Link1}
+            displayStyle={DisplayStyle.Link}
             label="I open Google in new tab"
             href="http://www.google.pl"
           />
@@ -105,64 +105,87 @@ storiesOf("Components|Core/Button", module)
         <Story title="With icon">
           <Button
             Icon={Type.Upload}
-            displayStyle={DisplayStyle.Link1}
+            displayStyle={DisplayStyle.Link}
+            label="I open Google in new tab"
+            href="http://www.google.pl"
+            iconSize={IconSize.Medium}
+          />
+        </Story>
+        <Story title="With icon disabled">
+          <Button
+            disabled
+            Icon={Type.Upload}
+            displayStyle={DisplayStyle.Link}
+            label="I open Google in new tab"
+            href="http://www.google.pl"
+            iconSize={IconSize.Medium}
+          />
+        </Story>
+      </StoryContainer>
+      <StoryContainer title="Link With Paragraph">
+        <Story title="Default">
+          <Button
+            displayStyle={DisplayStyle.LinkWithParagraph}
+            label="I open Google in new tab"
+            href="http://www.google.pl"
+          />
+        </Story>
+        <Story title="With icon">
+          <Button
+            Icon={Type.Upload}
+            displayStyle={DisplayStyle.LinkWithParagraph}
             label="I open Google in new tab"
             href="http://www.google.pl"
             iconSize={IconSize.Small}
           />
         </Story>
       </StoryContainer>
-      <StoryContainer title="Style 2">
+      <StoryContainer title="Action link">
         <Story title="Default">
           <Button
-            displayStyle={DisplayStyle.Link2}
+            displayStyle={DisplayStyle.ActionLink}
             label="I open Google in new tab"
             href="http://www.google.pl"
           />
         </Story>
         <Story title="With icon">
           <Button
-            Icon={Type.Upload}
-            displayStyle={DisplayStyle.Link2}
+            Icon={Type.UploadDark}
+            displayStyle={DisplayStyle.ActionLink}
             label="I open Google in new tab"
             href="http://www.google.pl"
             iconSize={IconSize.Small}
           />
         </Story>
       </StoryContainer>
-      <StoryContainer title="Style 3">
+      <StoryContainer title="Menu link">
         <Story title="Default">
           <Button
-            displayStyle={DisplayStyle.Link3}
+            nav
+            displayStyle={DisplayStyle.MenuLink}
             label="I open Google in new tab"
             href="http://www.google.pl"
           />
         </Story>
         <Story title="With icon">
           <Button
-            Icon={Type.Upload}
-            displayStyle={DisplayStyle.Link3}
+            nav
+            Icon={Type.UploadDark}
+            displayStyle={DisplayStyle.MenuLink}
             label="I open Google in new tab"
             href="http://www.google.pl"
-            iconSize={IconSize.Small}
+            iconSize={IconSize.Bigger}
           />
         </Story>
-      </StoryContainer>
-      <StoryContainer title="Style 4">
-        <Story title="Default">
+        <Story title="With icon disabled">
           <Button
-            displayStyle={DisplayStyle.Link4}
+            disabled
+            nav
+            Icon={Type.UploadDark}
+            displayStyle={DisplayStyle.MenuLink}
             label="I open Google in new tab"
             href="http://www.google.pl"
-          />
-        </Story>
-        <Story title="With icon">
-          <Button
-            Icon={Type.Upload}
-            displayStyle={DisplayStyle.Link4}
-            label="I open Google in new tab"
-            href="http://www.google.pl"
-            iconSize={IconSize.Small}
+            iconSize={IconSize.Bigger}
           />
         </Story>
       </StoryContainer>
@@ -176,7 +199,7 @@ storiesOf("Components|Core/Button", module)
         </Story>
         <Story title="With icon">
           <Button
-            Icon={Type.Upload}
+            Icon={Type.UploadDark}
             displayStyle={DisplayStyle.Tab}
             label="I open Google in new tab"
             href="http://www.google.pl"
@@ -207,30 +230,23 @@ storiesOf("Components|Core/Button", module)
   .add("Icon", () => (
     <>
       <StoryContainer title="Themes">
-        <Story title="Style 1">
+        <Story title="Icon only">
           <Button
-            Icon={Type.Upload}
-            displayStyle={DisplayStyle.IconOnly1}
+            Icon={Type.UploadDark}
+            displayStyle={DisplayStyle.IconOnly}
             iconSize={IconSize.Small}
           />
         </Story>
-        <Story title="Style 2">
+        <Story title="Icon only wiht background">
           <Button
-            Icon={Type.Upload}
-            displayStyle={DisplayStyle.IconOnly2}
-            iconSize={IconSize.Small}
+            Icon={Type.Send}
+            displayStyle={DisplayStyle.IconOnlyWithBackground}
+            iconSize={IconSize.Big}
           />
         </Story>
-        <Story title="Style 3">
+        <Story title="Input icon">
           <Button
-            Icon={Type.Upload}
-            displayStyle={DisplayStyle.IconOnly3}
-            iconSize={IconSize.Small}
-          />
-        </Story>
-        <Story title="Style 4">
-          <Button
-            Icon={Type.Upload}
+            Icon={Type.UploadDark}
             displayStyle={DisplayStyle.InputIcon}
             iconSize={IconSize.Small}
           />

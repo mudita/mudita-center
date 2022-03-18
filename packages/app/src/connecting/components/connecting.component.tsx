@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { timeoutMs } from "@mudita/pure"
+import { DeviceType, timeoutMs } from "@mudita/pure"
 import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "Renderer/constants/urls"
 import ConnectingContent from "App/connecting/components/connecting-content.component"
 import ErrorConnectingModal from "App/connecting/components/error-connecting-modal"
@@ -23,6 +23,7 @@ const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
 const Connecting: FunctionComponent<{
   loaded: boolean
+  deviceType: DeviceType | null
   unlocked: boolean | null
   syncInitialized: boolean
   syncState: SynchronizationState
@@ -33,6 +34,7 @@ const Connecting: FunctionComponent<{
   updateAllIndexes: () => Promise<void>
 }> = ({
   loaded,
+  deviceType,
   unlocked,
   syncInitialized,
   syncState,
@@ -54,11 +56,14 @@ const Connecting: FunctionComponent<{
   const [dialogOpen, setDialogOpen] = useState(false)
 
   useEffect(() => {
+    if (deviceType === DeviceType.MuditaHarmony) {
+      return
+    }
     const timeout = setTimeout(() => {
       setLongerConnection(true)
     }, 6000)
     return () => clearTimeout(timeout)
-  }, [])
+  }, [deviceType])
 
   useEffect(() => {
     const timeout = setTimeout(() => {

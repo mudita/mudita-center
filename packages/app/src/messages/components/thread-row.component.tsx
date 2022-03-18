@@ -23,13 +23,8 @@ import Text, {
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { isToday } from "Renderer/utils/is-today"
 import moment from "moment"
-import {
-  Actions,
-  ActionsButton,
-  Col,
-} from "Renderer/components/core/table/table.component"
+import { Actions, Col } from "Renderer/components/core/table/table.component"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
-import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { noop } from "Renderer/utils/noop"
@@ -51,6 +46,15 @@ import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visib
 import { AppSettings } from "App/main/store/settings.interface"
 import ThreadBaseRow from "App/messages/components/thread-base-row.component"
 import { ListRowProps } from "react-virtualized"
+import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { defineMessages } from "react-intl"
+import { ElementWithTooltipPlace } from "Renderer/components/core/tooltip/element-with-tooltip.component"
+
+const messages = defineMessages({
+  dropdownTogllerTooltipDescription: {
+    id: "component.dropdownTogllerTooltipDescription",
+  },
+})
 
 export const Checkbox = styled(VisibleCheckbox)`
   position: absolute;
@@ -217,9 +221,14 @@ const ThreadRow: FunctionComponent<Props> = ({
         <Actions>
           <Dropdown
             toggler={
-              <ActionsButton>
-                <Icon type={Type.More} />
-              </ActionsButton>
+              <IconButtonWithSecondaryTooltip
+                iconType={Type.More}
+                description={messages.dropdownTogllerTooltipDescription}
+                // FIXME: The position based on offset is a sticky. However, this is a quick workaround
+                //  for buggy overridePosition lib feature
+                place={ElementWithTooltipPlace.Bottom}
+                offset={{ left: 15, bottom: 5 }}
+              />
             }
           >
             <HiddenButton

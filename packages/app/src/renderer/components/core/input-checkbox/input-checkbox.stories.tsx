@@ -6,10 +6,16 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import InputCheckbox, {
+  CheckboxTooltipDescription,
   Size,
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Story from "Renderer/components/storybook/story.component"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
+
+const checkboxTooltipDescription: CheckboxTooltipDescription = {
+  uncheckTooltipDescription: { id: "Check input" },
+  checkTooltipDescription: { id: "Uncheck input" },
+}
 
 storiesOf("Components|Core/InputCheckbox", module).add("Default", () => (
   <>
@@ -52,6 +58,11 @@ storiesOf("Components|Core/InputCheckbox", module).add("Default", () => (
       </Story>
       <Story title="With label">
         <InputCheckbox label="Label" />
+      </Story>
+      <Story title="With tolltip">
+        <InputCheckbox
+          checkboxTooltipDescription={checkboxTooltipDescription}
+        />
       </Story>
     </StoryContainer>
   </>

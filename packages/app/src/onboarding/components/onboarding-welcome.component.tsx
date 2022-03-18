@@ -9,7 +9,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import Image from "Renderer/components/core/image/image.component"
-import Infographic from "Renderer/images/onboarding/infographicx2.png"
+import Infographic from "Renderer/images/infographic.png"
 import {
   Type as ButtonType,
   DisplayStyle,
@@ -59,7 +59,7 @@ const OnboardingWelcome: FunctionComponent<Props> = ({
         displayStyle={DisplayStyle.Secondary}
       />
       <TroubleshootingButton
-        displayStyle={DisplayStyle.Link3}
+        displayStyle={DisplayStyle.ActionLink}
         labelMessage={{
           id: "module.onboarding.welcomeTroubleshootingButton",
         }}

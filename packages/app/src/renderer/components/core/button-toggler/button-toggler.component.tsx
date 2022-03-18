@@ -14,7 +14,10 @@ import { disabledSecondaryStyles } from "Renderer/components/core/button/button.
 import { borderRadius, zIndex } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
-import Tooltip from "Renderer/components/core/tooltip/tooltip.component"
+import { IconButtonWithPrimaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-primary-tooltip.component"
+import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
+import transition from "Renderer/styles/functions/transition"
+import theme from "Renderer/styles/theming/theme"
 
 const ButtonTogglerWrapper = styled.section`
   display: flex;
@@ -22,8 +25,26 @@ const ButtonTogglerWrapper = styled.section`
   position: relative;
 `
 
+const buttonTogglerTransitionStyles = css`
+  transition: ${transition(
+      "background",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )},
+    ${transition(
+      "color",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )},
+    ${transition(
+      "border",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )};
+`
+
 export const ButtonTogglerItem = styled(({ filled, active, ...props }) => (
-  <ButtonComponent {...props} />
+  <ButtonComponent data-testid={ButtonTogglerTestIds.Item} {...props} />
 )).attrs<ButtonTogglerItemProps>(({ filled, active }) => {
   const displayStyle =
     active && filled ? DisplayStyle.Primary : DisplayStyle.Secondary
@@ -41,6 +62,11 @@ export const ButtonTogglerItem = styled(({ filled, active, ...props }) => (
     css`
       z-index: 3;
     `};
+
+  &,
+  * {
+    ${buttonTogglerTransitionStyles};
+  }
 
   &:disabled {
     pointer-events: none;
@@ -86,7 +112,10 @@ const ButtonToggler: FunctionComponent<ButtonTogglerProps> = ({
         Boolean(tooltipDescription) &&
         tooltipDescription && (
           <TooltipWrapper>
-            <Tooltip description={tooltipDescription} title={tooltipTitle} />
+            <IconButtonWithPrimaryTooltip
+              title={tooltipTitle}
+              description={tooltipDescription}
+            />
           </TooltipWrapper>
         )}
       {React.Children.map(children, (child) => {

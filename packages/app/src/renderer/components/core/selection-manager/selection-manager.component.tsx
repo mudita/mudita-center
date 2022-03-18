@@ -4,8 +4,10 @@
  */
 
 import React from "react"
-import { FormattedMessage } from "react-intl"
-import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import { defineMessages, FormattedMessage } from "react-intl"
+import InputCheckbox, {
+  CheckboxTooltipDescription,
+} from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { SelectionManagerProps } from "Renderer/components/core/selection-manager/selection-manager.interface"
 import Text, {
   TextDisplayStyle,
@@ -18,6 +20,20 @@ import {
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
+
+const messages = defineMessages({
+  checkTooltipDescription: {
+    id: "component.selectionUnselectAllTooltipDescription",
+  },
+  uncheckTooltipDescription: {
+    id: "component.selectionSelectAllTooltipDescription",
+  },
+})
+
+const checkboxTooltipDescription: CheckboxTooltipDescription = {
+  checkTooltipDescription: messages.checkTooltipDescription,
+  uncheckTooltipDescription: messages.uncheckTooltipDescription,
+}
 
 const Buttons = styled.div`
   grid-area: Buttons;
@@ -81,6 +97,7 @@ const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
           indeterminate={!allItemsSelected}
           onChange={onToggle}
           size={checkboxSize}
+          checkboxTooltipDescription={checkboxTooltipDescription}
         />
       </CheckboxWrapper>
       <Info

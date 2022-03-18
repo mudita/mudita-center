@@ -8,7 +8,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import styled from "styled-components"
 
 export const DropdownButton = styled(Button).attrs(({ displayStyle }) => ({
-  displayStyle: displayStyle || DisplayStyle.Link1,
+  displayStyle: displayStyle || DisplayStyle.Link,
 }))`
   padding: 1.7rem 2.4rem;
 `

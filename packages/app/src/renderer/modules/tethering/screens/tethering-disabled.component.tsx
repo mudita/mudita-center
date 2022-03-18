@@ -14,7 +14,7 @@ import {
 } from "Renderer/modules/tethering/screens/tethering.styled"
 import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.enum"
 import Image from "Renderer/components/core/image/image.component"
-import TetheringOff from "Renderer/images/tethering/modem-desktop@2x.png"
+import TetheringOff from "Renderer/images/modem-desktop.png"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import Text, {
   TextDisplayStyle,
@@ -57,7 +57,7 @@ const TetheringDisabled: FunctionComponent<TetheringDisabledProps> = ({
       </Text>
       <StyledButton
         data-testid={TetheringTestIds.GoToButton}
-        label={intl.formatMessage(tetheringMessages.openConnectionSettings)}
+        labelMessage={tetheringMessages.openConnectionSettings}
         to={URL_MAIN.settings}
       />
     </ButtonWrapper>

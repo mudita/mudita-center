@@ -48,6 +48,16 @@ const messages = defineMessages({
   noAddress: { id: "module.contacts.noAddress" },
   noNotes: { id: "module.contacts.noNotes" },
   ice: { id: "module.contacts.ice" },
+  exportTooltipDescription: { id: "module.contacts.exportTooltipDescription" },
+  deleteTooltipDescription: { id: "module.contacts.deleteTooltipDescription" },
+  editTooltipDescription: { id: "module.contacts.editTooltipDescription" },
+  forwardTooltipDescription: {
+    id: "module.contacts.forwardTooltipDescription",
+  },
+  unblockTooltipDescription: {
+    id: "module.contacts.unblockTooltipDescription",
+  },
+  blockTooltipDescription: { id: "module.contacts.blockTooltipDescription" },
 })
 
 export interface ContactActions {
@@ -123,28 +133,57 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     // TODO: Remove prodIcons along with associated logic when features become available
     const exportIcon = (
       <SidebarHeaderButton
-        Icon={Type.UploadDark}
+        description={messages.exportTooltipDescription}
+        iconType={Type.UploadDark}
         onClick={handleExport}
         data-testid={ContactDetailsTestIds.ExportButton}
       />
     )
     const prodIcons = (
       <>
-        <SidebarHeaderButton Icon={Type.Delete} onClick={handleDelete} />
+        <SidebarHeaderButton
+          description={messages.deleteTooltipDescription}
+          iconType={Type.Delete}
+          onClick={handleDelete}
+        />
         {exportIcon}
-        <SidebarHeaderButton Icon={Type.Edit} onClick={handleEdit} />
+        <SidebarHeaderButton
+          description={messages.editTooltipDescription}
+          iconType={Type.Edit}
+          onClick={handleEdit}
+        />
       </>
     )
     const icons = (
       <>
-        <SidebarHeaderButton Icon={Type.Delete} onClick={handleDelete} />
+        <SidebarHeaderButton
+          description={messages.deleteTooltipDescription}
+          iconType={Type.Delete}
+          onClick={handleDelete}
+        />
         {exportIcon}
-        <SidebarHeaderButton Icon={Type.Forward} onClick={handleForward} />
-        <SidebarHeaderButton Icon={Type.Edit} onClick={handleEdit} />
+        <SidebarHeaderButton
+          description={messages.forwardTooltipDescription}
+          iconType={Type.Forward}
+          onClick={handleForward}
+        />
+        <SidebarHeaderButton
+          description={messages.editTooltipDescription}
+          iconType={Type.Edit}
+          onClick={handleEdit}
+        />
         {contact.blocked ? (
-          <SidebarHeaderButton Icon={Type.Blocked} onClick={handleUnblock} />
+          <SidebarHeaderButton
+            description={messages.unblockTooltipDescription}
+            iconType={Type.Blocked}
+            onClick={handleUnblock}
+          />
         ) : (
-          <SidebarHeaderButton Icon={Type.Blocked} onClick={handleBlock} />
+          <SidebarHeaderButton
+            description={messages.blockTooltipDescription}
+            iconType={Type.Blocked}
+            onClick={handleBlock}
+          />
         )}
       </>
     )

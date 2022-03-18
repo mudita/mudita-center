@@ -64,5 +64,26 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     }
     /* stylelint-enable no-descending-specificity */
   }
+
+  .__react_component_tooltip {
+    pointer-events: auto !important;
+
+    &:hover {
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    &.show {
+      opacity: 1 !important;
+      padding: 0 !important;
+    }
+
+    &.place-bottom {
+      margin-top: -0px !important;
+    }
+    &.place-top {
+      margin-top: -0px !important;
+    }
+  }
 `
 export default GlobalStyle

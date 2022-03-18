@@ -132,7 +132,7 @@ const RestoreAvailableBackupModal: FunctionComponent<Props> = ({
                 </Text>
                 <Button
                   Icon={Type.ArrowDown}
-                  displayStyle={DisplayStyle.IconOnly3}
+                  displayStyle={DisplayStyle.IconOnly}
                   iconSize={IconSize.Small}
                 />
               </Row>

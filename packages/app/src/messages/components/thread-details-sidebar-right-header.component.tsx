@@ -8,8 +8,22 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
-import { IconSize } from "Renderer/components/core/icon/icon.component"
 import { Feature, flags } from "App/feature-flags"
+import { defineMessages } from "react-intl"
+
+const messages = defineMessages({
+  callsTooltipDescription: { id: "module.messages.callsTooltipDescription" },
+  contactTooltipDescription: {
+    id: "module.messages.contactTooltipDescription",
+  },
+  newContactTooltipDescription: {
+    id: "module.messages.newContactTooltipDescription",
+  },
+  marksAsReadTooltipDescription: {
+    id: "module.messages.marksAsReadTooltipDescription",
+  },
+  deleteTooltipDescription: { id: "module.messages.deleteTooltipDescription" },
+})
 
 interface Props {
   contactCreated: boolean
@@ -28,35 +42,35 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
     <>
       {flags.get(Feature.DevelopOnly) && (
         <SidebarHeaderButton
-          Icon={Type.Calls}
+          description={messages.callsTooltipDescription}
+          iconType={Type.Calls}
           onClick={noop}
-          iconSize={IconSize.Big}
         />
       )}
       {contactCreated ? (
         <SidebarHeaderButton
-          Icon={Type.Contact}
+          description={messages.contactTooltipDescription}
+          iconType={Type.Contact}
           onClick={onContactClick}
-          iconSize={IconSize.Big}
         />
       ) : (
         <SidebarHeaderButton
-          Icon={Type.NewContact}
+          description={messages.newContactTooltipDescription}
+          iconType={Type.NewContact}
           onClick={onContactClick}
-          iconSize={IconSize.Big}
         />
       )}
       {flags.get(Feature.DevelopOnly) && (
         <>
           <SidebarHeaderButton
-            Icon={Type.BorderCheckIcon}
+            description={messages.deleteTooltipDescription}
+            iconType={Type.BorderCheckIcon}
             onClick={onCheckClick}
-            iconSize={IconSize.Big}
           />
           <SidebarHeaderButton
-            Icon={Type.Delete}
+            description={messages.deleteTooltipDescription}
+            iconType={Type.Delete}
             onClick={onDeleteClick}
-            iconSize={IconSize.Big}
           />
         </>
       )}

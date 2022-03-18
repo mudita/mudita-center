@@ -78,28 +78,30 @@ exports[`matches snapshot 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c12:hover {
-  background: #232426;
-}
-
-.c12 g {
-  fill: #ffffff;
+  background: #000000;
 }
 
 .c12 p {
   color: #ffffff;
+}
+
+.c12 g path {
+  fill: #ffffff;
 }
 
 .c17 {
@@ -119,18 +121,20 @@ exports[`matches snapshot 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
 }
 
-.c17 g {
+.c17 g path {
   fill: #000000;
 }
 
@@ -154,13 +158,19 @@ exports[`matches snapshot 1`] = `
 }
 
 .c13 {
-  --radius: 0.5rem;
+  --radius: 0.4rem;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   z-index: 1;
   pointer-events: all;
   z-index: 3;
+}
+
+.c13,
+.c13 * {
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c13:disabled {
@@ -185,12 +195,18 @@ exports[`matches snapshot 1`] = `
 }
 
 .c18 {
-  --radius: 0.5rem;
+  --radius: 0.4rem;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   z-index: 1;
   pointer-events: all;
+}
+
+.c18,
+.c18 * {
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c18:disabled {
@@ -203,11 +219,14 @@ exports[`matches snapshot 1`] = `
 
 .c18:not(:hover) {
   border: 0.1rem solid #d2d6db;
-  color: #6a6a6a;
 }
 
-.c18:not(:hover) g {
-  fill: #f4f5f6;
+.c18:not(:hover) p {
+  color: #a5a5a5;
+}
+
+.c18:not(:hover) g path {
+  fill: #a5a5a5;
 }
 
 .c18:not(:first-of-type) {
@@ -228,7 +247,6 @@ exports[`matches snapshot 1`] = `
 }
 
 .c14 {
-  padding: 0 3.6rem;
   width: 8.8rem;
 }
 
@@ -236,7 +254,7 @@ exports[`matches snapshot 1`] = `
   display: grid;
   box-sizing: border-box;
   grid-template-areas: "Checkbox Actions";
-  grid-template-columns: 1fr 15rem;
+  grid-template-columns: 1fr 16.4rem;
   border-bottom: solid 0.1rem #d2d6db;
   height: 7.2rem;
   max-height: 7.2rem;
@@ -313,7 +331,7 @@ exports[`matches snapshot 1`] = `
           <button
             class="c12 c13 c14"
             data-testid="toggler-active"
-            size="2"
+            size="1"
             type="button"
           >
             <p
@@ -326,7 +344,7 @@ exports[`matches snapshot 1`] = `
           <button
             class="c17 c18 c14"
             data-testid="toggler-inactive"
-            size="2"
+            size="1"
             type="button"
           >
             <p
@@ -361,7 +379,7 @@ exports[`matches snapshot 1`] = `
           <button
             class="c12 c13 c14"
             data-testid="toggler-active"
-            size="2"
+            size="1"
             type="button"
           >
             <p
@@ -374,7 +392,7 @@ exports[`matches snapshot 1`] = `
           <button
             class="c17 c18 c14"
             data-testid="toggler-inactive"
-            size="2"
+            size="1"
             type="button"
           >
             <p
@@ -409,7 +427,7 @@ exports[`matches snapshot 1`] = `
           <button
             class="c12 c13 c14"
             data-testid="toggler-active"
-            size="2"
+            size="1"
             type="button"
           >
             <p
@@ -422,7 +440,7 @@ exports[`matches snapshot 1`] = `
           <button
             class="c17 c18 c14"
             data-testid="toggler-inactive"
-            size="2"
+            size="1"
             type="button"
           >
             <p
@@ -457,7 +475,7 @@ exports[`matches snapshot 1`] = `
           <button
             class="c12 c13 c14"
             data-testid="toggler-active"
-            size="2"
+            size="1"
             type="button"
           >
             <p
@@ -470,7 +488,7 @@ exports[`matches snapshot 1`] = `
           <button
             class="c17 c18 c14"
             data-testid="toggler-inactive"
-            size="2"
+            size="1"
             type="button"
           >
             <p

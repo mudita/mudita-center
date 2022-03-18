@@ -19,16 +19,15 @@ import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import SettingsToggler from "Renderer/modules/settings/components/settings-toggler.component"
 import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
-import Tooltip from "Renderer/components/core/tooltip/tooltip.component"
+import { IconButtonWithPrimaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-primary-tooltip.component"
 import { defineMessages } from "react-intl"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { Feature, flags } from "App/feature-flags"
 
 export const SettingsTableRow = styled.div`
   display: grid;
   box-sizing: border-box;
   grid-template-areas: "Checkbox Actions";
-  grid-template-columns: 1fr 15rem;
+  grid-template-columns: 1fr 16.4rem;
   border-bottom: solid 0.1rem ${borderColor("list")};
   height: 7.2rem;
   max-height: 7.2rem;
@@ -56,7 +55,7 @@ export const SettingsDescription = styled(Text)`
   margin-bottom: 3.2rem;
 `
 
-export const SettingsTooltip = styled(Tooltip)`
+export const SettingsTooltip = styled(IconButtonWithPrimaryTooltip)`
   margin-left: 0.4rem;
 `
 
@@ -103,11 +102,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
           <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id="module.settings.collectingData" />
           </SettingsLabel>
-          <SettingsTooltip
-            description={messages.tooltipDescription}
-            iconType={Type.MenuHelp}
-            iconSize={2.2}
-          />
+          <SettingsTooltip description={messages.tooltipDescription} />
         </Data>
         <ActionsWrapper>
           <SettingsToggler

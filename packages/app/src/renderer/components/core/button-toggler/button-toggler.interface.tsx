@@ -12,6 +12,7 @@ export interface ButtonTogglerItemProps {
 
 export interface ButtonTogglerProps {
   filled?: boolean
+  tooltipId?: string
   tooltipTitle?: MessageInterface
   tooltipDescription?: MessageInterface
 }

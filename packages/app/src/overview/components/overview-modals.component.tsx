@@ -15,6 +15,7 @@ import styled from "styled-components"
 import { noop } from "Renderer/utils/noop"
 import {
   backgroundColor,
+  borderRadius,
   transitionTime,
 } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
@@ -57,7 +58,7 @@ const DownloadBar = styled.div`
   margin-top: 3.2rem;
   height: 0.4rem;
   position: relative;
-  border-radius: 0.4rem;
+  border-radius: ${borderRadius("medium")};
   background-color: ${backgroundColor("minor")};
 
   span {
@@ -184,7 +185,7 @@ const messages = defineMessages({
     id: "module.overview.updatingFlatBatteryActionButton",
   },
   updatingFlatBatteryHarmonyTitle: {
-    id: "module.overview.updatingFlatBatteryHarmonyDescription",
+    id: "module.overview.updatingFlatBatteryHarmonyTitle",
   },
   updatingFlatBatteryHarmonyDescription: {
     id: "module.overview.updatingFlatBatteryHarmonyDescription",
@@ -199,6 +200,7 @@ const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
   <Modal
     size={size}
     title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+    actionButtonSize={Size.FixedSmall}
     {...props}
   >
     <ModalContent>{children}</ModalContent>
@@ -333,7 +335,6 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
     closeButtonLabel={intl.formatMessage(messages.downloadCompletedCloseButton)}
     onActionButtonClick={onOsUpdate}
     data-testid={OverviewModalsTestIds.DownloadingUpdateFinishedModal}
-    actionButtonSize={Size.FixedMedium}
   >
     <RoundIconWrapper>
       <Icon type={Type.Download} width={4} />
@@ -523,7 +524,10 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
             <ModalText displayStyle={TextDisplayStyle.Headline4}>
               {intl.formatMessage(messages.updatingFlatBatteryPureTitle)}
             </ModalText>
-            <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+            <ModalText
+              displayStyle={TextDisplayStyle.Paragraph4}
+              color="secondary"
+            >
               {intl.formatMessage(messages.updatingFlatBatteryPureDescription)}
             </ModalText>
           </>
@@ -532,7 +536,10 @@ export const TooLowBatteryModal: FunctionComponent<TooLowBatteryModalProps> = ({
             <ModalText displayStyle={TextDisplayStyle.Headline4}>
               {intl.formatMessage(messages.updatingFlatBatteryHarmonyTitle)}
             </ModalText>
-            <ModalText displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
+            <ModalText
+              displayStyle={TextDisplayStyle.Paragraph4}
+              color="secondary"
+            >
               {intl.formatMessage(
                 messages.updatingFlatBatteryHarmonyDescription
               )}

@@ -15,12 +15,14 @@ exports[`matches snapshot with tabs 1`] = `
 
 .c8 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.5;
-  -webkit-letter-spacing: 0.02rem;
-  -moz-letter-spacing: 0.02rem;
-  -ms-letter-spacing: 0.02rem;
-  letter-spacing: 0.02rem;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
   color: #000000;
 }
 
@@ -76,22 +78,22 @@ exports[`matches snapshot with tabs 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 100%;
-  padding: 0.8rem;
+  padding: 0.8rem 0;
   border: none;
   position: relative;
-  border-radius: 0.2remrem;
-  font-weight: 400;
   width: 100%;
 }
 
@@ -108,32 +110,32 @@ exports[`matches snapshot with tabs 1`] = `
   transition: width 500ms ease;
 }
 
-.c4:hover {
-  color: #3b3f42;
-}
-
-.c4:hover svg {
-  opacity: 0.9;
-}
-
 .c4 p {
   color: #6a6a6a;
 }
 
-.c4.active {
+.c4 svg {
+  opacity: 0.75;
+}
+
+.c4:hover p {
+  color: #3b3f42;
+}
+
+.c4:hover g path {
+  fill: #3b3f42;
+}
+
+.c4.active p {
   color: #000000;
+}
+
+.c4.active g path {
+  fill: #000000;
 }
 
 .c4.active:after {
   width: 100%;
-}
-
-.c4.active svg {
-  opacity: 1;
-}
-
-.c4 svg {
-  opacity: 0.75;
 }
 
 .c7 {
@@ -171,9 +173,9 @@ exports[`matches snapshot with tabs 1`] = `
     <a
       aria-current="page"
       class="c4 c5 active"
-      displaystyle="9"
+      displaystyle="8"
       href="/phone"
-      size="2"
+      size="1"
     >
       <span
         class="c6 c7"
@@ -194,9 +196,9 @@ exports[`matches snapshot with tabs 1`] = `
     </a>
     <a
       class="c4 c5"
-      displaystyle="9"
+      displaystyle="8"
       href="/phone/dial"
-      size="2"
+      size="1"
     >
       <span
         class="c6 c7"

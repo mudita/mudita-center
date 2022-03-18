@@ -17,7 +17,6 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { defineMessages, FormattedMessage } from "react-intl"
-import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
 import { noop } from "Renderer/utils/noop"
 import Button from "Renderer/components/core/button/button.component"
@@ -88,9 +87,9 @@ const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
           </CardText>
           <RestoreButtonContainer>
             <Button
-              displayStyle={DisplayStyle.Link3}
+              displayStyle={DisplayStyle.ActionLink}
               onClick={onBackupRestore}
-              label={intl.formatMessage(messages.restoreAction)}
+              labelMessage={messages.restoreAction}
             />
           </RestoreButtonContainer>
         </CardContent>
@@ -108,7 +107,7 @@ const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
       <CardAction filled>
         <CardActionButton
           active
-          label={intl.formatMessage(messages.createAction)}
+          labelMessage={messages.createAction}
           onClick={onBackupCreate}
         />
       </CardAction>

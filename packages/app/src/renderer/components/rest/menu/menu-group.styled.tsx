@@ -3,14 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import Button from "Renderer/components/core/button/button.component"
 import styled from "styled-components"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
-
-export const HelpButton = styled(Button)`
-  padding: 0.4rem 0.8rem;
-`
 
 export const HeaderWrapper = styled.div`
   display: flex;

@@ -86,13 +86,7 @@ export default [
     name: "Icon only",
     cases: [
       {
-        displayStyle: DisplayStyle.IconOnly1,
-      },
-      {
-        displayStyle: DisplayStyle.IconOnly2,
-      },
-      {
-        displayStyle: DisplayStyle.IconOnly3,
+        displayStyle: DisplayStyle.IconOnly,
       },
     ],
   },
@@ -103,37 +97,37 @@ export default [
     },
     cases: [
       {
-        displayStyle: DisplayStyle.Link1,
+        displayStyle: DisplayStyle.Link,
       },
       {
-        displayStyle: DisplayStyle.Link1,
+        displayStyle: DisplayStyle.Link,
         href: "http://www.google.pl",
         target: "_blank",
         Icon: Type.Upload,
       },
       {
-        displayStyle: DisplayStyle.Link2,
+        displayStyle: DisplayStyle.LinkWithParagraph,
       },
       {
-        displayStyle: DisplayStyle.Link2,
+        displayStyle: DisplayStyle.LinkWithParagraph,
         href: "http://www.google.pl",
         target: "_blank",
         Icon: Type.Upload,
       },
       {
-        displayStyle: DisplayStyle.Link3,
+        displayStyle: DisplayStyle.ActionLink,
       },
       {
-        displayStyle: DisplayStyle.Link3,
+        displayStyle: DisplayStyle.ActionLink,
         href: "http://www.google.pl",
         target: "_blank",
         Icon: Type.Upload,
       },
       {
-        displayStyle: DisplayStyle.Link4,
+        displayStyle: DisplayStyle.MenuLink,
       },
       {
-        displayStyle: DisplayStyle.Link4,
+        displayStyle: DisplayStyle.MenuLink,
         href: "http://www.google.pl",
         target: "_blank",
         Icon: Type.Upload,

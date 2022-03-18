@@ -366,6 +366,9 @@ const useSystemUpdateFlow = (
     await removeFileRequest(DiagnosticsFilePath.UPDATER_LOG)
     const response = await updateOs(file.name)
 
+    if (response.status !== DeviceResponseStatus.Ok) {
+      logger.info(`updateOs: ${response.error?.message}`)
+    }
     if (response.status === DeviceResponseStatus.Ok) {
       modalService.rerenderModal(<UpdatingSpinnerModal />)
     }
