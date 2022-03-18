@@ -17,16 +17,6 @@ import { DataSyncEvent } from "App/data-sync/constants"
 import { UpdateAllIndexesError } from "App/data-sync/errors"
 
 describe("Update all indexes data functionality", () => {
-  test("Event: SetDataSyncInitState/pending change `state` to Loading", () => {
-    expect(
-      dataSyncReducer(undefined, {
-        type: DataSyncEvent.SetDataSyncInitState,
-      })
-    ).toEqual({
-      ...initialState
-    })
-  })
-
   test("Event: UpdateAllIndexes/pending change `state` to Loading", () => {
     expect(
       dataSyncReducer(undefined, {
