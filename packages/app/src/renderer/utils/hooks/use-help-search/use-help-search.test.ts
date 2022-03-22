@@ -8,16 +8,40 @@ import { useHelpSearch } from "Renderer/utils/hooks/use-help-search/use-help-sea
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { testSeed, testQuestion, testSeedCollectionIds } from "App/seeds/help"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { fakeAppSettings } from "Backend/adapters/app-settings/app-settings-fake.adapter"
 import { defaultHelpItems } from "App/main/store/default-help-items"
+import { IpcAppSettingsRequest } from "App/app-settings/constants"
+import {
+  AppSettings,
+  ConversionFormat,
+  Convert,
+} from "App/main/store/settings.interface"
+
+export const fakeAppSettings: AppSettings = {
+  applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
+  appAutostart: false,
+  appTethering: false,
+  appIncomingCalls: false,
+  appIncomingMessages: false,
+  appLowBattery: false,
+  appOsUpdates: false,
+  appNonStandardAudioFilesConversion: false,
+  appConvert: Convert.ConvertAutomatically,
+  appConversionFormat: ConversionFormat.WAV,
+  appTray: true,
+  pureOsBackupLocation: `fake/path/pure/phone/backups/`,
+  pureOsDownloadLocation: `fake/path/pure/os/downloads/`,
+  language: "en-US",
+  pureNeverConnected: true,
+  appCollectingData: undefined,
+  diagnosticSentTimestamp: 0,
+}
 
 const mockIpc = () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [HelpActions.DownloadContentfulData]: Promise.resolve({
       ...testSeed,
     }),
-    [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
+    [IpcAppSettingsRequest.Get]: Promise.resolve(fakeAppSettings),
   }
 }
 

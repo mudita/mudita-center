@@ -3,18 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import path from "path"
 import { Schema } from "electron-store"
-import { app } from "electron"
-import { name } from "../../../package.json"
+import _uniqueId from "lodash/uniqueId"
+import getAppPath from "App/main/utils/get-app-path"
 import {
   AppSettings,
   ConversionFormat,
   Convert,
 } from "App/main/store/settings.interface"
 import { defaultLanguage } from "App/translations.config.json"
-import path from "path"
 
 const settingsSchema: Schema<AppSettings> = {
+  applicationId: {
+    type: "string",
+    default: _uniqueId("app-"),
+  },
   appAutostart: {
     type: "boolean",
     default: false,
@@ -57,17 +61,11 @@ const settingsSchema: Schema<AppSettings> = {
   },
   pureOsBackupLocation: {
     type: "string",
-    default: path.join(
-      app.getPath("appData"),
-      name,
-      "pure",
-      "phone",
-      "backups"
-    ),
+    default: path.join(getAppPath(), "pure", "phone", "backups"),
   },
   pureOsDownloadLocation: {
     type: "string",
-    default: path.join(app.getPath("appData"), name, "pure", "os", "downloads"),
+    default: path.join(getAppPath(), "pure", "os", "downloads"),
   },
   language: {
     type: "string",
