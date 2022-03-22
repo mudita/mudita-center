@@ -13,7 +13,7 @@ const siteId = Number(process.env.ANALYTICS_API_SITE_ID)
 
 let analyticDataTracker: AnalyticDataTrackerClass
 
-export const createAnalyticDataTracker = () => {
+export const createAnalyticDataTracker = (): AnalyticDataTrackerClass => {
   if (!analyticDataTracker) {
     analyticDataTracker = AnalyticDataTrackerFactory.create({
       apiUrl,

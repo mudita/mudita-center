@@ -13,16 +13,20 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
   constructor(
     private siteId: number,
     private apiUrl: string,
+    private _id: string,
     private httpClient: AxiosInstance
   ) {}
 
-  async track(event: trackEvent): Promise<AxiosResponse> {
+  public track(event: trackEvent): Promise<AxiosResponse> {
     const params: AxiosRequestConfig["params"] = {
       rec: 1,
+      apiv: 1,
       idsite: this.siteId,
+      _id: this._id,
       ...event,
     }
-    return await this.httpClient.post(this.apiUrl, undefined, {
+
+    return this.httpClient.post(this.apiUrl, undefined, {
       params,
     })
   }

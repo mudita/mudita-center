@@ -6,8 +6,12 @@
 import https from "https"
 import axios, { AxiosInstance } from "axios"
 import logger from "App/main/utils/logger"
-import { AnalyticDataTrackerClass } from "App/analytic-data-tracker/services/analytic-data-tracker-class.interface"
+import {
+  AnalyticDataTrackerClass,
+  trackEvent,
+} from "App/analytic-data-tracker/services/analytic-data-tracker-class.interface"
 import { AnalyticDataTrackerService } from "App/analytic-data-tracker/services/analytic-data-tracker.service"
+import { getAppSettingsService } from "App/app-settings/containers/app-settings.container"
 
 class MatomoTrackerPlaceholder implements AnalyticDataTrackerClass {
   track(): Promise<any> {
@@ -16,7 +20,7 @@ class MatomoTrackerPlaceholder implements AnalyticDataTrackerClass {
 }
 
 export interface AnalyticDataTrackerFactoryOption {
-  siteId: number
+  siteId: trackEvent["idsite"]
   apiUrl: string
 }
 
@@ -25,7 +29,7 @@ export class AnalyticDataTrackerFactory {
     siteId,
     apiUrl,
   }: AnalyticDataTrackerFactoryOption): AnalyticDataTrackerClass {
-    if (isNaN(Number(siteId))) {
+    if (siteId === undefined || isNaN(Number(siteId))) {
       logger.info(`AnalyticDataTracker siteId is required`)
       return new MatomoTrackerPlaceholder()
     }
@@ -35,12 +39,20 @@ export class AnalyticDataTrackerFactory {
       return new MatomoTrackerPlaceholder()
     }
 
+    const appSettingsService = getAppSettingsService()
+
+    if (appSettingsService === undefined) {
+      throw new Error("Initialize `AppSettingsService` before get it")
+    }
+
+    const _id = appSettingsService.getAppSettings().applicationId
+
     const axiosInstance: AxiosInstance = axios.create({
       httpsAgent: new https.Agent({
         rejectUnauthorized: false,
       }),
     })
 
-    return new AnalyticDataTrackerService(siteId, apiUrl, axiosInstance)
+    return new AnalyticDataTrackerService(siteId, apiUrl, _id, axiosInstance)
   }
 }

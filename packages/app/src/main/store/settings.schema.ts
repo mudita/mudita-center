@@ -5,7 +5,6 @@
 
 import path from "path"
 import { Schema } from "electron-store"
-import _uniqueId from "lodash/uniqueId"
 import getAppPath from "App/main/utils/get-app-path"
 import {
   AppSettings,
@@ -17,7 +16,7 @@ import { defaultLanguage } from "App/translations.config.json"
 const settingsSchema: Schema<AppSettings> = {
   applicationId: {
     type: "string",
-    default: _uniqueId("app-"),
+    default: Math.random().toString(36).slice(-16),
   },
   appAutostart: {
     type: "boolean",

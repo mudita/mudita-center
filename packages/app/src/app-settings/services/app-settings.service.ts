@@ -13,6 +13,15 @@ import settingsSchema from "App/main/store/settings.schema"
 export class AppSettingsService {
   constructor(private readonly store: Store<AppSettings>) {}
 
+  init(): void {
+    const applicationId = this.getAppSettings().applicationId
+
+    this.updateAppSettings({
+      key: "applicationId",
+      value: applicationId ?? settingsSchema.applicationId.default,
+    })
+  }
+
   getAppSettings(): AppSettings {
     return this.store.store
   }

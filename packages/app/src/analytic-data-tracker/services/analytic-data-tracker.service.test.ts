@@ -22,7 +22,7 @@ beforeEach(() => {
 
 describe("`AnalyticDataTrackerService`", () => {
   test("when the request is successful `track` method return status 200", async () => {
-    const subject = new AnalyticDataTrackerService(0, apiUrl, axiosInstance)
+    const subject = new AnalyticDataTrackerService(0, apiUrl, "", axiosInstance)
     axiosMock.onPost(apiUrl).replyOnce(200)
     const response = await subject.track({})
 

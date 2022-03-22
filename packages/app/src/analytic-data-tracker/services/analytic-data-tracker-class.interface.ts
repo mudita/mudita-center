@@ -13,6 +13,7 @@ export interface trackEvent {
 
   // Recommended parameters
   action_name?: string
+  // The unique visitor ID
   _id?: string
   rand?: string
   apiv?: 1
@@ -39,6 +40,7 @@ export interface trackEvent {
   cookie?: 1
   ua?: string
   lang?: string
+  // defines the User ID
   uid?: string
   cid?: string
   new_visit?: number

@@ -12,8 +12,7 @@ import { AppLogger } from "App/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { AppSettingsController } from "App/app-settings/controlers"
-import settingsStore from "App/main/store/settings"
-import { AppSettingsService } from "App/app-settings/services"
+import { getAppSettingsService } from "App/app-settings/containers/app-settings.container"
 
 export class AppSettingsModuleModule extends BaseModule {
   constructor(
@@ -35,8 +34,12 @@ export class AppSettingsModuleModule extends BaseModule {
       fileSystem
     )
 
-    const store = settingsStore
-    const appSettingsService = new AppSettingsService(store)
+    const appSettingsService = getAppSettingsService()
+
+    if (appSettingsService === undefined) {
+      throw new Error("Initialize `AppSettingsService` before get it")
+    }
+
     const appSettingsController = new AppSettingsController(appSettingsService)
 
     this.controllers = [appSettingsController]

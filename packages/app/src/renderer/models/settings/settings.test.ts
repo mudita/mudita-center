@@ -21,6 +21,7 @@ import { deviceReducer } from "App/device"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { ArchiveFilesEvents } from "App/main/functions/register-archive-files-listener"
 import { IpcAppSettingsRequest } from "App/app-settings/constants"
+import { version } from "../../../../package.json"
 
 export const fakeAppSettings: AppSettings = {
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
@@ -101,7 +102,6 @@ beforeEach(() => {
 afterEach(() => {
   ;(getDeviceLogFiles as any).mockClear()
   ;(uploadFileRequest as any).mockClear()
-  // ;(getMessagesByThreadId as any).mockClear()
 })
 
 test("loads settings", async () => {
@@ -120,7 +120,7 @@ test("loads settings", async () => {
         "appCollectingData": undefined,
         "appConversionFormat": "WAV",
         "appConvert": "Convert automatically",
-        "appCurrentVersion": "1.2.0-rc.4",
+        "appCurrentVersion": "${version}",
         "appIncomingCalls": false,
         "appIncomingMessages": false,
         "appLatestVersion": "",
@@ -157,7 +157,17 @@ test("updates tethering setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appLatestVersion": "",
+        "appTethering": true,
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates incoming calls setting", async () => {
@@ -172,7 +182,17 @@ test("updates incoming calls setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appIncomingCalls": true,
+        "appLatestVersion": "",
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates incoming messages setting", async () => {
@@ -187,7 +207,17 @@ test("updates incoming messages setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appIncomingMessages": true,
+        "appLatestVersion": "",
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates low battery setting", async () => {
@@ -202,7 +232,17 @@ test("updates low battery setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appLatestVersion": "",
+        "appLowBattery": true,
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates os updates setting", async () => {
@@ -217,7 +257,17 @@ test("updates os updates setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appLatestVersion": "",
+        "appOsUpdates": true,
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates collecting data setting to true", async () => {
@@ -233,7 +283,16 @@ test("updates collecting data setting to true", async () => {
       },
       "settings": Object {
         "appCollectingData": true,
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appLatestVersion": "",
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates collecting data setting to false", async () => {
@@ -249,7 +308,16 @@ test("updates collecting data setting to false", async () => {
       },
       "settings": Object {
         "appCollectingData": false,
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appLatestVersion": "",
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates os audio files conversion setting", async () => {
@@ -264,7 +332,17 @@ test("updates os audio files conversion setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appLatestVersion": "",
+        "appNonStandardAudioFilesConversion": true,
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates convert setting", async () => {
@@ -280,7 +358,16 @@ test("updates convert setting", async () => {
       },
       "settings": Object {
         "appConvert": "Convert automatically",
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appLatestVersion": "",
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates conversion format setting", async () => {
@@ -296,7 +383,16 @@ test("updates conversion format setting", async () => {
       },
       "settings": Object {
         "appConversionFormat": "WAV",
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appLatestVersion": "",
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates tray setting", async () => {
@@ -311,7 +407,17 @@ test("updates tray setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appLatestVersion": "",
+        "appTray": true,
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates PureOS backup location setting", async () => {
@@ -326,7 +432,17 @@ test("updates PureOS backup location setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appLatestVersion": "",
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "pureOsBackupLocation": "some/fake/location",
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates PureOS download location setting", async () => {
@@ -341,7 +457,17 @@ test("updates PureOS download location setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appLatestVersion": "",
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "pureOsDownloadLocation": "some/fake/location",
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test("updates language setting", async () => {
@@ -356,7 +482,17 @@ test("updates language setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "`)
+        "appCurrentVersion": "${version}",
+        "appLatestVersion": "",
+        "appUpdateAvailable": undefined,
+        "appUpdateRequired": false,
+        "language": "de-DE",
+        "lowestSupportedCenterVersion": undefined,
+        "lowestSupportedOsVersion": undefined,
+        "settingsLoaded": false,
+      },
+    }
+  `)
 })
 
 test.skip("sendDiagnosticData effect no generate any side effects if serial number is undefined", async () => {
