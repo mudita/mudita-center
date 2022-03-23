@@ -10,6 +10,7 @@ import { ReduxRootState } from "App/renderer/store"
 import { setDeviceData } from "App/device/actions/base.action"
 import { DeviceDataLoader } from "App/device/loaders/device-data.loader"
 import { setValue, MetadataKey } from "App/metadata"
+import { trackOsVersion } from "App/analytic-data-tracker/helpers/track-os-version"
 
 export const loadDeviceData = createAsyncThunk<any, DeviceType>(
   DeviceEvent.Loading,
@@ -24,6 +25,13 @@ export const loadDeviceData = createAsyncThunk<any, DeviceType>(
 
     try {
       const data = await loader.loadDeviceData(payload)
+      if (state.device.deviceType !== null) {
+        trackOsVersion({
+          serialNumber: data.serialNumber,
+          osVersion: data.osVersion,
+          deviceType: state.device.deviceType,
+        })
+      }
       setValue({
         key: MetadataKey.DeviceOsVersion,
         value: data.osVersion ?? null,

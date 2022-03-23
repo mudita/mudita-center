@@ -5,4 +5,11 @@
 
 export enum TrackEventCategory {
   CenterVersion = "Center Version",
+  HarmonyVersion = "Harmony Version",
+  PureVersion = "Pure Version",
+}
+
+export enum TrackEventDimension {
+  HarmonyVersion = "dimension8",
+  PureVersion = "dimension9",
 }
