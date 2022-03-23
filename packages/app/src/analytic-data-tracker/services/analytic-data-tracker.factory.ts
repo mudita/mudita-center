@@ -17,6 +17,9 @@ class MatomoTrackerPlaceholder implements AnalyticDataTrackerClass {
   track(): Promise<any> {
     return Promise.resolve()
   }
+  toggleTracking(): void {
+    return
+  }
 }
 
 export interface AnalyticDataTrackerFactoryOption {
@@ -45,7 +48,10 @@ export class AnalyticDataTrackerFactory {
       throw new Error("Initialize `AppSettingsService` before get it")
     }
 
-    const _id = appSettingsService.getAppSettings().applicationId
+    const appSettings = appSettingsService.getAppSettings()
+
+    const _id = appSettings.applicationId
+    const trackingEnabled = appSettings.appCollectingData
 
     const axiosInstance: AxiosInstance = axios.create({
       httpsAgent: new https.Agent({
@@ -53,6 +59,9 @@ export class AnalyticDataTrackerFactory {
       }),
     })
 
-    return new AnalyticDataTrackerService(siteId, apiUrl, _id, axiosInstance)
+    return new AnalyticDataTrackerService(
+      { _id, siteId, apiUrl, trackingEnabled },
+      axiosInstance
+    )
   }
 }

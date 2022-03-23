@@ -147,7 +147,7 @@ const defaultProps: Props = {
   serialNumber: undefined,
   initialDataLoaded: false,
   appVersion: undefined,
-  setCollectingData: jest.fn(),
+  toggleAppCollectingData: jest.fn(),
   simCards: [
     {
       active: true,

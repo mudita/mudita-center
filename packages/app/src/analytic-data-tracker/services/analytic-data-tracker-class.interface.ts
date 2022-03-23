@@ -115,5 +115,6 @@ export interface trackEvent {
 }
 
 export interface AnalyticDataTrackerClass {
-  track(event: trackEvent): Promise<AxiosResponse>
+  track(event: trackEvent): Promise<AxiosResponse | undefined>
+  toggleTracking(flag: boolean): void
 }

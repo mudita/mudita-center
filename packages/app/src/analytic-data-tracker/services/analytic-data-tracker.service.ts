@@ -9,15 +9,34 @@ import {
   trackEvent,
 } from "App/analytic-data-tracker/services/analytic-data-tracker-class.interface"
 
-export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
-  constructor(
-    private siteId: number,
-    private apiUrl: string,
-    private _id: string,
-    private httpClient: AxiosInstance
-  ) {}
+export interface AnalyticDataTrackerOptions {
+  _id: string
+  siteId: number
+  apiUrl: string
+  trackingEnabled?: boolean
+}
 
-  public track(event: trackEvent): Promise<AxiosResponse> {
+export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
+  private trackingEnabled: boolean
+  private readonly siteId: number
+  private readonly apiUrl: string
+  private readonly _id: string
+
+  constructor(
+    options: AnalyticDataTrackerOptions,
+    private httpClient: AxiosInstance
+  ) {
+    this._id = options._id
+    this.siteId = options.siteId
+    this.apiUrl = options.apiUrl
+    this.trackingEnabled = options.trackingEnabled ?? true
+  }
+
+  public track(event: trackEvent): Promise<AxiosResponse | undefined> {
+    if (!this.trackingEnabled) {
+      return Promise.resolve(undefined)
+    }
+
     const params: AxiosRequestConfig["params"] = {
       rec: 1,
       apiv: 1,
@@ -29,5 +48,9 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     return this.httpClient.post(this.apiUrl, undefined, {
       params,
     })
+  }
+
+  public toggleTracking(flag: boolean): void {
+    this.trackingEnabled = flag
   }
 }

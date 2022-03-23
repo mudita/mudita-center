@@ -66,7 +66,7 @@ interface Properties {
   appTethering: boolean
   appCollectingData: boolean
   setTethering?: (option: AppSettings["appTethering"]) => void
-  setCollectingData?: (option: AppSettings["appCollectingData"]) => void
+  toggleAppCollectingData?: (value: boolean) => void
 }
 
 const messages = defineMessages({
@@ -77,7 +77,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
   appTethering,
   setTethering = noop,
   appCollectingData,
-  setCollectingData = noop,
+  toggleAppCollectingData = noop,
 }) => {
   return (
     <SettingsWrapper data-testid={SettingsTestIds.Wrapper}>
@@ -107,7 +107,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
         <ActionsWrapper>
           <SettingsToggler
             toggleValue={appCollectingData}
-            onToggle={setCollectingData}
+            onToggle={toggleAppCollectingData}
           />
         </ActionsWrapper>
       </SettingsTableRow>

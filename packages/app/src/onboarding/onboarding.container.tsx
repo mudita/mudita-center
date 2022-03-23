@@ -11,7 +11,6 @@ import { useHistory } from "react-router"
 import { URL_MAIN, URL_ONBOARDING } from "Renderer/constants/urls"
 import OnboardingWelcome from "App/onboarding/components/onboarding-welcome.component"
 import React from "react"
-import { AppSettings } from "App/main/store/settings.interface"
 
 const mapStateToProps = (state: RootModel) => {
   return state.settings
@@ -19,12 +18,7 @@ const mapStateToProps = (state: RootModel) => {
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => dispatch.settings
 
-interface Props {
-  setCollectingData: (option: AppSettings["appCollectingData"]) => void
-  appCollectingData: boolean | undefined
-}
-
-const Onboarding: FunctionComponent<Props> = () => {
+const Onboarding: FunctionComponent = () => {
   const history = useHistory()
 
   const onCancel = () => {
