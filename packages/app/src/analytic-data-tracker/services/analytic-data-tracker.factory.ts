@@ -20,6 +20,9 @@ class MatomoTrackerPlaceholder implements AnalyticDataTrackerClass {
   toggleTracking(): void {
     return
   }
+  setVisitorMetadata(): void {
+    return
+  }
 }
 
 export interface AnalyticDataTrackerFactoryOption {

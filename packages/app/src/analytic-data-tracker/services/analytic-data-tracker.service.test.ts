@@ -16,6 +16,14 @@ const analyticDataTrackerOptions: AnalyticDataTrackerOptions = {
   apiUrl: "",
   siteId: 0,
 }
+
+const defaultParams = {
+  _id: analyticDataTrackerOptions._id,
+  idsite: analyticDataTrackerOptions.siteId,
+  apiv: 1,
+  rec: 1
+}
+
 const axiosInstance = axios.create()
 
 const createMockAdapter = (): MockAdapter => {
@@ -59,7 +67,7 @@ describe("`AnalyticDataTrackerService`", () => {
         { ...analyticDataTrackerOptions, trackingEnabled: false },
         axiosInstance
       )
-      axiosMock.onPost(apiUrl).replyOnce(200)
+      axiosMock.onPost(apiUrl).reply(200)
       const response = await subject.track({})
       expect(response).toEqual(undefined)
 
@@ -73,13 +81,31 @@ describe("`AnalyticDataTrackerService`", () => {
         { ...analyticDataTrackerOptions, trackingEnabled: true },
         axiosInstance
       )
-      axiosMock.onPost(apiUrl).replyOnce(200)
+      axiosMock.onPost(apiUrl).reply(200)
       const response = await subject.track({})
       expect(response).not.toEqual(undefined)
 
       subject.toggleTracking(false)
       const response2 = await subject.track({})
       expect(response2).toEqual(undefined)
+    })
+  })
+
+  describe("`setVisitorMetadata` method", () => {
+    test("`setVisitorMetadata` successfully set `visitorMetadata` field", async () => {
+      const subject = new AnalyticDataTrackerService(
+        { ...analyticDataTrackerOptions, trackingEnabled: true },
+        axiosInstance
+      )
+      axiosMock.onPost(apiUrl).reply(200)
+
+      const response = await subject.track({})
+      expect(response?.config.params).toEqual(defaultParams)
+
+      subject.setVisitorMetadata({lang: "pl"})
+      const response2 = await subject.track({})
+
+      expect(response2?.config.params).toEqual({...defaultParams, "lang": "pl"})
     })
   })
 })

@@ -11,6 +11,7 @@ import {
 import {
   AnalyticDataTrackerClass,
   trackEvent,
+  VisitorMetadata,
 } from "App/analytic-data-tracker/services"
 
 @Controller(ControllerPrefix)
@@ -25,5 +26,10 @@ export class AnalyticDataTrackerController {
   @IpcEvent(IpcAnalyticDataTrackerEvent.ToggleTracking)
   public toggleTracking(flag: boolean): void {
     this.tracker.toggleTracking(flag)
+  }
+
+  @IpcEvent(IpcAnalyticDataTrackerEvent.SetVisitorMetadata)
+  public setVisitorMetadata(visitorMetadata: VisitorMetadata): void {
+    this.tracker.setVisitorMetadata(visitorMetadata)
   }
 }

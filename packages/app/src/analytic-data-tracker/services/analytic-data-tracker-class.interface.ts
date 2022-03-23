@@ -4,6 +4,7 @@
  */
 
 import { AxiosResponse } from "axios"
+import { VisitorMetadata } from "App/analytic-data-tracker/services/analytic-data-tracker.service"
 
 export interface trackEvent {
   [key: string]: number | string | undefined
@@ -117,4 +118,5 @@ export interface trackEvent {
 export interface AnalyticDataTrackerClass {
   track(event: trackEvent): Promise<AxiosResponse | undefined>
   toggleTracking(flag: boolean): void
+  setVisitorMetadata(visitorMetadata: VisitorMetadata): void
 }

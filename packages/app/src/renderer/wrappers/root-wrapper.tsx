@@ -61,6 +61,7 @@ import {
   registerDataSyncListener,
   registerCacheDataListener,
 } from "App/data-sync/listeners"
+import { setVisitorMetadataRequest } from "App/analytic-data-tracker/requests"
 
 interface Props {
   history: History
@@ -144,6 +145,16 @@ const RootWrapper: FunctionComponent<Props> = ({
       checkAppUpdateAvailable()
     }
   }
+
+  useEffect(() => {
+    void setVisitorMetadataRequest({
+      ua: window.navigator.userAgent,
+      lang: window.navigator.language,
+      res: `${window.screen.width * window.devicePixelRatio}x${
+        window.screen.height * window.devicePixelRatio
+      }`,
+    })
+  }, [])
 
   useEffect(() => {
     connect()

@@ -16,8 +16,15 @@ export interface AnalyticDataTrackerOptions {
   trackingEnabled?: boolean
 }
 
+export interface VisitorMetadata {
+  ua?: trackEvent["ua"]
+  res?: trackEvent["res"]
+  lang?: trackEvent["lang"]
+}
+
 export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
   private trackingEnabled: boolean
+  private visitorMetadata: VisitorMetadata = {}
   private readonly siteId: number
   private readonly apiUrl: string
   private readonly _id: string
@@ -37,12 +44,19 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
       return Promise.resolve(undefined)
     }
 
-    const params: AxiosRequestConfig["params"] = {
+    let params: AxiosRequestConfig["params"] = {
       rec: 1,
       apiv: 1,
       idsite: this.siteId,
       _id: this._id,
       ...event,
+    }
+
+    if (this.visitorMetadata) {
+      params = {
+        ...this.visitorMetadata,
+        ...params,
+      }
     }
 
     return this.httpClient.post(this.apiUrl, undefined, {
@@ -52,5 +66,9 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
 
   public toggleTracking(flag: boolean): void {
     this.trackingEnabled = flag
+  }
+
+  public setVisitorMetadata(visitorMetadata: VisitorMetadata): void {
+    this.visitorMetadata = visitorMetadata
   }
 }
