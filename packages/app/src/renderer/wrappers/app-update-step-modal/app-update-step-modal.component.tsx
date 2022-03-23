@@ -16,6 +16,10 @@ import registerErrorAppUpdateListener from "App/main/functions/register-error-ap
 import installAppUpdateRequest from "Renderer/requests/install-app-update.request"
 import downloadAppUpdateRequest from "Renderer/requests/download-app-update.request"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import {
+  trackCenterUpdate,
+  TrackCenterUpdateState,
+} from "App/analytic-data-tracker/helpers/track-center-update"
 
 interface Props extends Partial<ComponentProps<typeof ModalDialog>> {
   closeModal?: () => void
@@ -32,8 +36,8 @@ enum AppUpdateStep {
 
 const AppUpdateStepModal: FunctionComponent<Props> = ({
   closeModal,
-  appLatestVersion,
-  appCurrentVersion,
+  appLatestVersion = "",
+  appCurrentVersion = "",
   forced,
   ...props
 }) => {
@@ -43,6 +47,11 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const unregister = registerDownloadedAppUpdateListener(() => {
+      void trackCenterUpdate({
+        fromCenterVersion: appCurrentVersion,
+        toCenterVersion: appLatestVersion,
+        state: TrackCenterUpdateState.Start,
+      })
       void installAppUpdateRequest()
     })
 
@@ -51,12 +60,22 @@ const AppUpdateStepModal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const unregister = registerErrorAppUpdateListener(() => {
+      void trackCenterUpdate({
+        fromCenterVersion: appCurrentVersion,
+        toCenterVersion: appLatestVersion,
+        state: TrackCenterUpdateState.Fail,
+      })
       setAppUpdateStep(AppUpdateStep.Error)
     })
     return () => unregister()
   })
 
   const handleProcessDownload = () => {
+    void trackCenterUpdate({
+      fromCenterVersion: appCurrentVersion ?? "",
+      toCenterVersion: appLatestVersion ?? "",
+      state: TrackCenterUpdateState.Download,
+    })
     setAppUpdateStep(AppUpdateStep.Updating)
     void downloadAppUpdateRequest()
   }

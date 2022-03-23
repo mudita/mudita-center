@@ -13,6 +13,9 @@ export enum TrackEventCategory {
   HarmonyUpdateStart = "Harmony Update - start",
   HarmonyUpdateSuccess = "Harmony Update - success",
   HarmonyUpdateFail = "Harmony Update - fail",
+  CenterUpdateDownload = "Center Update - download",
+  CenterUpdateStart = "Center Update - start",
+  CenterUpdateFail = "Center Update - fail",
 }
 
 export enum TrackEventDimension {
