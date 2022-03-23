@@ -19,8 +19,8 @@ jest.mock("axios")
 jest.spyOn(axios, "create")
 jest.spyOn(logger, "info")
 
-const noValidSiteId: AnalyticDataTrackerFactoryOption["siteId"] = NaN
 const noValidApiUrl: AnalyticDataTrackerFactoryOption["apiUrl"] = ""
+const production: AnalyticDataTrackerFactoryOption["production"] = false
 const appSettingsService = {
   getAppSettings: jest.fn().mockReturnValue({ applicationId: "" }),
 } as unknown as AppSettingsService
@@ -31,26 +31,16 @@ afterEach(() => {
 
 describe("`AnalyticDataTrackerFactory`", () => {
   describe("when `getAppSettingsService` return service", () => {
-    test("`logger.info` is called when `siteId` isn't valid", () => {
-      ;(getAppSettingsService as jest.Mock).mockReturnValue(appSettingsService)
-      AnalyticDataTrackerFactory.create({
-        siteId: noValidSiteId,
-        apiUrl: "http://",
-      })
-      expect(logger.info).toBeCalled()
-      expect(axios.create).not.toHaveBeenCalled()
-    })
-
     test("`logger.info` is called when `apiUrl` isn't valid", () => {
       ;(getAppSettingsService as jest.Mock).mockReturnValue(appSettingsService)
-      AnalyticDataTrackerFactory.create({ siteId: 1, apiUrl: noValidApiUrl })
+      AnalyticDataTrackerFactory.create({ production, apiUrl: noValidApiUrl })
       expect(logger.info).toBeCalled()
       expect(axios.create).not.toHaveBeenCalled()
     })
 
     test("`logger.info` isn't called when passed arguments are valid", () => {
       ;(getAppSettingsService as jest.Mock).mockReturnValue(appSettingsService)
-      AnalyticDataTrackerFactory.create({ siteId: 1, apiUrl: "http://" })
+      AnalyticDataTrackerFactory.create({ production, apiUrl: "http://" })
       expect(logger.info).not.toBeCalled()
       expect(axios.create).toHaveBeenCalled()
     })
@@ -60,7 +50,7 @@ describe("`AnalyticDataTrackerFactory`", () => {
     test("`create` method throw error", () => {
       ;(getAppSettingsService as jest.Mock).mockReturnValue(undefined)
       expect(() =>
-        AnalyticDataTrackerFactory.create({ siteId: 1, apiUrl: "http://" })
+        AnalyticDataTrackerFactory.create({ production, apiUrl: "http://" })
       ).toThrow()
     })
   })

@@ -13,15 +13,7 @@ import {
 const apiUrl = ""
 const analyticDataTrackerOptions: AnalyticDataTrackerOptions = {
   _id: "",
-  apiUrl: "",
-  siteId: 0,
-}
-
-const defaultParams = {
-  _id: analyticDataTrackerOptions._id,
-  idsite: analyticDataTrackerOptions.siteId,
-  apiv: 1,
-  rec: 1
+  production: false,
 }
 
 const axiosInstance = axios.create()
@@ -100,12 +92,12 @@ describe("`AnalyticDataTrackerService`", () => {
       axiosMock.onPost(apiUrl).reply(200)
 
       const response = await subject.track({})
-      expect(response?.config.params).toEqual(defaultParams)
+      expect(JSON.parse(response?.config.data)).toEqual(analyticDataTrackerOptions)
 
       subject.setVisitorMetadata({lang: "pl"})
       const response2 = await subject.track({})
 
-      expect(response2?.config.params).toEqual({...defaultParams, "lang": "pl"})
+      expect(JSON.parse(response2?.config.data)).toEqual({...analyticDataTrackerOptions, "lang": "pl"})
     })
   })
 })

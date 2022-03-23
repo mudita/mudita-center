@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
+import { AxiosInstance, AxiosResponse } from "axios"
 import {
   AnalyticDataTrackerClass,
   trackEvent,
@@ -11,8 +11,7 @@ import {
 
 export interface AnalyticDataTrackerOptions {
   _id: string
-  siteId: number
-  apiUrl: string
+  production: boolean
   trackingEnabled?: boolean
 }
 
@@ -25,8 +24,7 @@ export interface VisitorMetadata {
 export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
   private trackingEnabled: boolean
   private visitorMetadata: VisitorMetadata = {}
-  private readonly siteId: number
-  private readonly apiUrl: string
+  private readonly production: boolean
   private readonly _id: string
 
   constructor(
@@ -34,8 +32,7 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     private httpClient: AxiosInstance
   ) {
     this._id = options._id
-    this.siteId = options.siteId
-    this.apiUrl = options.apiUrl
+    this.production = options.production
     this.trackingEnabled = options.trackingEnabled ?? true
   }
 
@@ -44,17 +41,11 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
       return Promise.resolve(undefined)
     }
 
-    const params: AxiosRequestConfig["params"] = {
-      rec: 1,
-      apiv: 1,
-      idsite: this.siteId,
+    return this.httpClient.post("", {
+      production: this.production,
       _id: this._id,
       ...this.visitorMetadata,
       ...event,
-    }
-
-    return this.httpClient.post(this.apiUrl, undefined, {
-      params,
     })
   }
 
