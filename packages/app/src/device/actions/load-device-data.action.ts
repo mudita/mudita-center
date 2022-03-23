@@ -10,7 +10,7 @@ import { ReduxRootState } from "App/renderer/store"
 import { setDeviceData } from "App/device/actions/base.action"
 import { DeviceDataLoader } from "App/device/loaders/device-data.loader"
 import { setValue, MetadataKey } from "App/metadata"
-import { trackOsVersion } from "App/analytic-data-tracker/helpers/track-os-version"
+import { trackOsVersion } from "App/analytic-data-tracker/helpers"
 
 export const loadDeviceData = createAsyncThunk<any, DeviceType>(
   DeviceEvent.Loading,

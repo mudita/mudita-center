@@ -19,7 +19,7 @@ import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.comp
 import {
   trackCenterUpdate,
   TrackCenterUpdateState,
-} from "App/analytic-data-tracker/helpers/track-center-update"
+} from "App/analytic-data-tracker/helpers"
 
 interface Props extends Partial<ComponentProps<typeof ModalDialog>> {
   closeModal?: () => void

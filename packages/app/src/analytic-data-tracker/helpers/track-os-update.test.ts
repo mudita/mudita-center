@@ -6,7 +6,7 @@
 import {
   trackOsUpdate,
   TrackOsUpdateState,
-  TrackOsVersionOptions,
+  TrackOsUpdateOptions,
 } from "App/analytic-data-tracker/helpers/track-os-update"
 import { DeviceType } from "@mudita/pure"
 import { trackRequest } from "App/analytic-data-tracker/requests"
@@ -20,7 +20,7 @@ beforeEach(() => {
 
 describe("`trackOsUpdate`", () => {
   describe("when `deviceType` is a `MuditaHarmony` and `state` is Start", () => {
-    const options: TrackOsVersionOptions = {
+    const options: TrackOsUpdateOptions = {
       deviceType: DeviceType.MuditaHarmony,
       state: TrackOsUpdateState.Start,
       fromOsVersion: "1.0.0",
@@ -38,7 +38,7 @@ describe("`trackOsUpdate`", () => {
   })
 
   describe("when `deviceType` is a `MuditaHarmony` and `state` is Success", () => {
-    const options: TrackOsVersionOptions = {
+    const options: TrackOsUpdateOptions = {
       deviceType: DeviceType.MuditaHarmony,
       state: TrackOsUpdateState.Success,
       fromOsVersion: "1.0.0",
@@ -56,7 +56,7 @@ describe("`trackOsUpdate`", () => {
   })
 
   describe("when `deviceType` is a `MuditaHarmony` and `state` is Fail", () => {
-    const options: TrackOsVersionOptions = {
+    const options: TrackOsUpdateOptions = {
       deviceType: DeviceType.MuditaHarmony,
       state: TrackOsUpdateState.Fail,
       fromOsVersion: "1.0.0",
@@ -73,7 +73,7 @@ describe("`trackOsUpdate`", () => {
   })
 
   describe("when `deviceType` is a `MuditaPure` and `state` is Start", () => {
-    const options: TrackOsVersionOptions = {
+    const options: TrackOsUpdateOptions = {
       deviceType: DeviceType.MuditaPure,
       state: TrackOsUpdateState.Start,
       fromOsVersion: "1.0.0",
@@ -91,7 +91,7 @@ describe("`trackOsUpdate`", () => {
   })
 
   describe("when `deviceType` is a `MuditaPure` and `state` is Success", () => {
-    const options: TrackOsVersionOptions = {
+    const options: TrackOsUpdateOptions = {
       deviceType: DeviceType.MuditaPure,
       state: TrackOsUpdateState.Success,
       fromOsVersion: "1.0.0",
@@ -109,7 +109,7 @@ describe("`trackOsUpdate`", () => {
   })
 
   describe("when `deviceType` is a `MuditaPure` and `state` is Fail", () => {
-    const options: TrackOsVersionOptions = {
+    const options: TrackOsUpdateOptions = {
       deviceType: DeviceType.MuditaPure,
       state: TrackOsUpdateState.Fail,
       fromOsVersion: "1.0.0",

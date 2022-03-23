@@ -61,7 +61,7 @@ import {
   registerDataSyncListener,
   registerCacheDataListener,
 } from "App/data-sync/listeners"
-import { initAnalyticDataTracker } from "App/analytic-data-tracker/helpers/init-analytic-data-tracker"
+import { initAnalyticDataTracker } from "App/analytic-data-tracker/helpers"
 
 interface Props {
   history: History

@@ -4,8 +4,14 @@
  */
 
 import { version } from "../../../package.json"
-import { setVisitorMetadataRequest, trackRequest } from "App/analytic-data-tracker/requests"
-import { TrackEventCategory } from "App/analytic-data-tracker/constants"
+import {
+  setVisitorMetadataRequest,
+  trackRequest,
+} from "App/analytic-data-tracker/requests"
+import {
+  TrackEventCategory,
+  TrackEventDimension,
+} from "App/analytic-data-tracker/constants"
 
 export const initAnalyticDataTracker = async (): Promise<void> => {
   await setVisitorMetadataRequest({
@@ -19,6 +25,6 @@ export const initAnalyticDataTracker = async (): Promise<void> => {
   await trackRequest({
     e_c: TrackEventCategory.CenterVersion,
     e_a: version,
-    dimension6: version,
+    [TrackEventDimension.CenterVersion]: version,
   })
 }

@@ -15,7 +15,7 @@ export enum TrackOsUpdateState {
   Fail,
 }
 
-export interface TrackOsVersionOptions {
+export interface TrackOsUpdateOptions {
   fromOsVersion: Partial<PureDeviceData | HarmonyDeviceData>["osVersion"]
   toOsVersion: Partial<PureDeviceData | HarmonyDeviceData>["osVersion"]
   deviceType: DeviceType
@@ -47,7 +47,7 @@ const getHarmonyTrackEventCategoryByState = (
 }
 
 export const trackOsUpdate = async (
-  options: TrackOsVersionOptions
+  options: TrackOsUpdateOptions
 ): Promise<void> => {
   const { fromOsVersion, toOsVersion, state, deviceType } = options
   let event: trackEvent = {
