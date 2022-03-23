@@ -61,7 +61,7 @@ import {
   registerDataSyncListener,
   registerCacheDataListener,
 } from "App/data-sync/listeners"
-import { setVisitorMetadataRequest } from "App/analytic-data-tracker/requests"
+import { initAnalyticDataTracker } from "App/analytic-data-tracker/helpers/init-analytic-data-tracker"
 
 interface Props {
   history: History
@@ -147,13 +147,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    void setVisitorMetadataRequest({
-      ua: window.navigator.userAgent,
-      lang: window.navigator.language,
-      res: `${window.screen.width * window.devicePixelRatio}x${
-        window.screen.height * window.devicePixelRatio
-      }`,
-    })
+    void initAnalyticDataTracker()
   }, [])
 
   useEffect(() => {

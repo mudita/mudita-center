@@ -44,19 +44,13 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
       return Promise.resolve(undefined)
     }
 
-    let params: AxiosRequestConfig["params"] = {
+    const params: AxiosRequestConfig["params"] = {
       rec: 1,
       apiv: 1,
       idsite: this.siteId,
       _id: this._id,
+      ...this.visitorMetadata,
       ...event,
-    }
-
-    if (this.visitorMetadata) {
-      params = {
-        ...this.visitorMetadata,
-        ...params,
-      }
     }
 
     return this.httpClient.post(this.apiUrl, undefined, {
