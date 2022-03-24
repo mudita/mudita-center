@@ -11,7 +11,7 @@ import { FileSystemService } from "App/file-system/services/file-system.service.
 import { AppLogger } from "App/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
-import { AppSettingsController } from "App/app-settings/controlers"
+import { AppSettingsController } from "App/app-settings/controllers"
 import { getAppSettingsService } from "App/app-settings/containers/app-settings.container"
 
 export class AppSettingsModuleModule extends BaseModule {

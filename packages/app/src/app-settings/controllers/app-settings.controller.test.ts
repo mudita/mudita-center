@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { AppSettingsController } from "App/app-settings/controlers/app-settings.controller"
+import { AppSettingsController } from "App/app-settings/controllers/app-settings.controller"
 import {
   AppSettings,
   ConversionFormat,

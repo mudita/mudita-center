@@ -11,7 +11,7 @@ import { DeviceService } from "Backend/device-service"
 import { MetadataStore } from "App/metadata"
 import { AppLogger } from "App/main/utils/logger"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
-import { AnalyticDataTrackerController } from "App/analytic-data-tracker/controlers"
+import { AnalyticDataTrackerController } from "App/analytic-data-tracker/controllers"
 import { getAnalyticDataTracker } from "App/analytic-data-tracker/containers"
 
 export class AnalyticDataTrackerModule extends BaseModule {
