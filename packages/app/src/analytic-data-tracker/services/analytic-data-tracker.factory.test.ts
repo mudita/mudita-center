@@ -20,7 +20,6 @@ jest.spyOn(axios, "create")
 jest.spyOn(logger, "info")
 
 const noValidApiUrl: AnalyticDataTrackerFactoryOption["apiUrl"] = ""
-const production: AnalyticDataTrackerFactoryOption["production"] = false
 const appSettingsService = {
   getAppSettings: jest.fn().mockReturnValue({ applicationId: "" }),
 } as unknown as AppSettingsService
@@ -33,14 +32,14 @@ describe("`AnalyticDataTrackerFactory`", () => {
   describe("when `getAppSettingsService` return service", () => {
     test("`logger.info` is called when `apiUrl` isn't valid", () => {
       ;(getAppSettingsService as jest.Mock).mockReturnValue(appSettingsService)
-      AnalyticDataTrackerFactory.create({ production, apiUrl: noValidApiUrl })
+      AnalyticDataTrackerFactory.create({ apiUrl: noValidApiUrl })
       expect(logger.info).toBeCalled()
       expect(axios.create).not.toHaveBeenCalled()
     })
 
     test("`logger.info` isn't called when passed arguments are valid", () => {
       ;(getAppSettingsService as jest.Mock).mockReturnValue(appSettingsService)
-      AnalyticDataTrackerFactory.create({ production, apiUrl: "http://" })
+      AnalyticDataTrackerFactory.create({ apiUrl: "http://" })
       expect(logger.info).not.toBeCalled()
       expect(axios.create).toHaveBeenCalled()
     })
@@ -50,7 +49,7 @@ describe("`AnalyticDataTrackerFactory`", () => {
     test("`create` method throw error", () => {
       ;(getAppSettingsService as jest.Mock).mockReturnValue(undefined)
       expect(() =>
-        AnalyticDataTrackerFactory.create({ production, apiUrl: "http://" })
+        AnalyticDataTrackerFactory.create({ apiUrl: "http://" })
       ).toThrow()
     })
   })

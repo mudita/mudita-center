@@ -22,13 +22,11 @@ class MatomoTrackerPlaceholder implements AnalyticDataTrackerClass {
 }
 
 export interface AnalyticDataTrackerFactoryOption {
-  production: boolean
   apiUrl: string
 }
 
 export class AnalyticDataTrackerFactory {
   static create({
-    production,
     apiUrl,
   }: AnalyticDataTrackerFactoryOption): AnalyticDataTrackerClass {
     if (typeof apiUrl !== "string" || apiUrl === "") {
@@ -52,7 +50,7 @@ export class AnalyticDataTrackerFactory {
     })
 
     return new AnalyticDataTrackerService(
-      { _id, production, trackingEnabled },
+      { _id, trackingEnabled },
       axiosInstance
     )
   }

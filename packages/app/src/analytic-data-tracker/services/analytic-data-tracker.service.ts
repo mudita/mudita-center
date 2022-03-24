@@ -11,7 +11,6 @@ import {
 
 export interface AnalyticDataTrackerOptions {
   _id: string
-  production: boolean
   trackingEnabled?: boolean
 }
 
@@ -24,7 +23,6 @@ export interface VisitorMetadata {
 export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
   private trackingEnabled: boolean
   private visitorMetadata: VisitorMetadata = {}
-  private readonly production: boolean
   private readonly _id: string
 
   constructor(
@@ -32,7 +30,6 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     private httpClient: AxiosInstance
   ) {
     this._id = options._id
-    this.production = options.production
     this.trackingEnabled = options.trackingEnabled ?? true
   }
 
@@ -42,7 +39,6 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     }
 
     return this.httpClient.post("", {
-      production: this.production,
       _id: this._id,
       ...this.visitorMetadata,
       ...event,

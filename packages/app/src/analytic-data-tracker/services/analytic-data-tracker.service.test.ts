@@ -12,8 +12,7 @@ import {
 
 const apiUrl = ""
 const analyticDataTrackerOptions: AnalyticDataTrackerOptions = {
-  _id: "",
-  production: false,
+  _id: ""
 }
 
 const axiosInstance = axios.create()
