@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { FilesManagerContainer } from "App/files-manager/components/files-manager/files-manager.styled"
 import FilesSummary from "App/files-manager/components/files-summary/files-summary.component"
@@ -23,7 +23,8 @@ import {
 interface Props {
   memorySpace?: MemorySpace
   resultState: ResultState
-  musicFiles: MtpFile[]
+  files: MtpFile[]
+  getFiles: () => void
 }
 
 const FilesManager: FunctionComponent<Props> = ({
@@ -33,10 +34,18 @@ const FilesManager: FunctionComponent<Props> = ({
     total: 0,
   },
   resultState,
-  musicFiles,
+  files,
+  getFiles,
 }) => {
   const { free, total } = memorySpace
   const systemMemory = total - free
+
+  const downloadFiles = async () => {
+    await getFiles()
+  }
+  useEffect(() => {
+    downloadFiles()
+  }, [])
 
   const diskSpaceCategories: DiskSpaceCategory[] = filesSummaryElements.map(
     (element) => {
@@ -63,7 +72,7 @@ const FilesManager: FunctionComponent<Props> = ({
         totalMemorySpace={total}
         systemMemory={systemMemory}
       />
-      <FilesStorage resultState={resultState} musicFiles={musicFiles} />
+      <FilesStorage resultState={resultState} files={files} />
     </FilesManagerContainer>
   )
 }

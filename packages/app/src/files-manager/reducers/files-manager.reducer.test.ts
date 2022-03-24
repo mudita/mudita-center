@@ -78,7 +78,15 @@ describe("Set Files data functionality", () => {
       payload: [file],
     }
 
-    expect(filesManagerReducer(undefined, setFilesAction)).toEqual({
+    expect(
+      filesManagerReducer(
+        {
+          ...initialState,
+          files: [file],
+        },
+        setFilesAction
+      )
+    ).toEqual({
       ...initialState,
       files: [file],
     })
