@@ -9,6 +9,8 @@ import FilesManager from "App/files-manager/components/files-manager/files-manag
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   memorySpace: state.device.data?.memorySpace,
+  musicFiles: state.filesManager.files,
+  resultState: state.filesManager.resultState,
 })
 
 export default connect(mapStateToProps, null)(FilesManager)
