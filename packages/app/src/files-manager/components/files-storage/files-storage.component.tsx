@@ -9,29 +9,39 @@ import {
   MtpFile,
   ResultState,
 } from "App/files-manager/reducers/files-manager.interface"
+import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
 
 interface Props {
   resultState: ResultState
-  musicFiles: MtpFile[]
+  files: MtpFile[]
 }
 
 const FilesStorage: FunctionComponent<Props> = ({
   resultState,
-  musicFiles = [],
+  files = [],
 }) => {
   return (
     <div>
-      {resultState === ResultState.Empty && <p>Empty list</p>}
-      {resultState === ResultState.Loading && <p>Loading...</p>}
+      {(resultState === ResultState.Empty ||
+        (resultState === ResultState.Loaded && files === [])) && (
+        <p data-testid={FilesStorageTestIds.Empty}>Empty list</p>
+      )}
+      {resultState === ResultState.Loading && (
+        <p data-testid={FilesStorageTestIds.Loading}>Loading...</p>
+      )}
       {resultState === ResultState.Loaded && (
-        <div>
+        <div data-testid={FilesStorageTestIds.Loaded}>
           <p>Files loaded</p>
-          {musicFiles.map((file) => {
-            ;<p>{`File name: ${file.name}, size: ${file.size}, type:${file.type}`}</p>
+          {files.map((file) => {
+            ;<p
+              data-testid={FilesStorageTestIds.Row}
+            >{`File name: ${file.name}, size: ${file.size}, type:${file.type}`}</p>
           })}
         </div>
       )}
-      {resultState === ResultState.Error && <p>Something went wrong...</p>}
+      {resultState === ResultState.Error && (
+        <p data-testid={FilesStorageTestIds.Error}>Something went wrong...</p>
+      )}
     </div>
   )
 }
