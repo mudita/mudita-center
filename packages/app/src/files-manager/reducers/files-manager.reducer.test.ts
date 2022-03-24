@@ -17,8 +17,8 @@ import { GetFilesError } from "App/files-manager/errors"
 import { FilesManagerEvent } from "App/files-manager/constants"
 import {
   ResultState,
-  File,
-  FileType,
+  MtpFile,
+  MtpFileType,
 } from "App/files-manager/reducers/files-manager.interface"
 
 test("empty event returns initial state", () => {
@@ -65,15 +65,15 @@ describe("Getting files functionality", () => {
 })
 
 describe("Set Files data functionality", () => {
-  const file: File = {
+  const file: MtpFile = {
     id: "1",
     size: 1234,
     name: "example_file_name",
-    type: FileType.mp3,
+    type: MtpFileType.mp3,
   }
 
   test("Event: SetFiles set files field", () => {
-    const setFilesAction: PayloadAction<File[]> = {
+    const setFilesAction: PayloadAction<MtpFile[]> = {
       type: FilesManagerEvent.SetFiles,
       payload: [file],
     }

@@ -16,14 +16,14 @@ import { filesSummaryElements } from "App/files-manager/constants"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
 import {
-  File as musicFile,
+  MtpFile,
   ResultState,
 } from "App/files-manager/reducers/files-manager.interface"
 
 interface Props {
   memorySpace?: MemorySpace
   resultState: ResultState
-  musicFiles: musicFile[]
+  musicFiles: MtpFile[]
 }
 
 const FilesManager: FunctionComponent<Props> = ({

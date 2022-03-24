@@ -5,17 +5,17 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { FilesManagerEvent } from "App/files-manager/constants"
-import { File as musicFile } from "App/files-manager/reducers"
+import { MtpFile } from "App/files-manager/reducers"
 import { GetFilesError } from "App/files-manager/errors"
 import { setFiles } from "App/files-manager/actions/base.action"
 import getFilesRequest from "Renderer/requests/get-files.request"
 
-export const getFiles = createAsyncThunk<Error | musicFile>(
+export const getFiles = createAsyncThunk<Error | MtpFile[]>(
   FilesManagerEvent.GetFiles,
   async (_, { dispatch, rejectWithValue }) => {
     const data = await getFilesRequest()
 
-    if (error || !data) {
+    if (data === undefined) {
       return rejectWithValue(new GetFilesError("Import Files request failed"))
     }
 

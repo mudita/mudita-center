@@ -5,6 +5,6 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { FilesManagerEvent } from "App/files-manager/constants"
-import { File as musicFile } from "App/files-manager/reducers"
+import { MtpFile } from "App/files-manager/reducers"
 
-export const setFiles = createAction<musicFile[]>(FilesManagerEvent.SetFiles)
+export const setFiles = createAction<MtpFile[]>(FilesManagerEvent.SetFiles)

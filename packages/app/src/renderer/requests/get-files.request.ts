@@ -4,26 +4,26 @@
  */
 
 import {
-  File as musicFile,
-  FileType,
+  MtpFile,
+  MtpFileType,
 } from "App/files-manager/reducers/files-manager.interface"
 
-const getFiles = async (): Promise<musicFile[]> => {
-  const data: musicFile[] = [
+const getFilesRequest = async (): Promise<MtpFile[] | undefined> => {
+  const data: MtpFile[] = [
     {
       id: "1",
       size: 1234,
       name: "example_file_name",
-      type: FileType.mp3,
+      type: MtpFileType.mp3,
     },
     {
       id: "2",
       size: 12345,
       name: "second_example_file_name",
-      type: FileType.wav,
+      type: MtpFileType.wav,
     },
   ]
   return Promise.resolve(data)
 }
 
-export default getFiles
+export default getFilesRequest
