@@ -14,9 +14,16 @@ import {
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
 import { filesSummaryElements } from "App/files-manager/constants"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
+import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
+import {
+  File as musicFile,
+  ResultState,
+} from "App/files-manager/reducers/files-manager.interface"
 
 interface Props {
   memorySpace?: MemorySpace
+  resultState: ResultState
+  musicFiles: musicFile[]
 }
 
 const FilesManager: FunctionComponent<Props> = ({
@@ -25,6 +32,8 @@ const FilesManager: FunctionComponent<Props> = ({
     full: 0,
     total: 0,
   },
+  resultState,
+  musicFiles,
 }) => {
   const { free, total } = memorySpace
   const systemMemory = total - free
@@ -54,6 +63,7 @@ const FilesManager: FunctionComponent<Props> = ({
         totalMemorySpace={total}
         systemMemory={systemMemory}
       />
+      <FilesStorage resultState={resultState} musicFiles={musicFiles} />
     </FilesManagerContainer>
   )
 }
