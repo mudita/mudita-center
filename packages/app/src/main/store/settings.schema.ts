@@ -5,6 +5,7 @@
 
 import path from "path"
 import { Schema } from "electron-store"
+import getMAC from 'getmac'
 import getAppPath from "App/main/utils/get-app-path"
 import {
   AppSettings,
@@ -13,10 +14,18 @@ import {
 } from "App/main/store/settings.interface"
 import { defaultLanguage } from "App/translations.config.json"
 
+const generateApplicationId = (): string => {
+  const maxApplicationIdLength = 16
+  const uniqueValue = getMAC().replace(/:/g, "").slice(-maxApplicationIdLength);
+  const padLength = maxApplicationIdLength - uniqueValue.length
+  const pad = Math.random().toString(16).slice(-padLength)
+  return `${pad}${uniqueValue}`
+}
+
 const settingsSchema: Schema<AppSettings> = {
   applicationId: {
     type: "string",
-    default: Math.random().toString(36).slice(-16),
+    default: generateApplicationId(),
   },
   appAutostart: {
     type: "boolean",
