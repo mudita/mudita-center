@@ -6,13 +6,13 @@
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
-  File as musicFile,
+  MtpFile,
   ResultState,
 } from "App/files-manager/reducers/files-manager.interface"
 
 interface Props {
   resultState: ResultState
-  musicFiles: musicFile[]
+  musicFiles: MtpFile[]
 }
 
 const FilesStorage: FunctionComponent<Props> = ({
