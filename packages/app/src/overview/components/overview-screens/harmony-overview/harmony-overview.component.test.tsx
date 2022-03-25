@@ -77,6 +77,7 @@ const defaultProps: ComponentProps<typeof HarmonyOverview> = {
   memorySpace: {
     free: 100,
     full: 200,
+    total: 4000,
   },
 }
 

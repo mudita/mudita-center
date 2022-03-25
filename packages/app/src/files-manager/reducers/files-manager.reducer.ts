@@ -50,15 +50,12 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           }
         }
       )
-      .addCase(
-        rejectedAction(FilesManagerEvent.SetFiles),
-        (state, action: SetFilesAction) => {
-          const files = action.payload
-          return {
-            ...state,
-            files: files,
-          }
+      .addCase(FilesManagerEvent.SetFiles, (state, action: SetFilesAction) => {
+        const files = action.payload
+        return {
+          ...state,
+          files: files,
         }
-      )
+      })
   }
 )
