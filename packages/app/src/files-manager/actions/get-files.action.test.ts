@@ -9,28 +9,25 @@ import { AnyAction } from "@reduxjs/toolkit"
 import { testError } from "Renderer/store/constants"
 import getFilesRequest from "Renderer/requests/get-files.request"
 import { initialState } from "App/files-manager/reducers"
-import {
-  MtpFile,
-  MtpFileType,
-} from "App/files-manager/reducers/files-manager.interface"
+import { McUsbFile, McUsbFileType } from "App/mc-usb"
 import { FilesManagerEvent } from "App/files-manager/constants"
 import { getFiles } from "App/files-manager/actions"
 import { GetFilesError } from "App/files-manager/errors"
 
 jest.mock("Renderer/requests/get-files.request")
 
-const files: MtpFile[] = [
+const files: McUsbFile[] = [
   {
     id: "1",
     size: 1234,
     name: "example_file_name",
-    type: MtpFileType.mp3,
+    type: McUsbFileType.mp3,
   },
   {
     id: "2",
     size: 12345,
     name: "second_example_file_name",
-    type: MtpFileType.wav,
+    type: McUsbFileType.wav,
   },
 ]
 

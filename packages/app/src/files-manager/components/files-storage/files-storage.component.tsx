@@ -5,15 +5,13 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import {
-  MtpFile,
-  ResultState,
-} from "App/files-manager/reducers/files-manager.interface"
+import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
+import { McUsbFile } from "App/mc-usb"
 
 interface Props {
   resultState: ResultState
-  files: MtpFile[]
+  files: McUsbFile[]
 }
 
 const FilesStorage: FunctionComponent<Props> = ({

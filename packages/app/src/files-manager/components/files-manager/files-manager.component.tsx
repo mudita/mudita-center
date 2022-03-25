@@ -15,15 +15,13 @@ import { FilesManagerTestIds } from "App/files-manager/components/files-manager/
 import { filesSummaryElements } from "App/files-manager/constants"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
-import {
-  MtpFile,
-  ResultState,
-} from "App/files-manager/reducers/files-manager.interface"
+import { McUsbFile } from "App/mc-usb"
+import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 
 interface Props {
   memorySpace?: MemorySpace
   resultState: ResultState
-  files: MtpFile[]
+  files: McUsbFile[]
   getFiles: () => void
 }
 

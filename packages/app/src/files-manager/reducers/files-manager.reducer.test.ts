@@ -15,11 +15,8 @@ import {
 } from "Renderer/store/helpers"
 import { GetFilesError } from "App/files-manager/errors"
 import { FilesManagerEvent } from "App/files-manager/constants"
-import {
-  ResultState,
-  MtpFile,
-  MtpFileType,
-} from "App/files-manager/reducers/files-manager.interface"
+import { ResultState } from "App/files-manager/reducers/files-manager.interface"
+import { McUsbFile, McUsbFileType } from "App/mc-usb"
 
 test("empty event returns initial state", () => {
   expect(filesManagerReducer(undefined, {} as any)).toEqual(initialState)
@@ -65,15 +62,15 @@ describe("Getting files functionality", () => {
 })
 
 describe("Set Files data functionality", () => {
-  const file: MtpFile = {
+  const file: McUsbFile = {
     id: "1",
     size: 1234,
     name: "example_file_name",
-    type: MtpFileType.mp3,
+    type: McUsbFileType.mp3,
   }
 
   test("Event: SetFiles set files field", () => {
-    const setFilesAction: PayloadAction<MtpFile[]> = {
+    const setFilesAction: PayloadAction<McUsbFile[]> = {
       type: FilesManagerEvent.SetFiles,
       payload: [file],
     }

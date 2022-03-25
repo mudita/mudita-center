@@ -6,19 +6,7 @@
 import { PayloadAction } from "@reduxjs/toolkit"
 import { GetFilesError } from "App/files-manager/errors"
 import { FilesManagerEvent } from "App/files-manager/constants"
-
-export interface MtpFile {
-  id: string
-  size: number
-  name: string
-  type: MtpFileType
-}
-
-export enum MtpFileType {
-  wav = 0x3008,
-  mp3 = 0x3009,
-  flac = 0xb906,
-}
+import { McUsbFile } from "App/mc-usb"
 
 export enum ResultState {
   Loading,
@@ -29,7 +17,7 @@ export enum ResultState {
 
 export interface FilesManagerState {
   resultState: ResultState
-  files: MtpFile[]
+  files: McUsbFile[]
   error: Error | string | null
 }
 
@@ -39,6 +27,6 @@ export type GetFilesRejectAction = PayloadAction<
 >
 
 export type SetFilesAction = PayloadAction<
-  MtpFile[],
+  McUsbFile[],
   FilesManagerEvent.SetFiles
 >

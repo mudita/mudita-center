@@ -8,10 +8,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
 import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
-import {
-  MtpFile,
-  MtpFileType,
-} from "App/files-manager/reducers/files-manager.interface"
+import { McUsbFile, McUsbFileType } from "App/mc-usb"
 
 type Props = ComponentProps<typeof FilesStorage>
 
@@ -20,18 +17,18 @@ const defaultProps: Props = {
   files: [],
 }
 
-const files: MtpFile[] = [
+const files: McUsbFile[] = [
   {
     id: "1",
     size: 1234,
     name: "example_file_name",
-    type: MtpFileType.mp3,
+    type: McUsbFileType.mp3,
   },
   {
     id: "2",
     size: 12345,
     name: "second_example_file_name",
-    type: MtpFileType.wav,
+    type: McUsbFileType.wav,
   },
 ]
 

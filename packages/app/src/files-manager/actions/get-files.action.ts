@@ -5,12 +5,12 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { FilesManagerEvent } from "App/files-manager/constants"
-import { MtpFile } from "App/files-manager/reducers"
 import { GetFilesError } from "App/files-manager/errors"
 import { setFiles } from "App/files-manager/actions/base.action"
 import getFilesRequest from "Renderer/requests/get-files.request"
+import { McUsbFile } from "App/mc-usb"
 
-export const getFiles = createAsyncThunk<Error | MtpFile[]>(
+export const getFiles = createAsyncThunk<Error | McUsbFile[]>(
   FilesManagerEvent.GetFiles,
   async (_, { dispatch, rejectWithValue }) => {
     const data = await getFilesRequest()
