@@ -42,11 +42,11 @@ const render = (extraProps?: Partial<Props>) => {
 
 describe("`FilesStorage` component", () => {
   test("Empty files storage is rendered as default state", () => {
-    const { getByTestId } = render()
-    expect(getByTestId(FilesStorageTestIds.Empty)).toBeInTheDocument()
-    expect(getByTestId(FilesStorageTestIds.Loaded)).not.toBeInTheDocument()
-    expect(getByTestId(FilesStorageTestIds.Error)).not.toBeInTheDocument()
-    expect(getByTestId(FilesStorageTestIds.Loading)).not.toBeInTheDocument()
+    const { queryByTestId } = render()
+    expect(queryByTestId(FilesStorageTestIds.Empty)).toBeInTheDocument()
+    expect(queryByTestId(FilesStorageTestIds.Loaded)).not.toBeInTheDocument()
+    expect(queryByTestId(FilesStorageTestIds.Error)).not.toBeInTheDocument()
+    expect(queryByTestId(FilesStorageTestIds.Loading)).not.toBeInTheDocument()
   })
 
   test("Error info is rendered if resultState is equal to Error", () => {

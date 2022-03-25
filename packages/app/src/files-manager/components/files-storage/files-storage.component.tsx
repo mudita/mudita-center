@@ -21,20 +21,21 @@ const FilesStorage: FunctionComponent<Props> = ({
   return (
     <div>
       {(resultState === ResultState.Empty ||
-        (resultState === ResultState.Loaded && files === [])) && (
+        (resultState === ResultState.Loaded && files.length === 0)) && (
         <p data-testid={FilesStorageTestIds.Empty}>Empty list</p>
       )}
       {resultState === ResultState.Loading && (
         <p data-testid={FilesStorageTestIds.Loading}>Loading...</p>
       )}
-      {resultState === ResultState.Loaded && (
+      {resultState === ResultState.Loaded && files.length > 0 && (
         <div data-testid={FilesStorageTestIds.Loaded}>
           <p>Files loaded</p>
-          {files.map((file) => {
-            ;<p
+          {files.map((file) => (
+            <p
+              key={file.name}
               data-testid={FilesStorageTestIds.Row}
             >{`File name: ${file.name}, size: ${file.size}, type:${file.type}`}</p>
-          })}
+          ))}
         </div>
       )}
       {resultState === ResultState.Error && (

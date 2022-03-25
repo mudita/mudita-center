@@ -6,7 +6,7 @@
 export enum FilesStorageTestIds {
   Empty = "files-storage-empty",
   Loading = "files-storage-loading",
-  Loaded = "files-storage-loading",
+  Loaded = "files-storage-loaded",
   Error = "files-storage-error",
   Row = "files-storage-row",
 }

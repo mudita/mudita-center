@@ -98,6 +98,7 @@ const defaultProps: Props = {
   memorySpace: {
     free: 100,
     full: 200,
+    total: 16000000000,
   },
   syncState: SynchronizationState.Loaded,
   updateAllIndexes: jest.fn(),
