@@ -5,6 +5,6 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { FilesManagerEvent } from "App/files-manager/constants"
-import { MtpFile } from "App/files-manager/reducers"
+import { McUsbFile } from "App/mc-usb"
 
-export const setFiles = createAction<MtpFile[]>(FilesManagerEvent.SetFiles)
+export const setFiles = createAction<McUsbFile[]>(FilesManagerEvent.SetFiles)
