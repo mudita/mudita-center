@@ -57,6 +57,7 @@ const harmonyDeviceMock: HarmonyDeviceData = {
   memorySpace: {
     free: 124,
     full: 1021,
+    total: 4000000000,
   },
 }
 
@@ -352,6 +353,7 @@ describe("Set device data functionality", () => {
         memorySpace: {
           free: 124,
           full: 1021,
+          total: 4000000000,
         },
       },
     })

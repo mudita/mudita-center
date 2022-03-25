@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./files-summary-elements"
-export * from "./files-manager.enum"
-export * from "./errors.enum"
-export * from "./event.enum"
+export enum FilesManagerEvent {
+  GetFiles = "FILES_MANAGER_GET_FILES",
+  SetFiles = "FILES_MANAGER_SET_FILES",
+}

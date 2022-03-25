@@ -163,6 +163,7 @@ const defaultProps: Props = {
   memorySpace: {
     free: 100,
     full: 200,
+    total: 16000000000,
   },
   caseColour: CaseColour.Gray,
   syncState: SynchronizationState.Loaded,

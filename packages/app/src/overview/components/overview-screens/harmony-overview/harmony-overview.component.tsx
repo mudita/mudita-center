@@ -37,7 +37,8 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   updatePhoneOsInfo = noop,
   memorySpace = {
     free: 0,
-    full: 16000000000,
+    full: 4000000000,
+    total: 4000000000,
   },
   lowestSupportedOsVersion = "",
   updatingState,
