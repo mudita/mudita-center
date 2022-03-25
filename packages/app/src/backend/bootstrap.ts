@@ -10,7 +10,6 @@ import getFakeAdapters from "App/tests/get-fake-adapters"
 import { createDeviceService } from "Backend/device-service"
 import createDeviceBackupService from "./device-backup-service/device-backup-service"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
-import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
@@ -35,9 +34,6 @@ import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.
 import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"
 import registerEditContactRequest from "Backend/requests/phonebook/edit-contact.request"
 import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
-import registerAppSettingsRequest from "Backend/requests/app-settings/get-app-settings.request"
-import registerAppSettingsUpdateRequest from "Backend/requests/app-settings/update-app-settings.request"
-import registerAppSettingsResetRequest from "Backend/requests/app-settings/reset-app-settings.request"
 import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
 import registerGetEventsRequest from "Backend/requests/calendar/get-events.request"
 import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
@@ -88,7 +84,6 @@ const bootstrap = (
     pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
     pureNetwork: createPurePhoneNetwork(deviceService),
     pureStorage: createPurePhoneStorageAdapter(deviceService),
-    appSettings: createAppSettingsAdapter(),
     calendar: createCalendarAdapter(),
     pureMessages: createPurePhoneMessagesAdapter(deviceService),
     app: createElectronAppAdapter(),
@@ -109,9 +104,6 @@ const bootstrap = (
     registerAddContactRequest,
     registerEditContactRequest,
     registerDeleteContactsRequest,
-    registerAppSettingsRequest,
-    registerAppSettingsUpdateRequest,
-    registerAppSettingsResetRequest,
     registerUpdateOsRequest,
     registerGetEventsRequest,
     registerGetThreadsRequest,

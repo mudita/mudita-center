@@ -26,12 +26,16 @@ import { DataSyncModule } from "App/data-sync/data-sync.module"
 import { ContactModule } from "App/contacts/contact.module"
 import { MessageModule } from "App/messages/message.module"
 import { OutboxModule } from "App/outbox/outbox.module"
+import { AnalyticDataTrackerModule } from "App/analytic-data-tracker/analytic-data-tracker.module"
+import { AppSettingsModuleModule } from "App/app-settings/app-settings.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
     IndexStorageModule,
     DataSyncModule,
     OutboxModule,
+    AnalyticDataTrackerModule,
+    AppSettingsModuleModule,
     ContactModule,
     MessageModule,
   ]

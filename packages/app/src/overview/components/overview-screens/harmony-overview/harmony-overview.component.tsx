@@ -44,6 +44,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   startUpdateOs,
   setUpdateState,
   openContactSupportFlow,
+  serialNumber,
 }) => {
   /**
    * Temporary state to demo failure
@@ -65,7 +66,7 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
 
   const { release, initialCheck, check, download, install } =
     useSystemUpdateFlow(
-      osVersion,
+      { osVersion, serialNumber, deviceType: DeviceType.MuditaPure },
       updatePhoneOsInfo,
       toggleDeviceUpdating,
       openContactSupportFlow,

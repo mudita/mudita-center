@@ -3,18 +3,30 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import path from "path"
 import { Schema } from "electron-store"
-import { app } from "electron"
-import { name } from "../../../package.json"
+import getMAC from 'getmac'
+import getAppPath from "App/main/utils/get-app-path"
 import {
   AppSettings,
   ConversionFormat,
   Convert,
 } from "App/main/store/settings.interface"
 import { defaultLanguage } from "App/translations.config.json"
-import path from "path"
+
+const generateApplicationId = (): string => {
+  const maxApplicationIdLength = 16
+  const uniqueValue = getMAC().replace(/:/g, "").slice(-maxApplicationIdLength);
+  const padLength = maxApplicationIdLength - uniqueValue.length
+  const pad = Math.random().toString(16).slice(-padLength)
+  return `${pad}${uniqueValue}`
+}
 
 const settingsSchema: Schema<AppSettings> = {
+  applicationId: {
+    type: "string",
+    default: generateApplicationId(),
+  },
   appAutostart: {
     type: "boolean",
     default: false,
@@ -57,17 +69,11 @@ const settingsSchema: Schema<AppSettings> = {
   },
   pureOsBackupLocation: {
     type: "string",
-    default: path.join(
-      app.getPath("appData"),
-      name,
-      "pure",
-      "phone",
-      "backups"
-    ),
+    default: path.join(getAppPath(), "pure", "phone", "backups"),
   },
   pureOsDownloadLocation: {
     type: "string",
-    default: path.join(app.getPath("appData"), name, "pure", "os", "downloads"),
+    default: path.join(getAppPath(), "pure", "os", "downloads"),
   },
   language: {
     type: "string",

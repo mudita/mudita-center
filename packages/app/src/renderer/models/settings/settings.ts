@@ -29,6 +29,7 @@ import {
   checkAppUpdateFlowToShow,
 } from "App/modals-manager/actions"
 import checkAppUpdateRequest from "Renderer/requests/check-app-update.request"
+import { toggleTrackingRequest } from "App/analytic-data-tracker/requests"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -149,12 +150,10 @@ const settings = createModel<RootModel>({
       ) {
         this.updateSettings({ key: "diagnosticSentTimestamp", value })
       },
-      setCollectingData(value: AppSettings["appCollectingData"]) {
-        this.updateSettings({ key: "appCollectingData", value })
-      },
       toggleAppCollectingData(value: boolean) {
         this.updateSettings({ key: "appCollectingData", value })
         value ? logger.enableRollbar() : logger.disableRollbar()
+        void toggleTrackingRequest(value)
       },
       checkAppUpdateAvailable() {
         dispatch.settings.update({ appUpdateAvailable: undefined })

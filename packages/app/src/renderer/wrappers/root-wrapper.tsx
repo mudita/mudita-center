@@ -61,6 +61,7 @@ import {
   registerDataSyncListener,
   registerCacheDataListener,
 } from "App/data-sync/listeners"
+import { initAnalyticDataTracker } from "App/analytic-data-tracker/helpers"
 
 interface Props {
   history: History
@@ -144,6 +145,10 @@ const RootWrapper: FunctionComponent<Props> = ({
       checkAppUpdateAvailable()
     }
   }
+
+  useEffect(() => {
+    void initAnalyticDataTracker()
+  }, [])
 
   useEffect(() => {
     connect()

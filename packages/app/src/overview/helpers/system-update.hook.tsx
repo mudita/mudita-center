@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { DeviceType, DiagnosticsFilePath } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
 import { useDispatch, useSelector } from "react-redux"
@@ -35,29 +35,38 @@ import updateOs from "Renderer/requests/update-os.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import logger from "App/main/utils/logger"
 import {
-  Release,
+  cancelOsDownload,
+  downloadOsUpdateRequest,
   getAllReleases,
   osUpdateAlreadyDownloadedCheck,
-  downloadOsUpdateRequest,
-  cancelOsDownload,
+  Release,
 } from "App/update"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { setOsVersionData } from "App/device"
 import { ReduxRootState } from "App/renderer/store"
 import { removeFileRequest } from "App/device-file-system/requests"
+import {
+  trackOsVersion,
+  TrackOsVersionOptions,
+  trackOsUpdate,
+  TrackOsUpdateState,
+} from "App/analytic-data-tracker/helpers"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
 }
 
+type useSystemUpdateFlowOption = TrackOsVersionOptions
+
 const useSystemUpdateFlow = (
-  osVersion: string | undefined,
+  options: useSystemUpdateFlowOption,
   onUpdate: (updateInfo: PhoneUpdate) => void,
   toggleDeviceUpdating: (option: boolean) => void,
   onContact: () => void,
   onHelp: () => void
 ) => {
+  const { osVersion } = options
   const currentDeviceType = useSelector(
     (state: ReduxRootState) => state.device.deviceType
   ) as DeviceType
@@ -359,6 +368,12 @@ const useSystemUpdateFlow = (
 
     const { file, version } = release
 
+    trackOsUpdate({
+      ...options,
+      fromOsVersion: osVersion,
+      toOsVersion: version,
+      state: TrackOsUpdateState.Start,
+    })
     modalService.openModal(<UpdatingSpinnerModal />, true)
 
     toggleDeviceUpdating(true)
@@ -395,8 +410,21 @@ const useSystemUpdateFlow = (
     }
 
     if (isEqual(response, { status: DeviceResponseStatus.Ok })) {
+      trackOsVersion({ ...options, osVersion: version })
+      trackOsUpdate({
+        ...options,
+        fromOsVersion: osVersion,
+        toOsVersion: version,
+        state: TrackOsUpdateState.Success,
+      })
       modalService.openModal(<UpdatingSuccessModal />, true)
     } else {
+      trackOsUpdate({
+        ...options,
+        fromOsVersion: osVersion,
+        toOsVersion: version,
+        state: TrackOsUpdateState.Fail,
+      })
       logger.error(
         `Overview: updating pure fails. Message: ${response.error?.message}`
       )
