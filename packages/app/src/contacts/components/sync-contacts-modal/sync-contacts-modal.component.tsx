@@ -10,7 +10,6 @@ import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import {
   ButtonsContainer,
   ButtonWrapper,
@@ -19,7 +18,6 @@ import {
 } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 import { defineMessages } from "react-intl"
-import { IconSize } from "App/renderer/components/core/icon/icon.component"
 import GoogleButton from "react-google-button"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
@@ -76,7 +74,7 @@ const SyncContactsModal: FunctionComponent<Props> = ({
       {...props}
     >
       <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.Paragraph2}
         message={messages.text}
       />
       <ButtonsContainer>
@@ -89,27 +87,21 @@ const SyncContactsModal: FunctionComponent<Props> = ({
           />
 
           <SyncButton
-            displayStyle={DisplayStyle.Primary}
-            label={intl.formatMessage(messages.outlookButtonText)}
+            labelMessage={messages.outlookButtonText}
             Icon={Type.Outlook}
-            iconSize={IconSize.Medium}
             onClick={onOutlookButtonClick}
             data-testid={SyncContactsModalTestIds.OutlookButton}
           />
           {onAppleButtonClick && (
             <SyncButton
-              displayStyle={DisplayStyle.Primary}
-              label={intl.formatMessage(messages.appleButtonText)}
+              labelMessage={messages.appleButtonText}
               Icon={Type.Apple}
-              iconSize={IconSize.Medium}
               onClick={onAppleButtonClick}
             />
           )}
           <SyncButton
-            displayStyle={DisplayStyle.Primary}
-            label={intl.formatMessage(messages.manualImportText)}
+            labelMessage={messages.manualImportText}
             Icon={Type.Upload}
-            iconSize={IconSize.Medium}
             onClick={handleManualImportClick}
           />
           <input

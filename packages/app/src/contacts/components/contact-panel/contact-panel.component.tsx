@@ -29,7 +29,6 @@ import {
 } from "Renderer/components/rest/data-modal/data.modals"
 import delayResponse from "@appnroll/delay-response"
 import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
-import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 import styled from "styled-components"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import Text, {
@@ -74,6 +73,7 @@ interface Props {
   onSearchValueChange: (value: string) => void
   showSearchResults?: boolean
   results: Contact[]
+  onExport: (contact: Contact[]) => void
 }
 
 const ContactPanel: FunctionComponent<Props> = ({
@@ -91,16 +91,13 @@ const ContactPanel: FunctionComponent<Props> = ({
   onSearchValueChange,
   showSearchResults = false,
   results,
+  onExport,
 }) => {
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
 
-  const exportContactsAction = async () => {
-    const exported = await exportContacts(selectedContacts)
-
-    if (exported) {
-      resetRows()
-    }
+  const handleExport = (): void => {
+    onExport(selectedContacts)
   }
 
   const openModal = () => {
@@ -150,15 +147,15 @@ const ContactPanel: FunctionComponent<Props> = ({
             buttons={[
               <ButtonComponent
                 key="export"
-                label={intl.formatMessage(messages.export)}
-                displayStyle={DisplayStyle.Link1}
+                labelMessage={messages.export}
+                displayStyle={DisplayStyle.Link}
                 Icon={Type.UploadDark}
-                onClick={exportContactsAction}
+                onClick={handleExport}
               />,
               <ButtonComponent
                 key="delete"
-                label={intl.formatMessage(messages.deleteButton)}
-                displayStyle={DisplayStyle.Link1}
+                labelMessage={messages.deleteButton}
+                displayStyle={DisplayStyle.Link}
                 Icon={Type.Delete}
                 onClick={openModal}
               />,
@@ -194,7 +191,7 @@ const ContactPanel: FunctionComponent<Props> = ({
       </Panel>
       {showSearchResults && (
         <SearchTitle
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.Headline4}
           data-testid={ContactPanelTestIdsEnum.SearchTitle}
         >
           {intl.formatMessage(messages.searchResultsTitle, {

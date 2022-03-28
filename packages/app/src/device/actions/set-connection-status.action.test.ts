@@ -10,7 +10,6 @@ import { DeviceEvent, UpdatingState } from "App/device/constants"
 import { setConnectionStatus } from "App/device/actions"
 import { setValue } from "App/metadata"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
-import { DataSyncEvent } from "App/data-sync/constants"
 
 jest.mock("App/metadata")
 const state = {
@@ -56,10 +55,6 @@ describe("async `setConnectionStatus` ", () => {
         setConnectionStatus.pending(requestId, false),
         {
           payload: undefined,
-          type: DataSyncEvent.SetDataSyncInitState,
-        },
-        {
-          payload: undefined,
           type: DeviceEvent.SetInitState,
         },
         setConnectionStatus.fulfilled(false, requestId, false),
@@ -91,10 +86,6 @@ describe("async `setConnectionStatus` ", () => {
 
       expect(store.getActions()).toEqual([
         setConnectionStatus.pending(requestId, false),
-        {
-          payload: undefined,
-          type: DataSyncEvent.SetDataSyncInitState,
-        },
         setConnectionStatus.fulfilled(false, requestId, false),
       ])
     })
@@ -129,10 +120,6 @@ describe("async `setConnectionStatus` ", () => {
 
       expect(store.getActions()).toEqual([
         setConnectionStatus.pending(requestId, false),
-        {
-          payload: undefined,
-          type: DataSyncEvent.SetDataSyncInitState,
-        },
         setConnectionStatus.fulfilled(false, requestId, false),
       ])
     })

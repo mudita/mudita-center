@@ -53,7 +53,7 @@ const StatBoxes: FunctionComponent<Props> = ({
       <DataBox>
         <TextWrapper>
           <Text
-            displayStyle={TextDisplayStyle.PrimaryHeading}
+            displayStyle={TextDisplayStyle.Headline1}
             element={"span"}
             data-testid={StatBoxesTestIds.TimeActiveText}
           >
@@ -61,8 +61,8 @@ const StatBoxes: FunctionComponent<Props> = ({
           </Text>
         </TextWrapper>
         <Text
-          displayStyle={TextDisplayStyle.SmallFadedText}
-          element={"p"}
+          displayStyle={TextDisplayStyle.Label}
+          color="secondary"
           message={messages.timeActive}
         />
       </DataBox>
@@ -70,23 +70,17 @@ const StatBoxes: FunctionComponent<Props> = ({
         <StatTextWrapper>
           <RotatedArrowIcon type={Type.LongArrow} size={IconSize.Bigger} />
           <div data-testid={StatBoxesTestIds.DataSentText}>
-            <Text
-              displayStyle={TextDisplayStyle.PrimaryHeading}
-              element={"span"}
-            >
+            <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
               {dataSentValue}
             </Text>
-            <UnitText
-              displayStyle={TextDisplayStyle.MediumLightText}
-              element={"span"}
-            >
+            <UnitText displayStyle={TextDisplayStyle.Label} element={"span"}>
               {dataSentUnit}
             </UnitText>
           </div>
         </StatTextWrapper>
         <Text
-          displayStyle={TextDisplayStyle.SmallFadedText}
-          element={"p"}
+          displayStyle={TextDisplayStyle.Label}
+          color="secondary"
           message={messages.dataSent}
         />
       </DataBox>
@@ -94,23 +88,17 @@ const StatBoxes: FunctionComponent<Props> = ({
         <StatTextWrapper>
           <Icon type={Type.LongArrow} size={IconSize.Bigger} />
           <div data-testid={StatBoxesTestIds.DataReceivedText}>
-            <Text
-              displayStyle={TextDisplayStyle.PrimaryHeading}
-              element={"span"}
-            >
+            <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
               {dataReceivedValue}
             </Text>
-            <UnitText
-              displayStyle={TextDisplayStyle.MediumLightText}
-              element={"span"}
-            >
+            <UnitText displayStyle={TextDisplayStyle.Label} element={"span"}>
               {dataReceivedUnit}
             </UnitText>
           </div>
         </StatTextWrapper>
         <Text
-          displayStyle={TextDisplayStyle.SmallFadedText}
-          element={"p"}
+          displayStyle={TextDisplayStyle.Label}
+          color="secondary"
           message={messages.dataReceived}
         />
       </DataBox>

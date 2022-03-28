@@ -4,7 +4,6 @@
  */
 
 import styled from "styled-components"
-import Text from "Renderer/components/core/text/text.component"
 import { fontWeight } from "Renderer/styles/theming/theme-getters"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 
@@ -39,9 +38,6 @@ export const OnboardingWrapper = styled.section`
   footer {
     grid-area: Footer;
   }
-`
-export const InstructionText = styled(Text)`
-  font-weight: ${fontWeight("default")};
 `
 
 export const WelcomeButton = styled(ButtonComponent)`

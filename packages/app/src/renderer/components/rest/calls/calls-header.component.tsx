@@ -136,7 +136,7 @@ const CallsHeader: FunctionComponent<Props> = ({
               label={intl.formatMessage({
                 id: "module.templates.deleteButton",
               })}
-              displayStyle={DisplayStyle.Link1}
+              displayStyle={DisplayStyle.Link}
               Icon={Type.Delete}
               onClick={onDeleteClick}
             />,

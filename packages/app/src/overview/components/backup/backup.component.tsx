@@ -17,7 +17,6 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { defineMessages, FormattedMessage } from "react-intl"
-import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
 import { noop } from "Renderer/utils/noop"
 import Button from "Renderer/components/core/button/button.component"
@@ -47,10 +46,10 @@ const messages = defineMessages({
 })
 
 const RestoreButtonContainer = styled.div`
-  margin-left: 2rem;
+  margin-left: 0.8rem;
 
   button {
-    margin-bottom: -1.2rem;
+    margin-bottom: -0.9rem;
   }
 `
 
@@ -74,13 +73,13 @@ const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
       {lastBackupDate !== undefined ? (
         <CardContent>
           <CardText>
-            <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+            <Text displayStyle={TextDisplayStyle.Paragraph4}>
               <FormattedMessage
                 {...messages.backupInfoBackupAvaibleDescription}
               />
             </Text>
             <Text
-              displayStyle={TextDisplayStyle.LargeText}
+              displayStyle={TextDisplayStyle.Paragraph1}
               data-testid={SystemTestIds.OsVersion}
             >
               {moment(lastBackupDate).format("MMMM D, YYYY")}
@@ -88,16 +87,16 @@ const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
           </CardText>
           <RestoreButtonContainer>
             <Button
-              displayStyle={DisplayStyle.Link3}
+              displayStyle={DisplayStyle.ActionLink}
               onClick={onBackupRestore}
-              label={intl.formatMessage(messages.restoreAction)}
+              labelMessage={messages.restoreAction}
             />
           </RestoreButtonContainer>
         </CardContent>
       ) : (
         <CardContent>
           <CardText>
-            <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+            <Text displayStyle={TextDisplayStyle.Paragraph4}>
               <FormattedMessage
                 {...messages.backupInfoBackupNotAvaibleDescription}
               />
@@ -108,7 +107,7 @@ const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
       <CardAction filled>
         <CardActionButton
           active
-          label={intl.formatMessage(messages.createAction)}
+          labelMessage={messages.createAction}
           onClick={onBackupCreate}
         />
       </CardAction>

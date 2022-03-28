@@ -9,7 +9,6 @@ import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { fontWeight } from "Renderer/styles/theming/theme-getters"
 import { defineMessages, FormattedMessage } from "react-intl"
 import moment from "moment"
 import { PasscodeLockedTestIds } from "App/passcode-modal/components/PasscodeLocked/passcode-locked-test-ids.enum"
@@ -18,9 +17,7 @@ const PasscodeLockedContainer = styled.div`
   margin-bottom: 4.2rem;
 `
 export const Title = styled(Text)`
-  font-size: 3rem;
-  font-weight: ${fontWeight("default")};
-  margin-bottom: 1.6rem;
+  margin-bottom: 0.8rem;
 `
 
 export const TimeText = styled(Text)`
@@ -28,7 +25,7 @@ export const TimeText = styled(Text)`
 `
 
 export const messages = defineMessages({
-  modalLockedTitle: { id: "component.passcodeModalLocked" }
+  modalLockedTitle: { id: "component.passcodeModalLocked" },
 })
 
 interface Props {
@@ -37,9 +34,11 @@ interface Props {
 
 const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
   const calculateInitDifference = () => {
-    return moment.unix(time).diff(moment(), 's')
+    return moment.unix(time).diff(moment(), "s")
   }
-  const [currentDifference, setCurrentDifference] = useState<number>(calculateInitDifference)
+  const [currentDifference, setCurrentDifference] = useState<number>(
+    calculateInitDifference
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,20 +55,21 @@ const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
   }, [currentDifference])
 
   const formatTime = () => {
-      const endDate = moment.unix(time)
-      return moment(endDate).fromNow() + "."
+    const endDate = moment.unix(time)
+    return moment(endDate).fromNow() + "."
   }
   return (
     <PasscodeLockedContainer data-testid={PasscodeLockedTestIds.Container}>
       <Title
-        displayStyle={TextDisplayStyle.PrimaryHeading}
+        displayStyle={TextDisplayStyle.Headline2}
         message={{
           ...messages.modalLockedTitle,
         }}
       />
       <TimeText
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         data-testid={PasscodeLockedTestIds.Timer}
+        color="secondary"
       >
         <FormattedMessage id="component.passcodeModalTryAgain" />
         {" " + formatTime()}

@@ -25,15 +25,26 @@ const messages = defineMessages({
   label: { id: "component.crashDumpSendingModal.label" },
 })
 
-export const CrashDumpSendingModal: FunctionComponent<CrashDumpSendingModalProps> = ({ open }) => {
+export const CrashDumpSendingModal: FunctionComponent<
+  CrashDumpSendingModalProps
+> = ({ open }) => {
   return (
-    <ModalDialog open={open} size={ModalSize.Small} closeable={false} closeButton={false}>
+    <ModalDialog
+      open={open}
+      size={ModalSize.Small}
+      closeable={false}
+      closeButton={false}
+    >
       <ModalContent data-testid={CrashDumpSendingModalTestingIds.Content}>
         <LoaderWrapper>
           <Loader size={2} type={LoaderType.Spinner} />
         </LoaderWrapper>
 
-        <Text data-testid={CrashDumpSendingModalTestingIds.Label} displayStyle={TextDisplayStyle.LargeBoldText} message={messages.label} />
+        <Text
+          data-testid={CrashDumpSendingModalTestingIds.Label}
+          displayStyle={TextDisplayStyle.Headline4}
+          message={messages.label}
+        />
       </ModalContent>
     </ModalDialog>
   )

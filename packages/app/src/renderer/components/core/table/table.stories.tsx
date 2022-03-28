@@ -276,23 +276,26 @@ storiesOf("Components|Core/Table/Parts", module)
   ))
   .add("Sidebar", () => {
     const HeaderLeft = () => (
-      <CustomSidebarTitle displayStyle={TextDisplayStyle.LargeBoldText}>
+      <CustomSidebarTitle displayStyle={TextDisplayStyle.Headline4}>
         Sidebar title
       </CustomSidebarTitle>
     )
     const HeaderRight = () => (
       <>
         <SidebarHeaderButton
-          Icon={Type.Notes}
+          iconType={Type.Notes}
           onClick={action("Notes icon click")}
+          description={{ id: "Notes icon click" }}
         />
         <SidebarHeaderButton
-          Icon={Type.Upload}
+          iconType={Type.Upload}
           onClick={action("Upload icon click")}
+          description={{ id: "Upload icon click" }}
         />
         <SidebarHeaderButton
-          Icon={Type.Delete}
+          iconType={Type.Delete}
           onClick={action("Delete icon click")}
+          description={{ id: "Delete icon click" }}
         />
       </>
     )
@@ -431,7 +434,7 @@ storiesOf("Components|Core/Table/Basic", module)
       useTableSidebar<typeof basicRows[number]>()
 
     const SidebarTitle = () => (
-      <Text displayStyle={TextDisplayStyle.LargeText}>
+      <Text displayStyle={TextDisplayStyle.Paragraph1}>
         {activeRow?.firstName} {activeRow?.lastName}
       </Text>
     )
@@ -719,15 +722,15 @@ storiesOf("Components|Core/Table/Grouped", module)
       useTableSidebar<typeof labeledRows[number][number]>()
 
     const SidebarTitle = () => (
-      <Text displayStyle={TextDisplayStyle.LargeText}>
+      <Text displayStyle={TextDisplayStyle.Paragraph1}>
         {activeRow?.firstName} {activeRow?.lastName}
       </Text>
     )
 
     const SidebarActions = () => (
       <>
-        <SidebarHeaderButton Icon={Type.Upload} onClick={action("Export")} />
-        <SidebarHeaderButton Icon={Type.Delete} onClick={action("Delete")} />
+        <SidebarHeaderButton iconType={Type.Upload} onClick={action("Export")} description={{ id: "Export" }} />
+        <SidebarHeaderButton iconType={Type.Delete} onClick={action("Delete")} description={{ id: "Delete" }} />
       </>
     )
 

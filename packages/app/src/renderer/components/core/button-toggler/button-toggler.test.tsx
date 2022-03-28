@@ -13,7 +13,8 @@ import { noop } from "Renderer/utils/noop"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { waitFor } from "@testing-library/react"
-import { TooltipTestIds } from "Renderer/components/core/tooltip/tooltip.enum"
+import { IconButtonWithTooltipTestIds } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-tooltip.enum"
+import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
 
 export const singleStateToggler = ["Turn on"]
 
@@ -40,14 +41,9 @@ const renderButtonToggler = (
   )
   return {
     ...outcome,
-    getButtons: () => outcome.queryAllByRole("button"),
+    getButtons: () => outcome.getAllByTestId(ButtonTogglerTestIds.Item),
   }
 }
-
-test("matches snapshot", () => {
-  const { container } = renderButtonToggler(twoStateToggler)
-  expect(container).toMatchSnapshot()
-})
 
 test("render single-state toggler properly", () => {
   const { getButtons } = renderButtonToggler(singleStateToggler)
@@ -90,12 +86,12 @@ test("switches active state properly", async () => {
 
 test("renders tooltip", () => {
   const { getByTestId } = renderButtonToggler(twoStateToggler)
-  expect(getByTestId("tooltip-icon")).toBeInTheDocument()
+  expect(getByTestId(IconButtonWithTooltipTestIds.Icon)).toBeInTheDocument()
 })
 
 test("tooltip has correct text", () => {
   const { getByTestId } = renderButtonToggler(twoStateToggler)
-  expect(getByTestId(TooltipTestIds.Description)).toHaveTextContent(
-    "[value] module.news"
-  )
+  expect(
+    getByTestId(IconButtonWithTooltipTestIds.Description)
+  ).toHaveTextContent("[value] module.news")
 })

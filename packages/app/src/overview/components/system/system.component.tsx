@@ -18,11 +18,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { defineMessages, FormattedMessage } from "react-intl"
-import { intl } from "Renderer/utils/intl"
-import {
-  backgroundColor,
-  letterSpacing,
-} from "Renderer/styles/theming/theme-getters"
+import { backgroundColor, borderRadius } from "Renderer/styles/theming/theme-getters"
 import { noop } from "Renderer/utils/noop"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 
@@ -55,14 +51,14 @@ const messages = defineMessages({
 })
 
 const AvailableUpdateText = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallFadedText,
+  displayStyle: TextDisplayStyle.Label,
+  color: "secondary",
 }))`
-  margin-left: 2rem;
+  margin-left: 1.6rem;
   text-transform: none;
   display: inline-box;
   padding: 0.3rem 0.5rem;
-  border-radius: 0.4rem;
-  letter-spacing: ${letterSpacing("small")}rem;
+  border-radius: ${borderRadius("medium")};
   background-color: ${backgroundColor("minor")};
 `
 
@@ -92,11 +88,11 @@ const System: FunctionComponent<Props> = ({
       <CardBody>
         <CardContent>
           <CardText>
-            <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+            <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
               <FormattedMessage {...messages.systemVersionTitle} />
             </Text>
             <Text
-              displayStyle={TextDisplayStyle.LargeText}
+              displayStyle={TextDisplayStyle.Paragraph1}
               data-testid={SystemTestIds.OsVersion}
             >
               <FormattedMessage {...messages.muditaOsUpdateTitle} />
@@ -122,13 +118,13 @@ const System: FunctionComponent<Props> = ({
             updateDownloaded ? (
               <CardActionButton
                 active
-                label={intl.formatMessage(messages.systemUpdateAction)}
+                labelMessage={messages.systemUpdateAction}
                 onClick={onUpdate}
               />
             ) : (
               <CardActionButton
                 active
-                label={intl.formatMessage(messages.systemDownloadAction)}
+                labelMessage={messages.systemDownloadAction}
                 onClick={onDownload}
                 data-testid={SystemTestIds.DownloadButton}
               />
@@ -136,7 +132,7 @@ const System: FunctionComponent<Props> = ({
           ) : (
             <CardActionButton
               active
-              label={intl.formatMessage(messages.systemCheckForUpdates)}
+              labelMessage={messages.systemCheckForUpdates}
               onClick={onUpdateCheck}
             />
           )}

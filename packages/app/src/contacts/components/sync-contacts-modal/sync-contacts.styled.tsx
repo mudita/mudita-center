@@ -6,11 +6,11 @@
 import styled from "styled-components"
 import Text from "Renderer/components/core/text/text.component"
 import Button from "Renderer/components/core/button/button.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { IconSize } from "App/renderer/components/core/icon/icon.component"
 
 export const ModalText = styled(Text)`
   text-align: center;
-  margin-top: 1.2rem;
-  line-height: 1.8rem;
 `
 
 export const SelectedText = styled(Text)`
@@ -20,13 +20,13 @@ export const SelectedText = styled(Text)`
 export const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
-  margin-top: 4.8rem;
+  margin-top: 4rem;
 `
 
 export const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
-
+  align-items: center;
   button {
     margin-bottom: 1.6rem;
     &:last-of-type {
@@ -38,16 +38,16 @@ export const ButtonWrapper = styled.div`
   }
 `
 
-export const SyncButton = styled(Button)`
-  width: 24.4rem;
+export const SyncButton = styled(Button).attrs(({ displayStyle }) => ({
+  displayStyle: displayStyle || DisplayStyle.Primary,
+  iconSize: IconSize.Medium,
+}))`
+  width: 24rem;
   position: relative;
 
   > span {
     position: absolute;
     top: 0.6rem;
-    left: 1.6rem;
-  }
-  > p {
-    padding-left: 3rem;
+    left: 0.8rem;
   }
 `

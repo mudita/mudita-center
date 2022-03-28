@@ -25,6 +25,7 @@ export interface AppConfiguration extends Record<string, any> {
 }
 
 export interface AppSettings extends Record<string, any> {
+  applicationId: string
   appAutostart: boolean
   appTethering: boolean
   appIncomingCalls: boolean

@@ -13,13 +13,11 @@ import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { DeviceLoadingError } from "App/device/errors"
-import { initializeDataSyncRequest } from "App/data-sync/requests/initialize-data-sync.request"
 
 jest.mock("Renderer/requests/get-device-info.request")
 jest.mock("Renderer/requests/get-network-info.request")
 jest.mock("Renderer/requests/get-storage-info.request")
 jest.mock("Renderer/requests/get-battery-info.request")
-jest.mock("App/data-sync/requests/initialize-data-sync.request")
 
 jest.mock("Renderer/store/index", () =>
   createMockStore([thunk])({
@@ -108,7 +106,6 @@ describe("PureDataLoader", () => {
       ],
     })
 
-    expect(initializeDataSyncRequest).toHaveBeenCalled()
     expect(getDeviceInfo).toHaveBeenCalled()
     expect(getNetworkInfo).toHaveBeenCalled()
     expect(getStorageInfo).toHaveBeenCalled()
@@ -120,7 +117,6 @@ describe("PureDataLoader", () => {
 
     expect(async () => await subject.load()).rejects.toThrowError(errorMock)
 
-    expect(initializeDataSyncRequest).not.toHaveBeenCalled()
     expect(getDeviceInfo).toHaveBeenCalled()
     expect(getNetworkInfo).toHaveBeenCalled()
     expect(getStorageInfo).toHaveBeenCalled()

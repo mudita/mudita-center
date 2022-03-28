@@ -220,8 +220,8 @@ const Notes: FunctionComponent<NotesProps> = ({
             buttons={[
               <ButtonComponent
                 key="delete"
-                label={intl.formatMessage(messages.deleteButton)}
-                displayStyle={DisplayStyle.Link1}
+                labelMessage={messages.deleteButton}
+                displayStyle={DisplayStyle.Link}
                 Icon={Type.Delete}
                 onClick={removeSelectedRows}
               />,
@@ -242,7 +242,7 @@ const Notes: FunctionComponent<NotesProps> = ({
         <NewNoteButton
           displayStyle={DisplayStyle.Primary}
           size={ButtonSize.FixedBig}
-          label={intl.formatMessage(messages.newButton)}
+          labelMessage={messages.newButton}
           onClick={onNewButtonClick}
           Icon={Type.PlusSign}
           data-testid={NotesTestIds.NewNoteButton}
@@ -324,7 +324,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                       />
                     </Col>
                     <TextPreview onClick={handleTextPreviewClick}>
-                      <TextCut displayStyle={TextDisplayStyle.LargeText}>
+                      <TextCut displayStyle={TextDisplayStyle.Paragraph1}>
                         {emptyNote ? <em>{text}</em> : text}
                       </TextCut>
                     </TextPreview>
@@ -342,7 +342,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                       )}
                     </Col>
                     <Col onClick={noop}>
-                      <Text displayStyle={TextDisplayStyle.LargeText}>
+                      <Text displayStyle={TextDisplayStyle.Paragraph1}>
                         {isToday(date)
                           ? intl.formatMessage(messages.today)
                           : moment(date).format("ll")}

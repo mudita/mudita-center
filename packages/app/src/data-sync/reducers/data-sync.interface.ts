@@ -39,3 +39,8 @@ export type UpdateAllIndexesRejectAction = PayloadAction<
   UpdateAllIndexesError,
   DataSyncEvent.UpdateAllIndexes
 >
+
+export type DataInitializingError = PayloadAction<
+  Error,
+  DataSyncEvent.InitializingDataError
+>

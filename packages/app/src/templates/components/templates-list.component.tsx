@@ -172,7 +172,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                 />
               </Col>
               <TextPreview onClick={handleTextPreviewClick}>
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.Paragraph1}>
                   {emptyTemplate ? <em>{text}</em> : text}
                 </Text>
               </TextPreview>
@@ -190,7 +190,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                 )}
               </Col>
               <Col>
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.Paragraph1}>
                   {isToday(date)
                     ? intl.formatMessage(messages.today)
                     : moment(date).format("ll")}

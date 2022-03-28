@@ -5,16 +5,13 @@
 
 import styled from "styled-components"
 import Text from "Renderer/components/core/text/text.component"
-import {
-  backgroundColor,
-  textColor,
-} from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
 import Button from "Renderer/components/core/button/button.component"
+import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 export const PhoneNumberText = styled(Text)`
   margin-top: 0.8rem;
@@ -55,30 +52,9 @@ export const NameWrapper = styled.div`
 `
 
 export const IconButton = styled(ButtonComponent).attrs(() => ({
-  displayStyle: DisplayStyle.IconOnly2,
-}))`
-  ${buttonComponentAnimationStyles};
-`
-
-export const SendButton = styled(ButtonComponent).attrs(() => ({
-  displayStyle: DisplayStyle.IconOnly2,
-}))`
-  ${buttonComponentAnimationStyles};
-  border-radius: 50%;
-  background-color: ${backgroundColor("super")};
-  opacity: 0.75;
-  svg path {
-    fill: ${textColor("active")};
-  }
-  :hover {
-    border-radius: 50%;
-    opacity: 1;
-    background-color: ${backgroundColor("super")};
-    svg path {
-      fill: ${textColor("active")};
-    }
-  }
-`
+  displayStyle: DisplayStyle.IconOnly,
+  iconSize: IconSize.Medium,
+}))``
 
 export const Content = styled.div`
   height: 100%;

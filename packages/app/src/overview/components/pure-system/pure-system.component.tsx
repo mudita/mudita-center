@@ -60,7 +60,11 @@ const PureSystemInfo: FunctionComponent<InfoProps> = ({
 }) => {
   return (
     <PureSystemInfoContainer withButton={withButton}>
-      <Text displayStyle={TextDisplayStyle.LargeFadedText} message={title} />
+      <Text
+        displayStyle={TextDisplayStyle.Paragraph1}
+        color="secondary"
+        message={title}
+      />
       {children}
     </PureSystemInfoContainer>
   )
@@ -81,7 +85,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
     <div>
       <BackWrapper>
         <AutoWidthButtonComponent
-          displayStyle={DisplayStyle.Link1}
+          displayStyle={DisplayStyle.Link}
           onClick={handleBack}
           labelMessage={messages.back}
           Icon={Type.ArrowLongLeft}
@@ -91,22 +95,23 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
       </BackWrapper>
       <PureSystemSection>
         <PureSystemTitle
-          displayStyle={TextDisplayStyle.SecondaryBoldHeading}
+          displayStyle={TextDisplayStyle.Headline3}
           message={messages.title}
         />
         <Text
-          displayStyle={TextDisplayStyle.MediumFadedLightText}
+          displayStyle={TextDisplayStyle.Paragraph4}
+          color="secondary"
           message={messages.subtitle}
         />
       </PureSystemSection>
       <PureSystemSection>
         <PureSystemAbout
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.Headline4}
           message={messages.about}
         />
         <PureSystemInfo title={messages.serialNumber}>
           <Text
-            displayStyle={TextDisplayStyle.LargeText}
+            displayStyle={TextDisplayStyle.Paragraph1}
             data-testid={PureSystemTestIds.SerialNumber}
           >
             {serialNumber}
@@ -114,7 +119,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
         </PureSystemInfo>
         <PureSystemInfo title={messages.sar} withButton>
           <AutoWidthButtonComponent
-            displayStyle={DisplayStyle.Link3}
+            displayStyle={DisplayStyle.ActionLink}
             labelMessage={messages.sarInfo}
             onClick={openSarInfo}
           />

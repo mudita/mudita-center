@@ -40,6 +40,9 @@ import {
   GetRestoreDeviceStatusResponseBody,
   RemoveFileSystemRequestConfig,
   RemoveFileSystemResponse,
+  GetEntriesResponseBody,
+  DeleteEntriesRequestConfig,
+  GetEntriesRequestConfig,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
@@ -51,9 +54,11 @@ import { MainProcessIpc } from "electron-better-ipc"
 export enum DeviceServiceEventName {
   DeviceConnected = "deviceConnected",
   DeviceDisconnected = "deviceDisconnected",
+  DeviceUnlocked = "deviceUnlocked",
+  DeviceLocked = "deviceLocked",
 }
 
-class DeviceService {
+export class DeviceService {
   public devices: Record<string, MuditaDevice> = {}
   public currentDevice: MuditaDevice | undefined
   public currentDeviceUnlocked = false
@@ -101,10 +106,6 @@ class DeviceService {
     method: Method.Get
     body: GetFileListBody
   }): Promise<DeviceResponse<GetFileListResponseBody>>
-  async request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
-  }): Promise<DeviceResponse<{ entries: Contact[]; totalCount: number }>>
   public request(config: {
     endpoint: Endpoint.Messages
     method: Method.Get
@@ -120,6 +121,15 @@ class DeviceService {
     method: Method.Post
     body: PostMessagesBody
   }): Promise<DeviceResponse<PostMessagesResponseBody>>
+  async request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Get
+  }): Promise<DeviceResponse<{ entries: Contact[]; totalCount: number }>>
+  async request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Get
+    body: { id: number }
+  }): Promise<DeviceResponse<Contact>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
@@ -185,6 +195,10 @@ class DeviceService {
   public request(
     config: RemoveFileSystemRequestConfig
   ): Promise<DeviceResponse<RemoveFileSystemResponse>>
+  public request(
+    config: GetEntriesRequestConfig
+  ): Promise<DeviceResponse<GetEntriesResponseBody>>
+  public request(config: DeleteEntriesRequestConfig): Promise<DeviceResponse>
   async request(
     config: RequestConfig<any>
   ): Promise<DeviceResponse<unknown> | DeviceResponse<undefined>> {
@@ -393,7 +407,10 @@ class DeviceService {
     }
   }
 
-  private checkDeviceIsUnlocked (config: RequestConfig<any>, response: DeviceResponse<unknown>): void {
+  private checkDeviceIsUnlocked(
+    config: RequestConfig<any>,
+    response: DeviceResponse<unknown>
+  ): void {
     if (!DeviceService.isEndpointSecure(config)) {
       return
     }
@@ -402,15 +419,20 @@ class DeviceService {
       return
     }
 
-    this.currentDeviceUnlocked = response.status !== DeviceResponseStatus.PhoneLocked
+    this.currentDeviceUnlocked =
+      response.status !== DeviceResponseStatus.PhoneLocked
 
     this.emitDeviceUnlockedEvent(response)
   }
 
   private emitDeviceUnlockedEvent({ status }: DeviceResponse<unknown>): void {
-    status !== DeviceResponseStatus.PhoneLocked
-      ? this.ipcMain.sendToRenderers(IpcEmitter.DeviceUnlocked)
-      : this.ipcMain.sendToRenderers(IpcEmitter.DeviceLocked)
+    if (status !== DeviceResponseStatus.PhoneLocked) {
+      this.eventEmitter.emit(DeviceServiceEventName.DeviceUnlocked)
+      this.ipcMain.sendToRenderers(IpcEmitter.DeviceUnlocked)
+    } else {
+      this.eventEmitter.emit(DeviceServiceEventName.DeviceLocked)
+      this.ipcMain.sendToRenderers(IpcEmitter.DeviceLocked)
+    }
   }
 
   private static isEndpointSecure(config: RequestConfig<any>): boolean {

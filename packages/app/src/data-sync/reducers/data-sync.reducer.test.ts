@@ -17,16 +17,6 @@ import { DataSyncEvent } from "App/data-sync/constants"
 import { UpdateAllIndexesError } from "App/data-sync/errors"
 
 describe("Update all indexes data functionality", () => {
-  test("Event: SetDataSyncInitState/pending change `state` to Loading", () => {
-    expect(
-      dataSyncReducer(undefined, {
-        type: DataSyncEvent.SetDataSyncInitState,
-      })
-    ).toEqual({
-      ...initialState
-    })
-  })
-
   test("Event: UpdateAllIndexes/pending change `state` to Loading", () => {
     expect(
       dataSyncReducer(undefined, {
@@ -67,19 +57,17 @@ describe("Update all indexes data functionality", () => {
 })
 
 describe("`InitializeDataSync` data functionality", () => {
-  test("Event: InitializeDataSync/pending change `state` to Loading", () => {
+  test("Event: InitializingDataSync change `state` to Loading", () => {
     expect(
       dataSyncReducer(undefined, {
-        type: pendingAction(DataSyncEvent.UpdateAllIndexes),
+        type: DataSyncEvent.InitializingDataSync,
       })
     ).toEqual({
       ...initialState,
       state: SynchronizationState.Loading,
     })
   })
-})
 
-describe("`InitializeDataSync` data functionality", () => {
   test("Event: SetDataSyncInitialized change `initialized` to true and `error` to null", () => {
     expect(
       dataSyncReducer(undefined, {
@@ -91,10 +79,19 @@ describe("`InitializeDataSync` data functionality", () => {
       error: null,
     })
   })
-})
 
-describe("`InitializeDataSync` data functionality", () => {
-  test("Event: SetDataSyncInitialized change `state` to Cache and initialized to true ", () => {
+  test("Event: SetLoadedState changed state to `loaded`", () => {
+    expect(
+      dataSyncReducer(undefined, {
+        type: DataSyncEvent.SetLoadedState,
+      })
+    ).toEqual({
+      ...initialState,
+      state: SynchronizationState.Loaded,
+    })
+  })
+
+  test("Event: SetDataSyncInitialized change `state` to Cache and initialized to true", () => {
     expect(
       dataSyncReducer(undefined, {
         type: DataSyncEvent.SetCacheState,
@@ -103,6 +100,33 @@ describe("`InitializeDataSync` data functionality", () => {
       ...initialState,
       initialized: true,
       state: SynchronizationState.Cache,
+    })
+  })
+
+  test("Event: InitializeDataSync/pending change `state` changing state to `loading`", () => {
+    expect(
+      dataSyncReducer(undefined, {
+        type: pendingAction(DataSyncEvent.InitializeDataSync),
+      })
+    ).toEqual({
+      ...initialState,
+      initialized: false,
+      state: SynchronizationState.Loading,
+    })
+  })
+
+  test("Event: InitializingDataError, change `state` changing state to `error` and set a payload", () => {
+    const testError = new Error("I'm error")
+
+    expect(
+      dataSyncReducer(undefined, {
+        type: DataSyncEvent.InitializingDataError,
+        payload: testError,
+      })
+    ).toEqual({
+      ...initialState,
+      state: SynchronizationState.Error,
+      error: testError,
     })
   })
 })

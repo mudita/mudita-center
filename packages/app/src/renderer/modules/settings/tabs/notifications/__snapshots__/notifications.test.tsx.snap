@@ -4,31 +4,37 @@ exports[`matches snapshot 1`] = `
 .c2 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
-  line-height: 1.8rem;
-  color: #6a6a6a;
-  font-weight: 300;
+  line-height: 1.57;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  font-weight: 300;
+  color: #000000;
 }
 
 .c6 {
   margin: 0;
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c15 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c7 {
@@ -36,7 +42,6 @@ exports[`matches snapshot 1`] = `
   -webkit-align-self: end;
   -ms-flex-item-align: end;
   align-self: end;
-  margin-bottom: 0.4rem;
 }
 
 .c9 {
@@ -73,24 +78,29 @@ exports[`matches snapshot 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c12:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c12 g {
+.c12 p {
+  color: #ffffff;
+}
+
+.c12 g path {
   fill: #ffffff;
 }
 
@@ -111,18 +121,20 @@ exports[`matches snapshot 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
 }
 
-.c17 g {
+.c17 g path {
   fill: #000000;
 }
 
@@ -146,13 +158,19 @@ exports[`matches snapshot 1`] = `
 }
 
 .c13 {
-  --radius: 0.5rem;
+  --radius: 0.4rem;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   z-index: 1;
   pointer-events: all;
   z-index: 3;
+}
+
+.c13,
+.c13 * {
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c13:disabled {
@@ -177,12 +195,18 @@ exports[`matches snapshot 1`] = `
 }
 
 .c18 {
-  --radius: 0.5rem;
+  --radius: 0.4rem;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   z-index: 1;
   pointer-events: all;
+}
+
+.c18,
+.c18 * {
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
 }
 
 .c18:disabled {
@@ -195,11 +219,14 @@ exports[`matches snapshot 1`] = `
 
 .c18:not(:hover) {
   border: 0.1rem solid #d2d6db;
-  color: #6a6a6a;
 }
 
-.c18:not(:hover) g {
-  fill: #f4f5f6;
+.c18:not(:hover) p {
+  color: #a5a5a5;
+}
+
+.c18:not(:hover) g path {
+  fill: #a5a5a5;
 }
 
 .c18:not(:first-of-type) {
@@ -220,7 +247,6 @@ exports[`matches snapshot 1`] = `
 }
 
 .c14 {
-  padding: 0 3.6rem;
   width: 8.8rem;
 }
 
@@ -228,7 +254,7 @@ exports[`matches snapshot 1`] = `
   display: grid;
   box-sizing: border-box;
   grid-template-areas: "Checkbox Actions";
-  grid-template-columns: 1fr 15rem;
+  grid-template-columns: 1fr 16.4rem;
   border-bottom: solid 0.1rem #d2d6db;
   height: 7.2rem;
   max-height: 7.2rem;
@@ -278,6 +304,7 @@ exports[`matches snapshot 1`] = `
     >
       <p
         class="c2 c3"
+        color="primary"
       >
         [value] module.settings.notificationsDescription
       </p>
@@ -290,6 +317,7 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c6 c7 c8"
+          color="primary"
         >
           [value] module.settings.notificationsIncomingCallsNotificationsLabel
         </p>
@@ -303,11 +331,12 @@ exports[`matches snapshot 1`] = `
           <button
             class="c12 c13 c14"
             data-testid="toggler-active"
-            size="2"
+            size="1"
             type="button"
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.offLabel
             </p>
@@ -315,11 +344,12 @@ exports[`matches snapshot 1`] = `
           <button
             class="c17 c18 c14"
             data-testid="toggler-inactive"
-            size="2"
+            size="1"
             type="button"
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.onLabel
             </p>
@@ -335,6 +365,7 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c6 c7 c8"
+          color="primary"
         >
           [value] module.settings.notificationsIncomingMessagesNotifications
         </p>
@@ -348,11 +379,12 @@ exports[`matches snapshot 1`] = `
           <button
             class="c12 c13 c14"
             data-testid="toggler-active"
-            size="2"
+            size="1"
             type="button"
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.offLabel
             </p>
@@ -360,11 +392,12 @@ exports[`matches snapshot 1`] = `
           <button
             class="c17 c18 c14"
             data-testid="toggler-inactive"
-            size="2"
+            size="1"
             type="button"
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.onLabel
             </p>
@@ -380,6 +413,7 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c6 c7 c8"
+          color="primary"
         >
           [value] module.settings.notificationsLowBatteryNotifications
         </p>
@@ -393,11 +427,12 @@ exports[`matches snapshot 1`] = `
           <button
             class="c12 c13 c14"
             data-testid="toggler-active"
-            size="2"
+            size="1"
             type="button"
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.offLabel
             </p>
@@ -405,11 +440,12 @@ exports[`matches snapshot 1`] = `
           <button
             class="c17 c18 c14"
             data-testid="toggler-inactive"
-            size="2"
+            size="1"
             type="button"
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.onLabel
             </p>
@@ -425,6 +461,7 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c6 c7 c8"
+          color="primary"
         >
           [value] module.settings.notificationsPureOsUpdatesNotifications
         </p>
@@ -438,11 +475,12 @@ exports[`matches snapshot 1`] = `
           <button
             class="c12 c13 c14"
             data-testid="toggler-active"
-            size="2"
+            size="1"
             type="button"
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.offLabel
             </p>
@@ -450,11 +488,12 @@ exports[`matches snapshot 1`] = `
           <button
             class="c17 c18 c14"
             data-testid="toggler-inactive"
-            size="2"
+            size="1"
             type="button"
           >
             <p
               class="c15 c16"
+              color="primary"
             >
               [value] module.settings.onLabel
             </p>

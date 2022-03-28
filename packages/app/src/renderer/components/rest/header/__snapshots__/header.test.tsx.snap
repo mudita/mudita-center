@@ -3,15 +3,27 @@
 exports[`matches snapshot with tabs 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.8rem;
-  line-height: 1.1;
+  font-size: 1.6rem;
+  line-height: 1.5;
   font-weight: 700;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c8 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.05;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -22,7 +34,7 @@ exports[`matches snapshot with tabs 1`] = `
 }
 
 .c2 {
-  margin: 2.4rem 0 1.5rem 3.2rem;
+  margin: 1.6rem 0 1.5rem 3.2rem;
 }
 
 .c6 {
@@ -66,23 +78,22 @@ exports[`matches snapshot with tabs 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 100%;
-  padding: 0.8rem;
+  padding: 0.8rem 0;
   border: none;
   position: relative;
-  border-radius: 0.2remrem;
-  color: #6a6a6a;
-  font-weight: 400;
   width: 100%;
 }
 
@@ -99,28 +110,32 @@ exports[`matches snapshot with tabs 1`] = `
   transition: width 500ms ease;
 }
 
-.c4:hover {
-  color: #3b3f42;
-}
-
-.c4:hover svg {
-  opacity: 0.9;
-}
-
-.c4.active {
-  color: #000000;
-}
-
-.c4.active:after {
-  width: 100%;
-}
-
-.c4.active svg {
-  opacity: 1;
+.c4 p {
+  color: #6a6a6a;
 }
 
 .c4 svg {
   opacity: 0.75;
+}
+
+.c4:hover p {
+  color: #3b3f42;
+}
+
+.c4:hover g path {
+  fill: #3b3f42;
+}
+
+.c4.active p {
+  color: #000000;
+}
+
+.c4.active g path {
+  fill: #000000;
+}
+
+.c4.active:after {
+  width: 100%;
 }
 
 .c7 {
@@ -145,21 +160,22 @@ exports[`matches snapshot with tabs 1`] = `
 <div
   class="c0"
 >
-  <h3
+  <h4
     class="c1 c2"
+    color="primary"
     data-testid="location"
   >
     [value] module.phone
-  </h3>
+  </h4>
   <div
     class="c3"
   >
     <a
       aria-current="page"
       class="c4 c5 active"
-      displaystyle="9"
+      displaystyle="8"
       href="/phone"
-      size="2"
+      size="1"
     >
       <span
         class="c6 c7"
@@ -173,15 +189,16 @@ exports[`matches snapshot with tabs 1`] = `
       </span>
       <p
         class="c8 c9"
+        color="primary"
       >
         [value] module.phone.calls
       </p>
     </a>
     <a
       class="c4 c5"
-      displaystyle="9"
+      displaystyle="8"
       href="/phone/dial"
-      size="2"
+      size="1"
     >
       <span
         class="c6 c7"
@@ -195,6 +212,7 @@ exports[`matches snapshot with tabs 1`] = `
       </span>
       <p
         class="c8 c9"
+        color="primary"
       >
         [value] module.dial
       </p>
@@ -206,9 +224,14 @@ exports[`matches snapshot with tabs 1`] = `
 exports[`matches snapshot without tabs 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.8rem;
-  line-height: 1.1;
+  font-size: 1.6rem;
+  line-height: 1.5;
   font-weight: 700;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c0 {
@@ -219,7 +242,7 @@ exports[`matches snapshot without tabs 1`] = `
 }
 
 .c2 {
-  margin: 2.4rem 0 1.5rem 3.2rem;
+  margin: 1.6rem 0 1.5rem 3.2rem;
 }
 
 .c3 {
@@ -232,12 +255,13 @@ exports[`matches snapshot without tabs 1`] = `
 <div
   class="c0"
 >
-  <h3
+  <h4
     class="c1 c2"
+    color="primary"
     data-testid="location"
   >
     [value] module.overview
-  </h3>
+  </h4>
   <div
     class="c3"
   />

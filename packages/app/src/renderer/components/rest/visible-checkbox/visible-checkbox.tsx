@@ -4,13 +4,28 @@
  */
 
 import styled from "styled-components"
-import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import InputCheckbox, {
+  CheckboxTooltipDescription,
+} from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
 } from "Renderer/components/rest/animated-opacity/animated-opacity"
+import { defineMessages } from "react-intl"
 
-export const VisibleCheckbox = styled(InputCheckbox)<{ visible?: boolean }>`
+const messages = defineMessages({
+  checkTooltipDescription: { id: "component.rowCheckTooltipDescription" },
+  uncheckTooltipDescription: { id: "component.rowUncheckTooltipDescription" },
+})
+
+const checkboxTooltipDescription: CheckboxTooltipDescription = {
+  checkTooltipDescription: messages.checkTooltipDescription,
+  uncheckTooltipDescription: messages.uncheckTooltipDescription,
+}
+
+export const VisibleCheckbox = styled(InputCheckbox).attrs(() => ({
+  checkboxTooltipDescription,
+}))<{ visible?: boolean }>`
   ${animatedOpacityStyles};
   ${({ visible }) => visible && animatedOpacityActiveStyles};
 `

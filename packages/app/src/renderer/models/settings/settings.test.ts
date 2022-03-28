@@ -5,11 +5,12 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { init, InitConfig } from "@rematch/core"
-import { version } from "../../../../package.json"
 import settings from "Renderer/models/settings/settings"
-import { ConversionFormat, Convert } from "App/main/store/settings.interface"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { fakeAppSettings } from "Backend/adapters/app-settings/app-settings-fake.adapter"
+import {
+  AppSettings,
+  ConversionFormat,
+  Convert,
+} from "App/main/store/settings.interface"
 import { GetApplicationConfigurationEvents } from "App/main/functions/register-get-application-configuration-listener"
 import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
 import DeviceResponse, {
@@ -19,6 +20,28 @@ import Mock = jest.Mock
 import { deviceReducer } from "App/device"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { ArchiveFilesEvents } from "App/main/functions/register-archive-files-listener"
+import { IpcAppSettingsRequest } from "App/app-settings/constants"
+import { version } from "../../../../package.json"
+
+export const fakeAppSettings: AppSettings = {
+  applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
+  appAutostart: false,
+  appTethering: false,
+  appIncomingCalls: false,
+  appIncomingMessages: false,
+  appLowBattery: false,
+  appOsUpdates: false,
+  appNonStandardAudioFilesConversion: false,
+  appConvert: Convert.ConvertAutomatically,
+  appConversionFormat: ConversionFormat.WAV,
+  appTray: true,
+  pureOsBackupLocation: `fake/path/pure/phone/backups/`,
+  pureOsDownloadLocation: `fake/path/pure/os/downloads/`,
+  language: "en-US",
+  pureNeverConnected: true,
+  appCollectingData: undefined,
+  diagnosticSentTimestamp: 0,
+}
 
 const getDeviceFileResponse: DeviceResponse<DeviceFile[]> = {
   status: DeviceResponseStatus.Ok,
@@ -45,8 +68,8 @@ const yesterdayTimestamp = new Date(
 
 const mockIpc = () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.UpdateAppSettings]: Promise.resolve(),
-    [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
+    [IpcAppSettingsRequest.Update]: Promise.resolve(),
+    [IpcAppSettingsRequest.Get]: Promise.resolve(fakeAppSettings),
     [GetApplicationConfigurationEvents.Request]: Promise.resolve({
       osVersion: "0.0.0",
       centerVersion: "0.0.0",
@@ -79,7 +102,6 @@ beforeEach(() => {
 afterEach(() => {
   ;(getDeviceLogFiles as any).mockClear()
   ;(uploadFileRequest as any).mockClear()
-  // ;(getMessagesByThreadId as any).mockClear()
 })
 
 test("loads settings", async () => {
@@ -109,6 +131,7 @@ test("loads settings", async () => {
         "appTray": true,
         "appUpdateAvailable": undefined,
         "appUpdateRequired": false,
+        "applicationId": "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
         "diagnosticSentTimestamp": 0,
         "language": "en-US",
         "lowestSupportedCenterVersion": undefined,
@@ -497,7 +520,7 @@ test.skip("sendDiagnosticData effect no generate any side effects if diagnostic 
   )
 
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetAppSettings]: Promise.resolve({
+    [IpcAppSettingsRequest.Get]: Promise.resolve({
       ...fakeAppSettings,
       appCollectingData: false,
     }),
@@ -521,7 +544,7 @@ test.skip("sendDiagnosticData effect no generate any side effects if diagnostic 
     "setDiagnosticSentTimestamp"
   )
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetAppSettings]: Promise.resolve({
+    [IpcAppSettingsRequest.Get]: Promise.resolve({
       ...fakeAppSettings,
       appCollectingData: true,
       diagnosticSentTimestamp: todayTimestamp,
@@ -546,7 +569,7 @@ test.skip("sendDiagnosticData pass successfully if user agree to collecting data
     "setDiagnosticSentTimestamp"
   )
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetAppSettings]: Promise.resolve({
+    [IpcAppSettingsRequest.Get]: Promise.resolve({
       ...fakeAppSettings,
       appCollectingData: true,
       diagnosticSentTimestamp: yesterdayTimestamp,
@@ -575,7 +598,7 @@ test.skip("sendDiagnosticData effect no sent requests if getting device logs fai
     status: DeviceResponseStatus.Error,
   })
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetAppSettings]: Promise.resolve({
+    [IpcAppSettingsRequest.Get]: Promise.resolve({
       ...fakeAppSettings,
       appCollectingData: true,
       diagnosticSentTimestamp: yesterdayTimestamp,
@@ -601,7 +624,7 @@ test.skip("sendDiagnosticData effect is fails if request no finish successfully"
   )
   ;(getDeviceLogFiles as Mock).mockReturnValue(getDeviceFileResponse)
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetAppSettings]: Promise.resolve({
+    [IpcAppSettingsRequest.Get]: Promise.resolve({
       ...fakeAppSettings,
       appCollectingData: true,
       diagnosticSentTimestamp: yesterdayTimestamp,

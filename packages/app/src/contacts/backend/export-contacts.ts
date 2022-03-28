@@ -21,9 +21,9 @@ const messages = defineMessages({
 })
 
 const registerContactsExportListener = () => {
-  ipcMain.answerRenderer(
+  ipcMain.answerRenderer<Contact[], boolean>(
     IpcRequest.ExportContacts,
-    async (contacts: Contact[]) => {
+    async (contacts) => {
       const { canceled, filePath } = await dialog.showSaveDialog({
         title: intl.formatMessage(messages.dialogTitle, {
           count: contacts.length,

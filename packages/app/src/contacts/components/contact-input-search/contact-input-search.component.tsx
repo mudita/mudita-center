@@ -40,15 +40,18 @@ const renderListItem: RenderListItem<Contact> = ({
   <ContactListItem {...props}>
     <span>
       {createFullName(item) ? (
-        <ContactListItemName displayStyle={TextDisplayStyle.MediumText}>
+        <ContactListItemName displayStyle={TextDisplayStyle.Paragraph3}>
           {createFullName(item)}
         </ContactListItemName>
       ) : (
-        <ContactListItemName displayStyle={TextDisplayStyle.MediumFadedText}>
+        <ContactListItemName
+          displayStyle={TextDisplayStyle.Paragraph3}
+          color="secondary"
+        >
           {intl.formatMessage(messages.noNameProvided)}
         </ContactListItemName>
       )}
-      <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+      <Text color="secondary" displayStyle={TextDisplayStyle.Paragraph4}>
         {secondParam(item, searchString)}
       </Text>
     </span>

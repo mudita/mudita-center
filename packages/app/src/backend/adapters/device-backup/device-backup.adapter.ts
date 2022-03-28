@@ -19,7 +19,7 @@ import DeviceFileSystemAdapter, {
 import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
 import logger from "App/main/utils/logger"
 
-class DeviceBackup implements DeviceBackupAdapter {
+export class DeviceBackup implements DeviceBackupAdapter {
   public backuping = false
 
   constructor(
@@ -118,7 +118,9 @@ class DeviceBackup implements DeviceBackupAdapter {
       }
     }
 
-    const filePath = `${getBackupLocationResponse.data!.backupLocation}/${backupId}`
+    const filePath = `${
+      getBackupLocationResponse.data!.backupLocation
+    }/${backupId}`
 
     return {
       status: DeviceResponseStatus.Ok,

@@ -47,15 +47,13 @@ const NotificationsUI: FunctionComponent<Props> = ({
   return (
     <SettingsWrapper>
       <SettingsDescriptionWrapper>
-        <SettingsDescription
-          displayStyle={TextDisplayStyle.MediumFadedLightText}
-        >
+        <SettingsDescription displayStyle={TextDisplayStyle.Paragraph4}>
           <FormattedMessage id="module.settings.notificationsDescription" />
         </SettingsDescription>
       </SettingsDescriptionWrapper>
       <SettingsTableRow>
         <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id="module.settings.notificationsIncomingCallsNotificationsLabel" />
           </SettingsLabel>
         </Data>
@@ -68,7 +66,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
       </SettingsTableRow>
       <SettingsTableRow>
         <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id="module.settings.notificationsIncomingMessagesNotifications" />
           </SettingsLabel>
         </Data>
@@ -81,7 +79,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
       </SettingsTableRow>
       <SettingsTableRow>
         <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id="module.settings.notificationsLowBatteryNotifications" />
           </SettingsLabel>
         </Data>
@@ -94,7 +92,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
       </SettingsTableRow>
       <SettingsTableRow>
         <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+          <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
             <FormattedMessage id="module.settings.notificationsPureOsUpdatesNotifications" />
           </SettingsLabel>
         </Data>

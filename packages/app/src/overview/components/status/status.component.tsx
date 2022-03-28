@@ -12,23 +12,12 @@ import { StatusProps } from "App/overview/components/status/status.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
-import Card, {
-  CardContent,
-  CardBody,
-} from "App/overview/components/card.elements"
+import Card, { CardBody } from "App/overview/components/card.elements"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
-const TextInfo = styled(CardContent)`
-  p {
-    margin-top: 1.2rem;
-    letter-spacing: ${letterSpacing("small")}rem;
-    color: ${textColor("secondary")};
-  }
-`
 const Stats = styled.div`
   display: flex;
   flex-direction: row;
@@ -99,15 +88,13 @@ const Status: FunctionComponent<StatusProps> = ({
 
   return (
     <Card className={className}>
-      <TextInfo>
-        <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-          {deviceType === DeviceType.MuditaPure ? (
-            <FormattedMessage id="module.overview.statusPureTitle" />
-          ) : (
-            <FormattedMessage id="module.overview.statusHarmonyTitle" />
-          )}
-        </Text>
-      </TextInfo>
+      <Text displayStyle={TextDisplayStyle.Headline3}>
+        {deviceType === DeviceType.MuditaPure ? (
+          <FormattedMessage id="module.overview.statusPureTitle" />
+        ) : (
+          <FormattedMessage id="module.overview.statusHarmonyTitle" />
+        )}
+      </Text>
       <CardBody>
         <div>
           <Stats>
@@ -116,14 +103,14 @@ const Status: FunctionComponent<StatusProps> = ({
             </IconContainer>
             <div>
               <Text
-                displayStyle={TextDisplayStyle.LargeBoldText}
+                displayStyle={TextDisplayStyle.Headline4}
                 element={"h2"}
                 data-testid={StatusTestIds.BatteryLevel}
               >
                 {Math.round(batteryLevel * 100)} %
               </Text>
               <Text
-                displayStyle={TextDisplayStyle.SmallFadedText}
+                displayStyle={TextDisplayStyle.Label}
                 message={messages.battery}
               />
             </div>
@@ -136,19 +123,19 @@ const Status: FunctionComponent<StatusProps> = ({
               {network ? (
                 <div>
                   <Text
-                    displayStyle={TextDisplayStyle.LargeBoldText}
+                    displayStyle={TextDisplayStyle.Headline4}
                     data-testid={StatusTestIds.NetworkName}
                   >
                     {displayNetworkName(network)}
                   </Text>
                   <Text
-                    displayStyle={TextDisplayStyle.SmallFadedText}
+                    displayStyle={TextDisplayStyle.Label}
                     message={messages.network}
                   />
                 </div>
               ) : (
                 <Text
-                  displayStyle={TextDisplayStyle.LargeBoldText}
+                  displayStyle={TextDisplayStyle.Headline4}
                   message={messages.noConnection}
                 />
               )}

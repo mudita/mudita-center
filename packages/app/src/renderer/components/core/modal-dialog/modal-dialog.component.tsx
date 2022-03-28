@@ -85,7 +85,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
   onClose,
   close = (
     <Close
-      displayStyle={DisplayStyle.IconOnly2}
+      displayStyle={DisplayStyle.IconOnly}
       onClick={closeModal}
       Icon={Type.Close}
       data-testid={ModalTestIds.CloseButton}
@@ -151,7 +151,11 @@ const ModalDialog: FunctionComponent<Properties> = ({
           {title}
         </ModalTitle>
         {Boolean(closeModal) && close}
-        <ModalSubTitle displayStyle={getSubtitleStyle(size)} element={"p"}>
+        <ModalSubTitle
+          displayStyle={getSubtitleStyle(size)}
+          color="secondary"
+          element={"p"}
+        >
           {subtitle}
         </ModalSubTitle>
       </Header>

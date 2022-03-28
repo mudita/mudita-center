@@ -69,15 +69,13 @@ const AudioConversionUI: FunctionComponent<Props> = ({
     <>
       <SettingsWrapper>
         <SettingsDescriptionWrapper>
-          <SettingsDescription
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
-          >
+          <SettingsDescription displayStyle={TextDisplayStyle.Paragraph4}>
             <FormattedMessage id="module.settings.audioConversionDescription" />
           </SettingsDescription>
         </SettingsDescriptionWrapper>
         <SettingsTableRow>
           <Data>
-            <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+            <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
               <FormattedMessage id="module.settings.audioConversionConvertNonStandardFilesLabel" />
             </SettingsLabel>
           </Data>
@@ -96,7 +94,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
         radioGroupName={"convert"}
       />
       <ConversionFormatWrapper>
-        <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+        <Text displayStyle={TextDisplayStyle.Paragraph4}>
           <FormattedMessage id="module.settings.audioConversionConversionFormat" />
         </Text>
         <ConversionFormatRadioGroup

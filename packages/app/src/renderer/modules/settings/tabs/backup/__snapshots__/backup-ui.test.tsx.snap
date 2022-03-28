@@ -4,31 +4,36 @@ exports[`matches snapshot 1`] = `
 .c3 {
   margin: 0;
   font-size: 1.6rem;
-  line-height: 1.05;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c6 {
   margin: 0;
   font-size: 1.4rem;
-  line-height: 1.05;
-  line-height: 1.8rem;
-  color: #6a6a6a;
-  font-weight: 300;
+  line-height: 1.57;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+  color: #6a6a6a;
 }
 
 .c12 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c4 {
@@ -36,7 +41,6 @@ exports[`matches snapshot 1`] = `
   -webkit-align-self: end;
   -ms-flex-item-align: end;
   align-self: end;
-  margin-bottom: 0.4rem;
 }
 
 .c7 {
@@ -47,7 +51,6 @@ exports[`matches snapshot 1`] = `
   -webkit-align-self: flex-start;
   -ms-flex-item-align: start;
   align-self: flex-start;
-  margin-top: 0.4rem;
 }
 
 .c8 {
@@ -84,24 +87,29 @@ exports[`matches snapshot 1`] = `
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c10:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c10 g {
+.c10 p {
+  color: #ffffff;
+}
+
+.c10 g path {
   fill: #ffffff;
 }
 
@@ -113,7 +121,7 @@ exports[`matches snapshot 1`] = `
   display: grid;
   box-sizing: border-box;
   grid-template-areas: "Checkbox Actions";
-  grid-template-columns: 1fr 15rem;
+  grid-template-columns: 1fr 16.4rem;
   border-bottom: solid 0.1rem #d2d6db;
   height: 7.2rem;
   max-height: 7.2rem;
@@ -169,10 +177,12 @@ exports[`matches snapshot 1`] = `
       >
         <p
           class="c3 c4 c5"
+          color="primary"
         >
           [value] module.settings.backupLabel
           <p
             class="c6 c7"
+            color="secondary"
             data-testid="backup-location"
           >
             C:/MuditaOs
@@ -184,11 +194,12 @@ exports[`matches snapshot 1`] = `
       >
         <button
           class="c10 c11"
-          size="2"
+          size="1"
           type="button"
         >
           <p
             class="c12 c13"
+            color="primary"
           >
             [value] module.settings.backupButtonLabel
           </p>
