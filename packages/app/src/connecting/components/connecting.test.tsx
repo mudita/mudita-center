@@ -12,6 +12,7 @@ import { ErrorConnectingModalTestIds } from "App/connecting/components/error-con
 import { PasscodeModalTestIds } from "App/passcode-modal/passcode-modal-test-ids.enum"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
 import { SynchronizationState } from "App/data-sync/reducers"
+import { DeviceType } from "@mudita/pure"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")
 
@@ -19,6 +20,7 @@ type Props = ComponentProps<typeof Connecting>
 
 const defaultProps: Props = {
   loaded: false,
+  deviceType: DeviceType.MuditaPure,
   unlocked: null,
   phoneLockTime: undefined,
   getUnlockStatus: jest.fn().mockReturnValue({

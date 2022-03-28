@@ -7,7 +7,7 @@ import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import Image from "Renderer/components/core/image/image.component"
-import Infographic from "Renderer/images/onboarding/infographicx2.png"
+import Infographic from "Renderer/images/infographic.png"
 import {
   Type as ButtonType,
   DisplayStyle,

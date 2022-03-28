@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
 })
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
-  device: state.device,
+  deviceType: state.device.deviceType,
   loaded: state.device.status.loaded,
   unlocked: state.device.status.unlocked,
   syncInitialized: state.dataSync.initialized,

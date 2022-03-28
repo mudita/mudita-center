@@ -307,13 +307,13 @@ class PurePhone extends PurePhoneAdapter {
     index = 0,
     deviceType = this.deviceService.currentDevice?.deviceType,
     timeout = 5000,
-    callsMax = 36
+    callsMax = 60
   ): Promise<DeviceResponse> {
     if (index === callsMax) {
       return {
         status: DeviceResponseStatus.Error,
         error: {
-          message: "updateOs: device no restart successful in 3 minutes",
+          message: "updateOs: device no restart successful in 5 minutes",
         },
       }
     }

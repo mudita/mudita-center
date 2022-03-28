@@ -55,16 +55,22 @@ const createDailyRotateFileTransport = (
     format,
   })
 }
+
 const consoleTransport = new transports.Console({
   level: testing ? "emerg" : "silly",
   silent: testing,
   format: combine(colorize(), simple()),
 })
 
+let dailyRotateFileTransport = createDailyRotateFileTransport(
+  AppType.Main,
+  defaultMeta
+)
+
 // TODO: test this. https://appnroll.atlassian.net/browse/PDA-764
 export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
   const { app, type } = resolveApp()
-  const dailyRotateFileTransport = createDailyRotateFileTransport(
+  dailyRotateFileTransport = createDailyRotateFileTransport(
     type,
     defaultMeta
   )
@@ -114,12 +120,13 @@ export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
     defaultMeta = Object.fromEntries(tmpMetadata)
     appLogger.defaultMeta = defaultMeta
     appLogger.remove(dailyRotateFileTransport)
-    appLogger.add(createDailyRotateFileTransport(type, defaultMeta))
+    dailyRotateFileTransport = createDailyRotateFileTransport(type, defaultMeta)
+    appLogger.add(dailyRotateFileTransport)
   }
   return Object.assign(appLogger, {
     enableRollbar,
     disableRollbar,
-    updateMetadata,
+    updateMetadata
   })
 }
 const logger = createAppLogger(resolve)
