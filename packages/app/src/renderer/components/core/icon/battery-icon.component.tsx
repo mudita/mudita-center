@@ -8,7 +8,7 @@ import * as React from "react"
 import Icon, {
   Props as IconProps,
 } from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export interface BatteryIconProps {
   level: number
@@ -23,21 +23,21 @@ const getInteractiveBatteryIcon = (
 ) => {
   switch (true) {
     case charging:
-      return <Icon type={Type.ChargingBattery} {...rest} />
+      return <Icon type={IconType.ChargingBattery} {...rest} />
     case batteryLevel === 1:
-      return <Icon type={Type.FullBattery} {...rest} />
+      return <Icon type={IconType.FullBattery} {...rest} />
     case batteryLevel > 0.8:
-      return <Icon type={Type.VeryHighBattery} {...rest} />
+      return <Icon type={IconType.VeryHighBattery} {...rest} />
     case batteryLevel > 0.6:
-      return <Icon type={Type.HighBattery} {...rest} />
+      return <Icon type={IconType.HighBattery} {...rest} />
     case batteryLevel > 0.4:
-      return <Icon type={Type.MediumBattery} {...rest} />
+      return <Icon type={IconType.MediumBattery} {...rest} />
     case batteryLevel > 0.2:
-      return <Icon type={Type.LowBattery} {...rest} />
+      return <Icon type={IconType.LowBattery} {...rest} />
     case batteryLevel > 0:
-      return <Icon type={Type.VeryLowBattery} {...rest} />
+      return <Icon type={IconType.VeryLowBattery} {...rest} />
     default:
-      return <Icon type={Type.NoBattery} {...rest} />
+      return <Icon type={IconType.NoBattery} {...rest} />
   }
 }
 

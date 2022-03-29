@@ -19,8 +19,8 @@ import {
 } from "Renderer/components/rest/tethering/stat-boxes.styled"
 import { defineMessages } from "react-intl"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { StatBoxesTestIds } from "Renderer/components/rest/tethering/stat-boxes-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   timeActive: {
@@ -68,7 +68,7 @@ const StatBoxes: FunctionComponent<Props> = ({
       </DataBox>
       <DataBox>
         <StatTextWrapper>
-          <RotatedArrowIcon type={Type.LongArrow} size={IconSize.Bigger} />
+          <RotatedArrowIcon type={IconType.LongArrow} size={IconSize.Bigger} />
           <div data-testid={StatBoxesTestIds.DataSentText}>
             <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
               {dataSentValue}
@@ -86,7 +86,7 @@ const StatBoxes: FunctionComponent<Props> = ({
       </DataBox>
       <DataBox>
         <StatTextWrapper>
-          <Icon type={Type.LongArrow} size={IconSize.Bigger} />
+          <Icon type={IconType.LongArrow} size={IconSize.Bigger} />
           <div data-testid={StatBoxesTestIds.DataReceivedText}>
             <Text displayStyle={TextDisplayStyle.Headline1} element={"span"}>
               {dataReceivedValue}

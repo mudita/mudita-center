@@ -22,7 +22,7 @@ import { defineMessages } from "react-intl"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { noop } from "Renderer/utils/noop"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const messages = defineMessages({
   clickToEdit: { id: "component.textEditorStatusClickToEdit" },
@@ -161,7 +161,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
             disabled={!status.textChanged || temporaryText.length === 0}
             labelMessage={saving ? messages.savingButton : messages.saveButton}
             onClick={save}
-            Icon={saving ? Type.Reload : undefined}
+            Icon={saving ? IconType.Reload : undefined}
           />
         </Buttons>
       )}

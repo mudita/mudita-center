@@ -25,7 +25,6 @@ import { isToday } from "Renderer/utils/is-today"
 import moment from "moment"
 import { Actions, Col } from "Renderer/components/core/table/table.component"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { noop } from "Renderer/utils/noop"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
@@ -49,6 +48,7 @@ import { ListRowProps } from "react-virtualized"
 import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
 import { defineMessages } from "react-intl"
 import { ElementWithTooltipPlace } from "Renderer/components/core/tooltip/element-with-tooltip.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   dropdownTogllerTooltipDescription: {
@@ -222,7 +222,7 @@ const ThreadRow: FunctionComponent<Props> = ({
           <Dropdown
             toggler={
               <IconButtonWithSecondaryTooltip
-                iconType={Type.More}
+                iconType={IconType.More}
                 description={messages.dropdownTogllerTooltipDescription}
                 // FIXME: The position based on offset is a sticky. However, this is a quick workaround
                 //  for buggy overridePosition lib feature
@@ -238,7 +238,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                   name: contact?.firstName || phoneNumber,
                 },
               }}
-              Icon={Type.Calls}
+              Icon={IconType.Calls}
               onClick={noop}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="dropdown-call"
@@ -249,7 +249,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 labelMessage={{
                   id: "module.messages.dropdownContactDetails",
                 }}
-                Icon={Type.Contact}
+                Icon={IconType.Contact}
                 onClick={handleContactClick}
                 displayStyle={DisplayStyle.Dropdown}
                 data-testid="dropdown-contact-details"
@@ -259,7 +259,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 labelMessage={{
                   id: "module.messages.dropdownAddToContacts",
                 }}
-                Icon={Type.NewContact}
+                Icon={IconType.NewContact}
                 onClick={handleContactClick}
                 displayStyle={DisplayStyle.Dropdown}
                 data-testid="dropdown-add-to-contacts"
@@ -274,7 +274,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                       ? "module.messages.markAsRead"
                       : "module.messages.markAsUnread",
                   }}
-                  Icon={Type.BorderCheckIcon}
+                  Icon={IconType.BorderCheckIcon}
                   onClick={handleToggleClick}
                   displayStyle={DisplayStyle.Dropdown}
                   data-testid="dropdown-mark-as-read"
@@ -285,7 +285,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                   labelMessage={{
                     id: "module.messages.dropdownDelete",
                   }}
-                  Icon={Type.Delete}
+                  Icon={IconType.Delete}
                   onClick={handleDeleteClick}
                   displayStyle={DisplayStyle.Dropdown}
                   data-testid="dropdown-delete"

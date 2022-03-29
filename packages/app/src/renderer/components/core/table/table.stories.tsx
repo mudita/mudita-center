@@ -6,7 +6,6 @@
 import { action } from "@storybook/addon-actions"
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Table, {
   Col,
@@ -36,6 +35,7 @@ import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
 import Story from "Renderer/components/storybook/story.component"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const Checkbox = styled(InputCheckbox)``
 
@@ -283,17 +283,17 @@ storiesOf("Components|Core/Table/Parts", module)
     const HeaderRight = () => (
       <>
         <SidebarHeaderButton
-          iconType={Type.Notes}
+          iconType={IconType.Notes}
           onClick={action("Notes icon click")}
           description={{ id: "Notes icon click" }}
         />
         <SidebarHeaderButton
-          iconType={Type.Upload}
+          iconType={IconType.Upload}
           onClick={action("Upload icon click")}
           description={{ id: "Upload icon click" }}
         />
         <SidebarHeaderButton
-          iconType={Type.Delete}
+          iconType={IconType.Delete}
           onClick={action("Delete icon click")}
           description={{ id: "Delete icon click" }}
         />
@@ -729,8 +729,16 @@ storiesOf("Components|Core/Table/Grouped", module)
 
     const SidebarActions = () => (
       <>
-        <SidebarHeaderButton iconType={Type.Upload} onClick={action("Export")} description={{ id: "Export" }} />
-        <SidebarHeaderButton iconType={Type.Delete} onClick={action("Delete")} description={{ id: "Delete" }} />
+        <SidebarHeaderButton
+          iconType={IconType.Upload}
+          onClick={action("Export")}
+          description={{ id: "Export" }}
+        />
+        <SidebarHeaderButton
+          iconType={IconType.Delete}
+          onClick={action("Delete")}
+          description={{ id: "Delete" }}
+        />
       </>
     )
 

@@ -11,7 +11,6 @@ import {
   Size as ButtonSize,
 } from "Renderer/components/core/button/button.config"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size as CheckboxSize } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
   Col,
@@ -58,6 +57,7 @@ import { searchIcon } from "Renderer/components/core/input-text/input-text.eleme
 import { SortOrder } from "Common/enums/sort-order.enum"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -222,7 +222,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                 key="delete"
                 labelMessage={messages.deleteButton}
                 displayStyle={DisplayStyle.Link}
-                Icon={Type.Delete}
+                Icon={IconType.Delete}
                 onClick={removeSelectedRows}
               />,
             ]}
@@ -244,7 +244,7 @@ const Notes: FunctionComponent<NotesProps> = ({
           size={ButtonSize.FixedBig}
           labelMessage={messages.newButton}
           onClick={onNewButtonClick}
-          Icon={Type.PlusSign}
+          Icon={IconType.PlusSign}
           data-testid={NotesTestIds.NewNoteButton}
           disabled={Boolean(newNoteId)}
         />
@@ -349,7 +349,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                       </Text>
                     </Col>
                     <DeleteCol onClick={removeNote}>
-                      <Icon type={Type.Delete} width={IconSize.Medium} />
+                      <Icon type={IconType.Delete} width={IconSize.Medium} />
                     </DeleteCol>
                   </Row>
                 )

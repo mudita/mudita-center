@@ -29,11 +29,11 @@ import { AvatarPlaceholder } from "App/contacts/components/contact-list/contact-
 import styled from "styled-components"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
 import Badge from "Renderer/components/core/badge/badge.component"
 import InputSelect from "Renderer/components/core/input-select/input-select.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const messages = defineMessages({
   title: { id: "module.messagesAttachModalTitle" },
@@ -49,7 +49,7 @@ const GroupLabel = styled(Labels)`
   background-color: ${backgroundColor("row")};
 `
 const BlockedIcon = styled(Icon).attrs(() => ({
-  type: Type.Blocked,
+  type: IconType.Blocked,
 }))`
   margin-left: 1.6rem;
 `

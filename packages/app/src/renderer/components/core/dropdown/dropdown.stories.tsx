@@ -10,9 +10,9 @@ import { DropdownButton } from "Renderer/components/core/dropdown/dropdown-butto
 import Dropdown, {
   DropdownPosition,
 } from "Renderer/components/core/dropdown/dropdown.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "../../storybook/story.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 storiesOf("Components|Core/Dropdown", module).add("Default", () => (
   <StoryContainer>
@@ -25,19 +25,19 @@ storiesOf("Components|Core/Dropdown", module).add("Default", () => (
           label="I open Google in new tab"
           href="http://www.google.pl"
           target="_blank"
-          Icon={Type.Upload}
+          Icon={IconType.Upload}
         />
         <DropdownButton
           label="I open Google in new tab"
           href="http://www.google.pl"
           target="_blank"
-          Icon={Type.Upload}
+          Icon={IconType.Upload}
         />
         <DropdownButton
           label="I open Google in new tab"
           href="http://www.google.pl"
           target="_blank"
-          Icon={Type.Upload}
+          Icon={IconType.Upload}
         />
       </Dropdown>
     </Story>
@@ -47,19 +47,19 @@ storiesOf("Components|Core/Dropdown", module).add("Default", () => (
           label="I open Google in new tab"
           href="http://www.google.pl"
           target="_blank"
-          Icon={Type.Upload}
+          Icon={IconType.Upload}
         />
         <DropdownButton
           label="I open Google in new tab"
           href="http://www.google.pl"
           target="_blank"
-          Icon={Type.Upload}
+          Icon={IconType.Upload}
         />
         <DropdownButton
           label="I open Google in new tab"
           href="http://www.google.pl"
           target="_blank"
-          Icon={Type.Upload}
+          Icon={IconType.Upload}
         />
       </Dropdown>
     </Story>

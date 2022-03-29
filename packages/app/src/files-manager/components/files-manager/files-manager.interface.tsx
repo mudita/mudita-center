@@ -3,15 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export interface DiskSpaceCategory {
   type: DiskSpaceCategoryType
   size: number
   filesAmount?: number
   color: string
-  icon: Type
+  icon: IconType
   label: string
 }
 

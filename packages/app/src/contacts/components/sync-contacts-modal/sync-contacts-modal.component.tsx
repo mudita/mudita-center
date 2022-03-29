@@ -9,7 +9,6 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import {
   ButtonsContainer,
   ButtonWrapper,
@@ -20,6 +19,7 @@ import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-
 import { defineMessages } from "react-intl"
 import GoogleButton from "react-google-button"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: {
@@ -88,20 +88,20 @@ const SyncContactsModal: FunctionComponent<Props> = ({
 
           <SyncButton
             labelMessage={messages.outlookButtonText}
-            Icon={Type.Outlook}
+            Icon={IconType.Outlook}
             onClick={onOutlookButtonClick}
             data-testid={SyncContactsModalTestIds.OutlookButton}
           />
           {onAppleButtonClick && (
             <SyncButton
               labelMessage={messages.appleButtonText}
-              Icon={Type.Apple}
+              Icon={IconType.Apple}
               onClick={onAppleButtonClick}
             />
           )}
           <SyncButton
             labelMessage={messages.manualImportText}
-            Icon={Type.Upload}
+            Icon={IconType.Upload}
             onClick={handleManualImportClick}
           />
           <input

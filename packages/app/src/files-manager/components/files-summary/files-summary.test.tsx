@@ -9,8 +9,8 @@ import FilesSummary from "App/files-manager/components/files-summary/files-summa
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { FilesSummaryTestIds } from "App/files-manager/components/files-summary/files-summary-test-ids.enum"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const defaultProps: ComponentProps<typeof FilesSummary> = {
   systemMemory: 62914560,
@@ -19,14 +19,14 @@ const defaultProps: ComponentProps<typeof FilesSummary> = {
     {
       type: DiskSpaceCategoryType.UsedSpace,
       color: "#DFEFDE",
-      icon: Type.MuditaLogo,
+      icon: IconType.MuditaLogo,
       label: "Used space",
       size: 41943040,
     },
     {
       type: DiskSpaceCategoryType.Free,
       color: "#F4F5F6",
-      icon: Type.Cloud,
+      icon: IconType.Cloud,
       label: "Free",
       size: 62914560,
     },

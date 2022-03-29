@@ -14,8 +14,8 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import useOutsideClick from "Renderer/utils/hooks/useOutsideClick"
 import styled, { css } from "styled-components"
 import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   dropdownTogllerTooltipDescription: {
@@ -80,7 +80,7 @@ const DropdownList = styled.ul<{
 const Dropdown: FunctionComponent<DropdownProps> = ({
   toggler = (
     <IconButtonWithSecondaryTooltip
-      iconType={Type.More}
+      iconType={IconType.More}
       description={messages.dropdownTogllerTooltipDescription}
     />
   ),

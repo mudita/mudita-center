@@ -6,17 +6,17 @@
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 test("matches snapshot", () => {
-  const { container } = renderWithThemeAndIntl(<Icon type={Type.Battery} />)
+  const { container } = renderWithThemeAndIntl(<Icon type={IconType.Battery} />)
   expect(container.firstChild).toMatchSnapshot()
 })
 
 test("matches snapshot with badge", () => {
   const { container } = renderWithThemeAndIntl(
-    <Icon type={Type.Battery} badge />
+    <Icon type={IconType.Battery} badge />
   )
 
   expect(container.firstChild).toMatchSnapshot()

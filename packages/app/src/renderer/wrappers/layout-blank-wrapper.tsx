@@ -12,13 +12,13 @@ import {
   width,
 } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { Link } from "react-router-dom"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { LayoutBlankWrapperTestIds } from "Renderer/wrappers/wrappers-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const Layout = styled.div`
   display: grid;
@@ -77,7 +77,7 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
   return (
     <Layout>
       <Header>
-        <Icon type={Type.MuditaLogoWithText} width={8.6} height={2} />
+        <Icon type={IconType.MuditaLogoWithText} width={8.6} height={2} />
         <MainTitle
           displayStyle={TextDisplayStyle.Paragraph3}
           message={{ id: "module.onboarding.mainTitle" }}
@@ -88,7 +88,7 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
             onClick={onClose}
             data-testid={LayoutBlankWrapperTestIds.Close}
           >
-            <Icon type={Type.Close} />
+            <Icon type={IconType.Close} />
           </Link>
         )}
       </Header>

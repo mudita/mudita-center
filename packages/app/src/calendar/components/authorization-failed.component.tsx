@@ -15,7 +15,6 @@ import Modal, {
 } from "Renderer/components/core/modal/modal.component"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { ModalContent } from "App/calendar/components/calendar-modals.styled"
 import {
@@ -23,6 +22,7 @@ import {
   Provider,
 } from "Renderer/models/external-providers/external-providers.interface"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: {
@@ -81,7 +81,7 @@ const AuthorizationFailedModal: FunctionComponent<
     >
       <ModalContent>
         <RoundIconWrapper>
-          <Icon type={Type.CalendarIcon} width={4} />
+          <Icon type={IconType.CalendarIcon} width={4} />
         </RoundIconWrapper>
         <Text
           displayStyle={TextDisplayStyle.Headline4}

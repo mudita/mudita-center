@@ -7,7 +7,6 @@ import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { RouteComponentProps } from "react-router"
 import Button from "Renderer/components/core/button/button.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
@@ -21,6 +20,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const AnswerContainer = styled.div`
   padding: 0 10.5rem;
@@ -47,7 +47,7 @@ const Answer: FunctionComponent<Props> = ({ match, list }) => {
     <AnswerContainer>
       <AnswerHeader>
         <BackLink
-          Icon={Type.ArrowLongLeft}
+          Icon={IconType.ArrowLongLeft}
           displayStyle={DisplayStyle.Link}
           label={intl.formatMessage({
             id: "module.help.backLinkText",
