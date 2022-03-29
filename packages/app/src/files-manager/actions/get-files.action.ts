@@ -7,7 +7,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { FilesManagerEvent } from "App/files-manager/constants"
 import { GetFilesError } from "App/files-manager/errors"
 import { setFiles } from "App/files-manager/actions/base.action"
-import getFilesRequest from "Renderer/requests/get-files.request"
+import { getFilesRequest } from "App/files-manager/requests/get-files.request"
 import { McUsbFile } from "App/mc-usb"
 
 export const getFiles = createAsyncThunk<Error | McUsbFile[]>(

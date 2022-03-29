@@ -15,3 +15,13 @@ export enum McUsbFileType {
   mp3 = 0x3009,
   flac = 0xb906,
 }
+
+export interface McUsbDevice {
+  getFiles: () => Promise<McUsbFile[]>
+}
+
+export const device: McUsbDevice = {
+  getFiles: () => {
+    return Promise.resolve([])
+  },
+}
