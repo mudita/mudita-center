@@ -10,5 +10,5 @@ export enum IpcFilesManagerEvent {
 }
 
 export enum IpcFilesManagerRequest {
-  GetFiles = "get-files-manager-request",
+  GetFiles = "files-manager-get-files",
 }

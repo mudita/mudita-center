@@ -22,6 +22,19 @@ export interface McUsbDevice {
 
 export const device: McUsbDevice = {
   getFiles: () => {
-    return Promise.resolve([])
+    return Promise.resolve([
+      {
+        id: "1",
+        size: 1234,
+        name: "example_file_name",
+        type: McUsbFileType.mp3,
+      },
+      {
+        id: "2",
+        size: 12345,
+        name: "second_example_file_name",
+        type: McUsbFileType.wav,
+      },
+    ])
   },
 }
