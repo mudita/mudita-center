@@ -9,7 +9,6 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
@@ -36,6 +35,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: { id: "module.contacts.deleteTitle" },
@@ -149,14 +149,14 @@ const ContactPanel: FunctionComponent<Props> = ({
                 key="export"
                 labelMessage={messages.export}
                 displayStyle={DisplayStyle.Link}
-                Icon={Type.UploadDark}
+                Icon={IconType.UploadDark}
                 onClick={handleExport}
               />,
               <ButtonComponent
                 key="delete"
                 labelMessage={messages.deleteButton}
                 displayStyle={DisplayStyle.Link}
-                Icon={Type.Delete}
+                Icon={IconType.Delete}
                 onClick={openModal}
               />,
             ]}

@@ -12,8 +12,8 @@ import {
   HeaderTabs,
 } from "Renderer/wrappers/layout-desktop-wrapper"
 import Header from "Renderer/components/rest/header/header.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { intl } from "Renderer/utils/intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const Container = styled.div`
   display: flex;
@@ -45,7 +45,7 @@ storiesOf("Components|Core/Header/With button", module)
           middleComponent={<HeaderTabs currentLocation={"/news"} />}
           button={
             <HeaderButton
-              Icon={Type.ExternalLink}
+              Icon={IconType.ExternalLink}
               label={intl.formatMessage({
                 id: "module.news.moreNewsButtonLabel",
               })}

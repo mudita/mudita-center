@@ -16,8 +16,8 @@ import {
 import Image from "Renderer/components/core/image/image.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export enum AvatarSize {
   Small,
@@ -106,7 +106,7 @@ const Avatar: FunctionComponent<AvatarProps> = ({
         {user.lastName?.charAt(0)}
       </Text>
     ) : (
-      <Icon type={Type.ContactFilled} width={getAvatarSize(size) / 1.8} />
+      <Icon type={IconType.ContactFilled} width={getAvatarSize(size) / 1.8} />
     )}
   </AvatarWrapper>
 )

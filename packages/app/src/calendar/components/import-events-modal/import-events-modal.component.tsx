@@ -26,10 +26,10 @@ import styled from "styled-components"
 import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { TimeWindow } from "App/calendar/components/time-window.component"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalContent } from "App/calendar/components/calendar-modals.styled"
 import { ImportEventsModalTestIds } from "App/calendar/components/import-events-modal/import-events-modal-test-ids.enum"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: {
@@ -76,7 +76,7 @@ const ImportEventsModal: FunctionComponent<ImportEventsModalProps> = ({
   >
     <ModalContent>
       <RoundIconWrapper>
-        <Icon type={Type.Download} width={4} />
+        <Icon type={IconType.Download} width={4} />
       </RoundIconWrapper>
       <Text
         displayStyle={TextDisplayStyle.Headline4}

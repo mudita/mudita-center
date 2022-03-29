@@ -4,9 +4,9 @@
  */
 
 import { defineMessages } from "react-intl"
-import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import { Message } from "Renderer/interfaces/message.interface"
 import { CallStatus } from "Renderer/models/calls/calls.interface"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export interface CallDetails {
   icon: IconType

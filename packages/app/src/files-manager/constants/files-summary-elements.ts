@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
 import { DiskSpaceCategoryType } from "App/files-manager/constants/files-manager.enum"
 import { intl } from "Renderer/utils/intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const filesSummaryElements: DiskSpaceCategory[] = [
   // Ready for CP-970
@@ -22,7 +22,7 @@ export const filesSummaryElements: DiskSpaceCategory[] = [
   {
     type: DiskSpaceCategoryType.UsedSpace,
     color: "#DFEFDE",
-    icon: Type.MuditaLogo,
+    icon: IconType.MuditaLogo,
     label: intl.formatMessage({
       id: "component.filesManagerSummaryUsedSpace",
     }),
@@ -31,7 +31,7 @@ export const filesSummaryElements: DiskSpaceCategory[] = [
   {
     type: DiskSpaceCategoryType.Free,
     color: "#F4F5F6",
-    icon: Type.Cloud,
+    icon: IconType.Cloud,
     label: intl.formatMessage({
       id: "component.filesManagerSummaryFree",
     }),

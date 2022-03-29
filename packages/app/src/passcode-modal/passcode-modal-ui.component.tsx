@@ -13,12 +13,12 @@ import { zIndex } from "Renderer/styles/theming/theme-getters"
 import Icon, {
   IconSize,
 } from "App/renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import ButtonComponent from "App/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
 import { PasscodeInputs } from "./components/passcode-inputs.component"
 import PasscodeLocked from "App/passcode-modal/components/PasscodeLocked/passcode-locked.component"
 import { PasscodeModalTestIds } from "App/passcode-modal/passcode-modal-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const LogoWrapper = styled.div`
   display: flex;
@@ -73,8 +73,8 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   const muditaLogo = (
     <LogoWrapper>
       <Icon
-        type={Type.MuditaLogoVertical}
-        key={Type.MuditaLogoVertical}
+        type={IconType.MuditaLogoVertical}
+        key={IconType.MuditaLogoVertical}
         size={IconSize.Bigger}
       />
     </LogoWrapper>

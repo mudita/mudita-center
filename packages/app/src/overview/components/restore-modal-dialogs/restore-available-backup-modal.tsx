@@ -10,7 +10,6 @@ import moment from "moment"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import Text, {
   TextDisplayStyle,
@@ -24,6 +23,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Button from "Renderer/components/core/button/button.component"
 import { RestoreAvailableBackupModalTestIds } from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal-test-ids.component"
 import { sortBackups } from "App/backup/helpers/sort-backups"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const ModalContent = styled.div`
   display: flex;
@@ -101,7 +101,7 @@ const RestoreAvailableBackupModal: FunctionComponent<Props> = ({
     >
       <ModalContent>
         <RoundIconWrapper>
-          <Icon type={Type.BackupFolder} width={4} />
+          <Icon type={IconType.BackupFolder} width={4} />
         </RoundIconWrapper>
         <ModalText
           displayStyle={TextDisplayStyle.Headline4}
@@ -131,7 +131,7 @@ const RestoreAvailableBackupModal: FunctionComponent<Props> = ({
                   {moment(backup.date).format("dddd, MMMM D, h:mm a")}
                 </Text>
                 <Button
-                  Icon={Type.ArrowDown}
+                  Icon={IconType.ArrowDown}
                   displayStyle={DisplayStyle.IconOnly}
                   iconSize={IconSize.Small}
                 />

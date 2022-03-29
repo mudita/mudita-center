@@ -11,7 +11,6 @@ import Text, {
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import ButtonComponent from "Renderer/components/core/button/button.component"
-import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import {
   DisplayStyle,
   Type,
@@ -39,6 +38,7 @@ import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/c
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
 import { FormError } from "App/contacts/components/contacts/contacts.type"
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   editTitle: { id: "module.contacts.editTitle" },

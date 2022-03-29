@@ -4,8 +4,8 @@
  */
 
 import { initialState } from "Renderer/models/files-manager/files-manager"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { URL_MAIN } from "Renderer/constants/urls"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const data = [
   {
@@ -13,7 +13,7 @@ const data = [
     occupiedMemory: 4294967296,
     filesAmount: 15,
     color: "#6D9BBC",
-    icon: Type.MusicGrey,
+    icon: IconType.MusicGrey,
     url: URL_MAIN.music,
   },
   {
@@ -21,7 +21,7 @@ const data = [
     occupiedMemory: 4294967296,
     filesAmount: 3,
     color: "#AEBEC9",
-    icon: Type.VoiceRecorderGrey,
+    icon: IconType.VoiceRecorderGrey,
     url: "/tools/voice-recorder",
   },
   {
@@ -29,13 +29,13 @@ const data = [
     occupiedMemory: 4294967296,
     filesAmount: 85,
     color: "#E3F3FF",
-    icon: Type.FilesManager,
+    icon: IconType.FilesManager,
   },
   {
     filesType: "Free",
     occupiedMemory: 4294967296,
     color: "#E9E9E9",
-    icon: Type.MuditaLogo,
+    icon: IconType.MuditaLogo,
     free: true,
   },
 ]

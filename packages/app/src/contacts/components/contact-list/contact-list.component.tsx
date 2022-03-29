@@ -31,7 +31,6 @@ import {
   textColor,
 } from "Renderer/styles/theming/theme-getters"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
@@ -54,6 +53,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   forwardNamecard: {
@@ -123,7 +123,7 @@ const Actions = styled.div`
 `
 
 const BlockedIcon = styled(Icon).attrs(() => ({
-  type: Type.Blocked,
+  type: IconType.Blocked,
 }))`
   margin-left: 1.6rem;
 `
@@ -339,7 +339,7 @@ const ContactList: FunctionComponent<Props> = ({
                         <Dropdown onOpen={disableScroll} onClose={enableScroll}>
                           <HiddenButton
                             labelMessage={messages.forwardNamecard}
-                            Icon={Type.Forward}
+                            Icon={IconType.Forward}
                             onClick={handleForward}
                             displayStyle={DisplayStyle.Dropdown}
                             hide={flags.get(Feature.ProductionAndAlpha)}
@@ -348,7 +348,7 @@ const ContactList: FunctionComponent<Props> = ({
                           {contact.blocked ? (
                             <HiddenButton
                               labelMessage={messages.unblock}
-                              Icon={Type.Blocked}
+                              Icon={IconType.Blocked}
                               onClick={handleUnblock}
                               displayStyle={DisplayStyle.Dropdown}
                               hide={flags.get(Feature.ProductionAndAlpha)}
@@ -357,7 +357,7 @@ const ContactList: FunctionComponent<Props> = ({
                           ) : (
                             <HiddenButton
                               labelMessage={messages.block}
-                              Icon={Type.Blocked}
+                              Icon={IconType.Blocked}
                               onClick={handleBlock}
                               displayStyle={DisplayStyle.Dropdown}
                               hide={flags.get(Feature.ProductionAndAlpha)}
@@ -367,20 +367,20 @@ const ContactList: FunctionComponent<Props> = ({
                           <ButtonComponent
                             labelMessage={messages.editBulkAction}
                             iconSize={IconSize.Medium}
-                            Icon={Type.Edit}
+                            Icon={IconType.Edit}
                             onClick={handleEdit}
                             displayStyle={DisplayStyle.Dropdown}
                           />
                           <ButtonComponent
                             labelMessage={messages.exportAsVcard}
-                            Icon={Type.UploadDark}
+                            Icon={IconType.UploadDark}
                             onClick={handleExport}
                             iconSize={IconSize.Medium}
                             displayStyle={DisplayStyle.Dropdown}
                           />
                           <ButtonComponent
                             labelMessage={messages.deleteBulkAction}
-                            Icon={Type.Delete}
+                            Icon={IconType.Delete}
                             onClick={handleDelete}
                             iconSize={IconSize.Medium}
                             displayStyle={DisplayStyle.Dropdown}

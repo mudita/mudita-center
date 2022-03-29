@@ -10,7 +10,6 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.enum"
 import {
   CallDescription,
@@ -40,6 +39,7 @@ import { Contact } from "App/contacts/reducers/contacts.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   today: { id: "module.phone.callsToday" },
@@ -119,21 +119,21 @@ export const CallDetails = ({
                 displayStyle={DisplayStyle.Dropdown}
                 labelMessage={messages.deleteCallLabel}
                 onClick={emitDeleteClick}
-                Icon={Type.Delete}
+                Icon={IconType.Delete}
               />
               {contactCreated ? (
                 <Button
                   displayStyle={DisplayStyle.Dropdown}
                   labelMessage={messages.contactCallLabel}
                   onClick={redirectToContactsPage}
-                  Icon={Type.Contact}
+                  Icon={IconType.Contact}
                 />
               ) : (
                 <Button
                   displayStyle={DisplayStyle.Dropdown}
                   labelMessage={messages.newContactCallLabel}
                   onClick={redirectToContactsPage}
-                  Icon={Type.NewContact}
+                  Icon={IconType.NewContact}
                 />
               )}
             </ButtonWrapper>

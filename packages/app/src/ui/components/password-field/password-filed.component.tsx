@@ -5,7 +5,6 @@
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React, { useState } from "react"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { PasswordFieldTestIds } from "App/ui/components/password-field/password-field-test-ids.enum"
 import {
@@ -14,6 +13,7 @@ import {
   IconWrapper,
 } from "App/ui/components/password-field/password-field.styled"
 import { intl } from "Renderer/utils/intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 interface PasswordFieldProps {
   errorMessage?: string
@@ -51,7 +51,7 @@ export const PasswordField: FunctionComponent<PasswordFieldProps> = ({
         >
           <Icon
             size={IconSize.Bigger}
-            type={visible ? Type.Hidden : Type.Visible}
+            type={visible ? IconType.Hidden : IconType.Visible}
             data-testid={
               visible
                 ? PasswordFieldTestIds.VisibleIcon

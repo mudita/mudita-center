@@ -23,7 +23,6 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { createFullNameStartingFromLastName } from "App/contacts/helpers/contacts.helpers"
@@ -32,6 +31,7 @@ import { textColor } from "Renderer/styles/theming/theme-getters"
 import { ModalIcon } from "Renderer/components/core/modal-shared/modal-shared"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import { NewContact } from "App/contacts/reducers/contacts.interface"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: { id: "module.contacts.importTitle" },
@@ -149,7 +149,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
         </Col>
         <Failed data-testid={ContactImportModalTestIds.FailedIcon}>
           {modalType === ModalType.Fail && (
-            <Icon type={Type.FailRed} size={2} />
+            <Icon type={IconType.FailRed} size={2} />
           )}
         </Failed>
       </Row>
@@ -180,7 +180,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
       {...props}
     >
       <Image>
-        <Icon type={Type.Download} width={5} />
+        <Icon type={IconType.Download} width={5} />
       </Image>
       {modalType === ModalType.Fail && (
         <>

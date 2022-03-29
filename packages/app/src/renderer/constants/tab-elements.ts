@@ -5,8 +5,8 @@
 
 import { defineMessages } from "react-intl"
 import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { flags, Feature } from "App/feature-flags"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   conversations: { id: "module.messages.conversations" },
@@ -30,7 +30,7 @@ interface Tab {
     id: string
   }
   url: string
-  icon: Type
+  icon: IconType
   hidden?: boolean
 }
 
@@ -46,13 +46,13 @@ export const tabElements: TabElement[] = [
       {
         label: messages.conversations,
         url: URL_MAIN.messages,
-        icon: Type.Message,
+        icon: IconType.Message,
         hidden: flags.get(Feature.ProductionAndAlpha),
       },
       {
         label: messages.templates,
         url: `${URL_MAIN.messages}${URL_TABS.templates}`,
-        icon: Type.Templates,
+        icon: IconType.Templates,
         hidden: flags.get(Feature.ProductionAndAlpha),
       },
     ],
@@ -63,12 +63,12 @@ export const tabElements: TabElement[] = [
       {
         label: messages.calls,
         url: URL_MAIN.phone,
-        icon: Type.Calls,
+        icon: IconType.Calls,
       },
       {
         label: messages.dial,
         url: `${URL_MAIN.phone}${URL_TABS.dial}`,
-        icon: Type.Dial,
+        icon: IconType.Dial,
         hidden: flags.get(Feature.ProductionAndAlpha),
       },
     ],
@@ -79,12 +79,12 @@ export const tabElements: TabElement[] = [
       {
         label: messages.allSongs,
         url: URL_MAIN.music,
-        icon: Type.MenuMusic,
+        icon: IconType.MenuMusic,
       },
       {
         label: messages.playlist,
         url: `${URL_MAIN.music}${URL_TABS.playlist}`,
-        icon: Type.Playlist,
+        icon: IconType.Playlist,
       },
     ],
   },
@@ -94,12 +94,12 @@ export const tabElements: TabElement[] = [
       {
         label: messages.notes,
         url: URL_MAIN.tools,
-        icon: Type.Notes,
+        icon: IconType.Notes,
       },
       {
         label: messages.voiceRecorder,
         url: `${URL_MAIN.tools}${URL_TABS.voiceRecorder}`,
-        icon: Type.VoiceRecorder,
+        icon: IconType.VoiceRecorder,
       },
     ],
   },
@@ -109,29 +109,29 @@ export const tabElements: TabElement[] = [
       {
         label: messages.connection,
         url: URL_MAIN.settings,
-        icon: Type.Connection,
+        icon: IconType.Connection,
       },
       {
         label: messages.notifications,
         url: `${URL_MAIN.settings}${URL_TABS.notifications}`,
-        icon: Type.Notifications,
+        icon: IconType.Notifications,
         hidden: flags.get(Feature.ProductionAndAlpha),
       },
       {
         label: messages.audioConversion,
         url: `${URL_MAIN.settings}${URL_TABS.audioConversion}`,
-        icon: Type.MenuMusic,
+        icon: IconType.MenuMusic,
         hidden: flags.get(Feature.ProductionAndAlpha),
       },
       {
         label: messages.backup,
         url: `${URL_MAIN.settings}${URL_TABS.backup}`,
-        icon: Type.BackupFolder,
+        icon: IconType.BackupFolder,
       },
       {
         label: messages.about,
         url: `${URL_MAIN.settings}${URL_TABS.about}`,
-        icon: Type.MuditaLogo,
+        icon: IconType.MuditaLogo,
       },
     ],
   },

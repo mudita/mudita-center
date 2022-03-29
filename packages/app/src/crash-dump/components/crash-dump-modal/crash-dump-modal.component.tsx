@@ -11,7 +11,6 @@ import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.comp
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { Size } from "Renderer/components/core/button/button.config"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -20,6 +19,7 @@ import {
   ContentWrapper,
 } from "App/crash-dump/components/crash-dump-modal/crash-dump-modal.styled"
 import { CrashDumpModalTestingIds } from "App/crash-dump/components/crash-dump-modal/crash-dump-modal-testing-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export interface CrashDumpProps {
   open: boolean
@@ -53,7 +53,7 @@ export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({
     >
       <ContentWrapper data-testid={CrashDumpModalTestingIds.Content}>
         <IconWrapper>
-          <Icon type={Type.ThinFail} width={3.2} height={3.2} />
+          <Icon type={IconType.ThinFail} width={3.2} height={3.2} />
         </IconWrapper>
         <Text
           data-testid={CrashDumpModalTestingIds.Label}

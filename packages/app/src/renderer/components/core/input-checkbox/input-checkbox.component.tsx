@@ -13,9 +13,9 @@ import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { InputCheckboxWithTooltip } from "Renderer/components/core/input-checkbox/input-checkbox-with-tooltip"
 import { TooltipSecondaryContent } from "Renderer/components/core/icon-button-with-tooltip/tooltip-secondary-content.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export enum Size {
   Small,
@@ -130,13 +130,13 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
       />
       {indeterminate ? (
         <CheckIcon
-          type={indeterminate ? Type.CheckIndeterminate : Type.Check}
+          type={indeterminate ? IconType.CheckIndeterminate : IconType.Check}
           height={1.6}
           width={1}
           indeterminate={indeterminate}
         />
       ) : (
-        <CheckIcon type={Type.Check} width={2.2} height={1.6} />
+        <CheckIcon type={IconType.Check} width={2.2} height={1.6} />
       )}
     </InputWrapper>
   )

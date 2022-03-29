@@ -13,8 +13,8 @@ import {
 } from "Renderer/components/core/button/button.config"
 import Button from "Renderer/components/core/button/button.component"
 import styled, { css } from "styled-components"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const fullWidthButtonStory = css`
   width: 30rem;
@@ -62,11 +62,11 @@ storiesOf("Components|Core/Button", module)
       </StoryContainer>
       <StoryContainer title="Modifiers (icon)">
         <Story title="Primary (default)">
-          <Button Icon={Type.Upload} label="Button" iconSize={IconSize.Small} />
+          <Button Icon={IconType.Upload} label="Button" iconSize={IconSize.Small} />
         </Story>
         <Story title="Primary disabled">
           <Button
-            Icon={Type.Upload}
+            Icon={IconType.Upload}
             disabled
             label="Button"
             iconSize={IconSize.Small}
@@ -74,7 +74,7 @@ storiesOf("Components|Core/Button", module)
         </Story>
         <Story title="Secondary">
           <Button
-            Icon={Type.Upload}
+            Icon={IconType.Upload}
             displayStyle={DisplayStyle.Secondary}
             label="Button"
             iconSize={IconSize.Small}
@@ -82,7 +82,7 @@ storiesOf("Components|Core/Button", module)
         </Story>
         <Story title="Secondary disabled">
           <Button
-            Icon={Type.Upload}
+            Icon={IconType.Upload}
             displayStyle={DisplayStyle.Secondary}
             disabled
             label="Button"
@@ -104,7 +104,7 @@ storiesOf("Components|Core/Button", module)
         </Story>
         <Story title="With icon">
           <Button
-            Icon={Type.Upload}
+            Icon={IconType.Upload}
             displayStyle={DisplayStyle.Link}
             label="I open Google in new tab"
             href="http://www.google.pl"
@@ -114,7 +114,7 @@ storiesOf("Components|Core/Button", module)
         <Story title="With icon disabled">
           <Button
             disabled
-            Icon={Type.Upload}
+            Icon={IconType.Upload}
             displayStyle={DisplayStyle.Link}
             label="I open Google in new tab"
             href="http://www.google.pl"
@@ -132,7 +132,7 @@ storiesOf("Components|Core/Button", module)
         </Story>
         <Story title="With icon">
           <Button
-            Icon={Type.Upload}
+            Icon={IconType.Upload}
             displayStyle={DisplayStyle.LinkWithParagraph}
             label="I open Google in new tab"
             href="http://www.google.pl"
@@ -150,7 +150,7 @@ storiesOf("Components|Core/Button", module)
         </Story>
         <Story title="With icon">
           <Button
-            Icon={Type.UploadDark}
+            Icon={IconType.UploadDark}
             displayStyle={DisplayStyle.ActionLink}
             label="I open Google in new tab"
             href="http://www.google.pl"
@@ -170,7 +170,7 @@ storiesOf("Components|Core/Button", module)
         <Story title="With icon">
           <Button
             nav
-            Icon={Type.UploadDark}
+            Icon={IconType.UploadDark}
             displayStyle={DisplayStyle.MenuLink}
             label="I open Google in new tab"
             href="http://www.google.pl"
@@ -181,7 +181,7 @@ storiesOf("Components|Core/Button", module)
           <Button
             disabled
             nav
-            Icon={Type.UploadDark}
+            Icon={IconType.UploadDark}
             displayStyle={DisplayStyle.MenuLink}
             label="I open Google in new tab"
             href="http://www.google.pl"
@@ -199,7 +199,7 @@ storiesOf("Components|Core/Button", module)
         </Story>
         <Story title="With icon">
           <Button
-            Icon={Type.UploadDark}
+            Icon={IconType.UploadDark}
             displayStyle={DisplayStyle.Tab}
             label="I open Google in new tab"
             href="http://www.google.pl"
@@ -217,7 +217,7 @@ storiesOf("Components|Core/Button", module)
         </Story>
         <Story title="With icon">
           <Button
-            Icon={Type.Upload}
+            Icon={IconType.Upload}
             displayStyle={DisplayStyle.Dropdown}
             label="I open Google in new tab"
             href="http://www.google.pl"
@@ -232,21 +232,21 @@ storiesOf("Components|Core/Button", module)
       <StoryContainer title="Themes">
         <Story title="Icon only">
           <Button
-            Icon={Type.UploadDark}
+            Icon={IconType.UploadDark}
             displayStyle={DisplayStyle.IconOnly}
             iconSize={IconSize.Small}
           />
         </Story>
         <Story title="Icon only wiht background">
           <Button
-            Icon={Type.Send}
+            Icon={IconType.Send}
             displayStyle={DisplayStyle.IconOnlyWithBackground}
             iconSize={IconSize.Big}
           />
         </Story>
         <Story title="Input icon">
           <Button
-            Icon={Type.UploadDark}
+            Icon={IconType.UploadDark}
             displayStyle={DisplayStyle.InputIcon}
             iconSize={IconSize.Small}
           />

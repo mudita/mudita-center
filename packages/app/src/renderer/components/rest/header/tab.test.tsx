@@ -9,7 +9,7 @@ import { MemoryRouter } from "react-router-dom"
 import Tab from "Renderer/components/rest/header/tab.component"
 import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const message = mockDefineMessages("module.phone")
 const currentLocation = "/phone"
@@ -17,7 +17,7 @@ const currentLocation = "/phone"
 test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={[currentLocation]}>
-      <Tab icon={Type.Check} label={message} url={currentLocation} />
+      <Tab icon={IconType.Check} label={message} url={currentLocation} />
     </MemoryRouter>
   )
   expect(container.firstChild).toMatchSnapshot()
@@ -26,7 +26,7 @@ test("matches snapshot", () => {
 test("has correct text content", () => {
   const { container } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={[currentLocation]}>
-      <Tab icon={Type.Check} label={message} />
+      <Tab icon={IconType.Check} label={message} />
     </MemoryRouter>
   )
   const tabNode = container.firstChild

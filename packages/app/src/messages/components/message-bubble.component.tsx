@@ -11,7 +11,6 @@ import Dropdown, {
   DropdownPosition,
 } from "Renderer/components/core/dropdown/dropdown.component"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Avatar, {
   User,
   AvatarSize,
@@ -30,6 +29,7 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 import { noop } from "Renderer/utils/noop"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean
@@ -178,7 +178,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                 <ActionsButton
                   data-testid={MessageBubbleTestIds.DropdownActionButton}
                 >
-                  <Icon type={Type.More} />
+                  <Icon type={IconType.More} />
                 </ActionsButton>
               }
               onOpen={open}
@@ -194,7 +194,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                 labelMessage={{
                   id: "module.messages.messageDropdownForward",
                 }}
-                Icon={Type.Forward}
+                Icon={IconType.Forward}
                 onClick={forward}
                 displayStyle={DisplayStyle.Dropdown}
                 data-testid={MessageBubbleTestIds.ForwardMessageButton}
@@ -203,7 +203,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                 labelMessage={{
                   id: "module.messages.messageDropdownDelete",
                 }}
-                Icon={Type.Delete}
+                Icon={IconType.Delete}
                 onClick={remove}
                 displayStyle={DisplayStyle.Dropdown}
                 data-testid={MessageBubbleTestIds.DeleteMessageButton}

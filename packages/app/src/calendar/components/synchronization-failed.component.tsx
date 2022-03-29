@@ -18,9 +18,9 @@ import {
 } from "App/calendar/components/calendar-modals.styled"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: {
@@ -49,7 +49,7 @@ const EventsSynchronizationFailedModal: FunctionComponent<ModalProps> = (
   >
     <ModalContent>
       <RoundIconWrapper>
-        <Icon type={Type.CalendarIcon} width={4} />
+        <Icon type={IconType.CalendarIcon} width={4} />
       </RoundIconWrapper>
       <Text
         displayStyle={TextDisplayStyle.Headline4}

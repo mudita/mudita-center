@@ -20,13 +20,13 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { SortOrder } from "Common/enums/sort-order.enum"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
 import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 /* Row */
 export enum RowSize {
@@ -336,7 +336,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
       {headerRight && <SidebarHeaderRight>{headerRight}</SidebarHeaderRight>}
       <SidebarClose onClick={onClose} data-testid={TableTestIds.SidebarClose}>
         <SidebarHeaderButton
-          iconType={Type.Close}
+          iconType={IconType.Close}
           description={{ id: "Close" }}
         />
       </SidebarClose>
