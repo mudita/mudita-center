@@ -8,11 +8,11 @@ import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { IconSize } from "App/renderer/components/core/icon/icon.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 interface TabProps {
-  icon: Type
+  icon: IconType
   label?: MessageInterface
   url?: string
 }

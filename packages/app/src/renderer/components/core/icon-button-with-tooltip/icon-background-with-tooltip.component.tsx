@@ -13,8 +13,8 @@ import ElementWithTooltip, {
 import { IconButtonWithTooltipTestIds } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-tooltip.enum"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const IconButton = styled(ButtonComponent).attrs(() => ({
   displayStyle: DisplayStyle.IconOnlyWithBackground,
@@ -27,12 +27,12 @@ interface Props
     >,
     Omit<ComponentProps<typeof ElementWithTooltip>, "Element">,
     ComponentProps<typeof TooltipSecondaryContent> {
-  iconType?: Type
+  iconType?: IconType
 }
 
 export const IconBackgroundWithTooltip: FunctionComponent<Props> = ({
   description,
-  iconType = Type.Tooltip,
+  iconType = IconType.Tooltip,
   iconSize = IconSize.Medium,
   ...props
 }) => {

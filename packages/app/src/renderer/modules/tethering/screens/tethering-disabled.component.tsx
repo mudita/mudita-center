@@ -21,13 +21,13 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { URL_MAIN } from "Renderer/constants/urls"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { tetheringMessages } from "Renderer/modules/tethering/tethering-messages"
 import {
   TetheringToggler,
   TextWrapper,
   TetheringContainer,
 } from "Renderer/modules/tethering/screens/tethering.styled"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 interface TetheringDisabledProps {
   tetheringEnabled?: boolean
@@ -66,7 +66,7 @@ const TetheringDisabled: FunctionComponent<TetheringDisabledProps> = ({
       data-testid={TetheringTestIds.ModemNotification}
     >
       <IconHolder>
-        <Icon type={Type.Info} width={1.6} />
+        <Icon type={IconType.Info} width={1.6} />
       </IconHolder>
       {intl.formatMessage(tetheringMessages.explanation, textFormatters)}
     </InfoText>

@@ -7,7 +7,6 @@ import React, { ComponentProps } from "react"
 import { intl } from "Renderer/utils/intl"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -20,6 +19,7 @@ import {
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Size } from "Renderer/components/core/button/button.config"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: { id: "component.collectingDataModalTitle" },
@@ -54,7 +54,7 @@ const CollectingDataModalUi: FunctionComponent<Props> = ({
       {...props}
     >
       <ModalContent>
-        <Icon type={Type.MuditaLogoBg} width={12} height={12} />
+        <Icon type={IconType.MuditaLogoBg} width={12} height={12} />
         <Paragraph
           data-testid={CollectingDataModalTestIds.Subtitle}
           displayStyle={TextDisplayStyle.Headline4}

@@ -21,7 +21,6 @@ import Avatar, {
 } from "Renderer/components/core/avatar/avatar.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
@@ -34,6 +33,7 @@ import { HiddenButton } from "App/contacts/components/contact-list/contact-list.
 import { ContactSearchResultsTestIdsEnum } from "App/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
 import { flags, Feature } from "App/feature-flags"
 import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -67,7 +67,7 @@ const Actions = styled.div`
 `
 
 const BlockedIcon = styled(Icon).attrs(() => ({
-  type: Type.Blocked,
+  type: IconType.Blocked,
 }))`
   margin-left: 1.6rem;
 `
@@ -193,7 +193,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                           labelMessage={{
                             id: "module.contacts.exportAsVcard",
                           }}
-                          Icon={Type.Upload}
+                          Icon={IconType.Upload}
                           onClick={handleExport}
                           displayStyle={DisplayStyle.Dropdown}
                           hide={flags.get(Feature.ProductionAndAlpha)}
@@ -202,7 +202,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                           labelMessage={{
                             id: "module.contacts.forwardNamecard",
                           }}
-                          Icon={Type.Forward}
+                          Icon={IconType.Forward}
                           onClick={handleForward}
                           displayStyle={DisplayStyle.Dropdown}
                           hide={flags.get(Feature.ProductionAndAlpha)}
@@ -212,7 +212,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                             labelMessage={{
                               id: "module.contacts.unblock",
                             }}
-                            Icon={Type.Blocked}
+                            Icon={IconType.Blocked}
                             onClick={handleUnblock}
                             displayStyle={DisplayStyle.Dropdown}
                             hide={flags.get(Feature.ProductionAndAlpha)}
@@ -222,7 +222,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                             labelMessage={{
                               id: "module.contacts.block",
                             }}
-                            Icon={Type.Blocked}
+                            Icon={IconType.Blocked}
                             onClick={handleBlock}
                             displayStyle={DisplayStyle.Dropdown}
                             hide={flags.get(Feature.ProductionAndAlpha)}
@@ -232,7 +232,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
                           labelMessage={{
                             id: "module.contacts.delete",
                           }}
-                          Icon={Type.Delete}
+                          Icon={IconType.Delete}
                           onClick={handleDelete}
                           displayStyle={DisplayStyle.Dropdown}
                         />

@@ -9,7 +9,6 @@ import {
   SidebarHeaderButton,
   SidebarProps,
 } from "Renderer/components/core/table/table.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
@@ -33,6 +32,7 @@ import { Contact } from "App/contacts/reducers/contacts.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   favourites: { id: "module.contacts.favourites" },
@@ -95,14 +95,14 @@ export const phoneActions = (
   return [
     <ButtonComponent
       displayStyle={DisplayStyle.InputIcon}
-      Icon={Type.Calls}
+      Icon={IconType.Calls}
       key="Call"
       onClick={callHandler}
     />,
     <ButtonComponent
       disabled={messageDisabled}
       displayStyle={DisplayStyle.InputIcon}
-      Icon={Type.Message}
+      Icon={IconType.Message}
       key="Message"
       onClick={messageHandler}
     />,
@@ -134,7 +134,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     const exportIcon = (
       <SidebarHeaderButton
         description={messages.exportTooltipDescription}
-        iconType={Type.UploadDark}
+        iconType={IconType.UploadDark}
         onClick={handleExport}
         data-testid={ContactDetailsTestIds.ExportButton}
       />
@@ -143,13 +143,13 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       <>
         <SidebarHeaderButton
           description={messages.deleteTooltipDescription}
-          iconType={Type.Delete}
+          iconType={IconType.Delete}
           onClick={handleDelete}
         />
         {exportIcon}
         <SidebarHeaderButton
           description={messages.editTooltipDescription}
-          iconType={Type.Edit}
+          iconType={IconType.Edit}
           onClick={handleEdit}
         />
       </>
@@ -158,30 +158,30 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       <>
         <SidebarHeaderButton
           description={messages.deleteTooltipDescription}
-          iconType={Type.Delete}
+          iconType={IconType.Delete}
           onClick={handleDelete}
         />
         {exportIcon}
         <SidebarHeaderButton
           description={messages.forwardTooltipDescription}
-          iconType={Type.Forward}
+          iconType={IconType.Forward}
           onClick={handleForward}
         />
         <SidebarHeaderButton
           description={messages.editTooltipDescription}
-          iconType={Type.Edit}
+          iconType={IconType.Edit}
           onClick={handleEdit}
         />
         {contact.blocked ? (
           <SidebarHeaderButton
             description={messages.unblockTooltipDescription}
-            iconType={Type.Blocked}
+            iconType={IconType.Blocked}
             onClick={handleUnblock}
           />
         ) : (
           <SidebarHeaderButton
             description={messages.blockTooltipDescription}
-            iconType={Type.Blocked}
+            iconType={IconType.Blocked}
             onClick={handleBlock}
           />
         )}
@@ -210,7 +210,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
           </Name>
           {contact.favourite && (
             <InfoItem>
-              <Icon type={Type.Favourites} />
+              <Icon type={IconType.Favourites} />
               <Text
                 displayStyle={TextDisplayStyle.Title}
                 color="secondary"

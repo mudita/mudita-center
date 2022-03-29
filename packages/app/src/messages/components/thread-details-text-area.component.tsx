@@ -5,7 +5,6 @@
 
 import React, { ChangeEvent, KeyboardEvent } from "react"
 import { intl } from "Renderer/utils/intl"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
@@ -17,9 +16,12 @@ import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-det
 import { Feature, flags } from "App/feature-flags"
 import { IconBackgroundWithTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-background-with-tooltip.component"
 import { defineMessages } from "react-intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
-  sendButtonTooltipDescription: { id: "module.messages.sendButtonTooltipDescription" },
+  sendButtonTooltipDescription: {
+    id: "module.messages.sendButtonTooltipDescription",
+  },
 })
 
 interface Props {
@@ -42,13 +44,17 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
   const leadingIcons = [
     flags.get(Feature.DevelopOnly) && (
       <IconButton
-        key={Type.AttachContact}
-        Icon={Type.AttachContact}
+        key={IconType.AttachContact}
+        Icon={IconType.AttachContact}
         onClick={onAttachContactClick}
       />
     ),
     flags.get(Feature.DevelopOnly) && (
-      <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />
+      <Icon
+        type={IconType.Template}
+        key={IconType.Template}
+        size={IconSize.Big}
+      />
     ),
   ]
 
@@ -56,8 +62,8 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
     !isValueEmpty() && (
       <IconBackgroundWithTooltip
         data-testid={ThreadDetailsTextAreaTestIds.SendButton}
-        key={Type.Send}
-        iconType={Type.Send}
+        key={IconType.Send}
+        iconType={IconType.Send}
         onClick={onSendClick}
         description={messages.sendButtonTooltipDescription}
       />

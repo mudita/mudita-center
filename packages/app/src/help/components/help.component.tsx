@@ -21,13 +21,13 @@ import {
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import { URL_MAIN } from "Renderer/constants/urls"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { NormalizedHelpEntry } from "Renderer/utils/contentful/normalize-help-data"
 import ModalsManager from "App/modals-manager/containers/modals-manager.container"
 import { fontWeight } from "Renderer/styles/theming/theme-getters"
 import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
 import { defineMessages } from "react-intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   supportTooltipDescription: { id: "module.help.supportTooltipDescription" },
@@ -126,7 +126,7 @@ const Help: FunctionComponent<Props> = ({
           />
           <SearchContainer>
             <IconButtonWithSecondaryTooltip
-              iconType={Type.Support}
+              iconType={IconType.Support}
               iconSize={IconSize.Small}
               onClick={openContactSupportFlow}
               data-testid={HelpComponentTestIds.SupportButton}
@@ -168,7 +168,11 @@ const Help: FunctionComponent<Props> = ({
                   <Text displayStyle={TextDisplayStyle.Paragraph1}>
                     {items[id].question}
                   </Text>
-                  <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />
+                  <ArrowIcon
+                    type={IconType.ArrowDown}
+                    height={1.2}
+                    width={1.2}
+                  />
                 </Question>
               )
             })}

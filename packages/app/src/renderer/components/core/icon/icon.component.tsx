@@ -7,12 +7,12 @@ import * as React from "react"
 import {
   getEnumName,
   getIconType,
-  Type,
 } from "Renderer/components/core/icon/icon.config"
 import Svg from "Renderer/components/core/svg/svg.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export enum IconSize {
   Small = 1.6,
@@ -26,7 +26,7 @@ export interface Props {
   height?: number
   width?: number
   size?: IconSize
-  type?: Type
+  type?: IconType
 }
 
 const badgeStyles = css`

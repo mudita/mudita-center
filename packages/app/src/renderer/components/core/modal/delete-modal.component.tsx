@@ -15,9 +15,9 @@ import Text, {
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { Message } from "Renderer/interfaces/message.interface"
 import { DeleteModalTestIds } from "Renderer/components/core/modal/delete-modal.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const ModalContent = styled.div`
   display: flex;
@@ -64,7 +64,7 @@ const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
       {...rest}
     >
       <ModalContent data-testid={DeleteModalTestIds.Content}>
-        <Icon type={Type.DeleteBig} width={12} height={12} />
+        <Icon type={IconType.DeleteBig} width={12} height={12} />
         <Text displayStyle={TextDisplayStyle.Paragraph2} message={message} />
       </ModalContent>
     </Modal>

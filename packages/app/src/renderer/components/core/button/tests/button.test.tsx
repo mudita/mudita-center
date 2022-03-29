@@ -11,9 +11,9 @@ import { DisplayStyle, Size } from "../button.config"
 
 import { fireEvent } from "@testing-library/dom"
 import { MemoryRouter } from "react-router-dom"
-import { Type } from "Renderer/components/core/icon/icon.config"
 
 import testScenarios from "./test-scenarios"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 interface TestCase {
   disabled?: boolean
@@ -51,14 +51,14 @@ test("link-button should have active class when clicked", () => {
     displayStyle: DisplayStyle.MenuLink,
     label: "Example",
     to: "/overview",
-    Icon: Type.Upload,
+    Icon: IconType.Upload,
     nav: true,
   }
   const data2 = {
     displayStyle: DisplayStyle.MenuLink,
     label: "Music",
     to: currentPath,
-    Icon: Type.Upload,
+    Icon: IconType.Upload,
     nav: true,
   }
   const { container, getByText } = renderWithThemeAndIntl(

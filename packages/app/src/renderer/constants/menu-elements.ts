@@ -6,9 +6,9 @@
 import { DeviceType } from "@mudita/pure"
 import { defineMessages } from "react-intl"
 import { View, views } from "Renderer/constants/views"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { flags, Feature } from "App/feature-flags"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   yourPure: { id: "component.menuHeaderYourPure" },
@@ -19,68 +19,68 @@ const messages = defineMessages({
 const YOUR_PURE_BUTTONS = [
   {
     button: views.overview,
-    icon: Type.MenuOverview,
+    icon: IconType.MenuOverview,
     testId: MenuGroupTestIds.Overview,
     visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
   },
   {
     button: views.messages,
-    icon: Type.Message,
+    icon: IconType.Message,
     testId: MenuGroupTestIds.Messages,
     hidden: flags.get(Feature.MessagesHidden),
     visibleOn: [DeviceType.MuditaPure],
   },
   {
     button: views.phone,
-    icon: Type.MenuPhone,
+    icon: IconType.MenuPhone,
     testId: MenuGroupTestIds.Phone,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure],
   },
   {
     button: views.contacts,
-    icon: Type.MenuContacts,
+    icon: IconType.MenuContacts,
     testId: MenuGroupTestIds.Contacts,
     visibleOn: [DeviceType.MuditaPure],
   },
   {
     button: views.tools,
-    icon: Type.MenuTools,
+    icon: IconType.MenuTools,
     testId: MenuGroupTestIds.Tools,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure],
   },
   {
     button: views.music,
-    icon: Type.MenuMusic,
+    icon: IconType.MenuMusic,
     testId: MenuGroupTestIds.Music,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure],
   },
   {
     button: views.calendar,
-    icon: Type.Calendar,
+    icon: IconType.Calendar,
     testId: MenuGroupTestIds.Calendar,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure],
   },
   {
     button: views.meditation,
-    icon: Type.MenuMeditation,
+    icon: IconType.MenuMeditation,
     testId: MenuGroupTestIds.Meditation,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure],
   },
   {
     button: views.filesManager,
-    icon: Type.MenuFilesManager,
+    icon: IconType.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,
     hidden: flags.get(Feature.DisabledOnProduction),
     visibleOn: [DeviceType.MuditaPure],
   },
   {
     button: views.recoveryMode,
-    icon: Type.MuditaLogo,
+    icon: IconType.MuditaLogo,
     testId: MenuGroupTestIds.Backup,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure],
@@ -90,19 +90,19 @@ const YOUR_PURE_BUTTONS = [
 const DESKTOP_APP_BUTTONS: Item[] = [
   {
     button: views.tethering,
-    icon: Type.MenuTethering,
+    icon: IconType.MenuTethering,
     testId: MenuGroupTestIds.Tethering,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
   },
   {
     button: views.settings,
-    icon: Type.MenuSettings,
+    icon: IconType.MenuSettings,
     visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
   },
   {
     button: views.help,
-    icon: Type.MenuHelp,
+    icon: IconType.MenuHelp,
     testId: MenuGroupTestIds.Help,
     visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
   },
@@ -110,7 +110,7 @@ const DESKTOP_APP_BUTTONS: Item[] = [
 
 interface Item {
   button: typeof views[View]
-  icon: Type
+  icon: IconType
   testId?: MenuGroupTestIds
   hidden?: boolean
   visibleOn: DeviceType[]
@@ -121,7 +121,7 @@ export interface MenuElement {
   label?: {
     id: string
   }
-  icons?: Type[]
+  icons?: IconType[]
   connectedPhoneOnly?: boolean
   devModeOnly?: boolean
   simulatePhoneConnection?: boolean
@@ -134,7 +134,7 @@ export const menuElements: MenuElement[] = [
     items: [
       {
         button: views[View.Connecting],
-        icon: Type.Send,
+        icon: IconType.Send,
         testId: MenuGroupTestIds.Connecting,
         visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
       },
@@ -145,7 +145,7 @@ export const menuElements: MenuElement[] = [
     items: [
       {
         button: views[View.Onboarding],
-        icon: Type.Send,
+        icon: IconType.Send,
         visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
       },
     ],
@@ -155,7 +155,7 @@ export const menuElements: MenuElement[] = [
     items: [
       {
         button: views[View.News],
-        icon: Type.MenuNews,
+        icon: IconType.MenuNews,
         visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
       },
     ],
@@ -165,7 +165,12 @@ export const menuElements: MenuElement[] = [
     items: YOUR_PURE_BUTTONS,
     icons: flags.get(Feature.ProductionAndAlpha)
       ? []
-      : [Type.MenuRange, Type.MenuBattery, Type.Sim, Type.TetheringStatus],
+      : [
+          IconType.MenuRange,
+          IconType.MenuBattery,
+          IconType.Sim,
+          IconType.TetheringStatus,
+        ],
     connectedPhoneOnly: true,
     visibleOn: [DeviceType.MuditaPure],
   },

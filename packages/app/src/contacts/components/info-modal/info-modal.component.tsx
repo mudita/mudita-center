@@ -6,13 +6,13 @@
 import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import styled from "styled-components"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const ModalContent = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ const InfoModal: FunctionComponent<Props> = ({
   <ModalDialog title={title} size={ModalSize.Small} {...rest}>
     <ModalContent>
       <RoundIconWrapper>
-        <Icon type={Type.Info} width={5} />
+        <Icon type={IconType.Info} width={5} />
       </RoundIconWrapper>
       {subtitle && (
         <ModalText displayStyle={TextDisplayStyle.Headline4}>

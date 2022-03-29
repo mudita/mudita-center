@@ -6,10 +6,10 @@
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
 import { Feature, flags } from "App/feature-flags"
 import { defineMessages } from "react-intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   callsTooltipDescription: { id: "module.messages.callsTooltipDescription" },
@@ -43,20 +43,20 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
       {flags.get(Feature.DevelopOnly) && (
         <SidebarHeaderButton
           description={messages.callsTooltipDescription}
-          iconType={Type.Calls}
+          iconType={IconType.Calls}
           onClick={noop}
         />
       )}
       {contactCreated ? (
         <SidebarHeaderButton
           description={messages.contactTooltipDescription}
-          iconType={Type.Contact}
+          iconType={IconType.Contact}
           onClick={onContactClick}
         />
       ) : (
         <SidebarHeaderButton
           description={messages.newContactTooltipDescription}
-          iconType={Type.NewContact}
+          iconType={IconType.NewContact}
           onClick={onContactClick}
         />
       )}
@@ -64,12 +64,12 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
         <>
           <SidebarHeaderButton
             description={messages.deleteTooltipDescription}
-            iconType={Type.BorderCheckIcon}
+            iconType={IconType.BorderCheckIcon}
             onClick={onCheckClick}
           />
           <SidebarHeaderButton
             description={messages.deleteTooltipDescription}
-            iconType={Type.Delete}
+            iconType={IconType.Delete}
             onClick={onDeleteClick}
           />
         </>

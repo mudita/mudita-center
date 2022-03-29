@@ -4,7 +4,7 @@
  */
 
 import { Call, CallStatus } from "Renderer/models/calls/calls.interface"
-import { Type as IconType } from "Renderer/components/core/icon/icon.config"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const todaysCall: Call = {
   id: "05ed5479-1770-44e8-9e7c-09333ddc87195",

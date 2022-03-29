@@ -21,9 +21,9 @@ import {
   fontWeight,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { Title } from "Renderer/components/core/text/title-text.styled"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const OnboardingTroubleshootingWrapper = styled.section`
   display: grid;
@@ -192,7 +192,7 @@ const OnboardingTroubleshooting: FunctionComponent<Props> = ({
               id: "module.onboarding.troubleshootingMoreInstructions",
             }}
           />
-          <Icon type={Type.Arrow} size={IconSize.Small} />
+          <Icon type={IconType.Arrow} size={IconSize.Small} />
         </AccordionButton>
         {openMore && (
           <MoreSteps data-testid="more-steps">

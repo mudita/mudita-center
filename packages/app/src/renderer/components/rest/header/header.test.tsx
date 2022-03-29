@@ -10,9 +10,9 @@ import Header from "Renderer/components/rest/header/header.component"
 import Tabs from "Renderer/components/rest/header/tabs.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { HeaderButton } from "Renderer/wrappers/layout-desktop-wrapper"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { intl } from "Renderer/utils/intl"
 import { flags } from "App/feature-flags"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 jest.mock("App/feature-flags")
 
@@ -57,7 +57,7 @@ test("button renders on news page", () => {
         middleComponent={<Tabs currentLocation={currentLocation} />}
         button={
           <HeaderButton
-            Icon={Type.ExternalLink}
+            Icon={IconType.ExternalLink}
             label={intl.formatMessage({
               id: "module.news.moreNewsButtonLabel",
             })}
