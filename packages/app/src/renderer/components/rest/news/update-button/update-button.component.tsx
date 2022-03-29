@@ -10,13 +10,13 @@ import Button, {
 } from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import styled, { css } from "styled-components"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import {
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const rotateAnimation = css`
   @keyframes rotate {
@@ -57,7 +57,7 @@ const UpdateButtonComponent: FunctionComponent<
     <UpdateButton
       displayStyle={DisplayStyle.LinkWithParagraph}
       label={label}
-      Icon={Type.Refresh}
+      Icon={IconType.Refresh}
       onClick={onClick}
       updating={updating}
       disabled={updating}

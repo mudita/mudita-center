@@ -8,7 +8,7 @@ import Icon, {
   Props as IconProps,
 } from "Renderer/components/core/icon/icon.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export interface RangeIconProps {
   strength: number
@@ -21,29 +21,29 @@ const getInteractiveRangeIcon = (
 ) => {
   switch (true) {
     case strength > 80 && roaming:
-      return <Icon type={Type.VeryHighRangeWithRoaming} {...rest} />
+      return <Icon type={IconType.VeryHighRangeWithRoaming} {...rest} />
     case strength > 60 && roaming:
-      return <Icon type={Type.HighRangeWithRoaming} {...rest} />
+      return <Icon type={IconType.HighRangeWithRoaming} {...rest} />
     case strength > 40 && roaming:
-      return <Icon type={Type.MediumRangeWithRoaming} {...rest} />
+      return <Icon type={IconType.MediumRangeWithRoaming} {...rest} />
     case strength > 20 && roaming:
-      return <Icon type={Type.LowRangeWithRoaming} {...rest} />
+      return <Icon type={IconType.LowRangeWithRoaming} {...rest} />
     case strength > 0 && roaming:
-      return <Icon type={Type.VeryLowRangeWithRoaming} {...rest} />
+      return <Icon type={IconType.VeryLowRangeWithRoaming} {...rest} />
     case strength > 80:
-      return <Icon type={Type.VeryHighRange} {...rest} />
+      return <Icon type={IconType.VeryHighRange} {...rest} />
     case strength > 60:
-      return <Icon type={Type.HighRange} {...rest} />
+      return <Icon type={IconType.HighRange} {...rest} />
     case strength > 40:
-      return <Icon type={Type.MediumRange} {...rest} />
+      return <Icon type={IconType.MediumRange} {...rest} />
     case strength > 20:
-      return <Icon type={Type.LowRange} {...rest} />
+      return <Icon type={IconType.LowRange} {...rest} />
     case strength > 0:
-      return <Icon type={Type.VeryLowRange} {...rest} />
+      return <Icon type={IconType.VeryLowRange} {...rest} />
     case strength === 0:
-      return <Icon type={Type.NoRange} {...rest} />
+      return <Icon type={IconType.NoRange} {...rest} />
     default:
-      return <Icon type={Type.NoRange} {...rest} />
+      return <Icon type={IconType.NoRange} {...rest} />
   }
 }
 

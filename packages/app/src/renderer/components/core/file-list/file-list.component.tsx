@@ -6,7 +6,6 @@
 import styled from "styled-components"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -17,6 +16,7 @@ import {
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import { FileListTestIds } from "Renderer/components/core/file-list/file-list-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const File = styled.li`
   display: flex;
@@ -79,7 +79,7 @@ const FileList: FunctionComponent<Props> = ({
 
         return (
           <File key={index} data-testid={FileListTestIds.File}>
-            <Icon type={Type.Attachment} height={1.6} />
+            <Icon type={IconType.Attachment} height={1.6} />
             <Text displayStyle={TextDisplayStyle.Paragraph4} color="secondary">
               {file.name}
             </Text>
@@ -89,7 +89,7 @@ const FileList: FunctionComponent<Props> = ({
                 role="button"
                 data-testid={FileListTestIds.RemoveFileButton}
               >
-                <Icon type={Type.Remove} width={1.6} />
+                <Icon type={IconType.Remove} width={1.6} />
               </Remove>
             )}
           </File>

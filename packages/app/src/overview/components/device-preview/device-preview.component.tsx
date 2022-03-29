@@ -25,12 +25,12 @@ import {
 import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
 import Button from "App/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
-import { Type } from "App/renderer/components/core/icon/icon.config"
 import { DeviceImage } from "App/overview/components/device-preview/device-image.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const DeviceSystemButton = styled(Button)`
   width: auto;
@@ -100,7 +100,7 @@ export const DevicePreview: FunctionComponent<DevicePreviewProps> = ({
             onClick={openPureSystem}
             data-testid={DeviceTestIds.PureSystemButton}
             displayStyle={DisplayStyle.LinkWithParagraph}
-            Icon={Type.MenuPhone}
+            Icon={IconType.MenuPhone}
             iconSize={IconSize.Bigger}
           />
         </PureSystemButtonContainer>

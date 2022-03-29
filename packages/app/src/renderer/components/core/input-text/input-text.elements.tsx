@@ -31,12 +31,12 @@ import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
 import composeRefs from "@seznam/compose-react-refs"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import CloseImage from "Renderer/images/close.png"
 import { InputTextTestIds } from "./input-text-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const searchIcon = (
-  <Icon type={Type.Magnifier} height={2.6} width={2.6} />
+  <Icon type={IconType.Magnifier} height={2.6} width={2.6} />
 )
 
 const focusedLabelStyles = css`

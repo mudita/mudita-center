@@ -9,7 +9,6 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -17,6 +16,7 @@ import { noop } from "Renderer/utils/noop"
 import { ModalContent } from "Renderer/components/core/modal/delete-modal.component"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   cancel: { id: "module.templates.deleteModalCancel" },
@@ -46,7 +46,7 @@ const DeleteTemplateModal: FunctionComponent<DeleteTemplateModalProps> = ({
       onActionButtonClick={onDelete}
     >
       <ModalContent>
-        <Icon type={Type.DeleteBig} width={12} height={12} />
+        <Icon type={IconType.DeleteBig} width={12} height={12} />
         <Text displayStyle={TextDisplayStyle.Paragraph2}>{text}</Text>
       </ModalContent>
     </Modal>

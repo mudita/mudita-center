@@ -16,7 +16,6 @@ import {
   AutoWidthButtonComponent,
 } from "App/overview/components/pure-system/pure-system.styled"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
-import { Type } from "App/renderer/components/core/icon/icon.config"
 import { IconSize } from "App/renderer/components/core/icon/icon.component"
 import Text, {
   TextDisplayStyle,
@@ -25,6 +24,7 @@ import { defineMessages } from "react-intl"
 import { PureSystemTestIds } from "App/overview/components/pure-system/pure-system-test-ids.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   back: {
@@ -88,7 +88,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
           displayStyle={DisplayStyle.Link}
           onClick={handleBack}
           labelMessage={messages.back}
-          Icon={Type.ArrowLongLeft}
+          Icon={IconType.ArrowLongLeft}
           iconSize={IconSize.Small}
           data-testid={PureSystemTestIds.BackButton}
         />

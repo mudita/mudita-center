@@ -11,7 +11,6 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { Size } from "Renderer/components/core/button/button.config"
@@ -21,6 +20,7 @@ import {
   RoundIconWrapper,
   ModalMainText,
 } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   backupModalHeaderTitle: {
@@ -104,7 +104,7 @@ export const BackupModal: FunctionComponent<
       {...props}
     >
       <RoundIconWrapper>
-        <Icon type={Type.BackupFolder} width={4} />
+        <Icon type={IconType.BackupFolder} width={4} />
       </RoundIconWrapper>
       <ModalMainText
         displayStyle={TextDisplayStyle.Headline4}
@@ -164,7 +164,7 @@ export const BackupFailureModal: FunctionComponent<
       {...props}
     >
       <RoundIconWrapper>
-        <Icon type={Type.Fail} width={4} />
+        <Icon type={IconType.Fail} width={4} />
       </RoundIconWrapper>
       <ModalMainText
         displayStyle={TextDisplayStyle.Headline4}
@@ -196,7 +196,7 @@ export const BackupSuccessModal: FunctionComponent<BackupSuccessModalProps> = ({
       {...props}
     >
       <RoundIconWrapper>
-        <Icon type={Type.CheckCircle} width={3} />
+        <Icon type={IconType.CheckCircle} width={3} />
       </RoundIconWrapper>
       <ModalMainText
         displayStyle={TextDisplayStyle.Headline4}

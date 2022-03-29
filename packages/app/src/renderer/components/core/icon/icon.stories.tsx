@@ -6,12 +6,12 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import styled from "styled-components"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const CustomIcon = styled(Icon)`
   height: 3rem;
@@ -23,21 +23,21 @@ storiesOf("Components|Core/Icon", module)
     <>
       <StoryContainer title="Types">
         <Story title="Default">
-          <Icon type={Type.Message} />
+          <Icon type={IconType.Message} />
         </Story>
         <Story title="With badge">
-          <Icon type={Type.Message} badge />
+          <Icon type={IconType.Message} badge />
         </Story>
       </StoryContainer>
       <StoryContainer title="Sizes">
         <Story title="Custom (1rem)">
-          <Icon type={Type.Message} height={1} width={1} />
+          <Icon type={IconType.Message} height={1} width={1} />
         </Story>
         <Story title="Default (2rem)">
-          <Icon type={Type.Message} />
+          <Icon type={IconType.Message} />
         </Story>
         <Story title="Custom (3 rem)">
-          <CustomIcon type={Type.Message} />
+          <CustomIcon type={IconType.Message} />
         </Story>
       </StoryContainer>
     </>

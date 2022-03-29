@@ -15,7 +15,6 @@ import {
   TetheringImageWrapper,
 } from "Renderer/modules/tethering/screens/tethering.styled"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Image from "Renderer/components/core/image/image.component"
 import NoTethering from "Renderer/images/tethering-disabled.png"
 import React from "react"
@@ -24,6 +23,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.enum"
 import { tetheringMessages } from "Renderer/modules/tethering/tethering-messages"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const PureDisconnected: FunctionComponent = () => (
   <TetheringContainer data-testid={TetheringTestIds.DisconnectedWrapper}>
@@ -55,7 +55,7 @@ const PureDisconnected: FunctionComponent = () => (
       data-testid={TetheringTestIds.ModemNotification}
     >
       <IconHolder>
-        <Icon type={Type.Info} width={1.6} />
+        <Icon type={IconType.Info} width={1.6} />
       </IconHolder>
       {intl.formatMessage(tetheringMessages.explanation, textFormatters)}
     </Text>

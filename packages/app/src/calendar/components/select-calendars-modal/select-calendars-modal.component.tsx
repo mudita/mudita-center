@@ -9,7 +9,6 @@ import { defineMessages } from "react-intl"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { intl } from "Renderer/utils/intl"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -25,6 +24,7 @@ import styled from "styled-components"
 import { ListItem } from "Renderer/components/core/list/list.component"
 import { Calendar } from "App/calendar/store/calendar.interfaces"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: {
@@ -86,7 +86,7 @@ const SelectCalendarsModal: FunctionComponent<SelectCalendarsModalProps> = ({
     >
       <ModalContent>
         <RoundIconWrapper>
-          <Icon type={Type.CalendarIcon} width={4} />
+          <Icon type={IconType.CalendarIcon} width={4} />
         </RoundIconWrapper>
         <Text
           displayStyle={TextDisplayStyle.Headline4}

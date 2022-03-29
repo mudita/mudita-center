@@ -4,8 +4,8 @@
  */
 
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import { Message } from "Renderer/interfaces/message.interface"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export enum CallStatus {
   Missed,

@@ -5,7 +5,7 @@
 
 import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { DisplayStyle, Size } from "../button.config"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const message = mockDefineMessages()
 
@@ -77,7 +77,7 @@ export default [
   {
     name: "Standard/fixed width with icon",
     commonProps: {
-      Icon: Type.Upload,
+      Icon: IconType.Upload,
       label: "Click",
     },
     cases: buttonsFixedWidthCases,
@@ -103,7 +103,7 @@ export default [
         displayStyle: DisplayStyle.Link,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Type.Upload,
+        Icon: IconType.Upload,
       },
       {
         displayStyle: DisplayStyle.LinkWithParagraph,
@@ -112,7 +112,7 @@ export default [
         displayStyle: DisplayStyle.LinkWithParagraph,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Type.Upload,
+        Icon: IconType.Upload,
       },
       {
         displayStyle: DisplayStyle.ActionLink,
@@ -121,7 +121,7 @@ export default [
         displayStyle: DisplayStyle.ActionLink,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Type.Upload,
+        Icon: IconType.Upload,
       },
       {
         displayStyle: DisplayStyle.MenuLink,
@@ -130,7 +130,7 @@ export default [
         displayStyle: DisplayStyle.MenuLink,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Type.Upload,
+        Icon: IconType.Upload,
       },
       {
         displayStyle: DisplayStyle.Tab,
@@ -139,7 +139,7 @@ export default [
         displayStyle: DisplayStyle.Tab,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Type.Upload,
+        Icon: IconType.Upload,
       },
     ],
   },

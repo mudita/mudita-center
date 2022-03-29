@@ -10,7 +10,6 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -24,6 +23,7 @@ import {
 } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
 import { Size } from "Renderer/components/core/button/button.config"
 import { AppUpdateStepModalTestIds } from "Renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export interface AppUpdateAvailableProps {
   appLatestVersion?: string
@@ -100,7 +100,7 @@ const AppUpdateModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   >
     <ModalContent data-testid={testId}>
       <RoundIconWrapper>
-        <Icon type={Type.Pure} width={4} />
+        <Icon type={IconType.Pure} width={4} />
       </RoundIconWrapper>
       {children}
     </ModalContent>
@@ -150,7 +150,7 @@ export const AppUpdateForced: FunctionComponent<
   >
     <ModalContentWithoutMargin>
       <RoundIconWrapper>
-        <Icon type={Type.Pure} width={4} />
+        <Icon type={IconType.Pure} width={4} />
       </RoundIconWrapper>
       <ModalMainText
         displayStyle={TextDisplayStyle.Headline4}

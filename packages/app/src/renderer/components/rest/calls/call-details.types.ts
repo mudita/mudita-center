@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { Message } from "Renderer/interfaces/message.interface"
 import { Caller, CallStatus } from "Renderer/models/calls/calls.interface"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export interface Details {
   id: string
@@ -14,6 +14,6 @@ export interface Details {
   date: Date
   status: CallStatus
   timesMissed: number
-  icon: Type
+  icon: IconType
   description: Message
 }

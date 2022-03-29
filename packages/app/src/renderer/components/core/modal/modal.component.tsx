@@ -27,7 +27,6 @@ import {
   TitleOrder,
 } from "Renderer/components/core/modal/modal.interface"
 import { intl } from "Renderer/utils/intl"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { ReactNode } from "react"
@@ -38,6 +37,7 @@ import {
   ModalSubTitle,
   ModalTitle,
 } from "Renderer/components/core/modal/modal.styled.elements"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
   padding: 4rem 3.2rem 4.8rem 3.2rem;
@@ -124,7 +124,7 @@ const Modal: FunctionComponent<ModalProps> = ({
           <Close
             displayStyle={DisplayStyle.IconOnly}
             onClick={closeModal}
-            Icon={Type.Close}
+            Icon={IconType.Close}
             data-testid={ModalTestIds.CloseButton}
           />
         )}

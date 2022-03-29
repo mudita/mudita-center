@@ -7,7 +7,6 @@ import React, { ComponentProps, MouseEventHandler, Ref } from "react"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -22,6 +21,7 @@ import {
   StyledNavLink,
 } from "./button.styled.elements"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export interface Props {
   nav?: boolean

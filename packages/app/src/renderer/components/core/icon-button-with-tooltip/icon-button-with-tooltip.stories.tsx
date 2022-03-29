@@ -5,11 +5,11 @@
 
 import * as React from "react"
 import { storiesOf } from "@storybook/react"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 import { IconButtonWithPrimaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-primary-tooltip.component"
 import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 storiesOf("Components|Core/IconButtonWithTooltip", module).add(
   "Default",
@@ -29,7 +29,7 @@ storiesOf("Components|Core/IconButtonWithTooltip", module).add(
         </Story>
         <Story title="With different icon">
           <IconButtonWithPrimaryTooltip
-            iconType={Type.MuditaFlower}
+            iconType={IconType.MuditaFlower}
             description={{ id: "Tooltip description" }}
           />
         </Story>
@@ -42,7 +42,7 @@ storiesOf("Components|Core/IconButtonWithTooltip", module).add(
         </Story>
         <Story title="With different icon">
           <IconButtonWithSecondaryTooltip
-            iconType={Type.MuditaFlower}
+            iconType={IconType.MuditaFlower}
             description={{ id: "Tooltip description" }}
           />
         </Story>
