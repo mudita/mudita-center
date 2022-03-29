@@ -7,14 +7,14 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { testError } from "Renderer/store/constants"
-import getFilesRequest from "Renderer/requests/get-files.request"
+import { getFilesRequest } from "App/files-manager/requests/get-files.request"
 import { initialState } from "App/files-manager/reducers"
 import { McUsbFile, McUsbFileType } from "App/mc-usb"
 import { FilesManagerEvent } from "App/files-manager/constants"
 import { getFiles } from "App/files-manager/actions"
 import { GetFilesError } from "App/files-manager/errors"
 
-jest.mock("Renderer/requests/get-files.request")
+jest.mock("App/files-manager/requests/get-files.request")
 
 const files: McUsbFile[] = [
   {
