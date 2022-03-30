@@ -36,7 +36,7 @@ export class ContactService {
     }
   }
 
-  public async addContact(contact: Contact): Promise<DeviceResponse<Contact>> {
+  public async createContact(contact: Contact): Promise<DeviceResponse<Contact>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Post,
@@ -55,7 +55,7 @@ export class ContactService {
     } else {
       return {
         status,
-        error: { message: "Add contact: Something went wrong", data },
+        error: { message: "Create contact: Something went wrong", data },
       }
     }
   }

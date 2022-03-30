@@ -13,14 +13,9 @@ import { Contact, ContactID } from "App/contacts/reducers"
 export class ContactController {
   constructor(private contactService: ContactService) {}
 
-  @IpcEvent(IpcContactEvent.GetContacts)
-  public getContacts(): Promise<DeviceResponse<Contact[]>> {
-    return this.contactService.getContacts()
-  }
-
-  @IpcEvent(IpcContactEvent.AddContact)
-  public addContact(contact: Contact): Promise<DeviceResponse<Contact>> {
-    return this.contactService.addContact(contact)
+  @IpcEvent(IpcContactEvent.CreateContact)
+  public createContact(contact: Contact): Promise<DeviceResponse<Contact>> {
+    return this.contactService.createContact(contact)
   }
 
   @IpcEvent(IpcContactEvent.EditContact)

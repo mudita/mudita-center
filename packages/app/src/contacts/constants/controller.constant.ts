@@ -6,15 +6,13 @@
 export const ControllerPrefix = "contact"
 
 export enum IpcContactEvent {
-  GetContacts = "get-contacts",
-  AddContact = "add-contact",
+  CreateContact = "create-contact",
   EditContact = "edit-contact",
   DeleteContacts = "delete-contacts",
 }
 
 export enum IpcContactRequest {
-  GetContacts = "contact-get-contacts",
-  AddContact = "contact-add-contact",
+  CreateContact = "contact-create-contact",
   EditContact = "contact-edit-contact",
   DeleteContacts = "contact-delete-contacts",
 }

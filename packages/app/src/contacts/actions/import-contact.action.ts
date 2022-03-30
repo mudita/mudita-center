@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ContactsEvent } from "App/contacts/constants"
-import addContact from "App/contacts/requests/add-contact.request"
+import createContactRequest from "App/contacts/requests/create-contact.request"
 import { Contact, NewContact } from "App/contacts/reducers"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import editContact from "App/contacts/requests/edit-contact.request"
@@ -14,7 +14,7 @@ import { ImportContactError } from "App/contacts/errors/import-contact.error"
 export const importContact = createAsyncThunk<Error | Contact, NewContact>(
   ContactsEvent.ImportContact,
   async (newContact, { rejectWithValue }) => {
-    const { data, error, status } = await addContact(newContact)
+    const { data, error, status } = await createContactRequest(newContact)
 
     // Skipping 409 (Conflict) status code for preventing displaying error about duplicated
     if (status === DeviceResponseStatus.Duplicated) {

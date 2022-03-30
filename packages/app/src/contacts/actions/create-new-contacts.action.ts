@@ -7,13 +7,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ContactsEvent } from "App/contacts/constants"
 import { AddNewContactError } from "App/contacts/errors/add-new-contact.error"
 import { addNewContactsToState } from "App/contacts/actions/base.action"
-import addContact from "App/contacts/requests/add-contact.request"
+import createContactRequest from "App/contacts/requests/create-contact.request"
 import { NewContact } from "App/contacts/reducers"
 
-export const addNewContact = createAsyncThunk<Error | undefined, NewContact>(
+export const createNewContact = createAsyncThunk<Error | undefined, NewContact>(
   ContactsEvent.AddNewContact,
   async (newContact, { dispatch, rejectWithValue }) => {
-    const { data, error } = await addContact(newContact)
+    const { data, error } = await createContactRequest(newContact)
 
     if (error || !data) {
       return rejectWithValue(
