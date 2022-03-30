@@ -6,7 +6,7 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
-import addContact from "Renderer/requests/add-contact.request"
+import addContact from "App/contacts/requests/add-contact.request"
 import { Contact, initialState, NewContact } from "App/contacts/reducers"
 import { testError } from "Renderer/store/constants"
 import DeviceResponse, {
@@ -14,7 +14,7 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import { importContact } from "App/contacts/actions/import-contact.action"
 import { ImportContactError } from "App/contacts/errors/import-contact.error"
-import editContact from "Renderer/requests/edit-contact.request"
+import editContact from "App/contacts/requests/edit-contact.request"
 
 jest.mock("Renderer/requests/add-contact.request")
 jest.mock("Renderer/requests/edit-contact.request")

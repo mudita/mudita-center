@@ -8,7 +8,7 @@ import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
 import { ContactsEvent } from "App/contacts/constants"
 import { AddNewContactError } from "App/contacts/errors/add-new-contact.error"
-import addContact from "Renderer/requests/add-contact.request"
+import addContact from "App/contacts/requests/add-contact.request"
 import { Contact, initialState, NewContact } from "App/contacts/reducers"
 import { testError } from "Renderer/store/constants"
 import DeviceResponse, {

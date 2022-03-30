@@ -3,23 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method } from "@mudita/pure"
-import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
-import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
+import DeviceService from "Backend/device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import DeviceService from "Backend/device-service"
+import { Contact, ContactID } from "App/contacts/reducers"
+import { Endpoint, Method } from "@mudita/pure"
 import {
   mapToContact,
   mapToPureContact,
 } from "Backend/adapters/phonebook/phonebook-mappers"
 
-// TODO: `Phonebook` is deprecated should be replaced by `Controller`
-export class Phonebook extends PhonebookAdapter {
-  constructor(private deviceService: DeviceService) {
-    super()
-  }
+export class ContactService {
+  constructor(private deviceService: DeviceService) {}
 
   public async getContacts(): Promise<DeviceResponse<Contact[]>> {
     const { status, data } = await this.deviceService.request({
@@ -113,8 +109,3 @@ export class Phonebook extends PhonebookAdapter {
     }
   }
 }
-
-const createPhonebook = (deviceService: DeviceService): Phonebook =>
-  new Phonebook(deviceService)
-
-export default createPhonebook

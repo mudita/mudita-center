@@ -13,7 +13,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { DeleteContactsError } from "App/contacts/errors/delete-contacts.error"
-import deleteContactsRequest from "Renderer/requests/delete-contacts.request"
+import deleteContactsRequest from "App/contacts/requests/delete-contacts.request"
 import { deleteContacts } from "App/contacts/actions/delete-contacts.action"
 
 jest.mock("Renderer/requests/delete-contacts.request")

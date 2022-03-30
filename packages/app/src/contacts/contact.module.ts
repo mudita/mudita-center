@@ -12,6 +12,8 @@ import { AppLogger } from "App/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { ContactModel } from "App/contacts/models"
+import { ContactController } from "App/contacts/controllers"
+import { ContactService } from "App/contacts/services/contact.service"
 
 export class ContactModule extends BaseModule {
   private contactModel: ContactModel
@@ -36,7 +38,10 @@ export class ContactModule extends BaseModule {
     )
 
     this.contactModel = new ContactModel(this.index, this.eventEmitter)
+    const contactService = new ContactService(this.deviceService)
+    const contactController = new ContactController(contactService)
 
     this.models = [this.contactModel]
+    this.controllers = [contactController]
   }
 }

@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Contact as PureContact } from "@mudita/pure"
 import { Repository } from "App/core/types"
 import { ContactModel } from "App/contacts/models"
-import { Contact as PureContact } from "@mudita/pure"
 import { ContactPresenter } from "App/contacts/presenters/contact.presenter"
 
 export class ContactRepository implements Repository{

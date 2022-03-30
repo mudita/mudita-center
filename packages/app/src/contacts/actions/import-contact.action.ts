@@ -5,10 +5,10 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ContactsEvent } from "App/contacts/constants"
-import addContact from "Renderer/requests/add-contact.request"
+import addContact from "App/contacts/requests/add-contact.request"
 import { Contact, NewContact } from "App/contacts/reducers"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import editContact from "Renderer/requests/edit-contact.request"
+import editContact from "App/contacts/requests/edit-contact.request"
 import { ImportContactError } from "App/contacts/errors/import-contact.error"
 
 export const importContact = createAsyncThunk<Error | Contact, NewContact>(

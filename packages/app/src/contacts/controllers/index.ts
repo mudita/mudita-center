@@ -3,7 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./actions"
-export * from "./reducers"
-export * from "./constants"
-export * from "./errors"
+export * from "./contact.controller"
