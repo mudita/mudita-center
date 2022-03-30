@@ -5,13 +5,17 @@
 
 import { Repository } from "App/core/types"
 import { ContactModel } from "App/contacts/models"
+import { Contact as PureContact } from "@mudita/pure"
+import { ContactPresenter } from "App/contacts/presenters/contact.presenter"
 
 export class ContactRepository implements Repository{
+  private contactPresenter = new ContactPresenter()
   constructor(private contactModel: ContactModel) {
   }
 
-  public create(data: any): void {
-    return
+  public create(pureContact: PureContact): void {
+    const contact = this.contactPresenter.serialize(pureContact)
+    this.contactModel.create(contact)
   }
 
   public update(data: any): void {
@@ -19,6 +23,6 @@ export class ContactRepository implements Repository{
   }
 
   public delete(id: string | number): void {
-    return this.contactModel.delete(String(id))
+    this.contactModel.delete(String(id))
   }
 }
