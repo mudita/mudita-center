@@ -36,18 +36,24 @@ const contact: Contact = {
 const contactModel = {
   delete: jest.fn(),
   create: jest.fn(),
+  update: jest.fn(),
 } as unknown as ContactModel
 
 const subject = new ContactRepository(contactModel)
 
 describe("`ContactRepository`", () => {
-  test("fire `delete` call `contactModel.delete` with string argument", () => {
+  test("fire `delete` call `contactModel.delete` with string", () => {
     subject.delete(1)
     expect(contactModel.delete).toHaveBeenCalledWith("1")
   })
 
-  test("fire `create` call `contactModel.create`", () => {
+  test("fire `create` call `contactModel.create` with contact", () => {
     subject.create(pureContact)
     expect(contactModel.create).toHaveBeenCalledWith(contact)
+  })
+
+  test("fire `update` call `contactModel.update` with contact", () => {
+    subject.update(pureContact)
+    expect(contactModel.update).toHaveBeenCalledWith(contact)
   })
 })

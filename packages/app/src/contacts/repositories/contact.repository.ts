@@ -18,8 +18,9 @@ export class ContactRepository implements Repository{
     this.contactModel.create(contact)
   }
 
-  public update(data: any): void {
-    return
+  public update(pureContact: PureContact): void {
+    const contact = this.contactPresenter.serialize(pureContact)
+    this.contactModel.update(contact)
   }
 
   public delete(id: string | number): void {
