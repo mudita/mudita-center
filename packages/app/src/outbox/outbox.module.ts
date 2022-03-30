@@ -14,6 +14,7 @@ import { BaseModule } from "App/core/module"
 import { OutboxService } from "App/outbox/services"
 import { OutboxObserver } from "App/outbox/observers/outbox.observer"
 import { ContactRepository } from "App/contacts/repositories"
+import { ContactModel } from "App/contacts/models"
 
 export class OutboxModule extends BaseModule {
   constructor(
@@ -34,7 +35,8 @@ export class OutboxModule extends BaseModule {
       eventEmitter,
       fileSystem
     )
-    const contactRepository = new ContactRepository()
+    const contactModel = new ContactModel(this.index, this.eventEmitter)
+    const contactRepository = new ContactRepository(contactModel)
 
     const outboxService = new OutboxService(
       this.deviceService,

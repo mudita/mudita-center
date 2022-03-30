@@ -3,8 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-// TODO: fully implementation will be https://appnroll.atlassian.net/browse/CP-1049
-export class ContactRepository {
+import { Repository } from "App/core/types"
+import { ContactModel } from "App/contacts/models"
+
+export class ContactRepository implements Repository{
+  constructor(private contactModel: ContactModel) {
+  }
 
   public create(data: any): void {
     return
@@ -15,6 +19,6 @@ export class ContactRepository {
   }
 
   public delete(id: string | number): void {
-    return
+    return this.contactModel.delete(String(id))
   }
 }
