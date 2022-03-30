@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { createRef, Ref, useEffect } from "react"
+import React, { createRef, Ref, useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -46,6 +46,7 @@ import { HiddenButton } from "App/contacts/components/contact-list/contact-list.
 import { flags, Feature } from "App/feature-flags"
 import {
   Contact,
+  ContactCategory,
   Contacts,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
@@ -185,7 +186,6 @@ interface Props extends Contacts, ContactActions, SelectHook {
 }
 
 const ContactList: FunctionComponent<Props> = ({
-  contactList,
   activeRow,
   selectedContact,
   onSelect,
@@ -200,7 +200,17 @@ const ContactList: FunctionComponent<Props> = ({
   getRowStatus,
   toggleRow,
   noneRowsSelected,
+  ...props
 }) => {
+  const [contactList, setContactList] = useState<ContactCategory[]>(props.contactList)
+  const componentContactList = editMode ? contactList : props.contactList
+
+  useEffect(() => {
+    if (!editMode) {
+      setContactList(props.contactList)
+    }
+  }, [contactList, editMode])
+
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
   const CategoryLabels = styled(Labels)`
@@ -232,12 +242,12 @@ const ContactList: FunctionComponent<Props> = ({
       ref={tableRef}
     >
       <HighlightContactList
-        contactList={contactList}
+        contactList={componentContactList}
         selectedContact={selectedContact}
       >
         {resultsState === ResultState.Loaded &&
-          contactList.length !== 0 &&
-          contactList.map(({ category, contacts }, categoryIndex) => (
+        componentContactList.length !== 0 &&
+        componentContactList.map(({ category, contacts }, categoryIndex) => (
             <Group
               key={category}
               data-testid={ContactListTestIdsEnum.ContactListGroup}
@@ -286,7 +296,7 @@ const ContactList: FunctionComponent<Props> = ({
                   contact.primaryPhoneNumber || contact.secondaryPhoneNumber
                 const nextContact = contacts[index + 1]
                   ? contacts[index + 1]
-                  : contactList[categoryIndex + 1]?.contacts[0]
+                  : componentContactList[categoryIndex + 1]?.contacts[0]
                 const scrollActive =
                   (nextContact || contacts[index]).id === activeRow?.id
 
@@ -426,7 +436,7 @@ const ContactList: FunctionComponent<Props> = ({
               })}
             </Group>
           ))}
-        {resultsState === ResultState.Loaded && contactList.length === 0 && (
+        {resultsState === ResultState.Loaded && componentContactList.length === 0 && (
           <EmptyState
             data-testid={ContactListTestIdsEnum.ContactListNoResult}
             title={messages.emptyListTitle}
