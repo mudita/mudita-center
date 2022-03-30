@@ -15,6 +15,7 @@ import {
   mapToPureContact,
 } from "Backend/adapters/phonebook/phonebook-mappers"
 
+// TODO: `Phonebook` is deprecated should be replaced by `Controller`
 export class Phonebook extends PhonebookAdapter {
   constructor(private deviceService: DeviceService) {
     super()

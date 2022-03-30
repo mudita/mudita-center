@@ -5,37 +5,13 @@
 
 import { Contact as PureContact } from "@mudita/pure"
 import { Contact } from "App/contacts/reducers/contacts.interface"
+import { ContactPresenter } from "App/contacts/presenters/contact.presenter"
 
+const contactPresenter = new ContactPresenter()
+
+// mappers are deprecated, please use `ContactPresenter` if you would like to map `PureContact` to `Contact`
 export const mapToContact = (pureContact: PureContact): Contact => {
-  const {
-    id,
-    blocked,
-    favourite,
-    address = "",
-    altName,
-    priName,
-    numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
-  } = pureContact
-
-  const firstAddressLine = address.substr(0, address.indexOf("\n"))
-  const secondAddressLine = address.substr(address.indexOf("\n") + 1)
-
-  return {
-    blocked,
-    favourite,
-    primaryPhoneNumber,
-    secondaryPhoneNumber,
-    firstAddressLine,
-    secondAddressLine,
-    id: String(id),
-    firstName: priName,
-    lastName: altName,
-    // TODO: map missing fields in separate issue https://appnroll.atlassian.net/browse/PDA-571 (after EGD implementation)
-    // speedDial: undefined,
-    ice: false,
-    note: "",
-    email: "",
-  }
+  return contactPresenter.serialize(pureContact)
 }
 
 export const mapToPureContact = (contact: Contact): PureContact => {
