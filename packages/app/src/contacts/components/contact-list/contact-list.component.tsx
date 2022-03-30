@@ -209,7 +209,7 @@ const ContactList: FunctionComponent<Props> = ({
     if (!editMode) {
       setContactList(props.contactList)
     }
-  }, [contactList, editMode])
+  }, [props.contactList, editMode])
 
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()

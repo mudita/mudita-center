@@ -90,6 +90,13 @@ export class ContactService {
   }
 
   public async editContact(contact: Contact): Promise<DeviceResponse<Contact>> {
+    // it's workaround to handle badly response from API when edited contact isn't exist
+    const isContactValidResponse = await this.isContactValid(contact)
+
+    if (isContactValidResponse.status === DeviceResponseStatus.Error) {
+      return isContactValidResponse
+    }
+
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
@@ -143,6 +150,29 @@ export class ContactService {
     } else {
       contactIds.forEach((id) => this.contactRepository.delete(id, true))
 
+      return {
+        status: DeviceResponseStatus.Ok,
+      }
+    }
+  }
+
+  private async isContactValid(
+    contact: Contact
+  ): Promise<DeviceResponse<Contact>> {
+    const getContactResponse = await this.getContact(contact.id)
+
+    if (
+      getContactResponse.status === DeviceResponseStatus.Error ||
+      getContactResponse.data === undefined ||
+      getContactResponse.data?.id === "0"
+    ) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message: "Edit contact: the try to edit a contact that isn't exist",
+        },
+      }
+    } else {
       return {
         status: DeviceResponseStatus.Ok,
       }

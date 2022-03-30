@@ -14,10 +14,9 @@ import { BaseModule } from "App/core/module"
 import { ContactModel } from "App/contacts/models"
 import { ContactController } from "App/contacts/controllers"
 import { ContactService } from "App/contacts/services/contact.service"
+import { ContactRepository } from "App/contacts/repositories"
 
 export class ContactModule extends BaseModule {
-  private contactModel: ContactModel
-
   constructor(
     public index: IndexStorage,
     public deviceService: DeviceService,
@@ -36,12 +35,15 @@ export class ContactModule extends BaseModule {
       eventEmitter,
       fileSystem
     )
-
-    this.contactModel = new ContactModel(this.index, this.eventEmitter)
-    const contactService = new ContactService(this.deviceService)
+    const contactModel = new ContactModel(this.index, this.eventEmitter)
+    const contactRepository = new ContactRepository(contactModel)
+    const contactService = new ContactService(
+      contactRepository,
+      this.deviceService
+    )
     const contactController = new ContactController(contactService)
 
-    this.models = [this.contactModel]
+    this.models = [contactModel]
     this.controllers = [contactController]
   }
 }
