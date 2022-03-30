@@ -16,7 +16,7 @@ import { DeleteContactsError } from "App/contacts/errors/delete-contacts.error"
 import deleteContactsRequest from "App/contacts/requests/delete-contacts.request"
 import { deleteContacts } from "App/contacts/actions/delete-contacts.action"
 
-jest.mock("Renderer/requests/delete-contacts.request")
+jest.mock("App/contacts/requests/delete-contacts.request")
 
 const contact: Contact = {
   id: "0",

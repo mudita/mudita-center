@@ -16,7 +16,7 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import { createNewContact } from "App/contacts/actions/create-new-contacts.action"
 
-jest.mock("Renderer/requests/add-contact.request")
+jest.mock("App/contacts/requests/create-contact.request")
 
 const newContact: NewContact = {
   firstName: "Sławomir",

@@ -16,8 +16,8 @@ import { importContact } from "App/contacts/actions/import-contact.action"
 import { ImportContactError } from "App/contacts/errors/import-contact.error"
 import editContact from "App/contacts/requests/edit-contact.request"
 
-jest.mock("Renderer/requests/add-contact.request")
-jest.mock("Renderer/requests/edit-contact.request")
+jest.mock("App/contacts/requests/create-contact.request")
+jest.mock("App/contacts/requests/edit-contact.request")
 
 const newContact: NewContact = {
   firstName: "Sławomir",

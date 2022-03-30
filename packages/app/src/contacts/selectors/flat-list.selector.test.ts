@@ -4,7 +4,7 @@
  */
 
 import { ReduxRootState } from "Renderer/store"
-import { initialState } from "App/contacts"
+import { initialState } from "App/contacts/reducers"
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 
 describe("`flatListSelector` selector", () => {

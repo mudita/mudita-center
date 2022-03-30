@@ -6,7 +6,7 @@
 import { ContactRepository } from "App/contacts/repositories/contact.repository"
 import { ContactModel } from "App/contacts/models"
 import { Contact as PureContact } from "@mudita/pure"
-import { Contact } from "App/contacts"
+import { Contact } from "App/contacts/reducers"
 
 const pureContact: PureContact = {
   id: 19,

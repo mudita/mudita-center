@@ -4,7 +4,7 @@
  */
 
 import { ReduxRootState } from "Renderer/store"
-import { Contact, contactsReducer, initialState } from "App/contacts"
+import { Contact, contactsReducer, initialState } from "App/contacts/reducers"
 import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
 
 describe("`getContactByPhoneNumberSelector` selector", () => {

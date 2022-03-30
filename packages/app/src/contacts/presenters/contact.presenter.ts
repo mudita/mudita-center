@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Contact } from "App/contacts"
+import { Contact } from "App/contacts/reducers"
 import { Contact as PureContact } from "@mudita/pure"
 
 export class ContactPresenter {

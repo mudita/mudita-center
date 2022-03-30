@@ -16,7 +16,7 @@ import DeviceResponse, {
 import { editContact } from "App/contacts/actions/edit-contact.action"
 import { EditContactError } from "App/contacts/errors/edit-contact.error"
 
-jest.mock("Renderer/requests/edit-contact.request")
+jest.mock("App/contacts/requests/edit-contact.request")
 
 const contact: Contact = {
   id: "0",
