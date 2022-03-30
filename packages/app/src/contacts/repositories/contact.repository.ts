@@ -3,27 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Contact as PureContact } from "@mudita/pure"
 import { Repository } from "App/core/types"
 import { ContactModel } from "App/contacts/models"
-import { ContactPresenter } from "App/contacts/presenters/contact.presenter"
+import { Contact } from "App/contacts/reducers"
 
-export class ContactRepository implements Repository{
-  private contactPresenter = new ContactPresenter()
-  constructor(private contactModel: ContactModel) {
+export class ContactRepository implements Repository {
+  constructor(private contactModel: ContactModel) {}
+
+  public create(contact: Contact, skipCallbacks = false): void {
+    this.contactModel.create(contact, skipCallbacks)
   }
 
-  public create(pureContact: PureContact): void {
-    const contact = this.contactPresenter.serialize(pureContact)
-    this.contactModel.create(contact)
+  public update(contact: Contact, skipCallbacks = false): void {
+    this.contactModel.update(contact, skipCallbacks)
   }
 
-  public update(pureContact: PureContact): void {
-    const contact = this.contactPresenter.serialize(pureContact)
-    this.contactModel.update(contact)
-  }
-
-  public delete(id: string | number): void {
-    this.contactModel.delete(String(id))
+  public delete(id: string, skipCallbacks = false): void {
+    this.contactModel.delete(id, skipCallbacks)
   }
 }

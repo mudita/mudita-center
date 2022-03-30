@@ -5,6 +5,7 @@
 
 import { Contact as PureContact } from "@mudita/pure"
 import { ContactPresenter } from "App/contacts/presenters/contact.presenter"
+import { Contact } from "App/contacts/reducers"
 
 const pureContact: PureContact = {
   id: 19,
@@ -16,24 +17,29 @@ const pureContact: PureContact = {
   priName: "Alek",
 }
 
-const subject = new ContactPresenter()
+const contact: Contact = {
+  blocked: false,
+  email: "",
+  favourite: true,
+  firstAddressLine: "6 Czeczota St.",
+  firstName: "Alek",
+  ice: false,
+  id: "19",
+  lastName: "Boligłowa",
+  note: "",
+  primaryPhoneNumber: "500400300",
+  secondAddressLine: "02600 Warsaw",
+  secondaryPhoneNumber: "",
+}
 
 describe("`ContactPresenter`", () => {
-  test("`serializeRecord` serialize record properly", async () => {
-    const contact = subject.serialize(pureContact)
-    expect(contact).toEqual({
-      blocked: false,
-      email: "",
-      favourite: true,
-      firstAddressLine: "6 Czeczota St.",
-      firstName: "Alek",
-      ice: false,
-      id: "19",
-      lastName: "Boligłowa",
-      note: "",
-      primaryPhoneNumber: "500400300",
-      secondAddressLine: "02600 Warsaw",
-      secondaryPhoneNumber: "",
-    })
+  test("`serialize` record properly", () => {
+    const result = ContactPresenter.serialize(pureContact)
+    expect(result).toEqual(contact)
+  })
+
+  test("`deserialize` record properly", () => {
+    const result = ContactPresenter.deserialize(contact)
+    expect(result).toEqual(pureContact)
   })
 })

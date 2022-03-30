@@ -121,6 +121,22 @@ describe("Index: exists", () => {
       })
       expect(afterCreate).toBeCalledTimes(1)
     })
+
+    test("when `skipCallbacks` is set to `true` any side effects aren't run", () => {
+      expect(subject.all()).toEqual([])
+
+      const afterCreate = jest.fn()
+
+      expect(afterCreate).toBeCalledTimes(0)
+
+      jest.spyOn(subject, "afterCreate").mockImplementationOnce(afterCreate)
+
+      expect(subject.create({ id: "1", text: "Test #2" }, true)).toEqual({
+        id: "1",
+        text: "Test #2",
+      })
+      expect(afterCreate).toBeCalledTimes(0)
+    })
   })
 
   describe("Method: update", () => {
@@ -164,6 +180,20 @@ describe("Index: exists", () => {
       })
       expect(afterUpdate).toBeCalledTimes(1)
     })
+
+    test("when `skipCallbacks` is set to `true` any side effects aren't run", () => {
+      const afterUpdate = jest.fn()
+
+      expect(afterUpdate).toBeCalledTimes(0)
+
+      jest.spyOn(subject, "afterUpdate").mockImplementationOnce(afterUpdate)
+
+      expect(subject.update({ id: "1", text: "Updated #2" }, true)).toEqual({
+        id: "1",
+        text: "Updated #2",
+      })
+      expect(afterUpdate).toBeCalledTimes(0)
+    })
   })
 
   describe("Method: delete", () => {
@@ -201,6 +231,18 @@ describe("Index: exists", () => {
       subject.delete("1")
       expect(subject.all()).toEqual([])
       expect(afterDelete).toBeCalledTimes(1)
+    })
+
+    test("when `skipCallbacks` is set to `true` any side effects aren't run", () => {
+      const afterDelete = jest.fn()
+
+      expect(afterDelete).toBeCalledTimes(0)
+
+      jest.spyOn(subject, "afterDelete").mockImplementationOnce(afterDelete)
+
+      subject.delete("1", true)
+      expect(subject.all()).toEqual([])
+      expect(afterDelete).toBeCalledTimes(0)
     })
   })
 })

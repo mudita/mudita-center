@@ -3,19 +3,42 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Endpoint, Method } from "@mudita/pure"
 import DeviceService from "Backend/device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { Contact, ContactID } from "App/contacts/reducers"
-import { Endpoint, Method } from "@mudita/pure"
-import {
-  mapToContact,
-  mapToPureContact,
-} from "Backend/adapters/phonebook/phonebook-mappers"
+import { ContactRepository } from "App/contacts/repositories"
+import { ContactPresenter } from "App/contacts/presenters"
 
 export class ContactService {
-  constructor(private deviceService: DeviceService) {}
+  constructor(
+    private contactRepository: ContactRepository,
+    private deviceService: DeviceService
+  ) {}
+
+  public async getContact(id: string): Promise<DeviceResponse<Contact>> {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.Contacts,
+      method: Method.Get,
+      body: {
+        id: Number(id),
+      },
+    })
+
+    if (status === DeviceResponseStatus.Ok && data !== undefined) {
+      return {
+        status,
+        data: ContactPresenter.serialize(data),
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Get contact: Something went wrong" },
+      }
+    }
+  }
 
   public async getContacts(): Promise<DeviceResponse<Contact[]>> {
     const { status, data } = await this.deviceService.request({
@@ -26,7 +49,7 @@ export class ContactService {
     if (status === DeviceResponseStatus.Ok && data?.entries !== undefined) {
       return {
         status,
-        data: data.entries.map(mapToContact),
+        data: data.entries.map(ContactPresenter.serialize),
       }
     } else {
       return {
@@ -36,21 +59,27 @@ export class ContactService {
     }
   }
 
-  public async createContact(contact: Contact): Promise<DeviceResponse<Contact>> {
+  public async createContact(
+    newContact: Contact
+  ): Promise<DeviceResponse<Contact>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Post,
-      body: mapToPureContact(contact),
+      body: ContactPresenter.deserialize(newContact),
     })
 
     if (status === DeviceResponseStatus.Ok && data !== undefined) {
+      const contact = {
+        ...newContact,
+        id: String(data.id),
+        primaryPhoneNumber: newContact.primaryPhoneNumber ?? "",
+      }
+
+      this.contactRepository.create(contact, true)
+
       return {
         status,
-        data: {
-          ...contact,
-          id: String(data.id),
-          primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
-        },
+        data: contact,
       }
     } else {
       return {
@@ -64,10 +93,12 @@ export class ContactService {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
-      body: mapToPureContact(contact),
+      body: ContactPresenter.deserialize(contact),
     })
 
     if (status === DeviceResponseStatus.Ok) {
+      this.contactRepository.update(contact, true)
+
       return { status, data: contact }
     } else {
       return {
@@ -91,18 +122,27 @@ export class ContactService {
         id,
       }
     })
-    const errorResponses = (await Promise.all(results)).filter(
-      ({ status }) => status === DeviceResponseStatus.Error
-    )
-    if (errorResponses.length > 0) {
+
+    const errorIds = (await Promise.all(results))
+      .filter(({ status }) => status === DeviceResponseStatus.Error)
+      .map(({ id }) => id)
+    const successIds = (await Promise.all(results))
+      .filter(({ status }) => status === DeviceResponseStatus.Ok)
+      .map(({ id }) => id)
+
+    if (errorIds.length > 0) {
+      successIds.forEach((id) => this.contactRepository.delete(id, true))
+
       return {
         status: DeviceResponseStatus.Error,
         error: {
           message: "Delete contact: Something went wrong",
-          data: errorResponses.map(({ id }) => id),
+          data: errorIds,
         },
       }
     } else {
+      contactIds.forEach((id) => this.contactRepository.delete(id, true))
+
       return {
         status: DeviceResponseStatus.Ok,
       }

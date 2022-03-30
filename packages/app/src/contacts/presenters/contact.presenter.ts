@@ -7,7 +7,7 @@ import { Contact } from "App/contacts/reducers"
 import { Contact as PureContact } from "@mudita/pure"
 
 export class ContactPresenter {
-  public serialize(pureContact: PureContact): Contact {
+  static serialize(pureContact: PureContact): Contact {
     const {
       id,
       blocked,
@@ -36,6 +36,37 @@ export class ContactPresenter {
       ice: false,
       note: "",
       email: "",
+    }
+  }
+
+  static deserialize(contact: Contact): PureContact {
+    const {
+      blocked = false,
+      favourite = false,
+      firstName = "",
+      lastName = "",
+      primaryPhoneNumber,
+      secondaryPhoneNumber,
+      firstAddressLine,
+      secondAddressLine,
+      id,
+    } = contact
+    const numbers = []
+    if (primaryPhoneNumber) {
+      numbers.push(primaryPhoneNumber)
+    }
+    if (secondaryPhoneNumber) {
+      numbers.push(secondaryPhoneNumber)
+    }
+
+    return {
+      id: Number(id),
+      blocked,
+      favourite,
+      numbers: numbers,
+      priName: firstName,
+      altName: lastName,
+      address: [firstAddressLine, secondAddressLine].join("\n").trim(),
     }
   }
 }

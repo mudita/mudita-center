@@ -5,18 +5,7 @@
 
 import { ContactRepository } from "App/contacts/repositories/contact.repository"
 import { ContactModel } from "App/contacts/models"
-import { Contact as PureContact } from "@mudita/pure"
 import { Contact } from "App/contacts/reducers"
-
-const pureContact: PureContact = {
-  id: 19,
-  address: "6 Czeczota St.\n02600 Warsaw",
-  altName: "Boligłowa",
-  blocked: false,
-  favourite: true,
-  numbers: ["500400300"],
-  priName: "Alek",
-}
 
 const contact: Contact = {
   blocked: false,
@@ -43,17 +32,17 @@ const subject = new ContactRepository(contactModel)
 
 describe("`ContactRepository`", () => {
   test("fire `delete` call `contactModel.delete` with string", () => {
-    subject.delete(1)
-    expect(contactModel.delete).toHaveBeenCalledWith("1")
+    subject.delete("1")
+    expect(contactModel.delete).toHaveBeenCalledWith("1", false)
   })
 
   test("fire `create` call `contactModel.create` with contact", () => {
-    subject.create(pureContact)
-    expect(contactModel.create).toHaveBeenCalledWith(contact)
+    subject.create(contact)
+    expect(contactModel.create).toHaveBeenCalledWith(contact, false)
   })
 
   test("fire `update` call `contactModel.update` with contact", () => {
-    subject.update(pureContact)
-    expect(contactModel.update).toHaveBeenCalledWith(contact)
+    subject.update(contact)
+    expect(contactModel.update).toHaveBeenCalledWith(contact, false)
   })
 })
