@@ -25,7 +25,7 @@ export interface OutboxEntry {
 }
 
 export enum OutboxCategory {
-  Entries = "Entries",
+  Entries = "entries",
 }
 
 export interface GetEntriesConfigBody {
