@@ -8,14 +8,15 @@ import {
   ControllerPrefix,
   IpcFilesManagerEvent,
 } from "App/files-manager/constants"
-import { McUsbFile, McUsbDevice } from "App/mc-usb"
+import { McUsbFile } from "@mudita/pure"
+import { DeviceService } from "Backend/device-service"
 
 @Controller(ControllerPrefix)
 export class FilesManagerController {
-  constructor(private device: McUsbDevice) {}
+  constructor(private deviceService: DeviceService) {}
 
   @IpcEvent(IpcFilesManagerEvent.GetFiles)
   public async getFiles(): Promise<McUsbFile[]> {
-    return await this.device.getFiles()
+    return await this.deviceService.getFiles()
   }
 }

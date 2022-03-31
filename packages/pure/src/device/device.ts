@@ -8,6 +8,7 @@ import {
   Response,
   MuditaDevice,
   DeviceEventName,
+  McUsbFile,
 } from "./device.types"
 import { DeviceType } from "./constants"
 import { HarmonyStrategy, PureStrategy } from "./strategies"
@@ -20,7 +21,9 @@ export class Device implements MuditaDevice {
     this.path = this.strategy.path
     this.deviceType = this.strategy.deviceType
   }
-
+  public getFiles(): Promise<McUsbFile[]> {
+    return this.strategy.getFiles()
+  }
   public on(eventName: DeviceEventName, listener: () => void): void {
     return this.strategy.on(eventName, listener)
   }

@@ -43,10 +43,7 @@ import {
   GetEntriesResponseBody,
   DeleteEntriesRequestConfig,
   GetEntriesRequestConfig,
-  GetMessageBody,
-  Message,
-  GetThreadBody,
-  Thread,
+  McUsbFile,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
@@ -331,6 +328,13 @@ export class DeviceService {
         }
       }
     })
+  }
+
+  getFiles(): Promise<McUsbFile[]> {
+    if (!this.currentDevice) {
+      return Promise.resolve([])
+    }
+    return this.currentDevice.getFiles()
   }
 
   private async deviceConnect(

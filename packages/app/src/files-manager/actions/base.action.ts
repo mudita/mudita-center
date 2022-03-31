@@ -5,6 +5,6 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { FilesManagerEvent } from "App/files-manager/constants"
-import { McUsbFile } from "App/mc-usb"
+import { McUsbFile } from "@mudita/pure"
 
 export const setFiles = createAction<McUsbFile[]>(FilesManagerEvent.SetFiles)

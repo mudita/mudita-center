@@ -6,7 +6,7 @@
 import { PayloadAction } from "@reduxjs/toolkit"
 import { GetFilesError } from "App/files-manager/errors"
 import { FilesManagerEvent } from "App/files-manager/constants"
-import { McUsbFile } from "App/mc-usb"
+import { McUsbFile } from "@mudita/pure"
 
 export enum ResultState {
   Loading,

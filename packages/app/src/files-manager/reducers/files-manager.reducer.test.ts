@@ -16,7 +16,7 @@ import {
 import { GetFilesError } from "App/files-manager/errors"
 import { FilesManagerEvent } from "App/files-manager/constants"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
-import { McUsbFile, McUsbFileType } from "App/mc-usb"
+import { McUsbFile, McUsbFileType } from "@mudita/pure"
 
 test("empty event returns initial state", () => {
   expect(filesManagerReducer(undefined, {} as any)).toEqual(initialState)
