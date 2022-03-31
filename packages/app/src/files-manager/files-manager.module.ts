@@ -12,7 +12,6 @@ import { AppLogger } from "App/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { FilesManagerController } from "App/files-manager/controllers"
-import { device } from "App/mc-usb"
 
 export class FilesManagerModule extends BaseModule {
   private filesManagerController: FilesManagerController
@@ -36,7 +35,7 @@ export class FilesManagerModule extends BaseModule {
       fileSystem
     )
 
-    this.filesManagerController = new FilesManagerController(device)
+    this.filesManagerController = new FilesManagerController(deviceService)
 
     this.controllers = [this.filesManagerController]
   }

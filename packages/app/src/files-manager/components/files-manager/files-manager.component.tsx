@@ -15,7 +15,7 @@ import { FilesManagerTestIds } from "App/files-manager/components/files-manager/
 import { filesSummaryElements } from "App/files-manager/constants"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
-import { McUsbFile } from "App/mc-usb"
+import { McUsbFile } from "@mudita/pure"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 
 interface Props {
