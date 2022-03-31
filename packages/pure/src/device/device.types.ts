@@ -14,8 +14,18 @@ export interface MuditaDevice {
   on(eventName: DeviceEventName, listener: () => void): void
   off(eventName: DeviceEventName, listener: () => void): void
 }
+export interface McSerialPortDevice {
+  path: string
+  deviceType: DeviceType
+  connect(): Promise<Response>
+  disconnect(): Promise<Response>
+  request(config: RequestConfig<any>): Promise<Response<any>>
+  on(eventName: DeviceEventName, listener: () => void): void
+  off(eventName: DeviceEventName, listener: () => void): void
+}
 
 export type CreateDeviceStrategy = (
+  baseMcSerialPortDevice: McSerialPortDevice,
   path: string,
   deviceType: DeviceType
 ) => MuditaDevice
