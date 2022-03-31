@@ -16,6 +16,8 @@ import DeviceService from "Backend/device-service"
 import { IpcEvent } from "App/data-sync/constants"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { ContactRepository } from "App/contacts/repositories"
+import { ContactService } from "App/contacts/services/contact.service"
+import { Contact } from "App/contacts/reducers"
 
 jest.mock("Backend/device-service")
 jest.mock("App/contacts/repositories")
@@ -23,10 +25,16 @@ beforeEach(() => {
   jest.resetAllMocks()
 })
 
+const successGetContactResponse = {
+  status: DeviceResponseStatus.Ok,
+  data: {} as Contact
+}
+
 describe("`OutboxService`", () => {
   describe("when Get Outbox Entries returns Contact Deleted Entry", () => {
     let subject: OutboxService
     let deviceService: DeviceService
+    let contactService: ContactService
     let contactRepository: ContactRepository
     const entries: OutboxEntry[] = [
       {
@@ -47,12 +55,15 @@ describe("`OutboxService`", () => {
       contactRepository = {
         delete: jest.fn(),
       } as unknown as ContactRepository
-      subject = new OutboxService(deviceService, contactRepository)
+      contactService = {
+        getContact: jest.fn().mockReturnValue(successGetContactResponse),
+      } as unknown as ContactService
+      subject = new OutboxService(deviceService, contactService, contactRepository)
     })
 
     test("`delete` method in contactRepository was called", async () => {
       await subject.readOutboxEntries()
-      expect(contactRepository.delete).toHaveBeenCalledWith(1)
+      expect(contactRepository.delete).toHaveBeenCalledWith("1")
     })
 
     test("outbox `delete` request was called", async () => {
@@ -70,6 +81,7 @@ describe("`OutboxService`", () => {
   describe("when Get Outbox Entries returns Contact Created Entry", () => {
     let subject: OutboxService
     let deviceService: DeviceService
+    let contactService: ContactService
     let contactRepository: ContactRepository
     const entries: OutboxEntry[] = [
       {
@@ -90,7 +102,10 @@ describe("`OutboxService`", () => {
       contactRepository = {
         create: jest.fn(),
       } as unknown as ContactRepository
-      subject = new OutboxService(deviceService, contactRepository)
+      contactService = {
+        getContact: jest.fn().mockReturnValue(successGetContactResponse),
+      } as unknown as ContactService
+      subject = new OutboxService(deviceService, contactService,contactRepository)
     })
 
     test("`create` method in contactRepository was called", async () => {
@@ -113,6 +128,7 @@ describe("`OutboxService`", () => {
   describe("when Get Outbox Entries returns Contact Updated Entry", () => {
     let subject: OutboxService
     let deviceService: DeviceService
+    let contactService: ContactService
     let contactRepository: ContactRepository
     const entries: OutboxEntry[] = [
       {
@@ -133,7 +149,10 @@ describe("`OutboxService`", () => {
       contactRepository = {
         update: jest.fn(),
       } as unknown as ContactRepository
-      subject = new OutboxService(deviceService, contactRepository)
+      contactService = {
+        getContact: jest.fn().mockReturnValue(successGetContactResponse),
+      } as unknown as ContactService
+      subject = new OutboxService(deviceService, contactService, contactRepository)
     })
 
     test("`update` method in contactRepository was called", async () => {
@@ -156,6 +175,7 @@ describe("`OutboxService`", () => {
   describe("when Get Outbox Entries returns Entries with empty list", () => {
     let subject: OutboxService
     let deviceService: DeviceService
+    let contactService: ContactService
     let contactRepository: ContactRepository
     beforeEach(() => {
       deviceService = {
@@ -165,7 +185,8 @@ describe("`OutboxService`", () => {
         }),
       } as unknown as DeviceService
       contactRepository = {} as unknown as ContactRepository
-      subject = new OutboxService(deviceService, contactRepository)
+      contactService = {} as unknown as ContactService
+      subject = new OutboxService(deviceService, contactService, contactRepository)
     })
 
     test("`DataLoaded` isn't emits", async () => {
@@ -179,6 +200,7 @@ describe("`OutboxService`", () => {
   describe("when Get Outbox Entries returns error", () => {
     let subject: OutboxService
     let deviceService: DeviceService
+    let contactService: ContactService
     let contactRepository: ContactRepository
     beforeEach(() => {
       deviceService = {
@@ -187,7 +209,8 @@ describe("`OutboxService`", () => {
         }),
       } as unknown as DeviceService
       contactRepository = {} as unknown as ContactRepository
-      subject = new OutboxService(deviceService, contactRepository)
+      contactService = {} as unknown as ContactService
+      subject = new OutboxService(deviceService, contactService, contactRepository)
     })
 
     test("`DataLoaded` isn't emits", async () => {

@@ -4,7 +4,7 @@
  */
 
 import { ReduxRootState } from "Renderer/store"
-import { Contact, contactsReducer, initialState } from "App/contacts"
+import { Contact, contactsReducer, initialState } from "App/contacts/reducers"
 import { isContactCreatedSelector } from "App/contacts/selectors/is-contact-created.selector"
 
 describe("`isContactCreatedSelector` selector", () => {

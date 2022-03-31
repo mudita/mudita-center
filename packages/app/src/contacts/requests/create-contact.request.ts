@@ -4,14 +4,14 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
+import { IpcContactRequest } from "App/contacts/constants"
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
-const addContact = async (
+const createContactRequest = async (
   newContact: NewContact
 ): Promise<DeviceResponse<Contact>> => {
-  return ipcRenderer.callMain(IpcRequest.AddContact, newContact)
+  return ipcRenderer.callMain(IpcContactRequest.CreateContact, newContact)
 }
 
-export default addContact
+export default createContactRequest

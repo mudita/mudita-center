@@ -11,7 +11,6 @@ import { createDeviceService } from "Backend/device-service"
 import createDeviceBackupService from "./device-backup-service/device-backup-service"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
-import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
 import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-phone-network.adapter"
 import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
@@ -30,10 +29,6 @@ import registerGetUnlockDeviceStatus from "Backend/requests/get-unlock-device-st
 import registerGetDeviceLockTime from "Backend/requests/get-device-lock-time/get-device-lock-time.request"
 import registerNetworkInfoRequest from "Backend/requests/network/get-network-info.request"
 import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storage-info.request"
-import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.request"
-import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"
-import registerEditContactRequest from "Backend/requests/phonebook/edit-contact.request"
-import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
 import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
 import registerGetEventsRequest from "Backend/requests/calendar/get-events.request"
 import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
@@ -80,7 +75,6 @@ const bootstrap = (
     deviceFileSystem,
     purePhone,
     deviceBaseInfo,
-    phonebook: createPhonebook(deviceService),
     pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
     pureNetwork: createPurePhoneNetwork(deviceService),
     pureStorage: createPurePhoneStorageAdapter(deviceService),
@@ -100,10 +94,6 @@ const bootstrap = (
     registerGetUnlockDeviceStatus,
     registerGetDeviceLockTime,
     registerChangeSimCardRequest,
-    registerGetContactsRequest,
-    registerAddContactRequest,
-    registerEditContactRequest,
-    registerDeleteContactsRequest,
     registerUpdateOsRequest,
     registerGetEventsRequest,
     registerGetThreadsRequest,

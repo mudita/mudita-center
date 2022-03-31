@@ -7,7 +7,7 @@ import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
 import { ContactsEvent } from "App/contacts/constants"
-import editContactRequest from "Renderer/requests/edit-contact.request"
+import editContactRequest from "App/contacts/requests/edit-contact.request"
 import { Contact, initialState } from "App/contacts/reducers"
 import { testError } from "Renderer/store/constants"
 import DeviceResponse, {
@@ -16,7 +16,7 @@ import DeviceResponse, {
 import { editContact } from "App/contacts/actions/edit-contact.action"
 import { EditContactError } from "App/contacts/errors/edit-contact.error"
 
-jest.mock("Renderer/requests/edit-contact.request")
+jest.mock("App/contacts/requests/edit-contact.request")
 
 const contact: Contact = {
   id: "0",

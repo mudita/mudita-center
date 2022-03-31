@@ -7,7 +7,7 @@ import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
-import { Contact } from "App/contacts"
+import { Contact } from "App/contacts/reducers"
 
 type Props = ComponentProps<typeof ContactDetails>
 
