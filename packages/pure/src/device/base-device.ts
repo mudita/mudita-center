@@ -11,6 +11,7 @@ import {
   RequestPayload,
   Response,
   ResponseStatus,
+  McUsbFile,
 } from "./device.types"
 import { DeviceType } from "./constants"
 
@@ -38,6 +39,9 @@ class BaseDevice implements McSerialPortDevice {
   }
   off(eventName: DeviceEventName, listener: () => void): void {
     return this.baseMcSerialPortDevice.off(eventName, listener)
+  }
+  getFiles(): Promise<McUsbFile[]> {
+    return this.baseMcSerialPortDevice.getFiles()
   }
 }
 

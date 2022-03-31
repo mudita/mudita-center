@@ -13,6 +13,20 @@ export interface MuditaDevice {
   request(config: RequestConfig<any>): Promise<Response<any>>
   on(eventName: DeviceEventName, listener: () => void): void
   off(eventName: DeviceEventName, listener: () => void): void
+  getFiles(): Promise<McUsbFile[]>
+}
+
+export interface McUsbFile {
+  id: string
+  size: number
+  name: string
+  type: McUsbFileType
+}
+
+export enum McUsbFileType {
+  wav = 0x3008,
+  mp3 = 0x3009,
+  flac = 0xb906,
 }
 export interface McSerialPortDevice {
   path: string
@@ -22,6 +36,7 @@ export interface McSerialPortDevice {
   request(config: RequestConfig<any>): Promise<Response<any>>
   on(eventName: DeviceEventName, listener: () => void): void
   off(eventName: DeviceEventName, listener: () => void): void
+  getFiles(): Promise<McUsbFile[]>
 }
 
 export type CreateDeviceStrategy = (

@@ -5,7 +5,7 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcFilesManagerRequest } from "App/files-manager/constants"
-import { McUsbFile } from "App/mc-usb"
+import { McUsbFile } from "@mudita/pure"
 
 export const getFilesRequest = async (): Promise<McUsbFile[]> => {
   return ipcRenderer.callMain(IpcFilesManagerRequest.GetFiles)
