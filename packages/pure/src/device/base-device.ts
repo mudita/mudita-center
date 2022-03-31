@@ -17,12 +17,13 @@ import { DeviceType } from "./constants"
 export const timeoutMs = 30000
 
 class BaseDevice implements McSerialPortDevice {
-  constructor(
-    private baseMcSerialPortDevice: McSerialPortDevice,
-    public path: string,
-    public deviceType: DeviceType
-  ) {}
-
+  constructor(private baseMcSerialPortDevice: McSerialPortDevice) {}
+  get path() {
+    return this.baseMcSerialPortDevice.path
+  }
+  get deviceType() {
+    return this.baseMcSerialPortDevice.deviceType
+  }
   connect(): Promise<Response> {
     return this.baseMcSerialPortDevice.connect()
   }
