@@ -13,7 +13,6 @@ import {
   RequestPayload,
   Response,
   ResponseStatus,
-  McUsbFileType,
 } from "./device.types"
 import { DeviceType } from "./constants"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
