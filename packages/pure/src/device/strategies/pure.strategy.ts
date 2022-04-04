@@ -12,6 +12,7 @@ import {
   Response,
   ResponseStatus,
   McSerialPortDevice,
+  McUsbDevice,
 } from "../device.types"
 import {
   Contact,
@@ -50,8 +51,11 @@ import { Formatter, FormatterFactory } from "../../formatter"
 export class PureStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
 
-  constructor(baseMcSerialPortDevice: McSerialPortDevice) {
-    super(baseMcSerialPortDevice)
+  constructor(
+    baseMcSerialPortDevice: McSerialPortDevice,
+    baseMcUsbDevice: McUsbDevice
+  ) {
+    super(baseMcSerialPortDevice, baseMcUsbDevice)
   }
 
   public async connect(): Promise<Response> {
@@ -159,5 +163,6 @@ export class PureStrategy extends BaseDevice {
 }
 
 export const createPureStrategy: CreateDeviceStrategy = (
-  baseMcSerialPortDevice: McSerialPortDevice
-) => new PureStrategy(baseMcSerialPortDevice)
+  baseMcSerialPortDevice: McSerialPortDevice,
+  baseMcUsbDevice: McUsbDevice
+) => new PureStrategy(baseMcSerialPortDevice, baseMcUsbDevice)

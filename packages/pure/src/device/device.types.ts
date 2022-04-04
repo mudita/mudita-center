@@ -38,8 +38,13 @@ export interface McSerialPortDevice {
   off(eventName: DeviceEventName, listener: () => void): void
 }
 
+export interface McUsbDevice {
+  getFiles(): Promise<McUsbFile[]>
+}
+
 export type CreateDeviceStrategy = (
   baseMcSerialPortDevice: McSerialPortDevice,
+  baseMcUscDevice: McUsbDevice,
   path: string,
   deviceType: DeviceType
 ) => MuditaDevice
