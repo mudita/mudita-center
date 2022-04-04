@@ -4,21 +4,21 @@
  */
 
 import {
-  ApiRequestPayload,
   DeviceEventName,
   McSerialPortDevice,
   RequestConfig,
-  RequestPayload,
   Response,
-  ResponseStatus,
   McUsbFile,
+  McUsbDevice,
 } from "./device.types"
-import { DeviceType } from "./constants"
 
 export const timeoutMs = 30000
 
-class BaseDevice implements McSerialPortDevice {
-  constructor(private baseMcSerialPortDevice: McSerialPortDevice) {}
+class BaseDevice implements McSerialPortDevice, McUsbDevice {
+  constructor(
+    private baseMcSerialPortDevice: McSerialPortDevice,
+    private baseMcUsbDevice: McUsbDevice
+  ) {}
   get path() {
     return this.baseMcSerialPortDevice.path
   }
@@ -41,7 +41,7 @@ class BaseDevice implements McSerialPortDevice {
     return this.baseMcSerialPortDevice.off(eventName, listener)
   }
   getFiles(): Promise<McUsbFile[]> {
-    return this.baseMcSerialPortDevice.getFiles()
+    return this.baseMcUsbDevice.getFiles()
   }
 }
 
