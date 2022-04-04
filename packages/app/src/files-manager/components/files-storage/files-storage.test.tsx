@@ -8,7 +8,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
 import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
-import { McUsbFile, McUsbFileType } from "App/mc-usb"
+import { McUsbFile, McUsbFileType } from "@mudita/pure"
 
 type Props = ComponentProps<typeof FilesStorage>
 

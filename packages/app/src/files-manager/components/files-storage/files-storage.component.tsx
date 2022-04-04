@@ -7,7 +7,7 @@ import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
-import { McUsbFile } from "App/mc-usb"
+import { McUsbFile } from "@mudita/pure"
 
 interface Props {
   resultState: ResultState

@@ -8,6 +8,7 @@ import { EventEmitter } from "events"
 import {
   ApiRequestPayload,
   DeviceEventName,
+  McUsbFileType,
   MuditaDevice,
   RequestConfig,
   RequestPayload,
@@ -29,6 +30,23 @@ class BaseDevice implements MuditaDevice {
   #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
   constructor(public path: string, public deviceType: DeviceType) {}
+
+  getFiles() {
+    return Promise.resolve([
+      {
+        id: "1",
+        size: 1234,
+        name: "example_file_name",
+        type: McUsbFileType.mp3,
+      },
+      {
+        id: "2",
+        size: 12345,
+        name: "second_example_file_name",
+        type: McUsbFileType.wav,
+      },
+    ])
+  }
 
   @log("==== serial port: connect ====")
   public connect(): Promise<Response> {

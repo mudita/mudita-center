@@ -43,6 +43,7 @@ import {
   GetEntriesResponseBody,
   DeleteEntriesRequestConfig,
   GetEntriesRequestConfig,
+  McUsbFile,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
@@ -310,6 +311,13 @@ export class DeviceService {
         }
       }
     })
+  }
+
+  getFiles(): Promise<McUsbFile[]> {
+    if (!this.currentDevice) {
+      return Promise.resolve([])
+    }
+    return this.currentDevice.getFiles()
   }
 
   private async deviceConnect(
