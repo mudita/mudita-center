@@ -3,7 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Message, MessageType, NewMessage, Thread } from "App/messages/reducers/messages.interface"
+import {
+  Message,
+  NewMessage,
+  Thread,
+} from "App/messages/reducers/messages.interface"
 import DeviceService from "Backend/device-service"
 import {
   Endpoint,
@@ -14,22 +18,21 @@ import {
   MessageType as PureMessageType,
   Method,
   PaginationBody,
-  Thread as PureThread,
 } from "@mudita/pure"
-import { Feature, flags } from "App/feature-flags"
-import { RequestResponse, RequestResponseStatus } from "App/core/types/request-response.interface"
-
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
+import {
+  AcceptablePureMessageType,
+  MessagesPresenter,
+} from "App/messages/presenters"
+import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
 
 const initGetMessagesBody: PureGetMessagesBody = {
   category: PureMessagesCategory.message,
   limit: 15,
 }
-
-type AcceptablePureMessageType =
-  | PureMessageType.FAILED
-  | PureMessageType.QUEUED
-  | PureMessageType.INBOX
-  | PureMessageType.OUTBOX
 
 export interface GetThreadsResponse {
   data: Thread[]
@@ -47,36 +50,8 @@ export interface GetMessagesByThreadIdResponse {
   nextPage?: PaginationBody
 }
 
-const returnResponseWithNextPage = (
-  response: RequestResponse<GetThreadsResponse>,
-  pagination: PaginationBody
-): RequestResponse<GetThreadsResponse> => {
-  if (response.data === undefined) {
-    return response
-  }
-
-  const offset = pagination.offset + pagination.limit
-  const nextPage: PaginationBody | undefined =
-    offset < response.data.totalCount
-      ? {
-        offset,
-        limit: 0,
-      }
-      : undefined
-
-  return {
-    ...response,
-    data: {
-      ...response.data,
-      nextPage,
-    },
-  }
-}
-
 export class MessagesService {
-  constructor(private deviceService: DeviceService) {
-  }
-
+  constructor(private deviceService: DeviceService) {}
 
   public async loadMoreThreadsInSingleRequest(
     pagination: PaginationBody,
@@ -131,17 +106,18 @@ export class MessagesService {
       ...pagination,
     }
 
-    const { status, data } = await this.deviceService.request({
+    const response = await this.deviceService.request({
       body,
       endpoint: Endpoint.Messages,
       method: Method.Get,
     })
 
-    if (status === RequestResponseStatus.Ok && data?.entries !== undefined) {
+    if (isResponseSuccessWithData(response)) {
+      const data = response.data
       return {
         status: RequestResponseStatus.Ok,
         data: {
-          data: data.entries.map(MessagesService.mapToThreads),
+          data: data.entries.map(MessagesPresenter.mapToThreads),
           nextPage: data.nextPage,
           totalCount: data.totalCount,
         },
@@ -165,11 +141,12 @@ export class MessagesService {
     pureMessages: PureMessage[] = [],
     body = initGetMessagesBody
   ): Promise<RequestResponse<Message[]>> {
-    const { status, data } = await this.deviceService.request({
+    const response = await this.deviceService.request({
       body: { ...body, threadID: Number(threadId) },
       endpoint: Endpoint.Messages,
       method: Method.Get,
     })
+    const data = response.data
 
     if (data?.nextPage !== undefined) {
       const limit: number = data.totalCount - data.nextPage.offset
@@ -182,15 +159,12 @@ export class MessagesService {
           offset: data.nextPage.offset,
         }
       )
-    } else if (
-      status === RequestResponseStatus.Ok &&
-      data?.entries !== undefined
-    ) {
+    } else if (isResponseSuccessWithData(response)) {
       return {
         status: RequestResponseStatus.Ok,
-        data: [...pureMessages, ...data.entries]
+        data: [...pureMessages, ...response.data.entries]
           .filter(MessagesService.isAcceptablePureMessageType)
-          .map(MessagesService.mapToMessages),
+          .map(MessagesPresenter.mapToMessages),
       }
     } else {
       return {
@@ -203,29 +177,29 @@ export class MessagesService {
   }
 
   public async getMessagesByThreadId({
-                                       threadId,
-                                       nextPage,
-                                     }: GetMessagesBody): Promise<RequestResponse<GetMessagesByThreadIdResponse>> {
+    threadId,
+    nextPage,
+  }: GetMessagesBody): Promise<RequestResponse<GetMessagesByThreadIdResponse>> {
     const body: PureGetMessagesBody = {
       category: PureMessagesCategory.message,
       threadID: Number(threadId),
       ...nextPage,
     }
 
-    const { status, data } = await this.deviceService.request({
+    const response = await this.deviceService.request({
       body,
       endpoint: Endpoint.Messages,
       method: Method.Get,
     })
 
-    if (status === RequestResponseStatus.Ok && data?.entries !== undefined) {
+    if (isResponseSuccessWithData(response)) {
       return {
         status: RequestResponseStatus.Ok,
         data: {
-          data: data.entries
+          data: response.data.entries
             .filter(MessagesService.isAcceptablePureMessageType)
-            .map(MessagesService.mapToMessages),
-          nextPage: data.nextPage,
+            .map(MessagesPresenter.mapToMessages),
+          nextPage: response.data.nextPage,
         },
       }
     } else {
@@ -239,24 +213,16 @@ export class MessagesService {
   public async createMessage(
     newMessage: NewMessage
   ): Promise<RequestResponse<Message>> {
-    const { status, data } = await this.deviceService.request({
-      body: {
-        number: newMessage.phoneNumber,
-        messageBody: newMessage.content,
-        category: PureMessagesCategory.message,
-      },
+    const { data } = await this.deviceService.request({
+      body: MessagesPresenter.mapToPureMessageMessagesBody(newMessage),
       endpoint: Endpoint.Messages,
       method: Method.Post,
     })
 
-    if (
-      status === RequestResponseStatus.Ok &&
-      data !== undefined &&
-      MessagesService.isAcceptablePureMessageType(data)
-    ) {
+    if (MessagesService.isAcceptablePureMessageType(data)) {
       return {
         status: RequestResponseStatus.Ok,
-        data: MessagesService.mapToMessages(data),
+        data: MessagesPresenter.mapToMessages(data),
       }
     } else {
       return {
@@ -266,42 +232,12 @@ export class MessagesService {
     }
   }
 
-  private static mapToThreads(pureThread: PureThread): Thread {
-    const {
-      isUnread,
-      lastUpdatedAt,
-      messageSnippet,
-      threadID,
-      number = "",
-    } = pureThread
-    return {
-      messageSnippet,
-      // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
-      unread: flags.get(Feature.ProductionAndAlpha) ? false : isUnread,
-      id: String(threadID),
-      phoneNumber: String(number),
-      lastUpdatedAt: new Date(lastUpdatedAt * 1000),
-    }
-  }
-
-  private static mapToMessages(
-    pureMessage: PureMessage & { messageType: AcceptablePureMessageType }
-  ): Message {
-    const { messageBody, messageID, messageType, createdAt, threadID, number } =
-      pureMessage
-    return {
-      phoneNumber: number,
-      id: String(messageID),
-      date: new Date(createdAt * 1000),
-      content: messageBody,
-      threadId: String(threadID),
-      messageType: MessagesService.getMessageType(messageType),
-    }
-  }
-
-  private static isAcceptablePureMessageType(
-    pureMessage: PureMessage
+  static isAcceptablePureMessageType(
+    pureMessage?: PureMessage
   ): pureMessage is PureMessage & { messageType: AcceptablePureMessageType } {
+    if (!pureMessage) {
+      return false
+    }
     return (
       pureMessage.messageType === PureMessageType.FAILED ||
       pureMessage.messageType === PureMessageType.QUEUED ||
@@ -309,18 +245,30 @@ export class MessagesService {
       pureMessage.messageType === PureMessageType.OUTBOX
     )
   }
+}
 
-  private static getMessageType(
-    messageType: AcceptablePureMessageType
-  ): MessageType {
-    if (
-      messageType === PureMessageType.FAILED ||
-      messageType === PureMessageType.QUEUED ||
-      messageType === PureMessageType.OUTBOX
-    ) {
-      return MessageType.OUTBOX
-    } else {
-      return MessageType.INBOX
-    }
+const returnResponseWithNextPage = (
+  response: RequestResponse<GetThreadsResponse>,
+  pagination: PaginationBody
+): RequestResponse<GetThreadsResponse> => {
+  if (response.data === undefined) {
+    return response
+  }
+
+  const offset = pagination.offset + pagination.limit
+  const nextPage: PaginationBody | undefined =
+    offset < response.data.totalCount
+      ? {
+          offset,
+          limit: 0,
+        }
+      : undefined
+
+  return {
+    ...response,
+    data: {
+      ...response.data,
+      nextPage,
+    },
   }
 }
