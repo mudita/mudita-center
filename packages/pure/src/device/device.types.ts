@@ -44,9 +44,7 @@ export interface McUsbDevice {
 
 export type CreateDeviceStrategy = (
   baseMcSerialPortDevice: McSerialPortDevice,
-  baseMcUscDevice: McUsbDevice,
-  path: string,
-  deviceType: DeviceType
+  baseMcUscDevice: McUsbDevice
 ) => MuditaDevice
 
 export enum ResponseStatus {
