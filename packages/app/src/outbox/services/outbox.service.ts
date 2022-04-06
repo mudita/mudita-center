@@ -4,7 +4,6 @@
  */
 
 import {
-  Contact,
   Endpoint,
   GetEntriesResponseBody,
   Method,
@@ -19,6 +18,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import { ContactRepository } from "App/contacts/repositories"
+import { ContactService } from "App/contacts/services/contact.service"
 
 export class OutboxService {
   // @ts-ignore
@@ -32,6 +32,7 @@ export class OutboxService {
 
   constructor(
     private deviceService: DeviceService,
+    private contactService: ContactService,
     private contactRepository: ContactRepository
   ) {}
 
@@ -58,11 +59,13 @@ export class OutboxService {
   }
 
   private async handleContactEntry(entry: OutboxEntry): Promise<void> {
+    const id = String(entry.record_id)
+
     if (entry.change === OutboxEntryChange.Deleted) {
-      return this.contactRepository.delete(entry.record_id)
+      return this.contactRepository.delete(id)
     }
 
-    const { status, data } = await this.getContactRequest(entry.record_id)
+    const { status, data } = await this.contactService.getContact(id)
 
     if (status !== DeviceResponseStatus.Ok || data === undefined) {
       return
@@ -75,18 +78,6 @@ export class OutboxService {
     if (entry.change === OutboxEntryChange.Updated) {
       return this.contactRepository.update(data)
     }
-  }
-
-  private async getContactRequest(
-    id: number
-  ): Promise<DeviceResponse<Contact>> {
-    return await this.deviceService.request({
-      endpoint: Endpoint.Contacts,
-      method: Method.Get,
-      body: {
-        id,
-      },
-    })
   }
 
   private async getOutboxEntriesRequest(): Promise<

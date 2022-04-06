@@ -5,7 +5,7 @@
 
 import { ReduxRootState } from "Renderer/store"
 import { contactsStateSelector } from "App/contacts/selectors/contacts-state.selector"
-import { initialState } from "App/contacts"
+import { initialState } from "App/contacts/reducers"
 
 describe("`contactsStateSelector` selector", () => {
   test("when initial state is set selector returns initial state", () => {

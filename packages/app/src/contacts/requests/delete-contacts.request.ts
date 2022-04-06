@@ -4,14 +4,14 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
+import { IpcContactRequest } from "App/contacts/constants"
 import { ContactID } from "App/contacts/reducers/contacts.interface"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const deleteContacts = async (
   contactIds: ContactID[]
 ): Promise<DeviceResponse<ContactID[]>> => {
-  return await ipcRenderer.callMain(IpcRequest.DeleteContacts, contactIds)
+  return await ipcRenderer.callMain(IpcContactRequest.DeleteContacts, contactIds)
 }
 
 export default deleteContacts

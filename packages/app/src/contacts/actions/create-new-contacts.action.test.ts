@@ -8,15 +8,15 @@ import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
 import { ContactsEvent } from "App/contacts/constants"
 import { AddNewContactError } from "App/contacts/errors/add-new-contact.error"
-import addContact from "Renderer/requests/add-contact.request"
+import createContactRequest from "App/contacts/requests/create-contact.request"
 import { Contact, initialState, NewContact } from "App/contacts/reducers"
 import { testError } from "Renderer/store/constants"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import { addNewContact } from "App/contacts/actions/add-new-contacts.action"
+import { createNewContact } from "App/contacts/actions/create-new-contacts.action"
 
-jest.mock("Renderer/requests/add-contact.request")
+jest.mock("App/contacts/requests/create-contact.request")
 
 const newContact: NewContact = {
   firstName: "Sławomir",
@@ -53,35 +53,35 @@ afterEach(() => {
   jest.resetAllMocks()
 })
 
-describe("async `addNewContact` ", () => {
-  describe("when `addContact` request return success", () => {
-    test("fire async `addNewContact` call `addNewContactToState`", async () => {
-      ;(addContact as jest.Mock).mockReturnValue(successDeviceResponse)
+describe("async `createNewContact` ", () => {
+  describe("when `createContactRequest` return success", () => {
+    test("fire async `createNewContact` call `createNewContactToState`", async () => {
+      ;(createContactRequest as jest.Mock).mockReturnValue(successDeviceResponse)
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
       })
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        addNewContact(newContact) as unknown as AnyAction
+        createNewContact(newContact) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        addNewContact.pending(requestId, newContact),
+        createNewContact.pending(requestId, newContact),
         {
           type: ContactsEvent.AddNewContactsToState,
           payload: [contact],
         },
-        addNewContact.fulfilled(undefined, requestId, newContact),
+        createNewContact.fulfilled(undefined, requestId, newContact),
       ])
 
-      expect(addContact).toHaveBeenCalled()
+      expect(createContactRequest).toHaveBeenCalled()
     })
   })
 
-  describe("when `addContact` request return error", () => {
-    test("fire async `addNewContact` returns `rejected` action", async () => {
-      ;(addContact as jest.Mock).mockReturnValue(errorDeviceResponse)
+  describe("when `createContactRequest` return error", () => {
+    test("fire async `createNewContact` returns `rejected` action", async () => {
+      ;(createContactRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
       const errorMock = new AddNewContactError("Add Contact request failed")
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
@@ -89,15 +89,15 @@ describe("async `addNewContact` ", () => {
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        addNewContact(newContact) as unknown as AnyAction
+        createNewContact(newContact) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        addNewContact.pending(requestId, newContact),
-        addNewContact.rejected(testError, requestId, newContact, errorMock),
+        createNewContact.pending(requestId, newContact),
+        createNewContact.rejected(testError, requestId, newContact, errorMock),
       ])
 
-      expect(addContact).toHaveBeenCalled()
+      expect(createContactRequest).toHaveBeenCalled()
     })
   })
 })

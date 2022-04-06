@@ -233,7 +233,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                 <div>
                   <Input
                     data-testid={ContactDetailsTestIds.PrimaryPhoneInput}
-                    defaultValue={contact.primaryPhoneNumber}
+                    value={contact.primaryPhoneNumber}
                     label={intl.formatMessage(messages.noPrimaryNumber)}
                     // TODO: Implement additional toggles for this feature
                     trailingIcons={
@@ -251,7 +251,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   />
                   <Input
                     data-testid={ContactDetailsTestIds.SecondaryPhoneInput}
-                    defaultValue={contact.secondaryPhoneNumber}
+                    value={contact.secondaryPhoneNumber}
                     label={intl.formatMessage(messages.noSecondNumber)}
                     // TODO: Implement additional toggles for this feature
                     trailingIcons={

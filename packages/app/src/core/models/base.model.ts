@@ -37,40 +37,43 @@ export class BaseModel<Type extends { id: string }> {
     return this.connection?.documentStore.getDoc(id)
   }
 
-  public create(data: Type): Type | undefined {
+  public create(data: Type, skipCallbacks = false): Type | undefined {
     this.checkConnection()
     const changedData = this.beforeCreate(data)
     this.connection?.addDoc(changedData)
-    this.eventEmitter.emit(ModelEvent.Created)
     const record = this.findById(data.id)
 
-    if (record) {
+    if (!skipCallbacks && record) {
+      this.eventEmitter.emit(ModelEvent.Created)
       this.afterCreate(record)
     }
 
     return record
   }
 
-  public update(data: Type): Type | undefined {
+  public update(data: Type, skipCallbacks = false): Type | undefined {
     this.checkConnection()
     const changedData = this.beforeUpdate(data)
     this.connection?.updateDoc(changedData)
-    this.eventEmitter.emit(ModelEvent.Updated)
     const record = this.findById(data.id)
 
-    if (record) {
+    if (!skipCallbacks && record) {
+      this.eventEmitter.emit(ModelEvent.Updated)
       this.afterUpdate(record)
     }
 
     return record
   }
 
-  public delete(id: string): void {
+  public delete(id: string, skipCallbacks = false): void {
     this.checkConnection()
     this.beforeDelete(id)
     this.connection?.removeDocByRef(id)
-    this.eventEmitter.emit(ModelEvent.Deleted)
-    this.afterDelete(id)
+
+    if (!skipCallbacks) {
+      this.eventEmitter.emit(ModelEvent.Deleted)
+      this.afterDelete(id)
+    }
   }
 
   private checkConnection(): void {
