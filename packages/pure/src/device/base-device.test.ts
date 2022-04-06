@@ -15,41 +15,29 @@ import {
   Method,
 } from "./device.types"
 
-const serialPortDevice = new BaseMcSerialPortDevice(
-  "./path",
-  DeviceType.MuditaPure
-)
-const usbDevice = new BaseMcUsbDevice()
+const mockBaseMcUsbDevice = {
+  getFiles: jest.fn().mockReturnValue([]),
+} as unknown as BaseMcUsbDevice
 
-const subject = new BaseDevice(serialPortDevice, usbDevice)
+const mockSerialPortDevice = {
+  request: jest.fn(),
+} as unknown as BaseMcSerialPortDevice
+
+const subject = new BaseDevice(mockSerialPortDevice, mockBaseMcUsbDevice)
 
 describe("BaseDevice", () => {
-  test("getFiles method returns McUsbFiles", () => {
+  test("getFiles method works properly", () => {
     const files = subject.getFiles()
-    expect(files).toEqual(
-      Promise.resolve([
-        {
-          id: "1",
-          size: 1234,
-          name: "example_file_name",
-          type: McUsbFileType.mp3,
-        },
-        {
-          id: "2",
-          size: 12345,
-          name: "second_example_file_name",
-          type: McUsbFileType.wav,
-        },
-      ])
-    )
+    expect(files).toEqual([])
+    expect(mockBaseMcUsbDevice.getFiles).toHaveBeenCalled()
   })
 
-  test("request method returns error", async () => {
+  test("request method works properly", async () => {
     const requestConfig: RequestConfig = {
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     }
-    const response = await subject.request(requestConfig)
-    expect(response.status).toEqual(ResponseStatus.ConnectionError)
+    await subject.request(requestConfig)
+    expect(mockSerialPortDevice.request).toHaveBeenCalled()
   })
 })
