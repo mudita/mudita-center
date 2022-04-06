@@ -33,13 +33,13 @@ const contact: Contact = {
 }
 
 describe("`ContactPresenter`", () => {
-  test("`serialize` record properly", () => {
-    const result = ContactPresenter.serialize(pureContact)
+  test("`deserialize` record properly", () => {
+    const result = ContactPresenter.mapToContact(pureContact)
     expect(result).toEqual(contact)
   })
 
-  test("`deserialize` record properly", () => {
-    const result = ContactPresenter.deserialize(contact)
+  test("`serialize` record properly", () => {
+    const result = ContactPresenter.mapToPureContact(contact)
     expect(result).toEqual(pureContact)
   })
 })

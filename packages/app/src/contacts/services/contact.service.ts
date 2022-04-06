@@ -31,7 +31,7 @@ export class ContactService {
     if (status === RequestResponseStatus.Ok && data !== undefined) {
       return {
         status,
-        data: ContactPresenter.serialize(data),
+        data: ContactPresenter.mapToContact(data),
       }
     } else {
       return {
@@ -50,7 +50,7 @@ export class ContactService {
     if (status === RequestResponseStatus.Ok && data?.entries !== undefined) {
       return {
         status,
-        data: data.entries.map(ContactPresenter.serialize),
+        data: data.entries.map(ContactPresenter.mapToContact),
       }
     } else {
       return {
@@ -66,7 +66,7 @@ export class ContactService {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Post,
-      body: ContactPresenter.deserialize(newContact),
+      body: ContactPresenter.mapToPureContact(newContact),
     })
 
     if (status === RequestResponseStatus.Ok && data !== undefined) {
@@ -103,7 +103,7 @@ export class ContactService {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
-      body: ContactPresenter.deserialize(contact),
+      body: ContactPresenter.mapToPureContact(contact),
     })
 
     if (status === RequestResponseStatus.Ok) {
