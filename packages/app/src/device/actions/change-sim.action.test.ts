@@ -6,13 +6,13 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 import { changeSim } from "./change-sim.action"
 import { DeviceEvent } from "App/device/constants"
 import { DeviceChangeSimError } from "App/device/errors"
 import changeSimRequest from "Renderer/requests/change-sim.request"
 import { testError } from "App/renderer/store/constants"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])()
 
@@ -33,7 +33,7 @@ afterEach(() => {
 describe("Change SimCard request returns `success` status", () => {
   test("fire async `changeSim` action and execute `SetSimData` event", async () => {
     ;(changeSimRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     })
     const {
       meta: { requestId },
@@ -55,7 +55,7 @@ describe("Change SimCard request returns `success` status", () => {
 describe("Change SimCard request returns `error` status", () => {
   test("fire async `changeSim` action and execute `rejected` event", async () => {
     ;(changeSimRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Error,
+      status: RequestResponseStatus.Error,
     })
     const errorMock = new DeviceChangeSimError("Cannot change sim card")
     const {

@@ -5,9 +5,9 @@
 
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
-const getUnlockDeviceStatus = (): Promise<DeviceResponse> =>
+const getUnlockDeviceStatus = (): Promise<RequestResponse> =>
   ipcRenderer.callMain(IpcRequest.GetUnlockDeviceStatus)
 
 export default getUnlockDeviceStatus

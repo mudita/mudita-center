@@ -10,7 +10,7 @@ import { ipcMain } from "electron-better-ipc"
 import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
 import DeviceService from "Backend/device-service"
 import Adapters from "Backend/adapters/adapters.interface"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockDeviceInfo: DeviceInfo = {
   accessTechnology: "255",
@@ -36,7 +36,7 @@ test("returns required battery info", async () => {
     return {
       request: () => ({
         data: mockDeviceInfo,
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }),
     }
   })

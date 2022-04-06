@@ -10,7 +10,7 @@ import { ipcMain } from "electron-better-ipc"
 import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
 import DeviceService from "Backend/device-service"
 import Adapters from "Backend/adapters/adapters.interface"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockDeviceInfo: DeviceInfo = {
   accessTechnology: "255",
@@ -36,7 +36,7 @@ test("returns required storage info", async () => {
     return {
       request: () => ({
         data: mockDeviceInfo,
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }),
     }
   })

@@ -6,11 +6,11 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { getUnlockStatus } from "./get-unlock-status.action"
 import { DeviceLockedError } from "App/device/errors"
 import getUnlockDeviceStatusRequest from "Renderer/requests/get-unlock-device-status.request"
 import { testError } from "App/renderer/store/constants"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])()
 
@@ -23,7 +23,7 @@ afterEach(() => {
 describe("Get Unlock Device Status request returns `success` status", () => {
   test("fire async `getUnlockStatus`", async () => {
     ;(getUnlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     })
     const {
       meta: { requestId },
@@ -31,7 +31,7 @@ describe("Get Unlock Device Status request returns `success` status", () => {
 
     expect(mockStore.getActions()).toEqual([
       getUnlockStatus.pending(requestId),
-      getUnlockStatus.fulfilled(DeviceResponseStatus.Ok, requestId, undefined),
+      getUnlockStatus.fulfilled(RequestResponseStatus.Ok, requestId, undefined),
     ])
 
     expect(getUnlockDeviceStatusRequest).toHaveBeenCalled()
@@ -41,7 +41,7 @@ describe("Get Unlock Device Status request returns `success` status", () => {
 describe("Get Unlock Device Status request returns `error` status", () => {
   test("fire async `getUnlockStatus` action and execute `rejected` event", async () => {
     ;(getUnlockDeviceStatusRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Error,
+      status: RequestResponseStatus.Error,
     })
     const errorMock = new DeviceLockedError("Device is locked")
     const {

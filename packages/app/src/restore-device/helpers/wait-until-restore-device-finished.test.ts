@@ -6,52 +6,53 @@
 import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers/wait-until-restore-device-finished"
 import getRestoreDeviceStatus from "Renderer/requests/get-restore-device-status.request"
 import getUnlockDeviceStatus from "Renderer/requests/get-unlock-device-status.request"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import {
   GetRestoreDeviceStatusDataState,
   GetRestoreDeviceStatusResponseBody,
 } from "@mudita/pure"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("Renderer/requests/get-restore-device-status.request")
 jest.mock("Renderer/requests/get-unlock-device-status.request")
 
-const successGetRestoreDeviceResponse: DeviceResponse<GetRestoreDeviceStatusResponseBody> =
+const successGetRestoreDeviceResponse: RequestResponse<GetRestoreDeviceStatusResponseBody> =
   {
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
     data: {
       id: "1",
       state: GetRestoreDeviceStatusDataState.Finished,
     },
   }
-const runningGetRestoreDeviceResponse: DeviceResponse<GetRestoreDeviceStatusResponseBody> =
+const runningGetRestoreDeviceResponse: RequestResponse<GetRestoreDeviceStatusResponseBody> =
   {
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
     data: {
       id: "1",
       state: GetRestoreDeviceStatusDataState.Running,
     },
   }
 
-const errorGetRestoreDeviceResponse: DeviceResponse<GetRestoreDeviceStatusResponseBody> =
+const errorGetRestoreDeviceResponse: RequestResponse<GetRestoreDeviceStatusResponseBody> =
   {
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
     data: {
       id: "1",
       state: GetRestoreDeviceStatusDataState.Error,
     },
   }
 
-const successDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Ok,
+const successDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Ok,
 }
-const errorDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const errorDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
 }
 
 beforeEach(() => {
-// mock timer to call callbacks immediately
+  // mock timer to call callbacks immediately
   jest
     .spyOn(window, "setTimeout")
     .mockImplementation((handler: () => any) => handler())
@@ -75,7 +76,7 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
 
       expect(getRestoreDeviceStatus).toHaveBeenCalled()
       expect(getUnlockDeviceStatus).toHaveBeenCalled()
-      expect(response.status).toEqual(DeviceResponseStatus.Ok)
+      expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
   })
 
@@ -90,7 +91,6 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
           return successGetRestoreDeviceResponse
         }
       })
-
       ;(getUnlockDeviceStatus as jest.Mock).mockReturnValue(
         successDeviceResponse
       )
@@ -99,7 +99,7 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
 
       expect(getRestoreDeviceStatus).toHaveBeenCalledTimes(2)
       expect(getUnlockDeviceStatus).toHaveBeenCalledTimes(1)
-      expect(response.status).toEqual(DeviceResponseStatus.Ok)
+      expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
   })
 
@@ -114,7 +114,6 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
           return errorDeviceResponse
         }
       })
-
       ;(getUnlockDeviceStatus as jest.Mock).mockReturnValue(
         successDeviceResponse
       )
@@ -123,7 +122,7 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
 
       expect(getRestoreDeviceStatus).toHaveBeenCalledTimes(2)
       expect(getUnlockDeviceStatus).toHaveBeenCalledTimes(1)
-      expect(response.status).toEqual(DeviceResponseStatus.Ok)
+      expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
   })
 
@@ -147,7 +146,7 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
 
       expect(getRestoreDeviceStatus).toHaveBeenCalledTimes(1)
       expect(getUnlockDeviceStatus).toHaveBeenCalledTimes(2)
-      expect(response.status).toEqual(DeviceResponseStatus.Ok)
+      expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
   })
 
@@ -161,7 +160,7 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
 
       expect(getRestoreDeviceStatus).toHaveBeenCalledTimes(1)
       expect(getUnlockDeviceStatus).not.toHaveBeenCalled()
-      expect(response.status).toEqual(DeviceResponseStatus.Error)
+      expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
 
@@ -176,7 +175,6 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
           return errorGetRestoreDeviceResponse
         }
       })
-
       ;(getUnlockDeviceStatus as jest.Mock).mockReturnValue(
         successDeviceResponse
       )
@@ -185,10 +183,9 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
 
       expect(getRestoreDeviceStatus).toHaveBeenCalledTimes(2)
       expect(getUnlockDeviceStatus).not.toHaveBeenCalled()
-      expect(response.status).toEqual(DeviceResponseStatus.Error)
+      expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
-
 
   describe("when `getRestoreDeviceStatus` return error as request response", () => {
     test("function should returns Error status ", async () => {
@@ -200,7 +197,7 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
 
       expect(getRestoreDeviceStatus).toHaveBeenCalledTimes(1)
       expect(getUnlockDeviceStatus).not.toHaveBeenCalled()
-      expect(response.status).toEqual(DeviceResponseStatus.Error)
+      expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
 
@@ -214,7 +211,7 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
 
       expect(getRestoreDeviceStatus).toHaveBeenCalledTimes(24)
       expect(getUnlockDeviceStatus).not.toHaveBeenCalled()
-      expect(response.status).toEqual(DeviceResponseStatus.Error)
+      expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
 
@@ -223,16 +220,13 @@ describe("`waitUntilRestoreDeviceFinished` helper ", () => {
       ;(getRestoreDeviceStatus as jest.Mock).mockReturnValue(
         successGetRestoreDeviceResponse
       )
-
-      ;(getUnlockDeviceStatus as jest.Mock).mockReturnValue(
-        errorDeviceResponse
-      )
+      ;(getUnlockDeviceStatus as jest.Mock).mockReturnValue(errorDeviceResponse)
 
       const response = await waitUntilRestoreDeviceFinished("1")
 
       expect(getRestoreDeviceStatus).toHaveBeenCalledTimes(1)
       expect(getUnlockDeviceStatus).toHaveBeenCalledTimes(24)
-      expect(response.status).toEqual(DeviceResponseStatus.Error)
+      expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
 })

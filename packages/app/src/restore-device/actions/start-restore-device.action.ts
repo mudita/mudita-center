@@ -8,13 +8,13 @@ import { RestoreDeviceEvent } from "App/restore-device/constants"
 import startRestoreDeviceRequest from "Renderer/requests/start-restore-device.request"
 import { StartRestoreDeviceError } from "App/restore-device/errors"
 import uploadDeviceFile from "App/device-file-system/requests/upload-device-file.request"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { Backup } from "App/backup/reducers"
 import { PureDeviceData } from "App/device"
 import { ReduxRootState, RootState } from "Renderer/store"
 import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers"
 import decryptFile from "App/file-system/requests/decrypt-file.request"
 import readFile from "App/file-system/requests/read-file.request"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 export interface StartRestoreOption {
   secretKey: string
@@ -64,7 +64,7 @@ export const startRestoreDevice = createAsyncThunk<
       targetPath: `${pureOsBackupPureLocation}/${backupId}`,
     })
 
-    if (uploadDeviceFileResponse.status !== DeviceResponseStatus.Ok) {
+    if (uploadDeviceFileResponse.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(
         new StartRestoreDeviceError("Upload Backup File returns error")
       )
@@ -74,7 +74,7 @@ export const startRestoreDevice = createAsyncThunk<
       restore: backupId,
     })
 
-    if (startRestoreDeviceResponse.status !== DeviceResponseStatus.Ok) {
+    if (startRestoreDeviceResponse.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(
         new StartRestoreDeviceError("Start restore Device returns error")
       )
@@ -84,7 +84,7 @@ export const startRestoreDevice = createAsyncThunk<
       backupId
     )
 
-    if (getRestoreDeviceStatusResponse.status !== DeviceResponseStatus.Ok) {
+    if (getRestoreDeviceStatusResponse.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(
         new StartRestoreDeviceError(
           "One of the getRestoreDeviceStatus requests returns error"

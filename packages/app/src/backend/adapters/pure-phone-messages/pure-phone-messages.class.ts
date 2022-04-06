@@ -3,13 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceResponse from "Backend/adapters/device-response.interface"
 import {
   Message,
   NewMessage,
   Thread,
 } from "App/messages/reducers/messages.interface"
 import { PaginationBody } from "@mudita/pure"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 export interface GetThreadsResponse {
   data: Thread[]
@@ -30,17 +30,17 @@ export interface GetMessagesByThreadIdResponse {
 export default abstract class PurePhoneMessagesAdapter {
   public abstract loadMoreThreadsInSingleRequest(
     pagination: PaginationBody
-  ): Promise<DeviceResponse<GetThreadsResponse>>
+  ): Promise<RequestResponse<GetThreadsResponse>>
   public abstract getThreads(
     pagination: PaginationBody
-  ): Promise<DeviceResponse<GetThreadsResponse>>
+  ): Promise<RequestResponse<GetThreadsResponse>>
   public abstract getMessagesByThreadId(
     body: GetMessagesBody
-  ): Promise<DeviceResponse<GetMessagesByThreadIdResponse>>
+  ): Promise<RequestResponse<GetMessagesByThreadIdResponse>>
   public abstract loadAllMessagesByThreadId(
-    threadId: string,
-  ): Promise<DeviceResponse<Message[]>>
+    threadId: string
+  ): Promise<RequestResponse<Message[]>>
   public abstract addMessage(
     newMessage: NewMessage
-  ): Promise<DeviceResponse<Message>>
+  ): Promise<RequestResponse<Message>>
 }

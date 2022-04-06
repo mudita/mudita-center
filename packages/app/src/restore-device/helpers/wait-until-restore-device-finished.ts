@@ -4,11 +4,12 @@
  */
 
 import { GetRestoreDeviceStatusDataState } from "@mudita/pure"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import getRestoreDeviceStatus from "Renderer/requests/get-restore-device-status.request"
 import getUnlockDeviceStatus from "Renderer/requests/get-unlock-device-status.request"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 const timeout = 5000
 const callsMax = 24
@@ -17,33 +18,33 @@ const waitUntilGetRestoreDeviceStatusNoResponse = async (
   id: string,
   firstRequest = true,
   index = 0
-): Promise<DeviceResponse> => {
+): Promise<RequestResponse> => {
   if (index === callsMax) {
     return {
-      status: DeviceResponseStatus.Error,
+      status: RequestResponseStatus.Error,
     }
   }
 
   const response = await getRestoreDeviceStatus({ id })
   if (response.data?.state === GetRestoreDeviceStatusDataState.Finished) {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
-  if (!firstRequest && response.status === DeviceResponseStatus.Error) {
-    return { status: DeviceResponseStatus.Ok }
+  if (!firstRequest && response.status === RequestResponseStatus.Error) {
+    return { status: RequestResponseStatus.Ok }
   }
 
-  if (response.status === DeviceResponseStatus.Error) {
+  if (response.status === RequestResponseStatus.Error) {
     return {
-      status: DeviceResponseStatus.Error,
+      status: RequestResponseStatus.Error,
     }
   }
 
   if (response.data?.state === GetRestoreDeviceStatusDataState.Error) {
     return {
-      status: DeviceResponseStatus.Error,
+      status: RequestResponseStatus.Error,
     }
   }
 
@@ -56,20 +57,20 @@ const waitUntilGetRestoreDeviceStatusNoResponse = async (
 
 const waitUntilGetUnlockDeviceStatusResponse = async (
   index = 0
-): Promise<DeviceResponse> => {
+): Promise<RequestResponse> => {
   if (index === callsMax) {
     return {
-      status: DeviceResponseStatus.Error,
+      status: RequestResponseStatus.Error,
     }
   }
 
   const response = await getUnlockDeviceStatus()
   if (
-    response.status === DeviceResponseStatus.Ok ||
-    response.status === DeviceResponseStatus.PhoneLocked
+    response.status === RequestResponseStatus.Ok ||
+    response.status === RequestResponseStatus.PhoneLocked
   ) {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   } else {
     return new Promise((resolve) => {
@@ -82,12 +83,12 @@ const waitUntilGetUnlockDeviceStatusResponse = async (
 
 export const waitUntilRestoreDeviceFinished = async (
   id: string
-): Promise<DeviceResponse> => {
+): Promise<RequestResponse> => {
   const response = await waitUntilGetRestoreDeviceStatusNoResponse(id)
 
-  if (response.status === DeviceResponseStatus.Error) {
+  if (response.status === RequestResponseStatus.Error) {
     return {
-      status: DeviceResponseStatus.Error,
+      status: RequestResponseStatus.Error,
     }
   }
 

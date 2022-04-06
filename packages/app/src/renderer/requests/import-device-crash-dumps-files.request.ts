@@ -3,17 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import copyFile from "Renderer/requests/copy-file.request"
 import downloadDeviceCrashDumpFiles from "Renderer/requests/download-crash-dump.request"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 const importDeviceCrashDumpFiles = async (
   cwd: string
-): Promise<DeviceResponse> => {
+): Promise<RequestResponse> => {
   const { status, data = [] } = await downloadDeviceCrashDumpFiles()
-  if (status === DeviceResponseStatus.Ok && data) {
+  if (status === RequestResponseStatus.Ok && data) {
     for await (const deviceLogFile of data) {
       const copyFileSuccess = await copyFile({
         sourcePath: deviceLogFile,
@@ -21,7 +22,7 @@ const importDeviceCrashDumpFiles = async (
       })
       if (!copyFileSuccess) {
         return {
-          status: DeviceResponseStatus.Error,
+          status: RequestResponseStatus.Error,
         }
       }
     }

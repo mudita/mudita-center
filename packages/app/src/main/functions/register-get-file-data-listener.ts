@@ -5,10 +5,11 @@
 
 import fs from "fs"
 import { ipcMain } from "electron-better-ipc"
-import RequestResponse, {
-  RequestResponseStatus,
-} from "App/main/functions/request-response.interface"
 import path from "path"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 export interface GetFileDataProps {
   filePath: string

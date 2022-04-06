@@ -13,11 +13,11 @@ import ErrorConnectingModal from "App/connecting/components/error-connecting-mod
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import PasscodeModal from "App/passcode-modal/passcode-modal.component"
 import { togglePureSimulation } from "App/dev-mode/store/dev-mode.helpers"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import registerFirstPhoneConnection from "App/connecting/requests/register-first-phone-connection"
 import { SynchronizationState } from "App/data-sync/reducers"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 import { ConnectingError } from "App/connecting/components/connecting-error.enum"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -27,8 +27,10 @@ const Connecting: FunctionComponent<{
   unlocked: boolean | null
   syncInitialized: boolean
   syncState: SynchronizationState
-  unlockDevice: (code: number[]) => Promise<PayloadAction<DeviceResponseStatus>>
-  getUnlockStatus: () => Promise<PayloadAction<DeviceResponseStatus>>
+  unlockDevice: (
+    code: number[]
+  ) => Promise<PayloadAction<RequestResponseStatus>>
+  getUnlockStatus: () => Promise<PayloadAction<RequestResponseStatus>>
   phoneLockTime: number | undefined
   noModalsVisible: boolean
   updateAllIndexes: () => Promise<void>

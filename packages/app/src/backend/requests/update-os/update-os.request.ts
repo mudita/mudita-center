@@ -6,14 +6,14 @@
 import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import DeviceResponse from "Backend/adapters/device-response.interface"
 import path from "path"
 import getAppSettingsMain from "App/main/functions/get-app-settings"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 const handleUpdateOs = async (
   { purePhone }: Adapters,
-  { fileName }: { fileName: string}
-): Promise<DeviceResponse> => {
+  { fileName }: { fileName: string }
+): Promise<RequestResponse> => {
   const { pureOsDownloadLocation } = await getAppSettingsMain()
   const filePath = path.join(pureOsDownloadLocation, fileName)
 

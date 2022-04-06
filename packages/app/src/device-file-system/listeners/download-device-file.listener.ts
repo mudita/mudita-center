@@ -6,13 +6,13 @@
 import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcDeviceFileSystem } from "App/device-file-system"
-import DeviceResponse from "Backend/adapters/device-response.interface"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 const handleDownloadDeviceFiles = async (
   { deviceFileSystem }: Adapters,
   filePaths: string[]
-): Promise<DeviceResponse<DeviceFile[]>> => {
+): Promise<RequestResponse<DeviceFile[]>> => {
   return deviceFileSystem.downloadDeviceFiles(filePaths)
 }
 

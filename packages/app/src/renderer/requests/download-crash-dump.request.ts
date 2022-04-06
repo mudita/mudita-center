@@ -5,12 +5,12 @@
 
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
-import DeviceResponse from "Backend/adapters/device-response.interface"
 import { DeviceFilesOption } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 const downloadDeviceCrashDumpFiles = async (
   option?: DeviceFilesOption
-): Promise<DeviceResponse<string[]>> => {
+): Promise<RequestResponse<string[]>> => {
   return ipcRenderer.callMain(IpcRequest.DownloadCrashDumpFiles, option)
 }
 

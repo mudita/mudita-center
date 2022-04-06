@@ -6,11 +6,11 @@
 import { StartRestoreRequestConfigBody } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 const startRestoreDeviceRequest = async (
   config: StartRestoreRequestConfigBody
-): Promise<DeviceResponse> => {
+): Promise<RequestResponse> => {
   return await ipcRenderer.callMain(IpcRequest.StartRestoreDevice, config)
 }
 

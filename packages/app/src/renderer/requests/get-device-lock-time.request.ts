@@ -5,10 +5,11 @@
 
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
-import DeviceResponse from "Backend/adapters/device-response.interface"
 import { GetPhoneLockTimeResponseBody } from "@mudita/pure"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
-const getDeviceLockTime = (): Promise<DeviceResponse<GetPhoneLockTimeResponseBody>> =>
-  ipcRenderer.callMain(IpcRequest.GetDeviceLockTime)
+const getDeviceLockTime = (): Promise<
+  RequestResponse<GetPhoneLockTimeResponseBody>
+> => ipcRenderer.callMain(IpcRequest.GetDeviceLockTime)
 
 export default getDeviceLockTime

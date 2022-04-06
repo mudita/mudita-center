@@ -4,16 +4,16 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import downloadDeviceCrashDumpFiles from "Renderer/requests/download-crash-dump.request"
 import { Event } from "App/crash-dump/constants"
 import { DownloadCrashDumpError } from "App/crash-dump/errors"
 import { setDownloadedCrashDump } from "App/crash-dump/actions/base.action"
 import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.action"
 import { ReduxRootState } from "App/renderer/store"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 export const downloadCrashDump = createAsyncThunk<
-  DeviceResponseStatus | undefined
+  RequestResponseStatus | undefined
 >(
   Event.DownloadCrashDump,
   async (_, { dispatch, rejectWithValue, getState }) => {
@@ -25,7 +25,7 @@ export const downloadCrashDump = createAsyncThunk<
 
     const { status, error, data } = await downloadDeviceCrashDumpFiles()
 
-    if (status === DeviceResponseStatus.Ok && data) {
+    if (status === RequestResponseStatus.Ok && data) {
       dispatch(setDownloadedCrashDump(data))
       dispatch(sendCrashDumpData())
     } else {

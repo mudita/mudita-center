@@ -7,12 +7,12 @@ import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import Adapters from "Backend/adapters/adapters.interface"
 import { Message, NewMessage } from "App/messages/reducers/messages.interface"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 const handleAddMessageRequest = (
   { pureMessages }: Adapters,
   newMessage: NewMessage
-): Promise<DeviceResponse<Message>> => pureMessages.addMessage(newMessage)
+): Promise<RequestResponse<Message>> => pureMessages.addMessage(newMessage)
 
 const registerAddMessageRequest = createEndpoint({
   name: IpcRequest.AddMessage,

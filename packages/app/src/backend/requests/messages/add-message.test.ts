@@ -12,13 +12,13 @@ import {
   NewMessage,
 } from "App/messages/reducers/messages.interface"
 import DeviceService from "Backend/device-service"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import PureDeviceManager, {
   Message as PureMessage,
   MessageType as PureMessageType,
 } from "@mudita/pure"
 import createPurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.adapter"
 import Adapters from "Backend/adapters/adapters.interface"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const newMessage: NewMessage = {
   content:
@@ -51,7 +51,7 @@ test("adds message works properly", async () => {
   ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
     return {
       request: () => ({
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
         data: pureMessage,
       }),
     }

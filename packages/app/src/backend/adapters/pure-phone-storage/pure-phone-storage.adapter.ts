@@ -7,9 +7,10 @@ import PurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-ph
 import StorageCategoryInfo from "Common/interfaces/storage-category-info.interface"
 import DeviceService from "Backend/device-service"
 import { Endpoint, Method } from "@mudita/pure"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 const fromMebiToByte = (mebi: number): number => {
   const factor = 1048576
@@ -20,13 +21,13 @@ class PurePhoneStorage extends PurePhoneStorageAdapter {
     super()
   }
 
-  public async getAvailableSpace(): Promise<DeviceResponse<number>> {
+  public async getAvailableSpace(): Promise<RequestResponse<number>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
 
-    if (status === DeviceResponseStatus.Ok && data) {
+    if (status === RequestResponseStatus.Ok && data) {
       return {
         status,
         data: fromMebiToByte(Number(data.fsFree)),
@@ -39,13 +40,13 @@ class PurePhoneStorage extends PurePhoneStorageAdapter {
     }
   }
 
-  public async getCapacity(): Promise<DeviceResponse<number>> {
+  public async getCapacity(): Promise<RequestResponse<number>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
 
-    if (status === DeviceResponseStatus.Ok && data) {
+    if (status === RequestResponseStatus.Ok && data) {
       return {
         status,
         data: fromMebiToByte(Number(data.fsTotal)),

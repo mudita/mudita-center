@@ -7,12 +7,12 @@ import { StartRestoreRequestConfigBody } from "@mudita/pure"
 import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 const handleStartRestoreDevice = async (
   { purePhone }: Adapters,
   config: StartRestoreRequestConfigBody
-): Promise<DeviceResponse> => {
+): Promise<RequestResponse> => {
   return purePhone.startRestoreDevice(config)
 }
 

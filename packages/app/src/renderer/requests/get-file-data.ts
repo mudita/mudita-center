@@ -9,7 +9,7 @@ import {
   GetFileDataEvents,
   GetFileDataProps,
 } from "App/main/functions/register-get-file-data-listener"
-import RequestResponse from "App/main/functions/request-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 const getFileData = (
   props: GetFileDataProps

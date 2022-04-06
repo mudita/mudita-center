@@ -8,9 +8,6 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "Renderer/store/helpers/action.helper"
 import { BackupEvent } from "App/backup/constants"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import {
   startBackupDevice,
   StartBackupOption,
@@ -18,6 +15,10 @@ import {
 import { testError } from "Renderer/store/constants"
 import { StartBackupDeviceError } from "App/backup-device/errors"
 import { downloadDeviceBackupWithRetries } from "App/backup-device/helpers/download-device-backup-with-retries"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("App/backup-device/helpers/download-device-backup-with-retries")
 jest.mock("App/backup/actions/load-backup-data.action", () => ({
@@ -27,8 +28,8 @@ jest.mock("App/backup/actions/load-backup-data.action", () => ({
   }),
 }))
 
-const successDownloadDeviceBackupResponse: DeviceResponse<string[]> = {
-  status: DeviceResponseStatus.Ok,
+const successDownloadDeviceBackupResponse: RequestResponse<string[]> = {
+  status: RequestResponseStatus.Ok,
   data: [],
 }
 
@@ -74,7 +75,7 @@ describe("async `startBackupDevice` ", () => {
     test("fire async `startBackupDevice` returns `rejected` action", async () => {
       const errorMock = new StartBackupDeviceError("")
       ;(downloadDeviceBackupWithRetries as jest.Mock).mockReturnValue({
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       })
       const mockStore = createMockStore([thunk])({
         settings: {

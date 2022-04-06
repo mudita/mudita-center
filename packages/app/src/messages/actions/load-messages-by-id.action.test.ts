@@ -9,9 +9,6 @@ import { AnyAction } from "@reduxjs/toolkit"
 import { Message, MessageType } from "App/messages/reducers"
 import { MessagesEvent } from "App/messages/constants"
 import { testError } from "Renderer/store/constants"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import { loadMessagesById } from "App/messages/actions/load-messages-by-id.action"
 import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.request"
 import {
@@ -20,6 +17,10 @@ import {
 } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { LoadMessagesByIdError } from "App/messages/errors"
 import { setMessages } from "App/messages/actions/base.action"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 const messages: Message[] = [
   {
@@ -33,15 +34,15 @@ const messages: Message[] = [
   },
 ]
 
-const successDeviceResponse: DeviceResponse<GetMessagesByThreadIdResponse> = {
-  status: DeviceResponseStatus.Ok,
+const successDeviceResponse: RequestResponse<GetMessagesByThreadIdResponse> = {
+  status: RequestResponseStatus.Ok,
   data: {
     data: messages,
   },
 }
 
-const errorDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const errorDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
 }
 
 const getMessagesBody: GetMessagesBody = {

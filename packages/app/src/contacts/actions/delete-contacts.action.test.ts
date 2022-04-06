@@ -9,12 +9,13 @@ import createMockStore from "redux-mock-store"
 import { ContactsEvent } from "App/contacts/constants"
 import { Contact, initialState } from "App/contacts/reducers"
 import { testError } from "Renderer/store/constants"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import { DeleteContactsError } from "App/contacts/errors/delete-contacts.error"
 import deleteContactsRequest from "App/contacts/requests/delete-contacts.request"
 import { deleteContacts } from "App/contacts/actions/delete-contacts.action"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("App/contacts/requests/delete-contacts.request")
 
@@ -33,23 +34,23 @@ const contact: Contact = {
   secondAddressLine: "",
 }
 
-const successDeviceResponse: DeviceResponse<Contact> = {
-  status: DeviceResponseStatus.Ok,
+const successDeviceResponse: RequestResponse<Contact> = {
+  status: RequestResponseStatus.Ok,
   data: contact,
 }
 
-const errorDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const errorDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
   error: {
     message: "I'm error",
   },
 }
 
-const errorDeviceWithExceptionsResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const errorDeviceWithExceptionsResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
   error: {
     message: "I'm error",
-    data: [contact.id]
+    data: [contact.id],
   },
 }
 
@@ -111,7 +112,9 @@ describe("async `deleteContacts` ", () => {
 
   describe("when `deleteContactsRequest` request return error with exceptions", () => {
     test("fire async `deleteContacts` call `deleteContactsInState`", async () => {
-      ;(deleteContactsRequest as jest.Mock).mockReturnValue(errorDeviceWithExceptionsResponse)
+      ;(deleteContactsRequest as jest.Mock).mockReturnValue(
+        errorDeviceWithExceptionsResponse
+      )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
       })

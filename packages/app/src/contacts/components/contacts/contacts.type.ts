@@ -14,7 +14,6 @@ import {
   ExternalProvider,
   Provider,
 } from "Renderer/models/external-providers/external-providers.interface"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { ComponentProps } from "react"
 import {
   Contact,
@@ -23,9 +22,10 @@ import {
   Store,
 } from "App/contacts/reducers/contacts.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 export interface ContactErrorResponse {
-  status: DeviceResponseStatus
+  status: RequestResponseStatus
   message: string
 }
 

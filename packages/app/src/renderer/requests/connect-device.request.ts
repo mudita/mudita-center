@@ -6,9 +6,9 @@
 import { MuditaDevice } from "@mudita/pure"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
-const connectDevice = (): Promise<DeviceResponse<MuditaDevice>> =>
+const connectDevice = (): Promise<RequestResponse<MuditaDevice>> =>
   ipcRenderer.callMain(IpcRequest.ConnectDevice)
 
 export default connectDevice

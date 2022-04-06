@@ -5,7 +5,7 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcDeviceFileSystem } from "App/device-file-system/constants"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
-export const removeFileRequest = (filePath: string): Promise<DeviceResponse> =>
+export const removeFileRequest = (filePath: string): Promise<RequestResponse> =>
   ipcRenderer.callMain(IpcDeviceFileSystem.Remove, filePath)

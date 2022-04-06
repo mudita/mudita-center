@@ -4,14 +4,15 @@
  */
 
 import PurePhoneBatteryServiceAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service-adapter.class"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 class PurePhoneBatteryServiceFakeAdapter extends PurePhoneBatteryServiceAdapter {
-  public async getBatteryLevel(): Promise<DeviceResponse<number>> {
+  public async getBatteryLevel(): Promise<RequestResponse<number>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: 0.5,
     }
   }

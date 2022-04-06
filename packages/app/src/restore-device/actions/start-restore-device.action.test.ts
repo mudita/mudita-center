@@ -6,9 +6,6 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import {
   startRestoreDevice,
   StartRestoreOption,
@@ -24,6 +21,10 @@ import startRestoreDeviceRequest from "Renderer/requests/start-restore-device.re
 import readFile from "App/file-system/requests/read-file.request"
 import decryptFile from "App/file-system/requests/decrypt-file.request"
 import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("App/file-system/requests/decrypt-file.request")
 jest.mock("App/file-system/requests/read-file.request")
@@ -31,12 +32,12 @@ jest.mock("App/device-file-system/requests/upload-device-file.request")
 jest.mock("Renderer/requests/start-restore-device.request")
 jest.mock("App/restore-device/helpers/wait-until-restore-device-finished")
 
-const successDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Ok,
+const successDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Ok,
 }
 
-const errorDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const errorDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
 }
 
 const backup: Backup = {

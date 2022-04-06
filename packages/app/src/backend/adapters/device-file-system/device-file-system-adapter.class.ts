@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceResponse from "Backend/adapters/device-response.interface"
 import { TokenOptions } from "App/file-system/services/crypto-file-service/crypto-file-service"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 export interface DownloadDeviceFileLocallyOptions
   extends Pick<Partial<TokenOptions>, "key"> {
@@ -36,20 +36,20 @@ export default abstract class DeviceFileSystemAdapter {
   public abstract downloadDeviceFilesLocally(
     filePaths: string[],
     options: DownloadDeviceFileLocallyOptions
-  ): Promise<DeviceResponse<string[]>>
+  ): Promise<RequestResponse<string[]>>
   public abstract downloadDeviceFiles(
     filePaths: string[]
-  ): Promise<DeviceResponse<DeviceFile[]>>
+  ): Promise<RequestResponse<DeviceFile[]>>
   public abstract downloadFile(
     filePath: string
-  ): Promise<DeviceResponse<Buffer>>
+  ): Promise<RequestResponse<Buffer>>
   public abstract uploadFile({
     data,
     targetPath,
-  }: UploadFilePayload): Promise<DeviceResponse>
+  }: UploadFilePayload): Promise<RequestResponse>
   public abstract uploadFileLocally({
     filePath,
     targetPath,
-  }: UploadFileLocallyPayload): Promise<DeviceResponse>
-  public abstract removeDeviceFile(removeFile: string): Promise<DeviceResponse>
+  }: UploadFileLocallyPayload): Promise<RequestResponse>
+  public abstract removeDeviceFile(removeFile: string): Promise<RequestResponse>
 }

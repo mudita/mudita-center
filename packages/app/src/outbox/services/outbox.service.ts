@@ -14,11 +14,12 @@ import {
 } from "@mudita/pure"
 import { asyncNoop } from "Renderer/utils/noop"
 import { DeviceService } from "App/backend/device-service"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import { ContactRepository } from "App/contacts/repositories"
 import { ContactService } from "App/contacts/services/contact.service"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 export class OutboxService {
   // @ts-ignore
@@ -41,7 +42,7 @@ export class OutboxService {
 
     const entries = data?.entries
 
-    if (status !== DeviceResponseStatus.Ok || entries === undefined) {
+    if (status !== RequestResponseStatus.Ok || entries === undefined) {
       return false
     }
 
@@ -67,7 +68,7 @@ export class OutboxService {
 
     const { status, data } = await this.contactService.getContact(id)
 
-    if (status !== DeviceResponseStatus.Ok || data === undefined) {
+    if (status !== RequestResponseStatus.Ok || data === undefined) {
       return
     }
 
@@ -81,7 +82,7 @@ export class OutboxService {
   }
 
   private async getOutboxEntriesRequest(): Promise<
-    DeviceResponse<GetEntriesResponseBody>
+    RequestResponse<GetEntriesResponseBody>
   > {
     return await this.deviceService.request({
       endpoint: Endpoint.Outbox,
@@ -94,7 +95,7 @@ export class OutboxService {
 
   private async deleteOutboxEntriesRequest(
     uids: number[]
-  ): Promise<DeviceResponse> {
+  ): Promise<RequestResponse> {
     return await this.deviceService.request({
       endpoint: Endpoint.Outbox,
       method: Method.Delete,

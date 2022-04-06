@@ -19,9 +19,6 @@ import {
 import PurePhoneAdapter, {
   DeviceFilesOption,
 } from "Backend/adapters/pure-phone/pure-phone-adapter.class"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
 import DeviceFileSystemAdapter, {
   DeviceFile,
@@ -30,6 +27,10 @@ import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/
 import { transformDeviceFilesByOption } from "Backend/adapters/pure-phone/pure-phone.helpers"
 import DeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-adapter.class"
 import getAppPath from "App/main/utils/get-app-path"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 class PurePhone extends PurePhoneAdapter {
   constructor(
@@ -41,15 +42,15 @@ class PurePhone extends PurePhoneAdapter {
     super()
   }
 
-  public disconnectDevice(): Promise<DeviceResponse> {
+  public disconnectDevice(): Promise<RequestResponse> {
     return this.deviceService.disconnect()
   }
 
-  public connectDevice(): Promise<DeviceResponse<MuditaDevice>> {
+  public connectDevice(): Promise<RequestResponse<MuditaDevice>> {
     return this.deviceService.connect()
   }
 
-  public async unlockDevice(code: string): Promise<DeviceResponse> {
+  public async unlockDevice(code: string): Promise<RequestResponse> {
     return await this.deviceService.request({
       endpoint: Endpoint.Security,
       method: Method.Put,
@@ -60,19 +61,19 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public async getDeviceLockTime(): Promise<
-    DeviceResponse<GetPhoneLockTimeResponseBody>
+    RequestResponse<GetPhoneLockTimeResponseBody>
   > {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
       body: { category: PhoneLockCategory.Time },
     })
-    if (status === DeviceResponseStatus.Ok && data) {
+    if (status === RequestResponseStatus.Ok && data) {
       return {
         status,
         data: data,
       }
-    } else if (status === DeviceResponseStatus.UnprocessableEntity) {
+    } else if (status === RequestResponseStatus.UnprocessableEntity) {
       return {
         status,
         error: {
@@ -88,7 +89,7 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
-  public async getUnlockDeviceStatus(): Promise<DeviceResponse> {
+  public async getUnlockDeviceStatus(): Promise<RequestResponse> {
     return await this.deviceService.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
@@ -98,23 +99,23 @@ class PurePhone extends PurePhoneAdapter {
 
   public async getDeviceLogFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFile[]>> {
+  ): Promise<RequestResponse<DeviceFile[]>> {
     return this.downloadDeviceFiles(DiagnosticsFileList.LOGS, option)
   }
 
-  public async getDeviceCrashDumpFiles(): Promise<DeviceResponse<string[]>> {
+  public async getDeviceCrashDumpFiles(): Promise<RequestResponse<string[]>> {
     return this.getDeviceFiles(DiagnosticsFileList.CRASH_DUMPS)
   }
 
   public async downloadDeviceCrashDumpFiles(): Promise<
-    DeviceResponse<string[]>
+    RequestResponse<string[]>
   > {
     return this.downloadDeviceFilesLocally(DiagnosticsFileList.CRASH_DUMPS)
   }
 
   public async startRestoreDevice(
     config: StartRestoreRequestConfigBody
-  ): Promise<DeviceResponse> {
+  ): Promise<RequestResponse> {
     return await this.deviceService.request({
       endpoint: Endpoint.Restore,
       method: Method.Post,
@@ -124,7 +125,7 @@ class PurePhone extends PurePhoneAdapter {
 
   public async getRestoreDeviceStatus(
     config: GetBackupDeviceStatusRequestConfigBody
-  ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>> {
+  ): Promise<RequestResponse<GetRestoreDeviceStatusResponseBody>> {
     return await this.deviceService.request({
       endpoint: Endpoint.Restore,
       method: Method.Get,
@@ -132,15 +133,15 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  public async updateOs(filePath: string): Promise<DeviceResponse> {
+  public async updateOs(filePath: string): Promise<RequestResponse> {
     const getDeviceInfoResponse = await this.deviceBaseInfo.getDeviceInfo()
 
     if (
-      getDeviceInfoResponse.status !== DeviceResponseStatus.Ok ||
+      getDeviceInfoResponse.status !== RequestResponseStatus.Ok ||
       getDeviceInfoResponse.data === undefined
     ) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: { message: "updateOs: getOsVersion request failed" },
       }
     }
@@ -152,9 +153,9 @@ class PurePhone extends PurePhoneAdapter {
       targetPath: "/sys/user/update.tar",
     })
 
-    if (fileResponse.status !== DeviceResponseStatus.Ok) {
+    if (fileResponse.status !== RequestResponseStatus.Ok) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: { message: "updateOs: upload OS failed" },
       }
     }
@@ -168,16 +169,16 @@ class PurePhone extends PurePhoneAdapter {
       },
     })
 
-    if (pureUpdateResponse.status !== DeviceResponseStatus.Ok) {
+    if (pureUpdateResponse.status !== RequestResponseStatus.Ok) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: { message: "updateOs: update request failed" },
       }
     }
 
     const deviceRestartResponse = await this.waitUntilDeviceRestart()
 
-    if (deviceRestartResponse.status !== DeviceResponseStatus.Ok) {
+    if (deviceRestartResponse.status !== RequestResponseStatus.Ok) {
       return deviceRestartResponse
     }
 
@@ -186,7 +187,7 @@ class PurePhone extends PurePhoneAdapter {
     ) {
       const deviceUnlockedResponse = await this.waitUntilDeviceUnlocked()
 
-      if (deviceUnlockedResponse.status !== DeviceResponseStatus.Ok) {
+      if (deviceUnlockedResponse.status !== RequestResponseStatus.Ok) {
         return deviceUnlockedResponse
       }
     }
@@ -195,11 +196,11 @@ class PurePhone extends PurePhoneAdapter {
       await this.deviceBaseInfo.getDeviceInfo()
 
     if (
-      afterUpdateGetDeviceInfoResponse.status !== DeviceResponseStatus.Ok ||
+      afterUpdateGetDeviceInfoResponse.status !== RequestResponseStatus.Ok ||
       afterUpdateGetDeviceInfoResponse.data === undefined
     ) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: { message: "updateOs: getOsVersion request failed" },
       }
     }
@@ -208,23 +209,23 @@ class PurePhone extends PurePhoneAdapter {
 
     if (beforeUpdateOsVersion === afterUpdateOsVersion) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: { message: "updateOs: the version OS isn't changed" },
       }
     }
 
-    return { status: DeviceResponseStatus.Ok }
+    return { status: RequestResponseStatus.Ok }
   }
 
   private async downloadDeviceFiles(
     fileList: DiagnosticsFileList,
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFile[]>> {
+  ): Promise<RequestResponse<DeviceFile[]>> {
     const files = await this.getDeviceFiles(fileList)
 
-    if (files.status !== DeviceResponseStatus.Ok || !files.data) {
+    if (files.status !== RequestResponseStatus.Ok || !files.data) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       }
     }
 
@@ -233,29 +234,29 @@ class PurePhone extends PurePhoneAdapter {
     const deviceFiles = downloadDeviceFilesResponse.data
 
     if (
-      downloadDeviceFilesResponse.status !== DeviceResponseStatus.Ok ||
+      downloadDeviceFilesResponse.status !== RequestResponseStatus.Ok ||
       deviceFiles === undefined
     ) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       }
     }
     return {
       data: option
         ? transformDeviceFilesByOption(deviceFiles, option)
         : deviceFiles,
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
   private async downloadDeviceFilesLocally(
     fileList: DiagnosticsFileList
-  ): Promise<DeviceResponse<string[]>> {
+  ): Promise<RequestResponse<string[]>> {
     const files = await this.getDeviceFiles(fileList)
 
-    if (files.status !== DeviceResponseStatus.Ok || !files.data) {
+    if (files.status !== RequestResponseStatus.Ok || !files.data) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       }
     }
 
@@ -266,32 +267,32 @@ class PurePhone extends PurePhoneAdapter {
     const deviceFiles = downloadDeviceFilesResponse.data
 
     if (
-      downloadDeviceFilesResponse.status !== DeviceResponseStatus.Ok ||
+      downloadDeviceFilesResponse.status !== RequestResponseStatus.Ok ||
       deviceFiles === undefined
     ) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       }
     }
 
     return {
       data: deviceFiles,
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
   private async getDeviceFiles(
     fileList: DiagnosticsFileList
-  ): Promise<DeviceResponse<string[]>> {
+  ): Promise<RequestResponse<string[]>> {
     const getDiagnosticFileListResponse =
       await this.deviceFileDiagnosticService.getDiagnosticFileList(fileList)
 
     if (
-      getDiagnosticFileListResponse.status !== DeviceResponseStatus.Ok ||
+      getDiagnosticFileListResponse.status !== RequestResponseStatus.Ok ||
       getDiagnosticFileListResponse.data === undefined
     ) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       }
     }
 
@@ -299,7 +300,7 @@ class PurePhone extends PurePhoneAdapter {
 
     return {
       data: filePaths,
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
@@ -308,10 +309,10 @@ class PurePhone extends PurePhoneAdapter {
     deviceType = this.deviceService.currentDevice?.deviceType,
     timeout = 5000,
     callsMax = 60
-  ): Promise<DeviceResponse> {
+  ): Promise<RequestResponse> {
     if (index === callsMax) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message: "updateOs: device no restart successful in 5 minutes",
         },
@@ -328,11 +329,11 @@ class PurePhone extends PurePhoneAdapter {
 
     if (
       index !== 0 &&
-      (response.status === DeviceResponseStatus.Ok ||
-        response.status === DeviceResponseStatus.PhoneLocked)
+      (response.status === RequestResponseStatus.Ok ||
+        response.status === RequestResponseStatus.PhoneLocked)
     ) {
       return {
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }
     } else {
       return new Promise((resolve) => {
@@ -347,10 +348,10 @@ class PurePhone extends PurePhoneAdapter {
     index = 0,
     timeout = 5000,
     callsMax = 120
-  ): Promise<DeviceResponse> {
+  ): Promise<RequestResponse> {
     if (index === callsMax) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message: "updateOs: device isn't unlocked by user in 10 minutes",
         },
@@ -359,9 +360,9 @@ class PurePhone extends PurePhoneAdapter {
 
     const response = await this.getUnlockDeviceStatus()
 
-    if (index !== 0 && response.status === DeviceResponseStatus.Ok) {
+    if (index !== 0 && response.status === RequestResponseStatus.Ok) {
       return {
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }
     } else {
       return new Promise((resolve) => {

@@ -7,11 +7,11 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "Renderer/store/helpers"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { disconnectDevice } from "App/device/actions/disconnect-device.action"
 import { DeviceDisconnectionError } from "App/device/errors"
 import disconnectDeviceRequest from "Renderer/requests/disconnect-device.request"
 import { testError } from "App/renderer/store/constants"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])()
 
@@ -31,7 +31,7 @@ afterEach(() => {
 describe("Disconnect Device request returns `success` status", () => {
   test("fire async `disconnectDevice`", async () => {
     ;(disconnectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     })
     const {
       meta: { requestId },
@@ -53,7 +53,7 @@ describe("Disconnect Device request returns `success` status", () => {
 describe("Disconnect Device request returns `error` status", () => {
   test("fire async `disconnectDevice` action and execute `rejected` event", async () => {
     ;(disconnectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Error,
+      status: RequestResponseStatus.Error,
     })
     const errorMock = new DeviceDisconnectionError(
       "Cannot disconnect from device"

@@ -13,15 +13,16 @@ import {
 } from "App/main/store/settings.interface"
 import { GetApplicationConfigurationEvents } from "App/main/functions/register-get-application-configuration-listener"
 import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import Mock = jest.Mock
 import { deviceReducer } from "App/device"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { ArchiveFilesEvents } from "App/main/functions/register-archive-files-listener"
 import { IpcAppSettingsRequest } from "App/app-settings/constants"
 import { version } from "../../../../package.json"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 export const fakeAppSettings: AppSettings = {
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
@@ -43,8 +44,8 @@ export const fakeAppSettings: AppSettings = {
   diagnosticSentTimestamp: 0,
 }
 
-const getDeviceFileResponse: DeviceResponse<DeviceFile[]> = {
-  status: DeviceResponseStatus.Ok,
+const getDeviceFileResponse: RequestResponse<DeviceFile[]> = {
+  status: RequestResponseStatus.Ok,
   data: [
     {
       data: Buffer.from("logs"),
@@ -595,7 +596,7 @@ test.skip("sendDiagnosticData effect no sent requests if getting device logs fai
     "setDiagnosticSentTimestamp"
   )
   ;(getDeviceLogFiles as Mock).mockReturnValue({
-    status: DeviceResponseStatus.Error,
+    status: RequestResponseStatus.Error,
   })
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcAppSettingsRequest.Get]: Promise.resolve({
