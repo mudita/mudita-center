@@ -11,8 +11,9 @@ import {
   RequestConfig,
   Response,
   ResponseStatus,
+  McSerialPortDevice,
+  McUsbDevice,
 } from "../device.types"
-import { DeviceType } from "../constants"
 import { DeviceInfo } from "../../endpoints"
 import { Formatter } from "../../formatter/formatter"
 import { FormatterFactory } from "../../formatter/formatter-factory"
@@ -20,8 +21,11 @@ import { FormatterFactory } from "../../formatter/formatter-factory"
 export class HarmonyStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
 
-  constructor(path: string, public deviceType: DeviceType) {
-    super(path, deviceType)
+  constructor(
+    baseMcSerialPortDevice: McSerialPortDevice,
+    baseMcUsbDevice: McUsbDevice
+  ) {
+    super(baseMcSerialPortDevice, baseMcUsbDevice)
   }
 
   public async connect(): Promise<Response> {
@@ -52,6 +56,6 @@ export class HarmonyStrategy extends BaseDevice {
 }
 
 export const createHarmonyStrategy: CreateDeviceStrategy = (
-  path: string,
-  deviceType: DeviceType
-) => new HarmonyStrategy(path, deviceType)
+  baseMcSerialPortDevice: McSerialPortDevice,
+  baseMcUsbDevice: McUsbDevice
+) => new HarmonyStrategy(baseMcSerialPortDevice, baseMcUsbDevice)

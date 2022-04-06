@@ -11,8 +11,9 @@ import {
   RequestConfig,
   Response,
   ResponseStatus,
+  McSerialPortDevice,
+  McUsbDevice,
 } from "../device.types"
-import { DeviceType } from "../constants"
 import {
   Contact,
   DeviceInfo,
@@ -50,8 +51,11 @@ import { Formatter, FormatterFactory } from "../../formatter"
 export class PureStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
 
-  constructor(path: string, public deviceType: DeviceType) {
-    super(path, deviceType)
+  constructor(
+    baseMcSerialPortDevice: McSerialPortDevice,
+    baseMcUsbDevice: McUsbDevice
+  ) {
+    super(baseMcSerialPortDevice, baseMcUsbDevice)
   }
 
   public async connect(): Promise<Response> {
@@ -159,6 +163,6 @@ export class PureStrategy extends BaseDevice {
 }
 
 export const createPureStrategy: CreateDeviceStrategy = (
-  path: string,
-  deviceType: DeviceType
-) => new PureStrategy(path, deviceType)
+  baseMcSerialPortDevice: McSerialPortDevice,
+  baseMcUsbDevice: McUsbDevice
+) => new PureStrategy(baseMcSerialPortDevice, baseMcUsbDevice)

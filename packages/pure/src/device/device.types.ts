@@ -28,10 +28,23 @@ export enum McUsbFileType {
   mp3 = 0x3009,
   flac = 0xb906,
 }
+export interface McSerialPortDevice {
+  path: string
+  deviceType: DeviceType
+  connect(): Promise<Response>
+  disconnect(): Promise<Response>
+  request(config: RequestConfig<any>): Promise<Response<any>>
+  on(eventName: DeviceEventName, listener: () => void): void
+  off(eventName: DeviceEventName, listener: () => void): void
+}
+
+export interface McUsbDevice {
+  getFiles(): Promise<McUsbFile[]>
+}
 
 export type CreateDeviceStrategy = (
-  path: string,
-  deviceType: DeviceType
+  baseMcSerialPortDevice: McSerialPortDevice,
+  baseMcUscDevice: McUsbDevice
 ) => MuditaDevice
 
 export enum ResponseStatus {

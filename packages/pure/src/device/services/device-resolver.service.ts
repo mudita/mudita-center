@@ -5,9 +5,10 @@
 
 import { MuditaPureDescriptor, MuditaHarmonyDescriptor } from "../descriptors"
 import { Device } from "../device"
-import { MuditaDevice } from "../device.types"
+import { MuditaDevice, McSerialPortDevice, McUsbDevice } from "../device.types"
 import { PortInfo } from "serialport"
-
+import BaseMcSerialPortDevice from "../mc-serialport-device"
+import BaseMcUsbDevice from "../mc-usb-device"
 export class DeviceResolverService {
   private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
 
@@ -23,7 +24,13 @@ export class DeviceResolverService {
     if (!descriptor) {
       return
     }
+    const baseMcSerialPortDevice: McSerialPortDevice =
+      new BaseMcSerialPortDevice(path, descriptor.deviceType)
 
-    return new Device(new descriptor.strategy(path, descriptor.deviceType))
+    const baseMcUsbDevice: McUsbDevice = new BaseMcUsbDevice()
+
+    return new Device(
+      new descriptor.strategy(baseMcSerialPortDevice, baseMcUsbDevice)
+    )
   }
 }
