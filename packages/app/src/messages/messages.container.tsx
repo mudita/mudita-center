@@ -32,12 +32,12 @@ import {
 } from "App/messages/selectors"
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
 import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
 import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
+import { GetMessagesBody } from "App/messages/services"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,

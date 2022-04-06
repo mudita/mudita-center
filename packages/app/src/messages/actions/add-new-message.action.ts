@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
-import addMessage from "Renderer/requests/add-message.request"
+import { createMessageRequest } from "App/messages/requests"
 import { Message, NewMessage } from "App/messages/reducers"
 import { AddNewMessageError } from "App/messages/errors"
 import { loadThreads } from "App/messages/actions/load-threads.action"
@@ -14,7 +14,7 @@ import { loadMessagesById } from "App/messages/actions/load-messages-by-id.actio
 export const addNewMessage = createAsyncThunk<Message, NewMessage>(
   MessagesEvent.AddNewMessage,
   async (newMessage, { dispatch, rejectWithValue }) => {
-    const { data, error } = await addMessage(newMessage)
+    const { data, error } = await createMessageRequest(newMessage)
 
     if (error || data === undefined) {
       return rejectWithValue(

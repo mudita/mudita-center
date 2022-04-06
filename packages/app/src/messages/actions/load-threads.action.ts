@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
-import getThreads from "Renderer/requests/get-threads.request"
+import { getThreadsRequest } from "App/messages/requests"
 import { LoadThreadsError } from "App/messages/errors"
 import {
   setThreads,
@@ -21,7 +21,7 @@ export const loadThreads = createAsyncThunk<
   MessagesEvent.LoadThreads,
   async (pagination, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as RootState & ReduxRootState
-    const { data, error } = await getThreads(pagination)
+    const { data, error } = await getThreadsRequest(pagination)
 
     if (error || data === undefined) {
       return rejectWithValue(new LoadThreadsError("Get Threads request failed"))
@@ -37,7 +37,7 @@ export const loadThreads = createAsyncThunk<
       return data.nextPage
     }
 
-    const { data: renewedData, error: renewedError } = await getThreads({
+    const { data: renewedData, error: renewedError } = await getThreadsRequest({
       ...pagination,
       offset: 0,
     })

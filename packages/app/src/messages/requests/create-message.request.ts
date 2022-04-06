@@ -4,14 +4,12 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
+import { IpcMessageRequest } from "App/messages/constants/controller.constant"
 import { Message, NewMessage } from "App/messages/reducers/messages.interface"
 import { RequestResponse } from "App/core/types/request-response.interface"
 
-const addMessage = (
+export const createMessageRequest = (
   newMessage: NewMessage
 ): Promise<RequestResponse<Message>> => {
-  return ipcRenderer.callMain(IpcRequest.AddMessage, newMessage)
+  return ipcRenderer.callMain(IpcMessageRequest.CreateMessage, newMessage)
 }
-
-export default addMessage

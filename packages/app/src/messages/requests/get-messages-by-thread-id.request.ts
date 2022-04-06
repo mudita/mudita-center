@@ -4,17 +4,12 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
-import {
-  GetMessagesBody,
-  GetMessagesByThreadIdResponse,
-} from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import { IpcMessageRequest } from "App/messages/constants/controller.constant"
 import { RequestResponse } from "App/core/types/request-response.interface"
+import { GetMessagesBody, GetMessagesByThreadIdResponse } from "App/messages/services"
 
-const getMessagesByThreadId = async (
+export const getMessagesByThreadIdRequest = async (
   body: GetMessagesBody
 ): Promise<RequestResponse<GetMessagesByThreadIdResponse>> => {
-  return ipcRenderer.callMain(IpcRequest.GetMessagesByThreadId, body)
+  return ipcRenderer.callMain(IpcMessageRequest.GetMessagesByThreadId, body)
 }
-
-export default getMessagesByThreadId

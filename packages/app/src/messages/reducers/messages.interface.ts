@@ -8,7 +8,7 @@ import { Contact } from "App/contacts/reducers/contacts.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import { LoadMessagesByIdError, LoadThreadsError } from "App/messages/errors"
-import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import { GetMessagesBody } from "App/messages/services"
 
 export enum VisibilityFilter {
   All = "all",

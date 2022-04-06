@@ -8,17 +8,17 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import { testError } from "Renderer/store/constants"
-import getThreads from "Renderer/requests/get-threads.request"
+import { getThreadsRequest } from "App/messages/requests"
 import { loadThreadsTotalCount } from "App/messages/actions/load-threads-total-count.action"
-import { GetThreadsResponse } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { LoadThreadsError } from "App/messages/errors"
 import { initialState, Thread } from "App/messages/reducers"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { GetThreadsResponse } from "App/messages/services"
 
-jest.mock("Renderer/requests/get-threads.request")
+jest.mock("App/messages/requests/get-threads.request")
 
 const threads: Thread[] = [
   {
@@ -50,7 +50,7 @@ afterEach(() => {
 describe("async `loadThreadsTotalCount` ", () => {
   describe("when `getThreads` request return success", () => {
     test("fire async `loadThreadsTotalCount` call `SetThreadsTotalCount`", async () => {
-      ;(getThreads as jest.Mock).mockReturnValue(successDeviceResponse)
+      ;(getThreadsRequest as jest.Mock).mockReturnValue(successDeviceResponse)
       const mockStore = createMockStore([thunk])({ messages: initialState })
       const {
         meta: { requestId },
@@ -67,13 +67,13 @@ describe("async `loadThreadsTotalCount` ", () => {
         loadThreadsTotalCount.fulfilled(undefined, requestId, undefined),
       ])
 
-      expect(getThreads).toHaveBeenCalled()
+      expect(getThreadsRequest).toHaveBeenCalled()
     })
   })
 
   describe("when `getThreads` request return error", () => {
     test("fire async `loadThreadsTotalCount` returns `rejected` action", async () => {
-      ;(getThreads as jest.Mock).mockReturnValue(errorDeviceResponse)
+      ;(getThreadsRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
       const errorMock = new LoadThreadsError("Get Threads request failed")
       const mockStore = createMockStore([thunk])({ messages: initialState })
       const {
@@ -92,13 +92,13 @@ describe("async `loadThreadsTotalCount` ", () => {
         ),
       ])
 
-      expect(getThreads).toHaveBeenCalled()
+      expect(getThreadsRequest).toHaveBeenCalled()
     })
   })
 
   describe("when messages state has some data and request return lower `threadsTotalCount` value", () => {
     test("fire `loadThreadsTotalCount`", async () => {
-      ;(getThreads as jest.Mock).mockReturnValue(successDeviceResponse)
+      ;(getThreadsRequest as jest.Mock).mockReturnValue(successDeviceResponse)
       const mockStore = createMockStore([thunk])({
         messages: { ...initialState, threadsTotalCount: 2 },
       })
@@ -113,7 +113,7 @@ describe("async `loadThreadsTotalCount` ", () => {
         loadThreadsTotalCount.fulfilled(undefined, requestId, undefined),
       ])
 
-      expect(getThreads).toHaveBeenCalled()
+      expect(getThreadsRequest).toHaveBeenCalled()
     })
   })
 })

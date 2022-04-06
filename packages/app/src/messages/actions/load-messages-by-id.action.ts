@@ -6,10 +6,10 @@
 import { PaginationBody } from "@mudita/pure"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
-import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.request"
+import { getMessagesByThreadIdRequest } from "App/messages/requests"
 import { setMessages } from "App/messages/actions/base.action"
 import { LoadMessagesByIdError } from "App/messages/errors"
-import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import { GetMessagesBody } from "App/messages/services"
 
 export const loadMessagesById = createAsyncThunk<
   PaginationBody | undefined,
@@ -17,7 +17,7 @@ export const loadMessagesById = createAsyncThunk<
 >(
   MessagesEvent.LoadMessagesById,
   async (body, { dispatch, rejectWithValue }) => {
-    const { data, error } = await getMessagesByThreadId(body)
+    const { data, error } = await getMessagesByThreadIdRequest(body)
 
     if (error || data === undefined) {
       return rejectWithValue(

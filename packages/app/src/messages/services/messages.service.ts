@@ -3,17 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PurePhoneMessagesAdapter, {
-  GetMessagesBody,
-  GetMessagesByThreadIdResponse,
-  GetThreadsResponse,
-} from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
-import {
-  Message,
-  MessageType,
-  NewMessage,
-  Thread,
-} from "App/messages/reducers/messages.interface"
+import { Message, MessageType, NewMessage, Thread } from "App/messages/reducers/messages.interface"
 import DeviceService from "Backend/device-service"
 import {
   Endpoint,
@@ -27,10 +17,8 @@ import {
   Thread as PureThread,
 } from "@mudita/pure"
 import { Feature, flags } from "App/feature-flags"
-import {
-  RequestResponse,
-  RequestResponseStatus,
-} from "App/core/types/request-response.interface"
+import { RequestResponse, RequestResponseStatus } from "App/core/types/request-response.interface"
+
 
 const initGetMessagesBody: PureGetMessagesBody = {
   category: PureMessagesCategory.message,
@@ -43,10 +31,52 @@ type AcceptablePureMessageType =
   | PureMessageType.INBOX
   | PureMessageType.OUTBOX
 
-class PurePhoneMessages extends PurePhoneMessagesAdapter {
-  constructor(private deviceService: DeviceService) {
-    super()
+export interface GetThreadsResponse {
+  data: Thread[]
+  totalCount: number
+  nextPage?: PaginationBody
+}
+
+export interface GetMessagesBody {
+  threadId: string
+  nextPage?: PaginationBody
+}
+
+export interface GetMessagesByThreadIdResponse {
+  data: Message[]
+  nextPage?: PaginationBody
+}
+
+const returnResponseWithNextPage = (
+  response: RequestResponse<GetThreadsResponse>,
+  pagination: PaginationBody
+): RequestResponse<GetThreadsResponse> => {
+  if (response.data === undefined) {
+    return response
   }
+
+  const offset = pagination.offset + pagination.limit
+  const nextPage: PaginationBody | undefined =
+    offset < response.data.totalCount
+      ? {
+        offset,
+        limit: 0,
+      }
+      : undefined
+
+  return {
+    ...response,
+    data: {
+      ...response.data,
+      nextPage,
+    },
+  }
+}
+
+export class MessagesService {
+  constructor(private deviceService: DeviceService) {
+  }
+
 
   public async loadMoreThreadsInSingleRequest(
     pagination: PaginationBody,
@@ -111,7 +141,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       return {
         status: RequestResponseStatus.Ok,
         data: {
-          data: data.entries.map(PurePhoneMessages.mapToThreads),
+          data: data.entries.map(MessagesService.mapToThreads),
           nextPage: data.nextPage,
           totalCount: data.totalCount,
         },
@@ -159,8 +189,8 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       return {
         status: RequestResponseStatus.Ok,
         data: [...pureMessages, ...data.entries]
-          .filter(PurePhoneMessages.isAcceptablePureMessageType)
-          .map(PurePhoneMessages.mapToMessages),
+          .filter(MessagesService.isAcceptablePureMessageType)
+          .map(MessagesService.mapToMessages),
       }
     } else {
       return {
@@ -173,9 +203,9 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   }
 
   public async getMessagesByThreadId({
-    threadId,
-    nextPage,
-  }: GetMessagesBody): Promise<RequestResponse<GetMessagesByThreadIdResponse>> {
+                                       threadId,
+                                       nextPage,
+                                     }: GetMessagesBody): Promise<RequestResponse<GetMessagesByThreadIdResponse>> {
     const body: PureGetMessagesBody = {
       category: PureMessagesCategory.message,
       threadID: Number(threadId),
@@ -193,8 +223,8 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
         status: RequestResponseStatus.Ok,
         data: {
           data: data.entries
-            .filter(PurePhoneMessages.isAcceptablePureMessageType)
-            .map(PurePhoneMessages.mapToMessages),
+            .filter(MessagesService.isAcceptablePureMessageType)
+            .map(MessagesService.mapToMessages),
           nextPage: data.nextPage,
         },
       }
@@ -206,7 +236,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     }
   }
 
-  public async addMessage(
+  public async createMessage(
     newMessage: NewMessage
   ): Promise<RequestResponse<Message>> {
     const { status, data } = await this.deviceService.request({
@@ -222,11 +252,11 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     if (
       status === RequestResponseStatus.Ok &&
       data !== undefined &&
-      PurePhoneMessages.isAcceptablePureMessageType(data)
+      MessagesService.isAcceptablePureMessageType(data)
     ) {
       return {
         status: RequestResponseStatus.Ok,
-        data: PurePhoneMessages.mapToMessages(data),
+        data: MessagesService.mapToMessages(data),
       }
     } else {
       return {
@@ -265,7 +295,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       date: new Date(createdAt * 1000),
       content: messageBody,
       threadId: String(threadID),
-      messageType: PurePhoneMessages.getMessageType(messageType),
+      messageType: MessagesService.getMessageType(messageType),
     }
   }
 
@@ -294,35 +324,3 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     }
   }
 }
-
-const returnResponseWithNextPage = (
-  response: RequestResponse<GetThreadsResponse>,
-  pagination: PaginationBody
-): RequestResponse<GetThreadsResponse> => {
-  if (response.data === undefined) {
-    return response
-  }
-
-  const offset = pagination.offset + pagination.limit
-  const nextPage: PaginationBody | undefined =
-    offset < response.data.totalCount
-      ? {
-          offset,
-          limit: 0,
-        }
-      : undefined
-
-  return {
-    ...response,
-    data: {
-      ...response.data,
-      nextPage,
-    },
-  }
-}
-
-const createPurePhoneMessagesAdapter = (
-  deviceService: DeviceService
-): PurePhoneMessagesAdapter => new PurePhoneMessages(deviceService)
-
-export default createPurePhoneMessagesAdapter

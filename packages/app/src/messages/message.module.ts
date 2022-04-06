@@ -12,11 +12,10 @@ import { FileSystemService } from "App/file-system/services/file-system.service.
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { MessageModel, ThreadModel } from "App/messages/models"
+import { MessagesService } from "App/messages/services"
+import { MessagesController } from "App/messages/controllers"
 
 export class MessageModule extends BaseModule {
-  private messageModel: MessageModel
-  private threadModel: ThreadModel
-
   constructor(
     public index: IndexStorage,
     public deviceService: DeviceService,
@@ -36,9 +35,12 @@ export class MessageModule extends BaseModule {
       fileSystem
     )
 
-    this.messageModel = new MessageModel(this.index, this.eventEmitter)
-    this.threadModel = new ThreadModel(this.index, this.eventEmitter)
+    const messageModel = new MessageModel(this.index, this.eventEmitter)
+    const threadModel = new ThreadModel(this.index, this.eventEmitter)
+    const messagesService = new MessagesService(this.deviceService)
+    const messagesController = new MessagesController(messagesService)
 
-    this.models = [this.messageModel, this.threadModel]
+    this.models = [messageModel, threadModel]
+    this.controllers = [messagesController]
   }
 }

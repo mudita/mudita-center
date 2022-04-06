@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
-import getThreads from "Renderer/requests/get-threads.request"
+import { getThreadsRequest } from "App/messages/requests"
 import { LoadThreadsError } from "App/messages/errors"
 import { setThreadsTotalCount } from "App/messages/actions/base.action"
 import { ReduxRootState, RootState } from "Renderer/store"
@@ -14,7 +14,7 @@ export const loadThreadsTotalCount = createAsyncThunk<undefined, undefined>(
   MessagesEvent.LoadThreadsTotalCount,
   async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as RootState & ReduxRootState
-    const { data, error } = await getThreads({ limit: 1, offset: 0 })
+    const { data, error } = await getThreadsRequest({ limit: 1, offset: 0 })
 
     if (error || data === undefined) {
       return rejectWithValue(new LoadThreadsError("Get Threads request failed"))
