@@ -8,7 +8,7 @@ import { IpcContactRequest } from "App/contacts/constants"
 import { ContactID } from "App/contacts/reducers/contacts.interface"
 import { RequestResponse } from "App/core/types/request-response.interface"
 
-const deleteContacts = async (
+export const deleteContactsRequest = async (
   contactIds: ContactID[]
 ): Promise<RequestResponse<ContactID[]>> => {
   return await ipcRenderer.callMain(
@@ -16,5 +16,3 @@ const deleteContacts = async (
     contactIds
   )
 }
-
-export default deleteContacts

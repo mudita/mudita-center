@@ -6,12 +6,11 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
-import createContactRequest from "App/contacts/requests/create-contact.request"
+import { createContactRequest, editContactRequest } from "App/contacts/requests"
 import { Contact, initialState, NewContact } from "App/contacts/reducers"
 import { testError } from "Renderer/store/constants"
 import { importContact } from "App/contacts/actions/import-contact.action"
 import { ImportContactError } from "App/contacts/errors/import-contact.error"
-import editContact from "App/contacts/requests/edit-contact.request"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -120,7 +119,7 @@ describe("async `importContact` ", () => {
       ;(createContactRequest as jest.Mock).mockReturnValue(
         duplicatedErrorDeviceResponse
       )
-      ;(editContact as jest.Mock).mockReturnValue(duplicatedErrorDeviceResponse)
+      ;(editContactRequest as jest.Mock).mockReturnValue(duplicatedErrorDeviceResponse)
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
       })
@@ -143,7 +142,7 @@ describe("async `importContact` ", () => {
       ])
 
       expect(createContactRequest).toHaveBeenCalled()
-      expect(editContact).toHaveBeenCalled()
+      expect(editContactRequest).toHaveBeenCalled()
     })
   })
 })

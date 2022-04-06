@@ -15,7 +15,7 @@ import {
 import { asyncNoop } from "Renderer/utils/noop"
 import { DeviceService } from "App/backend/device-service"
 import { ContactRepository } from "App/contacts/repositories"
-import { ContactService } from "App/contacts/services/contact.service"
+import { ContactService } from "App/contacts/services"
 import {
   RequestResponse,
   RequestResponseStatus,
