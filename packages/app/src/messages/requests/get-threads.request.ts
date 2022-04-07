@@ -5,12 +5,12 @@
 
 import { PaginationBody } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
-import { IpcMessageRequest } from "App/messages/constants/controller.constant"
+import { IpcThreadRequest } from "App/messages/constants/controller.constant"
 import { RequestResponse } from "App/core/types/request-response.interface"
 import { GetThreadsResponse } from "App/messages/services"
 
 export const getThreadsRequest = async (
   pagination: PaginationBody
 ): Promise<RequestResponse<GetThreadsResponse>> => {
-  return ipcRenderer.callMain(IpcMessageRequest.GetThreads, pagination)
+  return ipcRenderer.callMain(IpcThreadRequest.GetThreads, pagination)
 }

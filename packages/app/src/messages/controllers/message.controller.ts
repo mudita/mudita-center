@@ -5,40 +5,28 @@
 
 import { Controller, IpcEvent } from "App/core/decorators"
 import { RequestResponse } from "App/core/types/request-response.interface"
+import { GetMessagesBody, MessageService } from "App/messages/services"
 import {
-  GetMessagesBody,
-  GetThreadsResponse,
-  MessagesService,
-} from "App/messages/services"
-import {
-  ControllerPrefix,
+  ThreadControllerPrefix,
   IpcMessageEvent,
 } from "App/messages/constants/controller.constant"
 import { Message, NewMessage } from "App/messages"
-import { PaginationBody } from "@mudita/pure"
 
-@Controller(ControllerPrefix)
-export class MessagesController {
-  constructor(private messagesService: MessagesService) {}
+@Controller(ThreadControllerPrefix)
+export class MessageController {
+  constructor(private messageService: MessageService) {}
 
   @IpcEvent(IpcMessageEvent.CreateMessage)
   public createMessage(
     newMessage: NewMessage
   ): Promise<RequestResponse<Message>> {
-    return this.messagesService.createMessage(newMessage)
+    return this.messageService.createMessage(newMessage)
   }
 
   @IpcEvent(IpcMessageEvent.GetMessagesByThreadId)
   public getMessagesByThreadId(
     body: GetMessagesBody
   ): Promise<RequestResponse<Message[]>> {
-    return this.messagesService.loadAllMessagesByThreadId(body.threadId)
-  }
-
-  @IpcEvent(IpcMessageEvent.GetThreads)
-  public getThreads(
-    pagination: PaginationBody
-  ): Promise<RequestResponse<GetThreadsResponse>> {
-    return this.messagesService.loadMoreThreadsInSingleRequest(pagination)
+    return this.messageService.loadAllMessagesByThreadId(body.threadId)
   }
 }

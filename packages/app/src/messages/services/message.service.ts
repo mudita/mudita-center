@@ -51,7 +51,7 @@ export interface GetMessagesByThreadIdResponse {
 }
 
 // TODO: The `MessagesService` logic is supposed to be changed so will be covered with tests in the next story: CP-896
-export class MessagesService {
+export class MessageService {
   constructor(private deviceService: DeviceService) {}
 
   public async loadMoreThreadsInSingleRequest(
@@ -164,7 +164,7 @@ export class MessagesService {
       return {
         status: RequestResponseStatus.Ok,
         data: [...pureMessages, ...response.data.entries]
-          .filter(MessagesService.isAcceptablePureMessageType)
+          .filter(MessageService.isAcceptablePureMessageType)
           .map(MessagesPresenter.mapToMessages),
       }
     } else {
@@ -198,7 +198,7 @@ export class MessagesService {
         status: RequestResponseStatus.Ok,
         data: {
           data: response.data.entries
-            .filter(MessagesService.isAcceptablePureMessageType)
+            .filter(MessageService.isAcceptablePureMessageType)
             .map(MessagesPresenter.mapToMessages),
           nextPage: response.data.nextPage,
         },
@@ -220,7 +220,7 @@ export class MessagesService {
       method: Method.Post,
     })
 
-    if (MessagesService.isAcceptablePureMessageType(data)) {
+    if (MessageService.isAcceptablePureMessageType(data)) {
       return {
         status: RequestResponseStatus.Ok,
         data: MessagesPresenter.mapToMessages(data),
