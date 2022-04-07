@@ -29,3 +29,7 @@ export interface SuccessRequestResponse<DataType = undefined>
   status: RequestResponseStatus.Ok
   data: DataType
 }
+
+export interface ErrorRequestResponse extends RequestResponse {
+  status: RequestResponseStatus.Error
+}

@@ -50,6 +50,7 @@ export interface GetMessagesByThreadIdResponse {
   nextPage?: PaginationBody
 }
 
+// TODO: The `MessagesService` logic is supposed to be changed so will be covered with tests in the next story: CP-896
 export class MessagesService {
   constructor(private deviceService: DeviceService) {}
 
