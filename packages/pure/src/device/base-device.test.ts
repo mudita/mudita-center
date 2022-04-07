@@ -4,16 +4,9 @@
  */
 
 import BaseDevice from "./base-device"
-import { DeviceType } from "./constants/device-type.enum"
 import BaseMcSerialPortDevice from "./mc-serialport-device"
 import BaseMcUsbDevice from "./mc-usb-device"
-import {
-  McUsbFileType,
-  RequestConfig,
-  ResponseStatus,
-  Endpoint,
-  Method,
-} from "./device.types"
+import { RequestConfig, Endpoint, Method } from "./device.types"
 
 const mockBaseMcUsbDevice = {
   getFiles: jest.fn().mockReturnValue([]),

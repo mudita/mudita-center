@@ -4,25 +4,18 @@
  */
 
 import { McUsbFileType, McUsbDevice } from "./device.types"
-
-export const timeoutMs = 30000
+import UsbDeviceService from "./services/usb-device.service"
 
 class BaseMcUsbDevice implements McUsbDevice {
-  getFiles() {
-    return Promise.resolve([
-      {
-        id: "1",
-        size: 1234,
-        name: "example_file_name",
-        type: McUsbFileType.mp3,
-      },
-      {
-        id: "2",
-        size: 12345,
-        name: "second_example_file_name",
-        type: McUsbFileType.wav,
-      },
-    ])
+  constructor(private usbDeviceService: UsbDeviceService) {}
+  async getFiles() {
+    const handles = await this.usbDeviceService.getObjectHandles()
+    return handles.map((handle) => ({
+      id: handle,
+      size: 1234,
+      name: "example_file_name",
+      type: McUsbFileType.mp3,
+    }))
   }
 }
 
