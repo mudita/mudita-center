@@ -8,14 +8,15 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import { testError } from "Renderer/store/constants"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import getThreads from "Renderer/requests/get-threads.request"
 import { loadThreadsTotalCount } from "App/messages/actions/load-threads-total-count.action"
 import { GetThreadsResponse } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { LoadThreadsError } from "App/messages/errors"
 import { initialState, Thread } from "App/messages/reducers"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("Renderer/requests/get-threads.request")
 
@@ -30,16 +31,16 @@ const threads: Thread[] = [
   },
 ]
 
-const successDeviceResponse: DeviceResponse<GetThreadsResponse> = {
-  status: DeviceResponseStatus.Ok,
+const successDeviceResponse: RequestResponse<GetThreadsResponse> = {
+  status: RequestResponseStatus.Ok,
   data: {
     data: threads,
     totalCount: threads.length,
   },
 }
 
-const errorDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const errorDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
 }
 
 afterEach(() => {

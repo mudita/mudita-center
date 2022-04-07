@@ -3,22 +3,23 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
-import { isResponsesSuccessWithData } from "Renderer/utils/is-responses-success-with-data.helpers"
+import { isResponsesSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
-const successResponseMock: DeviceResponse<any> = {
-  status: DeviceResponseStatus.Ok,
+const successResponseMock: RequestResponse<any> = {
+  status: RequestResponseStatus.Ok,
   data: {},
 }
 
-const successResponseWithEmptyBodyMock: DeviceResponse = {
-  status: DeviceResponseStatus.Ok,
+const successResponseWithEmptyBodyMock: RequestResponse = {
+  status: RequestResponseStatus.Ok,
 }
 
-const failedResponseMock: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const failedResponseMock: RequestResponse = {
+  status: RequestResponseStatus.Error,
 }
 
 test("returns `true` if each response is succeeded", () => {

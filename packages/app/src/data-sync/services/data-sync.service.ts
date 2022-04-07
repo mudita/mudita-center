@@ -8,7 +8,6 @@ import { DeviceBackup } from "Backend/adapters/device-backup/device-backup.adapt
 import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
 import { DeviceBaseInfo } from "Backend/adapters/device-base-info/device-base-info.adapter"
 import { DeviceFileSystem } from "Backend/adapters/device-file-system/device-file-system.adapter"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getAppPath from "App/main/utils/get-app-path"
 import { IndexStorage } from "App/index-storage/types"
 import { DataIndex } from "App/index-storage/constants"
@@ -26,6 +25,7 @@ import {
   MessagePresenter,
   ThreadPresenter,
 } from "App/data-sync/presenters"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 export class DataSyncService {
   private contactIndexer: ContactIndexer | null = null
@@ -86,7 +86,7 @@ export class DataSyncService {
         cwd: syncFileDir,
       })
 
-    if (status !== DeviceResponseStatus.Ok || data === undefined) {
+    if (status !== RequestResponseStatus.Ok || data === undefined) {
       return false
     }
 

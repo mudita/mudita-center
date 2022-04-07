@@ -3,31 +3,32 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import DeviceFileSystemAdapter, {
   DeviceFile,
   DownloadDeviceFileLocallyOptions,
   UploadFilePayload,
 } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 export class DeviceFileSystemFakeAdapter implements DeviceFileSystemAdapter {
   async downloadDeviceFilesLocally(
     filePaths: string[],
     options: DownloadDeviceFileLocallyOptions
-  ): Promise<DeviceResponse<string[]>> {
+  ): Promise<RequestResponse<string[]>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: [],
     }
   }
 
   async downloadDeviceFiles(
     filePaths: string[]
-  ): Promise<DeviceResponse<DeviceFile[]>> {
+  ): Promise<RequestResponse<DeviceFile[]>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: [
         {
           data: Buffer.from("backup data"),
@@ -37,9 +38,9 @@ export class DeviceFileSystemFakeAdapter implements DeviceFileSystemAdapter {
     }
   }
 
-  async downloadFile(filePath: string): Promise<DeviceResponse<Buffer>> {
+  async downloadFile(filePath: string): Promise<RequestResponse<Buffer>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: Buffer.from("backup data"),
     }
   }
@@ -47,21 +48,21 @@ export class DeviceFileSystemFakeAdapter implements DeviceFileSystemAdapter {
   async uploadFile({
     data,
     targetPath,
-  }: UploadFilePayload): Promise<DeviceResponse> {
+  }: UploadFilePayload): Promise<RequestResponse> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
-  async uploadFileLocally(): Promise<DeviceResponse> {
+  async uploadFileLocally(): Promise<RequestResponse> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
-  public async removeDeviceFile(): Promise<DeviceResponse> {
+  public async removeDeviceFile(): Promise<RequestResponse> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 }

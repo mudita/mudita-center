@@ -9,15 +9,16 @@ import PurePhoneMessagesAdapter, {
   GetThreadsResponse,
 } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { Message, NewMessage } from "App/messages/reducers/messages.interface"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import { addedMessageData, messagesData, threadsData } from "App/seeds/messages"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 class PurePhoneMessagesFake extends PurePhoneMessagesAdapter {
-  public async getThreads(): Promise<DeviceResponse<GetThreadsResponse>> {
+  public async getThreads(): Promise<RequestResponse<GetThreadsResponse>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: {
         data: threadsData,
         totalCount: threadsData.length,
@@ -27,9 +28,9 @@ class PurePhoneMessagesFake extends PurePhoneMessagesAdapter {
 
   public async getMessagesByThreadId({
     threadId,
-  }: GetMessagesBody): Promise<DeviceResponse<GetMessagesByThreadIdResponse>> {
+  }: GetMessagesBody): Promise<RequestResponse<GetMessagesByThreadIdResponse>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: {
         data: messagesData.filter((messages) => messages.threadId === threadId),
       },
@@ -38,23 +39,27 @@ class PurePhoneMessagesFake extends PurePhoneMessagesAdapter {
 
   public async addMessage(
     newMessage: NewMessage
-  ): Promise<DeviceResponse<Message>> {
+  ): Promise<RequestResponse<Message>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: addedMessageData,
     }
   }
 
-  public async loadAllMessagesByThreadId(threadId: string): Promise<DeviceResponse<Message[]>> {
+  public async loadAllMessagesByThreadId(
+    threadId: string
+  ): Promise<RequestResponse<Message[]>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: messagesData.filter((messages) => messages.threadId === threadId),
     }
   }
 
-  public async loadMoreThreadsInSingleRequest(): Promise<DeviceResponse<GetThreadsResponse>> {
+  public async loadMoreThreadsInSingleRequest(): Promise<
+    RequestResponse<GetThreadsResponse>
+  > {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: {
         data: threadsData,
         totalCount: threadsData.length,

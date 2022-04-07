@@ -11,13 +11,14 @@ import { MessagesEvent } from "App/messages/constants"
 import { testError } from "Renderer/store/constants"
 import { AddNewMessageError } from "App/messages/errors"
 import addMessage from "Renderer/requests/add-message.request"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import { addNewMessage } from "App/messages/actions/add-new-message.action"
 import { Message, MessageType, NewMessage } from "App/messages/reducers"
 import { loadThreads } from "App/messages/actions/load-threads.action"
 import { loadMessagesById } from "App/messages/actions/load-messages-by-id.action"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("Renderer/requests/add-message.request")
 jest.mock("App/messages/actions/load-threads.action.ts", () => ({
@@ -48,13 +49,13 @@ const mockAddedMessageData: Message = {
   messageType: MessageType.OUTBOX,
 }
 
-const successDeviceResponse: DeviceResponse<Message> = {
-  status: DeviceResponseStatus.Ok,
+const successDeviceResponse: RequestResponse<Message> = {
+  status: RequestResponseStatus.Ok,
   data: mockAddedMessageData,
 }
 
-const errorDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const errorDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
 }
 
 afterEach(() => {

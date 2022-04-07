@@ -6,15 +6,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceEvent } from "App/device/constants"
 import getUnlockDeviceStatusRequest from "Renderer/requests/get-unlock-device-status.request"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { DeviceLockedError } from "App/device/errors"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
-export const getUnlockStatus = createAsyncThunk<DeviceResponseStatus>(
+export const getUnlockStatus = createAsyncThunk<RequestResponseStatus>(
   DeviceEvent.GetUnlockedStatus,
   async (_, { rejectWithValue }) => {
     const data = await getUnlockDeviceStatusRequest()
 
-    if (data.status !== DeviceResponseStatus.Ok) {
+    if (data.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(new DeviceLockedError("Device is locked", data))
     }
 

@@ -7,11 +7,11 @@ import { PaginationBody } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { GetThreadsResponse } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 const getThreads = async (
   pagination: PaginationBody
-): Promise<DeviceResponse<GetThreadsResponse>> => {
+): Promise<RequestResponse<GetThreadsResponse>> => {
   return ipcRenderer.callMain(IpcRequest.GetThreads, pagination)
 }
 

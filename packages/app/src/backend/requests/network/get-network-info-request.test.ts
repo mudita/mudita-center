@@ -10,7 +10,7 @@ import { ipcMain } from "electron-better-ipc"
 import Adapters from "Backend/adapters/adapters.interface"
 import DeviceService from "Backend/device-service"
 import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-phone-network.adapter"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockDeviceInfo: DeviceInfo = {
   accessTechnology: "255",
@@ -37,7 +37,7 @@ test("returns required network info", async () => {
     return {
       request: () => ({
         data: mockDeviceInfo,
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }),
     }
   })

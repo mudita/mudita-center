@@ -3,9 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import RequestResponse from "App/main/functions/request-response.interface"
-
-export enum DeviceResponseStatus {
+export enum RequestResponseStatus {
   Ok = "ok",
   PhoneLocked = "phone-locked",
   InternalServerError = "internal-server-error",
@@ -14,15 +12,20 @@ export enum DeviceResponseStatus {
   UnprocessableEntity = "unprocessable-entity",
 }
 
-export interface DeviceResponseError {
+export interface RequestResponseError {
   code?: number
   message: string
   data?: any
 }
 
-export default interface DeviceResponse<DataType = undefined>
-  extends RequestResponse<DataType> {
-  status: DeviceResponseStatus
+export interface RequestResponse<DataType = undefined> {
+  status: RequestResponseStatus
   data?: DataType
-  error?: DeviceResponseError
+  error?: RequestResponseError
+}
+
+export interface SuccessRequestResponse<DataType = undefined>
+  extends RequestResponse<DataType> {
+  status: RequestResponseStatus.Ok
+  data: DataType
 }

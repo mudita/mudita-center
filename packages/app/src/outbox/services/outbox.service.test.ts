@@ -14,10 +14,10 @@ import { ipcMain } from "electron-better-ipc"
 import { OutboxService } from "App/outbox/services/outbox.service"
 import DeviceService from "Backend/device-service"
 import { IpcEvent } from "App/data-sync/constants"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { ContactRepository } from "App/contacts/repositories"
 import { ContactService } from "App/contacts/services/contact.service"
 import { Contact } from "App/contacts/reducers"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("Backend/device-service")
 jest.mock("App/contacts/repositories")
@@ -26,8 +26,8 @@ beforeEach(() => {
 })
 
 const successGetContactResponse = {
-  status: DeviceResponseStatus.Ok,
-  data: {} as Contact
+  status: RequestResponseStatus.Ok,
+  data: {} as Contact,
 }
 
 describe("`OutboxService`", () => {
@@ -48,7 +48,7 @@ describe("`OutboxService`", () => {
     beforeEach(() => {
       deviceService = {
         request: jest.fn().mockReturnValue({
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
           data: { entries },
         }),
       } as unknown as DeviceService
@@ -58,7 +58,11 @@ describe("`OutboxService`", () => {
       contactService = {
         getContact: jest.fn().mockReturnValue(successGetContactResponse),
       } as unknown as ContactService
-      subject = new OutboxService(deviceService, contactService, contactRepository)
+      subject = new OutboxService(
+        deviceService,
+        contactService,
+        contactRepository
+      )
     })
 
     test("`delete` method in contactRepository was called", async () => {
@@ -95,7 +99,7 @@ describe("`OutboxService`", () => {
     beforeEach(() => {
       deviceService = {
         request: jest.fn().mockReturnValue({
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
           data: { entries },
         }),
       } as unknown as DeviceService
@@ -105,7 +109,11 @@ describe("`OutboxService`", () => {
       contactService = {
         getContact: jest.fn().mockReturnValue(successGetContactResponse),
       } as unknown as ContactService
-      subject = new OutboxService(deviceService, contactService,contactRepository)
+      subject = new OutboxService(
+        deviceService,
+        contactService,
+        contactRepository
+      )
     })
 
     test("`create` method in contactRepository was called", async () => {
@@ -142,7 +150,7 @@ describe("`OutboxService`", () => {
     beforeEach(() => {
       deviceService = {
         request: jest.fn().mockReturnValue({
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
           data: { entries },
         }),
       } as unknown as DeviceService
@@ -152,7 +160,11 @@ describe("`OutboxService`", () => {
       contactService = {
         getContact: jest.fn().mockReturnValue(successGetContactResponse),
       } as unknown as ContactService
-      subject = new OutboxService(deviceService, contactService, contactRepository)
+      subject = new OutboxService(
+        deviceService,
+        contactService,
+        contactRepository
+      )
     })
 
     test("`update` method in contactRepository was called", async () => {
@@ -180,13 +192,17 @@ describe("`OutboxService`", () => {
     beforeEach(() => {
       deviceService = {
         request: jest.fn().mockReturnValue({
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
           data: { entries: [] },
         }),
       } as unknown as DeviceService
       contactRepository = {} as unknown as ContactRepository
       contactService = {} as unknown as ContactService
-      subject = new OutboxService(deviceService, contactService, contactRepository)
+      subject = new OutboxService(
+        deviceService,
+        contactService,
+        contactRepository
+      )
     })
 
     test("`DataLoaded` isn't emits", async () => {
@@ -205,12 +221,16 @@ describe("`OutboxService`", () => {
     beforeEach(() => {
       deviceService = {
         request: jest.fn().mockReturnValue({
-          status: DeviceResponseStatus.Error,
+          status: RequestResponseStatus.Error,
         }),
       } as unknown as DeviceService
       contactRepository = {} as unknown as ContactRepository
       contactService = {} as unknown as ContactService
-      subject = new OutboxService(deviceService, contactService, contactRepository)
+      subject = new OutboxService(
+        deviceService,
+        contactService,
+        contactRepository
+      )
     })
 
     test("`DataLoaded` isn't emits", async () => {

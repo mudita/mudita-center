@@ -8,15 +8,16 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import { testError } from "Renderer/store/constants"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import getThreads from "Renderer/requests/get-threads.request"
 import { loadThreads } from "App/messages/actions/load-threads.action"
 import { GetThreadsResponse } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { LoadThreadsError } from "App/messages/errors"
 import { initialState, Thread } from "App/messages/reducers"
 import { PaginationBody } from "@mudita/pure"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("Renderer/requests/get-threads.request")
 
@@ -31,24 +32,24 @@ const threads: Thread[] = [
   },
 ]
 
-const successDeviceResponse: DeviceResponse<GetThreadsResponse> = {
-  status: DeviceResponseStatus.Ok,
+const successDeviceResponse: RequestResponse<GetThreadsResponse> = {
+  status: RequestResponseStatus.Ok,
   data: {
     data: threads,
     totalCount: threads.length,
   },
 }
 
-const emptyDataSuccessDeviceResponse: DeviceResponse<GetThreadsResponse> = {
-  status: DeviceResponseStatus.Ok,
+const emptyDataSuccessDeviceResponse: RequestResponse<GetThreadsResponse> = {
+  status: RequestResponseStatus.Ok,
   data: {
     data: [],
     totalCount: 0,
   },
 }
 
-const errorDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const errorDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
 }
 
 const pagination: PaginationBody = {

@@ -8,9 +8,6 @@ import stream from "stream"
 import path from "path"
 import { Endpoint, Method } from "@mudita/pure"
 import DeviceService from "Backend/device-service"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import logger from "App/main/utils/logger"
 import countCRC32 from "Backend/helpers/count-crc32"
 import DeviceFileSystemAdapter, {
@@ -21,6 +18,10 @@ import DeviceFileSystemAdapter, {
   UploadFilePayload,
 } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { FileSystemService } from "App/file-system/services/file-system.service"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 export class DeviceFileSystem implements DeviceFileSystemAdapter {
   constructor(private deviceService: DeviceService) {}
@@ -28,7 +29,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
   public async downloadDeviceFilesLocally(
     filePaths: string[],
     options: DownloadDeviceFileLocallyOptions
-  ): Promise<DeviceResponse<string[]>> {
+  ): Promise<RequestResponse<string[]>> {
     const data: string[] = []
 
     if (!fs.existsSync(options.cwd)) {
@@ -43,46 +44,48 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
         options
       )
 
-      if (response.status === DeviceResponseStatus.Ok && response.data) {
+      if (response.status === RequestResponseStatus.Ok && response.data) {
         data.push(...response.data)
       } else {
         return {
-          status: DeviceResponseStatus.Error,
+          status: RequestResponseStatus.Error,
         }
       }
     }
 
     return {
       data,
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
   public async downloadDeviceFiles(
     filePaths: string[]
-  ): Promise<DeviceResponse<DeviceFile[]>> {
+  ): Promise<RequestResponse<DeviceFile[]>> {
     const data: DeviceFile[] = []
     for (let i = 0; i < filePaths.length; i++) {
       const filePath = filePaths[i]
       const response = await this.downloadFile(filePath)
 
-      if (response.status === DeviceResponseStatus.Ok && response.data) {
+      if (response.status === RequestResponseStatus.Ok && response.data) {
         const name = filePath.split("/").pop() as string
         data.push({ name, data: response.data })
       } else {
         return {
-          status: DeviceResponseStatus.Error,
+          status: RequestResponseStatus.Error,
         }
       }
     }
 
     return {
       data,
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
-  public async downloadFile(filePath: string): Promise<DeviceResponse<Buffer>> {
+  public async downloadFile(
+    filePath: string
+  ): Promise<RequestResponse<Buffer>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
@@ -91,9 +94,9 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
       },
     })
 
-    if (status !== DeviceResponseStatus.Ok || data === undefined) {
+    if (status !== RequestResponseStatus.Ok || data === undefined) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message:
             "Get device logs: Something went wrong in init downloading request",
@@ -109,7 +112,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
     )
 
     if (
-      downloadFileResponse.status === DeviceResponseStatus.Ok &&
+      downloadFileResponse.status === RequestResponseStatus.Ok &&
       downloadFileResponse.data !== undefined &&
       downloadFileResponse.data.fileCrc32 !== undefined
     ) {
@@ -123,12 +126,12 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
 
       if (receivedFileCrc32 === countedFileCrc32) {
         return {
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
           data: fileBuffer,
         }
       } else {
         return {
-          status: DeviceResponseStatus.Error,
+          status: RequestResponseStatus.Error,
           error: {
             message: "Get device logs: File CRC32 mismatch",
           },
@@ -136,7 +139,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
       }
     } else {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message:
             "Get device logs: Something went wrong in downloading request",
@@ -148,7 +151,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
   public async uploadFile({
     data,
     targetPath,
-  }: UploadFilePayload): Promise<DeviceResponse> {
+  }: UploadFilePayload): Promise<RequestResponse> {
     const fileSize = Buffer.byteLength(data)
     const fileCrc32 = countCRC32(data)
     const response = await this.deviceService.request({
@@ -162,11 +165,11 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
     })
 
     if (
-      response.status !== DeviceResponseStatus.Ok ||
+      response.status !== RequestResponseStatus.Ok ||
       response.data === undefined
     ) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message:
             "Upload OS update package: Something went wrong in init sending request",
@@ -181,7 +184,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
   public async uploadFileLocally({
     filePath,
     targetPath,
-  }: UploadFileLocallyPayload): Promise<DeviceResponse> {
+  }: UploadFileLocallyPayload): Promise<RequestResponse> {
     try {
       const fileSize = fs.lstatSync(filePath).size
       const fileBuffer = fs.readFileSync(filePath)
@@ -197,9 +200,9 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
         },
       })
 
-      if (status !== DeviceResponseStatus.Ok || data === undefined) {
+      if (status !== RequestResponseStatus.Ok || data === undefined) {
         return {
-          status: DeviceResponseStatus.Error,
+          status: RequestResponseStatus.Error,
           error: {
             message:
               "Upload OS update package: Something went wrong in init sending request",
@@ -212,7 +215,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
       return this.sendFileLocallyRequest(fd, txID, chunkSize)
     } catch {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message:
             "Upload OS update package: Something went wrong in open file",
@@ -221,10 +224,10 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
     }
   }
 
-  public async removeDeviceFile(removeFile: string): Promise<DeviceResponse> {
+  public async removeDeviceFile(removeFile: string): Promise<RequestResponse> {
     if (!removeFile) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       }
     }
 
@@ -244,14 +247,14 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
   private async downloadDeviceFileLocally(
     filePath: string,
     options: DownloadDeviceFileLocallyOptions
-  ): Promise<DeviceResponse<string[]>> {
+  ): Promise<RequestResponse<string[]>> {
     const response = await this.downloadFile(filePath)
     if (
-      response.status !== DeviceResponseStatus.Ok ||
+      response.status !== RequestResponseStatus.Ok ||
       response.data === undefined
     ) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       }
     } else {
       const data: string[] = []
@@ -293,12 +296,12 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
           data.push(entryFilePath)
         }
         return {
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
           data,
         }
       } catch {
         return {
-          status: DeviceResponseStatus.Error,
+          status: RequestResponseStatus.Error,
         }
       }
     }
@@ -309,7 +312,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
     txID: string,
     chunkSize: number,
     chunkNo = 1
-  ): Promise<DeviceResponse> {
+  ): Promise<RequestResponse> {
     try {
       const sliceStart = (chunkNo - 1) * chunkSize
       const sliceEnd = sliceStart + chunkSize
@@ -327,9 +330,9 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
         },
       })
 
-      if (response.status !== DeviceResponseStatus.Ok) {
+      if (response.status !== RequestResponseStatus.Ok) {
         return {
-          status: DeviceResponseStatus.Error,
+          status: RequestResponseStatus.Error,
           error: {
             message:
               "Upload OS update package: Something went wrong in sent chunk fie.",
@@ -338,14 +341,14 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
       } else {
         if (lastChunk) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
           }
         }
         return this.sendFileRequest(buffer, txID, chunkSize, chunkNo + 1)
       }
     } catch {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message:
             "Upload OS update package: Something went wrong in read file",
@@ -359,7 +362,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
     txID: string,
     chunkSize: number,
     chunkNo = 1
-  ): Promise<DeviceResponse> {
+  ): Promise<RequestResponse> {
     try {
       const buffer = Buffer.alloc(chunkSize)
       const nread = fs.readSync(fd, buffer, 0, chunkSize, null)
@@ -367,7 +370,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
       if (nread === 0) {
         fs.closeSync(fd)
         return {
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
         }
       }
 
@@ -384,11 +387,11 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
         },
       })
 
-      if (response.status !== DeviceResponseStatus.Ok) {
+      if (response.status !== RequestResponseStatus.Ok) {
         fs.closeSync(fd)
 
         return {
-          status: DeviceResponseStatus.Error,
+          status: RequestResponseStatus.Error,
           error: {
             message:
               "Upload OS update package: Something went wrong in sent chunk fie.",
@@ -399,7 +402,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
       }
     } catch {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message:
             "Upload OS update package: Something went wrong in read file",
@@ -413,7 +416,7 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
     chunkLength: number,
     chunkNo = 1,
     chunkedString = ""
-  ): Promise<DeviceResponse<EncodedResponse>> {
+  ): Promise<RequestResponse<EncodedResponse>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
@@ -423,9 +426,9 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
       },
     })
 
-    if (status !== DeviceResponseStatus.Ok || data === undefined) {
+    if (status !== RequestResponseStatus.Ok || data === undefined) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: { message: "Download encoded file: Something went wrong" },
       }
     }

@@ -14,9 +14,6 @@ import {
   NewMessage,
   Thread,
 } from "App/messages/reducers/messages.interface"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
 import {
   Endpoint,
@@ -30,6 +27,10 @@ import {
   Thread as PureThread,
 } from "@mudita/pure"
 import { Feature, flags } from "App/feature-flags"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 const initGetMessagesBody: PureGetMessagesBody = {
   category: PureMessagesCategory.message,
@@ -50,7 +51,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   public async loadMoreThreadsInSingleRequest(
     pagination: PaginationBody,
     data: Thread[] = []
-  ): Promise<DeviceResponse<GetThreadsResponse>> {
+  ): Promise<RequestResponse<GetThreadsResponse>> {
     const response = await this.getThreads({
       ...pagination,
       limit: pagination.limit,
@@ -94,7 +95,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
 
   public async getThreads(
     pagination: PaginationBody
-  ): Promise<DeviceResponse<GetThreadsResponse>> {
+  ): Promise<RequestResponse<GetThreadsResponse>> {
     const body: GetThreadsBody = {
       category: PureMessagesCategory.thread,
       ...pagination,
@@ -106,9 +107,9 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       method: Method.Get,
     })
 
-    if (status === DeviceResponseStatus.Ok && data?.entries !== undefined) {
+    if (status === RequestResponseStatus.Ok && data?.entries !== undefined) {
       return {
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
         data: {
           data: data.entries.map(PurePhoneMessages.mapToThreads),
           nextPage: data.nextPage,
@@ -117,7 +118,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       }
     } else {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: { message: "Get messages by threadId: Something went wrong" },
       }
     }
@@ -125,7 +126,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
 
   public loadAllMessagesByThreadId(
     threadId: string
-  ): Promise<DeviceResponse<Message[]>> {
+  ): Promise<RequestResponse<Message[]>> {
     return this.loadAllMessagesInSingleRequest(threadId)
   }
 
@@ -133,7 +134,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     threadId: string,
     pureMessages: PureMessage[] = [],
     body = initGetMessagesBody
-  ): Promise<DeviceResponse<Message[]>> {
+  ): Promise<RequestResponse<Message[]>> {
     const { status, data } = await this.deviceService.request({
       body: { ...body, threadID: Number(threadId) },
       endpoint: Endpoint.Messages,
@@ -152,18 +153,18 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
         }
       )
     } else if (
-      status === DeviceResponseStatus.Ok &&
+      status === RequestResponseStatus.Ok &&
       data?.entries !== undefined
     ) {
       return {
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
         data: [...pureMessages, ...data.entries]
           .filter(PurePhoneMessages.isAcceptablePureMessageType)
           .map(PurePhoneMessages.mapToMessages),
       }
     } else {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message: "Load all messages in single request: Something went wrong",
         },
@@ -174,7 +175,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   public async getMessagesByThreadId({
     threadId,
     nextPage,
-  }: GetMessagesBody): Promise<DeviceResponse<GetMessagesByThreadIdResponse>> {
+  }: GetMessagesBody): Promise<RequestResponse<GetMessagesByThreadIdResponse>> {
     const body: PureGetMessagesBody = {
       category: PureMessagesCategory.message,
       threadID: Number(threadId),
@@ -187,9 +188,9 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       method: Method.Get,
     })
 
-    if (status === DeviceResponseStatus.Ok && data?.entries !== undefined) {
+    if (status === RequestResponseStatus.Ok && data?.entries !== undefined) {
       return {
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
         data: {
           data: data.entries
             .filter(PurePhoneMessages.isAcceptablePureMessageType)
@@ -199,7 +200,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       }
     } else {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: { message: "Get messages by threadId: Something went wrong" },
       }
     }
@@ -207,7 +208,7 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
 
   public async addMessage(
     newMessage: NewMessage
-  ): Promise<DeviceResponse<Message>> {
+  ): Promise<RequestResponse<Message>> {
     const { status, data } = await this.deviceService.request({
       body: {
         number: newMessage.phoneNumber,
@@ -219,17 +220,17 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     })
 
     if (
-      status === DeviceResponseStatus.Ok &&
+      status === RequestResponseStatus.Ok &&
       data !== undefined &&
       PurePhoneMessages.isAcceptablePureMessageType(data)
     ) {
       return {
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
         data: PurePhoneMessages.mapToMessages(data),
       }
     } else {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: { message: "Add message: Something went wrong" },
       }
     }
@@ -295,10 +296,10 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
 }
 
 const returnResponseWithNextPage = (
-  response: DeviceResponse<GetThreadsResponse>,
+  response: RequestResponse<GetThreadsResponse>,
   pagination: PaginationBody
-): DeviceResponse<GetThreadsResponse> => {
-  if(response.data === undefined){
+): RequestResponse<GetThreadsResponse> => {
+  if (response.data === undefined) {
     return response
   }
 

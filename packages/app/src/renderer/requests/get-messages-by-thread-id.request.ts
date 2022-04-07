@@ -9,11 +9,11 @@ import {
   GetMessagesBody,
   GetMessagesByThreadIdResponse,
 } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 const getMessagesByThreadId = async (
   body: GetMessagesBody
-): Promise<DeviceResponse<GetMessagesByThreadIdResponse>> => {
+): Promise<RequestResponse<GetMessagesByThreadIdResponse>> => {
   return ipcRenderer.callMain(IpcRequest.GetMessagesByThreadId, body)
 }
 

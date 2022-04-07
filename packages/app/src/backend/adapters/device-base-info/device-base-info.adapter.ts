@@ -4,13 +4,14 @@
  */
 
 import { CaseColour, Endpoint, Method } from "@mudita/pure"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
 import DeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-adapter.class"
 import DeviceInfo from "Common/interfaces/device-info.interface"
 import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 // TODO move those logic to DeviceModule.getDeviceInfo()
 let token: string
@@ -27,13 +28,13 @@ const createToken = (): string => {
 
 export const getDeviceInfoRequest = async (
   deviceService: DeviceService
-): Promise<DeviceResponse<DeviceInfo>> => {
+): Promise<RequestResponse<DeviceInfo>> => {
   const { status, data } = await deviceService.request({
     endpoint: Endpoint.DeviceInfo,
     method: Method.Get,
   })
 
-  if (status !== DeviceResponseStatus.Ok || data === undefined) {
+  if (status !== RequestResponseStatus.Ok || data === undefined) {
     return {
       status,
       error: { message: "Get Device Info: Something went wrong" },
@@ -61,7 +62,7 @@ export class DeviceBaseInfo extends DeviceBaseInfoAdapter {
     super()
   }
 
-  public async getDeviceInfo(): Promise<DeviceResponse<DeviceInfo>> {
+  public async getDeviceInfo(): Promise<RequestResponse<DeviceInfo>> {
     return getDeviceInfoRequest(this.deviceService)
   }
 }

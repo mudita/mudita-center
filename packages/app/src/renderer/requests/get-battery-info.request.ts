@@ -6,9 +6,9 @@
 import BatteryInfo from "Common/interfaces/battery-info.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
-const getBatteryInfo = (): Promise<DeviceResponse<BatteryInfo>> =>
+const getBatteryInfo = (): Promise<RequestResponse<BatteryInfo>> =>
   ipcRenderer.callMain(IpcRequest.GetBatteryInfo)
 
 export default getBatteryInfo

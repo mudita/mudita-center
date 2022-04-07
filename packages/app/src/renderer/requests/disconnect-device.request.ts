@@ -5,9 +5,9 @@
 
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
-const disconnectDevice = (): Promise<DeviceResponse> =>
+const disconnectDevice = (): Promise<RequestResponse> =>
   ipcRenderer.callMain(IpcRequest.DisconnectDevice)
 
 export default disconnectDevice

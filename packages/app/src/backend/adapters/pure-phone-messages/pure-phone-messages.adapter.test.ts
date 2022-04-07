@@ -9,7 +9,6 @@ import MuditaDeviceManager, {
   MessageType as PureMessageType,
 } from "@mudita/pure"
 import { ipcMain } from "electron-better-ipc"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import createPurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.adapter"
 import DeviceService from "Backend/device-service"
 import {
@@ -18,6 +17,7 @@ import {
   NewMessage,
   Thread,
 } from "App/messages/reducers/messages.interface"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockPureData: PureThread[] = [
   {
@@ -137,7 +137,7 @@ test("Threads are returned properly", async () => {
       request: () => {
         return {
           data: { entries: mockPureData, totalCount: mockPureData.length },
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
         }
       },
     }
@@ -150,7 +150,7 @@ test("Threads are returned properly", async () => {
     offset: 0,
   })
   expect(data?.data).toMatchObject(threads)
-  expect(status).toEqual(DeviceResponseStatus.Ok)
+  expect(status).toEqual(RequestResponseStatus.Ok)
 })
 
 test("Error status is returned when data is undefined ", async () => {
@@ -171,7 +171,7 @@ test("Error status is returned when data is undefined ", async () => {
     offset: 0,
   })
   const { status } = response
-  expect(status).toEqual(DeviceResponseStatus.Error)
+  expect(status).toEqual(RequestResponseStatus.Error)
 })
 
 test("Messages are return properly", async () => {
@@ -183,7 +183,7 @@ test("Messages are return properly", async () => {
             entries: mockPureMessageData,
             totalCount: mockPureMessageData.length,
           },
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
         }
       },
     }
@@ -202,7 +202,7 @@ test("Messages are return properly", async () => {
     }
   )
   expect(data?.data).toMatchObject(messages)
-  expect(status).toEqual(DeviceResponseStatus.Ok)
+  expect(status).toEqual(RequestResponseStatus.Ok)
 })
 
 test("Status is error when returned messages data is undefined ", async () => {
@@ -226,7 +226,7 @@ test("Status is error when returned messages data is undefined ", async () => {
       offset: 0,
     },
   })
-  expect(status).toEqual(DeviceResponseStatus.Error)
+  expect(status).toEqual(RequestResponseStatus.Error)
 })
 
 test("Status is error when returned messages data is undefined ", async () => {
@@ -234,7 +234,7 @@ test("Status is error when returned messages data is undefined ", async () => {
     return {
       request: () => {
         return {
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
           data: mockAddedPureMessageData,
         }
       },
@@ -246,11 +246,11 @@ test("Status is error when returned messages data is undefined ", async () => {
   const { status, data } = await purePhoneMessagesAdapter.addMessage(
     mockAddedNewMessageData
   )
-  expect(status).toEqual(DeviceResponseStatus.Ok)
+  expect(status).toEqual(RequestResponseStatus.Ok)
   expect(data).toStrictEqual(mockAddedMessageData)
 })
 
-describe("`loadMoreThreadsInSingleRequest` method",  () => {
+describe("`loadMoreThreadsInSingleRequest` method", () => {
   test("when the limit per request is lower than in request response", async () => {
     ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
       return {
@@ -260,7 +260,7 @@ describe("`loadMoreThreadsInSingleRequest` method",  () => {
               entries: [mockPureData[0]],
               totalCount: mockPureData.length,
             },
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
           }
         },
       }
@@ -268,13 +268,14 @@ describe("`loadMoreThreadsInSingleRequest` method",  () => {
     const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
       new DeviceService(MuditaDeviceManager, ipcMain)
     )
-    const { data, status } = await purePhoneMessagesAdapter.loadMoreThreadsInSingleRequest({
-      limit: 1,
-      offset: 0,
-    })
+    const { data, status } =
+      await purePhoneMessagesAdapter.loadMoreThreadsInSingleRequest({
+        limit: 1,
+        offset: 0,
+      })
     expect(data?.data).toMatchObject([threads[0]])
     expect(data?.nextPage?.offset).toEqual(1)
-    expect(status).toEqual(DeviceResponseStatus.Ok)
+    expect(status).toEqual(RequestResponseStatus.Ok)
   })
 
   test("when the limit per request is equal to the totalCount", async () => {
@@ -286,7 +287,7 @@ describe("`loadMoreThreadsInSingleRequest` method",  () => {
               entries: [mockPureData[0], mockPureData[1]],
               totalCount: mockPureData.length,
             },
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
           }
         },
       }
@@ -294,13 +295,14 @@ describe("`loadMoreThreadsInSingleRequest` method",  () => {
     const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
       new DeviceService(MuditaDeviceManager, ipcMain)
     )
-    const { data, status } = await purePhoneMessagesAdapter.loadMoreThreadsInSingleRequest({
-      limit: 2,
-      offset: 0,
-    })
+    const { data, status } =
+      await purePhoneMessagesAdapter.loadMoreThreadsInSingleRequest({
+        limit: 2,
+        offset: 0,
+      })
     expect(data?.data).toMatchObject(threads)
     expect(data?.nextPage?.offset).toBeUndefined()
-    expect(status).toEqual(DeviceResponseStatus.Ok)
+    expect(status).toEqual(RequestResponseStatus.Ok)
   })
 
   test("when the limit per request is higher than in request response", async () => {
@@ -308,7 +310,7 @@ describe("`loadMoreThreadsInSingleRequest` method",  () => {
     ;(DeviceService as unknown as jest.Mock).mockImplementation(() => {
       return {
         request: () => {
-          if(index === 0){
+          if (index === 0) {
             index++
             return {
               data: {
@@ -316,7 +318,7 @@ describe("`loadMoreThreadsInSingleRequest` method",  () => {
                 totalCount: mockPureData.length,
                 nextPage: { offset: 1, limit: 1 },
               },
-              status: DeviceResponseStatus.Ok,
+              status: RequestResponseStatus.Ok,
             }
           } else {
             return {
@@ -324,7 +326,7 @@ describe("`loadMoreThreadsInSingleRequest` method",  () => {
                 entries: [mockPureData[1]],
                 totalCount: mockPureData.length,
               },
-              status: DeviceResponseStatus.Ok,
+              status: RequestResponseStatus.Ok,
             }
           }
         },
@@ -333,12 +335,13 @@ describe("`loadMoreThreadsInSingleRequest` method",  () => {
     const purePhoneMessagesAdapter = createPurePhoneMessagesAdapter(
       new DeviceService(MuditaDeviceManager, ipcMain)
     )
-    const { data, status } = await purePhoneMessagesAdapter.loadMoreThreadsInSingleRequest({
-      limit: 2,
-      offset: 0,
-    })
+    const { data, status } =
+      await purePhoneMessagesAdapter.loadMoreThreadsInSingleRequest({
+        limit: 2,
+        offset: 0,
+      })
     expect(data?.data).toMatchObject(threads)
     expect(data?.nextPage).toBeUndefined()
-    expect(status).toEqual(DeviceResponseStatus.Ok)
+    expect(status).toEqual(RequestResponseStatus.Ok)
   })
 })

@@ -9,7 +9,7 @@ import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("Renderer/requests/get-device-info.request")
 jest.mock("Renderer/requests/get-network-info.request")
@@ -50,7 +50,7 @@ const dataMock = {
 }
 
 const requestStatusFactory = (
-  status: DeviceResponseStatus,
+  status: RequestResponseStatus,
   withData = true
 ) => {
   ;[getDeviceInfo, getNetworkInfo, getStorageInfo, getBatteryInfo].forEach(
@@ -66,7 +66,7 @@ const requestStatusFactory = (
 const subject = new DeviceDataLoader()
 
 test("DeviceDataLoader calls PureDataLoader if `deviceType` is equal to `MuditaPure`", async () => {
-  requestStatusFactory(DeviceResponseStatus.Ok)
+  requestStatusFactory(RequestResponseStatus.Ok)
 
   await subject.loadDeviceData(DeviceType.MuditaPure)
 
@@ -77,7 +77,7 @@ test("DeviceDataLoader calls PureDataLoader if `deviceType` is equal to `MuditaP
 })
 
 test("DeviceDataLoader calls HarmonyDataLoader if `deviceType` is equal to `MuditaHarmony`", async () => {
-  requestStatusFactory(DeviceResponseStatus.Ok)
+  requestStatusFactory(RequestResponseStatus.Ok)
 
   await subject.loadDeviceData(DeviceType.MuditaHarmony)
 

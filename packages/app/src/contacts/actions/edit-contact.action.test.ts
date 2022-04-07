@@ -10,11 +10,12 @@ import { ContactsEvent } from "App/contacts/constants"
 import editContactRequest from "App/contacts/requests/edit-contact.request"
 import { Contact, initialState } from "App/contacts/reducers"
 import { testError } from "Renderer/store/constants"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import { editContact } from "App/contacts/actions/edit-contact.action"
 import { EditContactError } from "App/contacts/errors/edit-contact.error"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("App/contacts/requests/edit-contact.request")
 
@@ -33,13 +34,13 @@ const contact: Contact = {
   secondAddressLine: "",
 }
 
-const successDeviceResponse: DeviceResponse<Contact> = {
-  status: DeviceResponseStatus.Ok,
+const successDeviceResponse: RequestResponse<Contact> = {
+  status: RequestResponseStatus.Ok,
   data: contact,
 }
 
-const errorDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const errorDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
   error: {
     message: "I'm error",
   },

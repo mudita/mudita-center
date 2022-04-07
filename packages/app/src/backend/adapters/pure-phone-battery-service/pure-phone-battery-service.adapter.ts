@@ -6,22 +6,23 @@
 import PurePhoneBatteryServiceAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service-adapter.class"
 import DeviceService from "Backend/device-service"
 import { Endpoint, Method } from "@mudita/pure"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 class PurePhoneBatteryService extends PurePhoneBatteryServiceAdapter {
   constructor(private deviceService: DeviceService) {
     super()
   }
 
-  public async getBatteryLevel(): Promise<DeviceResponse<number>> {
+  public async getBatteryLevel(): Promise<RequestResponse<number>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
 
-    if (status === DeviceResponseStatus.Ok && data) {
+    if (status === RequestResponseStatus.Ok && data) {
       return {
         status,
         data: Number((Number(data.batteryLevel) / 100).toFixed(2)),
