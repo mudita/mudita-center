@@ -5,7 +5,7 @@
 
 import { Repository } from "App/core/types"
 import { MessageModel } from "App/messages/models"
-import { Message } from "App/messages"
+import { Message } from "App/messages/reducers"
 
 export class MessageRepository implements Repository {
   constructor(private messageModel: MessageModel) {}

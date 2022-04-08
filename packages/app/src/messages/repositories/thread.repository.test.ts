@@ -5,7 +5,7 @@
 
 import { ThreadRepository } from "App/messages/repositories/thread.repository"
 import { ThreadModel } from "App/messages/models"
-import { Thread } from "App/messages"
+import { Thread } from "App/messages/reducers"
 
 const thread: Thread = {
   id: "1",

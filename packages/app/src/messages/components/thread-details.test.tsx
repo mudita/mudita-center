@@ -65,7 +65,6 @@ const defaultProps: Props = {
   contactCreated: false,
   onCheckClick: jest.fn(),
   onContentChange: jest.fn(),
-  onLoadMessagesClick: jest.fn(),
   onSendClick: jest.fn(),
   onClose: jest.fn(),
   onDeleteClick: jest.fn(),

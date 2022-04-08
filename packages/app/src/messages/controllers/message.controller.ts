@@ -14,7 +14,7 @@ import {
   ThreadControllerPrefix,
   IpcMessageEvent,
 } from "App/messages/constants/controller.constant"
-import { Message, NewMessage } from "App/messages"
+import { Message, NewMessage } from "App/messages/reducers"
 
 @Controller(ThreadControllerPrefix)
 export class MessageController {
