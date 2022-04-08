@@ -10,8 +10,8 @@ import {
 } from "@mudita/pure"
 import {
   AcceptablePureMessageType,
-  MessagesPresenter,
-} from "App/messages/presenters/messages.presenter"
+  MessagePresenter,
+} from "App/messages/presenters/message.presenter"
 import { NewMessage, Thread } from "App/messages/reducers/messages.interface"
 
 const pureThread: PureThread = {
@@ -56,9 +56,9 @@ const newMessage: NewMessage = {
 
 jest.mock("Backend/device-service")
 
-describe("`MessagesPresenter`", () => {
+describe("`MessagePresenter`", () => {
   test("`mapToPureMessageMessagesBody` record properly", () => {
-    const result = MessagesPresenter.mapToPureMessageMessagesBody(newMessage)
+    const result = MessagePresenter.mapToPureMessageMessagesBody(newMessage)
     expect(result).toEqual({
       category: "message",
       messageBody:
@@ -68,12 +68,12 @@ describe("`MessagesPresenter`", () => {
   })
 
   test("`mapToThreads` record properly", () => {
-    const result = MessagesPresenter.mapToThreads(pureThread)
+    const result = MessagePresenter.mapToThreads(pureThread)
     expect(result).toEqual(thread)
   })
 
   test("`mapToMessages` record properly", () => {
-    const result = MessagesPresenter.mapToMessages(pureMessage)
+    const result = MessagePresenter.mapToMessages(pureMessage)
     expect(result).toEqual({
       content:
         "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",

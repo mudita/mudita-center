@@ -6,50 +6,36 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store/helpers"
-import { MessagesEvent } from "App/messages/constants"
 import { testError } from "Renderer/store/constants"
 import { AddNewMessageError } from "App/messages/errors"
 import { createMessageRequest } from "App/messages/requests"
 import { addNewMessage } from "App/messages/actions/add-new-message.action"
-import { Message, MessageType, NewMessage } from "App/messages/reducers"
-import { loadThreads } from "App/messages/actions/load-threads.action"
-import { loadMessagesById } from "App/messages/actions/load-messages-by-id.action"
+import { MessageType, NewMessage } from "App/messages/reducers"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { CreateMessageDataResponse } from "App/messages/services"
 
 jest.mock("App/messages/requests/create-message.request")
-jest.mock("App/messages/actions/load-threads.action.ts", () => ({
-  loadThreads: jest.fn().mockReturnValue({
-    type: pendingAction(MessagesEvent.LoadThreads),
-    payload: undefined,
-  }),
-}))
-jest.mock("App/messages/actions/load-messages-by-id.action.ts", () => ({
-  loadMessagesById: jest.fn().mockReturnValue({
-    type: pendingAction(MessagesEvent.LoadMessagesById),
-    payload: undefined,
-  }),
-}))
-
 const mockAddedNewMessageData: NewMessage = {
   content:
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   phoneNumber: "+48500600700",
 }
 
-const mockAddedMessageData: Message = {
-  id: "6",
-  date: new Date(),
-  content: mockAddedNewMessageData.content,
-  threadId: "1",
-  phoneNumber: mockAddedNewMessageData.phoneNumber,
-  messageType: MessageType.OUTBOX,
+const mockAddedMessageData: CreateMessageDataResponse = {
+  message: {
+    id: "6",
+    date: new Date(),
+    content: mockAddedNewMessageData.content,
+    threadId: "1",
+    phoneNumber: mockAddedNewMessageData.phoneNumber,
+    messageType: MessageType.OUTBOX,
+  },
 }
 
-const successDeviceResponse: RequestResponse<Message> = {
+const successDeviceResponse: RequestResponse<CreateMessageDataResponse> = {
   status: RequestResponseStatus.Ok,
   data: mockAddedMessageData,
 }
@@ -65,7 +51,9 @@ afterEach(() => {
 describe("async `addNewMessage` ", () => {
   describe("when `addMessage` request return success", () => {
     test("fire async `addNewMessage` call `loadThreads` and `loadMessagesById`", async () => {
-      ;(createMessageRequest as jest.Mock).mockReturnValue(successDeviceResponse)
+      ;(createMessageRequest as jest.Mock).mockReturnValue(
+        successDeviceResponse
+      )
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
@@ -75,14 +63,6 @@ describe("async `addNewMessage` ", () => {
 
       expect(mockStore.getActions()).toEqual([
         addNewMessage.pending(requestId, mockAddedNewMessageData),
-        {
-          type: pendingAction(MessagesEvent.LoadThreads),
-          payload: undefined,
-        },
-        {
-          type: pendingAction(MessagesEvent.LoadMessagesById),
-          payload: undefined,
-        },
         addNewMessage.fulfilled(
           mockAddedMessageData,
           requestId,
@@ -91,8 +71,6 @@ describe("async `addNewMessage` ", () => {
       ])
 
       expect(createMessageRequest).toHaveBeenCalled()
-      expect(loadThreads).toHaveBeenCalled()
-      expect(loadMessagesById).toHaveBeenCalled()
     })
   })
 

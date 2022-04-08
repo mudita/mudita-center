@@ -5,7 +5,11 @@
 
 import { Controller, IpcEvent } from "App/core/decorators"
 import { RequestResponse } from "App/core/types/request-response.interface"
-import { GetMessagesBody, MessageService } from "App/messages/services"
+import {
+  CreateMessageDataResponse,
+  GetMessagesBody,
+  MessageService,
+} from "App/messages/services"
 import {
   ThreadControllerPrefix,
   IpcMessageEvent,
@@ -19,7 +23,7 @@ export class MessageController {
   @IpcEvent(IpcMessageEvent.CreateMessage)
   public createMessage(
     newMessage: NewMessage
-  ): Promise<RequestResponse<Message>> {
+  ): Promise<RequestResponse<CreateMessageDataResponse>> {
     return this.messageService.createMessage(newMessage)
   }
 

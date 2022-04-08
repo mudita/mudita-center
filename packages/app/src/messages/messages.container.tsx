@@ -19,25 +19,18 @@ import {
   markThreadsAsRead,
   toggleThreadsReadStatus,
 } from "App/messages/actions/base.action"
-import {
-  addNewMessage,
-  loadMessagesById,
-  loadThreads,
-} from "App/messages/actions"
+import { addNewMessage } from "App/messages/actions"
 import {
   filteredThreadsSelector,
   getMessagesByThreadIdSelector,
   getReceiverSelector,
   getReceiversSelector,
 } from "App/messages/selectors"
-import { PaginationBody } from "@mudita/pure"
-import { PayloadAction } from "@reduxjs/toolkit"
 import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
 import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
 import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
-import { GetMessagesBody } from "App/messages/services"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,
@@ -58,10 +51,6 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  loadThreads: (
-    pagination: PaginationBody
-  ): Promise<PayloadAction<PaginationBody>> =>
-    dispatch(loadThreads(pagination)),
   changeSearchValue: ({ target }: ChangeEvent<HTMLInputElement>) =>
     dispatch(changeSearchValue(target.value)),
   changeVisibilityFilter: (filter: VisibilityFilter) =>
@@ -70,8 +59,6 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   markAsRead: (threadIds: string[]) => dispatch(markThreadsAsRead(threadIds)),
   toggleReadStatus: (threadIds: string[]) =>
     dispatch(toggleThreadsReadStatus(threadIds)),
-  loadMessagesByThreadId: (body: GetMessagesBody) =>
-    dispatch(loadMessagesById(body)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
     dispatch(addNewMessage(newMessage)),
 })

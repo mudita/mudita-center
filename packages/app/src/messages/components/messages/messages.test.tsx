@@ -470,22 +470,6 @@ describe("Messages component", () => {
       expect(addNewMessage).toBeCalled()
     })
 
-    test("value of new message text area is empty after add new message", async () => {
-      const addNewMessage = jest
-        .fn()
-        .mockReturnValue(Promise.resolve({ threadId: firstThread.id }))
-      const { queryByTestId } = renderer({ ...renderProps, addNewMessage })
-      fireEvent.click(
-        queryByTestId(ThreadDetailsTextAreaTestIds.SendButton) as HTMLElement
-      )
-      const input = queryByTestId(
-        ThreadDetailsTextAreaTestIds.Input
-      ) as HTMLInputElement
-      await waitFor(() => {
-        expect(input.value).toBe("")
-      })
-    })
-
     test("value of new message text area isn't cleared after clicked active thread row", async () => {
       const { queryByTestId, queryAllByTestId } = renderer(renderProps)
       const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
@@ -554,38 +538,6 @@ describe("Messages component", () => {
         queryByTestId(ThreadDetailsTextAreaTestIds.SendButton) as HTMLElement
       )
       expect(addNewMessage).toBeCalled()
-    })
-
-    test("ThreadDetails component is open after add new message", async () => {
-      const addNewMessage = jest
-        .fn()
-        .mockReturnValue(Promise.resolve({ threadId: firstThread.id }))
-      const { queryByTestId } = renderer({ ...renderProps, addNewMessage })
-      fireEvent.click(
-        queryByTestId(ThreadDetailsTextAreaTestIds.SendButton) as HTMLElement
-      )
-      await waitFor(() => {
-        expect(
-          queryByTestId(MessagesTestIds.NewMessageForm)
-        ).not.toBeInTheDocument()
-        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
-      })
-    })
-
-    test("value of new message text area is empty after add new message", async () => {
-      const addNewMessage = jest
-        .fn()
-        .mockReturnValue(Promise.resolve({ threadId: firstThread.id }))
-      const { queryByTestId } = renderer({ ...renderProps, addNewMessage })
-      fireEvent.click(
-        queryByTestId(ThreadDetailsTextAreaTestIds.SendButton) as HTMLElement
-      )
-      const input = queryByTestId(
-        ThreadDetailsTextAreaTestIds.Input
-      ) as HTMLInputElement
-      await waitFor(() => {
-        expect(input.value).toBe("")
-      })
     })
   })
 
