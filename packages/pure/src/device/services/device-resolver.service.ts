@@ -3,12 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MuditaPureDescriptor, MuditaHarmonyDescriptor } from "../descriptors"
-import { Device } from "../device"
-import { MuditaDevice, McSerialPortDevice, McUsbDevice } from "../device.types"
 import { PortInfo } from "serialport"
 import BaseMcSerialPortDevice from "../mc-serialport-device"
 import BaseMcUsbDevice from "../mc-usb-device"
+import { MuditaPureDescriptor, MuditaHarmonyDescriptor } from "../descriptors"
+import { Device } from "../device"
+import { MuditaDevice, McSerialPortDevice, McUsbDevice } from "../device.types"
+import UsbDeviceService from "./usb-device.service"
+import UsbDeviceServiceFactory from "./usb-device.service.factory"
 export class DeviceResolverService {
   private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
 
@@ -27,7 +29,9 @@ export class DeviceResolverService {
     const baseMcSerialPortDevice: McSerialPortDevice =
       new BaseMcSerialPortDevice(path, descriptor.deviceType)
 
-    const baseMcUsbDevice: McUsbDevice = new BaseMcUsbDevice()
+    const usbDeviceService = UsbDeviceServiceFactory.create(descriptor)
+
+    const baseMcUsbDevice: McUsbDevice = new BaseMcUsbDevice(usbDeviceService)
 
     return new Device(
       new descriptor.strategy(baseMcSerialPortDevice, baseMcUsbDevice)
