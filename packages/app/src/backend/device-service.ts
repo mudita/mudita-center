@@ -45,6 +45,8 @@ import {
   GetEntriesRequestConfig,
   GetMessageBody,
   Message,
+  GetThreadBody,
+  Thread,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
@@ -119,6 +121,11 @@ export class DeviceService {
     method: Method.Get
     body: GetMessageBody
   }): Promise<RequestResponse<Message>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Get
+    body: GetThreadBody
+  }): Promise<RequestResponse<Thread>>
   public request(config: {
     endpoint: Endpoint.Messages
     method: Method.Get

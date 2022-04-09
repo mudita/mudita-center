@@ -68,12 +68,12 @@ describe("`MessagePresenter`", () => {
   })
 
   test("`mapToThreads` record properly", () => {
-    const result = MessagePresenter.mapToThreads(pureThread)
+    const result = MessagePresenter.mapToThread(pureThread)
     expect(result).toEqual(thread)
   })
 
   test("`mapToMessages` record properly", () => {
-    const result = MessagePresenter.mapToMessages(pureMessage)
+    const result = MessagePresenter.mapToMessage(pureMessage)
     expect(result).toEqual({
       content:
         "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",

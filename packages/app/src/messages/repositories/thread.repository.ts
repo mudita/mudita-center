@@ -13,4 +13,12 @@ export class ThreadRepository implements Repository {
   public create(thread: Thread, skipCallbacks = false): void {
     this.threadModel.create(thread, skipCallbacks)
   }
+
+  public update(thread: Thread, skipCallbacks = false): void {
+    this.threadModel.update(thread, skipCallbacks)
+  }
+
+  public delete(id: Thread["id"], skipCallbacks = false): void {
+    this.threadModel.delete(id, skipCallbacks)
+  }
 }

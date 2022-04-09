@@ -30,7 +30,7 @@ export class MessagePresenter {
     }
   }
 
-  static mapToThreads(pureThread: PureThread): Thread {
+  static mapToThread(pureThread: PureThread): Thread {
     const {
       isUnread,
       lastUpdatedAt,
@@ -48,7 +48,7 @@ export class MessagePresenter {
     }
   }
 
-  static mapToMessages(
+  static mapToMessage(
     pureMessage: PureMessage & { messageType: AcceptablePureMessageType }
   ): Message {
     const { messageBody, messageID, messageType, createdAt, threadID, number } =

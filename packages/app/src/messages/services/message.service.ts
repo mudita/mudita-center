@@ -123,7 +123,7 @@ export class MessageService {
       return {
         status: RequestResponseStatus.Ok,
         data: {
-          data: data.entries.map(MessagePresenter.mapToThreads),
+          data: data.entries.map(MessagePresenter.mapToThread),
           nextPage: data.nextPage,
           totalCount: data.totalCount,
         },
@@ -170,7 +170,7 @@ export class MessageService {
         status: RequestResponseStatus.Ok,
         data: [...pureMessages, ...response.data.entries]
           .filter(MessageService.isAcceptablePureMessageType)
-          .map(MessagePresenter.mapToMessages),
+          .map(MessagePresenter.mapToMessage),
       }
     } else {
       return {
@@ -202,7 +202,7 @@ export class MessageService {
         data: {
           data: response.data.entries
             .filter(MessageService.isAcceptablePureMessageType)
-            .map(MessagePresenter.mapToMessages),
+            .map(MessagePresenter.mapToMessage),
           nextPage: response.data.nextPage,
         },
       }
@@ -230,12 +230,35 @@ export class MessageService {
     ) {
       return {
         status: response.status,
-        data: MessagePresenter.mapToMessages(response.data),
+        data: MessagePresenter.mapToMessage(response.data),
       }
     } else {
       return {
         status: RequestResponseStatus.Error,
         error: { message: "Get message: Something went wrong" },
+      }
+    }
+  }
+
+  public async getThread(id: string): Promise<RequestResponse<Thread>> {
+    const response = await this.deviceService.request({
+      endpoint: Endpoint.Messages,
+      method: Method.Get,
+      body: {
+        category: PureMessagesCategory.thread,
+        threadID: Number(id),
+      },
+    })
+
+    if (isResponseSuccessWithData(response)) {
+      return {
+        status: response.status,
+        data: MessagePresenter.mapToThread(response.data),
+      }
+    } else {
+      return {
+        status: RequestResponseStatus.Error,
+        error: { message: "Get thread: Something went wrong" },
       }
     }
   }
@@ -262,7 +285,7 @@ export class MessageService {
         data: {
           data: response.data.entries
             .filter(MessageService.isAcceptablePureMessageType)
-            .map(MessagePresenter.mapToMessages),
+            .map(MessagePresenter.mapToMessage),
           nextPage: response.data.nextPage,
         },
       }
@@ -297,7 +320,7 @@ export class MessageService {
         return {
           status: RequestResponseStatus.Ok,
           data: {
-            message: { ...MessagePresenter.mapToMessages(data), threadId },
+            message: { ...MessagePresenter.mapToMessage(data), threadId },
             thread: threadsResponse.data?.data[0],
           },
         }
@@ -307,7 +330,7 @@ export class MessageService {
         status: RequestResponseStatus.Ok,
         data: {
           message: {
-            ...MessagePresenter.mapToMessages(data),
+            ...MessagePresenter.mapToMessage(data),
             threadId: newMessage.threadId,
           },
         },

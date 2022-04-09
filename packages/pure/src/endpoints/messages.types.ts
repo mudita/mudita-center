@@ -25,6 +25,11 @@ export interface GetThreadsBody extends Partial<PaginationBody> {
   category: MessagesCategory.thread
 }
 
+export interface GetThreadBody {
+  category: MessagesCategory.thread
+  threadID: number
+}
+
 export interface GetThreadResponseBody {
   entries: Thread[]
   totalCount: number

@@ -16,9 +16,10 @@ import { ContactRepository } from "App/contacts/repositories"
 import { ContactService } from "App/contacts/services"
 import { ContactEntryHandlerService } from "App/outbox/services/contact-entry-handler.service"
 import { MessageService } from "App/messages/services"
-import { MessageRepository } from "App/messages/repositories"
-import { MessageModel } from "App/messages/models"
+import { MessageRepository, ThreadRepository } from "App/messages/repositories"
+import { MessageModel, ThreadModel } from "App/messages/models"
 import { MessageEntryHandlerService } from "App/outbox/services/message-entry-handler.service"
+import { ThreadEntryHandlerService } from "App/outbox/services/thread-entry-handler.service"
 
 export class OutboxFactory {
   static create(
@@ -42,10 +43,17 @@ export class OutboxFactory {
       messageRepository
     )
 
-    // @ts-ignore
+    const threadModel = new ThreadModel(index, eventEmitter)
+    const threadRepository = new ThreadRepository(threadModel)
+    const threadEntryHandlerService = new ThreadEntryHandlerService(
+      messageService,
+      threadRepository
+    )
+
     const entryHandlersMap: EntryHandlersMapType = {
       [OutboxEntryType.Contact]: contactEntryHandlerService,
       [OutboxEntryType.Message]: messageEntryHandlerService,
+      [OutboxEntryType.Thread]: threadEntryHandlerService,
     }
 
     return new OutboxService(deviceService, entryHandlersMap)
