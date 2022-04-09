@@ -151,7 +151,6 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         getMessagesByThreadId={getMessagesByThreadId}
         getMessagesStateByThreadId={getMessagesResultsMapStateByThreadId}
         isContactCreatedByPhoneNumber={isContactCreatedByPhoneNumber}
-        loadMessagesByThreadId={loadData}
         addNewMessage={promiseAction("Add New Message")}
         getContactByPhoneNumber={jest.fn()}
         getReceiver={jest.fn()}

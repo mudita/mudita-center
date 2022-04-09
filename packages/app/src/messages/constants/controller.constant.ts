@@ -7,12 +7,10 @@ export const MessageControllerPrefix = "message"
 
 export enum IpcMessageEvent {
   CreateMessage = "create-message",
-  GetMessagesByThreadId = "get-messages-by-thread-id",
 }
 
 export enum IpcMessageRequest {
   CreateMessage = "message-create-message",
-  GetMessagesByThreadId = "message-get-messages-by-thread-id",
 }
 
 export const ThreadControllerPrefix = "thread"

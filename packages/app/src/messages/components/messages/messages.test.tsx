@@ -97,7 +97,6 @@ const defaultProps: Props = {
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
   getMessagesStateByThreadId: jest.fn(),
-  loadMessagesByThreadId: jest.fn(),
   isContactCreatedByPhoneNumber: jest.fn(),
   getMessagesByThreadId: jest.fn().mockReturnValue([contact]),
   attachContactList: [],
@@ -116,7 +115,6 @@ const propsWithSingleThread: Partial<Props> = {
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
   getMessagesStateByThreadId: jest.fn(),
-  loadMessagesByThreadId: jest.fn(),
   isContactCreatedByPhoneNumber: jest.fn(),
   getMessagesByThreadId: jest.fn().mockReturnValue([
     {
