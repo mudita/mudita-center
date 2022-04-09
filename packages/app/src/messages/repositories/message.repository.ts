@@ -13,4 +13,12 @@ export class MessageRepository implements Repository {
   public create(message: Message, skipCallbacks = false): void {
     this.messageModel.create(message, skipCallbacks)
   }
+
+  public update(message: Message, skipCallbacks = false): void {
+    this.messageModel.update(message, skipCallbacks)
+  }
+
+  public delete(id: Message["id"], skipCallbacks = false): void {
+    this.messageModel.delete(id, skipCallbacks)
+  }
 }

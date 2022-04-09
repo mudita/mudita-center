@@ -214,6 +214,32 @@ export class MessageService {
     }
   }
 
+  public async getMessage(id: string): Promise<RequestResponse<Message>> {
+    const response = await this.deviceService.request({
+      endpoint: Endpoint.Messages,
+      method: Method.Get,
+      body: {
+        category: PureMessagesCategory.message,
+        messageID: Number(id),
+      },
+    })
+
+    if (
+      isResponseSuccessWithData(response) &&
+      MessageService.isAcceptablePureMessageType(response.data)
+    ) {
+      return {
+        status: response.status,
+        data: MessagePresenter.mapToMessages(response.data),
+      }
+    } else {
+      return {
+        status: RequestResponseStatus.Error,
+        error: { message: "Get message: Something went wrong" },
+      }
+    }
+  }
+
   public async getMessagesByThreadId({
     threadId,
     nextPage,

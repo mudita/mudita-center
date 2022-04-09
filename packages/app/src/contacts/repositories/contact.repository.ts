@@ -18,7 +18,7 @@ export class ContactRepository implements Repository {
     this.contactModel.update(contact, skipCallbacks)
   }
 
-  public delete(id: string, skipCallbacks = false): void {
+  public delete(id: Contact["id"], skipCallbacks = false): void {
     this.contactModel.delete(id, skipCallbacks)
   }
 }
