@@ -45,6 +45,32 @@ export class MessageService {
     private threadService: ThreadService
   ) {}
 
+  public async getMessage(id: string): Promise<RequestResponse<Message>> {
+    const response = await this.deviceService.request({
+      endpoint: Endpoint.Messages,
+      method: Method.Get,
+      body: {
+        category: PureMessagesCategory.message,
+        messageID: Number(id),
+      },
+    })
+
+    if (
+      isResponseSuccessWithData(response) &&
+      MessageService.isAcceptablePureMessageType(response.data)
+    ) {
+      return {
+        status: response.status,
+        data: MessagePresenter.mapToMessage(response.data),
+      }
+    } else {
+      return {
+        status: RequestResponseStatus.Error,
+        error: { message: "Get message: Something went wrong" },
+      }
+    }
+  }
+
   public async getMessages(
     pagination: PaginationBody
   ): Promise<RequestResponse<GetMessagesByThreadIdResponse>> {
@@ -77,32 +103,6 @@ export class MessageService {
     }
   }
 
-  public async getMessage(id: string): Promise<RequestResponse<Message>> {
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.Messages,
-      method: Method.Get,
-      body: {
-        category: PureMessagesCategory.message,
-        messageID: Number(id),
-      },
-    })
-
-    if (
-      isResponseSuccessWithData(response) &&
-      MessageService.isAcceptablePureMessageType(response.data)
-    ) {
-      return {
-        status: response.status,
-        data: MessagePresenter.mapToMessage(response.data),
-      }
-    } else {
-      return {
-        status: RequestResponseStatus.Error,
-        error: { message: "Get message: Something went wrong" },
-      }
-    }
-  }
-
   public async createMessage(
     newMessage: NewMessage
   ): Promise<RequestResponse<CreateMessageDataResponse>> {
@@ -114,6 +114,7 @@ export class MessageService {
 
     if (MessageService.isAcceptablePureMessageType(data)) {
       if (newMessage.threadId === undefined) {
+        // `getThreads` instead of `getThread` because Post Message doesn't return properly threadID when a thread is new
         const threadsResponse = await this.threadService.getThreads({
           limit: 1,
           offset: 0,

@@ -4,3 +4,4 @@
  */
 
 export * from "./message.presenter"
+export * from "./thread.presenter"
