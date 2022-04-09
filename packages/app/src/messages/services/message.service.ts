@@ -12,7 +12,6 @@ import DeviceService from "Backend/device-service"
 import {
   Endpoint,
   GetMessagesBody as PureGetMessagesBody,
-  GetThreadsBody,
   Message as PureMessage,
   MessagesCategory as PureMessagesCategory,
   MessageType as PureMessageType,
@@ -28,12 +27,7 @@ import {
   MessagePresenter,
 } from "App/messages/presenters"
 import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
-
-export interface GetThreadsResponse {
-  data: Thread[]
-  totalCount: number
-  nextPage?: PaginationBody
-}
+import { ThreadService } from "App/messages/services/thread.service"
 
 export interface GetMessagesByThreadIdResponse {
   data: Message[]
@@ -45,41 +39,11 @@ export interface CreateMessageDataResponse {
   thread?: Thread
 }
 
-// TODO: The `MessagesService` logic is supposed to be changed so will be covered with tests in the next story: CP-896
 export class MessageService {
-  constructor(private deviceService: DeviceService) {}
-
-  public async getThreads(
-    pagination: PaginationBody
-  ): Promise<RequestResponse<GetThreadsResponse>> {
-    const body: GetThreadsBody = {
-      category: PureMessagesCategory.thread,
-      ...pagination,
-    }
-
-    const response = await this.deviceService.request({
-      body,
-      endpoint: Endpoint.Messages,
-      method: Method.Get,
-    })
-
-    if (isResponseSuccessWithData(response)) {
-      const data = response.data
-      return {
-        status: RequestResponseStatus.Ok,
-        data: {
-          data: data.entries.map(MessagePresenter.mapToThread),
-          nextPage: data.nextPage,
-          totalCount: data.totalCount,
-        },
-      }
-    } else {
-      return {
-        status: RequestResponseStatus.Error,
-        error: { message: "Get messages by threadId: Something went wrong" },
-      }
-    }
-  }
+  constructor(
+    private deviceService: DeviceService,
+    private threadService: ThreadService
+  ) {}
 
   public async getMessages(
     pagination: PaginationBody
@@ -139,29 +103,6 @@ export class MessageService {
     }
   }
 
-  public async getThread(id: string): Promise<RequestResponse<Thread>> {
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.Messages,
-      method: Method.Get,
-      body: {
-        category: PureMessagesCategory.thread,
-        threadID: Number(id),
-      },
-    })
-
-    if (isResponseSuccessWithData(response)) {
-      return {
-        status: response.status,
-        data: MessagePresenter.mapToThread(response.data),
-      }
-    } else {
-      return {
-        status: RequestResponseStatus.Error,
-        error: { message: "Get thread: Something went wrong" },
-      }
-    }
-  }
-
   public async createMessage(
     newMessage: NewMessage
   ): Promise<RequestResponse<CreateMessageDataResponse>> {
@@ -173,7 +114,10 @@ export class MessageService {
 
     if (MessageService.isAcceptablePureMessageType(data)) {
       if (newMessage.threadId === undefined) {
-        const threadsResponse = await this.getThreads({ limit: 1, offset: 0 })
+        const threadsResponse = await this.threadService.getThreads({
+          limit: 1,
+          offset: 0,
+        })
         const threadId = threadsResponse.data?.data[0]?.id
 
         if (!threadId) {
@@ -203,7 +147,7 @@ export class MessageService {
     } else {
       return {
         status: RequestResponseStatus.Error,
-        error: { message: "Add message: Something went wrong" },
+        error: { message: "Create message: Something went wrong" },
       }
     }
   }

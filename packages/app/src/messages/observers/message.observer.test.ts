@@ -20,6 +20,7 @@ import {
 } from "App/core/types/request-response.interface"
 import { Message, MessageType, Thread } from "App/messages/reducers"
 import { flushPromises } from "App/core/helpers/flush-promises"
+import { ThreadService } from "App/messages/services/thread.service"
 
 const message: Message = {
   id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
@@ -63,6 +64,7 @@ describe("Message Observer: observe", () => {
     let subject: MessageObserver
     let eventEmitterMock: EventEmitter
     let messageService: MessageService
+    let threadService: ThreadService
     let messageRepository: MessageRepository
     let threadRepository: ThreadRepository
     beforeEach(() => {
@@ -81,12 +83,15 @@ describe("Message Observer: observe", () => {
       } as unknown as DeviceService
       messageService = {
         getMessages: jest.fn(),
-        getThreads: jest.fn(),
       } as unknown as MessageService
+      threadService = {
+        getThreads: jest.fn(),
+      } as unknown as ThreadService
       subject = new MessageObserver(
         ipcMain,
         deviceService,
         messageService,
+        threadService,
         messageRepository,
         threadRepository
       )
@@ -96,7 +101,7 @@ describe("Message Observer: observe", () => {
       messageService.getMessages = jest
         .fn()
         .mockReturnValue(getMessagesSuccessResponse)
-      messageService.getThreads = jest
+      threadService.getThreads = jest
         .fn()
         .mockReturnValue(getThreadsSuccessResponse)
       expect(messageService.getMessages).toHaveBeenCalledTimes(0)
@@ -111,23 +116,23 @@ describe("Message Observer: observe", () => {
       messageService.getMessages = jest
         .fn()
         .mockReturnValue(getMessagesSuccessResponse)
-      messageService.getThreads = jest
+      threadService.getThreads = jest
         .fn()
         .mockReturnValue(getThreadsSuccessResponse)
-      expect(messageService.getThreads).toHaveBeenCalledTimes(0)
+      expect(threadService.getThreads).toHaveBeenCalledTimes(0)
 
       subject.observe()
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
       await flushPromises()
 
-      expect(messageService.getThreads).toHaveBeenCalled()
+      expect(threadService.getThreads).toHaveBeenCalled()
     })
 
     test("`DataUpdated` is emits when `getMessages` returns true", async () => {
       messageService.getMessages = jest
         .fn()
         .mockReturnValue(getMessagesSuccessResponse)
-      messageService.getThreads = jest
+      threadService.getThreads = jest
         .fn()
         .mockReturnValue(getThreadsSuccessResponse)
       expect(messageService.getMessages).toHaveBeenCalledTimes(0)
@@ -146,16 +151,16 @@ describe("Message Observer: observe", () => {
       messageService.getMessages = jest
         .fn()
         .mockReturnValue(getMessagesSuccessResponse)
-      messageService.getThreads = jest
+      threadService.getThreads = jest
         .fn()
         .mockReturnValue(getThreadsSuccessResponse)
-      expect(messageService.getThreads).toHaveBeenCalledTimes(0)
+      expect(threadService.getThreads).toHaveBeenCalledTimes(0)
 
       subject.observe()
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
       await flushPromises()
 
-      expect(messageService.getThreads).toHaveBeenCalledTimes(1)
+      expect(threadService.getThreads).toHaveBeenCalledTimes(1)
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
         IpcEvent.DataUpdated
       )
@@ -185,16 +190,16 @@ describe("Message Observer: observe", () => {
       messageService.getMessages = jest
         .fn()
         .mockReturnValue(getMessagesSuccessResponse)
-      messageService.getThreads = jest
+      threadService.getThreads = jest
         .fn()
         .mockReturnValue(getThreadsSuccessResponse)
-      expect(messageService.getThreads).toHaveBeenCalledTimes(0)
+      expect(threadService.getThreads).toHaveBeenCalledTimes(0)
 
       subject.observe()
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
       await flushPromises()
 
-      expect(messageService.getThreads).toHaveBeenCalledTimes(1)
+      expect(threadService.getThreads).toHaveBeenCalledTimes(1)
       expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
         IpcEvent.DataUpdated
       )
@@ -204,7 +209,7 @@ describe("Message Observer: observe", () => {
       messageService.getMessages = jest
         .fn()
         .mockReturnValue(getMessagesSuccessResponse)
-      messageService.getThreads = jest
+      threadService.getThreads = jest
         .fn()
         .mockReturnValue(getThreadsSuccessResponse)
       expect(messageService.getMessages).toHaveBeenCalledTimes(0)

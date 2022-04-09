@@ -7,11 +7,11 @@ import { ThreadRepository } from "App/messages/repositories"
 import { OutboxEntry, OutboxEntryChange } from "@mudita/pure"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { EntryHandler } from "App/outbox/services/entry-handler.type"
-import { MessageService } from "App/messages/services"
+import { ThreadService } from "App/messages/services"
 
 export class ThreadEntryHandlerService implements EntryHandler {
   constructor(
-    public messageService: MessageService,
+    public threadService: ThreadService,
     private threadRepository: ThreadRepository
   ) {}
 
@@ -22,7 +22,7 @@ export class ThreadEntryHandlerService implements EntryHandler {
       return this.threadRepository.delete(id)
     }
 
-    const { status, data } = await this.messageService.getThread(id)
+    const { status, data } = await this.threadService.getThread(id)
 
     if (status !== RequestResponseStatus.Ok || data === undefined) {
       return

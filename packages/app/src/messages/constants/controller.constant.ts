@@ -12,13 +12,3 @@ export enum IpcMessageEvent {
 export enum IpcMessageRequest {
   CreateMessage = "message-create-message",
 }
-
-export const ThreadControllerPrefix = "thread"
-
-export enum IpcThreadEvent {
-  GetThreads = "get-threads",
-}
-
-export enum IpcThreadRequest {
-  GetThreads = "thread-get-threads",
-}

@@ -10,7 +10,7 @@ import {
 } from "App/backend/device-service"
 import { MainProcessIpc } from "electron-better-ipc"
 import { IpcEvent } from "App/data-sync/constants"
-import { MessageService } from "App/messages/services"
+import { MessageService, ThreadService } from "App/messages/services"
 import { MessageRepository, ThreadRepository } from "App/messages/repositories"
 import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
 
@@ -26,6 +26,7 @@ export class MessageObserver implements Observer {
     private ipc: MainProcessIpc,
     private deviceService: DeviceService,
     private messageService: MessageService,
+    private threadService: ThreadService,
     private messageRepository: MessageRepository,
     private threadRepository: ThreadRepository
   ) {}
@@ -98,7 +99,7 @@ export class MessageObserver implements Observer {
   }
 
   private async readThreads(): Promise<boolean> {
-    const response = await this.messageService.getThreads({
+    const response = await this.threadService.getThreads({
       limit: 4,
       offset: 0,
     })

@@ -11,7 +11,7 @@ import {
 } from "App/core/types/request-response.interface"
 import { ThreadEntryHandlerService } from "App/outbox/services/thread-entry-handler.service"
 import { Thread } from "App/messages/reducers"
-import { MessageService } from "App/messages/services"
+import { ThreadService } from "App/messages/services"
 import { ThreadRepository } from "App/messages/repositories"
 
 const successResponse: SuccessRequestResponse<Thread> = {
@@ -30,7 +30,7 @@ beforeEach(() => {
 describe("ThreadEntryHandlerService: handleEntry", () => {
   describe("when Thread Entry has Deleted change", () => {
     let subject: ThreadEntryHandlerService
-    let messageService: MessageService
+    let threadService: ThreadService
     let threadRepository: ThreadRepository
     const entry: OutboxEntry = {
       uid: 1,
@@ -43,10 +43,10 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
       threadRepository = {
         delete: jest.fn(),
       } as unknown as ThreadRepository
-      messageService = {
+      threadService = {
         getThread: jest.fn().mockReturnValue(successResponse),
-      } as unknown as MessageService
-      subject = new ThreadEntryHandlerService(messageService, threadRepository)
+      } as unknown as ThreadService
+      subject = new ThreadEntryHandlerService(threadService, threadRepository)
     })
 
     test("`delete` method in threadRepository was called", async () => {
@@ -57,7 +57,7 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
   describe("when Thread Entry has Created change", () => {
     let subject: ThreadEntryHandlerService
-    let messageService: MessageService
+    let threadService: ThreadService
     let threadRepository: ThreadRepository
     const entry: OutboxEntry = {
       uid: 1,
@@ -70,10 +70,10 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
       threadRepository = {
         create: jest.fn(),
       } as unknown as ThreadRepository
-      messageService = {
+      threadService = {
         getThread: jest.fn().mockReturnValue(successResponse),
-      } as unknown as MessageService
-      subject = new ThreadEntryHandlerService(messageService, threadRepository)
+      } as unknown as ThreadService
+      subject = new ThreadEntryHandlerService(threadService, threadRepository)
     })
 
     test("`create` method in threadRepository was called", async () => {
@@ -84,7 +84,7 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
   describe("when Thread Entry has Updated change", () => {
     let subject: ThreadEntryHandlerService
-    let messageService: MessageService
+    let threadService: ThreadService
     let threadRepository: ThreadRepository
     const entry: OutboxEntry = {
       uid: 1,
@@ -97,10 +97,10 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
       threadRepository = {
         update: jest.fn(),
       } as unknown as ThreadRepository
-      messageService = {
+      threadService = {
         getThread: jest.fn().mockReturnValue(successResponse),
-      } as unknown as MessageService
-      subject = new ThreadEntryHandlerService(messageService, threadRepository)
+      } as unknown as ThreadService
+      subject = new ThreadEntryHandlerService(threadService, threadRepository)
     })
 
     test("`update` method in threadRepository was called", async () => {
@@ -111,7 +111,7 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
   describe("when Thread Entry has Updated change and `getThread` returns error", () => {
     let subject: ThreadEntryHandlerService
-    let messageService: MessageService
+    let threadService: ThreadService
     let threadRepository: ThreadRepository
     const entry: OutboxEntry = {
       uid: 1,
@@ -124,10 +124,10 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
       threadRepository = {
         update: jest.fn(),
       } as unknown as ThreadRepository
-      messageService = {
+      threadService = {
         getThread: jest.fn().mockReturnValue(errorResponse),
-      } as unknown as MessageService
-      subject = new ThreadEntryHandlerService(messageService, threadRepository)
+      } as unknown as ThreadService
+      subject = new ThreadEntryHandlerService(threadService, threadRepository)
     })
 
     test("`update` method in threadRepository was called", async () => {
