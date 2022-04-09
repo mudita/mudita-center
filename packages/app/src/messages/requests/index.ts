@@ -4,5 +4,3 @@
  */
 
 export * from "./create-message.request"
-export * from "./get-messages-by-thread-id.request"
-export * from "./get-threads.request"

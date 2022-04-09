@@ -10,12 +10,12 @@ import {
   MessageService,
 } from "App/messages/services"
 import {
-  ThreadControllerPrefix,
   IpcMessageEvent,
+  MessageControllerPrefix,
 } from "App/messages/constants/controller.constant"
 import { NewMessage } from "App/messages/reducers"
 
-@Controller(ThreadControllerPrefix)
+@Controller(MessageControllerPrefix)
 export class MessageController {
   constructor(private messageService: MessageService) {}
 
