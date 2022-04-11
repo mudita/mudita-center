@@ -162,7 +162,7 @@ const RootWrapper: FunctionComponent<Props> = ({
       dataSync()
       dataCache()
     }
-  }, [])
+  })
 
   useEffect(() => {
     if (connectedAndUnlocked) {
