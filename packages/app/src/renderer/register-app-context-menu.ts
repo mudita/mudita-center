@@ -15,7 +15,6 @@ import contactsContextMenu from "App/contacts/helpers/context-menu/context-menu"
 import importDeviceLogFiles from "Renderer/requests/import-device-log-files.request"
 import { name } from "../../package.json"
 import importDeviceCrashDumpFiles from "Renderer/requests/import-device-crash-dumps-files.request"
-import { loadThreads } from "App/messages/actions"
 import { clearAllThreads } from "App/messages/actions/base.action"
 
 const cwd = `${remote.app.getPath("appData")}/${name}/pure-logs`
@@ -51,10 +50,6 @@ const registerAppContextMenu = (menu: ContextMenu) => {
   ])
 
   menu.registerItems("Messages", [
-    {
-      label: "Load default threads",
-      click: () => store.dispatch(loadThreads({ limit: 5, offset: 0 })),
-    },
     {
       label: "Clear all threads",
       click: () => store.dispatch(clearAllThreads()),

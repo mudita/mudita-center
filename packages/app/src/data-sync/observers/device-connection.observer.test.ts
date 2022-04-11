@@ -10,6 +10,7 @@ import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { DataSyncService } from "App/data-sync/services/data-sync.service"
 import { getDeviceInfoRequest } from "Backend/adapters/device-base-info/device-base-info.adapter"
+import { flushPromises } from "App/core/helpers/flush-promises"
 
 jest.mock("Backend/adapters/device-base-info/device-base-info.adapter")
 
@@ -49,8 +50,7 @@ describe("Method: observe", () => {
     subject.observe()
 
     eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
-    await Promise.resolve()
-    await Promise.resolve()
+    await flushPromises()
 
     expect(indexStorageService.indexAll).toHaveBeenCalledTimes(1)
     expect(getDeviceInfoRequest).toHaveBeenCalledTimes(1)

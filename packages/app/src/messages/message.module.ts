@@ -15,6 +15,8 @@ import { MessageModel, ThreadModel } from "App/messages/models"
 import { MessageService } from "App/messages/services"
 import { MessageController } from "App/messages/controllers"
 import { ThreadController } from "App/messages/controllers/thread.controller"
+import { MessageObserver } from "App/messages/observers/message.observer"
+import { MessageRepository, ThreadRepository } from "App/messages/repositories"
 
 export class MessageModule extends BaseModule {
   constructor(
@@ -41,8 +43,17 @@ export class MessageModule extends BaseModule {
     const messageService = new MessageService(this.deviceService)
     const messageController = new MessageController(messageService)
     const threadController = new ThreadController(messageService)
-
+    const messageRepository = new MessageRepository(messageModel)
+    const threadRepository = new ThreadRepository(threadModel)
+    const messageObserver = new MessageObserver(
+      this.ipc,
+      this.deviceService,
+      messageService,
+      messageRepository,
+      threadRepository
+    )
     this.models = [messageModel, threadModel]
     this.controllers = [messageController, threadController]
+    this.observers = [messageObserver]
   }
 }

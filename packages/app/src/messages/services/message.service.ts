@@ -25,7 +25,7 @@ import {
 } from "App/core/types/request-response.interface"
 import {
   AcceptablePureMessageType,
-  MessagesPresenter,
+  MessagePresenter,
 } from "App/messages/presenters"
 import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
 
@@ -48,6 +48,11 @@ export interface GetMessagesBody {
 export interface GetMessagesByThreadIdResponse {
   data: Message[]
   nextPage?: PaginationBody
+}
+
+export interface CreateMessageDataResponse {
+  message: Message
+  thread?: Thread
 }
 
 // TODO: The `MessagesService` logic is supposed to be changed so will be covered with tests in the next story: CP-896
@@ -118,7 +123,7 @@ export class MessageService {
       return {
         status: RequestResponseStatus.Ok,
         data: {
-          data: data.entries.map(MessagesPresenter.mapToThreads),
+          data: data.entries.map(MessagePresenter.mapToThreads),
           nextPage: data.nextPage,
           totalCount: data.totalCount,
         },
@@ -165,7 +170,7 @@ export class MessageService {
         status: RequestResponseStatus.Ok,
         data: [...pureMessages, ...response.data.entries]
           .filter(MessageService.isAcceptablePureMessageType)
-          .map(MessagesPresenter.mapToMessages),
+          .map(MessagePresenter.mapToMessages),
       }
     } else {
       return {
@@ -173,6 +178,38 @@ export class MessageService {
         error: {
           message: "Load all messages in single request: Something went wrong",
         },
+      }
+    }
+  }
+
+  public async getMessages(
+    pagination: PaginationBody
+  ): Promise<RequestResponse<GetMessagesByThreadIdResponse>> {
+    const body: PureGetMessagesBody = {
+      category: PureMessagesCategory.message,
+      ...pagination,
+    }
+
+    const response = await this.deviceService.request({
+      body,
+      endpoint: Endpoint.Messages,
+      method: Method.Get,
+    })
+
+    if (isResponseSuccessWithData(response)) {
+      return {
+        status: RequestResponseStatus.Ok,
+        data: {
+          data: response.data.entries
+            .filter(MessageService.isAcceptablePureMessageType)
+            .map(MessagePresenter.mapToMessages),
+          nextPage: response.data.nextPage,
+        },
+      }
+    } else {
+      return {
+        status: RequestResponseStatus.Error,
+        error: { message: "Get messages: Something went wrong" },
       }
     }
   }
@@ -199,7 +236,7 @@ export class MessageService {
         data: {
           data: response.data.entries
             .filter(MessageService.isAcceptablePureMessageType)
-            .map(MessagesPresenter.mapToMessages),
+            .map(MessagePresenter.mapToMessages),
           nextPage: response.data.nextPage,
         },
       }
@@ -213,17 +250,41 @@ export class MessageService {
 
   public async createMessage(
     newMessage: NewMessage
-  ): Promise<RequestResponse<Message>> {
+  ): Promise<RequestResponse<CreateMessageDataResponse>> {
     const { data } = await this.deviceService.request({
-      body: MessagesPresenter.mapToPureMessageMessagesBody(newMessage),
+      body: MessagePresenter.mapToPureMessageMessagesBody(newMessage),
       endpoint: Endpoint.Messages,
       method: Method.Post,
     })
 
     if (MessageService.isAcceptablePureMessageType(data)) {
+      if (newMessage.threadId === undefined) {
+        const threadsResponse = await this.getThreads({ limit: 1, offset: 0 })
+        const threadId = threadsResponse.data?.data[0]?.id
+
+        if (!threadId) {
+          return {
+            status: RequestResponseStatus.Error,
+          }
+        }
+
+        return {
+          status: RequestResponseStatus.Ok,
+          data: {
+            message: { ...MessagePresenter.mapToMessages(data), threadId },
+            thread: threadsResponse.data?.data[0],
+          },
+        }
+      }
+
       return {
         status: RequestResponseStatus.Ok,
-        data: MessagesPresenter.mapToMessages(data),
+        data: {
+          message: {
+            ...MessagePresenter.mapToMessages(data),
+            threadId: newMessage.threadId,
+          },
+        },
       }
     } else {
       return {

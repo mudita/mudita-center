@@ -13,7 +13,7 @@ import { OutboxService } from "App/outbox/services"
 import { ipcMain } from "electron-better-ipc"
 import { IpcEvent } from "App/data-sync/constants"
 
-describe("Method: observe", () => {
+describe("Outbox Observer: observe", () => {
   beforeEach(() => {
     jest.useFakeTimers()
   })

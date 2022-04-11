@@ -46,7 +46,10 @@ import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { IndexRange } from "react-virtualized"
-import { GetMessagesBody } from "App/messages/services"
+import {
+  CreateMessageDataResponse,
+  GetMessagesBody,
+} from "App/messages/services"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },
@@ -68,8 +71,6 @@ const mockThread: Thread = {
   messageSnippet: "",
   unread: false,
 }
-
-const threadsPaginationLimit: PaginationBody["limit"] = 8
 
 enum MessagesState {
   List,
@@ -93,11 +94,10 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   ) => Promise<PayloadAction<PaginationBody | undefined>>
   getMessagesStateByThreadId: (threadId: string) => ResultState
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
-  addNewMessage: (newMessage: NewMessage) => Promise<Message | undefined>
+  addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
 }
 
 const Messages: FunctionComponent<Props> = ({
-  loadThreads,
   threadsTotalCount,
   threadsState,
   receivers,
@@ -111,7 +111,6 @@ const Messages: FunctionComponent<Props> = ({
   language,
   attachContactList,
   attachContactFlatList,
-  loadMessagesByThreadId,
   getContactByPhoneNumber,
   isContactCreatedByPhoneNumber,
   addNewMessage,
@@ -119,13 +118,6 @@ const Messages: FunctionComponent<Props> = ({
   const [_, setThreadsPaginationOffset] = useState<
     PaginationBody["offset"] | undefined
   >(0)
-
-  const loadLatestThreadsRequest = async () => {
-    await loadThreads({
-      offset: 0,
-      limit: threadsPaginationLimit,
-    })
-  }
 
   useEffect(() => {
     if (threadsTotalCount === 0) {
@@ -140,31 +132,6 @@ const Messages: FunctionComponent<Props> = ({
   const [tmpActiveThread, setTmpActiveThread] = useState<Thread | undefined>()
 
   const [content, setContent] = useState("")
-
-  useEffect(() => {
-    let interval: any
-
-    if (activeThread !== undefined) {
-      void loadMessagesByThreadId({
-        threadId: activeThread.id,
-      })
-
-      interval = setInterval(() => {
-        void loadMessagesByThreadId({
-          threadId: activeThread.id,
-        })
-        void loadLatestThreadsRequest()
-      }, 10000)
-    } else {
-      interval = setInterval(() => {
-        void loadLatestThreadsRequest()
-      }, 10000)
-    }
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [activeThread])
 
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Thread>(threads)
@@ -264,14 +231,6 @@ const Messages: FunctionComponent<Props> = ({
     }
   }
 
-  const handleLoadMessagesClick = (): void => {
-    if (activeThread) {
-      void loadMessagesByThreadId({
-        threadId: activeThread.id,
-      })
-    }
-  }
-
   const handleDeleteClick = (): void => {
     if (tmpActiveThread !== undefined) {
       closeSidebars()
@@ -301,35 +260,24 @@ const Messages: FunctionComponent<Props> = ({
       return content.length >= 115 ? previousValue : content
     })
   }
-  // FIXME: this is workaround because API no return threadID properly for new thread 1/3
-  // FIXME: https://appnroll.atlassian.net/browse/CP-563
-  const [newMessage, setNewMessage] = useState<Message>()
 
   const handleAddNewMessage = async (phoneNumber: string): Promise<void> => {
-    const message = await addNewMessage({ content, phoneNumber })
-    if (message) {
-      const thread = threads.find(({ id }) => id === message.threadId)
-      if (thread) {
-        openThreadDetails(thread)
-      } else {
-        // FIXME: this is workaround because API no return threadID properly for new thread 2/3
-        // FIXME: https://appnroll.atlassian.net/browse/CP-563
-        setNewMessage(message)
-      }
-    }
+    const threadId = threads.find(
+      (thread) => thread.phoneNumber === phoneNumber
+    )?.id
+    await addNewMessage({ content, phoneNumber, threadId })
   }
 
-  // FIXME: this is workaround because API no return threadID properly for new thread 3/3
-  // FIXME: https://appnroll.atlassian.net/browse/CP-563
   useEffect(() => {
-    if (newMessage !== undefined) {
-      const thread = threads[0]
+    if (activeThread !== undefined) {
+      const thread = threads.find(
+        (thread) => thread.phoneNumber === activeThread.phoneNumber
+      )
       if (thread) {
         openThreadDetails(thread)
-        setNewMessage(undefined)
       }
     }
-  }, [newMessage, threads])
+  }, [activeThread, threads])
 
   const handleNewMessageSendClick = async (number: string) => {
     await handleAddNewMessage(number)
@@ -455,7 +403,6 @@ const Messages: FunctionComponent<Props> = ({
             contactCreated={isContactCreatedByPhoneNumber(
               activeThread.phoneNumber
             )}
-            onLoadMessagesClick={handleLoadMessagesClick}
             onAttachContactClick={openAttachContactModal}
             onContactClick={handleContactClick}
             onDeleteClick={handleDeleteClick}

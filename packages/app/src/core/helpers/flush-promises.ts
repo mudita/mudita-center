@@ -3,4 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./add-new-message.action"
+export function flushPromises() {
+  return new Promise(jest.requireActual("timers").setImmediate)
+}

@@ -10,7 +10,7 @@ import {
   PostMessagesBody,
   Thread as PureThread,
 } from "@mudita/pure"
-import { Message, MessageType, NewMessage, Thread } from "App/messages"
+import { Message, MessageType, NewMessage, Thread } from "App/messages/reducers"
 import { Feature, flags } from "App/feature-flags"
 
 export type AcceptablePureMessageType =
@@ -19,7 +19,7 @@ export type AcceptablePureMessageType =
   | PureMessageType.INBOX
   | PureMessageType.OUTBOX
 
-export class MessagesPresenter {
+export class MessagePresenter {
   static mapToPureMessageMessagesBody(
     newMessage: NewMessage
   ): PostMessagesBody {
@@ -59,7 +59,7 @@ export class MessagesPresenter {
       date: new Date(createdAt * 1000),
       content: messageBody,
       threadId: String(threadID),
-      messageType: MessagesPresenter.getMessageType(messageType),
+      messageType: MessagePresenter.getMessageType(messageType),
     }
   }
 
