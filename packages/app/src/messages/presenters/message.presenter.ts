@@ -8,10 +8,8 @@ import {
   MessagesCategory as PureMessagesCategory,
   MessageType as PureMessageType,
   PostMessagesBody,
-  Thread as PureThread,
 } from "@mudita/pure"
-import { Message, MessageType, NewMessage, Thread } from "App/messages/reducers"
-import { Feature, flags } from "App/feature-flags"
+import { Message, MessageType, NewMessage } from "App/messages/reducers"
 
 export type AcceptablePureMessageType =
   | PureMessageType.FAILED
@@ -30,25 +28,7 @@ export class MessagePresenter {
     }
   }
 
-  static mapToThreads(pureThread: PureThread): Thread {
-    const {
-      isUnread,
-      lastUpdatedAt,
-      messageSnippet,
-      threadID,
-      number = "",
-    } = pureThread
-    return {
-      messageSnippet,
-      // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
-      unread: flags.get(Feature.ProductionAndAlpha) ? false : isUnread,
-      id: String(threadID),
-      phoneNumber: String(number),
-      lastUpdatedAt: new Date(lastUpdatedAt * 1000),
-    }
-  }
-
-  static mapToMessages(
+  static mapToMessage(
     pureMessage: PureMessage & { messageType: AcceptablePureMessageType }
   ): Message {
     const { messageBody, messageID, messageType, createdAt, threadID, number } =

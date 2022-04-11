@@ -7,7 +7,6 @@ import { MessageRepository } from "App/messages/repositories/message.repository"
 import { MessageModel } from "App/messages/models"
 import { Message, MessageType } from "App/messages/reducers"
 
-
 const message: Message = {
   id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
   date: new Date("2019-10-18T11:27:15.256Z"),

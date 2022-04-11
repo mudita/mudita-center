@@ -46,10 +46,7 @@ import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { IndexRange } from "react-virtualized"
-import {
-  CreateMessageDataResponse,
-  GetMessagesBody,
-} from "App/messages/services"
+import { CreateMessageDataResponse } from "App/messages/services"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },
@@ -89,9 +86,6 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   getContact: (contactId: string) => Contact | undefined
   getReceiver: (phoneNumber: string) => Receiver
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
-  loadMessagesByThreadId: (
-    body: GetMessagesBody
-  ) => Promise<PayloadAction<PaginationBody | undefined>>
   getMessagesStateByThreadId: (threadId: string) => ResultState
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>

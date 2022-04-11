@@ -5,35 +5,13 @@
 
 import {
   Message as PureMessage,
-  Thread as PureThread,
   MessageType as PureMessageType,
 } from "@mudita/pure"
 import {
   AcceptablePureMessageType,
   MessagePresenter,
 } from "App/messages/presenters/message.presenter"
-import { NewMessage, Thread } from "App/messages/reducers/messages.interface"
-
-const pureThread: PureThread = {
-  contactID: 1,
-  isUnread: true,
-  lastUpdatedAt: 1617089558,
-  messageCount: 1,
-  messageSnippet:
-    "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
-  messageType: 1,
-  number: "+48500600700",
-  threadID: 1,
-}
-
-const thread: Thread = {
-  id: "1",
-  phoneNumber: "+48500600700",
-  lastUpdatedAt: new Date(1617089558 * 1000),
-  messageSnippet:
-    "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
-  unread: true,
-}
+import { NewMessage } from "App/messages/reducers/messages.interface"
 
 const pureMessage: PureMessage & {
   messageType: AcceptablePureMessageType
@@ -54,8 +32,6 @@ const newMessage: NewMessage = {
   phoneNumber: "+48500600700",
 }
 
-jest.mock("Backend/device-service")
-
 describe("`MessagePresenter`", () => {
   test("`mapToPureMessageMessagesBody` record properly", () => {
     const result = MessagePresenter.mapToPureMessageMessagesBody(newMessage)
@@ -67,13 +43,8 @@ describe("`MessagePresenter`", () => {
     })
   })
 
-  test("`mapToThreads` record properly", () => {
-    const result = MessagePresenter.mapToThreads(pureThread)
-    expect(result).toEqual(thread)
-  })
-
   test("`mapToMessages` record properly", () => {
-    const result = MessagePresenter.mapToMessages(pureMessage)
+    const result = MessagePresenter.mapToMessage(pureMessage)
     expect(result).toEqual({
       content:
         "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
