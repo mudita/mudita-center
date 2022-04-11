@@ -8,9 +8,8 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import { testError } from "Renderer/store/constants"
-import getThreads from "Renderer/requests/get-threads.request"
+import { getThreadsRequest } from "App/messages/requests"
 import { loadThreads } from "App/messages/actions/load-threads.action"
-import { GetThreadsResponse } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { LoadThreadsError } from "App/messages/errors"
 import { initialState, Thread } from "App/messages/reducers"
 import { PaginationBody } from "@mudita/pure"
@@ -18,8 +17,9 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { GetThreadsResponse } from "App/messages/services"
 
-jest.mock("Renderer/requests/get-threads.request")
+jest.mock("App/messages/requests/get-threads.request")
 
 const threads: Thread[] = [
   {
@@ -64,7 +64,7 @@ afterEach(() => {
 describe("async `loadThreads` ", () => {
   describe("when `getThreads` request return success", () => {
     test("fire async `loadThreads` call `setThreads`", async () => {
-      ;(getThreads as jest.Mock).mockReturnValue(successDeviceResponse)
+      ;(getThreadsRequest as jest.Mock).mockReturnValue(successDeviceResponse)
       const mockStore = createMockStore([thunk])({
         messages: initialState,
       })
@@ -87,13 +87,13 @@ describe("async `loadThreads` ", () => {
         loadThreads.fulfilled(undefined, requestId, pagination),
       ])
 
-      expect(getThreads).toHaveBeenCalled()
+      expect(getThreadsRequest).toHaveBeenCalled()
     })
   })
 
   describe("when `getThreads` request return error", () => {
     test("fire async `loadThreads` returns `rejected` action", async () => {
-      ;(getThreads as jest.Mock).mockReturnValue(errorDeviceResponse)
+      ;(getThreadsRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
       const errorMock = new LoadThreadsError("Get Threads request failed")
       const mockStore = createMockStore([thunk])({
         messages: initialState,
@@ -109,14 +109,14 @@ describe("async `loadThreads` ", () => {
         loadThreads.rejected(testError, requestId, pagination, errorMock),
       ])
 
-      expect(getThreads).toHaveBeenCalled()
+      expect(getThreadsRequest).toHaveBeenCalled()
     })
   })
 
   describe("when messages state has some data and request return success with empty data", () => {
     test("fire `getThreads` call `clearAllThreads` and `getThreads` to loads first records", async () => {
       let index = 0
-      ;(getThreads as jest.Mock).mockImplementation(() => {
+      ;(getThreadsRequest as jest.Mock).mockImplementation(() => {
         if (index === 0) {
           index++
           return emptyDataSuccessDeviceResponse
@@ -146,14 +146,14 @@ describe("async `loadThreads` ", () => {
         loadThreads.fulfilled(undefined, requestId, pagination),
       ])
 
-      expect(getThreads).toHaveBeenCalledTimes(2)
+      expect(getThreadsRequest).toHaveBeenCalledTimes(2)
     })
   })
 
   describe("when messages state has some data and request return lower `threadsTotalCount` value", () => {
     test("fire `getThreads` loads first records", async () => {
       let index = 0
-      ;(getThreads as jest.Mock).mockImplementation(() => {
+      ;(getThreadsRequest as jest.Mock).mockImplementation(() => {
         if (index === 0) {
           index++
           return emptyDataSuccessDeviceResponse
@@ -183,7 +183,7 @@ describe("async `loadThreads` ", () => {
         loadThreads.fulfilled(undefined, requestId, pagination),
       ])
 
-      expect(getThreads).toHaveBeenCalledTimes(2)
+      expect(getThreadsRequest).toHaveBeenCalledTimes(2)
     })
   })
 })

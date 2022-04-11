@@ -9,7 +9,6 @@ import PurePhoneNetworkAdapter from "Backend/adapters/pure-phone-network/pure-ph
 import PurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage-adapter.class"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import CalendarAdapter from "Backend/adapters/calendar/calendar-adapter.class"
-import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import DeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
 import DeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-adapter.class"
@@ -24,5 +23,4 @@ export default interface Adapters {
   pureStorage: PurePhoneStorageAdapter
   pureNetwork: PurePhoneNetworkAdapter
   calendar: CalendarAdapter
-  pureMessages: PurePhoneMessagesAdapter
 }

@@ -45,8 +45,8 @@ import { MessagesTestIds } from "App/messages/components/messages/messages-test-
 import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { IndexRange } from "react-virtualized"
+import { GetMessagesBody } from "App/messages/services"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },

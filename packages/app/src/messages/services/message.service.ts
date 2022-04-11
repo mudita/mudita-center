@@ -3,14 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PurePhoneMessagesAdapter, {
-  GetMessagesBody,
-  GetMessagesByThreadIdResponse,
-  GetThreadsResponse,
-} from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import {
   Message,
-  MessageType,
   NewMessage,
   Thread,
 } from "App/messages/reducers/messages.interface"
@@ -24,29 +18,41 @@ import {
   MessageType as PureMessageType,
   Method,
   PaginationBody,
-  Thread as PureThread,
 } from "@mudita/pure"
-import { Feature, flags } from "App/feature-flags"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import {
+  AcceptablePureMessageType,
+  MessagesPresenter,
+} from "App/messages/presenters"
+import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
 
 const initGetMessagesBody: PureGetMessagesBody = {
   category: PureMessagesCategory.message,
   limit: 15,
 }
 
-type AcceptablePureMessageType =
-  | PureMessageType.FAILED
-  | PureMessageType.QUEUED
-  | PureMessageType.INBOX
-  | PureMessageType.OUTBOX
+export interface GetThreadsResponse {
+  data: Thread[]
+  totalCount: number
+  nextPage?: PaginationBody
+}
 
-class PurePhoneMessages extends PurePhoneMessagesAdapter {
-  constructor(private deviceService: DeviceService) {
-    super()
-  }
+export interface GetMessagesBody {
+  threadId: string
+  nextPage?: PaginationBody
+}
+
+export interface GetMessagesByThreadIdResponse {
+  data: Message[]
+  nextPage?: PaginationBody
+}
+
+// TODO: The `MessagesService` logic is supposed to be changed so will be covered with tests in the next story: CP-896
+export class MessageService {
+  constructor(private deviceService: DeviceService) {}
 
   public async loadMoreThreadsInSingleRequest(
     pagination: PaginationBody,
@@ -101,17 +107,18 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       ...pagination,
     }
 
-    const { status, data } = await this.deviceService.request({
+    const response = await this.deviceService.request({
       body,
       endpoint: Endpoint.Messages,
       method: Method.Get,
     })
 
-    if (status === RequestResponseStatus.Ok && data?.entries !== undefined) {
+    if (isResponseSuccessWithData(response)) {
+      const data = response.data
       return {
         status: RequestResponseStatus.Ok,
         data: {
-          data: data.entries.map(PurePhoneMessages.mapToThreads),
+          data: data.entries.map(MessagesPresenter.mapToThreads),
           nextPage: data.nextPage,
           totalCount: data.totalCount,
         },
@@ -135,11 +142,12 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     pureMessages: PureMessage[] = [],
     body = initGetMessagesBody
   ): Promise<RequestResponse<Message[]>> {
-    const { status, data } = await this.deviceService.request({
+    const response = await this.deviceService.request({
       body: { ...body, threadID: Number(threadId) },
       endpoint: Endpoint.Messages,
       method: Method.Get,
     })
+    const data = response.data
 
     if (data?.nextPage !== undefined) {
       const limit: number = data.totalCount - data.nextPage.offset
@@ -152,15 +160,12 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
           offset: data.nextPage.offset,
         }
       )
-    } else if (
-      status === RequestResponseStatus.Ok &&
-      data?.entries !== undefined
-    ) {
+    } else if (isResponseSuccessWithData(response)) {
       return {
         status: RequestResponseStatus.Ok,
-        data: [...pureMessages, ...data.entries]
-          .filter(PurePhoneMessages.isAcceptablePureMessageType)
-          .map(PurePhoneMessages.mapToMessages),
+        data: [...pureMessages, ...response.data.entries]
+          .filter(MessageService.isAcceptablePureMessageType)
+          .map(MessagesPresenter.mapToMessages),
       }
     } else {
       return {
@@ -182,20 +187,20 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       ...nextPage,
     }
 
-    const { status, data } = await this.deviceService.request({
+    const response = await this.deviceService.request({
       body,
       endpoint: Endpoint.Messages,
       method: Method.Get,
     })
 
-    if (status === RequestResponseStatus.Ok && data?.entries !== undefined) {
+    if (isResponseSuccessWithData(response)) {
       return {
         status: RequestResponseStatus.Ok,
         data: {
-          data: data.entries
-            .filter(PurePhoneMessages.isAcceptablePureMessageType)
-            .map(PurePhoneMessages.mapToMessages),
-          nextPage: data.nextPage,
+          data: response.data.entries
+            .filter(MessageService.isAcceptablePureMessageType)
+            .map(MessagesPresenter.mapToMessages),
+          nextPage: response.data.nextPage,
         },
       }
     } else {
@@ -206,27 +211,19 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     }
   }
 
-  public async addMessage(
+  public async createMessage(
     newMessage: NewMessage
   ): Promise<RequestResponse<Message>> {
-    const { status, data } = await this.deviceService.request({
-      body: {
-        number: newMessage.phoneNumber,
-        messageBody: newMessage.content,
-        category: PureMessagesCategory.message,
-      },
+    const { data } = await this.deviceService.request({
+      body: MessagesPresenter.mapToPureMessageMessagesBody(newMessage),
       endpoint: Endpoint.Messages,
       method: Method.Post,
     })
 
-    if (
-      status === RequestResponseStatus.Ok &&
-      data !== undefined &&
-      PurePhoneMessages.isAcceptablePureMessageType(data)
-    ) {
+    if (MessageService.isAcceptablePureMessageType(data)) {
       return {
         status: RequestResponseStatus.Ok,
-        data: PurePhoneMessages.mapToMessages(data),
+        data: MessagesPresenter.mapToMessages(data),
       }
     } else {
       return {
@@ -236,62 +233,18 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     }
   }
 
-  private static mapToThreads(pureThread: PureThread): Thread {
-    const {
-      isUnread,
-      lastUpdatedAt,
-      messageSnippet,
-      threadID,
-      number = "",
-    } = pureThread
-    return {
-      messageSnippet,
-      // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
-      unread: flags.get(Feature.ProductionAndAlpha) ? false : isUnread,
-      id: String(threadID),
-      phoneNumber: String(number),
-      lastUpdatedAt: new Date(lastUpdatedAt * 1000),
-    }
-  }
-
-  private static mapToMessages(
-    pureMessage: PureMessage & { messageType: AcceptablePureMessageType }
-  ): Message {
-    const { messageBody, messageID, messageType, createdAt, threadID, number } =
-      pureMessage
-    return {
-      phoneNumber: number,
-      id: String(messageID),
-      date: new Date(createdAt * 1000),
-      content: messageBody,
-      threadId: String(threadID),
-      messageType: PurePhoneMessages.getMessageType(messageType),
-    }
-  }
-
-  private static isAcceptablePureMessageType(
-    pureMessage: PureMessage
+  static isAcceptablePureMessageType(
+    pureMessage?: PureMessage
   ): pureMessage is PureMessage & { messageType: AcceptablePureMessageType } {
+    if (!pureMessage) {
+      return false
+    }
     return (
       pureMessage.messageType === PureMessageType.FAILED ||
       pureMessage.messageType === PureMessageType.QUEUED ||
       pureMessage.messageType === PureMessageType.INBOX ||
       pureMessage.messageType === PureMessageType.OUTBOX
     )
-  }
-
-  private static getMessageType(
-    messageType: AcceptablePureMessageType
-  ): MessageType {
-    if (
-      messageType === PureMessageType.FAILED ||
-      messageType === PureMessageType.QUEUED ||
-      messageType === PureMessageType.OUTBOX
-    ) {
-      return MessageType.OUTBOX
-    } else {
-      return MessageType.INBOX
-    }
   }
 }
 
@@ -320,9 +273,3 @@ const returnResponseWithNextPage = (
     },
   }
 }
-
-const createPurePhoneMessagesAdapter = (
-  deviceService: DeviceService
-): PurePhoneMessagesAdapter => new PurePhoneMessages(deviceService)
-
-export default createPurePhoneMessagesAdapter

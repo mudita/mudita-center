@@ -4,10 +4,10 @@
  */
 
 import { Controller, IpcEvent } from "App/core/decorators"
-import { ControllerPrefix, IpcContactEvent } from "App/contacts/constants"
-import { ContactService } from "App/contacts/services/contact.service"
-import { Contact, ContactID } from "App/contacts/reducers"
+import { ContactService } from "App/contacts/services"
 import { RequestResponse } from "App/core/types/request-response.interface"
+import { ControllerPrefix, IpcContactEvent } from "App/contacts/constants"
+import { Contact, ContactID } from "App/contacts/reducers"
 
 @Controller(ControllerPrefix)
 export class ContactController {

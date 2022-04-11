@@ -15,7 +15,7 @@ import { OutboxService } from "App/outbox/services"
 import { OutboxObserver } from "App/outbox/observers/outbox.observer"
 import { ContactRepository } from "App/contacts/repositories"
 import { ContactModel } from "App/contacts/models"
-import { ContactService } from "App/contacts/services/contact.service"
+import { ContactService } from "App/contacts/services"
 
 export class OutboxModule extends BaseModule {
   constructor(

@@ -15,7 +15,7 @@ import { OutboxService } from "App/outbox/services/outbox.service"
 import DeviceService from "Backend/device-service"
 import { IpcEvent } from "App/data-sync/constants"
 import { ContactRepository } from "App/contacts/repositories"
-import { ContactService } from "App/contacts/services/contact.service"
+import { ContactService } from "App/contacts/services"
 import { Contact } from "App/contacts/reducers"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 

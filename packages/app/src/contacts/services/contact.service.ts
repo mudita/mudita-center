@@ -12,6 +12,7 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
 
 export class ContactService {
   constructor(
@@ -20,7 +21,7 @@ export class ContactService {
   ) {}
 
   public async getContact(id: string): Promise<RequestResponse<Contact>> {
-    const { status, data } = await this.deviceService.request({
+    const response = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Get,
       body: {
@@ -28,10 +29,10 @@ export class ContactService {
       },
     })
 
-    if (status === RequestResponseStatus.Ok && data !== undefined) {
+    if (isResponseSuccessWithData(response)) {
       return {
-        status,
-        data: ContactPresenter.serialize(data),
+        status: response.status,
+        data: ContactPresenter.mapToContact(response.data),
       }
     } else {
       return {
@@ -42,15 +43,15 @@ export class ContactService {
   }
 
   public async getContacts(): Promise<RequestResponse<Contact[]>> {
-    const { status, data } = await this.deviceService.request({
+    const response = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Get,
     })
 
-    if (status === RequestResponseStatus.Ok && data?.entries !== undefined) {
+    if (isResponseSuccessWithData(response)) {
       return {
-        status,
-        data: data.entries.map(ContactPresenter.serialize),
+        status: response.status,
+        data: response.data.entries.map(ContactPresenter.mapToContact),
       }
     } else {
       return {
@@ -63,29 +64,29 @@ export class ContactService {
   public async createContact(
     newContact: Contact
   ): Promise<RequestResponse<Contact>> {
-    const { status, data } = await this.deviceService.request({
+    const response = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Post,
-      body: ContactPresenter.deserialize(newContact),
+      body: ContactPresenter.mapToPureContact(newContact),
     })
 
-    if (status === RequestResponseStatus.Ok && data !== undefined) {
+    if (isResponseSuccessWithData(response)) {
       const contact = {
         ...newContact,
-        id: String(data.id),
+        id: String(response.data.id),
         primaryPhoneNumber: newContact.primaryPhoneNumber ?? "",
       }
 
       this.contactRepository.create(contact, true)
 
       return {
-        status,
+        status: response.status,
         data: contact,
       }
     } else {
       return {
-        status,
-        error: { message: "Create contact: Something went wrong", data },
+        status: response.status,
+        error: { message: "Create contact: Something went wrong" },
       }
     }
   }
@@ -103,7 +104,7 @@ export class ContactService {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
-      body: ContactPresenter.deserialize(contact),
+      body: ContactPresenter.mapToPureContact(contact),
     })
 
     if (status === RequestResponseStatus.Ok) {

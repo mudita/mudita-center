@@ -10,17 +10,14 @@ import { Message, MessageType } from "App/messages/reducers"
 import { MessagesEvent } from "App/messages/constants"
 import { testError } from "Renderer/store/constants"
 import { loadMessagesById } from "App/messages/actions/load-messages-by-id.action"
-import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.request"
-import {
-  GetMessagesBody,
-  GetMessagesByThreadIdResponse,
-} from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import { getMessagesByThreadIdRequest } from "App/messages/requests"
 import { LoadMessagesByIdError } from "App/messages/errors"
 import { setMessages } from "App/messages/actions/base.action"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { GetMessagesBody, GetMessagesByThreadIdResponse } from "App/messages/services"
 
 const messages: Message[] = [
   {
@@ -53,7 +50,7 @@ const getMessagesBody: GetMessagesBody = {
   },
 }
 
-jest.mock("Renderer/requests/get-messages-by-thread-id.request")
+jest.mock("App/messages/requests/get-messages-by-thread-id.request")
 jest.mock("App/messages/actions/base.action", () => ({
   setMessages: jest.fn().mockReturnValue({
     type: MessagesEvent.SetMessages,
@@ -78,7 +75,7 @@ afterEach(() => {
 describe("async `loadMessagesById` ", () => {
   describe("when `getMessagesByThreadId` request return success", () => {
     test("fire async `loadMessagesById` call `setMessages`", async () => {
-      ;(getMessagesByThreadId as jest.Mock).mockReturnValue(
+      ;(getMessagesByThreadIdRequest as jest.Mock).mockReturnValue(
         successDeviceResponse
       )
       const mockStore = createMockStore([thunk])()
@@ -97,13 +94,13 @@ describe("async `loadMessagesById` ", () => {
         loadMessagesById.fulfilled(undefined, requestId, getMessagesBody),
       ])
 
-      expect(getMessagesByThreadId).toHaveBeenCalled()
+      expect(getMessagesByThreadIdRequest).toHaveBeenCalled()
     })
   })
 
   describe("when `getMessagesByThreadId` request return error", () => {
     test("fire async `loadMessagesById` returns `rejected` action", async () => {
-      ;(getMessagesByThreadId as jest.Mock).mockReturnValue(errorDeviceResponse)
+      ;(getMessagesByThreadIdRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
       const errorMock = new LoadMessagesByIdError(
         "Load Messages By Id request failed"
       )
@@ -124,7 +121,7 @@ describe("async `loadMessagesById` ", () => {
         ),
       ])
 
-      expect(getMessagesByThreadId).toHaveBeenCalled()
+      expect(getMessagesByThreadIdRequest).toHaveBeenCalled()
       expect(setMessages).not.toHaveBeenCalled()
     })
   })

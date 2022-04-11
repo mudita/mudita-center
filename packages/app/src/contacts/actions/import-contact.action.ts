@@ -5,9 +5,8 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ContactsEvent } from "App/contacts/constants"
-import createContactRequest from "App/contacts/requests/create-contact.request"
+import { createContactRequest, editContactRequest } from "App/contacts/requests"
 import { Contact, NewContact } from "App/contacts/reducers"
-import editContact from "App/contacts/requests/edit-contact.request"
 import { ImportContactError } from "App/contacts/errors/import-contact.error"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
@@ -22,7 +21,7 @@ export const importContact = createAsyncThunk<Error | Contact, NewContact>(
         ...newContact,
         id: String(error!.data.id),
       } as Contact
-      const response = await editContact(contact)
+      const response = await editContactRequest(contact)
       return response.data ?? contact
     }
 
