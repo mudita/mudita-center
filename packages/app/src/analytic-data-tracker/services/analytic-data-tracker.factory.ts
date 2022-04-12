@@ -12,9 +12,14 @@ import {
 } from "App/analytic-data-tracker/services/analytic-data-tracker-class.interface"
 import { AnalyticDataTrackerService } from "App/analytic-data-tracker/services/analytic-data-tracker.service"
 import { getAppSettingsService } from "App/app-settings/containers/app-settings.container"
+import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
+import { TrackerCacheService } from "App/analytic-data-tracker/services/tracker-cache.service"
 
 class MatomoTrackerPlaceholder implements AnalyticDataTrackerClass {
   track(): Promise<any> {
+    return Promise.resolve()
+  }
+  trackUnique(): Promise<any> {
     return Promise.resolve()
   }
   toggleTracking(): void {
@@ -31,10 +36,10 @@ export interface AnalyticDataTrackerFactoryOption {
 }
 
 export class AnalyticDataTrackerFactory {
-  static create({
-    siteId,
-    apiUrl,
-  }: AnalyticDataTrackerFactoryOption): AnalyticDataTrackerClass {
+  static create(
+    fileSystem: FileSystemService,
+    { siteId, apiUrl }: AnalyticDataTrackerFactoryOption
+  ): AnalyticDataTrackerClass {
     if (siteId === undefined || isNaN(Number(siteId))) {
       logger.info(`AnalyticDataTracker siteId is required`)
       return new MatomoTrackerPlaceholder()
@@ -62,8 +67,11 @@ export class AnalyticDataTrackerFactory {
       }),
     })
 
+    const trackerCacheService = new TrackerCacheService(fileSystem)
+
     return new AnalyticDataTrackerService(
       { _id, siteId, apiUrl, trackingEnabled },
+      trackerCacheService,
       axiosInstance
     )
   }

@@ -117,6 +117,7 @@ export interface trackEvent {
 
 export interface AnalyticDataTrackerClass {
   track(event: trackEvent): Promise<AxiosResponse | undefined>
+  trackUnique(event: trackEvent): Promise<AxiosResponse | undefined>
   toggleTracking(flag: boolean): void
   setVisitorMetadata(visitorMetadata: VisitorMetadata): void
 }

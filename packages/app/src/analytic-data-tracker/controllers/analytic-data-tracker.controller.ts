@@ -23,6 +23,11 @@ export class AnalyticDataTrackerController {
     await this.tracker.track(event)
   }
 
+  @IpcEvent(IpcAnalyticDataTrackerEvent.TrackUnique)
+  public async trackUnique(event: trackEvent): Promise<void> {
+    await this.tracker.trackUnique(event)
+  }
+
   @IpcEvent(IpcAnalyticDataTrackerEvent.ToggleTracking)
   public toggleTracking(flag: boolean): void {
     this.tracker.toggleTracking(flag)

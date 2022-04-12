@@ -8,6 +8,7 @@ import {
   AnalyticDataTrackerClass,
   trackEvent,
 } from "App/analytic-data-tracker/services/analytic-data-tracker-class.interface"
+import { TrackerCacheService } from "App/analytic-data-tracker/services/tracker-cache.service"
 
 export interface AnalyticDataTrackerOptions {
   _id: string
@@ -31,19 +32,49 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
 
   constructor(
     options: AnalyticDataTrackerOptions,
-    private httpClient: AxiosInstance
+    private trackerCacheService: TrackerCacheService,
+    private httpClient: AxiosInstance,
   ) {
     this._id = options._id
     this.siteId = options.siteId
     this.apiUrl = options.apiUrl
     this.trackingEnabled = options.trackingEnabled ?? true
   }
-
-  public track(event: trackEvent): Promise<AxiosResponse | undefined> {
+  public async track(event: trackEvent): Promise<AxiosResponse | undefined> {
     if (!this.trackingEnabled) {
-      return Promise.resolve(undefined)
+      return
     }
 
+    return this.trackRequest(event)
+  }
+
+  public async trackUnique(event: trackEvent): Promise<AxiosResponse | undefined> {
+    if (!this.trackingEnabled) {
+      return
+    }
+
+    if(!await this.trackerCacheService.isEventUnique(event)){
+      return
+    }
+
+    const response = await this.trackRequest(event)
+
+    if (response?.status === 200){
+      await this.trackerCacheService.saveEvent(event)
+    }
+
+    return response
+  }
+
+  public toggleTracking(flag: boolean): void {
+    this.trackingEnabled = flag
+  }
+
+  public setVisitorMetadata(visitorMetadata: VisitorMetadata): void {
+    this.visitorMetadata = visitorMetadata
+  }
+
+  private trackRequest(event: trackEvent): Promise<AxiosResponse | undefined> {
     const params: AxiosRequestConfig["params"] = {
       rec: 1,
       apiv: 1,
@@ -56,13 +87,5 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     return this.httpClient.post(this.apiUrl, undefined, {
       params,
     })
-  }
-
-  public toggleTracking(flag: boolean): void {
-    this.trackingEnabled = flag
-  }
-
-  public setVisitorMetadata(visitorMetadata: VisitorMetadata): void {
-    this.visitorMetadata = visitorMetadata
   }
 }
