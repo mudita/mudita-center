@@ -8,43 +8,111 @@ import { FileSystemService } from "App/file-system/services/file-system.service.
 
 describe("`TrackerCacheService`", () => {
   describe("`isEventUnique` method", () => {
-    test("when event isn't stored in the cache methods returns false", () => {
+    test("when event isn't stored in the cache then method returns true", async () => {
       const fileSystem = {
         exists: jest.fn().mockReturnValue(true),
-        readFile: jest.fn().mockReturnValue(Buffer.from(``)),
+        readFile: jest.fn().mockReturnValue(Buffer.from(`{}`)),
       } as unknown as FileSystemService
 
       const subject = new TrackerCacheService(fileSystem)
-      expect(subject.isEventUnique({ event: "2" })).toBeTruthy()
+      expect(await subject.isEventUnique({ e_c: "Category 2" })).toBeTruthy()
     })
 
-    test("when event is  stored in the cache methods returns true", () => {
+    test("when event hasn't got `e_c` property then method returns false", async () => {
+      const fileSystem = {
+        exists: jest.fn().mockReturnValue(true),
+        readFile: jest.fn().mockReturnValue(Buffer.from(`{}`)),
+      } as unknown as FileSystemService
+
+      const subject = new TrackerCacheService(fileSystem)
+      expect(await subject.isEventUnique({ e_a: "Action" })).toBeFalsy()
+    })
+
+    test("when event has the same structure like stored then methods returns false", async () => {
       const fileSystem = {
         exists: jest.fn().mockReturnValue(true),
         readFile: jest
           .fn()
           .mockReturnValue(
-            Buffer.from(`{"event":"1"};{"event":"2"};{"event":"3"}`)
+            Buffer.from(
+              `{"Category 1":{"e_c":"Category 1","e_a":"Action"},"Category 2":{"e_c":"Category 2","e_a":"Action"},"Category 3":{"e_c":"Category 3","e_a":"Action"}}`
+            )
           ),
       } as unknown as FileSystemService
 
       const subject = new TrackerCacheService(fileSystem)
-      expect(subject.isEventUnique({ event: "2" })).toBeTruthy()
+      expect(
+        await subject.isEventUnique({ e_c: "Category 2", e_a: "Action" })
+      ).toBeFalsy()
+    })
+
+    test("when event hasn't the same structure like stored then method returns true", async () => {
+      const fileSystem = {
+        exists: jest.fn().mockReturnValue(true),
+        readFile: jest
+          .fn()
+          .mockReturnValue(
+            Buffer.from(
+              `{"Category 1":{"e_c":"Category 1","e_a":"Action"},"Category 2":{"e_c":"Category 2","e_a":"Action"},"Category 3":{"e_c":"Category 3","e_a":"Action"}}`
+            )
+          ),
+      } as unknown as FileSystemService
+
+      const subject = new TrackerCacheService(fileSystem)
+      expect(await subject.isEventUnique({ e_c: "Category 2" })).toBeTruthy()
     })
   })
 
   describe("`saveEvent` method", () => {
-    test("returns undefined and call appendFile", async () => {
+    test("returns undefined and call writeFile", async () => {
       const fileSystem = {
         exists: jest.fn().mockReturnValue(true),
-        appendFile: jest.fn(),
+        readFile: jest.fn().mockReturnValue(Buffer.from(`{}`)),
+        writeFile: jest.fn(),
       } as unknown as FileSystemService
 
       const subject = new TrackerCacheService(fileSystem)
-      expect(await subject.saveEvent({ event: "2" })).toBeUndefined()
-      expect(fileSystem.appendFile).toHaveBeenCalledWith(
-        "track-cache.txt",
-        '{"event":"2"};'
+      expect(
+        await subject.saveEvent({ e_c: "Category 2", e_a: "Action" })
+      ).toBeUndefined()
+      expect(fileSystem.writeFile).toHaveBeenCalledWith(
+        "track-cache.json",
+        '{"Category 2":{"e_c":"Category 2","e_a":"Action"}}'
+      )
+    })
+
+    test("process is ignored when `e_c` property isn't exist ", async () => {
+      const fileSystem = {
+        exists: jest.fn().mockReturnValue(true),
+        readFile: jest.fn().mockReturnValue(Buffer.from(`{}`)),
+        writeFile: jest.fn(),
+      } as unknown as FileSystemService
+
+      const subject = new TrackerCacheService(fileSystem)
+      expect(await subject.saveEvent({ e_a: "Action" })).toBeUndefined()
+      expect(fileSystem.writeFile).not.toHaveBeenCalled()
+    })
+
+    test("replace the previous value stored in `e_c` key", async () => {
+      const fileSystem = {
+        exists: jest.fn().mockReturnValue(true),
+        readFile: jest
+          .fn()
+          .mockReturnValue(
+            Buffer.from(
+              `{"Category 1":{"e_c":"Category 1","e_a":"Action"},"Category 2":{"e_c":"Category 2","e_a":"Action"}}`
+            )
+          ),
+        writeFile: jest.fn(),
+      } as unknown as FileSystemService
+
+      const subject = new TrackerCacheService(fileSystem)
+      expect(
+        await subject.saveEvent({ e_c: "Category 2", e_a: "Action Replaced" })
+      ).toBeUndefined()
+      expect(fileSystem.writeFile).toHaveBeenCalledWith(
+        "track-cache.json",
+        '{"Category 1":{"e_c":"Category 1","e_a":"Action"},"Category 2":{"e_c":"Category 2","e_a":"Action Replaced"}}'
       )
     })
   })
