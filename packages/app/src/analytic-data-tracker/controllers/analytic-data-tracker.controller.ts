@@ -10,9 +10,9 @@ import {
 } from "App/analytic-data-tracker/constants"
 import {
   AnalyticDataTrackerClass,
-  TrackEvent,
   VisitorMetadata,
 } from "App/analytic-data-tracker/services"
+import { TrackEvent } from "App/analytic-data-tracker/types"
 
 @Controller(ControllerPrefix)
 export class AnalyticDataTrackerController {

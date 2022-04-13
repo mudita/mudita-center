@@ -4,7 +4,7 @@
  */
 
 import { trackRequest } from "App/analytic-data-tracker/requests"
-import { TrackEvent } from "App/analytic-data-tracker/services"
+import { TrackEvent } from "App/analytic-data-tracker/types"
 import { TrackEventCategory } from "App/analytic-data-tracker/constants"
 
 export enum TrackCenterUpdateState {
