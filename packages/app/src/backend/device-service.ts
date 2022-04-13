@@ -292,11 +292,17 @@ export class DeviceService {
     }
   }
 
-  public on(eventName: DeviceServiceEventName, listener: () => void): void {
+  public on<Event = undefined>(
+    eventName: DeviceServiceEventName,
+    listener: (event: Event) => void
+  ): void {
     this.eventEmitter.on(eventName, listener)
   }
 
-  public off(eventName: DeviceServiceEventName, listener: () => void): void {
+  public off<Event = undefined>(
+    eventName: DeviceServiceEventName,
+    listener: (event: Event) => void
+  ): void {
     this.eventEmitter.off(eventName, listener)
   }
 
@@ -442,11 +448,20 @@ export class DeviceService {
 
   private emitDeviceUnlockedEvent({ status }: RequestResponse<unknown>): void {
     if (status !== RequestResponseStatus.PhoneLocked) {
-      this.eventEmitter.emit(DeviceServiceEventName.DeviceUnlocked)
-      this.ipcMain.sendToRenderers(IpcEmitter.DeviceUnlocked)
+      this.eventEmitter.emit(
+        DeviceServiceEventName.DeviceUnlocked,
+        this.currentDevice
+      )
+      this.ipcMain.sendToRenderers(
+        IpcEmitter.DeviceUnlocked,
+        this.currentDevice
+      )
     } else {
-      this.eventEmitter.emit(DeviceServiceEventName.DeviceLocked)
-      this.ipcMain.sendToRenderers(IpcEmitter.DeviceLocked)
+      this.eventEmitter.emit(
+        DeviceServiceEventName.DeviceLocked,
+        this.currentDevice
+      )
+      this.ipcMain.sendToRenderers(IpcEmitter.DeviceLocked, this.currentDevice)
     }
   }
 

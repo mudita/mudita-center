@@ -17,3 +17,6 @@ export const setDataSyncInitializingError = createAction<Error | null>(
 )
 export const setCacheState = createAction(DataSyncEvent.SetCacheState)
 export const setLoadedState = createAction(DataSyncEvent.SetLoadedState)
+export const setDataSyncInitState = createAction(
+  DataSyncEvent.SetDataSyncInitState
+)

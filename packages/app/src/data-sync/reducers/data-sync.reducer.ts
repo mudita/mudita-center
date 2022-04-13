@@ -26,6 +26,9 @@ export const dataSyncReducer = createReducer<DataSyncState>(
   initialState,
   (builder) => {
     builder
+      .addCase(DataSyncEvent.SetDataSyncInitState, (state) => {
+        return initialState
+      })
       .addCase(DataSyncEvent.SetDataSyncInitialized, (state) => {
         return {
           ...state,

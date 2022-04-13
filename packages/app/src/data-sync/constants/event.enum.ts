@@ -13,4 +13,5 @@ export enum DataSyncEvent {
   InitializeDataSync = "DATA_SYNC_INITIALIZE_DATA_SYNC",
   InitializingDataSync = "DATA_SYNC_INITIALIZING_DATA_SYNC",
   InitializingDataError = "DATA_SYNC_INITIALIZING_DATA_ERROR",
+  SetDataSyncInitState = "DATA_SYNC_SET_INIT_STATE",
 }

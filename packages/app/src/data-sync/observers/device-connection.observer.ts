@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceType, MuditaDevice } from "@mudita/pure"
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
 import { Observer } from "App/core/types"
@@ -33,39 +34,48 @@ export class DeviceConnectionObserver implements Observer {
   }
 
   private registerListener(): void {
-    this.deviceService.on(DeviceServiceEventName.DeviceUnlocked, async () => {
-      if (this.invoked) {
-        return
-      }
-      this.invoked = true
+    this.deviceService.on(
+      DeviceServiceEventName.DeviceUnlocked,
+      async (device: MuditaDevice) => {
+        if (this.invoked) {
+          return
+        }
+        this.invoked = true
 
-      try {
-        await this.ipc.sendToRenderers(IpcEvent.DataInitialized)
-
-        const { data } = await getDeviceInfoRequest(this.deviceService)
-        if (data === undefined) {
-          await this.ipc.sendToRenderers(IpcEvent.DataError)
+        if (device.deviceType === DeviceType.MuditaHarmony) {
+          await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
+          await this.eventEmitter.emit(ModelEvent.Loaded)
           return
         }
 
-        this.keyStorage.setValue(
-          MetadataKey.DeviceSerialNumber,
-          data.serialNumber
-        )
-        this.keyStorage.setValue(MetadataKey.DeviceToken, data.deviceToken)
+        try {
+          await this.ipc.sendToRenderers(IpcEvent.DataInitialized)
 
-        const indexed = await this.dataSyncService.indexAll()
+          const { data } = await getDeviceInfoRequest(this.deviceService)
+          if (data === undefined) {
+            await this.ipc.sendToRenderers(IpcEvent.DataError)
+            return
+          }
 
-        if (indexed) {
-          await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
-          await this.eventEmitter.emit(ModelEvent.Loaded)
-        } else {
-          await this.ipc.sendToRenderers(IpcEvent.DataError)
+          this.keyStorage.setValue(
+            MetadataKey.DeviceSerialNumber,
+            data.serialNumber
+          )
+          this.keyStorage.setValue(MetadataKey.DeviceToken, data.deviceToken)
+
+          const indexed = await this.dataSyncService.indexAll()
+
+          if (indexed) {
+            await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
+            await this.eventEmitter.emit(ModelEvent.Loaded)
+          } else {
+            await this.ipc.sendToRenderers(IpcEvent.DataError)
+          }
+        } catch (error) {
+          await this.ipc.sendToRenderers(IpcEvent.DataError, error)
         }
-      } catch (error) {
-        await this.ipc.sendToRenderers(IpcEvent.DataError, error)
       }
-    })
+    )
 
     this.deviceService.on(
       DeviceServiceEventName.DeviceDisconnected,
