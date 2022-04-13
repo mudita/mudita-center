@@ -8,7 +8,6 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
 import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
-import { McUsbFile, McUsbFileType } from "@mudita/pure"
 
 type Props = ComponentProps<typeof FilesStorage>
 
@@ -16,21 +15,6 @@ const defaultProps: Props = {
   resultState: ResultState.Empty,
   files: [],
 }
-
-const files: McUsbFile[] = [
-  {
-    id: "1",
-    size: 1234,
-    name: "example_file_name",
-    type: McUsbFileType.mp3,
-  },
-  {
-    id: "2",
-    size: 12345,
-    name: "second_example_file_name",
-    type: McUsbFileType.wav,
-  },
-]
 
 const render = (extraProps?: Partial<Props>) => {
   const props = {
@@ -40,50 +24,12 @@ const render = (extraProps?: Partial<Props>) => {
   return renderWithThemeAndIntl(<FilesStorage {...props} />)
 }
 
-describe("`FilesStorage` component", () => {
-  test("Empty files storage is rendered as default state", () => {
+describe("Files Storage component", () => {
+  test("should render properly", () => {
     const { queryByTestId } = render()
-    expect(queryByTestId(FilesStorageTestIds.Empty)).toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Loaded)).not.toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Error)).not.toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Loading)).not.toBeInTheDocument()
-  })
-
-  test("Error info is rendered if resultState is equal to Error", () => {
-    const { queryByTestId } = render({ resultState: ResultState.Error })
-    expect(queryByTestId(FilesStorageTestIds.Error)).toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Empty)).not.toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Loaded)).not.toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Loading)).not.toBeInTheDocument()
-  })
-
-  test("Loading component is rendered if resultState is Loading", () => {
-    const { queryByTestId } = render({
-      resultState: ResultState.Loading,
-    })
-    expect(queryByTestId(FilesStorageTestIds.Loading)).toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Empty)).not.toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Loaded)).not.toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Error)).not.toBeInTheDocument()
-  })
-
-  test("No results is rendered if resultState is Loaded and files list is empty", () => {
-    const { queryByTestId } = render({ resultState: ResultState.Loaded })
-    expect(queryByTestId(FilesStorageTestIds.Empty)).toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Loaded)).not.toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Error)).not.toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Loading)).not.toBeInTheDocument()
-  })
-
-  test("Files storage is rendered if resultState is Loaded and files list isn't empty", () => {
-    const { queryByTestId, queryAllByTestId } = render({
-      resultState: ResultState.Loaded,
-      files,
-    })
-    expect(queryAllByTestId(FilesStorageTestIds.Row)[0]).toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Loaded)).toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Empty)).not.toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Error)).not.toBeInTheDocument()
-    expect(queryByTestId(FilesStorageTestIds.Loading)).not.toBeInTheDocument()
+    expect(queryByTestId(FilesStorageTestIds.Title)).toHaveTextContent(
+      "[value] component.filesManagerFilesStorageTitle"
+    )
+    expect(queryByTestId(FilesStorageTestIds.List)).toBeInTheDocument()
   })
 })
