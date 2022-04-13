@@ -28,7 +28,6 @@ import {
   getTitleStyle,
 } from "Renderer/components/core/modal/modal.helpers"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Button from "Renderer/components/core/button/button.component"
 import { intl } from "Renderer/utils/intl"
 import { withTheme } from "styled-components"
@@ -37,6 +36,7 @@ import {
   zIndex as getZIndex,
 } from "Renderer/styles/theming/theme-getters"
 import muditaTheme, { Theme } from "Renderer/styles/theming/theme"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const getModalSize = (size: ModalSize) => {
   switch (size) {
@@ -85,9 +85,9 @@ const ModalDialog: FunctionComponent<Properties> = ({
   onClose,
   close = (
     <Close
-      displayStyle={DisplayStyle.IconOnly2}
+      displayStyle={DisplayStyle.IconOnly}
       onClick={closeModal}
-      Icon={Type.Close}
+      Icon={IconType.Close}
       data-testid={ModalTestIds.CloseButton}
     />
   ),
@@ -151,7 +151,11 @@ const ModalDialog: FunctionComponent<Properties> = ({
           {title}
         </ModalTitle>
         {Boolean(closeModal) && close}
-        <ModalSubTitle displayStyle={getSubtitleStyle(size)} element={"p"}>
+        <ModalSubTitle
+          displayStyle={getSubtitleStyle(size)}
+          color="secondary"
+          element={"p"}
+        >
           {subtitle}
         </ModalSubTitle>
       </Header>

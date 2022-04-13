@@ -66,6 +66,7 @@ const defaultProps: Props = {
   pureOsBackupLocation: "",
   pureOsDownloadLocation: "",
   simCards: [],
+  serialNumber: "123456",
 }
 
 storiesOf("Views|Overview", module).add("Overview", () => (
@@ -80,7 +81,7 @@ storiesOf("Views|Overview", module).add("Overview", () => (
         onUpdateInstall={noop}
         onOpenBackupModal={action("Starting backup creation")}
         onOpenBackupRestorationModal={action("Starting backup restoration")}
-        setCollectingData={noop}
+        toggleAppCollectingData={noop}
       />
     </Router>
   </div>
@@ -98,7 +99,7 @@ const ModalStory: FunctionComponent = ({ children }) => (
         onUpdateInstall={noop}
         onOpenBackupModal={action("Starting backup creation")}
         onOpenBackupRestorationModal={action("Starting backup restoration")}
-        setCollectingData={noop}
+        toggleAppCollectingData={noop}
       />
     </Router>
     <ModalWrapper>{children}</ModalWrapper>

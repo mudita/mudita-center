@@ -9,7 +9,6 @@ import {
   SidebarHeaderButton,
   SidebarProps,
 } from "Renderer/components/core/table/table.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
@@ -24,13 +23,16 @@ import {
   ContactDetailsLabel,
   ContactDetailsWrapper,
   InfoItem,
-  InfoItemName,
   Input,
   Name,
 } from "App/contacts/components/contact-details/contact-details.styled"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 import { flags, Feature } from "App/feature-flags"
 import { Contact } from "App/contacts/reducers/contacts.interface"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   favourites: { id: "module.contacts.favourites" },
@@ -46,6 +48,16 @@ const messages = defineMessages({
   noAddress: { id: "module.contacts.noAddress" },
   noNotes: { id: "module.contacts.noNotes" },
   ice: { id: "module.contacts.ice" },
+  exportTooltipDescription: { id: "module.contacts.exportTooltipDescription" },
+  deleteTooltipDescription: { id: "module.contacts.deleteTooltipDescription" },
+  editTooltipDescription: { id: "module.contacts.editTooltipDescription" },
+  forwardTooltipDescription: {
+    id: "module.contacts.forwardTooltipDescription",
+  },
+  unblockTooltipDescription: {
+    id: "module.contacts.unblockTooltipDescription",
+  },
+  blockTooltipDescription: { id: "module.contacts.blockTooltipDescription" },
 })
 
 export interface ContactActions {
@@ -54,6 +66,7 @@ export interface ContactActions {
   onBlock: (contact: Contact) => void
   onUnblock: (contact: Contact) => void
   onDelete: (contact: Contact) => void
+  onEdit: (contact: Contact) => void
 }
 
 export interface ContactDetailsActions {
@@ -82,14 +95,14 @@ export const phoneActions = (
   return [
     <ButtonComponent
       displayStyle={DisplayStyle.InputIcon}
-      Icon={Type.Calls}
+      Icon={IconType.Calls}
       key="Call"
       onClick={callHandler}
     />,
     <ButtonComponent
       disabled={messageDisabled}
       displayStyle={DisplayStyle.InputIcon}
-      Icon={Type.Message}
+      Icon={IconType.Message}
       key="Message"
       onClick={messageHandler}
     />,
@@ -120,28 +133,57 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     // TODO: Remove prodIcons along with associated logic when features become available
     const exportIcon = (
       <SidebarHeaderButton
-        Icon={Type.UploadDark}
+        description={messages.exportTooltipDescription}
+        iconType={IconType.UploadDark}
         onClick={handleExport}
         data-testid={ContactDetailsTestIds.ExportButton}
       />
     )
     const prodIcons = (
       <>
-        <SidebarHeaderButton Icon={Type.Delete} onClick={handleDelete} />
+        <SidebarHeaderButton
+          description={messages.deleteTooltipDescription}
+          iconType={IconType.Delete}
+          onClick={handleDelete}
+        />
         {exportIcon}
-        <SidebarHeaderButton Icon={Type.Edit} onClick={handleEdit} />
+        <SidebarHeaderButton
+          description={messages.editTooltipDescription}
+          iconType={IconType.Edit}
+          onClick={handleEdit}
+        />
       </>
     )
     const icons = (
       <>
-        <SidebarHeaderButton Icon={Type.Delete} onClick={handleDelete} />
+        <SidebarHeaderButton
+          description={messages.deleteTooltipDescription}
+          iconType={IconType.Delete}
+          onClick={handleDelete}
+        />
         {exportIcon}
-        <SidebarHeaderButton Icon={Type.Forward} onClick={handleForward} />
-        <SidebarHeaderButton Icon={Type.Edit} onClick={handleEdit} />
+        <SidebarHeaderButton
+          description={messages.forwardTooltipDescription}
+          iconType={IconType.Forward}
+          onClick={handleForward}
+        />
+        <SidebarHeaderButton
+          description={messages.editTooltipDescription}
+          iconType={IconType.Edit}
+          onClick={handleEdit}
+        />
         {contact.blocked ? (
-          <SidebarHeaderButton Icon={Type.Blocked} onClick={handleUnblock} />
+          <SidebarHeaderButton
+            description={messages.unblockTooltipDescription}
+            iconType={IconType.Blocked}
+            onClick={handleUnblock}
+          />
         ) : (
-          <SidebarHeaderButton Icon={Type.Blocked} onClick={handleBlock} />
+          <SidebarHeaderButton
+            description={messages.blockTooltipDescription}
+            iconType={IconType.Blocked}
+            onClick={handleBlock}
+          />
         )}
       </>
     )
@@ -168,22 +210,30 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
           </Name>
           {contact.favourite && (
             <InfoItem>
-              <Icon type={Type.Favourites} />
-              <InfoItemName message={messages.favourites} />
+              <Icon type={IconType.Favourites} />
+              <Text
+                displayStyle={TextDisplayStyle.Title}
+                color="secondary"
+                message={messages.favourites}
+              />
             </InfoItem>
           )}
         </BasicInfo>
         <AdditionalInfo key={contact.id}>
           <div>
             <AdditionalInfoItem>
-              <InfoItemName message={messages.information} />
+              <Text
+                displayStyle={TextDisplayStyle.Title}
+                color="secondary"
+                message={messages.information}
+              />
               {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber ? (
                 <Input label={intl.formatMessage(messages.noPhoneNumber)} />
               ) : (
                 <div>
                   <Input
                     data-testid={ContactDetailsTestIds.PrimaryPhoneInput}
-                    defaultValue={contact.primaryPhoneNumber}
+                    value={contact.primaryPhoneNumber}
                     label={intl.formatMessage(messages.noPrimaryNumber)}
                     // TODO: Implement additional toggles for this feature
                     trailingIcons={
@@ -201,7 +251,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   />
                   <Input
                     data-testid={ContactDetailsTestIds.SecondaryPhoneInput}
-                    defaultValue={contact.secondaryPhoneNumber}
+                    value={contact.secondaryPhoneNumber}
                     label={intl.formatMessage(messages.noSecondNumber)}
                     // TODO: Implement additional toggles for this feature
                     trailingIcons={
@@ -223,7 +273,11 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
           </div>
           <div>
             <AdditionalInfoItem>
-              <InfoItemName message={messages.address} />
+              <Text
+                displayStyle={TextDisplayStyle.Title}
+                color="secondary"
+                message={messages.address}
+              />
               {fullAddress.length ? (
                 <ContactDetailsInfo
                   data-testid={ContactDetailsTestIds.AddressDetails}

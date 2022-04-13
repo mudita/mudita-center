@@ -26,10 +26,10 @@ import {
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { CallsHeaderTestIds } from "Renderer/components/rest/calls/calls-header-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const toggleState = [
   {
@@ -136,8 +136,8 @@ const CallsHeader: FunctionComponent<Props> = ({
               label={intl.formatMessage({
                 id: "module.templates.deleteButton",
               })}
-              displayStyle={DisplayStyle.Link1}
-              Icon={Type.Delete}
+              displayStyle={DisplayStyle.Link}
+              Icon={IconType.Delete}
               onClick={onDeleteClick}
             />,
           ]}

@@ -89,8 +89,6 @@ const FirstPasswordField = styled(PasswordField)<{
     `};
 `
 
-const ButtonWithRotatingIcon = styled(Button)``
-
 const Modal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({
   children,
   size = ModalSize.Small,
@@ -112,71 +110,71 @@ interface BackupSetSecretKeyModalProps
 
 // TODO: Provide some abstraction to hide structure modal behind core
 //  https://appnroll.atlassian.net/browse/CP-757
-export const BackupSetSecretKeyModal: FunctionComponent<BackupSetSecretKeyModalProps> =
-  ({ onSecretKeySet, ...props }) => {
-    const {
-      register,
-      watch,
-      handleSubmit,
-      formState: { errors },
-    } = useForm<BackupSetSecretKeyFieldValues>({
-      mode: "onChange",
-    })
-    const fields = watch()
+export const BackupSetSecretKeyModal: FunctionComponent<
+  BackupSetSecretKeyModalProps
+> = ({ onSecretKeySet, ...props }) => {
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<BackupSetSecretKeyFieldValues>({
+    mode: "onChange",
+  })
+  const fields = watch()
 
-    const handleSubmitClick = handleSubmit((data) => {
-      onSecretKeySet(data.secretKey)
-    })
+  const handleSubmitClick = handleSubmit((data) => {
+    onSecretKeySet(data.secretKey)
+  })
 
-    return (
-      <Modal
-        closeButton={false}
-        title={intl.formatMessage(messages.backupSetSecretKeyModalHeaderTitle)}
-        {...props}
-      >
-        <ModalText
-          displayStyle={TextDisplayStyle.MediumFadedText}
-          message={messages.backupSetSecretKeyModalDescription}
+  return (
+    <Modal
+      closeButton={false}
+      title={intl.formatMessage(messages.backupSetSecretKeyModalHeaderTitle)}
+      {...props}
+    >
+      <ModalText
+        displayStyle={TextDisplayStyle.Paragraph4}
+        color="secondary"
+        message={messages.backupSetSecretKeyModalDescription}
+      />
+      <Form onSubmit={handleSubmitClick}>
+        <FirstPasswordField
+          label={messages.backupSetSecretKeyModalInputLabel}
+          errorMessage={errors[FieldKeys.SecretKey]?.message}
+          {...register(FieldKeys.SecretKey, backupSecretKeyValidator)}
+          data-testid={BackupSetSecretKeyModalTestIds.FirstInput}
         />
-        <Form onSubmit={handleSubmitClick}>
-          <FirstPasswordField
-            label={messages.backupSetSecretKeyModalInputLabel}
-            errorMessage={errors[FieldKeys.SecretKey]?.message}
-            {...register(FieldKeys.SecretKey, backupSecretKeyValidator)}
-            data-testid={BackupSetSecretKeyModalTestIds.FirstInput}
-          />
-          <PasswordField
-            label={messages.backupSetConfirmationSecretKeyModalInputLabel}
-            errorMessage={errors[FieldKeys.ConfirmationSecretKey]?.message}
-            data-testid={BackupSetSecretKeyModalTestIds.SecondInput}
-            {...register(FieldKeys.ConfirmationSecretKey, {
-              required: {
-                value: true,
-                message: intl.formatMessage(messages.backupSecretKeyRequired),
-              },
-              validate: (value): string | undefined => {
-                if (value === fields[FieldKeys.SecretKey]) {
-                  return
-                }
+        <PasswordField
+          label={messages.backupSetConfirmationSecretKeyModalInputLabel}
+          errorMessage={errors[FieldKeys.ConfirmationSecretKey]?.message}
+          data-testid={BackupSetSecretKeyModalTestIds.SecondInput}
+          {...register(FieldKeys.ConfirmationSecretKey, {
+            required: {
+              value: true,
+              message: intl.formatMessage(messages.backupSecretKeyRequired),
+            },
+            validate: (value): string | undefined => {
+              if (value === fields[FieldKeys.SecretKey]) {
+                return
+              }
 
-                return intl.formatMessage(
-                  messages.backupSecretKeyConfirmationDoesntMatch
-                )
-              },
-            })}
-          />
+              return intl.formatMessage(
+                messages.backupSecretKeyConfirmationDoesntMatch
+              )
+            },
+          })}
+        />
 
-          <ButtonWrapper>
-            <ButtonWithRotatingIcon
-              type={Type.Submit}
-              displayStyle={DisplayStyle.Primary}
-              label={intl.formatMessage(
-                messages.backupSetSecretKeyModalMainButton
-              )}
-              data-testid={BackupSetSecretKeyModalTestIds.SubmitButton}
-            />
-          </ButtonWrapper>
-        </Form>
-      </Modal>
-    )
-  }
+        <ButtonWrapper>
+          <Button
+            type={Type.Submit}
+            displayStyle={DisplayStyle.Primary}
+            labelMessage={messages.backupSetSecretKeyModalMainButton}
+            data-testid={BackupSetSecretKeyModalTestIds.SubmitButton}
+          />
+        </ButtonWrapper>
+      </Form>
+    </Modal>
+  )
+}

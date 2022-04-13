@@ -10,6 +10,7 @@ import {
   AppUpdateDownloaded,
   AppUpdateError,
   AppUpdateProgress,
+  AppUpdateForced,
 } from "Renderer/wrappers/app-update-step-modal/app-update.modals"
 import {
   ModalBackdrop,
@@ -53,6 +54,20 @@ storiesOf("App/Update", module)
         <ModalBackdrop />
         <ModalWrapper>
           <AppUpdateError open />
+        </ModalWrapper>
+      </div>
+    )
+  })
+  .add("Update forced", () => {
+    return (
+      <div>
+        <ModalBackdrop />
+        <ModalWrapper>
+          <AppUpdateForced
+            appLatestVersion="1.1.6"
+            appCurrentVersion="1.0.0"
+            open
+          />
         </ModalWrapper>
       </div>
     )

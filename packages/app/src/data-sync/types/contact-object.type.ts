@@ -5,7 +5,7 @@
 
 import { Entity, DBQueryResult } from "App/data-sync/types/entity.type"
 import { ContactTable } from "App/data-sync/constants"
-import { Contact } from "App/contacts"
+import { Contact } from "App/contacts/reducers"
 
 export type ContactObject = Contact
 

@@ -18,7 +18,6 @@ import { noop } from "Renderer/utils/noop"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { InputText } from "Renderer/components/core/input-text/input-text.elements"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import {
   transitionTime,
   transitionTimingFunction,
@@ -37,6 +36,7 @@ import { IsItemMatching } from "Renderer/components/core/utils/is-item-matching"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import deprecated from "App/main/utils/deprecated-wrapper"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export enum InputSelectTestIds {
   Icon = "input-select-icon",
@@ -316,7 +316,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
       onMouseDown={preventExpanding}
       data-testid={InputSelectTestIds.Icon}
     >
-      <Icon width={1} type={Type.ArrowDown} />
+      <Icon width={1} type={IconType.ArrowDown} />
     </ToggleIcon>
   )
 

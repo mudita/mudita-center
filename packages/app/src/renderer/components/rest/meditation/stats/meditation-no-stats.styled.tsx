@@ -11,7 +11,7 @@ export const NoStatsLargeText = styled(Text)`
 `
 
 export const NoStatsLightText = styled(Text)`
-  margin-top: 1.6rem;
+  margin-top: 0.8rem;
 `
 
 export const NoStatsWrapper = styled.div`

@@ -13,7 +13,6 @@ import Text, {
 import { MenuElement } from "Renderer/constants/menu-elements"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import { views } from "Renderer/constants/views"
@@ -24,10 +23,10 @@ import {
   HeaderIconBg,
   HeaderIconContainer,
   HeaderWrapper,
-  HelpButton,
   HiddenIconBg,
   LinkWrapper,
 } from "Renderer/components/rest/menu/menu-group.styled"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 interface MenuGroupProps extends MenuElement {
   deviceType: DeviceType | null
@@ -43,18 +42,18 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
     <>
       {label && (
         <HeaderWrapper data-testid={label.id}>
-          <Text displayStyle={TextDisplayStyle.SmallText} message={label} />
+          <Text displayStyle={TextDisplayStyle.Title} message={label} />
           {icons && (
             <HeaderIconContainer>
-              {icons.map((icon: Type, index) => {
+              {icons.map((icon: IconType, index) => {
                 if (process.env.NODE_ENV === "production") {
                   return <HiddenIconBg key={index} />
                 } else {
                   return (
                     <HeaderIconBg key={index}>
-                      {icon === Type.MenuRange ? (
+                      {icon === IconType.MenuRange ? (
                         <RangeIcon strength={61} size={IconSize.Medium} />
-                      ) : icon === Type.MenuBattery ? (
+                      ) : icon === IconType.MenuBattery ? (
                         <BatteryIcon level={0.7} size={IconSize.Medium} />
                       ) : (
                         <HeaderIcon type={icon} size={IconSize.Medium} />
@@ -76,7 +75,7 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
           .map(({ button, icon, testId }, index) => {
             const buttonMenuConfig = {
               nav: true,
-              displayStyle: DisplayStyle.Link4,
+              displayStyle: DisplayStyle.MenuLink,
               labelMessage: button.label,
               Icon: icon,
               iconSize: IconSize.Bigger,
@@ -86,7 +85,7 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
                 ipcRenderer.callMain(HelpActions.OpenWindow)
               return (
                 <LinkWrapper key={index}>
-                  <HelpButton
+                  <Button
                     {...buttonMenuConfig}
                     onClick={openHelpWindow}
                     data-testid={testId}

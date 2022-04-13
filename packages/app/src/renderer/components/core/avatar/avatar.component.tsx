@@ -16,8 +16,8 @@ import {
 import Image from "Renderer/components/core/image/image.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export enum AvatarSize {
   Small,
@@ -30,7 +30,7 @@ export const getAvatarSize = (size: AvatarSize): number => {
     case AvatarSize.Small:
       return 2.4
     case AvatarSize.Medium:
-      return 3.2
+      return 4
     case AvatarSize.Big:
       return 4.8
   }
@@ -39,11 +39,11 @@ export const getAvatarSize = (size: AvatarSize): number => {
 const getAvatarTextStyle = (size: AvatarSize): TextDisplayStyle => {
   switch (size) {
     case AvatarSize.Small:
-      return TextDisplayStyle.SmallFadedDimText
+      return TextDisplayStyle.Headline5
     case AvatarSize.Medium:
-      return TextDisplayStyle.SmallFadedDimText
+      return TextDisplayStyle.Headline5
     case AvatarSize.Big:
-      return TextDisplayStyle.LargeFadedDimTextCapitalLetters
+      return TextDisplayStyle.Headline4
   }
 }
 
@@ -100,12 +100,13 @@ const Avatar: FunctionComponent<AvatarProps> = ({
       <Text
         displayStyle={getAvatarTextStyle(size)}
         data-testid={AvatarTestIds.AvatarText}
+        color="disabled"
       >
         {user.firstName?.charAt(0)}
         {user.lastName?.charAt(0)}
       </Text>
     ) : (
-      <Icon type={Type.ContactFilled} width={getAvatarSize(size) / 1.8} />
+      <Icon type={IconType.ContactFilled} width={getAvatarSize(size) / 1.8} />
     )}
   </AvatarWrapper>
 )

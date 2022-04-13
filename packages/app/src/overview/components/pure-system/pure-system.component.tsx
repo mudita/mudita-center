@@ -16,7 +16,6 @@ import {
   AutoWidthButtonComponent,
 } from "App/overview/components/pure-system/pure-system.styled"
 import { DisplayStyle } from "App/renderer/components/core/button/button.config"
-import { Type } from "App/renderer/components/core/icon/icon.config"
 import { IconSize } from "App/renderer/components/core/icon/icon.component"
 import Text, {
   TextDisplayStyle,
@@ -25,6 +24,7 @@ import { defineMessages } from "react-intl"
 import { PureSystemTestIds } from "App/overview/components/pure-system/pure-system-test-ids.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import { PureSystemActions } from "App/common/enums/pure-system-actions.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   back: {
@@ -60,7 +60,11 @@ const PureSystemInfo: FunctionComponent<InfoProps> = ({
 }) => {
   return (
     <PureSystemInfoContainer withButton={withButton}>
-      <Text displayStyle={TextDisplayStyle.LargeFadedText} message={title} />
+      <Text
+        displayStyle={TextDisplayStyle.Paragraph1}
+        color="secondary"
+        message={title}
+      />
       {children}
     </PureSystemInfoContainer>
   )
@@ -81,32 +85,33 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
     <div>
       <BackWrapper>
         <AutoWidthButtonComponent
-          displayStyle={DisplayStyle.Link1}
+          displayStyle={DisplayStyle.Link}
           onClick={handleBack}
           labelMessage={messages.back}
-          Icon={Type.ArrowLongLeft}
+          Icon={IconType.ArrowLongLeft}
           iconSize={IconSize.Small}
           data-testid={PureSystemTestIds.BackButton}
         />
       </BackWrapper>
       <PureSystemSection>
         <PureSystemTitle
-          displayStyle={TextDisplayStyle.SecondaryBoldHeading}
+          displayStyle={TextDisplayStyle.Headline3}
           message={messages.title}
         />
         <Text
-          displayStyle={TextDisplayStyle.MediumFadedLightText}
+          displayStyle={TextDisplayStyle.Paragraph4}
+          color="secondary"
           message={messages.subtitle}
         />
       </PureSystemSection>
       <PureSystemSection>
         <PureSystemAbout
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.Headline4}
           message={messages.about}
         />
         <PureSystemInfo title={messages.serialNumber}>
           <Text
-            displayStyle={TextDisplayStyle.LargeText}
+            displayStyle={TextDisplayStyle.Paragraph1}
             data-testid={PureSystemTestIds.SerialNumber}
           >
             {serialNumber}
@@ -114,7 +119,7 @@ const PureSystem: FunctionComponent<Props> = ({ serialNumber }) => {
         </PureSystemInfo>
         <PureSystemInfo title={messages.sar} withButton>
           <AutoWidthButtonComponent
-            displayStyle={DisplayStyle.Link3}
+            displayStyle={DisplayStyle.ActionLink}
             labelMessage={messages.sarInfo}
             onClick={openSarInfo}
           />

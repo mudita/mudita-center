@@ -23,7 +23,6 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { createFullNameStartingFromLastName } from "App/contacts/helpers/contacts.helpers"
@@ -32,6 +31,7 @@ import { textColor } from "Renderer/styles/theming/theme-getters"
 import { ModalIcon } from "Renderer/components/core/modal-shared/modal-shared"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import { NewContact } from "App/contacts/reducers/contacts.interface"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: { id: "module.contacts.importTitle" },
@@ -73,6 +73,11 @@ const Image = styled(ModalIcon)`
 
 const Failed = styled(Col)`
   color: ${textColor("error")};
+`
+
+const SubtitleText = styled(Text)`
+  margin-bottom: 0.8rem;
+  text-align: center;
 `
 
 export enum ModalType {
@@ -144,7 +149,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
         </Col>
         <Failed data-testid={ContactImportModalTestIds.FailedIcon}>
           {modalType === ModalType.Fail && (
-            <Icon type={Type.FailRed} size={2} />
+            <Icon type={IconType.FailRed} size={2} />
           )}
         </Failed>
       </Row>
@@ -175,51 +180,52 @@ const ContactImportModal: FunctionComponent<Props> = ({
       {...props}
     >
       <Image>
-        <Icon type={Type.Download} width={5} />
+        <Icon type={IconType.Download} width={5} />
       </Image>
       {modalType === ModalType.Fail && (
         <>
-          <ModalText
+          <SubtitleText
             message={messages.importFailedSubtitle}
-            displayStyle={TextDisplayStyle.LargeBoldText}
+            displayStyle={TextDisplayStyle.Headline4}
           />
           <ModalText
             message={{
               ...messages.importFailedBody,
               values: { ...textFormatters, num: successfulItemsCount },
             }}
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.Paragraph4}
           />
           <ModalText
             message={messages.importFailedBody2}
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.Paragraph4}
           />
         </>
       )}
       {modalType === ModalType.Success && (
         <>
-          <ModalText
+          <SubtitleText
             message={messages.importSuccessSubtitle}
-            displayStyle={TextDisplayStyle.LargeBoldText}
+            displayStyle={TextDisplayStyle.Headline4}
           />
           <ModalText
             message={{
               ...messages.importSuccessBody,
               values: { ...textFormatters, num: contacts.length },
             }}
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.Paragraph3}
           />
         </>
       )}
       {modalType === ModalType.Select && (
         <>
-          <ModalText
+          <SubtitleText
             message={messages.importingSubtitle}
-            displayStyle={TextDisplayStyle.LargeBoldText}
+            displayStyle={TextDisplayStyle.Headline4}
           />
           <ModalText
             message={messages.importingBody}
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.Paragraph4}
+            color="secondary"
           />
         </>
       )}
@@ -239,13 +245,15 @@ const ContactImportModal: FunctionComponent<Props> = ({
                 ...messages.importingListTitle,
                 values: { number: contacts.length },
               }}
-              displayStyle={TextDisplayStyle.MediumFadedLightText}
+              displayStyle={TextDisplayStyle.Title}
+              color="secondary"
             />
           </Col>
           {[ModalType.Select].includes(modalType) && (
             <SelectedText
-              displayStyle={TextDisplayStyle.MediumFadedLightText}
+              displayStyle={TextDisplayStyle.Paragraph4}
               data-testid={ContactImportModalTestIds.SelectedText}
+              color="secondary"
             >
               {`${selectedContactsLength} ${intl.formatMessage(
                 messages.importingListSelected

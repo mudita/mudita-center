@@ -5,7 +5,7 @@
 
 import { ReduxRootState } from "Renderer/store"
 import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
-import { initialState } from "App/contacts"
+import { initialState } from "App/contacts/reducers"
 
 describe("`contactListSelector` selector", () => {
   test("when initial state is set selector returns empty array", () => {

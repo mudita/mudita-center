@@ -7,7 +7,7 @@ import styled from "styled-components"
 import { Row } from "Renderer/components/core/table/table.component"
 
 const ThreadBaseRow = styled(Row)`
-  height: 9rem;
+  height: 8rem;
 `
 
 export default ThreadBaseRow

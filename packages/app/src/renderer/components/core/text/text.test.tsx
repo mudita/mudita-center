@@ -29,10 +29,7 @@ test("should render with children and as prop", () => {
   const headlineLevel = "h3"
   const headlineText = "Example"
   const { getByText } = renderWithThemeAndIntl(
-    <Text
-      displayStyle={TextDisplayStyle.PrimaryHeading}
-      element={headlineLevel}
-    >
+    <Text displayStyle={TextDisplayStyle.Headline1} element={headlineLevel}>
       {headlineText}
     </Text>
   )
@@ -41,14 +38,14 @@ test("should render with children and as prop", () => {
 })
 
 test("should render with mapped element tagname", () => {
-  const expectedPrimaryHeadingTag = "h1"
+  const expectedHeadline1Tag = "h1"
   const { getByText } = renderWithThemeAndIntl(
     <Text
-      displayStyle={TextDisplayStyle.PrimaryHeading}
+      displayStyle={TextDisplayStyle.Headline1}
       message={{ id: exampleMessageId }}
     />
   )
   expect(
     getByText(exampleMessageId, { exact: false }).tagName.toLowerCase()
-  ).toBe(expectedPrimaryHeadingTag)
+  ).toBe(expectedHeadline1Tag)
 })

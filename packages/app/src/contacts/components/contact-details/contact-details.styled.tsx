@@ -26,7 +26,7 @@ export const BasicInfo = styled.div`
   justify-content: center;
 `
 export const Name = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SecondaryBoldHeading,
+  displayStyle: TextDisplayStyle.Headline3,
 }))`
   grid-area: Name;
   text-align: center;
@@ -45,14 +45,9 @@ export const InfoItem = styled.div`
   align-items: center;
   margin: 0 2.4rem;
 `
-export const InfoItemName = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallFadedText,
-}))`
-  text-transform: uppercase;
-  color: ${textColor("secondary")};
-`
+
 export const InfoItemSpeedDialNumber = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.TertiaryBoldHeading,
+  displayStyle: TextDisplayStyle.Headline3,
 }))`
   font-size: 2.2rem;
   line-height: 1;
@@ -102,7 +97,7 @@ export const ContactDetailsInfo = styled(Text)`
 
 export const ContactDetailsLabel = styled(Text)`
   color: ${textColor("secondary")};
-  ${getTextStyles(TextDisplayStyle.MediumLightText)};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
   margin: 0;
   padding: 2.4rem 0 1.6rem 0;
   border-bottom: 0.1rem solid ${borderColor("secondary")};

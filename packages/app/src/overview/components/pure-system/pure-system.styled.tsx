@@ -6,6 +6,7 @@
 import {
   backgroundColor,
   borderColor,
+  borderRadius,
 } from "App/renderer/styles/theming/theme-getters"
 import styled from "styled-components"
 import Text from "App/renderer/components/core/text/text.component"
@@ -14,22 +15,22 @@ import ButtonComponent from "App/renderer/components/core/button/button.componen
 export const BackWrapper = styled.div`
   background-color: ${backgroundColor("row")};
   border-bottom: 0.1rem solid ${borderColor("separator")};
-  padding: 0.9rem 0 0.9rem 4rem;
+  padding: 0.9rem 0 0.9rem 3.2rem;
 `
 
 export const PureSystemSection = styled.div`
-  padding: 3.2rem 3rem 3.2rem 4rem;
+  padding: 3.2rem;
   :not(:last-of-type) {
     border-bottom: 0.1rem solid ${borderColor("separator")};
   }
 `
 
 export const PureSystemTitle = styled(Text)`
-  margin-bottom: 1.6rem;
+  margin-bottom: 0.8rem;
 `
 
 export const PureSystemAbout = styled(Text)`
-  margin-bottom: 2.4rem;
+  margin-bottom: 1.6rem;
 `
 
 export const PureSystemInfoContainer = styled.div<{
@@ -40,8 +41,9 @@ export const PureSystemInfoContainer = styled.div<{
   justify-content: space-between;
   align-items: center;
   background-color: ${backgroundColor("row")};
-  border-radius: 0.4rem;
-  padding: ${({ withButton }) => (withButton ? "1.2rem 2.4rem" : "2.4rem")};
+  border-radius: ${borderRadius("medium")};
+  padding: ${({ withButton }) =>
+    withButton ? "1.2rem 2.4rem" : "2.2rem 2.4rem 1.8rem"};
   :not(:last-of-type) {
     margin-bottom: 0.8rem;
   }

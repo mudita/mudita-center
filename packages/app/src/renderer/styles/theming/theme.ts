@@ -13,7 +13,6 @@ const blue4 = "#e3f3ff"
 const blue5 = "#f2f7fa"
 
 const black = "#000000"
-const dark = "#232426"
 const grey1 = "#3b3f42"
 const grey2 = "#6a6a6a"
 const grey3 = "#a5a5a5"
@@ -42,7 +41,7 @@ const theme = {
       iconBody: white,
       iconUser: blue3,
       tabHover: grey1,
-      seeAll: blue1,
+      actionHover: blue1,
     },
     background: {
       activity: blue2,
@@ -52,8 +51,7 @@ const theme = {
       message: blue5,
       minor: grey5,
       primary: grey1,
-      primaryHover: dark,
-      secondaryHover: grey5,
+      primaryHover: black,
       row: white,
       scroll: grey3,
       super: black,
@@ -100,11 +98,13 @@ const theme = {
   },
   borderRadius: {
     small: 0.2,
-    medium: 0.5,
+    medium: 0.4,
+    regular: 0.8,
     big: 1.2,
   },
   letterSpacing: {
-    negative: -0.06,
+    negative: -0.02,
+    neutral: 0,
     smaller: 0.02,
     small: 0.04,
     medium: 0.075,
@@ -134,9 +134,9 @@ const theme = {
     smooth: "ease-in-out",
   },
   width: {
-    buttonBig: columnWidth * 2 + gutterWidth,
-    buttonMedium: gutterWidth * 3,
-    buttonSmall: columnWidth + gutterWidth,
+    buttonBig: columnWidth * 3 + gutterWidth * 2,
+    buttonMedium: columnWidth * 2 + gutterWidth,
+    buttonSmall: 13.2,
     viewWidth: columnWidth * 12 + gutterWidth * 13,
     menuWidth: columnWidth * 3 + gutterWidth * 3,
     scrollbar: 0.2,

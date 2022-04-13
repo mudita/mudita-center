@@ -19,7 +19,6 @@ const Toggler = styled(ButtonToggler)`
 `
 
 const TogglerItem = styled(ButtonTogglerItem)`
-  padding: 0 3.6rem;
   width: 8.8rem;
 `
 

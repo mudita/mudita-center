@@ -23,14 +23,8 @@ import Text, {
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { isToday } from "Renderer/utils/is-today"
 import moment from "moment"
-import {
-  Actions,
-  ActionsButton,
-  Col,
-} from "Renderer/components/core/table/table.component"
+import { Actions, Col } from "Renderer/components/core/table/table.component"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
-import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { noop } from "Renderer/utils/noop"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
@@ -51,6 +45,16 @@ import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visib
 import { AppSettings } from "App/main/store/settings.interface"
 import ThreadBaseRow from "App/messages/components/thread-base-row.component"
 import { ListRowProps } from "react-virtualized"
+import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { defineMessages } from "react-intl"
+import { ElementWithTooltipPlace } from "Renderer/components/core/tooltip/element-with-tooltip.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
+
+const messages = defineMessages({
+  dropdownTogllerTooltipDescription: {
+    id: "component.dropdownTogllerTooltipDescription",
+  },
+})
 
 export const Checkbox = styled(VisibleCheckbox)`
   position: absolute;
@@ -62,8 +66,8 @@ const dotStyles = css`
     display: block;
     content: "";
     position: absolute;
-    top: 0.2rem;
-    margin-left: -1.8rem;
+    top: 0.8rem;
+    margin-left: -1.4rem;
     height: 0.6rem;
     width: 0.6rem;
     border-radius: 50%;
@@ -90,8 +94,7 @@ export const InitialsAvatar = styled(Avatar)<{ light?: boolean }>`
 `
 
 const LastMessageText = styled(Message)<{ unread?: boolean }>`
-  margin-top: 0.8rem;
-  padding-left: ${({ unread }) => (unread ? "1.8rem" : "0")};
+  padding-left: ${({ unread }) => (unread ? "1.4rem" : "0")};
   position: relative;
   ${({ unread }) => unread && dotStyles};
 `
@@ -173,18 +176,18 @@ const ThreadRow: FunctionComponent<Props> = ({
         {getPrettyCaller(contact, phoneNumber) === newConversation ||
         !thread.messageSnippet ? (
           <NewThreadWrapper>
-            <Name displayStyle={TextDisplayStyle.LargeBoldText}>
+            <Name displayStyle={TextDisplayStyle.Headline4}>
               {getPrettyCaller(contact, phoneNumber)}
             </Name>
           </NewThreadWrapper>
         ) : (
           <ThreadDataWrapper sidebarOpened={sidebarOpened}>
             <NameWrapper>
-              <Name displayStyle={TextDisplayStyle.LargeBoldText}>
+              <Name displayStyle={TextDisplayStyle.Headline4}>
                 {getPrettyCaller(contact, phoneNumber)}
               </Name>
               {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
-                <Text displayStyle={TextDisplayStyle.LargeFadedText}>
+                <Text displayStyle={TextDisplayStyle.Paragraph2}>
                   &nbsp;
                   {phoneNumber.split(" ").join("") ===
                   contact?.secondaryPhoneNumber?.split(" ").join("")
@@ -193,7 +196,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 </Text>
               )}
             </NameWrapper>
-            <Time displayStyle={TextDisplayStyle.SmallFadedText}>
+            <Time displayStyle={TextDisplayStyle.Label} color="secondary">
               {isToday(thread.lastUpdatedAt)
                 ? moment(thread.lastUpdatedAt).format("h:mm A")
                 : moment(thread.lastUpdatedAt)
@@ -202,10 +205,11 @@ const ThreadRow: FunctionComponent<Props> = ({
             </Time>
             <LastMessageText
               unread={unread}
+              color="secondary"
               displayStyle={
                 unread
-                  ? TextDisplayStyle.MediumText
-                  : TextDisplayStyle.MediumFadedLightText
+                  ? TextDisplayStyle.Paragraph3
+                  : TextDisplayStyle.Paragraph4
               }
             >
               {thread?.messageSnippet}
@@ -217,9 +221,14 @@ const ThreadRow: FunctionComponent<Props> = ({
         <Actions>
           <Dropdown
             toggler={
-              <ActionsButton>
-                <Icon type={Type.More} />
-              </ActionsButton>
+              <IconButtonWithSecondaryTooltip
+                iconType={IconType.More}
+                description={messages.dropdownTogllerTooltipDescription}
+                // FIXME: The position based on offset is a sticky. However, this is a quick workaround
+                //  for buggy overridePosition lib feature
+                place={ElementWithTooltipPlace.Bottom}
+                offset={{ left: 15, bottom: 5 }}
+              />
             }
           >
             <HiddenButton
@@ -229,7 +238,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                   name: contact?.firstName || phoneNumber,
                 },
               }}
-              Icon={Type.Calls}
+              Icon={IconType.Calls}
               onClick={noop}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="dropdown-call"
@@ -240,7 +249,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 labelMessage={{
                   id: "module.messages.dropdownContactDetails",
                 }}
-                Icon={Type.Contact}
+                Icon={IconType.Contact}
                 onClick={handleContactClick}
                 displayStyle={DisplayStyle.Dropdown}
                 data-testid="dropdown-contact-details"
@@ -250,7 +259,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 labelMessage={{
                   id: "module.messages.dropdownAddToContacts",
                 }}
-                Icon={Type.NewContact}
+                Icon={IconType.NewContact}
                 onClick={handleContactClick}
                 displayStyle={DisplayStyle.Dropdown}
                 data-testid="dropdown-add-to-contacts"
@@ -265,7 +274,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                       ? "module.messages.markAsRead"
                       : "module.messages.markAsUnread",
                   }}
-                  Icon={Type.BorderCheckIcon}
+                  Icon={IconType.BorderCheckIcon}
                   onClick={handleToggleClick}
                   displayStyle={DisplayStyle.Dropdown}
                   data-testid="dropdown-mark-as-read"
@@ -276,7 +285,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                   labelMessage={{
                     id: "module.messages.dropdownDelete",
                   }}
-                  Icon={Type.Delete}
+                  Icon={IconType.Delete}
                   onClick={handleDeleteClick}
                   displayStyle={DisplayStyle.Dropdown}
                   data-testid="dropdown-delete"

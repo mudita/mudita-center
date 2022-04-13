@@ -16,7 +16,7 @@ export const setConnectionStatus = createAsyncThunk<boolean, boolean>(
   (payload, { getState, dispatch }) => {
     const state = getState() as ReduxRootState
 
-    if(!payload){
+    if (!payload) {
       dispatch(setDataSyncInitState())
     }
 

@@ -17,7 +17,6 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { intl } from "Renderer/utils/intl"
 import { SynchronizationState } from "App/data-sync/reducers"
 import Loader from "Renderer/components/core/loader/loader.component"
@@ -26,6 +25,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const MenuWrapper = styled.div`
   flex: 1;
@@ -99,7 +99,7 @@ const Menu: FunctionComponent<Properties> = ({
     <MenuWrapper>
       <div>
         <LogoWrapper>
-          <SvgMuditaLogo type={Type.MuditaLogoWithText} />
+          <SvgMuditaLogo type={IconType.MuditaLogoWithText} />
           {devModeEnabled && (
             <DevSign>
               {intl.formatMessage({ id: "component.devModeHeader" })}
@@ -115,7 +115,7 @@ const Menu: FunctionComponent<Properties> = ({
             <LoaderWrapper>
               <Loader type={LoaderType.Spinner} size={1.5} />
             </LoaderWrapper>
-            <Text displayStyle={TextDisplayStyle.LargeText}>
+            <Text displayStyle={TextDisplayStyle.Paragraph1}>
               {intl.formatMessage({ id: "component.menuHeaderSync" })}
             </Text>
           </SyncProgressWrapper>

@@ -12,7 +12,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 
 export const DateRange = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.LargeBoldText,
+  displayStyle: TextDisplayStyle.Paragraph3,
 }))<{ long?: boolean }>`
   margin-bottom: 0.4rem;
   text-align: center;
@@ -21,7 +21,7 @@ export const DateRange = styled(Text).attrs(() => ({
 `
 
 export const WeekIndicator = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallFadedText,
+  displayStyle: TextDisplayStyle.Paragraph4,
 }))`
   width: 100%;
   text-align: center;
@@ -45,7 +45,7 @@ export const Wrapper = styled.div`
 `
 
 export const GotoButton = styled(ButtonComponent).attrs(() => ({
-  displayStyle: DisplayStyle.Link3,
+  displayStyle: DisplayStyle.ActionLink,
 }))`
   width: auto;
   position: relative;

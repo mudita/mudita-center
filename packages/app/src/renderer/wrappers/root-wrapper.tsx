@@ -57,6 +57,11 @@ import {
   setConnectionStatus,
 } from "App/device"
 import { getCrashDump } from "App/crash-dump"
+import {
+  registerDataSyncListener,
+  registerCacheDataListener,
+} from "App/data-sync/listeners"
+import { initAnalyticDataTracker } from "App/analytic-data-tracker/helpers"
 
 interface Props {
   history: History
@@ -142,8 +147,22 @@ const RootWrapper: FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
+    void initAnalyticDataTracker()
+  }, [])
+
+  useEffect(() => {
     connect()
   }, [])
+
+  useEffect(() => {
+    const dataSync = registerDataSyncListener()
+    const dataCache = registerCacheDataListener()
+
+    return () => {
+      dataSync()
+      dataCache()
+    }
+  })
 
   useEffect(() => {
     if (connectedAndUnlocked) {
@@ -195,7 +214,7 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const listener = () => {
-      if(!connectedAndUnlocked){
+      if (!connectedAndUnlocked) {
         unlockedDevice()
       }
     }

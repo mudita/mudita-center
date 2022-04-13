@@ -6,14 +6,14 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import FilesSummaryItem from "App/files-manager/components/files-summary-item/files-summary-item.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const fakeData: DiskSpaceCategory = {
   type: DiskSpaceCategoryType.UsedSpace,
   color: "#DFEFDE",
-  icon: Type.MuditaLogo,
+  icon: IconType.MuditaLogo,
   label: "Used space",
   size: 62914560,
 }

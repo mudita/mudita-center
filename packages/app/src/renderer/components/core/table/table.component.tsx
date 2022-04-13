@@ -20,15 +20,13 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
-import { Type } from "Renderer/components/core/icon/icon.config"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { SortOrder } from "Common/enums/sort-order.enum"
-import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
+import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 /* Row */
 export enum RowSize {
@@ -84,7 +82,7 @@ export const Row = styled.div<TableRowProps>`
   height: ${({ size }) => {
     switch (size) {
       case RowSize.Big:
-        return 9
+        return 8
       case RowSize.Small:
         return 4.8
       case RowSize.Tiny:
@@ -106,7 +104,7 @@ export const Row = styled.div<TableRowProps>`
 
 /* Column */
 export const Col = styled.div`
-  ${getTextStyles(TextDisplayStyle.MediumText)};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
   display: flex;
   align-items: center;
   ${({ onClick }) => onClick && clickableRowStyles};
@@ -125,7 +123,7 @@ const rowLabelStyles = css`
   padding: 0;
   z-index: 1;
   ${Col} {
-    ${getTextStyles(TextDisplayStyle.LargeBoldText)};
+    ${getTextStyles(TextDisplayStyle.Headline4)};
     line-height: 1.1;
   }
 `
@@ -133,7 +131,7 @@ const rowLabelStyles = css`
 const columnLabelStyles = css`
   z-index: 2;
   ${Col} {
-    ${getTextStyles(TextDisplayStyle.SmallFadedText)};
+    ${getTextStyles(TextDisplayStyle.Title)};
     color: ${textColor("secondary")};
     text-transform: uppercase;
     padding-top: 1.5rem;
@@ -189,7 +187,6 @@ const SidebarHeaderLeft = styled.div`
 const SidebarHeaderRight = styled.div`
   grid-area: Right;
   position: relative;
-  padding-right: 1.6rem;
   display: flex;
   flex-direction: row;
 
@@ -210,7 +207,7 @@ const SidebarHeader = styled.div<{
 }>`
   display: grid;
   height: var(--header-height);
-  grid-template-columns: 1fr auto 3.8rem;
+  grid-template-columns: 1fr auto 3.2rem;
   grid-template-areas: "Left Right Close";
   align-items: center;
   background-color: var(--header-background);
@@ -246,11 +243,10 @@ const SidebarWrapper = styled.div<{
   margin-right: ${({ show }) => (show ? 0 : -62.1)}rem;
 `
 
-export const SidebarHeaderButton = styled(ButtonComponent).attrs(() => ({
-  displayStyle: DisplayStyle.IconOnly2,
-}))`
-  ${buttonComponentAnimationStyles};
-  margin-left: 0.6rem;
+export const SidebarHeaderButton = styled(IconButtonWithSecondaryTooltip).attrs(
+  () => ({})
+)`
+  margin-right: 0.4rem;
 `
 
 /* Empty state */
@@ -287,11 +283,12 @@ export const EmptyState: FunctionComponent<EmptyStateProps> = ({
   ...rest
 }) => (
   <EmptyStateWrapper {...rest}>
-    <Text displayStyle={TextDisplayStyle.TertiaryHeading} message={title} />
+    <Text displayStyle={TextDisplayStyle.Headline3} message={title} />
     {description && (
       <Text
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.Paragraph3}
         message={description}
+        color="secondary"
       />
     )}
   </EmptyStateWrapper>
@@ -338,7 +335,10 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
       {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}
       {headerRight && <SidebarHeaderRight>{headerRight}</SidebarHeaderRight>}
       <SidebarClose onClick={onClose} data-testid={TableTestIds.SidebarClose}>
-        <SidebarHeaderButton Icon={Type.Close} />
+        <SidebarHeaderButton
+          iconType={IconType.Close}
+          description={{ id: "Close" }}
+        />
       </SidebarClose>
     </SidebarHeader>
     <SidebarContent padded={padded}>{children}</SidebarContent>

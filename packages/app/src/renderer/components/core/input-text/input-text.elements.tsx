@@ -12,7 +12,6 @@ import {
 } from "Renderer/components/core/input-text/input-text.interface"
 import Text, {
   getTextStyles,
-  smallTextSharedStyles,
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import transition from "Renderer/styles/functions/transition"
@@ -32,25 +31,25 @@ import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
 import composeRefs from "@seznam/compose-react-refs"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import CloseImage from "Renderer/images/close.png"
 import { InputTextTestIds } from "./input-text-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const searchIcon = (
-  <Icon type={Type.Magnifier} height={2.6} width={2.6} />
+  <Icon type={IconType.Magnifier} height={2.6} width={2.6} />
 )
 
 const focusedLabelStyles = css`
   top: -2rem;
-  ${smallTextSharedStyles};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
 `
 
 const InputLabel = styled(Text)`
   position: absolute;
   left: 0;
   top: 0.3rem;
-  color: ${textColor("secondary")};
-  ${getTextStyles(TextDisplayStyle.MediumLightText)};
+  color: ${textColor("disabled")};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
   line-height: 1.5rem;
   pointer-events: none;
   user-select: none;
@@ -75,7 +74,7 @@ export const InputError = styled(Text)<{ visible: boolean }>`
   visibility: hidden;
   transition: all ${transitionTime("quick")}
     ${transitionTimingFunction("smooth")};
-  ${smallTextSharedStyles};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
 
   ${({ visible }) =>
     visible &&
@@ -133,7 +132,7 @@ const LabeledInputWrapper = styled.div`
 
 const TextInputIcon = styled.span`
   height: 100%;
-  max-height: 4.8rem;
+  max-height: 4.6rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -151,7 +150,7 @@ export const generalInputStyles = css`
   color: ${textColor("primary")};
   width: 100%;
 
-  ${getTextStyles(TextDisplayStyle.MediumLightText)};
+  ${getTextStyles(TextDisplayStyle.Paragraph3)};
   line-height: 1.5rem;
 
   &:not(:placeholder-shown) {
@@ -213,7 +212,7 @@ const PasscodeInput = styled.input<{
   filled: boolean
 }>`
   border: solid 0.1rem ${borderColor("secondary")};
-  border-radius: 0.4rem;
+  border-radius: ${borderRadius("medium")};
   width: 4.6rem;
   height: 7.6rem;
   margin: 0 1.2rem;
@@ -309,7 +308,7 @@ const textAreaLayout = css`
   height: auto;
   min-height: 4.8rem;
   padding: 0 1.3rem;
-  border-radius: ${borderRadius("big")};
+  border-radius: ${borderRadius("regular")};
 `
 
 const TextareaWrapper = styled(InputWrapper)<{
@@ -332,7 +331,7 @@ const TextareaWrapper = styled(InputWrapper)<{
 
   ${LeadingIcons}, ${TrailingIcons} {
     align-self: flex-end;
-    height: ${({ outlined }) => (outlined ? "4.8rem" : "auto")};
+    height: ${({ outlined }) => (outlined ? "4.6rem" : "auto")};
   }
 `
 

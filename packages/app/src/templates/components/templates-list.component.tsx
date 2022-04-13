@@ -13,7 +13,6 @@ import {
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import Text, {
   TextDisplayStyle,
@@ -39,6 +38,7 @@ import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { TextInfo } from "Renderer/modules/tools/tabs/notes.styled"
 import { normalizeText } from "Renderer/components/core/text-editor/text-editor.hook"
 import { SortOrder } from "Common/enums/sort-order.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "module.templates.emptyList.title" },
@@ -172,7 +172,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                 />
               </Col>
               <TextPreview onClick={handleTextPreviewClick}>
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.Paragraph1}>
                   {emptyTemplate ? <em>{text}</em> : text}
                 </Text>
               </TextPreview>
@@ -190,14 +190,14 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                 )}
               </Col>
               <Col>
-                <Text displayStyle={TextDisplayStyle.LargeText}>
+                <Text displayStyle={TextDisplayStyle.Paragraph1}>
                   {isToday(date)
                     ? intl.formatMessage(messages.today)
                     : moment(date).format("ll")}
                 </Text>
               </Col>
               <DeleteCol onClick={deleteItem}>
-                <Icon type={Type.Delete} width={IconSize.Medium} />
+                <Icon type={IconType.Delete} width={IconSize.Medium} />
               </DeleteCol>
             </Row>
           )

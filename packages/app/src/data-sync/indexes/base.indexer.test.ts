@@ -6,7 +6,7 @@
 import { BaseIndexer } from "App/data-sync/indexes/base.indexer"
 import { vol } from "memfs"
 import { DirectoryJSON } from "memfs/lib/volume"
-import { SyncFileSystemService } from "App/data-sync/services/sync-file-system.service"
+import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 
 jest.mock("fs")
 
@@ -21,12 +21,21 @@ beforeEach(() => {
 })
 
 describe("`BaseIndexer`", () => {
-  test("`getData` execution works properly ", async () => {
+  test("`getData` execution works properly", async () => {
     vol.fromJSON(json, "/")
-    const indexer = new Indexer(
-      new SyncFileSystemService("Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa")
-    )
+    const indexer = new Indexer(new FileSystemService())
 
-    expect(indexer.getData("sync/index.db")).not.toBeUndefined()
+    expect(
+      indexer.getData("sync/index.db", "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa")
+    ).not.toBeUndefined()
+  })
+
+  test("`getData` returns `null` if file doesn't exists", async () => {
+    vol.fromJSON(json, "/")
+    const indexer = new Indexer(new FileSystemService())
+
+    expect(
+      indexer.getData("sync/not-existed.db", "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa")
+    ).not.toBeUndefined()
   })
 })

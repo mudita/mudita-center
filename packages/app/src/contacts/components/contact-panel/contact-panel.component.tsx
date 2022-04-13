@@ -9,7 +9,6 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
@@ -29,7 +28,6 @@ import {
 } from "Renderer/components/rest/data-modal/data.modals"
 import delayResponse from "@appnroll/delay-response"
 import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
-import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 import styled from "styled-components"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import Text, {
@@ -37,6 +35,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: { id: "module.contacts.deleteTitle" },
@@ -74,6 +73,7 @@ interface Props {
   onSearchValueChange: (value: string) => void
   showSearchResults?: boolean
   results: Contact[]
+  onExport: (contact: Contact[]) => void
 }
 
 const ContactPanel: FunctionComponent<Props> = ({
@@ -91,16 +91,13 @@ const ContactPanel: FunctionComponent<Props> = ({
   onSearchValueChange,
   showSearchResults = false,
   results,
+  onExport,
 }) => {
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
 
-  const exportContactsAction = async () => {
-    const exported = await exportContacts(selectedContacts)
-
-    if (exported) {
-      resetRows()
-    }
+  const handleExport = (): void => {
+    onExport(selectedContacts)
   }
 
   const openModal = () => {
@@ -150,16 +147,16 @@ const ContactPanel: FunctionComponent<Props> = ({
             buttons={[
               <ButtonComponent
                 key="export"
-                label={intl.formatMessage(messages.export)}
-                displayStyle={DisplayStyle.Link1}
-                Icon={Type.UploadDark}
-                onClick={exportContactsAction}
+                labelMessage={messages.export}
+                displayStyle={DisplayStyle.Link}
+                Icon={IconType.UploadDark}
+                onClick={handleExport}
               />,
               <ButtonComponent
                 key="delete"
-                label={intl.formatMessage(messages.deleteButton)}
-                displayStyle={DisplayStyle.Link1}
-                Icon={Type.Delete}
+                labelMessage={messages.deleteButton}
+                displayStyle={DisplayStyle.Link}
+                Icon={IconType.Delete}
                 onClick={openModal}
               />,
             ]}
@@ -194,7 +191,7 @@ const ContactPanel: FunctionComponent<Props> = ({
       </Panel>
       {showSearchResults && (
         <SearchTitle
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.Headline4}
           data-testid={ContactPanelTestIdsEnum.SearchTitle}
         >
           {intl.formatMessage(messages.searchResultsTitle, {

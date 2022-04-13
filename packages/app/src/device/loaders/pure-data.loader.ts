@@ -10,9 +10,6 @@ import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import { DeviceLoadingError } from "App/device/errors"
 import { PureDeviceData } from "App/device/reducers/device.interface"
-import { SynchronizationState } from "App/data-sync/reducers"
-import store, { ReduxRootState } from "Renderer/store/index"
-import { initializeDataSync } from "App/data-sync/actions/initialize-data-sync.action"
 
 type PureData = Partial<PureDeviceData>
 
@@ -37,20 +34,6 @@ export class PureDataLoader extends BaseLoader {
     const networkLevel = this.getActiveNetworkLevelFromSim(
       networkInfo.data!.simCards
     )
-
-    const state = store.getState() as unknown as ReduxRootState
-
-    if (
-      state.dataSync.state ===
-      (SynchronizationState.Empty || SynchronizationState.Error)
-    ) {
-      store.dispatch(
-        initializeDataSync({
-          token: info.data!.deviceToken,
-          serialNumber: info.data!.serialNumber,
-        })
-      )
-    }
 
     return {
       networkName,

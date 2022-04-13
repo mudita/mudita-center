@@ -5,7 +5,7 @@
 
 import { ReduxRootState, RootState } from "Renderer/store"
 import { initialState, messagesReducer, Thread } from "App/messages/reducers"
-import { initialState as contactsInitialState } from "App/contacts"
+import { initialState as contactsInitialState } from "App/contacts/reducers"
 import { getReceiversSelector } from "App/messages/selectors/get-receivers.selector"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 

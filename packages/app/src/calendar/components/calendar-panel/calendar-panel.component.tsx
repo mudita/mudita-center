@@ -16,7 +16,6 @@ import {
   Panel,
 } from "App/contacts/components/contact-panel/contact-panel.styled"
 import { noop } from "Renderer/utils/noop"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
@@ -28,6 +27,7 @@ import modalService, {
   ModalService,
 } from "Renderer/components/core/modal/modal.service"
 import ExportErrorModal from "App/calendar/components/export-error-modal/export-error-modal.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   synchroniseButton: { id: "module.calendar.panelSynchroniseButton" },
@@ -83,16 +83,16 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
             <ButtonComponent
               key="export"
               label={intl.formatMessage(messages.exportButton)}
-              displayStyle={DisplayStyle.Link1}
-              Icon={Type.UploadDark}
+              displayStyle={DisplayStyle.Link}
+              Icon={IconType.UploadDark}
               onClick={exportEventsAction}
               data-testid={CalendarPanelTestIds.ExportButton}
             />,
             <ButtonComponent
               key="delete"
               label={intl.formatMessage(messages.deleteButton)}
-              displayStyle={DisplayStyle.Link1}
-              Icon={Type.Delete}
+              displayStyle={DisplayStyle.Link}
+              Icon={IconType.Delete}
               onClick={noop}
             />,
           ]}
@@ -110,7 +110,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
         <ButtonComponent
           labelMessage={messages.addEventButton}
           onClick={onAddEventClick}
-          Icon={Type.PlusSign}
+          Icon={IconType.PlusSign}
         />
       </Buttons>
     </Panel>

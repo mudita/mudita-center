@@ -8,7 +8,7 @@ import { ContactsEvent } from "App/contacts/constants"
 import { DeleteContactsError } from "App/contacts/errors/delete-contacts.error"
 import { deleteContactsInState } from "App/contacts/actions/base.action"
 import { ContactID } from "App/contacts/reducers"
-import deleteContactsRequest from "Renderer/requests/delete-contacts.request"
+import deleteContactsRequest from "App/contacts/requests/delete-contacts.request"
 
 export const deleteContacts = createAsyncThunk<Error | undefined, ContactID[]>(
   ContactsEvent.DeleteContacts,

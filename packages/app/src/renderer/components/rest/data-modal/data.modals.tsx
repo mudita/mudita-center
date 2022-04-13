@@ -15,13 +15,13 @@ import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { intl } from "Renderer/utils/intl"
 import { Message } from "Renderer/interfaces/message.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { noop } from "Renderer/utils/noop"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const ModalContent = styled.div`
   display: flex;
@@ -74,12 +74,12 @@ export const ErrorDataModal = ({
 } & Partial<ModalProps>) => (
   <ErrorModal title={title} onClose={onClose} {...props}>
     <RoundIconWrapper>
-      <Icon type={Type.Fail} width={4} />
+      <Icon type={IconType.Fail} width={4} />
     </RoundIconWrapper>
-    <Text displayStyle={TextDisplayStyle.LargeBoldText} message={textMessage} />
+    <Text displayStyle={TextDisplayStyle.Headline4} message={textMessage} />
     {descriptionMessage && (
       <Text
-        displayStyle={TextDisplayStyle.MediumFadedText}
+        displayStyle={TextDisplayStyle.Paragraph4}
         message={descriptionMessage}
       />
     )}
@@ -112,10 +112,7 @@ export const LoadingStateDataModal = ({
       <Loader type={LoaderType.Spinner} />
     </RoundIconWrapper>
     {textMessage && (
-      <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
-        message={textMessage}
-      />
+      <Text displayStyle={TextDisplayStyle.Headline4} message={textMessage} />
     )}
   </ErrorModal>
 )

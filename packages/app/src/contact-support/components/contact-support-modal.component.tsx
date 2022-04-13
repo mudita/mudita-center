@@ -25,7 +25,6 @@ import {
   DisplayStyle,
   Type,
 } from "Renderer/components/core/button/button.config"
-import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
 import { emailValidator } from "Renderer/utils/form-validators"
 import { getModalButtonsSize } from "Renderer/components/core/modal/modal.helpers"
@@ -34,6 +33,7 @@ import { IconSize } from "Renderer/components/core/icon/icon.component"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import FileList from "Renderer/components/core/file-list/file-list.component"
 import { SendTicketPayload } from "App/contact-support/actions/send-ticket.action"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   actionButton: {
@@ -99,12 +99,13 @@ const FormInputLabelComponent: FunctionComponent<FormInputLabelProps> = ({
   label,
   optional,
 }) => (
-  <Text className={className} displayStyle={TextDisplayStyle.MediumText}>
+  <Text className={className} displayStyle={TextDisplayStyle.Paragraph3}>
     <FormattedMessage {...label} />
     {optional && (
       <Text
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.Paragraph3}
         element={"span"}
+        color="disabled"
       >
         {" "}
         (<FormattedMessage {...messages.optional} />)
@@ -114,7 +115,7 @@ const FormInputLabelComponent: FunctionComponent<FormInputLabelProps> = ({
 )
 
 const FormInputLabel = styled(FormInputLabelComponent)`
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.4rem;
 
   &:not(:first-of-type) {
     margin-top: 2.4rem;
@@ -197,8 +198,9 @@ const ContactSupportModal: FunctionComponent<Props> = ({
         />
         <FormInputLabel label={messages.filesLabel} />
         <Text
-          displayStyle={TextDisplayStyle.SmallFadedText}
+          displayStyle={TextDisplayStyle.Label}
           element={"p"}
+          color="secondary"
           message={messages.filesLabelDescription}
         />
         <FileList

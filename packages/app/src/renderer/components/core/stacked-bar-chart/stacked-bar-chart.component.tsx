@@ -151,12 +151,12 @@ const StackedBarChart: FunctionComponent<StackedBarChartProps> = ({
                 key={index}
               >
                 <BarLabel
-                  displayStyle={TextDisplayStyle.MediumText}
+                  displayStyle={TextDisplayStyle.Paragraph3}
                   data-testid="occupied-space"
                 >
                   {usedMemoryConverted}
                   <PercentageLabel
-                    displayStyle={TextDisplayStyle.MediumFadedLightText}
+                    displayStyle={TextDisplayStyle.Paragraph3}
                     element="span"
                   >
                     {`( ${formatPercentage(
@@ -180,10 +180,7 @@ const StackedBarChart: FunctionComponent<StackedBarChartProps> = ({
         })}
       </Progress>
       {labels && (
-        <MemoryLabel
-          displayStyle={TextDisplayStyle.TertiaryHeading}
-          element={"p"}
-        >
+        <MemoryLabel displayStyle={TextDisplayStyle.Headline3} element={"p"}>
           {convertBytes(availableSpace(chartData), {
             fixedFractionDigits: false,
           })}

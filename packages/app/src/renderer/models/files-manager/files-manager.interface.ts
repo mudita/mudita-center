@@ -3,14 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Type } from "Renderer/components/core/icon/icon.config"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export interface DiskSpaceCategory {
   filesType: string
   occupiedMemory: number
   filesAmount?: number
   color: string
-  icon: Type
+  icon: IconType
   url?: string
   free?: boolean
 }

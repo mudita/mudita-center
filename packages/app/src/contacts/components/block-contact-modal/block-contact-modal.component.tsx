@@ -15,11 +15,11 @@ import Text, {
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { Contact } from "App/contacts/reducers/contacts.interface"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const ModalContent = styled.div`
   display: flex;
@@ -70,9 +70,9 @@ const BlockContactModal: FunctionComponent<DeleteContactModalProps> = ({
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
     >
       <ModalContent>
-        <Icon type={Type.DeleteBig} width={12} height={12} />
+        <Icon type={IconType.DeleteBig} width={12} height={12} />
         <Text
-          displayStyle={TextDisplayStyle.MediumText}
+          displayStyle={TextDisplayStyle.Paragraph3}
           message={{
             ...messages.text,
             values: { name: createFullName(contact), ...textFormatters },

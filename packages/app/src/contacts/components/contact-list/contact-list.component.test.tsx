@@ -31,6 +31,7 @@ const defaultProps: Props = {
     .fn()
     .mockReturnValue({ indeterminate: false, selected: false }),
   noneRowsSelected: false,
+  onEdit: jest.fn(),
   onBlock: jest.fn(),
   onDelete: jest.fn(),
   onExport: jest.fn(),
@@ -40,7 +41,7 @@ const defaultProps: Props = {
   toggleRow: jest.fn(),
   selectedContact: null,
   resultsState: ResultState.Empty,
-  editMode: false,
+  editMode: false
 }
 
 const johnContact: Contact = {

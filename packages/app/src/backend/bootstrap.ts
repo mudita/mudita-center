@@ -6,15 +6,11 @@
 import { MuditaDeviceManager } from "@mudita/pure"
 import { MainProcessIpc } from "electron-better-ipc"
 import Backend from "Backend/backend"
-import { DataSync } from "App/data-sync/services"
-import { createIndexService } from "App/data-sync/containers"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import { createDeviceService } from "Backend/device-service"
 import createDeviceBackupService from "./device-backup-service/device-backup-service"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
-import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
-import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
 import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-phone-network.adapter"
 import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
@@ -33,13 +29,6 @@ import registerGetUnlockDeviceStatus from "Backend/requests/get-unlock-device-st
 import registerGetDeviceLockTime from "Backend/requests/get-device-lock-time/get-device-lock-time.request"
 import registerNetworkInfoRequest from "Backend/requests/network/get-network-info.request"
 import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storage-info.request"
-import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.request"
-import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"
-import registerEditContactRequest from "Backend/requests/phonebook/edit-contact.request"
-import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
-import registerAppSettingsRequest from "Backend/requests/app-settings/get-app-settings.request"
-import registerAppSettingsUpdateRequest from "Backend/requests/app-settings/update-app-settings.request"
-import registerAppSettingsResetRequest from "Backend/requests/app-settings/reset-app-settings.request"
 import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
 import registerGetEventsRequest from "Backend/requests/calendar/get-events.request"
 import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
@@ -56,6 +45,8 @@ import registerDownloadDeviceCrashDumpFiles from "App/backend/requests/download-
 import { registerFileSystemRemoveRequest } from "App/device-file-system"
 import { registerDownloadDeviceBackupRequest } from "App/backup-device"
 import createDeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info.adapter"
+
+import { ApplicationModule } from "App/core/application.module"
 
 const bootstrap = (
   deviceManager: MuditaDeviceManager,
@@ -79,18 +70,14 @@ const bootstrap = (
     deviceFileSystem
   )
 
-  createIndexService(new DataSync(deviceService, deviceBackup))
-
   const adapters = {
     deviceBackup,
     deviceFileSystem,
     purePhone,
     deviceBaseInfo,
-    phonebook: createPhonebook(deviceService),
     pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
     pureNetwork: createPurePhoneNetwork(deviceService),
     pureStorage: createPurePhoneStorageAdapter(deviceService),
-    appSettings: createAppSettingsAdapter(),
     calendar: createCalendarAdapter(),
     pureMessages: createPurePhoneMessagesAdapter(deviceService),
     app: createElectronAppAdapter(),
@@ -107,13 +94,6 @@ const bootstrap = (
     registerGetUnlockDeviceStatus,
     registerGetDeviceLockTime,
     registerChangeSimCardRequest,
-    registerGetContactsRequest,
-    registerAddContactRequest,
-    registerEditContactRequest,
-    registerDeleteContactsRequest,
-    registerAppSettingsRequest,
-    registerAppSettingsUpdateRequest,
-    registerAppSettingsResetRequest,
     registerUpdateOsRequest,
     registerGetEventsRequest,
     registerGetThreadsRequest,
@@ -131,6 +111,7 @@ const bootstrap = (
     registerDownloadDeviceBackupRequest,
   ]
 
+  new ApplicationModule(deviceService)
   new Backend(adapters, getFakeAdapters(), requests).init()
 }
 

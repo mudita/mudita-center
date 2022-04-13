@@ -18,62 +18,27 @@ exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disa
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
-  height: 4rem;
-  width: 4rem;
-  border: 0.1rem solid #3b3f42;
-  border-radius: 0.2rem;
-}
-
-.c0:hover {
-  border-color: #000000;
-}
-
-<button
-  class="c0"
-  size="2"
-  type="button"
-/>
-`;
-
-exports[`Button matches snapshots Icon only displayStyle: 3 size: undefined disabled: false 1`] = `
-.c0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: none;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  cursor: pointer;
-  outline: none;
-  box-sizing: border-box;
   width: 17.6rem;
-  height: 3.2rem;
-  width: 3.2rem;
+  opacity: 0.6;
+  -webkit-transition: opacity 250ms ease-in-out;
+  transition: opacity 250ms ease-in-out;
   border-radius: 0.2rem;
+  width: 2.4rem;
+  height: 2.4rem;
   background: transparent;
   border: none;
 }
 
 .c0:hover {
   background: #f4f5f6;
+  opacity: 1;
 }
 
 .c0 svg {
@@ -83,12 +48,25 @@ exports[`Button matches snapshots Icon only displayStyle: 3 size: undefined disa
 
 <button
   class="c0"
-  size="2"
+  size="1"
   type="button"
 />
 `;
 
-exports[`Button matches snapshots Icon only displayStyle: 4 size: undefined disabled: false 1`] = `
+exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -106,44 +84,186 @@ exports[`Button matches snapshots Icon only displayStyle: 4 size: undefined disa
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
-  height: 3.2rem;
-  width: 3.2rem;
-  border-radius: 0.2rem;
-  background: transparent;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 2.4rem;
+  padding: 0;
   border: none;
+  opacity: 0.8;
+  width: 100%;
+}
+
+.c0 p {
+  color: #000000;
+}
+
+.c0 g path {
+  fill: #000000;
 }
 
 .c0:hover {
-  background: #f4f5f6;
+  opacity: 1;
 }
 
-.c0 g {
-  fill: #6d9bbc;
+.c2 {
+  white-space: nowrap;
 }
 
 <button
   class="c0"
-  size="2"
+  size="1"
   type="button"
-/>
+>
+  <p
+    class="c1 c2"
+    color="primary"
+  >
+    Click
+  </p>
+</button>
+`;
+
+exports[`Button matches snapshots Links displayStyle: 4 size: undefined disabled: false 2`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2.8rem;
+  width: 2.8rem;
+  position: relative;
+  font-style: normal;
+}
+
+.c1 svg {
+  width: 100%;
+  height: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  padding: 0.1rem 0.7rem;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 2.4rem;
+  padding: 0;
+  border: none;
+  opacity: 0.8;
+  width: 100%;
+}
+
+.c0 p {
+  color: #000000;
+}
+
+.c0 g path {
+  fill: #000000;
+}
+
+.c0:hover {
+  opacity: 1;
+}
+
+.c2 {
+  margin-right: 0.4rem;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
+<a
+  class="c0"
+  href="http://www.google.pl"
+  size="1"
+  target="_blank"
+>
+  <span
+    class="c1 c2"
+    data-testid="icon-Upload"
+    height="2.8"
+    width="2.8"
+  >
+    <test-file-stub
+      image="test-file-stub"
+    />
+  </span>
+  <p
+    class="c3 c4"
+    color="primary"
+  >
+    Click
+  </p>
+</a>
 `;
 
 exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 1`] = `
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -163,22 +283,31 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  height: 3rem;
-  padding: 0.8rem;
+  height: 3.2rem;
+  padding: 0 0.4rem 0 0;
   border: none;
   border-radius: 0.2rem;
-  font-weight: 400;
   width: 100%;
+}
+
+.c0 p {
+  color: #000000;
+}
+
+.c0 g path {
+  fill: #000000;
 }
 
 .c0:hover {
@@ -191,11 +320,12 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 
 <button
   class="c0"
-  size="2"
+  size="1"
   type="button"
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -206,12 +336,14 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -255,22 +387,31 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  height: 3rem;
-  padding: 0.8rem;
+  height: 3.2rem;
+  padding: 0 0.4rem 0 0;
   border: none;
   border-radius: 0.2rem;
-  font-weight: 400;
   width: 100%;
+}
+
+.c0 p {
+  color: #000000;
+}
+
+.c0 g path {
+  fill: #000000;
 }
 
 .c0:hover {
@@ -278,7 +419,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 }
 
 .c2 {
-  margin: 0 0.8rem 0 0;
+  margin-right: 0.4rem;
 }
 
 .c4 {
@@ -288,7 +429,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 <a
   class="c0"
   href="http://www.google.pl"
-  size="2"
+  size="1"
   target="_blank"
 >
   <span
@@ -303,6 +444,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -312,8 +454,15 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled: false 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.05;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -333,11 +482,13 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -346,7 +497,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   height: 4rem;
   padding: 0.8rem;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.2rem;
   font-weight: 400;
   width: 100%;
 }
@@ -355,17 +506,34 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   background-color: #f4f5f6;
 }
 
+.c0:hover p {
+  color: #40749a;
+}
+
+.c0:hover g path {
+  fill: #40749a;
+}
+
+.c0 g path {
+  fill: #6d9bbc;
+}
+
+.c0 p {
+  color: #6d9bbc;
+}
+
 .c2 {
   white-space: nowrap;
 }
 
 <button
   class="c0"
-  size="2"
+  size="1"
   type="button"
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -375,8 +543,15 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled: false 2`] = `
 .c3 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.05;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -420,11 +595,13 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
@@ -433,7 +610,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   height: 4rem;
   padding: 0.8rem;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.2rem;
   font-weight: 400;
   width: 100%;
 }
@@ -442,8 +619,24 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   background-color: #f4f5f6;
 }
 
+.c0:hover p {
+  color: #40749a;
+}
+
+.c0:hover g path {
+  fill: #40749a;
+}
+
+.c0 g path {
+  fill: #6d9bbc;
+}
+
+.c0 p {
+  color: #6d9bbc;
+}
+
 .c2 {
-  margin: 0 1.2rem 0 0;
+  margin: 0 0.8rem 0 0;
 }
 
 .c4 {
@@ -453,7 +646,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 <a
   class="c0"
   href="http://www.google.pl"
-  size="2"
+  size="1"
   target="_blank"
 >
   <span
@@ -468,6 +661,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -477,13 +671,13 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled: false 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
-  -webkit-letter-spacing: 0.1rem;
-  -moz-letter-spacing: 0.1rem;
-  -ms-letter-spacing: 0.1rem;
-  letter-spacing: 0.1rem;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c0 {
@@ -503,31 +697,64 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 4rem;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border: none;
-  border-radius: 0.2rem;
-  color: #6d9bbc;
+  border-radius: 0.4rem;
   font-weight: 400;
   width: 100%;
+}
+
+.c0.active {
+  background-color: #f4f5f6;
+}
+
+.c0.active * {
+  color: #000000;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+}
+
+.c0.active svg {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
 }
 
 .c0:hover {
   background-color: #f4f5f6;
 }
 
-.c0 g {
-  fill: #6d9bbc;
+.c0:hover * {
+  color: #000000;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+}
+
+.c0:hover svg {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
+}
+
+.c0 svg {
+  opacity: 0.6;
+}
+
+.c0 p {
+  color: #6a6a6a;
 }
 
 .c2 {
@@ -536,11 +763,12 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 <button
   class="c0"
-  size="2"
+  size="1"
   type="button"
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -550,13 +778,13 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled: false 2`] = `
 .c3 {
   margin: 0;
-  font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
-  -webkit-letter-spacing: 0.1rem;
-  -moz-letter-spacing: 0.1rem;
-  -ms-letter-spacing: 0.1rem;
-  letter-spacing: 0.1rem;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  -webkit-letter-spacing: 0.02rem;
+  -moz-letter-spacing: 0.02rem;
+  -ms-letter-spacing: 0.02rem;
+  letter-spacing: 0.02rem;
+  color: #000000;
 }
 
 .c1 {
@@ -600,31 +828,64 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 4rem;
-  padding: 0.8rem;
+  padding: 0.4rem;
   border: none;
-  border-radius: 0.2rem;
-  color: #6d9bbc;
+  border-radius: 0.4rem;
   font-weight: 400;
   width: 100%;
+}
+
+.c0.active {
+  background-color: #f4f5f6;
+}
+
+.c0.active * {
+  color: #000000;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+}
+
+.c0.active svg {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
 }
 
 .c0:hover {
   background-color: #f4f5f6;
 }
 
-.c0 g {
-  fill: #6d9bbc;
+.c0:hover * {
+  color: #000000;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+}
+
+.c0:hover svg {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
+}
+
+.c0 svg {
+  opacity: 0.6;
+}
+
+.c0 p {
+  color: #6a6a6a;
 }
 
 .c2 {
@@ -638,7 +899,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 <a
   class="c0"
   href="http://www.google.pl"
-  size="2"
+  size="1"
   target="_blank"
 >
   <span
@@ -653,6 +914,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -662,9 +924,15 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 1`] = `
 .c1 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.05;
-  color: #6a6a6a;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -684,55 +952,64 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-  height: 4rem;
-  padding: 0.8rem;
+  height: 100%;
+  padding: 0.8rem 0;
   border: none;
-  border-radius: 0.2rem;
-  color: #6a6a6a;
-  font-weight: 400;
+  position: relative;
   width: 100%;
 }
 
-.c0.active {
-  background-color: #f4f5f6;
+.c0:after {
+  content: "";
+  position: absolute;
+  display: block;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0.2rem;
+  background-color: #000000;
+  -webkit-transition: width 500ms ease;
+  transition: width 500ms ease;
 }
 
-.c0.active * {
-  color: #000000;
-}
-
-.c0.active svg {
-  opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
-}
-
-.c0:hover {
-  background-color: #f4f5f6;
-}
-
-.c0:hover * {
-  color: #000000;
-}
-
-.c0:hover svg {
-  opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
+.c0 p {
+  color: #6a6a6a;
 }
 
 .c0 svg {
-  opacity: 0.6;
+  opacity: 0.75;
+}
+
+.c0:hover p {
+  color: #3b3f42;
+}
+
+.c0:hover g path {
+  fill: #3b3f42;
+}
+
+.c0.active p {
+  color: #000000;
+}
+
+.c0.active g path {
+  fill: #000000;
+}
+
+.c0.active:after {
+  width: 100%;
 }
 
 .c2 {
@@ -741,11 +1018,12 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 
 <button
   class="c0"
-  size="2"
+  size="1"
   type="button"
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -755,9 +1033,15 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 2`] = `
 .c3 {
   margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.05;
-  color: #6a6a6a;
+  font-size: 1.2rem;
+  line-height: 1.67;
+  font-weight: 400;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -801,130 +1085,22 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  height: 4rem;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 0.2rem;
-  color: #6a6a6a;
-  font-weight: 400;
-  width: 100%;
-}
-
-.c0.active {
-  background-color: #f4f5f6;
-}
-
-.c0.active * {
-  color: #000000;
-}
-
-.c0.active svg {
-  opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
-}
-
-.c0:hover {
-  background-color: #f4f5f6;
-}
-
-.c0:hover * {
-  color: #000000;
-}
-
-.c0:hover svg {
-  opacity: 1;
-  -webkit-transition: opacity 500ms ease;
-  transition: opacity 500ms ease;
-}
-
-.c0 svg {
-  opacity: 0.6;
-}
-
-.c2 {
-  margin: 0 0.8rem 0 0;
-}
-
-.c4 {
-  white-space: nowrap;
-}
-
-<a
-  class="c0"
-  href="http://www.google.pl"
-  size="2"
-  target="_blank"
->
-  <span
-    class="c1 c2"
-    data-testid="icon-Upload"
-    height="2.8"
-    width="2.8"
-  >
-    <test-file-stub
-      image="test-file-stub"
-    />
-  </span>
-  <p
-    class="c3 c4"
-  >
-    Click
-  </p>
-</a>
-`;
-
-exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled: false 1`] = `
-.c1 {
-  margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.05;
-}
-
-.c0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: none;
+  overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  cursor: pointer;
-  outline: none;
-  box-sizing: border-box;
   width: 17.6rem;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
   height: 100%;
-  padding: 0.8rem;
+  padding: 0.8rem 0;
   border: none;
   position: relative;
-  border-radius: 0.2remrem;
-  color: #6a6a6a;
-  font-weight: 400;
   width: 100%;
 }
 
@@ -941,150 +1117,32 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   transition: width 500ms ease;
 }
 
-.c0:hover {
-  color: #3b3f42;
-}
-
-.c0:hover svg {
-  opacity: 0.9;
-}
-
-.c0.active {
-  color: #000000;
-}
-
-.c0.active:after {
-  width: 100%;
-}
-
-.c0.active svg {
-  opacity: 1;
-}
-
-.c0 svg {
-  opacity: 0.75;
-}
-
-.c2 {
-  white-space: nowrap;
-}
-
-<button
-  class="c0"
-  size="2"
-  type="button"
->
-  <p
-    class="c1 c2"
-  >
-    Click
-  </p>
-</button>
-`;
-
-exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled: false 2`] = `
-.c3 {
-  margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.05;
-}
-
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  height: 2.8rem;
-  width: 2.8rem;
-  position: relative;
-  font-style: normal;
-}
-
-.c1 svg {
-  width: 100%;
-  height: 100%;
-}
-
-.c0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  cursor: pointer;
-  outline: none;
-  box-sizing: border-box;
-  width: 17.6rem;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  height: 100%;
-  padding: 0.8rem;
-  border: none;
-  position: relative;
-  border-radius: 0.2remrem;
+.c0 p {
   color: #6a6a6a;
-  font-weight: 400;
-  width: 100%;
-}
-
-.c0:after {
-  content: "";
-  position: absolute;
-  display: block;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 0.2rem;
-  background-color: #000000;
-  -webkit-transition: width 500ms ease;
-  transition: width 500ms ease;
-}
-
-.c0:hover {
-  color: #3b3f42;
-}
-
-.c0:hover svg {
-  opacity: 0.9;
-}
-
-.c0.active {
-  color: #000000;
-}
-
-.c0.active:after {
-  width: 100%;
-}
-
-.c0.active svg {
-  opacity: 1;
 }
 
 .c0 svg {
   opacity: 0.75;
+}
+
+.c0:hover p {
+  color: #3b3f42;
+}
+
+.c0:hover g path {
+  fill: #3b3f42;
+}
+
+.c0.active p {
+  color: #000000;
+}
+
+.c0.active g path {
+  fill: #000000;
+}
+
+.c0.active:after {
+  width: 100%;
 }
 
 .c2 {
@@ -1098,7 +1156,7 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
 <a
   class="c0"
   href="http://www.google.pl"
-  size="2"
+  size="1"
   target="_blank"
 >
   <span
@@ -1113,6 +1171,7 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -1123,12 +1182,14 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -1148,24 +1209,29 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.4rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 13.2rem;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
 }
 
@@ -1179,6 +1245,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -1189,12 +1256,14 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -1214,16 +1283,17 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.4rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 13.2rem;
   pointer-events: none;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
   background: #d2d6db;
@@ -1231,11 +1301,23 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #6a6a6a;
+}
+
+.c0 g path {
+  fill: #6a6a6a;
 }
 
 .c2 {
@@ -1249,6 +1331,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -1259,12 +1342,14 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -1284,24 +1369,29 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 9.600000000000001rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
 }
 
@@ -1316,6 +1406,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -1326,12 +1417,14 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -1351,16 +1444,17 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 9.600000000000001rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
   pointer-events: none;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
   background: #d2d6db;
@@ -1368,11 +1462,23 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #6a6a6a;
+}
+
+.c0 g path {
+  fill: #6a6a6a;
 }
 
 .c2 {
@@ -1387,6 +1493,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -1397,12 +1504,14 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -1422,24 +1531,29 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 28rem;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
 }
 
@@ -1454,6 +1568,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -1464,12 +1579,14 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -1489,16 +1606,17 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 28rem;
   pointer-events: none;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
   background: #d2d6db;
@@ -1506,11 +1624,23 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #6a6a6a;
+}
+
+.c0 g path {
+  fill: #6a6a6a;
 }
 
 .c2 {
@@ -1525,6 +1655,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -1535,12 +1666,14 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -1560,18 +1693,20 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.4rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 13.2rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
 }
 
-.c0 g {
+.c0 g path {
   fill: #000000;
 }
 
@@ -1589,6 +1724,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -1599,12 +1735,14 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -1624,26 +1762,31 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.4rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 13.2rem;
   pointer-events: none;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
   border: 0.1rem solid #d2d6db;
-  color: #6a6a6a;
 }
 
-.c0 g {
+.c0 g path {
   fill: #000000;
 }
 
-.c0 g {
-  fill: #f4f5f6;
+.c0 p {
+  color: #a5a5a5;
+}
+
+.c0 g path {
+  fill: #a5a5a5;
 }
 
 .c0:hover {
@@ -1661,6 +1804,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -1671,12 +1815,14 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -1696,18 +1842,20 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 9.600000000000001rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
 }
 
-.c0 g {
+.c0 g path {
   fill: #000000;
 }
 
@@ -1726,6 +1874,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -1736,12 +1885,14 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -1761,26 +1912,31 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 9.600000000000001rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
   pointer-events: none;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
   border: 0.1rem solid #d2d6db;
-  color: #6a6a6a;
 }
 
-.c0 g {
+.c0 g path {
   fill: #000000;
 }
 
-.c0 g {
-  fill: #f4f5f6;
+.c0 p {
+  color: #a5a5a5;
+}
+
+.c0 g path {
+  fill: #a5a5a5;
 }
 
 .c0:hover {
@@ -1799,6 +1955,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -1809,12 +1966,14 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -1834,18 +1993,20 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 28rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
 }
 
-.c0 g {
+.c0 g path {
   fill: #000000;
 }
 
@@ -1864,6 +2025,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -1874,12 +2036,14 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -1899,26 +2063,31 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 28rem;
   pointer-events: none;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
   border: 0.1rem solid #d2d6db;
-  color: #6a6a6a;
 }
 
-.c0 g {
+.c0 g path {
   fill: #000000;
 }
 
-.c0 g {
-  fill: #f4f5f6;
+.c0 p {
+  color: #a5a5a5;
+}
+
+.c0 g path {
+  fill: #a5a5a5;
 }
 
 .c0:hover {
@@ -1937,6 +2106,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -1947,12 +2117,14 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -1996,24 +2168,29 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.4rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 13.2rem;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
 }
 
@@ -2041,6 +2218,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -2051,12 +2229,14 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -2100,16 +2280,17 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.4rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 13.2rem;
   pointer-events: none;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
   background: #d2d6db;
@@ -2117,11 +2298,23 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #6a6a6a;
+}
+
+.c0 g path {
+  fill: #6a6a6a;
 }
 
 .c2 {
@@ -2149,6 +2342,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -2159,12 +2353,14 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -2208,24 +2404,29 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 9.600000000000001rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
 }
 
@@ -2254,6 +2455,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -2264,12 +2466,14 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -2313,16 +2517,17 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 9.600000000000001rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
   pointer-events: none;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
   background: #d2d6db;
@@ -2330,11 +2535,23 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #6a6a6a;
+}
+
+.c0 g path {
+  fill: #6a6a6a;
 }
 
 .c2 {
@@ -2363,6 +2580,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -2373,12 +2591,14 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -2422,24 +2642,29 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 28rem;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
 }
 
@@ -2468,6 +2693,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -2478,12 +2704,14 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -2527,16 +2755,17 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 28rem;
   pointer-events: none;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
   background: #d2d6db;
@@ -2544,11 +2773,23 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
+}
+
+.c0 p {
+  color: #6a6a6a;
+}
+
+.c0 g path {
+  fill: #6a6a6a;
 }
 
 .c2 {
@@ -2577,6 +2818,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -2587,12 +2829,14 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -2636,18 +2880,20 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.4rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 13.2rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
 }
 
-.c0 g {
+.c0 g path {
   fill: #000000;
 }
 
@@ -2679,6 +2925,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -2689,12 +2936,14 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -2738,26 +2987,31 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 10.4rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 13.2rem;
   pointer-events: none;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
   border: 0.1rem solid #d2d6db;
-  color: #6a6a6a;
 }
 
-.c0 g {
+.c0 g path {
   fill: #000000;
 }
 
-.c0 g {
-  fill: #f4f5f6;
+.c0 p {
+  color: #a5a5a5;
+}
+
+.c0 g path {
+  fill: #a5a5a5;
 }
 
 .c0:hover {
@@ -2789,6 +3043,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -2799,12 +3054,14 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -2848,18 +3105,20 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 9.600000000000001rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
 }
 
-.c0 g {
+.c0 g path {
   fill: #000000;
 }
 
@@ -2892,6 +3151,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -2902,12 +3162,14 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -2951,26 +3213,31 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 9.600000000000001rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 17.6rem;
   pointer-events: none;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
   border: 0.1rem solid #d2d6db;
-  color: #6a6a6a;
 }
 
-.c0 g {
+.c0 g path {
   fill: #000000;
 }
 
-.c0 g {
-  fill: #f4f5f6;
+.c0 p {
+  color: #a5a5a5;
+}
+
+.c0 g path {
+  fill: #a5a5a5;
 }
 
 .c0:hover {
@@ -3003,6 +3270,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -3013,12 +3281,14 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -3062,18 +3332,20 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 28rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
 }
 
-.c0 g {
+.c0 g path {
   fill: #000000;
 }
 
@@ -3106,6 +3378,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -3116,12 +3389,14 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 .c3 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c1 {
@@ -3165,26 +3440,31 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 28rem;
   pointer-events: none;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   border: 0.1rem solid #000000;
   border: 0.1rem solid #d2d6db;
-  color: #6a6a6a;
 }
 
-.c0 g {
+.c0 g path {
   fill: #000000;
 }
 
-.c0 g {
-  fill: #f4f5f6;
+.c0 p {
+  color: #a5a5a5;
+}
+
+.c0 g path {
+  fill: #a5a5a5;
 }
 
 .c0:hover {
@@ -3217,6 +3497,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   </span>
   <p
     class="c3 c4"
+    color="primary"
   >
     Click
   </p>
@@ -3227,12 +3508,14 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -3252,24 +3535,29 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 28rem;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
 }
 
@@ -3284,6 +3572,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     Click
   </p>
@@ -3294,12 +3583,14 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
 .c1 {
   margin: 0;
   font-size: 1.2rem;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.67;
+  font-weight: 400;
   -webkit-letter-spacing: 0.1rem;
   -moz-letter-spacing: 0.1rem;
   -ms-letter-spacing: 0.1rem;
   letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: #000000;
 }
 
 .c0 {
@@ -3319,24 +3610,29 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   -moz-appearance: none;
   appearance: none;
   background: none;
-  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  padding: 0.1rem 0.7rem;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-  width: 17.6rem;
+  overflow: hidden;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  width: 28rem;
   height: 4rem;
-  color: #ffffff;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   background: #3b3f42;
   border: 0.1rem solid #3b3f42;
 }
 
 .c0:hover {
-  background: #232426;
+  background: #000000;
 }
 
-.c0 g {
+.c0 p {
+  color: #ffffff;
+}
+
+.c0 g path {
   fill: #ffffff;
 }
 
@@ -3351,6 +3647,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
 >
   <p
     class="c1 c2"
+    color="primary"
   >
     [value] module.news
   </p>

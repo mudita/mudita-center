@@ -7,7 +7,6 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import React, { ComponentProps } from "react"
@@ -17,6 +16,7 @@ import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.comp
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { Size } from "Renderer/components/core/button/button.config"
 import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   errorConnectingModalHeaderTitle: {
@@ -62,14 +62,14 @@ const ErrorConnectingModal: FunctionComponent<
     >
       <ModalContent>
         <RoundIconWrapper>
-          <Icon type={Type.Fail} width={4} />
+          <Icon type={IconType.Fail} width={4} />
         </RoundIconWrapper>
         <ModalText
-          displayStyle={TextDisplayStyle.LargeBoldText}
+          displayStyle={TextDisplayStyle.Headline4}
           message={messages.errorConnectingModalTitle}
         />
         <ModalText
-          displayStyle={TextDisplayStyle.MediumFadedText}
+          displayStyle={TextDisplayStyle.Paragraph4}
           message={messages.errorConnectingDescription}
         />
       </ModalContent>

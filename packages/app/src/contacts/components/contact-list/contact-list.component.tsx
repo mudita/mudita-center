@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { createRef, Ref, useEffect } from "react"
+import React, { createRef, Ref, useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -17,7 +17,10 @@ import Table, {
 } from "Renderer/components/core/table/table.component"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
-import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
+import {
+  animatedOpacityActiveStyles,
+  animatedOpacityStyles,
+} from "Renderer/components/rest/animated-opacity/animated-opacity"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Avatar, {
   AvatarSize,
@@ -27,8 +30,7 @@ import {
   backgroundColor,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
-import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
@@ -44,12 +46,57 @@ import { HiddenButton } from "App/contacts/components/contact-list/contact-list.
 import { flags, Feature } from "App/feature-flags"
 import {
   Contact,
+  ContactCategory,
   Contacts,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
+import { defineMessages } from "react-intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
+
+const messages = defineMessages({
+  forwardNamecard: {
+    id: "module.contacts.forwardNamecard",
+  },
+  unblock: {
+    id: "module.contacts.unblock",
+  },
+  block: {
+    id: "module.contacts.block",
+  },
+  exportAsVcard: {
+    id: "module.contacts.exportAsVcard",
+  },
+  editBulkAction: {
+    id: "module.contacts.editBulkAction",
+  },
+  deleteBulkAction: {
+    id: "module.contacts.deleteBulkAction",
+  },
+  emptyListTitle: {
+    id: "module.contacts.emptyListTitle",
+  },
+  emptySearchDescription: {
+    id: "module.contacts.emptySearchDescription",
+  },
+  emptyPhonebook: {
+    id: "module.contacts.emptyPhonebook",
+  },
+  listUnnamedContact: {
+    id: "module.contacts.listUnnamedContact",
+  },
+})
+
+const checkboxShowedStyles = css`
+  margin-left: 4.4rem;
+  margin-right: 2.8rem;
+  display: block;
+`
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
-  margin: 0 auto;
+  ${({ visible }) => (visible ? checkboxShowedStyles : "display: none;")};
 `
 
 export const lightAvatarStyles = css`
@@ -57,16 +104,14 @@ export const lightAvatarStyles = css`
 `
 
 const InitialsAvatar = styled(Avatar)<{ disabled?: boolean }>`
-  margin-right: 1.2rem;
+  margin-right: 1.6rem;
+  margin-left: 3.2rem;
 `
 
 export const AvatarPlaceholder = styled.div`
   ${basicAvatarStyles};
-  margin-right: 1.2rem;
-`
-
-const ActionsButton = styled.span`
-  cursor: pointer;
+  margin-right: 1.6rem;
+  margin-left: 3.2rem;
 `
 
 const Actions = styled.div`
@@ -79,12 +124,12 @@ const Actions = styled.div`
 `
 
 const BlockedIcon = styled(Icon).attrs(() => ({
-  type: Type.Blocked,
+  type: IconType.Blocked,
 }))`
   margin-left: 1.6rem;
 `
 
-const NameSpan = styled.span``
+const NameSpan = styled(Text)``
 
 const ClickableCol = styled(Col)<{ disabled?: boolean }>`
   height: 100%;
@@ -102,21 +147,10 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   min-width: 32rem;
   flex: 1;
   overflow: auto;
-  --columnsTemplate: 3.2rem 62.4rem 11.5rem 11.5rem auto;
-  --columnsTemplateWithOpenedSidebar: 3.2rem 1fr;
+  --columnsTemplate: 8.8rem 1fr 11.5rem 11.5rem auto;
+  --columnsTemplateWithOpenedSidebar: 8.8rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
-
-  ${Row} {
-    :hover {
-      ${Checkbox} {
-        ${animatedOpacityActiveStyles};
-      }
-      ${InitialsAvatar} {
-        ${lightAvatarStyles};
-      }
-    }
-  }
 `
 
 const activeRowStyles = css`
@@ -127,6 +161,16 @@ const activeRowStyles = css`
 
 const ContactListRow = styled(Row)`
   ${({ active }) => active && activeRowStyles};
+  :hover {
+    ${Checkbox} {
+      ${animatedOpacityActiveStyles};
+      ${checkboxShowedStyles};
+    }
+    ${InitialsAvatar} {
+      ${animatedOpacityStyles};
+      display: none;
+    }
+  }
 `
 
 type SelectHook = Pick<
@@ -142,11 +186,11 @@ interface Props extends Contacts, ContactActions, SelectHook {
 }
 
 const ContactList: FunctionComponent<Props> = ({
-  contactList,
   activeRow,
   selectedContact,
   onSelect,
   onExport,
+  onEdit,
   onForward,
   onBlock,
   onUnblock,
@@ -156,14 +200,25 @@ const ContactList: FunctionComponent<Props> = ({
   getRowStatus,
   toggleRow,
   noneRowsSelected,
+  ...props
 }) => {
+  const [contactList, setContactList] = useState<ContactCategory[]>(props.contactList)
+  const componentContactList = editMode ? contactList : props.contactList
+
+  useEffect(() => {
+    if (!editMode) {
+      setContactList(props.contactList)
+    }
+  }, [props.contactList, editMode])
+
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
   const CategoryLabels = styled(Labels)`
     align-items: end;
     background-color: var(--rowBackground) !important;
-    > div:last-child {
+    > div:first-child {
       margin-bottom: 1.5rem;
+      margin-left: 3.2rem;
     }
   `
 
@@ -187,19 +242,23 @@ const ContactList: FunctionComponent<Props> = ({
       ref={tableRef}
     >
       <HighlightContactList
-        contactList={contactList}
+        contactList={componentContactList}
         selectedContact={selectedContact}
       >
         {resultsState === ResultState.Loaded &&
-          contactList.length !== 0 &&
-          contactList.map(({ category, contacts }, categoryIndex) => (
+        componentContactList.length !== 0 &&
+        componentContactList.map(({ category, contacts }, categoryIndex) => (
             <Group
               key={category}
               data-testid={ContactListTestIdsEnum.ContactListGroup}
             >
               <CategoryLabels>
+                <Col>
+                  <Text displayStyle={TextDisplayStyle.Headline4}>
+                    {category}
+                  </Text>
+                </Col>
                 <Col />
-                <Col>{category}</Col>
               </CategoryLabels>
               {contacts.map((contact, index) => {
                 const rowActive = activeRow?.id === contact.id
@@ -207,6 +266,7 @@ const ContactList: FunctionComponent<Props> = ({
                 const { selected } = getRowStatus(contact)
                 const onChange = () => toggleRow(contact)
                 const handleExport = () => onExport([contact])
+                const handleEdit = () => onEdit(contact)
                 const handleForward = () => onForward(contact)
                 const handleBlock = () => onBlock(contact)
                 const handleUnblock = () => onUnblock(contact)
@@ -221,14 +281,14 @@ const ContactList: FunctionComponent<Props> = ({
                   }
                   if (firstName && lastName) {
                     return (
-                      <NameSpan>
-                        {firstName} <strong>{lastName}</strong>
+                      <NameSpan displayStyle={TextDisplayStyle.Paragraph1}>
+                        {firstName} {lastName}
                       </NameSpan>
                     )
                   }
                   return (
-                    <NameSpan>
-                      <strong>{firstName || lastName}</strong>
+                    <NameSpan displayStyle={TextDisplayStyle.Paragraph1}>
+                      {firstName || lastName}
                     </NameSpan>
                   )
                 }
@@ -236,7 +296,7 @@ const ContactList: FunctionComponent<Props> = ({
                   contact.primaryPhoneNumber || contact.secondaryPhoneNumber
                 const nextContact = contacts[index + 1]
                   ? contacts[index + 1]
-                  : contactList[categoryIndex + 1]?.contacts[0]
+                  : componentContactList[categoryIndex + 1]?.contacts[0]
                 const scrollActive =
                   (nextContact || contacts[index]).id === activeRow?.id
 
@@ -253,87 +313,86 @@ const ContactList: FunctionComponent<Props> = ({
                         size={Size.Medium}
                         visible={!noneRowsSelected}
                       />
+                      {noneRowsSelected && (
+                        <InitialsAvatar
+                          user={contact}
+                          light={selected || activeRow === contact}
+                          size={AvatarSize.Medium}
+                        />
+                      )}
                     </Col>
                     <ClickableCol
                       onClick={handleSelect}
                       data-testid={ContactListTestIdsEnum.ContactRow}
                       disabled={rowDisabled}
                     >
-                      <InitialsAvatar
-                        user={contact}
-                        light={selected || activeRow === contact}
-                        size={AvatarSize.Medium}
-                      />
                       {createStyledFullName() ||
-                        intl.formatMessage({
-                          id: "module.contacts.listUnnamedContact",
-                        })}
+                        intl.formatMessage(messages.listUnnamedContact)}
                       {contact.blocked && (
                         <BlockedIcon width={1.4} height={1.4} />
                       )}
                     </ClickableCol>
-                    <Col>{phoneNumber}</Col>
                     <Col>
-                      {contact.primaryPhoneNumber &&
-                        contact.secondaryPhoneNumber &&
-                        contact.secondaryPhoneNumber}
+                      <Text displayStyle={TextDisplayStyle.Paragraph1}>
+                        {phoneNumber}
+                      </Text>
+                    </Col>
+                    <Col>
+                      <Text displayStyle={TextDisplayStyle.Paragraph1}>
+                        {contact.primaryPhoneNumber &&
+                          contact.secondaryPhoneNumber &&
+                          contact.secondaryPhoneNumber}
+                      </Text>
                     </Col>
                     <Col>
                       <Actions>
-                        <Dropdown
-                          toggler={
-                            <ActionsButton>
-                              <Icon type={Type.More} />
-                            </ActionsButton>
-                          }
-                          onOpen={disableScroll}
-                          onClose={enableScroll}
-                        >
+                        <Dropdown onOpen={disableScroll} onClose={enableScroll}>
                           <HiddenButton
-                            labelMessage={{
-                              id: "module.contacts.exportAsVcard",
-                            }}
-                            Icon={Type.Upload}
-                            onClick={handleExport}
-                            displayStyle={DisplayStyle.Dropdown}
-                            hide={flags.get(Feature.ProductionAndAlpha)}
-                          />
-                          <HiddenButton
-                            labelMessage={{
-                              id: "module.contacts.forwardNamecard",
-                            }}
-                            Icon={Type.Forward}
+                            labelMessage={messages.forwardNamecard}
+                            Icon={IconType.Forward}
                             onClick={handleForward}
                             displayStyle={DisplayStyle.Dropdown}
                             hide={flags.get(Feature.ProductionAndAlpha)}
+                            iconSize={IconSize.Medium}
                           />
                           {contact.blocked ? (
                             <HiddenButton
-                              labelMessage={{
-                                id: "module.contacts.unblock",
-                              }}
-                              Icon={Type.Blocked}
+                              labelMessage={messages.unblock}
+                              Icon={IconType.Blocked}
                               onClick={handleUnblock}
                               displayStyle={DisplayStyle.Dropdown}
                               hide={flags.get(Feature.ProductionAndAlpha)}
+                              iconSize={IconSize.Medium}
                             />
                           ) : (
                             <HiddenButton
-                              labelMessage={{
-                                id: "module.contacts.block",
-                              }}
-                              Icon={Type.Blocked}
+                              labelMessage={messages.block}
+                              Icon={IconType.Blocked}
                               onClick={handleBlock}
                               displayStyle={DisplayStyle.Dropdown}
                               hide={flags.get(Feature.ProductionAndAlpha)}
+                              iconSize={IconSize.Medium}
                             />
                           )}
                           <ButtonComponent
-                            labelMessage={{
-                              id: "module.contacts.delete",
-                            }}
-                            Icon={Type.Delete}
+                            labelMessage={messages.editBulkAction}
+                            iconSize={IconSize.Medium}
+                            Icon={IconType.Edit}
+                            onClick={handleEdit}
+                            displayStyle={DisplayStyle.Dropdown}
+                          />
+                          <ButtonComponent
+                            labelMessage={messages.exportAsVcard}
+                            Icon={IconType.UploadDark}
+                            onClick={handleExport}
+                            iconSize={IconSize.Medium}
+                            displayStyle={DisplayStyle.Dropdown}
+                          />
+                          <ButtonComponent
+                            labelMessage={messages.deleteBulkAction}
+                            Icon={IconType.Delete}
                             onClick={handleDelete}
+                            iconSize={IconSize.Medium}
                             displayStyle={DisplayStyle.Dropdown}
                           />
                         </Dropdown>
@@ -377,23 +436,19 @@ const ContactList: FunctionComponent<Props> = ({
               })}
             </Group>
           ))}
-        {resultsState === ResultState.Loaded && contactList.length === 0 && (
+        {resultsState === ResultState.Loaded && componentContactList.length === 0 && (
           <EmptyState
             data-testid={ContactListTestIdsEnum.ContactListNoResult}
-            title={{ id: "module.contacts.emptyListTitle" }}
-            description={{
-              id: "module.contacts.emptySearchDescription",
-            }}
+            title={messages.emptyListTitle}
+            description={messages.emptySearchDescription}
           />
         )}
         {(resultsState === ResultState.Empty ||
           resultsState === ResultState.Error) && (
           <EmptyState
             data-testid={ContactListTestIdsEnum.ContactListEmpty}
-            title={{ id: "module.contacts.emptyListTitle" }}
-            description={{
-              id: "module.contacts.emptyPhonebook",
-            }}
+            title={messages.emptyListTitle}
+            description={messages.emptyPhonebook}
           />
         )}
         {resultsState === ResultState.Loading && (

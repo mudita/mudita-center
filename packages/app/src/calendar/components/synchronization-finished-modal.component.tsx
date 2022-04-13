@@ -7,7 +7,6 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -21,6 +20,7 @@ import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
 import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: {
@@ -41,35 +41,36 @@ interface EventsSynchronizationFinishedModalProps extends ModalProps {
   importedEventsCount?: number
 }
 
-const EventsSynchronizationFinishedModal: FunctionComponent<EventsSynchronizationFinishedModalProps> =
-  ({ importedEventsCount, ...props }) => (
-    <Modal
-      {...props}
-      size={ModalSize.Small}
-      title={intl.formatMessage(messages.title)}
-      closeButton={false}
-      actionButtonLabel={intl.formatMessage(messages.button)}
-    >
-      <ModalContent>
-        <RoundIconWrapper>
-          <Icon type={Type.ThinCheck} width={8} />
-        </RoundIconWrapper>
-        <Text
-          displayStyle={TextDisplayStyle.LargeBoldText}
-          message={messages.subtitle}
-        />
-        <ModalText
-          displayStyle={TextDisplayStyle.MediumFadedText}
-          message={{
-            ...messages.body,
-            values: {
-              importedEventsCount,
-              ...textFormatters,
-            },
-          }}
-        />
-      </ModalContent>
-    </Modal>
-  )
+const EventsSynchronizationFinishedModal: FunctionComponent<
+  EventsSynchronizationFinishedModalProps
+> = ({ importedEventsCount, ...props }) => (
+  <Modal
+    {...props}
+    size={ModalSize.Small}
+    title={intl.formatMessage(messages.title)}
+    closeButton={false}
+    actionButtonLabel={intl.formatMessage(messages.button)}
+  >
+    <ModalContent>
+      <RoundIconWrapper>
+        <Icon type={IconType.ThinCheck} width={8} />
+      </RoundIconWrapper>
+      <Text
+        displayStyle={TextDisplayStyle.Headline4}
+        message={messages.subtitle}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.Paragraph4}
+        message={{
+          ...messages.body,
+          values: {
+            importedEventsCount,
+            ...textFormatters,
+          },
+        }}
+      />
+    </ModalContent>
+  </Modal>
+)
 
 export default EventsSynchronizationFinishedModal

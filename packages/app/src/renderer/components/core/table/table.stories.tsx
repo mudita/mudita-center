@@ -6,7 +6,6 @@
 import { action } from "@storybook/addon-actions"
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Table, {
   Col,
@@ -36,6 +35,7 @@ import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
 import Story from "Renderer/components/storybook/story.component"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const Checkbox = styled(InputCheckbox)``
 
@@ -276,23 +276,26 @@ storiesOf("Components|Core/Table/Parts", module)
   ))
   .add("Sidebar", () => {
     const HeaderLeft = () => (
-      <CustomSidebarTitle displayStyle={TextDisplayStyle.LargeBoldText}>
+      <CustomSidebarTitle displayStyle={TextDisplayStyle.Headline4}>
         Sidebar title
       </CustomSidebarTitle>
     )
     const HeaderRight = () => (
       <>
         <SidebarHeaderButton
-          Icon={Type.Notes}
+          iconType={IconType.Notes}
           onClick={action("Notes icon click")}
+          description={{ id: "Notes icon click" }}
         />
         <SidebarHeaderButton
-          Icon={Type.Upload}
+          iconType={IconType.Upload}
           onClick={action("Upload icon click")}
+          description={{ id: "Upload icon click" }}
         />
         <SidebarHeaderButton
-          Icon={Type.Delete}
+          iconType={IconType.Delete}
           onClick={action("Delete icon click")}
+          description={{ id: "Delete icon click" }}
         />
       </>
     )
@@ -431,7 +434,7 @@ storiesOf("Components|Core/Table/Basic", module)
       useTableSidebar<typeof basicRows[number]>()
 
     const SidebarTitle = () => (
-      <Text displayStyle={TextDisplayStyle.LargeText}>
+      <Text displayStyle={TextDisplayStyle.Paragraph1}>
         {activeRow?.firstName} {activeRow?.lastName}
       </Text>
     )
@@ -719,15 +722,15 @@ storiesOf("Components|Core/Table/Grouped", module)
       useTableSidebar<typeof labeledRows[number][number]>()
 
     const SidebarTitle = () => (
-      <Text displayStyle={TextDisplayStyle.LargeText}>
+      <Text displayStyle={TextDisplayStyle.Paragraph1}>
         {activeRow?.firstName} {activeRow?.lastName}
       </Text>
     )
 
     const SidebarActions = () => (
       <>
-        <SidebarHeaderButton Icon={Type.Upload} onClick={action("Export")} />
-        <SidebarHeaderButton Icon={Type.Delete} onClick={action("Delete")} />
+        <SidebarHeaderButton iconType={IconType.Upload} onClick={action("Export")} description={{ id: "Export" }} />
+        <SidebarHeaderButton iconType={IconType.Delete} onClick={action("Delete")} description={{ id: "Delete" }} />
       </>
     )
 

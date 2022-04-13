@@ -18,16 +18,20 @@ import {
   backgroundColor,
   transitionTime,
   transitionTimingFunction,
-  textColor,
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import { URL_MAIN } from "Renderer/constants/urls"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { NormalizedHelpEntry } from "Renderer/utils/contentful/normalize-help-data"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ModalsManager from "App/modals-manager/containers/modals-manager.container"
+import { fontWeight } from "Renderer/styles/theming/theme-getters"
+import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { defineMessages } from "react-intl"
+import { IconType } from "Renderer/components/core/icon/icon-type"
+
+const messages = defineMessages({
+  supportTooltipDescription: { id: "module.help.supportTooltipDescription" },
+})
 
 export interface QuestionAndAnswer {
   collection: string[]
@@ -60,7 +64,7 @@ const SearchContainer = styled.div`
 
 const SearchInput = styled(InputText)`
   width: 27.5rem;
-  margin-left: 1.2rem;
+  margin-left: 1.6rem;
 `
 
 const QuestionsContainer = styled.div`
@@ -73,6 +77,7 @@ const Question = styled(Link)`
   padding: 1.6rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   transition: background-color ${transitionTime("veryQuick")}
     ${transitionTimingFunction("smooth")};
   &:hover {
@@ -84,17 +89,15 @@ const ArrowIcon = styled(Icon)`
   transform: rotate(270deg);
 `
 
-const SupportButtonComponent = styled(ButtonComponent)`
-  svg path {
-    fill: ${textColor("secondary")};
-  }
+const NormalHeading = styled(Text)`
+  font-weight: ${fontWeight("default")};
 `
 
 const textFormatters = {
   b: (str: string) => (
-    <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading} element={"span"}>
+    <NormalHeading displayStyle={TextDisplayStyle.Headline3} element={"span"}>
       {str}
-    </Text>
+    </NormalHeading>
   ),
 }
 
@@ -118,16 +121,16 @@ const Help: FunctionComponent<Props> = ({
               id: "module.help.title",
               values: textFormatters,
             }}
-            displayStyle={TextDisplayStyle.SecondaryHeading}
+            displayStyle={TextDisplayStyle.Headline3}
             data-testid={HelpComponentTestIds.Title}
           />
           <SearchContainer>
-            <SupportButtonComponent
-              displayStyle={DisplayStyle.IconOnly3}
-              Icon={Type.Support}
+            <IconButtonWithSecondaryTooltip
+              iconType={IconType.Support}
               iconSize={IconSize.Small}
               onClick={openContactSupportFlow}
               data-testid={HelpComponentTestIds.SupportButton}
+              description={messages.supportTooltipDescription}
             />
             <SearchInput
               type={"search"}
@@ -162,10 +165,10 @@ const Help: FunctionComponent<Props> = ({
                   to={`${URL_MAIN.help}/${id}`}
                   data-testid={HelpComponentTestIds.Question}
                 >
-                  <Text displayStyle={TextDisplayStyle.LargeText}>
+                  <Text displayStyle={TextDisplayStyle.Paragraph1}>
                     {items[id].question}
                   </Text>
-                  <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />
+                  <ArrowIcon type={IconType.ArrowDown} height={1.2} width={1.2} />
                 </Question>
               )
             })}

@@ -26,11 +26,6 @@ const render = (extraProps?: Partial<Props>) => {
   return renderWithThemeAndIntl(<System {...props} />)
 }
 
-test("matches snapshot", () => {
-  const { container } = render()
-  expect(container).toMatchSnapshot()
-})
-
 test("renders os version properly", () => {
   const { getByTestId } = render()
   expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent(

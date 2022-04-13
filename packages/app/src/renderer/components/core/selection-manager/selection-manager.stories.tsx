@@ -11,16 +11,16 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
 import styled, { css } from "styled-components"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const deleteButton = (
   <ButtonComponent
     key="delete"
     label={"Delete"}
-    displayStyle={DisplayStyle.Link1}
-    Icon={Type.Delete}
+    displayStyle={DisplayStyle.Link}
+    Icon={IconType.Delete}
     data-testid="button"
     onClick={action("delete")}
   />
@@ -30,8 +30,8 @@ export const exportButton = (
   <ButtonComponent
     key="export"
     label={"Export"}
-    displayStyle={DisplayStyle.Link1}
-    Icon={Type.Upload}
+    displayStyle={DisplayStyle.Link}
+    Icon={IconType.Upload}
     data-testid="button"
     onClick={action("export")}
   />

@@ -28,8 +28,8 @@ import { IconSize } from "Renderer/components/core/icon/icon.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { defineMessages } from "react-intl"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { Message } from "Renderer/interfaces/message.interface"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export enum SafeModeAction {
   Backup = "backup",
@@ -40,7 +40,7 @@ export enum SafeModeAction {
 
 interface SafeModeOption {
   readonly action: SafeModeAction
-  readonly iconType: Type
+  readonly iconType: IconType
   readonly title: Message
   readonly description: Message
 }
@@ -87,25 +87,25 @@ const messages = defineMessages({
 const safeModeOptions: SafeModeOption[] = [
   {
     action: SafeModeAction.Backup,
-    iconType: Type.RecoveryBackup,
+    iconType: IconType.RecoveryBackup,
     title: messages.backupTitle,
     description: messages.backupDescription,
   },
   {
     action: SafeModeAction.RebootOs,
-    iconType: Type.RebootOs,
+    iconType: IconType.RebootOs,
     title: messages.rebootOsTitle,
     description: messages.rebootOsDescription,
   },
   {
     action: SafeModeAction.Restore,
-    iconType: Type.RebootOs,
+    iconType: IconType.RebootOs,
     title: messages.restoreTitle,
     description: messages.restoreDescription,
   },
   {
     action: SafeModeAction.FactoryReset,
-    iconType: Type.FactoryReset,
+    iconType: IconType.FactoryReset,
     title: messages.factoryResetTitle,
     description: messages.factoryResetDescription,
   },
@@ -135,11 +135,11 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
     <RecoveryModeWrapper>
       <RecoveryModeHeader>
         <Title
-          displayStyle={TextDisplayStyle.PrimaryHeading}
+          displayStyle={TextDisplayStyle.Headline1}
           message={{ ...messages.title, values: textFormatters }}
         />
         <DescriptionText
-          displayStyle={TextDisplayStyle.LargeFadedText}
+          displayStyle={TextDisplayStyle.Paragraph2}
           message={messages.description}
         />
       </RecoveryModeHeader>
@@ -151,12 +151,12 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
                 <OptionBoxIcon type={iconType} size={IconSize.Big} />
                 <TextWrapper>
                   <Text
-                    displayStyle={TextDisplayStyle.TertiaryHeading}
+                    displayStyle={TextDisplayStyle.Headline3}
                     message={title}
                     element={"p"}
                   />
                   <OptionText
-                    displayStyle={TextDisplayStyle.MediumFadedLightText}
+                    displayStyle={TextDisplayStyle.Paragraph4}
                     message={description}
                   />
                 </TextWrapper>
@@ -168,11 +168,11 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
       <RecoveryModeFooter>
         <Support>
           <SupportText
-            displayStyle={TextDisplayStyle.SmallFadedText}
+            displayStyle={TextDisplayStyle.Label}
             message={messages.supportMessage}
           />
           <ButtonComponent
-            displayStyle={DisplayStyle.Link3}
+            displayStyle={DisplayStyle.ActionLink}
             labelMessage={messages.supportButtonText}
             onClick={onSupportButtonClick}
           />

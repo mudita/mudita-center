@@ -29,7 +29,7 @@ import {
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 import { ContactErrorResponse } from "App/contacts/components/contacts/contacts.type"
 import { isThreadOpenedSelector } from "App/messages/selectors"
-import { addNewContact } from "App/contacts/actions/add-new-contacts.action"
+import { createNewContact } from "App/contacts/actions/create-new-contacts.action"
 import { deleteContacts } from "App/contacts/actions/delete-contacts.action"
 import { importContact } from "App/contacts/actions/import-contact.action"
 import { addNewContactsToState } from "App/contacts/actions/base.action"
@@ -58,7 +58,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
 const mapDispatchToProps = (dispatch: TmpDispatch) => {
   return {
     ...dispatch.auth,
-    onExport: exportContacts,
+    exportContacts: exportContacts,
     onMessage: (history: History<LocationState>, phoneNumber: string) =>
       history.push(createRouterPath(URL_MAIN.messages, { phoneNumber })),
     onSpeedDialSettingsSave: noop,
@@ -80,7 +80,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
     },
     addNewContact: async (
       contact: NewContact
-    ): Promise<ContactErrorResponse | void> => dispatch(addNewContact(contact)),
+    ): Promise<ContactErrorResponse | void> => dispatch(createNewContact(contact)),
     importContact: async (contact: NewContact): Promise<string | void> =>
       dispatch(importContact(contact)),
     editContact: async (
@@ -92,9 +92,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
     authorize: async (
       provider: ExternalProvider
     ): Promise<string | undefined> => dispatch(authorize(provider)),
-    addNewContactsToState: async (
-      contacts: Contact[]
-    ): Promise<void> => dispatch(addNewContactsToState(contacts)),
+    addNewContactsToState: async (contacts: Contact[]): Promise<void> =>
+      dispatch(addNewContactsToState(contacts)),
 
     // TODO: Add proper actions
     onForward: noop,

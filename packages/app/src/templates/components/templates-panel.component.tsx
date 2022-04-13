@@ -10,7 +10,6 @@ import styled, { css } from "styled-components"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { intl } from "Renderer/utils/intl"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
 import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
@@ -19,6 +18,7 @@ import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { Template } from "App/templates/store/templates.interface"
 import { defineMessages } from "react-intl"
 import { TemplatesTestIds } from "App/templates/components/templates/templates.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export const messages = defineMessages({
   searchPlaceholder: {
@@ -107,16 +107,16 @@ const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
           buttons={[
             <ButtonComponent
               key="delete"
-              label={intl.formatMessage(messages.deleteButton)}
-              displayStyle={DisplayStyle.Link1}
-              Icon={Type.Delete}
+              labelMessage={messages.deleteButton}
+              displayStyle={DisplayStyle.Link}
+              Icon={IconType.Delete}
               onClick={onDeleteButtonClick}
             />,
           ]}
         />
       ) : (
         <InputComponent
-          leadingIcons={[<Icon type={Type.Magnifier} key={1} />]}
+          leadingIcons={[<Icon type={IconType.Magnifier} key={1} />]}
           label={intl.formatMessage(messages.searchPlaceholder)}
           onChange={onSearchTermChange}
           type="search"
@@ -125,7 +125,7 @@ const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
       )}
       <Buttons>
         <ButtonComponent
-          Icon={Type.PlusSign}
+          Icon={IconType.PlusSign}
           labelMessage={messages.newButton}
           onClick={onNewButtonClick}
           data-testid={TemplatesTestIds.AddTemplateButton}

@@ -27,8 +27,8 @@ import {
   letterSpacing,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { URL_MAIN } from "Renderer/constants/urls"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const TextInfo = styled(CardContent)`
   > p {
@@ -84,14 +84,14 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     <Card className={className}>
       <TextInfo>
         <SpaceData>
-          <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
+          <Text displayStyle={TextDisplayStyle.Headline3}>
             {convertBytes(usedSpace)}
           </Text>
-          <Text element={"span"} displayStyle={TextDisplayStyle.SmallText}>
+          <Text element={"span"} displayStyle={TextDisplayStyle.Label}>
             / {convertBytes(maxSpace)}
           </Text>
         </SpaceData>
-        <Text displayStyle={TextDisplayStyle.SmallFadedText}>
+        <Text displayStyle={TextDisplayStyle.Label}>
           <FormattedMessage id="module.overview.filesManagerUsedSpace" />
         </Text>
         <BarChart chartData={stackedBarData} displayStyle={DisplayStyle.Thin} />
@@ -100,7 +100,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         <Button
           active
           label={buttonLabel}
-          Icon={Type.FilesManager}
+          Icon={IconType.FilesManager}
           onClick={onFilesOpen}
           to={URL_MAIN.filesManager}
         />

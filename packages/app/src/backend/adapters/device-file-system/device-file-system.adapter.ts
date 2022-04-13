@@ -31,6 +31,12 @@ export class DeviceFileSystem implements DeviceFileSystemAdapter {
   ): Promise<DeviceResponse<string[]>> {
     const data: string[] = []
 
+    if (!fs.existsSync(options.cwd)) {
+      fs.mkdirSync(options.cwd, {
+        recursive: true,
+      })
+    }
+
     for (let i = 0; i < filePaths.length; i++) {
       const response = await this.downloadDeviceFileLocally(
         filePaths[i],

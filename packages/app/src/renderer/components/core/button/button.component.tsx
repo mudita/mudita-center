@@ -3,11 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { MouseEventHandler } from "react"
+import React, { ComponentProps, MouseEventHandler, Ref } from "react"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -22,6 +21,7 @@ import {
   StyledNavLink,
 } from "./button.styled.elements"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export interface Props {
   nav?: boolean
@@ -38,6 +38,7 @@ export interface Props {
   target?: string
   to?: string
   type?: Type
+  buttonRef?: Ref<HTMLElement>
 }
 
 const ButtonText = styled(Text)`
@@ -56,10 +57,11 @@ const ButtonComponent: FunctionComponent<Props> = ({
   label,
   labelMessage,
   nav,
-  size = Size.FixedBig,
+  size = Size.FixedMedium,
   target,
   to,
   type = Type.Button,
+  buttonRef,
   ...rest
 }) => {
   let Component: any
@@ -83,19 +85,16 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Object.assign(filteredProps, { type, disabled })
   }
 
-  const getButtonTextDisplayStyle = (style: DisplayStyle) => {
-    switch (style) {
-      case DisplayStyle.Link4:
-        return TextDisplayStyle.LargeFadedText
-      case DisplayStyle.Tab:
-        return TextDisplayStyle.LargeText
-      case DisplayStyle.Dropdown:
-        return TextDisplayStyle.SmallText
-      case DisplayStyle.Link2:
-        return TextDisplayStyle.LargeText
-      default:
-        return TextDisplayStyle.SmallText
+  const getButtonTextDisplayStyle = (style: DisplayStyle): TextDisplayStyle => {
+    if (
+      style ===
+      (DisplayStyle.MenuLink ||
+        DisplayStyle.Tab ||
+        DisplayStyle.LinkWithParagraph)
+    ) {
+      return TextDisplayStyle.Paragraph1
     }
+    return TextDisplayStyle.Button
   }
 
   const getLabel = () => {
@@ -128,14 +127,15 @@ const ButtonComponent: FunctionComponent<Props> = ({
     <Component
       {...filteredProps}
       {...rest}
+      ref={buttonRef}
       className={className}
-      displaystyle={displayStyle}
+      displayStyle={displayStyle}
       size={size}
       disabled={disabled}
     >
       {Icon && (
         <StyledIcon
-          displaystyle={displayStyle}
+          displayStyle={displayStyle}
           withMargin={Boolean(label || labelMessage)}
           type={Icon}
           size={iconSize}
@@ -146,4 +146,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   )
 }
 
-export default ButtonComponent
+export default React.forwardRef<
+  HTMLElement,
+  ComponentProps<typeof ButtonComponent>
+>((props, ref) => <ButtonComponent {...props} buttonRef={ref} />)

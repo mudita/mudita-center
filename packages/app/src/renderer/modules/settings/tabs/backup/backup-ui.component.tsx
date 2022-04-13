@@ -46,11 +46,12 @@ const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => (
   <BackupWrapper>
     <BackupTableRow>
       <Data>
-        <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+        <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
           <FormattedMessage id="module.settings.backupLabel" />
           <Message
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            displayStyle={TextDisplayStyle.Paragraph3}
             data-testid="backup-location"
+            color="secondary"
           >
             {backupLocation}
           </Message>

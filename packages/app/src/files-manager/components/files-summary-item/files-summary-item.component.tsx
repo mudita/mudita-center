@@ -8,7 +8,10 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  borderRadius,
+} from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
@@ -27,7 +30,7 @@ const FilesSummaryItemContainer = styled.div`
 const SummaryIcon = styled(Icon)<{ fileColor: string }>`
   margin-right: 1.6rem;
   background-color: ${({ fileColor }) => fileColor};
-  border-radius: 0.4rem;
+  border-radius: ${borderRadius("medium")};
   padding: 1.2rem;
 `
 
@@ -55,7 +58,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
       <SummaryIcon fileColor={color} type={icon} size={IconSize.Medium} />
       <TextWrapper>
         <Text
-          displayStyle={TextDisplayStyle.LargeText}
+          displayStyle={TextDisplayStyle.Paragraph1}
           element={"p"}
           data-testid={FilesSummaryItemTestIds.Title}
         >
@@ -63,7 +66,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
         </Text>
         {filesAmount ? (
           <Text
-            displayStyle={TextDisplayStyle.MediumFadedText}
+            displayStyle={TextDisplayStyle.Paragraph4}
             data-testid={FilesSummaryItemTestIds.Description}
             message={{
               ...messages.summaryItemDescription,
@@ -75,7 +78,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
           />
         ) : (
           <Text
-            displayStyle={TextDisplayStyle.MediumFadedText}
+            displayStyle={TextDisplayStyle.Paragraph4}
             element={"p"}
             data-testid={FilesSummaryItemTestIds.Description}
           >

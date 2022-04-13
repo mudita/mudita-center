@@ -5,7 +5,7 @@
 
 import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { DisplayStyle, Size } from "../button.config"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const message = mockDefineMessages()
 
@@ -77,7 +77,7 @@ export default [
   {
     name: "Standard/fixed width with icon",
     commonProps: {
-      Icon: Type.Upload,
+      Icon: IconType.Upload,
       label: "Click",
     },
     cases: buttonsFixedWidthCases,
@@ -86,13 +86,7 @@ export default [
     name: "Icon only",
     cases: [
       {
-        displayStyle: DisplayStyle.IconOnly1,
-      },
-      {
-        displayStyle: DisplayStyle.IconOnly2,
-      },
-      {
-        displayStyle: DisplayStyle.IconOnly3,
+        displayStyle: DisplayStyle.IconOnly,
       },
     ],
   },
@@ -103,40 +97,40 @@ export default [
     },
     cases: [
       {
-        displayStyle: DisplayStyle.Link1,
+        displayStyle: DisplayStyle.Link,
       },
       {
-        displayStyle: DisplayStyle.Link1,
+        displayStyle: DisplayStyle.Link,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Type.Upload,
+        Icon: IconType.Upload,
       },
       {
-        displayStyle: DisplayStyle.Link2,
+        displayStyle: DisplayStyle.LinkWithParagraph,
       },
       {
-        displayStyle: DisplayStyle.Link2,
+        displayStyle: DisplayStyle.LinkWithParagraph,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Type.Upload,
+        Icon: IconType.Upload,
       },
       {
-        displayStyle: DisplayStyle.Link3,
+        displayStyle: DisplayStyle.ActionLink,
       },
       {
-        displayStyle: DisplayStyle.Link3,
+        displayStyle: DisplayStyle.ActionLink,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Type.Upload,
+        Icon: IconType.Upload,
       },
       {
-        displayStyle: DisplayStyle.Link4,
+        displayStyle: DisplayStyle.MenuLink,
       },
       {
-        displayStyle: DisplayStyle.Link4,
+        displayStyle: DisplayStyle.MenuLink,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Type.Upload,
+        Icon: IconType.Upload,
       },
       {
         displayStyle: DisplayStyle.Tab,
@@ -145,7 +139,7 @@ export default [
         displayStyle: DisplayStyle.Tab,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Type.Upload,
+        Icon: IconType.Upload,
       },
     ],
   },

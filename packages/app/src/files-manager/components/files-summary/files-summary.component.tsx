@@ -65,7 +65,7 @@ const FilesSummary: FunctionComponent<Props> = ({
     <FilesSummaryContainer>
       <FilesSummaryHeading
         data-testid={FilesSummaryTestIds.Title}
-        displayStyle={TextDisplayStyle.SecondaryBoldHeading}
+        displayStyle={TextDisplayStyle.Headline3}
         message={messages.summaryTitle}
       />
       <FilesSummaryWrapper data-testid={FilesSummaryTestIds.Wrapper}>
@@ -78,12 +78,12 @@ const FilesSummary: FunctionComponent<Props> = ({
         chartData={memoryToStackedBarChartData(diskSpaceCategories)}
       />
       <StatsContainer>
-        <Text displayStyle={TextDisplayStyle.MediumFadedText}>
+        <Text displayStyle={TextDisplayStyle.Paragraph3} color="secondary">
           {`${convertFromBytesToDecimal(
             systemMemory
           )} (${totalMemoryPercent}%)`}
         </Text>
-        <Text displayStyle={TextDisplayStyle.MediumFadedText}>
+        <Text displayStyle={TextDisplayStyle.Paragraph3} color="secondary">
           {convertFromBytesToDecimal(totalMemorySpace)}
         </Text>
       </StatsContainer>

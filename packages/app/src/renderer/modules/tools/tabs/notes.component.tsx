@@ -11,7 +11,6 @@ import {
   Size as ButtonSize,
 } from "Renderer/components/core/button/button.config"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size as CheckboxSize } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
   Col,
@@ -58,6 +57,7 @@ import { searchIcon } from "Renderer/components/core/input-text/input-text.eleme
 import { SortOrder } from "Common/enums/sort-order.enum"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -220,9 +220,9 @@ const Notes: FunctionComponent<NotesProps> = ({
             buttons={[
               <ButtonComponent
                 key="delete"
-                label={intl.formatMessage(messages.deleteButton)}
-                displayStyle={DisplayStyle.Link1}
-                Icon={Type.Delete}
+                labelMessage={messages.deleteButton}
+                displayStyle={DisplayStyle.Link}
+                Icon={IconType.Delete}
                 onClick={removeSelectedRows}
               />,
             ]}
@@ -242,9 +242,9 @@ const Notes: FunctionComponent<NotesProps> = ({
         <NewNoteButton
           displayStyle={DisplayStyle.Primary}
           size={ButtonSize.FixedBig}
-          label={intl.formatMessage(messages.newButton)}
+          labelMessage={messages.newButton}
           onClick={onNewButtonClick}
-          Icon={Type.PlusSign}
+          Icon={IconType.PlusSign}
           data-testid={NotesTestIds.NewNoteButton}
           disabled={Boolean(newNoteId)}
         />
@@ -324,7 +324,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                       />
                     </Col>
                     <TextPreview onClick={handleTextPreviewClick}>
-                      <TextCut displayStyle={TextDisplayStyle.LargeText}>
+                      <TextCut displayStyle={TextDisplayStyle.Paragraph1}>
                         {emptyNote ? <em>{text}</em> : text}
                       </TextCut>
                     </TextPreview>
@@ -342,14 +342,14 @@ const Notes: FunctionComponent<NotesProps> = ({
                       )}
                     </Col>
                     <Col onClick={noop}>
-                      <Text displayStyle={TextDisplayStyle.LargeText}>
+                      <Text displayStyle={TextDisplayStyle.Paragraph1}>
                         {isToday(date)
                           ? intl.formatMessage(messages.today)
                           : moment(date).format("ll")}
                       </Text>
                     </Col>
                     <DeleteCol onClick={removeNote}>
-                      <Icon type={Type.Delete} width={IconSize.Medium} />
+                      <Icon type={IconType.Delete} width={IconSize.Medium} />
                     </DeleteCol>
                   </Row>
                 )

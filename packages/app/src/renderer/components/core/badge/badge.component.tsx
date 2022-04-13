@@ -14,7 +14,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 
 const Badge = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallText,
+  displayStyle: TextDisplayStyle.Label,
 }))`
   width: 3.2rem;
   padding: 0 1rem;

@@ -15,7 +15,6 @@ import {
   TetheringImageWrapper,
 } from "Renderer/modules/tethering/screens/tethering.styled"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Image from "Renderer/components/core/image/image.component"
 import NoTethering from "Renderer/images/tethering-disabled.png"
 import React from "react"
@@ -24,11 +23,12 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.enum"
 import { tetheringMessages } from "Renderer/modules/tethering/tethering-messages"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 const PureDisconnected: FunctionComponent = () => (
   <TetheringContainer data-testid={TetheringTestIds.DisconnectedWrapper}>
     <Text
-      displayStyle={TextDisplayStyle.LargeText}
+      displayStyle={TextDisplayStyle.Paragraph1}
       data-testid={TetheringTestIds.DisconnectedNotificationTitle}
     >
       <IconHolder>
@@ -38,23 +38,24 @@ const PureDisconnected: FunctionComponent = () => (
     </Text>
     <ButtonWrapper>
       <Text
-        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        displayStyle={TextDisplayStyle.Paragraph2}
         data-testid={TetheringTestIds.StartTetheringNotification}
       >
         {intl.formatMessage(tetheringMessages.enablingInfo, textFormatters)}
       </Text>
       <StyledButton
         data-testid={TetheringTestIds.GoToButton}
-        label={intl.formatMessage(tetheringMessages.openConnectionSettings)}
+        labelMessage={tetheringMessages.openConnectionSettings}
         to={URL_MAIN.settings}
       />
     </ButtonWrapper>
     <Text
-      displayStyle={TextDisplayStyle.SmallFadedText}
+      displayStyle={TextDisplayStyle.Label}
+      color="secondary"
       data-testid={TetheringTestIds.ModemNotification}
     >
       <IconHolder>
-        <Icon type={Type.Info} width={1.6} />
+        <Icon type={IconType.Info} width={1.6} />
       </IconHolder>
       {intl.formatMessage(tetheringMessages.explanation, textFormatters)}
     </Text>

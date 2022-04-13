@@ -39,12 +39,12 @@ export const getModalSize = (size: ModalSize) => {
 export const getTitleStyle = (size: ModalSize) => {
   switch (size) {
     case ModalSize.VerySmall:
-      return TextDisplayStyle.LargeBoldText
+      return TextDisplayStyle.Headline4
     case ModalSize.Small:
     case ModalSize.Medium:
-      return TextDisplayStyle.SecondaryBoldHeading
+      return TextDisplayStyle.Headline3
     case ModalSize.Large:
-      return TextDisplayStyle.TertiaryBoldHeading
+      return TextDisplayStyle.Headline2
     default:
       return
   }
@@ -54,9 +54,9 @@ export const getSubtitleStyle = (size: ModalSize) => {
   switch (size) {
     case ModalSize.Small:
     case ModalSize.Medium:
-      return TextDisplayStyle.SmallFadedText
+      return TextDisplayStyle.Paragraph4
     case ModalSize.Large:
-      return TextDisplayStyle.MediumText
+      return TextDisplayStyle.Paragraph3
     default:
       return
   }
@@ -86,8 +86,9 @@ export const getModalButtonsSize = (size: ModalSize) => {
     case ModalSize.VerySmall:
       return Size.FixedSmall
     case ModalSize.Small:
-      return Size.FixedMedium
+      return Size.FixedSmall
     case ModalSize.Medium:
+      return Size.FixedMedium
     case ModalSize.Large:
       return Size.FixedBig
     default:

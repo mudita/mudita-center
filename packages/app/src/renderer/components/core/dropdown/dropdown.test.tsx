@@ -11,7 +11,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import Button from "../button/button.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
@@ -33,11 +33,11 @@ test("renders dropdown", () => {
   const { getByTestId, getByText, container } = renderWithThemeAndIntl(
     <Dropdown toggler={<ButtonComponent label={buttonText} />}>
       <Button
-        displayStyle={DisplayStyle.Link1}
+        displayStyle={DisplayStyle.Link}
         label="I open Google in new tab"
         href="http://www.google.pl"
         target="_blank"
-        Icon={Type.Upload}
+        Icon={IconType.Upload}
       />
     </Dropdown>
   )
@@ -54,11 +54,11 @@ test("renders children", () => {
   const { getByText } = renderWithThemeAndIntl(
     <Dropdown toggler={<ButtonComponent label={buttonText} />}>
       <Button
-        displayStyle={DisplayStyle.Link1}
+        displayStyle={DisplayStyle.Link}
         label={childText}
         href="http://www.google.pl"
         target="_blank"
-        Icon={Type.Upload}
+        Icon={IconType.Upload}
       />
     </Dropdown>
   )

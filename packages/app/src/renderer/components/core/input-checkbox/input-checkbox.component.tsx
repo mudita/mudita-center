@@ -4,21 +4,18 @@
  */
 
 import * as React from "react"
+import { ComponentProps, useState } from "react"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { InputProps } from "Renderer/interfaces/input.interface"
-import {
-  backgroundColor,
-  borderColor,
-  transitionTime,
-  transitionTimingFunction,
-} from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
-import { ComponentProps } from "react"
+import { InputCheckboxWithTooltip } from "Renderer/components/core/input-checkbox/input-checkbox-with-tooltip"
+import { TooltipSecondaryContent } from "Renderer/components/core/icon-button-with-tooltip/tooltip-secondary-content.component"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export enum Size {
   Small,
@@ -57,40 +54,6 @@ const InputWrapper = styled.div<{ size: Size }>`
   position: relative;
   ${({ size }) => getSize(size)}
 `
-
-const checkedStyles = css`
-  background-color: ${backgroundColor("primary")};
-  border-color: ${borderColor("hover")};
-  + svg {
-    display: initial;
-  }
-`
-
-const Input = styled.input<{ indeterminate: boolean }>`
-  appearance: none;
-  outline: none;
-  margin: 0;
-  display: inline-block;
-  height: 100%;
-  width: 100%;
-  background-clip: content-box;
-  border: 0.1rem solid ${borderColor("secondary")};
-  border-radius: 0.2rem;
-  background-color: ${backgroundColor("row")};
-  transition: border-color ${transitionTime("quick")}
-    ${transitionTimingFunction("smooth")};
-
-  &:hover {
-    border-color: ${borderColor("hover")};
-    cursor: pointer;
-  }
-
-  &:checked {
-    ${checkedStyles};
-  }
-  ${({ indeterminate }) => indeterminate && checkedStyles};
-`
-
 const CheckIcon = styled(Icon)<{ indeterminate?: boolean }>`
   opacity: 1;
   visibility: visible;
@@ -111,8 +74,16 @@ const LabelText = styled(Text)`
   margin-left: 1.3rem;
 `
 
+type Description = ComponentProps<typeof TooltipSecondaryContent>["description"]
+
+export interface CheckboxTooltipDescription {
+  uncheckTooltipDescription: Description
+  checkTooltipDescription: Description
+}
+
 export interface InputCheckboxProps extends InputProps {
   size?: Size
+  checkboxTooltipDescription?: CheckboxTooltipDescription
 }
 
 const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
@@ -121,29 +92,51 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
   indeterminate = false,
   size = Size.Large,
   inputRef,
+  onChange,
+  checkboxTooltipDescription,
   ...props
 }) => {
+  const [checked, setChecked] = useState(props.checked)
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setChecked(event.target.checked)
+    if (onChange) {
+      onChange(event)
+    }
+  }
+
+  const getDescription = (): undefined | Description => {
+    if (checkboxTooltipDescription === undefined) {
+      return undefined
+    }
+
+    if (checked) {
+      return checkboxTooltipDescription.uncheckTooltipDescription
+    } else {
+      return checkboxTooltipDescription.checkTooltipDescription
+    }
+  }
+
   const checkbox = (
     <InputWrapper
       className={className}
       size={size}
       data-testid="checkbox-wrapper"
     >
-      <Input
-        indeterminate={indeterminate}
-        ref={inputRef}
-        type="checkbox"
+      <InputCheckboxWithTooltip
+        description={getDescription()}
+        inputRef={inputRef}
+        onChange={handleChange}
         {...props}
       />
       {indeterminate ? (
         <CheckIcon
-          type={indeterminate ? Type.CheckIndeterminate : Type.Check}
+          type={indeterminate ? IconType.CheckIndeterminate : IconType.Check}
           height={1.6}
           width={1}
           indeterminate={indeterminate}
         />
       ) : (
-        <CheckIcon type={Type.Check} width={2.2} height={1.6} />
+        <CheckIcon type={IconType.Check} width={2.2} height={1.6} />
       )}
     </InputWrapper>
   )
@@ -153,7 +146,7 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
         <Label>
           {checkbox}
           <LabelText
-            displayStyle={TextDisplayStyle.MediumText}
+            displayStyle={TextDisplayStyle.Paragraph3}
             className={className}
             element={"span"}
           >

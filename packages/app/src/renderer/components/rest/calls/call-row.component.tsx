@@ -8,12 +8,9 @@ import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
-import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
   Actions,
-  ActionsButton,
   Col,
   Row,
 } from "Renderer/components/core/table/table.component"
@@ -31,6 +28,7 @@ import formatDuration from "Renderer/utils/format-duration"
 import { isToday } from "Renderer/utils/is-today"
 import { noop } from "Renderer/utils/noop"
 import { Contact } from "App/contacts/reducers/contacts.interface"
+import { IconType } from "Renderer/components/core/icon/icon-type"
 
 export interface CallRowProps {
   onRowClick: (detail: Details) => void
@@ -101,21 +99,13 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
       </Col>
       <Col>
         <Actions>
-          <Dropdown
-            toggler={
-              <ActionsButton>
-                <Icon type={Type.More} />
-              </ActionsButton>
-            }
-            onOpen={noop}
-            onClose={noop}
-          >
+          <Dropdown onOpen={noop} onClose={noop}>
             <ButtonComponent
               labelMessage={{
                 id: "component.dropdownCall",
                 values: { name: getPrettyCaller(contact, caller.phoneNumber) },
               }}
-              Icon={Type.Calls}
+              Icon={IconType.Calls}
               onClick={noop}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="dropdown-call"
@@ -124,7 +114,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
               labelMessage={{
                 id: "module.phone.callsSendMessage",
               }}
-              Icon={Type.BorderCheckIcon}
+              Icon={IconType.BorderCheckIcon}
               onClick={noop}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="send-message"
@@ -133,7 +123,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
               labelMessage={{
                 id: "module.phone.callsDetails",
               }}
-              Icon={Type.Contact}
+              Icon={IconType.Contact}
               onClick={emitClickRow}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="call-details"
@@ -142,7 +132,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
               labelMessage={{
                 id: "module.phone.callsDeleteCall",
               }}
-              Icon={Type.Delete}
+              Icon={IconType.Delete}
               onClick={emitDeleteClick}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="delete-call"

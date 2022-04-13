@@ -8,15 +8,15 @@ import {
   AppSettings,
   SettingsUpdateOption,
 } from "App/main/store/settings.interface"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
+import { IpcAppSettingsRequest } from "App/app-settings/constants"
 
 export const getAppSettings = (): Promise<AppSettings> =>
-  ipcRenderer.callMain(IpcRequest.GetAppSettings)
+  ipcRenderer.callMain(IpcAppSettingsRequest.Get)
 
 export const updateAppSettings = (
   option: SettingsUpdateOption
 ): Promise<Partial<AppSettings>> =>
-  ipcRenderer.callMain(IpcRequest.UpdateAppSettings, option)
+  ipcRenderer.callMain(IpcAppSettingsRequest.Update, option)
 
 export const resetAppSettings = (): Promise<AppSettings> =>
-  ipcRenderer.callMain(IpcRequest.ResetAppSettings)
+  ipcRenderer.callMain(IpcAppSettingsRequest.Reset)
