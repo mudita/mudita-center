@@ -3,5 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "App/main/constants/product"
-export * from "App/main/constants/release-space"
+export enum ReleaseSpace {
+  Production = "latest",
+  TestProduction = "rc-latest",
+  Daily = "daily-latest",
+}

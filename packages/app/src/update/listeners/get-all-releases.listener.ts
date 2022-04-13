@@ -46,7 +46,7 @@ export const registerGetAllReleasesListener = () => {
 
       do {
         const newReleases = await releasesRequest(page)
-        if (newReleases.length === 0) {
+        if (newReleases.length === 0 || releases.length > 30) {
           retry = false
         } else {
           releases = [...releases, ...newReleases]

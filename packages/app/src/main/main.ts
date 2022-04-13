@@ -82,7 +82,7 @@ import {
 } from "App/metadata"
 import { registerGetAllReleasesListener } from "App/update/listeners/get-all-releases.listener"
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests/register-os-update-already-downloaded-checker.request"
-import { registerGetProductionReleaseListener } from "App/update/listeners/get-production-release.listener"
+import { registerGetLatestReleaseListener } from "App/update/listeners/get-latest-release.listener"
 import { createAnalyticDataTracker } from "App/analytic-data-tracker/containers/analytic-data-tracker.container"
 import { createAppSettingsService } from "App/app-settings/containers/app-settings.container"
 
@@ -168,7 +168,7 @@ const createWindow = async () => {
   startBackend(MuditaDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerGetAllReleasesListener()
-  registerGetProductionReleaseListener()
+  registerGetLatestReleaseListener()
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()

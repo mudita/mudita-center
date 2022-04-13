@@ -5,5 +5,5 @@
 
 export enum IpcUpdate {
   GetAllReleases = "get-all-releases-request",
-  GetProductionReleases = "get-production-releases-request",
+  GetLatestRelease = "get-latest-release-request",
 }
