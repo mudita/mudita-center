@@ -8,8 +8,8 @@ import MuditaDeviceManager, {
 } from "@mudita/pure"
 import { ipcMain } from "electron-better-ipc"
 import DeviceService from "Backend/device-service"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import createDeviceBackupService from "Backend/device-backup-service/device-backup-service"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("Backend/device-service")
 const backupId = `<YYYY-MM-DD>T<HHMMSS>Z`
@@ -20,7 +20,7 @@ describe("DeviceBackupService serivce", () => {
       return {
         request: () => {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: {
               id: backupId,
             },
@@ -34,7 +34,7 @@ describe("DeviceBackupService serivce", () => {
 
     test("should return DeviceResponseStatus.Ok as status", async () => {
       const { status } = await deviceBackupService.startBackupDevice()
-      expect(status).toEqual(DeviceResponseStatus.Ok)
+      expect(status).toEqual(RequestResponseStatus.Ok)
     })
 
     test("should return id in data", async () => {
@@ -48,7 +48,7 @@ describe("DeviceBackupService serivce", () => {
       return {
         request: () => {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: {
               id: backupId,
               state: GetBackupDeviceStatusDataState.Finished,
@@ -65,7 +65,7 @@ describe("DeviceBackupService serivce", () => {
       const { status } = await deviceBackupService.getBackupDeviceStatus({
         id: backupId,
       })
-      expect(status).toEqual(DeviceResponseStatus.Ok)
+      expect(status).toEqual(RequestResponseStatus.Ok)
     })
 
     test("should return id in data", async () => {

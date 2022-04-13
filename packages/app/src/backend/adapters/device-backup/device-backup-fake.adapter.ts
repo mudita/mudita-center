@@ -3,20 +3,21 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import { DownloadDeviceFileLocallyOptions } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 export class DeviceBackupFakeAdapter implements DeviceBackupAdapter {
   public backuping = false
 
   async downloadDeviceBackup(
     options: DownloadDeviceFileLocallyOptions
-  ): Promise<DeviceResponse<string[]>> {
+  ): Promise<RequestResponse<string[]>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: [],
     }
   }

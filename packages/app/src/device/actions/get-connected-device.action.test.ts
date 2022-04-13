@@ -8,11 +8,11 @@ import thunk from "redux-thunk"
 import { DeviceType } from "@mudita/pure"
 import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "Renderer/store/helpers"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { getConnectedDevice } from "./get-connected-device.action"
 import { DeviceConnectionError } from "App/device/errors"
 import connectDeviceRequest from "Renderer/requests/connect-device.request"
 import { testError } from "App/renderer/store/constants"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])()
 
@@ -32,7 +32,7 @@ afterEach(() => {
 describe("Get Connected Device request returns `success` status without `data`", () => {
   test("fire async `getConnectedDevice` and dispatch `connectDevice` action", async () => {
     ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     })
 
     const errorMock = new DeviceConnectionError("Cannot connected to device")
@@ -50,7 +50,7 @@ describe("Get Connected Device request returns `success` status without `data`",
 describe("Get Connected Device request returns `success` status within `data`", () => {
   test("fire async `getConnectedDevice` and dispatch `connectDevice` action", async () => {
     ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: {
         deviceType: DeviceType.MuditaPure,
       },
@@ -76,7 +76,7 @@ describe("Get Connected Device request returns `success` status within `data`", 
 describe("Get Connected Device request returns `error` status", () => {
   test("fire async `getConnectedDevice` action and execute `rejected` event", async () => {
     ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Error,
+      status: RequestResponseStatus.Error,
     })
     const errorMock = new DeviceConnectionError("Cannot connected to device")
     const {

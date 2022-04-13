@@ -8,32 +8,22 @@ import {
   GetEntriesResponseBody,
   Method,
   OutboxCategory,
-  OutboxEntry,
-  OutboxEntryChange,
   OutboxEntryType,
 } from "@mudita/pure"
 import { asyncNoop } from "Renderer/utils/noop"
 import { DeviceService } from "App/backend/device-service"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
-import { ContactRepository } from "App/contacts/repositories"
-import { ContactService } from "App/contacts/services/contact.service"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
+import { EntryHandler } from "App/outbox/services/entry-handler.type"
+
+export type EntryHandlersMapType = Record<OutboxEntryType, EntryHandler>
 
 export class OutboxService {
-  // @ts-ignore
-  private entryHandlersMap: Record<
-    OutboxEntryType,
-    (entry: OutboxEntry) => Promise<void>
-  > = {
-    [OutboxEntryType.Contact]: this.handleContactEntry.bind(this),
-    // TODO: add Thread, Message handlers
-  }
-
   constructor(
     private deviceService: DeviceService,
-    private contactService: ContactService,
-    private contactRepository: ContactRepository
+    private entryHandlersMap: EntryHandlersMapType
   ) {}
 
   public async readOutboxEntries(): Promise<boolean> {
@@ -41,7 +31,7 @@ export class OutboxService {
 
     const entries = data?.entries
 
-    if (status !== DeviceResponseStatus.Ok || entries === undefined) {
+    if (status !== RequestResponseStatus.Ok || entries === undefined) {
       return false
     }
 
@@ -50,7 +40,7 @@ export class OutboxService {
     }
 
     for (const entry of entries) {
-      const handle = this.entryHandlersMap[entry.type] ?? asyncNoop
+      const handle = this.entryHandlersMap[entry.type].handleEntry ?? asyncNoop
       await handle(entry)
     }
 
@@ -58,30 +48,8 @@ export class OutboxService {
     return true
   }
 
-  private async handleContactEntry(entry: OutboxEntry): Promise<void> {
-    const id = String(entry.record_id)
-
-    if (entry.change === OutboxEntryChange.Deleted) {
-      return this.contactRepository.delete(id)
-    }
-
-    const { status, data } = await this.contactService.getContact(id)
-
-    if (status !== DeviceResponseStatus.Ok || data === undefined) {
-      return
-    }
-
-    if (entry.change === OutboxEntryChange.Created) {
-      return this.contactRepository.create(data)
-    }
-
-    if (entry.change === OutboxEntryChange.Updated) {
-      return this.contactRepository.update(data)
-    }
-  }
-
   private async getOutboxEntriesRequest(): Promise<
-    DeviceResponse<GetEntriesResponseBody>
+    RequestResponse<GetEntriesResponseBody>
   > {
     return await this.deviceService.request({
       endpoint: Endpoint.Outbox,
@@ -94,7 +62,7 @@ export class OutboxService {
 
   private async deleteOutboxEntriesRequest(
     uids: number[]
-  ): Promise<DeviceResponse> {
+  ): Promise<RequestResponse> {
     return await this.deviceService.request({
       endpoint: Endpoint.Outbox,
       method: Method.Delete,

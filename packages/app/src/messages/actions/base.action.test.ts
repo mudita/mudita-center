@@ -11,8 +11,6 @@ import {
   deleteThreads,
   clearAllThreads,
   markThreadsAsRead,
-  setMessages,
-  setThreads,
   toggleThreadsReadStatus,
 } from "App/messages/actions/base.action"
 import { MessagesEvent } from "App/messages/constants"
@@ -60,18 +58,6 @@ describe("Action: deleteThreads", () => {
   })
 })
 
-describe("Action: setThreads", () => {
-  test("fire action with empty array and `SetThreads` type", () => {
-    mockStore.dispatch(setThreads([]))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: MessagesEvent.SetThreads,
-        payload: [],
-      },
-    ])
-  })
-})
-
 describe("Action: changeVisibilityFilter", () => {
   test("fire action with empty array and `ChangeVisibilityFilter` type", () => {
     mockStore.dispatch(changeVisibilityFilter(VisibilityFilter.All))
@@ -91,18 +77,6 @@ describe("Action: changeSearchValue", () => {
       {
         type: MessagesEvent.ChangeSearchValue,
         payload: "search value",
-      },
-    ])
-  })
-})
-
-describe("Action: setMessages", () => {
-  test("fire action with empty array and `SetMessages` type", () => {
-    mockStore.dispatch(setMessages([]))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: MessagesEvent.SetMessages,
-        payload: [],
       },
     ])
   })

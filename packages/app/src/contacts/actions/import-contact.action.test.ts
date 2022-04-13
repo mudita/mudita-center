@@ -6,15 +6,15 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
-import createContactRequest from "App/contacts/requests/create-contact.request"
+import { createContactRequest, editContactRequest } from "App/contacts/requests"
 import { Contact, initialState, NewContact } from "App/contacts/reducers"
 import { testError } from "Renderer/store/constants"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import { importContact } from "App/contacts/actions/import-contact.action"
 import { ImportContactError } from "App/contacts/errors/import-contact.error"
-import editContact from "App/contacts/requests/edit-contact.request"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("App/contacts/requests/create-contact.request")
 jest.mock("App/contacts/requests/edit-contact.request")
@@ -38,20 +38,20 @@ const contact: Contact = {
   ...newContact,
 } as Contact
 
-const successDeviceResponse: DeviceResponse<Contact> = {
-  status: DeviceResponseStatus.Ok,
+const successDeviceResponse: RequestResponse<Contact> = {
+  status: RequestResponseStatus.Ok,
   data: contact,
 }
 
-const errorDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const errorDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
   error: {
     message: "I'm error",
   },
 }
 
-const duplicatedErrorDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Duplicated,
+const duplicatedErrorDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Duplicated,
   error: {
     message: "I'm error",
     data: {
@@ -67,7 +67,9 @@ afterEach(() => {
 describe("async `importContact` ", () => {
   describe("when `addContact` request return success", () => {
     test("fire async `importContact` no made any side effects", async () => {
-      ;(createContactRequest as jest.Mock).mockReturnValue(successDeviceResponse)
+      ;(createContactRequest as jest.Mock).mockReturnValue(
+        successDeviceResponse
+      )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
       })
@@ -114,8 +116,10 @@ describe("async `importContact` ", () => {
 
   describe("when `addContact` request return duplicated error", () => {
     test("fire async `importContact` call `editContact` request", async () => {
-      ;(createContactRequest as jest.Mock).mockReturnValue(duplicatedErrorDeviceResponse)
-      ;(editContact as jest.Mock).mockReturnValue(duplicatedErrorDeviceResponse)
+      ;(createContactRequest as jest.Mock).mockReturnValue(
+        duplicatedErrorDeviceResponse
+      )
+      ;(editContactRequest as jest.Mock).mockReturnValue(duplicatedErrorDeviceResponse)
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
       })
@@ -138,7 +142,7 @@ describe("async `importContact` ", () => {
       ])
 
       expect(createContactRequest).toHaveBeenCalled()
-      expect(editContact).toHaveBeenCalled()
+      expect(editContactRequest).toHaveBeenCalled()
     })
   })
 })

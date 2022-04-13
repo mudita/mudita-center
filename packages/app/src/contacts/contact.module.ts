@@ -13,7 +13,7 @@ import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { ContactModel } from "App/contacts/models"
 import { ContactController } from "App/contacts/controllers"
-import { ContactService } from "App/contacts/services/contact.service"
+import { ContactService } from "App/contacts/services"
 import { ContactRepository } from "App/contacts/repositories"
 
 export class ContactModule extends BaseModule {

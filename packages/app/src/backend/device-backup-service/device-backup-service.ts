@@ -11,13 +11,13 @@ import {
   StartBackupResponseBody,
 } from "@mudita/pure"
 import DeviceService from "Backend/device-service"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 export class DeviceBackupService {
   constructor(private deviceService: DeviceService) {}
 
   public async startBackupDevice(): Promise<
-    DeviceResponse<StartBackupResponseBody>
+    RequestResponse<StartBackupResponseBody>
   > {
     return await this.deviceService.request({
       endpoint: Endpoint.Backup,
@@ -27,7 +27,7 @@ export class DeviceBackupService {
 
   public async getBackupDeviceStatus(
     config: GetBackupDeviceStatusRequestConfigBody
-  ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>> {
+  ): Promise<RequestResponse<GetBackupDeviceStatusResponseBody>> {
     return await this.deviceService.request({
       endpoint: Endpoint.Backup,
       method: Method.Get,

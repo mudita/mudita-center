@@ -7,7 +7,7 @@ import getFakeAdapters from "App/tests/get-fake-adapters"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 jest.mock("electron", () => ({
   app: {
@@ -27,7 +27,7 @@ test("returns update os info", (done) => {
     fileName: "",
     progressChannel: "",
   })
-  promise.then((result: DeviceResponse) => {
+  promise.then((result: RequestResponse) => {
     expect(result).toMatchInlineSnapshot(`
     Object {
       "status": "ok",

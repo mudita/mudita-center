@@ -3,9 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import sendTicketRequest, {
   CreateBugTicketResponseStatus,
 } from "App/contact-support/requests/send-ticket.request"
@@ -17,17 +14,21 @@ import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create
 import mockCreateFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
 import { FreshdeskTicketData } from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
-const successGetDeviceUpdaterLogResponse: DeviceResponse<DeviceFile[]> = {
-  status: DeviceResponseStatus.Ok,
+const successGetDeviceUpdaterLogResponse: RequestResponse<DeviceFile[]> = {
+  status: RequestResponseStatus.Ok,
 }
 
-const successGetDeviceLogsResponse: DeviceResponse<DeviceFile[]> = {
-  status: DeviceResponseStatus.Ok,
+const successGetDeviceLogsResponse: RequestResponse<DeviceFile[]> = {
+  status: RequestResponseStatus.Ok,
   data: [],
 }
-const errorResponse: DeviceResponse<DeviceFile[]> = {
-  status: DeviceResponseStatus.Error,
+const errorResponse: RequestResponse<DeviceFile[]> = {
+  status: RequestResponseStatus.Error,
 }
 
 jest.mock("Renderer/requests/get-app-logs.request")

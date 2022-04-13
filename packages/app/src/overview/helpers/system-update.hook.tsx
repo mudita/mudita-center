@@ -32,7 +32,6 @@ import {
 } from "Renderer/interfaces/file-download.interface"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import updateOs from "Renderer/requests/update-os.request"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import logger from "App/main/utils/logger"
 import {
   cancelOsDownload,
@@ -52,6 +51,7 @@ import {
   trackOsUpdate,
   TrackOsUpdateState,
 } from "App/analytic-data-tracker/helpers"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -381,10 +381,10 @@ const useSystemUpdateFlow = (
     await removeFileRequest(DiagnosticsFilePath.UPDATER_LOG)
     const response = await updateOs(file.name)
 
-    if (response.status !== DeviceResponseStatus.Ok) {
+    if (response.status !== RequestResponseStatus.Ok) {
       logger.info(`updateOs: ${response.error?.message}`)
     }
-    if (response.status === DeviceResponseStatus.Ok) {
+    if (response.status === RequestResponseStatus.Ok) {
       modalService.rerenderModal(<UpdatingSpinnerModal />)
     }
 
@@ -400,7 +400,7 @@ const useSystemUpdateFlow = (
 
     if (
       !releaseToInstall?.devMode &&
-      isEqual(response, { status: DeviceResponseStatus.Ok })
+      isEqual(response, { status: RequestResponseStatus.Ok })
     ) {
       dispatch(
         setOsVersionData({
@@ -409,7 +409,7 @@ const useSystemUpdateFlow = (
       )
     }
 
-    if (isEqual(response, { status: DeviceResponseStatus.Ok })) {
+    if (isEqual(response, { status: RequestResponseStatus.Ok })) {
       trackOsVersion({ ...options, osVersion: version })
       trackOsUpdate({
         ...options,

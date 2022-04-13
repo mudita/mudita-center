@@ -18,8 +18,8 @@ import { ipcMain } from "electron-better-ipc"
 import registerDeviceInfoRequest from "./get-device-info.request"
 import DeviceService from "Backend/device-service"
 import Adapters from "Backend/adapters/adapters.interface"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import createDeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info.adapter"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockDeviceInfo: DeviceInfo = {
   backupLocation: "",
@@ -50,7 +50,7 @@ test("returns required device info", async () => {
     return {
       request: () => ({
         data: mockDeviceInfo,
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }),
     }
   })

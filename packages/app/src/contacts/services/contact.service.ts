@@ -5,12 +5,14 @@
 
 import { Endpoint, Method } from "@mudita/pure"
 import DeviceService from "Backend/device-service"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import { Contact, ContactID } from "App/contacts/reducers"
 import { ContactRepository } from "App/contacts/repositories"
 import { ContactPresenter } from "App/contacts/presenters"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
+import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
 
 export class ContactService {
   constructor(
@@ -18,8 +20,8 @@ export class ContactService {
     private deviceService: DeviceService
   ) {}
 
-  public async getContact(id: string): Promise<DeviceResponse<Contact>> {
-    const { status, data } = await this.deviceService.request({
+  public async getContact(id: string): Promise<RequestResponse<Contact>> {
+    const response = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Get,
       body: {
@@ -27,33 +29,33 @@ export class ContactService {
       },
     })
 
-    if (status === DeviceResponseStatus.Ok && data !== undefined) {
+    if (isResponseSuccessWithData(response)) {
       return {
-        status,
-        data: ContactPresenter.serialize(data),
+        status: response.status,
+        data: ContactPresenter.mapToContact(response.data),
       }
     } else {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: { message: "Get contact: Something went wrong" },
       }
     }
   }
 
-  public async getContacts(): Promise<DeviceResponse<Contact[]>> {
-    const { status, data } = await this.deviceService.request({
+  public async getContacts(): Promise<RequestResponse<Contact[]>> {
+    const response = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Get,
     })
 
-    if (status === DeviceResponseStatus.Ok && data?.entries !== undefined) {
+    if (isResponseSuccessWithData(response)) {
       return {
-        status,
-        data: data.entries.map(ContactPresenter.serialize),
+        status: response.status,
+        data: response.data.entries.map(ContactPresenter.mapToContact),
       }
     } else {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: { message: "Get contacts: Something went wrong" },
       }
     }
@@ -61,49 +63,51 @@ export class ContactService {
 
   public async createContact(
     newContact: Contact
-  ): Promise<DeviceResponse<Contact>> {
-    const { status, data } = await this.deviceService.request({
+  ): Promise<RequestResponse<Contact>> {
+    const response = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Post,
-      body: ContactPresenter.deserialize(newContact),
+      body: ContactPresenter.mapToPureContact(newContact),
     })
 
-    if (status === DeviceResponseStatus.Ok && data !== undefined) {
+    if (isResponseSuccessWithData(response)) {
       const contact = {
         ...newContact,
-        id: String(data.id),
+        id: String(response.data.id),
         primaryPhoneNumber: newContact.primaryPhoneNumber ?? "",
       }
 
       this.contactRepository.create(contact, true)
 
       return {
-        status,
+        status: response.status,
         data: contact,
       }
     } else {
       return {
-        status,
-        error: { message: "Create contact: Something went wrong", data },
+        status: response.status,
+        error: { message: "Create contact: Something went wrong" },
       }
     }
   }
 
-  public async editContact(contact: Contact): Promise<DeviceResponse<Contact>> {
+  public async editContact(
+    contact: Contact
+  ): Promise<RequestResponse<Contact>> {
     // it's workaround to handle badly response from API when edited contact isn't exist
     const isContactValidResponse = await this.isContactValid(contact)
 
-    if (isContactValidResponse.status === DeviceResponseStatus.Error) {
+    if (isContactValidResponse.status === RequestResponseStatus.Error) {
       return isContactValidResponse
     }
 
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
-      body: ContactPresenter.deserialize(contact),
+      body: ContactPresenter.mapToPureContact(contact),
     })
 
-    if (status === DeviceResponseStatus.Ok) {
+    if (status === RequestResponseStatus.Ok) {
       this.contactRepository.update(contact, true)
 
       return { status, data: contact }
@@ -117,7 +121,7 @@ export class ContactService {
 
   public async deleteContacts(
     contactIds: ContactID[]
-  ): Promise<DeviceResponse<ContactID[]>> {
+  ): Promise<RequestResponse<ContactID[]>> {
     const results = contactIds.map(async (id) => {
       const { status } = await this.deviceService.request({
         endpoint: Endpoint.Contacts,
@@ -131,17 +135,17 @@ export class ContactService {
     })
 
     const errorIds = (await Promise.all(results))
-      .filter(({ status }) => status === DeviceResponseStatus.Error)
+      .filter(({ status }) => status === RequestResponseStatus.Error)
       .map(({ id }) => id)
     const successIds = (await Promise.all(results))
-      .filter(({ status }) => status === DeviceResponseStatus.Ok)
+      .filter(({ status }) => status === RequestResponseStatus.Ok)
       .map(({ id }) => id)
 
     if (errorIds.length > 0) {
       successIds.forEach((id) => this.contactRepository.delete(id, true))
 
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message: "Delete contact: Something went wrong",
           data: errorIds,
@@ -151,30 +155,30 @@ export class ContactService {
       contactIds.forEach((id) => this.contactRepository.delete(id, true))
 
       return {
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }
     }
   }
 
   private async isContactValid(
     contact: Contact
-  ): Promise<DeviceResponse<Contact>> {
+  ): Promise<RequestResponse<Contact>> {
     const getContactResponse = await this.getContact(contact.id)
 
     if (
-      getContactResponse.status === DeviceResponseStatus.Error ||
+      getContactResponse.status === RequestResponseStatus.Error ||
       getContactResponse.data === undefined ||
       getContactResponse.data?.id === "0"
     ) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message: "Edit contact: the try to edit a contact that isn't exist",
         },
       }
     } else {
       return {
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }
     }
   }

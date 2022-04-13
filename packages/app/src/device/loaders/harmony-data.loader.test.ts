@@ -7,8 +7,8 @@ import { HarmonyDataLoader } from "App/device/loaders/harmony-data.loader"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { DeviceLoadingError } from "App/device/errors"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("Renderer/requests/get-device-info.request")
 jest.mock("Renderer/requests/get-storage-info.request")
@@ -31,7 +31,7 @@ const dataMock = {
 }
 
 const requestStatusFactory = (
-  status: DeviceResponseStatus,
+  status: RequestResponseStatus,
   withData = true
 ) => {
   ;[getDeviceInfo, getStorageInfo, getBatteryInfo].forEach((request) => {
@@ -45,7 +45,7 @@ const requestStatusFactory = (
 const subject = new HarmonyDataLoader()
 
 test("HarmonyDataLoader calls required requests", async () => {
-  requestStatusFactory(DeviceResponseStatus.Ok)
+  requestStatusFactory(RequestResponseStatus.Ok)
 
   const result = await subject.load()
 
@@ -62,7 +62,7 @@ test("HarmonyDataLoader calls required requests", async () => {
 })
 
 test("HarmonyDataLoader throw error if one of the request returns failed status", () => {
-  requestStatusFactory(DeviceResponseStatus.Error)
+  requestStatusFactory(RequestResponseStatus.Error)
 
   expect(async () => await subject.load()).rejects.toThrowError(errorMock)
 

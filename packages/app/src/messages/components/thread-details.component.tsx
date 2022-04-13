@@ -22,7 +22,6 @@ interface Props extends SidebarProps, ThreadDetailsRightHeaderProps {
   content: string
   receiver: Receiver
   messages: Message[]
-  onLoadMessagesClick: () => void
   onAttachContactClick: () => void
   onSendClick: () => void
   onContentChange: (content: string) => void
@@ -32,7 +31,6 @@ const ThreadDetails: FunctionComponent<Props> = ({
   content,
   receiver,
   messages,
-  onLoadMessagesClick,
   onAttachContactClick,
   onSendClick,
   onContentChange,
@@ -45,7 +43,11 @@ const ThreadDetails: FunctionComponent<Props> = ({
   }
 
   return (
-    <ThreadDetailsSidebar receiver={receiver} key={receiver.phoneNumber} {...props}>
+    <ThreadDetailsSidebar
+      receiver={receiver}
+      key={receiver.phoneNumber}
+      {...props}
+    >
       <MessagesWrapper>
         <ThreadDetailsMessages messages={messages} receiver={receiver} />
       </MessagesWrapper>

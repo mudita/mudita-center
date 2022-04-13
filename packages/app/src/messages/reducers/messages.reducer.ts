@@ -4,26 +4,17 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
+import { fulfilledAction } from "Renderer/store/helpers"
 import {
-  fulfilledAction,
-  pendingAction,
-  rejectedAction,
-} from "Renderer/store/helpers"
-import {
+  AddNewMessageAction,
   ChangeSearchValueAction,
   ChangeVisibilityFilterAction,
   DeleteThreadsAction,
-  LoadMessagesByIdRejectAction,
-  LoadMessagesByIdStatusAction,
-  LoadThreadsRejectAction,
   MarkThreadAsReadAction,
   MessageIdsInThreadMap,
   MessageMap,
   MessagesState,
   ResultState,
-  SetMessagesAction,
-  SetThreadsAction,
-  SetThreadsTotalCountAction,
   ThreadMap,
   ToggleThreadReadStatusAction,
   VisibilityFilter,
@@ -48,120 +39,34 @@ export const messagesReducer = createReducer<MessagesState>(
   initialState,
   (builder) => {
     builder
-      .addCase(pendingAction(MessagesEvent.LoadThreads), (state) => {
-        return {
-          ...state,
-          threadsState: ResultState.Loading,
-        }
-      })
-      .addCase(fulfilledAction(MessagesEvent.LoadThreads), (state) => {
-        return {
-          ...state,
-          threadsState: ResultState.Loaded,
-          error: null,
-        }
-      })
       .addCase(
-        rejectedAction(MessagesEvent.LoadThreads),
-        (state, action: LoadThreadsRejectAction) => {
-          return {
-            ...state,
-            threadsState: ResultState.Error,
-            error: action.payload,
-          }
-        }
-      )
+        fulfilledAction(MessagesEvent.AddNewMessage),
+        (state, action: AddNewMessageAction) => {
+          const message = action.payload.message
+          const prevMessageMap = { ...state.messageMap }
+          prevMessageMap[message.id] = message
 
-      .addCase<string, LoadMessagesByIdStatusAction>(
-        pendingAction(MessagesEvent.LoadMessagesById),
-        (state, action) => {
-          const { threadId } = action.meta.arg
-          return {
-            ...state,
-            messagesStateMap: {
-              ...state.messagesStateMap,
-              [threadId]: ResultState.Loading,
-            },
-          }
-        }
-      )
-      .addCase<string, LoadMessagesByIdStatusAction>(
-        fulfilledAction(MessagesEvent.LoadMessagesById),
-        (state, action) => {
-          const { threadId } = action.meta.arg
-          return {
-            ...state,
-            messagesStateMap: {
-              ...state.messagesStateMap,
-              [threadId]: ResultState.Loaded,
-            },
-          }
-        }
-      )
-      .addCase<string, LoadMessagesByIdRejectAction>(
-        rejectedAction(MessagesEvent.LoadMessagesById),
-        (state, action) => {
-          const { threadId } = action.meta.arg
-          return {
-            ...state,
-            messagesStateMap: {
-              ...state.messagesStateMap,
-              [threadId]: ResultState.Error,
-            },
-            error: action.payload,
-          }
-        }
-      )
+          const prevMessageIdsInThreadMap = { ...state.messageIdsInThreadMap }
+          const messageIds: string[] =
+            prevMessageIdsInThreadMap[message.threadId] ?? []
+          prevMessageIdsInThreadMap[message.threadId] = messageIds.find(
+            (id) => id === message.id
+          )
+            ? messageIds
+            : [...messageIds, message.id]
 
-      .addCase(MessagesEvent.SetThreads, (state, action: SetThreadsAction) => {
-        const threads = action.payload
-        const threadMap: ThreadMap = { ...state.threadMap }
-        return {
-          ...state,
-          threadMap: threads.reduce((prevThreadMap, thread) => {
+          const thread = action.payload.thread
+          const prevThreadMap: ThreadMap = { ...state.threadMap }
+
+          if (thread) {
             prevThreadMap[thread.id] = thread
-            return prevThreadMap
-          }, threadMap),
-        }
-      })
-
-      .addCase(
-        MessagesEvent.SetThreadsTotalCount,
-        (state, action: SetThreadsTotalCountAction) => {
-          return {
-            ...state,
-            threadsTotalCount: action.payload,
           }
-        }
-      )
-
-      .addCase(
-        MessagesEvent.SetMessages,
-        (state, action: SetMessagesAction) => {
-          const messages = action.payload
 
           return {
             ...state,
-            messageMap: messages.reduce(
-              (prevMessageMap: MessageMap, message) => {
-                prevMessageMap[message.id] = message
-                return prevMessageMap
-              },
-              { ...state.messageMap }
-            ),
-            messageIdsInThreadMap: messages.reduce(
-              (prev: MessageIdsInThreadMap, message) => {
-                const messageIds: string[] = prev[message.threadId] ?? []
-                prev[message.threadId] = messageIds.find(
-                  (id) => id === message.id
-                )
-                  ? messageIds
-                  : [...messageIds, message.id]
-
-                return prev
-              },
-              { ...state.messageIdsInThreadMap }
-            ),
+            messageMap: prevMessageMap,
+            messageIdsInThreadMap: prevMessageIdsInThreadMap,
+            threadMap: prevThreadMap,
           }
         }
       )

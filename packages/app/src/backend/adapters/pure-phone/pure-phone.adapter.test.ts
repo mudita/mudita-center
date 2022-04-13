@@ -8,14 +8,15 @@ import path from "path"
 import { ipcMain } from "electron-better-ipc"
 import MuditaDeviceManager from "@mudita/pure"
 import DeviceService from "Backend/device-service"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import MockDate from "mockdate"
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import { DeviceFileSystem } from "Backend/adapters/device-file-system/device-file-system.adapter"
 import { DeviceBaseInfo } from "Backend/adapters/device-base-info/device-base-info.adapter"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("Backend/device-service")
 jest.mock("Backend/adapters/device-base-info/device-base-info.adapter")
@@ -29,7 +30,7 @@ test("Unlock device returns properly value", async () => {
     return {
       request: () => {
         return {
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
         }
       },
     }
@@ -48,7 +49,7 @@ test("Unlock device returns properly value", async () => {
     deviceFileDiagnosticService
   )
   const { status } = await purePhoneAdapter.unlockDevice("3333")
-  expect(status).toEqual(DeviceResponseStatus.Ok)
+  expect(status).toEqual(RequestResponseStatus.Ok)
 })
 
 test("Get unlock device status returns properly value", async () => {
@@ -56,7 +57,7 @@ test("Get unlock device status returns properly value", async () => {
     return {
       request: () => {
         return {
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
         }
       },
     }
@@ -75,7 +76,7 @@ test("Get unlock device status returns properly value", async () => {
     deviceFileDiagnosticService
   )
   const { status } = await purePhoneAdapter.getUnlockDeviceStatus()
-  expect(status).toEqual(DeviceResponseStatus.Ok)
+  expect(status).toEqual(RequestResponseStatus.Ok)
 })
 
 describe("getDeviceLogFiles method", () => {
@@ -92,9 +93,9 @@ describe("getDeviceLogFiles method", () => {
 
   const returnMockGetFileListResponse = (
     files: string[]
-  ): DeviceResponse<{ files: string[] }> => {
+  ): RequestResponse<{ files: string[] }> => {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: {
         files,
       },
@@ -115,7 +116,7 @@ describe("getDeviceLogFiles method", () => {
       return {
         downloadDeviceFiles: () => {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: [
               {
                 data: text1kb,
@@ -141,7 +142,7 @@ describe("getDeviceLogFiles method", () => {
 
     test("should return DeviceResponseStatus.Ok as status", async () => {
       const { status } = await purePhoneAdapter.getDeviceLogFiles()
-      expect(status).toEqual(DeviceResponseStatus.Ok)
+      expect(status).toEqual(RequestResponseStatus.Ok)
     })
 
     test("should return properly list length", async () => {
@@ -185,7 +186,7 @@ describe("getDeviceLogFiles method", () => {
       return {
         downloadDeviceFiles: () => {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: [
               {
                 data: text1kb,
@@ -215,7 +216,7 @@ describe("getDeviceLogFiles method", () => {
 
     test("should return DeviceResponseStatus.Ok as status", async () => {
       const { status } = await purePhoneAdapter.getDeviceLogFiles()
-      expect(status).toEqual(DeviceResponseStatus.Ok)
+      expect(status).toEqual(RequestResponseStatus.Ok)
     })
 
     test("should return properly list length", async () => {
@@ -230,7 +231,7 @@ describe("getDeviceLogFiles method", () => {
         return {
           getDiagnosticFileList: () => {
             return {
-              status: DeviceResponseStatus.Error,
+              status: RequestResponseStatus.Error,
             }
           },
         }
@@ -251,7 +252,7 @@ describe("getDeviceLogFiles method", () => {
 
     test("should return DeviceResponseStatus.Error as status", async () => {
       const { status } = await purePhoneAdapter.getDeviceLogFiles()
-      expect(status).toEqual(DeviceResponseStatus.Error)
+      expect(status).toEqual(RequestResponseStatus.Error)
     })
   })
 
@@ -269,7 +270,7 @@ describe("getDeviceLogFiles method", () => {
       return {
         downloadDeviceFiles: () => {
           return {
-            status: DeviceResponseStatus.Error,
+            status: RequestResponseStatus.Error,
           }
         },
       }
@@ -289,7 +290,7 @@ describe("getDeviceLogFiles method", () => {
 
     test("should return DeviceResponseStatus.Error as status", async () => {
       const { status } = await purePhoneAdapter.getDeviceLogFiles()
-      expect(status).toEqual(DeviceResponseStatus.Error)
+      expect(status).toEqual(RequestResponseStatus.Error)
     })
   })
 })

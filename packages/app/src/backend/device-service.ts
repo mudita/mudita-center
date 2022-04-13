@@ -43,13 +43,18 @@ import {
   GetEntriesResponseBody,
   DeleteEntriesRequestConfig,
   GetEntriesRequestConfig,
+  GetMessageBody,
+  Message,
+  GetThreadBody,
+  Thread,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { MainProcessIpc } from "electron-better-ipc"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 export enum DeviceServiceEventName {
   DeviceConnected = "deviceConnected",
@@ -81,72 +86,82 @@ export class DeviceService {
   async request(config: {
     endpoint: Endpoint.Security
     method: Method.Get
-  }): Promise<DeviceResponse>
+  }): Promise<RequestResponse>
   async request(config: {
     endpoint: Endpoint.Security
     method: Method.Get
     body: GetPhoneLockStatusBody
-  }): Promise<DeviceResponse>
+  }): Promise<RequestResponse>
   async request(config: {
     endpoint: Endpoint.Security
     method: Method.Get
     body: GetPhoneLockTimeBody
-  }): Promise<DeviceResponse<GetPhoneLockTimeResponseBody>>
+  }): Promise<RequestResponse<GetPhoneLockTimeResponseBody>>
   async request(config: {
     endpoint: Endpoint.Security
     method: Method.Put
     body: { phoneLockCode: string }
-  }): Promise<DeviceResponse>
+  }): Promise<RequestResponse>
   async request(config: {
     endpoint: Endpoint.DeviceInfo
     method: Method.Get
-  }): Promise<DeviceResponse<DeviceInfo>>
+  }): Promise<RequestResponse<DeviceInfo>>
   async request(config: {
     endpoint: Endpoint.DeviceInfo
     method: Method.Get
     body: GetFileListBody
-  }): Promise<DeviceResponse<GetFileListResponseBody>>
+  }): Promise<RequestResponse<GetFileListResponseBody>>
   public request(config: {
     endpoint: Endpoint.Messages
     method: Method.Get
     body: GetMessagesBody
-  }): Promise<DeviceResponse<GetMessageResponseBody>>
+  }): Promise<RequestResponse<GetMessageResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Get
+    body: GetMessageBody
+  }): Promise<RequestResponse<Message>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Get
+    body: GetThreadBody
+  }): Promise<RequestResponse<Thread>>
   public request(config: {
     endpoint: Endpoint.Messages
     method: Method.Get
     body: GetThreadsBody
-  }): Promise<DeviceResponse<GetThreadResponseBody>>
+  }): Promise<RequestResponse<GetThreadResponseBody>>
   public request(config: {
     endpoint: Endpoint.Messages
     method: Method.Post
     body: PostMessagesBody
-  }): Promise<DeviceResponse<PostMessagesResponseBody>>
+  }): Promise<RequestResponse<PostMessagesResponseBody>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
-  }): Promise<DeviceResponse<{ entries: Contact[]; totalCount: number }>>
+  }): Promise<RequestResponse<{ entries: Contact[]; totalCount: number }>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
     body: { id: number }
-  }): Promise<DeviceResponse<Contact>>
+  }): Promise<RequestResponse<Contact>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
     body: Contact
-  }): Promise<DeviceResponse<Contact>>
+  }): Promise<RequestResponse<Contact>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Put
     body: Contact
-  }): Promise<DeviceResponse<Contact>>
+  }): Promise<RequestResponse<Contact>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Delete
     body: {
       id: Contact["id"]
     }
-  }): Promise<DeviceResponse<string>>
+  }): Promise<RequestResponse<string>>
   async request(config: {
     endpoint: Endpoint.Update
     method: Method.Post
@@ -154,16 +169,16 @@ export class DeviceService {
       update: boolean
       reboot: boolean
     }
-  }): Promise<DeviceResponse>
+  }): Promise<RequestResponse>
   public request(config: GetFileSystemRequestConfig): Promise<
-    DeviceResponse<{
+    RequestResponse<{
       rxID: string
       fileSize: number
       chunkSize: number
     }>
   >
   public request(config: DownloadFileSystemRequestConfig): Promise<
-    DeviceResponse<{
+    RequestResponse<{
       rxID: string
       chunkNo: number
       data: string
@@ -171,40 +186,40 @@ export class DeviceService {
     }>
   >
   public request(config: SendFileSystemRequestConfig): Promise<
-    DeviceResponse<{
+    RequestResponse<{
       txID: string
       chunkNo: number
     }>
   >
   public request(config: PutFileSystemRequestConfig): Promise<
-    DeviceResponse<{
+    RequestResponse<{
       txID: string
       chunkSize: number
     }>
   >
   public request(
     config: StartBackupRequestConfig
-  ): Promise<DeviceResponse<StartBackupResponseBody>>
+  ): Promise<RequestResponse<StartBackupResponseBody>>
   public request(
     config: GetBackupDeviceStatusRequestConfig
-  ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>>
-  public request(config: StartRestoreRequestConfig): Promise<DeviceResponse>
+  ): Promise<RequestResponse<GetBackupDeviceStatusResponseBody>>
+  public request(config: StartRestoreRequestConfig): Promise<RequestResponse>
   public request(
     config: GetRestoreDeviceStatusRequestConfig
-  ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>>
+  ): Promise<RequestResponse<GetRestoreDeviceStatusResponseBody>>
   public request(
     config: RemoveFileSystemRequestConfig
-  ): Promise<DeviceResponse<RemoveFileSystemResponse>>
+  ): Promise<RequestResponse<RemoveFileSystemResponse>>
   public request(
     config: GetEntriesRequestConfig
-  ): Promise<DeviceResponse<GetEntriesResponseBody>>
-  public request(config: DeleteEntriesRequestConfig): Promise<DeviceResponse>
+  ): Promise<RequestResponse<GetEntriesResponseBody>>
+  public request(config: DeleteEntriesRequestConfig): Promise<RequestResponse>
   async request(
     config: RequestConfig<any>
-  ): Promise<DeviceResponse<unknown> | DeviceResponse<undefined>> {
+  ): Promise<RequestResponse<unknown> | RequestResponse<undefined>> {
     if (!this.currentDevice) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       }
     }
 
@@ -221,7 +236,7 @@ export class DeviceService {
     }
 
     return new Promise((resolve) => {
-      const listener = (response: DeviceResponse<unknown>) => {
+      const listener = (response: RequestResponse<unknown>) => {
         this.eventEmitter.off(eventName, listener)
         resolve(response)
       }
@@ -230,11 +245,11 @@ export class DeviceService {
     })
   }
 
-  public async connect(): Promise<DeviceResponse<MuditaDevice>> {
+  public async connect(): Promise<RequestResponse<MuditaDevice>> {
     if (this.currentDevice) {
       return {
         data: this.currentDevice,
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }
     }
 
@@ -244,15 +259,15 @@ export class DeviceService {
       return this.deviceConnect(device)
     } else {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       }
     }
   }
 
-  public async disconnect(): Promise<DeviceResponse> {
+  public async disconnect(): Promise<RequestResponse> {
     if (!this.currentDevice) {
       return {
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }
     }
 
@@ -263,16 +278,16 @@ export class DeviceService {
       if (status === ResponseStatus.Ok) {
         this.clearSubscriptions()
         return {
-          status: DeviceResponseStatus.Ok,
+          status: RequestResponseStatus.Ok,
         }
       } else {
         return {
-          status: DeviceResponseStatus.Error,
+          status: RequestResponseStatus.Error,
         }
       }
     } else {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       }
     }
   }
@@ -295,7 +310,7 @@ export class DeviceService {
     this.ipcMain.sendToRenderers(eventName, data)
   }
 
-  private getUnlockedStatusRequest(): Promise<DeviceResponse<any>> {
+  private getUnlockedStatusRequest(): Promise<RequestResponse<any>> {
     return this.request({
       endpoint: Endpoint.Security,
       method: Method.Get,
@@ -310,7 +325,7 @@ export class DeviceService {
       if (!this.currentDevice) {
         const { status } = await this.deviceConnect(device)
 
-        if (status === DeviceResponseStatus.Ok) {
+        if (status === RequestResponseStatus.Ok) {
           this.eventEmitter.emit(DeviceServiceEventName.DeviceConnected)
           this.ipcMain.sendToRenderers(IpcEmitter.DeviceConnected, device)
         }
@@ -320,7 +335,7 @@ export class DeviceService {
 
   private async deviceConnect(
     device: MuditaDevice
-  ): Promise<DeviceResponse<MuditaDevice>> {
+  ): Promise<RequestResponse<MuditaDevice>> {
     const { status } = await device.connect()
 
     if (status === ResponseStatus.Ok) {
@@ -334,11 +349,11 @@ export class DeviceService {
 
       return {
         data: this.currentDevice,
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }
     } else {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       }
     }
   }
@@ -369,7 +384,7 @@ export class DeviceService {
 
   private static mapToDeviceResponse(
     response: Response<unknown>
-  ): DeviceResponse<unknown> {
+  ): RequestResponse<unknown> {
     const { status, body: data, error } = response
     if (
       status === ResponseStatus.Ok ||
@@ -378,61 +393,61 @@ export class DeviceService {
     ) {
       return {
         data,
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }
     } else if (status === ResponseStatus.NoContent) {
       return {
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
       }
     } else if (status === ResponseStatus.PhoneLocked) {
       return {
         error,
-        status: DeviceResponseStatus.PhoneLocked,
+        status: RequestResponseStatus.PhoneLocked,
       }
     } else if (status === ResponseStatus.InternalServerError) {
       return {
         error,
-        status: DeviceResponseStatus.InternalServerError,
+        status: RequestResponseStatus.InternalServerError,
       }
     } else if (status === ResponseStatus.Conflict) {
       return {
         data,
         error,
-        status: DeviceResponseStatus.Duplicated,
+        status: RequestResponseStatus.Duplicated,
       }
     } else if (status === ResponseStatus.UnprocessableEntity) {
       return {
         error,
-        status: DeviceResponseStatus.UnprocessableEntity,
+        status: RequestResponseStatus.UnprocessableEntity,
       }
     } else {
       return {
         error,
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
       }
     }
   }
 
   private checkDeviceIsUnlocked(
     config: RequestConfig<any>,
-    response: DeviceResponse<unknown>
+    response: RequestResponse<unknown>
   ): void {
     if (!DeviceService.isEndpointSecure(config)) {
       return
     }
 
-    if (response.status === DeviceResponseStatus.Error) {
+    if (response.status === RequestResponseStatus.Error) {
       return
     }
 
     this.currentDeviceUnlocked =
-      response.status !== DeviceResponseStatus.PhoneLocked
+      response.status !== RequestResponseStatus.PhoneLocked
 
     this.emitDeviceUnlockedEvent(response)
   }
 
-  private emitDeviceUnlockedEvent({ status }: DeviceResponse<unknown>): void {
-    if (status !== DeviceResponseStatus.PhoneLocked) {
+  private emitDeviceUnlockedEvent({ status }: RequestResponse<unknown>): void {
+    if (status !== RequestResponseStatus.PhoneLocked) {
       this.eventEmitter.emit(
         DeviceServiceEventName.DeviceUnlocked,
         this.currentDevice

@@ -12,11 +12,12 @@ import { FileSystemService } from "App/file-system/services/file-system.service.
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { MessageModel, ThreadModel } from "App/messages/models"
+import { MessageService, ThreadService } from "App/messages/services"
+import { MessageController } from "App/messages/controllers"
+import { MessageObserver } from "App/messages/observers/message.observer"
+import { MessageRepository, ThreadRepository } from "App/messages/repositories"
 
 export class MessageModule extends BaseModule {
-  private messageModel: MessageModel
-  private threadModel: ThreadModel
-
   constructor(
     public index: IndexStorage,
     public deviceService: DeviceService,
@@ -36,9 +37,23 @@ export class MessageModule extends BaseModule {
       fileSystem
     )
 
-    this.messageModel = new MessageModel(this.index, this.eventEmitter)
-    this.threadModel = new ThreadModel(this.index, this.eventEmitter)
-
-    this.models = [this.messageModel, this.threadModel]
+    const messageModel = new MessageModel(this.index, this.eventEmitter)
+    const threadModel = new ThreadModel(this.index, this.eventEmitter)
+    const threadService = new ThreadService(this.deviceService)
+    const messageService = new MessageService(this.deviceService, threadService)
+    const messageController = new MessageController(messageService)
+    const messageRepository = new MessageRepository(messageModel)
+    const threadRepository = new ThreadRepository(threadModel)
+    const messageObserver = new MessageObserver(
+      this.ipc,
+      this.deviceService,
+      messageService,
+      threadService,
+      messageRepository,
+      threadRepository
+    )
+    this.models = [messageModel, threadModel]
+    this.controllers = [messageController]
+    this.observers = [messageObserver]
   }
 }
