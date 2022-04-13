@@ -8,7 +8,22 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
 import { McUsbFile } from "@mudita/pure"
+import styled from "styled-components"
+import { defineMessages } from "react-intl"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
+import FilesStorageList from "App/files-manager/components/files-storage-list/files-storage-list.component"
 
+const TitleWrapper = styled.div`
+  margin: 1.6rem 3.2rem 1rem;
+`
+
+const messages = defineMessages({
+  title: {
+    id: "component.filesManagerFilesStorageTitle",
+  },
+})
 interface Props {
   resultState: ResultState
   files: McUsbFile[]
@@ -20,27 +35,18 @@ const FilesStorage: FunctionComponent<Props> = ({
 }) => {
   return (
     <div>
-      {(resultState === ResultState.Empty ||
-        (resultState === ResultState.Loaded && files.length === 0)) && (
-        <p data-testid={FilesStorageTestIds.Empty}>Empty list</p>
-      )}
-      {resultState === ResultState.Loading && (
-        <p data-testid={FilesStorageTestIds.Loading}>Loading...</p>
-      )}
-      {resultState === ResultState.Loaded && files.length > 0 && (
-        <div data-testid={FilesStorageTestIds.Loaded}>
-          <p>Files loaded</p>
-          {files.map((file) => (
-            <p
-              key={file.name}
-              data-testid={FilesStorageTestIds.Row}
-            >{`File name: ${file.name}, size: ${file.size}, type:${file.type}`}</p>
-          ))}
-        </div>
-      )}
-      {resultState === ResultState.Error && (
-        <p data-testid={FilesStorageTestIds.Error}>Something went wrong...</p>
-      )}
+      <TitleWrapper>
+        <Text
+          data-testid={FilesStorageTestIds.Title}
+          displayStyle={TextDisplayStyle.Headline3}
+          message={messages.title}
+        />
+      </TitleWrapper>
+      <FilesStorageList
+        data-testid={FilesStorageTestIds.List}
+        files={files}
+        resultState={resultState}
+      />
     </div>
   )
 }

@@ -84,6 +84,7 @@ export interface AvatarProps {
   light?: boolean
   imageSrc?: string
   user?: User
+  iconType?: IconType
 }
 
 const Avatar: FunctionComponent<AvatarProps> = ({
@@ -92,6 +93,7 @@ const Avatar: FunctionComponent<AvatarProps> = ({
   imageSrc,
   light,
   user,
+  iconType = IconType.ContactFilled,
 }) => (
   <AvatarWrapper className={className} size={size} light={light}>
     {imageSrc ? (
@@ -106,7 +108,7 @@ const Avatar: FunctionComponent<AvatarProps> = ({
         {user.lastName?.charAt(0)}
       </Text>
     ) : (
-      <Icon type={IconType.ContactFilled} width={getAvatarSize(size) / 1.8} />
+      <Icon type={iconType} width={getAvatarSize(size) / 1.8} />
     )}
   </AvatarWrapper>
 )
