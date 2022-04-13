@@ -40,7 +40,7 @@ const render = (extraProps?: Partial<Props>) => {
   return renderWithThemeAndIntl(<FilesStorageList {...props} />)
 }
 
-describe("`FilesStorage` component", () => {
+describe("`FilesStorageList` component", () => {
   test("Empty files storage is rendered as default state", () => {
     const { queryByTestId } = render()
     expect(queryByTestId(FilesStorageListTestIds.Empty)).toBeInTheDocument()
@@ -89,7 +89,7 @@ describe("`FilesStorage` component", () => {
     ).not.toBeInTheDocument()
   })
 
-  test("Files storage is rendered if resultState is Loaded and files list isn't empty", () => {
+  test("Files storage list is rendered if resultState is Loaded and files list isn't empty", () => {
     const { queryByTestId, queryAllByTestId } = render({
       resultState: ResultState.Loaded,
       files,

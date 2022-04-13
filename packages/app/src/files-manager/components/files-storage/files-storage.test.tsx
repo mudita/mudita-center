@@ -24,7 +24,7 @@ const render = (extraProps?: Partial<Props>) => {
   return renderWithThemeAndIntl(<FilesStorage {...props} />)
 }
 
-describe("Files Storage component", () => {
+describe("`Files Storage` component", () => {
   test("should render properly", () => {
     const { queryByTestId } = render()
     expect(queryByTestId(FilesStorageTestIds.Title)).toHaveTextContent(
