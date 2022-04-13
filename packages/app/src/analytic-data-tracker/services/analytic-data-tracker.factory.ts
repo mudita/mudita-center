@@ -6,14 +6,12 @@
 import https from "https"
 import axios, { AxiosInstance } from "axios"
 import logger from "App/main/utils/logger"
-import {
-  AnalyticDataTrackerClass,
-  trackEvent,
-} from "App/analytic-data-tracker/services/analytic-data-tracker-class.interface"
+import { AnalyticDataTrackerClass } from "App/analytic-data-tracker/services/analytic-data-tracker-class.interface"
 import { AnalyticDataTrackerService } from "App/analytic-data-tracker/services/analytic-data-tracker.service"
 import { getAppSettingsService } from "App/app-settings/containers/app-settings.container"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { TrackerCacheService } from "App/analytic-data-tracker/services/tracker-cache.service"
+import { TrackEvent } from "App/analytic-data-tracker/types/track-event.interface"
 
 class MatomoTrackerPlaceholder implements AnalyticDataTrackerClass {
   track(): Promise<any> {
@@ -31,7 +29,7 @@ class MatomoTrackerPlaceholder implements AnalyticDataTrackerClass {
 }
 
 export interface AnalyticDataTrackerFactoryOption {
-  siteId: trackEvent["idsite"]
+  siteId: TrackEvent["idsite"]
   apiUrl: string
 }
 

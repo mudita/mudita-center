@@ -4,11 +4,9 @@
  */
 
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
-import {
-  AnalyticDataTrackerClass,
-  trackEvent,
-} from "App/analytic-data-tracker/services/analytic-data-tracker-class.interface"
+import { AnalyticDataTrackerClass } from "App/analytic-data-tracker/services/analytic-data-tracker-class.interface"
 import { TrackerCacheService } from "App/analytic-data-tracker/services/tracker-cache.service"
+import { TrackEvent } from "App/analytic-data-tracker/types"
 
 export interface AnalyticDataTrackerOptions {
   _id: string
@@ -18,9 +16,9 @@ export interface AnalyticDataTrackerOptions {
 }
 
 export interface VisitorMetadata {
-  ua?: trackEvent["ua"]
-  res?: trackEvent["res"]
-  lang?: trackEvent["lang"]
+  ua?: TrackEvent["ua"]
+  res?: TrackEvent["res"]
+  lang?: TrackEvent["lang"]
 }
 
 export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
@@ -33,14 +31,14 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
   constructor(
     options: AnalyticDataTrackerOptions,
     private trackerCacheService: TrackerCacheService,
-    private httpClient: AxiosInstance,
+    private httpClient: AxiosInstance
   ) {
     this._id = options._id
     this.siteId = options.siteId
     this.apiUrl = options.apiUrl
     this.trackingEnabled = options.trackingEnabled ?? true
   }
-  public async track(event: trackEvent): Promise<AxiosResponse | undefined> {
+  public async track(event: TrackEvent): Promise<AxiosResponse | undefined> {
     if (!this.trackingEnabled) {
       return
     }
@@ -48,18 +46,20 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     return this.trackRequest(event)
   }
 
-  public async trackUnique(event: trackEvent): Promise<AxiosResponse | undefined> {
+  public async trackUnique(
+    event: TrackEvent
+  ): Promise<AxiosResponse | undefined> {
     if (!this.trackingEnabled) {
       return
     }
 
-    if(!await this.trackerCacheService.isEventUnique(event)){
+    if (!(await this.trackerCacheService.isEventUnique(event))) {
       return
     }
 
     const response = await this.trackRequest(event)
 
-    if (response?.status === 200){
+    if (response?.status === 200) {
       await this.trackerCacheService.saveEvent(event)
     }
 
@@ -74,7 +74,7 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     this.visitorMetadata = visitorMetadata
   }
 
-  private trackRequest(event: trackEvent): Promise<AxiosResponse | undefined> {
+  private trackRequest(event: TrackEvent): Promise<AxiosResponse | undefined> {
     const params: AxiosRequestConfig["params"] = {
       rec: 1,
       apiv: 1,

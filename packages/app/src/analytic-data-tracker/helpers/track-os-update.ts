@@ -6,7 +6,7 @@
 import { trackRequest } from "App/analytic-data-tracker/requests"
 import { HarmonyDeviceData, PureDeviceData } from "App/device"
 import { DeviceType } from "@mudita/pure"
-import { trackEvent } from "App/analytic-data-tracker/services"
+import { TrackEvent } from "App/analytic-data-tracker/services"
 import { TrackEventCategory } from "App/analytic-data-tracker/constants"
 
 export enum TrackOsUpdateState {
@@ -50,7 +50,7 @@ export const trackOsUpdate = async (
   options: TrackOsUpdateOptions
 ): Promise<void> => {
   const { fromOsVersion, toOsVersion, state, deviceType } = options
-  let event: trackEvent = {
+  let event: TrackEvent = {
     e_a: toOsVersion,
     e_n: fromOsVersion,
   }

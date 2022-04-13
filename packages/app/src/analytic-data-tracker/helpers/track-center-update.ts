@@ -4,7 +4,7 @@
  */
 
 import { trackRequest } from "App/analytic-data-tracker/requests"
-import { trackEvent } from "App/analytic-data-tracker/services"
+import { TrackEvent } from "App/analytic-data-tracker/services"
 import { TrackEventCategory } from "App/analytic-data-tracker/constants"
 
 export enum TrackCenterUpdateState {
@@ -35,7 +35,7 @@ export const trackCenterUpdate = async (
   options: TrackCenterUpdateOptions
 ): Promise<void> => {
   const { fromCenterVersion, toCenterVersion, state } = options
-  const event: trackEvent = {
+  const event: TrackEvent = {
     e_a: toCenterVersion,
     e_n: fromCenterVersion,
     e_c: getPureTrackEventCategoryByState(state),

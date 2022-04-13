@@ -6,8 +6,11 @@
 import { trackUniqueRequest } from "App/analytic-data-tracker/requests"
 import { HarmonyDeviceData, PureDeviceData } from "App/device"
 import { DeviceType } from "@mudita/pure"
-import { trackEvent } from "App/analytic-data-tracker/services"
-import { TrackEventCategory, TrackEventDimension } from "App/analytic-data-tracker/constants"
+import { TrackEvent } from "App/analytic-data-tracker/services"
+import {
+  TrackEventCategory,
+  TrackEventDimension,
+} from "App/analytic-data-tracker/constants"
 
 export interface TrackOsVersionOptions {
   osVersion: Partial<PureDeviceData | HarmonyDeviceData>["osVersion"]
@@ -18,7 +21,7 @@ export interface TrackOsVersionOptions {
 export const trackOsVersion = async (
   options: TrackOsVersionOptions
 ): Promise<void> => {
-  let event: trackEvent = {}
+  let event: TrackEvent = {}
   const { osVersion, serialNumber, deviceType } = options
 
   if (serialNumber !== undefined && serialNumber !== "") {

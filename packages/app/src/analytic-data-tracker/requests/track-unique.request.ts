@@ -5,8 +5,8 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcAnalyticDataTrackerRequest } from "App/analytic-data-tracker/constants"
-import { trackEvent } from "App/analytic-data-tracker/services"
+import { TrackEvent } from "App/analytic-data-tracker/services"
 
-export const trackUniqueRequest = async (event: trackEvent): Promise<void> => {
+export const trackUniqueRequest = async (event: TrackEvent): Promise<void> => {
   return ipcRenderer.callMain(IpcAnalyticDataTrackerRequest.TrackUnique, event)
 }
