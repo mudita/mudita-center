@@ -17,9 +17,3 @@ export enum TrackEventCategory {
   CenterUpdateStart = "Center Update - start",
   CenterUpdateFail = "Center Update - fail",
 }
-
-export enum TrackEventDimension {
-  CenterVersion = "dimension6",
-  HarmonyVersion = "dimension8",
-  PureVersion = "dimension9",
-}

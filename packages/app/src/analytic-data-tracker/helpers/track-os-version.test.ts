@@ -9,10 +9,7 @@ import {
   TrackOsVersionOptions,
 } from "App/analytic-data-tracker/helpers/track-os-version"
 import { trackUniqueRequest } from "App/analytic-data-tracker/requests"
-import {
-  TrackEventCategory,
-  TrackEventDimension,
-} from "App/analytic-data-tracker/constants"
+import { TrackEventCategory } from "App/analytic-data-tracker/constants"
 
 jest.mock("App/analytic-data-tracker/requests/track-unique.request")
 
@@ -34,7 +31,6 @@ describe("`trackOsVersion`", () => {
         _id: options.serialNumber,
         e_c: TrackEventCategory.HarmonyVersion,
         e_a: options.osVersion,
-        [TrackEventDimension.HarmonyVersion]: options.osVersion,
       })
     })
   })
@@ -52,7 +48,6 @@ describe("`trackOsVersion`", () => {
         _id: options.serialNumber,
         e_c: TrackEventCategory.PureVersion,
         e_a: options.osVersion,
-        [TrackEventDimension.PureVersion]: options.osVersion,
       })
     })
   })
@@ -69,7 +64,6 @@ describe("`trackOsVersion`", () => {
       expect(trackUniqueRequest).toHaveBeenCalledWith({
         e_c: TrackEventCategory.HarmonyVersion,
         e_a: options.osVersion,
-        [TrackEventDimension.HarmonyVersion]: options.osVersion,
       })
     })
   })
@@ -86,7 +80,6 @@ describe("`trackOsVersion`", () => {
       expect(trackUniqueRequest).toHaveBeenCalledWith({
         e_c: TrackEventCategory.PureVersion,
         e_a: options.osVersion,
-        [TrackEventDimension.PureVersion]: options.osVersion,
       })
     })
   })
@@ -103,7 +96,6 @@ describe("`trackOsVersion`", () => {
       expect(trackUniqueRequest).toHaveBeenCalledWith({
         e_c: TrackEventCategory.HarmonyVersion,
         e_a: options.osVersion,
-        [TrackEventDimension.HarmonyVersion]: options.osVersion,
       })
     })
   })
@@ -120,7 +112,6 @@ describe("`trackOsVersion`", () => {
       expect(trackUniqueRequest).toHaveBeenCalledWith({
         e_c: TrackEventCategory.PureVersion,
         e_a: options.osVersion,
-        [TrackEventDimension.PureVersion]: options.osVersion,
       })
     })
   })

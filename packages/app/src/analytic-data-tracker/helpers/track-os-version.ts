@@ -7,10 +7,7 @@ import { trackUniqueRequest } from "App/analytic-data-tracker/requests"
 import { HarmonyDeviceData, PureDeviceData } from "App/device"
 import { DeviceType } from "@mudita/pure"
 import { TrackEvent } from "App/analytic-data-tracker/types"
-import {
-  TrackEventCategory,
-  TrackEventDimension,
-} from "App/analytic-data-tracker/constants"
+import { TrackEventCategory } from "App/analytic-data-tracker/constants"
 
 export interface TrackOsVersionOptions {
   osVersion: Partial<PureDeviceData | HarmonyDeviceData>["osVersion"]
@@ -36,7 +33,6 @@ export const trackOsVersion = async (
       ...event,
       e_c: TrackEventCategory.HarmonyVersion,
       e_a: osVersion,
-      [TrackEventDimension.HarmonyVersion]: osVersion,
     }
   }
 
@@ -45,7 +41,6 @@ export const trackOsVersion = async (
       ...event,
       e_c: TrackEventCategory.PureVersion,
       e_a: osVersion,
-      [TrackEventDimension.PureVersion]: osVersion,
     }
   }
 
