@@ -6,3 +6,4 @@
 export * from "./analytic-data-tracker.factory"
 export * from "./analytic-data-tracker.service"
 export * from "./analytic-data-tracker-class.interface"
+export * from "./tracker-cache.service"

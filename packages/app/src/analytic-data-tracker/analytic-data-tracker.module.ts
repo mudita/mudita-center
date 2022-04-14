@@ -12,7 +12,10 @@ import { MetadataStore } from "App/metadata"
 import { AppLogger } from "App/main/utils/logger"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { AnalyticDataTrackerController } from "App/analytic-data-tracker/controllers"
-import { getAnalyticDataTracker } from "App/analytic-data-tracker/containers"
+import { AnalyticDataTrackerFactory } from "App/analytic-data-tracker/services"
+
+const apiUrl = String(process.env.ANALYTICS_API_URL)
+const siteId = Number(process.env.ANALYTICS_API_SITE_ID)
 
 export class AnalyticDataTrackerModule extends BaseModule {
   constructor(
@@ -33,7 +36,10 @@ export class AnalyticDataTrackerModule extends BaseModule {
       eventEmitter,
       fileSystem
     )
-    const tracker = getAnalyticDataTracker()
+    const tracker = AnalyticDataTrackerFactory.create(this.fileSystem, {
+      apiUrl,
+      siteId,
+    })
 
     if (tracker === undefined) {
       throw new Error("Initialize `AnalyticDataTracker` before get it")
