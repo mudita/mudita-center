@@ -25,5 +25,4 @@ export const StatsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 1.2rem;
-  margin-bottom: 4rem;
 `
