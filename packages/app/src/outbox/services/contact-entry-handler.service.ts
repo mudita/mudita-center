@@ -15,7 +15,7 @@ export class ContactEntryHandlerService implements EntryHandler {
     private contactRepository: ContactRepository
   ) {}
 
-  public async handleEntry(entry: OutboxEntry): Promise<void> {
+  public  handleEntry = async (entry: OutboxEntry): Promise<void>  =>{
     const id = String(entry.record_id)
 
     if (entry.change === OutboxEntryChange.Deleted) {

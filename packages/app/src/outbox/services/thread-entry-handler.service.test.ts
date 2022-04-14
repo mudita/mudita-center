@@ -109,6 +109,34 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
     })
   })
 
+  describe("when Thread Entry has Relation change and `getThread` return success ", () => {
+    let subject: ThreadEntryHandlerService
+    let threadService: ThreadService
+    let threadRepository: ThreadRepository
+    const entry: OutboxEntry = {
+      uid: 1,
+      type: OutboxEntryType.Thread,
+      change: OutboxEntryChange.Relation,
+      record_id: 1,
+    }
+
+    beforeEach(() => {
+      threadRepository = {
+        create: jest.fn(),
+      } as unknown as ThreadRepository
+
+      threadService = {
+        getThread: jest.fn().mockReturnValue(successResponse),
+      } as unknown as ThreadService
+      subject = new ThreadEntryHandlerService(threadService, threadRepository)
+    })
+
+    test("`create` method in threadRepository was called", async () => {
+      await subject.handleEntry(entry)
+      expect(threadRepository.create).toHaveBeenCalled()
+    })
+  })
+
   describe("when Thread Entry has Updated change and `getThread` returns error", () => {
     let subject: ThreadEntryHandlerService
     let threadService: ThreadService
