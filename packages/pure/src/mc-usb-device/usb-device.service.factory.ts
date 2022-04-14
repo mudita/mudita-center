@@ -3,15 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import UsbDeviceService from "./usb-device.service"
-import { MuditaPureDescriptor, MuditaHarmonyDescriptor } from "../descriptors"
+import { UsbDeviceService } from "./usb-device.service"
+import { MuditaPureDescriptor, MuditaHarmonyDescriptor } from "../device"
 
-class UsbDeviceServiceFactory {
+export class UsbDeviceServiceFactory {
   static create(
     descriptor: typeof MuditaPureDescriptor | typeof MuditaHarmonyDescriptor
   ): UsbDeviceService {
+    console.log("descriptor: ", descriptor)
     return new UsbDeviceService()
   }
 }
-
-export default UsbDeviceServiceFactory

@@ -3,13 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Endpoint,
-  Method,
-  RequestConfig,
-  Response,
-  ResponseStatus,
-} from "../device"
+import { Response, ResponseStatus } from "./response.types"
+import { Endpoint, Method, RequestConfig } from "./request.types"
 
 export interface PutFileSystemRequestConfig
   extends RequestConfig<{

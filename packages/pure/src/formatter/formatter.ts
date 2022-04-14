@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Method, Response } from "../device/device.types"
+import { Method, Response } from "../mc-serial-port-device/types"
 
 export abstract class Formatter {
   abstract formatResponse(

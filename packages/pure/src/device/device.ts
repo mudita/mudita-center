@@ -3,15 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  RequestConfig,
-  Response,
-  MuditaDevice,
-  DeviceEventName,
-  McUsbFile,
-} from "./device.types"
+import { MuditaDevice, DeviceEventName } from "./mudita-device"
 import { DeviceType } from "./constants"
 import { HarmonyStrategy, PureStrategy } from "./strategies"
+import { McUsbFile } from "../mc-usb-device/mc-usb-file.interface"
+import { RequestConfig, Response } from "../mc-serial-port-device/types"
 
 export class Device implements MuditaDevice {
   public path: string

@@ -4,17 +4,17 @@
  */
 
 import BaseDevice from "./base-device"
-import BaseMcSerialPortDevice from "./mc-serialport-device"
-import BaseMcUsbDevice from "./mc-usb-device"
-import { RequestConfig, Endpoint, Method } from "./device.types"
+import McSerialPortDevice from "../mc-serial-port-device/mc-serial-port-device"
+import { McUsbDevice } from "../mc-usb-device"
+import { Endpoint, Method, RequestConfig } from "../mc-serial-port-device"
 
 const mockBaseMcUsbDevice = {
   getFiles: jest.fn().mockReturnValue([]),
-} as unknown as BaseMcUsbDevice
+} as unknown as McUsbDevice
 
 const mockSerialPortDevice = {
   request: jest.fn(),
-} as unknown as BaseMcSerialPortDevice
+} as unknown as McSerialPortDevice
 
 const subject = new BaseDevice(mockSerialPortDevice, mockBaseMcUsbDevice)
 

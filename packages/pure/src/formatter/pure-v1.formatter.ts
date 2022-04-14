@@ -3,9 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method, Response } from "../device/device.types"
 import { Formatter } from "./formatter"
-import { DeviceUpdateError, deviceUpdateErrorCodeMap } from "../endpoints"
+import {
+  DeviceUpdateError,
+  deviceUpdateErrorCodeMap,
+  Endpoint,
+  Method,
+  Response,
+} from "../mc-serial-port-device/types"
 
 export class PureV1Formatter extends Formatter {
   formatResponse(method: Method, response: Response<any>): Response<any> {
