@@ -44,6 +44,7 @@ import {
   DeleteEntriesRequestConfig,
   GetEntriesRequestConfig,
   McUsbFile,
+  ObjectResult,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
@@ -330,7 +331,7 @@ export class DeviceService {
     })
   }
 
-  getFiles(): Promise<McUsbFile[]> {
+  getFiles(): Promise<ObjectResult<McUsbFile[]>> {
     if (!this.currentDevice) {
       return Promise.resolve([])
     }
