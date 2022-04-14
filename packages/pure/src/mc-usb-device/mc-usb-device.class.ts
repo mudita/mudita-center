@@ -4,7 +4,8 @@
  */
 
 import { McUsbFile } from "./mc-usb-file.interface"
+import { ObjectResult } from "./usb-device.service"
 
 export interface McUsbDeviceClass {
-  getFiles(): Promise<McUsbFile[]>
+  getFiles(): Promise<ObjectResult<McUsbFile[]>>
 }

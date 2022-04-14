@@ -7,6 +7,7 @@ import { McSerialPortDeviceClass } from "../mc-serial-port-device/mc-serial-port
 import { McUsbDeviceClass } from "../mc-usb-device/mc-usb-device.class"
 import { McUsbFile } from "../mc-usb-device/mc-usb-file.interface"
 import { RequestConfig, Response } from "../mc-serial-port-device/types"
+import { ObjectResult } from "../mc-usb-device/usb-device.service"
 import { MuditaDevice, DeviceEventName } from "./mudita-device"
 
 export const timeoutMs = 30000
@@ -37,7 +38,7 @@ class BaseDevice implements MuditaDevice {
   off(eventName: DeviceEventName, listener: () => void): void {
     return this.mcSerialPortDevice.off(eventName, listener)
   }
-  getFiles(): Promise<McUsbFile[]> {
+  getFiles(): Promise<ObjectResult<McUsbFile[]>> {
     return this.mcUsbDevice.getFiles()
   }
 }

@@ -301,7 +301,8 @@
   },
   "dependencies": {
     "serialport": "^10.1.0",
-    "usb": "1.9.2"
+    "usb": "1.9.2",
+    "webusb": "^2.2.0"
   },
   "engines": {
     "node": "14.17.3",

@@ -4,9 +4,11 @@
  */
 
 import { DeviceType } from "./constants"
+import { McUsbFile } from "../mc-usb-device/mc-usb-file.interface"
 import { McSerialPortDeviceClass } from "../mc-serial-port-device/mc-serial-port-device.class"
-import { McUsbDeviceClass, McUsbFile } from "../mc-usb-device"
-import { RequestConfig, Response } from "../mc-serial-port-device"
+import { McUsbDeviceClass } from "../mc-usb-device/mc-usb-device.class"
+import { RequestConfig, Response } from "../mc-serial-port-device/types"
+import { ObjectResult } from "../mc-usb-device/usb-device.service"
 
 export enum DeviceEventName {
   Disconnected = "disconnected",
@@ -23,7 +25,7 @@ export interface MuditaDevice
   request(config: RequestConfig<any>): Promise<Response<any>>
   on(eventName: DeviceEventName, listener: () => void): void
   off(eventName: DeviceEventName, listener: () => void): void
-  getFiles(): Promise<McUsbFile[]>
+  getFiles(): Promise<ObjectResult<McUsbFile[]>>
 }
 
 export type CreateDeviceStrategy = (

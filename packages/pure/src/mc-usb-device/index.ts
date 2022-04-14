@@ -4,7 +4,11 @@
  */
 
 export * from "./mc-usb-device.class"
+export * from "./mc-usb-device.factory"
+export * from "./mc-usb-device.service"
 export * from "./mc-usb-device"
 export * from "./mc-usb-file.interface"
+export * from "./usb-device.facade.class"
+export * from "./usb-device.facade"
+export * from "./usb-device.factory"
 export * from "./usb-device.service"
-export * from "./usb-device.service.factory"
