@@ -9,6 +9,7 @@ import { VisitorMetadata } from "App/analytic-data-tracker/services"
 
 const tracker = {
   track: jest.fn(),
+  trackUnique: jest.fn(),
   toggleTracking: jest.fn(),
   setVisitorMetadata: jest.fn(),
 } as unknown as AnalyticDataTrackerClass
@@ -20,12 +21,18 @@ describe("`AnalyticDataTrackerController`", () => {
     expect(await subject.track({})).toBeUndefined()
     expect(tracker.track).toHaveBeenCalled()
   })
+  test("`trackUnique` return undefined", async () => {
+    expect(await subject.trackUnique({})).toBeUndefined()
+    expect(tracker.trackUnique).toHaveBeenCalled()
+  })
   test("`toggleTracking` return undefined", async () => {
     expect(await subject.toggleTracking(false)).toBeUndefined()
     expect(tracker.toggleTracking).toHaveBeenCalled()
   })
   test("`toggleTracking` return undefined", async () => {
-    expect(await subject.setVisitorMetadata({} as VisitorMetadata)).toBeUndefined()
+    expect(
+      await subject.setVisitorMetadata({} as VisitorMetadata)
+    ).toBeUndefined()
     expect(tracker.setVisitorMetadata).toHaveBeenCalled()
   })
 })

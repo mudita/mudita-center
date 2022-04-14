@@ -83,7 +83,6 @@ import {
 import { registerGetAllReleasesListener } from "App/update/listeners/get-all-releases.listener"
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/update/requests/register-os-update-already-downloaded-checker.request"
 import { registerGetLatestReleaseListener } from "App/update/listeners/get-latest-release.listener"
-import { createAnalyticDataTracker } from "App/analytic-data-tracker/containers/analytic-data-tracker.container"
 import { createAppSettingsService } from "App/app-settings/containers/app-settings.container"
 
 require("dotenv").config()
@@ -164,7 +163,6 @@ const createWindow = async () => {
 
   const appSettingsService = createAppSettingsService()
   appSettingsService.init()
-  createAnalyticDataTracker()
   startBackend(MuditaDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerGetAllReleasesListener()
