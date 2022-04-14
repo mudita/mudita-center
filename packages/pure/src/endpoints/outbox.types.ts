@@ -15,6 +15,9 @@ export enum OutboxEntryChange {
   Created = 1,
   Updated,
   Deleted,
+
+  // to handle Entry relation
+  Relation = 100,
 }
 
 export interface OutboxEntry {

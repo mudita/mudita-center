@@ -26,15 +26,6 @@ const deviceService = {
 
 const subject = new ThreadService(deviceService)
 
-const successResponse: SuccessRequestResponse<any> = {
-  status: RequestResponseStatus.Ok,
-  data: {},
-}
-
-const errorResponse: ErrorRequestResponse = {
-  status: RequestResponseStatus.Error,
-}
-
 const pureThread: PureThread = {
   contactID: 1,
   isUnread: true,
@@ -47,13 +38,23 @@ const pureThread: PureThread = {
   threadID: 1,
 }
 
+const successResponse: SuccessRequestResponse<any> = {
+  status: RequestResponseStatus.Ok,
+  data: pureThread,
+}
+
+const errorResponse: ErrorRequestResponse = {
+  status: RequestResponseStatus.Error,
+}
+
 beforeEach(() => {
   jest.resetAllMocks()
 })
 
 describe("`ThreadService`", () => {
   describe("`getThread` method", () => {
-    test("map data and returns success when `deviceService.request` returns success", async () => {
+    // test skipped until os part will be implemented CP-1232
+    test.skip("map data and returns success when `deviceService.request` returns success", async () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
       const response = await subject.getThread("1")
       expect(deviceService.request).toHaveBeenCalled()

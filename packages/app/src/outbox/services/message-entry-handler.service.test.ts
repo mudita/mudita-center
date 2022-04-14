@@ -13,6 +13,7 @@ import { MessageEntryHandlerService } from "App/outbox/services/message-entry-ha
 import { Message } from "App/messages/reducers"
 import { MessageService } from "App/messages/services"
 import { MessageRepository } from "App/messages/repositories"
+import { ThreadEntryHandlerService } from "App/outbox/services/thread-entry-handler.service"
 
 const successResponse: SuccessRequestResponse<Message> = {
   status: RequestResponseStatus.Ok,
@@ -32,6 +33,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     let subject: MessageEntryHandlerService
     let messageService: MessageService
     let messageRepository: MessageRepository
+    let threadEntryHandlerService: ThreadEntryHandlerService
     const entry: OutboxEntry = {
       uid: 1,
       type: OutboxEntryType.Message,
@@ -40,6 +42,9 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     }
 
     beforeEach(() => {
+      threadEntryHandlerService = {
+        handleEntry: jest.fn(),
+      } as unknown as ThreadEntryHandlerService
       messageRepository = {
         delete: jest.fn(),
       } as unknown as MessageRepository
@@ -48,7 +53,8 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       } as unknown as MessageService
       subject = new MessageEntryHandlerService(
         messageService,
-        messageRepository
+        messageRepository,
+        threadEntryHandlerService
       )
     })
 
@@ -56,12 +62,18 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       await subject.handleEntry(entry)
       expect(messageRepository.delete).toHaveBeenCalledWith("1")
     })
+
+    test("`threadEntryHandlerService.handleEntry` method was called", async () => {
+      await subject.handleEntry(entry)
+      expect(threadEntryHandlerService.handleEntry).toHaveBeenCalled()
+    })
   })
 
   describe("when Message Entry has Created change", () => {
     let subject: MessageEntryHandlerService
     let messageService: MessageService
     let messageRepository: MessageRepository
+    let threadEntryHandlerService: ThreadEntryHandlerService
     const entry: OutboxEntry = {
       uid: 1,
       type: OutboxEntryType.Message,
@@ -70,6 +82,9 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     }
 
     beforeEach(() => {
+      threadEntryHandlerService = {
+        handleEntry: jest.fn(),
+      } as unknown as ThreadEntryHandlerService
       messageRepository = {
         create: jest.fn(),
       } as unknown as MessageRepository
@@ -78,7 +93,8 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       } as unknown as MessageService
       subject = new MessageEntryHandlerService(
         messageService,
-        messageRepository
+        messageRepository,
+        threadEntryHandlerService
       )
     })
 
@@ -86,12 +102,18 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       await subject.handleEntry(entry)
       expect(messageRepository.create).toHaveBeenCalled()
     })
+
+    test("`threadEntryHandlerService.handleEntry` method was called", async () => {
+      await subject.handleEntry(entry)
+      expect(threadEntryHandlerService.handleEntry).toHaveBeenCalled()
+    })
   })
 
   describe("when Message Entry has Updated change", () => {
     let subject: MessageEntryHandlerService
     let messageService: MessageService
     let messageRepository: MessageRepository
+    let threadEntryHandlerService: ThreadEntryHandlerService
     const entry: OutboxEntry = {
       uid: 1,
       type: OutboxEntryType.Message,
@@ -100,6 +122,9 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     }
 
     beforeEach(() => {
+      threadEntryHandlerService = {
+        handleEntry: jest.fn(),
+      } as unknown as ThreadEntryHandlerService
       messageRepository = {
         update: jest.fn(),
       } as unknown as MessageRepository
@@ -108,7 +133,8 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       } as unknown as MessageService
       subject = new MessageEntryHandlerService(
         messageService,
-        messageRepository
+        messageRepository,
+        threadEntryHandlerService
       )
     })
 
@@ -116,12 +142,18 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       await subject.handleEntry(entry)
       expect(messageRepository.update).toHaveBeenCalled()
     })
+
+    test("`threadEntryHandlerService.handleEntry` method was called", async () => {
+      await subject.handleEntry(entry)
+      expect(threadEntryHandlerService.handleEntry).toHaveBeenCalled()
+    })
   })
 
   describe("when Message Entry has Updated change and `getMessage` returns error", () => {
     let subject: MessageEntryHandlerService
     let messageService: MessageService
     let messageRepository: MessageRepository
+    let threadEntryHandlerService: ThreadEntryHandlerService
     const entry: OutboxEntry = {
       uid: 1,
       type: OutboxEntryType.Message,
@@ -130,6 +162,9 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     }
 
     beforeEach(() => {
+      threadEntryHandlerService = {
+        handleEntry: jest.fn(),
+      } as unknown as ThreadEntryHandlerService
       messageRepository = {
         update: jest.fn(),
       } as unknown as MessageRepository
@@ -138,13 +173,20 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       } as unknown as MessageService
       subject = new MessageEntryHandlerService(
         messageService,
-        messageRepository
+        messageRepository,
+        threadEntryHandlerService
       )
     })
 
-    test("`update` method in messageRepository was called", async () => {
+    test("`update` method in messageRepository wasn't called", async () => {
       await subject.handleEntry(entry)
       expect(messageRepository.update).not.toHaveBeenCalled()
+    })
+
+
+    test("`threadEntryHandlerService.handleEntry` method wasn't called", async () => {
+      await subject.handleEntry(entry)
+      expect(threadEntryHandlerService.handleEntry).not.toHaveBeenCalled()
     })
   })
 })
