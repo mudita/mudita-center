@@ -11,6 +11,7 @@ import {
 import axios from "axios"
 import { getAppSettingsService } from "App/app-settings/containers"
 import { AppSettingsService } from "App/app-settings/services"
+import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 
 jest.mock("App/app-settings/containers/app-settings.container")
 jest.mock("App/main/utils/logger")
@@ -19,10 +20,12 @@ jest.mock("axios")
 jest.spyOn(axios, "create")
 jest.spyOn(logger, "info")
 
+const noValidSiteId: AnalyticDataTrackerFactoryOption["siteId"] = NaN
 const noValidApiUrl: AnalyticDataTrackerFactoryOption["apiUrl"] = ""
 const appSettingsService = {
   getAppSettings: jest.fn().mockReturnValue({ applicationId: "" }),
 } as unknown as AppSettingsService
+const fileSystem = {} as unknown as FileSystemService
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -30,16 +33,32 @@ afterEach(() => {
 
 describe("`AnalyticDataTrackerFactory`", () => {
   describe("when `getAppSettingsService` return service", () => {
+    test("`logger.info` is called when `siteId` isn't valid", () => {
+      ;(getAppSettingsService as jest.Mock).mockReturnValue(appSettingsService)
+      AnalyticDataTrackerFactory.create(fileSystem, {
+        siteId: noValidSiteId,
+        apiUrl: "http://",
+      })
+      expect(logger.info).toBeCalled()
+      expect(axios.create).not.toHaveBeenCalled()
+    })
+
     test("`logger.info` is called when `apiUrl` isn't valid", () => {
       ;(getAppSettingsService as jest.Mock).mockReturnValue(appSettingsService)
-      AnalyticDataTrackerFactory.create({ apiUrl: noValidApiUrl })
+      AnalyticDataTrackerFactory.create(fileSystem, {
+        siteId: 1,
+        apiUrl: noValidApiUrl,
+      })
       expect(logger.info).toBeCalled()
       expect(axios.create).not.toHaveBeenCalled()
     })
 
     test("`logger.info` isn't called when passed arguments are valid", () => {
       ;(getAppSettingsService as jest.Mock).mockReturnValue(appSettingsService)
-      AnalyticDataTrackerFactory.create({ apiUrl: "http://" })
+      AnalyticDataTrackerFactory.create(fileSystem, {
+        siteId: 1,
+        apiUrl: "http://",
+      })
       expect(logger.info).not.toBeCalled()
       expect(axios.create).toHaveBeenCalled()
     })
@@ -49,7 +68,10 @@ describe("`AnalyticDataTrackerFactory`", () => {
     test("`create` method throw error", () => {
       ;(getAppSettingsService as jest.Mock).mockReturnValue(undefined)
       expect(() =>
-        AnalyticDataTrackerFactory.create({ apiUrl: "http://" })
+        AnalyticDataTrackerFactory.create(fileSystem, {
+          siteId: 1,
+          apiUrl: "http://",
+        })
       ).toThrow()
     })
   })

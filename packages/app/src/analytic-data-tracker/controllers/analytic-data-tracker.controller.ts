@@ -10,17 +10,22 @@ import {
 } from "App/analytic-data-tracker/constants"
 import {
   AnalyticDataTrackerClass,
-  trackEvent,
   VisitorMetadata,
 } from "App/analytic-data-tracker/services"
+import { TrackEvent } from "App/analytic-data-tracker/types"
 
 @Controller(ControllerPrefix)
 export class AnalyticDataTrackerController {
   constructor(private tracker: AnalyticDataTrackerClass) {}
 
   @IpcEvent(IpcAnalyticDataTrackerEvent.Track)
-  public async track(event: trackEvent): Promise<void> {
+  public async track(event: TrackEvent): Promise<void> {
     await this.tracker.track(event)
+  }
+
+  @IpcEvent(IpcAnalyticDataTrackerEvent.TrackUnique)
+  public async trackUnique(event: TrackEvent): Promise<void> {
+    await this.tracker.trackUnique(event)
   }
 
   @IpcEvent(IpcAnalyticDataTrackerEvent.ToggleTracking)
