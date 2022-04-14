@@ -70,7 +70,7 @@ const FilesManager: FunctionComponent<Props> = ({
         totalMemorySpace={total}
         systemMemory={systemMemory}
       />
-      <FilesStorage resultState={resultState} files={files} />
+      <FilesStorage resultState={ResultState.Empty} files={files} />
     </FilesManagerContainer>
   )
 }

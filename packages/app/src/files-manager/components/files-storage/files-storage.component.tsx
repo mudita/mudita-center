@@ -34,7 +34,7 @@ const FilesStorage: FunctionComponent<Props> = ({
   files = [],
 }) => {
   return (
-    <div>
+    <>
       <TitleWrapper>
         <Text
           data-testid={FilesStorageTestIds.Title}
@@ -47,7 +47,7 @@ const FilesStorage: FunctionComponent<Props> = ({
         files={files}
         resultState={resultState}
       />
-    </div>
+    </>
   )
 }
 

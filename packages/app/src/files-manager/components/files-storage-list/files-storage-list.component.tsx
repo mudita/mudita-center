@@ -10,7 +10,9 @@ import { McUsbFile } from "@mudita/pure"
 import styled from "styled-components"
 import Table, {
   Col,
+  EmptyState,
   Labels,
+  LoadingState,
   Row,
   RowSize,
 } from "Renderer/components/core/table/table.component"
@@ -32,6 +34,9 @@ const FirstCol = styled(Col)`
 const FileIcon = styled(Avatar)`
   margin-left: 3.2rem;
 `
+const FilesStorageContainer = styled.div`
+  height: 100%;
+`
 
 const messages = defineMessages({
   title: {
@@ -46,6 +51,18 @@ const messages = defineMessages({
   size: {
     id: "component.filesManagerFilesStorageSize",
   },
+  emptyStateTitle: {
+    id: "component.filesManagerFilesStorageEmptyStateTitle",
+  },
+  emptyStateDescription: {
+    id: "component.filesManagerFilesStorageEmptyStateDescription",
+  },
+  errorTitle: {
+    id: "component.filesManagerFilesStorageErrorStateTitle",
+  },
+  errorDescription: {
+    id: "component.filesManagerFilesStorageErrorStateDescription",
+  },
 })
 
 interface Props {
@@ -59,9 +76,9 @@ const FilesStorageList: FunctionComponent<Props> = ({
   ...rest
 }) => {
   return (
-    <FilesTable {...rest}>
+    <FilesStorageContainer {...rest}>
       {resultState === ResultState.Loaded && files.length > 0 && (
-        <>
+        <FilesTable>
           <Labels
             size={RowSize.Tiny}
             data-testid={FilesStorageListTestIds.Loaded}
@@ -83,21 +100,27 @@ const FilesStorageList: FunctionComponent<Props> = ({
               <Col />
             </Row>
           ))}
-        </>
+        </FilesTable>
+      )}
+      {resultState === ResultState.Loading && (
+        <LoadingState data-testid={FilesStorageListTestIds.Loading} />
+      )}
+      {resultState === ResultState.Error && (
+        <EmptyState
+          title={messages.errorTitle}
+          description={messages.errorDescription}
+          data-testid={FilesStorageListTestIds.Error}
+        />
       )}
       {(resultState === ResultState.Empty ||
         (resultState === ResultState.Loaded && files.length === 0)) && (
-        <p data-testid={FilesStorageListTestIds.Empty}>Empty list</p>
+        <EmptyState
+          data-testid={FilesStorageListTestIds.Empty}
+          title={messages.emptyStateTitle}
+          description={messages.emptyStateDescription}
+        />
       )}
-      {resultState === ResultState.Loading && (
-        <p data-testid={FilesStorageListTestIds.Loading}>Loading...</p>
-      )}
-      {resultState === ResultState.Error && (
-        <p data-testid={FilesStorageListTestIds.Error}>
-          Something went wrong...
-        </p>
-      )}
-    </FilesTable>
+    </FilesStorageContainer>
   )
 }
 
