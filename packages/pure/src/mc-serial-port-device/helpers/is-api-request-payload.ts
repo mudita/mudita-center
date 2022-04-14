@@ -3,12 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  ApiRequestPayload,
-  Endpoint,
-  Method,
-  RequestPayload,
-} from "./device.types"
+import { ApiRequestPayload, Endpoint, Method, RequestPayload } from "../types"
 
 export const isApiRequestPayload = (
   config: RequestPayload

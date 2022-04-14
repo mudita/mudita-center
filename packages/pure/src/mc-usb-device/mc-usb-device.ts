@@ -3,12 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { McUsbFileType, McUsbDevice } from "./device.types"
-import UsbDeviceService from "./services/usb-device.service"
+import { McUsbDeviceClass } from "./mc-usb-device.class"
+import { McUsbFile, McUsbFileType } from "./mc-usb-file.interface"
+import { UsbDeviceService } from "./usb-device.service"
 
-class BaseMcUsbDevice implements McUsbDevice {
+export class McUsbDevice implements McUsbDeviceClass {
   constructor(private usbDeviceService: UsbDeviceService) {}
-  async getFiles() {
+  async getFiles(): Promise<McUsbFile[]> {
     const handles = await this.usbDeviceService.getObjectHandles()
     return [
       {
@@ -27,4 +28,3 @@ class BaseMcUsbDevice implements McUsbDevice {
   }
 }
 
-export default BaseMcUsbDevice

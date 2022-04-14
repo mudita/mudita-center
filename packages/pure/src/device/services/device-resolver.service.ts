@@ -4,13 +4,17 @@
  */
 
 import { PortInfo } from "serialport"
-import BaseMcSerialPortDevice from "../mc-serialport-device"
-import BaseMcUsbDevice from "../mc-usb-device"
 import { MuditaPureDescriptor, MuditaHarmonyDescriptor } from "../descriptors"
 import { Device } from "../device"
-import { MuditaDevice, McSerialPortDevice, McUsbDevice } from "../device.types"
-import UsbDeviceService from "./usb-device.service"
-import UsbDeviceServiceFactory from "./usb-device.service.factory"
+import McSerialPortDevice from "../../mc-serial-port-device/mc-serial-port-device"
+import { MuditaDevice } from "../mudita-device"
+import { McSerialPortDeviceClass } from "../../mc-serial-port-device/mc-serial-port-device.class"
+import {
+  McUsbDevice,
+  McUsbDeviceClass,
+  UsbDeviceServiceFactory,
+} from "../../mc-usb-device"
+
 export class DeviceResolverService {
   private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
 
@@ -26,15 +30,14 @@ export class DeviceResolverService {
     if (!descriptor) {
       return
     }
-    const baseMcSerialPortDevice: McSerialPortDevice =
-      new BaseMcSerialPortDevice(path, descriptor.deviceType)
-
+    const mcSerialPortDevice: McSerialPortDeviceClass = new McSerialPortDevice(
+      path,
+      descriptor.deviceType
+    )
     const usbDeviceService = UsbDeviceServiceFactory.create(descriptor)
 
-    const baseMcUsbDevice: McUsbDevice = new BaseMcUsbDevice(usbDeviceService)
+    const mcUsbDevice: McUsbDeviceClass = new McUsbDevice(usbDeviceService)
 
-    return new Device(
-      new descriptor.strategy(baseMcSerialPortDevice, baseMcUsbDevice)
-    )
+    return new Device(new descriptor.strategy(mcSerialPortDevice, mcUsbDevice))
   }
 }

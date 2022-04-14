@@ -5,16 +5,6 @@
 
 import BaseDevice from "../base-device"
 import {
-  CreateDeviceStrategy,
-  Endpoint,
-  Method,
-  RequestConfig,
-  Response,
-  ResponseStatus,
-  McSerialPortDevice,
-  McUsbDevice,
-} from "../device.types"
-import {
   Contact,
   DeviceInfo,
   DownloadFileSystemRequestConfig,
@@ -45,17 +35,25 @@ import {
   GetEntriesResponseBody,
   GetEntriesRequestConfig,
   GetThreadsBody,
-} from "../../endpoints"
+  Response,
+  ResponseStatus,
+  RequestConfig,
+  Method,
+  Endpoint,
+} from "../../mc-serial-port-device/types"
 import { Formatter, FormatterFactory } from "../../formatter"
+import { McSerialPortDeviceClass } from "../../mc-serial-port-device/mc-serial-port-device.class"
+import { McUsbDeviceClass } from "../../mc-usb-device/mc-usb-device.class"
+import { CreateDeviceStrategy } from "../mudita-device"
 
 export class PureStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
 
   constructor(
-    baseMcSerialPortDevice: McSerialPortDevice,
-    baseMcUsbDevice: McUsbDevice
+    mcSerialPortDevice: McSerialPortDeviceClass,
+    mcUsbDevice: McUsbDeviceClass
   ) {
-    super(baseMcSerialPortDevice, baseMcUsbDevice)
+    super(mcSerialPortDevice, mcUsbDevice)
   }
 
   public async connect(): Promise<Response> {
@@ -163,6 +161,6 @@ export class PureStrategy extends BaseDevice {
 }
 
 export const createPureStrategy: CreateDeviceStrategy = (
-  baseMcSerialPortDevice: McSerialPortDevice,
-  baseMcUsbDevice: McUsbDevice
-) => new PureStrategy(baseMcSerialPortDevice, baseMcUsbDevice)
+  mcSerialPortDevice: McSerialPortDeviceClass,
+  mcUsbDevice: McUsbDeviceClass
+) => new PureStrategy(mcSerialPortDevice, mcUsbDevice)
