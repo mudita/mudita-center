@@ -21,7 +21,11 @@ export class FileSystemService {
     })
   }
 
-  public async appendFile(filePath: PathOrFileDescriptor, data: string | Uint8Array, options?: WriteFileOptions): Promise<void> {
+  public async appendFile(
+    filePath: PathOrFileDescriptor,
+    data: string | Uint8Array,
+    options?: WriteFileOptions
+  ): Promise<void> {
     return fs.appendFileSync(filePath, data, options)
   }
 

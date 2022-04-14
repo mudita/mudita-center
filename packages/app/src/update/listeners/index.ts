@@ -4,4 +4,4 @@
  */
 
 export * from "./get-all-releases.listener"
-export * from "./get-production-release.listener"
+export * from "./get-latest-release.listener"

@@ -11,10 +11,8 @@ import {
   GithubRelease,
   ManifestReleases,
 } from "App/update/types"
-import { OsReleasesManager } from "App/update/helpers/os-releases-manager.helper"
 import isVersionMatch from "App/overview/helpers/is-version-match"
 import isPrereleaseSet from "App/overview/helpers/is-prerelease-set"
-import getPrereleaseLabels from "App/overview/helpers/get-prerelease-labels"
 
 export const isDraft = ({ draft }: GithubRelease): boolean => draft
 
@@ -38,63 +36,6 @@ export const getVersion = (tagName: string): string => {
   return version
 }
 
-export const isProductionRelease = (release: GithubRelease): boolean => {
-  if (release.prerelease) {
-    return false
-  }
-
-  if (isPrereleaseSet(getVersion(release.tag_name))) {
-    return false
-  }
-
-  return true
-}
-
-export const isTestProductionRelease = (release: GithubRelease): boolean => {
-  const labels = getPrereleaseLabels(getVersion(release.tag_name))
-
-  if (labels.length === 0) {
-    return true
-  }
-
-  if (labels[0] !== "rc") {
-    return false
-  }
-
-  if (typeof labels[1] !== "number") {
-    return false
-  }
-
-  return true
-}
-export const isProductionAlphaRelease = (release: GithubRelease): boolean => {
-  const labels = getPrereleaseLabels(getVersion(release.tag_name))
-
-  if (labels.length !== 1) {
-    return false
-  }
-
-  if (labels[0] !== "alpha") {
-    return false
-  }
-
-  return true
-}
-export const isTestProductionAlphaRelease = (
-  release: GithubRelease
-): boolean => {
-  const labels = getPrereleaseLabels(getVersion(release.tag_name))
-
-  if (labels[0] !== "alpha") {
-    return false
-  }
-
-  if (typeof labels[1] !== "number") {
-    return false
-  }
-  return true
-}
-
 export const filterRelease = (release: GithubRelease): boolean => {
   if (isDraft(release)) {
     return false
@@ -107,38 +48,19 @@ export const filterRelease = (release: GithubRelease): boolean => {
     return false
   }
 
-  if (
-    OsReleasesManager.isProductionAvailable() &&
-    isProductionRelease(release)
-  ) {
+  return true
+}
+
+export const getPrerelease = (release: GithubRelease): boolean => {
+  if (release.prerelease) {
     return true
   }
 
-  if (
-    OsReleasesManager.isTestProductionAvailable() &&
-    isTestProductionRelease(release)
-  ) {
-    return true
-  }
-
-  if (OsReleasesManager.isProductionAlphaAvailable()) {
-    return true
-  }
-
-  if (OsReleasesManager.isTestProductionAlphaAvailable()) {
+  if (isPrereleaseSet(getVersion(release.tag_name))) {
     return true
   }
 
   return false
-}
-
-export const getPrerelease = (release: GithubRelease): boolean => {
-  return ![
-    isProductionRelease,
-    isTestProductionRelease,
-    isProductionAlphaRelease,
-    isTestProductionAlphaRelease,
-  ].some((fn) => fn(release))
 }
 
 export const mapToReleases = async (

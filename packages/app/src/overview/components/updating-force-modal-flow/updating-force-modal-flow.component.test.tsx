@@ -31,19 +31,17 @@ const defaultProps: Props = {
   batteryLevel: 0.6,
 }
 
-const releases: Release[] = [
-  {
-    version: "0.73.1",
-    date: "2021-07-09T13:57:39Z",
-    product: Product.PurePhone,
-    prerelease: false,
-    file: {
-      url: "www.mudita.com/assets/39998772",
-      name: "release-0.73.1",
-      size: 26214400,
-    },
+const release: Release = {
+  version: "0.73.1",
+  date: "2021-07-09T13:57:39Z",
+  product: Product.PurePhone,
+  prerelease: false,
+  file: {
+    url: "www.mudita.com/assets/39998772",
+    name: "release-0.73.1",
+    size: 26214400,
   },
-]
+}
 
 const render = (extraProps?: Partial<Props>) => {
   const props = {
@@ -135,7 +133,7 @@ test("Force modal is visible even fail modal was read ", () => {
 
 test("failure modal is display if no is latestRelease", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcUpdate.GetAllReleases]: [],
+    [IpcUpdate.GetLatestRelease]: undefined,
   }
   const { getByTestId, queryByTestId } = render()
 
@@ -164,10 +162,10 @@ test("failure modal is display if no is latestRelease", async () => {
 
 test("failure modal is display if latestRelease isn't higher than os", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcUpdate.GetAllReleases]: releases,
+    [IpcUpdate.GetLatestRelease]: release,
   }
   const { getByTestId, queryByTestId } = render({
-    osVersion: releases[0].version,
+    osVersion: release.version,
   })
 
   getByTestId(ModalTestIds.ModalActionButton).click()
@@ -195,7 +193,7 @@ test("failure modal is display if latestRelease isn't higher than os", async () 
 
 test("failure modal is display if failure download os", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcUpdate.GetAllReleases]: [],
+    [IpcUpdate.GetLatestRelease]: undefined,
     [PureOsDownloadChannels.start]: {
       status: DownloadStatus.Cancelled,
     },

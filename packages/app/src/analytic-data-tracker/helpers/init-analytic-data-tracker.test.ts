@@ -4,7 +4,10 @@
  */
 
 import { initAnalyticDataTracker } from "App/analytic-data-tracker/helpers/init-analytic-data-tracker"
-import { setVisitorMetadataRequest, trackUniqueRequest } from "App/analytic-data-tracker/requests"
+import {
+  setVisitorMetadataRequest,
+  trackUniqueRequest,
+} from "App/analytic-data-tracker/requests"
 
 jest.mock("App/analytic-data-tracker/requests/set-visitor-metadata.request")
 jest.mock("App/analytic-data-tracker/requests/track-unique.request")

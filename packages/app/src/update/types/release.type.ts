@@ -8,7 +8,7 @@ import { Product } from "App/main/constants"
 export interface Release {
   version: string
   date: string
-  prerelease: boolean
+  prerelease?: boolean
   product: Product
   file: {
     url: string
