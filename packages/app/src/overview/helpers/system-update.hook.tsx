@@ -36,7 +36,7 @@ import logger from "App/main/utils/logger"
 import {
   cancelOsDownload,
   downloadOsUpdateRequest,
-  getAllReleases,
+  getLatestReleaseRequest,
   osUpdateAlreadyDownloadedCheck,
   Release,
 } from "App/update"
@@ -52,6 +52,7 @@ import {
   TrackOsUpdateState,
 } from "App/analytic-data-tracker/helpers"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { getAllReleasesRequest } from "App/update/requests/get-all-releases.request"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -212,19 +213,14 @@ const useSystemUpdateFlow = (
 
     if (osVersion) {
       try {
-        const { latestRelease, allReleases } = await getAllReleases(
-          currentDeviceType
-        )
+        const latestRelease = await getLatestReleaseRequest(currentDeviceType)
 
-        if (
-          !silent &&
-          latestRelease === undefined &&
-          allReleases.length === 0
-        ) {
+        if (!silent && latestRelease === undefined) {
           await openCheckingForUpdatesFailedModal(() => checkForUpdates())
           return
         }
 
+        const allReleases = await getAllReleasesRequest()
         setDevReleases(allReleases)
 
         if (latestRelease) {

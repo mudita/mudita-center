@@ -30,7 +30,9 @@ describe("`AnalyticDataTrackerController`", () => {
     expect(tracker.toggleTracking).toHaveBeenCalled()
   })
   test("`toggleTracking` return undefined", async () => {
-    expect(await subject.setVisitorMetadata({} as VisitorMetadata)).toBeUndefined()
+    expect(
+      await subject.setVisitorMetadata({} as VisitorMetadata)
+    ).toBeUndefined()
     expect(tracker.setVisitorMetadata).toHaveBeenCalled()
   })
 })
