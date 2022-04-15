@@ -4,22 +4,24 @@
  */
 
 import { MessageRepository } from "App/messages/repositories"
-import { OutboxEntry, OutboxEntryChange } from "@mudita/pure"
+import { OutboxEntry, OutboxEntryChange, OutboxEntryType } from "@mudita/pure"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { EntryHandler } from "App/outbox/services/entry-handler.type"
 import { MessageService } from "App/messages/services"
+import { ThreadEntryHandlerService } from "App/outbox/services/thread-entry-handler.service"
 
 export class MessageEntryHandlerService implements EntryHandler {
   constructor(
     public messageService: MessageService,
     private messageRepository: MessageRepository,
+    private threadEntryHandlerService: ThreadEntryHandlerService
   ) {}
 
-  public async handleEntry(entry: OutboxEntry): Promise<void> {
+  public handleEntry = async (entry: OutboxEntry): Promise<void> => {
     const id = String(entry.record_id)
 
     if (entry.change === OutboxEntryChange.Deleted) {
-      return this.messageRepository.delete(id)
+      this.messageRepository.delete(id)
     }
 
     const { status, data } = await this.messageService.getMessage(id)
@@ -27,6 +29,13 @@ export class MessageEntryHandlerService implements EntryHandler {
     if (status !== RequestResponseStatus.Ok || data === undefined) {
       return
     }
+
+    await this.threadEntryHandlerService.handleEntry({
+      uid: 0,
+      type: OutboxEntryType.Thread,
+      change: OutboxEntryChange.Relation,
+      record_id: Number(data.threadId),
+    })
 
     if (entry.change === OutboxEntryChange.Created) {
       return this.messageRepository.create(data)

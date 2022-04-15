@@ -39,16 +39,18 @@ export class OutboxFactory {
     const messageRepository = new MessageRepository(messageModel)
     const threadService = new ThreadService(deviceService)
     const messageService = new MessageService(deviceService, threadService)
-    const messageEntryHandlerService = new MessageEntryHandlerService(
-      messageService,
-      messageRepository
-    )
 
     const threadModel = new ThreadModel(index, eventEmitter)
     const threadRepository = new ThreadRepository(threadModel)
     const threadEntryHandlerService = new ThreadEntryHandlerService(
       threadService,
       threadRepository
+    )
+
+    const messageEntryHandlerService = new MessageEntryHandlerService(
+      messageService,
+      messageRepository,
+      threadEntryHandlerService
     )
 
     const entryHandlersMap: EntryHandlersMapType = {

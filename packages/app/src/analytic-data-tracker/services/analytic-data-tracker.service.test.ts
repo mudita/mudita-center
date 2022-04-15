@@ -22,7 +22,7 @@ const defaultParams = {
   _id: analyticDataTrackerOptions._id,
   idsite: analyticDataTrackerOptions.siteId,
   apiv: 1,
-  rec: 1
+  rec: 1,
 }
 const trackerCacheService = {} as unknown as TrackerCacheService
 const axiosInstance = axios.create()
@@ -67,7 +67,7 @@ describe("`AnalyticDataTrackerService`", () => {
     test("when the request is successful, tracking enabled and event is unique methods return status 200", async () => {
       const trackerCacheService = {
         isEventUnique: jest.fn().mockReturnValue(true),
-        saveEvent: jest.fn()
+        saveEvent: jest.fn(),
       } as unknown as TrackerCacheService
       const subject = new AnalyticDataTrackerService(
         { ...analyticDataTrackerOptions, trackingEnabled: true },
@@ -138,10 +138,10 @@ describe("`AnalyticDataTrackerService`", () => {
       const response = await subject.track({})
       expect(response?.config.params).toEqual(defaultParams)
 
-      subject.setVisitorMetadata({lang: "pl"})
+      subject.setVisitorMetadata({ lang: "pl" })
       const response2 = await subject.track({})
 
-      expect(response2?.config.params).toEqual({...defaultParams, "lang": "pl"})
+      expect(response2?.config.params).toEqual({ ...defaultParams, lang: "pl" })
     })
   })
 })

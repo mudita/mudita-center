@@ -13,7 +13,12 @@ import {
 import { MuditaCenterServerRoutes } from "App/api/mudita-center-server/mudita-center-server-routes"
 import { NewsEntry } from "App/news/store/mudita-news.interface"
 import { Release } from "App/update"
-import { Product } from "App/main/constants"
+import { Product, ReleaseSpace } from "App/main/constants"
+
+export interface getLatestProductionReleaseParams {
+  product: Product
+  releaseSpace: ReleaseSpace
+}
 
 export class Client implements ClientInterface {
   private httpClient: AxiosInstance = axios.create({
@@ -59,13 +64,11 @@ export class Client implements ClientInterface {
     }
   }
 
-  async getLatestProductionRelease(
-    product: Product
+  async getLatestRelease(
+    params: getLatestProductionReleaseParams
   ): Promise<AxiosResponse<Release>> {
     return this.httpClient.get(MuditaCenterServerRoutes.GetRelease, {
-      params: {
-        product,
-      },
+      params,
     })
   }
 }

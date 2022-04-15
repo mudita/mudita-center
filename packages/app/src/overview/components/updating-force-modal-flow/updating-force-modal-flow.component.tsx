@@ -7,7 +7,11 @@ import { DeviceType } from "@mudita/pure"
 import React, { ComponentProps, useEffect, useState } from "react"
 import logger from "App/main/utils/logger"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Release, getAllReleases, downloadOsUpdateRequest } from "App/update"
+import {
+  Release,
+  getLatestReleaseRequest,
+  downloadOsUpdateRequest,
+} from "App/update"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import {
   TooLowBatteryModal,
@@ -78,7 +82,7 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
 
     setUpdatingForceOpenState(UpdatingForceModalFlowState.Updating)
 
-    const { latestRelease } = await getAllReleases(deviceType)
+    const latestRelease = await getLatestReleaseRequest(deviceType)
     const newestPureOsAvailable = isNewestPureOsAvailable(
       osVersion,
       latestRelease?.version
