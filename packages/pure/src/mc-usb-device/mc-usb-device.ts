@@ -11,9 +11,7 @@ import { ObjectResult } from "./usb-device.service"
 export class McUsbDevice implements McUsbDeviceClass {
   constructor(private mcUsbDeviceService: McUsbDeviceService) {}
   async getFiles(): Promise<ObjectResult<McUsbFile[]>> {
-    const openSessionResult =
-      await this.mcUsbDeviceService.openSession<undefined>()
-
+    const openSessionResult = await this.mcUsbDeviceService.openSession()
     if (!openSessionResult.success) {
       return {
         success: false,
@@ -28,7 +26,7 @@ export class McUsbDevice implements McUsbDeviceClass {
         success: false,
       }
     }
-
+    await this.mcUsbDeviceService.closeSession()
     return {
       success: true,
       data:
