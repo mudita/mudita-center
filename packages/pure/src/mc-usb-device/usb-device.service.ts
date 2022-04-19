@@ -30,9 +30,23 @@ let id = 0
 export class UsbDeviceService {
   constructor(private usbDeviceFacade: UsbDeviceFacadeClass) {}
 
-  public async request<DataType = unknown>(
+  public async openSession(): Promise<ObjectResult> {
+    const opened = await this.usbDeviceFacade.openSession(++id)
+    return {
+      success: Boolean(opened),
+    }
+  }
+
+  public async closeSession(): Promise<ObjectResult> {
+    const closed = await this.usbDeviceFacade.closeSession(++id)
+    return {
+      success: Boolean(closed),
+    }
+  }
+
+  public async request(
     config: ConfigRequest
-  ): Promise<ObjectResult<DataType>> {
+  ): Promise<ObjectResult<ArrayBuffer>> {
     const option: WriteOption = {
       type: USBDataType.CommandBlock,
       id: ++id,
@@ -56,6 +70,7 @@ export class UsbDeviceService {
 
     return {
       success: true,
+      data: readResponse.payload,
     }
   }
 }

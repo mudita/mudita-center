@@ -33,4 +33,6 @@ export interface WriteOption {
 export interface UsbDeviceFacadeClass {
   write(option: WriteOption): Promise<any | undefined>
   readData(): Promise<UsbResponse | undefined>
+  openSession(id: WriteOption["id"]): Promise<boolean | undefined>
+  closeSession(id: WriteOption["id"]): Promise<boolean | undefined>
 }
