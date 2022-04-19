@@ -8,10 +8,7 @@ import {
   setVisitorMetadataRequest,
   trackUniqueRequest,
 } from "App/analytic-data-tracker/requests"
-import {
-  TrackEventCategory,
-  TrackEventDimension,
-} from "App/analytic-data-tracker/constants"
+import { TrackEventCategory } from "App/analytic-data-tracker/constants"
 
 export const initAnalyticDataTracker = async (): Promise<void> => {
   await setVisitorMetadataRequest({
@@ -25,6 +22,5 @@ export const initAnalyticDataTracker = async (): Promise<void> => {
   await trackUniqueRequest({
     e_c: TrackEventCategory.CenterVersion,
     e_a: version,
-    [TrackEventDimension.CenterVersion]: version,
   })
 }
