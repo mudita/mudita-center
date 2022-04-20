@@ -10,7 +10,8 @@ import {
 } from "App/backend/device-service"
 import { OutboxService } from "App/outbox/services/outbox.service"
 import { MainProcessIpc } from "electron-better-ipc"
-import { IpcEvent } from "App/data-sync/constants"
+import { IpcEvent as DataSyncIpcEvent } from "App/data-sync/constants"
+import { IpcEvent as NotificationIpcEvent } from "App/notification/constants"
 
 export const outboxTime = 30000
 
@@ -55,9 +56,13 @@ export class OutboxObserver implements Observer {
       return
     }
 
-    const dataUpdated = await this.outboxService.readOutboxEntries()
-    if (dataUpdated) {
-      this.ipc.sendToRenderers(IpcEvent.DataUpdated)
+    const updatedData = await this.outboxService.readOutboxEntries()
+    if (updatedData) {
+      this.ipc.sendToRenderers(DataSyncIpcEvent.DataUpdated)
+      this.ipc.sendToRenderers(
+        NotificationIpcEvent.PushOutboxNotification,
+        updatedData
+      )
     }
     return new Promise((resolve) => {
       setTimeout(async () => {

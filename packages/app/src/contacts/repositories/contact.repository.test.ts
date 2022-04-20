@@ -23,26 +23,26 @@ const contact: Contact = {
 }
 
 const contactModel = {
-  delete: jest.fn(),
-  create: jest.fn(),
-  update: jest.fn(),
+  create: jest.fn().mockImplementationOnce((value: Contact) => value),
+  update: jest.fn().mockImplementationOnce((value: Contact) => value),
+  delete: jest.fn().mockImplementationOnce((value: string) => value),
 } as unknown as ContactModel
 
 const subject = new ContactRepository(contactModel)
 
 describe("`ContactRepository`", () => {
   test("fire `delete` call `contactModel.delete` with string", () => {
-    subject.delete("1")
+    expect(subject.delete("1")).toBeUndefined()
     expect(contactModel.delete).toHaveBeenCalledWith("1", false)
   })
 
   test("fire `create` call `contactModel.create` with contact", () => {
-    subject.create(contact)
+    expect(subject.create(contact)).toEqual(contact)
     expect(contactModel.create).toHaveBeenCalledWith(contact, false)
   })
 
   test("fire `update` call `contactModel.update` with contact", () => {
-    subject.update(contact)
+    expect(subject.update(contact)).toEqual(contact)
     expect(contactModel.update).toHaveBeenCalledWith(contact, false)
   })
 })

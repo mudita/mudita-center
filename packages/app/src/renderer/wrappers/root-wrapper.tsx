@@ -62,6 +62,7 @@ import {
   registerCacheDataListener,
 } from "App/data-sync/listeners"
 import { initAnalyticDataTracker } from "App/analytic-data-tracker/helpers"
+import { registerOutboxNotificationListener } from "App/notification/listeners"
 
 interface Props {
   history: History
@@ -157,10 +158,12 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     const dataSync = registerDataSyncListener()
     const dataCache = registerCacheDataListener()
+    const outboxNotifications = registerOutboxNotificationListener()
 
     return () => {
       dataSync()
       dataCache()
+      outboxNotifications()
     }
   })
 

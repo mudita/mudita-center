@@ -17,14 +17,26 @@ const thread: Thread = {
 }
 
 const threadModel = {
-  create: jest.fn(),
+  create: jest.fn().mockImplementationOnce((value: Thread) => value),
+  update: jest.fn().mockImplementationOnce((value: Thread) => value),
+  delete: jest.fn().mockImplementationOnce((value: string) => value),
 } as unknown as ThreadModel
 
 const subject = new ThreadRepository(threadModel)
 
 describe("`ThreadRepository`", () => {
   test("fire `create` call `contactModel.create` with thread", () => {
-    subject.create(thread)
+    expect(subject.create(thread)).toEqual(thread)
     expect(threadModel.create).toHaveBeenCalledWith(thread, false)
+  })
+
+  test("fire `update` call `contactModel.update` with thread", () => {
+    expect(subject.update(thread)).toEqual(thread)
+    expect(threadModel.update).toHaveBeenCalledWith(thread, false)
+  })
+
+  test("fire `delete` call `contactModel.delete` with thread", () => {
+    expect(subject.delete(thread.id)).toBeUndefined
+    expect(threadModel.delete).toHaveBeenCalledWith(thread.id, false)
   })
 })
