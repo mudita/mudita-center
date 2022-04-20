@@ -331,9 +331,11 @@ export class DeviceService {
     })
   }
 
-  getFiles(): Promise<ObjectResult<McUsbFile[]>> {
+  async getFiles(): Promise<ObjectResult<McUsbFile[]>> {
     if (!this.currentDevice) {
-      return Promise.resolve([])
+      return {
+        success: false
+      }
     }
     return this.currentDevice.getFiles()
   }

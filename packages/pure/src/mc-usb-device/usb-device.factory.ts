@@ -5,7 +5,7 @@
 
 import { UsbDeviceService } from "./usb-device.service"
 import { UsbDeviceFacade } from "./usb-device.facade"
-import { UsbDeviceFacadeClass, WriteOption } from "./usb-device.facade.class"
+import { UsbDeviceFacadeClass } from "./usb-device.facade.class"
 
 class UsbDeviceFacadeMock implements UsbDeviceFacadeClass {
   async readData(): Promise<undefined> {
@@ -28,8 +28,6 @@ class UsbDeviceFacadeMock implements UsbDeviceFacadeClass {
 export class UsbDeviceFactory {
   static async create(filter: USBDeviceFilter): Promise<UsbDeviceService> {
     const device = await UsbDeviceFacade.getUsbDevice(filter)
-    console.log("device: ", device)
-    console.log("device === undefined: ", device === undefined)
 
     const usbFacade =
       device === undefined
