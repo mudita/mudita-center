@@ -10,12 +10,20 @@ class BaseMcUsbDevice implements McUsbDevice {
   constructor(private usbDeviceService: UsbDeviceService) {}
   async getFiles() {
     const handles = await this.usbDeviceService.getObjectHandles()
-    return handles.map((handle) => ({
-      id: handle,
-      size: 1234,
-      name: "example_file_name",
-      type: McUsbFileType.mp3,
-    }))
+    return [
+      {
+        id: handles[0],
+        size: 1234,
+        name: "example_file_name.mp3",
+        type: McUsbFileType.mp3,
+      },
+      {
+        id: handles[0],
+        size: 10500,
+        name: "example_file_name.mp4",
+        type: McUsbFileType.undefined,
+      },
+    ]
   }
 }
 

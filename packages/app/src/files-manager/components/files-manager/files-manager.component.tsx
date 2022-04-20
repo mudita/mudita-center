@@ -42,7 +42,7 @@ const FilesManager: FunctionComponent<Props> = ({
     await getFiles()
   }
   useEffect(() => {
-    downloadFiles()
+    void downloadFiles()
   }, [])
 
   const diskSpaceCategories: DiskSpaceCategory[] = filesSummaryElements.map(
