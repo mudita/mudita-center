@@ -39,5 +39,6 @@ export const HeaderIcon = styled(Icon)`
 `
 
 export const LinkWrapper = styled.div`
+  position: relative;
   margin-bottom: 0.4rem;
 `

@@ -18,6 +18,9 @@ import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-
 import { SynchronizationState } from "App/data-sync/reducers"
 import { ReduxRootState } from "Renderer/store"
 import { DeviceState } from "App/device"
+import { NotificationResourceType } from "App/notification/constants"
+import { Notification } from "App/notification/types"
+import { NotificationBadgeTestIds } from "App/notification/components"
 
 jest.mock("App/feature-flags")
 
@@ -27,7 +30,14 @@ const defaultState = {
   device: {
     deviceType: DeviceType.MuditaPure,
   } as unknown as DeviceState,
+  notification: {
+    data: [],
+  },
 } as unknown as ReduxRootState
+
+const notificationMock = {
+  resourceType: NotificationResourceType.Message,
+} as Notification
 
 const defaultProps: Props = {
   syncState: SynchronizationState.Empty,
@@ -86,10 +96,27 @@ describe("Device: Mudita pure", () => {
 
     test("when `syncState` is set to `Loading` the spinner is visible", () => {
       const { queryByTestId } = render(defaultState, {
-        syncState: SynchronizationState.Loading,
+        syncState: SynchronizationState.Empty,
       })
-      expect(queryByTestId(MenuGroupTestIds.Sync)).toBeInTheDocument()
+      expect(queryByTestId(MenuGroupTestIds.Sync)).not.toBeInTheDocument()
     })
+  })
+
+  test("shows notification badge when messages notifications present in state", () => {
+    const { queryByTestId } = render(
+      {
+        ...defaultState,
+        notification: {
+          data: [notificationMock],
+        },
+      },
+      {
+        deviceFeaturesVisible: true,
+      }
+    )
+    expect(
+      queryByTestId(NotificationBadgeTestIds.BadgeCircle)
+    ).toBeInTheDocument()
   })
 })
 
