@@ -15,9 +15,14 @@ export interface ConfigRequest {
   payload: any[]
 }
 
+export interface ObjectResultError {
+  message: string
+}
+
 export interface ObjectResult<DataType = undefined> {
   success: boolean
   data?: DataType
+  error?: ObjectResultError
 }
 
 export interface SuccessObjectResult<DataType> extends ObjectResult<DataType> {
@@ -52,25 +57,20 @@ export class UsbDeviceService {
       id: ++id,
       ...config,
     }
-    const writeResponse = await this.usbDeviceFacade.write(option)
+    try {
+      await this.usbDeviceFacade.write(option)
 
-    if (writeResponse === undefined) {
+      const readResponse = await this.usbDeviceFacade.readData()
+
+      return {
+        success: true,
+        data: readResponse!.payload,
+      }
+    } catch (error) {
       return {
         success: false,
+        error,
       }
-    }
-
-    const readResponse = await this.usbDeviceFacade.readData()
-
-    if (readResponse === undefined) {
-      return {
-        success: false,
-      }
-    }
-
-    return {
-      success: true,
-      data: readResponse.payload,
     }
   }
 }

@@ -7,6 +7,13 @@ export enum EndpointCode {
   OpenSession = 0x1002,
   CloseSession = 0x1003,
   GetObjectHandles = 0x1007,
+  GetObjectPropValue = 0x9803,
+}
+
+export enum ObjectPropValue {
+  Format = 0xdc02,
+  Size = 0xdc04,
+  Name = 0xdc07,
 }
 
 export enum USBDataType {
