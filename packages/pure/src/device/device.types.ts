@@ -24,6 +24,7 @@ export interface McUsbFile {
 }
 
 export enum McUsbFileType {
+  undefined = 0x3000,
   wav = 0x3008,
   mp3 = 0x3009,
   flac = 0xb906,
