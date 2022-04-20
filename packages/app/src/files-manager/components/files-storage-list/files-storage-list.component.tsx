@@ -28,6 +28,12 @@ const FilesTable = styled(Table)`
   overflow: auto;
   --columnsTemplate: 8.8rem 1fr 15.2rem 15.2rem auto;
   --columnsGap: 0;
+
+  ${Row}{
+    &:hover {
+      background-color: var(--rowBackground);
+    }
+  }
 `
 const FirstCol = styled(Col)`
   margin-left: 3.2rem;
