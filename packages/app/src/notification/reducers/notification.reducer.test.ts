@@ -11,8 +11,7 @@ import {
 } from "App/notification/constants"
 import { Notification } from "App/notification/types"
 import { Message, MessageType } from "App/messages/reducers"
-// import { NotificationState } from "./notification.interface"
-import { notificationReducer, initialStateState } from "./notification.reducer"
+import { notificationReducer, initialState } from "./notification.reducer"
 
 const message: Message = {
   id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
@@ -38,7 +37,7 @@ describe("Event: none", () => {
       notificationReducer(undefined, {
         type: undefined,
       })
-    ).toEqual(initialStateState)
+    ).toEqual(initialState)
   })
 })
 

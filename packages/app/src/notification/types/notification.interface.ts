@@ -7,7 +7,7 @@ import {
   NotificationType,
   NotificationMethod,
   NotificationResourceType,
-} from "App/Notification/constants"
+} from "App/notification/constants"
 
 export interface Notification {
   id: string

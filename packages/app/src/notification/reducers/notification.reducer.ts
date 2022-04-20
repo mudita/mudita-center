@@ -11,12 +11,12 @@ import {
   RemoveNotificationAction,
 } from "App/notification/reducers/notification.interface"
 
-export const initialStateState: NotificationState = {
+export const initialState: NotificationState = {
   data: [],
 }
 
 export const notificationReducer = createReducer<NotificationState>(
-  initialStateState,
+  initialState,
   (builder) => {
     builder
       .addCase(

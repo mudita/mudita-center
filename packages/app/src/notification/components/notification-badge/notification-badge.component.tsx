@@ -12,12 +12,12 @@ import { NotificationBadgeTestIds } from "./notification-badge-ids.enum"
 
 const NotificationCircle = styled.div`
   position: absolute;
-  width: 6px;
-  height: 6px;
-  top: 6px;
-  left: 24px;
+  width: 0.6rem;
+  height: 0.6rem;
+  top: 0.6rem;
+  left: 2.5rem;
   background-color: ${({ theme }) => theme.color.background.activity};
-  border: 2px solid ${({ theme }) => theme.color.border.white};
+  border: 0.2rem solid ${({ theme }) => theme.color.border.white};
   border-radius: 50%;
   z-index: 1;
 `

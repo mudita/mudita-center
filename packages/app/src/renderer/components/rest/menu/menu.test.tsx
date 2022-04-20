@@ -18,7 +18,10 @@ import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-
 import { SynchronizationState } from "App/data-sync/reducers"
 import { ReduxRootState } from "Renderer/store"
 import { DeviceState } from "App/device"
-import { NotificationResourceType } from "App/notification/constants"
+import {
+  NotificationResourceType,
+  NotificationMethod,
+} from "App/notification/constants"
 import { Notification } from "App/notification/types"
 import { NotificationBadgeTestIds } from "App/notification/components"
 
@@ -37,6 +40,7 @@ const defaultState = {
 
 const notificationMock = {
   resourceType: NotificationResourceType.Message,
+  method: NotificationMethod.Layout,
 } as Notification
 
 const defaultProps: Props = {
