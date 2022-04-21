@@ -4,9 +4,6 @@
  */
 
 import { UsbResponse, WriteOption } from "./usb-device.facade.class"
-import { LoggerFactory } from "../logger"
-
-const logger = LoggerFactory.getInstance()
 
 export class UsbParser {
   static buildContainerPacket(option: WriteOption): ArrayBuffer {
@@ -22,14 +19,10 @@ export class UsbParser {
     option.payload.forEach((element, index) => {
       bytes.setUint32(12 + index * 4, element, true)
     })
-    logger.info(`==== usb: buildContainerPacket: ====`)
-    console.log(buffer)
     return buffer
   }
 
   static parseContainerPacket(buffer: ArrayBuffer): UsbResponse {
-    logger.info(`==== usb: parseContainerPacket: ====`)
-    console.log(buffer)
     const bytes = new DataView(buffer)
 
     return {
