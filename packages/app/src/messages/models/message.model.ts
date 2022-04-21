@@ -27,4 +27,13 @@ export class MessageModel extends BaseModel<Message> {
 
   @Field()
   public messageType: string | undefined
+
+  public beforeCreate(data: Message): Message {
+    const threadsIndex = this.index.get(DataIndex.Thread)
+    const thread = threadsIndex?.documentStore.getDoc(data.threadId)
+
+    data.phoneNumber = thread.phoneNumber
+
+    return data
+  }
 }

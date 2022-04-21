@@ -18,14 +18,26 @@ const message: Message = {
 }
 
 const messageModel = {
-  create: jest.fn(),
+  create: jest.fn().mockImplementationOnce((value: Message) => value),
+  update: jest.fn().mockImplementationOnce((value: Message) => value),
+  delete: jest.fn().mockImplementationOnce((value: string) => value),
 } as unknown as MessageModel
 
 const subject = new MessageRepository(messageModel)
 
 describe("`MessageRepository`", () => {
   test("fire `create` call `contactModel.create` with message", () => {
-    subject.create(message)
+    expect(subject.create(message)).toEqual(message)
     expect(messageModel.create).toHaveBeenCalledWith(message, false)
+  })
+
+  test("fire `update` call `contactModel.update` with message", () => {
+    expect(subject.update(message)).toEqual(message)
+    expect(messageModel.update).toHaveBeenCalledWith(message, false)
+  })
+
+  test("fire `delete` call `contactModel.delete` with message id", () => {
+    expect(subject.delete(message.id)).toBeUndefined()
+    expect(messageModel.delete).toHaveBeenCalledWith(message.id, false)
   })
 })

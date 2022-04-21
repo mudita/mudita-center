@@ -27,9 +27,14 @@ import {
   LinkWrapper,
 } from "Renderer/components/rest/menu/menu-group.styled"
 import { IconType } from "Renderer/components/core/icon/icon-type"
+import { View } from "Renderer/constants/views"
+import { NotificationBadge } from "App/notification/components"
 
 interface MenuGroupProps extends MenuElement {
   deviceType: DeviceType | null
+  notifications: {
+    [View.Messages]: boolean
+  }
 }
 
 const MenuGroup: FunctionComponent<MenuGroupProps> = ({
@@ -37,6 +42,7 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
   items,
   icons,
   deviceType,
+  notifications,
 }) => {
   return (
     <>
@@ -72,7 +78,7 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
           .filter(({ visibleOn }) =>
             visibleOn && deviceType ? visibleOn.includes(deviceType) : true
           )
-          .map(({ button, icon, testId }, index) => {
+          .map(({ button, icon, testId, viewKey }, index) => {
             const buttonMenuConfig = {
               nav: true,
               displayStyle: DisplayStyle.MenuLink,
@@ -95,11 +101,19 @@ const MenuGroup: FunctionComponent<MenuGroupProps> = ({
             }
             return (
               <LinkWrapper key={index}>
-                <Button
-                  {...buttonMenuConfig}
-                  to={button.url}
-                  data-testid={testId}
-                />
+                <NotificationBadge
+                  active={Boolean(
+                    viewKey &&
+                      viewKey === View.Messages &&
+                      notifications[viewKey]
+                  )}
+                >
+                  <Button
+                    {...buttonMenuConfig}
+                    to={button.url}
+                    data-testid={testId}
+                  />
+                </NotificationBadge>
               </LinkWrapper>
             )
           })}
