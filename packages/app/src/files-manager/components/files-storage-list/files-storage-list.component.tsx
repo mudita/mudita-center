@@ -21,12 +21,21 @@ import { IconType } from "Renderer/components/core/icon/icon-type"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
+import FilesStorageListTypeCol
+  from "App/files-manager/components/files-storage-list-type-col/files-storage-list-type-col"
+import { convertBytes } from "Renderer/utils/convert-bytes"
 
 const FilesTable = styled(Table)`
   flex: 1;
   overflow: auto;
   --columnsTemplate: 8.8rem 1fr 15.2rem 15.2rem auto;
   --columnsGap: 0;
+
+  ${Row}{
+    &:hover {
+      background-color: var(--rowBackground);
+    }
+  }
 `
 const FirstCol = styled(Col)`
   margin-left: 3.2rem;
@@ -95,8 +104,8 @@ const FilesStorageList: FunctionComponent<Props> = ({
                 <FileIcon iconType={IconType.MenuMusic} />
               </Col>
               <Col>{file.name}</Col>
-              <Col>{file.size}</Col>
-              <Col>{file.type}</Col>
+              <FilesStorageListTypeCol file={file} />
+              <Col>{convertBytes(file.size)}</Col>
               <Col />
             </Row>
           ))}
