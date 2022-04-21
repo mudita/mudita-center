@@ -19,7 +19,6 @@ beforeEach(async (done) => {
   mockSerialPort()
 
   const devices = await PureNode.getDevices()
-  console.log("devices: ", devices)
   device = devices[0]
   done()
 })
