@@ -10,6 +10,10 @@ import { Message } from "App/messages/reducers"
 export class MessageRepository implements Repository {
   constructor(private messageModel: MessageModel) {}
 
+  public get(id: Message["id"]): Message | undefined {
+    return this.messageModel.findById(id)
+  }
+
   public create(message: Message, skipCallbacks = false): void {
     this.messageModel.create(message, skipCallbacks)
   }

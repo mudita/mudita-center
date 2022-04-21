@@ -19,13 +19,19 @@ const message: Message = {
 
 const messageModel = {
   create: jest.fn(),
+  findById: jest.fn(),
 } as unknown as MessageModel
 
 const subject = new MessageRepository(messageModel)
 
 describe("`MessageRepository`", () => {
-  test("fire `create` call `contactModel.create` with message", () => {
+  test("fire `create` call `messageModel.create` with message", () => {
     subject.create(message)
     expect(messageModel.create).toHaveBeenCalledWith(message, false)
+  })
+
+  test("fire `get` call `messageModel.findById` with message id", () => {
+    subject.get(message.id)
+    expect(messageModel.findById).toHaveBeenCalledWith(message.id)
   })
 })

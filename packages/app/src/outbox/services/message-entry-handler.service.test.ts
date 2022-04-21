@@ -47,6 +47,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       } as unknown as ThreadEntryHandlerService
       messageRepository = {
         delete: jest.fn(),
+        get: jest.fn(),
       } as unknown as MessageRepository
       messageService = {
         getMessage: jest.fn().mockReturnValue(successResponse),
@@ -182,7 +183,6 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       await subject.handleEntry(entry)
       expect(messageRepository.update).not.toHaveBeenCalled()
     })
-
 
     test("`threadEntryHandlerService.handleEntry` method wasn't called", async () => {
       await subject.handleEntry(entry)

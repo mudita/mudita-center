@@ -21,7 +21,16 @@ export class MessageEntryHandlerService implements EntryHandler {
     const id = String(entry.record_id)
 
     if (entry.change === OutboxEntryChange.Deleted) {
-      this.messageRepository.delete(id)
+      const threadId = this.messageRepository.get(id)?.threadId
+
+      await this.threadEntryHandlerService.handleEntry({
+        uid: 0,
+        type: OutboxEntryType.Thread,
+        change: OutboxEntryChange.Relation,
+        record_id: Number(threadId),
+      })
+
+      return this.messageRepository.delete(id)
     }
 
     const { status, data } = await this.messageService.getMessage(id)

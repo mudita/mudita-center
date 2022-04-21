@@ -27,6 +27,8 @@ export class ThreadEntryHandlerService implements EntryHandler {
     if (entry.change === OutboxEntryChange.Relation) {
       if (isResponseSuccessWithData(response)) {
         return this.threadRepository.create(response.data)
+      } else {
+        this.threadRepository.delete(id)
       }
     }
 
