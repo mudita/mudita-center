@@ -7,6 +7,7 @@ import {
   Endpoint,
   GetEntriesResponseBody,
   Method,
+  OutboxEntry,
   OutboxCategory,
   OutboxEntryType,
 } from "@mudita/pure"
@@ -19,6 +20,7 @@ import {
 import { EntryHandler } from "App/outbox/services/entry-handler.type"
 
 export type EntryHandlersMapType = Record<OutboxEntryType, EntryHandler>
+export type EntryChangesEvent = { entry: OutboxEntry; payload: any }
 
 export class OutboxService {
   constructor(
@@ -26,26 +28,28 @@ export class OutboxService {
     private entryHandlersMap: EntryHandlersMapType
   ) {}
 
-  public async readOutboxEntries(): Promise<boolean> {
+  public async readOutboxEntries(): Promise<EntryChangesEvent[] | undefined> {
+    const changes: EntryChangesEvent[] = []
     const { status, data } = await this.getOutboxEntriesRequest()
 
     const entries = data?.entries
 
     if (status !== RequestResponseStatus.Ok || entries === undefined) {
-      return false
+      return
     }
 
     if (entries.length === 0) {
-      return false
+      return
     }
 
     for (const entry of entries) {
       const handle = this.entryHandlersMap[entry.type].handleEntry ?? asyncNoop
-      await handle(entry)
+      const payload = await handle(entry)
+      changes.push({ entry, payload })
     }
 
     await this.deleteOutboxEntriesRequest(entries.map(({ uid }) => uid))
-    return true
+    return changes
   }
 
   private async getOutboxEntriesRequest(): Promise<

@@ -5,6 +5,6 @@
 
 import { OutboxEntry } from "@mudita/pure"
 
-export interface EntryHandler {
-  handleEntry(entry: OutboxEntry): Promise<void>
+export interface EntryHandler<Type = {}> {
+  handleEntry(entry: OutboxEntry): Promise<Type | undefined>
 }

@@ -14,9 +14,23 @@ import {
 import { ContactEntryHandlerService } from "App/outbox/services/contact-entry-handler.service"
 import { Contact } from "App/contacts/reducers"
 
+const contactMock: Contact = {
+  blocked: false,
+  email: "",
+  favourite: true,
+  firstAddressLine: "6 Czeczota St.",
+  firstName: "Alek",
+  ice: false,
+  id: "19",
+  lastName: "Boligłowa",
+  note: "",
+  primaryPhoneNumber: "500400300",
+  secondAddressLine: "02600 Warsaw",
+  secondaryPhoneNumber: "",
+}
 const successResponse: SuccessRequestResponse<Contact> = {
   status: RequestResponseStatus.Ok,
-  data: {} as Contact,
+  data: contactMock,
 }
 
 const errorResponse: ErrorRequestResponse = {
@@ -53,7 +67,7 @@ describe("ContactEntryHandlerService: handleEntry", () => {
     })
 
     test("`delete` method in contactRepository was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toBeUndefined()
       expect(contactRepository.delete).toHaveBeenCalledWith("1")
     })
   })
@@ -71,7 +85,7 @@ describe("ContactEntryHandlerService: handleEntry", () => {
 
     beforeEach(() => {
       contactRepository = {
-        create: jest.fn(),
+        create: jest.fn().mockImplementationOnce((value: Contact) => value),
       } as unknown as ContactRepository
       contactService = {
         getContact: jest.fn().mockReturnValue(successResponse),
@@ -83,7 +97,7 @@ describe("ContactEntryHandlerService: handleEntry", () => {
     })
 
     test("`create` method in contactRepository was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toEqual(contactMock)
       expect(contactRepository.create).toHaveBeenCalled()
     })
   })
@@ -101,7 +115,7 @@ describe("ContactEntryHandlerService: handleEntry", () => {
 
     beforeEach(() => {
       contactRepository = {
-        update: jest.fn(),
+        update: jest.fn().mockImplementationOnce((value: Contact) => value),
       } as unknown as ContactRepository
       contactService = {
         getContact: jest.fn().mockReturnValue(successResponse),
@@ -113,7 +127,7 @@ describe("ContactEntryHandlerService: handleEntry", () => {
     })
 
     test("`update` method in contactRepository was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toEqual(contactMock)
       expect(contactRepository.update).toHaveBeenCalled()
     })
   })
@@ -131,7 +145,7 @@ describe("ContactEntryHandlerService: handleEntry", () => {
 
     beforeEach(() => {
       contactRepository = {
-        update: jest.fn(),
+        update: jest.fn().mockImplementationOnce((value: Contact) => value),
       } as unknown as ContactRepository
       contactService = {
         getContact: jest.fn().mockReturnValue(errorResponse),
@@ -143,7 +157,7 @@ describe("ContactEntryHandlerService: handleEntry", () => {
     })
 
     test("`update` method in contactRepository was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toBeUndefined()
       expect(contactRepository.update).not.toHaveBeenCalled()
     })
   })

@@ -101,6 +101,8 @@ const defaultProps: Props = {
   getMessagesByThreadId: jest.fn().mockReturnValue([contact]),
   attachContactList: [],
   attachContactFlatList: [],
+  messageLayoutNotifications: [],
+  removeLayoutNotification: jest.fn(),
 }
 
 const propsWithSingleThread: Partial<Props> = {

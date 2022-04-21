@@ -8,24 +8,31 @@ import { OutboxEntry, OutboxEntryChange } from "@mudita/pure"
 import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
 import { EntryHandler } from "App/outbox/services/entry-handler.type"
 import { ThreadService } from "App/messages/services"
+import { Thread } from "App/messages/dto"
 
-export class ThreadEntryHandlerService implements EntryHandler {
+export class ThreadEntryHandlerService implements EntryHandler<Thread> {
   constructor(
     public threadService: ThreadService,
     private threadRepository: ThreadRepository
   ) {}
 
-  public handleEntry = async (entry: OutboxEntry): Promise<void> => {
+  public handleEntry = async (
+    entry: OutboxEntry
+  ): Promise<Thread | undefined> => {
     const id = String(entry.record_id)
 
     if (entry.change === OutboxEntryChange.Deleted) {
-      return this.threadRepository.delete(id)
+      this.threadRepository.delete(id)
+      return
     }
 
     const response = await this.threadService.getThread(id)
 
     if (entry.change === OutboxEntryChange.Relation) {
-      if (isResponseSuccessWithData(response)) {
+      if (
+        entry.change === OutboxEntryChange.Relation &&
+        isResponseSuccessWithData(response)
+      ) {
         return this.threadRepository.create(response.data)
       }
     }
@@ -41,5 +48,7 @@ export class ThreadEntryHandlerService implements EntryHandler {
     if (entry.change === OutboxEntryChange.Updated) {
       return this.threadRepository.update(response.data)
     }
+
+    return
   }
 }
