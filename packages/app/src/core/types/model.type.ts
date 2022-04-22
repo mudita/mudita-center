@@ -12,8 +12,8 @@ export interface Model<Type extends { id: string } = { id: string }> {
   delete(id: string): void
   beforeCreate(data: Type): Type
   beforeUpdate(data: Type): Type
-  beforeDelete(id: string): string
+  beforeDelete(data: Type): Type
   afterCreate(data: Type): void
   afterUpdate(data: Type): void
-  afterDelete(id: string): void
+  afterDelete(data: Type): void
 }

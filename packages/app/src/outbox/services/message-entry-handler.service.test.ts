@@ -56,7 +56,6 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       } as unknown as ThreadEntryHandlerService
       messageRepository = {
         delete: jest.fn(),
-        get: jest.fn(),
       } as unknown as MessageRepository
       messageService = {
         getMessage: jest.fn().mockReturnValue(successResponse),

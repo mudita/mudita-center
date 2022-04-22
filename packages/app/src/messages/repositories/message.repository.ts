@@ -11,10 +11,6 @@ import { Message as MessageDto } from "App/messages/dto"
 export class MessageRepository implements Repository {
   constructor(private messageModel: MessageModel) {}
 
-  public get(id: Message["id"]): MessageDto | undefined {
-    return this.messageModel.findById(id)
-  }
-
   public create(
     message: Message,
     skipCallbacks = false

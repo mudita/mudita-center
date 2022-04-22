@@ -34,8 +34,6 @@ export class ThreadEntryHandlerService implements EntryHandler<Thread> {
         isResponseSuccessWithData(response)
       ) {
         return this.threadRepository.create(response.data)
-      } else {
-        this.threadRepository.delete(id)
       }
     }
 

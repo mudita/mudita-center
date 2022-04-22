@@ -21,7 +21,6 @@ const messageModel = {
   create: jest.fn().mockImplementationOnce((value: Message) => value),
   update: jest.fn().mockImplementationOnce((value: Message) => value),
   delete: jest.fn().mockImplementationOnce((value: string) => value),
-  findById: jest.fn().mockImplementationOnce((value: string) => value),
 } as unknown as MessageModel
 
 const subject = new MessageRepository(messageModel)
@@ -40,10 +39,5 @@ describe("`MessageRepository`", () => {
   test("fire `delete` call `messageModel.delete` with message id", () => {
     expect(subject.delete(message.id)).toBeUndefined()
     expect(messageModel.delete).toHaveBeenCalledWith(message.id, false)
-  })
-
-  test("fire `get` call `messageModel.findById` with message id", () => {
-    subject.get(message.id)
-    expect(messageModel.findById).toHaveBeenCalledWith(message.id)
   })
 })
