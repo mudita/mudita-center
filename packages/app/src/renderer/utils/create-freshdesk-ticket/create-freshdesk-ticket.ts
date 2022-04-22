@@ -11,7 +11,7 @@ const url = process.env.FRESHDESK_API_URL
 const token = process.env.FRESHDESK_API_TOKEN
 const env = process.env.NODE_ENV
 
-const createFreshdeskTicket = ({
+const createFreshdeskTicket = async ({
   type,
   email = "no_email@mudita.com",
   subject,

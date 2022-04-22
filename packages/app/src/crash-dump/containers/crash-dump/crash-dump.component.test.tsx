@@ -26,15 +26,19 @@ const initialStateMock = {
       loaded: false,
       downloading: false,
       downloaded: false,
+      sending: false,
+      sent: false,
     },
     error: null,
   },
 } as unknown as ReduxRootState
 
 const downloadCrashDumpMock = jest.fn()
+const ignoreCrashDumpMock = jest.fn()
 
 jest.mock("App/crash-dump/actions", () => ({
   downloadCrashDump: () => downloadCrashDumpMock,
+  ignoreCrashDump: () => ignoreCrashDumpMock,
 }))
 
 const render = (initialState?: ReduxRootState) => {
@@ -105,7 +109,31 @@ test("display `CrashDumpSendingModal` modal if data.files list isn't empty and `
   ).toBeInTheDocument()
 })
 
-test("close `CrashDumpModal` modal if user clicked on `close` button", () => {
+test("display `CrashDumpSendingModal` modal if data.files list isn't empty and `sending` flag is equal to `true`", () => {
+  render({
+    ...initialStateMock,
+    crashDump: {
+      ...initialStateMock.crashDump,
+      data: {
+        ...initialStateMock.crashDump.data,
+        files: ["/pure/logs/crash-dumps/file.hex"],
+      },
+      status: {
+        ...initialStateMock.crashDump.status,
+        sending: true,
+      },
+    },
+  })
+
+  expect(
+    screen.queryByTestId(CrashDumpModalTestingIds.Content)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpSendingModalTestingIds.Content)
+  ).toBeInTheDocument()
+})
+
+test("close `CrashDumpModal` modal if user clicked on `close` button and calls `ignoreCrashDumpMock` action", () => {
   render({
     ...initialStateMock,
     crashDump: {
@@ -123,7 +151,11 @@ test("close `CrashDumpModal` modal if user clicked on `close` button", () => {
     screen.queryByTestId(CrashDumpModalTestingIds.Content)
   ).toBeInTheDocument()
 
+  expect(ignoreCrashDumpMock).toBeCalledTimes(0)
+
   fireEvent.click(closeButton)
+
+  expect(ignoreCrashDumpMock).toBeCalledTimes(1)
 
   expect(
     screen.queryByTestId(CrashDumpModalTestingIds.Content)

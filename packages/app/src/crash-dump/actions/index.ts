@@ -6,3 +6,4 @@
 export * from "./base.action"
 export * from "./download-crash-dump.action"
 export * from "./get-crash-dump.action"
+export * from "./ignore-crash-dump.action"

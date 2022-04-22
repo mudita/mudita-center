@@ -34,6 +34,7 @@ export const fakeAppSettings: AppSettings = {
   pureNeverConnected: true,
   appCollectingData: undefined,
   diagnosticSentTimestamp: 0,
+  ignoredCrashDumps: [],
 }
 
 const mockIpc = () => {

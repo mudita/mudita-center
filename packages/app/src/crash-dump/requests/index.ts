@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./controller.constant"
-export * from "./error.enum"
-export * from "./event.enum"
-export * from "./ipc-event.enum"
+export * from "./download-crash-dump.request"
+export * from "./get-crash-dumps.request"
+export * from "./ignore-crash-dump.request"
