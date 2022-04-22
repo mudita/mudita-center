@@ -33,7 +33,7 @@ export class MessageEntryHandlerService implements EntryHandler<Message> {
         record_id: Number(threadId),
       })
 
-      return this.messageRepository.delete(id)
+      this.messageRepository.delete(id)
     }
 
     const { status, data } = await this.messageService.getMessage(id)
