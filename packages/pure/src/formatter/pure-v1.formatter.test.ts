@@ -4,7 +4,11 @@
  */
 
 import { PureV1Formatter } from "./pure-v1.formatter"
-import { Endpoint, Method, ResponseStatus } from "../device"
+import {
+  Endpoint,
+  Method,
+  ResponseStatus,
+} from "../mc-serial-port-device/types"
 
 const updateErrorResponse = {
   status: ResponseStatus.BadRequest,

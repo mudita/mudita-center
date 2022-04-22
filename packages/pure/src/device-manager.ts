@@ -7,9 +7,9 @@ import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
 import {
-  MuditaDevice,
   PortInfoValidator,
   DeviceResolverService,
+  MuditaDevice,
 } from "./device"
 import log, { LogConfig } from "./logger/log-decorator"
 import { LoggerFactory } from "./logger/logger-factory"
@@ -51,11 +51,14 @@ class DeviceManager implements MuditaDeviceManager {
   public async getDevices(): Promise<MuditaDevice[]> {
     const portList = await DeviceManager.getSerialPortList()
 
-    return portList
-      .filter(PortInfoValidator.isPortInfoMatch)
-      .map(({ path, productId }) => {
-        return this.deviceResolver.resolve({ productId }, path) as MuditaDevice
-      })
+    return Promise.all<MuditaDevice>(
+      portList
+        .filter(PortInfoValidator.isPortInfoMatch)
+        .map((port) => this.deviceResolver.resolve(port))
+        .filter(
+          (device): device is Promise<MuditaDevice> => device !== undefined
+        )
+    )
   }
 
   public onAttachDevice(
@@ -86,7 +89,7 @@ class DeviceManager implements MuditaDeviceManager {
           const port = portList.find(PortInfoValidator.isPortInfoMatch)
 
           if (port) {
-            const device = this.deviceResolver.resolve(portInfo, port.path)
+            const device = await this.deviceResolver.resolve(port)
 
             if (!device) {
               return

@@ -13,11 +13,13 @@ import { McUsbFile } from "@mudita/pure"
 export const getFiles = createAsyncThunk<Error | McUsbFile[]>(
   FilesManagerEvent.GetFiles,
   async (_, { dispatch, rejectWithValue }) => {
-    const data = await getFilesRequest()
+    const result = await getFilesRequest()
 
-    if (data === undefined) {
+    if (!result.success) {
       return rejectWithValue(new GetFilesError("Import Files request failed"))
     }
+
+    const data = result.data ?? []
 
     dispatch(setFiles(data))
 

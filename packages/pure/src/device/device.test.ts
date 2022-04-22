@@ -4,13 +4,14 @@
  */
 
 import mockSerialPort from "../mock-serial-port"
-import PureNode, { MuditaDevice, RequestConfig } from "../index"
-import {
+import PureNode, {
+  MuditaDevice,
   DeviceEventName,
   Endpoint,
   Method,
+  RequestConfig,
   ResponseStatus,
-} from "./device.types"
+} from "../index"
 
 let device: MuditaDevice
 

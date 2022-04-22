@@ -5,25 +5,25 @@
 
 import SerialPort from "serialport"
 import { EventEmitter } from "events"
+import PQueue from "p-queue"
+import { DeviceEventName } from "../device/mudita-device"
+import { DeviceType } from "../device/constants"
+import { createValidRequest, getNewUUID, parseData } from "../parser"
+import log, { LogConfig } from "../logger/log-decorator"
+import { timeout } from "../timeout"
+import { McSerialPortDeviceClass } from "./mc-serial-port-device.class"
 import {
   ApiRequestPayload,
-  DeviceEventName,
-  McSerialPortDevice,
   RequestConfig,
   RequestPayload,
   Response,
   ResponseStatus,
-} from "./device.types"
-import { DeviceType } from "./constants"
-import { createValidRequest, getNewUUID, parseData } from "../parser"
-import { isApiRequestPayload } from "./device-helper"
-import PQueue from "p-queue"
-import log, { LogConfig } from "../logger/log-decorator"
-import { timeout } from "../timeout"
+} from "./types"
+import { isApiRequestPayload } from "./helpers"
 
 export const timeoutMs = 30000
 
-class BaseMcSerialPortDevice implements McSerialPortDevice {
+class McSerialPortDevice implements McSerialPortDeviceClass {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
   #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
@@ -183,4 +183,4 @@ class BaseMcSerialPortDevice implements McSerialPortDevice {
   }
 }
 
-export default BaseMcSerialPortDevice
+export default McSerialPortDevice

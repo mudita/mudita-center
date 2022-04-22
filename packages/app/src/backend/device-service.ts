@@ -44,6 +44,7 @@ import {
   DeleteEntriesRequestConfig,
   GetEntriesRequestConfig,
   McUsbFile,
+  ObjectResult,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
@@ -313,9 +314,11 @@ export class DeviceService {
     })
   }
 
-  getFiles(): Promise<McUsbFile[]> {
+  async getFiles(): Promise<ObjectResult<McUsbFile[]>> {
     if (!this.currentDevice) {
-      return Promise.resolve([])
+      return {
+        success: false
+      }
     }
     return this.currentDevice.getFiles()
   }

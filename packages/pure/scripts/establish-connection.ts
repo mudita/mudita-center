@@ -1,5 +1,10 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import MuditaDeviceManager, { MuditaDevice } from "../src"
-import { ResponseStatus } from "../dist"
+import { ResponseStatus } from "../src"
 
 export const establishConnection = async (
   command: (device: MuditaDevice) => void

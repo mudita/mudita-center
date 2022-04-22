@@ -8,26 +8,32 @@ import { ProductID, DeviceType } from "../constants"
 
 const subject = new DeviceResolverService()
 
-test("resolve method return Mudita Pure device", () => {
-  expect(
-    subject.resolve({ productId: ProductID.MuditaPure }, "/path/123")
-      ?.deviceType
-  ).toEqual(DeviceType.MuditaPure)
-  expect(
-    subject.resolve({ productId: ProductID.MuditaPureTemporary }, "/path/123")
-      ?.deviceType
-  ).toEqual(DeviceType.MuditaPure)
+test("resolve method return Mudita Pure device", async () => {
+  const MuditaPureResult = await subject.resolve({
+    productId: ProductID.MuditaPure,
+    path: "/path/123",
+  })
+  expect(MuditaPureResult?.deviceType).toEqual(DeviceType.MuditaPure)
+  const MuditaPureTemporaryResult = await subject.resolve({
+    productId: ProductID.MuditaPureTemporary,
+    path: "/path/123",
+  })
+  expect(MuditaPureTemporaryResult?.deviceType).toEqual(DeviceType.MuditaPure)
 })
 
-test("resolve method return Mudita Harmony device", () => {
-  expect(
-    subject.resolve({ productId: ProductID.MuditaHarmony }, "/path/123")
-      ?.deviceType
-  ).toEqual(DeviceType.MuditaHarmony)
+test("resolve method return Mudita Harmony device", async () => {
+  const result = await subject.resolve({
+    productId: ProductID.MuditaHarmony,
+    path: "/path/123",
+  })
+  expect(result?.deviceType).toEqual(DeviceType.MuditaHarmony)
 })
 
-test("resolve method return undefine for unknown product id", () => {
-  expect(
-    subject.resolve({ productId: "Nokia 3310" }, "/path/123")?.deviceType
-  ).toEqual(undefined)
+test("resolve method return undefine for unknown product id", async () => {
+  const result = await subject.resolve({
+    productId: "Nokia 3310",
+    path: "/path/123",
+  })
+
+  expect(result?.deviceType).toEqual(undefined)
 })

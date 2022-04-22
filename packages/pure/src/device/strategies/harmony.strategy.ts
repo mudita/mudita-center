@@ -5,27 +5,27 @@
 
 import BaseDevice from "../base-device"
 import {
-  CreateDeviceStrategy,
+  DeviceInfo,
   Endpoint,
   Method,
   RequestConfig,
   Response,
   ResponseStatus,
-  McSerialPortDevice,
-  McUsbDevice,
-} from "../device.types"
-import { DeviceInfo } from "../../endpoints"
+} from "../../mc-serial-port-device/types"
 import { Formatter } from "../../formatter/formatter"
 import { FormatterFactory } from "../../formatter/formatter-factory"
+import { McSerialPortDeviceClass } from "../../mc-serial-port-device/mc-serial-port-device.class"
+import { McUsbDeviceClass } from "../../mc-usb-device/mc-usb-device.class"
+import { CreateDeviceStrategy } from "../mudita-device"
 
 export class HarmonyStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
 
   constructor(
-    baseMcSerialPortDevice: McSerialPortDevice,
-    baseMcUsbDevice: McUsbDevice
+    mcSerialPortDevice: McSerialPortDeviceClass,
+    mcUsbDevice: McUsbDeviceClass
   ) {
-    super(baseMcSerialPortDevice, baseMcUsbDevice)
+    super(mcSerialPortDevice, mcUsbDevice)
   }
 
   public async connect(): Promise<Response> {
@@ -56,6 +56,6 @@ export class HarmonyStrategy extends BaseDevice {
 }
 
 export const createHarmonyStrategy: CreateDeviceStrategy = (
-  baseMcSerialPortDevice: McSerialPortDevice,
-  baseMcUsbDevice: McUsbDevice
-) => new HarmonyStrategy(baseMcSerialPortDevice, baseMcUsbDevice)
+  mcSerialPortDevice: McSerialPortDeviceClass,
+  mcUsbDevice: McUsbDeviceClass
+) => new HarmonyStrategy(mcSerialPortDevice, mcUsbDevice)

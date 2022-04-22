@@ -3,15 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  RequestConfig,
-  Response,
-  MuditaDevice,
-  DeviceEventName,
-  McUsbFile,
-} from "./device.types"
+import { MuditaDevice, DeviceEventName } from "./mudita-device"
 import { DeviceType } from "./constants"
 import { HarmonyStrategy, PureStrategy } from "./strategies"
+import { McUsbFile } from "../mc-usb-device/mc-usb-file.interface"
+import { RequestConfig, Response } from "../mc-serial-port-device/types"
+import { ObjectResult } from "../mc-usb-device/usb-device.service"
 
 export class Device implements MuditaDevice {
   public path: string
@@ -21,7 +18,7 @@ export class Device implements MuditaDevice {
     this.path = this.strategy.path
     this.deviceType = this.strategy.deviceType
   }
-  public getFiles(): Promise<McUsbFile[]> {
+  public getFiles(): Promise<ObjectResult<McUsbFile[]>> {
     return this.strategy.getFiles()
   }
   public on(eventName: DeviceEventName, listener: () => void): void {
