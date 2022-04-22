@@ -9,15 +9,18 @@ import { RequestResponseStatus } from "App/core/types/request-response.interface
 import { EntryHandler } from "App/outbox/services/entry-handler.type"
 import { MessageService } from "App/messages/services"
 import { ThreadEntryHandlerService } from "App/outbox/services/thread-entry-handler.service"
+import { Message } from "App/messages/dto"
 
-export class MessageEntryHandlerService implements EntryHandler {
+export class MessageEntryHandlerService implements EntryHandler<Message> {
   constructor(
     public messageService: MessageService,
     private messageRepository: MessageRepository,
     private threadEntryHandlerService: ThreadEntryHandlerService
   ) {}
 
-  public handleEntry = async (entry: OutboxEntry): Promise<void> => {
+  public handleEntry = async (
+    entry: OutboxEntry
+  ): Promise<Message | undefined> => {
     const id = String(entry.record_id)
 
     if (entry.change === OutboxEntryChange.Deleted) {
@@ -53,5 +56,7 @@ export class MessageEntryHandlerService implements EntryHandler {
     if (entry.change === OutboxEntryChange.Updated) {
       return this.messageRepository.update(data)
     }
+
+    return
   }
 }

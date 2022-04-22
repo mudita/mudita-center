@@ -10,14 +10,23 @@ import {
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
 import { MessageEntryHandlerService } from "App/outbox/services/message-entry-handler.service"
-import { Message } from "App/messages/reducers"
+import { Message, MessageType } from "App/messages/reducers"
 import { MessageService } from "App/messages/services"
 import { MessageRepository } from "App/messages/repositories"
 import { ThreadEntryHandlerService } from "App/outbox/services/thread-entry-handler.service"
 
+const messageMock: Message = {
+  id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+  date: new Date("2019-10-18T11:27:15.256Z"),
+  content:
+    "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+  threadId: "1",
+  phoneNumber: "+48 755 853 216",
+  messageType: MessageType.INBOX,
+}
 const successResponse: SuccessRequestResponse<Message> = {
   status: RequestResponseStatus.Ok,
-  data: {} as Message,
+  data: messageMock,
 }
 
 const errorResponse: ErrorRequestResponse = {
@@ -60,12 +69,12 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     })
 
     test("`delete` method in messageRepository was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toBeUndefined()
       expect(messageRepository.delete).toHaveBeenCalledWith("1")
     })
 
     test("`threadEntryHandlerService.handleEntry` method was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toBeUndefined()
       expect(threadEntryHandlerService.handleEntry).toHaveBeenCalled()
     })
   })
@@ -87,7 +96,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
         handleEntry: jest.fn(),
       } as unknown as ThreadEntryHandlerService
       messageRepository = {
-        create: jest.fn(),
+        create: jest.fn().mockImplementationOnce((value: Message) => value),
       } as unknown as MessageRepository
       messageService = {
         getMessage: jest.fn().mockReturnValue(successResponse),
@@ -100,12 +109,12 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     })
 
     test("`create` method in messageRepository was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toEqual(messageMock)
       expect(messageRepository.create).toHaveBeenCalled()
     })
 
     test("`threadEntryHandlerService.handleEntry` method was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toEqual(messageMock)
       expect(threadEntryHandlerService.handleEntry).toHaveBeenCalled()
     })
   })
@@ -127,7 +136,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
         handleEntry: jest.fn(),
       } as unknown as ThreadEntryHandlerService
       messageRepository = {
-        update: jest.fn(),
+        update: jest.fn().mockImplementationOnce((value: Message) => value),
       } as unknown as MessageRepository
       messageService = {
         getMessage: jest.fn().mockReturnValue(successResponse),
@@ -140,12 +149,12 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     })
 
     test("`update` method in messageRepository was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toEqual(messageMock)
       expect(messageRepository.update).toHaveBeenCalled()
     })
 
     test("`threadEntryHandlerService.handleEntry` method was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toEqual(messageMock)
       expect(threadEntryHandlerService.handleEntry).toHaveBeenCalled()
     })
   })
@@ -167,7 +176,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
         handleEntry: jest.fn(),
       } as unknown as ThreadEntryHandlerService
       messageRepository = {
-        update: jest.fn(),
+        update: jest.fn().mockImplementationOnce((value: Message) => value),
       } as unknown as MessageRepository
       messageService = {
         getMessage: jest.fn().mockReturnValue(errorResponse),
@@ -180,12 +189,12 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     })
 
     test("`update` method in messageRepository wasn't called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toBeUndefined()
       expect(messageRepository.update).not.toHaveBeenCalled()
     })
 
     test("`threadEntryHandlerService.handleEntry` method wasn't called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toBeUndefined()
       expect(threadEntryHandlerService.handleEntry).not.toHaveBeenCalled()
     })
   })

@@ -47,6 +47,7 @@ import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { IndexRange } from "react-virtualized"
 import { CreateMessageDataResponse } from "App/messages/services"
+import { Notification } from "App/notification/types"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },
@@ -79,6 +80,7 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   receivers: Receiver[]
   attachContactList: ContactCategory[]
   attachContactFlatList: Contact[]
+  messageLayoutNotifications: Notification[]
   loadThreads: (
     pagination: PaginationBody
   ) => Promise<PayloadAction<PaginationBody | undefined>>
@@ -89,6 +91,7 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   getMessagesStateByThreadId: (threadId: string) => ResultState
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
+  removeLayoutNotification: (notificationId: string) => void
 }
 
 const Messages: FunctionComponent<Props> = ({
@@ -108,10 +111,18 @@ const Messages: FunctionComponent<Props> = ({
   getContactByPhoneNumber,
   isContactCreatedByPhoneNumber,
   addNewMessage,
+  messageLayoutNotifications,
+  removeLayoutNotification,
 }) => {
   const [_, setThreadsPaginationOffset] = useState<
     PaginationBody["offset"] | undefined
   >(0)
+
+  useEffect(() => {
+    messageLayoutNotifications.forEach((item) => {
+      removeLayoutNotification(item.id)
+    })
+  }, [messageLayoutNotifications])
 
   useEffect(() => {
     if (threadsTotalCount === 0) {

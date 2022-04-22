@@ -31,6 +31,12 @@ import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is
 import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
+import { removeNotification } from "App/notification/actions"
+import { getNotificationByResourceAndMethod } from "App/notification/selectors"
+import {
+  NotificationMethod,
+  NotificationResourceType,
+} from "App/notification/constants"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,
@@ -48,6 +54,10 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   getReceiver: (phoneNumber: string) => getReceiverSelector(phoneNumber)(state),
   getMessagesByThreadId: (threadId: string) =>
     getMessagesByThreadIdSelector(threadId)(state),
+  messageLayoutNotifications: getNotificationByResourceAndMethod(
+    NotificationResourceType.Message,
+    NotificationMethod.Layout
+  )(state),
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
@@ -61,6 +71,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(toggleThreadsReadStatus(threadIds)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
     dispatch(addNewMessage(newMessage)),
+  removeLayoutNotification: (notificationId: string) =>
+    dispatch(removeNotification(notificationId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

@@ -8,18 +8,22 @@ import { RequestResponseStatus } from "App/core/types/request-response.interface
 import { ContactService } from "App/contacts/services"
 import { ContactRepository } from "App/contacts/repositories"
 import { EntryHandler } from "App/outbox/services/entry-handler.type"
+import { Contact } from "App/contacts/dto"
 
-export class ContactEntryHandlerService implements EntryHandler {
+export class ContactEntryHandlerService implements EntryHandler<Contact> {
   constructor(
     private contactService: ContactService,
     private contactRepository: ContactRepository
   ) {}
 
-  public  handleEntry = async (entry: OutboxEntry): Promise<void>  =>{
+  public handleEntry = async (
+    entry: OutboxEntry
+  ): Promise<Contact | undefined> => {
     const id = String(entry.record_id)
 
     if (entry.change === OutboxEntryChange.Deleted) {
-      return this.contactRepository.delete(id)
+      this.contactRepository.delete(id)
+      return
     }
 
     const { status, data } = await this.contactService.getContact(id)
@@ -35,5 +39,7 @@ export class ContactEntryHandlerService implements EntryHandler {
     if (entry.change === OutboxEntryChange.Updated) {
       return this.contactRepository.update(data)
     }
+
+    return
   }
 }

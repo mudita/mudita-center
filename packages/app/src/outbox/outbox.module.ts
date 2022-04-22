@@ -46,8 +46,6 @@ export class OutboxModule extends BaseModule {
       outboxService
     )
 
-    this.controllers = []
-
     this.observers = [outboxObserver]
   }
 }

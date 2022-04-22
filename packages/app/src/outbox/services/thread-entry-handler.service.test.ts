@@ -14,9 +14,17 @@ import { Thread } from "App/messages/reducers"
 import { ThreadService } from "App/messages/services"
 import { ThreadRepository } from "App/messages/repositories"
 
+const threadMock: Thread = {
+  id: "1",
+  phoneNumber: "+48 755 853 216",
+  lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+  messageSnippet:
+    "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+  unread: true,
+}
 const successResponse: SuccessRequestResponse<Thread> = {
   status: RequestResponseStatus.Ok,
-  data: {} as Thread,
+  data: threadMock,
 }
 
 const errorResponse: ErrorRequestResponse = {
@@ -50,7 +58,7 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
     })
 
     test("`delete` method in threadRepository was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toBeUndefined()
       expect(threadRepository.delete).toHaveBeenCalledWith("1")
     })
   })
@@ -68,7 +76,7 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     beforeEach(() => {
       threadRepository = {
-        create: jest.fn(),
+        create: jest.fn().mockImplementationOnce((value: Thread) => value),
       } as unknown as ThreadRepository
       threadService = {
         getThread: jest.fn().mockReturnValue(successResponse),
@@ -77,7 +85,7 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
     })
 
     test("`create` method in threadRepository was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toEqual(threadMock)
       expect(threadRepository.create).toHaveBeenCalled()
     })
   })
@@ -95,7 +103,7 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     beforeEach(() => {
       threadRepository = {
-        update: jest.fn(),
+        update: jest.fn().mockImplementationOnce((value: Thread) => value),
       } as unknown as ThreadRepository
       threadService = {
         getThread: jest.fn().mockReturnValue(successResponse),
@@ -104,7 +112,7 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
     })
 
     test("`update` method in threadRepository was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toEqual(threadMock)
       expect(threadRepository.update).toHaveBeenCalled()
     })
   })
@@ -122,7 +130,7 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     beforeEach(() => {
       threadRepository = {
-        create: jest.fn(),
+        create: jest.fn().mockImplementationOnce((value: Thread) => value),
       } as unknown as ThreadRepository
 
       threadService = {
@@ -132,7 +140,7 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
     })
 
     test("`create` method in threadRepository was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toEqual(threadMock)
       expect(threadRepository.create).toHaveBeenCalled()
     })
   })
@@ -178,7 +186,7 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     beforeEach(() => {
       threadRepository = {
-        update: jest.fn(),
+        update: jest.fn().mockImplementationOnce((value: Thread) => value),
       } as unknown as ThreadRepository
       threadService = {
         getThread: jest.fn().mockReturnValue(errorResponse),
@@ -187,7 +195,7 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
     })
 
     test("`update` method in threadRepository was called", async () => {
-      await subject.handleEntry(entry)
+      expect(await subject.handleEntry(entry)).toBeUndefined()
       expect(threadRepository.update).not.toHaveBeenCalled()
     })
   })

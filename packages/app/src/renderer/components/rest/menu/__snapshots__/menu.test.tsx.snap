@@ -252,6 +252,7 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
 }
 
 .c4 {
+  position: relative;
   margin-bottom: 0.4rem;
 }
 
@@ -682,6 +683,7 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
 }
 
 .c4 {
+  position: relative;
   margin-bottom: 0.4rem;
 }
 
