@@ -61,6 +61,17 @@ describe("`UsbDecoder`", () => {
     })
   })
 
+  describe("`getNumberFromUint16` method", () => {
+    const packetLength = Uint16Array.BYTES_PER_ELEMENT
+    const buffer = new ArrayBuffer(packetLength)
+    const view = new Uint16Array(buffer)
+    view.set([65535]) // 65535 (biggest 16-bit unsigned int)
+
+    test("`number` is decoded properly", () => {
+      expect(UsbDecoder.getNumberFromUint16(buffer)).toEqual(65535)
+    })
+  })
+
   describe("`getNumberFromUint64` method", () => {
     const packetLength = Uint32Array.BYTES_PER_ELEMENT * 2
     const buffer = new ArrayBuffer(packetLength)
