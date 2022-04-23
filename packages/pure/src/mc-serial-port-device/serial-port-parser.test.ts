@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Parser } from "./parser"
+import { SerialPortParser } from "./serial-port-parser"
 import { RequestPayload } from "./types"
 
 describe("`Parser.createValidRequest`", () => {
@@ -13,7 +13,7 @@ describe("`Parser.createValidRequest`", () => {
       method: 1,
       uuid: 0,
     }
-    expect(Parser.createValidRequest(payload)).toEqual(
+    expect(SerialPortParser.createValidRequest(payload)).toEqual(
       '#000000034{"endpoint":1,"method":1,"uuid":0}'
     )
   })
@@ -21,7 +21,7 @@ describe("`Parser.createValidRequest`", () => {
 
 describe("`Parser.parseData`", () => {
   describe("when data is packed in single packet", () => {
-    const parser = new Parser()
+    const parser = new SerialPortParser()
     const endpoint = Buffer.from([35])
     const paylaod = { entry: [] }
     const payloadStringify = JSON.stringify(paylaod)
@@ -33,13 +33,13 @@ describe("`Parser.parseData`", () => {
     const payload = Buffer.from(payloadStringify, "utf-8")
     const buffer = Buffer.concat([endpoint, size, payload])
 
-    test("payload is return properly", async () => {
-      expect(await parser.parseData(buffer)).toEqual(paylaod)
+    test("payload is return properly", () => {
+      expect(parser.parseData(buffer)).toEqual(paylaod)
     })
   })
 
   describe("when endpoint is unknown", () => {
-    const parser = new Parser()
+    const parser = new SerialPortParser()
     const endpoint = Buffer.from([999])
     const paylaod = { entry: [] }
     const payloadStringify = JSON.stringify(paylaod)
@@ -51,13 +51,13 @@ describe("`Parser.parseData`", () => {
     const payload = Buffer.from(payloadStringify, "utf-8")
     const buffer = Buffer.concat([endpoint, size, payload])
 
-    test("method thrown error", async () => {
-      expect(async () => await parser.parseData(buffer)).rejects.toThrow()
+    test("method thrown error", () => {
+      expect(() => parser.parseData(buffer)).toThrow()
     })
   })
 
   describe("when size is NaN", () => {
-    const parser = new Parser()
+    const parser = new SerialPortParser()
     const endpoint = Buffer.from([35])
     const paylaod = { entry: [] }
     const payloadStringify = JSON.stringify(paylaod)
@@ -65,13 +65,13 @@ describe("`Parser.parseData`", () => {
     const payload = Buffer.from(payloadStringify, "utf-8")
     const buffer = Buffer.concat([endpoint, size, payload])
 
-    test("method thrown error", async () => {
-      expect(async () => await parser.parseData(buffer)).rejects.toThrow()
+    test("method thrown error", () => {
+      expect(() => parser.parseData(buffer)).toThrow()
     })
   })
 
   describe("when data is chunks to more than one packet", () => {
-    const parser = new Parser()
+    const parser = new SerialPortParser()
     const endpoint = Buffer.from([35])
     const paylaod = { entry: [] }
     const payloadStringify = JSON.stringify(paylaod)
@@ -87,9 +87,9 @@ describe("`Parser.parseData`", () => {
     const secondPacketPayload = Buffer.from(secondPayload, "utf-8")
     const secondBuffer = Buffer.concat([secondPacketPayload])
 
-    test("method concatenate whole payload", async () => {
-      await parser.parseData(firstBuffer)
-      expect(await parser.parseData(secondBuffer)).toEqual(paylaod)
+    test("method concatenate whole payload", () => {
+      parser.parseData(firstBuffer)
+      expect(parser.parseData(secondBuffer)).toEqual(paylaod)
     })
   })
 })
