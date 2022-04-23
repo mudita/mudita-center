@@ -60,4 +60,15 @@ describe("`UsbDecoder`", () => {
       expect(UsbDecoder.getString(buffer)).toEqual("Hello")
     })
   })
+
+  describe("`getNumberFromUint64` method", () => {
+    const packetLength = Uint32Array.BYTES_PER_ELEMENT * 2
+    const buffer = new ArrayBuffer(packetLength)
+    const view = new Uint32Array(buffer)
+    view.set([1000, 90000]) // as Uint64Array
+
+    test("`number` is decoded properly", () => {
+      expect(UsbDecoder.getNumberFromUint64(buffer)).toEqual(386547056641000)
+    })
+  })
 })
