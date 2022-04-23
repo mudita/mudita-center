@@ -54,13 +54,13 @@ describe("`UsbParser`", () => {
   })
 
   describe("`parseContainerPacket` method", () => {
-    const constPacketLength = 17
+    const packetLength = 17
     const type = 12
     const code = 1
     const id = 1
-    const buffer = new ArrayBuffer(constPacketLength)
+    const buffer = new ArrayBuffer(packetLength)
     const bytes = new DataView(buffer)
-    bytes.setUint32(0, constPacketLength, true)
+    bytes.setUint32(0, packetLength, true)
     bytes.setUint16(4, type, true)
     bytes.setUint16(6, code, true)
     bytes.setUint32(8, id, true)
