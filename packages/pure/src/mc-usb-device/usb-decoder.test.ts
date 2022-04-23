@@ -14,9 +14,7 @@ describe("`UsbDecoder`", () => {
     const packetLength = Uint32Array.BYTES_PER_ELEMENT * (parametrLenght + 1)
     const buffer = new ArrayBuffer(packetLength)
     const view = new Uint32Array(buffer)
-    view[0] = parametrLenght
-    view[1] = parametr1
-    view[2] = parametr2
+    view.set([parametrLenght, parametr1, parametr2])
 
     test("`parameters` is decoded properly", () => {
       expect(UsbDecoder.getParameters(buffer)).toEqual([
@@ -32,7 +30,7 @@ describe("`UsbDecoder`", () => {
       const packetLength = Uint16Array.BYTES_PER_ELEMENT
       const buffer = new ArrayBuffer(packetLength)
       const view = new Uint16Array(buffer)
-      view[0] = type
+      view.set([type])
 
       test("`type` is decoded properly", () => {
         expect(UsbDecoder.getUsbFileType(buffer)).toEqual(type)
@@ -44,11 +42,22 @@ describe("`UsbDecoder`", () => {
       const packetLength = Uint16Array.BYTES_PER_ELEMENT
       const buffer = new ArrayBuffer(packetLength)
       const view = new Uint16Array(buffer)
-      view[0] = type
+      view.set([type])
 
       test("unknown type is returned", () => {
         expect(UsbDecoder.getUsbFileType(buffer)).toEqual(McUsbFileType.unknown)
       })
+    })
+  })
+
+  describe("`getString` method", () => {
+    const packetLength = 13
+    const buffer = new ArrayBuffer(packetLength)
+    const view = new Uint8Array(buffer)
+    view.set([5, 72, 0, 101, 0, 108, 0, 108, 0, 111, 0, 200, 100])
+
+    test("`string` is decoded properly", () => {
+      expect(UsbDecoder.getString(buffer)).toEqual("Hello")
     })
   })
 })
