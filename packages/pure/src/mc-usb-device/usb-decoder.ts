@@ -9,12 +9,11 @@ import { McUsbFileType } from "./mc-usb-file.interface"
 export class UsbDecoder {
   static getParameters(buffer: ArrayBuffer): string[] {
     const bytes = new DataView(buffer)
-    const raw = new Uint8Array(buffer)
-    const length = raw.byteLength
+    const length = buffer.byteLength
     const parameters = []
 
-    for (let i = 0; i < length; i += 4) {
-      if (i <= length - 4) {
+    for (let i = 0; i < length; i += Uint32Array.BYTES_PER_ELEMENT) {
+      if (i <= length - Uint32Array.BYTES_PER_ELEMENT) {
         parameters.push(String(bytes.getUint32(i, true)))
       }
     }
