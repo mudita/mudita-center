@@ -391,6 +391,8 @@
   "module.messages.newContactTooltipDescription": "Create new contact",
   "module.messages.marksAsReadTooltipDescription": "Mark as read",
   "module.messages.deleteTooltipDescription": "Delete thread",
+  "module.messages.newMessageBadge": "1 new message",
+  "module.messages.newMessagesBadge": "{number} new messages",
   "module.messagesAttachModalTitle": "Attach Contact",
   "module.music": "Music",
   "module.music.allSongs": "All Songs",

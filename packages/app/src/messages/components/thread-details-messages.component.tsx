@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, useRef } from "react"
+import React, { ComponentProps, useRef, useState } from "react"
 import moment from "moment"
-import ViewportList from "react-viewport-list";
+import ViewportList from "react-viewport-list"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { MessageBubblesWrapper } from "App/messages/components/thread-details.styled"
 import MessageDayBubble from "App/messages/components/message-day-bubble.component"
@@ -14,6 +14,7 @@ import {
   MessageType,
   Receiver,
 } from "App/messages/reducers/messages.interface"
+import NewMessageBadge from "App/messages/components/new-message-badge.component"
 
 interface Properties {
   messages: Message[]
@@ -24,10 +25,16 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   messages,
   receiver,
 }) => {
-  const ref = useRef(null);
-
+  const ref = useRef(null)
+  const [closeNewMessage, setCloseNewMessage] = useState<boolean>(true)
+  const closeNewMessageBadge = () => {
+    setCloseNewMessage(false)
+  }
   return (
     <MessageBubblesWrapper ref={ref}>
+      {closeNewMessage && (
+        <NewMessageBadge onClose={closeNewMessageBadge} messagesCount={1} />
+      )}
       <ViewportList
         viewportRef={ref}
         items={messages}
