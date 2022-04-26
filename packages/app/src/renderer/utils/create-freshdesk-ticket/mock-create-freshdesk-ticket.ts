@@ -85,7 +85,7 @@ export const errorResponse: AxiosResponse<unknown> = {
   request: {},
 }
 
-const mockCreateFreshdeskTicket = (
+const mockCreateFreshdeskTicket = async (
   _data: FreshdeskTicketData
 ): Promise<AxiosResponse<unknown>> => {
   return Promise.resolve(response)

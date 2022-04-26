@@ -10,6 +10,8 @@ import {
 } from "App/main/store/settings.interface"
 import settingsSchema from "App/main/store/settings.schema"
 
+// TODO: Les't merge this functionality with `metadata-store.service.ts`
+
 export class AppSettingsService {
   constructor(private readonly store: Store<AppSettings>) {}
 

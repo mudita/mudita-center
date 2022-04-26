@@ -42,6 +42,7 @@ export interface AppSettings extends Record<string, any> {
   pureNeverConnected: boolean
   appCollectingData: boolean | undefined
   diagnosticSentTimestamp: number
+  ignoredCrashDumps: string[]
 }
 
 export interface SettingsState extends Partial<AppSettings>, AppConfiguration {

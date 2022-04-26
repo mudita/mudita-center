@@ -3,9 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PayloadAction } from '@reduxjs/toolkit'
+import { PayloadAction } from "@reduxjs/toolkit"
 import { Event } from "App/crash-dump/constants"
-import { GetCrashDumpError, DownloadCrashDumpError } from 'App/crash-dump/errors'
+import {
+  GetCrashDumpError,
+  DownloadCrashDumpError,
+} from "App/crash-dump/errors"
 
 export interface CrashDumpState {
   data: {
@@ -17,14 +20,13 @@ export interface CrashDumpState {
     loaded: boolean
     downloading: boolean
     downloaded: boolean
+    sending: boolean
+    sent: boolean
   }
   error: Error | string | null
 }
 
-export type SetCrashDumpAction = PayloadAction<
-  string[],
-  Event.SetCrashDump
->
+export type SetCrashDumpAction = PayloadAction<string[], Event.SetCrashDump>
 export type SetDownloadedCrashDumpAction = PayloadAction<
   string[],
   Event.SetDownloadCrashDumpPath

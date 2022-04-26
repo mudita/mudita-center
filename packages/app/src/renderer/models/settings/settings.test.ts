@@ -42,6 +42,7 @@ export const fakeAppSettings: AppSettings = {
   pureNeverConnected: true,
   appCollectingData: undefined,
   diagnosticSentTimestamp: 0,
+  ignoredCrashDumps: [],
 }
 
 const getDeviceFileResponse: RequestResponse<DeviceFile[]> = {
@@ -54,9 +55,6 @@ const getDeviceFileResponse: RequestResponse<DeviceFile[]> = {
   ],
 }
 jest.mock("Renderer/requests/get-device-log-files.request", () =>
-  jest.fn(() => Promise.resolve(getDeviceFileResponse))
-)
-jest.mock("Renderer/requests/get-device-crash-dump-files.request", () =>
   jest.fn(() => Promise.resolve(getDeviceFileResponse))
 )
 const uploadFileRequest = jest.fn()
@@ -134,6 +132,7 @@ test("loads settings", async () => {
         "appUpdateRequired": false,
         "applicationId": "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
         "diagnosticSentTimestamp": 0,
+        "ignoredCrashDumps": Array [],
         "language": "en-US",
         "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": "0.0.0",

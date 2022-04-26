@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./controller.constant"
-export * from "./error.enum"
-export * from "./event.enum"
-export * from "./ipc-event.enum"
+export enum IpcCrashDumpRenderedEvent {
+  CrashDumpExists = "crash-dump-exists",
+}
