@@ -7,7 +7,7 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { Event } from "App/crash-dump/constants"
-import downloadDeviceCrashDumpFiles from "Renderer/requests/download-crash-dump.request"
+import { downloadCrashDumpRequest } from "App/crash-dump/requests/download-crash-dump.request"
 import { downloadCrashDump } from "App/crash-dump/actions/download-crash-dump.action"
 import { DownloadCrashDumpError } from "App/crash-dump/errors"
 import { testError } from "App/renderer/store/constants"
@@ -16,14 +16,14 @@ import { RequestResponseStatus } from "App/core/types/request-response.interface
 jest.mock("App/crash-dump/actions/send-crash-dump-data.action", () => ({
   sendCrashDumpData: () => jest.fn(),
 }))
-jest.mock("Renderer/requests/download-crash-dump.request")
+jest.mock("App/crash-dump/requests/download-crash-dump.request")
 
 const downloadedCrashDumpsMock: string[] = ["C:/MuditaOs/crash-dumps"]
 
 describe("Download Device Crash Dump Files request returns `success` status", () => {
   describe("Crash dumps doesnt exist on device", () => {
     test("fire async `downloadDeviceCrashDumpFiles` returns `undefined`", async () => {
-      ;(downloadDeviceCrashDumpFiles as jest.Mock).mockReturnValue({
+      ;(downloadCrashDumpRequest as jest.Mock).mockReturnValue({
         status: RequestResponseStatus.Ok,
         data: [],
       })
@@ -45,13 +45,13 @@ describe("Download Device Crash Dump Files request returns `success` status", ()
         downloadCrashDump.fulfilled(undefined, requestId),
       ])
 
-      expect(downloadDeviceCrashDumpFiles).not.toHaveBeenCalled()
+      expect(downloadCrashDumpRequest).not.toHaveBeenCalled()
     })
   })
 
   describe("Crash dumps exist on device", () => {
     test("fire async `downloadDeviceCrashDumpFiles` returns list of downloaded crash dump files", async () => {
-      ;(downloadDeviceCrashDumpFiles as jest.Mock).mockReturnValue({
+      ;(downloadCrashDumpRequest as jest.Mock).mockReturnValue({
         status: RequestResponseStatus.Ok,
         data: downloadedCrashDumpsMock,
       })
@@ -77,7 +77,7 @@ describe("Download Device Crash Dump Files request returns `success` status", ()
         downloadCrashDump.fulfilled(RequestResponseStatus.Ok, requestId),
       ])
 
-      expect(downloadDeviceCrashDumpFiles).toHaveBeenCalled()
+      expect(downloadCrashDumpRequest).toHaveBeenCalled()
     })
   })
 })
@@ -92,7 +92,7 @@ describe("Download Device Crash Dump Files request returns `error` status", () =
       },
     })
 
-    ;(downloadDeviceCrashDumpFiles as jest.Mock).mockReturnValueOnce({
+    ;(downloadCrashDumpRequest as jest.Mock).mockReturnValueOnce({
       status: RequestResponseStatus.Error,
     })
 

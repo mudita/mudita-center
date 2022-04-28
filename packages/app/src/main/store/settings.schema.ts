@@ -5,7 +5,7 @@
 
 import path from "path"
 import { Schema } from "electron-store"
-import getMAC from 'getmac'
+import getMAC from "getmac"
 import getAppPath from "App/main/utils/get-app-path"
 import {
   AppSettings,
@@ -16,7 +16,7 @@ import { defaultLanguage } from "App/translations.config.json"
 
 const generateApplicationId = (): string => {
   const maxApplicationIdLength = 16
-  const uniqueValue = getMAC().replace(/:/g, "").slice(-maxApplicationIdLength);
+  const uniqueValue = getMAC().replace(/:/g, "").slice(-maxApplicationIdLength)
   const padLength = maxApplicationIdLength - uniqueValue.length
   const pad = Math.random().toString(16).slice(-padLength)
   return `${pad}${uniqueValue}`
@@ -90,6 +90,10 @@ const settingsSchema: Schema<AppSettings> = {
   diagnosticSentTimestamp: {
     type: "number",
     default: 0,
+  },
+  ignoredCrashDumps: {
+    type: "array",
+    default: [],
   },
 }
 
