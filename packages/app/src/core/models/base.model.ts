@@ -44,8 +44,8 @@ export class BaseModel<Type extends { id: string }> {
     const record = this.findById(data.id)
 
     if (!skipCallbacks && record) {
-      this.eventEmitter.emit(ModelEvent.Created)
       this.afterCreate(record)
+      this.eventEmitter.emit(ModelEvent.Created)
     }
 
     return record
@@ -58,8 +58,8 @@ export class BaseModel<Type extends { id: string }> {
     const record = this.findById(data.id)
 
     if (!skipCallbacks && record) {
-      this.eventEmitter.emit(ModelEvent.Updated)
       this.afterUpdate(record)
+      this.eventEmitter.emit(ModelEvent.Updated)
     }
 
     return record
@@ -67,12 +67,18 @@ export class BaseModel<Type extends { id: string }> {
 
   public delete(id: string, skipCallbacks = false): void {
     this.checkConnection()
-    this.beforeDelete(id)
+    const data = this.findById(id)
+
+    if (!data) {
+      return
+    }
+
+    this.beforeDelete(data)
     this.connection?.removeDocByRef(id)
 
     if (!skipCallbacks) {
+      this.afterDelete(data)
       this.eventEmitter.emit(ModelEvent.Deleted)
-      this.afterDelete(id)
     }
   }
 
@@ -100,10 +106,10 @@ export class BaseModel<Type extends { id: string }> {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public afterUpdate(_data: Type): void {}
 
-  public beforeDelete(id: string): string {
-    return id
+  public beforeDelete(data: Type): Type {
+    return data
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public afterDelete(_id: string): void {}
+  public afterDelete(_data: Type): void {}
 }
