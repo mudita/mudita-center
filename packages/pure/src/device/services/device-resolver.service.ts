@@ -12,6 +12,7 @@ import { McSerialPortDeviceClass } from "../../mc-serial-port-device/mc-serial-p
 import { McUsbDeviceFactory } from "../../mc-usb-device/mc-usb-device.factory"
 import { McUsbDeviceClass } from "../../mc-usb-device/mc-usb-device.class"
 import { McUsbDevice } from "../../mc-usb-device/mc-usb-device"
+import { SerialPortParser } from "../../mc-serial-port-device/serial-port-parser"
 
 export class DeviceResolverService {
   private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
@@ -27,7 +28,8 @@ export class DeviceResolverService {
     }
     const mcSerialPortDevice: McSerialPortDeviceClass = new McSerialPortDevice(
       portInfo.path,
-      descriptor.deviceType
+      descriptor.deviceType,
+      new SerialPortParser()
     )
 
     const mcUsbDeviceService = await McUsbDeviceFactory.create({

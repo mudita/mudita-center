@@ -8,7 +8,7 @@ import { EventEmitter } from "events"
 import PQueue from "p-queue"
 import { DeviceEventName } from "../device/mudita-device"
 import { DeviceType } from "../device/constants"
-import { createValidRequest, getNewUUID, parseData } from "../parser"
+import { SerialPortParser } from "./serial-port-parser"
 import log, { LogConfig } from "../logger/log-decorator"
 import { timeout } from "../timeout"
 import { McSerialPortDeviceClass } from "./mc-serial-port-device.class"
@@ -28,7 +28,11 @@ class McSerialPortDevice implements McSerialPortDeviceClass {
   #eventEmitter = new EventEmitter()
   #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
-  constructor(public path: string, public deviceType: DeviceType) {}
+  constructor(
+    public path: string,
+    public deviceType: DeviceType,
+    private parser: SerialPortParser
+  ) {}
 
   @log("==== serial port: connect ====")
   public connect(): Promise<Response> {
@@ -45,16 +49,16 @@ class McSerialPortDevice implements McSerialPortDeviceClass {
       })
 
       this.#port.on("data", (event) => {
-        void (async () => {
-          try {
-            const data = await parseData(event)
+        try {
+          const data = this.parser.parseData(event)
+          if (data !== undefined) {
             this.emitDataReceivedEvent(data)
-          } catch (error) {
-            this.emitDataReceivedEvent({
-              status: ResponseStatus.ParserError,
-            })
           }
-        })()
+        } catch (error) {
+          this.emitDataReceivedEvent({
+            status: ResponseStatus.ParserError,
+          })
+        }
       })
 
       this.#port.on("close", (event) => {
@@ -103,7 +107,7 @@ class McSerialPortDevice implements McSerialPortDeviceClass {
     config: RequestConfig
   ): Promise<Response<any>> {
     return new Promise<Response<any>>((resolve) => {
-      const uuid = getNewUUID()
+      const uuid = SerialPortParser.getNewUUID()
       const payload: RequestPayload = { ...config, uuid }
 
       this.#requestsQueue.add(async () => {
@@ -161,7 +165,7 @@ class McSerialPortDevice implements McSerialPortDeviceClass {
 
   @log("==== serial port: create valid request ====", LogConfig.Args)
   private mapPayloadToRequest(payload: RequestPayload<any>): string {
-    return createValidRequest(payload)
+    return SerialPortParser.createValidRequest(payload)
   }
 
   @log("==== serial port: close event ====", LogConfig.Args)
