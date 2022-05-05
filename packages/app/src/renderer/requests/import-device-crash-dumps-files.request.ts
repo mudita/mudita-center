@@ -4,7 +4,7 @@
  */
 
 import copyFile from "Renderer/requests/copy-file.request"
-import downloadDeviceCrashDumpFiles from "Renderer/requests/download-crash-dump.request"
+import { downloadCrashDumpRequest } from "App/crash-dump/requests"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -13,7 +13,7 @@ import {
 const importDeviceCrashDumpFiles = async (
   cwd: string
 ): Promise<RequestResponse> => {
-  const { status, data = [] } = await downloadDeviceCrashDumpFiles()
+  const { status, data = [] } = await downloadCrashDumpRequest()
   if (status === RequestResponseStatus.Ok && data) {
     for await (const deviceLogFile of data) {
       const copyFileSuccess = await copyFile({
