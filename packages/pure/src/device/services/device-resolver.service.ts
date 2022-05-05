@@ -32,6 +32,7 @@ export class DeviceResolverService {
       new SerialPortParser()
     )
 
+    // TODO: handle vendorId and productId dynamically
     const mcUsbDeviceService = await McUsbDeviceFactory.create({
       vendorId: 13072,
       productId: 256,

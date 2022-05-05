@@ -16,7 +16,8 @@ export const getFiles = createAsyncThunk<Error | McUsbFile[]>(
     const result = await getFilesRequest()
 
     if (!result.success) {
-      return rejectWithValue(new GetFilesError("Import Files request failed"))
+      const message = result.error?.message ?? "Import Files request failed"
+      return rejectWithValue(new GetFilesError(message))
     }
 
     const data = result.data ?? []

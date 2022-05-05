@@ -8,6 +8,7 @@ import { EndpointCode, ObjectPropValue } from "./usb-device.facade.class"
 import { UsbDecoder } from "./usb-decoder"
 import { McUsbFileType } from "./mc-usb-file.interface"
 import log from "../logger/log-decorator"
+import { toErrorWithMessage } from "../to-error"
 
 export class McUsbDeviceService {
   constructor(private usbDeviceService: UsbDeviceService) {}
@@ -15,11 +16,11 @@ export class McUsbDeviceService {
   @log("==== mc usb: open session ====")
   async openSession(): Promise<ObjectResult> {
     try {
-      return this.usbDeviceService.openSession()
+      return await this.usbDeviceService.openSession()
     } catch (error) {
       return {
         success: false,
-        error,
+        error: toErrorWithMessage(error),
       }
     }
   }
@@ -27,11 +28,11 @@ export class McUsbDeviceService {
   @log("==== mc usb: close session ====")
   async closeSession(): Promise<ObjectResult> {
     try {
-      return this.usbDeviceService.closeSession()
+      return await this.usbDeviceService.closeSession()
     } catch (error) {
       return {
         success: false,
-        error,
+        error: toErrorWithMessage(error),
       }
     }
   }
@@ -57,7 +58,7 @@ export class McUsbDeviceService {
     } catch (error) {
       return {
         success: false,
-        error,
+        error: toErrorWithMessage(error),
       }
     }
   }
@@ -83,7 +84,7 @@ export class McUsbDeviceService {
     } catch (error) {
       return {
         success: false,
-        error,
+        error: toErrorWithMessage(error),
       }
     }
   }
@@ -109,7 +110,7 @@ export class McUsbDeviceService {
     } catch (error) {
       return {
         success: false,
-        error,
+        error: toErrorWithMessage(error),
       }
     }
   }
@@ -135,7 +136,7 @@ export class McUsbDeviceService {
     } catch (error) {
       return {
         success: false,
-        error,
+        error: toErrorWithMessage(error),
       }
     }
   }

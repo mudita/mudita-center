@@ -4,9 +4,10 @@
  */
 
 import { McUsbDeviceClass } from "./mc-usb-device.class"
-import { McUsbFile, McUsbFileType } from "./mc-usb-file.interface"
+import { McUsbFile } from "./mc-usb-file.interface"
 import { McUsbDeviceService } from "./mc-usb-device.service"
 import { ObjectResult } from "./usb-device.service"
+import { toErrorWithMessage } from "../to-error"
 
 export class McUsbDevice implements McUsbDeviceClass {
   constructor(private mcUsbDeviceService: McUsbDeviceService) {}
@@ -15,6 +16,7 @@ export class McUsbDevice implements McUsbDeviceClass {
     if (!openSessionResult.success) {
       return {
         success: false,
+        error: openSessionResult.error,
       }
     }
 
@@ -25,6 +27,7 @@ export class McUsbDevice implements McUsbDeviceClass {
     if (!getObjectHandlesResult.success || ids === undefined) {
       return {
         success: false,
+        error: getObjectHandlesResult.error,
       }
     }
 
@@ -39,7 +42,7 @@ export class McUsbDevice implements McUsbDeviceClass {
       await this.mcUsbDeviceService.closeSession()
       return {
         success: false,
-        error,
+        error: toErrorWithMessage(error),
       }
     }
     await this.mcUsbDeviceService.closeSession()
