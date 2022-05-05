@@ -27,7 +27,9 @@ describe("`toErrorWithMessage`", () => {
   })
 
   test("error as promise object parsed to object with message", () => {
-    const promise = new Promise(() => {})
+    const promise = new Promise(() => {
+      return undefined
+    })
     expect(toErrorWithMessage(promise).message).toEqual("{}")
   })
 

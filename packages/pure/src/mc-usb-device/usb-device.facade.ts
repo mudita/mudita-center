@@ -18,6 +18,10 @@ import log from "../logger/log-decorator"
 const logger = LoggerFactory.getInstance()
 
 export class UsbDeviceFacade implements UsbDeviceFacadeClass {
+  private readonly configurationValue = 1
+  private readonly interfaceNumber = 0
+  private readonly transferOutEndpoint = 0x02
+  private readonly transferInEndpoint = 0x01
   private sessionId = 1
   private packetSize = 1024
 
@@ -31,9 +35,9 @@ export class UsbDeviceFacade implements UsbDeviceFacadeClass {
     await this.device.open()
 
     if (this.device.configuration === null) {
-      await this.device.selectConfiguration(1)
+      await this.device.selectConfiguration(this.configurationValue)
     }
-    await this.device.claimInterface(0)
+    await this.device.claimInterface(this.interfaceNumber)
     this.setPacketSize()
 
     await this.write({
@@ -56,7 +60,7 @@ export class UsbDeviceFacade implements UsbDeviceFacadeClass {
       payload: [this.sessionId],
     })
 
-    await this.device.releaseInterface(0)
+    await this.device.releaseInterface(this.interfaceNumber)
     await this.device.close()
     return true
   }
@@ -64,7 +68,7 @@ export class UsbDeviceFacade implements UsbDeviceFacadeClass {
   @log("==== usb: write:args ====", LogConfig.Args)
   async write(option: WriteOption): Promise<any | undefined> {
     const buffer = UsbParser.buildContainerPacket(option)
-    return await this.device.transferOut(0x02, buffer)
+    return await this.device.transferOut(this.transferOutEndpoint, buffer)
   }
 
   @log("==== usb: readData ====")
@@ -86,7 +90,10 @@ export class UsbDeviceFacade implements UsbDeviceFacadeClass {
   }
 
   private async read(): Promise<UsbResponse> {
-    let result = await this.device.transferIn(0x01, this.packetSize)
+    let result = await this.device.transferIn(
+      this.transferInEndpoint,
+      this.packetSize
+    )
 
     if (
       result &&
@@ -102,7 +109,10 @@ export class UsbDeviceFacade implements UsbDeviceFacadeClass {
       logger.info(`==== usb: read:Length: ${raw.byteLength} ====`)
 
       while (raw.byteLength !== containerLength) {
-        result = await this.device.transferIn(0x01, this.packetSize)
+        result = await this.device.transferIn(
+          this.transferInEndpoint,
+          this.packetSize
+        )
         if (result.data !== undefined) {
           const byteLength = result.data.byteLength
 

@@ -17,7 +17,9 @@ const isErrorWithMessage = (error: unknown): error is ErrorWithMessage => {
 }
 
 export const toErrorWithMessage = (maybeError: unknown): ErrorWithMessage => {
-  if (isErrorWithMessage(maybeError)) return maybeError
+  if (isErrorWithMessage(maybeError)) {
+    return maybeError
+  }
 
   try {
     return new Error(JSON.stringify(maybeError))

@@ -43,6 +43,10 @@ import {
   GetEntriesResponseBody,
   DeleteEntriesRequestConfig,
   GetEntriesRequestConfig,
+  GetMessageBody,
+  Message,
+  Thread,
+  GetThreadBody,
   McUsbFile,
   ObjectResult,
 } from "@mudita/pure"
