@@ -24,6 +24,10 @@ const dataLoaded = (): void => {
   store.dispatch(setDataSyncInitialized())
 }
 
+const dataSkipped = (): void => {
+  store.dispatch(setDataSyncInitialized())
+}
+
 const dataLoading = (): void => {
   store.dispatch(setLoadingState())
 }
@@ -37,11 +41,13 @@ export const registerDataSyncListener = (): (() => void) => {
   ipcRenderer.on(IpcEvent.DataLoaded, dataLoaded)
   ipcRenderer.on(IpcEvent.DataLoading, dataLoading)
   ipcRenderer.on(IpcEvent.DataError, dataError)
+  ipcRenderer.on(IpcEvent.DataSkipped, dataSkipped)
 
   return () => {
     ipcRenderer.off(IpcEvent.DataUpdated, dataUpdated)
     ipcRenderer.off(IpcEvent.DataLoaded, dataLoaded)
     ipcRenderer.off(IpcEvent.DataLoading, dataLoading)
     ipcRenderer.off(IpcEvent.DataError, dataError)
+    ipcRenderer.off(IpcEvent.DataSkipped, dataSkipped)
   }
 }

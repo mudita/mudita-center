@@ -43,8 +43,7 @@ export class DeviceConnectionObserver implements Observer {
         this.invoked = true
 
         if (device.deviceType === DeviceType.MuditaHarmony) {
-          await this.ipc.sendToRenderers(IpcEvent.DataLoaded)
-          await this.eventEmitter.emit(ModelEvent.Loaded)
+          await this.ipc.sendToRenderers(IpcEvent.DataSkipped)
           return
         }
 
