@@ -55,7 +55,7 @@ const Connecting: FunctionComponent<{
     }
   }, [simulatePhoneConnectionEnabled])
 
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const [passcodeOpenModal, setPasscodeOpenModal] = useState(false)
 
   useEffect(() => {
     if (deviceType === DeviceType.MuditaHarmony) {
@@ -76,9 +76,9 @@ const Connecting: FunctionComponent<{
 
     // TODO: how to avoid window jumping by loading setting async action
     if (unlocked === false && noModalsVisible) {
-      setDialogOpen(true)
+      setPasscodeOpenModal(true)
     } else {
-      setDialogOpen(false)
+      setPasscodeOpenModal(false)
     }
     return () => clearTimeout(timeout)
   }, [loaded, unlocked, syncInitialized, noModalsVisible])
@@ -123,7 +123,7 @@ const Connecting: FunctionComponent<{
   }
 
   const close = () => {
-    setDialogOpen(false)
+    setPasscodeOpenModal(false)
     history.push(URL_MAIN.news)
   }
 
@@ -141,7 +141,7 @@ const Connecting: FunctionComponent<{
         <ErrorConnectingModal open closeModal={close} />
       )}
       <PasscodeModal
-        openModal={dialogOpen}
+        openModal={passcodeOpenModal}
         close={close}
         openBlocked={phoneLockTime}
         unlockDevice={unlockDevice}

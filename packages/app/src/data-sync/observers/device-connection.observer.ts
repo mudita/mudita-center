@@ -49,7 +49,7 @@ export class DeviceConnectionObserver implements Observer {
         }
 
         try {
-          await this.ipc.sendToRenderers(IpcEvent.DataInitialized)
+          await this.ipc.sendToRenderers(IpcEvent.DataLoading)
 
           const { data } = await getDeviceInfoRequest(this.deviceService)
           if (data === undefined) {
