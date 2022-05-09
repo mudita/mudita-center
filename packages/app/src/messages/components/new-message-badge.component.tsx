@@ -14,6 +14,8 @@ import {
 import {
   ButtonWrapper,
   NewMessageWrapper,
+  ScrollButton,
+  NewMessageContainer,
 } from "App/messages/components/new-message-badge.styled"
 import { IconType } from "Renderer/components/core/icon/icon-type"
 import Icon from "Renderer/components/core/icon/icon.component"
@@ -34,11 +36,13 @@ const messages = defineMessages({
 interface Props {
   onClose: () => void
   messagesCount: number
+  onClick: () => void
 }
 
 const NewMessageBadge: FunctionComponent<Props> = ({
   onClose,
   messagesCount,
+  onClick,
 }) => {
   const getMessageText = (number: number): TranslationMessage => {
     if (number === 1) {
@@ -55,24 +59,29 @@ const NewMessageBadge: FunctionComponent<Props> = ({
     }
   }
   return (
-    <NewMessageWrapper>
-      <Icon type={IconType.ArrowDownWhite} width={1.2} />
-      <Text
-        data-testid={NewMessageBadgeTestIds.Info}
-        displayStyle={TextDisplayStyle.Label}
-        message={getMessageText(messagesCount)}
-        color="active"
-      />
-      <ButtonWrapper>
-        <Button
-          Icon={IconType.CloseWhite}
-          displayStyle={DisplayStyle.InputIcon}
-          iconSize={IconSize.Small}
-          onClick={onClose}
-          size={Size.FixedSmall}
-        />
-      </ButtonWrapper>
-    </NewMessageWrapper>
+    <NewMessageContainer>
+      <NewMessageWrapper data-testid={NewMessageBadgeTestIds.Wrapper}>
+        <ScrollButton onClick={onClick}>
+          <Icon type={IconType.ArrowDownWhite} width={1.2} />
+          <Text
+            data-testid={NewMessageBadgeTestIds.Info}
+            displayStyle={TextDisplayStyle.Label}
+            message={getMessageText(messagesCount)}
+            color="active"
+          />
+        </ScrollButton>
+        <ButtonWrapper>
+          <Button
+            Icon={IconType.CloseWhite}
+            displayStyle={DisplayStyle.InputIcon}
+            iconSize={IconSize.Small}
+            onClick={onClose}
+            size={Size.FixedSmall}
+            data-testid={NewMessageBadgeTestIds.Close}
+          />
+        </ButtonWrapper>
+      </NewMessageWrapper>
+    </NewMessageContainer>
   )
 }
 

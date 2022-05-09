@@ -4,5 +4,7 @@
  */
 
 export enum NewMessageBadgeTestIds {
+  Wrapper = "new-message-badge-wrapper",
   Info = "new-message-badge-info",
+  Close = "new-message-badge-close",
 }

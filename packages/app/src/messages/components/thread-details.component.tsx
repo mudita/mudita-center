@@ -12,6 +12,7 @@ import ThreadDetailsMessages from "App/messages/components/thread-details-messag
 import ThreadDetailsTextArea from "App/messages/components/thread-details-text-area.component"
 import ThreadDetailsSidebar from "App/messages/components/thread-details-sidebar.component"
 import ThreadDetailsSidebarRightHeader from "App/messages/components/thread-details-sidebar-right-header.component"
+import { Notification } from "App/notification/types"
 
 type SidebarProps = ComponentProps<typeof Sidebar>
 type ThreadDetailsRightHeaderProps = ComponentProps<
@@ -25,6 +26,8 @@ interface Props extends SidebarProps, ThreadDetailsRightHeaderProps {
   onAttachContactClick: () => void
   onSendClick: () => void
   onContentChange: (content: string) => void
+  messageLayoutNotifications: Notification[]
+  removeLayoutNotification: (notificationId: string) => void
 }
 
 const ThreadDetails: FunctionComponent<Props> = ({
@@ -34,6 +37,8 @@ const ThreadDetails: FunctionComponent<Props> = ({
   onAttachContactClick,
   onSendClick,
   onContentChange,
+  messageLayoutNotifications,
+  removeLayoutNotification,
   ...props
 }) => {
   const handleTextAreaChange = (
@@ -49,7 +54,12 @@ const ThreadDetails: FunctionComponent<Props> = ({
       {...props}
     >
       <MessagesWrapper>
-        <ThreadDetailsMessages messages={messages} receiver={receiver} />
+        <ThreadDetailsMessages
+          messages={messages}
+          receiver={receiver}
+          messageLayoutNotifications={messageLayoutNotifications}
+          removeLayoutNotification={removeLayoutNotification}
+        />
       </MessagesWrapper>
       <ThreadDetailsTextArea
         value={content}

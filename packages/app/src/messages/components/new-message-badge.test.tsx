@@ -13,6 +13,7 @@ type Props = ComponentProps<typeof NewMessageBadge>
 const defaultProps: Props = {
   onClose: jest.fn(),
   messagesCount: 1,
+  onClick: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
@@ -36,5 +37,17 @@ describe("NewMessageBadge component", () => {
     expect(getByTestId(NewMessageBadgeTestIds.Info)).toHaveTextContent(
       "[value] module.messages.newMessagesBadge"
     )
+  })
+  test("message click calls onClick function", () => {
+    const onClick = jest.fn()
+    const { getByTestId } = renderer({ onClick })
+    getByTestId(NewMessageBadgeTestIds.Info).click()
+    expect(onClick).toBeCalled()
+  })
+  test("close button calls onClose function", () => {
+    const onClickClose = jest.fn()
+    const { getByTestId } = renderer({ onClose: onClickClose })
+    getByTestId(NewMessageBadgeTestIds.Close).click()
+    expect(onClickClose).toBeCalled()
   })
 })
