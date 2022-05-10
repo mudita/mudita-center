@@ -56,9 +56,14 @@ const messages = defineMessages({
   },
 })
 
-export const Checkbox = styled(VisibleCheckbox)`
-  position: absolute;
-  left: 5.4rem;
+const checkboxShowedStyles = css`
+  margin-left: 4.4rem;
+  margin-right: 2.8rem;
+  display: block;
+`
+
+export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
+  ${({ visible }) => (visible ? checkboxShowedStyles : "display: none;")};
 `
 
 const dotStyles = css`
@@ -79,18 +84,9 @@ const ThreadCol = styled(Col)`
   height: 100%;
 `
 
-const AvatarCol = styled(Col)`
-  position: relative;
-`
-
-export const InitialsAvatar = styled(Avatar)<{ light?: boolean }>`
-  height: 4.8rem;
-  width: 4.8rem;
-  position: absolute;
-  right: 2.4rem;
-  ${animatedOpacityStyles};
-  ${animatedOpacityActiveStyles};
-  ${({ light }) => light && lightAvatarStyles};
+export const InitialsAvatar = styled(Avatar)`
+  margin-right: 1.6rem;
+  margin-left: 3.2rem;
 `
 
 const LastMessageText = styled(Message)<{ unread?: boolean }>`
@@ -99,11 +95,23 @@ const LastMessageText = styled(Message)<{ unread?: boolean }>`
   ${({ unread }) => unread && dotStyles};
 `
 
+const activeRowStyles = css`
+  ${InitialsAvatar} {
+    ${lightAvatarStyles};
+  }
+`
+
 const ThreadRowContainer = styled(ThreadBaseRow)`
-  &:hover {
+  ${({ active }) => active && activeRowStyles};
+  :hover {
     background-color: ${backgroundColor("minor")};
+    ${Checkbox} {
+      ${animatedOpacityActiveStyles};
+      ${checkboxShowedStyles};
+    }
     ${InitialsAvatar} {
-      background-color: ${backgroundColor("lightIcon")};
+      ${animatedOpacityStyles};
+      display: none;
     }
   }
 `
@@ -161,7 +169,7 @@ const ThreadRow: FunctionComponent<Props> = ({
 
   return (
     <ThreadRowContainer key={id} selected={selected} active={active} {...props}>
-      <AvatarCol>
+      <Col>
         <Checkbox
           checked={selected}
           onChange={handleCheckboxChange}
@@ -170,8 +178,10 @@ const ThreadRow: FunctionComponent<Props> = ({
           visible={!noneRowsSelected}
           data-testid="checkbox"
         />
-        <InitialsAvatar user={contact} light={active} size={AvatarSize.Big} />
-      </AvatarCol>
+        {noneRowsSelected && (
+          <InitialsAvatar user={contact} light={active} size={AvatarSize.Big} />
+        )}
+      </Col>
       <ThreadCol onClick={handleRowClick} data-testid={ThreadListTestIds.Row}>
         {getPrettyCaller(contact, phoneNumber) === newConversation ||
         !thread.messageSnippet ? (
