@@ -49,6 +49,7 @@
   "dependencies": {
     "@felipecrs/decompress-tarxz": "^4.0.0",
     "adm-zip": "^0.5.9",
+    "axios": "^0.27.2",
     "decompress": "^4.2.1",
     "decompress-tar": "^4.1.1",
     "decompress-tarxz": "^3.0.0",
