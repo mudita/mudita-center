@@ -45,6 +45,7 @@ export class DeviceBackup implements DeviceBackupAdapter {
     const runDeviceBackupResponse = await this.runDeviceBackup()
 
     if (!isResponsesSuccessWithData([runDeviceBackupResponse])) {
+      this.backuping = false
       return {
         status: RequestResponseStatus.Error,
         error: runDeviceBackupResponse.error,
@@ -60,6 +61,7 @@ export class DeviceBackup implements DeviceBackupAdapter {
       )
 
     if (!isResponsesSuccessWithData([downloadDeviceFileResponse])) {
+      this.backuping = false
       return {
         status: RequestResponseStatus.Error,
         error: {
