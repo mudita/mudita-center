@@ -36,11 +36,9 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   messageLayoutNotifications,
   removeLayoutNotification,
 }) => {
-  const newRef = useRef<HTMLDivElement>(null)
+  const wrapperBottomRef = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLDivElement>(null)
-  const [notifications, setNotifications] = useState<
-    Notification[] | undefined
-  >()
+  const [notifications, setNotifications] = useState<Notification[]>([])
   const prevMessages = useRef({ messages }).current
 
   useEffect(() => {
@@ -48,8 +46,8 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
       prevMessages.messages.length < messages.length &&
       messages[messages.length - 1].messageType === MessageType.OUTBOX
     ) {
-      newRef.current &&
-        newRef.current.scrollIntoView({
+      wrapperBottomRef.current &&
+        wrapperBottomRef.current.scrollIntoView({
           behavior: "smooth",
           block: "end",
         })
@@ -72,8 +70,8 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   }, [messageLayoutNotifications])
 
   const handleNotificationButtonClick = () => {
-    newRef.current &&
-      newRef.current.scrollIntoView({
+    wrapperBottomRef.current &&
+      wrapperBottomRef.current.scrollIntoView({
         behavior: "smooth",
         block: "end",
       })
@@ -83,22 +81,19 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   let observer: IntersectionObserver
 
   const callback = (entries: IntersectionObserverEntry[]) => {
-    if (entries[0] && !entries[0].isIntersecting) {
-      return
-    } else if (entries[0] && entries[0].isIntersecting) {
+    if (entries[0] && entries[0].isIntersecting) {
       closeNewMessageBadge()
     }
   }
 
   useEffect(() => {
-    setNotifications(
-      messageLayoutNotifications?.filter(
-        (item) =>
-          item.content.threadId === messages[0].threadId &&
-          item.content.messageType === MessageType.INBOX
-      )
+    const currentNotifications = messageLayoutNotifications?.filter(
+      (item) =>
+        item.content.threadId === messages[0].threadId &&
+        item.content.messageType === MessageType.INBOX
     )
-    if (!newRef.current) {
+    setNotifications(currentNotifications ? currentNotifications : [])
+    if (!wrapperBottomRef.current) {
       return
     }
 
@@ -107,14 +102,14 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
       threshold: 1.0,
     })
 
-    observer.observe(newRef.current)
+    observer.observe(wrapperBottomRef.current)
 
     return () => {
-      if (newRef.current) {
-        observer.unobserve(newRef.current)
+      if (wrapperBottomRef.current) {
+        observer.unobserve(wrapperBottomRef.current)
       }
     }
-  }, [newRef, messageLayoutNotifications])
+  }, [wrapperBottomRef, messageLayoutNotifications])
 
   return (
     <MessageBubblesWrapper ref={ref}>
@@ -157,7 +152,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
           return <MessageDayBubble key={id} {...messageDayBubble} />
         }}
       </ViewportList>
-      <div ref={newRef}></div>
+      <div ref={wrapperBottomRef}></div>
     </MessageBubblesWrapper>
   )
 }
