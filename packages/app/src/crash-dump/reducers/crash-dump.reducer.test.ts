@@ -153,6 +153,51 @@ describe("Downloading crush dumps functionality", () => {
     })
   })
 
+  test("Event: SendCrashDump/pending set crash dump `sending` state to `true`", () => {
+    expect(
+      crashDumpReducer(undefined, {
+        type: pendingAction(Event.SendCrashDump),
+      })
+    ).toEqual({
+      ...initialState,
+      status: {
+        ...initialState.status,
+        sending: true,
+        sent: false,
+      },
+    })
+  })
+
+  test("Event: SendCrashDump/fulfilled set crash dump `sent` state to `true`", () => {
+    expect(
+      crashDumpReducer(undefined, {
+        type: fulfilledAction(Event.SendCrashDump),
+      })
+    ).toEqual({
+      ...initialState,
+      status: {
+        ...initialState.status,
+        sending: false,
+        sent: true,
+      },
+    })
+  })
+
+  test("Event: SendCrashDump/rejected set crash dump `sent` and `sending` state to `false`", () => {
+    expect(
+      crashDumpReducer(undefined, {
+        type: rejectedAction(Event.SendCrashDump),
+      })
+    ).toEqual({
+      ...initialState,
+      status: {
+        ...initialState.status,
+        sending: false,
+        sent: false,
+      },
+    })
+  })
+
   test("Event: ResetCrashDump set crash dump state to initial", () => {
     expect(
       crashDumpReducer(undefined, {

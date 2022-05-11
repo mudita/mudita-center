@@ -28,6 +28,8 @@ export const initialState: CrashDumpState = {
     loaded: false,
     downloading: false,
     downloaded: false,
+    sending: false,
+    sent: false,
   },
   error: null,
 }
@@ -128,6 +130,39 @@ export const crashDumpReducer = createReducer<CrashDumpState>(
           }
         }
       )
+
+      .addCase(pendingAction(Event.SendCrashDump), (state) => {
+        return {
+          ...state,
+          status: {
+            ...state.status,
+            sending: true,
+            sent: false,
+          },
+        }
+      })
+
+      .addCase(fulfilledAction(Event.SendCrashDump), (state) => {
+        return {
+          ...state,
+          status: {
+            ...state.status,
+            sending: false,
+            sent: true,
+          },
+        }
+      })
+
+      .addCase(rejectedAction(Event.SendCrashDump), (state) => {
+        return {
+          ...state,
+          status: {
+            ...state.status,
+            sending: false,
+            sent: false,
+          },
+        }
+      })
 
       .addCase(Event.ResetCrashDump, (state) => {
         return {

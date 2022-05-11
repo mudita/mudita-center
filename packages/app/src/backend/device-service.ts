@@ -236,12 +236,23 @@ export class DeviceService {
     }
 
     return new Promise((resolve) => {
-      const listener = (response: RequestResponse<unknown>) => {
+      const clearPendingRequestListener = (): void => {
         this.eventEmitter.off(eventName, listener)
+        this.eventEmitter.off(DeviceServiceEventName.DeviceDisconnected, clearPendingRequestListener)
+        resolve({
+          status: RequestResponseStatus.InternalServerError,
+        })
+      }
+
+
+      const listener = (response: RequestResponse<unknown>): void => {
+        this.eventEmitter.off(eventName, listener)
+        this.eventEmitter.off(DeviceServiceEventName.DeviceDisconnected, clearPendingRequestListener)
         resolve(response)
       }
 
       this.eventEmitter.on(eventName, listener)
+      this.eventEmitter.on(DeviceServiceEventName.DeviceDisconnected, clearPendingRequestListener)
     })
   }
 

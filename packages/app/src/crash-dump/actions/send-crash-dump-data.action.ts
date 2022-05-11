@@ -80,11 +80,13 @@ export const sendCrashDumpData = createAsyncThunk(
       )
     }
 
-    for await (const path of state.crashDump.data.files) {
-      await dispatch(removeFile(path))
-    }
+    await Promise.all([
+      ...state.crashDump.data.files.map((path) => {
+        dispatch(removeFile(path))
+      }),
+    ])
 
-    await dispatch(resetCrashDump())
+    dispatch(resetCrashDump())
 
     return
   }

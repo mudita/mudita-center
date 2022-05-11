@@ -26,17 +26,17 @@ const messageModel = {
 const subject = new MessageRepository(messageModel)
 
 describe("`MessageRepository`", () => {
-  test("fire `create` call `contactModel.create` with message", () => {
+  test("fire `create` call `messageModel.create` with message", () => {
     expect(subject.create(message)).toEqual(message)
     expect(messageModel.create).toHaveBeenCalledWith(message, false)
   })
 
-  test("fire `update` call `contactModel.update` with message", () => {
+  test("fire `update` call `messageModel.update` with message", () => {
     expect(subject.update(message)).toEqual(message)
     expect(messageModel.update).toHaveBeenCalledWith(message, false)
   })
 
-  test("fire `delete` call `contactModel.delete` with message id", () => {
+  test("fire `delete` call `messageModel.delete` with message id", () => {
     expect(subject.delete(message.id)).toBeUndefined()
     expect(messageModel.delete).toHaveBeenCalledWith(message.id, false)
   })
