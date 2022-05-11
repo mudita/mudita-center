@@ -15,7 +15,6 @@ import {
 import {
   changeSearchValue,
   changeVisibilityFilter,
-  deleteThreads,
   markThreadsAsRead,
   toggleThreadsReadStatus,
 } from "App/messages/actions/base.action"
@@ -37,6 +36,7 @@ import {
   NotificationMethod,
   NotificationResourceType,
 } from "App/notification/constants"
+import { deleteThreads } from "App/messages/actions/delete-threads.action"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,

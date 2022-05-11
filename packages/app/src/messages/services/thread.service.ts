@@ -18,6 +18,7 @@ import {
 } from "App/core/types/request-response.interface"
 import { ThreadPresenter } from "App/messages/presenters"
 import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { ThreadRepository } from "App/messages/repositories"
 
 export interface GetThreadsResponse {
   data: Thread[]
@@ -26,13 +27,14 @@ export interface GetThreadsResponse {
 }
 
 export class ThreadService {
-  constructor(private deviceService: DeviceService) {}
+  constructor(
+    private deviceService: DeviceService,
+    private threadRepository: ThreadRepository
+  ) {}
 
-  public async getThread(
-    id: string
-  ): Promise<RequestResponse<Thread>> {
+  public async getThread(id: string): Promise<RequestResponse<Thread>> {
     // return this.getThreadRequest(id)
-     return this.getThreadRequestViaWorkaround(id)
+    return this.getThreadRequestViaWorkaround(id)
   }
 
   public async getThreads(
@@ -157,6 +159,47 @@ export class ThreadService {
       return {
         status: RequestResponseStatus.Error,
         error: { message: "Get thread: Something went wrong" },
+      }
+    }
+  }
+
+  public async deleteThreads(
+    threadIds: string[]
+  ): Promise<RequestResponse<string[]>> {
+    const results = threadIds.map(async (id) => {
+      const { status } = await this.deviceService.request({
+        endpoint: Endpoint.Messages,
+        method: Method.Delete,
+        body: { category: PureMessagesCategory.thread, threadID: Number(id) },
+      })
+      return {
+        status,
+        id,
+      }
+    })
+
+    const errorIds = (await Promise.all(results))
+      .filter(({ status }) => status === RequestResponseStatus.Error)
+      .map(({ id }) => id)
+    const successIds = (await Promise.all(results))
+      .filter(({ status }) => status === RequestResponseStatus.Ok)
+      .map(({ id }) => id)
+
+    if (errorIds.length > 0) {
+      successIds.forEach((id) => this.threadRepository.delete(id, true))
+
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Delete thread: Something went wrong",
+          data: errorIds,
+        },
+      }
+    } else {
+      threadIds.forEach((id) => this.threadRepository.delete(id, true))
+
+      return {
+        status: RequestResponseStatus.Ok,
       }
     }
   }

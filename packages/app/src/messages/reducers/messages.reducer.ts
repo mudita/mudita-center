@@ -120,7 +120,7 @@ export const messagesReducer = createReducer<MessagesState>(
       )
 
       .addCase(
-        MessagesEvent.DeleteThreads,
+        fulfilledAction(MessagesEvent.DeleteThreads),
         (state, action: DeleteThreadsAction) => {
           const ids = action.payload
           const threadMap = { ...state.threadMap }

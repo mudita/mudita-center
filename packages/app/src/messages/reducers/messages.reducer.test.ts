@@ -16,6 +16,7 @@ import {
   VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { fulfilledAction } from "Renderer/store/helpers"
 
 test("empty event returns initial state", () => {
   expect(messagesReducer(undefined, {} as any)).toEqual(initialState)
@@ -113,7 +114,7 @@ describe("Delete Threads data functionality", () => {
 
   test("Event: DeleteThreads update properly threadMap field", () => {
     const deleteThreadsAction: PayloadAction<string[]> = {
-      type: MessagesEvent.DeleteThreads,
+      type: fulfilledAction(MessagesEvent.DeleteThreads),
       payload: [thread.id],
     }
 
@@ -135,7 +136,7 @@ describe("Delete Threads data functionality", () => {
 
   test("Event: DeleteThreads update properly messageMap and messageIdsInThreadMap fields", () => {
     const deleteThreadsAction: PayloadAction<string[]> = {
-      type: MessagesEvent.DeleteThreads,
+      type: fulfilledAction(MessagesEvent.DeleteThreads),
       payload: [thread.id],
     }
 
@@ -184,7 +185,7 @@ describe("Delete Threads data functionality", () => {
     }
 
     const setThreadsAction: PayloadAction<string[]> = {
-      type: MessagesEvent.DeleteThreads,
+      type: fulfilledAction(MessagesEvent.DeleteThreads),
       payload: [toDeleteThread.id],
     }
 
