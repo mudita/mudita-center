@@ -39,6 +39,7 @@ import {
   ReceiverIdentification,
   ResultState,
   Thread,
+  MessageType,
 } from "App/messages/reducers/messages.interface"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
@@ -119,9 +120,11 @@ const Messages: FunctionComponent<Props> = ({
   >(0)
 
   useEffect(() => {
-    messageLayoutNotifications.forEach((item) => {
-      removeLayoutNotification(item.id)
-    })
+    messageLayoutNotifications
+      .filter((item) => item.content.messageType === MessageType.OUTBOX)
+      .forEach((item) => {
+        removeLayoutNotification(item.id)
+      })
   }, [messageLayoutNotifications])
 
   useEffect(() => {
@@ -417,6 +420,8 @@ const Messages: FunctionComponent<Props> = ({
             onClose={closeSidebars}
             onSendClick={handleSendClick}
             onContentChange={handleContentChange}
+            messageLayoutNotifications={messageLayoutNotifications}
+            removeLayoutNotification={removeLayoutNotification}
           />
         )}
         {messagesState === MessagesState.NewMessage && (

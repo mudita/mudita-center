@@ -40,8 +40,7 @@
     "pure:test:coverage": "lerna run --scope @mudita/pure test:coverage",
     "pure:command": "lerna run --scope @mudita/pure command --",
     "E2E TEST COMMANDS": "========================================================",
-    "test:e2e": "lerna run --scope @mudita/mudita-center-e2e test --",
-    "prepare": "husky install"
+    "test:e2e": "lerna run --scope @mudita/mudita-center-e2e test --"
   },
   "repository": {
     "type": "git",

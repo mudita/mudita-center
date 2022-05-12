@@ -20,7 +20,7 @@ class GitHubHelper {
     })
 
     const release = data.find(
-      (release) =>
+      (release: any) =>
         !release.draft &&
         !release.prerelease &&
         release.tag_name.includes("pure_")

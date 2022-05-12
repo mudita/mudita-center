@@ -16,6 +16,7 @@ import Check from "Renderer/svg/check-icon.svg"
 import CheckCircle from "Renderer/svg/check-circle.svg"
 import CheckIndeterminate from "Renderer/svg/check-indeterminate.svg"
 import Close from "Renderer/svg/close.svg"
+import CloseWhite from "Renderer/svg/close-white.svg"
 import Delete from "Renderer/svg/delete.svg"
 import FilesManager from "Renderer/svg/files-manager.svg"
 import HighBattery from "Renderer/svg/high-battery.svg"
@@ -76,6 +77,7 @@ import Edit from "Renderer/svg/edit.svg"
 import Favourites from "Renderer/svg/favourites.svg"
 import Ice from "Renderer/svg/ice.svg"
 import ArrowDown from "Renderer/svg/arrow-down.svg"
+import ArrowDownWhite from "Renderer/svg/arrow-down-white.svg"
 import DeleteBig from "Renderer/svg/delete-big.svg"
 import Attachment from "Renderer/svg/attachment.svg"
 import Remove from "Renderer/svg/remove.svg"
@@ -138,6 +140,7 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   [IconType.CheckCircle]: CheckCircle,
   [IconType.CheckIndeterminate]: CheckIndeterminate,
   [IconType.Close]: Close,
+  [IconType.CloseWhite]: CloseWhite,
   [IconType.Cloud]: Cloud,
   [IconType.Delete]: Delete,
   [IconType.FilesManager]: FilesManager,
@@ -203,6 +206,7 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   [IconType.Favourites]: Favourites,
   [IconType.Ice]: Ice,
   [IconType.ArrowDown]: ArrowDown,
+  [IconType.ArrowDownWhite]: ArrowDownWhite,
   [IconType.DeleteBig]: DeleteBig,
   [IconType.Attachment]: Attachment,
   [IconType.Remove]: Remove,
