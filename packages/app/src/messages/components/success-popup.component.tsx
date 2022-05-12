@@ -11,6 +11,8 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
+import { Message as TranslationMessage } from "Renderer/interfaces/message.interface"
+import { SuccessPopupTestIds } from "App/messages/components/success-popup-test-ids.enum"
 
 const SuccessPopupWrapper = styled.div`
   position: absolute;
@@ -22,8 +24,11 @@ const SuccessPopupWrapper = styled.div`
   border-radius: 0.4rem;
 `
 const messages = defineMessages({
-  title: {
-    id: "module.calendar.synchronizationFinishedTitle",
+  conversationDeleted: {
+    id: "module.messages.conversationDelete",
+  },
+  conversationsDeleted: {
+    id: "module.messages.conversationsDelete",
   },
 })
 
@@ -32,16 +37,27 @@ interface Props {
 }
 
 const SuccessPopup: FunctionComponent<Props> = ({ ids }) => {
+  const getMessageText = (number: number): TranslationMessage => {
+    if (number === 1) {
+      return {
+        ...messages.conversationDeleted,
+      }
+    } else {
+      return {
+        ...messages.conversationsDeleted,
+        values: {
+          number: number,
+        },
+      }
+    }
+  }
   return (
     <SuccessPopupWrapper>
       <Text
         displayStyle={TextDisplayStyle.Paragraph1}
-        // message={{...messages.title, values: {
-        // number: ids
-        // }/>
-        message={messages.title}
+        message={getMessageText(ids.length)}
+        data-testid={SuccessPopupTestIds.Text}
       />
-      {ids}
     </SuccessPopupWrapper>
   )
 }

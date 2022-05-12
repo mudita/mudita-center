@@ -102,7 +102,7 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
   removeLayoutNotification: (notificationId: string) => void
-  deletingState: ThreadDeletingState
+  deletingState: ThreadDeletingState | undefined
   closeModal: () => void
 }
 
@@ -157,6 +157,19 @@ const Messages: FunctionComponent<Props> = ({
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Thread>(threads)
 
+  const [deletedThreads, setDeletedThreads] = useState<string[]>([])
+
+  useEffect(() => {
+    if (deletingState === ThreadDeletingState.Success) {
+      const timeout = setTimeout(() => {
+        closeModal()
+        setDeletedThreads([])
+      }, 6000)
+      return () => clearTimeout(timeout)
+    }
+    return
+  }, [deletingState])
+
   const getDeletingMessage = (ids: string[]): TranslationMessage => {
     const findById = (thread: Thread) => thread.id === ids[0]
     const thread = threads.find(findById) as Thread
@@ -179,6 +192,7 @@ const Messages: FunctionComponent<Props> = ({
     const message = getDeletingMessage(ids)
     const onDelete = () => {
       deleteThreads(ids)
+      setDeletedThreads(ids)
       resetRows()
       setActiveThread(undefined)
       modalService.closeModal()
@@ -452,10 +466,14 @@ const Messages: FunctionComponent<Props> = ({
         )}
       </TableWithSidebarWrapper>
       {deletingState === ThreadDeletingState.Success && (
-        <SuccessPopup ids={["2137"]} />
+        <SuccessPopup
+          ids={deletedThreads}
+          data-testid={MessagesTestIds.SuccessThreadDelete}
+        />
       )}
       {deletingState === ThreadDeletingState.Deleting && (
         <DeletingThreadsModal
+          data-testid={MessagesTestIds.ThreadDeleting}
           open={deletingState === ThreadDeletingState.Deleting}
           title={intl.formatMessage(messages.deletingModalTitle)}
           subtitle={intl.formatMessage(messages.deletingModalSubtitle)}
@@ -463,6 +481,7 @@ const Messages: FunctionComponent<Props> = ({
       )}
       {deletingState === ThreadDeletingState.Fail && (
         <ErrorModal
+          data-testid={MessagesTestIds.FailThreadDelete}
           open={deletingState === ThreadDeletingState.Fail}
           title={intl.formatMessage(messages.deleteModalTitle)}
           subtitle={intl.formatMessage(messages.deletingModalErrorSubtitle)}

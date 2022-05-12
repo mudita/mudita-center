@@ -7,7 +7,7 @@ import {
   initialState,
   messagesReducer,
 } from "App/messages/reducers/messages.reducer"
-import { MessagesEvent } from "App/messages/constants"
+import { MessagesEvent, ThreadDeletingState } from "App/messages/constants"
 import {
   Message,
   MessagesState,
@@ -131,6 +131,7 @@ describe("Delete Threads data functionality", () => {
     ).toEqual({
       ...initialState,
       threadMap: {},
+      deletingState: ThreadDeletingState.Success,
     })
   })
 
@@ -161,6 +162,7 @@ describe("Delete Threads data functionality", () => {
       threadMap: {},
       messageMap: {},
       messageIdsInThreadMap: {},
+      deletingState: ThreadDeletingState.Success,
     })
   })
 
@@ -219,6 +221,7 @@ describe("Delete Threads data functionality", () => {
       messageIdsInThreadMap: {
         [message.threadId]: [message.id],
       },
+      deletingState: ThreadDeletingState.Success,
     })
   })
 })

@@ -67,7 +67,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(changeSearchValue(target.value)),
   changeVisibilityFilter: (filter: VisibilityFilter) =>
     dispatch(changeVisibilityFilter(filter)),
-  deleteThreads: (threadIds: string[]) => dispatch(deleteThreads(threadIds)),
+  deleteThreads: async (threadIds: string[]): Promise<string[] | undefined> =>
+    dispatch(deleteThreads(threadIds)),
   markAsRead: (threadIds: string[]) => dispatch(markThreadsAsRead(threadIds)),
   toggleReadStatus: (threadIds: string[]) =>
     dispatch(toggleThreadsReadStatus(threadIds)),

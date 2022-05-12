@@ -366,6 +366,8 @@
   "module.messages": "Messages",
   "module.messages.allMessages": "All messages",
   "module.messages.attachModalEmptyList": "Empty list",
+  "module.messages.conversationDelete": "1 conversation was deleted.",
+  "module.messages.conversationsDelete": "{number} conversations was deleted.",
   "module.messages.conversations": "Conversations",
   "module.messages.conversationsSelectionsNumber": "{num, plural, =-1 {All Conversations} one {# Conversation} other {# Conversations}} selected",
   "module.messages.deleteButton": "Delete",

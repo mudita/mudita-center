@@ -160,6 +160,8 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         threadsTotalCount={rowThreads.length}
         messageLayoutNotifications={[]}
         removeLayoutNotification={jest.fn()}
+        deletingState={undefined}
+        closeModal={jest.fn()}
       />
     </div>
   </Router>
