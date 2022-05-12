@@ -6,7 +6,8 @@
 export enum IpcEvent {
   DataUpdated = "data-sync-data-updated",
   DataLoaded = "data-sync-data-loaded",
+  DataSkipped = "data-sync-data-skipped",
   DataRestored = "data-sync-data-restored",
-  DataInitialized = "data-sync-data-initialized",
-  DataError = "data-sync-error",
+  DataLoading = "data-sync-data-loading",
+  DataError = "data-sync-data-error",
 }

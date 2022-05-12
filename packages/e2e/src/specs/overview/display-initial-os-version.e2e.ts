@@ -1,5 +1,6 @@
 import OverviewPage from "../../page-objects/overview.page"
 import VersionValidateHelper from "../../helpers/version-validate.helper"
+import { initialOsVersion } from "../../../configrc.json"
 
 describe("Overview Page", () => {
   describe("Have initial OS version", () => {
@@ -11,7 +12,7 @@ describe("Overview Page", () => {
     })
 
     it("should have valid OS version", async () => {
-      const HARDCODED_VERSION = process.env.TEST_INITIAL_VERSION
+      const HARDCODED_VERSION = initialOsVersion.split("_")[1]
 
       const currentVersionField = await OverviewPage.currentDeviceVersion
       await currentVersionField.waitForDisplayed()

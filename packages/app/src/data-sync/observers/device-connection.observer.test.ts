@@ -69,7 +69,7 @@ describe("Method: observe", () => {
   })
 
   describe("when the `DeviceUnlocked` event is emit with `MuditaHarmony` device type", () => {
-    test("no run `indexAll` process and emit `DataLoaded` event", async () => {
+    test("no run `indexAll` process and emit `DataSkipped` event", async () => {
       expect(indexStorageService.indexAll).toHaveBeenCalledTimes(0)
       expect(getDeviceInfoRequest).toHaveBeenCalledTimes(0)
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledTimes(0)
@@ -80,7 +80,7 @@ describe("Method: observe", () => {
       } as MuditaDevice)
 
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
-        IpcEvent.DataLoaded
+        IpcEvent.DataSkipped
       )
       expect(indexStorageService.indexAll).not.toHaveBeenCalledTimes(1)
       expect(getDeviceInfoRequest).not.toHaveBeenCalledTimes(1)
