@@ -19,6 +19,15 @@ import { TableTestIds } from "Renderer/components/core/table/table.enum"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
+const intersectionObserverMock = () => ({
+  observe: () => null,
+  disconnect: () => null,
+  unobserve: () => null,
+})
+window.IntersectionObserver = jest
+  .fn()
+  .mockImplementation(intersectionObserverMock)
+
 const phoneNumber = "123 456 789"
 const firstThreadId = "1"
 
@@ -70,6 +79,8 @@ const defaultProps: Props = {
   onDeleteClick: jest.fn(),
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
+  messageLayoutNotifications: [],
+  removeLayoutNotification: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

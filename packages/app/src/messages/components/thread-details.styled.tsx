@@ -27,10 +27,7 @@ export const MessagesWrapper = styled.div`
   overflow-x: hidden;
 `
 
-export const MessageBubblesWrapper = styled.div`
-  margin-top: 1.2rem;
-  margin-bottom: 2.4rem;
-`
+export const MessageBubblesWrapper = styled.div``
 
 export const TextareaWrapper = styled.div`
   position: sticky;

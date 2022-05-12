@@ -27,6 +27,7 @@ import { SortOrder } from "Common/enums/sort-order.enum"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
 import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
 import { IconType } from "Renderer/components/core/icon/icon-type"
+import { defineMessages } from "react-intl"
 
 /* Row */
 export enum RowSize {
@@ -272,6 +273,9 @@ export const TextPlaceholder = styled.span<{ charsCount: number }>`
   min-width: 5rem;
 `
 
+const messages = defineMessages({
+  close: { id: "component.table.close" },
+})
 export interface EmptyStateProps {
   title: MessageInterface
   description?: MessageInterface
@@ -337,7 +341,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
       <SidebarClose onClick={onClose} data-testid={TableTestIds.SidebarClose}>
         <SidebarHeaderButton
           iconType={IconType.Close}
-          description={{ id: "Close" }}
+          description={messages.close}
         />
       </SidebarClose>
     </SidebarHeader>
