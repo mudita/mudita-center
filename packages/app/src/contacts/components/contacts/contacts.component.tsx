@@ -640,7 +640,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
             )}
             {detailsEnabled && (
               <ContactDetails
-                contact={contactFreshData(activeRow as Contact)}
+                contact={contactFreshData(activeRow)}
                 onClose={closeSidebar}
                 onExport={exportContacts}
                 onForward={noop}

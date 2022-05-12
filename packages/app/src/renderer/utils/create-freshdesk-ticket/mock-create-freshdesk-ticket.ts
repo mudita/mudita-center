@@ -8,7 +8,7 @@ import { FreshdeskTicketData } from "Renderer/utils/create-freshdesk-ticket/crea
 
 const response: AxiosResponse<unknown> = {
   config: {},
-  headers: undefined,
+  headers: {},
   statusText: "",
   data: {
     cc_emails: [],
@@ -80,7 +80,7 @@ export const errorResponse: AxiosResponse<unknown> = {
   },
   status: 400,
   statusText: "Bad Request",
-  headers: undefined,
+  headers: {},
   config: {},
   request: {},
 }

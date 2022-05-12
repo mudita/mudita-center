@@ -96,7 +96,7 @@ const google = createModel<ExternalProvidersModels>({
 
       try {
         return await request()
-      } catch (error) {
+      } catch (error: any) {
         if (error.response.status === 401 && tries < 2) {
           const refreshToken = rootState.google[scope].refresh_token
 
