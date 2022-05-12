@@ -113,7 +113,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
 
   return (
     <MessageBubblesWrapper ref={ref}>
-      {notifications && notifications.length > 0 && (
+      {notifications.length > 0 && (
         <NewMessageBadge
           onClose={closeNewMessageBadge}
           messagesCount={notifications.length}
