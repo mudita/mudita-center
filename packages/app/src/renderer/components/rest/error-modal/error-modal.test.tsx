@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import ErrorModal from "App/contacts/components/error-modal/error-modal.component"
+import ErrorModal from "App/renderer/components/rest/error-modal/error-modal.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 

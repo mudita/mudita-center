@@ -15,6 +15,7 @@ import {
 import {
   changeSearchValue,
   changeVisibilityFilter,
+  hideDeleteModal,
   markThreadsAsRead,
   toggleThreadsReadStatus,
 } from "App/messages/actions/base.action"
@@ -46,6 +47,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   attachContactFlatList: flatListSelector(state),
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
+  deletingState: state.messages.deletingState,
   getContactByPhoneNumber: (phoneNumber: string) =>
     getContactByPhoneNumberSelector(phoneNumber)(state),
   isContactCreatedByPhoneNumber: (phoneNumber: string) =>
@@ -73,6 +75,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(addNewMessage(newMessage)),
   removeLayoutNotification: (notificationId: string) =>
     dispatch(removeNotification(notificationId)),
+  closeModal: () => dispatch(hideDeleteModal()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

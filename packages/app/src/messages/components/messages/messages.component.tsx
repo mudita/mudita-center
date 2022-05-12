@@ -48,6 +48,10 @@ import { PayloadAction } from "@reduxjs/toolkit"
 import { IndexRange } from "react-virtualized"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { Notification } from "App/notification/types"
+import SuccessPopup from "App/messages/components/success-popup.component"
+import { ThreadDeletingState } from "App/messages/constants"
+import ErrorModal from "App/renderer/components/rest/error-modal/error-modal.component"
+import DeletingThreadsModal from "../deleting-threads-modal.component"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },
@@ -59,6 +63,11 @@ const messages = defineMessages({
   },
   emptyListDescription: {
     id: "module.messages.emptyListDescription",
+  },
+  deletingModalTitle: { id: "module.messages.deletingModalTitle" },
+  deletingModalSubtitle: { id: "module.messages.deletingModalSubtitle" },
+  deletingModalErrorSubtitle: {
+    id: "module.messages.deleteModalErrorSubtitle",
   },
 })
 
@@ -92,6 +101,8 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
   removeLayoutNotification: (notificationId: string) => void
+  deletingState: ThreadDeletingState
+  closeModal: () => void
 }
 
 const Messages: FunctionComponent<Props> = ({
@@ -113,6 +124,8 @@ const Messages: FunctionComponent<Props> = ({
   addNewMessage,
   messageLayoutNotifications,
   removeLayoutNotification,
+  deletingState,
+  closeModal,
 }) => {
   const [_, setThreadsPaginationOffset] = useState<
     PaginationBody["offset"] | undefined
@@ -433,6 +446,24 @@ const Messages: FunctionComponent<Props> = ({
           />
         )}
       </TableWithSidebarWrapper>
+      {deletingState === ThreadDeletingState.Success && (
+        <SuccessPopup ids={["2137"]} />
+      )}
+      {deletingState === ThreadDeletingState.Deleting && (
+        <DeletingThreadsModal
+          open={deletingState === ThreadDeletingState.Deleting}
+          title={intl.formatMessage(messages.deletingModalTitle)}
+          subtitle={intl.formatMessage(messages.deletingModalSubtitle)}
+        />
+      )}
+      {deletingState === ThreadDeletingState.Fail && (
+        <ErrorModal
+          open={deletingState === ThreadDeletingState.Fail}
+          title={intl.formatMessage(messages.deleteModalTitle)}
+          subtitle={intl.formatMessage(messages.deletingModalErrorSubtitle)}
+          closeModal={closeModal}
+        />
+      )}
     </>
   )
 }

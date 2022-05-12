@@ -4,7 +4,11 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { fulfilledAction } from "Renderer/store/helpers"
+import {
+  fulfilledAction,
+  pendingAction,
+  rejectedAction,
+} from "Renderer/store/helpers"
 import {
   AddNewMessageAction,
   ChangeSearchValueAction,
@@ -19,7 +23,7 @@ import {
   ToggleThreadReadStatusAction,
   VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
-import { MessagesEvent } from "App/messages/constants"
+import { MessagesEvent, ThreadDeletingState } from "App/messages/constants"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
 
@@ -33,6 +37,7 @@ export const initialState: MessagesState = {
   visibilityFilter: VisibilityFilter.All,
   messagesStateMap: {},
   error: null,
+  deletingState: undefined,
 }
 
 export const messagesReducer = createReducer<MessagesState>(
@@ -146,12 +151,34 @@ export const messagesReducer = createReducer<MessagesState>(
 
           return {
             ...state,
+            deletingState: ThreadDeletingState.Success,
             messageMap,
             threadMap,
             messageIdsInThreadMap,
           }
         }
       )
+
+      .addCase(pendingAction(MessagesEvent.DeleteThreads), (state) => {
+        return {
+          ...state,
+          deletingState: ThreadDeletingState.Deleting,
+        }
+      })
+
+      .addCase(rejectedAction(MessagesEvent.DeleteThreads), (state) => {
+        return {
+          ...state,
+          deletingState: ThreadDeletingState.Fail,
+        }
+      })
+
+      .addCase(MessagesEvent.HideDeleteModal, (state) => {
+        return {
+          ...state,
+          deletingState: undefined,
+        }
+      })
 
       .addCase(
         MessagesEvent.ChangeVisibilityFilter,
