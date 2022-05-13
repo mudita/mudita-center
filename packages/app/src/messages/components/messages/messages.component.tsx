@@ -164,7 +164,7 @@ const Messages: FunctionComponent<Props> = ({
       const timeout = setTimeout(() => {
         closeModal()
         setDeletedThreads([])
-      }, 6000)
+      }, 500)
       return () => clearTimeout(timeout)
     }
     return
