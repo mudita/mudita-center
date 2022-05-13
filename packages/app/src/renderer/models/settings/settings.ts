@@ -65,7 +65,7 @@ const settings = createModel<RootModel>({
             applicationConfiguration.centerVersion,
             version
           )
-        } catch (error) {
+        } catch (error: any) {
           logger.error(
             `Settings -> LoadSettings: Check that app update required fails: ${error.message}`
           )

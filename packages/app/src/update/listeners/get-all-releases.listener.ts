@@ -25,7 +25,7 @@ const releasesRequest = async (
       },
     })
     return response.data
-  } catch (error) {
+  } catch (error: any) {
     if (error.response) {
       logger.error(
         `Checking for OS updated failed with code ${error.response.status}: ${error.response.statusText}`

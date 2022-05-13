@@ -38,7 +38,7 @@ export class Client implements ClientInterface {
         { params }
       )
       return data
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(error)
     }
   }
@@ -59,7 +59,7 @@ export class Client implements ClientInterface {
       )
 
       return data
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(error)
     }
   }
