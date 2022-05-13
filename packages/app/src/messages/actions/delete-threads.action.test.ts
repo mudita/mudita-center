@@ -15,8 +15,19 @@ import { CreateMessageDataResponse } from "App/messages/services"
 import { deleteThreadsRequest } from "App/messages/requests"
 import { DeleteThreadError } from "App/messages/errors"
 import { testError } from "Renderer/store/constants"
+import { Message, MessageType } from "App/messages/reducers"
 
 jest.mock("App/messages/requests/delete-threads.request")
+
+const message: Message = {
+  id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+  date: new Date("2019-10-18T11:27:15.256Z"),
+  content:
+    "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+  threadId: "1",
+  phoneNumber: "+48 755 853 216",
+  messageType: MessageType.INBOX,
+}
 
 const successDeviceResponse: RequestResponse<CreateMessageDataResponse> = {
   status: RequestResponseStatus.Ok,
@@ -26,6 +37,14 @@ const errorDeviceResponse: RequestResponse = {
   status: RequestResponseStatus.Error,
   error: {
     message: "I'm error",
+  },
+}
+
+const errorWithDataDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
+  error: {
+    message: "I'm error",
+    data: [message.threadId],
   },
 }
 
@@ -42,11 +61,15 @@ describe("`deleteThreads`", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
-      } = await mockStore.dispatch(deleteThreads(["1"]) as unknown as AnyAction)
+      } = await mockStore.dispatch(
+        deleteThreads([message.threadId]) as unknown as AnyAction
+      )
 
       expect(mockStore.getActions()).toEqual([
-        deleteThreads.pending(requestId, ["1"]),
-        deleteThreads.fulfilled(["1"], requestId, ["1"]),
+        deleteThreads.pending(requestId, [message.threadId]),
+        deleteThreads.fulfilled([message.threadId], requestId, [
+          message.threadId,
+        ]),
       ])
 
       expect(deleteThreadsRequest).toHaveBeenCalled()
@@ -60,11 +83,39 @@ describe("`deleteThreads`", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
-      } = await mockStore.dispatch(deleteThreads(["1"]) as unknown as AnyAction)
+      } = await mockStore.dispatch(
+        deleteThreads([message.threadId]) as unknown as AnyAction
+      )
 
       expect(mockStore.getActions()).toEqual([
-        deleteThreads.pending(requestId, ["1"]),
-        deleteThreads.rejected(testError, requestId, ["1"], errorMock),
+        deleteThreads.pending(requestId, [message.threadId]),
+        deleteThreads.rejected(
+          testError,
+          requestId,
+          [message.threadId],
+          errorMock
+        ),
+      ])
+
+      expect(deleteThreadsRequest).toHaveBeenCalled()
+    })
+
+    test("fire `deleteThreads` returns any success data", async () => {
+      ;(deleteThreadsRequest as jest.Mock).mockReturnValue(
+        errorWithDataDeviceResponse
+      )
+      const mockStore = createMockStore([thunk])()
+      const {
+        meta: { requestId },
+      } = await mockStore.dispatch(
+        deleteThreads([message.threadId]) as unknown as AnyAction
+      )
+
+      expect(mockStore.getActions()).toEqual([
+        deleteThreads.pending(requestId, [message.threadId]),
+        deleteThreads.fulfilled([message.threadId], requestId, [
+          message.threadId,
+        ]),
       ])
 
       expect(deleteThreadsRequest).toHaveBeenCalled()

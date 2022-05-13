@@ -15,7 +15,7 @@ import { defineMessages } from "react-intl"
 import ContactImportModal, {
   ModalType,
 } from "App/contacts/components/contact-import/contact-import-modal.component"
-import ErrorModal from "App/renderer/components/rest/error-modal/error-modal.component"
+import ErrorModal from "Renderer/components/rest/error-modal/error-modal.component"
 import ImportingContactsModal from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"
 import { NewContact } from "App/contacts/reducers/contacts.interface"
 

@@ -76,7 +76,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(addNewMessage(newMessage)),
   removeLayoutNotification: (notificationId: string) =>
     dispatch(removeNotification(notificationId)),
-  closeModal: () => dispatch(hideDeleteModal()),
+  hideDeleteModal: () => dispatch(hideDeleteModal()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

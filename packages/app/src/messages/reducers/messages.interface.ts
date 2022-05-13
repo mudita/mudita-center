@@ -66,7 +66,7 @@ export type MessagesState = Readonly<{
   threadsState: ResultState
   messagesStateMap: { [id: string]: ResultState }
   error: Error | string | null
-  deletingState: ThreadDeletingState | undefined
+  deletingState: ThreadDeletingState | null
 }>
 
 export enum ReceiverIdentification {

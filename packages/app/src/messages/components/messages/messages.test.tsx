@@ -103,8 +103,8 @@ const defaultProps: Props = {
   attachContactFlatList: [],
   messageLayoutNotifications: [],
   removeLayoutNotification: jest.fn(),
-  deletingState: undefined,
-  closeModal: jest.fn(),
+  deletingState: null,
+  hideDeleteModal: jest.fn(),
 }
 
 const propsWithSingleThread: Partial<Props> = {

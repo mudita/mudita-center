@@ -51,7 +51,7 @@ import { CreateMessageDataResponse } from "App/messages/services"
 import { Notification } from "App/notification/types"
 import SuccessPopup from "App/messages/components/success-popup.component"
 import { ThreadDeletingState } from "App/messages/constants"
-import ErrorModal from "App/renderer/components/rest/error-modal/error-modal.component"
+import ErrorModal from "Renderer/components/rest/error-modal/error-modal.component"
 import DeletingThreadsModal from "../deleting-threads-modal.component"
 
 const messages = defineMessages({
@@ -102,8 +102,8 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
   removeLayoutNotification: (notificationId: string) => void
-  deletingState: ThreadDeletingState | undefined
-  closeModal: () => void
+  deletingState: ThreadDeletingState | null
+  hideDeleteModal: () => void
 }
 
 const Messages: FunctionComponent<Props> = ({
@@ -126,7 +126,7 @@ const Messages: FunctionComponent<Props> = ({
   messageLayoutNotifications,
   removeLayoutNotification,
   deletingState,
-  closeModal,
+  hideDeleteModal,
 }) => {
   const [_, setThreadsPaginationOffset] = useState<
     PaginationBody["offset"] | undefined
@@ -162,7 +162,7 @@ const Messages: FunctionComponent<Props> = ({
   useEffect(() => {
     if (deletingState === ThreadDeletingState.Success) {
       const timeout = setTimeout(() => {
-        closeModal()
+        hideDeleteModal()
         setDeletedThreads([])
       }, 500)
       return () => clearTimeout(timeout)
@@ -485,7 +485,7 @@ const Messages: FunctionComponent<Props> = ({
           open={deletingState === ThreadDeletingState.Fail}
           title={intl.formatMessage(messages.deleteModalTitle)}
           subtitle={intl.formatMessage(messages.deletingModalErrorSubtitle)}
-          closeModal={closeModal}
+          closeModal={hideDeleteModal}
         />
       )}
     </>

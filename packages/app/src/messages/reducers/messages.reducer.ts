@@ -37,7 +37,7 @@ export const initialState: MessagesState = {
   visibilityFilter: VisibilityFilter.All,
   messagesStateMap: {},
   error: null,
-  deletingState: undefined,
+  deletingState: null,
 }
 
 export const messagesReducer = createReducer<MessagesState>(
@@ -176,7 +176,7 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(MessagesEvent.HideDeleteModal, (state) => {
         return {
           ...state,
-          deletingState: undefined,
+          deletingState: null,
         }
       })
 
