@@ -136,6 +136,11 @@ export class DeviceService {
     method: Method.Post
     body: PostMessagesBody
   }): Promise<RequestResponse<PostMessagesResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Delete
+    body: GetThreadBody
+  }): Promise<RequestResponse>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get

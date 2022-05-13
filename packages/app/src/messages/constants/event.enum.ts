@@ -9,6 +9,7 @@ export enum MessagesEvent {
   DeleteThreads = "DELETE_THREADS",
   AddNewMessage = "ADD_NEW_MESSAGE",
   ClearAllThreads = "CLEAR_ALL_THREADS",
+  HideDeleteModal = "HIDE_DELETE_MODAL",
 
   // TODO: move to UI? :think:
   ChangeVisibilityFilter = "CHANGE_VISIBILITY_FILTER",

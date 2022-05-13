@@ -5,3 +5,4 @@
 
 export * from "./errors.enum"
 export * from "./event.enum"
+export * from "./thread-deleting.enum"

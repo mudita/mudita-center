@@ -7,7 +7,7 @@ import {
   initialState,
   messagesReducer,
 } from "App/messages/reducers/messages.reducer"
-import { MessagesEvent } from "App/messages/constants"
+import { MessagesEvent, ThreadDeletingState } from "App/messages/constants"
 import {
   Message,
   MessagesState,
@@ -16,6 +16,7 @@ import {
   VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { fulfilledAction } from "Renderer/store/helpers"
 
 test("empty event returns initial state", () => {
   expect(messagesReducer(undefined, {} as any)).toEqual(initialState)
@@ -113,7 +114,7 @@ describe("Delete Threads data functionality", () => {
 
   test("Event: DeleteThreads update properly threadMap field", () => {
     const deleteThreadsAction: PayloadAction<string[]> = {
-      type: MessagesEvent.DeleteThreads,
+      type: fulfilledAction(MessagesEvent.DeleteThreads),
       payload: [thread.id],
     }
 
@@ -130,12 +131,13 @@ describe("Delete Threads data functionality", () => {
     ).toEqual({
       ...initialState,
       threadMap: {},
+      deletingState: ThreadDeletingState.Success,
     })
   })
 
   test("Event: DeleteThreads update properly messageMap and messageIdsInThreadMap fields", () => {
     const deleteThreadsAction: PayloadAction<string[]> = {
-      type: MessagesEvent.DeleteThreads,
+      type: fulfilledAction(MessagesEvent.DeleteThreads),
       payload: [thread.id],
     }
 
@@ -160,6 +162,7 @@ describe("Delete Threads data functionality", () => {
       threadMap: {},
       messageMap: {},
       messageIdsInThreadMap: {},
+      deletingState: ThreadDeletingState.Success,
     })
   })
 
@@ -184,7 +187,7 @@ describe("Delete Threads data functionality", () => {
     }
 
     const setThreadsAction: PayloadAction<string[]> = {
-      type: MessagesEvent.DeleteThreads,
+      type: fulfilledAction(MessagesEvent.DeleteThreads),
       payload: [toDeleteThread.id],
     }
 
@@ -218,6 +221,7 @@ describe("Delete Threads data functionality", () => {
       messageIdsInThreadMap: {
         [message.threadId]: [message.id],
       },
+      deletingState: ThreadDeletingState.Success,
     })
   })
 })

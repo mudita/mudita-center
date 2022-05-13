@@ -12,6 +12,7 @@ import {
 import { ThreadService } from "App/messages/services/thread.service"
 import DeviceService from "Backend/device-service"
 import { ThreadPresenter } from "App/messages/presenters"
+import { ThreadRepository } from "../repositories"
 
 jest.mock("App/messages/presenters")
 ;(ThreadPresenter as unknown as jest.Mock).mockImplementation(() => {
@@ -24,7 +25,13 @@ const deviceService = {
   request: jest.fn(),
 } as unknown as DeviceService
 
-const subject = new ThreadService(deviceService)
+const threadRepository = {
+  create: jest.fn(),
+  update: jest.fn(),
+  delete: jest.fn(),
+} as unknown as ThreadRepository
+
+const subject = new ThreadService(deviceService, threadRepository)
 
 const pureThread: PureThread = {
   contactID: 1,
@@ -77,7 +84,7 @@ describe("`ThreadService`", () => {
         ...successResponse,
         data: { entries: [pureThread] },
       })
-      const response = await subject.getThreads({limit: 1, offset:0})
+      const response = await subject.getThreads({ limit: 1, offset: 0 })
       expect(deviceService.request).toHaveBeenCalled()
       expect(ThreadPresenter.mapToThread).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
@@ -85,9 +92,28 @@ describe("`ThreadService`", () => {
 
     test("returns error when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
-      const response = await subject.getThreads({limit: 1, offset:0})
+      const response = await subject.getThreads({ limit: 1, offset: 0 })
       expect(deviceService.request).toHaveBeenCalled()
       expect(ThreadPresenter.mapToThread).not.toHaveBeenCalled()
+      expect(response.status).toEqual(RequestResponseStatus.Error)
+    })
+  })
+
+  describe("`deleteThreads` method", () => {
+    test("map data and returns success when `deviceService.request` returns success", async () => {
+      deviceService.request = jest.fn().mockReturnValue({
+        status: RequestResponseStatus.Ok,
+        id: "1",
+      })
+      const response = await subject.deleteThreads(["1"])
+      expect(deviceService.request).toHaveBeenCalled()
+      expect(response.status).toEqual(RequestResponseStatus.Ok)
+    })
+
+    test("returns error when `deviceService.request` returns error", async () => {
+      deviceService.request = jest.fn().mockReturnValue(errorResponse)
+      const response = await subject.deleteThreads(["1"])
+      expect(deviceService.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })

@@ -15,7 +15,7 @@ import {
 import {
   changeSearchValue,
   changeVisibilityFilter,
-  deleteThreads,
+  hideDeleteModal,
   markThreadsAsRead,
   toggleThreadsReadStatus,
 } from "App/messages/actions/base.action"
@@ -37,6 +37,7 @@ import {
   NotificationMethod,
   NotificationResourceType,
 } from "App/notification/constants"
+import { deleteThreads } from "App/messages/actions/delete-threads.action"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,
@@ -46,6 +47,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   attachContactFlatList: flatListSelector(state),
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
+  deletingState: state.messages.deletingState,
   getContactByPhoneNumber: (phoneNumber: string) =>
     getContactByPhoneNumberSelector(phoneNumber)(state),
   isContactCreatedByPhoneNumber: (phoneNumber: string) =>
@@ -65,7 +67,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(changeSearchValue(target.value)),
   changeVisibilityFilter: (filter: VisibilityFilter) =>
     dispatch(changeVisibilityFilter(filter)),
-  deleteThreads: (threadIds: string[]) => dispatch(deleteThreads(threadIds)),
+  deleteThreads: async (threadIds: string[]): Promise<string[] | undefined> =>
+    dispatch(deleteThreads(threadIds)),
   markAsRead: (threadIds: string[]) => dispatch(markThreadsAsRead(threadIds)),
   toggleReadStatus: (threadIds: string[]) =>
     dispatch(toggleThreadsReadStatus(threadIds)),
@@ -73,6 +76,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(addNewMessage(newMessage)),
   removeLayoutNotification: (notificationId: string) =>
     dispatch(removeNotification(notificationId)),
+  hideDeleteModal: () => dispatch(hideDeleteModal()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

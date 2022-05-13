@@ -8,7 +8,6 @@ import createMockStore from "redux-mock-store"
 import {
   changeSearchValue,
   changeVisibilityFilter,
-  deleteThreads,
   clearAllThreads,
   markThreadsAsRead,
   toggleThreadsReadStatus,
@@ -40,18 +39,6 @@ describe("Action: markThreadsAsRead", () => {
     expect(mockStore.getActions()).toEqual([
       {
         type: MessagesEvent.MarkThreadAsRead,
-        payload: [],
-      },
-    ])
-  })
-})
-
-describe("Action: deleteThreads", () => {
-  test("fire action with empty array and `DeleteThreads` type", () => {
-    mockStore.dispatch(deleteThreads([]))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: MessagesEvent.DeleteThreads,
         payload: [],
       },
     ])
