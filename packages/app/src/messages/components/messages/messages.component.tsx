@@ -51,7 +51,7 @@ import { CreateMessageDataResponse } from "App/messages/services"
 import { Notification } from "App/notification/types"
 import SuccessPopup from "App/messages/components/success-popup.component"
 import { ThreadDeletingState } from "App/messages/constants"
-import ErrorModal from "Renderer/components/rest/error-modal/error-modal.component"
+import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import DeletingThreadsModal from "../deleting-threads-modal.component"
 
 const messages = defineMessages({
@@ -164,7 +164,7 @@ const Messages: FunctionComponent<Props> = ({
       const timeout = setTimeout(() => {
         hideDeleteModal()
         setDeletedThreads([])
-      }, 500)
+      }, 5000)
       return () => clearTimeout(timeout)
     }
     return
