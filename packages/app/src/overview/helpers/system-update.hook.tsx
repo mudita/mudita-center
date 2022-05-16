@@ -336,7 +336,7 @@ const useSystemUpdateFlow = (
         onUpdate({ pureOsDownloaded: true })
         await openDownloadSucceededModal(release)
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.status === DownloadStatus.Cancelled) {
         await openDownloadCanceledModal()
       } else {

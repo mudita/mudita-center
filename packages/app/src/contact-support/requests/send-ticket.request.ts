@@ -55,7 +55,7 @@ const sendTicketRequest = async (
     return {
       status: CreateBugTicketResponseStatus.Ok,
     }
-  } catch (e) {
+  } catch (e: any) {
     if (e?.response?.data) {
       const error = {
         message: e.response.data.description,

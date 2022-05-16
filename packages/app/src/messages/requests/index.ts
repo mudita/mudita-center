@@ -4,3 +4,4 @@
  */
 
 export * from "./create-message.request"
+export * from "./delete-threads.request"

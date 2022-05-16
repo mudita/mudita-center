@@ -103,6 +103,11 @@ export class PureStrategy extends BaseDevice {
     body: PostMessagesBody
   }): Promise<Response<PostMessagesResponseBody>>
   public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Delete
+    body: GetThreadsBody
+  }): Promise<Response>
+  public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
     body: Contact

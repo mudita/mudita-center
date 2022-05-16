@@ -6,7 +6,7 @@
 import { Caller } from "Renderer/models/calls/calls.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { MessagesEvent } from "App/messages/constants"
+import { MessagesEvent, ThreadDeletingState } from "App/messages/constants"
 
 export enum VisibilityFilter {
   All = "all",
@@ -66,6 +66,7 @@ export type MessagesState = Readonly<{
   threadsState: ResultState
   messagesStateMap: { [id: string]: ResultState }
   error: Error | string | null
+  deletingState: ThreadDeletingState | null
 }>
 
 export enum ReceiverIdentification {

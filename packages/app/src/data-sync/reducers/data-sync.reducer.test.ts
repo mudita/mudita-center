@@ -16,8 +16,8 @@ import {
 import { DataSyncEvent } from "App/data-sync/constants"
 import { UpdateAllIndexesError } from "App/data-sync/errors"
 
-describe("Update all indexes data functionality", () => {
-  test("Event: SetDataSyncInitState/pending change `state` to Loading", () => {
+describe("data-sync functionality", () => {
+  test("Event: SetDataSyncInitState set `state` to initial", () => {
     expect(
       dataSyncReducer(undefined, {
         type: DataSyncEvent.SetDataSyncInitState,
@@ -64,19 +64,6 @@ describe("Update all indexes data functionality", () => {
       error: errorMock,
     })
   })
-})
-
-describe("`InitializeDataSync` data functionality", () => {
-  test("Event: InitializingDataSync change `state` to Loading", () => {
-    expect(
-      dataSyncReducer(undefined, {
-        type: DataSyncEvent.InitializingDataSync,
-      })
-    ).toEqual({
-      ...initialState,
-      state: SynchronizationState.Loading,
-    })
-  })
 
   test("Event: SetDataSyncInitialized change `initialized` to true and `error` to null", () => {
     expect(
@@ -101,7 +88,7 @@ describe("`InitializeDataSync` data functionality", () => {
     })
   })
 
-  test("Event: SetDataSyncInitialized change `state` to Cache and initialized to true", () => {
+  test("Event: SetCacheState change `state` to Cache and initialized to true", () => {
     expect(
       dataSyncReducer(undefined, {
         type: DataSyncEvent.SetCacheState,
@@ -113,10 +100,10 @@ describe("`InitializeDataSync` data functionality", () => {
     })
   })
 
-  test("Event: InitializeDataSync/pending change `state` changing state to `loading`", () => {
+  test("Event: SetLoadingState change `state` changing state to `loading`", () => {
     expect(
       dataSyncReducer(undefined, {
-        type: pendingAction(DataSyncEvent.InitializeDataSync),
+        type: DataSyncEvent.SetLoadingState,
       })
     ).toEqual({
       ...initialState,
@@ -125,12 +112,12 @@ describe("`InitializeDataSync` data functionality", () => {
     })
   })
 
-  test("Event: InitializingDataError, change `state` changing state to `error` and set a payload", () => {
+  test("Event: SetErrorState, change `state` changing state to `error` and set a payload", () => {
     const testError = new Error("I'm error")
 
     expect(
       dataSyncReducer(undefined, {
-        type: DataSyncEvent.InitializingDataError,
+        type: DataSyncEvent.SetErrorState,
         payload: testError,
       })
     ).toEqual({

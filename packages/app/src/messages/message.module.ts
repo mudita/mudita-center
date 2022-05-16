@@ -13,10 +13,9 @@ import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { MessageModel, ThreadModel } from "App/messages/models"
 import { MessageService, ThreadService } from "App/messages/services"
-import { MessageController } from "App/messages/controllers"
+import { MessageController, ThreadController } from "App/messages/controllers"
 import { MessageObserver } from "App/messages/observers/message.observer"
 import { MessageRepository, ThreadRepository } from "App/messages/repositories"
-
 export class MessageModule extends BaseModule {
   constructor(
     public index: IndexStorage,
@@ -39,11 +38,16 @@ export class MessageModule extends BaseModule {
 
     const messageModel = new MessageModel(this.index, this.eventEmitter)
     const threadModel = new ThreadModel(this.index, this.eventEmitter)
-    const threadService = new ThreadService(this.deviceService)
+    const threadRepository = new ThreadRepository(threadModel)
+    const threadService = new ThreadService(
+      this.deviceService,
+      threadRepository
+    )
     const messageService = new MessageService(this.deviceService, threadService)
     const messageController = new MessageController(messageService)
+    const threadController = new ThreadController(threadService)
     const messageRepository = new MessageRepository(messageModel)
-    const threadRepository = new ThreadRepository(threadModel)
+
     const messageObserver = new MessageObserver(
       this.ipc,
       this.deviceService,
@@ -53,7 +57,7 @@ export class MessageModule extends BaseModule {
       threadRepository
     )
     this.models = [messageModel, threadModel]
-    this.controllers = [messageController]
+    this.controllers = [messageController, threadController]
     this.observers = [messageObserver]
   }
 }

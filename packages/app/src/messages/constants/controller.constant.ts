@@ -12,3 +12,13 @@ export enum IpcMessageEvent {
 export enum IpcMessageRequest {
   CreateMessage = "message-create-message",
 }
+
+export const ThreadControllerPrefix = "thread"
+
+export enum IpcThreadEvent {
+  DeleteThreads = "delete-threads",
+}
+
+export enum IpcThreadRequest {
+  DeleteThreads = "thread-delete-threads",
+}

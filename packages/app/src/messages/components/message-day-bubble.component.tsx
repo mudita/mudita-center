@@ -20,7 +20,7 @@ const MessageDayBubble: FunctionComponent<Properties> = ({
   ...messageProps
 }) => {
   return (
-    <>
+    <div key={messageProps.id}>
       {!displayDate && (
         <MessageDateTag
           data-testid={MessageDayBubbleTestIds.Date}
@@ -31,7 +31,7 @@ const MessageDayBubble: FunctionComponent<Properties> = ({
         {...messageProps}
         displayAvatar={!displayDate || displayAvatar}
       />
-    </>
+    </div>
   )
 }
 

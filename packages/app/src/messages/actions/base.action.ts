@@ -15,8 +15,6 @@ export const markThreadsAsRead = createAction<string[]>(
   MessagesEvent.MarkThreadAsRead
 )
 
-export const deleteThreads = createAction<string[]>(MessagesEvent.DeleteThreads)
-
 export const changeVisibilityFilter = createAction<
   MessagesState["visibilityFilter"]
 >(MessagesEvent.ChangeVisibilityFilter)
@@ -26,3 +24,5 @@ export const changeSearchValue = createAction<string>(
 )
 
 export const clearAllThreads = createAction(MessagesEvent.ClearAllThreads)
+
+export const hideDeleteModal = createAction(MessagesEvent.HideDeleteModal)

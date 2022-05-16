@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv"
+import { spawnSync } from "child_process"
 
 dotenv.config()
 
@@ -53,22 +54,22 @@ export const config: WebdriverIO.Config = {
   // will be called from there.
   //
   specs: [
-    "./specs/overview/display-initial-os-version.e2e.ts",
-    "./specs/overview/check-for-update.e2e.ts",
-    "./specs/overview/device-update.e2e.ts",
+    "./src/specs/overview/display-initial-os-version.e2e.ts",
+    "./src/specs/overview/check-for-update.e2e.ts",
+    "./src/specs/overview/device-update.e2e.ts",
   ],
   suites: {
     update: [
-      "./specs/overview/display-initial-os-version.e2e.ts",
-      "./specs/overview/check-for-update.e2e.ts",
-      "./specs/overview/device-update.e2e.ts",
+      "./src/specs/overview/display-initial-os-version.e2e.ts",
+      "./src/specs/overview/check-for-update.e2e.ts",
+      "./src/specs/overview/device-update.e2e.ts",
     ],
   },
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
   ],
-  filesToWatch: ["./specs/**/*.e2e.ts"],
+  filesToWatch: ["./src/specs/**/*.e2e.ts"],
   //
   // ============
   // Capabilities
@@ -212,8 +213,12 @@ export const config: WebdriverIO.Config = {
    * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    */
-  // onPrepare: function (config, capabilities) {
-  // },
+  onPrepare: async function (_config, _capabilities) {
+    await spawnSync("node", ["dist/src/bin/cli.js"], {
+      cwd: process.cwd(),
+      stdio: "inherit",
+    })
+  },
   /**
    * Gets executed before a worker process is spawned and can be used to initialise specific service
    * for that worker as well as modify runtime environments in an async fashion.

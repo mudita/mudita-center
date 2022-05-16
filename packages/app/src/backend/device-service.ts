@@ -136,6 +136,11 @@ export class DeviceService {
     method: Method.Post
     body: PostMessagesBody
   }): Promise<RequestResponse<PostMessagesResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Delete
+    body: GetThreadBody
+  }): Promise<RequestResponse>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
@@ -236,12 +241,23 @@ export class DeviceService {
     }
 
     return new Promise((resolve) => {
-      const listener = (response: RequestResponse<unknown>) => {
+      const clearPendingRequestListener = (): void => {
         this.eventEmitter.off(eventName, listener)
+        this.eventEmitter.off(DeviceServiceEventName.DeviceDisconnected, clearPendingRequestListener)
+        resolve({
+          status: RequestResponseStatus.InternalServerError,
+        })
+      }
+
+
+      const listener = (response: RequestResponse<unknown>): void => {
+        this.eventEmitter.off(eventName, listener)
+        this.eventEmitter.off(DeviceServiceEventName.DeviceDisconnected, clearPendingRequestListener)
         resolve(response)
       }
 
       this.eventEmitter.on(eventName, listener)
+      this.eventEmitter.on(DeviceServiceEventName.DeviceDisconnected, clearPendingRequestListener)
     })
   }
 
