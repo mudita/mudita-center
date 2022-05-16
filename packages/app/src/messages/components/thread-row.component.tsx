@@ -265,15 +265,17 @@ const ThreadRow: FunctionComponent<Props> = ({
                 data-testid="dropdown-add-to-contacts"
               />
             )}
-            <ButtonComponent
-              labelMessage={{
-                id: "module.messages.dropdownDelete",
-              }}
-              Icon={IconType.Delete}
-              onClick={handleDeleteClick}
-              displayStyle={DisplayStyle.Dropdown}
-              data-testid="dropdown-delete"
-            />
+            {!flags.get(Feature.DisabledOnProduction) && (
+              <ButtonComponent
+                labelMessage={{
+                  id: "module.messages.dropdownDelete",
+                }}
+                Icon={IconType.Delete}
+                onClick={handleDeleteClick}
+                displayStyle={DisplayStyle.Dropdown}
+                data-testid="dropdown-delete"
+              />
+            )}
             {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
             {!flags.get(Feature.ProductionAndAlpha) && (
               <HiddenButton
