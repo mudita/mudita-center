@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { WebUSBDevice } from "usb"
 import { UsbDeviceFacade } from "./usb-device.facade"
 import { UsbParser } from "./usb-parser"
 import { USBDataType, WriteOption } from "./usb-device.facade.class"
@@ -23,7 +24,7 @@ describe("`UsbDeviceFacade`", () => {
         configuration: null,
         selectConfiguration: jest.fn(),
         claimInterface: jest.fn(),
-      } as unknown as USBDevice
+      } as unknown as WebUSBDevice
       const subject = new UsbDeviceFacade(device)
 
       const write = jest.fn()
@@ -47,7 +48,7 @@ describe("`UsbDeviceFacade`", () => {
         configuration: null,
         selectConfiguration: jest.fn(),
         claimInterface: jest.fn(),
-      } as unknown as USBDevice
+      } as unknown as WebUSBDevice
       const subject = new UsbDeviceFacade(device)
 
       const write = jest.fn()
@@ -69,7 +70,7 @@ describe("`UsbDeviceFacade`", () => {
       const device = {
         close: jest.fn(),
         releaseInterface: jest.fn(),
-      } as unknown as USBDevice
+      } as unknown as WebUSBDevice
       const subject = new UsbDeviceFacade(device)
 
       jest.spyOn(subject, "write").mockImplementation(jest.fn())
@@ -87,7 +88,7 @@ describe("`UsbDeviceFacade`", () => {
     test("call `transferOut` method", async () => {
       const device = {
         transferOut: jest.fn(),
-      } as unknown as USBDevice
+      } as unknown as WebUSBDevice
       const subject = new UsbDeviceFacade(device)
 
       await subject.write({} as WriteOption)
@@ -100,7 +101,7 @@ describe("`UsbDeviceFacade`", () => {
     test("return result when type is equal DataBlock", async () => {
       const device = {
         transferOut: jest.fn(),
-      } as unknown as USBDevice
+      } as unknown as WebUSBDevice
       const subject = new UsbDeviceFacade(device)
 
       const result = { type: USBDataType.DataBlock }
@@ -118,7 +119,7 @@ describe("`UsbDeviceFacade`", () => {
     test("throw Error when returns result is `undefined`", async () => {
       const device = {
         transferOut: jest.fn(),
-      } as unknown as USBDevice
+      } as unknown as WebUSBDevice
       const subject = new UsbDeviceFacade(device)
 
       const result = undefined

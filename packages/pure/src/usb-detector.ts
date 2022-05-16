@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import usb from "usb"
+import { usb } from "usb"
 import { EventEmitter } from "events"
 import { PortInfo } from "serialport"
 import log, { LogConfig } from "./logger/log-decorator"

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { usb } from "webusb"
+import { findBySerialNumber, usb, WebUSBDevice } from "usb"
 import {
   UsbResponse,
   UsbDeviceFacadeClass,
@@ -25,7 +25,7 @@ export class UsbDeviceFacade implements UsbDeviceFacadeClass {
   private sessionId = 1
   private packetSize = 1024
 
-  constructor(private device: USBDevice) {}
+  constructor(private device: WebUSBDevice) {}
 
   async openSession(id: WriteOption["id"]): Promise<boolean> {
     if (this.device.opened) {
@@ -146,18 +146,17 @@ export class UsbDeviceFacade implements UsbDeviceFacadeClass {
 
   static async getUsbDevice(
     filter: USBDeviceFilter
-  ): Promise<USBDevice | undefined> {
-    const devices = await usb.getDevices()
+  ): Promise<WebUSBDevice | undefined> {
+    const device = await findBySerialNumber(filter.serialNumber as string)
 
-    let device = devices.find(
-      ({ serialNumber }) => serialNumber === filter.serialNumber
-    )
+    // let device = devices.find(
+    //   ({ me }) => deviceDescriptor.iSerialNumber === filter.serialNumber
+    // )
 
-    if (device === undefined) {
-      device = await usb.requestDevice({
-        filters: [filter],
-      })
+    if (device !== undefined) {
+      return WebUSBDevice.createInstance(device)
     }
-    return device
+
+    return
   }
 }
