@@ -23,7 +23,7 @@ let defaultData = require("../src/main/default-app-configuration.json")
     } else {
       await fs.writeJson(path.resolve(jsonPath), defaultData)
     }
-  } catch (error) {
+  } catch (error: any) {
     await fs.writeJson(path.resolve(jsonPath), defaultData)
   }
 })()
