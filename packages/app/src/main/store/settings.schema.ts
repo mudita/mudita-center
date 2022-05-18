@@ -12,7 +12,7 @@ import {
   ConversionFormat,
   Convert,
 } from "App/main/store/settings.interface"
-import { defaultLanguage } from "App/translations.config.json"
+import translationConfig from "App/translations.config.json"
 
 const generateApplicationId = (): string => {
   const maxApplicationIdLength = 16
@@ -77,7 +77,7 @@ const settingsSchema: Schema<AppSettings> = {
   },
   language: {
     type: "string",
-    default: defaultLanguage,
+    default: translationConfig.defaultLanguage,
   },
   pureNeverConnected: {
     type: "boolean",
