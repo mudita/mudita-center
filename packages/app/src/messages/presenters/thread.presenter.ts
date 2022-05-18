@@ -5,7 +5,6 @@
 
 import { Thread as PureThread } from "@mudita/pure"
 import { Thread } from "App/messages/reducers"
-import { Feature, flags } from "App/feature-flags"
 
 export class ThreadPresenter {
   static mapToThread(pureThread: PureThread): Thread {
@@ -18,8 +17,7 @@ export class ThreadPresenter {
     } = pureThread
     return {
       messageSnippet,
-      // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
-      unread: flags.get(Feature.ProductionAndAlpha) ? false : isUnread,
+      unread: isUnread,
       id: String(threadID),
       phoneNumber: String(number),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),
