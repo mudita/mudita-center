@@ -31,7 +31,7 @@ namespace SortTranslations {
           console.log(`Translation for ${code} sorted`)
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
     }
   }

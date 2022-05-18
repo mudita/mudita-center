@@ -72,7 +72,7 @@ namespace SyncTranslation {
       }
 
       return translations
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
       return []
     }
@@ -148,7 +148,7 @@ namespace SyncTranslation {
         await addTranslation(addedKeysDiff, language.id)
         await updateInternalTranslations(language.id, localesJsonPath)
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error.response)
     }
   }
