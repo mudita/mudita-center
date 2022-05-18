@@ -4,15 +4,11 @@
  */
 
 import React from "react"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Table from "Renderer/components/core/table/table.component"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { noop } from "Renderer/utils/noop"
-import {
-  animatedOpacityActiveStyles,
-  animatedOpacityStyles,
-} from "Renderer/components/rest/animated-opacity/animated-opacity"
 import { AppSettings } from "App/main/store/settings.interface"
 import { Thread } from "App/messages/reducers/messages.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
@@ -24,10 +20,7 @@ import {
   List,
   ListRowProps,
 } from "react-virtualized"
-import ThreadRow, {
-  Checkbox,
-  InitialsAvatar,
-} from "App/messages/components/thread-row.component"
+import ThreadRow from "App/messages/components/thread-row.component"
 import ThreadPlaceholderRow from "App/messages/components/thread-placeholder-row.component"
 
 const Threads = styled(Table)<{

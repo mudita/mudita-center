@@ -273,6 +273,12 @@ const Messages: FunctionComponent<Props> = ({
       remove([activeThread.id])
     }
   }
+
+  const handleDeleteSelected = (): void => {
+    const ids = selectedRows.map((thread) => thread.id)
+    remove(ids)
+  }
+
   const handleContactClick = (): void => {
     if (activeThread) {
       history.push(
@@ -404,6 +410,10 @@ const Messages: FunctionComponent<Props> = ({
         onSearchValueChange={changeSearchValue}
         onNewMessageClick={handleNewMessageClick}
         buttonDisabled={messagesState === MessagesState.NewMessage}
+        selectedThreads={selectedRows}
+        allItemsSelected={allRowsSelected}
+        toggleAll={toggleAll}
+        onDeleteClick={handleDeleteSelected}
       />
       <TableWithSidebarWrapper>
         {threads.length === 0 &&
