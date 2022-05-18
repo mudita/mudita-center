@@ -109,9 +109,14 @@ const ThreadRowContainer = styled(ThreadBaseRow)`
       ${animatedOpacityActiveStyles};
       ${checkboxShowedStyles};
     }
+
     ${InitialsAvatar} {
-      ${animatedOpacityStyles};
-      display: none;
+      ${!flags.get(Feature.ProductionAndAlpha)
+        ? css`
+            display: none;
+            ${animatedOpacityStyles}
+          `
+        : lightAvatarStyles}
     }
   }
 `
@@ -170,14 +175,16 @@ const ThreadRow: FunctionComponent<Props> = ({
   return (
     <ThreadRowContainer key={id} selected={selected} active={active} {...props}>
       <Col>
-        <Checkbox
-          checked={selected}
-          onChange={handleCheckboxChange}
-          size={Size.Large}
-          indeterminate={indeterminate}
-          visible={!noneRowsSelected}
-          data-testid="checkbox"
-        />
+        {!flags.get(Feature.ProductionAndAlpha) && (
+          <Checkbox
+            checked={selected}
+            onChange={handleCheckboxChange}
+            size={Size.Large}
+            indeterminate={indeterminate}
+            visible={!noneRowsSelected}
+            data-testid="checkbox"
+          />
+        )}
         {noneRowsSelected && (
           <InitialsAvatar user={contact} light={active} size={AvatarSize.Big} />
         )}
