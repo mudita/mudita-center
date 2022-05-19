@@ -107,7 +107,6 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
 }
 
 const Messages: FunctionComponent<Props> = ({
-  threadsTotalCount,
   threadsState,
   receivers,
   searchValue,
@@ -128,23 +127,14 @@ const Messages: FunctionComponent<Props> = ({
   deletingState,
   hideDeleteModal,
 }) => {
-  const [_, setThreadsPaginationOffset] = useState<
-    PaginationBody["offset"] | undefined
-  >(0)
-
   useEffect(() => {
+    console.log("messageLayoutNotifications:", messageLayoutNotifications)
     messageLayoutNotifications
       .filter((item) => item.content.messageType === MessageType.OUTBOX)
       .forEach((item) => {
         removeLayoutNotification(item.id)
       })
   }, [messageLayoutNotifications])
-
-  useEffect(() => {
-    if (threadsTotalCount === 0) {
-      setThreadsPaginationOffset(0)
-    }
-  }, [threadsTotalCount])
 
   const [messagesState, setMessagesState] = useState(MessagesState.List)
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
@@ -386,13 +376,6 @@ const Messages: FunctionComponent<Props> = ({
       return threads
     }
   }
-  const getThreadsTotalCount = (): number => {
-    if (tmpActiveThread !== undefined) {
-      return threadsTotalCount + 1
-    } else {
-      return threadsTotalCount
-    }
-  }
 
   const loadMoreRows = async ({ startIndex }: IndexRange): Promise<void> => {
     return new Promise((resolve) => {
@@ -427,7 +410,6 @@ const Messages: FunctionComponent<Props> = ({
         ) : (
           <ThreadList
             data-testid={MessagesTestIds.ThreadList}
-            threadsTotalCount={getThreadsTotalCount()}
             language={language}
             activeThread={activeThread}
             threads={getThreads()}

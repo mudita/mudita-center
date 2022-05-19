@@ -61,7 +61,6 @@ export type MessagesState = Readonly<{
   messageMap: MessageMap
   messageIdsInThreadMap: MessageIdsInThreadMap
   searchValue: string
-  threadsTotalCount: number
   visibilityFilter: VisibilityFilter
   threadsState: ResultState
   messagesStateMap: { [id: string]: ResultState }
