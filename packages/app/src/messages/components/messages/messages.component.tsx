@@ -128,7 +128,6 @@ const Messages: FunctionComponent<Props> = ({
   hideDeleteModal,
 }) => {
   useEffect(() => {
-    console.log("messageLayoutNotifications:", messageLayoutNotifications)
     messageLayoutNotifications
       .filter((item) => item.content.messageType === MessageType.OUTBOX)
       .forEach((item) => {
