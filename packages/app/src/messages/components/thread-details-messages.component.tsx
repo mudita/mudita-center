@@ -61,8 +61,8 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   const closeNewMessageBadge = useCallback(() => {
     const notificationOnThread = messageLayoutNotifications?.find(
       (item) =>
-        item.content.threadId === messages[0].threadId &&
-        item.content.messageType === MessageType.INBOX
+        (item.content as Message)?.threadId === messages[0].threadId &&
+        (item.content as Message)?.messageType === MessageType.INBOX
     )
     if (removeLayoutNotification && notificationOnThread) {
       removeLayoutNotification(notificationOnThread.id)
@@ -89,8 +89,8 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   useEffect(() => {
     const currentNotifications = messageLayoutNotifications?.filter(
       (item) =>
-        item.content.threadId === messages[0].threadId &&
-        item.content.messageType === MessageType.INBOX
+        (item.content as Message)?.threadId === messages[0].threadId &&
+        (item.content as Message)?.messageType === MessageType.INBOX
     )
     setNotifications(currentNotifications ? currentNotifications : [])
     if (!wrapperBottomRef.current) {

@@ -129,7 +129,9 @@ const Messages: FunctionComponent<Props> = ({
 }) => {
   useEffect(() => {
     messageLayoutNotifications
-      .filter((item) => item.content.messageType === MessageType.OUTBOX)
+      .filter(
+        (item) => (item.content as Message)?.messageType === MessageType.OUTBOX
+      )
       .forEach((item) => {
         removeLayoutNotification(item.id)
       })

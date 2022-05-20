@@ -29,10 +29,7 @@ export const getNotificationByResourceAndMethod = (
     notificationsSelector,
     (state) => {
       return state.data.filter(
-        (item) =>
-          item.method === method &&
-          item.resourceType === resource &&
-          item.content !== undefined
+        (item) => item.method === method && item.resourceType === resource
       )
     }
   )
