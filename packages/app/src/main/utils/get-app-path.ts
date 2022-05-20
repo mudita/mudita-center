@@ -4,7 +4,7 @@
  */
 
 import path from "path"
-import { name } from "../../../package.json"
+import packageInfo from "../../../package.json"
 
 export enum AppType {
   Main = "main",
@@ -29,7 +29,7 @@ export const resolve: AppResolver = () => {
 
 const getAppPath = (): string => {
   try {
-    return path.join(resolve().app.getPath("appData"), name)
+    return path.join(resolve().app.getPath("appData"), packageInfo.name)
   } catch {
     return ""
   }

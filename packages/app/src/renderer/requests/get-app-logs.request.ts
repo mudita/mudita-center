@@ -5,7 +5,7 @@
 
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import { version } from "../../../package.json"
+import packageInfo from "../../../package.json"
 import os from "os"
 import { ipcRenderer } from "electron-better-ipc"
 import { AppLogsEvents } from "App/main/functions/register-app-logs-listener"
@@ -23,7 +23,7 @@ const getAppLogs = async (maxSize?: number): Promise<string> => {
   const appLogs = await ipcRenderer.callMain(AppLogsEvents.Get, maxSize)
 
   const logParts = [
-    `${intl.formatMessage(messages.appVersion)}: ${version}`,
+    `${intl.formatMessage(messages.appVersion)}: ${packageInfo.version}`,
     `${intl.formatMessage(
       messages.os
     )}: ${os.platform()} ${os.arch()}, ${os.release()}`,

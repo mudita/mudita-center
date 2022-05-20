@@ -14,7 +14,7 @@ import { Normalize } from "styled-normalize"
 import GlobalStyle from "Renderer/styles/global-style.component"
 import theme from "Renderer/styles/theming/theme"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { defaultLanguage } from "App/translations.config.json"
+import translationConfig from "App/translations.config.json"
 import { ModalProvider } from "Renderer/components/core/modal/modal.service"
 import modalService from "Renderer/components/core/modal/modal.service"
 import HelpApp from "Renderer/wrappers/help-app.component"
@@ -259,8 +259,8 @@ const RootWrapper: FunctionComponent<Props> = ({
   return (
     <ThemeProvider theme={theme}>
       <IntlProvider
-        defaultLocale={defaultLanguage}
-        locale={defaultLanguage}
+        defaultLocale={translationConfig.defaultLanguage}
+        locale={translationConfig.defaultLanguage}
         messages={localeEn}
       >
         <ModalProvider service={modalService}>

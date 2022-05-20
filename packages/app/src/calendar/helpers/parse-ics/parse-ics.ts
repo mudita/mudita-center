@@ -3,24 +3,28 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import ical, { VEvent } from "node-ical"
+import ICalParser from "ical-js-parser"
+import fs from "fs"
 import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
-import { RRule } from "rrule"
 
 const parseIcs = async (filePaths: string[]): Promise<CalendarEvent[]> => {
   const parsedEvents: CalendarEvent[] = []
   for (const filePath of filePaths) {
-    const calendarEvents = await ical.async.parseFile(filePath)
-    for (const event of Object.values(calendarEvents) as VEvent[]) {
+    const fileData = await fs.readFileSync(filePath)
+    const calendarEvents = await ICalParser.toJSON(fileData.toString())
+
+    for (const event of calendarEvents.events) {
       parsedEvents.push({
         id: event.uid ? event.uid.toString() : "",
         name: event.summary ? event.summary.toString() : "",
-        startDate: event.start ? new Date(event.start).toISOString() : "",
-        endDate: event.end ? new Date(event.end).toISOString() : "",
+        startDate: event.dtstart.value
+          ? new Date(parseInt(event.dtstart.value) * 1000).toISOString()
+          : "",
+        endDate: event.dtend.value
+          ? new Date(parseInt(event.dtend.value) * 1000).toISOString()
+          : "",
         description: event.description,
-        ...(event.rrule?.origOptions
-          ? { recurrence: new RRule(event.rrule?.origOptions) }
-          : {}),
+        recurrence: event.rrule,
       })
     }
   }
