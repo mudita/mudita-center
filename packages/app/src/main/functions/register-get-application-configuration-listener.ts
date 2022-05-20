@@ -5,10 +5,7 @@
 
 import axios from "axios"
 import { ipcMain } from "electron-better-ipc"
-import {
-  osVersion,
-  centerVersion,
-} from "App/main/default-app-configuration.json"
+import appConfig from "App/main/default-app-configuration.json"
 
 export enum GetApplicationConfigurationEvents {
   Request = "get-lowest-supported-os-version-request",
@@ -19,7 +16,10 @@ export interface ApplicationConfigurationResponse {
   centerVersion: string
 }
 
-let defaultData = { osVersion, centerVersion }
+let defaultData = {
+  osVersion: appConfig.osVersion,
+  centerVersion: appConfig.centerVersion,
+}
 
 try {
   defaultData = require("../app-configuration.json")

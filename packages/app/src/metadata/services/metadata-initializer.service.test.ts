@@ -7,7 +7,7 @@ import { MetadataInitializer } from "./metadata-initializer.service"
 import { MetadataStore } from "./metadata-store.service"
 import { MetadataKey } from "App/metadata/constants"
 
-import { version } from "../../../package.json"
+import packageInfo from "../../../package.json"
 
 const store = new MetadataStore()
 const subject = new MetadataInitializer(store)
@@ -17,5 +17,7 @@ test("set initial data when `init` method is called", () => {
 
   subject.init()
 
-  expect(store.getValue(MetadataKey.MuditaCenterVersion)).toEqual(version)
+  expect(store.getValue(MetadataKey.MuditaCenterVersion)).toEqual(
+    packageInfo.version
+  )
 })

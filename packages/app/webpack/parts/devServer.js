@@ -2,17 +2,13 @@ const { spawn } = require("child_process")
 
 module.exports = {
   port: 2003,
-  compress: true,
-  noInfo: true,
-  stats: "errors-only",
-  inline: true,
-  hot: true,
+  hot: "only",
   headers: { "Access-Control-Allow-Origin": "*" },
   historyApiFallback: {
     verbose: true,
     disableDotRule: false,
   },
-  before() {
+  onBeforeSetupMiddleware() {
     if (process.env.START_HOT) {
       spawn("npm", ["run", "dev:start:main"], {
         shell: true,

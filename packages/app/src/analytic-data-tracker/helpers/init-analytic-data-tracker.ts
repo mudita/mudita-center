@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { version } from "../../../package.json"
+import packageInfo from "../../../package.json"
 import {
   setVisitorMetadataRequest,
   trackUniqueRequest,
@@ -21,6 +21,6 @@ export const initAnalyticDataTracker = async (): Promise<void> => {
 
   await trackUniqueRequest({
     e_c: TrackEventCategory.CenterVersion,
-    e_a: version,
+    e_a: packageInfo.version,
   })
 }
