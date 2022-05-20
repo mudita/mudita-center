@@ -11,9 +11,13 @@ const {
   devserver,
   optimization,
 } = require("./webpack/common")
-const { woff, woff2, tff, eot, tsx, css, scss, img, svg, fonts, js } = rules
+const { woff, woff2, tff, eot, tsx, css, scss, img, svg, js } = rules
 
 const config = {
+  node: {
+    Buffer: false,
+    process: false,
+  },
   mode: production ? "production" : "development",
   entry: entry(true),
   node,
@@ -24,7 +28,7 @@ const config = {
   optimization: optimization(production),
   plugins: [
     plugins.circulars,
-    plugins.tsChecker(true),
+    plugins.tsChecker,
     plugins.minify,
     plugins.define,
     plugins.env,
@@ -40,7 +44,7 @@ const config = {
       scss,
       img,
       svg,
-      fonts,
+      // fonts,
       js,
     ],
   },

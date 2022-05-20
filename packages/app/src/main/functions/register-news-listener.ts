@@ -4,7 +4,7 @@
  */
 
 import { app } from "electron"
-import { name } from "../../../package.json"
+import packageInfo from "../../../package.json"
 import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
 import { EntryCollection } from "contentful"
@@ -22,9 +22,9 @@ export enum NewsEvents {
 }
 
 const registerNewsListener = (): void => {
-  const newsFilePath = `${app.getPath(
-    "appData"
-  )}/${name}/default-news-items.json`
+  const newsFilePath = `${app.getPath("appData")}/${
+    packageInfo.name
+  }/default-news-items.json`
 
   const checkForUpdateAndGetNewData = async (): Promise<
     boolean | EntryCollection<NewsEntry>

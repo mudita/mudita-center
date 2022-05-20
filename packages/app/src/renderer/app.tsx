@@ -8,7 +8,7 @@ import * as ReactDOM from "react-dom"
 import { Provider } from "react-redux"
 import { AppContainer } from "react-hot-loader"
 import modalService from "Renderer/components/core/modal/modal.service"
-import { defaultLanguage } from "App/translations.config.json"
+import translationConfig from "App/translations.config.json"
 import history from "Renderer/routes/history"
 import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
@@ -39,4 +39,4 @@ ReactDOM.render(
 
 // Setup modal service
 modalService.bindStore(store)
-modalService.setDefaultLocale(defaultLanguage)
+modalService.setDefaultLocale(translationConfig.defaultLanguage)
