@@ -13,6 +13,10 @@ const {
 const { woff, woff2, tff, eot, tsx } = rules
 
 module.exports = {
+  node: {
+    Buffer: false,
+    process: false,
+  },
   mode: production ? "production" : "development",
   entry: entry(false),
   node,

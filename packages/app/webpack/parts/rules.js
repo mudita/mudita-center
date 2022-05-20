@@ -82,11 +82,28 @@ module.exports = {
     renderer ? tsxRenderer(production) : tsxMain(production),
   scss: {
     test: /\.scss$/,
-    loaders: ["style-loader", "css-loader", "sass-loader"],
+    use: [
+      {
+        loader: "style-loader",
+      },
+      {
+        loader: "css-loader",
+      },
+      {
+        loader: "sass-loader",
+      },
+    ],
   },
   css: {
     test: /\.css$/,
-    loaders: ["style-loader", "css-loader"],
+    use: [
+      {
+        loader: "style-loader",
+      },
+      {
+        loader: "css-loader",
+      },
+    ],
   },
   img: {
     test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
@@ -95,18 +112,6 @@ module.exports = {
   svg: {
     test: /\.svg$/,
     use: ["svg-react-loader"],
-  },
-  fonts: {
-    test: /\.(woff(2)?|ttf|eot|otf)(\?v=\d+\.\d+\.\d+)?$/,
-    use: [
-      {
-        loader: "file-loader",
-        options: {
-          name: "[name].[ext]",
-          outputPath: "src/fonts/",
-        },
-      },
-    ],
   },
   js: {
     enforce: "pre",

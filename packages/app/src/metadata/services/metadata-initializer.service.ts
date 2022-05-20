@@ -6,13 +6,16 @@
 import { MetadataKey } from "App/metadata/constants"
 import { MetadataStore } from "App/metadata/services"
 
-import { version } from "../../../package.json"
+import packageInfo from "../../../package.json"
 
 export class MetadataInitializer {
   constructor(private metadataStore: MetadataStore) {}
 
   public init(): void {
     // Add new static key here
-    this.metadataStore.setValue(MetadataKey.MuditaCenterVersion, version)
+    this.metadataStore.setValue(
+      MetadataKey.MuditaCenterVersion,
+      packageInfo.version
+    )
   }
 }

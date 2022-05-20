@@ -2,7 +2,7 @@ namespace SyncTranslation {
   const axios = require("axios")
   const path = require("path")
   const fs = require("fs-extra")
-  const { availableLanguages } = require("../src/translations.config.json")
+  const translationConfig = require("../src/translations.config.json")
   const {
     localesUrl,
     phraseUrl,
@@ -125,7 +125,7 @@ namespace SyncTranslation {
 
       const localesDir = "./src/renderer/locales/default/"
 
-      for await (const language of availableLanguages) {
+      for await (const language of translationConfig.availableLanguages) {
         const localesJsonPath = path.join(localesDir, `${language.code}.json`)
         const internalTranslations = await fs.readJsonSync(localesJsonPath)
         const externalTranslations = await getTranslations(language.id)

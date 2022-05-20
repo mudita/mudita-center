@@ -7,7 +7,7 @@ const { DefinePlugin, EnvironmentPlugin } = require("webpack")
 const path = require("path")
 
 module.exports = {
-  tsChecker: () => new ForkTsCheckerWebpackPlugin(),
+  tsChecker: new ForkTsCheckerWebpackPlugin(),
   define: new DefinePlugin({
     "process.env.NODE_ENV": JSON.stringify(
       process.env.NODE_ENV || "development"

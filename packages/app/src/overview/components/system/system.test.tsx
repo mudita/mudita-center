@@ -10,12 +10,12 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { intl } from "Renderer/utils/intl"
 import System from "App/overview/components/system/system.component"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
-import { osVersion } from "App/main/default-app-configuration.json"
+import appConfig from "App/main/default-app-configuration.json"
 
 type Props = ComponentProps<typeof System>
 
 const defaultProps: Props = {
-  osVersion,
+  osVersion: appConfig.osVersion,
 }
 
 const render = (extraProps?: Partial<Props>) => {
@@ -29,7 +29,7 @@ const render = (extraProps?: Partial<Props>) => {
 test("renders os version properly", () => {
   const { getByTestId } = render()
   expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent(
-    `[value] module.overview.muditaOsUpdateTitle ${osVersion}`
+    `[value] module.overview.muditaOsUpdateTitle ${appConfig.osVersion}`
   )
 })
 
