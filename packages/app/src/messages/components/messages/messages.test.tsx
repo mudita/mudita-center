@@ -85,7 +85,6 @@ beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 type Props = ComponentProps<typeof Messages>
 
 const defaultProps: Props = {
-  threadsTotalCount: 0,
   threadsState: ResultState.Empty,
   threads: [],
   receivers: [],
@@ -108,7 +107,6 @@ const defaultProps: Props = {
 }
 
 const propsWithSingleThread: Partial<Props> = {
-  threadsTotalCount: 1,
   threadsState: ResultState.Loaded,
   threads: [firstThread],
   receivers: [receiver],
@@ -243,7 +241,7 @@ describe("Messages component", () => {
     })
 
     test("length of passed empty thread list should be equal 0", () => {
-      const { queryByTestId } = renderer({ threads: [], threadsTotalCount: 0 })
+      const { queryByTestId } = renderer({ threads: [] })
       expect(queryByTestId(ThreadListTestIds.Row)).not.toBeInTheDocument()
     })
 
@@ -352,7 +350,6 @@ describe("Messages component", () => {
       const { queryByTestId } = renderer({
         ...renderProps,
         threads: [],
-        threadsTotalCount: 0,
       })
       expect(queryByTestId(ThreadListTestIds.Row)).toBeInTheDocument()
     })
@@ -510,7 +507,6 @@ describe("Messages component", () => {
       const { queryByTestId, queryAllByTestId } = renderer({
         ...renderProps,
         threads: [firstThread, secondThread],
-        threadsTotalCount: 2,
       })
       const tableRow = queryAllByTestId(ThreadListTestIds.Row)[1]
       fireEvent.click(tableRow)

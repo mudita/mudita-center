@@ -13,7 +13,7 @@ export interface Content {
 
 export type ComponentProps = Pick<
   MessagesState,
-  "searchValue" | "threadsState" | "threadsTotalCount"
+  "searchValue" | "threadsState"
 > &
   Readonly<{
     changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void

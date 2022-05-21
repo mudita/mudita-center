@@ -41,6 +41,7 @@ const defaultState = {
 const notificationMock = {
   resourceType: NotificationResourceType.Message,
   method: NotificationMethod.Layout,
+  content: {},
 } as Notification
 
 const defaultProps: Props = {

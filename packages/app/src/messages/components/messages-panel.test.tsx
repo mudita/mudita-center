@@ -7,14 +7,38 @@ import React, { ComponentProps } from "react"
 import { fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import MessagesPanel from "App/messages/components/messages-panel.component"
+import { Thread } from "App/messages/reducers/messages.interface"
+import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 
 type Props = ComponentProps<typeof MessagesPanel>
+
+const threads: Thread[] = [
+  {
+    id: "1",
+    phoneNumber: "+71 195 069 214",
+    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+    messageSnippet:
+      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+    unread: true,
+  },
+  {
+    id: "2",
+    phoneNumber: "+46 333 060 911",
+    lastUpdatedAt: new Date("2020-05-17T19:58:05.136Z"),
+    messageSnippet:
+      "Velit et ut ut odit quo. Ratione eligendi non consequatur ipsum neque.",
+    unread: true,
+  },
+]
 
 const defaultProps: Props = {
   searchValue: "",
   onSearchValueChange: jest.fn(),
   onNewMessageClick: jest.fn(),
   buttonDisabled: false,
+  selectedThreads: [],
+  allItemsSelected: false,
+  onDeleteClick: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
@@ -38,5 +62,14 @@ describe("MessagesPanel component", () => {
     const { getByRole } = renderer({ onNewMessageClick })
     fireEvent.click(getByRole("button"))
     expect(onNewMessageClick).toBeCalled()
+  })
+
+  test("selection manager is displayed when there is at least one thread selected", () => {
+    const { getByTestId } = renderer({
+      selectedThreads: [threads[0]],
+    })
+    expect(
+      getByTestId(MessagePanelTestIds.SelectionManager)
+    ).toBeInTheDocument()
   })
 })
