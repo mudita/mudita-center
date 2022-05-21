@@ -366,7 +366,7 @@ const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
 }
 
 ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
-  if (process.env.MUDITA_GOOGLE_AUTH_URL) {
+  if (process.env.MUDITA_CENTER_SERVER_URL) {
     const cb = (data: string) => {
       ipcMain.callRenderer(
         win as BrowserWindow,
@@ -402,10 +402,8 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           scopeUrl = "https://www.googleapis.com/auth/contacts"
           break
       }
-
-      googleAuthWindow.loadURL(
-        `${process.env.MUDITA_GOOGLE_AUTH_URL}?scope=${scopeUrl}`
-      )
+      const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-init`
+      googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`)
     } else {
       googleAuthWindow.show()
     }
