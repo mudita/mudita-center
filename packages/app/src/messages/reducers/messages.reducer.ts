@@ -32,7 +32,6 @@ export const initialState: MessagesState = {
   messageMap: {},
   messageIdsInThreadMap: {},
   searchValue: "",
-  threadsTotalCount: 0,
   threadsState: ResultState.Empty,
   visibilityFilter: VisibilityFilter.All,
   messagesStateMap: {},
@@ -226,7 +225,6 @@ export const messagesReducer = createReducer<MessagesState>(
 
                 return prev
               }, {}),
-            threadsTotalCount: Object.keys(action.payload.threads).length,
             threadsState: ResultState.Loaded,
           }
         }

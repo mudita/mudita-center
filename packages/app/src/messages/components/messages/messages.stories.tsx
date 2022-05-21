@@ -157,7 +157,6 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         receivers={receivers}
         loadThreads={loadData}
         threadsState={ResultState.Loaded}
-        threadsTotalCount={rowThreads.length}
         messageLayoutNotifications={[]}
         removeLayoutNotification={jest.fn()}
         deletingState={null}
