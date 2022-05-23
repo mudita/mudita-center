@@ -128,7 +128,7 @@ interface Props
   onCheckboxChange: (thread: Thread) => void
   onRowClick: (thread: Thread) => void
   onDeleteClick: (id: Thread["id"]) => void
-  onToggleReadClick: (ids: Thread["id"][]) => void
+  onToggleReadClick: (threads: Thread[]) => void
   onContactClick: (phoneNumber: Thread["phoneNumber"]) => void
   newConversation: string
 }
@@ -156,7 +156,7 @@ const ThreadRow: FunctionComponent<Props> = ({
   const handleCheckboxChange = () => onCheckboxChange(thread)
   const handleRowClick = () => onRowClick(thread)
   const handleDeleteClick = () => onDeleteClick(id)
-  const handleToggleClick = () => onToggleReadClick([id])
+  const handleToggleClick = () => onToggleReadClick([thread])
   const handleContactClick = () => onContactClick(phoneNumber)
 
   return (
@@ -276,21 +276,18 @@ const ThreadRow: FunctionComponent<Props> = ({
                 data-testid="dropdown-delete"
               />
             )}
-            {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
-            {!flags.get(Feature.ProductionAndAlpha) && (
-              <HiddenButton
-                labelMessage={{
-                  id: unread
-                    ? "module.messages.markAsRead"
-                    : "module.messages.markAsUnread",
-                }}
-                Icon={IconType.BorderCheckIcon}
-                onClick={handleToggleClick}
-                displayStyle={DisplayStyle.Dropdown}
-                data-testid="dropdown-mark-as-read"
-                hide={flags.get(Feature.ProductionAndAlpha)}
-              />
-            )}
+            <HiddenButton
+              labelMessage={{
+                id: unread
+                  ? "module.messages.markAsRead"
+                  : "module.messages.markAsUnread",
+              }}
+              Icon={IconType.BorderCheckIcon}
+              onClick={handleToggleClick}
+              displayStyle={DisplayStyle.Dropdown}
+              data-testid="dropdown-mark-as-read"
+              hide={flags.get(Feature.ProductionAndAlpha)}
+            />
           </Dropdown>
         </Actions>
       </Col>

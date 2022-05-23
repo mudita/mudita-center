@@ -17,8 +17,10 @@ export const ThreadControllerPrefix = "thread"
 
 export enum IpcThreadEvent {
   DeleteThreads = "delete-threads",
+  ToggleThreadReadStatus = "toggle-thread-read-status",
 }
 
 export enum IpcThreadRequest {
   DeleteThreads = "thread-delete-threads",
+  ToggleThreadReadStatus = "thread-toggle-thread-read-status",
 }

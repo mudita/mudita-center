@@ -285,7 +285,7 @@ const Messages: FunctionComponent<Props> = ({
 
   const markAsUnread = (): void => {
     if (activeThread) {
-      toggleReadStatus([activeThread.id])
+      toggleReadStatus([activeThread])
       closeSidebars()
     }
   }
