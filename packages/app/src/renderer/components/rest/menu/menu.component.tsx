@@ -7,10 +7,6 @@ import React from "react"
 import { DeviceType } from "@mudita/pure"
 import { connect } from "react-redux"
 import { ReduxRootState } from "Renderer/store"
-import {
-  NotificationResourceType,
-  NotificationMethod,
-} from "App/notification/constants"
 import MenuGroup from "Renderer/components/rest/menu/menu-group.component"
 import { menuElements } from "Renderer/constants/menu-elements"
 import { DevMode } from "App/dev-mode/store/dev-mode.interface"
@@ -31,7 +27,7 @@ import Text, {
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { IconType } from "Renderer/components/core/icon/icon-type"
 import { View } from "Renderer/constants/views"
-import { getNotificationByResourceAndMethod } from "App/notification/selectors"
+import { getUnreadThreads } from "App/messages/selectors"
 
 const MenuWrapper = styled.div`
   flex: 1;
@@ -144,11 +140,7 @@ const Menu: FunctionComponent<Properties> = ({
 const mapDispatchToProps = (state: ReduxRootState) => ({
   deviceType: state.device.deviceType,
   notifications: {
-    [View.Messages]:
-      getNotificationByResourceAndMethod(
-        NotificationResourceType.Message,
-        NotificationMethod.Layout
-      )(state).length > 0,
+    [View.Messages]: getUnreadThreads(state).length > 0,
   },
 })
 
