@@ -276,7 +276,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 data-testid="dropdown-delete"
               />
             )}
-            <HiddenButton
+            <ButtonComponent
               labelMessage={{
                 id: unread
                   ? "module.messages.markAsRead"
@@ -286,7 +286,6 @@ const ThreadRow: FunctionComponent<Props> = ({
               onClick={handleToggleClick}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="dropdown-mark-as-read"
-              hide={flags.get(Feature.ProductionAndAlpha)}
             />
           </Dropdown>
         </Actions>
