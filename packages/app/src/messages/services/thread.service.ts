@@ -166,7 +166,6 @@ export class ThreadService {
   public async toggleThreadReadStatus(
     threads: Thread[]
   ): Promise<RequestResponse<Thread[]>> {
-    console.log("thread service threads", threads)
     const results = threads.map(async (thread) => {
       const { status } = await this.deviceService.request({
         endpoint: Endpoint.Messages,

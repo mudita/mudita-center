@@ -4,23 +4,22 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { toggleThreadReadStatusRequest } from "App/messages/requests"
+import { toggleThreadsReadStatusRequest } from "App/messages/requests"
 import { MessagesEvent } from "App/messages/constants"
-import { ToggleThreadReadStatusError } from "App/messages/errors"
+import { ToggleThreadsReadStatusError } from "App/messages/errors"
 import { Thread } from "App/messages/reducers/messages.interface"
 
-export const toggleThreadReadStatus = createAsyncThunk<
+export const toggleThreadsReadStatus = createAsyncThunk<
   Error | Thread[],
   Thread[]
 >(
   MessagesEvent.ToggleThreadReadStatus,
   async (threads, { rejectWithValue }) => {
-    console.log("action ids", threads)
-    const { error } = await toggleThreadReadStatusRequest(threads)
+    const { error } = await toggleThreadsReadStatusRequest(threads)
     if (error && error.data === undefined) {
       return rejectWithValue(
-        new ToggleThreadReadStatusError(
-          "Toggle thread read status request failed"
+        new ToggleThreadsReadStatusError(
+          "Toggle threads read status request failed"
         )
       )
     }

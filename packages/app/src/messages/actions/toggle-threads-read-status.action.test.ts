@@ -11,13 +11,13 @@ import {
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 import { CreateMessageDataResponse } from "App/messages/services"
-import { ToggleThreadReadStatusError } from "App/messages/errors"
+import { ToggleThreadsReadStatusError } from "App/messages/errors"
 import { testError } from "Renderer/store/constants"
-import { toggleThreadReadStatusRequest } from "App/messages/requests"
+import { toggleThreadsReadStatusRequest } from "App/messages/requests"
 import { Thread } from "App/messages/reducers/messages.interface"
-import { toggleThreadReadStatus } from "App/messages/actions/toggle-thread-read-status.action"
+import { toggleThreadsReadStatus } from "App/messages/actions/toggle-threads-read-status.action"
 
-jest.mock("App/messages/requests/toggle-thread-read-status.request")
+jest.mock("App/messages/requests/toggle-threads-read-status.request")
 
 const thread: Thread = {
   id: "1",
@@ -51,46 +51,46 @@ afterEach(() => {
   jest.resetAllMocks()
 })
 
-describe("`toggleThreadReadStatus`", () => {
-  describe("when `toggleThreadReadStatus` request return success", () => {
-    test("`toggleThreadReadStatus` returns thread", async () => {
-      ;(toggleThreadReadStatusRequest as jest.Mock).mockReturnValue(
+describe("`toggleThreadsReadStatus`", () => {
+  describe("when `toggleThreadsReadStatus` request return success", () => {
+    test("`toggleThreadsReadStatus` returns thread", async () => {
+      ;(toggleThreadsReadStatusRequest as jest.Mock).mockReturnValue(
         successDeviceResponse
       )
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        toggleThreadReadStatus([thread]) as unknown as AnyAction
+        toggleThreadsReadStatus([thread]) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        toggleThreadReadStatus.pending(requestId, [thread]),
-        toggleThreadReadStatus.fulfilled([thread], requestId, [thread]),
+        toggleThreadsReadStatus.pending(requestId, [thread]),
+        toggleThreadsReadStatus.fulfilled([thread], requestId, [thread]),
       ])
 
-      expect(toggleThreadReadStatusRequest).toHaveBeenCalled()
+      expect(toggleThreadsReadStatusRequest).toHaveBeenCalled()
     })
   })
 
-  describe("when `toggleThreadReadStatus` request return error", () => {
-    test("fire `toggleThreadReadStatus` returns `rejected` action", async () => {
-      ;(toggleThreadReadStatusRequest as jest.Mock).mockReturnValue(
+  describe("when `toggleThreadsReadStatus` request return error", () => {
+    test("fire `toggleThreadsReadStatus` returns `rejected` action", async () => {
+      ;(toggleThreadsReadStatusRequest as jest.Mock).mockReturnValue(
         errorDeviceResponse
       )
-      const errorMock = new ToggleThreadReadStatusError(
-        "Toggle thread read status request failed"
+      const errorMock = new ToggleThreadsReadStatusError(
+        "Toggle threads read status request failed"
       )
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        toggleThreadReadStatus([thread]) as unknown as AnyAction
+        toggleThreadsReadStatus([thread]) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        toggleThreadReadStatus.pending(requestId, [thread]),
-        toggleThreadReadStatus.rejected(
+        toggleThreadsReadStatus.pending(requestId, [thread]),
+        toggleThreadsReadStatus.rejected(
           testError,
           requestId,
           [thread],
@@ -98,26 +98,26 @@ describe("`toggleThreadReadStatus`", () => {
         ),
       ])
 
-      expect(toggleThreadReadStatusRequest).toHaveBeenCalled()
+      expect(toggleThreadsReadStatusRequest).toHaveBeenCalled()
     })
 
-    test("fire `toggleThreadReadStatus` returns any success data", async () => {
-      ;(toggleThreadReadStatusRequest as jest.Mock).mockReturnValue(
+    test("fire `toggleThreadsReadStatus` returns any success data", async () => {
+      ;(toggleThreadsReadStatusRequest as jest.Mock).mockReturnValue(
         errorWithDataDeviceResponse
       )
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        toggleThreadReadStatus([thread]) as unknown as AnyAction
+        toggleThreadsReadStatus([thread]) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        toggleThreadReadStatus.pending(requestId, [thread]),
-        toggleThreadReadStatus.fulfilled([thread], requestId, [thread]),
+        toggleThreadsReadStatus.pending(requestId, [thread]),
+        toggleThreadsReadStatus.fulfilled([thread], requestId, [thread]),
       ])
 
-      expect(toggleThreadReadStatusRequest).toHaveBeenCalled()
+      expect(toggleThreadsReadStatusRequest).toHaveBeenCalled()
     })
   })
 })

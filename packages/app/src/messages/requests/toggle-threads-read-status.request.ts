@@ -8,12 +8,11 @@ import { IpcThreadRequest } from "App/messages/constants/controller.constant"
 import { RequestResponse } from "App/core/types/request-response.interface"
 import { Thread } from "App/messages/reducers/messages.interface"
 
-export const toggleThreadReadStatusRequest = async (
+export const toggleThreadsReadStatusRequest = async (
   threads: Thread[]
 ): Promise<RequestResponse<Thread[]>> => {
-  console.log("threadIds request", threads)
   return await ipcRenderer.callMain(
-    IpcThreadRequest.ToggleThreadReadStatus,
+    IpcThreadRequest.ToggleThreadsReadStatus,
     threads
   )
 }

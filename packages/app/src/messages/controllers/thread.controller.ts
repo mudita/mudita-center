@@ -23,7 +23,7 @@ export class ThreadController {
     return this.threadService.deleteThreads(threadIds)
   }
 
-  @IpcEvent(IpcThreadEvent.ToggleThreadReadStatus)
+  @IpcEvent(IpcThreadEvent.ToggleThreadsReadStatus)
   public toggleThreadReadStatus(
     threads: Thread[]
   ): Promise<RequestResponse<Thread[]>> {

@@ -5,4 +5,4 @@
 
 export * from "./create-message.request"
 export * from "./delete-threads.request"
-export * from "./toggle-thread-read-status.request"
+export * from "./toggle-threads-read-status.request"

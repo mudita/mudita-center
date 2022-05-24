@@ -37,7 +37,7 @@ import {
   NotificationResourceType,
 } from "App/notification/constants"
 import { deleteThreads } from "App/messages/actions/delete-threads.action"
-import { toggleThreadReadStatus } from "App/messages/actions/toggle-thread-read-status.action"
+import { toggleThreadsReadStatus } from "App/messages/actions/toggle-threads-read-status.action"
 import { Thread } from "App/messages/reducers/messages.interface"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
@@ -72,7 +72,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(deleteThreads(threadIds)),
   markAsRead: (threadIds: string[]) => dispatch(markThreadsAsRead(threadIds)),
   toggleReadStatus: (threads: Thread[]) =>
-    dispatch(toggleThreadReadStatus(threads)),
+    dispatch(toggleThreadsReadStatus(threads)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
     dispatch(addNewMessage(newMessage)),
   removeLayoutNotification: (notificationId: string) =>
