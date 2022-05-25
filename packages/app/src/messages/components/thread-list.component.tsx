@@ -64,7 +64,7 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
   onThreadClick?: (thread: Thread) => void
   activeThread?: Thread
   onDeleteClick: (id: string) => void
-  onToggleReadStatus: (ids: string[]) => void
+  onToggleReadStatus: (threads: Thread[]) => void
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   onContactClick: (phoneNumber: string) => void
   loadMoreRows: (props: IndexRange) => Promise<void>

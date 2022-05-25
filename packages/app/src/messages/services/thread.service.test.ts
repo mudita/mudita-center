@@ -13,6 +13,7 @@ import { ThreadService } from "App/messages/services/thread.service"
 import DeviceService from "Backend/device-service"
 import { ThreadPresenter } from "App/messages/presenters"
 import { ThreadRepository } from "../repositories"
+import { Thread } from "App/messages/reducers/messages.interface"
 
 jest.mock("App/messages/presenters")
 ;(ThreadPresenter as unknown as jest.Mock).mockImplementation(() => {
@@ -52,6 +53,15 @@ const successResponse: SuccessRequestResponse<any> = {
 
 const errorResponse: ErrorRequestResponse = {
   status: RequestResponseStatus.Error,
+}
+
+const thread: Thread = {
+  id: "1",
+  phoneNumber: "+48 755 853 216",
+  lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+  messageSnippet:
+    "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+  unread: true,
 }
 
 beforeEach(() => {
@@ -113,6 +123,25 @@ describe("`ThreadService`", () => {
     test("returns error when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.deleteThreads(["1"])
+      expect(deviceService.request).toHaveBeenCalled()
+      expect(response.status).toEqual(RequestResponseStatus.Error)
+    })
+  })
+
+  describe("`toggleThreadReadStatus` method", () => {
+    test("map data and returns success when `deviceService.request` returns success", async () => {
+      deviceService.request = jest.fn().mockReturnValue({
+        status: RequestResponseStatus.Ok,
+        thread: [thread],
+      })
+      const response = await subject.toggleThreadReadStatus([thread])
+      expect(deviceService.request).toHaveBeenCalled()
+      expect(response.status).toEqual(RequestResponseStatus.Ok)
+    })
+
+    test("returns error when `deviceService.request` returns error", async () => {
+      deviceService.request = jest.fn().mockReturnValue(errorResponse)
+      const response = await subject.toggleThreadReadStatus([thread])
       expect(deviceService.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
