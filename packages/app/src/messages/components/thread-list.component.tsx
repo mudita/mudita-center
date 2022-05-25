@@ -4,30 +4,16 @@
  */
 
 import React from "react"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Table from "Renderer/components/core/table/table.component"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { noop } from "Renderer/utils/noop"
-import {
-  animatedOpacityActiveStyles,
-  animatedOpacityStyles,
-} from "Renderer/components/rest/animated-opacity/animated-opacity"
 import { AppSettings } from "App/main/store/settings.interface"
 import { Thread } from "App/messages/reducers/messages.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import {
-  AutoSizer,
-  Index,
-  IndexRange,
-  InfiniteLoader,
-  List,
-  ListRowProps,
-} from "react-virtualized"
-import ThreadRow, {
-  Checkbox,
-  InitialsAvatar,
-} from "App/messages/components/thread-row.component"
+import { AutoSizer, IndexRange, List, ListRowProps } from "react-virtualized"
+import ThreadRow from "App/messages/components/thread-row.component"
 import ThreadPlaceholderRow from "App/messages/components/thread-placeholder-row.component"
 
 const Threads = styled(Table)<{
@@ -37,18 +23,6 @@ const Threads = styled(Table)<{
   --columnsTemplate: 10.4rem 60.5rem 1fr;
   --columnsTemplateWithOpenedSidebar: 10.4rem 1fr;
   --columnsGap: 0;
-
-  ${({ noneRowsSelected }) =>
-    !noneRowsSelected &&
-    css`
-      ${InitialsAvatar} {
-        ${animatedOpacityStyles};
-      }
-
-      ${Checkbox} {
-        ${animatedOpacityActiveStyles};
-      }
-    `};
 `
 
 const listContainerStyle: React.CSSProperties = { minHeight: "100%" }
@@ -59,7 +33,6 @@ type SelectHook = Pick<
 >
 
 interface Props extends SelectHook, Pick<AppSettings, "language"> {
-  threadsTotalCount: number
   threads: Thread[]
   onThreadClick?: (thread: Thread) => void
   activeThread?: Thread
@@ -72,7 +45,6 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
 }
 
 const ThreadList: FunctionComponent<Props> = ({
-  threadsTotalCount,
   activeThread,
   threads,
   onThreadClick = noop,
@@ -123,8 +95,6 @@ const ThreadList: FunctionComponent<Props> = ({
     }
   }
 
-  const isRowLoaded = ({ index }: Index) => Boolean(threads[index])
-
   return (
     <Threads
       scrollable={false}
@@ -133,28 +103,18 @@ const ThreadList: FunctionComponent<Props> = ({
       hideColumns={sidebarOpened}
       {...props}
     >
-      <InfiniteLoader
-        isRowLoaded={isRowLoaded}
-        loadMoreRows={loadMoreRows}
-        rowCount={threadsTotalCount}
-      >
-        {({ onRowsRendered, registerChild }) => (
-          <AutoSizer>
-            {({ width, height }) => (
-              <List
-                height={height}
-                width={width}
-                rowRenderer={renderRow}
-                rowCount={threadsTotalCount}
-                rowHeight={80}
-                onRowsRendered={onRowsRendered}
-                registerChild={registerChild}
-                containerStyle={listContainerStyle}
-              />
-            )}
-          </AutoSizer>
+      <AutoSizer>
+        {({ width, height }) => (
+          <List
+            height={height}
+            width={width}
+            rowRenderer={renderRow}
+            rowHeight={80}
+            rowCount={threads.length}
+            containerStyle={listContainerStyle}
+          />
         )}
-      </InfiniteLoader>
+      </AutoSizer>
     </Threads>
   )
 }

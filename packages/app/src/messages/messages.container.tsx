@@ -43,7 +43,6 @@ import { Thread } from "App/messages/reducers/messages.interface"
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,
   threadsState: state.messages.threadsState,
-  threadsTotalCount: state.messages.threadsTotalCount,
   attachContactList: contactListSelector(state),
   attachContactFlatList: flatListSelector(state),
   threads: filteredThreadsSelector(state),

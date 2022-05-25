@@ -11,14 +11,14 @@ import { mapToReleases } from "App/update/helpers"
 import { IpcUpdate } from "App/update/constants"
 import { GithubRelease } from "App/update/types"
 
-const osUpdateServerUrl = process.env.OS_UPDATE_SERVER
+const osUpdateServerUrl = process.env.OS_UPDATE_SERVER ?? ""
 
 const releasesRequest = async (
   page = 1,
   perPage = 100
 ): Promise<GithubRelease[]> => {
   try {
-    const response = await githubInstance(osUpdateServerUrl || "", {
+    const response = await githubInstance(osUpdateServerUrl, {
       params: {
         page: page,
         per_page: perPage,

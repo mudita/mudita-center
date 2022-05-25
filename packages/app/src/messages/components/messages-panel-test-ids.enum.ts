@@ -5,4 +5,5 @@
 
 export enum MessagePanelTestIds {
   NewMessageButton = "message-panel-new-message-button",
+  SelectionManager = "message-panel-selection-manager",
 }

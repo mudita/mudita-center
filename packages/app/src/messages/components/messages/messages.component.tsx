@@ -107,7 +107,6 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
 }
 
 const Messages: FunctionComponent<Props> = ({
-  threadsTotalCount,
   threadsState,
   receivers,
   searchValue,
@@ -128,23 +127,15 @@ const Messages: FunctionComponent<Props> = ({
   deletingState,
   hideDeleteModal,
 }) => {
-  const [_, setThreadsPaginationOffset] = useState<
-    PaginationBody["offset"] | undefined
-  >(0)
-
   useEffect(() => {
     messageLayoutNotifications
-      .filter((item) => item.content.messageType === MessageType.OUTBOX)
+      .filter(
+        (item) => (item.content as Message)?.messageType === MessageType.OUTBOX
+      )
       .forEach((item) => {
         removeLayoutNotification(item.id)
       })
   }, [messageLayoutNotifications])
-
-  useEffect(() => {
-    if (threadsTotalCount === 0) {
-      setThreadsPaginationOffset(0)
-    }
-  }, [threadsTotalCount])
 
   const [messagesState, setMessagesState] = useState(MessagesState.List)
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
@@ -276,6 +267,12 @@ const Messages: FunctionComponent<Props> = ({
       remove([activeThread.id])
     }
   }
+
+  const handleDeleteSelected = (): void => {
+    const ids = selectedRows.map((thread) => thread.id)
+    remove(ids)
+  }
+
   const handleContactClick = (): void => {
     if (activeThread) {
       history.push(
@@ -383,13 +380,6 @@ const Messages: FunctionComponent<Props> = ({
       return threads
     }
   }
-  const getThreadsTotalCount = (): number => {
-    if (tmpActiveThread !== undefined) {
-      return threadsTotalCount + 1
-    } else {
-      return threadsTotalCount
-    }
-  }
 
   const loadMoreRows = async ({ startIndex }: IndexRange): Promise<void> => {
     return new Promise((resolve) => {
@@ -407,6 +397,10 @@ const Messages: FunctionComponent<Props> = ({
         onSearchValueChange={changeSearchValue}
         onNewMessageClick={handleNewMessageClick}
         buttonDisabled={messagesState === MessagesState.NewMessage}
+        selectedThreads={selectedRows}
+        allItemsSelected={allRowsSelected}
+        toggleAll={toggleAll}
+        onDeleteClick={handleDeleteSelected}
       />
       <TableWithSidebarWrapper>
         {threads.length === 0 &&
@@ -420,7 +414,6 @@ const Messages: FunctionComponent<Props> = ({
         ) : (
           <ThreadList
             data-testid={MessagesTestIds.ThreadList}
-            threadsTotalCount={getThreadsTotalCount()}
             language={language}
             activeThread={activeThread}
             threads={getThreads()}

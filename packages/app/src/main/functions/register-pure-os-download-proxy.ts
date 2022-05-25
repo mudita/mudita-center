@@ -4,6 +4,7 @@
  */
 
 import { session } from "electron"
+import logger from "App/main/utils/logger"
 
 const githubToken = process.env.OS_UPDATE_SERVER_ACCESS_TOKEN ?? ""
 const osUpdateServerUrl = process.env.OS_UPDATE_SERVER ?? ""
@@ -15,14 +16,18 @@ const registerPureOsDownloadProxy = (): void => {
     urls: [`${osUpdateServerUrl}/assets/*`],
   }
 
-  session.defaultSession.webRequest.onBeforeSendHeaders(
-    filter,
-    (details, callback) => {
-      details.requestHeaders["Authorization"] = `token ${githubToken}`
-      details.requestHeaders["Accept"] = `application/octet-stream`
-      callback({ requestHeaders: details.requestHeaders })
-    }
-  )
+  try {
+    session.defaultSession.webRequest.onBeforeSendHeaders(
+      filter,
+      (details, callback) => {
+        details.requestHeaders["Authorization"] = `token ${githubToken}`
+        details.requestHeaders["Accept"] = `application/octet-stream`
+        callback({ requestHeaders: details.requestHeaders })
+      }
+    )
+  } catch (error: any) {
+    logger.error(`Checking for OS updated failed: ${error.message}`)
+  }
 }
 
 export default registerPureOsDownloadProxy
