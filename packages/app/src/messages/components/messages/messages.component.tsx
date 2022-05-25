@@ -293,6 +293,12 @@ const Messages: FunctionComponent<Props> = ({
     }
   }
 
+  const markAsRead = (): void => {
+    if (activeThread && activeThread.unread) {
+      toggleReadStatus([activeThread])
+    }
+  }
+
   const handleContentChange = (content: string): void => {
     setContent((previousValue) => {
       return content.length >= 115 ? previousValue : content
@@ -452,6 +458,7 @@ const Messages: FunctionComponent<Props> = ({
             onContentChange={handleContentChange}
             messageLayoutNotifications={messageLayoutNotifications}
             removeLayoutNotification={removeLayoutNotification}
+            onMessageRead={markAsRead}
           />
         )}
         {messagesState === MessagesState.NewMessage && (

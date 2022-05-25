@@ -22,12 +22,14 @@ import {
 } from "App/messages/reducers/messages.interface"
 import NewMessageBadge from "App/messages/components/new-message-badge.component"
 import { Notification } from "App/notification/types"
+import { noop } from "Renderer/utils/noop"
 
 interface Properties {
   messages: Message[]
   receiver?: Receiver
   messageLayoutNotifications?: Notification[]
   removeLayoutNotification?: (notificationId: string) => void
+  onMessageRead?: () => void
 }
 
 const ThreadDetailsMessages: FunctionComponent<Properties> = ({
@@ -35,6 +37,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   receiver,
   messageLayoutNotifications,
   removeLayoutNotification,
+  onMessageRead = noop,
 }) => {
   const wrapperBottomRef = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLDivElement>(null)
@@ -67,6 +70,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
     if (removeLayoutNotification && notificationOnThread) {
       removeLayoutNotification(notificationOnThread.id)
     }
+    onMessageRead()
   }, [messageLayoutNotifications])
 
   const handleNotificationButtonClick = () => {
