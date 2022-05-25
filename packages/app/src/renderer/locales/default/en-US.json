@@ -380,7 +380,7 @@
   "module.messages.contactTooltipDescription": "Contact details",
   "module.messages.conversationDelete": "1 conversation was deleted.",
   "module.messages.conversations": "Conversations",
-  "module.messages.conversationsDelete": "{number} conversations was deleted.",
+  "module.messages.conversationsDelete": "{number} conversations were deleted.",
   "module.messages.conversationsSelectionsNumber": "{num, plural, =-1 {All Conversations} one {# Conversation} other {# Conversations}} selected",
   "module.messages.deleteButton": "Delete",
   "module.messages.deleteModalBody": "Do you really want to delete <b>{num, plural, =-1 {all conversations} one {# conversation} other {# conversations}}?</b>",
