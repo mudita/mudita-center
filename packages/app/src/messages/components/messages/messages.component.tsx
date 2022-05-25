@@ -263,6 +263,9 @@ const Messages: FunctionComponent<Props> = ({
   const handleThreadClick = (thread: Thread): void => {
     if (activeThread?.id !== thread.id) {
       openThreadDetails(thread)
+      if (thread.unread) {
+        toggleReadStatus([thread])
+      }
     }
   }
 
@@ -285,7 +288,7 @@ const Messages: FunctionComponent<Props> = ({
 
   const markAsUnread = (): void => {
     if (activeThread) {
-      toggleReadStatus([activeThread.id])
+      toggleReadStatus([activeThread])
       closeSidebars()
     }
   }
