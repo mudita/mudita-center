@@ -53,7 +53,7 @@ export const tabElements: TabElement[] = [
         label: messages.templates,
         url: `${URL_MAIN.messages}${URL_TABS.templates}`,
         icon: IconType.Templates,
-        hidden: flags.get(Feature.ProductionAndAlpha),
+        hidden: flags.get(Feature.DisabledOnProduction),
       },
     ],
   },
