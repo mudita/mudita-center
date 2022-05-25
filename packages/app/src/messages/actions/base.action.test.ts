@@ -10,6 +10,7 @@ import {
   changeVisibilityFilter,
   clearAllThreads,
   markThreadsAsRead,
+  toggleThreadsReadStatus,
 } from "App/messages/actions/base.action"
 import { MessagesEvent } from "App/messages/constants"
 import { VisibilityFilter } from "App/messages/reducers"
@@ -18,6 +19,18 @@ const mockStore = createMockStore([thunk])()
 
 afterEach(() => {
   mockStore.clearActions()
+})
+
+describe("Action: toggleThreadsReadStatus", () => {
+  test("fire action with empty array and `ToggleThreadReadStatus` type", () => {
+    mockStore.dispatch(toggleThreadsReadStatus([]))
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: MessagesEvent.ToggleThreadReadStatus,
+        payload: [],
+      },
+    ])
+  })
 })
 
 describe("Action: markThreadsAsRead", () => {

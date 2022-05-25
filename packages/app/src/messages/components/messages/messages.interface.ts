@@ -19,5 +19,5 @@ export type ComponentProps = Pick<
     changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
     deleteThreads?: (ids: string[]) => void
     threads: Thread[]
-    toggleReadStatus?: (threads: Thread[]) => void
+    toggleReadStatus?: (ids: string[]) => void
   }>

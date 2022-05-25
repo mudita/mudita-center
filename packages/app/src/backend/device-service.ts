@@ -47,7 +47,6 @@ import {
   Message,
   GetThreadBody,
   Thread,
-  UpdateThreadReadStatus,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
@@ -141,11 +140,6 @@ export class DeviceService {
     endpoint: Endpoint.Messages
     method: Method.Delete
     body: GetThreadBody
-  }): Promise<RequestResponse>
-  public request(config: {
-    endpoint: Endpoint.Messages
-    method: Method.Put
-    body: UpdateThreadReadStatus
   }): Promise<RequestResponse>
   async request(config: {
     endpoint: Endpoint.Contacts
@@ -249,29 +243,21 @@ export class DeviceService {
     return new Promise((resolve) => {
       const clearPendingRequestListener = (): void => {
         this.eventEmitter.off(eventName, listener)
-        this.eventEmitter.off(
-          DeviceServiceEventName.DeviceDisconnected,
-          clearPendingRequestListener
-        )
+        this.eventEmitter.off(DeviceServiceEventName.DeviceDisconnected, clearPendingRequestListener)
         resolve({
           status: RequestResponseStatus.InternalServerError,
         })
       }
 
+
       const listener = (response: RequestResponse<unknown>): void => {
         this.eventEmitter.off(eventName, listener)
-        this.eventEmitter.off(
-          DeviceServiceEventName.DeviceDisconnected,
-          clearPendingRequestListener
-        )
+        this.eventEmitter.off(DeviceServiceEventName.DeviceDisconnected, clearPendingRequestListener)
         resolve(response)
       }
 
       this.eventEmitter.on(eventName, listener)
-      this.eventEmitter.on(
-        DeviceServiceEventName.DeviceDisconnected,
-        clearPendingRequestListener
-      )
+      this.eventEmitter.on(DeviceServiceEventName.DeviceDisconnected, clearPendingRequestListener)
     })
   }
 
