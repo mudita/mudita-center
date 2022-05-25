@@ -10,7 +10,6 @@ import {
   IpcThreadEvent,
   ThreadControllerPrefix,
 } from "App/messages/constants/controller.constant"
-import { Thread } from "App/messages/reducers/messages.interface"
 
 @Controller(ThreadControllerPrefix)
 export class ThreadController {
@@ -21,12 +20,5 @@ export class ThreadController {
     threadIds: string[]
   ): Promise<RequestResponse<string[]>> {
     return this.threadService.deleteThreads(threadIds)
-  }
-
-  @IpcEvent(IpcThreadEvent.ToggleThreadsReadStatus)
-  public toggleThreadReadStatus(
-    threads: Thread[]
-  ): Promise<RequestResponse<Thread[]>> {
-    return this.threadService.toggleThreadReadStatus(threads)
   }
 }

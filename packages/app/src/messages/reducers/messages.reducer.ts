@@ -77,7 +77,7 @@ export const messagesReducer = createReducer<MessagesState>(
       )
 
       .addCase(
-        fulfilledAction(MessagesEvent.ToggleThreadReadStatus),
+        MessagesEvent.ToggleThreadReadStatus,
         (state, action: ToggleThreadReadStatusAction) => {
           const ids = action.payload
           const threadMap = Object.keys(state.threadMap).reduce(

@@ -17,6 +17,7 @@ import {
   changeVisibilityFilter,
   hideDeleteModal,
   markThreadsAsRead,
+  toggleThreadsReadStatus,
 } from "App/messages/actions/base.action"
 import { addNewMessage } from "App/messages/actions"
 import {
@@ -37,8 +38,6 @@ import {
   NotificationResourceType,
 } from "App/notification/constants"
 import { deleteThreads } from "App/messages/actions/delete-threads.action"
-import { toggleThreadsReadStatus } from "App/messages/actions/toggle-threads-read-status.action"
-import { Thread } from "App/messages/reducers/messages.interface"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,
@@ -71,8 +70,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   deleteThreads: async (threadIds: string[]): Promise<string[] | undefined> =>
     dispatch(deleteThreads(threadIds)),
   markAsRead: (threadIds: string[]) => dispatch(markThreadsAsRead(threadIds)),
-  toggleReadStatus: (threads: Thread[]) =>
-    dispatch(toggleThreadsReadStatus(threads)),
+  toggleReadStatus: (threadIds: string[]) =>
+    dispatch(toggleThreadsReadStatus(threadIds)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
     dispatch(addNewMessage(newMessage)),
   removeLayoutNotification: (notificationId: string) =>

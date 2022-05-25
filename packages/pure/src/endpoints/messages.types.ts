@@ -78,10 +78,4 @@ export interface PostMessagesBody {
   messageBody: string
 }
 
-export interface UpdateThreadReadStatus {
-  category: MessagesCategory.thread
-  threadID: number
-  isUnread: boolean
-}
-
 export type PostMessagesResponseBody = Message
