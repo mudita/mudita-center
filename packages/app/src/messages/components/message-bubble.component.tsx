@@ -43,6 +43,7 @@ const MessageBubbleDropdown = styled(Dropdown)<{
 const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
   display: flex;
   align-items: center;
+  word-wrap: break-word;
   flex-direction: ${({ interlocutor }) =>
     interlocutor ? "row-reverse" : "row"};
   &:hover {
