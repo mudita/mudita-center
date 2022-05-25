@@ -287,7 +287,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         modalService.openModal(<ErrorDataModal />, true)
       } else {
         cancelOrCloseContactHandler()
-        rest.toggleRow(contact)
         await modalService.closeModal()
       }
     }
