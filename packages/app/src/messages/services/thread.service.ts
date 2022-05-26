@@ -163,6 +163,53 @@ export class ThreadService {
     }
   }
 
+  public async toggleThreadReadStatus(
+    threads: Thread[]
+  ): Promise<RequestResponse<Thread[]>> {
+    const results = threads.map(async (thread) => {
+      const { status } = await this.deviceService.request({
+        endpoint: Endpoint.Messages,
+        method: Method.Put,
+        body: {
+          category: PureMessagesCategory.thread,
+          threadID: Number(thread.id),
+          isUnread: !thread.unread,
+        },
+      })
+      return {
+        status,
+        thread,
+      }
+    })
+
+    const errorThreads = (await Promise.all(results))
+      .filter(({ status }) => status === RequestResponseStatus.Error)
+      .map(({ thread }) => thread)
+    const successThreads = (await Promise.all(results))
+      .filter(({ status }) => status === RequestResponseStatus.Ok)
+      .map(({ thread }) => thread)
+
+    if (errorThreads.length > 0) {
+      successThreads.forEach((thread) =>
+        this.threadRepository.update(thread, true)
+      )
+
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Delete thread: Something went wrong",
+          data: errorThreads,
+        },
+      }
+    } else {
+      threads.forEach((thread) => this.threadRepository.update(thread, true))
+
+      return {
+        status: RequestResponseStatus.Ok,
+      }
+    }
+  }
+
   public async deleteThreads(
     threadIds: string[]
   ): Promise<RequestResponse<string[]>> {
