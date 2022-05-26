@@ -12,6 +12,8 @@ import BaseTable, {
 import { transitionTime } from "Renderer/styles/theming/theme-getters"
 import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
+import Icon from "Renderer/components/core/icon/icon.component"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -24,25 +26,13 @@ export const DeleteCol = styled(Col)`
 
 export const Table = styled(BaseTable)`
   --columnsGap: 0;
-  --columnsTemplate: 4rem 59rem 7rem 1fr 5rem;
+  --columnsTemplate: 4rem 6rem 59rem 7rem;
   --columnsTemplateWithOpenedSidebar: 4rem 27.5rem;
 
   ${Col} {
     &:nth-of-type(3) {
       margin-left: 14.5rem;
     }
-  }
-`
-
-export const TextPreview = styled(Col)`
-  height: 100%;
-  overflow: hidden;
-  cursor: pointer;
-
-  p {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 `
 
@@ -60,4 +50,19 @@ export const Row = styled(BaseRow)`
 
 export const TemplatesEmptyState = styled(EmptyState)`
   border-top: none;
+`
+
+export const TemplateIcon = styled(Icon)`
+  margin-right: 0;
+  margin-left: 0;
+`
+
+export const IconWrapper = styled.div`
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: ${backgroundColor("minor")};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `

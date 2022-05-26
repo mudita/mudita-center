@@ -12,7 +12,7 @@ import { MetadataKey } from "App/metadata/constants"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import elasticlunr from "elasticlunr"
 
-const cacheFileNames: Record<DataIndex, string> = {
+const cacheFileNames: Record<Exclude<DataIndex, DataIndex.Template>, string> = {
   [DataIndex.Contact]: "contacts.json",
   [DataIndex.Message]: "messages.json",
   [DataIndex.Thread]: "threads.json",
@@ -60,7 +60,10 @@ export class IndexStorageService {
           }
 
           try {
-            this.index.set(indexName, elasticlunr.Index.load(JSON.parse(data.toString("utf-8"))))
+            this.index.set(
+              indexName,
+              elasticlunr.Index.load(JSON.parse(data.toString("utf-8")))
+            )
             resolve(true)
           } catch {
             resolve(false)

@@ -20,11 +20,6 @@ export type SmsEntity = Entity<{
   type: number
 }>
 
-export type TemplateEntity = Entity<{
-  text: string
-  lastUsageTimestamp: string
-}>
-
 export interface MessageInput {
   [MessageTable.Sms]: DBQueryResult<keyof SmsEntity, string[]>
   [MessageTable.Threads]: DBQueryResult<keyof ThreadEntity, string[]>
