@@ -11,7 +11,6 @@ import networkStatus from "Renderer/models/network-status/network-status"
 import notes from "Renderer/models/notes/notes"
 import phoneUpdate from "Renderer/models/phone-update/phone-update"
 import settings from "Renderer/models/settings/settings"
-import templates from "App/templates/store/templates"
 import calendar from "App/calendar/store/calendar"
 
 export interface RootModel {
@@ -23,7 +22,6 @@ export interface RootModel {
   notes: typeof notes
   phoneUpdate: typeof phoneUpdate
   settings: typeof settings
-  templates: typeof templates
   calendar: typeof calendar
 }
 
@@ -36,6 +34,5 @@ export const models: RootModel = {
   notes,
   phoneUpdate,
   settings,
-  templates,
   calendar,
 }

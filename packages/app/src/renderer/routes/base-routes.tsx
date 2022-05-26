@@ -22,7 +22,6 @@ import {
   URL_OVERVIEW,
 } from "Renderer/constants/urls"
 import Calendar from "App/calendar/calendar.container"
-import Templates from "App/templates/templates.container"
 import Playlist from "Renderer/modules/music/tabs/playlist.component"
 import Calls from "Renderer/modules/phone/tabs/calls-container.component"
 import Dial from "Renderer/modules/phone/tabs/dial.component"
@@ -40,6 +39,7 @@ import About from "../modules/settings/tabs/about/about.container"
 import RecoveryMode from "App/recovery-mode/recovery-mode.container"
 import PureSystem from "App/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "Renderer/wrappers/layout-desktop-wrapper-without-header"
+import TemplatesContainer from "App/templates/template.container"
 
 export default () => (
   <Switch>
@@ -77,7 +77,7 @@ export default () => (
         <Route path={URL_MAIN.messages} component={Messages} exact />
         <Route
           path={`${URL_MAIN.messages}${URL_TABS.templates}`}
-          component={Templates}
+          component={TemplatesContainer}
         />
         <Route path={URL_MAIN.music} component={Music} exact />
         <Route
