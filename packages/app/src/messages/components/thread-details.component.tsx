@@ -28,6 +28,7 @@ interface Props extends SidebarProps, ThreadDetailsRightHeaderProps {
   onContentChange: (content: string) => void
   messageLayoutNotifications: Notification[]
   removeLayoutNotification: (notificationId: string) => void
+  onMessageRead: () => void
 }
 
 const ThreadDetails: FunctionComponent<Props> = ({
@@ -39,6 +40,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
   onContentChange,
   messageLayoutNotifications,
   removeLayoutNotification,
+  onMessageRead,
   ...props
 }) => {
   const handleTextAreaChange = (
@@ -59,6 +61,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
           receiver={receiver}
           messageLayoutNotifications={messageLayoutNotifications}
           removeLayoutNotification={removeLayoutNotification}
+          onMessageRead={onMessageRead}
         />
       </MessagesWrapper>
       <ThreadDetailsTextArea

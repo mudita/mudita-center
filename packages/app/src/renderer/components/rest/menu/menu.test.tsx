@@ -18,11 +18,7 @@ import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-
 import { SynchronizationState } from "App/data-sync/reducers"
 import { ReduxRootState } from "Renderer/store"
 import { DeviceState } from "App/device"
-import {
-  NotificationResourceType,
-  NotificationMethod,
-} from "App/notification/constants"
-import { Notification } from "App/notification/types"
+import { Thread, MessagesState } from "App/messages/reducers"
 import { NotificationBadgeTestIds } from "App/notification/components"
 
 jest.mock("App/feature-flags")
@@ -33,16 +29,19 @@ const defaultState = {
   device: {
     deviceType: DeviceType.MuditaPure,
   } as unknown as DeviceState,
-  notification: {
-    data: [],
+  messages: {
+    threadMap: {},
   },
 } as unknown as ReduxRootState
 
-const notificationMock = {
-  resourceType: NotificationResourceType.Message,
-  method: NotificationMethod.Layout,
-  content: {},
-} as Notification
+const threadMock: Thread = {
+  id: "1",
+  lastUpdatedAt: new Date(1617089558 * 1000),
+  messageSnippet:
+    "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+  unread: true,
+  phoneNumber: "123123123",
+}
 
 const defaultProps: Props = {
   syncState: SynchronizationState.Empty,
@@ -111,9 +110,11 @@ describe("Device: Mudita pure", () => {
     const { queryByTestId } = render(
       {
         ...defaultState,
-        notification: {
-          data: [notificationMock],
-        },
+        messages: {
+          threadMap: {
+            "1": threadMock,
+          },
+        } as unknown as MessagesState,
       },
       {
         deviceFeaturesVisible: true,
