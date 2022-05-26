@@ -22,7 +22,7 @@ const defaultProps: Props = {
   loaded: false,
   deviceType: DeviceType.MuditaPure,
   unlocked: null,
-  phoneLockTime: undefined,
+  leftTime: undefined,
   getUnlockStatus: jest.fn().mockReturnValue({
     payload: RequestResponseStatus.Ok,
   }),

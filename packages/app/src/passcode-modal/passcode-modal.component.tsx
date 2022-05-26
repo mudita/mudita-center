@@ -14,7 +14,7 @@ import { RequestResponseStatus } from "App/core/types/request-response.interface
 interface Props {
   openModal: boolean
   close: () => void
-  openBlocked?: number
+  leftTime?: number
   unlockDevice: (
     code: number[]
   ) => Promise<PayloadAction<RequestResponseStatus>>
@@ -40,7 +40,7 @@ let timeoutId3: NodeJS.Timeout
 const PasscodeModal: FunctionComponent<Props> = ({
   openModal,
   close,
-  openBlocked,
+  leftTime,
   unlockDevice,
   getUnlockStatus,
 }) => {
@@ -89,7 +89,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
     if (values[values.length - 1] !== "") {
       const code = values.map((value) => parseInt(value))
 
-      if (openBlocked === undefined) {
+      if (leftTime === undefined) {
         void unlockDeviceRequest(code)
       }
     } else {
@@ -118,7 +118,6 @@ const PasscodeModal: FunctionComponent<Props> = ({
       clearTimeout(timeoutId)
     }
   }, [errorState])
-
   return (
     <PasscodeModalUI
       openModal={openModal}
@@ -128,7 +127,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
       updateValues={updateValues}
       openHelpWindow={openHelpWindow}
       onNotAllowedKeyDown={onNotAllowedKeyDown}
-      passcodeBlockedTime={openBlocked}
+      leftTime={leftTime}
     />
   )
 }

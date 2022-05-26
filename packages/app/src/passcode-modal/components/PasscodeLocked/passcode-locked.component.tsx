@@ -29,33 +29,40 @@ export const messages = defineMessages({
 })
 
 interface Props {
-  time: number
+  leftTime: number | undefined
 }
 
-const PasscodeLocked: FunctionComponent<Props> = ({ time }) => {
-  const calculateInitDifference = () => {
-    return moment.unix(time).diff(moment(), "s")
-  }
-  const [currentDifference, setCurrentDifference] = useState<number>(
-    calculateInitDifference
-  )
+const PasscodeLocked: FunctionComponent<Props> = ({ leftTime }) => {
+  const [dynamicLeftTime, setDynamicLeftTime] = useState<number | undefined>()
+
+  useEffect(() => {
+    if (leftTime === undefined) {
+      setDynamicLeftTime(undefined)
+    }
+    if (leftTime !== undefined && dynamicLeftTime === undefined) {
+      setDynamicLeftTime(leftTime)
+    }
+  }, [leftTime, dynamicLeftTime])
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (currentDifference > 0) {
-        setCurrentDifference((prevSec) => prevSec - 1)
-      }
-      if (currentDifference <= 1) {
+      if (dynamicLeftTime === undefined || dynamicLeftTime <= 1) {
         clearInterval(interval)
+        return
+      }
+      if (dynamicLeftTime > 0) {
+        setDynamicLeftTime((prevSec = 1) => prevSec - 1)
       }
     }, 1000)
     return () => {
       clearInterval(interval)
     }
-  }, [currentDifference])
+  }, [dynamicLeftTime])
 
-  const formatTime = () => {
-    const endDate = moment.unix(time)
+  const formatTime = (): string => {
+    const breakdownTolerance = 20
+    const time = dynamicLeftTime ? dynamicLeftTime + breakdownTolerance : 0
+    const endDate = moment().second(time)
     return moment(endDate).fromNow() + "."
   }
   return (

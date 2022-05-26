@@ -30,7 +30,7 @@ export const lockedDevice = createAsyncThunk(
         response.status === RequestResponseStatus.Ok &&
         response.data?.phoneLockTime
       ) {
-        dispatch(setLockTime(response.data.phoneLockTime))
+        dispatch(setLockTime(response.data))
       }
     }
 

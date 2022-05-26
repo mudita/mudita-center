@@ -3,7 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseColour, DeviceType } from "@mudita/pure"
+import {
+  CaseColour,
+  DeviceType,
+  GetPhoneLockTimeResponseBody,
+} from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { DeviceEvent } from "App/device/constants"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
@@ -23,7 +27,8 @@ export interface PureDeviceData {
   batteryLevel: number
   simCards: SimCard[]
   serialNumber: string
-  phoneLockTime: number
+  phoneLockTime?: number
+  timeLeftToNextAttempt?: number
   memorySpace: {
     free: number
     full: number
@@ -81,7 +86,7 @@ export type LoadDataRejectAction = PayloadAction<
   DeviceEvent.Loading
 >
 export type SetPhoneLockTimeAction = PayloadAction<
-  number,
+  GetPhoneLockTimeResponseBody,
   DeviceEvent.SetLockTime
 >
 export type UnlockDeviceRejectedAction = PayloadAction<
