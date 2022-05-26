@@ -47,6 +47,7 @@ export const tabElements: TabElement[] = [
         label: messages.conversations,
         url: URL_MAIN.messages,
         icon: IconType.Message,
+        hidden: flags.get(Feature.DisabledOnProduction),
       },
       {
         label: messages.templates,
