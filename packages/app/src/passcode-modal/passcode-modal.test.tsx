@@ -22,7 +22,7 @@ type Props = ComponentProps<typeof PasscodeModal>
 const defaultProps: Props = {
   openModal: true,
   close: jest.fn(),
-  openBlocked: undefined,
+  leftTime: undefined,
   unlockDevice: jest.fn().mockReturnValue({
     payload: RequestResponseStatus.Ok,
   }),
@@ -134,7 +134,7 @@ test("Message is displayed properly when request about phone lock status return 
 
 test("Modal should show phoneLocked info when phone have time block", () => {
   jest.spyOn(flags, "get").mockReturnValueOnce(true)
-  const { phoneLockedContainer } = renderer({ openBlocked: 16308881830 })
+  const { phoneLockedContainer } = renderer({ leftTime: 16308881830 })
   expect(phoneLockedContainer()).toBeInTheDocument()
 })
 

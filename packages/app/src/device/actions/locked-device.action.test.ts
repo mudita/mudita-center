@@ -61,7 +61,7 @@ describe("Device: MuditaPure", () => {
         lockedDevice.pending(requestId),
         {
           type: DeviceEvent.SetLockTime,
-          payload: 123456789,
+          payload: { phoneLockTime: 123456789 },
         },
         lockedDevice.fulfilled(undefined, requestId, undefined),
       ])

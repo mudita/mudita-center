@@ -179,7 +179,8 @@ export const deviceReducer = createReducer<DeviceState>(
             ...state,
             data: {
               ...(state.data ?? {}),
-              phoneLockTime: action.payload,
+              phoneLockTime: action.payload?.phoneLockTime,
+              timeLeftToNextAttempt: action.payload?.timeLeftToNextAttempt,
             },
           }
         }

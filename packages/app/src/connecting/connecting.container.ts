@@ -5,10 +5,11 @@
 
 import { connect } from "react-redux"
 import { RootState, ReduxRootState, TmpDispatch } from "Renderer/store"
-import { PureDeviceData, unlockDevice, getUnlockStatus } from "App/device"
+import { unlockDevice, getUnlockStatus } from "App/device"
 import Connecting from "App/connecting/components/connecting.component"
 import { noModalsShowSelector } from "App/modals-manager/selectors/no-modals-show.selector"
 import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
+import { getLeftTimeSelector } from "App/device/selectors/get-left-time.selector"
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   unlockDevice: (code: number[]) => dispatch(unlockDevice(code)),
@@ -22,9 +23,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   unlocked: state.device.status.unlocked,
   syncInitialized: state.dataSync.initialized,
   syncState: state.dataSync.state,
-  phoneLockTime:
-    (state.device.data as PureDeviceData)?.phoneLockTime ?? undefined,
   noModalsVisible: noModalsShowSelector(state),
+  leftTime: getLeftTimeSelector(state),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Connecting)

@@ -56,7 +56,7 @@ export interface PasscodeModalProps {
   openHelpWindow: () => void
   onNotAllowedKeyDown: () => void
   errorMessage: string
-  passcodeBlockedTime?: number | undefined
+  leftTime?: number | undefined
 }
 
 const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
@@ -67,7 +67,7 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
   openHelpWindow,
   onNotAllowedKeyDown,
   errorMessage,
-  passcodeBlockedTime = undefined,
+  leftTime,
   ...props
 }) => {
   const muditaLogo = (
@@ -92,8 +92,8 @@ const PasscodeModalUI: FunctionComponent<PasscodeModalProps> = ({
     >
       <PasscodeModalContent>
         <span></span>
-        {passcodeBlockedTime ? (
-          <PasscodeLocked time={passcodeBlockedTime} />
+        {leftTime ? (
+          <PasscodeLocked leftTime={leftTime} />
         ) : (
           <PasscodeInputs
             values={values}

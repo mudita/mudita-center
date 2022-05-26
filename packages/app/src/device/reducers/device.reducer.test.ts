@@ -289,13 +289,14 @@ describe("Lock/Unlock functionality", () => {
     expect(
       deviceReducer(undefined, {
         type: DeviceEvent.SetLockTime,
-        payload: 123,
+        payload: { phoneLockTime: 123 },
       })
     ).toEqual({
       ...initialState,
       data: {
         ...initialState.data,
         phoneLockTime: 123,
+        timeLeftToNextAttempt: undefined,
       },
     })
   })

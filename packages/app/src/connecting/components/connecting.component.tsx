@@ -31,7 +31,7 @@ const Connecting: FunctionComponent<{
     code: number[]
   ) => Promise<PayloadAction<RequestResponseStatus>>
   getUnlockStatus: () => Promise<PayloadAction<RequestResponseStatus>>
-  phoneLockTime: number | undefined
+  leftTime: number | undefined
   noModalsVisible: boolean
   updateAllIndexes: () => Promise<void>
 }> = ({
@@ -42,7 +42,7 @@ const Connecting: FunctionComponent<{
   syncState,
   unlockDevice,
   getUnlockStatus,
-  phoneLockTime,
+  leftTime,
   noModalsVisible,
   updateAllIndexes,
 }) => {
@@ -143,7 +143,7 @@ const Connecting: FunctionComponent<{
       <PasscodeModal
         openModal={passcodeOpenModal}
         close={close}
-        openBlocked={phoneLockTime}
+        leftTime={leftTime}
         unlockDevice={unlockDevice}
         getUnlockStatus={getUnlockStatus}
       />
