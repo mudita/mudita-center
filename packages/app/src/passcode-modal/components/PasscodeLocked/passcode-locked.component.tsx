@@ -62,7 +62,7 @@ const PasscodeLocked: FunctionComponent<Props> = ({ leftTime }) => {
   const formatTime = (): string => {
     const breakdownTolerance = 20
     const time = dynamicLeftTime ? dynamicLeftTime + breakdownTolerance : 0
-    const endDate = moment().second(time)
+    const endDate = moment().add(time, "s")
     return moment(endDate).fromNow() + "."
   }
   return (
