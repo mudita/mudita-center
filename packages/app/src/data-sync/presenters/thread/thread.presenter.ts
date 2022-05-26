@@ -9,7 +9,6 @@ import {
   ThreadEntity,
   ContactNumberEntity,
 } from "App/data-sync/types"
-import { Feature, flags } from "App/feature-flags"
 
 export class ThreadPresenter {
   public findRecords<Type extends { _id: string }>(
@@ -54,9 +53,7 @@ export class ThreadPresenter {
           phoneNumber: contactNumber?.number_user,
           lastUpdatedAt: new Date(Number(thread.date) * 1000),
           messageSnippet: thread.snippet,
-          unread: flags.get(Feature.ProductionAndAlpha)
-            ? false
-            : Number(thread.read) !== 0,
+          unread: Number(thread.read) !== 0,
         }
       })
       .filter((thread) => typeof thread !== "undefined") as ThreadObject[]

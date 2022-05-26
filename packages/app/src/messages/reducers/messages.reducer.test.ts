@@ -33,9 +33,9 @@ describe("Toggle Thread Read Status data functionality", () => {
   }
 
   test("Event: ToggleThreadReadStatus update properly threadMap field", () => {
-    const toggleThreadReadStatusAction: PayloadAction<string[]> = {
-      type: MessagesEvent.ToggleThreadReadStatus,
-      payload: [thread.id],
+    const toggleThreadReadStatusAction: PayloadAction<Thread[]> = {
+      type: fulfilledAction(MessagesEvent.ToggleThreadReadStatus),
+      payload: [thread],
     }
 
     expect(
@@ -43,7 +43,7 @@ describe("Toggle Thread Read Status data functionality", () => {
         {
           ...initialState,
           threadMap: {
-            [thread.id]: { ...thread, unread: true },
+            [thread.id]: { ...thread, unread: !thread.unread },
           },
         },
         toggleThreadReadStatusAction

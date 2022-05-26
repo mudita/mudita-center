@@ -81,6 +81,7 @@ const defaultProps: Props = {
   onAttachContactClick: jest.fn(),
   messageLayoutNotifications: [],
   removeLayoutNotification: jest.fn(),
+  onMessageRead: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
