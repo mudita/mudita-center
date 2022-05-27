@@ -41,10 +41,6 @@ const HeaderWrapper = styled.div`
   grid-area: Header;
 `
 
-export const HeaderTabs = styled(Tabs)`
-  margin: 0 auto;
-`
-
 export const HeaderButton = styled(Button)`
   align-self: center;
   justify-self: right;
@@ -70,7 +66,7 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
       </MenuWrapper>
       <HeaderWrapper>
         <Header
-          middleComponent={<HeaderTabs />}
+          middleComponent={<Tabs />}
           button={
             <HeaderButton
               label={intl.formatMessage({
