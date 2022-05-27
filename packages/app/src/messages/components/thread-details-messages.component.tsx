@@ -68,9 +68,9 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
         (item.content as Message)?.messageType === MessageType.INBOX
     )
     if (removeLayoutNotification && notificationOnThread) {
+      onMessageRead()
       removeLayoutNotification(notificationOnThread.id)
     }
-    onMessageRead()
   }, [messageLayoutNotifications])
 
   const handleNotificationButtonClick = () => {
