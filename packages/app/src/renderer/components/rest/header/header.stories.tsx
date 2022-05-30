@@ -7,13 +7,11 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import { MemoryRouter } from "react-router"
 import styled from "styled-components"
-import {
-  HeaderButton,
-  HeaderTabs,
-} from "Renderer/wrappers/layout-desktop-wrapper"
+import { HeaderButton } from "Renderer/wrappers/layout-desktop-wrapper"
 import Header from "Renderer/components/rest/header/header.component"
 import { intl } from "Renderer/utils/intl"
 import { IconType } from "Renderer/components/core/icon/icon-type"
+import Tabs from "Renderer/components/rest/header/tabs.component"
 
 const Container = styled.div`
   display: flex;
@@ -29,7 +27,7 @@ storiesOf("Components|Core/Header", module)
   .add("Without button", () => {
     return (
       <Container>
-        <Header middleComponent={<HeaderTabs currentLocation={"/phone"} />} />
+        <Header middleComponent={<Tabs currentLocation={"/phone"} />} />
       </Container>
     )
   })
@@ -42,7 +40,7 @@ storiesOf("Components|Core/Header/With button", module)
     return (
       <Container>
         <Header
-          middleComponent={<HeaderTabs currentLocation={"/news"} />}
+          middleComponent={<Tabs currentLocation={"/news"} />}
           button={
             <HeaderButton
               Icon={IconType.ExternalLink}
