@@ -88,7 +88,7 @@ export type AddNewMessageAction = PayloadAction<
 >
 
 export type ToggleThreadReadStatusAction = PayloadAction<
-  string[],
+  Thread[],
   MessagesEvent.ToggleThreadReadStatus
 >
 

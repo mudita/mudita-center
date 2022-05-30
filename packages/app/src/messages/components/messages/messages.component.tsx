@@ -322,6 +322,12 @@ const Messages: FunctionComponent<Props> = ({
     }
   }, [activeThread, threads])
 
+  useEffect(() => {
+    if (activeThread !== undefined) {
+      markAsRead()
+    }
+  }, [activeThread])
+
   const handleNewMessageSendClick = async (number: string) => {
     await handleAddNewMessage(number)
   }

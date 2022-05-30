@@ -43,7 +43,7 @@ describe("Toggle Thread Read Status data functionality", () => {
         {
           ...initialState,
           threadMap: {
-            [thread.id]: { ...thread, unread: !thread.unread },
+            [thread.id]: thread,
           },
         },
         toggleThreadReadStatusAction
