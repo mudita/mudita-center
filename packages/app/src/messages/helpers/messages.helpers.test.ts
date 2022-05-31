@@ -6,6 +6,7 @@
 import {
   ContactsCollection,
   getContactDetails,
+  splitMessageByBytesSize,
 } from "App/messages/helpers/messages.helpers"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 
@@ -56,13 +57,40 @@ const contactsMock: ContactsCollection = {
   },
 }
 
-test("properly returns contact data", () => {
-  const testUserData = contactsMock[mockContact.id]
-  expect(getContactDetails(mockContact.id, contactsMock)).toMatchObject(
-    testUserData
-  )
+describe("getContactDetails", () => {
+  test("properly returns contact data", () => {
+    const testUserData = contactsMock[mockContact.id]
+    expect(getContactDetails(mockContact.id, contactsMock)).toMatchObject(
+      testUserData
+    )
+  })
+
+  test("returns `undefined` when contact doesn't exist", () => {
+    expect(getContactDetails("non-existent-id", contactsMock)).toBeUndefined()
+  })
 })
 
-test("returns `undefined` when contact doesn't exist", () => {
-  expect(getContactDetails("non-existent-id", contactsMock)).toBeUndefined()
+describe("splitMessageByBytesSize", () => {
+  const testCases: [
+    value: string,
+    bytesSize: number,
+    expectedMessagesParts: string[]
+  ][] = [
+    ["abcd", 4, ["abcd"]],
+    ["abc", 6, ["abc"]],
+    ["abcdef", 4, ["abcd", "ef"]],
+    ["abcdef", 4, ["abcd", "ef"]],
+    ["a😂👍", 4, ["a", "😂", "👍"]],
+    ["a😂👍", 9, ["a😂👍"]],
+    ["a😂👍", 8, ["a😂", "👍"]],
+  ]
+
+  test.each(testCases)(
+    "for string %p that we split with %p bytes it resolves proper message bytes",
+    (value, bytesSize, expectedMessagesParts) => {
+      expect(splitMessageByBytesSize(value, bytesSize)).toEqual(
+        expectedMessagesParts
+      )
+    }
+  )
 })
