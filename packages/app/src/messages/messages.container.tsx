@@ -39,6 +39,7 @@ import {
 import { deleteThreads } from "App/messages/actions/delete-threads.action"
 import { toggleThreadsReadStatus } from "App/messages/actions/toggle-threads-read-status.action"
 import { Thread } from "App/messages/reducers/messages.interface"
+import { markThreadsReadStatus } from "./actions/mark-threads-read-status.action"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,
@@ -72,6 +73,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   markAsRead: (threadIds: string[]) => dispatch(markThreadsAsRead(threadIds)),
   toggleReadStatus: (threads: Thread[]) =>
     dispatch(toggleThreadsReadStatus(threads)),
+  markThreadsReadStatus: (threads: Thread[]) =>
+    dispatch(markThreadsReadStatus(threads)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
     dispatch(addNewMessage(newMessage)),
   removeLayoutNotification: (notificationId: string) =>

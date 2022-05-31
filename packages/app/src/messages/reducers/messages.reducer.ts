@@ -20,7 +20,8 @@ import {
   MessagesState,
   ResultState,
   ThreadMap,
-  ToggleThreadReadStatusAction,
+  MarkThreadsReadStatusPendingAction,
+  ToggleThreadReadStatusPendingAction,
   VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
 import { MessagesEvent, ThreadDeletingState } from "App/messages/constants"
@@ -76,9 +77,11 @@ export const messagesReducer = createReducer<MessagesState>(
       )
 
       .addCase(
-        fulfilledAction(MessagesEvent.ToggleThreadReadStatus),
-        (state, action: ToggleThreadReadStatusAction) => {
-          const threads = action.payload
+        pendingAction(MessagesEvent.ToggleThreadReadStatus),
+        (state, action: ToggleThreadReadStatusPendingAction) => {
+          console.log("action", action)
+          console.log("action.meta.arg", action.meta.arg)
+          const threads = action.meta.arg
           const ids = threads.map((thread) => thread.id)
           const threadMap = Object.keys(state.threadMap).reduce(
             (prevThreadMap, id) => {
@@ -100,6 +103,32 @@ export const messagesReducer = createReducer<MessagesState>(
         }
       )
 
+      .addCase(
+        pendingAction(MessagesEvent.MarkThreadsReadStatus),
+        (state, action: MarkThreadsReadStatusPendingAction) => {
+          console.log("action", action)
+          console.log("action.meta.arg", action.meta.arg)
+          const threads = action.meta.arg
+          const ids = threads.map((thread) => thread.id)
+          const threadMap = Object.keys(state.threadMap).reduce(
+            (prevThreadMap, id) => {
+              if (ids.includes(id)) {
+                const thread = prevThreadMap[id]
+                prevThreadMap[id] = {
+                  ...thread,
+                  unread: false,
+                }
+                return prevThreadMap
+              } else {
+                return prevThreadMap
+              }
+            },
+            { ...state.threadMap }
+          )
+
+          return { ...state, threadMap }
+        }
+      )
       .addCase(
         MessagesEvent.MarkThreadAsRead,
         (state, action: MarkThreadAsReadAction) => {

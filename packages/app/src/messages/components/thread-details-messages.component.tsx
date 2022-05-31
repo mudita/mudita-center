@@ -36,12 +36,13 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   messages,
   receiver,
   messageLayoutNotifications,
-  removeLayoutNotification,
+  removeLayoutNotification = noop,
   onMessageRead = noop,
 }) => {
   const wrapperBottomRef = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLDivElement>(null)
   const [notifications, setNotifications] = useState<Notification[]>([])
+  const [onBottom, setOnBottom] = useState<boolean>(false)
   const prevMessages = useRef({ messages }).current
 
   useEffect(() => {
@@ -67,9 +68,9 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
         (item.content as Message)?.threadId === messages[0].threadId &&
         (item.content as Message)?.messageType === MessageType.INBOX
     )
-    if (removeLayoutNotification && notificationOnThread) {
-      onMessageRead()
+    if (notificationOnThread) {
       removeLayoutNotification(notificationOnThread.id)
+      onMessageRead()
     }
   }, [messageLayoutNotifications])
 
@@ -85,10 +86,26 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   let observer: IntersectionObserver
 
   const callback = (entries: IntersectionObserverEntry[]) => {
+    // notification when user during scroll
+    setOnBottom(entries[0].isIntersecting)
     if (entries[0] && entries[0].isIntersecting) {
       closeNewMessageBadge()
     }
   }
+
+  useEffect(() => {
+    // notification when user in bottom
+    if (
+      onBottom &&
+      prevMessages.messages.length < messages.length &&
+      messages[messages.length - 1].messageType === MessageType.INBOX
+    ) {
+      onMessageRead()
+    }
+    return () => {
+      prevMessages.messages = messages
+    }
+  }, [messages, onBottom])
 
   useEffect(() => {
     const currentNotifications = messageLayoutNotifications?.filter(

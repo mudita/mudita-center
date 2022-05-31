@@ -6,6 +6,9 @@
 export enum MessagesEvent {
   ToggleThreadReadStatus = "TOGGLE_THREAD_READ_STATUS",
   MarkThreadAsRead = "MARK_THREAD_AS_READ",
+
+  MarkThreadsReadStatus = "MARK_THREADS_READ_STATUS",
+
   DeleteThreads = "DELETE_THREADS",
   AddNewMessage = "ADD_NEW_MESSAGE",
   ClearAllThreads = "CLEAR_ALL_THREADS",
