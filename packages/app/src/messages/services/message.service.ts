@@ -21,6 +21,7 @@ import {
 import {
   RequestResponse,
   RequestResponseStatus,
+  SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
 import {
   AcceptablePureMessageType,
@@ -28,15 +29,20 @@ import {
 } from "App/messages/presenters"
 import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
 import { ThreadService } from "App/messages/services/thread.service"
+import { splitMessageByBytesSize } from "../helpers"
 
 export interface GetMessagesByThreadIdResponse {
   data: Message[]
   nextPage?: PaginationBody
 }
 
-export interface CreateMessageDataResponse {
+interface CreateMessagePartDataResponse {
   message: Message
   thread?: Thread
+}
+
+export interface CreateMessageDataResponse {
+  messageParts: CreateMessagePartDataResponse[]
 }
 
 export class MessageService {
@@ -44,6 +50,8 @@ export class MessageService {
     private deviceService: DeviceService,
     private threadService: ThreadService
   ) {}
+
+  private MESSAGE_MAX_SIZE_IN_BYTES = 469
 
   public async getMessage(id: string): Promise<RequestResponse<Message>> {
     const response = await this.deviceService.request({
@@ -106,6 +114,52 @@ export class MessageService {
   public async createMessage(
     newMessage: NewMessage
   ): Promise<RequestResponse<CreateMessageDataResponse>> {
+    const messages = splitMessageByBytesSize(
+      newMessage.content,
+      this.MESSAGE_MAX_SIZE_IN_BYTES
+    )
+
+    const successResponses: SuccessRequestResponse<CreateMessagePartDataResponse>[] =
+      []
+
+    for (const message of messages) {
+      const result = await this.createSingleMessage({
+        ...newMessage,
+        content: message,
+      })
+
+      if (isResponseSuccessWithData(result)) {
+        successResponses.push(result)
+      } else {
+        break
+      }
+    }
+
+    const isAnyErrorResponseFound = successResponses.length !== messages.length
+
+    if (isAnyErrorResponseFound) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: { message: "Create message: Something went wrong" },
+      }
+    }
+
+    const result = {
+      status: RequestResponseStatus.Ok,
+      data: {
+        messageParts: successResponses.map((response) => ({
+          message: response.data.message,
+          thread: response.data?.thread,
+        })),
+      },
+    }
+
+    return result
+  }
+
+  private async createSingleMessage(
+    newMessage: NewMessage
+  ): Promise<RequestResponse<CreateMessagePartDataResponse>> {
     const { data } = await this.deviceService.request({
       body: MessagePresenter.mapToPureMessageMessagesBody(newMessage),
       endpoint: Endpoint.Messages,
@@ -145,11 +199,10 @@ export class MessageService {
           },
         },
       }
-    } else {
-      return {
-        status: RequestResponseStatus.Error,
-        error: { message: "Create message: Something went wrong" },
-      }
+    }
+
+    return {
+      status: RequestResponseStatus.Error,
     }
   }
 

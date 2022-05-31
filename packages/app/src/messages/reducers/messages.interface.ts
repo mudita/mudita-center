@@ -81,8 +81,10 @@ export interface Receiver extends Pick<Contact, "firstName" | "lastName"> {
 
 export type AddNewMessageAction = PayloadAction<
   {
-    message: Message
-    thread?: Thread
+    messageParts: {
+      message: Message
+      thread?: Thread
+    }[]
   },
   MessagesEvent.AddNewMessage
 >

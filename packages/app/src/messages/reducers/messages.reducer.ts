@@ -46,24 +46,25 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(
         fulfilledAction(MessagesEvent.AddNewMessage),
         (state, action: AddNewMessageAction) => {
-          const message = action.payload.message
+          const messageParts = action.payload.messageParts
           const prevMessageMap = { ...state.messageMap }
-          prevMessageMap[message.id] = message
-
           const prevMessageIdsInThreadMap = { ...state.messageIdsInThreadMap }
-          const messageIds: string[] =
-            prevMessageIdsInThreadMap[message.threadId] ?? []
-          prevMessageIdsInThreadMap[message.threadId] = messageIds.find(
-            (id) => id === message.id
-          )
-            ? messageIds
-            : [...messageIds, message.id]
-
-          const thread = action.payload.thread
           const prevThreadMap: ThreadMap = { ...state.threadMap }
 
-          if (thread) {
-            prevThreadMap[thread.id] = thread
+          for (const { message, thread } of messageParts) {
+            prevMessageMap[message.id] = message
+
+            const messageIds: string[] =
+              prevMessageIdsInThreadMap[message.threadId] ?? []
+            prevMessageIdsInThreadMap[message.threadId] = messageIds.find(
+              (id) => id === message.id
+            )
+              ? messageIds
+              : [...messageIds, message.id]
+
+            if (thread) {
+              prevThreadMap[thread.id] = thread
+            }
           }
 
           return {
