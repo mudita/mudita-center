@@ -79,8 +79,6 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(
         pendingAction(MessagesEvent.ToggleThreadReadStatus),
         (state, action: ToggleThreadReadStatusPendingAction) => {
-          console.log("action", action)
-          console.log("action.meta.arg", action.meta.arg)
           const threads = action.meta.arg
           const ids = threads.map((thread) => thread.id)
           const threadMap = Object.keys(state.threadMap).reduce(
@@ -106,8 +104,6 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(
         pendingAction(MessagesEvent.MarkThreadsReadStatus),
         (state, action: MarkThreadsReadStatusPendingAction) => {
-          console.log("action", action)
-          console.log("action.meta.arg", action.meta.arg)
           const threads = action.meta.arg
           const ids = threads.map((thread) => thread.id)
           const threadMap = Object.keys(state.threadMap).reduce(

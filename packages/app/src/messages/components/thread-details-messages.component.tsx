@@ -100,7 +100,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
       prevMessages.messages.length < messages.length &&
       messages[messages.length - 1].messageType === MessageType.INBOX
     ) {
-      onMessageRead()
+      closeNewMessageBadge()
     }
     return () => {
       prevMessages.messages = messages
@@ -134,7 +134,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
 
   return (
     <MessageBubblesWrapper ref={ref}>
-      {notifications.length > 0 && (
+      {notifications.length > 0 && !onBottom && (
         <NewMessageBadge
           onClose={closeNewMessageBadge}
           messagesCount={notifications.length}
