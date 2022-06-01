@@ -15,14 +15,14 @@ describe("Navigation Menu check ", () => {
         
         const appVersionFromJson = version
 
-        const newsTab = await NavigationTabs.tabSettings
+        const newsTab = await NavigationTabs.settingsTab
         await newsTab.waitForDisplayed()
         await newsTab.click()
         await browser.executeAsync((done) => {
           setTimeout(done, 2000)
         })      
 
-        const tabAbout = await settingsPage.tabAbout
+        const tabAbout = await settingsPage.aboutTab
         await tabAbout.waitForDisplayed()
         await tabAbout.click()
         await browser.executeAsync((done) => {

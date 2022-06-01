@@ -2,37 +2,37 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class NavigationTabs extends Page {
-  public get tabMuditaNews(): ChainablePromiseElement<
+  public get muditaNewsTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-MenuNews"]')
   }
 
-  public get tabOverview(): ChainablePromiseElement<
+  public get overviewTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-MenuOverview"]')
   }
 
-  public get tabMessages(): ChainablePromiseElement<
+  public get messagesTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="overview-menu-link"]')
   }
 
-  public get tabContacts(): ChainablePromiseElement<
+  public get contactsTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="contacts-menu-link"]')
   }
 
-  public get tabSettings(): ChainablePromiseElement<
+  public get settingsTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-MenuSettings"]')
   }
 
-  public get tabHelp(): ChainablePromiseElement<
+  public get helpTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="help-menu-button"]')

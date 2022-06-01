@@ -4,19 +4,19 @@ import Page from "./page"
 class SettingsPage extends Page {
 
 
-    public get tabGeneral(): ChainablePromiseElement<
+    public get generalTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
     > {
     return $('[data-testid="icon-Connection"]')
     }
 
-    public get tabBackup(): ChainablePromiseElement<
+    public get backupTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="icon-BackupFolder"]')
     }
 
-    public get tabAbout(): ChainablePromiseElement<
+    public get aboutTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
     > {
     return $('[data-testid="icon-MuditaLogo"]')
@@ -58,7 +58,7 @@ class SettingsPage extends Page {
         return $("p*=License")
     }
 
-    public get closeBtn(): ChainablePromiseElement<
+    public get closeButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
     > {
     return $('[data-testid="icon-Close"]')
@@ -70,13 +70,13 @@ class SettingsPage extends Page {
     return $('[name="favourite"]')
     }
 
-    public get cancelBtn(): ChainablePromiseElement<
+    public get cancelButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
     > {
     return $("p=Cancel")
     }
 
-    public get saveBtn(): ChainablePromiseElement<
+    public get saveButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
     > {
     return $('[data-testid="save-button"]')
