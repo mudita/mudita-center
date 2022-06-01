@@ -429,6 +429,7 @@ const Messages: FunctionComponent<Props> = ({
             onContactClick={contactClick}
             loadMoreRows={loadMoreRows}
             newConversation={mockThread.phoneNumber}
+            messageLayoutNotifications={messageLayoutNotifications}
             {...rest}
           />
         )}

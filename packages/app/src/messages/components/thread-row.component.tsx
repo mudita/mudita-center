@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Avatar, {
@@ -49,6 +49,11 @@ import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-bu
 import { defineMessages } from "react-intl"
 import { ElementWithTooltipPlace } from "Renderer/components/core/tooltip/element-with-tooltip.component"
 import { IconType } from "Renderer/components/core/icon/icon-type"
+import {
+  Message as MessageContent,
+  MessageType,
+} from "App/messages/reducers/messages.interface"
+import { Notification } from "App/notification/types"
 
 const messages = defineMessages({
   dropdownTogllerTooltipDescription: {
@@ -144,6 +149,7 @@ interface Props
   onToggleReadClick: (threads: Thread[]) => void
   onContactClick: (phoneNumber: Thread["phoneNumber"]) => void
   newConversation: string
+  messageLayoutNotifications?: Notification[]
 }
 
 const ThreadRow: FunctionComponent<Props> = ({
@@ -161,16 +167,26 @@ const ThreadRow: FunctionComponent<Props> = ({
   onToggleReadClick,
   onContactClick,
   newConversation,
+  messageLayoutNotifications,
   ...props
 }) => {
   const contactCreated = contact !== undefined
   const { unread, id, phoneNumber } = thread
-
+  const [hasNotification, setHasNotification] = useState<boolean>()
   const handleCheckboxChange = () => onCheckboxChange(thread)
   const handleRowClick = () => onRowClick(thread)
   const handleDeleteClick = () => onDeleteClick(id)
   const handleToggleClick = () => onToggleReadClick([thread])
   const handleContactClick = () => onContactClick(phoneNumber)
+
+  useEffect(() => {
+    const notificationOnThread = messageLayoutNotifications?.find(
+      (item) =>
+        (item.content as MessageContent)?.threadId === id &&
+        (item.content as MessageContent)?.messageType === MessageType.INBOX
+    )
+    setHasNotification(notificationOnThread ? true : false)
+  }, [messageLayoutNotifications])
 
   return (
     <ThreadRowContainer key={id} selected={selected} active={active} {...props}>
@@ -221,7 +237,9 @@ const ThreadRow: FunctionComponent<Props> = ({
                     .format("ll")}
             </Time>
             <LastMessageText
-              unread={unread}
+              unread={
+                hasNotification || !(active && !hasNotification) || unread
+              }
               color="secondary"
               displayStyle={
                 unread
