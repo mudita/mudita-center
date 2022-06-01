@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./controller.constant"
-export * from "./errors.enum"
-export * from "./event.enum"
+export enum TemplatesEvent {
+  CreateTemplate = "TEMPLATE_CREATE_TEMPLATE",
+}
