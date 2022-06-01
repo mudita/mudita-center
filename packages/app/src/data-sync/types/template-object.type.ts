@@ -5,7 +5,7 @@
 
 import { Entity, DBQueryResult } from "App/data-sync/types/entity.type"
 import { TemplateTable } from "App/data-sync/constants"
-import { Template } from "App/templates/reducers"
+import { Template } from "App/templates/dto"
 
 export type TemplateObject = Template
 
