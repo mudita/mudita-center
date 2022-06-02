@@ -57,12 +57,14 @@ export const config: WebdriverIO.Config = {
     "./src/specs/overview/display-initial-os-version.e2e.ts",
     "./src/specs/overview/check-for-update.e2e.ts",
     "./src/specs/overview/device-update.e2e.ts",
+    "./src/specs/settings/mc_version_check.e2e.ts",
   ],
   suites: {
     update: [
       "./src/specs/overview/display-initial-os-version.e2e.ts",
       "./src/specs/overview/check-for-update.e2e.ts",
       "./src/specs/overview/device-update.e2e.ts",
+      "./src/specs/settings/mc_version_check.e2e.ts"
     ],
   },
   // Patterns to exclude.
