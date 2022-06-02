@@ -3,4 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./templates"
+export * from "./templates.component"
+export * from "./templates.interface"

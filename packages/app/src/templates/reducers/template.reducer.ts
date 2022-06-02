@@ -4,19 +4,63 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { TemplateState } from "App/templates/reducers"
+import {
+  TemplateState,
+  CreateTemplateRejectedAction,
+  CreateTemplateFulfilledAction,
+} from "App/templates/reducers/template.interface"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
-import { fulfilledAction } from "Renderer/store/helpers"
+import {
+  pendingAction,
+  rejectedAction,
+  fulfilledAction,
+} from "Renderer/store/helpers"
+import { TemplatesEvent } from "App/templates/constants"
 
 export const initialState: TemplateState = {
   data: [],
+  loaded: false,
+  loading: false,
   error: null,
 }
 
 export const templateReducer = createReducer<TemplateState>(
   initialState,
   (builder) => {
+    builder.addCase(pendingAction(TemplatesEvent.CreateTemplate), (state) => {
+      return {
+        ...state,
+        loaded: false,
+        loading: true,
+      }
+    })
+
+    builder.addCase(
+      fulfilledAction(TemplatesEvent.CreateTemplate),
+      (state, action: CreateTemplateFulfilledAction) => {
+        return {
+          ...state,
+          data: [...state.data, action.payload],
+          error: null,
+          loaded: true,
+          loading: false,
+        }
+      }
+    )
+
+    builder.addCase(
+      rejectedAction(TemplatesEvent.CreateTemplate),
+      (state, action: CreateTemplateRejectedAction) => {
+        return {
+          ...state,
+          error: action.payload.message,
+          loaded: false,
+          loading: false,
+        }
+      }
+    )
+
     builder.addCase(
       fulfilledAction(DataSyncEvent.ReadAllIndexes),
       (state, action: ReadAllIndexesAction) => {
