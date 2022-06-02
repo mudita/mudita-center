@@ -30,8 +30,6 @@ describe("Checking Mudita Center version", () => {
       await SettingsPage.aboutInstalledVersionTextLabel
     const appVersionFromAppTextValue = await appVersionFromAppField.getText()
     const appVersionFromApp = appVersionFromAppTextValue.split(": ")[1]
-    console.log("appVersionFromJson")
-    console.log("appVersionFromApp")
     await expect(appVersionFromApp).toEqual(appVersionFromPackageJson)
   })
 })
