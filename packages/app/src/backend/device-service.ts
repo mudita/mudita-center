@@ -48,6 +48,13 @@ import {
   GetThreadBody,
   Thread,
   UpdateThreadReadStatus,
+  GetTemplateBody,
+  PostTemplateBody,
+  PutTemplateBody,
+  DeleteTemplateBody,
+  GetTemplateResponseBody,
+  PostTemplateResponseBody,
+  PutTemplateResponseBody,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
@@ -146,6 +153,26 @@ export class DeviceService {
     endpoint: Endpoint.Messages
     method: Method.Put
     body: UpdateThreadReadStatus
+  }): Promise<RequestResponse>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Get
+    body: GetTemplateBody
+  }): Promise<RequestResponse<GetTemplateResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Post
+    body: PostTemplateBody
+  }): Promise<RequestResponse<PostTemplateResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Put
+    body: PutTemplateBody
+  }): Promise<RequestResponse<PutTemplateResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Delete
+    body: DeleteTemplateBody
   }): Promise<RequestResponse>
   async request(config: {
     endpoint: Endpoint.Contacts

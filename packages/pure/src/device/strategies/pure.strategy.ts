@@ -27,6 +27,13 @@ import {
   GetThreadResponseBody,
   PostMessagesBody,
   PostMessagesResponseBody,
+  GetTemplateBody,
+  PostTemplateBody,
+  PutTemplateBody,
+  DeleteTemplateBody,
+  GetTemplateResponseBody,
+  PostTemplateResponseBody,
+  PutTemplateResponseBody,
   PutFileSystemErrorResponse,
   PutFileSystemRequestConfig,
   PutFileSystemResponse,
@@ -106,6 +113,26 @@ export class PureStrategy extends BaseDevice {
     endpoint: Endpoint.Messages
     method: Method.Delete
     body: GetThreadsBody
+  }): Promise<Response>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Get
+    body: GetTemplateBody
+  }): Promise<Response<GetTemplateResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Post
+    body: PostTemplateBody
+  }): Promise<Response<PostTemplateResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Put
+    body: PutTemplateBody
+  }): Promise<Response<PutTemplateResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Delete
+    body: DeleteTemplateBody
   }): Promise<Response>
   public request(config: {
     endpoint: Endpoint.Contacts
