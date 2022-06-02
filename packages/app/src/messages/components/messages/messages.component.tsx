@@ -316,6 +316,8 @@ const Messages: FunctionComponent<Props> = ({
       )
       if (thread) {
         openThreadDetails(thread)
+      } else if (tmpActiveThread === undefined && thread === undefined) {
+        setActiveThread(undefined)
       }
     }
   }, [activeThread, threads])

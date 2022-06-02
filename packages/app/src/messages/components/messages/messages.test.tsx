@@ -315,6 +315,13 @@ describe("Messages component", () => {
       ).not.toBeInTheDocument()
     })
 
+    test("ThreadDetails closes if thread doesn't exist", () => {
+      const { queryByTestId } = renderer(defaultProps)
+      expect(
+        queryByTestId(MessagesTestIds.ThreadDetails)
+      ).not.toBeInTheDocument()
+    })
+
     test("clicked new message button display NewMessageForm", () => {
       const { queryByTestId } = renderer(renderProps)
       const button = queryByTestId(
