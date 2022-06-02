@@ -5,11 +5,7 @@
 
 import { PayloadAction } from "@reduxjs/toolkit"
 import { TemplatesEvent, TemplateDeletingState } from "App/templates/constants"
-export interface Template {
-  id: string
-  text: string
-  lastUsedAt: string
-}
+import { Template } from "App/templates/dto"
 
 export interface TemplateState {
   data: Template[]

@@ -3,4 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export { Template } from "App/templates/reducers"
+export interface Template {
+  id: string
+  text: string
+  lastUsedAt: string
+}

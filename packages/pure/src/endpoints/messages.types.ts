@@ -103,6 +103,11 @@ export interface PostTemplateBody {
   templateBody: string
 }
 
+export interface GetTemplateBody {
+  category: MessagesCategory.template
+  templateID: number
+}
+
 export interface PutTemplateBody {
   category: MessagesCategory.template
   templateID: number

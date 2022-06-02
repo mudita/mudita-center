@@ -9,7 +9,7 @@ import {
   templateReducer,
   initialState,
 } from "App/templates/reducers/template.reducer"
-import { Template } from "App/templates/reducers"
+import { Template } from "App/templates/dto"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { TemplatesEvent, TemplateDeletingState } from "App/templates/constants"
 
