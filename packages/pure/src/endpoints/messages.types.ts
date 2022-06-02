@@ -85,6 +85,11 @@ export interface UpdateThreadReadStatus {
   isUnread: boolean
 }
 
+export interface GetTemplateBody {
+  category: MessagesCategory.template
+  templateID: number
+}
+
 export type PostMessagesResponseBody = Message
 
 export interface Template {
@@ -96,11 +101,6 @@ export interface Template {
 export interface PostTemplateBody {
   category: MessagesCategory.template
   templateBody: string
-}
-
-export interface GetTemplateBody {
-  category: MessagesCategory.template
-  templateID: number
 }
 
 export interface PutTemplateBody {

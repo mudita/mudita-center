@@ -4,11 +4,18 @@
  */
 
 import { connect } from "react-redux"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState, TmpDispatch } from "Renderer/store"
 import { TemplatesList } from "App/templates/components"
+import { deleteTemplates } from "App/templates/actions"
 
 const mapStateToProps = (state: ReduxRootState) => ({
   templates: state.templates.data,
 })
 
-export default connect(mapStateToProps)(TemplatesList)
+const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  deleteTemplates: async (
+    templateIds: string[]
+  ): Promise<string[] | undefined> => dispatch(deleteTemplates(templateIds)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TemplatesList)

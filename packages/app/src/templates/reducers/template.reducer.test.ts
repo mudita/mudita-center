@@ -4,12 +4,14 @@
  */
 
 import { fulfilledAction } from "Renderer/store/helpers"
+import { PayloadAction } from "@reduxjs/toolkit"
 import {
   templateReducer,
   initialState,
 } from "App/templates/reducers/template.reducer"
-
+import { Template } from "App/templates/reducers"
 import { DataSyncEvent } from "App/data-sync/constants"
+import { TemplatesEvent, TemplateDeletingState } from "App/templates/constants"
 
 describe("ReadAllIndexes data functionality", () => {
   test("Event: ReadAllIndexes/fulfilled change `resultState` to Loaded", () => {
@@ -35,6 +37,35 @@ describe("ReadAllIndexes data functionality", () => {
           text: "Thanks for reaching out. I can't talk right now, I'll call you later",
         },
       ],
+    })
+  })
+})
+
+describe("Delete Template data functionality", () => {
+  const template: Template = {
+    id: "1",
+    text: "Test template",
+    lastUsedAt: "1574335694",
+  }
+
+  test("Event: DeleteTemplate update properly data field", () => {
+    const deleteTemplatesAction: PayloadAction<string[]> = {
+      type: fulfilledAction(TemplatesEvent.DeleteTemplates),
+      payload: [template.id],
+    }
+
+    expect(
+      templateReducer(
+        {
+          ...initialState,
+          data: [template],
+        },
+        deleteTemplatesAction
+      )
+    ).toEqual({
+      ...initialState,
+      data: [],
+      deletingState: TemplateDeletingState.Success,
     })
   })
 })
