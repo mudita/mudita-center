@@ -22,7 +22,7 @@ const templateModel = {
 const subject = new TemplateRepository(templateModel)
 
 describe("`TemplateRepository`", () => {
-  test("fire `delete` call `templateModel.delete` with string", () => {
+  test("fire `delete` call `templateModel.delete` with id", () => {
     expect(subject.delete("1")).toBeUndefined()
     expect(templateModel.delete).toHaveBeenCalledWith("1")
   })

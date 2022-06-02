@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { MessagesCategory } from "@mudita/pure"
 import { TemplateService } from "App/templates/services/template.service"
 import { TemplateRepository } from "App/templates/repositories"
 import DeviceService from "Backend/device-service"
@@ -11,16 +12,7 @@ import {
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
-import { TemplatePresenter } from "App/templates/presenters"
 import { NewTemplate } from "App/templates/dto"
-
-jest.mock("App/templates/presenters")
-;(TemplatePresenter as unknown as jest.Mock).mockImplementation(() => {
-  return {
-    mapToPureTemplateBody: jest.fn(),
-    mapToTemplate: jest.fn(),
-  }
-})
 
 const templateRepository = {
   create: jest.fn(),
@@ -56,18 +48,28 @@ describe("`TemplateService`", () => {
     test("map data and returns success when `deviceService.request` returns success", async () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
       const response = await subject.createTemplate(template)
-      expect(deviceService.request).toHaveBeenCalled()
-      expect(TemplatePresenter.mapToPureTemplateBody).toHaveBeenCalled()
-      expect(TemplatePresenter.mapToTemplate).toHaveBeenCalled()
+      expect(deviceService.request).toHaveBeenLastCalledWith({
+        endpoint: 8,
+        method: 2,
+        body: {
+          templateBody: "Hello world",
+          category: MessagesCategory.template,
+        },
+      })
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
     test("returns error  when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.createTemplate(template)
-      expect(deviceService.request).toHaveBeenCalled()
-      expect(TemplatePresenter.mapToPureTemplateBody).toHaveBeenCalled()
-      expect(TemplatePresenter.mapToTemplate).not.toHaveBeenCalled()
+      expect(deviceService.request).toHaveBeenLastCalledWith({
+        endpoint: 8,
+        method: 2,
+        body: {
+          templateBody: "Hello world",
+          category: MessagesCategory.template,
+        },
+      })
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
