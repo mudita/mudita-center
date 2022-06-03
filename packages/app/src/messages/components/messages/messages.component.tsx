@@ -116,6 +116,7 @@ const Messages: FunctionComponent<Props> = ({
   getMessagesByThreadId,
   getReceiver,
   toggleReadStatus = noop,
+  markThreadsReadStatus = noop,
   language,
   attachContactList,
   attachContactFlatList,
@@ -254,9 +255,7 @@ const Messages: FunctionComponent<Props> = ({
   const handleThreadClick = (thread: Thread): void => {
     if (activeThread?.id !== thread.id) {
       openThreadDetails(thread)
-      if (thread.unread) {
-        toggleReadStatus([thread])
-      }
+      markThreadsReadStatus([thread])
     }
   }
 
@@ -291,8 +290,8 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const markAsRead = (): void => {
-    if (activeThread && activeThread.unread) {
-      toggleReadStatus([activeThread])
+    if (activeThread) {
+      markThreadsReadStatus([activeThread])
     }
   }
 
