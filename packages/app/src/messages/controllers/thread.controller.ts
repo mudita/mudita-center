@@ -24,9 +24,9 @@ export class ThreadController {
   }
 
   @IpcEvent(IpcThreadEvent.ToggleThreadsReadStatus)
-  public toggleThreadReadStatus(
+  public toggleThreadsReadStatus(
     threads: Thread[]
   ): Promise<RequestResponse<Thread[]>> {
-    return this.threadService.toggleThreadReadStatus(threads)
+    return this.threadService.toggleThreadsReadStatus(threads)
   }
 }

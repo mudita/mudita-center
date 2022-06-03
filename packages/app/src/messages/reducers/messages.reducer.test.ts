@@ -16,7 +16,7 @@ import {
   VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { fulfilledAction } from "Renderer/store/helpers"
+import { fulfilledAction, pendingAction } from "Renderer/store/helpers"
 
 test("empty event returns initial state", () => {
   expect(messagesReducer(undefined, {} as any)).toEqual(initialState)
@@ -32,10 +32,17 @@ describe("Toggle Thread Read Status data functionality", () => {
     unread: true,
   }
 
-  test("Event: ToggleThreadReadStatus update properly threadMap field", () => {
-    const toggleThreadReadStatusAction: PayloadAction<Thread[]> = {
-      type: fulfilledAction(MessagesEvent.ToggleThreadReadStatus),
-      payload: [thread],
+  test("Event: ToggleThreadsReadStatus update properly threadMap field", () => {
+    const toggleThreadsReadStatusAction: PayloadAction<
+      undefined,
+      string,
+      {
+        arg: Thread[]
+      }
+    > = {
+      type: pendingAction(MessagesEvent.ToggleThreadsReadStatus),
+      payload: undefined,
+      meta: { arg: [thread] },
     }
 
     expect(
@@ -43,10 +50,10 @@ describe("Toggle Thread Read Status data functionality", () => {
         {
           ...initialState,
           threadMap: {
-            [thread.id]: { ...thread, unread: !thread.unread },
+            [thread.id]: thread,
           },
         },
-        toggleThreadReadStatusAction
+        toggleThreadsReadStatusAction
       )
     ).toEqual({
       ...initialState,
@@ -57,7 +64,7 @@ describe("Toggle Thread Read Status data functionality", () => {
   })
 })
 
-describe("Mark Thread As Read data functionality", () => {
+describe("Mark Thread Read Status data functionality", () => {
   const thread: Thread = {
     id: "1",
     phoneNumber: "+48 755 853 216",
@@ -67,10 +74,17 @@ describe("Mark Thread As Read data functionality", () => {
     unread: true,
   }
 
-  test("Event: MarkThreadAsRead update properly threadMap field", () => {
-    const markThreadAsRead: PayloadAction<string[]> = {
-      type: MessagesEvent.MarkThreadAsRead,
-      payload: [thread.id],
+  test("Event: MarkThreadsReadStatus/pending update properly threadMap field", () => {
+    const markThreadsReadStatusAction: PayloadAction<
+      undefined,
+      string,
+      {
+        arg: Thread[]
+      }
+    > = {
+      type: pendingAction(MessagesEvent.MarkThreadsReadStatus),
+      payload: undefined,
+      meta: { arg: [thread] },
     }
 
     expect(
@@ -78,10 +92,41 @@ describe("Mark Thread As Read data functionality", () => {
         {
           ...initialState,
           threadMap: {
-            [thread.id]: { ...thread, unread: true },
+            [thread.id]: thread,
           },
         },
-        markThreadAsRead
+        markThreadsReadStatusAction
+      )
+    ).toEqual({
+      ...initialState,
+      threadMap: {
+        [thread.id]: { ...thread, unread: false },
+      },
+    })
+  })
+
+  test("Event: MarkThreadsReadStatus/fulfilled update properly threadMap field", () => {
+    const markThreadsReadStatusAction: PayloadAction<
+      undefined,
+      string,
+      {
+        arg: Thread[]
+      }
+    > = {
+      type: fulfilledAction(MessagesEvent.MarkThreadsReadStatus),
+      payload: undefined,
+      meta: { arg: [thread] },
+    }
+
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          threadMap: {
+            [thread.id]: thread,
+          },
+        },
+        markThreadsReadStatusAction
       )
     ).toEqual({
       ...initialState,
