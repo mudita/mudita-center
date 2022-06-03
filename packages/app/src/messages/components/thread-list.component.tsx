@@ -15,7 +15,6 @@ import { Contact } from "App/contacts/reducers/contacts.interface"
 import { AutoSizer, IndexRange, List, ListRowProps } from "react-virtualized"
 import ThreadRow from "App/messages/components/thread-row.component"
 import ThreadPlaceholderRow from "App/messages/components/thread-placeholder-row.component"
-import { Notification } from "App/notification/types"
 
 const Threads = styled(Table)<{
   noneRowsSelected?: boolean
@@ -43,7 +42,6 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
   onContactClick: (phoneNumber: string) => void
   loadMoreRows: (props: IndexRange) => Promise<void>
   newConversation: string
-  messageLayoutNotifications?: Notification[]
 }
 
 const ThreadList: FunctionComponent<Props> = ({
@@ -60,7 +58,6 @@ const ThreadList: FunctionComponent<Props> = ({
   onContactClick,
   loadMoreRows,
   newConversation,
-  messageLayoutNotifications,
   ...props
 }) => {
   const sidebarOpened = Boolean(activeThread)
@@ -93,7 +90,6 @@ const ThreadList: FunctionComponent<Props> = ({
           thread={thread}
           style={style}
           newConversation={newConversation}
-          messageLayoutNotifications={messageLayoutNotifications}
         />
       )
     }
