@@ -62,7 +62,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
     }
   }, [messages])
 
-  const isMessageIncomingDuringBeBottom = (): boolean => {
+  const isMessageIncomingWhileScrollOnBottom = (): boolean => {
     return (
       onBottom &&
       prevMessages.messages.length < messages.length &&
@@ -71,7 +71,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   }
 
   const closeNewMessageBadge = useCallback(() => {
-    if (isMessageIncomingDuringBeBottom()) {
+    if (isMessageIncomingWhileScrollOnBottom()) {
       // when the application will stop supporting `messages.observer` than this condition is to remove
       onMessageRead()
     }
@@ -110,7 +110,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
 
   useEffect(() => {
     // notification when user in bottom
-    if (isMessageIncomingDuringBeBottom()) {
+    if (isMessageIncomingWhileScrollOnBottom()) {
       closeNewMessageBadge()
     }
     return () => {

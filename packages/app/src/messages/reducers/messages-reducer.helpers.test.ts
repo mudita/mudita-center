@@ -16,23 +16,23 @@ const thread: Thread = {
 }
 
 describe("Messages Reducer - helpers", () => {
-  test("when as arguments has empty `threadMap` and empty `threads` array than returns empty object", () => {
+  test("when both `threadMap` and `threads` are empty, the empty object is returned", () => {
     const result = markThreadsReadStatus([], {})
     expect(result).toEqual({})
   })
 
-  test("when as arguments has empty `threadMap` object event with `threads` array than returns empty object", () => {
+  test("when is empty `threadMap` and `threads` array is filled with some threads, the empty object is returned", () => {
     const result = markThreadsReadStatus([thread], {})
     expect(result).toEqual({})
   })
 
-  test("when as arguments has `threadMap` and empty `threads` array than returns object without modified", () => {
+  test("when `threadMap` is filed with the thread and `threads` array is empty, the return result is equal to `threadMap`", () => {
     const threadMap = { ["1"]: thread }
     const result = markThreadsReadStatus([], threadMap)
     expect(result).toEqual(threadMap)
   })
 
-  test("when as arguments has `threadMap` and `threads` array than returns object with modified", () => {
+  test("when `threadMap` both `threads` are filled with the same thread, the modified threadMap is returned", () => {
     const result = markThreadsReadStatus([thread], { ["1"]: thread })
     expect(result).toEqual({ ["1"]: { ...thread, unread: false } })
   })
