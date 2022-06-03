@@ -14,12 +14,15 @@ import { TemplatesPanelTestIds } from "App/templates/components/templates-panel/
 import { TemplateFormTestIds } from "App/templates/components/template-form/template-form-ids.enum"
 import { Template } from "App/templates/dto"
 
-const createTemplateMock = jest.fn()
 const templateMock: Template = {
   id: "1",
   text: "Hello world!",
   lastUsedAt: "2",
 }
+
+const createTemplateMock = jest
+  .fn()
+  .mockResolvedValue({ payload: templateMock })
 
 const render = async (props: TemplatesProps) => {
   const outcome = renderWithThemeAndIntl(<Templates {...props} />)
@@ -112,7 +115,7 @@ describe("`Templates` component", () => {
     test("close form if `createTemplate` callback returns value", async () => {
       const successCreateTemplateMock = jest
         .fn()
-        .mockResolvedValue(templateMock)
+        .mockResolvedValue({ payload: templateMock })
 
       const { getByTestId } = await render({
         templates: [],

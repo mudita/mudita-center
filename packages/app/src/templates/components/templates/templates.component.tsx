@@ -11,6 +11,7 @@ import { TemplatesPanel } from "App/templates/components/templates-panel"
 import { TemplatesList } from "App/templates/components/templates-list"
 import { TemplateForm } from "App/templates/components/template-form"
 import { NewTemplate } from "App/templates/dto"
+import { TemplateError } from "App/templates/constants"
 
 export const Templates: FunctionComponent<TemplatesProps> = ({
   templates,
@@ -29,7 +30,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
 
   const handleSaveTemplate = async (template: NewTemplate) => {
     const data = await createTemplate(template)
-    if (data) {
+
+    if (data.payload.type !== TemplateError.CreateTemplate) {
       setNewTemplateOpenState(false)
     }
   }
