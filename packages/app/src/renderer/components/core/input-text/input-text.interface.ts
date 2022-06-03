@@ -24,6 +24,7 @@ interface BasicProps extends InputIconsProps {
   outlined?: boolean
   errorMessage?: string | ReactElement
   focusable?: boolean
+  defaultHeight?: string
 }
 
 export interface InputProps
