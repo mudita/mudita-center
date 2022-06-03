@@ -5,7 +5,4 @@
 
 import { Template } from "App/templates/dto"
 
-export interface TemplateState {
-  data: Template[]
-  error: Error | string | null
-}
+export type NewTemplate = Pick<Template, "text">
