@@ -62,7 +62,20 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
     }
   }, [messages])
 
+  const isMessageIncomingDuringBeBottom = (): boolean => {
+    return (
+      onBottom &&
+      prevMessages.messages.length < messages.length &&
+      messages[messages.length - 1].messageType === MessageType.INBOX
+    )
+  }
+
   const closeNewMessageBadge = useCallback(() => {
+    if (isMessageIncomingDuringBeBottom()) {
+      // when the application will stop supporting `messages.observer` than this condition is to remove
+      onMessageRead()
+    }
+
     const notificationOnThread = messageLayoutNotifications?.find(
       (item) =>
         (item.content as Message)?.threadId === messages[0].threadId &&
@@ -87,19 +100,17 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
 
   const callback = (entries: IntersectionObserverEntry[]) => {
     // notification when user during scroll
-    setOnBottom(entries[0].isIntersecting)
-    if (entries[0] && entries[0].isIntersecting) {
+    const isIntersecting = entries[0].isIntersecting
+    setOnBottom(isIntersecting)
+
+    if (isIntersecting) {
       closeNewMessageBadge()
     }
   }
 
   useEffect(() => {
     // notification when user in bottom
-    if (
-      onBottom &&
-      prevMessages.messages.length < messages.length &&
-      messages[messages.length - 1].messageType === MessageType.INBOX
-    ) {
+    if (isMessageIncomingDuringBeBottom()) {
       closeNewMessageBadge()
     }
     return () => {
@@ -173,7 +184,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
           return <MessageDayBubble key={id} {...messageDayBubble} />
         }}
       </ViewportList>
-      <div ref={wrapperBottomRef}></div>
+      <div ref={wrapperBottomRef} />
     </MessageBubblesWrapper>
   )
 }
