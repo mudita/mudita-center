@@ -6,7 +6,7 @@
 import React, { ComponentProps } from "react"
 import { intl } from "Renderer/utils/intl"
 import { Router } from "react-router"
-import { RenderResult } from "@testing-library/react"
+import { RenderOptions, RenderResult } from "@testing-library/react"
 import { createMemoryHistory } from "history"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
@@ -52,6 +52,11 @@ const unknownContact: Contact = {
   primaryPhoneNumber: "+123 456 123",
 }
 
+const unknownReceiver: Receiver = {
+  phoneNumber: "200 000 00",
+  identification: ReceiverIdentification.unknown,
+}
+
 const firstThreadId = "1"
 const secondThreadId = "2"
 
@@ -68,6 +73,15 @@ const secondThread: Thread = {
   id: secondThreadId,
   phoneNumber: unknownContact.primaryPhoneNumber!,
   unread: false,
+  lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
+  messageSnippet:
+    "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+}
+
+const incomingThread: Thread = {
+  id: "3",
+  phoneNumber: unknownReceiver.phoneNumber,
+  unread: true,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
@@ -135,7 +149,8 @@ type callback = (outcome: RenderResult) => void
 type RenderProps = Partial<Props> & { callbacks?: callback[] }
 
 const renderer = (
-  { callbacks = [], ...extraProps }: RenderProps = { callbacks: [] }
+  { callbacks = [], ...extraProps }: RenderProps = { callbacks: [] },
+  options?: Omit<RenderOptions, "queries">
 ) => {
   const history = createMemoryHistory()
   const props = {
@@ -146,7 +161,8 @@ const renderer = (
   const outcome = renderWithThemeAndIntl(
     <Router history={history}>
       <Messages {...props} />
-    </Router>
+    </Router>,
+    options
   )
   mockAllIsIntersecting(true)
   callbacks.forEach((callback) => callback(outcome))
@@ -172,6 +188,13 @@ const putReceiverNumber = ({ queryByTestId }: RenderResult): void => {
     ReceiverInputSelectTestIds.Input
   ) as HTMLInputElement
   fireEvent.change(input, { target: { value: firstThread.phoneNumber } })
+}
+
+const putNewReceiverNumber = ({ queryByTestId }: RenderResult): void => {
+  const input = queryByTestId(
+    ReceiverInputSelectTestIds.Input
+  ) as HTMLInputElement
+  fireEvent.change(input, { target: { value: unknownReceiver.phoneNumber } })
 }
 
 const setNewMessageState = ({ queryByTestId }: RenderResult): void => {
@@ -316,9 +339,16 @@ describe("Messages component", () => {
     })
 
     test("ThreadDetails closes if thread doesn't exist", () => {
-      const { queryByTestId } = renderer(defaultProps)
+      const outcome1 = renderer(renderProps)
       expect(
-        queryByTestId(MessagesTestIds.ThreadDetails)
+        outcome1.queryByTestId(MessagesTestIds.ThreadDetails)
+      ).toBeInTheDocument()
+      const outcome2 = renderer(
+        { threads: [] },
+        { container: outcome1.container }
+      )
+      expect(
+        outcome2.queryByTestId(MessagesTestIds.ThreadDetails)
       ).not.toBeInTheDocument()
     })
 
@@ -557,6 +587,37 @@ describe("Messages component", () => {
         queryByTestId(ThreadDetailsTextAreaTestIds.SendButton) as HTMLElement
       )
       expect(addNewMessage).toBeCalled()
+    })
+  })
+
+  describe("when NewMessageForm is open with some content and new receiver number is put", () => {
+    const renderProps: RenderProps = {
+      callbacks: [setNewMessageState, setMockContent, putNewReceiverNumber],
+      ...propsWithSingleThread,
+    }
+
+    test("`NewMessageForm` closes after clicking send button", async () => {
+      const addNewMessage = jest.fn()
+      const outcome = renderer({ ...renderProps, addNewMessage })
+      const input = outcome.queryByTestId(
+        ReceiverInputSelectTestIds.Input
+      ) as HTMLInputElement
+      fireEvent.keyDown(input, { keyCode: 13 })
+      fireEvent.click(
+        outcome.queryByTestId(
+          ThreadDetailsTextAreaTestIds.SendButton
+        ) as HTMLElement
+      )
+      const outcome2 = renderer(
+        { threads: [incomingThread] },
+        { container: outcome.container }
+      )
+      expect(
+        outcome2.queryByTestId(MessagesTestIds.NewMessageForm)
+      ).not.toBeInTheDocument()
+      expect(
+        outcome2.queryByTestId(MessagesTestIds.ThreadDetails)
+      ).toBeInTheDocument()
     })
   })
 
