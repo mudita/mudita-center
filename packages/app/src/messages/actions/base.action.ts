@@ -7,10 +7,6 @@ import { createAction } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import { MessagesState } from "App/messages/reducers"
 
-export const markThreadsAsRead = createAction<string[]>(
-  MessagesEvent.MarkThreadAsRead
-)
-
 export const changeVisibilityFilter = createAction<
   MessagesState["visibilityFilter"]
 >(MessagesEvent.ChangeVisibilityFilter)

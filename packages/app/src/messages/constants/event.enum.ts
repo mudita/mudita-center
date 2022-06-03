@@ -4,9 +4,7 @@
  */
 
 export enum MessagesEvent {
-  ToggleThreadReadStatus = "TOGGLE_THREAD_READ_STATUS",
-  MarkThreadAsRead = "MARK_THREAD_AS_READ",
-
+  ToggleThreadsReadStatus = "TOGGLE_THREADS_READ_STATUS",
   MarkThreadsReadStatus = "MARK_THREADS_READ_STATUS",
 
   DeleteThreads = "DELETE_THREADS",

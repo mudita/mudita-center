@@ -87,23 +87,26 @@ export type AddNewMessageAction = PayloadAction<
   MessagesEvent.AddNewMessage
 >
 
-export type ToggleThreadReadStatusPendingAction = PayloadAction<
+export type ToggleThreadsReadStatusPendingAction = PayloadAction<
   undefined,
-  MessagesEvent.ToggleThreadReadStatus,
+  MessagesEvent.ToggleThreadsReadStatus,
   {
     arg: Thread[]
   }
 >
 export type MarkThreadsReadStatusPendingAction = PayloadAction<
   undefined,
-  MessagesEvent.ToggleThreadReadStatus,
+  MessagesEvent.ToggleThreadsReadStatus,
   {
     arg: Thread[]
   }
 >
-export type MarkThreadAsReadAction = PayloadAction<
-  string,
-  MessagesEvent.MarkThreadAsRead
+export type MarkThreadsReadStatusAction = PayloadAction<
+  Thread[],
+  MessagesEvent.ToggleThreadsReadStatus,
+  {
+    arg: Thread[]
+  }
 >
 
 export type DeleteThreadsAction = PayloadAction<
