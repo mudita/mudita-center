@@ -3,9 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Template } from "App/templates/dto"
-
-export interface TemplateState {
-  data: Template[]
-  error: Error | string | null
-}
+export * from "./template.presenter"
