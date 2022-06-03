@@ -143,8 +143,8 @@ describe("Settings screen check", () => {
   })
 
   it("Click on Settings tab and check 'Settings' text label is displayed", async () => {
-    const newsTab = await NavigationTabs.settingsTab
-    await newsTab.click()
+    const settingsTab = await NavigationTabs.settingsTab
+    await settingsTab.click()
 
     const locationTextLabel = await SettingsPage.locationTextLabel
     const locationTextLabelText = await locationTextLabel.getText()
@@ -194,9 +194,9 @@ describe("Overview screen check", () => {
   })
 
   it("Click on Overview tab and check 'Overview' text label is displayed", async () => {
-    const newsTab = await NavigationTabs.overviewTab
-    await newsTab.waitForDisplayed()
-    await newsTab.click()
+    const overviewTab = await NavigationTabs.overviewTab
+    await overviewTab.waitForDisplayed()
+    await overviewTab.click()
     await browser.executeAsync((done) => {
       setTimeout(done, 2000)
     })
