@@ -163,7 +163,7 @@ export class ThreadService {
     }
   }
 
-  public async toggleThreadReadStatus(
+  public async toggleThreadsReadStatus(
     threads: Thread[]
   ): Promise<RequestResponse<Thread[]>> {
     const results = threads.map(async (thread) => {
