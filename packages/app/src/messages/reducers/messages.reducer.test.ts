@@ -40,7 +40,7 @@ describe("Toggle Thread Read Status data functionality", () => {
         arg: Thread[]
       }
     > = {
-      type: pendingAction(MessagesEvent.ToggleThreadReadStatus),
+      type: pendingAction(MessagesEvent.ToggleThreadsReadStatus),
       payload: undefined,
       meta: { arg: [thread] },
     }
@@ -74,7 +74,7 @@ describe("Mark Thread Read Status data functionality", () => {
     unread: true,
   }
 
-  test("Event: MarkThreadsReadStatus update properly threadMap field", () => {
+  test("Event: MarkThreadsReadStatus/pending update properly threadMap field", () => {
     const markThreadsReadStatusAction: PayloadAction<
       undefined,
       string,
@@ -104,22 +104,18 @@ describe("Mark Thread Read Status data functionality", () => {
       },
     })
   })
-})
 
-describe("Mark Thread As Read data functionality", () => {
-  const thread: Thread = {
-    id: "1",
-    phoneNumber: "+48 755 853 216",
-    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
-    messageSnippet:
-      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
-    unread: true,
-  }
-
-  test("Event: MarkThreadAsRead update properly threadMap field", () => {
-    const markThreadAsRead: PayloadAction<string[]> = {
-      type: MessagesEvent.MarkThreadAsRead,
-      payload: [thread.id],
+  test("Event: MarkThreadsReadStatus/fulfilled update properly threadMap field", () => {
+    const markThreadsReadStatusAction: PayloadAction<
+      undefined,
+      string,
+      {
+        arg: Thread[]
+      }
+    > = {
+      type: fulfilledAction(MessagesEvent.MarkThreadsReadStatus),
+      payload: undefined,
+      meta: { arg: [thread] },
     }
 
     expect(
@@ -127,10 +123,10 @@ describe("Mark Thread As Read data functionality", () => {
         {
           ...initialState,
           threadMap: {
-            [thread.id]: { ...thread, unread: true },
+            [thread.id]: thread,
           },
         },
-        markThreadAsRead
+        markThreadsReadStatusAction
       )
     ).toEqual({
       ...initialState,

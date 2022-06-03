@@ -16,7 +16,6 @@ import {
   changeSearchValue,
   changeVisibilityFilter,
   hideDeleteModal,
-  markThreadsAsRead,
 } from "App/messages/actions/base.action"
 import { addNewMessage } from "App/messages/actions"
 import {
@@ -70,7 +69,6 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(changeVisibilityFilter(filter)),
   deleteThreads: async (threadIds: string[]): Promise<string[] | undefined> =>
     dispatch(deleteThreads(threadIds)),
-  markAsRead: (threadIds: string[]) => dispatch(markThreadsAsRead(threadIds)),
   toggleReadStatus: (threads: Thread[]) =>
     dispatch(toggleThreadsReadStatus(threads)),
   markThreadsReadStatus: (threads: Thread[]) =>

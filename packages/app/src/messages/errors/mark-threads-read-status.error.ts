@@ -6,7 +6,7 @@
 import { MessagesEvent } from "App/messages/constants"
 
 export class MarkThreadsReadStatusError extends Error {
-  public type = MessagesEvent.ToggleThreadReadStatus
+  public type = MessagesEvent.ToggleThreadsReadStatus
 
   constructor(public message: string, public payload?: any) {
     super()
