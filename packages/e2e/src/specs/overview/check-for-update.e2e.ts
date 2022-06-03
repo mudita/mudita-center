@@ -1,7 +1,7 @@
 import OverviewPage from "../../page-objects/overview.page"
 import GitHubHelper from "../../helpers/github.helper"
 
-describe("Overview Page", () => {
+describe.skip("Overview Page", () => {
   describe("Check for update modal", () => {
     before(async () => {
       // Waiting for device connected through USB
