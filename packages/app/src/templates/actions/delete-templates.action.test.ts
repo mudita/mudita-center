@@ -25,6 +25,12 @@ const template: Template = {
   lastUsedAt: "1574335694",
 }
 
+const secondTemplate: Template = {
+  id: "2",
+  text: "Test template",
+  lastUsedAt: "1574335694",
+}
+
 const successDeviceResponse: RequestResponse<CreateMessageDataResponse> = {
   status: RequestResponseStatus.Ok,
 }
@@ -40,7 +46,7 @@ const errorWithDataDeviceResponse: RequestResponse = {
   status: RequestResponseStatus.Error,
   error: {
     message: "I'm error",
-    data: [template.id],
+    data: { errorIds: [secondTemplate.id], successIds: [template.id] },
   },
 }
 
@@ -106,12 +112,18 @@ describe("`deleteTemplates`", () => {
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        deleteTemplates([template.id]) as unknown as AnyAction
+        deleteTemplates([
+          template.id,
+          secondTemplate.id,
+        ]) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        deleteTemplates.pending(requestId, [template.id]),
-        deleteTemplates.fulfilled([template.id], requestId, [template.id]),
+        deleteTemplates.pending(requestId, [template.id, secondTemplate.id]),
+        deleteTemplates.fulfilled([template.id], requestId, [
+          template.id,
+          secondTemplate.id,
+        ]),
       ])
 
       expect(deleteTemplatesRequest).toHaveBeenCalled()

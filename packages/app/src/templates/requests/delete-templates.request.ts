@@ -5,11 +5,11 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcTemplateRequest } from "App/templates/constants"
-import { RequestResponse } from "App/core/types/request-response.interface"
+import { DeleteTemplateRequestResponse } from "App/templates/reducers"
 
 export const deleteTemplatesRequest = async (
   templateIds: string[]
-): Promise<RequestResponse<string[]>> => {
+): Promise<DeleteTemplateRequestResponse> => {
   return await ipcRenderer.callMain(
     IpcTemplateRequest.DeleteTemplates,
     templateIds

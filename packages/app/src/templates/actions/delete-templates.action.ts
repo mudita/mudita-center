@@ -19,8 +19,7 @@ export const deleteTemplates = createAsyncThunk<Error | string[], string[]>(
     }
 
     if (error && error.data !== undefined) {
-      const successIds = ids.filter((id) => error.data.includes(id))
-      return successIds
+      return error.data.successIds
     }
 
     return ids

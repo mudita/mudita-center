@@ -17,6 +17,7 @@ import {
 import { TemplatePresenter } from "App/templates/presenters"
 import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
 import { TemplateRepository } from "App/templates/repositories"
+import { DeleteTemplateRequestResponse } from "App/templates/reducers"
 
 export class TemplateService {
   constructor(
@@ -52,7 +53,7 @@ export class TemplateService {
 
   public async deleteTemplates(
     templateIds: string[]
-  ): Promise<RequestResponse<string[]>> {
+  ): Promise<DeleteTemplateRequestResponse> {
     const results = templateIds.map(async (id) => {
       const { status } = await this.deviceService.request({
         endpoint: Endpoint.Messages,
@@ -82,7 +83,7 @@ export class TemplateService {
         status: RequestResponseStatus.Error,
         error: {
           message: "Delete template: Something went wrong",
-          data: errorIds,
+          data: { errorIds, successIds },
         },
       }
     } else {
