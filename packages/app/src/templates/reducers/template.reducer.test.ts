@@ -48,7 +48,19 @@ describe("Delete Template data functionality", () => {
     lastUsedAt: "1574335694",
   }
 
-  test("Event: DeleteTemplate update properly data field", () => {
+  const secondTemplate: Template = {
+    id: "2",
+    text: "Test template second",
+    lastUsedAt: "157433569",
+  }
+
+  const thirdTemplate: Template = {
+    id: "3",
+    text: "Test template second",
+    lastUsedAt: "157433569",
+  }
+
+  test("Event: DeleteTemplate update properly one data field", () => {
     const deleteTemplatesAction: PayloadAction<string[]> = {
       type: fulfilledAction(TemplatesEvent.DeleteTemplates),
       payload: [template.id],
@@ -65,6 +77,26 @@ describe("Delete Template data functionality", () => {
     ).toEqual({
       ...initialState,
       data: [],
+      deletingState: TemplateDeletingState.Success,
+    })
+  })
+  test("Event: DeleteTemplate update properly data field when more than one template is deleting", () => {
+    const deleteTemplatesAction: PayloadAction<string[]> = {
+      type: fulfilledAction(TemplatesEvent.DeleteTemplates),
+      payload: [template.id, thirdTemplate.id],
+    }
+
+    expect(
+      templateReducer(
+        {
+          ...initialState,
+          data: [template, secondTemplate, thirdTemplate],
+        },
+        deleteTemplatesAction
+      )
+    ).toEqual({
+      ...initialState,
+      data: [secondTemplate],
       deletingState: TemplateDeletingState.Success,
     })
   })
