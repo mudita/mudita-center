@@ -149,7 +149,7 @@ export const config: WebdriverIO.Config = {
   baseUrl: "http://localhost",
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 6000000,
+  waitforTimeout: 6000,
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
