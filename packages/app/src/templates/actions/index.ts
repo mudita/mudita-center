@@ -4,3 +4,4 @@
  */
 
 export * from "./delete-templates.action"
+export * from "./create-template.action"

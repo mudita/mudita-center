@@ -4,3 +4,4 @@
  */
 
 export * from "./delete-template.error"
+export * from "./create-template.error"
