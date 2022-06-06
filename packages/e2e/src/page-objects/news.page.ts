@@ -13,7 +13,6 @@ class NewsPage extends Page {
   > {
     return $('[data-testid="news-card"]')
   }
-
 }
 
 export default new NewsPage()
