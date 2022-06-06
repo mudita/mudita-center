@@ -1,7 +1,7 @@
 import OverviewPage from "../../page-objects/overview.page"
 import GitHubHelper from "../../helpers/github.helper"
 
-describe("Overview Page", () => {
+describe.skip("Overview Page", () => {
   describe("Check for update modal", () => {
     before(async () => {
       // Waiting for device connected through USB
@@ -10,7 +10,7 @@ describe("Overview Page", () => {
       })
     })
 
-    it("should have latest OS version available for update", async () => {
+    xit("should have latest OS version available for update", async () => {
       const checkForUpdateButton = await OverviewPage.checkForUpdateButton
       await checkForUpdateButton.waitForDisplayed()
       await expect(checkForUpdateButton).toBeExisting()

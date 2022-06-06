@@ -128,20 +128,20 @@ describe("`ThreadService`", () => {
     })
   })
 
-  describe("`toggleThreadReadStatus` method", () => {
+  describe("`toggleThreadsReadStatus` method", () => {
     test("map data and returns success when `deviceService.request` returns success", async () => {
       deviceService.request = jest.fn().mockReturnValue({
         status: RequestResponseStatus.Ok,
         thread: [thread],
       })
-      const response = await subject.toggleThreadReadStatus([thread])
+      const response = await subject.toggleThreadsReadStatus([thread])
       expect(deviceService.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
     test("returns error when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
-      const response = await subject.toggleThreadReadStatus([thread])
+      const response = await subject.toggleThreadsReadStatus([thread])
       expect(deviceService.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })

@@ -5,14 +5,14 @@
 
 import { MessagesError } from "App/messages/constants"
 
-export class ToggleThreadsReadStatusError extends Error {
-  public type = MessagesError.ToggleThreadsReadStatus
+export class MarkThreadsReadStatusError extends Error {
+  public type = MessagesError.MarkThreadsReadStatus
 
   constructor(public message: string, public payload?: any) {
     super()
 
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, ToggleThreadsReadStatusError)
+      Error.captureStackTrace(this, MarkThreadsReadStatusError)
     }
   }
 }

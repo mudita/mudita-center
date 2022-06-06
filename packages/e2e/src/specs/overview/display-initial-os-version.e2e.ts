@@ -11,7 +11,7 @@ describe("Overview Page", () => {
       })
     })
 
-    it("should have valid OS version", async () => {
+    xit("should have valid OS version", async () => {
       const HARDCODED_VERSION = initialOsVersion.split("_")[1]
 
       const currentVersionField = await OverviewPage.currentDeviceVersion

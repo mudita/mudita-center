@@ -20,4 +20,5 @@ export type ComponentProps = Pick<
     deleteThreads?: (ids: string[]) => void
     threads: Thread[]
     toggleReadStatus?: (threads: Thread[]) => void
+    markThreadsReadStatus?: (threads: Thread[]) => void
   }>

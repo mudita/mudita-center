@@ -1,7 +1,7 @@
 import OverviewPage from "../../page-objects/overview.page"
 import GitHubHelper from "../../helpers/github.helper"
 
-describe("Overview Page", () => {
+describe.skip("Overview Page", () => {
   describe("Device update process", () => {
     before(async () => {
       // Waiting for device connected through USB
@@ -10,7 +10,7 @@ describe("Overview Page", () => {
       })
     })
 
-    it("should check for available updates", async () => {
+    xit("should check for available updates", async () => {
       const checkForUpdateButton = await OverviewPage.checkForUpdateButton
       await checkForUpdateButton.waitForDisplayed()
 
