@@ -56,7 +56,7 @@ describe("async `createTemplate` ", () => {
   })
 
   describe("when `createTemplateRequest` return undefine `data` or `error` exists", () => {
-    test("fire async `createTemplate` returns `rejected` action if data is undefine", async () => {
+    test("fire async `createTemplate` returns `rejected` action if data is undefined", async () => {
       ;(createTemplateRequest as jest.Mock).mockReturnValue({
         data: undefined,
         error: null,
