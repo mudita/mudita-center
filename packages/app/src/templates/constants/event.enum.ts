@@ -5,4 +5,5 @@
 
 export enum TemplatesEvent {
   CreateTemplate = "TEMPLATE_CREATE_TEMPLATE",
+  DeleteTemplates = "DELETE_TEMPLATES",
 }

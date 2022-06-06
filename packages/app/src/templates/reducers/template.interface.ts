@@ -3,9 +3,30 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { PayloadAction } from "@reduxjs/toolkit"
+import { TemplatesEvent, TemplateDeletingState } from "App/templates/constants"
 import { Template } from "App/templates/dto"
-
+import { RequestResponse } from "App/core/types/request-response.interface"
 export interface TemplateState {
   data: Template[]
   error: Error | string | null
+  deletingState: TemplateDeletingState | null
 }
+
+export type DeleteTemplateAction = PayloadAction<
+  string[],
+  TemplatesEvent.DeleteTemplates
+>
+
+type DeletedTemplatesIds = string[]
+type ErrorTemplatesIds = string[]
+type SuccessTemplatesIds = string[]
+type ErrorTemplatesData = {
+  errorIds: ErrorTemplatesIds
+  successIds: SuccessTemplatesIds
+}
+
+export type DeleteTemplateRequestResponse = RequestResponse<
+  DeletedTemplatesIds,
+  ErrorTemplatesData
+>
