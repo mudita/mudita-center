@@ -7,6 +7,7 @@ import {
   ContactsCollection,
   getContactDetails,
   splitMessageByBytesSize,
+  getStringSizeInBytes,
 } from "App/messages/helpers/messages.helpers"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 
@@ -91,6 +92,20 @@ describe("splitMessageByBytesSize", () => {
       expect(splitMessageByBytesSize(value, bytesSize)).toEqual(
         expectedMessagesParts
       )
+    }
+  )
+})
+
+describe("getStringSizeInBytes", () => {
+  const testCases: [value: string, expectedBytesSize: number][] = [
+    ["abc", 3],
+    ["def♥𐍈Ą😂👍", 20],
+    ["   \n", 4],
+  ]
+  test.each(testCases)(
+    "for string %p returns %p bytes",
+    (value, expectedBytesSize) => {
+      expect(getStringSizeInBytes(value)).toEqual(expectedBytesSize)
     }
   )
 })

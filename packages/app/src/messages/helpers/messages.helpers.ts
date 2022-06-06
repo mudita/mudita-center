@@ -4,7 +4,7 @@
  */
 
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { getStringSizeInBytes } from "App/common/helpers/get-string-size-in-bytes"
+import { TextEncoder } from "util"
 
 export type ContactsCollection = Record<string, Contact>
 export type Getter = (
@@ -60,4 +60,8 @@ export const splitMessageByBytesSize = (
   }
 
   return messages.map((message) => message.letters.join(""))
+}
+
+export const getStringSizeInBytes = (content: string) => {
+  return new TextEncoder().encode(content).length
 }
