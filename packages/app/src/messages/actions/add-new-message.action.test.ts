@@ -23,16 +23,19 @@ const mockAddedNewMessageData: NewMessage = {
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   phoneNumber: "+48500600700",
 }
-
 const mockAddedMessageData: CreateMessageDataResponse = {
-  message: {
-    id: "6",
-    date: new Date(),
-    content: mockAddedNewMessageData.content,
-    threadId: "1",
-    phoneNumber: mockAddedNewMessageData.phoneNumber,
-    messageType: MessageType.OUTBOX,
-  },
+  messageParts: [
+    {
+      message: {
+        id: "6",
+        date: new Date(),
+        content: mockAddedNewMessageData.content,
+        threadId: "1",
+        phoneNumber: mockAddedNewMessageData.phoneNumber,
+        messageType: MessageType.OUTBOX,
+      },
+    },
+  ],
 }
 
 const successDeviceResponse: RequestResponse<CreateMessageDataResponse> = {

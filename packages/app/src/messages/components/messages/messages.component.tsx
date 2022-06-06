@@ -296,9 +296,7 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const handleContentChange = (content: string): void => {
-    setContent((previousValue) => {
-      return content.length >= 115 ? previousValue : content
-    })
+    setContent(content)
   }
 
   const handleAddNewMessage = async (phoneNumber: string): Promise<void> => {
