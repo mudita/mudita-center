@@ -9,7 +9,6 @@ import {
   changeSearchValue,
   changeVisibilityFilter,
   clearAllThreads,
-  markThreadsAsRead,
 } from "App/messages/actions/base.action"
 import { MessagesEvent } from "App/messages/constants"
 import { VisibilityFilter } from "App/messages/reducers"
@@ -18,18 +17,6 @@ const mockStore = createMockStore([thunk])()
 
 afterEach(() => {
   mockStore.clearActions()
-})
-
-describe("Action: markThreadsAsRead", () => {
-  test("fire action with empty array and `MarkThreadAsRead` type", () => {
-    mockStore.dispatch(markThreadsAsRead([]))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: MessagesEvent.MarkThreadAsRead,
-        payload: [],
-      },
-    ])
-  })
 })
 
 describe("Action: changeVisibilityFilter", () => {

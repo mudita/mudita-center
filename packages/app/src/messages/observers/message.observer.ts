@@ -62,8 +62,8 @@ export class MessageObserver implements Observer {
       return
     }
 
-    const messageSuccess = await this.readMessages()
     const threadSuccess = await this.readThreads()
+    const messageSuccess = await this.readMessages()
 
     if (messageSuccess || threadSuccess) {
       this.ipc.sendToRenderers(IpcEvent.DataUpdated)
