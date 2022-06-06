@@ -13,7 +13,7 @@ export const toggleThreadsReadStatus = createAsyncThunk<
   Error | Thread[],
   Thread[]
 >(
-  MessagesEvent.ToggleThreadReadStatus,
+  MessagesEvent.ToggleThreadsReadStatus,
   async (threads, { rejectWithValue }) => {
     const { error } = await toggleThreadsReadStatusRequest(threads)
     if (error && error.data === undefined) {
