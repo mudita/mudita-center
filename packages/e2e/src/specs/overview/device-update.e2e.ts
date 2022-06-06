@@ -10,7 +10,7 @@ describe.skip("Overview Page", () => {
       })
     })
 
-    it("should check for available updates", async () => {
+    xit("should check for available updates", async () => {
       const checkForUpdateButton = await OverviewPage.checkForUpdateButton
       await checkForUpdateButton.waitForDisplayed()
 

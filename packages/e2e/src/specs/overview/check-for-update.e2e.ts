@@ -10,7 +10,7 @@ describe.skip("Overview Page", () => {
       })
     })
 
-    it("should have latest OS version available for update", async () => {
+    xit("should have latest OS version available for update", async () => {
       const checkForUpdateButton = await OverviewPage.checkForUpdateButton
       await checkForUpdateButton.waitForDisplayed()
       await expect(checkForUpdateButton).toBeExisting()
