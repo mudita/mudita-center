@@ -32,7 +32,7 @@ beforeEach(() => {
 
 jest.mock("App/templates/requests/create-template.request")
 
-describe("async `createTemplate` ", () => {
+describe("async `createTemplate`", () => {
   describe("when `createTemplateRequest` requests return success", () => {
     test("fire async `createTemplate` returns created template", async () => {
       ;(createTemplateRequest as jest.Mock).mockReturnValue({
