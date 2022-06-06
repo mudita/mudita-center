@@ -9,6 +9,7 @@ import {
 } from "App/messages/reducers/messages.reducer"
 import { MessagesEvent, ThreadDeletingState } from "App/messages/constants"
 import {
+  AddNewMessageAction,
   Message,
   MessagesState,
   MessageType,
@@ -341,6 +342,76 @@ describe("Clear All Threads data functionality", () => {
       threadMap: {},
       messageMap: {},
       messageIdsInThreadMap: {},
+    })
+  })
+})
+
+describe("Add New Message functionality", () => {
+  const thread: Thread = {
+    id: "1",
+    phoneNumber: "+48 755 853 216",
+    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+    messageSnippet:
+      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+    unread: true,
+  }
+
+  const messagePartOne: Message = {
+    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+    date: new Date("2019-10-18T11:27:15.256Z"),
+    content:
+      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+    threadId: "1",
+    phoneNumber: "+48 755 853 216",
+    messageType: MessageType.INBOX,
+  }
+
+  const messagePartTwo: Message = {
+    id: "aaf96416-e0c1-11ec-9d64-0242ac120002",
+    date: new Date("2019-10-18T11:27:15.256Z"),
+    content: "Lorem ipsum viverra.",
+    threadId: "1",
+    phoneNumber: "+48 755 853 216",
+    messageType: MessageType.INBOX,
+  }
+
+  test("Event: AddNewMessage saves all messages parts to the store", () => {
+    const addNewMessagesAction: PayloadAction<AddNewMessageAction["payload"]> =
+      {
+        type: fulfilledAction(MessagesEvent.AddNewMessage),
+        payload: {
+          messageParts: [
+            {
+              message: messagePartOne,
+              thread,
+            },
+            {
+              message: messagePartTwo,
+              thread,
+            },
+          ],
+        },
+      }
+
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+        },
+        addNewMessagesAction
+      )
+    ).toEqual({
+      ...initialState,
+      threadMap: {
+        [thread.id]: thread,
+      },
+      messageMap: {
+        [messagePartOne.id]: messagePartOne,
+        [messagePartTwo.id]: messagePartTwo,
+      },
+      messageIdsInThreadMap: {
+        [messagePartOne.threadId]: [messagePartOne.id, messagePartTwo.id],
+      },
     })
   })
 })
