@@ -108,6 +108,7 @@ describe("Message Observer: observe", () => {
 
       subject.observe()
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+      await flushPromises()
 
       expect(messageService.getMessages).toHaveBeenCalled()
     })
@@ -212,14 +213,42 @@ describe("Message Observer: observe", () => {
       threadService.getThreads = jest
         .fn()
         .mockReturnValue(getThreadsSuccessResponse)
-      expect(messageService.getMessages).toHaveBeenCalledTimes(0)
 
+      expect(messageService.getMessages).toHaveBeenCalledTimes(0)
       subject.observe()
+
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+      await flushPromises()
 
       expect(messageService.getMessages).toHaveBeenCalledTimes(1)
+    })
+
+    // check for CP-1333. The call order is important
+    describe("threads and messages call order", () => {
+      test("fetching threads is called before fetching message", async () => {
+        const calls: string[] = []
+
+        messageService.getMessages = jest.fn().mockImplementation(() => {
+          calls.push("Calling getMessages!")
+          return getMessagesSuccessResponse
+        })
+        threadService.getThreads = jest.fn().mockImplementation(() => {
+          calls.push("Calling getThreads!")
+          return getThreadsSuccessResponse
+        })
+        expect(messageService.getMessages).toHaveBeenCalledTimes(0)
+
+        subject.observe()
+        eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+        await flushPromises()
+
+        expect(messageService.getMessages).toHaveBeenCalled()
+        expect(threadService.getThreads).toHaveBeenCalled()
+
+        expect(calls).toEqual(["Calling getThreads!", "Calling getMessages!"])
+      })
     })
   })
 })
