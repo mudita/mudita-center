@@ -58,6 +58,11 @@ export const config: WebdriverIO.Config = {
     "./src/specs/overview/check-for-update.e2e.ts",
     "./src/specs/overview/device-update.e2e.ts",
     "./src/specs/settings/mc-version-check.e2e.ts",
+    "./src/specs/contacts/contacts-in-app-navigation.e2e.ts",
+    "./src/specs/messages/messages-in-app-navigation.e2e.ts",
+    "./src/specs/news/news-in-app-navigation.e2e.ts",
+    "./src/specs/overview/overview-in-app-navigation.e2e.ts",
+    "./src/specs/settings/settings-in-app-navigation.e2e.ts",
   ],
   suites: {
     update: [

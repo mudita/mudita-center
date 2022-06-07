@@ -2,6 +2,12 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class SettingsPage extends Page {
+  public get locationTextLabel(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="location"]')
+  }
+
   public get generalTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
