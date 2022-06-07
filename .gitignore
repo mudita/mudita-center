@@ -58,6 +58,7 @@ storybook-static
 !.env.example
 electron-builder.env
 tmp/**/*
+**/*/tmp/**/*
 !tmp/.keep
 
 packages/app/src/renderer/fonts/main/**/*
