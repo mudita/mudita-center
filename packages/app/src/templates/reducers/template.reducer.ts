@@ -90,5 +90,23 @@ export const templateReducer = createReducer<TemplateState>(
           }
         }
       )
+      .addCase(pendingAction(TemplatesEvent.DeleteTemplates), (state) => {
+        return {
+          ...state,
+          deletingState: TemplateDeletingState.Deleting,
+        }
+      })
+      .addCase(rejectedAction(TemplatesEvent.DeleteTemplates), (state) => {
+        return {
+          ...state,
+          deletingState: TemplateDeletingState.Fail,
+        }
+      })
+      .addCase(TemplatesEvent.HideDeleteModal, (state) => {
+        return {
+          ...state,
+          deletingState: null,
+        }
+      })
   }
 )

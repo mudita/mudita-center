@@ -21,7 +21,7 @@ export type DeleteTemplateAction = PayloadAction<
   TemplatesEvent.DeleteTemplates
 >
 
-type DeletedTemplatesIds = string[]
+export type DeletedTemplatesIds = string[]
 type ErrorTemplatesIds = string[]
 type SuccessTemplatesIds = string[]
 type ErrorTemplatesData = {

@@ -49,10 +49,10 @@ import { PayloadAction } from "@reduxjs/toolkit"
 import { IndexRange } from "react-virtualized"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { Notification } from "App/notification/types"
-import SuccessPopup from "App/messages/components/success-popup.component"
+import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import { ThreadDeletingState } from "App/messages/constants"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
-import DeletingThreadsModal from "../deleting-threads-modal.component"
+import DeletingModal from "App/ui/components/deleting-modal/deleting-modal.component"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },
@@ -69,6 +69,12 @@ const messages = defineMessages({
   deletingModalSubtitle: { id: "module.messages.deletingModalSubtitle" },
   deletingModalErrorSubtitle: {
     id: "module.messages.deleteModalErrorSubtitle",
+  },
+  conversationDeleted: {
+    id: "module.messages.conversationDelete",
+  },
+  conversationsDeleted: {
+    id: "module.messages.conversationsDelete",
   },
 })
 
@@ -150,6 +156,21 @@ const Messages: FunctionComponent<Props> = ({
     useTableSelect<Thread>(threads)
 
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
+
+  const getMessageText = (number: number): TranslationMessage => {
+    if (number === 1) {
+      return {
+        ...messages.conversationDeleted,
+      }
+    } else {
+      return {
+        ...messages.conversationsDeleted,
+        values: {
+          number: number,
+        },
+      }
+    }
+  }
 
   useEffect(() => {
     if (deletingState === ThreadDeletingState.Success) {
@@ -466,13 +487,13 @@ const Messages: FunctionComponent<Props> = ({
         )}
       </TableWithSidebarWrapper>
       {deletingState === ThreadDeletingState.Success && (
-        <SuccessPopup
-          ids={deletedThreads}
+        <InfoPopup
+          message={getMessageText(deletedThreads.length)}
           data-testid={MessagesTestIds.SuccessThreadDelete}
         />
       )}
       {deletingState === ThreadDeletingState.Deleting && (
-        <DeletingThreadsModal
+        <DeletingModal
           data-testid={MessagesTestIds.ThreadDeleting}
           open={deletingState === ThreadDeletingState.Deleting}
           title={intl.formatMessage(messages.deletingModalTitle)}

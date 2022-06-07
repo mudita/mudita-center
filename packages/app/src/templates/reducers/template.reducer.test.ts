@@ -13,7 +13,7 @@ import {
   templateReducer,
   initialState,
 } from "App/templates/reducers/template.reducer"
-import { CreateTemplateError } from "App/templates/errors"
+import { CreateTemplateError, DeleteTemplateError } from "App/templates/errors"
 import { Template } from "App/templates/dto"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { TemplatesEvent, TemplateDeletingState } from "App/templates/constants"
@@ -174,6 +174,32 @@ describe("Delete Template data functionality", () => {
       ...initialState,
       data: [secondTemplate],
       deletingState: TemplateDeletingState.Success,
+    })
+  })
+
+  test("Event: DeleteTemplate/pending changed `deletingState` to `Deleting`", () => {
+    expect(
+      templateReducer(undefined, {
+        type: pendingAction(TemplatesEvent.DeleteTemplates),
+        payload: undefined,
+      })
+    ).toEqual({
+      ...initialState,
+      deletingState: TemplateDeletingState.Deleting,
+    })
+  })
+
+  test("Event: DeleteTemplate/rejected changed `deletingState` to `Fail`", () => {
+    const deleteTemplateErrorMock = new DeleteTemplateError("I'm error")
+
+    expect(
+      templateReducer(undefined, {
+        type: rejectedAction(TemplatesEvent.DeleteTemplates),
+        payload: deleteTemplateErrorMock,
+      })
+    ).toEqual({
+      ...initialState,
+      deletingState: TemplateDeletingState.Fail,
     })
   })
 })
