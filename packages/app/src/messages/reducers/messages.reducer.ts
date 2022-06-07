@@ -14,18 +14,20 @@ import {
   ChangeSearchValueAction,
   ChangeVisibilityFilterAction,
   DeleteThreadsAction,
-  MarkThreadAsReadAction,
   MessageIdsInThreadMap,
   MessageMap,
   MessagesState,
   ResultState,
   ThreadMap,
-  ToggleThreadReadStatusAction,
+  MarkThreadsReadStatusPendingAction,
+  ToggleThreadsReadStatusPendingAction,
   VisibilityFilter,
+  MarkThreadsReadStatusAction,
 } from "App/messages/reducers/messages.interface"
 import { MessagesEvent, ThreadDeletingState } from "App/messages/constants"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
+import { markThreadsReadStatus } from "App/messages/reducers/messages-reducer.helpers"
 
 export const initialState: MessagesState = {
   threadMap: {},
@@ -46,24 +48,25 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(
         fulfilledAction(MessagesEvent.AddNewMessage),
         (state, action: AddNewMessageAction) => {
-          const message = action.payload.message
+          const messageParts = action.payload.messageParts
           const prevMessageMap = { ...state.messageMap }
-          prevMessageMap[message.id] = message
-
           const prevMessageIdsInThreadMap = { ...state.messageIdsInThreadMap }
-          const messageIds: string[] =
-            prevMessageIdsInThreadMap[message.threadId] ?? []
-          prevMessageIdsInThreadMap[message.threadId] = messageIds.find(
-            (id) => id === message.id
-          )
-            ? messageIds
-            : [...messageIds, message.id]
-
-          const thread = action.payload.thread
           const prevThreadMap: ThreadMap = { ...state.threadMap }
 
-          if (thread) {
-            prevThreadMap[thread.id] = thread
+          for (const { message, thread } of messageParts) {
+            prevMessageMap[message.id] = message
+
+            const messageIds: string[] =
+              prevMessageIdsInThreadMap[message.threadId] ?? []
+            prevMessageIdsInThreadMap[message.threadId] = messageIds.find(
+              (id) => id === message.id
+            )
+              ? messageIds
+              : [...messageIds, message.id]
+
+            if (thread) {
+              prevThreadMap[thread.id] = thread
+            }
           }
 
           return {
@@ -76,9 +79,10 @@ export const messagesReducer = createReducer<MessagesState>(
       )
 
       .addCase(
-        fulfilledAction(MessagesEvent.ToggleThreadReadStatus),
-        (state, action: ToggleThreadReadStatusAction) => {
-          const ids = action.payload
+        pendingAction(MessagesEvent.ToggleThreadsReadStatus),
+        (state, action: ToggleThreadsReadStatusPendingAction) => {
+          const threads = action.meta.arg
+          const ids = threads.map((thread) => thread.id)
           const threadMap = Object.keys(state.threadMap).reduce(
             (prevThreadMap, id) => {
               if (ids.includes(id)) {
@@ -100,25 +104,18 @@ export const messagesReducer = createReducer<MessagesState>(
       )
 
       .addCase(
-        MessagesEvent.MarkThreadAsRead,
-        (state, action: MarkThreadAsReadAction) => {
-          const ids = action.payload
-          const threadMap = Object.keys(state.threadMap).reduce(
-            (prevThreadMap, id) => {
-              if (ids.includes(id)) {
-                const thread = prevThreadMap[id]
-                prevThreadMap[id] = {
-                  ...thread,
-                  unread: false,
-                }
-                return prevThreadMap
-              } else {
-                return prevThreadMap
-              }
-            },
-            { ...state.threadMap }
-          )
-
+        pendingAction(MessagesEvent.MarkThreadsReadStatus),
+        (state, action: MarkThreadsReadStatusPendingAction) => {
+          const threads = action.meta.arg
+          const threadMap = markThreadsReadStatus(threads, state.threadMap)
+          return { ...state, threadMap }
+        }
+      )
+      .addCase(
+        fulfilledAction(MessagesEvent.MarkThreadsReadStatus),
+        (state, action: MarkThreadsReadStatusAction) => {
+          const threads = action.meta.arg
+          const threadMap = markThreadsReadStatus(threads, state.threadMap)
           return { ...state, threadMap }
         }
       )

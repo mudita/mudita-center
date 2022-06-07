@@ -21,6 +21,7 @@ import {
   MessageType as PureMessageType,
 } from "@mudita/pure"
 import { NewMessage } from "App/messages/reducers"
+import assert from "assert"
 
 jest.mock("App/messages/presenters")
 ;(MessagePresenter as unknown as jest.Mock).mockImplementation(() => {
@@ -67,9 +68,20 @@ const newMessageWithThreadId: NewMessage = {
   phoneNumber: pureMessage.number,
   threadId: String(pureMessage.threadID),
 }
+
+const newLongMessageWithThreadId: NewMessage = {
+  ...newMessageWithThreadId,
+  content: "x".repeat(500),
+}
+
 const newMessageWithoutThreadId: NewMessage = {
   content: pureMessage.messageBody,
   phoneNumber: pureMessage.number,
+}
+
+const newLongMessageWithoutThreadId: NewMessage = {
+  ...newMessageWithoutThreadId,
+  content: "x".repeat(500),
 }
 
 beforeEach(() => {
@@ -120,35 +132,77 @@ describe("`MessageService`", () => {
   })
 
   describe("`createMessage` method", () => {
-    describe("when `deviceService.request` returns success with acceptable pure message type", () => {
-      test("return in response just message when threadId is known", async () => {
+    describe("when message is lower than 469 bytes", () => {
+      test("the `deviceService.request` is called once", async () => {
         deviceService.request = jest.fn().mockReturnValue({
           ...successResponse,
           data: pureMessage,
         })
         const response = await subject.createMessage(newMessageWithThreadId)
-        expect(deviceService.request).toHaveBeenCalled()
-        expect(MessagePresenter.mapToMessage).toHaveBeenCalled()
         expect(response.status).toEqual(RequestResponseStatus.Ok)
-        expect(response.data?.message).not.toBeUndefined()
-        expect(response.data?.thread).toBeUndefined()
+        expect(deviceService.request).toHaveBeenCalledTimes(1)
       })
+    })
 
-      test("return in response message and thread when threadId isn't known", async () => {
+    describe("when message is bigger than 469 bytes", () => {
+      test("the `deviceService.request` is called more than once", async () => {
         deviceService.request = jest.fn().mockReturnValue({
           ...successResponse,
           data: pureMessage,
         })
-        threadService.getThreads = jest.fn().mockReturnValue({
-          ...successResponse,
-          data: { data: [{ id: "threadId" }] },
-        })
-        const response = await subject.createMessage(newMessageWithoutThreadId)
-        expect(deviceService.request).toHaveBeenCalled()
-        expect(MessagePresenter.mapToMessage).toHaveBeenCalled()
+        const newLongMessageWithThreadId: NewMessage = {
+          ...newMessageWithThreadId,
+          content: "x".repeat(500),
+        }
+        const response = await subject.createMessage(newLongMessageWithThreadId)
         expect(response.status).toEqual(RequestResponseStatus.Ok)
-        expect(response.data?.message).not.toBeUndefined()
-        expect(response.data?.thread).not.toBeUndefined()
+        expect(deviceService.request).toHaveBeenCalledTimes(2)
+      })
+    })
+
+    describe("when every part of the message is sent successfully", () => {
+      describe("when `deviceService.request` returns success with acceptable pure message type", () => {
+        test("return in response just message when threadId is known", async () => {
+          deviceService.request = jest.fn().mockReturnValue({
+            ...successResponse,
+            data: pureMessage,
+          })
+          const response = await subject.createMessage(
+            newLongMessageWithThreadId
+          )
+          expect(deviceService.request).toHaveBeenCalled()
+          expect(MessagePresenter.mapToMessage).toHaveBeenCalled()
+          expect(response.status).toEqual(RequestResponseStatus.Ok)
+
+          assert(response.data?.messageParts)
+          for (const part of response.data.messageParts) {
+            expect(part.message).not.toBeUndefined()
+            expect(part.thread).toBeUndefined()
+          }
+        })
+
+        test("return in response message and thread when threadId isn't known", async () => {
+          deviceService.request = jest.fn().mockReturnValue({
+            ...successResponse,
+            data: pureMessage,
+          })
+          threadService.getThreads = jest.fn().mockReturnValue({
+            ...successResponse,
+            data: { data: [{ id: "threadId" }] },
+          })
+          const response = await subject.createMessage(
+            newLongMessageWithoutThreadId
+          )
+          expect(deviceService.request).toHaveBeenCalled()
+          expect(MessagePresenter.mapToMessage).toHaveBeenCalled()
+          expect(response.status).toEqual(RequestResponseStatus.Ok)
+
+          assert(response.data?.messageParts)
+          for (const part of response.data.messageParts) {
+            expect(part.message).not.toBeUndefined()
+            expect(part.thread).not.toBeUndefined()
+          }
+        })
       })
     })
 
@@ -171,6 +225,22 @@ describe("`MessageService`", () => {
         const response = await subject.createMessage(newMessageWithThreadId)
         expect(deviceService.request).toHaveBeenCalled()
         expect(MessagePresenter.mapToMessage).not.toHaveBeenCalled()
+        expect(response.status).toEqual(RequestResponseStatus.Error)
+      })
+    })
+
+    describe("when `deviceService.request` returns error for the second message", () => {
+      test("method returns error", async () => {
+        deviceService.request = jest
+          .fn()
+          .mockReturnValueOnce({
+            ...successResponse,
+            data: pureMessage,
+          })
+          .mockReturnValueOnce(errorResponse)
+        const response = await subject.createMessage(newLongMessageWithThreadId)
+        expect(deviceService.request).toHaveBeenCalled()
+
         expect(response.status).toEqual(RequestResponseStatus.Error)
       })
     })

@@ -18,7 +18,8 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "test": "./node_modules/.bin/wdio run wdio.conf.ts"
+    "test": "./node_modules/.bin/wdio run wdio.conf.ts",
+    "postinstall": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/mudita/mudita-center/issues"
@@ -30,7 +31,7 @@
     "@wdio/mocha-framework": "^7.16.13",
     "@wdio/reporter": "^7.16.14",
     "@wdio/spec-reporter": "^7.16.14",
-    "chromedriver": "^80.0.2",
+    "chromedriver": "^98.0.1",
     "dotenv": "^14.3.0",
     "semver": "^7.3.5",
     "serialport": "^10.1.0",
@@ -47,16 +48,6 @@
     "npm": "6.14.13"
   },
   "dependencies": {
-    "@felipecrs/decompress-tarxz": "^4.0.0",
-    "adm-zip": "^0.5.9",
-    "axios": "^0.27.2",
-    "decompress": "^4.2.1",
-    "decompress-tar": "^4.1.1",
-    "decompress-tarxz": "^3.0.0",
-    "gunzip": "^1.2.2",
-    "gunzip-maybe": "^1.4.2",
-    "node-unar": "^1.0.8",
-    "tar-fs": "^2.1.1",
-    "unpack-all": "^0.1.0"
+    "axios": "^0.27.2"
   }
 }

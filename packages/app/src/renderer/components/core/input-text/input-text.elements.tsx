@@ -437,6 +437,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   inputRef,
   errorMessage,
   focusable,
+  defaultHeight,
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -454,11 +455,15 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   const calculateHeight = () => {
     const element = textareaRef.current
     if (element) {
-      element.style.height = `${textareaLineHeight}px`
-      element.style.height = `${Math.min(
-        element.scrollHeight,
-        maxRows * textareaLineHeight
-      )}px`
+      if (defaultHeight) {
+        element.style.height = defaultHeight
+      } else {
+        element.style.height = `${textareaLineHeight}px`
+        element.style.height = `${Math.min(
+          element.scrollHeight,
+          maxRows * textareaLineHeight
+        )}px`
+      }
     }
   }
 
@@ -467,7 +472,9 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   }, [value, defaultValue, maxRows])
 
   const onChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    calculateHeight()
+    if (!defaultHeight) {
+      calculateHeight()
+    }
     onChange(event)
   }
 

@@ -116,6 +116,7 @@ const Messages: FunctionComponent<Props> = ({
   getMessagesByThreadId,
   getReceiver,
   toggleReadStatus = noop,
+  markThreadsReadStatus = noop,
   language,
   attachContactList,
   attachContactFlatList,
@@ -254,9 +255,7 @@ const Messages: FunctionComponent<Props> = ({
   const handleThreadClick = (thread: Thread): void => {
     if (activeThread?.id !== thread.id) {
       openThreadDetails(thread)
-      if (thread.unread) {
-        toggleReadStatus([thread])
-      }
+      markThreadsReadStatus([thread])
     }
   }
 
@@ -291,21 +290,22 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const markAsRead = (): void => {
-    if (activeThread && activeThread.unread) {
-      toggleReadStatus([activeThread])
+    if (activeThread) {
+      markThreadsReadStatus([activeThread])
     }
   }
 
   const handleContentChange = (content: string): void => {
-    setContent((previousValue) => {
-      return content.length >= 115 ? previousValue : content
-    })
+    setContent(content)
   }
 
   const handleAddNewMessage = async (phoneNumber: string): Promise<void> => {
     const threadId = threads.find(
       (thread) => thread.phoneNumber === phoneNumber
     )?.id
+    if (tmpActiveThread !== undefined) {
+      handleReceiverSelect({ phoneNumber })
+    }
     await addNewMessage({ content, phoneNumber, threadId })
   }
 
@@ -316,7 +316,7 @@ const Messages: FunctionComponent<Props> = ({
       )
       if (thread) {
         openThreadDetails(thread)
-      } else {
+      } else if (tmpActiveThread === undefined && thread === undefined) {
         setActiveThread(undefined)
       }
     }
