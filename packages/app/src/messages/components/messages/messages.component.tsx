@@ -303,6 +303,9 @@ const Messages: FunctionComponent<Props> = ({
     const threadId = threads.find(
       (thread) => thread.phoneNumber === phoneNumber
     )?.id
+    if (tmpActiveThread !== undefined) {
+      handleReceiverSelect({ phoneNumber })
+    }
     await addNewMessage({ content, phoneNumber, threadId })
   }
 
