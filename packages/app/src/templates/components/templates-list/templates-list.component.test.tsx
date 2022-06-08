@@ -21,7 +21,7 @@ const render = (props: TemplatesListProps) => {
 
 describe("`TemplatesList` component", () => {
   test("shows empty state if templates list is empty", () => {
-    const { getByText } = render({ templates: [] })
+    const { getByText } = render({ templates: [], deleteTemplates: jest.fn() })
     expect(
       getByText("[value] module.templates.emptyList.title")
     ).toBeInTheDocument()
@@ -31,7 +31,10 @@ describe("`TemplatesList` component", () => {
   })
 
   test("shows templates list", () => {
-    const { getByText } = render({ templates: [templateMock] })
+    const { getByText } = render({
+      templates: [templateMock],
+      deleteTemplates: jest.fn(),
+    })
     expect(getByText(templateMock.text)).toBeInTheDocument()
   })
 })

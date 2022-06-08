@@ -4,3 +4,4 @@
  */
 
 export * from "./create-template.request"
+export * from "./delete-templates.request"

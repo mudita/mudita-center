@@ -18,6 +18,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   loading,
   error,
   createTemplate,
+  deleteTemplates,
 }) => {
   const [newTemplateOpen, setNewTemplateOpenState] = useState<boolean>(false)
 
@@ -43,7 +44,10 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
         onAddNewTemplate={handleOpenNewTemplateForm}
       />
       <TemplatesSection>
-        <TemplatesList templates={templates} />
+        <TemplatesList
+          templates={templates}
+          deleteTemplates={deleteTemplates}
+        />
         {newTemplateOpen && (
           <TemplateForm
             saving={loading}

@@ -24,6 +24,8 @@ const createTemplateMock = jest
   .fn()
   .mockResolvedValue({ payload: templateMock })
 
+const deleteTemplatesMock = jest.fn()
+
 const render = async (props: TemplatesProps) => {
   const outcome = renderWithThemeAndIntl(<Templates {...props} />)
   await waitFor(noop)
@@ -37,6 +39,7 @@ describe("`Templates` component", () => {
       const { getByTestId, queryByTestId } = await render({
         templates: [],
         createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
         loading: false,
         error: null,
       })
@@ -63,6 +66,7 @@ describe("`Templates` component", () => {
       const { getByText } = await render({
         templates: [templateMock],
         createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
         loading: false,
         error: null,
       })
@@ -74,6 +78,7 @@ describe("`Templates` component", () => {
       const { getByText } = await render({
         templates: [],
         createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
         loading: false,
         error: null,
       })
@@ -92,6 +97,7 @@ describe("`Templates` component", () => {
       const { getByTestId } = await render({
         templates: [],
         createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
         loading: false,
         error: null,
       })
@@ -120,6 +126,7 @@ describe("`Templates` component", () => {
       const { getByTestId } = await render({
         templates: [],
         createTemplate: successCreateTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
         loading: false,
         error: null,
       })
@@ -145,6 +152,7 @@ describe("`Templates` component", () => {
       const { getByTestId, getByText } = await render({
         templates: [],
         createTemplate: createTemplateMock,
+        deleteTemplates: deleteTemplatesMock,
         loading: false,
         error: "Some error",
       })

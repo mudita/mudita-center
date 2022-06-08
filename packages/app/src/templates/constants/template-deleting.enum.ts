@@ -3,5 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./create-template.action"
-export * from "./delete-templates.action"
+export enum TemplateDeletingState {
+  Deleting,
+  Success,
+  Fail,
+}

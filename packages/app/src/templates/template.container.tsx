@@ -7,6 +7,7 @@ import { connect } from "react-redux"
 import { ReduxRootState } from "Renderer/store"
 import { Templates } from "App/templates/components"
 import { createTemplate } from "App/templates/actions"
+import { deleteTemplates } from "App/templates/actions"
 
 const mapStateToProps = (state: ReduxRootState) => ({
   templates: state.templates.data,
@@ -16,6 +17,7 @@ const mapStateToProps = (state: ReduxRootState) => ({
 
 const mapDispatchToProps = {
   createTemplate,
+  deleteTemplates,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Templates)

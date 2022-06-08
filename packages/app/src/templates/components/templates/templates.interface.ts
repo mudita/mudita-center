@@ -11,4 +11,5 @@ export interface TemplatesProps {
   loading: boolean
   error: Error | string | null
   createTemplate: (arg: NewTemplate) => Promise<PayloadAction<any>>
+  deleteTemplates: (ids: string[]) => void
 }
