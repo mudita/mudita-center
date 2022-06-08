@@ -13,29 +13,60 @@ import {
   PanelWrapper,
   Panel,
   ButtonWrapper,
+  TemplatesSelectionManager,
 } from "App/templates/components/templates-panel/templates-panel.styled"
 import { TemplatesPanelTestIds } from "App/templates/components/templates-panel/templates-panel-ids.enum"
+import { IconType } from "Renderer/components/core/icon/icon-type"
+import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 
 const messages = defineMessages({
   newButton: { id: "module.templates.newButton" },
+  deleteButton: { id: "module.templates.deleteButton" },
 })
 
 export const TemplatesPanel: FunctionComponent<TemplatesPanelProps> = ({
   disabled,
   onAddNewTemplate,
+  selectedTemplates,
+  allItemsSelected,
+  onDeleteClick,
+  toggleAll,
 }) => {
+  const selectedItemsCount = selectedTemplates.length
+  const selectionMode = selectedItemsCount > 0
+
   return (
     <PanelWrapper>
       <Panel>
-        <ButtonWrapper>
-          <Button
-            data-testid={TemplatesPanelTestIds.Button}
-            displayStyle={DisplayStyle.Primary}
-            labelMessage={messages.newButton}
-            onClick={onAddNewTemplate}
-            disabled={disabled}
+        {selectionMode ? (
+          <TemplatesSelectionManager
+            data-testid={TemplatesPanelTestIds.SelectionManager}
+            selectedItemsNumber={selectedItemsCount}
+            allItemsSelected={Boolean(allItemsSelected)}
+            message={{ id: "module.templates.selectionNumber" }}
+            checkboxSize={Size.Medium}
+            onToggle={toggleAll}
+            buttons={[
+              <Button
+                key="delete"
+                labelMessage={messages.deleteButton}
+                displayStyle={DisplayStyle.Link}
+                Icon={IconType.Delete}
+                onClick={onDeleteClick}
+              />,
+            ]}
           />
-        </ButtonWrapper>
+        ) : (
+          <ButtonWrapper>
+            <Button
+              data-testid={TemplatesPanelTestIds.Button}
+              displayStyle={DisplayStyle.Primary}
+              labelMessage={messages.newButton}
+              onClick={onAddNewTemplate}
+              disabled={disabled}
+            />
+          </ButtonWrapper>
+        )}
       </Panel>
     </PanelWrapper>
   )

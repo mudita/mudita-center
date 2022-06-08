@@ -10,7 +10,7 @@ import { TemplatesSection } from "App/templates/components/templates/templates.s
 import { TemplatesPanel } from "App/templates/components/templates-panel"
 import { TemplatesList } from "App/templates/components/templates-list"
 import { TemplateForm } from "App/templates/components/template-form"
-import { NewTemplate } from "App/templates/dto"
+import { Template, NewTemplate } from "App/templates/dto"
 import { TemplateError, TemplateDeletingState } from "App/templates/constants"
 import DeleteConfirmationModal from "App/templates/components/delete-confirmation-modal/delete-confirmation-modal.component"
 import { defineMessages } from "react-intl"
@@ -20,6 +20,7 @@ import { Message as TranslationMessage } from "Renderer/interfaces/message.inter
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import DeletingModal from "App/ui/components/deleting-modal/deleting-modal.component"
 import { TemplatesTestIds } from "App/templates/components/templates/templates-test-ids.enum"
+import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.templates.deleteModalTitle" },
@@ -44,6 +45,9 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
   const [deletedTemplates, setDeletedTemplates] = useState<string[]>([])
   const infoPopupDisplayTime = 5000
+
+  const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
+    useTableSelect<Template>(templates)
 
   useEffect(() => {
     if (deletingState === TemplateDeletingState.Success) {
@@ -82,6 +86,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
 
   const handleCloseDeleteModal = () => {
     setDeleteModalOpen(false)
+    setDeletedTemplates([])
+    resetRows()
   }
   const handleOpenDeleteModal = (ids: string[]) => {
     setDeleteModalOpen(true)
@@ -90,6 +96,10 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const handleDeleteButton = async () => {
     await deleteTemplates(deletedTemplates)
     handleCloseDeleteModal()
+  }
+  const handleDeleteSelected = () => {
+    const ids = selectedRows.map((thread) => thread.id)
+    handleOpenDeleteModal(ids)
   }
   const handleSaveTemplate = async (template: NewTemplate) => {
     const data = await createTemplate(template)
@@ -104,11 +114,16 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       <TemplatesPanel
         disabled={newTemplateOpen}
         onAddNewTemplate={handleOpenNewTemplateForm}
+        selectedTemplates={selectedRows}
+        allItemsSelected={allRowsSelected}
+        toggleAll={toggleAll}
+        onDeleteClick={handleDeleteSelected}
       />
       <TemplatesSection>
         <TemplatesList
           templates={templates}
           deleteTemplates={handleOpenDeleteModal}
+          {...rest}
         />
         {newTemplateOpen && (
           <TemplateForm

@@ -242,4 +242,19 @@ describe("`Templates` component", () => {
       getByTestId(TemplatesTestIds.DeleteTemplateError)
     ).toBeInTheDocument()
   })
+  test("when at least one checkbox is checked, all checkboxes are visible", async () => {
+    const { getAllByTestId } = await render({
+      templates: [templateMock],
+      createTemplate: createTemplateMock,
+      deleteTemplates: deleteTemplatesMock,
+      loading: false,
+      error: null,
+      deletingState: null,
+      hideDeleteModal: hideDeleteModalMock,
+    })
+    const checkboxes = getAllByTestId("template-checkbox")
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
+    fireEvent.click(checkboxes[0])
+    checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
+  })
 })

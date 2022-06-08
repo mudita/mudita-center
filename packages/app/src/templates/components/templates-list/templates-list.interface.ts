@@ -4,8 +4,14 @@
  */
 
 import { Template } from "App/templates/dto"
+import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 
-export interface TemplatesListProps {
+type SelectHook = Pick<
+  UseTableSelect<Template>,
+  "getRowStatus" | "toggleRow" | "noneRowsSelected"
+>
+
+export interface TemplatesListProps extends SelectHook {
   templates: Template[]
   deleteTemplates: (ids: string[]) => void
 }
