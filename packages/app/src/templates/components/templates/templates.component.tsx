@@ -87,8 +87,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     setDeleteModalOpen(true)
     setDeletedTemplates(ids)
   }
-  const handleDeleteButton = () => {
-    deleteTemplates(deletedTemplates)
+  const handleDeleteButton = async () => {
+    await deleteTemplates(deletedTemplates)
     handleCloseDeleteModal()
   }
   const handleSaveTemplate = async (template: NewTemplate) => {
