@@ -2,13 +2,6 @@ import NavigationTabs from "../../page-objects/tabs.page"
 import OverviewPage from "../../page-objects/overview.page"
 
 describe("Overview screen check", () => {
-  before(async () => {
-    // Waiting for device connected through USB
-    await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
-    })
-  })
-
   it("Click on Overview tab and check 'Overview' text label is displayed", async () => {
     const overviewTab = await NavigationTabs.overviewTab
     await overviewTab.waitForDisplayed()
@@ -25,7 +18,7 @@ describe("Overview screen check", () => {
     const about = await OverviewPage.aboutYourPureButton
     await about.click()
 
-    const sarLink = await OverviewPage.checkSARInfoLink
+    const sarLink = await OverviewPage.checkSARInformationButton
     await expect(sarLink).toBeDisplayed()
   })
 })

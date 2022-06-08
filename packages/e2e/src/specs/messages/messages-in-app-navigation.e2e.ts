@@ -2,13 +2,6 @@ import NavigationTabs from "../../page-objects/tabs.page"
 import MessagesPage from "../../page-objects/messages.page"
 
 describe("Messages screen check", () => {
-  before(async () => {
-    // Waiting for device connected through USB
-    await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
-    })
-  })
-
   it("Should click Messages tab and check 'new message' button is displayed", async () => {
     const messagesTab = await NavigationTabs.messagesTab
     await messagesTab.waitForDisplayed()

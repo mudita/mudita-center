@@ -48,11 +48,35 @@ class SettingsPage extends Page {
     return $("p*=Terms of service")
   }
 
+  public get aboutTermsOfServiceButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="terms-of-service-button"]')
+  }
+
+  public get aboutTermsOfServiceComponentWrapper(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="terms-of-service-component-wrapper"]')
+  }  
+
   public get aboutPrivacyPolicyTextLabel(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $("p*=Privacy Policy")
   }
+
+  public get aboutPrivacyPolicyButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="about-privacy-policy-button"]')
+  }  
+
+  public get aboutPrivacyPolicyComponentWrapper(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="privacy-policy-component-wrapper"]')
+  }    
 
   public get aboutLicenseTextLabel(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
@@ -60,6 +84,18 @@ class SettingsPage extends Page {
     return $("p*=License")
   }
 
+  public get aboutLicenseButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="about-license-button"]')
+  }
+
+  public get aboutLicenseComponentWrapper(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="License-component-wrapper"]')
+  }  
+  
   public get closeButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {

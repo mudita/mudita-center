@@ -2,13 +2,6 @@ import NavigationTabs from "../../page-objects/tabs.page"
 import SettingsPage from "../../page-objects/settings.page"
 
 describe("Settings screen check", () => {
-  before(async () => {
-    // Waiting for device connected through USB
-    await browser.executeAsync((done) => {
-      setTimeout(done, 10000)
-    })
-  })
-
   it("Click on Settings tab and check 'Settings' text label is displayed", async () => {
     const settingsTab = await NavigationTabs.settingsTab
     await settingsTab.click()

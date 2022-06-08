@@ -56,7 +56,7 @@ class OverviewPage extends Page {
     return $('[data-testid="icon-MenuPhone"]')
   }
 
-  public get checkSARInfoLink(): ChainablePromiseElement<
+  public get checkSARInformationButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $("p*=Check SAR information")
