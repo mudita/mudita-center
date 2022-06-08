@@ -7,8 +7,7 @@ import { connect } from "react-redux"
 import { ReduxRootState } from "Renderer/store"
 import { deleteTemplates } from "App/templates/actions"
 import { Templates } from "App/templates/components"
-import { createTemplate } from "App/templates/actions"
-import { hideDeleteModal } from "App/templates/actions/base.action"
+import { createTemplate, hideDeleteModal } from "App/templates/actions"
 
 const mapStateToProps = (state: ReduxRootState) => ({
   templates: state.templates.data,

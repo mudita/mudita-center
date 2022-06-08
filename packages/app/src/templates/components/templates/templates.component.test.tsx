@@ -14,6 +14,7 @@ import { TemplatesPanelTestIds } from "App/templates/components/templates-panel/
 import { TemplateFormTestIds } from "App/templates/components/template-form/template-form-ids.enum"
 import { Template } from "App/templates/dto"
 import { TemplateDeletingState } from "App/templates/constants"
+import { TemplatesTestIds } from "App/templates/components/templates/templates-test-ids.enum"
 
 const templateMock: Template = {
   id: "1",
@@ -178,54 +179,8 @@ describe("`Templates` component", () => {
     })
   })
   describe("`deleteTemplate` functionality", () => {
-    test("show deleting success modal, when deletingState is Success", async () => {
-      const { getByText } = await render({
-        templates: [templateMock],
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        loading: false,
-        error: null,
-        deletingState: TemplateDeletingState.Success,
-        hideDeleteModal: hideDeleteModalMock,
-      })
-
-      expect(
-        getByText("[value] module.templates.templateDelete")
-      ).toBeInTheDocument()
-    })
-    test("show deleting success modal, when deletingState is Fail", async () => {
-      const { getByText } = await render({
-        templates: [templateMock],
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        loading: false,
-        error: null,
-        deletingState: TemplateDeletingState.Fail,
-        hideDeleteModal: hideDeleteModalMock,
-      })
-
-      expect(
-        getByText("[value] module.templates.deleteModalErrorSubtitle")
-      ).toBeInTheDocument()
-    })
-    test("show deleting loader, when deletingState is Deleting", async () => {
-      const { getByText } = await render({
-        templates: [templateMock],
-        createTemplate: createTemplateMock,
-        deleteTemplates: deleteTemplatesMock,
-        loading: false,
-        error: null,
-        deletingState: TemplateDeletingState.Deleting,
-        hideDeleteModal: hideDeleteModalMock,
-      })
-
-      expect(
-        getByText("[value] module.templates.deletingModalTitle")
-      ).toBeInTheDocument()
-    })
-
     test("Clicking on dropdown delete opens delete confirmation modal", async () => {
-      const { getByTestId, getByText } = await render({
+      const { getByTestId } = await render({
         templates: [templateMock],
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
@@ -237,8 +192,54 @@ describe("`Templates` component", () => {
       const deleteButton = getByTestId("dropdown-delete")
       fireEvent.click(deleteButton)
       expect(
-        getByText("[value] module.templates.deleteModalBody")
+        getByTestId(TemplatesTestIds.DeleteConfirmationModal)
       ).toBeInTheDocument()
     })
+  })
+
+  test("show deleting loader, when deletingState is Deleting", async () => {
+    const { getByTestId } = await render({
+      templates: [templateMock],
+      createTemplate: createTemplateMock,
+      deleteTemplates: deleteTemplatesMock,
+      loading: false,
+      error: null,
+      deletingState: TemplateDeletingState.Deleting,
+      hideDeleteModal: hideDeleteModalMock,
+    })
+
+    expect(
+      getByTestId(TemplatesTestIds.DeletingTemplateModal)
+    ).toBeInTheDocument()
+  })
+  test("show InfoPopup with deleted template number message, when deletingState is Success", async () => {
+    const { getByText } = await render({
+      templates: [templateMock],
+      createTemplate: createTemplateMock,
+      deleteTemplates: deleteTemplatesMock,
+      loading: false,
+      error: null,
+      deletingState: TemplateDeletingState.Success,
+      hideDeleteModal: hideDeleteModalMock,
+    })
+
+    expect(
+      getByText("[value] module.templates.templateDelete")
+    ).toBeInTheDocument()
+  })
+
+  test("show deleting error modal, when deletingState is Fail", async () => {
+    const { getByTestId } = await render({
+      templates: [templateMock],
+      createTemplate: createTemplateMock,
+      deleteTemplates: deleteTemplatesMock,
+      loading: false,
+      error: null,
+      deletingState: TemplateDeletingState.Fail,
+      hideDeleteModal: hideDeleteModalMock,
+    })
+    expect(
+      getByTestId(TemplatesTestIds.DeleteTemplateError)
+    ).toBeInTheDocument()
   })
 })

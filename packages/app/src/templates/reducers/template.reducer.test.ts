@@ -202,4 +202,16 @@ describe("Delete Template data functionality", () => {
       deletingState: TemplateDeletingState.Fail,
     })
   })
+
+  test("Event: TemplatesEvent.HideDeleteModal changed `deletingState` to null", () => {
+    expect(
+      templateReducer(undefined, {
+        type: TemplatesEvent.HideDeleteModal,
+        payload: undefined,
+      })
+    ).toEqual({
+      ...initialState,
+      deletingState: null,
+    })
+  })
 })

@@ -19,6 +19,7 @@ import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import { Message as TranslationMessage } from "Renderer/interfaces/message.interface"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import DeletingModal from "App/ui/components/deleting-modal/deleting-modal.component"
+import { TemplatesTestIds } from "App/templates/components/templates/templates-test-ids.enum"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.templates.deleteModalTitle" },
@@ -42,20 +43,23 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const [newTemplateOpen, setNewTemplateOpenState] = useState<boolean>(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false)
   const [deletedTemplates, setDeletedTemplates] = useState<string[]>([])
+  const infoPopupDisplayTime = 5000
 
   useEffect(() => {
     if (deletingState === TemplateDeletingState.Success) {
       const timeout = setTimeout(() => {
         setDeletedTemplates([])
         hideDeleteModal()
-      }, 5000)
+      }, infoPopupDisplayTime)
       return () => clearTimeout(timeout)
     }
     return
   }, [deletingState])
 
-  const getMessageText = (number: number): TranslationMessage => {
-    if (number === 1) {
+  const getDeletedTemplateText = (
+    deletedTemplatesLength: number
+  ): TranslationMessage => {
+    if (deletedTemplatesLength === 1) {
       return {
         ...messages.templateDeleted,
       }
@@ -63,7 +67,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       return {
         ...messages.templatesDeleted,
         values: {
-          number: number,
+          number: deletedTemplatesLength,
         },
       }
     }
@@ -117,6 +121,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
         )}
       </TemplatesSection>
       <DeleteConfirmationModal
+        testId={TemplatesTestIds.DeleteConfirmationModal}
         open={deleteModalOpen}
         info={{
           ...messages.deleteModalBody,
@@ -126,10 +131,11 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
         onCloseButton={handleCloseDeleteModal}
       />
       {deletingState === TemplateDeletingState.Success && (
-        <InfoPopup message={getMessageText(deletedTemplates.length)} />
+        <InfoPopup message={getDeletedTemplateText(deletedTemplates.length)} />
       )}
       {deletingState === TemplateDeletingState.Deleting && (
         <DeletingModal
+          testId={TemplatesTestIds.DeletingTemplateModal}
           open={deletingState === TemplateDeletingState.Deleting}
           title={intl.formatMessage(messages.deletingModalTitle)}
           subtitle={intl.formatMessage(messages.deletingModalSubtitle)}
@@ -137,6 +143,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       )}
       {deletingState === TemplateDeletingState.Fail && (
         <ErrorModal
+          testId={TemplatesTestIds.DeleteTemplateError}
           open={deletingState === TemplateDeletingState.Fail}
           title={intl.formatMessage(messages.deleteModalTitle)}
           subtitle={intl.formatMessage(messages.deleteModalErrorSubtitle)}

@@ -157,8 +157,10 @@ const Messages: FunctionComponent<Props> = ({
 
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
 
-  const getMessageText = (number: number): TranslationMessage => {
-    if (number === 1) {
+  const getDeletedThreadText = (
+    deletedThreadsLength: number
+  ): TranslationMessage => {
+    if (deletedThreadsLength === 1) {
       return {
         ...messages.conversationDeleted,
       }
@@ -166,7 +168,7 @@ const Messages: FunctionComponent<Props> = ({
       return {
         ...messages.conversationsDeleted,
         values: {
-          number: number,
+          number: deletedThreadsLength,
         },
       }
     }
@@ -491,7 +493,7 @@ const Messages: FunctionComponent<Props> = ({
       </TableWithSidebarWrapper>
       {deletingState === ThreadDeletingState.Success && (
         <InfoPopup
-          message={getMessageText(deletedThreads.length)}
+          message={getDeletedThreadText(deletedThreads.length)}
           data-testid={MessagesTestIds.SuccessThreadDelete}
         />
       )}
