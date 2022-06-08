@@ -49,6 +49,30 @@ class OverviewPage extends Page {
   > {
     return $('[data-testid="modal-action-button"]*=Update now')
   }
+
+  public get aboutYourPureButton(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="icon-MenuPhone"]')
+  }
+
+  public get checkSARInfoLink(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $("p*=Check SAR information")
+  }
+
+  public get sarWrapper(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="sar-wrapper"]')
+  }
+
+  public get locationTextLabel(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="location"]')
+  }
 }
 
 export default new OverviewPage()

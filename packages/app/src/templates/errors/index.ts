@@ -3,5 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./delete-template.error"
 export * from "./create-template.error"
+export * from "./delete-template.error"

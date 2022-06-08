@@ -2,20 +2,26 @@ import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
 class SettingsPage extends Page {
+  public get locationTextLabel(): ChainablePromiseElement<
+    Promise<WebdriverIO.Element>
+  > {
+    return $('[data-testid="location"]')
+  }
+
   public get generalTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-Connection"]')
+    return $('a[href="#/settings"] [data-testid="icon-Connection"]')
   }
 
   public get backupTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-BackupFolder"]')
+    return $('a[href="#/settings/backup"]')
   }
 
   public get aboutTab(): ChainablePromiseElement<Promise<WebdriverIO.Element>> {
-    return $('[data-testid="icon-MuditaLogo"]')
+    return $('a[href="#/settings/about"]')
   }
 
   public get generalSendLogsTextLabel(): ChainablePromiseElement<

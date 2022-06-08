@@ -50,13 +50,14 @@ lerna run --stream --scope @mudita/mudita-center-app dev:start:main
 ## Enable Developer mode inside the application
 
 To run additional Developer mode in Mudita Center, tap on the right button of your mouse and select "Enable developer mode". You can also toggle it on/off using `Ctrl`/`Cmd`+`D` keys. When Developer mode is enabled you can:
+
 - `Ctrl`/`Cmd`+`P` toggle simulating Mudita Pure connection.
 - `Ctrl`/`Cmd`+`B` toggle simulating Mudita Harmony connection.
 
 Using Developer mode you can:
 
 - simulate a connected Mudita Pure device
-- simulate a connected Mudita Harmony device  
+- simulate a connected Mudita Harmony device
 - load/clear default 'placeholder' topics in the "Messages" view
 - load/clear default 'placeholder' contacts in the "Contacts" view
 - load/clear default 'placeholder' events in the "Calendar" view
@@ -176,7 +177,24 @@ To fix that, `settings.json` file should be updated manually according to change
 - Linux: `~/.config/@mudita/mudita-center-app`
 - macOS: `~/Library/Application Support/@mudita/mudita-center-app`
 
-### How to get logs from the built application
+### I am unable to update Pure soft with the application in the development mode
+
+When you are in the development mode and you try to update your phone to the latest version, it may happen that it would not work (due to our internal bug). To fix this, try to change `FEATURE_TOGGLE_ENVIRONMENT` from `development` to `production`.
+
+Disclaimer:
+When you read this, it may happen that this problem does not exist anymore - it means that the bug was fixed.
+
+### I am unable to run the application that has version equal or older than 1.3 (due to webpack errors)
+
+Solution:
+In the file `rules.js`, find a function `tsxMain` add to `plugins` array:
+
+```
+    ["@babel/plugin-proposal-optional-chaining"],
+    ["@babel/plugin-proposal-nullish-coalescing-operator"],
+```
+
+## How to get logs from the built application
 
 Logs are saved in file logs folder. The file format is `mc-YYYY-MM-DD`.
 

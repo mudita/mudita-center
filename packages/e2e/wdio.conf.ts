@@ -57,7 +57,12 @@ export const config: WebdriverIO.Config = {
     "./src/specs/overview/display-initial-os-version.e2e.ts",
     "./src/specs/overview/check-for-update.e2e.ts",
     "./src/specs/overview/device-update.e2e.ts",
-    "./src/specs/settings/mc_version_check.e2e.ts",
+    "./src/specs/settings/mc-version-check.e2e.ts",
+    "./src/specs/contacts/contacts-in-app-navigation.e2e.ts",
+    "./src/specs/messages/messages-in-app-navigation.e2e.ts",
+    "./src/specs/news/news-in-app-navigation.e2e.ts",
+    "./src/specs/overview/overview-in-app-navigation.e2e.ts",
+    "./src/specs/settings/settings-in-app-navigation.e2e.ts",
   ],
   suites: {
     update: [
@@ -149,7 +154,7 @@ export const config: WebdriverIO.Config = {
   baseUrl: "http://localhost",
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 6000000,
+  waitforTimeout: 6000,
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response

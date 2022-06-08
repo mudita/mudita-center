@@ -16,6 +16,17 @@ export interface TemplateState {
   deletingState: TemplateDeletingState | null
 }
 
+export type CreateTemplateFulfilledAction = PayloadAction<
+  Template,
+  TemplatesEvent.CreateTemplate
+>
+
+export type CreateTemplateRejectedAction = PayloadAction<
+  CreateTemplateError,
+  TemplatesEvent.CreateTemplate,
+  void,
+  Error | string | null
+>
 export type DeleteTemplateAction = PayloadAction<
   string[],
   TemplatesEvent.DeleteTemplates
@@ -32,16 +43,4 @@ type ErrorTemplatesData = {
 export type DeleteTemplateRequestResponse = RequestResponse<
   DeletedTemplatesIds,
   ErrorTemplatesData
->
-
-export type CreateTemplateFulfilledAction = PayloadAction<
-  Template,
-  TemplatesEvent.CreateTemplate
->
-
-export type CreateTemplateRejectedAction = PayloadAction<
-  CreateTemplateError,
-  TemplatesEvent.CreateTemplate,
-  void,
-  Error | string | null
 >
