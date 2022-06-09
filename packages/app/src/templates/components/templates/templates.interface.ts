@@ -9,6 +9,10 @@ import { Template, NewTemplate } from "App/templates/dto"
 export interface TemplatesProps {
   templates: Template[]
   loading: boolean
+  loaded: boolean
   error: Error | string | null
+  deleting: boolean
   createTemplate: (arg: NewTemplate) => Promise<PayloadAction<any>>
+  deleteTemplates: (arg: string[]) => Promise<PayloadAction<any>>
+  hideDeleteModal: () => void
 }

@@ -20,6 +20,9 @@ describe("map VCF's to Contacts helper", () => {
   const noEncodedContactFile = createFile(
     path.join(__dirname, "./no-encoded-contact.vcf")
   )
+  const withPolishCharsContactFile = createFile(
+    path.join(__dirname, "./utf-8-polish-characters.vcf")
+  )
   const noVcfFile = createFile(path.join(__dirname, "./no-vcf.png"))
 
   test("should return list with one contact when is just single record", async () => {
@@ -69,14 +72,27 @@ describe("map VCF's to Contacts helper", () => {
     const contacts = await mapVCFsToContacts([noEncodedContactFile])
     expect(contacts).toStrictEqual([
       {
-        firstName: "/",
+        firstName: "是",
         lastName: "Jürgen",
         primaryPhoneNumber: "123456789",
         secondaryPhoneNumber: "321234455",
         firstAddressLine: "Saudi Arabia, 11564, Arabia",
-        secondAddressLine: "'C*4A",
+        secondAddressLine: "اكتشف",
       },
     ])
+  })
+
+  test("should return contact with file that contains polish characters", async () => {
+    const contacts = await mapVCFsToContacts([withPolishCharsContactFile])
+    expect(contacts).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "firstName": "NąMĘ ąłść",
+          "lastName": "SURNąMę",
+          "primaryPhoneNumber": "123456789",
+        },
+      ]
+    `)
   })
 
   test("should return empty list when the file format isn't vcf", async () => {
