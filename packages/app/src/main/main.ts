@@ -139,6 +139,8 @@ const createWindow = async () => {
     await installExtensions()
   }
 
+  const title = "Mudita Center"
+
   ;(global as any).__static = require("path")
     .join(__dirname, "/static")
     .replace(/\\/g, "\\\\")
@@ -149,8 +151,10 @@ const createWindow = async () => {
       width: WINDOW_SIZE.width,
       minHeight: WINDOW_SIZE.minHeight,
       height: WINDOW_SIZE.height,
+      title,
     })
   )
+  setWindowTitleInHTMLtitleTag(win, title)
 
   new MetadataInitializer(metadataStore).init()
 
@@ -209,11 +213,6 @@ const createWindow = async () => {
     shell.openExternal(href)
   })
 
-  win.on("page-title-updated", (event) => {
-    // prevent window name change to "Webpack App"
-    event.preventDefault()
-  })
-
   if (!productionEnvironment) {
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
     win.webContents.once("dom-ready", () => {
@@ -241,11 +240,13 @@ app.on("activate", () => {
 })
 
 ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
+  const title = "Mudita Center - Help"
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({
         width: DEFAULT_WINDOWS_SIZE.width,
         height: DEFAULT_WINDOWS_SIZE.height,
+        title,
       })
     )
     helpWindow.loadURL(
@@ -259,6 +260,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
             search: `?mode=${Mode.Help}`,
           })
     )
+    setWindowTitleInHTMLtitleTag(helpWindow, title)
     registerDownloadHelpHandler()
     registerSetHelpStoreHandler()
     registerGetHelpStoreHandler()
@@ -272,17 +274,13 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
     removeGetHelpStoreHandler()
     helpWindow = null
   })
-
-  helpWindow.on("page-title-updated", (event) => {
-    // prevent window name change to "Webpack App"
-    event.preventDefault()
-  })
 })
 
 const createOpenWindowListener = (
   channel: string,
   mode: string,
   urlMain: string,
+  title: string,
   newWindow: BrowserWindow | null = null
 ) => {
   ipcMain.answerRenderer(channel, async () => {
@@ -291,6 +289,7 @@ const createOpenWindowListener = (
         getWindowOptions({
           width: DEFAULT_WINDOWS_SIZE.width,
           height: DEFAULT_WINDOWS_SIZE.height,
+          title,
         })
       )
       await newWindow.loadURL(
@@ -304,6 +303,7 @@ const createOpenWindowListener = (
               search: `?mode=${mode}`,
             })
       )
+      setWindowTitleInHTMLtitleTag(newWindow, title)
       newWindow.webContents.on("new-window", (event, href) => {
         event.preventDefault()
         shell.openExternal(href)
@@ -315,18 +315,18 @@ const createOpenWindowListener = (
     newWindow.on("closed", () => {
       newWindow = null
     })
-
-    newWindow.on("page-title-updated", (event) => {
-      // prevent window name change to "Webpack App"
-      event.preventDefault()
-    })
   })
+}
+
+const setWindowTitleInHTMLtitleTag = (window: BrowserWindow, title: string) => {
+  window.webContents.executeJavaScript(`document.title="${title}"`)
 }
 
 createOpenWindowListener(
   AboutActions.LicenseOpenWindow,
   Mode.License,
   URL_MAIN.license,
+  "Mudita Center - License",
   licenseWindow
 )
 
@@ -334,6 +334,7 @@ createOpenWindowListener(
   AboutActions.TermsOpenWindow,
   Mode.TermsOfService,
   URL_MAIN.termsOfService,
+  "Mudita Center - Terms of service",
   termsWindow
 )
 
@@ -341,6 +342,7 @@ createOpenWindowListener(
   AboutActions.PolicyOpenWindow,
   Mode.PrivacyPolicy,
   URL_MAIN.privacyPolicy,
+  "Mudita Center - Privacy policy",
   policyWindow
 )
 
@@ -348,6 +350,7 @@ createOpenWindowListener(
   PureSystemActions.SarOpenWindow,
   Mode.Sar,
   URL_OVERVIEW.sar,
+  "Mudita Center - SAR information",
   policyWindow
 )
 
@@ -366,6 +369,7 @@ const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
 }
 
 ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
+  const title = "Mudita Center - Google Auth"
   if (process.env.MUDITA_CENTER_SERVER_URL) {
     const cb = (data: string) => {
       ipcMain.callRenderer(
@@ -382,8 +386,10 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           height: GOOGLE_AUTH_WINDOW_SIZE.height,
           titleBarStyle:
             process.env.NODE_ENV === "development" ? "default" : "hidden",
+          title,
         })
       )
+      setWindowTitleInHTMLtitleTag(googleAuthWindow, title)
 
       if (await checkPort(authServerPort)) {
         await createErrorWindow(googleAuthWindow)
@@ -425,6 +431,7 @@ ipcMain.answerRenderer(GoogleAuthActions.CloseWindow, () => {
 ipcMain.answerRenderer(
   OutlookAuthActions.OpenWindow,
   async (data: { authorizationUrl: string; scope: string }) => {
+    const title = "Mudita Center - Outlook Auth"
     const { authorizationUrl, scope } = data
     if (clientId) {
       if (outlookAuthWindow === null) {
@@ -434,8 +441,10 @@ ipcMain.answerRenderer(
             height: 600,
             titleBarStyle:
               process.env.NODE_ENV === "development" ? "default" : "hidden",
+            title,
           })
         )
+        setWindowTitleInHTMLtitleTag(outlookAuthWindow, title)
 
         outlookAuthWindow.loadURL(authorizationUrl)
 
