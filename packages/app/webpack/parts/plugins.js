@@ -39,6 +39,7 @@ module.exports = {
     minifyJS: false,
     minifyCSS: false,
     minifyURLs: true,
+    title: "", // needed for overriding title
   }),
   env: new EnvironmentPlugin({
     ...dotenv.config({
