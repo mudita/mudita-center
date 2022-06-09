@@ -53,7 +53,7 @@ class OverviewPage extends Page {
   public get aboutYourPureButton(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-MenuPhone"]')
+    return $("p*=About your Pure")
   }
 
   public get checkSARInformationButton(): ChainablePromiseElement<

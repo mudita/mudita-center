@@ -1,14 +1,14 @@
 import NavigationTabs from "../../page-objects/tabs.page"
 import SettingsPage from "../../page-objects/settings.page"
 
-describe.skip("Check new windows display - Terms of Service, Privacy Policy, License", () => {
+describe("Check new windows display - Terms of Service, Privacy Policy, License", () => {
   before(async () => {
     // Waiting for device connected through USB
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
   })  
-  it("Should navigate to About tab in Settings, click TOS button and check wrapper component is displayed", async () => {
+  it("Navigates to About tab in Settings, clicks TOS button and checks wrapper component is displayed", async () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
@@ -30,7 +30,7 @@ describe.skip("Check new windows display - Terms of Service, Privacy Policy, Lic
     await expect(toswrapper).toBeDisplayed
     await browser.switchWindow("Mudita Center")
   })
-  it("Click Privacy` Policy button and check wrapper component is displayed in new window", async () => {
+  it("Clicks Privacy Policy button and checks wrapper component is displayed in new window", async () => {
     await browser.switchWindow("Mudita Center")
 
     const privacyLink = await SettingsPage.aboutPrivacyPolicyButton
@@ -42,10 +42,10 @@ describe.skip("Check new windows display - Terms of Service, Privacy Policy, Lic
     await privacyWrapper.waitForDisplayed({ timeout: 15000 })
     await expect(privacyWrapper).toBeDisplayed
   })  
-  it("Click Licence button and check wrapper component is displayed in new window", async () => {
+  it("Clicks Licence button and check wrapper component is displayed in new window", async () => {
     await browser.switchWindow("Mudita Center")
 
-    const licenseLink = await SettingsPage.aboutPrivacyPolicyButton
+    const licenseLink = await SettingsPage.aboutLicenseButton
     await licenseLink.click()
     await browser.pause(2000)
     await browser.switchWindow("Mudita Center - License")
