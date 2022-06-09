@@ -13,6 +13,7 @@ import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-sh
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import { DeletingModalTestIds } from "App/ui/components/deleting-modal/deleting-modal-test-ids.enum"
 
 const Content = styled.div`
   display: flex;
@@ -21,14 +22,13 @@ const Content = styled.div`
   padding: 2rem 2rem 0;
 `
 
-export interface DeletingThreadsModalProps
-  extends ComponentProps<typeof ModalDialog> {
+export interface DeletingModalProps extends ComponentProps<typeof ModalDialog> {
   title: string
   subtitle?: string
   body?: string
 }
 
-const DeletingThreadsModal: FunctionComponent<DeletingThreadsModalProps> = ({
+const DeletingModal: FunctionComponent<DeletingModalProps> = ({
   title,
   subtitle,
   body,
@@ -43,7 +43,10 @@ const DeletingThreadsModal: FunctionComponent<DeletingThreadsModalProps> = ({
   >
     <Content>
       <RoundIconWrapper>
-        <Loader type={LoaderType.Spinner} />
+        <Loader
+          data-testid={DeletingModalTestIds.Loader}
+          type={LoaderType.Spinner}
+        />
       </RoundIconWrapper>
       {subtitle && (
         <ModalText displayStyle={TextDisplayStyle.Headline4}>
@@ -59,4 +62,4 @@ const DeletingThreadsModal: FunctionComponent<DeletingThreadsModalProps> = ({
   </ModalDialog>
 )
 
-export default DeletingThreadsModal
+export default DeletingModal

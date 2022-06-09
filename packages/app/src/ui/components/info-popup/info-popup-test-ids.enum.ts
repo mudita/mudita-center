@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./delete-templates.action"
-export * from "./create-template.action"
-export * from "./base.action"
+export enum InfoPopupTestIds {
+  Text = "infos-popup-text",
+}

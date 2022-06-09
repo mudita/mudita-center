@@ -4,20 +4,20 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
+import { DataSyncEvent } from "App/data-sync/constants"
+import { ReadAllIndexesAction } from "App/data-sync/reducers"
+import { TemplatesEvent, TemplateDeletingState } from "App/templates/constants"
 import {
   TemplateState,
+  DeleteTemplateAction,
   CreateTemplateRejectedAction,
   CreateTemplateFulfilledAction,
 } from "App/templates/reducers/template.interface"
-import { DataSyncEvent } from "App/data-sync/constants"
 import {
   pendingAction,
   rejectedAction,
   fulfilledAction,
 } from "Renderer/store/helpers"
-import { DeleteTemplateAction } from "App/templates/reducers"
-import { ReadAllIndexesAction } from "App/data-sync/reducers"
-import { TemplatesEvent, TemplateDeletingState } from "App/templates/constants"
 
 export const initialState: TemplateState = {
   data: [],
@@ -90,5 +90,23 @@ export const templateReducer = createReducer<TemplateState>(
           }
         }
       )
+      .addCase(pendingAction(TemplatesEvent.DeleteTemplates), (state) => {
+        return {
+          ...state,
+          deletingState: TemplateDeletingState.Deleting,
+        }
+      })
+      .addCase(rejectedAction(TemplatesEvent.DeleteTemplates), (state) => {
+        return {
+          ...state,
+          deletingState: TemplateDeletingState.Fail,
+        }
+      })
+      .addCase(TemplatesEvent.HideDeleteModal, (state) => {
+        return {
+          ...state,
+          deletingState: null,
+        }
+      })
   }
 )

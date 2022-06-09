@@ -5,19 +5,21 @@
 
 import { connect } from "react-redux"
 import { ReduxRootState } from "Renderer/store"
-import { Templates } from "App/templates/components"
-import { createTemplate } from "App/templates/actions"
 import { deleteTemplates } from "App/templates/actions"
+import { Templates } from "App/templates/components"
+import { createTemplate, hideDeleteModal } from "App/templates/actions"
 
 const mapStateToProps = (state: ReduxRootState) => ({
   templates: state.templates.data,
   loading: state.templates.loading,
   error: state.templates.error,
+  deletingState: state.templates.deletingState,
 })
 
 const mapDispatchToProps = {
   createTemplate,
   deleteTemplates,
+  hideDeleteModal,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Templates)
