@@ -12,7 +12,7 @@ import {
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
-import { NewTemplate } from "App/templates/dto"
+import { NewTemplate, Template } from "App/templates/dto"
 
 const templateRepository = {
   create: jest.fn(),
@@ -35,8 +35,14 @@ const errorResponse: ErrorRequestResponse = {
   status: RequestResponseStatus.Error,
 }
 
-const template: NewTemplate = {
+const newTemplate: NewTemplate = {
   text: "Hello world",
+}
+
+const template: Template = {
+  id: "1",
+  text: "Hello world",
+  lastUsedAt: "1",
 }
 
 beforeEach(() => {
@@ -47,7 +53,7 @@ describe("`TemplateService`", () => {
   describe("`createTemplate` method", () => {
     test("map data and returns success when `deviceService.request` returns success", async () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
-      const response = await subject.createTemplate(template)
+      const response = await subject.createTemplate(newTemplate)
       expect(deviceService.request).toHaveBeenLastCalledWith({
         endpoint: 8,
         method: 2,
@@ -61,11 +67,43 @@ describe("`TemplateService`", () => {
 
     test("returns error  when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
-      const response = await subject.createTemplate(template)
+      const response = await subject.createTemplate(newTemplate)
       expect(deviceService.request).toHaveBeenLastCalledWith({
         endpoint: 8,
         method: 2,
         body: {
+          templateBody: "Hello world",
+          category: MessagesCategory.template,
+        },
+      })
+      expect(response.status).toEqual(RequestResponseStatus.Error)
+    })
+  })
+
+  describe("`updateTemplate` method", () => {
+    test("map data and returns success when `deviceService.request` returns success", async () => {
+      deviceService.request = jest.fn().mockReturnValue(successResponse)
+      const response = await subject.updateTemplate(template)
+      expect(deviceService.request).toHaveBeenLastCalledWith({
+        endpoint: 8,
+        method: 3,
+        body: {
+          templateID: 1,
+          templateBody: "Hello world",
+          category: MessagesCategory.template,
+        },
+      })
+      expect(response.status).toEqual(RequestResponseStatus.Ok)
+    })
+
+    test("returns error  when `deviceService.request` returns error", async () => {
+      deviceService.request = jest.fn().mockReturnValue(errorResponse)
+      const response = await subject.updateTemplate(template)
+      expect(deviceService.request).toHaveBeenLastCalledWith({
+        endpoint: 8,
+        method: 3,
+        body: {
+          templateID: 1,
           templateBody: "Hello world",
           category: MessagesCategory.template,
         },
