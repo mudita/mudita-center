@@ -7,4 +7,5 @@ import { Template } from "App/templates/dto"
 
 export interface TemplatesListProps {
   templates: Template[]
+  deleteTemplates: (ids: string[]) => void
 }
