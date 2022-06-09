@@ -26,4 +26,11 @@ export class TemplateController {
   ): Promise<RequestResponse<string[]>> {
     return this.templateService.deleteTemplates(templateIds)
   }
+
+  @IpcEvent(IpcTemplateEvent.UpdateTemplate)
+  public async updateTemplate(
+    template: Template
+  ): Promise<RequestResponse<Template>> {
+    return this.templateService.updateTemplate(template)
+  }
 }

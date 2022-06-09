@@ -128,7 +128,7 @@ export class PureStrategy extends BaseDevice {
     endpoint: Endpoint.Messages
     method: Method.Put
     body: PutTemplateBody
-  }): Promise<Response<PutTemplateResponseBody>>
+  }): Promise<Response>
   public request(config: {
     endpoint: Endpoint.Messages
     method: Method.Delete

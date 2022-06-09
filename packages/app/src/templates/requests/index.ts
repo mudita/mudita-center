@@ -5,3 +5,4 @@
 
 export * from "./create-template.request"
 export * from "./delete-templates.request"
+export * from "./update-template.request"

@@ -31,7 +31,7 @@ export class TemplateService {
     const response = await this.deviceService.request({
       endpoint: Endpoint.Messages,
       method: Method.Post,
-      body: TemplatePresenter.mapToPureTemplateBody(template),
+      body: TemplatePresenter.mapToPureNewTemplateBody(template),
     })
 
     if (isResponseSuccessWithData(response)) {
@@ -91,6 +91,30 @@ export class TemplateService {
 
       return {
         status: RequestResponseStatus.Ok,
+      }
+    }
+  }
+
+  public async updateTemplate(
+    template: Template
+  ): Promise<RequestResponse<Template>> {
+    const response = await this.deviceService.request({
+      endpoint: Endpoint.Messages,
+      method: Method.Put,
+      body: TemplatePresenter.mapToPureTemplateBody(template),
+    })
+
+    if (isResponseSuccessWithData(response)) {
+      this.templateRepository.update(template)
+
+      return {
+        status: response.status,
+        data: template,
+      }
+    } else {
+      return {
+        status: response.status,
+        error: { message: "Create template: Something went wrong" },
       }
     }
   }

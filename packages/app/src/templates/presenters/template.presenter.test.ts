@@ -26,10 +26,20 @@ const pureTemplate: PureTemplate = {
   lastUsedAt: 2,
 }
 
+describe("`mapToPureNewTemplateBody` method", () => {
+  test("returns serialized `PostTemplateBody` object", () => {
+    expect(TemplatePresenter.mapToPureNewTemplateBody(newTemplate)).toEqual({
+      templateBody: "Hello world!",
+      category: PureMessagesCategory.template,
+    })
+  })
+})
+
 describe("`mapToPureTemplateBody` method", () => {
   test("returns serialized `PostTemplateBody` object", () => {
-    expect(TemplatePresenter.mapToPureTemplateBody(newTemplate)).toEqual({
+    expect(TemplatePresenter.mapToPureTemplateBody(template)).toEqual({
       templateBody: "Hello world!",
+      templateID: Number(template.id),
       category: PureMessagesCategory.template,
     })
   })
