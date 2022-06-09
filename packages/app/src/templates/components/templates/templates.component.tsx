@@ -11,7 +11,7 @@ import { TemplatesPanel } from "App/templates/components/templates-panel"
 import { TemplatesList } from "App/templates/components/templates-list"
 import { TemplateForm } from "App/templates/components/template-form"
 import { Template, NewTemplate } from "App/templates/dto"
-import { TemplateError, TemplateDeletingState } from "App/templates/constants"
+import { TemplateError } from "App/templates/constants"
 import DeleteConfirmationModal from "App/templates/components/delete-confirmation-modal/delete-confirmation-modal.component"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
@@ -35,8 +35,9 @@ const messages = defineMessages({
 export const Templates: FunctionComponent<TemplatesProps> = ({
   templates,
   loading,
+  loaded,
   error,
-  deletingState,
+  deleting,
   createTemplate,
   deleteTemplates,
   hideDeleteModal,
@@ -50,7 +51,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     useTableSelect<Template>(templates)
 
   useEffect(() => {
-    if (deletingState === TemplateDeletingState.Success) {
+    if (deleting && loaded) {
       const timeout = setTimeout(() => {
         setDeletedTemplates([])
         hideDeleteModal()
@@ -58,7 +59,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       return () => clearTimeout(timeout)
     }
     return
-  }, [deletingState])
+  }, [deleting, loaded])
 
   const getDeletedTemplateText = (
     deletedTemplatesLength: number
@@ -94,8 +95,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     setDeletedTemplates(ids)
   }
   const handleDeleteButton = async () => {
-    await deleteTemplates(deletedTemplates)
     handleCloseDeleteModal()
+    await deleteTemplates(deletedTemplates)
   }
   const handleDeleteSelected = () => {
     const ids = selectedRows.map((thread) => thread.id)
@@ -145,21 +146,21 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
         onActionButtonClick={handleDeleteButton}
         onCloseButton={handleCloseDeleteModal}
       />
-      {deletingState === TemplateDeletingState.Success && (
+      {deleting && loaded && (
         <InfoPopup message={getDeletedTemplateText(deletedTemplates.length)} />
       )}
-      {deletingState === TemplateDeletingState.Deleting && (
+      {deleting && loading && (
         <DeletingModal
           testId={TemplatesTestIds.DeletingTemplateModal}
-          open={deletingState === TemplateDeletingState.Deleting}
+          open={deleting && loading}
           title={intl.formatMessage(messages.deletingModalTitle)}
           subtitle={intl.formatMessage(messages.deletingModalSubtitle)}
         />
       )}
-      {deletingState === TemplateDeletingState.Fail && (
+      {deleting && error !== null && (
         <ErrorModal
           testId={TemplatesTestIds.DeleteTemplateError}
-          open={deletingState === TemplateDeletingState.Fail}
+          open={deleting && error !== null}
           title={intl.formatMessage(messages.deleteModalTitle)}
           subtitle={intl.formatMessage(messages.deleteModalErrorSubtitle)}
           closeModal={hideDeleteModal}

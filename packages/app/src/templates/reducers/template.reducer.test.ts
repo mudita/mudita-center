@@ -16,7 +16,7 @@ import {
 import { CreateTemplateError, DeleteTemplateError } from "App/templates/errors"
 import { Template } from "App/templates/dto"
 import { DataSyncEvent } from "App/data-sync/constants"
-import { TemplatesEvent, TemplateDeletingState } from "App/templates/constants"
+import { TemplatesEvent } from "App/templates/constants"
 
 const createTemplateErrorMock = new CreateTemplateError("I'm error")
 const templateMock: Template = {
@@ -153,7 +153,9 @@ describe("Delete Template data functionality", () => {
     ).toEqual({
       ...initialState,
       data: [],
-      deletingState: TemplateDeletingState.Success,
+      loading: false,
+      loaded: true,
+      deleting: true,
     })
   })
   test("Event: DeleteTemplate update properly data field when more than one template is deleting", () => {
@@ -173,7 +175,9 @@ describe("Delete Template data functionality", () => {
     ).toEqual({
       ...initialState,
       data: [secondTemplate],
-      deletingState: TemplateDeletingState.Success,
+      loading: false,
+      loaded: true,
+      deleting: true,
     })
   })
 
@@ -185,7 +189,9 @@ describe("Delete Template data functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      deletingState: TemplateDeletingState.Deleting,
+      loading: true,
+      loaded: false,
+      deleting: true,
     })
   })
 
@@ -199,7 +205,10 @@ describe("Delete Template data functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      deletingState: TemplateDeletingState.Fail,
+      loading: false,
+      loaded: false,
+      deleting: true,
+      error: "I'm error",
     })
   })
 
@@ -211,7 +220,10 @@ describe("Delete Template data functionality", () => {
       })
     ).toEqual({
       ...initialState,
-      deletingState: null,
+      loading: false,
+      loaded: false,
+      deleting: false,
+      error: null,
     })
   })
 })

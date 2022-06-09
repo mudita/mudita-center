@@ -4,8 +4,8 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import { TemplatesEvent, TemplateDeletingState } from "App/templates/constants"
-import { CreateTemplateError } from "App/templates/errors"
+import { TemplatesEvent } from "App/templates/constants"
+import { CreateTemplateError, DeleteTemplateError } from "App/templates/errors"
 import { Template } from "App/templates/dto"
 import { RequestResponse } from "App/core/types/request-response.interface"
 export interface TemplateState {
@@ -13,7 +13,7 @@ export interface TemplateState {
   loading: boolean
   loaded: boolean
   error: Error | string | null
-  deletingState: TemplateDeletingState | null
+  deleting: boolean
 }
 
 export type CreateTemplateFulfilledAction = PayloadAction<
@@ -43,4 +43,11 @@ type ErrorTemplatesData = {
 export type DeleteTemplateRequestResponse = RequestResponse<
   DeletedTemplatesIds,
   ErrorTemplatesData
+>
+
+export type DeleteTemplateRejectedAction = PayloadAction<
+  DeleteTemplateError,
+  TemplatesEvent.DeleteTemplates,
+  void,
+  Error | string | null
 >

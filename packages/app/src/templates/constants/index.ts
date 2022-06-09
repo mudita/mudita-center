@@ -6,4 +6,3 @@
 export * from "./controller.constant"
 export * from "./errors.enum"
 export * from "./event.enum"
-export * from "./template-deleting.enum"
