@@ -5,4 +5,5 @@
 
 export enum TemplatesPanelTestIds {
   Button = "templates-panel-button",
+  SelectionManager = "templates-selection-manager",
 }

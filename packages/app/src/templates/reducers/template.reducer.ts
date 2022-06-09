@@ -118,6 +118,7 @@ export const templateReducer = createReducer<TemplateState>(
         return {
           ...state,
           deleting: false,
+          loaded: false,
         }
       })
   }

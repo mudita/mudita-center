@@ -21,7 +21,15 @@ const render = (props: TemplatesListProps) => {
 
 describe("`TemplatesList` component", () => {
   test("shows empty state if templates list is empty", () => {
-    const { getByText } = render({ templates: [], deleteTemplates: jest.fn() })
+    const { getByText } = render({
+      templates: [],
+      deleteTemplates: jest.fn(),
+      getRowStatus: jest
+        .fn()
+        .mockReturnValue({ indeterminate: false, selected: false }),
+      noneRowsSelected: true,
+      toggleRow: jest.fn(),
+    })
     expect(
       getByText("[value] module.templates.emptyList.title")
     ).toBeInTheDocument()
@@ -34,7 +42,25 @@ describe("`TemplatesList` component", () => {
     const { getByText } = render({
       templates: [templateMock],
       deleteTemplates: jest.fn(),
+      getRowStatus: jest
+        .fn()
+        .mockReturnValue({ indeterminate: false, selected: false }),
+      noneRowsSelected: true,
+      toggleRow: jest.fn(),
     })
     expect(getByText(templateMock.text)).toBeInTheDocument()
+  })
+
+  test("shows checkbox if at least one row is selected", () => {
+    const { getByTestId } = render({
+      templates: [templateMock],
+      deleteTemplates: jest.fn(),
+      getRowStatus: jest
+        .fn()
+        .mockReturnValue({ indeterminate: false, selected: false }),
+      noneRowsSelected: false,
+      toggleRow: jest.fn(),
+    })
+    expect(getByTestId("template-checkbox")).toBeVisible()
   })
 })
