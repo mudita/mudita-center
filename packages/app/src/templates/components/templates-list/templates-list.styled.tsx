@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import BaseTable, {
   Col,
   EmptyState,
@@ -11,12 +11,20 @@ import BaseTable, {
 } from "Renderer/components/core/table/table.component"
 import { transitionTime } from "Renderer/styles/theming/theme-getters"
 import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
-import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
+import {
+  animatedOpacityActiveStyles,
+  animatedOpacityStyles,
+} from "Renderer/components/rest/animated-opacity/animated-opacity"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
+const checkboxShowedStyles = css`
+  margin-left: 1rem;
+  display: block;
+`
+
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
-  margin: 0 auto;
+  ${({ visible }) => (visible ? checkboxShowedStyles : "display: none;")};
 `
 
 export const DeleteCol = styled(Col)`
@@ -29,15 +37,30 @@ export const Table = styled(BaseTable)`
   --columnsTemplate: 3.2rem 5.6rem 1fr 7rem;
   --columnsTemplateWithOpenedSidebar: 4rem 27.5rem;
 `
+export const IconWrapper = styled.div`
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: ${backgroundColor("minor")};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 export const Row = styled(BaseRow)`
   &:hover {
     ${Checkbox} {
       ${animatedOpacityActiveStyles};
+      ${checkboxShowedStyles};
     }
 
     ${DeleteCol} {
       opacity: 0.5;
+    }
+
+    ${IconWrapper} {
+      display: none;
+      ${animatedOpacityStyles}
     }
   }
 `
@@ -49,14 +72,4 @@ export const TemplatesEmptyState = styled(EmptyState)`
 export const TemplateIcon = styled(Icon)`
   margin-right: 0;
   margin-left: 0;
-`
-
-export const IconWrapper = styled.div`
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  background-color: ${backgroundColor("minor")};
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `

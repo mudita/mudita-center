@@ -678,6 +678,7 @@
   "module.templates.cancelButton": "Cancel",
   "module.templates.newTitle": "New template",
   "module.templates.editTitle": "Edit template",
+  "module.templates.selectionNumber": "{num, plural, =-1 {All Templates} one {# Template} other {# Templates}} selected",
   "module.templates.templateDelete": "1 template was deleted.",
   "module.templates.templatesDelete": "{number} templates were deleted.",
   "module.templates.text": "Template...",
