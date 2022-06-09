@@ -26,7 +26,7 @@ const messages = defineMessages({
   deleteModalTitle: { id: "module.templates.deleteModalTitle" },
   deleteModalBody: { id: "module.templates.deleteModalBody" },
   templateDeleted: { id: "module.templates.templateDelete" },
-  templatesDeleted: { id: "module.templates.templateDelete" },
+  templatesDeleted: { id: "module.templates.templatesDelete" },
   deletingModalTitle: { id: "module.templates.deletingModalTitle" },
   deletingModalSubtitle: { id: "module.templates.deletingModalSubtitle" },
   deleteModalErrorSubtitle: { id: "module.templates.deleteModalErrorSubtitle" },
@@ -95,7 +95,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     setDeletedTemplates(ids)
   }
   const handleDeleteButton = async () => {
-    handleCloseDeleteModal()
+    setDeleteModalOpen(false)
+    resetRows()
     await deleteTemplates(deletedTemplates)
   }
   const handleDeleteSelected = () => {

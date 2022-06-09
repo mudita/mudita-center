@@ -669,6 +669,7 @@
   "module.templates.deleteModalTitle": "Delete templates",
   "module.templates.deletingModalSubtitle": "Deleting in progress...",
   "module.templates.deletingModalTitle": "Deleting Templates",
+  "module.template.dropdownDelete": "Delete Template",
   "module.templates.emptyList.title": "No templates found",
   "module.templates.emptyList.description": "Search criteria does not match any template.",
   "module.templates.emptyTemplate": "Empty template",

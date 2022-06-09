@@ -96,7 +96,7 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                   >
                     <ButtonComponent
                       labelMessage={{
-                        id: "module.messages.dropdownDelete",
+                        id: "module.template.dropdownDelete",
                       }}
                       Icon={IconType.Delete}
                       onClick={() => handleDeleteClick([template.id])}
