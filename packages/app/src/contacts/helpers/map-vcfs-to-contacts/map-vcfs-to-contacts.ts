@@ -9,37 +9,42 @@ import quotedPrintable from "quoted-printable"
 import { NewContact } from "App/contacts/reducers/contacts.interface"
 import mapFileToString from "Renderer/utils/map-file-to-string/map-file-to-string"
 
-type vCardContact = Record<string, vCard.Property | vCard.Property[]>
+type vCardProperty = vCard.Property & {
+  charset?: "UTF-8" | string
+}
+
+type vCardContact = Record<string, vCardProperty | vCardProperty[]>
 
 const mapToContact = (vContact: vCardContact): NewContact => {
   const contact: NewContact = {}
-  const [lastName = "", firstName = ""] = (
-    vContact.n?.valueOf() as string
-  ).split(";")
-  const fullName = vContact.fv?.valueOf() as string
+  const decodedValues = getVCardDecodedValues(vContact)
 
-  if (vContact.tel) {
-    if (Array.isArray(vContact.tel)) {
-      contact["primaryPhoneNumber"] = vContact.tel[0]
+  assertValueIsStringNotArray(decodedValues.n, "name")
+  assertValueIsStringNotArray(decodedValues.fv, "full name")
+  const [lastName = "", firstName = ""] = decodedValues.n.split(";")
+  const fullName = decodedValues.fv
+
+  if (decodedValues.tel) {
+    if (Array.isArray(decodedValues.tel)) {
+      contact["primaryPhoneNumber"] = decodedValues.tel[0]
         .valueOf()
         .replace(/\s/g, "")
-      contact["secondaryPhoneNumber"] = vContact.tel[1]
+      contact["secondaryPhoneNumber"] = decodedValues.tel[1]
         .valueOf()
         .replace(/\s/g, "")
     } else {
-      contact["primaryPhoneNumber"] = vContact.tel.valueOf().replace(/\s/g, "")
+      contact["primaryPhoneNumber"] = decodedValues.tel.replace(/\s/g, "")
     }
   }
-
-  if (vContact.adr) {
+  if (decodedValues.adr) {
     let address: string
     let firstAddressLine = ""
     let secondAddressLine = ""
 
-    if (Array.isArray(vContact.adr)) {
-      address = vContact.adr[0].valueOf()
+    if (Array.isArray(decodedValues.adr)) {
+      address = decodedValues.adr[0]
     } else {
-      address = vContact.adr.valueOf()
+      address = decodedValues.adr
     }
 
     address.split(";").forEach((chunk) => {
@@ -59,38 +64,59 @@ const mapToContact = (vContact: vCardContact): NewContact => {
     contact["secondAddressLine"] = secondAddressLine.trim().slice(0, -1)
   }
 
-  if (vContact.note) {
-    contact["note"] = (vContact.note.valueOf() as string).substr(0, 30)
+  if (decodedValues.note) {
+    assertValueIsStringNotArray(decodedValues.note, "note")
+    contact["note"] = decodedValues.note.substring(0, 30)
   }
 
-  if (vContact.email) {
-    contact["email"] = vContact.email.valueOf() as string
+  if (decodedValues.email) {
+    assertValueIsStringNotArray(decodedValues.email, "email")
+    contact["email"] = decodedValues.email
   }
 
   contact["firstName"] = !firstName && !lastName ? fullName : firstName
   contact["lastName"] = lastName
 
-  return decodeObject(contact)
+  return contact
 }
 
-const decodeObject = (
-  object: Record<string, string | number | boolean | undefined>
-): Record<string, string> => {
+const getVCardDecodedValues = (
+  vContact: vCardContact
+): Record<string, string | string[]> => {
   return Object.fromEntries(
-    Object.entries(object).map(([key, val]) => {
-      if (typeof val === "string") {
-        try {
-          const print = quotedPrintable.decode(val)
-          const decode = utf8.decode(print)
-          return [key, decode]
-        } catch {
-          return [key, val]
-        }
-      } else {
-        return [key, val]
-      }
-    })
+    Object.entries(vContact).map(([key, property]) => [
+      key,
+      getValueFromProperty(property),
+    ])
   )
+}
+
+const getValueFromProperty = (property: vCardProperty | vCardProperty[]) => {
+  if (Array.isArray(property)) {
+    return property.map((prop) => decodeIfNeeded(prop.valueOf(), prop.charset))
+  } else {
+    return decodeIfNeeded(property.valueOf(), property.charset)
+  }
+}
+
+const decodeIfNeeded = (value: string, charset: string | undefined) => {
+  if (charset === "UTF-8") {
+    const print = quotedPrintable.decode(value)
+    return utf8.decode(print)
+  }
+
+  return value
+}
+
+function assertValueIsStringNotArray(
+  value: string | string[],
+  fieldName: string
+): asserts value is string {
+  if (Array.isArray(value)) {
+    throw new Error(
+      `${fieldName} should be a string, but the value is an array!`
+    )
+  }
 }
 
 const mapVCFsToContacts = async (files: File[]): Promise<NewContact[]> => {
