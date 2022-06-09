@@ -6,12 +6,13 @@
 import { createReducer } from "@reduxjs/toolkit"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
-import { TemplatesEvent, TemplateDeletingState } from "App/templates/constants"
+import { TemplatesEvent } from "App/templates/constants"
 import {
   TemplateState,
   DeleteTemplateAction,
   CreateTemplateRejectedAction,
   CreateTemplateFulfilledAction,
+  DeleteTemplateRejectedAction,
 } from "App/templates/reducers/template.interface"
 import {
   pendingAction,
@@ -24,7 +25,7 @@ export const initialState: TemplateState = {
   loaded: false,
   loading: false,
   error: null,
-  deletingState: null,
+  deleting: false,
 }
 
 export const templateReducer = createReducer<TemplateState>(
@@ -85,27 +86,38 @@ export const templateReducer = createReducer<TemplateState>(
 
           return {
             ...state,
-            deletingState: TemplateDeletingState.Success,
+            deleting: true,
             data: updatedTemplates,
+            loaded: true,
+            loading: false,
           }
         }
       )
       .addCase(pendingAction(TemplatesEvent.DeleteTemplates), (state) => {
         return {
           ...state,
-          deletingState: TemplateDeletingState.Deleting,
+          deleting: true,
+          loaded: false,
+          loading: true,
+          error: null,
         }
       })
-      .addCase(rejectedAction(TemplatesEvent.DeleteTemplates), (state) => {
-        return {
-          ...state,
-          deletingState: TemplateDeletingState.Fail,
+      .addCase(
+        rejectedAction(TemplatesEvent.DeleteTemplates),
+        (state, action: DeleteTemplateRejectedAction) => {
+          return {
+            ...state,
+            deleting: true,
+            loaded: false,
+            loading: false,
+            error: action.payload.message,
+          }
         }
-      })
+      )
       .addCase(TemplatesEvent.HideDeleteModal, (state) => {
         return {
           ...state,
-          deletingState: null,
+          deleting: false,
         }
       })
   }

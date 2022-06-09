@@ -13,7 +13,6 @@ import { TemplatesProps } from "App/templates/components/templates/templates.int
 import { TemplatesPanelTestIds } from "App/templates/components/templates-panel/templates-panel-ids.enum"
 import { TemplateFormTestIds } from "App/templates/components/template-form/template-form-ids.enum"
 import { Template } from "App/templates/dto"
-import { TemplateDeletingState } from "App/templates/constants"
 import { TemplatesTestIds } from "App/templates/components/templates/templates-test-ids.enum"
 
 const templateMock: Template = {
@@ -44,8 +43,9 @@ describe("`Templates` component", () => {
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         loading: false,
+        loaded: false,
         error: null,
-        deletingState: null,
+        deleting: false,
         hideDeleteModal: hideDeleteModalMock,
       })
       const openFormButton = getByTestId(TemplatesPanelTestIds.Button)
@@ -73,8 +73,9 @@ describe("`Templates` component", () => {
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         loading: false,
+        loaded: false,
         error: null,
-        deletingState: null,
+        deleting: false,
         hideDeleteModal: hideDeleteModalMock,
       })
 
@@ -87,8 +88,9 @@ describe("`Templates` component", () => {
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         loading: false,
+        loaded: false,
         error: null,
-        deletingState: null,
+        deleting: false,
         hideDeleteModal: hideDeleteModalMock,
       })
 
@@ -108,8 +110,9 @@ describe("`Templates` component", () => {
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         loading: false,
+        loaded: false,
         error: null,
-        deletingState: null,
+        deleting: false,
         hideDeleteModal: hideDeleteModalMock,
       })
 
@@ -139,8 +142,9 @@ describe("`Templates` component", () => {
         createTemplate: successCreateTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         loading: false,
+        loaded: false,
         error: null,
-        deletingState: null,
+        deleting: false,
         hideDeleteModal: hideDeleteModalMock,
       })
 
@@ -167,8 +171,9 @@ describe("`Templates` component", () => {
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         loading: false,
+        loaded: false,
         error: "Some error",
-        deletingState: null,
+        deleting: false,
         hideDeleteModal: hideDeleteModalMock,
       })
 
@@ -185,8 +190,9 @@ describe("`Templates` component", () => {
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         loading: false,
+        loaded: false,
         error: null,
-        deletingState: null,
+        deleting: false,
         hideDeleteModal: hideDeleteModalMock,
       })
       const deleteButton = getByTestId("dropdown-delete")
@@ -202,9 +208,10 @@ describe("`Templates` component", () => {
       templates: [templateMock],
       createTemplate: createTemplateMock,
       deleteTemplates: deleteTemplatesMock,
-      loading: false,
+      loading: true,
       error: null,
-      deletingState: TemplateDeletingState.Deleting,
+      deleting: true,
+      loaded: false,
       hideDeleteModal: hideDeleteModalMock,
     })
 
@@ -219,7 +226,8 @@ describe("`Templates` component", () => {
       deleteTemplates: deleteTemplatesMock,
       loading: false,
       error: null,
-      deletingState: TemplateDeletingState.Success,
+      deleting: true,
+      loaded: true,
       hideDeleteModal: hideDeleteModalMock,
     })
 
@@ -234,8 +242,9 @@ describe("`Templates` component", () => {
       createTemplate: createTemplateMock,
       deleteTemplates: deleteTemplatesMock,
       loading: false,
-      error: null,
-      deletingState: TemplateDeletingState.Fail,
+      error: "I'm error",
+      deleting: true,
+      loaded: false,
       hideDeleteModal: hideDeleteModalMock,
     })
     expect(

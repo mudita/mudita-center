@@ -12,8 +12,9 @@ import { createTemplate, hideDeleteModal } from "App/templates/actions"
 const mapStateToProps = (state: ReduxRootState) => ({
   templates: state.templates.data,
   loading: state.templates.loading,
+  loaded: state.templates.loaded,
   error: state.templates.error,
-  deletingState: state.templates.deletingState,
+  deleting: state.templates.deleting,
 })
 
 const mapDispatchToProps = {
