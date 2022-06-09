@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum SuccessPopupTestIds {
-  Text = "success-popup-text",
+export enum DeletingModalTestIds {
+  Loader = "deleting-modal-loader",
 }

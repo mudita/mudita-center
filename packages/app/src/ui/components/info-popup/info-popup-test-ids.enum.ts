@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum TemplateError {
-  CreateTemplate = "CREATE_TEMPLATE_ERROR",
-  DeleteTemplate = "DELETE_TEMPLATE_ERROR",
+export enum InfoPopupTestIds {
+  Text = "infos-popup-text",
 }

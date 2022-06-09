@@ -26,14 +26,8 @@ export const DeleteCol = styled(Col)`
 
 export const Table = styled(BaseTable)`
   --columnsGap: 0;
-  --columnsTemplate: 4rem 6rem 59rem 7rem;
+  --columnsTemplate: 3.2rem 5.6rem 1fr 7rem;
   --columnsTemplateWithOpenedSidebar: 4rem 27.5rem;
-
-  ${Col} {
-    &:nth-of-type(3) {
-      margin-left: 14.5rem;
-    }
-  }
 `
 
 export const Row = styled(BaseRow)`
