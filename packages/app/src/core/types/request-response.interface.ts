@@ -12,16 +12,16 @@ export enum RequestResponseStatus {
   UnprocessableEntity = "unprocessable-entity",
 }
 
-export interface RequestResponseError {
+export interface RequestResponseError<ErrorDataType = any> {
   code?: number
   message: string
-  data?: any
+  data?: ErrorDataType
 }
 
-export interface RequestResponse<DataType = undefined> {
+export interface RequestResponse<DataType = undefined, ErrorDataType = any> {
   status: RequestResponseStatus
   data?: DataType
-  error?: RequestResponseError
+  error?: RequestResponseError<ErrorDataType>
 }
 
 export interface SuccessRequestResponse<DataType = undefined>

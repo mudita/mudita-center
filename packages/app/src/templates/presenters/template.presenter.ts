@@ -5,14 +5,23 @@
 
 import {
   Template as PureTemplate,
+  PutTemplateBody,
   MessagesCategory as PureMessagesCategory,
   PostTemplateBody,
 } from "@mudita/pure"
 import { NewTemplate, Template } from "App/templates/dto"
 
 export class TemplatePresenter {
-  static mapToPureTemplateBody(template: NewTemplate): PostTemplateBody {
+  static mapToPureNewTemplateBody(template: NewTemplate): PostTemplateBody {
     return {
+      templateBody: template.text,
+      category: PureMessagesCategory.template,
+    }
+  }
+
+  static mapToPureTemplateBody(template: Template): PutTemplateBody {
+    return {
+      templateID: Number(template.id),
       templateBody: template.text,
       category: PureMessagesCategory.template,
     }

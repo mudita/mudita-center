@@ -9,8 +9,16 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { TemplatesPanel } from "App/templates/components/templates-panel/templates-panel.component"
 import { TemplatesPanelProps } from "App/templates/components/templates-panel/templates-panel.interface"
 import { TemplatesPanelTestIds } from "App/templates/components/templates-panel/templates-panel-ids.enum"
+import { Template } from "App/templates/dto"
+
+const templateMock: Template = {
+  id: "1",
+  text: "Thanks for reaching out. I can't talk right now, I'll call you later",
+  lastUsedAt: "2020-02-12T10:00:00.000Z",
+}
 
 const onAddNewTemplateMock = jest.fn()
+const onDeleteClick = jest.fn()
 
 const render = (props: TemplatesPanelProps) => {
   return renderWithThemeAndIntl(<TemplatesPanel {...props} />)
@@ -22,6 +30,8 @@ describe("`TemplatesPanel` component", () => {
       const { getByTestId } = render({
         disabled: true,
         onAddNewTemplate: onAddNewTemplateMock,
+        onDeleteClick: onDeleteClick,
+        selectedTemplates: [],
       })
       const button = getByTestId(TemplatesPanelTestIds.Button)
 
@@ -32,6 +42,8 @@ describe("`TemplatesPanel` component", () => {
       const { getByTestId } = render({
         disabled: false,
         onAddNewTemplate: onAddNewTemplateMock,
+        onDeleteClick: onDeleteClick,
+        selectedTemplates: [],
       })
       const button = getByTestId(TemplatesPanelTestIds.Button)
 
@@ -44,6 +56,8 @@ describe("`TemplatesPanel` component", () => {
       const { getByTestId } = render({
         disabled: false,
         onAddNewTemplate: onAddNewTemplateMock,
+        onDeleteClick: onDeleteClick,
+        selectedTemplates: [],
       })
       const button = getByTestId(TemplatesPanelTestIds.Button)
 
@@ -51,5 +65,16 @@ describe("`TemplatesPanel` component", () => {
       fireEvent.click(button)
       expect(onAddNewTemplateMock).toHaveBeenCalledTimes(1)
     })
+  })
+  test("selection manager is displayed when there is at least one template selected", () => {
+    const { getByTestId } = render({
+      disabled: false,
+      onAddNewTemplate: onAddNewTemplateMock,
+      onDeleteClick: onDeleteClick,
+      selectedTemplates: [templateMock],
+    })
+    expect(
+      getByTestId(TemplatesPanelTestIds.SelectionManager)
+    ).toBeInTheDocument()
   })
 })

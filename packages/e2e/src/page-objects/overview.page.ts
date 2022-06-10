@@ -66,13 +66,13 @@ class OverviewPage extends Page {
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="sar-wrapper"]')
-  }  
+  }
 
   public get locationTextLabel(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
     return $('[data-testid="location"]')
-  }   
+  }
 }
 
 export default new OverviewPage()

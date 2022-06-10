@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { PayloadAction } from "@reduxjs/toolkit"
 import {
   pendingAction,
   fulfilledAction,
@@ -12,10 +13,10 @@ import {
   templateReducer,
   initialState,
 } from "App/templates/reducers/template.reducer"
-import { CreateTemplateError } from "App/templates/errors"
-import { TemplatesEvent } from "App/templates/constants"
+import { CreateTemplateError, DeleteTemplateError } from "App/templates/errors"
 import { Template } from "App/templates/dto"
 import { DataSyncEvent } from "App/data-sync/constants"
+import { TemplatesEvent } from "App/templates/constants"
 
 const createTemplateErrorMock = new CreateTemplateError("I'm error")
 const templateMock: Template = {
@@ -112,6 +113,117 @@ describe("ReadAllIndexes data functionality", () => {
           text: "Thanks for reaching out. I can't talk right now, I'll call you later",
         },
       ],
+    })
+  })
+})
+
+describe("Delete Template data functionality", () => {
+  const template: Template = {
+    id: "1",
+    text: "Test template",
+    lastUsedAt: "1574335694",
+  }
+
+  const secondTemplate: Template = {
+    id: "2",
+    text: "Test template second",
+    lastUsedAt: "157433569",
+  }
+
+  const thirdTemplate: Template = {
+    id: "3",
+    text: "Test template second",
+    lastUsedAt: "157433569",
+  }
+
+  test("Event: DeleteTemplate update properly one data field", () => {
+    const deleteTemplatesAction: PayloadAction<string[]> = {
+      type: fulfilledAction(TemplatesEvent.DeleteTemplates),
+      payload: [template.id],
+    }
+
+    expect(
+      templateReducer(
+        {
+          ...initialState,
+          data: [template],
+        },
+        deleteTemplatesAction
+      )
+    ).toEqual({
+      ...initialState,
+      data: [],
+      loading: false,
+      loaded: true,
+      deleting: true,
+    })
+  })
+  test("Event: DeleteTemplate update properly data field when more than one template is deleting", () => {
+    const deleteTemplatesAction: PayloadAction<string[]> = {
+      type: fulfilledAction(TemplatesEvent.DeleteTemplates),
+      payload: [template.id, thirdTemplate.id],
+    }
+
+    expect(
+      templateReducer(
+        {
+          ...initialState,
+          data: [template, secondTemplate, thirdTemplate],
+        },
+        deleteTemplatesAction
+      )
+    ).toEqual({
+      ...initialState,
+      data: [secondTemplate],
+      loading: false,
+      loaded: true,
+      deleting: true,
+    })
+  })
+
+  test("Event: DeleteTemplate/pending changed `deletingState` to `Deleting`", () => {
+    expect(
+      templateReducer(undefined, {
+        type: pendingAction(TemplatesEvent.DeleteTemplates),
+        payload: undefined,
+      })
+    ).toEqual({
+      ...initialState,
+      loading: true,
+      loaded: false,
+      deleting: true,
+    })
+  })
+
+  test("Event: DeleteTemplate/rejected changed `deletingState` to `Fail`", () => {
+    const deleteTemplateErrorMock = new DeleteTemplateError("I'm error")
+
+    expect(
+      templateReducer(undefined, {
+        type: rejectedAction(TemplatesEvent.DeleteTemplates),
+        payload: deleteTemplateErrorMock,
+      })
+    ).toEqual({
+      ...initialState,
+      loading: false,
+      loaded: false,
+      deleting: true,
+      error: "I'm error",
+    })
+  })
+
+  test("Event: TemplatesEvent.HideDeleteModal changed `deletingState` to null", () => {
+    expect(
+      templateReducer(undefined, {
+        type: TemplatesEvent.HideDeleteModal,
+        payload: undefined,
+      })
+    ).toEqual({
+      ...initialState,
+      loading: false,
+      loaded: false,
+      deleting: false,
+      error: null,
     })
   })
 })
