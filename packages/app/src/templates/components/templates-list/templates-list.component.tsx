@@ -8,9 +8,7 @@ import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TemplatesListProps } from "App/templates/components/templates-list/templates-list.interface"
 import { Actions, Col } from "Renderer/components/core/table/table.component"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import {
   TemplatesEmptyState,
   Row,
@@ -18,6 +16,7 @@ import {
   TemplateIcon,
   IconWrapper,
   Checkbox,
+  TemplateText,
 } from "App/templates/components/templates-list/templates-list.styled"
 import { IconType } from "Renderer/components/core/icon/icon-type"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
@@ -77,9 +76,9 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                   </IconWrapper>
                 )}
               </Col>
-              <Text displayStyle={TextDisplayStyle.Paragraph1}>
+              <TemplateText displayStyle={TextDisplayStyle.Paragraph1}>
                 {template.text}
-              </Text>
+              </TemplateText>
               <Col>
                 <Actions>
                   <Dropdown
