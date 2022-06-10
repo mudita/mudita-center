@@ -232,7 +232,7 @@ describe("`Templates` component", () => {
     })
 
     expect(
-      getByText("[value] module.templates.templateDelete")
+      getByText("[value] module.templates.templatesDelete")
     ).toBeInTheDocument()
   })
 

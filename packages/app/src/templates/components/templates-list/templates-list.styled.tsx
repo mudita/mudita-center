@@ -17,6 +17,7 @@ import {
 } from "App/__deprecated__/renderer/components/rest/animated-opacity/animated-opacity"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 
 const checkboxShowedStyles = css`
   margin-left: 1rem;
@@ -72,4 +73,11 @@ export const TemplatesEmptyState = styled(EmptyState)`
 export const TemplateIcon = styled(Icon)`
   margin-right: 0;
   margin-left: 0;
+`
+
+export const TemplateText = styled(Text)`
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `
