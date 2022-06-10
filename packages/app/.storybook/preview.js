@@ -6,23 +6,23 @@
 import React from "react"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
-import GlobalStyle from "Renderer/styles/global-style.component"
-import theme from "Renderer/styles/theming/theme"
-import localeEn from "Renderer/locales/default/en-US.json"
 import { IntlProvider } from "react-intl"
-import translationConfig from "../src/translations.config.json"
 import { init } from "@rematch/core"
-import devMode from "App/dev-mode/store/dev-mode"
-import selectPlugin from "@rematch/select"
 import { Provider } from "react-redux"
-import StorybookWrapper from "../src/renderer/components/storybook/storybook-wrapper.component"
 import Modal from "react-modal"
+import selectPlugin from "@rematch/select"
+import GlobalStyle from "App/__deprecated__/renderer/styles/global-style.component"
+import theme from "App/__deprecated__/renderer/styles/theming/theme"
+import localeEn from "App/__deprecated__/renderer/locales/default/en-US.json"
+import translationConfig from "../src/translations.config.json"
+import devMode from "App/__deprecated__/dev-mode/store/dev-mode"
+import StorybookWrapper from "../src/__deprecated__/renderer/components/storybook/storybook-wrapper.component"
 Modal.setAppElement("#root")
 
 try {
-  require("Renderer/fonts/main/style.css")
+  require("App/__deprecated__/renderer/fonts/main/style.css")
 } catch (e) {
-  require("Renderer/fonts/fallback/style.css")
+  require("App/__deprecated__/renderer/fonts/fallback/style.css")
 }
 
 const store = init({

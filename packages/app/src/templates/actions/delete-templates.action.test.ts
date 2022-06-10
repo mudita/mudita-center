@@ -14,7 +14,7 @@ import {
 import { CreateMessageDataResponse } from "App/messages/services"
 import { deleteTemplatesRequest } from "App/templates/requests"
 import { DeleteTemplateError } from "App/templates/errors"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { Template } from "App/templates/dto"
 
 jest.mock("App/templates/requests/delete-templates.request")

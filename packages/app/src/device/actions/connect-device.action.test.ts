@@ -7,12 +7,12 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { DeviceType } from "@mudita/pure"
-import { pendingAction } from "Renderer/store/helpers"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { connectDevice } from "./connect-device.action"
 import { ConnectionState } from "App/device/constants"
 import { DeviceConnectionError } from "App/device/errors"
-import connectDeviceRequest from "Renderer/requests/connect-device.request"
-import { testError } from "App/renderer/store/constants"
+import connectDeviceRequest from "App/__deprecated__/renderer/requests/connect-device.request"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])({
@@ -21,22 +21,22 @@ const mockStore = createMockStore([thunk])({
   },
 })
 
-jest.mock("Renderer/requests/get-device-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-device-info.request", () =>
   jest.fn().mockReturnValue({
     status: RequestResponseStatus.Ok,
   })
 )
-jest.mock("Renderer/requests/get-network-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-network-info.request", () =>
   jest.fn().mockReturnValue({
     status: RequestResponseStatus.Ok,
   })
 )
-jest.mock("Renderer/requests/get-storage-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-storage-info.request", () =>
   jest.fn().mockReturnValue({
     status: RequestResponseStatus.Ok,
   })
 )
-jest.mock("Renderer/requests/get-battery-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-battery-info.request", () =>
   jest.fn().mockReturnValue({
     status: RequestResponseStatus.Ok,
   })
@@ -53,7 +53,7 @@ jest.mock("App/device/actions/set-connection-status.action", () => ({
     payload: true,
   }),
 }))
-jest.mock("Renderer/requests/connect-device.request")
+jest.mock("App/__deprecated__/renderer/requests/connect-device.request")
 
 afterEach(() => {
   mockStore.clearActions()

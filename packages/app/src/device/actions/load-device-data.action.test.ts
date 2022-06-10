@@ -12,7 +12,7 @@ import { loadDeviceData } from "App/device/actions"
 import { DeviceLoadingError } from "App/device/errors"
 import { DeviceDataLoader } from "App/device/loaders/device-data.loader"
 import { PureDeviceData, HarmonyDeviceData } from "App/device/reducers"
-import { testError } from "App/renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 
 const errorMock = new DeviceLoadingError("Device data loading error")
 

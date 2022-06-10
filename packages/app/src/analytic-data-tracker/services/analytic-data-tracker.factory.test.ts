@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import logger from "App/main/utils/logger"
+import logger from "App/__deprecated__/main/utils/logger"
 import {
   AnalyticDataTrackerFactory,
   AnalyticDataTrackerFactoryOption,
@@ -14,7 +14,7 @@ import { AppSettingsService } from "App/app-settings/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 
 jest.mock("App/app-settings/containers/app-settings.container")
-jest.mock("App/main/utils/logger")
+jest.mock("App/__deprecated__/main/utils/logger")
 jest.mock("axios")
 
 jest.spyOn(axios, "create")

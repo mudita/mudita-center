@@ -1,4 +1,4 @@
-const { noop } = require("../src/renderer/utils/noop")
+const { noop } = require("../src/__deprecated__/renderer/utils/noop")
 
 module.exports = {
   PrismLight: {

@@ -3,13 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
 import ContactImportModal, {
   ModalType,
 } from "App/contacts/components/contact-import/contact-import-modal.component"
-import { noop } from "Renderer/utils/noop"
-import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
 
 const contacts = [

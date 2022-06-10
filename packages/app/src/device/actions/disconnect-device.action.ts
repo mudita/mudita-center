@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceEvent } from "App/device/constants"
-import disconnectDeviceRequest from "Renderer/requests/disconnect-device.request"
+import disconnectDeviceRequest from "App/__deprecated__/renderer/requests/disconnect-device.request"
 import { setConnectionStatus } from "App/device/actions/set-connection-status.action"
 import { DeviceDisconnectionError } from "App/device/errors"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"

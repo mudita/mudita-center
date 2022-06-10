@@ -14,7 +14,7 @@ import {
   fulfilledAction,
   pendingAction,
   rejectedAction,
-} from "Renderer/store/helpers/action.helper"
+} from "App/__deprecated__/renderer/store/helpers/action.helper"
 
 export const initialState: BackupDeviceState = {
   state: BackupDeviceDataState.Empty,

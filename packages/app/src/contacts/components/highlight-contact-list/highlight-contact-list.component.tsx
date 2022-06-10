@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { noop } from "Renderer/utils/noop"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import React, { useEffect, useRef } from "react"
 import { HighLightContactListWrapper } from "App/contacts/components/highlight-contact-list/highlight-contact-list.styled"
 import {

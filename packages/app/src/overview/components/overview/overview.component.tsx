@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import { DeviceType } from "@mudita/pure"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   PureOverview,
   HarmonyOverview,

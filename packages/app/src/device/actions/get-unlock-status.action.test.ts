@@ -8,13 +8,13 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { getUnlockStatus } from "./get-unlock-status.action"
 import { DeviceLockedError } from "App/device/errors"
-import getUnlockDeviceStatusRequest from "Renderer/requests/get-unlock-device-status.request"
-import { testError } from "App/renderer/store/constants"
+import getUnlockDeviceStatusRequest from "App/__deprecated__/renderer/requests/get-unlock-device-status.request"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])()
 
-jest.mock("Renderer/requests/get-unlock-device-status.request")
+jest.mock("App/__deprecated__/renderer/requests/get-unlock-device-status.request")
 
 afterEach(() => {
   mockStore.clearActions()

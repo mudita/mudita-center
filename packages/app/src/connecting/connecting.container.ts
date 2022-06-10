@@ -4,7 +4,7 @@
  */
 
 import { connect } from "react-redux"
-import { RootState, ReduxRootState, TmpDispatch } from "Renderer/store"
+import { RootState, ReduxRootState, TmpDispatch } from "App/__deprecated__/renderer/store"
 import { unlockDevice, getUnlockStatus } from "App/device"
 import Connecting from "App/connecting/components/connecting.component"
 import { noModalsShowSelector } from "App/modals-manager/selectors/no-modals-show.selector"

@@ -4,14 +4,14 @@
  */
 
 import path from "path"
-import { DeviceBackup } from "Backend/adapters/device-backup/device-backup.adapter"
-import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
-import { DeviceBaseInfo } from "Backend/adapters/device-base-info/device-base-info.adapter"
-import { DeviceFileSystem } from "Backend/adapters/device-file-system/device-file-system.adapter"
-import getAppPath from "App/main/utils/get-app-path"
+import { DeviceBackup } from "App/__deprecated__/backend/adapters/device-backup/device-backup.adapter"
+import { DeviceBackupService } from "App/__deprecated__/backend/device-backup-service/device-backup-service"
+import { DeviceBaseInfo } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
+import { DeviceFileSystem } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
+import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import { IndexStorage } from "App/index-storage/types"
 import { DataIndex } from "App/index-storage/constants"
-import { DeviceService } from "App/backend/device-service"
+import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { MetadataKey } from "App/metadata/constants"
 import {

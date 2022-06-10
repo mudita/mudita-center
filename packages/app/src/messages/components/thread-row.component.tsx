@@ -4,11 +4,11 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import Avatar, {
   AvatarSize,
-} from "Renderer/components/core/avatar/avatar.component"
+} from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
 import {
   DataWrapper,
@@ -16,39 +16,39 @@ import {
   Name,
   NameWrapper,
   Time,
-} from "Renderer/components/rest/messages/threads-table.component"
+} from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
-import { isToday } from "Renderer/utils/is-today"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import getPrettyCaller from "App/__deprecated__/renderer/models/calls/get-pretty-caller"
+import { isToday } from "App/__deprecated__/renderer/utils/is-today"
 import moment from "moment"
-import { Actions, Col } from "Renderer/components/core/table/table.component"
-import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
+import { Actions, Col } from "App/__deprecated__/renderer/components/core/table/table.component"
+import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
-import { noop } from "Renderer/utils/noop"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { Feature, flags } from "App/feature-flags"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import { Thread } from "App/messages/reducers"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { RowStatus, UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
+import { RowStatus, UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import styled, { css } from "styled-components"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
-} from "Renderer/components/rest/animated-opacity/animated-opacity"
+} from "App/__deprecated__/renderer/components/rest/animated-opacity/animated-opacity"
 import { lightAvatarStyles } from "App/contacts/components/contact-list/contact-list.component"
-import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
-import { AppSettings } from "App/main/store/settings.interface"
+import { VisibleCheckbox } from "App/__deprecated__/renderer/components/rest/visible-checkbox/visible-checkbox"
+import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
 import ThreadBaseRow from "App/messages/components/thread-base-row.component"
 import { ListRowProps } from "react-virtualized"
-import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
 import { defineMessages } from "react-intl"
-import { ElementWithTooltipPlace } from "Renderer/components/core/tooltip/element-with-tooltip.component"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { ElementWithTooltipPlace } from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   dropdownTogllerTooltipDescription: {

@@ -3,13 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { formatDate } from "Renderer/utils/format-date"
-import { ArchiveFile } from "App/main/functions/register-archive-files-listener"
-import getAppLogs from "Renderer/requests/get-app-logs.request"
+import { formatDate } from "App/__deprecated__/renderer/utils/format-date"
+import { ArchiveFile } from "App/__deprecated__/main/functions/register-archive-files-listener"
+import getAppLogs from "App/__deprecated__/renderer/requests/get-app-logs.request"
 import downloadDeviceFiles from "App/device-file-system/requests/download-device-file.request"
-import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
+import getDeviceLogFiles from "App/__deprecated__/renderer/requests/get-device-log-files.request"
 import { DiagnosticsFilePath } from "@mudita/pure"
-import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import { DeviceFile } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 
 export const todayFormatDate = formatDate(new Date())
 export const attachedFileName = `${todayFormatDate}.zip`

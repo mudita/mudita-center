@@ -15,7 +15,7 @@ import {
   fulfilledAction,
   pendingAction,
   rejectedAction,
-} from "Renderer/store/helpers"
+} from "App/__deprecated__/renderer/store/helpers"
 
 export const initialState: DataSyncState = {
   initialized: false,

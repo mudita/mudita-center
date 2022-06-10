@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ImportingContactsModal, {
   ImportingContactsModalProps,
 } from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"

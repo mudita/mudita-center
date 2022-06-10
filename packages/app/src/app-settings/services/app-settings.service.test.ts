@@ -9,9 +9,9 @@ import {
   AppSettings,
   ConversionFormat,
   Convert,
-} from "App/main/store/settings.interface"
+} from "App/__deprecated__/main/store/settings.interface"
 
-jest.mock("App/main/store/settings.schema", () => ({
+jest.mock("App/__deprecated__/main/store/settings.schema", () => ({
   applicationId: {
     default: "default-application-id",
   },

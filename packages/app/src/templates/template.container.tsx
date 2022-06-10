@@ -4,7 +4,7 @@
  */
 
 import { connect } from "react-redux"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { deleteTemplates } from "App/templates/actions"
 import { Templates } from "App/templates/components"
 import { createTemplate, hideDeleteModal } from "App/templates/actions"

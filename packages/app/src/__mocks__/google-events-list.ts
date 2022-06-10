@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { GoogleEvent } from "Renderer/models/external-providers/google/google.interface"
+import { GoogleEvent } from "App/__deprecated__/renderer/models/external-providers/google/google.interface"
 
 export const mockedGoogleEvents: GoogleEvent[] = [
   {

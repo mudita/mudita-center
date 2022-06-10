@@ -7,19 +7,19 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { PureDataLoader } from "App/device/loaders/pure-data.loader"
-import getDeviceInfo from "Renderer/requests/get-device-info.request"
-import getNetworkInfo from "Renderer/requests/get-network-info.request"
-import getStorageInfo from "Renderer/requests/get-storage-info.request"
-import getBatteryInfo from "Renderer/requests/get-battery-info.request"
+import getDeviceInfo from "App/__deprecated__/renderer/requests/get-device-info.request"
+import getNetworkInfo from "App/__deprecated__/renderer/requests/get-network-info.request"
+import getStorageInfo from "App/__deprecated__/renderer/requests/get-storage-info.request"
+import getBatteryInfo from "App/__deprecated__/renderer/requests/get-battery-info.request"
 import { DeviceLoadingError } from "App/device/errors"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
-jest.mock("Renderer/requests/get-device-info.request")
-jest.mock("Renderer/requests/get-network-info.request")
-jest.mock("Renderer/requests/get-storage-info.request")
-jest.mock("Renderer/requests/get-battery-info.request")
+jest.mock("App/__deprecated__/renderer/requests/get-device-info.request")
+jest.mock("App/__deprecated__/renderer/requests/get-network-info.request")
+jest.mock("App/__deprecated__/renderer/requests/get-storage-info.request")
+jest.mock("App/__deprecated__/renderer/requests/get-battery-info.request")
 
-jest.mock("Renderer/store/index", () =>
+jest.mock("App/__deprecated__/renderer/store/index", () =>
   createMockStore([thunk])({
     dataSync: {
       initialized: true,

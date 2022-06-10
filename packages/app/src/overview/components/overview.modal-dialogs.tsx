@@ -6,21 +6,21 @@
 import React, { ComponentProps } from "react"
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
-import { intl } from "Renderer/utils/intl"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import Icon from "Renderer/components/core/icon/icon.component"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
-import Loader from "Renderer/components/core/loader/loader.component"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
-import { Size } from "App/renderer/components/core/button/button.config"
+import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
+import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
+import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
+import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { DeviceType } from "@mudita/pure"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   muditaOsUpdateTitle: {

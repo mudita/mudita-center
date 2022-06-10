@@ -4,8 +4,8 @@
  */
 
 import { GetRestoreDeviceStatusDataState } from "@mudita/pure"
-import getRestoreDeviceStatus from "Renderer/requests/get-restore-device-status.request"
-import getUnlockDeviceStatus from "Renderer/requests/get-unlock-device-status.request"
+import getRestoreDeviceStatus from "App/__deprecated__/renderer/requests/get-restore-device-status.request"
+import getUnlockDeviceStatus from "App/__deprecated__/renderer/requests/get-unlock-device-status.request"
 import {
   RequestResponse,
   RequestResponseStatus,

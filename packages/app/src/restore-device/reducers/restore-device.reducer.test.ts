@@ -15,7 +15,7 @@ import {
   fulfilledAction,
   pendingAction,
   rejectedAction,
-} from "Renderer/store/helpers/action.helper"
+} from "App/__deprecated__/renderer/store/helpers/action.helper"
 
 test("empty event returns initial state", () => {
   expect(restoreDeviceReducer(undefined, {} as any)).toEqual(initialState)

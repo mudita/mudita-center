@@ -7,17 +7,17 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { loadBackupData } from "App/backup/actions/load-backup-data.action"
-import getFileData from "Renderer/requests/get-file-data"
+import getFileData from "App/__deprecated__/renderer/requests/get-file-data"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
-import { FileData } from "App/main/functions/register-get-file-data-listener"
+import { FileData } from "App/__deprecated__/main/functions/register-get-file-data-listener"
 import { BackupEvent } from "App/backup/constants"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { LoadBackupDataError } from "App/backup/errors"
 
-jest.mock("Renderer/requests/get-file-data")
+jest.mock("App/__deprecated__/renderer/requests/get-file-data")
 const successRequestResponse: RequestResponse<FileData[]> = {
   status: RequestResponseStatus.Ok,
   data: [

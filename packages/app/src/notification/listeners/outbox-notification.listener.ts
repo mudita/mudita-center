@@ -6,7 +6,7 @@
 import { v4 as uuid } from "uuid"
 import { OutboxEntryType } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
-import store from "Renderer/store"
+import store from "App/__deprecated__/renderer/store"
 import { pushNotification } from "App/notification/actions"
 import {
   IpcEvent,

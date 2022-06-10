@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React, { ComponentProps } from "react"
 import MessageBubble from "App/messages/components/message-bubble.component"
 import MessageDateTag from "App/messages/components/message-date-tag.component"

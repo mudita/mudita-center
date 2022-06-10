@@ -4,7 +4,7 @@
  */
 
 import styled from "styled-components"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 
 export const ButtonWrapper = styled.div`
   display: flex;

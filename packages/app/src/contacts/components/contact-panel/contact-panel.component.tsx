@@ -4,18 +4,18 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { intl, textFormatters } from "Renderer/utils/intl"
-import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
+import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
+import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
+import { isNameAvailable } from "App/__deprecated__/renderer/components/rest/messages/is-name-available"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
-import modalService from "Renderer/components/core/modal/modal.service"
-import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
+import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
+import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
 import { defineMessages } from "react-intl"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import {
   Buttons,
   ContactSelectionManager,
@@ -25,17 +25,17 @@ import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/c
 import {
   ErrorDataModal,
   LoadingStateDataModal,
-} from "Renderer/components/rest/data-modal/data.modals"
+} from "App/__deprecated__/renderer/components/rest/data-modal/data.modals"
 import delayResponse from "@appnroll/delay-response"
 import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
 import styled from "styled-components"
-import { borderColor } from "Renderer/styles/theming/theme-getters"
+import { borderColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: { id: "module.contacts.deleteTitle" },

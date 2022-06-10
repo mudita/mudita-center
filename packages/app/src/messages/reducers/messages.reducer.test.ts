@@ -17,7 +17,7 @@ import {
   VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { fulfilledAction, pendingAction } from "Renderer/store/helpers"
+import { fulfilledAction, pendingAction } from "App/__deprecated__/renderer/store/helpers"
 
 test("empty event returns initial state", () => {
   expect(messagesReducer(undefined, {} as any)).toEqual(initialState)

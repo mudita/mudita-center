@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { TemplatesProps } from "App/templates/components/templates/templates.interface"
 import { TemplatesSection } from "App/templates/components/templates/templates.styled"
 import { TemplatesPanel } from "App/templates/components/templates-panel"
@@ -14,13 +14,13 @@ import { Template, NewTemplate } from "App/templates/dto"
 import { TemplateError } from "App/templates/constants"
 import DeleteConfirmationModal from "App/templates/components/delete-confirmation-modal/delete-confirmation-modal.component"
 import { defineMessages } from "react-intl"
-import { intl, textFormatters } from "Renderer/utils/intl"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import InfoPopup from "App/ui/components/info-popup/info-popup.component"
-import { Message as TranslationMessage } from "Renderer/interfaces/message.interface"
+import { Message as TranslationMessage } from "App/__deprecated__/renderer/interfaces/message.interface"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import DeletingModal from "App/ui/components/deleting-modal/deleting-modal.component"
 import { TemplatesTestIds } from "App/templates/components/templates/templates-test-ids.enum"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
+import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.templates.deleteModalTitle" },

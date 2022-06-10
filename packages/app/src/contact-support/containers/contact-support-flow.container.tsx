@@ -4,7 +4,7 @@
  */
 
 import { connect } from "react-redux"
-import { ReduxRootState, RootState } from "Renderer/store"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import ContactSupportFlow from "App/contact-support/components/contact-support-flow.component"
 import { files } from "App/contact-support/reducers"
 import { sendTicket } from "App/contact-support/actions/send-ticket.action"

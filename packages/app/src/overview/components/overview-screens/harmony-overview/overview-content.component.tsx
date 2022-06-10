@@ -4,15 +4,15 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   DeviceInfo,
   StatusInfo,
   SystemInfo,
   OverviewWrapper,
 } from "App/overview/components/overview/overview.styles"
-import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
-import { AppSettings } from "App/main/store/settings.interface"
+import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
+import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
 import { HarmonyDeviceData } from "App/device"
 
 interface OverviewUIProps {

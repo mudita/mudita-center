@@ -18,7 +18,7 @@ import {
   rejectedAction,
   fulfilledAction,
   pendingAction,
-} from "App/renderer/store/helpers"
+} from "App/__deprecated__/renderer/store/helpers"
 import {
   DeviceConnectionError,
   DeviceLoadingError,

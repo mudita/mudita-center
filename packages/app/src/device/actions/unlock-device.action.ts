@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceEvent } from "App/device/constants"
-import unlockDeviceRequest from "Renderer/requests/unlock-device.request"
+import unlockDeviceRequest from "App/__deprecated__/renderer/requests/unlock-device.request"
 import { DeviceUnlockingError } from "App/device/errors"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 

@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { FilesManagerProps } from "App/overview/components/files-manager/files-manager.interface"
 import Card, {
   CardAction,
@@ -13,22 +13,22 @@ import Card, {
 } from "App/overview/components/card.elements"
 import StackedBarChart, {
   DisplayStyle,
-} from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import { convertBytes } from "Renderer/utils/convert-bytes"
+} from "App/__deprecated__/renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
+import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
 import styled from "styled-components"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import {
   backgroundColor,
   fontWeight,
   letterSpacing,
   textColor,
-} from "Renderer/styles/theming/theme-getters"
-import { URL_MAIN } from "Renderer/constants/urls"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const TextInfo = styled(CardContent)`
   > p {

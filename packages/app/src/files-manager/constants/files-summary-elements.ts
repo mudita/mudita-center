@@ -5,8 +5,8 @@
 
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
 import { DiskSpaceCategoryType } from "App/files-manager/constants/files-manager.enum"
-import { intl } from "Renderer/utils/intl"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 export const filesSummaryElements: DiskSpaceCategory[] = [
   // Ready for CP-970

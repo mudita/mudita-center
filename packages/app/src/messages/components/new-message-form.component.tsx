@@ -4,13 +4,13 @@
  */
 
 import React, { ChangeEvent, ComponentProps, useState } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { MessagesWrapper } from "App/messages/components/thread-details.styled"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 import ThreadDetailsTextArea from "App/messages/components/thread-details-text-area.component"
-import { phoneNumberRegexp } from "Renderer/utils/form-validators"
+import { phoneNumberRegexp } from "App/__deprecated__/renderer/utils/form-validators"
 import NewMessageFormSidebar from "App/messages/components/new-message-form-sidebar.component"
-import { Sidebar } from "Renderer/components/core/table/table.component"
+import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { Receiver } from "App/messages/reducers/messages.interface"
 import uniqBy from "lodash/uniqBy"
 

@@ -8,7 +8,7 @@ import {
   NewMessage,
   Thread,
 } from "App/messages/reducers/messages.interface"
-import DeviceService from "Backend/device-service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import {
   Endpoint,
   GetMessagesBody as PureGetMessagesBody,

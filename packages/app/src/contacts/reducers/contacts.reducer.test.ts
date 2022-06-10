@@ -14,7 +14,7 @@ import {
   ContactID,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
-import { fulfilledAction, rejectedAction } from "Renderer/store/helpers"
+import { fulfilledAction, rejectedAction } from "App/__deprecated__/renderer/store/helpers"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesError } from "App/data-sync/errors"
 

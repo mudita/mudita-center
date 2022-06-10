@@ -6,10 +6,10 @@
 import React, { ComponentProps } from "react"
 import { waitFor } from "@testing-library/dom"
 import { fireEvent } from "@testing-library/react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { BackupSetSecretKeyModal } from "App/overview/components/backup-set-secret-key-modal-dialog/backup-set-secret-key-modal-dialog.component"
 import { BackupSetSecretKeyModalTestIds } from "App/overview/components/backup-set-secret-key-modal-dialog/backup-set-secret-key-modal-dialog-test-ids.enum"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 type Props = ComponentProps<typeof BackupSetSecretKeyModal>
 const defaultProps: Props = {

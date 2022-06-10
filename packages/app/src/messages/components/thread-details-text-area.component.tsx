@@ -4,9 +4,9 @@
  */
 
 import React, { ChangeEvent, KeyboardEvent } from "react"
-import { intl } from "Renderer/utils/intl"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   IconButton,
   Textarea,
@@ -14,9 +14,9 @@ import {
 } from "App/messages/components/thread-details.styled"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { Feature, flags } from "App/feature-flags"
-import { IconBackgroundWithTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-background-with-tooltip.component"
+import { IconBackgroundWithTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-background-with-tooltip.component"
 import { defineMessages } from "react-intl"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   sendButtonTooltipDescription: { id: "module.messages.sendButtonTooltipDescription" },

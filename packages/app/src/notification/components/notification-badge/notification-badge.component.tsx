@@ -5,7 +5,7 @@
 
 import React from "react"
 import styled from "styled-components"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 
 import { NotificationBadgeProps } from "./notification-badge.interface"
 import { NotificationBadgeTestIds } from "./notification-badge-ids.enum"

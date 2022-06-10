@@ -4,13 +4,13 @@
  */
 
 import React, { ComponentProps } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
 import { ImportContactsFlowTestIds } from "App/contacts/components/import-contacts-flow/import-contacts-flow-test-ids.component"
 import SyncContactsModal from "App/contacts/components/sync-contacts-modal/sync-contacts-modal.component"
 import { DownloadContactsModal } from "App/contacts/components/contacts/download-contacts-modal/download-contacts-modal"
 import InfoModal from "App/contacts/components/info-modal/info-modal.component"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import ContactImportModal, {
   ModalType,

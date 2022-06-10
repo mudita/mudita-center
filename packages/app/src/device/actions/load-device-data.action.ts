@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceType } from "@mudita/pure"
 import { DeviceEvent, ConnectionState } from "App/device/constants"
-import { ReduxRootState } from "App/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { setDeviceData } from "App/device/actions/base.action"
 import { DeviceDataLoader } from "App/device/loaders/device-data.loader"
 import { setValue, MetadataKey } from "App/metadata"

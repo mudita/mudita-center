@@ -4,11 +4,11 @@
  */
 
 import { connect } from "react-redux"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
+import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import Overview from "App/overview/components/overview/overview.component"
-import { ReduxRootState, TmpDispatch } from "Renderer/store"
-import { RootModel } from "Renderer/models/models"
-import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
+import { ReduxRootState, TmpDispatch } from "App/__deprecated__/renderer/store"
+import { RootModel } from "App/__deprecated__/renderer/models/models"
+import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
 import {
   UpdatingState,
   PureDeviceData,

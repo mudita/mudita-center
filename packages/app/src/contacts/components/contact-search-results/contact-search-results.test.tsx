@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ContactSearchResults from "App/contacts/components/contact-search-results/contact-search-results.component"
 import { ContactSearchResultsTestIdsEnum } from "App/contacts/components/contact-search-results/contact-search-results-test-ids.enum"
 import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"

@@ -5,10 +5,10 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
-import { DeviceService } from "App/backend/device-service"
+import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
-import { AppLogger } from "App/main/utils/logger"
+import { AppLogger } from "App/__deprecated__/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { AppSettingsController } from "App/app-settings/controllers"

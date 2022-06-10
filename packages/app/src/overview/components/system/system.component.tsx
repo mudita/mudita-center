@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import Card, {
   CardAction,
   CardActionButton,
@@ -16,10 +16,10 @@ import Card, {
 import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages, FormattedMessage } from "react-intl"
-import { backgroundColor, borderRadius } from "Renderer/styles/theming/theme-getters"
-import { noop } from "Renderer/utils/noop"
+import { backgroundColor, borderRadius } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 
 const messages = defineMessages({

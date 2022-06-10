@@ -6,12 +6,12 @@
 import { ipcMain } from "electron-better-ipc"
 import MuditaDeviceManager from "@mudita/pure"
 import { EventEmitter } from "events"
-import { DeviceService } from "App/backend/device-service"
+import { DeviceService } from "App/__deprecated__/backend/device-service"
 // TODO change module name to `KeyStorage`
 import { MetadataStore } from "App/metadata/services"
-import logger from "App/main/utils/logger"
+import logger from "App/__deprecated__/main/utils/logger"
 import { flags, Feature } from "App/feature-flags"
-import PureLogger from "App/main/utils/pure-logger"
+import PureLogger from "App/__deprecated__/main/utils/pure-logger"
 import { IndexFactory } from "App/index-storage/factories"
 import {
   DataIndexInitializer,

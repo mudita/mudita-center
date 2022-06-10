@@ -4,7 +4,7 @@
  */
 
 import path from "path"
-import createFile from "Renderer/utils/create-file/create-file"
+import createFile from "App/__deprecated__/renderer/utils/create-file/create-file"
 import mapVCFsToContacts from "./map-vcfs-to-contacts"
 
 describe("map VCF's to Contacts helper", () => {

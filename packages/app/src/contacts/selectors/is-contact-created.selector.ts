@@ -4,7 +4,7 @@
  */
 
 import { createSelector, OutputSelector } from "reselect"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { Contact } from "App/contacts/reducers"
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 

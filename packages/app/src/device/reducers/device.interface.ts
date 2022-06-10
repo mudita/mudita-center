@@ -10,7 +10,7 @@ import {
 } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { DeviceEvent } from "App/device/constants"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
+import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { UpdatingState, ConnectionState } from "App/device/constants"
 import {
   DeviceConnectionError,

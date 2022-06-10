@@ -5,11 +5,11 @@
 
 import fs from "fs-extra"
 import { ipcMain } from "electron-better-ipc"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
+import { IpcRequest } from "App/__deprecated__/common/requests/ipc-request.enum"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { app, dialog, shell } from "electron"
 import mapContactsToVCardStrings from "App/contacts/helpers/convert-contacts/map-contacts-to-v-card-strings"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import path from "path"
 import { defineMessages } from "react-intl"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"

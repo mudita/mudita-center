@@ -5,10 +5,10 @@
 
 import React from "react"
 import { screen, fireEvent } from "@testing-library/dom"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { CrashDumpModal, CrashDumpProps } from "App/crash-dump/components/crash-dump-modal/crash-dump-modal.component"
 import { CrashDumpModalTestingIds } from "App/crash-dump/components/crash-dump-modal/crash-dump-modal-testing-ids.enum"
-import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
+import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 
 const propsMock: CrashDumpProps = {
   open: false,

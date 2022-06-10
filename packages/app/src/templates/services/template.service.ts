@@ -4,7 +4,7 @@
  */
 
 import { NewTemplate, Template } from "App/templates/dto"
-import DeviceService from "Backend/device-service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import {
   Endpoint,
   Method,

@@ -4,8 +4,8 @@
  */
 
 import { CrashDumpService } from "App/crash-dump/services/crash-dump.service"
-import DeviceService from "Backend/device-service"
-import { DeviceFileSystem } from "App/backend/adapters/device-file-system/device-file-system.adapter"
+import DeviceService from "App/__deprecated__/backend/device-service"
+import { DeviceFileSystem } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const deviceServiceMock = {

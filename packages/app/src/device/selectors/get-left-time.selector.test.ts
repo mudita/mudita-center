@@ -4,7 +4,7 @@
  */
 
 import MockDate from "mockdate"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { deviceReducer, initialState } from "App/device"
 import { getLeftTimeSelector } from "App/device/selectors/get-left-time.selector"
 

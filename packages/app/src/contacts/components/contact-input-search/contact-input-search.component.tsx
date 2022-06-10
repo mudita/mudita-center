@@ -6,14 +6,14 @@
 import React from "react"
 import { css } from "styled-components"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { intl } from "Renderer/utils/intl"
-import { RenderListItem } from "Renderer/components/core/list/list.component"
-import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { RenderListItem } from "App/__deprecated__/renderer/components/core/list/list.component"
+import { searchIcon } from "App/__deprecated__/renderer/components/core/input-text/input-text.elements"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { formatPhoneNumber } from "App/contacts/helpers/format-phone-number/format-phone-number"
 import {
   ContactInputSelect,

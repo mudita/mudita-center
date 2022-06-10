@@ -61,11 +61,11 @@ tmp/**/*
 **/*/tmp/**/*
 !tmp/.keep
 
-packages/app/src/renderer/fonts/main/**/*
-!packages/app/src/renderer/fonts/main/.gitkeep
+packages/app/src/__deprecated__/renderer/fonts/main/**/*
+!packages/app/src/__deprecated__/renderer/fonts/main/.gitkeep
 
 # Fetched news
-packages/app/src/main/default-news.json
+packages/app/src/__deprecated__/main/default-news.json
 
 # Fetched app configuration
-packages/app/src/main/app-configuration.json
+packages/app/src/__deprecated__/main/app-configuration.json

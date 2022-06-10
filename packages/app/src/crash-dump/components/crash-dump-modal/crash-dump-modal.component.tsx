@@ -5,21 +5,21 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { intl } from "Renderer/utils/intl"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import { Size } from "Renderer/components/core/button/button.config"
-import Icon from "Renderer/components/core/icon/icon.component"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
+import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import {
   IconWrapper,
   ContentWrapper,
 } from "App/crash-dump/components/crash-dump-modal/crash-dump-modal.styled"
 import { CrashDumpModalTestingIds } from "App/crash-dump/components/crash-dump-modal/crash-dump-modal-testing-ids.enum"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 export interface CrashDumpProps {
   open: boolean

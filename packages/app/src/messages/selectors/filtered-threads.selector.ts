@@ -5,7 +5,7 @@
 
 import { createSelector } from "reselect"
 import { Thread, VisibilityFilter } from "App/messages/reducers"
-import { ReduxRootState, RootState } from "Renderer/store"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { threadsSelector } from "App/messages/selectors/threads.selector"
 import {
   filterThreads,

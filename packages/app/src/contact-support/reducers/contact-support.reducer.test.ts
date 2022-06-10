@@ -7,7 +7,7 @@ import {
   contactSupportReducer,
   initialState,
 } from "App/contact-support/reducers/contact-support.reducer"
-import { fulfilledAction, pendingAction, rejectedAction } from "Renderer/store/helpers"
+import { fulfilledAction, pendingAction, rejectedAction } from "App/__deprecated__/renderer/store/helpers"
 import {
   ContactSupportEvent,
   SendTicketError,

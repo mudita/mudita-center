@@ -6,7 +6,7 @@
 import { ipcMain } from "electron-better-ipc"
 import { IpcMetadata, MetadataKey } from "App/metadata/constants"
 import { getMetadataStore } from "App/metadata/containers"
-import logger from "App/main/utils/logger"
+import logger from "App/__deprecated__/main/utils/logger"
 
 export const registerMetadataSetValueListener = (): void => {
   ipcMain.answerRenderer(

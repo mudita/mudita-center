@@ -4,11 +4,11 @@
  */
 
 import { connect } from "react-redux"
-import { RootModel } from "Renderer/models/models"
-import { TmpDispatch } from "Renderer/store"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { RootModel } from "App/__deprecated__/renderer/models/models"
+import { TmpDispatch } from "App/__deprecated__/renderer/store"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { useHistory } from "react-router"
-import { URL_MAIN, URL_ONBOARDING } from "Renderer/constants/urls"
+import { URL_MAIN, URL_ONBOARDING } from "App/__deprecated__/renderer/constants/urls"
 import OnboardingWelcome from "App/onboarding/components/onboarding-welcome.component"
 import React from "react"
 

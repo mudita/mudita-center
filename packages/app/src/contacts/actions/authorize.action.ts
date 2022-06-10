@@ -8,10 +8,10 @@ import { ContactsEvent } from "App/contacts/constants"
 import {
   ExternalProvider,
   Provider,
-} from "Renderer/models/external-providers/external-providers.interface"
-import externalProvidersStore from "Renderer/store/external-providers"
-import { Scope } from "Renderer/models/external-providers/google/google.interface"
-import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook.interface"
+} from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
+import externalProvidersStore from "App/__deprecated__/renderer/store/external-providers"
+import { Scope } from "App/__deprecated__/renderer/models/external-providers/google/google.interface"
+import { OutLookScope } from "App/__deprecated__/renderer/models/external-providers/outlook/outlook.interface"
 
 export const authorize = createAsyncThunk<any, ExternalProvider>(
   ContactsEvent.Authorize,

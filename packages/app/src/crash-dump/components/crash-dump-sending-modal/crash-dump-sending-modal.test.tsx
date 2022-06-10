@@ -5,7 +5,7 @@
 
 import React from "react"
 import { screen } from "@testing-library/dom"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { CrashDumpSendingModal, CrashDumpSendingModalProps } from "App/crash-dump/components/crash-dump-sending-modal/crash-dump-sending-modal.component"
 import { CrashDumpSendingModalTestingIds } from "App/crash-dump/components/crash-dump-sending-modal/crash-dump-sending-testing-ids.enum"
 

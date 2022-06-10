@@ -4,8 +4,8 @@
  */
 
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { noop } from "Renderer/utils/noop"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import RestoreDeviceFlow, {
   RestoreDeviceFlowState,
 } from "App/overview/components/restore-device-flow/restore-device-flow.component"

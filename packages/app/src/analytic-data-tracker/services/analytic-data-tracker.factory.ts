@@ -5,7 +5,7 @@
 
 import https from "https"
 import axios, { AxiosInstance } from "axios"
-import logger from "App/main/utils/logger"
+import logger from "App/__deprecated__/main/utils/logger"
 import { AnalyticDataTrackerClass } from "App/analytic-data-tracker/services/analytic-data-tracker-class.interface"
 import { AnalyticDataTrackerService } from "App/analytic-data-tracker/services/analytic-data-tracker.service"
 import { getAppSettingsService } from "App/app-settings/containers/app-settings.container"

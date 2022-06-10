@@ -5,43 +5,43 @@
 
 import Modal, {
   ModalProps,
-} from "Renderer/components/core/modal/modal.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+} from "App/__deprecated__/renderer/components/core/modal/modal.component"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import React, { ComponentProps } from "react"
 import styled from "styled-components"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import {
   backgroundColor,
   borderRadius,
   transitionTime,
-} from "Renderer/styles/theming/theme-getters"
-import Icon from "Renderer/components/core/icon/icon.component"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { DownloadProgress } from "Renderer/interfaces/file-download.interface"
-import { convertBytes } from "Renderer/utils/convert-bytes"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { DownloadProgress } from "App/__deprecated__/renderer/interfaces/file-download.interface"
+import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
 import { defineMessages, FormattedMessage } from "react-intl"
-import { intl } from "Renderer/utils/intl"
-import formatDuration from "Renderer/utils/format-duration"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import formatDuration from "App/__deprecated__/renderer/utils/format-duration"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import {
   ErrorDataModal,
   ErrorWithRetryDataModal,
   LoadingStateDataModal,
-} from "Renderer/components/rest/data-modal/data.modals"
+} from "App/__deprecated__/renderer/components/rest/data-modal/data.modals"
 import { OverviewModalsTestIds } from "App/overview/components/overview-modals-test-ids.enum"
-import Loader from "Renderer/components/core/loader/loader.component"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
+import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import {
   RoundIconWrapper,
   ModalMainText,
-} from "Renderer/components/core/modal-dialog/modal-dialog-shared"
-import { Size } from "App/renderer/components/core/button/button.config"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+} from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog-shared"
+import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
+import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
 import { DeviceType } from "@mudita/pure"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const ModalContent = styled.div`
   display: flex;

@@ -4,7 +4,7 @@
  */
 
 import { BaseLoader } from "App/device/loaders/base.loader"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
+import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import {
   RequestResponse,
   RequestResponseStatus,
