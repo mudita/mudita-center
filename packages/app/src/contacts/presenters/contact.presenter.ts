@@ -7,7 +7,7 @@ import { Contact } from "App/contacts/reducers"
 import { Contact as PureContact } from "@mudita/pure"
 
 export class ContactPresenter {
-  static serialize(pureContact: PureContact): Contact {
+  static mapToContact(pureContact: PureContact): Contact {
     const {
       id,
       blocked,
@@ -39,7 +39,7 @@ export class ContactPresenter {
     }
   }
 
-  static deserialize(contact: Contact): PureContact {
+  static mapToPureContact(contact: Contact): PureContact {
     const {
       blocked = false,
       favourite = false,

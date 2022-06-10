@@ -4,3 +4,4 @@
  */
 
 export * from "App/main/constants/product"
+export * from "App/main/constants/release-space"

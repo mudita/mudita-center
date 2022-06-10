@@ -11,7 +11,7 @@ import {
 } from "@testing-library/react"
 import React from "react"
 import { IntlProvider } from "react-intl"
-import { defaultLanguage } from "App/translations.config.json"
+import translationConfig from "App/translations.config.json"
 import localeEn from "Renderer/locales/default/en-US.json"
 import { ThemeProvider } from "styled-components"
 import theme from "../styles/theming/theme"
@@ -36,8 +36,8 @@ export function renderWithThemeAndIntl<Q extends Queries>(
   return render(
     <ThemeProvider theme={theme}>
       <IntlProvider
-        defaultLocale={defaultLanguage}
-        locale={defaultLanguage}
+        defaultLocale={translationConfig.defaultLanguage}
+        locale={translationConfig.defaultLanguage}
         messages={process.env.NODE_ENV === "test" ? testLocale : localeEn}
       >
         {ui}

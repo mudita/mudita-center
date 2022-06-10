@@ -6,3 +6,6 @@
 export * from "./add-new-message.action.error"
 export * from "./load-threads.error"
 export * from "./load-messages-by-id.error"
+export * from "./delete-thread.error"
+export * from "./toggle-threads-read-status.error"
+export * from "./mark-threads-read-status.error"

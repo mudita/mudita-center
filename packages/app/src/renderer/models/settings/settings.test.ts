@@ -13,15 +13,16 @@ import {
 } from "App/main/store/settings.interface"
 import { GetApplicationConfigurationEvents } from "App/main/functions/register-get-application-configuration-listener"
 import getDeviceLogFiles from "Renderer/requests/get-device-log-files.request"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import Mock = jest.Mock
 import { deviceReducer } from "App/device"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { ArchiveFilesEvents } from "App/main/functions/register-archive-files-listener"
 import { IpcAppSettingsRequest } from "App/app-settings/constants"
-import { version } from "../../../../package.json"
+import packageInfo from "../../../../package.json"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 export const fakeAppSettings: AppSettings = {
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
@@ -41,10 +42,11 @@ export const fakeAppSettings: AppSettings = {
   pureNeverConnected: true,
   appCollectingData: undefined,
   diagnosticSentTimestamp: 0,
+  ignoredCrashDumps: [],
 }
 
-const getDeviceFileResponse: DeviceResponse<DeviceFile[]> = {
-  status: DeviceResponseStatus.Ok,
+const getDeviceFileResponse: RequestResponse<DeviceFile[]> = {
+  status: RequestResponseStatus.Ok,
   data: [
     {
       data: Buffer.from("logs"),
@@ -53,9 +55,6 @@ const getDeviceFileResponse: DeviceResponse<DeviceFile[]> = {
   ],
 }
 jest.mock("Renderer/requests/get-device-log-files.request", () =>
-  jest.fn(() => Promise.resolve(getDeviceFileResponse))
-)
-jest.mock("Renderer/requests/get-device-crash-dump-files.request", () =>
   jest.fn(() => Promise.resolve(getDeviceFileResponse))
 )
 const uploadFileRequest = jest.fn()
@@ -120,7 +119,7 @@ test("loads settings", async () => {
         "appCollectingData": undefined,
         "appConversionFormat": "WAV",
         "appConvert": "Convert automatically",
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appIncomingCalls": false,
         "appIncomingMessages": false,
         "appLatestVersion": "",
@@ -133,6 +132,7 @@ test("loads settings", async () => {
         "appUpdateRequired": false,
         "applicationId": "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
         "diagnosticSentTimestamp": 0,
+        "ignoredCrashDumps": Array [],
         "language": "en-US",
         "lowestSupportedCenterVersion": undefined,
         "lowestSupportedOsVersion": "0.0.0",
@@ -157,7 +157,7 @@ test("updates tethering setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appLatestVersion": "",
         "appTethering": true,
         "appUpdateAvailable": undefined,
@@ -182,7 +182,7 @@ test("updates incoming calls setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appIncomingCalls": true,
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
@@ -207,7 +207,7 @@ test("updates incoming messages setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appIncomingMessages": true,
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
@@ -232,7 +232,7 @@ test("updates low battery setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appLatestVersion": "",
         "appLowBattery": true,
         "appUpdateAvailable": undefined,
@@ -257,7 +257,7 @@ test("updates os updates setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appLatestVersion": "",
         "appOsUpdates": true,
         "appUpdateAvailable": undefined,
@@ -283,7 +283,7 @@ test("updates collecting data setting to true", async () => {
       },
       "settings": Object {
         "appCollectingData": true,
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateRequired": false,
@@ -308,7 +308,7 @@ test("updates collecting data setting to false", async () => {
       },
       "settings": Object {
         "appCollectingData": false,
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateRequired": false,
@@ -332,7 +332,7 @@ test("updates os audio files conversion setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appLatestVersion": "",
         "appNonStandardAudioFilesConversion": true,
         "appUpdateAvailable": undefined,
@@ -358,7 +358,7 @@ test("updates convert setting", async () => {
       },
       "settings": Object {
         "appConvert": "Convert automatically",
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateRequired": false,
@@ -383,7 +383,7 @@ test("updates conversion format setting", async () => {
       },
       "settings": Object {
         "appConversionFormat": "WAV",
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateRequired": false,
@@ -407,7 +407,7 @@ test("updates tray setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appLatestVersion": "",
         "appTray": true,
         "appUpdateAvailable": undefined,
@@ -432,7 +432,7 @@ test("updates PureOS backup location setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateRequired": false,
@@ -457,7 +457,7 @@ test("updates PureOS download location setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateRequired": false,
@@ -482,7 +482,7 @@ test("updates language setting", async () => {
         },
       },
       "settings": Object {
-        "appCurrentVersion": "${version}",
+        "appCurrentVersion": "${packageInfo.version}",
         "appLatestVersion": "",
         "appUpdateAvailable": undefined,
         "appUpdateRequired": false,
@@ -595,7 +595,7 @@ test.skip("sendDiagnosticData effect no sent requests if getting device logs fai
     "setDiagnosticSentTimestamp"
   )
   ;(getDeviceLogFiles as Mock).mockReturnValue({
-    status: DeviceResponseStatus.Error,
+    status: RequestResponseStatus.Error,
   })
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcAppSettingsRequest.Get]: Promise.resolve({

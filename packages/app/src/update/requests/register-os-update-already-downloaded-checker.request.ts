@@ -11,7 +11,7 @@ import getAppSettingsMain from "App/main/functions/get-app-settings"
 
 export const osUpdateAlreadyDownloadedChannel = "os-update-exists-check"
 
-export const registerOsUpdateAlreadyDownloadedCheck = () => {
+export const registerOsUpdateAlreadyDownloadedCheck = (): void => {
   ipcMain.answerRenderer<Release["file"], boolean>(
     osUpdateAlreadyDownloadedChannel,
     async ({ url, size }) => {

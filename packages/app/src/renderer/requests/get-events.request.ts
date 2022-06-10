@@ -5,10 +5,10 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import DeviceResponse from "Backend/adapters/device-response.interface"
 import { Calendar } from "App/calendar/store/calendar.interfaces"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
-const getEvents = async (): Promise<DeviceResponse<Calendar[]>> => {
+const getEvents = async (): Promise<RequestResponse<Calendar[]>> => {
   return ipcRenderer.callMain(IpcRequest.GetEvents)
 }
 

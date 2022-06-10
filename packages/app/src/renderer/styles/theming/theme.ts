@@ -63,6 +63,7 @@ const theme = {
       green: green,
     },
     border: {
+      white: white,
       error: red,
       hover: grey1,
       list: grey4,

@@ -4,12 +4,13 @@
  */
 
 import PurePhoneNetworkAdapter from "Backend/adapters/pure-phone-network/pure-phone-network-adapter.class"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
 import { Endpoint, Method, SIM } from "@mudita/pure"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 class PurePhoneNetwork extends PurePhoneNetworkAdapter {
   constructor(private deviceService: DeviceService) {
@@ -17,13 +18,13 @@ class PurePhoneNetwork extends PurePhoneNetworkAdapter {
   }
 
   //TODO: handle mocked fields when API will be ready -> https://appnroll.atlassian.net/browse/PDA-590
-  public async getSimCards(): Promise<DeviceResponse<SimCard[]>> {
+  public async getSimCards(): Promise<RequestResponse<SimCard[]>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
     })
 
-    if (status === DeviceResponseStatus.Ok && data) {
+    if (status === RequestResponseStatus.Ok && data) {
       return {
         status,
         data: [
@@ -41,9 +42,9 @@ class PurePhoneNetwork extends PurePhoneNetworkAdapter {
     }
   }
 
-  public setActiveCard(): DeviceResponse {
+  public setActiveCard(): RequestResponse {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 }

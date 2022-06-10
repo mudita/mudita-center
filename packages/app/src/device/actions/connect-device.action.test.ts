@@ -8,12 +8,12 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { DeviceType } from "@mudita/pure"
 import { pendingAction } from "Renderer/store/helpers"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { connectDevice } from "./connect-device.action"
 import { ConnectionState } from "App/device/constants"
 import { DeviceConnectionError } from "App/device/errors"
 import connectDeviceRequest from "Renderer/requests/connect-device.request"
 import { testError } from "App/renderer/store/constants"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])({
   device: {
@@ -23,22 +23,22 @@ const mockStore = createMockStore([thunk])({
 
 jest.mock("Renderer/requests/get-device-info.request", () =>
   jest.fn().mockReturnValue({
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
   })
 )
 jest.mock("Renderer/requests/get-network-info.request", () =>
   jest.fn().mockReturnValue({
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
   })
 )
 jest.mock("Renderer/requests/get-storage-info.request", () =>
   jest.fn().mockReturnValue({
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
   })
 )
 jest.mock("Renderer/requests/get-battery-info.request", () =>
   jest.fn().mockReturnValue({
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
   })
 )
 jest.mock("App/device/actions/load-device-data.action", () => ({
@@ -62,7 +62,7 @@ afterEach(() => {
 describe("Connect Device request returns `success` status", () => {
   test("fire async `connectDevice` action and execute `SetSimData` event", async () => {
     ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     })
 
     const {
@@ -95,7 +95,7 @@ describe("Connect Device request returns `success` status", () => {
 describe("Connect Device request returns `error` status", () => {
   test("fire async `connectDevice` action and execute `rejected` event", async () => {
     ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Error,
+      status: RequestResponseStatus.Error,
     })
 
     const errorMock = new DeviceConnectionError("Cannot connected to device")

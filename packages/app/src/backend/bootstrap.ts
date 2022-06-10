@@ -14,7 +14,6 @@ import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapt
 import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
 import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-phone-network.adapter"
 import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
-import createPurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.adapter"
 import createCalendarAdapter from "Backend/adapters/calendar/calendar.adapter"
 import createDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system.adapter"
 import createDeviceBackupAdapter from "Backend/adapters/device-backup/device-backup.adapter"
@@ -31,9 +30,6 @@ import registerNetworkInfoRequest from "Backend/requests/network/get-network-inf
 import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storage-info.request"
 import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
 import registerGetEventsRequest from "Backend/requests/calendar/get-events.request"
-import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
-import registerGetMessagesByThreadIdRequest from "Backend/requests/messages/get-messages-by-thread-id.request"
-import registerAddMessageRequest from "Backend/requests/messages/add-message.request"
 import registerGetDeviceLogFiles from "Backend/requests/get-device-log-files/get-device-log-files.request"
 import registerGetDeviceCrashDumpFiles from "Backend/requests/get-device-crash-dump-files/get-device-log-files.request"
 import registerDownloadDeviceFilesRequest from "App/device-file-system/listeners/download-device-file.listener"
@@ -79,7 +75,6 @@ const bootstrap = (
     pureNetwork: createPurePhoneNetwork(deviceService),
     pureStorage: createPurePhoneStorageAdapter(deviceService),
     calendar: createCalendarAdapter(),
-    pureMessages: createPurePhoneMessagesAdapter(deviceService),
     app: createElectronAppAdapter(),
   }
 
@@ -96,9 +91,6 @@ const bootstrap = (
     registerChangeSimCardRequest,
     registerUpdateOsRequest,
     registerGetEventsRequest,
-    registerGetThreadsRequest,
-    registerGetMessagesByThreadIdRequest,
-    registerAddMessageRequest,
     registerGetDeviceLogFiles,
     registerGetDeviceCrashDumpFiles,
     registerDownloadDeviceFilesRequest,

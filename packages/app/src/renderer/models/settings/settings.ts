@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { version } from "../../../../package.json"
+import packageInfo from "../../../../package.json"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { RootState } from "Renderer/store"
 import {
@@ -37,7 +37,7 @@ export const initialState: SettingsState = {
   appUpdateAvailable: undefined,
   lowestSupportedOsVersion: undefined,
   lowestSupportedCenterVersion: undefined,
-  appCurrentVersion: version,
+  appCurrentVersion: packageInfo.version,
   settingsLoaded: false,
   appUpdateRequired: false,
   appLatestVersion: "",
@@ -63,9 +63,9 @@ const settings = createModel<RootModel>({
         try {
           appUpdateRequired = isVersionGreater(
             applicationConfiguration.centerVersion,
-            version
+            packageInfo.version
           )
-        } catch (error) {
+        } catch (error: any) {
           logger.error(
             `Settings -> LoadSettings: Check that app update required fails: ${error.message}`
           )

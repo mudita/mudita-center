@@ -11,14 +11,27 @@ import {
 } from "App/outbox/observers/outbox.observer"
 import { OutboxService } from "App/outbox/services"
 import { ipcMain } from "electron-better-ipc"
-import { IpcEvent } from "App/data-sync/constants"
+import { IpcEvent as DataSyncIpcEvent } from "App/data-sync/constants"
+import { IpcEvent as NotificationIpcEvent } from "App/notification/constants"
+import { Thread } from "App/messages/reducers"
+import { flushPromises } from "App/core/helpers/flush-promises"
 
-describe("Method: observe", () => {
+const threadMock: Thread = {
+  id: "1",
+  phoneNumber: "+48 755 853 216",
+  lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+  messageSnippet:
+    "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+  unread: true,
+}
+
+describe("Outbox Observer: observe", () => {
   beforeEach(() => {
     jest.useFakeTimers()
   })
   afterEach(() => {
     jest.useRealTimers()
+    jest.resetAllMocks()
   })
 
   describe("when `DeviceServiceEventName.DeviceUnlocked` has been emitted", () => {
@@ -33,7 +46,7 @@ describe("Method: observe", () => {
         },
       } as unknown as DeviceService
       outboxService = {
-        readOutboxEntries: jest.fn().mockReturnValue(true),
+        readOutboxEntries: jest.fn(),
       } as unknown as OutboxService
       subject = new OutboxObserver(ipcMain, deviceService, outboxService)
     })
@@ -47,16 +60,76 @@ describe("Method: observe", () => {
       expect(outboxService.readOutboxEntries).toHaveBeenCalled()
     })
 
-    test("`DataUpdated` is emits", async () => {
-      expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
+    describe("When `readOutboxEntries` returns value", () => {
+      let subject: OutboxObserver
+      let eventEmitterMock: EventEmitter
+      let outboxService: OutboxService
+      beforeEach(() => {
+        eventEmitterMock = new EventEmitter()
+        const deviceService = {
+          on: (eventName: DeviceServiceEventName, listener: () => void) => {
+            eventEmitterMock.on(eventName, listener)
+          },
+        } as unknown as DeviceService
+        outboxService = {
+          readOutboxEntries: jest.fn().mockResolvedValueOnce(threadMock),
+        } as unknown as OutboxService
+        subject = new OutboxObserver(ipcMain, deviceService, outboxService)
+      })
 
-      subject.observe()
-      eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+      test("`DataUpdated` and `PushOutboxNotification` is emitted", async () => {
+        expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
 
-      expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
-      expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
-        IpcEvent.DataUpdated
-      )
+        subject.observe()
+        eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+
+        await flushPromises()
+
+        expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
+        expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
+          DataSyncIpcEvent.DataUpdated
+        )
+        expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
+          NotificationIpcEvent.PushOutboxNotification,
+          threadMock
+        )
+      })
+    })
+
+    describe("When `readOutboxEntries` returns `undefine`", () => {
+      let subject: OutboxObserver
+      let eventEmitterMock: EventEmitter
+      let outboxService: OutboxService
+      beforeEach(() => {
+        eventEmitterMock = new EventEmitter()
+        const deviceService = {
+          on: (eventName: DeviceServiceEventName, listener: () => void) => {
+            eventEmitterMock.on(eventName, listener)
+          },
+        } as unknown as DeviceService
+        outboxService = {
+          readOutboxEntries: jest.fn().mockResolvedValueOnce(undefined),
+        } as unknown as OutboxService
+        subject = new OutboxObserver(ipcMain, deviceService, outboxService)
+      })
+
+      test("`DataUpdated` and `PushOutboxNotification` isn't emitted", async () => {
+        expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(0)
+
+        subject.observe()
+        eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
+
+        await flushPromises()
+
+        expect(outboxService.readOutboxEntries).toHaveBeenCalledTimes(1)
+        expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
+          DataSyncIpcEvent.DataUpdated
+        )
+        expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
+          NotificationIpcEvent.PushOutboxNotification,
+          threadMock
+        )
+      })
     })
 
     test("`readOutboxEntries` has been called every `outboxTime`", async () => {

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import fs from "fs"
+import fs, { PathOrFileDescriptor, WriteFileOptions } from "fs"
 import path from "path"
 import tar from "tar-stream"
 import stream, { Transform } from "stream"
@@ -19,6 +19,14 @@ export class FileSystemService {
     return fs.mkdirSync(filePath, {
       recursive,
     })
+  }
+
+  public async appendFile(
+    filePath: PathOrFileDescriptor,
+    data: string | Uint8Array,
+    options?: WriteFileOptions
+  ): Promise<void> {
+    return fs.appendFileSync(filePath, data, options)
   }
 
   public async exists(filePath: string): Promise<boolean> {

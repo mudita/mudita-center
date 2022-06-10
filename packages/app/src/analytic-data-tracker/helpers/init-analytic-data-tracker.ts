@@ -3,15 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { version } from "../../../package.json"
+import packageInfo from "../../../package.json"
 import {
   setVisitorMetadataRequest,
-  trackRequest,
+  trackUniqueRequest,
 } from "App/analytic-data-tracker/requests"
-import {
-  TrackEventCategory,
-  TrackEventDimension,
-} from "App/analytic-data-tracker/constants"
+import { TrackEventCategory } from "App/analytic-data-tracker/constants"
 
 export const initAnalyticDataTracker = async (): Promise<void> => {
   await setVisitorMetadataRequest({
@@ -22,9 +19,8 @@ export const initAnalyticDataTracker = async (): Promise<void> => {
     }`,
   })
 
-  await trackRequest({
+  await trackUniqueRequest({
     e_c: TrackEventCategory.CenterVersion,
-    e_a: version,
-    [TrackEventDimension.CenterVersion]: version,
+    e_a: packageInfo.version,
   })
 }

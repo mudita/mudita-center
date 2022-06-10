@@ -11,7 +11,6 @@ import MuditaDeviceManager, {
   PutFileSystemRequestConfig,
   SendFileSystemRequestConfig,
 } from "@mudita/pure"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import {
   firstsPartDecodeLog,
   firstsPartEncodeLog,
@@ -21,6 +20,7 @@ import {
 
 import path from "path"
 import createDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system.adapter"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("Backend/device-service")
 
@@ -34,7 +34,7 @@ test("downloading file handle properly chunks data", async () => {
           (config as GetFileSystemRequestConfig).body?.fileName !== undefined
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: {
               rxID: "1",
               fileSize: 2,
@@ -45,7 +45,7 @@ test("downloading file handle properly chunks data", async () => {
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: {
               data: firstsPartEncodeLog,
             },
@@ -54,7 +54,7 @@ test("downloading file handle properly chunks data", async () => {
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 2
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: {
               data: secondsPartEncodeLog,
               fileCrc32: "30898fa4",
@@ -62,7 +62,7 @@ test("downloading file handle properly chunks data", async () => {
           }
         } else {
           return {
-            status: DeviceResponseStatus.Error,
+            status: RequestResponseStatus.Error,
           }
         }
       },
@@ -74,7 +74,7 @@ test("downloading file handle properly chunks data", async () => {
   const { status, data } = await deviceFileSystem.downloadFile(
     "/sys/user/mock-file-name.log"
   )
-  expect(status).toEqual(DeviceResponseStatus.Ok)
+  expect(status).toEqual(RequestResponseStatus.Ok)
   expect(data?.toString()).toEqual(
     `${firstsPartDecodeLog}${secondsPartDecodeLog}`
   )
@@ -90,7 +90,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
           (config as GetFileSystemRequestConfig).body?.fileName !== undefined
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: {
               rxID: "1",
               fileSize: 0.5,
@@ -101,7 +101,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: {
               data: firstsPartEncodeLog,
               fileCrc32: "91c634cd",
@@ -109,7 +109,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
           }
         } else {
           return {
-            status: DeviceResponseStatus.Error,
+            status: RequestResponseStatus.Error,
           }
         }
       },
@@ -121,7 +121,7 @@ test("downloading file handle properly chunks data if fileSize is less than chun
   const { status, data } = await deviceFileSystem.downloadFile(
     "/sys/user/mock-file-name.log"
   )
-  expect(status).toEqual(DeviceResponseStatus.Ok)
+  expect(status).toEqual(RequestResponseStatus.Ok)
   expect(data?.toString()).toEqual(firstsPartDecodeLog)
 })
 
@@ -135,14 +135,14 @@ test("downloading file return error when part of the chunks data is broken", asy
           (config as GetFileSystemRequestConfig).body?.fileName !== undefined
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: { rxID: "1", fileSize: 2, chunkSize: 1 },
           }
         } else if (
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: {
               data: firstsPartEncodeLog,
             },
@@ -151,12 +151,12 @@ test("downloading file return error when part of the chunks data is broken", asy
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 2
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: undefined,
           }
         } else {
           return {
-            status: DeviceResponseStatus.Error,
+            status: RequestResponseStatus.Error,
           }
         }
       },
@@ -168,7 +168,7 @@ test("downloading file return error when part of the chunks data is broken", asy
   const { status, data } = await deviceFileSystem.downloadFile(
     "/sys/user/mock-file-name.log"
   )
-  expect(status).toEqual(DeviceResponseStatus.Error)
+  expect(status).toEqual(RequestResponseStatus.Error)
   expect(data).toEqual(undefined)
 })
 
@@ -177,7 +177,7 @@ test("downloading file returns error properly", async () => {
     return {
       request: () => {
         return {
-          status: DeviceResponseStatus.Error,
+          status: RequestResponseStatus.Error,
         }
       },
     }
@@ -188,7 +188,7 @@ test("downloading file returns error properly", async () => {
   const { status } = await deviceFileSystem.downloadFile(
     "/sys/user/mock-file-name.log"
   )
-  expect(status).toEqual(DeviceResponseStatus.Error)
+  expect(status).toEqual(RequestResponseStatus.Error)
 })
 
 test("upload file file handle properly chunks data", async () => {
@@ -201,26 +201,26 @@ test("upload file file handle properly chunks data", async () => {
           (config as PutFileSystemRequestConfig).body?.fileName !== undefined
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: { txID: "1", chunkSize: 7 },
           }
         } else if (
           (config as SendFileSystemRequestConfig).body?.chunkNo === 1
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: { txID: "1", chunkNo: 1 },
           }
         } else if (
           (config as SendFileSystemRequestConfig).body?.chunkNo === 2
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: { txID: "1", chunkNo: 2 },
           }
         } else {
           return {
-            status: DeviceResponseStatus.Error,
+            status: RequestResponseStatus.Error,
           }
         }
       },
@@ -234,5 +234,5 @@ test("upload file file handle properly chunks data", async () => {
     filePath,
     targetPath: "/sys/user",
   })
-  expect(status).toEqual(DeviceResponseStatus.Ok)
+  expect(status).toEqual(RequestResponseStatus.Ok)
 })

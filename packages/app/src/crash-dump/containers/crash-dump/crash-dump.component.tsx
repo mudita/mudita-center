@@ -10,19 +10,23 @@ import {
   CrashDumpModal,
   CrashDumpSendingModal,
 } from "App/crash-dump/components"
-import { downloadCrashDump } from "App/crash-dump/actions"
+import { downloadCrashDump, ignoreCrashDump } from "App/crash-dump/actions"
 import { ReduxRootState } from "App/renderer/store"
 
 export interface CrashDumpContainerProps {
   hasCrashDump: boolean
   downloading: boolean
+  sending: boolean
   downloadCrashDump: () => void
+  ignoreCrashDump: () => void
 }
 
 const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
   hasCrashDump,
   downloading,
+  sending,
   downloadCrashDump,
+  ignoreCrashDump,
 }) => {
   const [openInfo, setOpenInfo] = useState<boolean>(false)
   const [openSending, setOpenSending] = useState<boolean>(false)
@@ -32,7 +36,7 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
       return
     }
 
-    if (downloading) {
+    if (sending || downloading) {
       setOpenSending(true)
     } else {
       setOpenInfo(true)
@@ -40,10 +44,11 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
   }, [hasCrashDump])
 
   useEffect(() => {
-    setOpenSending(downloading && hasCrashDump)
-  }, [downloading])
+    setOpenSending((sending || downloading) && hasCrashDump)
+  }, [sending, downloading])
 
   const handleCloseModal = () => {
+    ignoreCrashDump()
     setOpenInfo(false)
   }
 
@@ -67,10 +72,12 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
 const mapStateToProps = (state: ReduxRootState) => ({
   hasCrashDump: Boolean(state.crashDump.data.files.length),
   downloading: state.crashDump.status.downloading,
+  sending: state.crashDump.status.sending,
 })
 
 const mapDispatchToProps = {
   downloadCrashDump,
+  ignoreCrashDump,
 }
 
 export const CrashDump = connect(

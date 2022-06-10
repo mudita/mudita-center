@@ -6,15 +6,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceEvent } from "App/device/constants"
 import unlockDeviceRequest from "Renderer/requests/unlock-device.request"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { DeviceUnlockingError } from "App/device/errors"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
-export const unlockDevice = createAsyncThunk<DeviceResponseStatus, number[]>(
+export const unlockDevice = createAsyncThunk<RequestResponseStatus, number[]>(
   DeviceEvent.Unlock,
   async (code, { rejectWithValue }) => {
     const data = await unlockDeviceRequest(code)
 
-    if (data.status !== DeviceResponseStatus.Ok) {
+    if (data.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(
         new DeviceUnlockingError("Something went wrong during unlocking", data)
       )

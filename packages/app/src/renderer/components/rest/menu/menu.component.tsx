@@ -26,6 +26,8 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { IconType } from "Renderer/components/core/icon/icon-type"
+import { View } from "Renderer/constants/views"
+import { getUnreadThreads } from "App/messages/selectors"
 
 const MenuWrapper = styled.div`
   flex: 1;
@@ -72,6 +74,9 @@ interface Properties {
   openHelpWindow?: () => void
   devModeEnabled?: DevMode["enabled"]
   syncState?: SynchronizationState
+  notifications: {
+    [View.Messages]: boolean
+  }
 }
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -80,6 +85,7 @@ const Menu: FunctionComponent<Properties> = ({
   deviceFeaturesVisible,
   devModeEnabled,
   syncState,
+  notifications,
 }) => {
   const links = menuElements
     .filter(({ connectedPhoneOnly }) =>
@@ -93,7 +99,14 @@ const Menu: FunctionComponent<Properties> = ({
       deviceType && visibleOn ? visibleOn.includes(deviceType) : true
     )
     .map(({ connectedPhoneOnly, ...props }, indexMenu) => {
-      return <MenuGroup {...props} deviceType={deviceType} key={indexMenu} />
+      return (
+        <MenuGroup
+          {...props}
+          deviceType={deviceType}
+          key={indexMenu}
+          notifications={notifications}
+        />
+      )
     })
   return (
     <MenuWrapper>
@@ -126,6 +139,9 @@ const Menu: FunctionComponent<Properties> = ({
 
 const mapDispatchToProps = (state: ReduxRootState) => ({
   deviceType: state.device.deviceType,
+  notifications: {
+    [View.Messages]: getUnreadThreads(state).length > 0,
+  },
 })
 
 export default connect(mapDispatchToProps)(Menu)

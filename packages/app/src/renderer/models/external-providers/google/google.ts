@@ -96,12 +96,13 @@ const google = createModel<ExternalProvidersModels>({
 
       try {
         return await request()
-      } catch (error) {
+      } catch (error: any) {
         if (error.response.status === 401 && tries < 2) {
           const refreshToken = rootState.google[scope].refresh_token
 
+          const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-refresh-token`
           const { data } = await axios.post(
-            `${process.env.MUDITA_GOOGLE_REFRESH_TOKEN_URL}?refreshToken=${refreshToken}`
+            `${url}?refreshToken=${refreshToken}`
           )
           await dispatch.google.setAuthData({ scope, data })
           return requestWrapper(

@@ -27,4 +27,30 @@ export class MessageModel extends BaseModel<Message> {
 
   @Field()
   public messageType: string | undefined
+
+  public beforeCreate(data: Message): Message {
+    const threadsIndex = this.index.get(DataIndex.Thread)
+    const thread = threadsIndex?.documentStore.getDoc(data.threadId)
+
+    data.phoneNumber = thread.phoneNumber
+
+    return data
+  }
+
+  public afterDelete(data: Message): void {
+    const anyMessageInThread = this.connection?.search(data.threadId, {
+      fields: {
+        threadId: { boost: 1 },
+      },
+    })
+
+    if (anyMessageInThread !== undefined && anyMessageInThread?.length > 0) {
+      return
+    }
+
+    const threadsIndex = this.index.get(DataIndex.Thread)
+    const thread = threadsIndex?.documentStore.getDoc(data.threadId)
+
+    threadsIndex?.removeDocByRef(thread.id)
+  }
 }

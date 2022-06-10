@@ -10,10 +10,10 @@ import { PasscodeModalTestIds } from "./passcode-modal-test-ids.enum"
 import { fireEvent, waitFor } from "@testing-library/dom"
 import { cleanup } from "@testing-library/react"
 import { InputTextTestIds } from "App/renderer/components/core/input-text/input-text-test-ids.enum"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { noop } from "Renderer/utils/noop"
 import { PasscodeLockedTestIds } from "App/passcode-modal/components/PasscodeLocked/passcode-locked-test-ids.enum"
 import { flags } from "App/feature-flags"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("App/feature-flags")
 
@@ -22,12 +22,12 @@ type Props = ComponentProps<typeof PasscodeModal>
 const defaultProps: Props = {
   openModal: true,
   close: jest.fn(),
-  openBlocked: undefined,
+  leftTime: undefined,
   unlockDevice: jest.fn().mockReturnValue({
-    payload: DeviceResponseStatus.Ok,
+    payload: RequestResponseStatus.Ok,
   }),
   getUnlockStatus: jest.fn().mockReturnValue({
-    payload: DeviceResponseStatus.Ok,
+    payload: RequestResponseStatus.Ok,
   }),
 }
 
@@ -98,7 +98,7 @@ test("Show typing error message", async () => {
 test("Message is displayed properly when request about phone lock return internal server error", async () => {
   const { inputsList, errorMessage } = renderer({
     unlockDevice: jest.fn().mockReturnValue({
-      payload: DeviceResponseStatus.InternalServerError,
+      payload: RequestResponseStatus.InternalServerError,
     }),
   })
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
@@ -117,7 +117,7 @@ test("Message is displayed properly when request about phone lock return interna
 test("Message is displayed properly when request about phone lock status return phone locked", async () => {
   const { inputsList, errorMessage } = renderer({
     getUnlockStatus: jest.fn().mockReturnValue({
-      status: DeviceResponseStatus.PhoneLocked,
+      status: RequestResponseStatus.PhoneLocked,
     }),
   })
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
@@ -134,7 +134,7 @@ test("Message is displayed properly when request about phone lock status return 
 
 test("Modal should show phoneLocked info when phone have time block", () => {
   jest.spyOn(flags, "get").mockReturnValueOnce(true)
-  const { phoneLockedContainer } = renderer({ openBlocked: 16308881830 })
+  const { phoneLockedContainer } = renderer({ leftTime: 16308881830 })
   expect(phoneLockedContainer()).toBeInTheDocument()
 })
 

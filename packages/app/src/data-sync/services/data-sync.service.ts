@@ -8,7 +8,6 @@ import { DeviceBackup } from "Backend/adapters/device-backup/device-backup.adapt
 import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
 import { DeviceBaseInfo } from "Backend/adapters/device-base-info/device-base-info.adapter"
 import { DeviceFileSystem } from "Backend/adapters/device-file-system/device-file-system.adapter"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import getAppPath from "App/main/utils/get-app-path"
 import { IndexStorage } from "App/index-storage/types"
 import { DataIndex } from "App/index-storage/constants"
@@ -19,18 +18,22 @@ import {
   ContactIndexer,
   MessageIndexer,
   ThreadIndexer,
+  TemplateIndexer,
 } from "App/data-sync/indexes"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import {
   ContactPresenter,
   MessagePresenter,
+  TemplatePresenter,
   ThreadPresenter,
 } from "App/data-sync/presenters"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 export class DataSyncService {
   private contactIndexer: ContactIndexer | null = null
   private messageIndexer: MessageIndexer | null = null
   private threadIndexer: ThreadIndexer | null = null
+  private templateIndexer: TemplateIndexer | null = null
   // TODO implement device backup service and use it instead of adapter
   private deviceBackupService: DeviceBackup
 
@@ -58,6 +61,10 @@ export class DataSyncService {
       this.fileSystemStorage,
       new ThreadPresenter()
     )
+    this.templateIndexer = new TemplateIndexer(
+      this.fileSystemStorage,
+      new TemplatePresenter()
+    )
   }
 
   public async indexAll(): Promise<boolean> {
@@ -70,7 +77,12 @@ export class DataSyncService {
       return true
     }
 
-    if (!this.contactIndexer || !this.messageIndexer || !this.threadIndexer) {
+    if (
+      !this.contactIndexer ||
+      !this.messageIndexer ||
+      !this.threadIndexer ||
+      !this.templateIndexer
+    ) {
       return false
     }
 
@@ -86,16 +98,18 @@ export class DataSyncService {
         cwd: syncFileDir,
       })
 
-    if (status !== DeviceResponseStatus.Ok || data === undefined) {
+    if (status !== RequestResponseStatus.Ok || data === undefined) {
       return false
     }
 
     const contactIndex = await this.contactIndexer.index(syncFileDir, token)
     const messageIndex = await this.messageIndexer.index(syncFileDir, token)
+    const templateIndex = await this.templateIndexer.index(syncFileDir, token)
     const threadIndex = await this.threadIndexer.index(syncFileDir, token)
 
     this.index.set(DataIndex.Contact, contactIndex)
     this.index.set(DataIndex.Message, messageIndex)
+    this.index.set(DataIndex.Template, templateIndex)
     this.index.set(DataIndex.Thread, threadIndex)
 
     return true

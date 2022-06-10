@@ -15,38 +15,39 @@ import {
 import {
   changeSearchValue,
   changeVisibilityFilter,
-  deleteThreads,
-  markThreadsAsRead,
-  toggleThreadsReadStatus,
+  hideDeleteModal,
 } from "App/messages/actions/base.action"
-import {
-  addNewMessage,
-  loadMessagesById,
-  loadThreads,
-} from "App/messages/actions"
+import { addNewMessage } from "App/messages/actions"
 import {
   filteredThreadsSelector,
   getMessagesByThreadIdSelector,
   getReceiverSelector,
   getReceiversSelector,
 } from "App/messages/selectors"
-import { PaginationBody } from "@mudita/pure"
-import { PayloadAction } from "@reduxjs/toolkit"
-import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
 import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
 import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
 import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
+import { removeNotification } from "App/notification/actions"
+import { getNotificationByResourceAndMethod } from "App/notification/selectors"
+import {
+  NotificationMethod,
+  NotificationResourceType,
+} from "App/notification/constants"
+import { deleteThreads } from "App/messages/actions/delete-threads.action"
+import { toggleThreadsReadStatus } from "App/messages/actions/toggle-threads-read-status.action"
+import { Thread } from "App/messages/reducers/messages.interface"
+import { markThreadsReadStatus } from "./actions/mark-threads-read-status.action"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,
   threadsState: state.messages.threadsState,
-  threadsTotalCount: state.messages.threadsTotalCount,
   attachContactList: contactListSelector(state),
   attachContactFlatList: flatListSelector(state),
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
+  deletingState: state.messages.deletingState,
   getContactByPhoneNumber: (phoneNumber: string) =>
     getContactByPhoneNumberSelector(phoneNumber)(state),
   isContactCreatedByPhoneNumber: (phoneNumber: string) =>
@@ -55,25 +56,28 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   getReceiver: (phoneNumber: string) => getReceiverSelector(phoneNumber)(state),
   getMessagesByThreadId: (threadId: string) =>
     getMessagesByThreadIdSelector(threadId)(state),
+  messageLayoutNotifications: getNotificationByResourceAndMethod(
+    NotificationResourceType.Message,
+    NotificationMethod.Layout
+  )(state),
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  loadThreads: (
-    pagination: PaginationBody
-  ): Promise<PayloadAction<PaginationBody>> =>
-    dispatch(loadThreads(pagination)),
   changeSearchValue: ({ target }: ChangeEvent<HTMLInputElement>) =>
     dispatch(changeSearchValue(target.value)),
   changeVisibilityFilter: (filter: VisibilityFilter) =>
     dispatch(changeVisibilityFilter(filter)),
-  deleteThreads: (threadIds: string[]) => dispatch(deleteThreads(threadIds)),
-  markAsRead: (threadIds: string[]) => dispatch(markThreadsAsRead(threadIds)),
-  toggleReadStatus: (threadIds: string[]) =>
-    dispatch(toggleThreadsReadStatus(threadIds)),
-  loadMessagesByThreadId: (body: GetMessagesBody) =>
-    dispatch(loadMessagesById(body)),
+  deleteThreads: async (threadIds: string[]): Promise<string[] | undefined> =>
+    dispatch(deleteThreads(threadIds)),
+  toggleReadStatus: (threads: Thread[]) =>
+    dispatch(toggleThreadsReadStatus(threads)),
+  markThreadsReadStatus: (threads: Thread[]) =>
+    dispatch(markThreadsReadStatus(threads)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
     dispatch(addNewMessage(newMessage)),
+  removeLayoutNotification: (notificationId: string) =>
+    dispatch(removeNotification(notificationId)),
+  hideDeleteModal: () => dispatch(hideDeleteModal()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

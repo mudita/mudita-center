@@ -11,21 +11,21 @@ import { mapToReleases } from "App/update/helpers"
 import { IpcUpdate } from "App/update/constants"
 import { GithubRelease } from "App/update/types"
 
-const osUpdateServerUrl = process.env.OS_UPDATE_SERVER
+const osUpdateServerUrl = process.env.OS_UPDATE_SERVER ?? ""
 
 const releasesRequest = async (
   page = 1,
   perPage = 100
 ): Promise<GithubRelease[]> => {
   try {
-    const response = await githubInstance(osUpdateServerUrl || "", {
+    const response = await githubInstance(osUpdateServerUrl, {
       params: {
         page: page,
         per_page: perPage,
       },
     })
     return response.data
-  } catch (error) {
+  } catch (error: any) {
     if (error.response) {
       logger.error(
         `Checking for OS updated failed with code ${error.response.status}: ${error.response.statusText}`
@@ -46,7 +46,7 @@ export const registerGetAllReleasesListener = () => {
 
       do {
         const newReleases = await releasesRequest(page)
-        if (newReleases.length === 0) {
+        if (newReleases.length === 0 || releases.length > 30) {
           retry = false
         } else {
           releases = [...releases, ...newReleases]

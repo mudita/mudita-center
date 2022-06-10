@@ -11,8 +11,8 @@ import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { DeviceLoadingError } from "App/device/errors"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("Renderer/requests/get-device-info.request")
 jest.mock("Renderer/requests/get-network-info.request")
@@ -65,7 +65,7 @@ const dataMock = {
 }
 
 const requestStatusFactory = (
-  status: DeviceResponseStatus,
+  status: RequestResponseStatus,
   withData = true
 ) => {
   ;[getDeviceInfo, getNetworkInfo, getStorageInfo, getBatteryInfo].forEach(
@@ -82,7 +82,7 @@ const subject = new PureDataLoader()
 
 describe("PureDataLoader", () => {
   test("calls required requests", async () => {
-    requestStatusFactory(DeviceResponseStatus.Ok)
+    requestStatusFactory(RequestResponseStatus.Ok)
 
     const result = await subject.load()
 
@@ -113,7 +113,7 @@ describe("PureDataLoader", () => {
   })
 
   test("throw error if one of the request returns failed status", () => {
-    requestStatusFactory(DeviceResponseStatus.Error)
+    requestStatusFactory(RequestResponseStatus.Error)
 
     expect(async () => await subject.load()).rejects.toThrowError(errorMock)
 

@@ -6,12 +6,13 @@
 import { DeviceConnectionObserver } from "./device-connection.observer"
 import { EventEmitter } from "events"
 import { ipcMain } from "electron-better-ipc"
+import { DeviceType, MuditaDevice } from "@mudita/pure"
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { DataSyncService } from "App/data-sync/services/data-sync.service"
 import { getDeviceInfoRequest } from "Backend/adapters/device-base-info/device-base-info.adapter"
-import { DeviceType, MuditaDevice } from "@mudita/pure"
 import { IpcEvent } from "App/data-sync/constants"
+import { flushPromises } from "App/core/helpers/flush-promises"
 
 jest.mock("Backend/adapters/device-base-info/device-base-info.adapter")
 
@@ -57,9 +58,7 @@ describe("Method: observe", () => {
       eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked, {
         deviceType: DeviceType.MuditaPure,
       } as MuditaDevice)
-      await Promise.resolve()
-      await Promise.resolve()
-      await Promise.resolve()
+    await flushPromises()
 
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
         IpcEvent.DataLoaded
@@ -70,7 +69,7 @@ describe("Method: observe", () => {
   })
 
   describe("when the `DeviceUnlocked` event is emit with `MuditaHarmony` device type", () => {
-    test("no run `indexAll` process and emit `DataLoaded` event", async () => {
+    test("no run `indexAll` process and emit `DataSkipped` event", async () => {
       expect(indexStorageService.indexAll).toHaveBeenCalledTimes(0)
       expect(getDeviceInfoRequest).toHaveBeenCalledTimes(0)
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledTimes(0)
@@ -81,7 +80,7 @@ describe("Method: observe", () => {
       } as MuditaDevice)
 
       expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
-        IpcEvent.DataLoaded
+        IpcEvent.DataSkipped
       )
       expect(indexStorageService.indexAll).not.toHaveBeenCalledTimes(1)
       expect(getDeviceInfoRequest).not.toHaveBeenCalledTimes(1)

@@ -7,9 +7,6 @@ import { ipcMain } from "electron-better-ipc"
 import Adapters from "Backend/adapters/adapters.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import registerGetDeviceLogFiles from "Backend/requests/get-device-log-files/get-device-log-files.request"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
 import MuditaDeviceManager, {
   DownloadFileSystemRequestConfig,
@@ -20,6 +17,10 @@ import { DeviceFile } from "Backend/adapters/device-file-system/device-file-syst
 import DeviceFileDiagnosticService from "Backend/device-file-diagnostic-service/device-file-diagnostic-service"
 import createDeviceFileSystemAdapter from "Backend/adapters/device-file-system/device-file-system.adapter"
 import { DeviceBaseInfo } from "Backend/adapters/device-base-info/device-base-info.adapter"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("Backend/device-service")
 jest.mock(
@@ -36,7 +37,7 @@ test("GetDeviceLogs request works properly", (done) => {
           (config as GetFileSystemRequestConfig).body?.fileName !== undefined
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: {
               rxID: "1",
               fileSize: 1,
@@ -47,7 +48,7 @@ test("GetDeviceLogs request works properly", (done) => {
           (config as DownloadFileSystemRequestConfig).body?.chunkNo === 1
         ) {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: {
               data: "SGVsbG8sIFdvcmxk",
               fileCrc32: "265B86C6",
@@ -55,7 +56,7 @@ test("GetDeviceLogs request works properly", (done) => {
           }
         } else {
           return {
-            status: DeviceResponseStatus.Error,
+            status: RequestResponseStatus.Error,
           }
         }
       },
@@ -66,7 +67,7 @@ test("GetDeviceLogs request works properly", (done) => {
       return {
         getDiagnosticFileList: () => {
           return {
-            status: DeviceResponseStatus.Ok,
+            status: RequestResponseStatus.Ok,
             data: {
               files: ["/sys/user/logs/MuditaOS.log"],
             },
@@ -92,7 +93,7 @@ test("GetDeviceLogs request works properly", (done) => {
     purePhone,
   } as unknown as Adapters)
   const [promise] = (ipcMain as any)._flush(IpcRequest.GetDeviceLogFiles)
-  promise.then((result: DeviceResponse<DeviceFile[]>) => {
+  promise.then((result: RequestResponse<DeviceFile[]>) => {
     expect(result).toMatchInlineSnapshot(`
       Object {
         "data": Array [

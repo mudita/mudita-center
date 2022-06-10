@@ -8,7 +8,7 @@ import { ContactsEvent } from "App/contacts/constants"
 import { EditContactError } from "App/contacts/errors/edit-contact.error"
 import { editContactInState } from "App/contacts/actions/base.action"
 import { Contact } from "App/contacts/reducers"
-import editContactRequest from "App/contacts/requests/edit-contact.request"
+import { editContactRequest } from "App/contacts/requests"
 
 export const editContact = createAsyncThunk<Error | undefined, Contact>(
   ContactsEvent.EditContact,

@@ -4,9 +4,9 @@
  */
 
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 export default abstract class PurePhoneNetworkAdapter {
-  public abstract getSimCards(): Promise<DeviceResponse<SimCard[]>>
-  public abstract setActiveCard(): DeviceResponse
+  public abstract getSimCards(): Promise<RequestResponse<SimCard[]>>
+  public abstract setActiveCard(): RequestResponse
 }

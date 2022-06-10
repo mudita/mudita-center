@@ -10,14 +10,14 @@ import {
   Method,
 } from "@mudita/pure"
 import DeviceService from "Backend/device-service"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 class DeviceFileDiagnosticService {
   constructor(private deviceService: DeviceService) {}
 
   public async getDiagnosticFileList(
     fileList: DiagnosticsFileList
-  ): Promise<DeviceResponse<GetFileListResponseBody>> {
+  ): Promise<RequestResponse<GetFileListResponseBody>> {
     return this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,

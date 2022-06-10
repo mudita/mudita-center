@@ -4,17 +4,13 @@
  */
 
 export enum MessagesEvent {
-  LoadThreads = "LOAD_THREADS",
-  LoadThreadsTotalCount = "LOAD_THREADS_TOTAL_COUNT",
-  LoadMessagesById = "LOAD_MESSAGES_BY_ID",
-  ToggleThreadReadStatus = "TOGGLE_THREAD_READ_STATUS",
-  MarkThreadAsRead = "MARK_THREAD_AS_READ",
+  ToggleThreadsReadStatus = "TOGGLE_THREADS_READ_STATUS",
+  MarkThreadsReadStatus = "MARK_THREADS_READ_STATUS",
+
   DeleteThreads = "DELETE_THREADS",
-  SetThreads = "SET_THREADS",
-  SetThreadsTotalCount = "SET_THREADS_TOTAL_COUNT",
-  SetMessages = "SET_MESSAGES",
   AddNewMessage = "ADD_NEW_MESSAGE",
   ClearAllThreads = "CLEAR_ALL_THREADS",
+  HideDeleteModal = "HIDE_DELETE_MODAL",
 
   // TODO: move to UI? :think:
   ChangeVisibilityFilter = "CHANGE_VISIBILITY_FILTER",

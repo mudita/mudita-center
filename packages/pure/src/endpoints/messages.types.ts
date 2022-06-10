@@ -8,6 +8,7 @@ import { PaginationBody } from "../device"
 export enum MessagesCategory {
   thread = "thread",
   message = "message",
+  template = "template",
 }
 
 export interface Thread {
@@ -23,6 +24,11 @@ export interface Thread {
 
 export interface GetThreadsBody extends Partial<PaginationBody> {
   category: MessagesCategory.thread
+}
+
+export interface GetThreadBody {
+  category: MessagesCategory.thread
+  threadID: number
 }
 
 export interface GetThreadResponseBody {
@@ -56,6 +62,11 @@ export interface GetMessagesBody extends Partial<PaginationBody> {
   threadID?: number
 }
 
+export interface GetMessageBody {
+  category: MessagesCategory.message
+  messageID: number
+}
+
 export interface GetMessageResponseBody {
   entries: Message[]
   totalCount: number
@@ -68,4 +79,46 @@ export interface PostMessagesBody {
   messageBody: string
 }
 
+export interface UpdateThreadReadStatus {
+  category: MessagesCategory.thread
+  threadID: number
+  isUnread: boolean
+}
+
+export interface GetTemplateBody {
+  category: MessagesCategory.template
+  templateID: number
+}
+
 export type PostMessagesResponseBody = Message
+
+export interface Template {
+  templateID: number
+  lastUsedAt: number
+  templateBody: string
+}
+
+export interface PostTemplateBody {
+  category: MessagesCategory.template
+  templateBody: string
+}
+
+export interface GetTemplateBody {
+  category: MessagesCategory.template
+  templateID: number
+}
+
+export interface PutTemplateBody {
+  category: MessagesCategory.template
+  templateID: number
+  templateBody: string
+}
+
+export interface DeleteTemplateBody {
+  category: MessagesCategory.template
+  templateID: number
+}
+
+export type PostTemplateResponseBody = Template
+export type GetTemplateResponseBody = Template
+export type PutTemplateResponseBody = Template

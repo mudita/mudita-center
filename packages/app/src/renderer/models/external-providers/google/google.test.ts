@@ -361,7 +361,7 @@ test("requestWrapper handles no access token error properly", async () => {
         url: `${googleEndpoints.calendars}/users/me/calendarList`,
       },
     })
-  } catch (error) {
+  } catch (error: any) {
     requestError = error
   }
 

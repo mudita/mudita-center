@@ -90,11 +90,11 @@ describe("Action: setDeviceData", () => {
 
 describe("Action: setLockTime", () => {
   test("fire action with device lock time and `SetLockTime` type", () => {
-    mockStore.dispatch(setLockTime(123456789))
+    mockStore.dispatch(setLockTime({ phoneLockTime: 123456789 }))
     expect(mockStore.getActions()).toEqual([
       {
         type: DeviceEvent.SetLockTime,
-        payload: 123456789,
+        payload: { phoneLockTime: 123456789 },
       },
     ])
   })

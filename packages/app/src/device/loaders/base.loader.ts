@@ -4,9 +4,10 @@
  */
 
 import { LoaderClass } from "App/device/loaders/loader-class.interface"
-import RequestResponse, {
+import {
+  RequestResponse,
   RequestResponseStatus,
-} from "App/main/functions/request-response.interface"
+} from "App/core/types/request-response.interface"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 
 export abstract class BaseLoader implements LoaderClass {

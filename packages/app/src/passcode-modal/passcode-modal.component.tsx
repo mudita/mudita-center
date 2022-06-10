@@ -9,14 +9,16 @@ import { PayloadAction } from "@reduxjs/toolkit"
 import PasscodeModalUI from "./passcode-modal-ui.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/common/enums/help-actions.enum"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 interface Props {
   openModal: boolean
   close: () => void
-  openBlocked?: number
-  unlockDevice: (code: number[]) => Promise<PayloadAction<DeviceResponseStatus>>
-  getUnlockStatus: () => Promise<PayloadAction<DeviceResponseStatus>>
+  leftTime?: number
+  unlockDevice: (
+    code: number[]
+  ) => Promise<PayloadAction<RequestResponseStatus>>
+  getUnlockStatus: () => Promise<PayloadAction<RequestResponseStatus>>
 }
 
 enum ErrorState {
@@ -38,7 +40,7 @@ let timeoutId3: NodeJS.Timeout
 const PasscodeModal: FunctionComponent<Props> = ({
   openModal,
   close,
-  openBlocked,
+  leftTime,
   unlockDevice,
   getUnlockStatus,
 }) => {
@@ -70,14 +72,14 @@ const PasscodeModal: FunctionComponent<Props> = ({
       const unlockDeviceStatus = await unlockDevice(code)
 
       if (
-        unlockDeviceStatus.payload === DeviceResponseStatus.InternalServerError
+        unlockDeviceStatus.payload === RequestResponseStatus.InternalServerError
       ) {
         setErrorState(ErrorState.InternalServerError)
       } else {
         timeoutId = setTimeout(async () => {
           const unlockCheckStatus = await getUnlockStatus()
 
-          if (unlockCheckStatus.payload !== DeviceResponseStatus.Ok) {
+          if (unlockCheckStatus.payload !== RequestResponseStatus.Ok) {
             setErrorState(ErrorState.BadPasscode)
           }
         }, 1000)
@@ -87,7 +89,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
     if (values[values.length - 1] !== "") {
       const code = values.map((value) => parseInt(value))
 
-      if (openBlocked === undefined) {
+      if (leftTime === undefined) {
         void unlockDeviceRequest(code)
       }
     } else {
@@ -116,7 +118,6 @@ const PasscodeModal: FunctionComponent<Props> = ({
       clearTimeout(timeoutId)
     }
   }, [errorState])
-
   return (
     <PasscodeModalUI
       openModal={openModal}
@@ -126,7 +127,7 @@ const PasscodeModal: FunctionComponent<Props> = ({
       updateValues={updateValues}
       openHelpWindow={openHelpWindow}
       onNotAllowedKeyDown={onNotAllowedKeyDown}
-      passcodeBlockedTime={openBlocked}
+      leftTime={leftTime}
     />
   )
 }

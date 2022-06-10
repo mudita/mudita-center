@@ -28,6 +28,8 @@ import { MessageModule } from "App/messages/message.module"
 import { OutboxModule } from "App/outbox/outbox.module"
 import { AnalyticDataTrackerModule } from "App/analytic-data-tracker/analytic-data-tracker.module"
 import { AppSettingsModuleModule } from "App/app-settings/app-settings.module"
+import { CrashDumpModule } from "App/crash-dump/crash-dump.module"
+import { TemplateModule } from "App/templates/template.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -38,6 +40,8 @@ export class ApplicationModule {
     AppSettingsModuleModule,
     ContactModule,
     MessageModule,
+    CrashDumpModule,
+    TemplateModule,
   ]
 
   private ipc = ipcMain

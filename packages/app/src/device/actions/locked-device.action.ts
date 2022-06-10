@@ -8,8 +8,8 @@ import { DeviceType } from "@mudita/pure"
 import { ReduxRootState } from "App/renderer/store"
 import { DeviceEvent } from "App/device/constants"
 import getDeviceLockTime from "App/renderer/requests/get-device-lock-time.request"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { setLockTime } from "App/device/actions/base.action"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 export const lockedDevice = createAsyncThunk(
   DeviceEvent.Locked,
@@ -20,17 +20,17 @@ export const lockedDevice = createAsyncThunk(
       const response = await getDeviceLockTime()
 
       if (
-        response.status === DeviceResponseStatus.UnprocessableEntity &&
+        response.status === RequestResponseStatus.UnprocessableEntity &&
         !response.data?.phoneLockTime
       ) {
         dispatch(setLockTime(undefined))
       }
 
       if (
-        response.status === DeviceResponseStatus.Ok &&
+        response.status === RequestResponseStatus.Ok &&
         response.data?.phoneLockTime
       ) {
-        dispatch(setLockTime(response.data.phoneLockTime))
+        dispatch(setLockTime(response.data))
       }
     }
 

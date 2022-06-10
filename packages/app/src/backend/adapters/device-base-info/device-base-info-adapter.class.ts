@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceResponse from "Backend/adapters/device-response.interface"
 import DeviceInfo from "Common/interfaces/device-info.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 export default abstract class DeviceBaseInfoAdapter {
-  public abstract getDeviceInfo(): Promise<DeviceResponse<DeviceInfo>>
+  public abstract getDeviceInfo(): Promise<RequestResponse<DeviceInfo>>
 }

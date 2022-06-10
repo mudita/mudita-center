@@ -5,21 +5,22 @@
 
 import { BaseLoader } from "App/device/loaders/base.loader"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
-const successResponseMock: DeviceResponse<any> = {
-  status: DeviceResponseStatus.Ok,
+const successResponseMock: RequestResponse<any> = {
+  status: RequestResponseStatus.Ok,
   data: {},
 }
 
-const successResponseWithEmptyBodyMock: DeviceResponse = {
-  status: DeviceResponseStatus.Ok,
+const successResponseWithEmptyBodyMock: RequestResponse = {
+  status: RequestResponseStatus.Ok,
 }
 
-const failedResponseMock: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const failedResponseMock: RequestResponse = {
+  status: RequestResponseStatus.Error,
 }
 
 const simCardMock: SimCard[] = [

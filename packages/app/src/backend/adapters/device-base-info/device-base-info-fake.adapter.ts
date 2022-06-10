@@ -4,24 +4,25 @@
  */
 
 import { CaseColour } from "@mudita/pure"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
-import { osVersion } from "App/main/default-app-configuration.json"
+import appConfig from "App/main/default-app-configuration.json"
 import DeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-adapter.class"
 import DeviceInfo from "Common/interfaces/device-info.interface"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 class DeviceBaseInfo extends DeviceBaseInfoAdapter {
   constructor() {
     super()
   }
 
-  public async getDeviceInfo(): Promise<DeviceResponse<DeviceInfo>> {
+  public async getDeviceInfo(): Promise<RequestResponse<DeviceInfo>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: {
         deviceToken: "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa",
-        osVersion: osVersion,
+        osVersion: appConfig.osVersion,
         serialNumber: "1UB13213MN14K1",
         caseColour: CaseColour.Gray,
         backupLocation: "path/to/directory",

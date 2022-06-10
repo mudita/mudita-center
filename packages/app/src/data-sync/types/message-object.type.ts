@@ -5,7 +5,7 @@
 
 import { Entity, DBQueryResult } from "App/data-sync/types/entity.type"
 import { MessageTable } from "App/data-sync/constants"
-import { Message } from "App/messages"
+import { Message } from "App/messages/reducers"
 import { ContactNumberEntity } from "App/data-sync/types/contact-object.type"
 import { ThreadEntity } from "App/data-sync/types/thread-object.type"
 
@@ -18,11 +18,6 @@ export type SmsEntity = Entity<{
   error_code: number
   body: string
   type: number
-}>
-
-export type TemplateEntity = Entity<{
-  text: string
-  lastUsageTimestamp: string
 }>
 
 export interface MessageInput {

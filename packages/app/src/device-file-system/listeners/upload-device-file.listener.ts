@@ -6,9 +6,9 @@
 import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcDeviceFileSystem } from "App/device-file-system"
-import DeviceResponse from "Backend/adapters/device-response.interface"
 import { UploadFilePayload } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { arrayBufferToBuffer } from "App/file-system/helpers"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 export interface UploadFileUIPayload extends Omit<UploadFilePayload, "data"> {
   data: Uint8Array
@@ -27,7 +27,7 @@ const mapToUploadFilePayload = ({
 const handleUploadDeviceFile = async (
   { deviceFileSystem }: Adapters,
   payload: UploadFileUIPayload
-): Promise<DeviceResponse> => {
+): Promise<RequestResponse> => {
   return deviceFileSystem.uploadFile(mapToUploadFilePayload(payload))
 }
 

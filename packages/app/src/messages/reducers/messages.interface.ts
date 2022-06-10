@@ -6,9 +6,7 @@
 import { Caller } from "Renderer/models/calls/calls.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { MessagesEvent } from "App/messages/constants"
-import { LoadMessagesByIdError, LoadThreadsError } from "App/messages/errors"
-import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
+import { MessagesEvent, ThreadDeletingState } from "App/messages/constants"
 
 export enum VisibilityFilter {
   All = "all",
@@ -38,7 +36,11 @@ export interface Message {
   messageType: MessageType
 }
 
-export type NewMessage = Pick<Message, "phoneNumber" | "content">
+export interface NewMessage {
+  phoneNumber: Message["phoneNumber"]
+  content: Message["content"]
+  threadId?: Message["threadId"]
+}
 
 export type MessageMap = { [id: string]: Message }
 
@@ -59,11 +61,11 @@ export type MessagesState = Readonly<{
   messageMap: MessageMap
   messageIdsInThreadMap: MessageIdsInThreadMap
   searchValue: string
-  threadsTotalCount: number
   visibilityFilter: VisibilityFilter
   threadsState: ResultState
   messagesStateMap: { [id: string]: ResultState }
   error: Error | string | null
+  deletingState: ThreadDeletingState | null
 }>
 
 export enum ReceiverIdentification {
@@ -77,31 +79,36 @@ export interface Receiver extends Pick<Contact, "firstName" | "lastName"> {
   identification: ReceiverIdentification
 }
 
-export type LoadThreadsRejectAction = PayloadAction<
-  LoadThreadsError,
-  MessagesEvent.LoadThreads
+export type AddNewMessageAction = PayloadAction<
+  {
+    messageParts: {
+      message: Message
+      thread?: Thread
+    }[]
+  },
+  MessagesEvent.AddNewMessage
 >
 
-export type LoadMessagesByIdRejectAction = PayloadAction<
-  LoadMessagesByIdError,
-  MessagesEvent.LoadMessagesById,
-  { arg: GetMessagesBody }
->
-
-export type LoadMessagesByIdStatusAction = PayloadAction<
+export type ToggleThreadsReadStatusPendingAction = PayloadAction<
   undefined,
-  MessagesEvent.LoadMessagesById,
-  { arg: GetMessagesBody }
+  MessagesEvent.ToggleThreadsReadStatus,
+  {
+    arg: Thread[]
+  }
 >
-
-export type ToggleThreadReadStatusAction = PayloadAction<
-  string[],
-  MessagesEvent.ToggleThreadReadStatus
+export type MarkThreadsReadStatusPendingAction = PayloadAction<
+  undefined,
+  MessagesEvent.ToggleThreadsReadStatus,
+  {
+    arg: Thread[]
+  }
 >
-
-export type MarkThreadAsReadAction = PayloadAction<
-  string,
-  MessagesEvent.MarkThreadAsRead
+export type MarkThreadsReadStatusAction = PayloadAction<
+  Thread[],
+  MessagesEvent.ToggleThreadsReadStatus,
+  {
+    arg: Thread[]
+  }
 >
 
 export type DeleteThreadsAction = PayloadAction<
@@ -117,16 +124,4 @@ export type ChangeVisibilityFilterAction = PayloadAction<
 export type ChangeSearchValueAction = PayloadAction<
   string,
   MessagesEvent.ChangeSearchValue
->
-
-export type SetThreadsAction = PayloadAction<Thread[], MessagesEvent.SetThreads>
-
-export type SetThreadsTotalCountAction = PayloadAction<
-  number,
-  MessagesEvent.SetThreadsTotalCount
->
-
-export type SetMessagesAction = PayloadAction<
-  Message[],
-  MessagesEvent.SetMessages
 >

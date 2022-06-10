@@ -6,10 +6,8 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcContactRequest } from "App/contacts/constants"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
-const editContact = (contact: Contact): Promise<DeviceResponse<Contact>> => {
+export const editContactRequest = (contact: Contact): Promise<RequestResponse<Contact>> => {
   return ipcRenderer.callMain(IpcContactRequest.EditContact, contact)
 }
-
-export default editContact

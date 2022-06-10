@@ -13,11 +13,11 @@ import ErrorConnectingModal from "App/connecting/components/error-connecting-mod
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import PasscodeModal from "App/passcode-modal/passcode-modal.component"
 import { togglePureSimulation } from "App/dev-mode/store/dev-mode.helpers"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import registerFirstPhoneConnection from "App/connecting/requests/register-first-phone-connection"
 import { SynchronizationState } from "App/data-sync/reducers"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 import { ConnectingError } from "App/connecting/components/connecting-error.enum"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const simulatePhoneConnectionEnabled = process.env.simulatePhoneConnection
 
@@ -27,9 +27,11 @@ const Connecting: FunctionComponent<{
   unlocked: boolean | null
   syncInitialized: boolean
   syncState: SynchronizationState
-  unlockDevice: (code: number[]) => Promise<PayloadAction<DeviceResponseStatus>>
-  getUnlockStatus: () => Promise<PayloadAction<DeviceResponseStatus>>
-  phoneLockTime: number | undefined
+  unlockDevice: (
+    code: number[]
+  ) => Promise<PayloadAction<RequestResponseStatus>>
+  getUnlockStatus: () => Promise<PayloadAction<RequestResponseStatus>>
+  leftTime: number | undefined
   noModalsVisible: boolean
   updateAllIndexes: () => Promise<void>
 }> = ({
@@ -40,7 +42,7 @@ const Connecting: FunctionComponent<{
   syncState,
   unlockDevice,
   getUnlockStatus,
-  phoneLockTime,
+  leftTime,
   noModalsVisible,
   updateAllIndexes,
 }) => {
@@ -53,7 +55,7 @@ const Connecting: FunctionComponent<{
     }
   }, [simulatePhoneConnectionEnabled])
 
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const [passcodeOpenModal, setPasscodeOpenModal] = useState(false)
 
   useEffect(() => {
     if (deviceType === DeviceType.MuditaHarmony) {
@@ -74,9 +76,9 @@ const Connecting: FunctionComponent<{
 
     // TODO: how to avoid window jumping by loading setting async action
     if (unlocked === false && noModalsVisible) {
-      setDialogOpen(true)
+      setPasscodeOpenModal(true)
     } else {
-      setDialogOpen(false)
+      setPasscodeOpenModal(false)
     }
     return () => clearTimeout(timeout)
   }, [loaded, unlocked, syncInitialized, noModalsVisible])
@@ -121,7 +123,7 @@ const Connecting: FunctionComponent<{
   }
 
   const close = () => {
-    setDialogOpen(false)
+    setPasscodeOpenModal(false)
     history.push(URL_MAIN.news)
   }
 
@@ -139,9 +141,9 @@ const Connecting: FunctionComponent<{
         <ErrorConnectingModal open closeModal={close} />
       )}
       <PasscodeModal
-        openModal={dialogOpen}
+        openModal={passcodeOpenModal}
         close={close}
-        openBlocked={phoneLockTime}
+        leftTime={leftTime}
         unlockDevice={unlockDevice}
         getUnlockStatus={getUnlockStatus}
       />

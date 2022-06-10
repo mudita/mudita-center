@@ -12,6 +12,7 @@ import ThreadDetailsMessages from "App/messages/components/thread-details-messag
 import ThreadDetailsTextArea from "App/messages/components/thread-details-text-area.component"
 import ThreadDetailsSidebar from "App/messages/components/thread-details-sidebar.component"
 import ThreadDetailsSidebarRightHeader from "App/messages/components/thread-details-sidebar-right-header.component"
+import { Notification } from "App/notification/types"
 
 type SidebarProps = ComponentProps<typeof Sidebar>
 type ThreadDetailsRightHeaderProps = ComponentProps<
@@ -22,20 +23,24 @@ interface Props extends SidebarProps, ThreadDetailsRightHeaderProps {
   content: string
   receiver: Receiver
   messages: Message[]
-  onLoadMessagesClick: () => void
   onAttachContactClick: () => void
   onSendClick: () => void
   onContentChange: (content: string) => void
+  messageLayoutNotifications: Notification[]
+  removeLayoutNotification: (notificationId: string) => void
+  onMessageRead: () => void
 }
 
 const ThreadDetails: FunctionComponent<Props> = ({
   content,
   receiver,
   messages,
-  onLoadMessagesClick,
   onAttachContactClick,
   onSendClick,
   onContentChange,
+  messageLayoutNotifications,
+  removeLayoutNotification,
+  onMessageRead,
   ...props
 }) => {
   const handleTextAreaChange = (
@@ -45,9 +50,19 @@ const ThreadDetails: FunctionComponent<Props> = ({
   }
 
   return (
-    <ThreadDetailsSidebar receiver={receiver} key={receiver.phoneNumber} {...props}>
+    <ThreadDetailsSidebar
+      receiver={receiver}
+      key={receiver.phoneNumber}
+      {...props}
+    >
       <MessagesWrapper>
-        <ThreadDetailsMessages messages={messages} receiver={receiver} />
+        <ThreadDetailsMessages
+          messages={messages}
+          receiver={receiver}
+          messageLayoutNotifications={messageLayoutNotifications}
+          removeLayoutNotification={removeLayoutNotification}
+          onMessageRead={onMessageRead}
+        />
       </MessagesWrapper>
       <ThreadDetailsTextArea
         value={content}

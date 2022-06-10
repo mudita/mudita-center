@@ -7,28 +7,29 @@ import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import NetworkInfo from "Common/interfaces/network-info.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 const handleNetworkRequestInfo = async ({
   pureNetwork,
-}: Adapters): Promise<DeviceResponse<NetworkInfo>> => {
+}: Adapters): Promise<RequestResponse<NetworkInfo>> => {
   const getSimCardsResponse = await pureNetwork.getSimCards()
 
   if (
-    getSimCardsResponse.status === DeviceResponseStatus.Ok &&
+    getSimCardsResponse.status === RequestResponseStatus.Ok &&
     getSimCardsResponse.data !== undefined
   ) {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: {
         simCards: getSimCardsResponse.data,
       },
     }
   } else {
     return {
-      status: DeviceResponseStatus.Error,
+      status: RequestResponseStatus.Error,
     }
   }
 }

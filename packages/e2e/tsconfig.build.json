@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "**/*.e2e.ts",
+    "./wdio.conf.ts",
+    "node_modules",
+    "src/helpers",
+    "src/page-objects",
+    "src/specs",
+    "./configrc.json"
+  ],
+  "compilerOptions": {
+    "outDir": "./dist"
+  }
+}

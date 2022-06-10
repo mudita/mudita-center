@@ -8,13 +8,14 @@ import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
 import { ContactsEvent } from "App/contacts/constants"
 import { AddNewContactError } from "App/contacts/errors/add-new-contact.error"
-import createContactRequest from "App/contacts/requests/create-contact.request"
+import { createContactRequest } from "App/contacts/requests"
 import { Contact, initialState, NewContact } from "App/contacts/reducers"
 import { testError } from "Renderer/store/constants"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import { createNewContact } from "App/contacts/actions/create-new-contacts.action"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("App/contacts/requests/create-contact.request")
 
@@ -37,13 +38,13 @@ const contact: Contact = {
   ...newContact,
 } as Contact
 
-const successDeviceResponse: DeviceResponse<Contact> = {
-  status: DeviceResponseStatus.Ok,
+const successDeviceResponse: RequestResponse<Contact> = {
+  status: RequestResponseStatus.Ok,
   data: contact,
 }
 
-const errorDeviceResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const errorDeviceResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
   error: {
     message: "I'm error",
   },
@@ -56,7 +57,9 @@ afterEach(() => {
 describe("async `createNewContact` ", () => {
   describe("when `createContactRequest` return success", () => {
     test("fire async `createNewContact` call `createNewContactToState`", async () => {
-      ;(createContactRequest as jest.Mock).mockReturnValue(successDeviceResponse)
+      ;(createContactRequest as jest.Mock).mockReturnValue(
+        successDeviceResponse
+      )
       const mockStore = createMockStore([thunk])({
         contacts: initialState,
       })

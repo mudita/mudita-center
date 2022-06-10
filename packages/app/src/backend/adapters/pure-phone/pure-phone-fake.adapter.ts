@@ -4,9 +4,6 @@
  */
 
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import {
   GetBackupDeviceStatusDataState,
   GetBackupDeviceStatusResponseBody,
@@ -17,75 +14,79 @@ import {
   StartBackupResponseBody,
 } from "@mudita/pure"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 export class PurePhoneFakeAdapter extends PurePhoneAdapter {
-  public async disconnectDevice(): Promise<DeviceResponse> {
+  public async disconnectDevice(): Promise<RequestResponse> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
-  public async connectDevice(): Promise<DeviceResponse<MuditaDevice>> {
+  public async connectDevice(): Promise<RequestResponse<MuditaDevice>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
-  public async unlockDevice(): Promise<DeviceResponse> {
+  public async unlockDevice(): Promise<RequestResponse> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
-  public async getUnlockDeviceStatus(): Promise<DeviceResponse> {
+  public async getUnlockDeviceStatus(): Promise<RequestResponse> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
   public async getDeviceLockTime(): Promise<
-    DeviceResponse<GetPhoneLockTimeResponseBody>
+    RequestResponse<GetPhoneLockTimeResponseBody>
   > {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: { phoneLockTime: 1630703219 },
     }
   }
 
-  public async getDeviceLogFiles(): Promise<DeviceResponse<DeviceFile[]>> {
+  public async getDeviceLogFiles(): Promise<RequestResponse<DeviceFile[]>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: [],
     }
   }
 
-  public async getDeviceCrashDumpFiles(): Promise<DeviceResponse<string[]>> {
+  public async getDeviceCrashDumpFiles(): Promise<RequestResponse<string[]>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: [],
     }
   }
 
   public async downloadDeviceCrashDumpFiles(): Promise<
-    DeviceResponse<string[]>
+    RequestResponse<string[]>
   > {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: [],
     }
   }
 
-  public async updateOs(): Promise<DeviceResponse> {
+  public async updateOs(): Promise<RequestResponse> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
   public async startBackupDevice(): Promise<
-    DeviceResponse<StartBackupResponseBody>
+    RequestResponse<StartBackupResponseBody>
   > {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: {
         id: `<YYYY-MM-DD>T<HHMMSS>Z`,
       },
@@ -93,10 +94,10 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
   }
 
   public async getBackupDeviceStatus(): Promise<
-    DeviceResponse<GetBackupDeviceStatusResponseBody>
+    RequestResponse<GetBackupDeviceStatusResponseBody>
   > {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: {
         id: `<YYYY-MM-DD>T<HHMMSS>Z`,
         state: GetBackupDeviceStatusDataState.Finished,
@@ -104,17 +105,17 @@ export class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public async startRestoreDevice(): Promise<DeviceResponse> {
+  public async startRestoreDevice(): Promise<RequestResponse> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 
   public async getRestoreDeviceStatus(): Promise<
-    DeviceResponse<GetRestoreDeviceStatusResponseBody>
+    RequestResponse<GetRestoreDeviceStatusResponseBody>
   > {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: {
         id: `<YYYY-MM-DD>T<HHMMSS>Z`,
         state: GetRestoreDeviceStatusDataState.Finished,

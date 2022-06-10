@@ -14,6 +14,8 @@ import { modalsManagerReducer } from "App/modals-manager/reducers"
 import { contactSupportReducer } from "App/contact-support/reducers"
 import { contactsReducer } from "App/contacts/reducers"
 import { dataSyncReducer } from "App/data-sync/reducers"
+import { notificationReducer } from "App/notification/reducers"
+import { templateReducer } from "App/templates/reducers"
 
 export const reducers = {
   device: deviceReducer,
@@ -26,6 +28,8 @@ export const reducers = {
   dataSync: dataSyncReducer,
   modalsManager: modalsManagerReducer,
   contactSupport: contactSupportReducer,
+  notification: notificationReducer,
+  templates: templateReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

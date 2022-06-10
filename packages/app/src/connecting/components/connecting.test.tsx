@@ -7,12 +7,12 @@ import React, { ComponentProps } from "react"
 import { act } from "@testing-library/react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import Connecting from "App/connecting/components/connecting.component"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
 import { PasscodeModalTestIds } from "App/passcode-modal/passcode-modal-test-ids.enum"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { DeviceType } from "@mudita/pure"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("App/connecting/requests/register-first-phone-connection")
 
@@ -22,12 +22,12 @@ const defaultProps: Props = {
   loaded: false,
   deviceType: DeviceType.MuditaPure,
   unlocked: null,
-  phoneLockTime: undefined,
+  leftTime: undefined,
   getUnlockStatus: jest.fn().mockReturnValue({
-    payload: DeviceResponseStatus.Ok,
+    payload: RequestResponseStatus.Ok,
   }),
   unlockDevice: jest.fn().mockReturnValue({
-    payload: DeviceResponseStatus.Ok,
+    payload: RequestResponseStatus.Ok,
   }),
   noModalsVisible: true,
   syncInitialized: false,

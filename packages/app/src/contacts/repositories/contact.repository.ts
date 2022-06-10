@@ -6,19 +6,26 @@
 import { Repository } from "App/core/types"
 import { ContactModel } from "App/contacts/models"
 import { Contact } from "App/contacts/reducers"
+import { Contact as ContactDto } from "App/contacts/dto"
 
 export class ContactRepository implements Repository {
   constructor(private contactModel: ContactModel) {}
 
-  public create(contact: Contact, skipCallbacks = false): void {
-    this.contactModel.create(contact, skipCallbacks)
+  public create(
+    contact: Contact,
+    skipCallbacks = false
+  ): ContactDto | undefined {
+    return this.contactModel.create(contact, skipCallbacks)
   }
 
-  public update(contact: Contact, skipCallbacks = false): void {
-    this.contactModel.update(contact, skipCallbacks)
+  public update(
+    contact: Contact,
+    skipCallbacks = false
+  ): ContactDto | undefined {
+    return this.contactModel.update(contact, skipCallbacks)
   }
 
-  public delete(id: string, skipCallbacks = false): void {
+  public delete(id: Contact["id"], skipCallbacks = false): void {
     this.contactModel.delete(id, skipCallbacks)
   }
 }

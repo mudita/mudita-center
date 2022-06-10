@@ -8,22 +8,13 @@ import {
   trackOsVersion,
   TrackOsVersionOptions,
 } from "App/analytic-data-tracker/helpers/track-os-version"
-import { trackRequest } from "App/analytic-data-tracker/requests"
-import {
-  TrackEventCategory,
-  TrackEventDimension,
-} from "App/analytic-data-tracker/constants"
-import { getTrackOsVersionCache } from "App/analytic-data-tracker/helpers/track-os-version-cache"
+import { trackUniqueRequest } from "App/analytic-data-tracker/requests"
+import { TrackEventCategory } from "App/analytic-data-tracker/constants"
 
-jest.mock("App/analytic-data-tracker/requests/track.request")
-jest.mock("App/analytic-data-tracker/helpers/track-os-version-cache")
+jest.mock("App/analytic-data-tracker/requests/track-unique.request")
 
 beforeEach(() => {
   jest.resetAllMocks()
-  ;(getTrackOsVersionCache as unknown as jest.Mock).mockReturnValue({
-    osVersion: "",
-    serialNumber: "",
-  })
 })
 
 describe("`trackOsVersion`", () => {
@@ -34,13 +25,12 @@ describe("`trackOsVersion`", () => {
       serialNumber: "1UB13213MN14K1",
     }
 
-    test("`trackRequest` is called with properly argument", async () => {
+    test("`trackUniqueRequest` is called with properly argument", async () => {
       await trackOsVersion(options)
-      expect(trackRequest).toHaveBeenCalledWith({
+      expect(trackUniqueRequest).toHaveBeenCalledWith({
         _id: options.serialNumber,
         e_c: TrackEventCategory.HarmonyVersion,
         e_a: options.osVersion,
-        [TrackEventDimension.HarmonyVersion]: options.osVersion,
       })
     })
   })
@@ -52,13 +42,12 @@ describe("`trackOsVersion`", () => {
       serialNumber: "1UB13213MN14K1",
     }
 
-    test("`trackRequest` is called with properly argument", async () => {
+    test("`trackUniqueRequest` is called with properly argument", async () => {
       await trackOsVersion(options)
-      expect(trackRequest).toHaveBeenCalledWith({
+      expect(trackUniqueRequest).toHaveBeenCalledWith({
         _id: options.serialNumber,
         e_c: TrackEventCategory.PureVersion,
         e_a: options.osVersion,
-        [TrackEventDimension.PureVersion]: options.osVersion,
       })
     })
   })
@@ -70,12 +59,11 @@ describe("`trackOsVersion`", () => {
       serialNumber: undefined,
     }
 
-    test("`trackRequest` is called with properly argument", async () => {
+    test("`trackUniqueRequest` is called with properly argument", async () => {
       await trackOsVersion(options)
-      expect(trackRequest).toHaveBeenCalledWith({
+      expect(trackUniqueRequest).toHaveBeenCalledWith({
         e_c: TrackEventCategory.HarmonyVersion,
         e_a: options.osVersion,
-        [TrackEventDimension.HarmonyVersion]: options.osVersion,
       })
     })
   })
@@ -87,12 +75,11 @@ describe("`trackOsVersion`", () => {
       serialNumber: undefined,
     }
 
-    test("`trackRequest` is called with properly argument", async () => {
+    test("`trackUniqueRequest` is called with properly argument", async () => {
       await trackOsVersion(options)
-      expect(trackRequest).toHaveBeenCalledWith({
+      expect(trackUniqueRequest).toHaveBeenCalledWith({
         e_c: TrackEventCategory.PureVersion,
         e_a: options.osVersion,
-        [TrackEventDimension.PureVersion]: options.osVersion,
       })
     })
   })
@@ -104,12 +91,11 @@ describe("`trackOsVersion`", () => {
       serialNumber: "",
     }
 
-    test("`trackRequest` is called with properly argument", async () => {
+    test("`trackUniqueRequest` is called with properly argument", async () => {
       await trackOsVersion(options)
-      expect(trackRequest).toHaveBeenCalledWith({
+      expect(trackUniqueRequest).toHaveBeenCalledWith({
         e_c: TrackEventCategory.HarmonyVersion,
         e_a: options.osVersion,
-        [TrackEventDimension.HarmonyVersion]: options.osVersion,
       })
     })
   })
@@ -121,28 +107,12 @@ describe("`trackOsVersion`", () => {
       serialNumber: "",
     }
 
-    test("`trackRequest` is called with properly argument", async () => {
+    test("`trackUniqueRequest` is called with properly argument", async () => {
       await trackOsVersion(options)
-      expect(trackRequest).toHaveBeenCalledWith({
+      expect(trackUniqueRequest).toHaveBeenCalledWith({
         e_c: TrackEventCategory.PureVersion,
         e_a: options.osVersion,
-        [TrackEventDimension.PureVersion]: options.osVersion,
       })
-    })
-  })
-
-  describe("when `osVersion` and `serialNumber` is the same that previous request", () => {
-    const options: TrackOsVersionOptions = {
-      deviceType: DeviceType.MuditaPure,
-      osVersion: "1.0.0",
-      serialNumber: "",
-    }
-
-    test("`trackRequest` is called again", async () => {
-      await trackOsVersion(options)
-      expect(trackRequest).toHaveBeenCalledTimes(1)
-      await trackOsVersion(options)
-      expect(trackRequest).toHaveBeenCalledTimes(1)
     })
   })
 })

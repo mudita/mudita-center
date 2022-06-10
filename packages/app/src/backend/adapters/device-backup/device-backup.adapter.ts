@@ -7,10 +7,7 @@ import {
   GetBackupDeviceStatusDataState,
   GetBackupDeviceStatusResponseBody,
 } from "@mudita/pure"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
-import { isResponsesSuccessWithData } from "Renderer/utils/is-responses-success-with-data.helpers"
+import { isResponsesSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
 import DeviceBackupAdapter from "Backend/adapters/device-backup/device-backup-adapter.class"
 import DeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-adapter.class"
 import DeviceFileSystemAdapter, {
@@ -18,6 +15,10 @@ import DeviceFileSystemAdapter, {
 } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
 import logger from "App/main/utils/logger"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 export class DeviceBackup implements DeviceBackupAdapter {
   public backuping = false
@@ -30,10 +31,10 @@ export class DeviceBackup implements DeviceBackupAdapter {
 
   async downloadDeviceBackup(
     options: DownloadDeviceFileLocallyOptions
-  ): Promise<DeviceResponse<string[]>> {
+  ): Promise<RequestResponse<string[]>> {
     if (this.backuping) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message: "Backup is in progress",
         },
@@ -44,8 +45,9 @@ export class DeviceBackup implements DeviceBackupAdapter {
     const runDeviceBackupResponse = await this.runDeviceBackup()
 
     if (!isResponsesSuccessWithData([runDeviceBackupResponse])) {
+      this.backuping = false
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: runDeviceBackupResponse.error,
       }
     }
@@ -59,8 +61,9 @@ export class DeviceBackup implements DeviceBackupAdapter {
       )
 
     if (!isResponsesSuccessWithData([downloadDeviceFileResponse])) {
+      this.backuping = false
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message: "Download backup fails",
         },
@@ -71,7 +74,7 @@ export class DeviceBackup implements DeviceBackupAdapter {
     const removeDeviceFileResponse =
       await this.deviceFileSystem.removeDeviceFile(filePath)
 
-    if (removeDeviceFileResponse.status !== DeviceResponseStatus.Ok) {
+    if (removeDeviceFileResponse.status !== RequestResponseStatus.Ok) {
       logger.info("Removing device file during backuping locally fails")
     }
 
@@ -80,13 +83,13 @@ export class DeviceBackup implements DeviceBackupAdapter {
     return downloadDeviceFileResponse
   }
 
-  private async runDeviceBackup(): Promise<DeviceResponse<string>> {
+  private async runDeviceBackup(): Promise<RequestResponse<string>> {
     this.backuping = true
     const getBackupLocationResponse = await this.deviceBaseInfo.getDeviceInfo()
 
     if (!isResponsesSuccessWithData([getBackupLocationResponse])) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message: "Pure OS Backup Pure Location is undefined",
         },
@@ -97,7 +100,7 @@ export class DeviceBackup implements DeviceBackupAdapter {
 
     if (!isResponsesSuccessWithData([startBackupDeviceResponse])) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message: "Start backup Device returns error",
         },
@@ -111,7 +114,7 @@ export class DeviceBackup implements DeviceBackupAdapter {
 
     if (!isResponsesSuccessWithData([getBackupDeviceStatusResponse])) {
       return {
-        status: DeviceResponseStatus.Error,
+        status: RequestResponseStatus.Error,
         error: {
           message: "One of the getBackupDeviceStatus requests returns error",
         },
@@ -123,14 +126,14 @@ export class DeviceBackup implements DeviceBackupAdapter {
     }/${backupId}`
 
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: filePath,
     }
   }
 
   private async waitUntilBackupDeviceFinished(
     id: string
-  ): Promise<DeviceResponse<GetBackupDeviceStatusResponseBody>> {
+  ): Promise<RequestResponse<GetBackupDeviceStatusResponseBody>> {
     const response = await this.deviceBackupService.getBackupDeviceStatus({
       id,
     })
@@ -139,7 +142,7 @@ export class DeviceBackup implements DeviceBackupAdapter {
       !isResponsesSuccessWithData([response]) ||
       response.data?.state === GetBackupDeviceStatusDataState.Error
     ) {
-      return { status: DeviceResponseStatus.Error }
+      return { status: RequestResponseStatus.Error }
     } else if (
       response.data?.state === GetBackupDeviceStatusDataState.Finished
     ) {

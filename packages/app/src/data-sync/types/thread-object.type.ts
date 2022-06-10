@@ -5,7 +5,7 @@
 
 import { Entity, DBQueryResult } from "App/data-sync/types/entity.type"
 import { ThreadTable } from "App/data-sync/constants"
-import { Thread } from "App/messages"
+import { Thread } from "App/messages/reducers"
 import { ContactNumberEntity } from "App/data-sync/types/contact-object.type"
 
 export type ThreadObject = Thread

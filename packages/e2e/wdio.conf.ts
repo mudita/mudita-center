@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv"
+import { spawnSync } from "child_process"
 
 dotenv.config()
 
@@ -53,22 +54,28 @@ export const config: WebdriverIO.Config = {
   // will be called from there.
   //
   specs: [
-    "./specs/overview/display-initial-os-version.e2e.ts",
-    "./specs/overview/check-for-update.e2e.ts",
-    "./specs/overview/device-update.e2e.ts",
+    "./src/specs/overview/display-initial-os-version.e2e.ts",
+    "./src/specs/overview/check-for-update.e2e.ts",
+    "./src/specs/overview/device-update.e2e.ts",
+    "./src/specs/settings/mc-version-check.e2e.ts",
+    "./src/specs/contacts/contacts-in-app-navigation.e2e.ts",
+    "./src/specs/messages/messages-in-app-navigation.e2e.ts",
+    "./src/specs/news/news-in-app-navigation.e2e.ts",
+    "./src/specs/overview/overview-in-app-navigation.e2e.ts",
+    "./src/specs/settings/settings-in-app-navigation.e2e.ts",
   ],
   suites: {
     update: [
-      "./specs/overview/display-initial-os-version.e2e.ts",
-      "./specs/overview/check-for-update.e2e.ts",
-      "./specs/overview/device-update.e2e.ts",
+      "./src/specs/overview/display-initial-os-version.e2e.ts",
+      "./src/specs/overview/check-for-update.e2e.ts",
+      "./src/specs/overview/device-update.e2e.ts",
     ],
   },
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
   ],
-  filesToWatch: ["./specs/**/*.e2e.ts"],
+  filesToWatch: ["./src/specs/**/*.e2e.ts"],
   //
   // ============
   // Capabilities
@@ -147,7 +154,7 @@ export const config: WebdriverIO.Config = {
   baseUrl: "http://localhost",
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 6000000,
+  waitforTimeout: 6000,
   //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
@@ -212,8 +219,12 @@ export const config: WebdriverIO.Config = {
    * @param {Object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    */
-  // onPrepare: function (config, capabilities) {
-  // },
+  onPrepare: async function (_config, _capabilities) {
+    await spawnSync("node", ["dist/src/bin/cli.js"], {
+      cwd: process.cwd(),
+      stdio: "inherit",
+    })
+  },
   /**
    * Gets executed before a worker process is spawned and can be used to initialise specific service
    * for that worker as well as modify runtime environments in an async fashion.

@@ -8,9 +8,10 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { loadBackupData } from "App/backup/actions/load-backup-data.action"
 import getFileData from "Renderer/requests/get-file-data"
-import RequestResponse, {
+import {
+  RequestResponse,
   RequestResponseStatus,
-} from "App/main/functions/request-response.interface"
+} from "App/core/types/request-response.interface"
 import { FileData } from "App/main/functions/register-get-file-data-listener"
 import { BackupEvent } from "App/backup/constants"
 import { testError } from "Renderer/store/constants"

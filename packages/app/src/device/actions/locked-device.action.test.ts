@@ -7,11 +7,11 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { DeviceType } from "@mudita/pure"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { lockedDevice } from "./locked-device.action"
 import getDeviceLockTime from "App/renderer/requests/get-device-lock-time.request"
 import { flags } from "App/feature-flags"
 import { DeviceEvent } from "App/device"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("App/feature-flags")
 jest.mock("App/renderer/requests/get-device-lock-time.request")
@@ -43,7 +43,7 @@ describe("Device: MuditaPure", () => {
     test("fire async `lockedDevice` set device lock time", async () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(true)
       ;(getDeviceLockTime as jest.Mock).mockReturnValueOnce({
-        status: DeviceResponseStatus.Ok,
+        status: RequestResponseStatus.Ok,
         data: {
           phoneLockTime: 123456789,
         },
@@ -61,7 +61,7 @@ describe("Device: MuditaPure", () => {
         lockedDevice.pending(requestId),
         {
           type: DeviceEvent.SetLockTime,
-          payload: 123456789,
+          payload: { phoneLockTime: 123456789 },
         },
         lockedDevice.fulfilled(undefined, requestId, undefined),
       ])
@@ -74,7 +74,7 @@ describe("Device: MuditaPure", () => {
     test("fire async `lockedDevice` removes device lock time", async () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(true)
       ;(getDeviceLockTime as jest.Mock).mockReturnValueOnce({
-        status: DeviceResponseStatus.UnprocessableEntity,
+        status: RequestResponseStatus.UnprocessableEntity,
       })
       const mockStore = createMockStore([thunk])({
         device: {

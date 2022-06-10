@@ -5,17 +5,7 @@
 
 import { createAction } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
-import { Message, MessagesState, Thread } from "App/messages/reducers"
-
-export const toggleThreadsReadStatus = createAction<string[]>(
-  MessagesEvent.ToggleThreadReadStatus
-)
-
-export const markThreadsAsRead = createAction<string[]>(
-  MessagesEvent.MarkThreadAsRead
-)
-
-export const deleteThreads = createAction<string[]>(MessagesEvent.DeleteThreads)
+import { MessagesState } from "App/messages/reducers"
 
 export const changeVisibilityFilter = createAction<
   MessagesState["visibilityFilter"]
@@ -25,11 +15,6 @@ export const changeSearchValue = createAction<string>(
   MessagesEvent.ChangeSearchValue
 )
 
-export const setThreads = createAction<Thread[]>(MessagesEvent.SetThreads)
-export const setThreadsTotalCount = createAction<number>(
-  MessagesEvent.SetThreadsTotalCount
-)
-
-export const setMessages = createAction<Message[]>(MessagesEvent.SetMessages)
-
 export const clearAllThreads = createAction(MessagesEvent.ClearAllThreads)
+
+export const hideDeleteModal = createAction(MessagesEvent.HideDeleteModal)

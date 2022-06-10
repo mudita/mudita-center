@@ -4,15 +4,16 @@
  */
 
 import PurePhoneNetworkAdapter from "Backend/adapters/pure-phone-network/pure-phone-network-adapter.class"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 class PurePhoneNetworkFake extends PurePhoneNetworkAdapter {
-  public async getSimCards(): Promise<DeviceResponse<SimCard[]>> {
+  public async getSimCards(): Promise<RequestResponse<SimCard[]>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: [
         {
           slot: 1,
@@ -32,9 +33,9 @@ class PurePhoneNetworkFake extends PurePhoneNetworkAdapter {
     }
   }
 
-  public setActiveCard(): DeviceResponse {
+  public setActiveCard(): RequestResponse {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     }
   }
 }

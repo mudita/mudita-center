@@ -10,9 +10,6 @@ import MuditaDeviceManager, {
   GetBackupDeviceStatusResponseBody,
   StartBackupResponseBody,
 } from "@mudita/pure"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import createDeviceBackupAdapter from "Backend/adapters/device-backup/device-backup.adapter"
 import { DeviceBackupService } from "Backend/device-backup-service/device-backup-service"
 import createFakeDeviceBaseInfoAdapter from "Backend/adapters/device-base-info/device-base-info-fake.adapter"
@@ -22,6 +19,10 @@ import {
   DownloadDeviceFileLocallyOptions,
 } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
 import DeviceInfo from "Common/interfaces/device-info.interface"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 jest.mock("Backend/device-service")
 jest.mock("Backend/device-backup-service/device-backup-service")
@@ -29,17 +30,17 @@ jest.mock("Backend/adapters/device-base-info/device-base-info-fake.adapter")
 jest.mock("Backend/adapters/device-file-system/device-file-system-fake.adapter")
 const backupId = `<YYYY-MM-DD>T<HHMMSS>Z`
 
-const errorResponse: DeviceResponse = {
-  status: DeviceResponseStatus.Error,
+const errorResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
 }
-const successDeviceInfoResponse: DeviceResponse<DeviceInfo> = {
-  status: DeviceResponseStatus.Ok,
+const successDeviceInfoResponse: RequestResponse<DeviceInfo> = {
+  status: RequestResponseStatus.Ok,
   data: {
     backupLocation: "path/to/directory",
   } as DeviceInfo,
 }
-const successDownloadDeviceFilesResponse: DeviceResponse<DeviceFile[]> = {
-  status: DeviceResponseStatus.Ok,
+const successDownloadDeviceFilesResponse: RequestResponse<DeviceFile[]> = {
+  status: RequestResponseStatus.Ok,
   data: [
     {
       data: Buffer.from("logs"),
@@ -48,26 +49,26 @@ const successDownloadDeviceFilesResponse: DeviceResponse<DeviceFile[]> = {
   ],
 }
 
-const successStartBackupDeviceResponse: DeviceResponse<StartBackupResponseBody> =
+const successStartBackupDeviceResponse: RequestResponse<StartBackupResponseBody> =
   {
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
     data: {
       id: backupId,
     },
   }
 
-const finishedGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusResponseBody> =
+const finishedGetBackupDeviceStatusResponse: RequestResponse<GetBackupDeviceStatusResponseBody> =
   {
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
     data: {
       id: backupId,
       state: GetBackupDeviceStatusDataState.Finished,
     },
   }
 
-const errorGetBackupDeviceStatusResponse: DeviceResponse<GetBackupDeviceStatusResponseBody> =
+const errorGetBackupDeviceStatusResponse: RequestResponse<GetBackupDeviceStatusResponseBody> =
   {
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
     data: {
       id: backupId,
       state: GetBackupDeviceStatusDataState.Error,
@@ -112,7 +113,7 @@ describe("`downloadDeviceBackup` method ", () => {
       const { status, data } = await deviceBackupAdapter.downloadDeviceBackup(
         options
       )
-      expect(status).toEqual(DeviceResponseStatus.Ok)
+      expect(status).toEqual(RequestResponseStatus.Ok)
       expect(data).not.toBeUndefined()
     })
   })
@@ -134,7 +135,7 @@ describe("`downloadDeviceBackup` method ", () => {
         createFakeDeviceFileSystemAdapter()
       )
       const { status } = await deviceBackupAdapter.downloadDeviceBackup(options)
-      expect(status).toEqual(DeviceResponseStatus.Error)
+      expect(status).toEqual(RequestResponseStatus.Error)
     })
   })
 
@@ -160,7 +161,7 @@ describe("`downloadDeviceBackup` method ", () => {
         createFakeDeviceFileSystemAdapter()
       )
       const { status } = await deviceBackupAdapter.downloadDeviceBackup(options)
-      expect(status).toEqual(DeviceResponseStatus.Error)
+      expect(status).toEqual(RequestResponseStatus.Error)
     })
   })
 
@@ -187,7 +188,7 @@ describe("`downloadDeviceBackup` method ", () => {
         createFakeDeviceFileSystemAdapter()
       )
       const { status } = await deviceBackupAdapter.downloadDeviceBackup(options)
-      expect(status).toEqual(DeviceResponseStatus.Error)
+      expect(status).toEqual(RequestResponseStatus.Error)
     })
   })
 
@@ -222,7 +223,7 @@ describe("`downloadDeviceBackup` method ", () => {
         createFakeDeviceFileSystemAdapter()
       )
       const { status } = await deviceBackupAdapter.downloadDeviceBackup(options)
-      expect(status).toEqual(DeviceResponseStatus.Error)
+      expect(status).toEqual(RequestResponseStatus.Error)
     })
   })
 })

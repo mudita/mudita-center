@@ -5,21 +5,22 @@
 
 import PurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage-adapter.class"
 import StorageCategoryInfo from "Common/interfaces/storage-category-info.interface"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
 class PurePhoneStorageFakeAdapter extends PurePhoneStorageAdapter {
-  public async getAvailableSpace(): Promise<DeviceResponse<number>> {
+  public async getAvailableSpace(): Promise<RequestResponse<number>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: 1717986918,
     }
   }
 
-  public async getCapacity(): Promise<DeviceResponse<number>> {
+  public async getCapacity(): Promise<RequestResponse<number>> {
     return {
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
       data: 17179869184,
     }
   }

@@ -6,11 +6,11 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { removeFileRequest } from "App/device-file-system/requests"
 import { removeFile } from "./remove-file.action"
 import { DeviceFileRemovingError } from "App/device-file-system/errors"
 import { testError } from "App/renderer/store/constants"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])()
 
@@ -25,7 +25,7 @@ afterEach(() => {
 describe("Remove File request returns `success` status", () => {
   test("fire async `removeFile` actions returns `undefined`", async () => {
     ;(removeFileRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Ok,
+      status: RequestResponseStatus.Ok,
     })
 
     const {
@@ -46,7 +46,7 @@ describe("Remove File request returns `success` status", () => {
 describe("Remove File request returns `error` status", () => {
   test("fire async `removeFile` action and execute `rejected` event", async () => {
     ;(removeFileRequest as jest.Mock).mockReturnValueOnce({
-      status: DeviceResponseStatus.Error,
+      status: RequestResponseStatus.Error,
     })
 
     const {

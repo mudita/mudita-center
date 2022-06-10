@@ -16,7 +16,6 @@ import {
 import { ConversionFormat, Convert } from "App/main/store/settings.interface"
 import store from "Renderer/store"
 import history from "Renderer/routes/history"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import { BackupDeviceDataState } from "App/backup-device/reducers"
@@ -26,6 +25,7 @@ import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device
 import { intl } from "Renderer/utils/intl"
 import { flags } from "App/feature-flags"
 import { SynchronizationState } from "App/data-sync/reducers"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 type Props = ComponentProps<typeof Overview>
 
@@ -41,7 +41,7 @@ jest.mock("electron", () => ({
 
 jest.mock("Renderer/requests/get-device-info.request", () =>
   jest.fn(() => ({
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
     data: {
       name: "Ziemniaczek",
       modelName: "U12300000",
@@ -54,7 +54,7 @@ jest.mock("Renderer/requests/get-device-info.request", () =>
 
 jest.mock("Renderer/requests/get-network-info.request", () =>
   jest.fn(() => ({
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
     data: {
       simCards: [
         {
@@ -78,7 +78,7 @@ jest.mock("Renderer/requests/get-network-info.request", () =>
 
 jest.mock("Renderer/requests/get-storage-info.request", () =>
   jest.fn(() => ({
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
     data: {
       capacity: 9001,
       available: 99999999999999,
@@ -92,7 +92,7 @@ jest.mock("Renderer/requests/get-storage-info.request", () =>
 
 jest.mock("Renderer/requests/get-battery-info.request", () =>
   jest.fn(() => ({
-    status: DeviceResponseStatus.Ok,
+    status: RequestResponseStatus.Ok,
     data: {
       level: 9001,
       charging: false,

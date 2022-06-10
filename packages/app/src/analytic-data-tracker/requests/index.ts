@@ -4,5 +4,6 @@
  */
 
 export * from "./set-visitor-metadata.request"
-export * from "./track.request"
 export * from "./toggle-tracking.request"
+export * from "./track.request"
+export * from "./track-unique.request"

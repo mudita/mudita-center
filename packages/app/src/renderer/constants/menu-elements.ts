@@ -22,6 +22,7 @@ const YOUR_PURE_BUTTONS = [
     icon: IconType.MenuOverview,
     testId: MenuGroupTestIds.Overview,
     visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
+    viewKey: View.Overview,
   },
   {
     button: views.messages,
@@ -29,6 +30,7 @@ const YOUR_PURE_BUTTONS = [
     testId: MenuGroupTestIds.Messages,
     hidden: flags.get(Feature.MessagesHidden),
     visibleOn: [DeviceType.MuditaPure],
+    viewKey: View.Messages,
   },
   {
     button: views.phone,
@@ -36,12 +38,14 @@ const YOUR_PURE_BUTTONS = [
     testId: MenuGroupTestIds.Phone,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure],
+    viewKey: View.Phone,
   },
   {
     button: views.contacts,
     icon: IconType.MenuContacts,
     testId: MenuGroupTestIds.Contacts,
     visibleOn: [DeviceType.MuditaPure],
+    viewKey: View.Contacts,
   },
   {
     button: views.tools,
@@ -49,6 +53,7 @@ const YOUR_PURE_BUTTONS = [
     testId: MenuGroupTestIds.Tools,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure],
+    viewKey: View.Tools,
   },
   {
     button: views.music,
@@ -56,6 +61,7 @@ const YOUR_PURE_BUTTONS = [
     testId: MenuGroupTestIds.Music,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure],
+    viewKey: View.Music,
   },
   {
     button: views.calendar,
@@ -63,6 +69,7 @@ const YOUR_PURE_BUTTONS = [
     testId: MenuGroupTestIds.Calendar,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure],
+    viewKey: View.Calendar,
   },
   {
     button: views.meditation,
@@ -70,6 +77,7 @@ const YOUR_PURE_BUTTONS = [
     testId: MenuGroupTestIds.Meditation,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure],
+    viewKey: View.Meditation,
   },
   {
     button: views.filesManager,
@@ -77,6 +85,7 @@ const YOUR_PURE_BUTTONS = [
     testId: MenuGroupTestIds.FilesManager,
     hidden: flags.get(Feature.DisabledOnProduction),
     visibleOn: [DeviceType.MuditaPure],
+    viewKey: View.FilesManager,
   },
   {
     button: views.recoveryMode,
@@ -84,6 +93,7 @@ const YOUR_PURE_BUTTONS = [
     testId: MenuGroupTestIds.Backup,
     hidden: flags.get(Feature.ProductionAndAlpha),
     visibleOn: [DeviceType.MuditaPure],
+    viewKey: View.RecoveryMode,
   },
 ]
 
@@ -114,6 +124,7 @@ interface Item {
   testId?: MenuGroupTestIds
   hidden?: boolean
   visibleOn: DeviceType[]
+  viewKey?: View
 }
 
 export interface MenuElement {
@@ -127,6 +138,7 @@ export interface MenuElement {
   simulatePhoneConnection?: boolean
   openHelpWindow?: () => void
   visibleOn?: DeviceType[]
+  viewKey?: View
 }
 
 export const menuElements: MenuElement[] = [
@@ -139,6 +151,7 @@ export const menuElements: MenuElement[] = [
         visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
       },
     ],
+    viewKey: View.Connecting,
     simulatePhoneConnection: true,
   },
   {
@@ -149,6 +162,7 @@ export const menuElements: MenuElement[] = [
         visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
       },
     ],
+    viewKey: View.Onboarding,
     devModeOnly: true,
   },
   {
@@ -159,13 +173,19 @@ export const menuElements: MenuElement[] = [
         visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
       },
     ],
+    viewKey: View.News,
   },
   {
     label: messages.yourPure,
     items: YOUR_PURE_BUTTONS,
     icons: flags.get(Feature.ProductionAndAlpha)
       ? []
-      : [IconType.MenuRange, IconType.MenuBattery, IconType.Sim, IconType.TetheringStatus],
+      : [
+          IconType.MenuRange,
+          IconType.MenuBattery,
+          IconType.Sim,
+          IconType.TetheringStatus,
+        ],
     connectedPhoneOnly: true,
     visibleOn: [DeviceType.MuditaPure],
   },

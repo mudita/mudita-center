@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 export default abstract class PurePhoneBatteryServiceAdapter {
-  public abstract getBatteryLevel(): Promise<DeviceResponse<number>>
+  public abstract getBatteryLevel(): Promise<RequestResponse<number>>
   public abstract getChargingStatus(): boolean
 }

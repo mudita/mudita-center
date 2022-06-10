@@ -6,12 +6,12 @@
 import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcDeviceFileSystem } from "App/device-file-system/constants"
-import DeviceResponse from "Backend/adapters/device-response.interface"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 const handleRemoveFile = (
   { deviceFileSystem }: Adapters,
   filePath: string
-): Promise<DeviceResponse> => {
+): Promise<RequestResponse> => {
   return deviceFileSystem.removeDeviceFile(filePath)
 }
 

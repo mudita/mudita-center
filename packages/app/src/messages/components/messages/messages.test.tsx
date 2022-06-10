@@ -6,7 +6,7 @@
 import React, { ComponentProps } from "react"
 import { intl } from "Renderer/utils/intl"
 import { Router } from "react-router"
-import { RenderResult } from "@testing-library/react"
+import { RenderOptions, RenderResult } from "@testing-library/react"
 import { createMemoryHistory } from "history"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
@@ -52,6 +52,11 @@ const unknownContact: Contact = {
   primaryPhoneNumber: "+123 456 123",
 }
 
+const unknownReceiver: Receiver = {
+  phoneNumber: "200 000 00",
+  identification: ReceiverIdentification.unknown,
+}
+
 const firstThreadId = "1"
 const secondThreadId = "2"
 
@@ -73,6 +78,15 @@ const secondThread: Thread = {
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
 }
 
+const incomingThread: Thread = {
+  id: "3",
+  phoneNumber: unknownReceiver.phoneNumber,
+  unread: true,
+  lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
+  messageSnippet:
+    "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+}
+
 const receiver: Receiver = {
   phoneNumber: contact.primaryPhoneNumber!,
   firstName: contact.firstName,
@@ -85,7 +99,6 @@ beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 type Props = ComponentProps<typeof Messages>
 
 const defaultProps: Props = {
-  threadsTotalCount: 0,
   threadsState: ResultState.Empty,
   threads: [],
   receivers: [],
@@ -97,15 +110,17 @@ const defaultProps: Props = {
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
   getMessagesStateByThreadId: jest.fn(),
-  loadMessagesByThreadId: jest.fn(),
   isContactCreatedByPhoneNumber: jest.fn(),
   getMessagesByThreadId: jest.fn().mockReturnValue([contact]),
   attachContactList: [],
   attachContactFlatList: [],
+  messageLayoutNotifications: [],
+  removeLayoutNotification: jest.fn(),
+  deletingState: null,
+  hideDeleteModal: jest.fn(),
 }
 
 const propsWithSingleThread: Partial<Props> = {
-  threadsTotalCount: 1,
   threadsState: ResultState.Loaded,
   threads: [firstThread],
   receivers: [receiver],
@@ -116,7 +131,6 @@ const propsWithSingleThread: Partial<Props> = {
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
   getMessagesStateByThreadId: jest.fn(),
-  loadMessagesByThreadId: jest.fn(),
   isContactCreatedByPhoneNumber: jest.fn(),
   getMessagesByThreadId: jest.fn().mockReturnValue([
     {
@@ -135,7 +149,8 @@ type callback = (outcome: RenderResult) => void
 type RenderProps = Partial<Props> & { callbacks?: callback[] }
 
 const renderer = (
-  { callbacks = [], ...extraProps }: RenderProps = { callbacks: [] }
+  { callbacks = [], ...extraProps }: RenderProps = { callbacks: [] },
+  options?: Omit<RenderOptions, "queries">
 ) => {
   const history = createMemoryHistory()
   const props = {
@@ -146,7 +161,8 @@ const renderer = (
   const outcome = renderWithThemeAndIntl(
     <Router history={history}>
       <Messages {...props} />
-    </Router>
+    </Router>,
+    options
   )
   mockAllIsIntersecting(true)
   callbacks.forEach((callback) => callback(outcome))
@@ -172,6 +188,13 @@ const putReceiverNumber = ({ queryByTestId }: RenderResult): void => {
     ReceiverInputSelectTestIds.Input
   ) as HTMLInputElement
   fireEvent.change(input, { target: { value: firstThread.phoneNumber } })
+}
+
+const putNewReceiverNumber = ({ queryByTestId }: RenderResult): void => {
+  const input = queryByTestId(
+    ReceiverInputSelectTestIds.Input
+  ) as HTMLInputElement
+  fireEvent.change(input, { target: { value: unknownReceiver.phoneNumber } })
 }
 
 const setNewMessageState = ({ queryByTestId }: RenderResult): void => {
@@ -215,6 +238,20 @@ describe("Messages component", () => {
       ).toBeInTheDocument()
       expect(queryByTestId(MessagesTestIds.ThreadList)).not.toBeInTheDocument()
     })
+
+    test("deleting modals are not showed", () => {
+      const { queryByTestId } = renderer()
+
+      expect(
+        queryByTestId(MessagesTestIds.SuccessThreadDelete)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(MessagesTestIds.ThreadDeleting)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(MessagesTestIds.FailThreadDelete)
+      ).not.toBeInTheDocument()
+    })
   })
 
   describe("when component is render with loaded single thread", () => {
@@ -227,7 +264,7 @@ describe("Messages component", () => {
     })
 
     test("length of passed empty thread list should be equal 0", () => {
-      const { queryByTestId } = renderer({ threads: [], threadsTotalCount: 0 })
+      const { queryByTestId } = renderer({ threads: [] })
       expect(queryByTestId(ThreadListTestIds.Row)).not.toBeInTheDocument()
     })
 
@@ -301,6 +338,20 @@ describe("Messages component", () => {
       ).not.toBeInTheDocument()
     })
 
+    test("ThreadDetails closes if thread doesn't exist", () => {
+      const outcome1 = renderer(renderProps)
+      expect(
+        outcome1.queryByTestId(MessagesTestIds.ThreadDetails)
+      ).toBeInTheDocument()
+      const outcome2 = renderer(
+        { threads: [] },
+        { container: outcome1.container }
+      )
+      expect(
+        outcome2.queryByTestId(MessagesTestIds.ThreadDetails)
+      ).not.toBeInTheDocument()
+    })
+
     test("clicked new message button display NewMessageForm", () => {
       const { queryByTestId } = renderer(renderProps)
       const button = queryByTestId(
@@ -329,7 +380,6 @@ describe("Messages component", () => {
       const { queryByTestId } = renderer({
         ...renderProps,
         threads: [],
-        threadsTotalCount: 0,
       })
       expect(queryByTestId(ThreadListTestIds.Row)).toBeInTheDocument()
     })
@@ -470,22 +520,6 @@ describe("Messages component", () => {
       expect(addNewMessage).toBeCalled()
     })
 
-    test("value of new message text area is empty after add new message", async () => {
-      const addNewMessage = jest
-        .fn()
-        .mockReturnValue(Promise.resolve({ threadId: firstThread.id }))
-      const { queryByTestId } = renderer({ ...renderProps, addNewMessage })
-      fireEvent.click(
-        queryByTestId(ThreadDetailsTextAreaTestIds.SendButton) as HTMLElement
-      )
-      const input = queryByTestId(
-        ThreadDetailsTextAreaTestIds.Input
-      ) as HTMLInputElement
-      await waitFor(() => {
-        expect(input.value).toBe("")
-      })
-    })
-
     test("value of new message text area isn't cleared after clicked active thread row", async () => {
       const { queryByTestId, queryAllByTestId } = renderer(renderProps)
       const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
@@ -503,7 +537,6 @@ describe("Messages component", () => {
       const { queryByTestId, queryAllByTestId } = renderer({
         ...renderProps,
         threads: [firstThread, secondThread],
-        threadsTotalCount: 2,
       })
       const tableRow = queryAllByTestId(ThreadListTestIds.Row)[1]
       fireEvent.click(tableRow)
@@ -555,37 +588,36 @@ describe("Messages component", () => {
       )
       expect(addNewMessage).toBeCalled()
     })
+  })
 
-    test("ThreadDetails component is open after add new message", async () => {
-      const addNewMessage = jest
-        .fn()
-        .mockReturnValue(Promise.resolve({ threadId: firstThread.id }))
-      const { queryByTestId } = renderer({ ...renderProps, addNewMessage })
-      fireEvent.click(
-        queryByTestId(ThreadDetailsTextAreaTestIds.SendButton) as HTMLElement
-      )
-      await waitFor(() => {
-        expect(
-          queryByTestId(MessagesTestIds.NewMessageForm)
-        ).not.toBeInTheDocument()
-        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
-      })
-    })
+  describe("when NewMessageForm is open with some content and new receiver number is put", () => {
+    const renderProps: RenderProps = {
+      callbacks: [setNewMessageState, setMockContent, putNewReceiverNumber],
+      ...propsWithSingleThread,
+    }
 
-    test("value of new message text area is empty after add new message", async () => {
-      const addNewMessage = jest
-        .fn()
-        .mockReturnValue(Promise.resolve({ threadId: firstThread.id }))
-      const { queryByTestId } = renderer({ ...renderProps, addNewMessage })
-      fireEvent.click(
-        queryByTestId(ThreadDetailsTextAreaTestIds.SendButton) as HTMLElement
-      )
-      const input = queryByTestId(
-        ThreadDetailsTextAreaTestIds.Input
+    test("`NewMessageForm` closes after clicking send button", async () => {
+      const addNewMessage = jest.fn()
+      const outcome = renderer({ ...renderProps, addNewMessage })
+      const input = outcome.queryByTestId(
+        ReceiverInputSelectTestIds.Input
       ) as HTMLInputElement
-      await waitFor(() => {
-        expect(input.value).toBe("")
-      })
+      fireEvent.keyDown(input, { keyCode: 13 })
+      fireEvent.click(
+        outcome.queryByTestId(
+          ThreadDetailsTextAreaTestIds.SendButton
+        ) as HTMLElement
+      )
+      const outcome2 = renderer(
+        { threads: [incomingThread] },
+        { container: outcome.container }
+      )
+      expect(
+        outcome2.queryByTestId(MessagesTestIds.NewMessageForm)
+      ).not.toBeInTheDocument()
+      expect(
+        outcome2.queryByTestId(MessagesTestIds.ThreadDetails)
+      ).toBeInTheDocument()
     })
   })
 

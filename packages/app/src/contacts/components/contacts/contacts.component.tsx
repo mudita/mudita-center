@@ -287,7 +287,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         modalService.openModal(<ErrorDataModal />, true)
       } else {
         cancelOrCloseContactHandler()
-        rest.toggleRow(contact)
         await modalService.closeModal()
       }
     }
@@ -640,7 +639,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
             )}
             {detailsEnabled && (
               <ContactDetails
-                contact={contactFreshData(activeRow as Contact)}
+                contact={contactFreshData(activeRow)}
                 onClose={closeSidebar}
                 onExport={exportContacts}
                 onForward={noop}

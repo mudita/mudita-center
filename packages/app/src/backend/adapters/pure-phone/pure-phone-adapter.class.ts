@@ -10,35 +10,35 @@ import {
   GetRestoreDeviceStatusRequestConfigBody,
   GetRestoreDeviceStatusResponseBody,
 } from "@mudita/pure"
-import DeviceResponse from "Backend/adapters/device-response.interface"
 import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import { RequestResponse } from "App/core/types/request-response.interface"
 
 export interface DeviceFilesOption {
   datePrefix?: boolean
 }
 
 export default abstract class PurePhoneAdapter {
-  public abstract disconnectDevice(): Promise<DeviceResponse>
-  public abstract connectDevice(): Promise<DeviceResponse<MuditaDevice>>
-  public abstract unlockDevice(code: string): Promise<DeviceResponse>
-  public abstract getUnlockDeviceStatus(): Promise<DeviceResponse>
+  public abstract disconnectDevice(): Promise<RequestResponse>
+  public abstract connectDevice(): Promise<RequestResponse<MuditaDevice>>
+  public abstract unlockDevice(code: string): Promise<RequestResponse>
+  public abstract getUnlockDeviceStatus(): Promise<RequestResponse>
   public abstract getDeviceLockTime(): Promise<
-    DeviceResponse<GetPhoneLockTimeResponseBody>
+    RequestResponse<GetPhoneLockTimeResponseBody>
   >
   public abstract getDeviceLogFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<DeviceFile[]>>
+  ): Promise<RequestResponse<DeviceFile[]>>
   public abstract getDeviceCrashDumpFiles(
     option?: DeviceFilesOption
-  ): Promise<DeviceResponse<string[]>>
+  ): Promise<RequestResponse<string[]>>
   public abstract downloadDeviceCrashDumpFiles(): Promise<
-    DeviceResponse<string[]>
+    RequestResponse<string[]>
   >
-  public abstract updateOs(filePath: string): Promise<DeviceResponse>
+  public abstract updateOs(filePath: string): Promise<RequestResponse>
   public abstract startRestoreDevice(
     config: StartRestoreRequestConfigBody
-  ): Promise<DeviceResponse>
+  ): Promise<RequestResponse>
   public abstract getRestoreDeviceStatus(
     config: GetRestoreDeviceStatusRequestConfigBody
-  ): Promise<DeviceResponse<GetRestoreDeviceStatusResponseBody>>
+  ): Promise<RequestResponse<GetRestoreDeviceStatusResponseBody>>
 }

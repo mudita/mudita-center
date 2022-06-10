@@ -39,14 +39,20 @@ import {
   ReceiverIdentification,
   ResultState,
   Thread,
+  MessageType,
 } from "App/messages/reducers/messages.interface"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { GetMessagesBody } from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 import { IndexRange } from "react-virtualized"
+import { CreateMessageDataResponse } from "App/messages/services"
+import { Notification } from "App/notification/types"
+import InfoPopup from "App/ui/components/info-popup/info-popup.component"
+import { ThreadDeletingState } from "App/messages/constants"
+import ErrorModal from "App/ui/components/error-modal/error-modal.component"
+import DeletingModal from "App/ui/components/deleting-modal/deleting-modal.component"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },
@@ -59,6 +65,17 @@ const messages = defineMessages({
   emptyListDescription: {
     id: "module.messages.emptyListDescription",
   },
+  deletingModalTitle: { id: "module.messages.deletingModalTitle" },
+  deletingModalSubtitle: { id: "module.messages.deletingModalSubtitle" },
+  deletingModalErrorSubtitle: {
+    id: "module.messages.deleteModalErrorSubtitle",
+  },
+  conversationDeleted: {
+    id: "module.messages.conversationDelete",
+  },
+  conversationsDeleted: {
+    id: "module.messages.conversationsDelete",
+  },
 })
 
 const mockThread: Thread = {
@@ -68,8 +85,6 @@ const mockThread: Thread = {
   messageSnippet: "",
   unread: false,
 }
-
-const threadsPaginationLimit: PaginationBody["limit"] = 8
 
 enum MessagesState {
   List,
@@ -81,6 +96,7 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   receivers: Receiver[]
   attachContactList: ContactCategory[]
   attachContactFlatList: Contact[]
+  messageLayoutNotifications: Notification[]
   loadThreads: (
     pagination: PaginationBody
   ) => Promise<PayloadAction<PaginationBody | undefined>>
@@ -88,17 +104,15 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   getContact: (contactId: string) => Contact | undefined
   getReceiver: (phoneNumber: string) => Receiver
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
-  loadMessagesByThreadId: (
-    body: GetMessagesBody
-  ) => Promise<PayloadAction<PaginationBody | undefined>>
   getMessagesStateByThreadId: (threadId: string) => ResultState
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
-  addNewMessage: (newMessage: NewMessage) => Promise<Message | undefined>
+  addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
+  removeLayoutNotification: (notificationId: string) => void
+  deletingState: ThreadDeletingState | null
+  hideDeleteModal: () => void
 }
 
 const Messages: FunctionComponent<Props> = ({
-  loadThreads,
-  threadsTotalCount,
   threadsState,
   receivers,
   searchValue,
@@ -108,30 +122,27 @@ const Messages: FunctionComponent<Props> = ({
   getMessagesByThreadId,
   getReceiver,
   toggleReadStatus = noop,
+  markThreadsReadStatus = noop,
   language,
   attachContactList,
   attachContactFlatList,
-  loadMessagesByThreadId,
   getContactByPhoneNumber,
   isContactCreatedByPhoneNumber,
   addNewMessage,
+  messageLayoutNotifications,
+  removeLayoutNotification,
+  deletingState,
+  hideDeleteModal,
 }) => {
-  const [_, setThreadsPaginationOffset] = useState<
-    PaginationBody["offset"] | undefined
-  >(0)
-
-  const loadLatestThreadsRequest = async () => {
-    await loadThreads({
-      offset: 0,
-      limit: threadsPaginationLimit,
-    })
-  }
-
   useEffect(() => {
-    if (threadsTotalCount === 0) {
-      setThreadsPaginationOffset(0)
-    }
-  }, [threadsTotalCount])
+    messageLayoutNotifications
+      .filter(
+        (item) => (item.content as Message)?.messageType === MessageType.OUTBOX
+      )
+      .forEach((item) => {
+        removeLayoutNotification(item.id)
+      })
+  }, [messageLayoutNotifications])
 
   const [messagesState, setMessagesState] = useState(MessagesState.List)
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
@@ -141,33 +152,38 @@ const Messages: FunctionComponent<Props> = ({
 
   const [content, setContent] = useState("")
 
-  useEffect(() => {
-    let interval: any
-
-    if (activeThread !== undefined) {
-      void loadMessagesByThreadId({
-        threadId: activeThread.id,
-      })
-
-      interval = setInterval(() => {
-        void loadMessagesByThreadId({
-          threadId: activeThread.id,
-        })
-        void loadLatestThreadsRequest()
-      }, 10000)
-    } else {
-      interval = setInterval(() => {
-        void loadLatestThreadsRequest()
-      }, 10000)
-    }
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [activeThread])
-
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Thread>(threads)
+
+  const [deletedThreads, setDeletedThreads] = useState<string[]>([])
+
+  const getDeletedThreadText = (
+    deletedThreadsLength: number
+  ): TranslationMessage => {
+    if (deletedThreadsLength === 1) {
+      return {
+        ...messages.conversationDeleted,
+      }
+    } else {
+      return {
+        ...messages.conversationsDeleted,
+        values: {
+          number: deletedThreadsLength,
+        },
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (deletingState === ThreadDeletingState.Success) {
+      const timeout = setTimeout(() => {
+        hideDeleteModal()
+        setDeletedThreads([])
+      }, 5000)
+      return () => clearTimeout(timeout)
+    }
+    return
+  }, [deletingState])
 
   const getDeletingMessage = (ids: string[]): TranslationMessage => {
     const findById = (thread: Thread) => thread.id === ids[0]
@@ -191,6 +207,7 @@ const Messages: FunctionComponent<Props> = ({
     const message = getDeletingMessage(ids)
     const onDelete = () => {
       deleteThreads(ids)
+      setDeletedThreads(ids)
       resetRows()
       setActiveThread(undefined)
       modalService.closeModal()
@@ -261,14 +278,7 @@ const Messages: FunctionComponent<Props> = ({
   const handleThreadClick = (thread: Thread): void => {
     if (activeThread?.id !== thread.id) {
       openThreadDetails(thread)
-    }
-  }
-
-  const handleLoadMessagesClick = (): void => {
-    if (activeThread) {
-      void loadMessagesByThreadId({
-        threadId: activeThread.id,
-      })
+      markThreadsReadStatus([thread])
     }
   }
 
@@ -279,6 +289,12 @@ const Messages: FunctionComponent<Props> = ({
       remove([activeThread.id])
     }
   }
+
+  const handleDeleteSelected = (): void => {
+    const ids = selectedRows.map((thread) => thread.id)
+    remove(ids)
+  }
+
   const handleContactClick = (): void => {
     if (activeThread) {
       history.push(
@@ -291,45 +307,43 @@ const Messages: FunctionComponent<Props> = ({
 
   const markAsUnread = (): void => {
     if (activeThread) {
-      toggleReadStatus([activeThread.id])
+      toggleReadStatus([activeThread])
       closeSidebars()
     }
   }
 
-  const handleContentChange = (content: string): void => {
-    setContent((previousValue) => {
-      return content.length >= 115 ? previousValue : content
-    })
+  const markAsRead = (): void => {
+    if (activeThread) {
+      markThreadsReadStatus([activeThread])
+    }
   }
-  // FIXME: this is workaround because API no return threadID properly for new thread 1/3
-  // FIXME: https://appnroll.atlassian.net/browse/CP-563
-  const [newMessage, setNewMessage] = useState<Message>()
+
+  const handleContentChange = (content: string): void => {
+    setContent(content)
+  }
 
   const handleAddNewMessage = async (phoneNumber: string): Promise<void> => {
-    const message = await addNewMessage({ content, phoneNumber })
-    if (message) {
-      const thread = threads.find(({ id }) => id === message.threadId)
-      if (thread) {
-        openThreadDetails(thread)
-      } else {
-        // FIXME: this is workaround because API no return threadID properly for new thread 2/3
-        // FIXME: https://appnroll.atlassian.net/browse/CP-563
-        setNewMessage(message)
-      }
+    const threadId = threads.find(
+      (thread) => thread.phoneNumber === phoneNumber
+    )?.id
+    if (tmpActiveThread !== undefined) {
+      handleReceiverSelect({ phoneNumber })
     }
+    await addNewMessage({ content, phoneNumber, threadId })
   }
 
-  // FIXME: this is workaround because API no return threadID properly for new thread 3/3
-  // FIXME: https://appnroll.atlassian.net/browse/CP-563
   useEffect(() => {
-    if (newMessage !== undefined) {
-      const thread = threads[0]
+    if (activeThread !== undefined) {
+      const thread = threads.find(
+        (thread) => thread.phoneNumber === activeThread.phoneNumber
+      )
       if (thread) {
         openThreadDetails(thread)
-        setNewMessage(undefined)
+      } else if (tmpActiveThread === undefined && thread === undefined) {
+        setActiveThread(undefined)
       }
     }
-  }, [newMessage, threads])
+  }, [activeThread, threads])
 
   const handleNewMessageSendClick = async (number: string) => {
     await handleAddNewMessage(number)
@@ -395,13 +409,6 @@ const Messages: FunctionComponent<Props> = ({
       return threads
     }
   }
-  const getThreadsTotalCount = (): number => {
-    if (tmpActiveThread !== undefined) {
-      return threadsTotalCount + 1
-    } else {
-      return threadsTotalCount
-    }
-  }
 
   const loadMoreRows = async ({ startIndex }: IndexRange): Promise<void> => {
     return new Promise((resolve) => {
@@ -419,6 +426,10 @@ const Messages: FunctionComponent<Props> = ({
         onSearchValueChange={changeSearchValue}
         onNewMessageClick={handleNewMessageClick}
         buttonDisabled={messagesState === MessagesState.NewMessage}
+        selectedThreads={selectedRows}
+        allItemsSelected={allRowsSelected}
+        toggleAll={toggleAll}
+        onDeleteClick={handleDeleteSelected}
       />
       <TableWithSidebarWrapper>
         {threads.length === 0 &&
@@ -432,7 +443,6 @@ const Messages: FunctionComponent<Props> = ({
         ) : (
           <ThreadList
             data-testid={MessagesTestIds.ThreadList}
-            threadsTotalCount={getThreadsTotalCount()}
             language={language}
             activeThread={activeThread}
             threads={getThreads()}
@@ -455,7 +465,6 @@ const Messages: FunctionComponent<Props> = ({
             contactCreated={isContactCreatedByPhoneNumber(
               activeThread.phoneNumber
             )}
-            onLoadMessagesClick={handleLoadMessagesClick}
             onAttachContactClick={openAttachContactModal}
             onContactClick={handleContactClick}
             onDeleteClick={handleDeleteClick}
@@ -463,6 +472,9 @@ const Messages: FunctionComponent<Props> = ({
             onClose={closeSidebars}
             onSendClick={handleSendClick}
             onContentChange={handleContentChange}
+            messageLayoutNotifications={messageLayoutNotifications}
+            removeLayoutNotification={removeLayoutNotification}
+            onMessageRead={markAsRead}
           />
         )}
         {messagesState === MessagesState.NewMessage && (
@@ -479,6 +491,29 @@ const Messages: FunctionComponent<Props> = ({
           />
         )}
       </TableWithSidebarWrapper>
+      {deletingState === ThreadDeletingState.Success && (
+        <InfoPopup
+          message={getDeletedThreadText(deletedThreads.length)}
+          data-testid={MessagesTestIds.SuccessThreadDelete}
+        />
+      )}
+      {deletingState === ThreadDeletingState.Deleting && (
+        <DeletingModal
+          data-testid={MessagesTestIds.ThreadDeleting}
+          open={deletingState === ThreadDeletingState.Deleting}
+          title={intl.formatMessage(messages.deletingModalTitle)}
+          subtitle={intl.formatMessage(messages.deletingModalSubtitle)}
+        />
+      )}
+      {deletingState === ThreadDeletingState.Fail && (
+        <ErrorModal
+          data-testid={MessagesTestIds.FailThreadDelete}
+          open={deletingState === ThreadDeletingState.Fail}
+          title={intl.formatMessage(messages.deleteModalTitle)}
+          subtitle={intl.formatMessage(messages.deletingModalErrorSubtitle)}
+          closeModal={hideDeleteModal}
+        />
+      )}
     </>
   )
 }

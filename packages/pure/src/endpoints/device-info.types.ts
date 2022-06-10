@@ -64,6 +64,7 @@ export interface GetPhoneLockTimeBody {
 
 export interface GetPhoneLockTimeResponseBody {
   phoneLockTime?: number
+  timeLeftToNextAttempt?: number
 }
 
 export enum CaseColour {
