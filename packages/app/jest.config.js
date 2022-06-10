@@ -30,6 +30,8 @@ module.exports = {
     "src/**/*.{js,ts,tsx}",
     "!src/__deprecated__/**",
     "!src/__mocks__/**",
+    "!src/**/__mocks__/**",
+    "!src/testing-support/**",
     "!src/**/*.stories.{js,ts,tsx}",
     "!src/**/*.container.{js,ts,tsx}",
     "!src/**/*.constant.{js,ts,tsx}",
