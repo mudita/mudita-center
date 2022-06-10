@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Caller } from "Renderer/models/calls/calls.interface"
+import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { MessagesEvent, ThreadDeletingState } from "App/messages/constants"

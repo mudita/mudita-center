@@ -5,15 +5,15 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import Loader from "Renderer/components/core/loader/loader.component"
-import { ModalContent } from "Renderer/components/core/modal-dialog/modal-dialog-shared"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
+import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
+import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
+import { ModalContent } from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog-shared"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { LoaderWrapper } from "App/crash-dump/components/crash-dump-sending-modal/crash-dump-sending-modal.styled"
 import { CrashDumpSendingModalTestingIds } from "App/crash-dump/components/crash-dump-sending-modal/crash-dump-sending-testing-ids.enum"
 

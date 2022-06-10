@@ -6,7 +6,7 @@
 import { MessagesCategory } from "@mudita/pure"
 import { TemplateService } from "App/templates/services/template.service"
 import { TemplateRepository } from "App/templates/repositories"
-import DeviceService from "Backend/device-service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import {
   ErrorRequestResponse,
   RequestResponseStatus,

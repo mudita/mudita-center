@@ -7,7 +7,7 @@ import { Observer } from "App/core/types"
 import {
   DeviceService,
   DeviceServiceEventName,
-} from "App/backend/device-service"
+} from "App/__deprecated__/backend/device-service"
 import { AppSettingsService } from "App/app-settings/services"
 import { CrashDumpService } from "App/crash-dump/services"
 import { MainProcessIpc } from "electron-better-ipc"

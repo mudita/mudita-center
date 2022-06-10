@@ -8,7 +8,7 @@ import {
   rejectedAction,
   pendingAction,
   fulfilledAction,
-} from "App/renderer/store/helpers"
+} from "App/__deprecated__/renderer/store/helpers"
 import { Event } from "App/crash-dump/constants"
 import {
   CrashDumpState,

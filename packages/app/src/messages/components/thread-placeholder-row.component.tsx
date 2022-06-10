@@ -4,11 +4,11 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   Col,
   TextPlaceholder,
-} from "Renderer/components/core/table/table.component"
+} from "App/__deprecated__/renderer/components/core/table/table.component"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
 import { AvatarPlaceholder } from "App/contacts/components/contact-list/contact-list.component"
 import styled from "styled-components"

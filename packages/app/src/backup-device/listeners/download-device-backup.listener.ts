@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import Adapters from "Backend/adapters/adapters.interface"
-import createEndpoint from "Backend/endpoints/create-endpoint"
+import Adapters from "App/__deprecated__/backend/adapters/adapters.interface"
+import createEndpoint from "App/__deprecated__/backend/endpoints/create-endpoint"
 import { IpcBackupDevice } from "App/backup/constants/ipc-backup.enum"
-import { DownloadDeviceFileLocallyOptions } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import { DownloadDeviceFileLocallyOptions } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import { RequestResponse } from "App/core/types/request-response.interface"
 
 const handleDownloadDeviceBackup = (

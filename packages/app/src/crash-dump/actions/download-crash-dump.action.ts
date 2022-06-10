@@ -8,7 +8,7 @@ import { Event } from "App/crash-dump/constants"
 import { DownloadCrashDumpError } from "App/crash-dump/errors"
 import { setDownloadedCrashDump } from "App/crash-dump/actions/base.action"
 import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.action"
-import { ReduxRootState } from "App/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { downloadCrashDumpRequest } from "App/crash-dump/requests/download-crash-dump.request"
 

@@ -6,7 +6,7 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { CreateTemplateError } from "App/templates/errors"
 import { NewTemplate, Template } from "App/templates/dto"
 import { createTemplateRequest } from "App/templates/requests/create-template.request"

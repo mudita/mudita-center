@@ -5,7 +5,7 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcBackupDevice } from "App/backup/constants/ipc-backup.enum"
-import { DownloadDeviceFileLocallyOptions } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import { DownloadDeviceFileLocallyOptions } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import { RequestResponse } from "App/core/types/request-response.interface"
 
 const downloadDeviceBackupRequest = async (

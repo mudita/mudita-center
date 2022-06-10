@@ -4,7 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import store from "Renderer/store"
+import store from "App/__deprecated__/renderer/store"
 import { readAllIndexes } from "App/data-sync/actions/read-all-indexes.action"
 import {
   setCacheState,

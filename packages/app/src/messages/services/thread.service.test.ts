@@ -10,7 +10,7 @@ import {
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
 import { ThreadService } from "App/messages/services/thread.service"
-import DeviceService from "Backend/device-service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import { ThreadPresenter } from "App/messages/presenters"
 import { ThreadRepository } from "../repositories"
 import { Thread } from "App/messages/reducers/messages.interface"

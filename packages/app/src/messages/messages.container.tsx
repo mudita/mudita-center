@@ -6,7 +6,7 @@
 import { ChangeEvent } from "react"
 import { connect } from "react-redux"
 import Messages from "App/messages/components/messages/messages.component"
-import { ReduxRootState, TmpDispatch, RootState } from "Renderer/store"
+import { ReduxRootState, TmpDispatch, RootState } from "App/__deprecated__/renderer/store"
 import {
   Message,
   NewMessage,

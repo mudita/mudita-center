@@ -5,7 +5,7 @@
 
 import React from "react"
 import { fireEvent } from "@testing-library/dom"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { TemplatesPanel } from "App/templates/components/templates-panel/templates-panel.component"
 import { TemplatesPanelProps } from "App/templates/components/templates-panel/templates-panel.interface"
 import { TemplatesPanelTestIds } from "App/templates/components/templates-panel/templates-panel-ids.enum"

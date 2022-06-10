@@ -6,18 +6,18 @@
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { defineMessages } from "react-intl"
-import { intl } from "Renderer/utils/intl"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import ButtonComponent from "Renderer/components/core/button/button.component"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import {
   DisplayStyle,
   Type,
-} from "Renderer/components/core/button/button.config"
+} from "App/__deprecated__/renderer/components/core/button/button.config"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import Loader from "Renderer/components/core/loader/loader.component"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
+import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import { TemplateFormProps } from "App/templates/components/template-form/template-form.interface"
 import {
   Content,

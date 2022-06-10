@@ -9,7 +9,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { useDispatch, useSelector } from "react-redux"
 import delayResponse from "@appnroll/delay-response"
 import { isEqual } from "lodash"
-import modalService from "Renderer/components/core/modal/modal.service"
+import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
 import {
   CheckingUpdatesModal,
   DevUpdate,
@@ -25,25 +25,25 @@ import {
   UpdatingSpinnerModal,
   UpdatingSuccessModal,
 } from "App/overview/components/overview-modals.component"
-import { PureOsDownloadChannels } from "App/main/functions/register-pure-os-download-listener"
+import { PureOsDownloadChannels } from "App/__deprecated__/main/functions/register-pure-os-download-listener"
 import {
   DownloadProgress,
   DownloadStatus,
-} from "Renderer/interfaces/file-download.interface"
-import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
-import updateOs from "Renderer/requests/update-os.request"
-import logger from "App/main/utils/logger"
+} from "App/__deprecated__/renderer/interfaces/file-download.interface"
+import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
+import updateOs from "App/__deprecated__/renderer/requests/update-os.request"
+import logger from "App/__deprecated__/main/utils/logger"
 import {
   cancelOsDownload,
   downloadOsUpdateRequest,
   getLatestReleaseRequest,
   osUpdateAlreadyDownloadedCheck,
   Release,
-} from "App/update"
-import appContextMenu from "Renderer/wrappers/app-context-menu"
+} from "App/__deprecated__/update"
+import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { setOsVersionData } from "App/device"
-import { ReduxRootState } from "App/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { removeFileRequest } from "App/device-file-system/requests"
 import {
   trackOsVersion,
@@ -52,7 +52,7 @@ import {
   TrackOsUpdateState,
 } from "App/analytic-data-tracker/helpers"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import { getAllReleasesRequest } from "App/update/requests/get-all-releases.request"
+import { getAllReleasesRequest } from "App/__deprecated__/update/requests/get-all-releases.request"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()

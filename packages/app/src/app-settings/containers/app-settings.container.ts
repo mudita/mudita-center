@@ -4,7 +4,7 @@
  */
 
 import { AppSettingsService } from "App/app-settings/services"
-import settingsStore from "App/main/store/settings"
+import settingsStore from "App/__deprecated__/main/store/settings"
 
 let appSettingsService: AppSettingsService
 

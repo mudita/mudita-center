@@ -4,9 +4,9 @@
  */
 
 import React, { Ref, useState } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Modal from "Renderer/components/core/modal/modal.component"
-import { intl } from "Renderer/utils/intl"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import Modal from "App/__deprecated__/renderer/components/core/modal/modal.component"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import {
   Contact,
   ContactCategory,
@@ -18,22 +18,22 @@ import {
   Labels,
   Row,
   TextPlaceholder,
-} from "Renderer/components/core/table/table.component"
+} from "App/__deprecated__/renderer/components/core/table/table.component"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import Avatar, {
   AvatarSize,
-} from "Renderer/components/core/avatar/avatar.component"
+} from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
 import { InView } from "react-intersection-observer"
 import { AvatarPlaceholder } from "App/contacts/components/contact-list/contact-list.component"
 import styled from "styled-components"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import Icon from "Renderer/components/core/icon/icon.component"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { defineMessages } from "react-intl"
 import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
-import Badge from "Renderer/components/core/badge/badge.component"
-import InputSelect from "Renderer/components/core/input-select/input-select.component"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import Badge from "App/__deprecated__/renderer/components/core/badge/badge.component"
+import InputSelect from "App/__deprecated__/renderer/components/core/input-select/input-select.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 export const messages = defineMessages({
   title: { id: "module.messagesAttachModalTitle" },

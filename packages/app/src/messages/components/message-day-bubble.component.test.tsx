@@ -4,10 +4,10 @@
  */
 
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import MessageDayBubble from "App/messages/components/message-day-bubble.component"
 import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
-import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
+import { AvatarTestIds } from "App/__deprecated__/renderer/components/core/avatar/avatar-test-ids.enum"
 
 type Properties = ComponentProps<typeof MessageDayBubble>
 

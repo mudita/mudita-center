@@ -7,13 +7,13 @@ import React, { ComponentProps } from "react"
 import { storiesOf } from "@storybook/react"
 import { action } from "@storybook/addon-actions"
 import { Router } from "react-router"
-import history from "Renderer/routes/history"
-import { noop } from "Renderer/utils/noop"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import history from "App/__deprecated__/renderer/routes/history"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   ModalBackdrop,
   ModalWrapper,
-} from "Renderer/components/core/modal/modal.styled.elements"
+} from "App/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import {
   CheckingUpdatesModal,
   DownloadingUpdateCancelledModal,

@@ -8,15 +8,15 @@ import BaseTable, {
   Col,
   EmptyState,
   Row as BaseRow,
-} from "Renderer/components/core/table/table.component"
-import { transitionTime } from "Renderer/styles/theming/theme-getters"
-import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
+} from "App/__deprecated__/renderer/components/core/table/table.component"
+import { transitionTime } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { VisibleCheckbox } from "App/__deprecated__/renderer/components/rest/visible-checkbox/visible-checkbox"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
-} from "Renderer/components/rest/animated-opacity/animated-opacity"
-import Icon from "Renderer/components/core/icon/icon.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+} from "App/__deprecated__/renderer/components/rest/animated-opacity/animated-opacity"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 
 const checkboxShowedStyles = css`
   margin-left: 1rem;

@@ -5,18 +5,18 @@
 
 import React, { ComponentProps } from "react"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import Icon from "Renderer/components/core/icon/icon.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import {
   ModalContent as SimpleModal,
   RoundIconWrapper,
-} from "Renderer/components/core/modal-dialog/modal-dialog-shared"
+} from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog-shared"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: { id: "component.supportModalSuccessTitle" },

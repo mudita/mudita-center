@@ -4,13 +4,13 @@
  */
 
 import styled from "styled-components"
-import { Sidebar } from "Renderer/components/core/table/table.component"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import { InputError } from "Renderer/components/core/input-text/input-text.elements"
+import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
+import InputComponent from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
+import { InputError } from "App/__deprecated__/renderer/components/core/input-text/input-text.elements"
 import {
   getTextStyles,
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 
 export const TextArea = styled(InputComponent)`
   position: relative;

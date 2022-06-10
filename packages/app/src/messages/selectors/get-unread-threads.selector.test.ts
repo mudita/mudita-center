@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ReduxRootState, RootState } from "Renderer/store"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { initialState, messagesReducer, Thread } from "App/messages/reducers"
 import { initialState as contactsInitialState } from "App/contacts/reducers"
 import { getUnreadThreads } from "App/messages/selectors/get-unread-threads.selector"

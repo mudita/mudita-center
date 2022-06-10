@@ -5,8 +5,8 @@ require("dotenv").config({
   path: path.join(__dirname, "../../../.env"),
 })
 import { EntryCollection } from "contentful"
-import { NewsEntry } from "../src/news/store/mudita-news.interface"
-import { normalizeContentfulData } from "../src/news/helpers/normalize-contentful-data.helpers"
+import { NewsEntry } from "../src/__deprecated__/news/store/mudita-news.interface"
+import { normalizeContentfulData } from "../src/__deprecated__/news/helpers/normalize-contentful-data.helpers"
 ;(async () => {
   try {
     await fs.ensureDir(path.resolve(path.join("src", "main")))

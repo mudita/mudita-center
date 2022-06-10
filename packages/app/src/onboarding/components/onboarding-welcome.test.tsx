@@ -6,7 +6,7 @@
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import { fireEvent } from "@testing-library/dom"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import OnboardingWelcome from "App/onboarding/components/onboarding-welcome.component"
 
 test("onboarding: welcome Not now button works properly", async () => {

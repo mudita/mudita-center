@@ -9,7 +9,7 @@ import createMockStore from "redux-mock-store"
 import { ContactsEvent } from "App/contacts/constants"
 import { editContactRequest } from "App/contacts/requests"
 import { Contact, initialState } from "App/contacts/reducers"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { editContact } from "App/contacts/actions/edit-contact.action"
 import { EditContactError } from "App/contacts/errors/edit-contact.error"
 import {

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import { Provider } from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
 
 export interface ExternalService {
   type: Provider

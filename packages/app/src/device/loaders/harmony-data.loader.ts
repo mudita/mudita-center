@@ -4,12 +4,12 @@
  */
 
 import { BaseLoader } from "App/device/loaders/base.loader"
-import getDeviceInfo from "Renderer/requests/get-device-info.request"
-import getStorageInfo from "Renderer/requests/get-storage-info.request"
-import getBatteryInfo from "Renderer/requests/get-battery-info.request"
+import getDeviceInfo from "App/__deprecated__/renderer/requests/get-device-info.request"
+import getStorageInfo from "App/__deprecated__/renderer/requests/get-storage-info.request"
+import getBatteryInfo from "App/__deprecated__/renderer/requests/get-battery-info.request"
 import { DeviceLoadingError } from "App/device/errors"
 import { HarmonyDeviceData } from "App/device/reducers/device.interface"
-import store from "Renderer/store/index"
+import store from "App/__deprecated__/renderer/store/index"
 import { setDataSyncInitialized } from "App/data-sync/actions/base-app.action"
 
 type HarmonyData = Partial<HarmonyDeviceData>

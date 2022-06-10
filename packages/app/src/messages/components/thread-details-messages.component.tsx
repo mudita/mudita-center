@@ -12,7 +12,7 @@ import React, {
 } from "react"
 import moment from "moment"
 import ViewportList from "react-viewport-list"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { MessageBubblesWrapper } from "App/messages/components/thread-details.styled"
 import MessageDayBubble from "App/messages/components/message-day-bubble.component"
 import {
@@ -22,7 +22,7 @@ import {
 } from "App/messages/reducers/messages.interface"
 import NewMessageBadge from "App/messages/components/new-message-badge.component"
 import { Notification } from "App/notification/types"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 interface Properties {
   messages: Message[]

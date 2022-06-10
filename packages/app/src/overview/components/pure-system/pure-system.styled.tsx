@@ -7,10 +7,10 @@ import {
   backgroundColor,
   borderColor,
   borderRadius,
-} from "App/renderer/styles/theming/theme-getters"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import styled from "styled-components"
-import Text from "App/renderer/components/core/text/text.component"
-import ButtonComponent from "App/renderer/components/core/button/button.component"
+import Text from "App/__deprecated__/renderer/components/core/text/text.component"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 
 export const BackWrapper = styled.div`
   background-color: ${backgroundColor("row")};

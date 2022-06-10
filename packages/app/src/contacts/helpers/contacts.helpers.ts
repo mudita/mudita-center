@@ -4,9 +4,9 @@
  */
 
 import { deburr, find, filter, omit } from "lodash"
-import { intl } from "Renderer/utils/intl"
-import { SimpleRecord } from "Common/typings"
-import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { SimpleRecord } from "App/__deprecated__/common/typings"
+import { isNameAvailable } from "App/__deprecated__/renderer/components/rest/messages/is-name-available"
 import {
   BaseContactModel,
   Contact, ContactCategory,

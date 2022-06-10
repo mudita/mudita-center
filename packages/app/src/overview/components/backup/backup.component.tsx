@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import Card, {
   CardAction,
   CardActionButton,
@@ -15,13 +15,13 @@ import Card, {
 } from "App/overview/components/card.elements"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages, FormattedMessage } from "react-intl"
 import styled from "styled-components"
-import { noop } from "Renderer/utils/noop"
-import Button from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { AppSettings } from "App/main/store/settings.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import Button from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import moment from "moment"
 

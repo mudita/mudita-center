@@ -12,7 +12,7 @@ import {
 } from "App/core/types/request-response.interface"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { MarkThreadsReadStatusError } from "App/messages/errors"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { toggleThreadsReadStatusRequest } from "App/messages/requests"
 import { Thread } from "App/messages/reducers/messages.interface"
 import { markThreadsReadStatus } from "App/messages/actions/mark-threads-read-status.action"

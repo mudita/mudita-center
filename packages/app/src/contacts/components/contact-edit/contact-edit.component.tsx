@@ -4,28 +4,28 @@
  */
 
 import React, { useEffect, FocusEvent } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
-import { intl } from "Renderer/utils/intl"
-import ButtonComponent from "Renderer/components/core/button/button.component"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import {
   DisplayStyle,
   Type,
-} from "Renderer/components/core/button/button.config"
+} from "App/__deprecated__/renderer/components/core/button/button.config"
 import InputCheckbox, {
   Size,
-} from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import Icon from "Renderer/components/core/icon/icon.component"
+} from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { useForm } from "react-hook-form"
 import {
   primaryPhoneNumberValidator,
   secondaryPhoneNumberValidator,
-} from "Renderer/utils/form-validators"
-import Loader from "Renderer/components/core/loader/loader.component"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+} from "App/__deprecated__/renderer/utils/form-validators"
+import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
+import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import {
   Buttons,
   ContactDetailsWrapper,
@@ -38,7 +38,7 @@ import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/c
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
 import { FormError } from "App/contacts/components/contacts/contacts.type"
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   editTitle: { id: "module.contacts.editTitle" },

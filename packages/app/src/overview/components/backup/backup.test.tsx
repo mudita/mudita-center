@@ -5,13 +5,13 @@
 
 import "@testing-library/jest-dom/extend-expect"
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { noop } from "Renderer/utils/noop"
-import { intl } from "Renderer/utils/intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { fireEvent } from "@testing-library/react"
 import Backup from "App/overview/components/backup/backup.component"
 
-jest.mock("Renderer/requests/get-file-data")
+jest.mock("App/__deprecated__/renderer/requests/get-file-data")
 
 const lastBackupDate = new Date("2020-01-15T07:35:01.562Z")
 

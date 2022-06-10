@@ -3,22 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React, { ComponentProps } from "react"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { intl } from "Renderer/utils/intl"
+import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import styled, { css } from "styled-components"
 import {
   DisplayStyle,
   Type,
-} from "Renderer/components/core/button/button.config"
-import Button from "Renderer/components/core/button/button.component"
+} from "App/__deprecated__/renderer/components/core/button/button.config"
+import Button from "App/__deprecated__/renderer/components/core/button/button.component"
 import { FieldValues, useForm } from "react-hook-form"
-import { backupSecretKeyValidator } from "Renderer/utils/form-validators"
+import { backupSecretKeyValidator } from "App/__deprecated__/renderer/utils/form-validators"
 import { PasswordField } from "App/ui"
 import { BackupSetSecretKeyModalTestIds } from "App/overview/components/backup-set-secret-key-modal-dialog/backup-set-secret-key-modal-dialog-test-ids.enum"
 

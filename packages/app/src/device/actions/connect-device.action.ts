@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceType } from "@mudita/pure"
-import connectDeviceRequest from "Renderer/requests/connect-device.request"
+import connectDeviceRequest from "App/__deprecated__/renderer/requests/connect-device.request"
 import { DeviceEvent } from "App/device/constants"
 import { setConnectionStatus } from "App/device/actions/set-connection-status.action"
 import { loadDeviceData } from "App/device/actions/load-device-data.action"

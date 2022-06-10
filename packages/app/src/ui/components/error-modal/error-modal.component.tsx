@@ -4,15 +4,15 @@
  */
 
 import React, { ComponentProps } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Icon from "Renderer/components/core/icon/icon.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import styled from "styled-components"
-import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
+import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const ModalContent = styled.div`
   display: flex;

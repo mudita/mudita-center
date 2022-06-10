@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DiagnosticsFilePath } from "@mudita/pure"
 import { DeviceEvent } from "App/device/constants"
-import updateOs from "Renderer/requests/update-os.request"
+import updateOs from "App/__deprecated__/renderer/requests/update-os.request"
 import { DeviceUpdateProcessError } from "App/device/errors"
 import { removeFile } from "App/device-file-system"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"

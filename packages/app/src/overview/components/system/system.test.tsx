@@ -6,11 +6,11 @@
 import "@testing-library/jest-dom/extend-expect"
 import React, { ComponentProps } from "react"
 import { fireEvent } from "@testing-library/dom"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { intl } from "Renderer/utils/intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import System from "App/overview/components/system/system.component"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
-import appConfig from "App/main/default-app-configuration.json"
+import appConfig from "App/__deprecated__/main/default-app-configuration.json"
 
 type Props = ComponentProps<typeof System>
 

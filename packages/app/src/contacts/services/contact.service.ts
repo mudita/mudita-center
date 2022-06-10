@@ -4,7 +4,7 @@
  */
 
 import { Endpoint, Method } from "@mudita/pure"
-import DeviceService from "Backend/device-service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import { Contact, ContactID } from "App/contacts/reducers"
 import { ContactRepository } from "App/contacts/repositories"
 import { ContactPresenter } from "App/contacts/presenters"

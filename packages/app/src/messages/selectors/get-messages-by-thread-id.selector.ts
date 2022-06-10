@@ -6,7 +6,7 @@
 import { createSelector, OutputSelector } from "reselect"
 import { Message, MessagesState } from "App/messages/reducers"
 import { messagesStateSelector } from "App/messages/selectors/messages-state.selector"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { sortMessages } from "App/messages/helpers/threads.helpers"
 
 export const getMessagesByThreadIdSelector = (

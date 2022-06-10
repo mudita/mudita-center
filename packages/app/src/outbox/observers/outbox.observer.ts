@@ -7,7 +7,7 @@ import { Observer } from "App/core/types"
 import {
   DeviceService,
   DeviceServiceEventName,
-} from "App/backend/device-service"
+} from "App/__deprecated__/backend/device-service"
 import { OutboxService } from "App/outbox/services/outbox.service"
 import { MainProcessIpc } from "electron-better-ipc"
 import { IpcEvent as DataSyncIpcEvent } from "App/data-sync/constants"

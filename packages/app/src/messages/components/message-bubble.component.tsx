@@ -5,31 +5,31 @@
 
 import React, { useState } from "react"
 import moment from "moment"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import styled from "styled-components"
 import Dropdown, {
   DropdownPosition,
-} from "Renderer/components/core/dropdown/dropdown.component"
-import Icon from "Renderer/components/core/icon/icon.component"
+} from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import Avatar, {
   User,
   AvatarSize,
-} from "Renderer/components/core/avatar/avatar.component"
+} from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
 import {
   backgroundColor,
   borderRadius,
   boxShadowColor,
   textColor,
-} from "Renderer/styles/theming/theme-getters"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import transition from "Renderer/styles/functions/transition"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import { noop } from "Renderer/utils/noop"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import transition from "App/__deprecated__/renderer/styles/functions/transition"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean

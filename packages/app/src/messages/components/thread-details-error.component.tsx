@@ -6,15 +6,15 @@
 import React, { MouseEventHandler } from "react"
 import { defineMessages } from "react-intl"
 import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   ColumnContent,
   RetryButton,
 } from "App/messages/components/thread-details.styled"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 
 const translations = defineMessages({
   errorText: {

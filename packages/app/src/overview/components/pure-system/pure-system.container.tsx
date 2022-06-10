@@ -4,7 +4,7 @@
  */
 
 import { connect } from "react-redux"
-import { RootState, ReduxRootState } from "Renderer/store"
+import { RootState, ReduxRootState } from "App/__deprecated__/renderer/store"
 import PureSystem from "App/overview/components/pure-system/pure-system.component"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {

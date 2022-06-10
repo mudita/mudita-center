@@ -5,25 +5,25 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Button from "Renderer/components/core/button/button.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import Button from "App/__deprecated__/renderer/components/core/button/button.component"
 import {
   DisplayStyle,
   Size,
-} from "Renderer/components/core/button/button.config"
+} from "App/__deprecated__/renderer/components/core/button/button.config"
 import {
   ButtonWrapper,
   NewMessageWrapper,
   ScrollButton,
   NewMessageContainer,
 } from "App/messages/components/new-message-badge.styled"
-import { IconType } from "Renderer/components/core/icon/icon-type"
-import Icon from "Renderer/components/core/icon/icon.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import { IconSize } from "Renderer/components/core/icon/icon.component"
-import { Message as TranslationMessage } from "Renderer/interfaces/message.interface"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { Message as TranslationMessage } from "App/__deprecated__/renderer/interfaces/message.interface"
 import { NewMessageBadgeTestIds } from "App/messages/components/new-message-badge-test-ids.enum"
 
 const messages = defineMessages({

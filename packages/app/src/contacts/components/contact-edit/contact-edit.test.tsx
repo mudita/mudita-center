@@ -4,12 +4,12 @@
  */
 
 import { fireEvent, waitFor } from "@testing-library/dom"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
 import ContactEdit from "App/contacts/components/contact-edit/contact-edit.component"
-import { contactsSeed } from "App/seeds/contacts"
+import { contactsSeed } from "App/__deprecated__/seeds/contacts"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 const renderer = (extraProps?: {}) => {
   const defaultProps = {

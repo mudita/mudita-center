@@ -4,7 +4,7 @@
  */
 
 import { RegisterOptions } from "react-hook-form/dist/types"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 
 export const byteLengthValidator = (): RegisterOptions => ({
   required: intl.formatMessage({ id: "module.templates.required" }),

@@ -4,7 +4,7 @@
  */
 
 import { Selector } from "reselect"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { ModalsManagerState } from "App/modals-manager/reducers"
 
 export const modalsManagerStateSelector: Selector<

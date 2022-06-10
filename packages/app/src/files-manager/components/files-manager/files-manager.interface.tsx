@@ -4,7 +4,7 @@
  */
 
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 export interface DiskSpaceCategory {
   type: DiskSpaceCategoryType

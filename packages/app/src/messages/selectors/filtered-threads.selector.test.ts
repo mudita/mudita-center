@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ReduxRootState, RootState } from "Renderer/store"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { initialState, messagesReducer, Thread, VisibilityFilter } from "App/messages/reducers"
 import { filteredThreadsSelector } from "App/messages/selectors/filtered-threads.selector"
 import { initialState as contactsInitialState } from "App/contacts/reducers"

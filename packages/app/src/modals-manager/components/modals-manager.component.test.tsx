@@ -5,12 +5,12 @@
 
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
-import store from "Renderer/store"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import store from "App/__deprecated__/renderer/store"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ModalsManager from "App/modals-manager/components/modals-manager.component"
-import { CollectingDataModalTestIds } from "Renderer/modules/settings/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
-import { AppForcedUpdateFlowTestIds } from "Renderer/modules/settings/components/app-forced-update-flow-test-ids.enum"
-import { AppUpdateFlowTestIds } from "Renderer/modules/settings/components/app-update-flow-test-ids.enum"
+import { CollectingDataModalTestIds } from "App/__deprecated__/renderer/modules/settings/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
+import { AppForcedUpdateFlowTestIds } from "App/__deprecated__/renderer/modules/settings/components/app-forced-update-flow-test-ids.enum"
+import { AppUpdateFlowTestIds } from "App/__deprecated__/renderer/modules/settings/components/app-update-flow-test-ids.enum"
 import { ContactSupportFlowTestIds } from "App/contact-support/components/contact-support-flow-test-ids.component"
 
 jest.mock("electron-better-ipc", () => ({

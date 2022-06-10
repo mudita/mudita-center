@@ -6,16 +6,16 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store/helpers"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { startUpdateOs } from "./start-update-os.action"
 import { DeviceUpdateProcessError } from "App/device/errors"
-import updateOs from "Renderer/requests/update-os.request"
-import { testError } from "App/renderer/store/constants"
+import updateOs from "App/__deprecated__/renderer/requests/update-os.request"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])()
 
-jest.mock("Renderer/requests/update-os.request")
+jest.mock("App/__deprecated__/renderer/requests/update-os.request")
 jest.mock("App/device-file-system", () => ({
   removeFile: jest.fn().mockReturnValue({
     type: pendingAction("DEVICE_FILE_SYSTEM_REMOVE"),

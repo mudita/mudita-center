@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import DeletingModal from "App/ui/components/deleting-modal/deleting-modal.component"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { DeletingModalTestIds } from "App/ui/components/deleting-modal/deleting-modal-test-ids.enum"
 
 type Props = ComponentProps<typeof DeletingModal>

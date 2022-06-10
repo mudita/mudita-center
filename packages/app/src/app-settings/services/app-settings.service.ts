@@ -7,8 +7,8 @@ import Store from "electron-store"
 import {
   AppSettings,
   SettingsUpdateOption,
-} from "App/main/store/settings.interface"
-import settingsSchema from "App/main/store/settings.schema"
+} from "App/__deprecated__/main/store/settings.interface"
+import settingsSchema from "App/__deprecated__/main/store/settings.schema"
 
 // TODO: Les't merge this functionality with `metadata-store.service.ts`
 

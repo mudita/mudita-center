@@ -4,7 +4,7 @@
  */
 
 import path from "path"
-import getAppPath from "App/main/utils/get-app-path"
+import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import { DataIndex } from "App/index-storage/constants"
 import { IndexStorage } from "App/index-storage/types"
 import { MetadataStore } from "App/metadata/services"

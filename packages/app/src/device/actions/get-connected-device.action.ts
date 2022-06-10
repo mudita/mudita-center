@@ -4,7 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import connectDeviceRequest from "Renderer/requests/connect-device.request"
+import connectDeviceRequest from "App/__deprecated__/renderer/requests/connect-device.request"
 import { DeviceEvent } from "App/device/constants"
 import { connectDevice } from "App/device/actions/connect-device.action"
 import { DeviceConnectionError } from "App/device/errors"

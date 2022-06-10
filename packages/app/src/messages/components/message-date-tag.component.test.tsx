@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import * as MockDate from "mockdate"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import MessageDateTag from "App/messages/components/message-date-tag.component"
 
 type Properties = ComponentProps<typeof MessageDateTag>

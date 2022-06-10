@@ -8,7 +8,7 @@ import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
 import { createContactRequest, editContactRequest } from "App/contacts/requests"
 import { Contact, initialState, NewContact } from "App/contacts/reducers"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { importContact } from "App/contacts/actions/import-contact.action"
 import { ImportContactError } from "App/contacts/errors/import-contact.error"
 import {

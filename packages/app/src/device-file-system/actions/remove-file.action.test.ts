@@ -9,7 +9,7 @@ import { AnyAction } from "@reduxjs/toolkit"
 import { removeFileRequest } from "App/device-file-system/requests"
 import { removeFile } from "./remove-file.action"
 import { DeviceFileRemovingError } from "App/device-file-system/errors"
-import { testError } from "App/renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])()

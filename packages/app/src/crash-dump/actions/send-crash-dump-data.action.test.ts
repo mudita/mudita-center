@@ -6,33 +6,33 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store/helpers"
-import mockCreateFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
-import createFile from "Renderer/utils/create-file/create-file"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
+import mockCreateFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/mock-create-freshdesk-ticket"
+import createFile from "App/__deprecated__/renderer/utils/create-file/create-file"
 import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.action"
 import { SendingCrashDumpError } from "App/crash-dump/errors"
 import { DeviceConnectionError } from "App/device"
-import { testError } from "App/renderer/store/constants"
-import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
-import archiveFiles from "Renderer/requests/archive-files.request"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import createFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
+import archiveFiles from "App/__deprecated__/renderer/requests/archive-files.request"
 
 const crashDumpsMock: string[] = ["/pure/logs/crash-dumps/file.hex"]
 
 const muditaOSLogs = new File([""], "MuditaOS.log", { type: "text/html" })
 const logsFiles: File[] = [muditaOSLogs]
 
-jest.mock("Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket")
+jest.mock("App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket")
 jest.mock("App/device-file-system", () => ({
   removeFile: jest.fn().mockReturnValue({
     type: pendingAction("DEVICE_FILE_SYSTEM_REMOVE"),
     payload: crashDumpsMock,
   }),
 }))
-jest.mock("Renderer/utils/create-file/create-file")
+jest.mock("App/__deprecated__/renderer/utils/create-file/create-file")
 jest.mock("App/contact-support/helpers/downloading-logs", () => ({
   downloadingLogs: jest.fn().mockReturnValue(logsFiles),
 }))
-jest.mock("Renderer/requests/archive-files.request")
+jest.mock("App/__deprecated__/renderer/requests/archive-files.request")
 
 afterEach(() => {
   jest.clearAllMocks()

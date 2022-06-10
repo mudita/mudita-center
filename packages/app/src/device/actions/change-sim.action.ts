@@ -4,9 +4,9 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import changeSimRequest from "Renderer/requests/change-sim.request"
+import changeSimRequest from "App/__deprecated__/renderer/requests/change-sim.request"
 import { DeviceEvent } from "App/device/constants"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
+import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { DeviceChangeSimError } from "App/device/errors"
 import { setSimData } from "App/device/actions/base.action"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"

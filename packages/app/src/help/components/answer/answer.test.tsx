@@ -9,14 +9,14 @@ import {
   mockedParagraphText,
   mockedMinorHeadingText,
   mockedRouteAndPath,
-} from "App/seeds/help"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+} from "App/__deprecated__/seeds/help"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { Route, RouteComponentProps, Router } from "react-router"
 import React from "react"
 import { createMemoryHistory, MemoryHistory } from "history"
 import { AnswerUiTestIds } from "App/help/components/answer/answer-test-ids.enum"
 import { renderAnswer } from "App/help/helpers/render-answer"
-import { URL_MAIN } from "Renderer/constants/urls"
+import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
 
 const renderWithRouterMatch = ({
   path = "/",

@@ -7,16 +7,16 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { DeviceType } from "@mudita/pure"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store/helpers"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { getConnectedDevice } from "./get-connected-device.action"
 import { DeviceConnectionError } from "App/device/errors"
-import connectDeviceRequest from "Renderer/requests/connect-device.request"
-import { testError } from "App/renderer/store/constants"
+import connectDeviceRequest from "App/__deprecated__/renderer/requests/connect-device.request"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])()
 
-jest.mock("Renderer/requests/connect-device.request")
+jest.mock("App/__deprecated__/renderer/requests/connect-device.request")
 
 jest.mock("App/device/actions/connect-device.action", () => ({
   connectDevice: jest.fn().mockReturnValue({

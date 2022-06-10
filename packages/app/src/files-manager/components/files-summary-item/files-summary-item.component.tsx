@@ -6,17 +6,17 @@
 import React from "react"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
 import {
   backgroundColor,
   borderRadius,
-} from "Renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import styled from "styled-components"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
-import { convertFromBytesToDecimal } from "Renderer/utils/convert-from-bytes-to-decimal/convert-from-bytes-to-decimal"
+import { convertFromBytesToDecimal } from "App/__deprecated__/renderer/utils/convert-from-bytes-to-decimal/convert-from-bytes-to-decimal"
 import { defineMessages } from "react-intl"
 
 const FilesSummaryItemContainer = styled.div`

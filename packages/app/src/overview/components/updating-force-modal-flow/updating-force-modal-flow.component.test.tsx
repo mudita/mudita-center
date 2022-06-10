@@ -4,20 +4,20 @@
  */
 
 import { DeviceType } from "@mudita/pure"
-import { Product } from "App/main/constants"
+import { Product } from "App/__deprecated__/main/constants"
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { noop } from "Renderer/utils/noop"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import UpdatingForceModalFlow, {
   UpdatingForceModalFlowState,
 } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { UpdatingForceModalFlowTestIds } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow-test-ids.component"
-import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
+import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 import { ipcRenderer } from "electron-better-ipc"
-import { Release, IpcUpdate } from "App/update"
+import { Release, IpcUpdate } from "App/__deprecated__/update"
 import { waitFor } from "@testing-library/dom"
-import { PureOsDownloadChannels } from "App/main/functions/register-pure-os-download-listener"
-import { DownloadStatus } from "Renderer/interfaces/file-download.interface"
+import { PureOsDownloadChannels } from "App/__deprecated__/main/functions/register-pure-os-download-listener"
+import { DownloadStatus } from "App/__deprecated__/renderer/interfaces/file-download.interface"
 
 type Props = ComponentProps<typeof UpdatingForceModalFlow>
 

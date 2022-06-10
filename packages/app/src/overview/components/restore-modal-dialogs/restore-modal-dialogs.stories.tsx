@@ -5,7 +5,7 @@
 
 import React from "react"
 import { Meta } from "@storybook/react"
-import Story from "Renderer/components/storybook/story.component"
+import Story from "App/__deprecated__/renderer/components/storybook/story.component"
 import {
   RestoreFailureModal,
   RestoreModal,

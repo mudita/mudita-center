@@ -6,7 +6,7 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { AddNewMessageError } from "App/messages/errors"
 import { createMessageRequest } from "App/messages/requests"
 import { addNewMessage } from "App/messages/actions/add-new-message.action"

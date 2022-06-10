@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { modalsManagerReducer, initialState } from "App/modals-manager/reducers"
 import { modalsManagerStateSelector } from "App/modals-manager/selectors/modals-manager-state.selector"
 

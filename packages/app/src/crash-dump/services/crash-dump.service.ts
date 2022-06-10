@@ -10,13 +10,13 @@ import {
   Method,
 } from "@mudita/pure"
 import path from "path"
-import getAppPath from "App/main/utils/get-app-path"
-import { DeviceFileSystem } from "App/backend/adapters/device-file-system/device-file-system.adapter"
+import getAppPath from "App/__deprecated__/main/utils/get-app-path"
+import { DeviceFileSystem } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
-import { DeviceService } from "App/backend/device-service"
+import { DeviceService } from "App/__deprecated__/backend/device-service"
 
 export class CrashDumpService {
   constructor(

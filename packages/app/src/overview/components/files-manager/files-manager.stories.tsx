@@ -8,7 +8,7 @@ import FilesManager from "App/overview/components/files-manager/files-manager.co
 import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { action } from "@storybook/addon-actions"
 import { MemoryRouter } from "react-router"
 import { storiesOf } from "@storybook/react"

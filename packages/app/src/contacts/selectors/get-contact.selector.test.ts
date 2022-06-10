@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { Contact, contactsReducer, initialState } from "App/contacts/reducers"
 import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
 

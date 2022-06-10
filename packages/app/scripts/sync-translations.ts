@@ -8,7 +8,7 @@ namespace SyncTranslation {
     phraseUrl,
     axiosConfig,
     axiosDevConfig,
-  } = require("../src/common/configs/phrase")
+  } = require("../src/__deprecated__/common/configs/phrase")
 
   require("dotenv").config({
     path: path.join(__dirname, "../../../.env"),

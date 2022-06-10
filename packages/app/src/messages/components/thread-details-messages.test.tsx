@@ -10,10 +10,10 @@ import {
   Receiver,
   ReceiverIdentification,
 } from "App/messages/reducers/messages.interface"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
-import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
+import { AvatarTestIds } from "App/__deprecated__/renderer/components/core/avatar/avatar-test-ids.enum"
 import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
 import {
   NotificationMethod,
