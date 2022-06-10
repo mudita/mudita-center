@@ -34,7 +34,6 @@ module.exports = {
     "!src/**/*.container.{js,ts,tsx}",
     "!src/**/*.constant.{js,ts,tsx}",
     "!src/**/*.error.{js,ts,tsx}",
-    "!src/**/*.model.{js,ts,tsx}",
     "!src/**/*.request.{js,ts,tsx}",
     "!src/**/*.module.{js,ts,tsx}",
     "!src/**/*.styled.{js,ts,tsx}",
