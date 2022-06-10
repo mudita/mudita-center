@@ -137,6 +137,7 @@ const AboutUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <ButtonComponent
+            data-testid={AboutTestIds.TermsOfServiceButton}
             displayStyle={DisplayStyle.ActionLink}
             labelMessage={{
               id: "module.settings.aboutLearnMore",
@@ -153,6 +154,7 @@ const AboutUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <ButtonComponent
+            data-testid={AboutTestIds.PrivacyPolicyButton}
             displayStyle={DisplayStyle.ActionLink}
             labelMessage={{
               id: "module.settings.aboutLearnMore",
@@ -169,6 +171,7 @@ const AboutUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <ButtonComponent
+            data-testid={AboutTestIds.LicenseButton} 
             displayStyle={DisplayStyle.ActionLink}
             labelMessage={{
               id: "module.settings.aboutLearnMore",
