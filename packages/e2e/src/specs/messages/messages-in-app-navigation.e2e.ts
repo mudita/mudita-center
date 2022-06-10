@@ -7,8 +7,7 @@ describe("Messages screen check", () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
-  })
-
+  })     
   it("Should click Messages tab and check 'new message' button is displayed", async () => {
     const messagesTab = await NavigationTabs.messagesTab
     await messagesTab.waitForDisplayed()

@@ -63,6 +63,9 @@ export const config: WebdriverIO.Config = {
     "./src/specs/news/news-in-app-navigation.e2e.ts",
     "./src/specs/overview/overview-in-app-navigation.e2e.ts",
     "./src/specs/settings/settings-in-app-navigation.e2e.ts",
+    "./src/specs/help/help-window-check.e2e.ts",
+    "./src/specs/overview/sar-window-check.e2e.ts",  
+    "./src/specs/settings/tos-privacy-licence-windows-check.e2e",
   ],
   suites: {
     update: [

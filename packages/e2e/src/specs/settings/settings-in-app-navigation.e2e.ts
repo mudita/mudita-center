@@ -8,7 +8,6 @@ describe("Settings screen check", () => {
       setTimeout(done, 10000)
     })
   })
-
   it("Click on Settings tab and check 'Settings' text label is displayed", async () => {
     const settingsTab = await NavigationTabs.settingsTab
     await settingsTab.click()

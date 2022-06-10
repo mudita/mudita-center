@@ -9,4 +9,7 @@ export enum AboutTestIds {
   TableRow = "about-tablerow",
   UpdateButton = "about-update-button",
   Modal = "about-update-modal",
+  TermsOfServiceButton = "terms-of-service-button",
+  PrivacyPolicyButton = "about-privacy-policy-button",
+  LicenseButton = "about-license-button",
 }
