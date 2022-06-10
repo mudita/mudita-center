@@ -10,7 +10,12 @@ import { normalizeContentfulData } from "../src/__deprecated__/news/helpers/norm
 ;(async () => {
   try {
     await fs.ensureDir(path.resolve(path.join("src", "main")))
-    const jsonPath = path.join("src", "main", "default-news.json")
+    const jsonPath = path.join(
+      "src",
+      "__deprecated__",
+      "main",
+      "default-news.json"
+    )
 
     const url = `${process.env.MUDITA_CENTER_SERVER_URL}/news`
     const { data } = await axios.get(url, {
