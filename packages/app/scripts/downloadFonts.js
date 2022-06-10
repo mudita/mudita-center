@@ -16,6 +16,7 @@ require("dotenv").config({
     __dirname,
     "..",
     "src",
+    "__deprecated__",
     "renderer",
     "fonts",
     "main"
