@@ -23,7 +23,10 @@ import Text, {
 import getPrettyCaller from "App/__deprecated__/renderer/models/calls/get-pretty-caller"
 import { isToday } from "App/__deprecated__/renderer/utils/is-today"
 import moment from "moment"
-import { Actions, Col } from "App/__deprecated__/renderer/components/core/table/table.component"
+import {
+  Actions,
+  Col,
+} from "App/__deprecated__/renderer/components/core/table/table.component"
 import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
@@ -33,7 +36,10 @@ import ButtonComponent from "App/__deprecated__/renderer/components/core/button/
 import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import { Thread } from "App/messages/reducers"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { RowStatus, UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
+import {
+  RowStatus,
+  UseTableSelect,
+} from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import styled, { css } from "styled-components"
 import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import {
@@ -51,8 +57,8 @@ import { ElementWithTooltipPlace } from "App/__deprecated__/renderer/components/
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
-  dropdownTogllerTooltipDescription: {
-    id: "component.dropdownTogllerTooltipDescription",
+  dropdownTogglerTooltipDescription: {
+    id: "component.dropdownTogglerTooltipDescription",
   },
 })
 
@@ -240,7 +246,7 @@ const ThreadRow: FunctionComponent<Props> = ({
             toggler={
               <IconButtonWithSecondaryTooltip
                 iconType={IconType.More}
-                description={messages.dropdownTogllerTooltipDescription}
+                description={messages.dropdownTogglerTooltipDescription}
                 // FIXME: The position based on offset is a sticky. However, this is a quick workaround
                 //  for buggy overridePosition lib feature
                 place={ElementWithTooltipPlace.Bottom}

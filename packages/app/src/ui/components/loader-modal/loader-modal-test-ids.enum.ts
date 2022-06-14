@@ -3,5 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./components"
-export * from "./hooks"
+export enum LoaderModalTestIds {
+  Loader = "loader-modal-loader",
+}

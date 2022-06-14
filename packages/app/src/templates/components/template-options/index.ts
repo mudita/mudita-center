@@ -3,5 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./components"
-export * from "./hooks"
+export * from "./template-options.component"
+export * from "./template-options.interface"

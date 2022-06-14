@@ -3,5 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./components"
-export * from "./hooks"
+export * from "./deleting-template-modals.component"
+export * from "./deleting-template-modals.interface"

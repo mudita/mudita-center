@@ -107,7 +107,7 @@ export class TemplateService {
       body: TemplatePresenter.mapToPureTemplateBody(template),
     })
 
-    if (isResponseSuccessWithData(response)) {
+    if (response.status === RequestResponseStatus.Ok && !response.error) {
       this.templateRepository.update(template)
 
       return {
@@ -117,7 +117,7 @@ export class TemplateService {
     } else {
       return {
         status: response.status,
-        error: { message: "Create template: Something went wrong" },
+        error: { message: "Update template: Something went wrong" },
       }
     }
   }
