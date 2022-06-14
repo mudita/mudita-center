@@ -122,7 +122,7 @@ describe("Component: `DeletingTemplateModals`", () => {
     ).not.toBeInTheDocument()
   })
 
-  test("displays info pop up with deleted entity count if `creatingInfo` is equal to `true`, `error` is empty and `deletedTemplatesLength` more then `1`", () => {
+  test("displays info pop up with deleted entity count if `creatingInfo` is equal to `true`, `error` is empty and `deletedTemplatesLength` is more then `1`", () => {
     const { queryByTestId } = render({
       ...defaultPropsMock,
       deletingInfo: true,

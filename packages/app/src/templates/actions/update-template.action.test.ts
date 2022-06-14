@@ -30,7 +30,7 @@ jest.mock("App/templates/requests/update-template.request")
 
 describe("async `updateTemplate`", () => {
   describe("when `updateTemplateRequest` requests return success", () => {
-    test("fire async `updateTemplate` returns update template", async () => {
+    test("fire async `updateTemplate` returns updated template", async () => {
       ;(updateTemplateRequest as jest.Mock).mockReturnValue({
         data: template,
         error: null,
@@ -71,7 +71,7 @@ describe("async `updateTemplate`", () => {
       expect(updateTemplateRequest).toHaveBeenCalled()
     })
 
-    test("fire async `createTemplate` returns `rejected` action if error is exist", async () => {
+    test("fire async `createTemplate` returns `rejected` action if error exists", async () => {
       ;(updateTemplateRequest as jest.Mock).mockReturnValue({
         data: {},
         error: { data: "Some error" },
