@@ -4,7 +4,9 @@
  */
 
 import { EventEmitter } from "events"
-import DeviceService, { DeviceServiceEventName } from "App/__deprecated__/backend/device-service"
+import DeviceService, {
+  DeviceServiceEventName,
+} from "App/__deprecated__/backend/device-service"
 import { ipcMain } from "electron-better-ipc"
 import { IpcEvent } from "App/data-sync/constants"
 import { MessageObserver } from "App/messages/observers/message.observer"
@@ -39,6 +41,7 @@ const thread: Thread = {
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
   unread: true,
+  messageType: MessageType.INBOX,
 }
 
 const getMessagesSuccessResponse: SuccessRequestResponse<GetMessagesByThreadIdResponse> =

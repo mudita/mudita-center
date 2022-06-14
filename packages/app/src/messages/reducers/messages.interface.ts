@@ -25,6 +25,7 @@ export enum ResultState {
 export enum MessageType {
   INBOX = "INBOX",
   OUTBOX = "OUTBOX",
+  FAILED = "FAILED",
 }
 
 export interface Message {
@@ -50,6 +51,7 @@ export interface Thread {
   lastUpdatedAt: Date
   messageSnippet: string
   unread: boolean
+  messageType: MessageType
 }
 
 export type ThreadMap = { [id: string]: Thread }

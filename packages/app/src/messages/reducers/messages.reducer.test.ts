@@ -17,7 +17,10 @@ import {
   VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { fulfilledAction, pendingAction } from "App/__deprecated__/renderer/store/helpers"
+import {
+  fulfilledAction,
+  pendingAction,
+} from "App/__deprecated__/renderer/store/helpers"
 
 test("empty event returns initial state", () => {
   expect(messagesReducer(undefined, {} as any)).toEqual(initialState)
@@ -31,6 +34,7 @@ describe("Toggle Thread Read Status data functionality", () => {
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
+    messageType: MessageType.INBOX,
   }
 
   test("Event: ToggleThreadsReadStatus update properly threadMap field", () => {
@@ -73,6 +77,7 @@ describe("Mark Thread Read Status data functionality", () => {
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
+    messageType: MessageType.INBOX,
   }
 
   test("Event: MarkThreadsReadStatus/pending update properly threadMap field", () => {
@@ -146,6 +151,7 @@ describe("Delete Threads data functionality", () => {
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
+    messageType: MessageType.INBOX,
   }
 
   const message: Message = {
@@ -220,6 +226,7 @@ describe("Delete Threads data functionality", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: true,
+      messageType: MessageType.INBOX,
     }
 
     const toDeleteMessage: Message = {
@@ -308,6 +315,7 @@ describe("Clear All Threads data functionality", () => {
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
+    messageType: MessageType.INBOX,
   }
 
   const message: Message = {
@@ -354,6 +362,7 @@ describe("Add New Message functionality", () => {
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
+    messageType: MessageType.INBOX,
   }
 
   const messagePartOne: Message = {
