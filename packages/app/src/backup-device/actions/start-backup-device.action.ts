@@ -5,7 +5,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { BackupDeviceEvent } from "App/backup-device/constants"
-import { isResponsesSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponsesSuccessWithData } from "App/core/helpers"
 import { StartBackupDeviceError } from "App/backup-device/errors"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { loadBackupData } from "App/backup/actions"
