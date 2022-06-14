@@ -61,7 +61,7 @@
   "component.devModeToggle": "Toggle dev window",
   "component.devModeWrapperName": "Developer Options",
   "component.dropdownCall": "Call {name}",
-  "component.dropdownTogllerTooltipDescription": "Options",
+  "component.dropdownTogglerTooltipDescription": "Options",
   "component.filesManagerFilesStorageEmptyStateDescription": "Files storage is empty",
   "component.filesManagerFilesStorageEmptyStateTitle": "No files found",
   "component.filesManagerFilesStorageErrorStateDescription": "Please reconnect your device and try again",
