@@ -35,4 +35,10 @@ describe("`TemplatePresenter`", () => {
       ]
     `)
   })
+
+  test("`serializeToObject` returns empty array when `templates` is `undefined`", async () => {
+    const result = subject.serializeToObject({ templates: undefined })
+
+    expect(result).toMatchInlineSnapshot(`Array []`)
+  })
 })
