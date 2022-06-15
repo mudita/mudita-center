@@ -9,7 +9,6 @@ export enum Feature {
   DeveloperModeHidden = "developer-mode-hidden",
   DisabledOnProduction = "disabled-on-production",
   McPrereleaseAvailable = "mc-prerelease-available",
-  MessagesHidden = "messages-hidden",
   DevelopOnly = "development-only",
   ProductionAndAlpha = "production-and-alpha",
   MessagesSearch = "messages-search",

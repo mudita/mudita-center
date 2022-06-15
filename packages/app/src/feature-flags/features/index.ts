@@ -32,11 +32,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
   },
-  [Feature.MessagesHidden]: {
-    [Environment.Development]: false,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
-  },
   [Feature.DevelopOnly]: {
     [Environment.Development]: true,
     [Environment.Production]: false,

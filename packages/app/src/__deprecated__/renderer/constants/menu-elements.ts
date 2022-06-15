@@ -28,7 +28,6 @@ const YOUR_PURE_BUTTONS = [
     button: views.messages,
     icon: IconType.Message,
     testId: MenuGroupTestIds.Messages,
-    hidden: flags.get(Feature.MessagesHidden),
     visibleOn: [DeviceType.MuditaPure],
     viewKey: View.Messages,
   },
