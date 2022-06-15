@@ -116,9 +116,7 @@ The Mudita Center have the next feature toggle environments:
 
 - development
 - production
-- test-production
 - alpha-production
-- test-alpha-production
 
 **Note:** You might not be able to build the app for all platforms one one platform. Read more about it the ["Multi Platform Build" article](https://www.electron.build/multi-platform-build).
 
