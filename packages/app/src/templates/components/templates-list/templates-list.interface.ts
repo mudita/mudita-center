@@ -14,4 +14,5 @@ type SelectHook = Pick<
 export interface TemplatesListProps extends SelectHook {
   templates: Template[]
   deleteTemplates: (ids: string[]) => void
+  updateTemplate: (id: string) => void
 }

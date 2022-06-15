@@ -27,7 +27,7 @@ import {
   AcceptablePureMessageType,
   MessagePresenter,
 } from "App/messages/presenters"
-import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponseSuccessWithData } from "App/core/helpers"
 import { ThreadService } from "App/messages/services/thread.service"
 import { splitMessageByBytesSize } from "../helpers"
 

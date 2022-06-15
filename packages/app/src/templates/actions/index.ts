@@ -5,4 +5,4 @@
 
 export * from "./delete-templates.action"
 export * from "./create-template.action"
-export * from "./base.action"
+export * from "./update-template.action"

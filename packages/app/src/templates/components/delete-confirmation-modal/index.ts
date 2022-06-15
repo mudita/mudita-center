@@ -3,6 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum DeletingModalTestIds {
-  Loader = "deleting-modal-loader",
-}
+export * from "./delete-confirmation-modal.component"
+export * from "./delete-confirmation-modal.interface"
