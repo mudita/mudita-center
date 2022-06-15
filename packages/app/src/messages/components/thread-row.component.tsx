@@ -58,8 +58,8 @@ import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
-  dropdownTogllerTooltipDescription: {
-    id: "component.dropdownTogllerTooltipDescription",
+  dropdownTogglerTooltipDescription: {
+    id: "component.dropdownTogglerTooltipDescription",
   },
 })
 
@@ -272,7 +272,7 @@ const ThreadRow: FunctionComponent<Props> = ({
             toggler={
               <IconButtonWithSecondaryTooltip
                 iconType={IconType.More}
-                description={messages.dropdownTogllerTooltipDescription}
+                description={messages.dropdownTogglerTooltipDescription}
                 // FIXME: The position based on offset is a sticky. However, this is a quick workaround
                 //  for buggy overridePosition lib feature
                 place={ElementWithTooltipPlace.Bottom}

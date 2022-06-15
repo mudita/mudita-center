@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import React from "react"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
@@ -16,7 +16,7 @@ import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-
 import { defineMessages } from "react-intl"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
-import { Message as TranslationMessage } from "App/__deprecated__/renderer/interfaces/message.interface"
+import { DeletingThreadsModalProps } from "App/templates/components/delete-confirmation-modal/delete-confirmation-modal.interface"
 
 const Content = styled.div`
   display: flex;
@@ -31,17 +31,9 @@ const messages = defineMessages({
   title: { id: "module.templates.deleteModalTitle" },
 })
 
-export interface DeletingThreadsModalProps
-  extends ComponentProps<typeof ModalDialog> {
-  info?: TranslationMessage
-}
-
-const DeleteConfirmationModal: FunctionComponent<DeletingThreadsModalProps> = ({
-  info,
-  onActionButtonClick,
-  onCloseButton,
-  ...rest
-}) => (
+export const DeleteConfirmationModal: FunctionComponent<
+  DeletingThreadsModalProps
+> = ({ info, onActionButtonClick, onCloseButton, ...rest }) => (
   <ModalDialog
     size={ModalSize.Small}
     title={intl.formatMessage(messages.title)}
@@ -72,5 +64,3 @@ const DeleteConfirmationModal: FunctionComponent<DeletingThreadsModalProps> = ({
     </Content>
   </ModalDialog>
 )
-
-export default DeleteConfirmationModal

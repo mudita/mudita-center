@@ -75,7 +75,7 @@ describe("async `createTemplate`", () => {
       expect(createTemplateRequest).toHaveBeenCalled()
     })
 
-    test("fire async `createTemplate` returns `rejected` action if error is exist", async () => {
+    test("fire async `createTemplate` returns `rejected` action if error exists", async () => {
       ;(createTemplateRequest as jest.Mock).mockReturnValue({
         data: {},
         error: { data: "Some error" },

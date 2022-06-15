@@ -24,6 +24,7 @@ describe("`TemplatesList` component", () => {
     const { getByText } = render({
       templates: [],
       deleteTemplates: jest.fn(),
+      updateTemplate: jest.fn(),
       getRowStatus: jest
         .fn()
         .mockReturnValue({ indeterminate: false, selected: false }),
@@ -42,6 +43,7 @@ describe("`TemplatesList` component", () => {
     const { getByText } = render({
       templates: [templateMock],
       deleteTemplates: jest.fn(),
+      updateTemplate: jest.fn(),
       getRowStatus: jest
         .fn()
         .mockReturnValue({ indeterminate: false, selected: false }),
@@ -55,6 +57,7 @@ describe("`TemplatesList` component", () => {
     const { getByTestId } = render({
       templates: [templateMock],
       deleteTemplates: jest.fn(),
+      updateTemplate: jest.fn(),
       getRowStatus: jest
         .fn()
         .mockReturnValue({ indeterminate: false, selected: false }),

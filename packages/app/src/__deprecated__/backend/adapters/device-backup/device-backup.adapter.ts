@@ -7,7 +7,7 @@ import {
   GetBackupDeviceStatusDataState,
   GetBackupDeviceStatusResponseBody,
 } from "@mudita/pure"
-import { isResponsesSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponsesSuccessWithData } from "App/core/helpers"
 import DeviceBackupAdapter from "App/__deprecated__/backend/adapters/device-backup/device-backup-adapter.class"
 import DeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/device-base-info/device-base-info-adapter.class"
 import DeviceFileSystemAdapter, {

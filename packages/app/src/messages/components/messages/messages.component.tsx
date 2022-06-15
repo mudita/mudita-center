@@ -52,7 +52,7 @@ import { Notification } from "App/notification/types"
 import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import { ThreadDeletingState } from "App/messages/constants"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
-import DeletingModal from "App/ui/components/deleting-modal/deleting-modal.component"
+import DeletingModal from "App/ui/components/loader-modal/loader-modal.component"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },

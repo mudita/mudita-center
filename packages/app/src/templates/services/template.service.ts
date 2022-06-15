@@ -15,7 +15,7 @@ import {
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 import { TemplatePresenter } from "App/templates/presenters"
-import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponseSuccessWithData, isResponseSuccess } from "App/core/helpers"
 import { TemplateRepository } from "App/templates/repositories"
 import { DeleteTemplateRequestResponse } from "App/templates/reducers"
 
@@ -107,7 +107,7 @@ export class TemplateService {
       body: TemplatePresenter.mapToPureTemplateBody(template),
     })
 
-    if (isResponseSuccessWithData(response)) {
+    if (isResponseSuccess(response)) {
       this.templateRepository.update(template)
 
       return {
@@ -117,7 +117,7 @@ export class TemplateService {
     } else {
       return {
         status: response.status,
-        error: { message: "Create template: Something went wrong" },
+        error: { message: "Update template: Something went wrong" },
       }
     }
   }

@@ -4,7 +4,7 @@
  */
 
 import downloadDeviceBackupRequest from "App/backup-device/requests/download-device-backup.request"
-import { isResponsesSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponsesSuccessWithData } from "App/core/helpers"
 import { DownloadDeviceFileLocallyOptions } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import { RequestResponse } from "App/core/types/request-response.interface"
 

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { isResponsesSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponsesSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helper"
 import {
   RequestResponse,
   RequestResponseStatus,

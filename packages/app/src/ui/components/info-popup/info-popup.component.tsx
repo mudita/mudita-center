@@ -26,10 +26,11 @@ const InfoPopupWrapper = styled.div`
 
 interface Props {
   message: Message
+  testId?: string
 }
 
-const InfoPopup: FunctionComponent<Props> = ({ message }) => (
-  <InfoPopupWrapper>
+const InfoPopup: FunctionComponent<Props> = ({ message, testId }) => (
+  <InfoPopupWrapper data-testid={testId}>
     <Text
       displayStyle={TextDisplayStyle.Paragraph1}
       data-testid={InfoPopupTestIds.Text}

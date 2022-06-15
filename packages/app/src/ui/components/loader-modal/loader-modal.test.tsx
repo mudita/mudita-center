@@ -4,11 +4,11 @@
  */
 
 import React, { ComponentProps } from "react"
-import DeletingModal from "App/ui/components/deleting-modal/deleting-modal.component"
+import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import { DeletingModalTestIds } from "App/ui/components/deleting-modal/deleting-modal-test-ids.enum"
+import { LoaderModalTestIds } from "App/ui/components/loader-modal/loader-modal-test-ids.enum"
 
-type Props = ComponentProps<typeof DeletingModal>
+type Props = ComponentProps<typeof LoaderModal>
 
 const renderModal = (extraProps?: Partial<Props>) => {
   const props = {
@@ -16,13 +16,13 @@ const renderModal = (extraProps?: Partial<Props>) => {
     open: true,
     ...extraProps,
   }
-  return renderWithThemeAndIntl(<DeletingModal {...props} />)
+  return renderWithThemeAndIntl(<LoaderModal {...props} />)
 }
 
-describe("Deleting Modal", () => {
+describe("LoaderModal Modal", () => {
   test("should render loader properly", () => {
     const { getByTestId } = renderModal()
-    expect(getByTestId(DeletingModalTestIds.Loader)).toBeInTheDocument()
+    expect(getByTestId(LoaderModalTestIds.Loader)).toBeInTheDocument()
   })
 
   test("subtitle is passed to modal properly", () => {
