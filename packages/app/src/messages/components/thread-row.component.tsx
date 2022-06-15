@@ -256,7 +256,11 @@ const ThreadRow: FunctionComponent<Props> = ({
             </ThreadDataWrapper>
             {isMessageFailed && (
               <WarningIconWrapper>
-                <Icon type={IconType.Warning} width={1.6} />
+                <Icon
+                  type={IconType.Warning}
+                  width={1.6}
+                  data-testid={ThreadListTestIds.NotSendIcon}
+                />
               </WarningIconWrapper>
             )}
           </>

@@ -9,6 +9,7 @@ import MessageBubble from "App/messages/components/message-bubble.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom"
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
+import { MessageType } from "App/messages/reducers"
 
 type Props = ComponentProps<typeof MessageBubble>
 
@@ -19,6 +20,7 @@ const defaultProps: Props = {
   id: "123",
   message:
     "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
+  messageType: MessageType.INBOX,
 }
 
 const renderer = (extraProps?: {}) => {
@@ -80,4 +82,9 @@ describe("Message Bubble Container", () => {
     const container = getByTestId(MessageBubbleTestIds.Container)
     expect(container).toHaveStyle("flex-direction: row")
   })
+})
+
+test("should show not send status if sending message failed", () => {
+  const { getByTestId } = renderer({ messageType: MessageType.FAILED })
+  expect(getByTestId(MessageBubbleTestIds.NotSendIcon)).toBeInTheDocument()
 })
