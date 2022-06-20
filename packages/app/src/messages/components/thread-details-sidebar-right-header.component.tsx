@@ -60,7 +60,7 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
           onClick={onContactClick}
         />
       )}
-      {flags.get(Feature.MessagesThreadMarkAsReadEnabled) && (
+      {flags.get(Feature.MessagesThreadDetailsMarkAsReadEnabled) && (
         <SidebarHeaderButton
           description={messages.marksAsReadTooltipDescription}
           iconType={IconType.BorderCheckIcon}

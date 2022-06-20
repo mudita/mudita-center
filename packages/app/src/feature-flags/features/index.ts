@@ -62,11 +62,6 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
-  [Feature.MessagesTabEnabled]: {
-    [Environment.Development]: true,
-    [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
-  },
   [Feature.MuditaCenterPrereleaseEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
@@ -87,7 +82,7 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
-  [Feature.MessagesThreadMarkAsReadEnabled]: {
+  [Feature.MessagesThreadDetailsMarkAsReadEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
