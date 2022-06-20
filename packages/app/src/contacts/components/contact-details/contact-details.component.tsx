@@ -130,30 +130,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     const handleUnblock = () => onUnblock(contact)
     const handleDelete = () => onDelete(contact)
     const handleMessage = (phoneNumber: string) => onMessage(phoneNumber)
-    // TODO: Remove prodIcons along with associated logic when features become available
-    const exportIcon = (
-      <SidebarHeaderButton
-        description={messages.exportTooltipDescription}
-        iconType={IconType.UploadDark}
-        onClick={handleExport}
-        data-testid={ContactDetailsTestIds.ExportButton}
-      />
-    )
-    const prodIcons = (
-      <>
-        <SidebarHeaderButton
-          description={messages.deleteTooltipDescription}
-          iconType={IconType.Delete}
-          onClick={handleDelete}
-        />
-        {exportIcon}
-        <SidebarHeaderButton
-          description={messages.editTooltipDescription}
-          iconType={IconType.Edit}
-          onClick={handleEdit}
-        />
-      </>
-    )
+
     const icons = (
       <>
         <SidebarHeaderButton
@@ -161,30 +138,38 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
           iconType={IconType.Delete}
           onClick={handleDelete}
         />
-        {exportIcon}
         <SidebarHeaderButton
-          description={messages.forwardTooltipDescription}
-          iconType={IconType.Forward}
-          onClick={handleForward}
+          description={messages.exportTooltipDescription}
+          iconType={IconType.UploadDark}
+          onClick={handleExport}
+          data-testid={ContactDetailsTestIds.ExportButton}
         />
+        {flags.get(Feature.ContactForwardEnabled) && (
+          <SidebarHeaderButton
+            description={messages.forwardTooltipDescription}
+            iconType={IconType.Forward}
+            onClick={handleForward}
+          />
+        )}
         <SidebarHeaderButton
           description={messages.editTooltipDescription}
           iconType={IconType.Edit}
           onClick={handleEdit}
         />
-        {contact.blocked ? (
-          <SidebarHeaderButton
-            description={messages.unblockTooltipDescription}
-            iconType={IconType.Blocked}
-            onClick={handleUnblock}
-          />
-        ) : (
-          <SidebarHeaderButton
-            description={messages.blockTooltipDescription}
-            iconType={IconType.Blocked}
-            onClick={handleBlock}
-          />
-        )}
+        {flags.get(Feature.ContactBlockingEnabled) &&
+          (contact.blocked ? (
+            <SidebarHeaderButton
+              description={messages.unblockTooltipDescription}
+              iconType={IconType.Blocked}
+              onClick={handleUnblock}
+            />
+          ) : (
+            <SidebarHeaderButton
+              description={messages.blockTooltipDescription}
+              iconType={IconType.Blocked}
+              onClick={handleBlock}
+            />
+          ))}
       </>
     )
 
@@ -201,7 +186,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       <ContactDetailsWrapper
         {...rest}
         show
-        headerRight={flags.get(Feature.DevelopOnly) ? icons : prodIcons}
+        headerRight={icons}
         data-testid={ContactDetailsTestIds.Details}
       >
         <BasicInfo>
@@ -238,7 +223,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                     // TODO: Implement additional toggles for this feature
                     trailingIcons={
                       contact.primaryPhoneNumber
-                        ? flags.get(Feature.DevelopOnly)
+                        ? flags.get(Feature.ContactPhoneFieldIconsEnabled)
                           ? phoneActions(
                               contact.primaryPhoneNumber,
                               !isThreadOpened(contact.primaryPhoneNumber),
@@ -256,7 +241,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                     // TODO: Implement additional toggles for this feature
                     trailingIcons={
                       contact.secondaryPhoneNumber
-                        ? flags.get(Feature.DevelopOnly)
+                        ? flags.get(Feature.ContactPhoneFieldIconsEnabled)
                           ? phoneActions(
                               contact.secondaryPhoneNumber,
                               !isThreadOpened(contact.secondaryPhoneNumber),

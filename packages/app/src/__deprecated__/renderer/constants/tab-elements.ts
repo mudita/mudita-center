@@ -5,7 +5,8 @@
 
 import { defineMessages } from "react-intl"
 import { URL_MAIN, URL_TABS } from "App/__deprecated__/renderer/constants/urls"
-import { flags, Feature } from "App/feature-flags"
+import { flags } from "App/feature-flags/helpers/feature-flag.helpers"
+import { Feature } from "App/feature-flags/constants/feature.enum"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
@@ -47,13 +48,13 @@ export const tabElements: TabElement[] = [
         label: messages.conversations,
         url: URL_MAIN.messages,
         icon: IconType.Message,
-        hidden: flags.get(Feature.DisabledOnProduction),
+        hidden: !flags.get(Feature.MessagesTabEnabled),
       },
       {
         label: messages.templates,
         url: `${URL_MAIN.messages}${URL_TABS.templates}`,
         icon: IconType.Templates,
-        hidden: flags.get(Feature.DisabledOnProduction),
+        hidden: !flags.get(Feature.MessagesTemplatesTabEnabled),
       },
     ],
   },
@@ -69,7 +70,7 @@ export const tabElements: TabElement[] = [
         label: messages.dial,
         url: `${URL_MAIN.phone}${URL_TABS.dial}`,
         icon: IconType.Dial,
-        hidden: flags.get(Feature.ProductionAndAlpha),
+        hidden: !flags.get(Feature.PhoneDialTabEnabled),
       },
     ],
   },
@@ -115,13 +116,13 @@ export const tabElements: TabElement[] = [
         label: messages.notifications,
         url: `${URL_MAIN.settings}${URL_TABS.notifications}`,
         icon: IconType.Notifications,
-        hidden: flags.get(Feature.ProductionAndAlpha),
+        hidden: !flags.get(Feature.SettingsNotificationTabEnabled),
       },
       {
         label: messages.audioConversion,
         url: `${URL_MAIN.settings}${URL_TABS.audioConversion}`,
         icon: IconType.MenuMusic,
-        hidden: flags.get(Feature.ProductionAndAlpha),
+        hidden: !flags.get(Feature.SettingsAudioConversionTabEnabled),
       },
       {
         label: messages.backup,

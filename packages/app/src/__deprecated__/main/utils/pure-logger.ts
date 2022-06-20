@@ -16,7 +16,7 @@ export interface ScrubProps {
 
 class PureLogger implements ConsoleLogger {
   info(message: string): void {
-    if (flags.get(Feature.LogsScrubbed)) {
+    if (flags.get(Feature.LogsScrubbingEnabled)) {
       logger.info(this.scrub(message))
     } else {
       logger.info(this.scrubFileSystemData(message))

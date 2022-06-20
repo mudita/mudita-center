@@ -40,7 +40,7 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      {flags.get(Feature.DevelopOnly) && (
+      {flags.get(Feature.MessagesThreadCallsEnabled) && (
         <SidebarHeaderButton
           description={messages.callsTooltipDescription}
           iconType={IconType.Calls}
@@ -60,19 +60,19 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
           onClick={onContactClick}
         />
       )}
-      {flags.get(Feature.DevelopOnly) && (
-        <>
-          <SidebarHeaderButton
-            description={messages.deleteTooltipDescription}
-            iconType={IconType.BorderCheckIcon}
-            onClick={onCheckClick}
-          />
-          <SidebarHeaderButton
-            description={messages.deleteTooltipDescription}
-            iconType={IconType.Delete}
-            onClick={onDeleteClick}
-          />
-        </>
+      {flags.get(Feature.MessagesThreadMarkAsReadEnabled) && (
+        <SidebarHeaderButton
+          description={messages.marksAsReadTooltipDescription}
+          iconType={IconType.BorderCheckIcon}
+          onClick={onCheckClick}
+        />
+      )}
+      {flags.get(Feature.MessagesThreadDeleteEnabled) && (
+        <SidebarHeaderButton
+          description={messages.deleteTooltipDescription}
+          iconType={IconType.Delete}
+          onClick={onDeleteClick}
+        />
       )}
     </>
   )

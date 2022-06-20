@@ -3,7 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import PureLogger, { ScrubProps } from "App/__deprecated__/main/utils/pure-logger"
+import PureLogger, {
+  ScrubProps,
+} from "App/__deprecated__/main/utils/pure-logger"
 import logger from "App/__deprecated__/main/utils/logger"
 import { flags } from "App/feature-flags"
 
@@ -46,7 +48,7 @@ describe("Pure Logger main util", () => {
       jest.clearAllMocks()
     })
 
-    test("body is scrubbed if Feature.LogsScrubbed toggle isn't set to false", () => {
+    test("body is scrubbed if Feature.LogsScrubbingEnabled toggle isn't set to false", () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(true)
       jest.spyOn(logger, "info")
       const pureLogger = new PureLogger()
@@ -54,7 +56,7 @@ describe("Pure Logger main util", () => {
       expect(logger.info).toBeCalledWith(mockScrubbedMessage)
     })
 
-    test("body is scrubbed if Feature.LogsScrubbed toggle is to true", () => {
+    test("body is scrubbed if Feature.LogsScrubbingEnabled toggle is to true", () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(true)
       jest.spyOn(logger, "info")
       const pureLogger = new PureLogger()
@@ -62,7 +64,7 @@ describe("Pure Logger main util", () => {
       expect(logger.info).toBeCalledWith(mockScrubbedMessage)
     })
 
-    test("body isn't scrubbed if Feature.LogsScrubbed toggle is to false ", () => {
+    test("body isn't scrubbed if Feature.LogsScrubbingEnabled toggle is to false ", () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(false)
       jest.spyOn(logger, "info")
       const pureLogger = new PureLogger()
@@ -110,7 +112,7 @@ describe("Pure Logger main util", () => {
       jest.clearAllMocks()
     })
 
-    test("body is scrubbed if Feature.LogsScrubbed toggle isn't set to false ", () => {
+    test("body is scrubbed if Feature.LogsScrubbingEnabled toggle isn't set to false ", () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(true)
       jest.spyOn(logger, "info")
       const pureLogger = new PureLogger()
@@ -118,7 +120,7 @@ describe("Pure Logger main util", () => {
       expect(logger.info).toBeCalledWith(mockScrubbedMessage)
     })
 
-    test("body is scrubbed if Feature.LogsScrubbed toggle is to true ", () => {
+    test("body is scrubbed if Feature.LogsScrubbingEnabled toggle is to true ", () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(true)
       jest.spyOn(logger, "info")
       const pureLogger = new PureLogger()
@@ -126,7 +128,7 @@ describe("Pure Logger main util", () => {
       expect(logger.info).toBeCalledWith(mockScrubbedMessage)
     })
 
-    test("body isn't scrubbed if Feature.LogsScrubbed toggle is to false ", () => {
+    test("body isn't scrubbed if Feature.LogsScrubbingEnabled toggle is to false ", () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(false)
       jest.spyOn(logger, "info")
       const pureLogger = new PureLogger()
