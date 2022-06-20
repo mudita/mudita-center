@@ -7,19 +7,19 @@ import { EnvironmentConfig } from "App/feature-flags/types"
 import { Feature, Environment } from "App/feature-flags/constants"
 
 export const features: EnvironmentConfig = {
-  // TODO determinate toggle usefulness
+  // TODO [CP-1003] determinate toggle usefulness
   [Feature.ProductionReleaseOnly]: {
     [Environment.Development]: false,
     [Environment.Production]: true,
     [Environment.AlphaProduction]: false,
   },
-  // TODO determinate toggle usefulness
+  // TODO [CP-1003] determinate toggle usefulness
   [Feature.TestProductionReleaseOnly]: {
     [Environment.Development]: false,
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
   },
-  // TODO determinate toggle usefulness
+  // TODO [CP-1003] determinate toggle usefulness
   [Feature.AllReleaseListAvailable]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
