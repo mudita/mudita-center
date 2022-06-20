@@ -330,18 +330,22 @@ const Messages: FunctionComponent<Props> = ({
       handleReceiverSelect({ phoneNumber })
     }
     await addNewMessage({ content, phoneNumber, threadId })
+    setContent("")
   }
 
   useEffect(() => {
-    if (activeThread !== undefined) {
-      const thread = threads.find(
-        (thread) => thread.phoneNumber === activeThread.phoneNumber
-      )
-      if (thread) {
-        openThreadDetails(thread)
-      } else if (tmpActiveThread === undefined && thread === undefined) {
-        setActiveThread(undefined)
-      }
+    if (activeThread === undefined) {
+      return
+    }
+    const thread = threads.find(
+      (thread) => thread.phoneNumber === activeThread.phoneNumber
+    )
+    if (activeThread.id === thread?.id) {
+      return
+    } else if (thread) {
+      openThreadDetails(thread)
+    } else if (tmpActiveThread === undefined && thread === undefined) {
+      setActiveThread(undefined)
     }
   }, [activeThread, threads])
 
