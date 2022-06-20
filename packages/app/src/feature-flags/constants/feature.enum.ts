@@ -15,7 +15,7 @@ export enum Feature {
   MessagesSearchEnabled = "messages-search-enabled",
   MessagesThreadDeleteEnabled = "messages-thread-delete-enabled",
   MessagesThreadAttachContactEnabled = "messages-thread-attach-contact-enabled",
-  MessagesThreadAttachTemplateEnabled = "messages-thread-attach-contact-enabled",
+  MessagesThreadAttachTemplateEnabled = "messages-thread-attach-template-enabled",
   MessagesThreadCallsEnabled = "messages-thread-calls-enabled",
   MessagesThreadDetailsMarkAsReadEnabled = "messages-thread-details-mark-as-read-enabled",
   MessagesCallFromThreadEnabled = "messages-call-from-thread-enabled",
