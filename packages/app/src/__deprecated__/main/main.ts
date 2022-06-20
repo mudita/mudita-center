@@ -65,7 +65,10 @@ import {
 } from "./config"
 import autoupdate, { mockAutoupdate } from "./autoupdate"
 import startBackend from "App/__deprecated__/backend/bootstrap"
-import { URL_MAIN, URL_OVERVIEW } from "App/__deprecated__/renderer/constants/urls"
+import {
+  URL_MAIN,
+  URL_OVERVIEW,
+} from "App/__deprecated__/renderer/constants/urls"
 import { Mode } from "App/__deprecated__/common/enums/mode.enum"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import { AboutActions } from "App/__deprecated__/common/enums/about-actions.enum"
@@ -154,7 +157,6 @@ const createWindow = async () => {
       title,
     })
   )
-  setWindowTitleInHTMLtitleTag(win, title)
 
   new MetadataInitializer(metadataStore).init()
 
@@ -260,7 +262,6 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
             search: `?mode=${Mode.Help}`,
           })
     )
-    setWindowTitleInHTMLtitleTag(helpWindow, title)
     registerDownloadHelpHandler()
     registerSetHelpStoreHandler()
     registerGetHelpStoreHandler()
@@ -303,7 +304,6 @@ const createOpenWindowListener = (
               search: `?mode=${mode}`,
             })
       )
-      setWindowTitleInHTMLtitleTag(newWindow, title)
       newWindow.webContents.on("new-window", (event, href) => {
         event.preventDefault()
         shell.openExternal(href)
@@ -316,10 +316,6 @@ const createOpenWindowListener = (
       newWindow = null
     })
   })
-}
-
-const setWindowTitleInHTMLtitleTag = (window: BrowserWindow, title: string) => {
-  window.webContents.executeJavaScript(`document.title="${title}"`)
 }
 
 createOpenWindowListener(
@@ -389,7 +385,6 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           title,
         })
       )
-      setWindowTitleInHTMLtitleTag(googleAuthWindow, title)
 
       if (await checkPort(authServerPort)) {
         await createErrorWindow(googleAuthWindow)
@@ -444,7 +439,6 @@ ipcMain.answerRenderer(
             title,
           })
         )
-        setWindowTitleInHTMLtitleTag(outlookAuthWindow, title)
 
         outlookAuthWindow.loadURL(authorizationUrl)
 
