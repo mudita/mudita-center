@@ -47,11 +47,12 @@ export class MessagePresenter {
     messageType: AcceptablePureMessageType
   ): MessageType {
     if (
-      messageType === PureMessageType.FAILED ||
       messageType === PureMessageType.QUEUED ||
       messageType === PureMessageType.OUTBOX
     ) {
       return MessageType.OUTBOX
+    } else if (messageType === PureMessageType.FAILED) {
+      return MessageType.FAILED
     } else {
       return MessageType.INBOX
     }

@@ -20,7 +20,7 @@ const Threads = styled(Table)<{
   noneRowsSelected?: boolean
 }>`
   min-width: 32rem;
-  --columnsTemplate: 10.4rem 60.5rem 1fr;
+  --columnsTemplate: 10.4rem 1fr 6rem;
   --columnsTemplateWithOpenedSidebar: 10.4rem 1fr;
   --columnsGap: 0;
 `

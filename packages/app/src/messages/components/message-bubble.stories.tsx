@@ -7,6 +7,7 @@ import { storiesOf } from "@storybook/react"
 import React from "react"
 import MessageBubble from "App/messages/components/message-bubble.component"
 import styled from "styled-components"
+import { MessageType } from "App/messages/reducers"
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -32,6 +33,7 @@ storiesOf("Components/Message Bubble", module)
           message={message}
           id="123"
           displayAvatar
+          messageType={MessageType.OUTBOX}
         />
       </Wrapper>
     )
@@ -46,6 +48,7 @@ storiesOf("Components/Message Bubble", module)
           interlocutor
           id="123"
           displayAvatar
+          messageType={MessageType.OUTBOX}
         />
       </Wrapper>
     )
@@ -60,6 +63,7 @@ storiesOf("Components/Message Bubble", module)
           interlocutor
           id="123"
           displayAvatar
+          messageType={MessageType.OUTBOX}
         />
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
@@ -67,6 +71,7 @@ storiesOf("Components/Message Bubble", module)
           message={message}
           interlocutor
           id="321"
+          messageType={MessageType.OUTBOX}
         />
       </ColumnWrapper>
     )
@@ -80,12 +85,14 @@ storiesOf("Components/Message Bubble", module)
           message={message}
           displayAvatar
           id="321"
+          messageType={MessageType.OUTBOX}
         />
         <MessageBubble
           user={{ firstName: "Kuser", lastName: "Luserowski" }}
           date={new Date()}
           message={message}
           id="123"
+          messageType={MessageType.OUTBOX}
         />
       </ColumnWrapper>
     )

@@ -9,6 +9,7 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import MessagesPanel from "App/messages/components/messages-panel.component"
 import { Thread } from "App/messages/reducers/messages.interface"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
+import { MessageType } from "App/messages/reducers"
 
 type Props = ComponentProps<typeof MessagesPanel>
 
@@ -20,6 +21,7 @@ const threads: Thread[] = [
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
   {
     id: "2",
@@ -28,6 +30,7 @@ const threads: Thread[] = [
     messageSnippet:
       "Velit et ut ut odit quo. Ratione eligendi non consequatur ipsum neque.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
 ]
 

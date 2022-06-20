@@ -13,7 +13,7 @@ import { ThreadService } from "App/messages/services/thread.service"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { ThreadPresenter } from "App/messages/presenters"
 import { ThreadRepository } from "../repositories"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread, MessageType } from "App/messages/reducers/messages.interface"
 
 jest.mock("App/messages/presenters")
 ;(ThreadPresenter as unknown as jest.Mock).mockImplementation(() => {
@@ -62,6 +62,7 @@ const thread: Thread = {
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
   unread: true,
+  messageType: MessageType.INBOX,
 }
 
 beforeEach(() => {

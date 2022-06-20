@@ -179,6 +179,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
             displayAvatar,
             displayDate: previousDateIsSame,
             message: content,
+            messageType,
           }
 
           return <MessageDayBubble key={id} {...messageDayBubble} />

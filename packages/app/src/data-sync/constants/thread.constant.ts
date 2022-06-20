@@ -6,4 +6,5 @@
 export enum ThreadTable {
   Threads = "threads",
   Numbers = "contact_number",
+  Sms = "sms",
 }

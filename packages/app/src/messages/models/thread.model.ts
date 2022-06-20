@@ -24,4 +24,7 @@ export class ThreadModel extends BaseModel<Thread> {
 
   @Field()
   public unread: boolean | undefined
+
+  @Field()
+  public messageType: number | undefined
 }

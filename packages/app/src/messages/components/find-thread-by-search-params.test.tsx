@@ -5,7 +5,7 @@
 
 import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
 import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread, MessageType } from "App/messages/reducers/messages.interface"
 
 const caller: Caller = {
   id: "1",
@@ -19,6 +19,7 @@ const mockThread: Thread = {
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   unread: true,
   phoneNumber: caller.phoneNumber,
+  messageType: MessageType.INBOX,
 }
 const mockThreads: Thread[] = [mockThread]
 

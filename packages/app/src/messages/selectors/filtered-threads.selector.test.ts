@@ -4,9 +4,15 @@
  */
 
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import { initialState, messagesReducer, Thread, VisibilityFilter } from "App/messages/reducers"
+import {
+  initialState,
+  messagesReducer,
+  Thread,
+  VisibilityFilter,
+} from "App/messages/reducers"
 import { filteredThreadsSelector } from "App/messages/selectors/filtered-threads.selector"
 import { initialState as contactsInitialState } from "App/contacts/reducers"
+import { MessageType } from "App/messages/reducers"
 
 describe("`filteredThreadsSelector` selector", () => {
   test("when initial state is set selector returns value properly", () => {
@@ -25,6 +31,7 @@ describe("`filteredThreadsSelector` selector", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: false,
+      messageType: MessageType.INBOX,
     }
 
     const state = {
@@ -51,6 +58,7 @@ describe("`filteredThreadsSelector` selector", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: true,
+      messageType: MessageType.INBOX,
     }
 
     const state = {
