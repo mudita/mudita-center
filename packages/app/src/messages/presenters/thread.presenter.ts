@@ -3,8 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Thread as PureThread } from "@mudita/pure"
+import {
+  Thread as PureThread,
+  MessageType as PureMessageType,
+} from "@mudita/pure"
 import { Thread } from "App/messages/reducers"
+import { MessageType } from "App/messages/reducers"
 
 export class ThreadPresenter {
   static mapToThread(pureThread: PureThread): Thread {
@@ -14,6 +18,7 @@ export class ThreadPresenter {
       messageSnippet,
       threadID,
       number = "",
+      messageType,
     } = pureThread
     return {
       messageSnippet,
@@ -21,6 +26,20 @@ export class ThreadPresenter {
       id: String(threadID),
       phoneNumber: String(number),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),
+      messageType: ThreadPresenter.getMessageType(Number(messageType)),
+    }
+  }
+
+  private static getMessageType(messageType: PureMessageType): MessageType {
+    if (
+      messageType === PureMessageType.QUEUED ||
+      messageType === PureMessageType.OUTBOX
+    ) {
+      return MessageType.OUTBOX
+    } else if (messageType === PureMessageType.FAILED) {
+      return MessageType.FAILED
+    } else {
+      return MessageType.INBOX
     }
   }
 }

@@ -26,6 +26,21 @@ describe("`ThreadPresenter`", () => {
         columns: ["_id", "contact_id", "number_user", "number_e164", "type"],
         values: [["5", "4", "+91898402777", "", "0"]],
       },
+      sms: {
+        columns: [
+          "_id",
+          "body",
+          "contact_id",
+          "date",
+          "error_code",
+          "thread_id",
+          "type",
+        ],
+        values: [
+          ["1", "Test Message #1", "4", "391", "", "1", "1", "4"],
+          ["2", "Test Message #2", "4", "392", "", "1", "1", "4"],
+        ],
+      },
     }
 
     const presenter = new ThreadPresenter()
@@ -36,6 +51,7 @@ describe("`ThreadPresenter`", () => {
           "id": "1",
           "lastUpdatedAt": 1970-01-01T00:06:31.000Z,
           "messageSnippet": "Test",
+          "messageType": "INBOX",
           "phoneNumber": "+91898402777",
           "unread": true,
         },

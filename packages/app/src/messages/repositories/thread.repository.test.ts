@@ -5,7 +5,7 @@
 
 import { ThreadRepository } from "App/messages/repositories/thread.repository"
 import { ThreadModel } from "App/messages/models"
-import { Thread } from "App/messages/reducers"
+import { Thread, MessageType } from "App/messages/reducers"
 
 const thread: Thread = {
   id: "1",
@@ -14,6 +14,7 @@ const thread: Thread = {
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
   unread: true,
+  messageType: MessageType.INBOX,
 }
 
 const threadModel = {

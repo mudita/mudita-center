@@ -27,6 +27,7 @@ import { MessagePanelTestIds } from "App/messages/components/messages-panel-test
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
 import { flags } from "App/feature-flags"
+import { MessageType } from "App/messages/reducers"
 
 jest.mock("App/feature-flags")
 
@@ -67,6 +68,7 @@ const firstThread: Thread = {
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+  messageType: MessageType.INBOX,
 }
 
 const secondThread: Thread = {
@@ -76,6 +78,7 @@ const secondThread: Thread = {
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+  messageType: MessageType.INBOX,
 }
 
 const incomingThread: Thread = {
@@ -85,6 +88,7 @@ const incomingThread: Thread = {
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+  messageType: MessageType.INBOX,
 }
 
 const receiver: Receiver = {

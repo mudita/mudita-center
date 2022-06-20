@@ -8,7 +8,10 @@ import {
   ThreadObject,
   ThreadEntity,
   ContactNumberEntity,
+  SmsEntity,
 } from "App/data-sync/types"
+import { MessageType as PureMessageType } from "@mudita/pure"
+import { MessageType } from "App/messages/reducers"
 
 export class ThreadPresenter {
   public findRecords<Type extends { _id: string }>(
@@ -36,9 +39,15 @@ export class ThreadPresenter {
       data.threads.values,
       data.threads.columns
     )
+
     const contactNumbers = this.serializeRecord<ContactNumberEntity>(
       data.contact_number.values,
       data.contact_number.columns
+    )
+
+    const smsMessages = this.serializeRecord<SmsEntity>(
+      data.sms.values,
+      data.sms.columns
     )
 
     return threads
@@ -47,6 +56,7 @@ export class ThreadPresenter {
           contactNumbers,
           String(thread.number_id)
         )
+        const sms = this.findRecords<SmsEntity>(smsMessages, String(thread._id))
 
         return {
           id: thread._id,
@@ -54,8 +64,22 @@ export class ThreadPresenter {
           lastUpdatedAt: new Date(Number(thread.date) * 1000),
           messageSnippet: thread.snippet,
           unread: Number(thread.read) !== 0,
+          messageType: ThreadPresenter.getMessageType(Number(sms!.type)),
         }
       })
       .filter((thread) => typeof thread !== "undefined") as ThreadObject[]
+  }
+
+  private static getMessageType(messageType: PureMessageType): MessageType {
+    if (
+      messageType === PureMessageType.QUEUED ||
+      messageType === PureMessageType.OUTBOX
+    ) {
+      return MessageType.OUTBOX
+    } else if (messageType === PureMessageType.FAILED) {
+      return MessageType.FAILED
+    } else {
+      return MessageType.INBOX
+    }
   }
 }

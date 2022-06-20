@@ -20,6 +20,7 @@ import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { DeviceState } from "App/device"
 import { Thread, MessagesState } from "App/messages/reducers"
 import { NotificationBadgeTestIds } from "App/notification/components"
+import { MessageType } from "App/messages/reducers"
 
 jest.mock("App/feature-flags")
 
@@ -41,6 +42,7 @@ const threadMock: Thread = {
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   unread: true,
   phoneNumber: "123123123",
+  messageType: MessageType.INBOX,
 }
 
 const defaultProps: Props = {

@@ -84,6 +84,7 @@ const mockThread: Thread = {
   lastUpdatedAt: new Date(),
   messageSnippet: "",
   unread: false,
+  messageType: MessageType.OUTBOX,
 }
 
 enum MessagesState {

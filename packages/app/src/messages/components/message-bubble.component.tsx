@@ -30,6 +30,7 @@ import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { MessageType } from "App/messages/reducers"
 
 const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean
@@ -134,6 +135,10 @@ const MessageBubbleText = styled(Text)`
   white-space: pre-line;
 `
 
+const WarningIconWrapper = styled.div`
+  margin-right: 1rem;
+`
+
 interface Props {
   id: string
   user: User
@@ -143,6 +148,7 @@ interface Props {
   displayAvatar?: boolean
   forwardMessage?: () => void
   removeMessage?: () => void
+  messageType: MessageType
 }
 
 const MessageBubble: FunctionComponent<Props> = ({
@@ -155,7 +161,9 @@ const MessageBubble: FunctionComponent<Props> = ({
   displayAvatar = false,
   forwardMessage = noop,
   removeMessage = noop,
+  messageType,
 }) => {
+  const isMessageFailed = messageType === MessageType.FAILED
   const [clicked, setClicked] = useState<string>("")
   const open = () => setClicked(id)
   const close = () => setClicked("")
@@ -210,6 +218,15 @@ const MessageBubble: FunctionComponent<Props> = ({
                 data-testid={MessageBubbleTestIds.DeleteMessageButton}
               />
             </MessageBubbleDropdown>
+          )}
+          {isMessageFailed && (
+            <WarningIconWrapper>
+              <Icon
+                type={IconType.Warning}
+                width={1.6}
+                data-testid={MessageBubbleTestIds.NotSendIcon}
+              />
+            </WarningIconWrapper>
           )}
           <Bubble
             interlocutor={interlocutor}

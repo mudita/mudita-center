@@ -4,7 +4,9 @@
  */
 
 import { EventEmitter } from "events"
-import DeviceService, { DeviceServiceEventName } from "App/__deprecated__/backend/device-service"
+import DeviceService, {
+  DeviceServiceEventName,
+} from "App/__deprecated__/backend/device-service"
 import {
   OutboxObserver,
   outboxTime,
@@ -15,6 +17,7 @@ import { IpcEvent as DataSyncIpcEvent } from "App/data-sync/constants"
 import { IpcEvent as NotificationIpcEvent } from "App/notification/constants"
 import { Thread } from "App/messages/reducers"
 import { flushPromises } from "App/core/helpers/flush-promises"
+import { MessageType } from "App/messages/reducers"
 
 const threadMock: Thread = {
   id: "1",
@@ -23,6 +26,7 @@ const threadMock: Thread = {
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
   unread: true,
+  messageType: MessageType.INBOX,
 }
 
 describe("Outbox Observer: observe", () => {
