@@ -349,34 +349,6 @@ exports[`Device: Mudita harmony matches snapshot 1`] = `
       >
         <a
           class="c5"
-          data-testid="tethering-link"
-          displaystyle="7"
-          href="#/tethering"
-          size="1"
-        >
-          <span
-            class="c6 c7"
-            data-testid="icon-MenuTethering"
-            height="3.2"
-            width="3.2"
-          >
-            <test-file-stub
-              image="test-file-stub"
-            />
-          </span>
-          <p
-            class="c8 c9"
-            color="primary"
-          >
-            [value] module.tethering
-          </p>
-        </a>
-      </div>
-      <div
-        class="c4"
-      >
-        <a
-          class="c5"
           displaystyle="7"
           href="#/settings"
           size="1"
@@ -774,34 +746,6 @@ exports[`Device: Mudita pure matches snapshot 1`] = `
         >
           [value] component.menuHeaderDesktopApp
         </p>
-      </div>
-      <div
-        class="c4"
-      >
-        <a
-          class="c5"
-          data-testid="tethering-link"
-          displaystyle="7"
-          href="#/tethering"
-          size="1"
-        >
-          <span
-            class="c6 c7"
-            data-testid="icon-MenuTethering"
-            height="3.2"
-            width="3.2"
-          >
-            <test-file-stub
-              image="test-file-stub"
-            />
-          </span>
-          <p
-            class="c8 c9"
-            color="primary"
-          >
-            [value] module.tethering
-          </p>
-        </a>
       </div>
       <div
         class="c4"
