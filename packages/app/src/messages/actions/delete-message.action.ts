@@ -5,8 +5,8 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
+import { DeleteMessageError } from "App/messages/errors"
 import { deleteMessageRequest } from "App/messages/requests"
-import { DeleteMessageError } from "../errors/delete-message.action.error"
 
 type DeletedMessageId = string
 

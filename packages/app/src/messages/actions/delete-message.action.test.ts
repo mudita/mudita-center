@@ -13,7 +13,7 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { deleteMessage } from "./delete-message.action"
 import { testError } from "App/__deprecated__/renderer/store/constants"
-import { DeleteMessageError } from "../errors/delete-message.action.error"
+import { DeleteMessageError } from "../errors/delete-message.error"
 
 jest.mock("App/messages/requests/delete-message.request.ts")
 
