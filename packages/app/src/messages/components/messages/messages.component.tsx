@@ -109,7 +109,7 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
   removeLayoutNotification: (notificationId: string) => void
-  deletingState: ThreadDeletingState | null
+  threadDeletingState: ThreadDeletingState | null
   hideDeleteModal: () => void
 }
 
@@ -132,7 +132,7 @@ const Messages: FunctionComponent<Props> = ({
   addNewMessage,
   messageLayoutNotifications,
   removeLayoutNotification,
-  deletingState,
+  threadDeletingState,
   hideDeleteModal,
 }) => {
   useEffect(() => {
@@ -176,7 +176,7 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    if (deletingState === ThreadDeletingState.Success) {
+    if (threadDeletingState === ThreadDeletingState.Success) {
       const timeout = setTimeout(() => {
         hideDeleteModal()
         setDeletedThreads([])
@@ -184,7 +184,7 @@ const Messages: FunctionComponent<Props> = ({
       return () => clearTimeout(timeout)
     }
     return
-  }, [deletingState])
+  }, [threadDeletingState])
 
   const getDeletingMessage = (ids: string[]): TranslationMessage => {
     const findById = (thread: Thread) => thread.id === ids[0]
@@ -492,24 +492,24 @@ const Messages: FunctionComponent<Props> = ({
           />
         )}
       </TableWithSidebarWrapper>
-      {deletingState === ThreadDeletingState.Success && (
+      {threadDeletingState === ThreadDeletingState.Success && (
         <InfoPopup
           message={getDeletedThreadText(deletedThreads.length)}
           data-testid={MessagesTestIds.SuccessThreadDelete}
         />
       )}
-      {deletingState === ThreadDeletingState.Deleting && (
+      {threadDeletingState === ThreadDeletingState.Deleting && (
         <DeletingModal
           data-testid={MessagesTestIds.ThreadDeleting}
-          open={deletingState === ThreadDeletingState.Deleting}
+          open={threadDeletingState === ThreadDeletingState.Deleting}
           title={intl.formatMessage(messages.deletingModalTitle)}
           subtitle={intl.formatMessage(messages.deletingModalSubtitle)}
         />
       )}
-      {deletingState === ThreadDeletingState.Fail && (
+      {threadDeletingState === ThreadDeletingState.Fail && (
         <ErrorModal
           data-testid={MessagesTestIds.FailThreadDelete}
-          open={deletingState === ThreadDeletingState.Fail}
+          open={threadDeletingState === ThreadDeletingState.Fail}
           title={intl.formatMessage(messages.deleteModalTitle)}
           subtitle={intl.formatMessage(messages.deletingModalErrorSubtitle)}
           closeModal={hideDeleteModal}

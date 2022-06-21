@@ -25,4 +25,9 @@ export class MessageController {
   ): Promise<RequestResponse<CreateMessageDataResponse>> {
     return this.messageService.createMessage(newMessage)
   }
+
+  @IpcEvent(IpcMessageEvent.DeleteMessage)
+  public async deleteMessage(messageId: string): Promise<RequestResponse> {
+    return this.messageService.deleteMessage(messageId)
+  }
 }
