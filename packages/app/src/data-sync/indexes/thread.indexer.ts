@@ -40,6 +40,7 @@ export class ThreadIndexer extends BaseIndexer {
     index.addField("lastUpdatedAt")
     index.addField("messageSnippet")
     index.addField("unread")
+    index.addField("messageType")
 
     data.forEach((item) => {
       index.addDoc(item)
@@ -56,6 +57,9 @@ export class ThreadIndexer extends BaseIndexer {
       [ThreadTable.Numbers]: contactDb.exec(
         `SELECT * FROM ${ThreadTable.Numbers};`
       )[0] as unknown as ThreadInput["contact_number"],
+      [ThreadTable.Sms]: smsDb.exec(
+        `SELECT * FROM ${ThreadTable.Sms};`
+      )[0] as unknown as ThreadInput["sms"],
     }
   }
 

@@ -16,6 +16,7 @@ const productsMapper = {
   [DeviceType.MuditaHarmony]: Product.BellHybrid,
 }
 
+// TODO Merge development and test-production spaces on MC as long as in Release Copier
 const getReleaseSpace = (): ReleaseSpace => {
   if (flags.get(Feature.ProductionReleaseOnly)) {
     return ReleaseSpace.Production

@@ -12,7 +12,7 @@ import { MainProcessIpc } from "electron-better-ipc"
 import { IpcEvent } from "App/data-sync/constants"
 import { MessageService, ThreadService } from "App/messages/services"
 import { MessageRepository, ThreadRepository } from "App/messages/repositories"
-import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponseSuccessWithData } from "App/core/helpers"
 
 export const watchTime = 10000
 

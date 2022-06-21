@@ -6,7 +6,5 @@
 export enum Environment {
   Development = "development",
   Production = "production",
-  TestProduction = "test-production",
   AlphaProduction = "alpha-production",
-  TestAlphaProduction = "test-alpha-production",
 }

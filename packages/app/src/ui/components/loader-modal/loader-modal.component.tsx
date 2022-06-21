@@ -13,7 +13,7 @@ import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/mo
 import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
 import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
 import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
-import { DeletingModalTestIds } from "App/ui/components/deleting-modal/deleting-modal-test-ids.enum"
+import { LoaderModalTestIds } from "App/ui/components/loader-modal/loader-modal-test-ids.enum"
 
 const Content = styled.div`
   display: flex;
@@ -22,13 +22,13 @@ const Content = styled.div`
   padding: 2rem 2rem 0;
 `
 
-export interface DeletingModalProps extends ComponentProps<typeof ModalDialog> {
+export interface LoaderModalProps extends ComponentProps<typeof ModalDialog> {
   title: string
   subtitle?: string
   body?: string
 }
 
-const DeletingModal: FunctionComponent<DeletingModalProps> = ({
+const LoaderModal: FunctionComponent<LoaderModalProps> = ({
   title,
   subtitle,
   body,
@@ -44,7 +44,7 @@ const DeletingModal: FunctionComponent<DeletingModalProps> = ({
     <Content>
       <RoundIconWrapper>
         <Loader
-          data-testid={DeletingModalTestIds.Loader}
+          data-testid={LoaderModalTestIds.Loader}
           type={LoaderType.Spinner}
         />
       </RoundIconWrapper>
@@ -62,4 +62,4 @@ const DeletingModal: FunctionComponent<DeletingModalProps> = ({
   </ModalDialog>
 )
 
-export default DeletingModal
+export default LoaderModal

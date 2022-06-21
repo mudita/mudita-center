@@ -13,15 +13,25 @@ import {
   templateReducer,
   initialState,
 } from "App/templates/reducers/template.reducer"
-import { CreateTemplateError, DeleteTemplateError } from "App/templates/errors"
+import {
+  CreateTemplateError,
+  DeleteTemplateError,
+  UpdateTemplateError,
+} from "App/templates/errors"
 import { Template } from "App/templates/dto"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { TemplatesEvent } from "App/templates/constants"
 
 const createTemplateErrorMock = new CreateTemplateError("I'm error")
+const updateTemplateErrorMock = new UpdateTemplateError("Luke, I'm your error")
 const templateMock: Template = {
   id: "1",
   text: "Hello world",
+  lastUsedAt: "2",
+}
+const templateUpdatePayloadMock: Template = {
+  id: "1",
+  text: "Hello updated world",
   lastUsedAt: "2",
 }
 
@@ -82,6 +92,77 @@ describe("Create template functionality", () => {
     ).toEqual({
       ...initialState,
       data: [templateMock],
+      error: null,
+      loaded: true,
+      loading: false,
+    })
+  })
+})
+
+describe("Update template functionality", () => {
+  test("Event: UpdateTemplate/pending changed `loading` to `true` and `loaded` to `false`", () => {
+    expect(
+      templateReducer(undefined, {
+        type: pendingAction(TemplatesEvent.UpdateTemplate),
+        payload: undefined,
+      })
+    ).toEqual({
+      ...initialState,
+      loaded: false,
+      loading: true,
+    })
+  })
+
+  test("Event: UpdateTemplate/rejected changed `loading` to `false` and `loaded` to `false` and set error message", () => {
+    expect(
+      templateReducer(undefined, {
+        type: rejectedAction(TemplatesEvent.UpdateTemplate),
+        payload: updateTemplateErrorMock,
+      })
+    ).toEqual({
+      ...initialState,
+      error: "Luke, I'm your error",
+      loaded: false,
+      loading: false,
+    })
+  })
+
+  test("Event: UpdateTemplate/fulfilled changed `loading` to `false` and `loaded` to `true` and update template to state", () => {
+    expect(
+      templateReducer(
+        {
+          ...initialState,
+          data: [templateMock],
+        },
+        {
+          type: fulfilledAction(TemplatesEvent.UpdateTemplate),
+          payload: templateUpdatePayloadMock,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      data: [templateUpdatePayloadMock],
+      loaded: true,
+      loading: false,
+    })
+  })
+
+  test("Event: UpdateTemplate/fulfilled clears error state", () => {
+    expect(
+      templateReducer(
+        {
+          ...initialState,
+          data: [templateMock],
+          error: "Some error",
+        },
+        {
+          type: fulfilledAction(TemplatesEvent.UpdateTemplate),
+          payload: templateUpdatePayloadMock,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      data: [templateUpdatePayloadMock],
       error: null,
       loaded: true,
       loading: false,
@@ -209,21 +290,6 @@ describe("Delete Template data functionality", () => {
       loaded: false,
       deleting: true,
       error: "I'm error",
-    })
-  })
-
-  test("Event: TemplatesEvent.HideDeleteModal changed `deletingState` to null", () => {
-    expect(
-      templateReducer(undefined, {
-        type: TemplatesEvent.HideDeleteModal,
-        payload: undefined,
-      })
-    ).toEqual({
-      ...initialState,
-      loading: false,
-      loaded: false,
-      deleting: false,
-      error: null,
     })
   })
 })

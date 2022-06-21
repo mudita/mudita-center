@@ -124,4 +124,5 @@ export enum IconType {
   Visible,
   Hidden,
   ThinFail,
+  Warning,
 }

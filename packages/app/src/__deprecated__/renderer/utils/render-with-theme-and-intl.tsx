@@ -21,6 +21,20 @@ import ReactModal from "react-modal"
 ReactModal.setAppElement(document.createElement("div"))
 const testLocale = extractLanguageKeys(localeEn)
 
+export function constructWrapper(ui: React.ReactElement) {
+  return (
+    <ThemeProvider theme={theme}>
+      <IntlProvider
+        defaultLocale={translationConfig.defaultLanguage}
+        locale={translationConfig.defaultLanguage}
+        messages={process.env.NODE_ENV === "test" ? testLocale : localeEn}
+      >
+        {ui}
+      </IntlProvider>
+    </ThemeProvider>
+  )
+}
+
 export function renderWithThemeAndIntl(
   ui: React.ReactElement,
   options?: Omit<RenderOptions, "queries">
@@ -34,15 +48,7 @@ export function renderWithThemeAndIntl<Q extends Queries>(
   options?: RenderOptions<Q>
 ): RenderResult {
   return render(
-    <ThemeProvider theme={theme}>
-      <IntlProvider
-        defaultLocale={translationConfig.defaultLanguage}
-        locale={translationConfig.defaultLanguage}
-        messages={process.env.NODE_ENV === "test" ? testLocale : localeEn}
-      >
-        {ui}
-      </IntlProvider>
-    </ThemeProvider>,
+    constructWrapper(ui),
     // @ts-ignore
     options
   )

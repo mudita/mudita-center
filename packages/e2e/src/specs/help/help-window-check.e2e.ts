@@ -13,7 +13,7 @@ describe("Check new window display in Help", () => {
     await helpTab.waitForDisplayed({ timeout: 15000 })
     await helpTab.click()
 
-    await browser.switchWindow("Mudita Center - Help")
+    await browser.switchWindow("#/help")
 
     const helpTopic = await HelpPage.helpListElement
     await helpTopic.waitForDisplayed({ timeout: 15000 })

@@ -7,7 +7,7 @@ import React from "react"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { TemplatesListProps } from "App/templates/components/templates-list/templates-list.interface"
-import { Actions, Col } from "App/__deprecated__/renderer/components/core/table/table.component"
+import { Col } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import {
   TemplatesEmptyState,
@@ -19,35 +19,27 @@ import {
   TemplateText,
 } from "App/templates/components/templates-list/templates-list.styled"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
-import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
-import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
-import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
-import { ElementWithTooltipPlace } from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
-import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
-import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
+import { TemplateOptions } from "App/templates/components/template-options"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "module.templates.emptyList.title" },
   emptyStateDescription: {
     id: "module.templates.emptyList.description",
   },
-  dropdownTogllerTooltipDescription: {
-    id: "component.dropdownTogllerTooltipDescription",
+  dropdownTogglerTooltipDescription: {
+    id: "component.dropdownTogglerTooltipDescription",
   },
 })
 
 export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   templates,
-  deleteTemplates = noop,
   getRowStatus,
   noneRowsSelected,
   toggleRow,
+  deleteTemplates,
+  updateTemplate,
 }) => {
-  const handleDeleteClick = (ids: string[]) => {
-    deleteTemplates(ids)
-  }
-
   return (
     <Table role="list" hide hideableColumnsIndexes={[2, 3, 4]}>
       {templates.length > 0 ? (
@@ -80,30 +72,11 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                 {template.text}
               </TemplateText>
               <Col>
-                <Actions>
-                  <Dropdown
-                    toggler={
-                      <IconButtonWithSecondaryTooltip
-                        iconType={IconType.More}
-                        description={messages.dropdownTogllerTooltipDescription}
-                        // FIXME: The position based on offset is a sticky. However, this is a quick workaround
-                        //  for buggy overridePosition lib feature
-                        place={ElementWithTooltipPlace.Bottom}
-                        offset={{ left: 15, bottom: 5 }}
-                      />
-                    }
-                  >
-                    <ButtonComponent
-                      labelMessage={{
-                        id: "module.template.dropdownDelete",
-                      }}
-                      Icon={IconType.Delete}
-                      onClick={() => handleDeleteClick([template.id])}
-                      displayStyle={DisplayStyle.Dropdown}
-                      data-testid="dropdown-delete"
-                    />
-                  </Dropdown>
-                </Actions>
+                <TemplateOptions
+                  templateId={template.id}
+                  onDelete={deleteTemplates}
+                  onUpdate={updateTemplate}
+                />
               </Col>
             </Row>
           )

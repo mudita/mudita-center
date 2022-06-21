@@ -23,17 +23,24 @@ import Text, {
 import getPrettyCaller from "App/__deprecated__/renderer/models/calls/get-pretty-caller"
 import { isToday } from "App/__deprecated__/renderer/utils/is-today"
 import moment from "moment"
-import { Actions, Col } from "App/__deprecated__/renderer/components/core/table/table.component"
+import {
+  Actions,
+  Col,
+} from "App/__deprecated__/renderer/components/core/table/table.component"
 import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
-import { Feature, flags } from "App/feature-flags"
+import { Feature } from "App/feature-flags/constants/feature.enum"
+import { flags } from "App/feature-flags/helpers/feature-flag.helpers"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
-import { Thread } from "App/messages/reducers"
+import { Thread, MessageType } from "App/messages/reducers"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { RowStatus, UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
+import {
+  RowStatus,
+  UseTableSelect,
+} from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import styled, { css } from "styled-components"
 import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import {
@@ -49,10 +56,11 @@ import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/comp
 import { defineMessages } from "react-intl"
 import { ElementWithTooltipPlace } from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
-  dropdownTogllerTooltipDescription: {
-    id: "component.dropdownTogllerTooltipDescription",
+  dropdownTogglerTooltipDescription: {
+    id: "component.dropdownTogglerTooltipDescription",
   },
 })
 
@@ -82,6 +90,9 @@ const dotStyles = css`
 
 const ThreadCol = styled(Col)`
   height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `
 
 export const InitialsAvatar = styled(Avatar)`
@@ -111,7 +122,7 @@ const ThreadRowContainer = styled(ThreadBaseRow)`
     }
 
     ${InitialsAvatar} {
-      ${!flags.get(Feature.ProductionAndAlpha)
+      ${flags.get(Feature.MessagesThreadDeleteEnabled)
         ? css`
             display: none;
             ${animatedOpacityStyles}
@@ -121,8 +132,15 @@ const ThreadRowContainer = styled(ThreadBaseRow)`
   }
 `
 
-const ThreadDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
-  margin-right: ${({ sidebarOpened }) => (sidebarOpened ? "4rem" : "0")};
+const ThreadDataWrapper = styled(DataWrapper)<{
+  sidebarOpened: boolean
+  isMessageFailed: boolean
+}>`
+  margin-right: ${({ sidebarOpened, isMessageFailed }) =>
+    sidebarOpened && !isMessageFailed ? "4rem" : "0"};
+`
+const WarningIconWrapper = styled.div`
+  margin-right: 1.7rem;
 `
 
 const NewThreadWrapper = styled.div``
@@ -165,6 +183,7 @@ const ThreadRow: FunctionComponent<Props> = ({
 }) => {
   const contactCreated = contact !== undefined
   const { unread, id, phoneNumber } = thread
+  const isMessageFailed = thread.messageType === MessageType.FAILED
 
   const handleCheckboxChange = () => onCheckboxChange(thread)
   const handleRowClick = () => onRowClick(thread)
@@ -175,7 +194,7 @@ const ThreadRow: FunctionComponent<Props> = ({
   return (
     <ThreadRowContainer key={id} selected={selected} active={active} {...props}>
       <Col>
-        {!flags.get(Feature.ProductionAndAlpha) && (
+        {flags.get(Feature.MessagesThreadDeleteEnabled) && (
           <Checkbox
             checked={selected}
             onChange={handleCheckboxChange}
@@ -198,40 +217,54 @@ const ThreadRow: FunctionComponent<Props> = ({
             </Name>
           </NewThreadWrapper>
         ) : (
-          <ThreadDataWrapper sidebarOpened={sidebarOpened}>
-            <NameWrapper>
-              <Name displayStyle={TextDisplayStyle.Headline4}>
-                {getPrettyCaller(contact, phoneNumber)}
-              </Name>
-              {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
-                <Text displayStyle={TextDisplayStyle.Paragraph2}>
-                  &nbsp;
-                  {phoneNumber.split(" ").join("") ===
-                  contact?.secondaryPhoneNumber?.split(" ").join("")
-                    ? "#2"
-                    : "#1"}
-                </Text>
-              )}
-            </NameWrapper>
-            <Time displayStyle={TextDisplayStyle.Label} color="secondary">
-              {isToday(thread.lastUpdatedAt)
-                ? moment(thread.lastUpdatedAt).format("h:mm A")
-                : moment(thread.lastUpdatedAt)
-                    .locale(language ?? "en")
-                    .format("ll")}
-            </Time>
-            <LastMessageText
-              unread={unread}
-              color="secondary"
-              displayStyle={
-                unread
-                  ? TextDisplayStyle.Paragraph3
-                  : TextDisplayStyle.Paragraph4
-              }
+          <>
+            <ThreadDataWrapper
+              sidebarOpened={sidebarOpened}
+              isMessageFailed={isMessageFailed}
             >
-              {thread?.messageSnippet}
-            </LastMessageText>
-          </ThreadDataWrapper>
+              <NameWrapper>
+                <Name displayStyle={TextDisplayStyle.Headline4}>
+                  {getPrettyCaller(contact, phoneNumber)}
+                </Name>
+                {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
+                  <Text displayStyle={TextDisplayStyle.Paragraph2}>
+                    &nbsp;
+                    {phoneNumber.split(" ").join("") ===
+                    contact?.secondaryPhoneNumber?.split(" ").join("")
+                      ? "#2"
+                      : "#1"}
+                  </Text>
+                )}
+              </NameWrapper>
+              <Time displayStyle={TextDisplayStyle.Label} color="secondary">
+                {isToday(thread.lastUpdatedAt)
+                  ? moment(thread.lastUpdatedAt).format("h:mm A")
+                  : moment(thread.lastUpdatedAt)
+                      .locale(language ?? "en")
+                      .format("ll")}
+              </Time>
+              <LastMessageText
+                unread={unread}
+                color="secondary"
+                displayStyle={
+                  unread
+                    ? TextDisplayStyle.Paragraph3
+                    : TextDisplayStyle.Paragraph4
+                }
+              >
+                {thread?.messageSnippet}
+              </LastMessageText>
+            </ThreadDataWrapper>
+            {isMessageFailed && (
+              <WarningIconWrapper>
+                <Icon
+                  type={IconType.Warning}
+                  width={1.6}
+                  data-testid={ThreadListTestIds.NotSendIcon}
+                />
+              </WarningIconWrapper>
+            )}
+          </>
         )}
       </ThreadCol>
       <Col>
@@ -240,7 +273,7 @@ const ThreadRow: FunctionComponent<Props> = ({
             toggler={
               <IconButtonWithSecondaryTooltip
                 iconType={IconType.More}
-                description={messages.dropdownTogllerTooltipDescription}
+                description={messages.dropdownTogglerTooltipDescription}
                 // FIXME: The position based on offset is a sticky. However, this is a quick workaround
                 //  for buggy overridePosition lib feature
                 place={ElementWithTooltipPlace.Bottom}
@@ -259,7 +292,7 @@ const ThreadRow: FunctionComponent<Props> = ({
               onClick={noop}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="dropdown-call"
-              hide={flags.get(Feature.ProductionAndAlpha)}
+              hide={!flags.get(Feature.MessagesCallFromThreadEnabled)}
             />
             {contactCreated ? (
               <ButtonComponent
@@ -282,7 +315,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 data-testid="dropdown-add-to-contacts"
               />
             )}
-            {!flags.get(Feature.DisabledOnProduction) && (
+            {flags.get(Feature.MessagesThreadDeleteEnabled) && (
               <ButtonComponent
                 labelMessage={{
                   id: "module.messages.dropdownDelete",
