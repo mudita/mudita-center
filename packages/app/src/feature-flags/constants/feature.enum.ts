@@ -16,5 +16,5 @@ export enum Feature {
   ProductionReleaseOnly = "production-release-only",
   TestProductionReleaseOnly = "test-production-release-only",
   AllReleaseListAvailable = "all-release-list-available",
-  ReadAndUnreadMessages = "mark-and-unread-messages",
+  ReadAndUnreadMessages = "read-and-unread-messages",
 }
