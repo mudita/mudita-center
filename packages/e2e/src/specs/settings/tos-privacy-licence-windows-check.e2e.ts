@@ -7,7 +7,7 @@ describe("Check new windows display - Terms of Service, Privacy Policy, License"
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
-  })  
+  })
   it("Navigates to About tab in Settings, clicks TOS button and checks wrapper component is displayed", async () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
@@ -23,35 +23,35 @@ describe("Check new windows display - Terms of Service, Privacy Policy, License"
     const tosLink = await SettingsPage.aboutTermsOfServiceButton
     await tosLink.click()
     await browser.pause(2000)
-    await browser.switchWindow("Mudita Center - Terms of service")
+    await browser.switchWindow("#/terms-of-service")
 
     const toswrapper = await SettingsPage.aboutTermsOfServiceComponentWrapper
     await toswrapper.waitForDisplayed({ timeout: 15000 })
     await expect(toswrapper).toBeDisplayed
-    await browser.switchWindow("Mudita Center")
+    await browser.switchWindow("#/overview")
   })
   it("Clicks Privacy Policy button and checks wrapper component is displayed in new window", async () => {
-    await browser.switchWindow("Mudita Center")
+    await browser.switchWindow("#/overview")
 
     const privacyLink = await SettingsPage.aboutPrivacyPolicyButton
     await privacyLink.click()
     await browser.pause(2000)
-    await browser.switchWindow("Mudita Center - Privacy policy")
+    await browser.switchWindow("#/privacy-policy")
 
     const privacyWrapper = await SettingsPage.aboutPrivacyPolicyComponentWrapper
     await privacyWrapper.waitForDisplayed({ timeout: 15000 })
     await expect(privacyWrapper).toBeDisplayed
-  })  
+  })
   it("Clicks Licence button and check wrapper component is displayed in new window", async () => {
-    await browser.switchWindow("Mudita Center")
+    await browser.switchWindow("#/overview")
 
     const licenseLink = await SettingsPage.aboutLicenseButton
     await licenseLink.click()
     await browser.pause(2000)
-    await browser.switchWindow("Mudita Center - License")
+    await browser.switchWindow("#/license")
 
     const licenseWrapper = await SettingsPage.aboutLicenseComponentWrapper
     await licenseWrapper.waitForDisplayed({ timeout: 15000 })
     await expect(licenseWrapper).toBeDisplayed
-  })  
+  })
 })

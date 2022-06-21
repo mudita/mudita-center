@@ -15,5 +15,7 @@ export type TemplateEntity = Entity<{
 }>
 
 export interface TemplateInput {
-  [TemplateTable.Templates]: DBQueryResult<keyof TemplateEntity, string[]>
+  [TemplateTable.Templates]:
+    | DBQueryResult<keyof TemplateEntity, string[]>
+    | undefined
 }
