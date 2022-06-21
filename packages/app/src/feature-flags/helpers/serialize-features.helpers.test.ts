@@ -11,9 +11,7 @@ const environmentConfigMock = {
   [Feature.LoggerEnabled]: {
     [Environment.Development]: "development",
     [Environment.Production]: "production",
-    [Environment.TestProduction]: "test-production",
     [Environment.AlphaProduction]: "alpha-production",
-    [Environment.TestAlphaProduction]: "test-alpha-production",
   },
 } as unknown as EnvironmentConfig
 
@@ -68,22 +66,6 @@ test("returns serialized feature flags config for `production` environment if FE
   })
 })
 
-test("returns serialized feature flags config for `test-production` environment if FEATURE_TOGGLE_ENVIRONMENT is equal to `test-production`", () => {
-  process.env = {
-    ...envMock,
-    FEATURE_TOGGLE_ENVIRONMENT: Environment.TestProduction,
-  }
-  expect(serializeFeature(environmentConfigMock)).toEqual({
-    [Feature.LoggerEnabled]: {
-      criteria: [
-        {
-          always: "test-production",
-        },
-      ],
-    },
-  })
-})
-
 test("returns serialized feature flags config for `alpha-production` environment if FEATURE_TOGGLE_ENVIRONMENT is equal to `alpha-production`", () => {
   process.env = {
     ...envMock,
@@ -94,22 +76,6 @@ test("returns serialized feature flags config for `alpha-production` environment
       criteria: [
         {
           always: "alpha-production",
-        },
-      ],
-    },
-  })
-})
-
-test("returns serialized feature flags config for `test-alpha-production` environment if FEATURE_TOGGLE_ENVIRONMENT is equal to `test-alpha-production`", () => {
-  process.env = {
-    ...envMock,
-    FEATURE_TOGGLE_ENVIRONMENT: Environment.TestAlphaProduction,
-  }
-  expect(serializeFeature(environmentConfigMock)).toEqual({
-    [Feature.LoggerEnabled]: {
-      criteria: [
-        {
-          always: "test-alpha-production",
         },
       ],
     },
