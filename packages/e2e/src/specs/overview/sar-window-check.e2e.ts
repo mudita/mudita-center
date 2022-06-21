@@ -19,7 +19,7 @@ describe("Check new window display in SAR", () => {
     const sarLink = await OverviewPage.checkSARInformationButton
     await sarLink.click()
 
-    await browser.switchWindow("Mudita Center - SAR information")
+    await browser.switchWindow("#/overview/pure-system/sar")
 
     const sarWrapper = await OverviewPage.sarWrapper
     await sarWrapper.waitForDisplayed({ timeout: 15000 })
