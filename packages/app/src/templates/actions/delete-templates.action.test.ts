@@ -23,12 +23,14 @@ const template: Template = {
   id: "1",
   text: "Test template",
   lastUsedAt: "1574335694",
+  order: 1,
 }
 
 const secondTemplate: Template = {
   id: "2",
   text: "Test template",
   lastUsedAt: "1574335694",
+  order: 2,
 }
 
 const successDeviceResponse: RequestResponse<CreateMessageDataResponse> = {

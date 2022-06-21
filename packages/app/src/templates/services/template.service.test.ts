@@ -43,6 +43,7 @@ const template: Template = {
   id: "1",
   text: "Hello world",
   lastUsedAt: "1",
+  order: 1,
 }
 
 beforeEach(() => {
@@ -106,6 +107,37 @@ describe("`TemplateService`", () => {
           templateID: 1,
           templateBody: "Hello world",
           category: MessagesCategory.template,
+        },
+      })
+      expect(response.status).toEqual(RequestResponseStatus.Error)
+    })
+  })
+  describe("`updateTemplateOrder` method", () => {
+    test("map data and returns success when `deviceService.request` returns success", async () => {
+      deviceService.request = jest.fn().mockReturnValue(successResponse)
+      const response = await subject.updateTemplateOrder(template)
+      expect(deviceService.request).toHaveBeenLastCalledWith({
+        endpoint: 8,
+        method: 3,
+        body: {
+          templateID: 1,
+          category: MessagesCategory.template,
+          order: 1,
+        },
+      })
+      expect(response.status).toEqual(RequestResponseStatus.Ok)
+    })
+
+    test("returns error  when `deviceService.request` returns error", async () => {
+      deviceService.request = jest.fn().mockReturnValue(errorResponse)
+      const response = await subject.updateTemplateOrder(template)
+      expect(deviceService.request).toHaveBeenLastCalledWith({
+        endpoint: 8,
+        method: 3,
+        body: {
+          templateID: 1,
+          category: MessagesCategory.template,
+          order: 1,
         },
       })
       expect(response.status).toEqual(RequestResponseStatus.Error)

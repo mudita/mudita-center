@@ -10,6 +10,7 @@ import {
   createTemplate,
   deleteTemplates,
   updateTemplate,
+  updateTemplateOrder,
 } from "App/templates/actions"
 
 const mapStateToProps = (state: ReduxRootState) => ({
@@ -23,6 +24,7 @@ const mapDispatchToProps = {
   createTemplate,
   deleteTemplates,
   updateTemplate,
+  updateTemplateOrder,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Templates)
