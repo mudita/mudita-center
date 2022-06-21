@@ -212,7 +212,7 @@ export class MessageService {
     const result = await this.deviceService.request({
       body: {
         category: PureMessagesCategory.message,
-        messageID: +messageId,
+        messageID: Number(messageId),
       },
       endpoint: Endpoint.Messages,
       method: Method.Delete,
