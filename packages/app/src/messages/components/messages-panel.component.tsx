@@ -80,7 +80,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
         />
       ) : (
         <>
-          {flags.get(Feature.MessagesSearch) && (
+          {flags.get(Feature.MessagesSearchEnabled) && (
             <SearchInput
               type={"search"}
               label={intl.formatMessage(messages.search)}

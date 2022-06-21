@@ -30,7 +30,9 @@ import {
   backgroundColor,
   textColor,
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
-import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, {
+  IconSize,
+} from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
 import useTableScrolling from "App/__deprecated__/renderer/utils/hooks/use-table-scrolling"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
@@ -202,7 +204,9 @@ const ContactList: FunctionComponent<Props> = ({
   noneRowsSelected,
   ...props
 }) => {
-  const [contactList, setContactList] = useState<ContactCategory[]>(props.contactList)
+  const [contactList, setContactList] = useState<ContactCategory[]>(
+    props.contactList
+  )
   const componentContactList = editMode ? contactList : props.contactList
 
   useEffect(() => {
@@ -246,8 +250,8 @@ const ContactList: FunctionComponent<Props> = ({
         selectedContact={selectedContact}
       >
         {resultsState === ResultState.Loaded &&
-        componentContactList.length !== 0 &&
-        componentContactList.map(({ category, contacts }, categoryIndex) => (
+          componentContactList.length !== 0 &&
+          componentContactList.map(({ category, contacts }, categoryIndex) => (
             <Group
               key={category}
               data-testid={ContactListTestIdsEnum.ContactListGroup}
@@ -352,7 +356,7 @@ const ContactList: FunctionComponent<Props> = ({
                             Icon={IconType.Forward}
                             onClick={handleForward}
                             displayStyle={DisplayStyle.Dropdown}
-                            hide={flags.get(Feature.ProductionAndAlpha)}
+                            hide={!flags.get(Feature.ContactForwardEnabled)}
                             iconSize={IconSize.Medium}
                           />
                           {contact.blocked ? (
@@ -361,7 +365,7 @@ const ContactList: FunctionComponent<Props> = ({
                               Icon={IconType.Blocked}
                               onClick={handleUnblock}
                               displayStyle={DisplayStyle.Dropdown}
-                              hide={flags.get(Feature.ProductionAndAlpha)}
+                              hide={!flags.get(Feature.ContactBlockingEnabled)}
                               iconSize={IconSize.Medium}
                             />
                           ) : (
@@ -370,7 +374,7 @@ const ContactList: FunctionComponent<Props> = ({
                               Icon={IconType.Blocked}
                               onClick={handleBlock}
                               displayStyle={DisplayStyle.Dropdown}
-                              hide={flags.get(Feature.ProductionAndAlpha)}
+                              hide={!flags.get(Feature.ContactBlockingEnabled)}
                               iconSize={IconSize.Medium}
                             />
                           )}
@@ -436,13 +440,14 @@ const ContactList: FunctionComponent<Props> = ({
               })}
             </Group>
           ))}
-        {resultsState === ResultState.Loaded && componentContactList.length === 0 && (
-          <EmptyState
-            data-testid={ContactListTestIdsEnum.ContactListNoResult}
-            title={messages.emptyListTitle}
-            description={messages.emptySearchDescription}
-          />
-        )}
+        {resultsState === ResultState.Loaded &&
+          componentContactList.length === 0 && (
+            <EmptyState
+              data-testid={ContactListTestIdsEnum.ContactListNoResult}
+              title={messages.emptyListTitle}
+              description={messages.emptySearchDescription}
+            />
+          )}
         {(resultsState === ResultState.Empty ||
           resultsState === ResultState.Error) && (
           <EmptyState
