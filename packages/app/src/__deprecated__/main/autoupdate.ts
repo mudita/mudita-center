@@ -41,7 +41,7 @@ export default (win: BrowserWindow): void => {
   })
   autoUpdater.logger = logger
   autoUpdater.autoDownload = false
-  autoUpdater.allowPrerelease = flags.get(Feature.McPrereleaseAvailable)
+  autoUpdater.allowPrerelease = flags.get(Feature.MuditaCenterPrereleaseEnabled)
   autoUpdater.autoInstallOnAppQuit = false
 
   autoUpdater.on("update-available", ({ version }) => {

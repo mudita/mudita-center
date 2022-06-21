@@ -82,7 +82,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
   return (
     <SettingsWrapper data-testid={SettingsTestIds.Wrapper}>
       {/*TODO: Remove condition below when tethering will be available on phone*/}
-      {!flags.get(Feature.ProductionAndAlpha) && (
+      {flags.get(Feature.TetheringEnabled) && (
         <SettingsTableRow data-testid={SettingsTestIds.TableRow}>
           <Data>
             <SettingsLabel displayStyle={TextDisplayStyle.Paragraph1}>
