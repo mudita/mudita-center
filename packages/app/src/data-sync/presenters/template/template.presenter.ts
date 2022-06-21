@@ -27,6 +27,10 @@ export class TemplatePresenter {
   }
 
   public serializeToObject(data: TemplateInput): TemplateObject[] {
+    if (data.templates === undefined) {
+      return []
+    }
+
     const templates = this.serializeRecord<TemplateEntity>(
       data.templates.values,
       data.templates.columns

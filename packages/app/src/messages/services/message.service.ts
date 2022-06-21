@@ -27,7 +27,7 @@ import {
   AcceptablePureMessageType,
   MessagePresenter,
 } from "App/messages/presenters"
-import { isResponseSuccessWithData } from "App/core/helpers"
+import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
 import { ThreadService } from "App/messages/services/thread.service"
 import { splitMessageByBytesSize } from "../helpers"
 
@@ -203,6 +203,32 @@ export class MessageService {
 
     return {
       status: RequestResponseStatus.Error,
+    }
+  }
+
+  public async deleteMessage(
+    messageId: string
+  ): Promise<RequestResponse<undefined>> {
+    const result = await this.deviceService.request({
+      body: {
+        category: PureMessagesCategory.message,
+        messageID: Number(messageId),
+      },
+      endpoint: Endpoint.Messages,
+      method: Method.Delete,
+    })
+
+    if (isResponseSuccess(result)) {
+      return {
+        status: RequestResponseStatus.Ok,
+      }
+    }
+
+    return {
+      status: RequestResponseStatus.Error,
+      error: {
+        message: "Delete message: Something went wrong",
+      },
     }
   }
 

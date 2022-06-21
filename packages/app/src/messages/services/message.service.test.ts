@@ -19,6 +19,9 @@ import {
   Message as PureMessage,
   MessageType,
   MessageType as PureMessageType,
+  MessagesCategory as PureMessagesCategory,
+  Endpoint,
+  Method,
 } from "@mudita/pure"
 import { NewMessage } from "App/messages/reducers"
 import assert from "assert"
@@ -242,6 +245,40 @@ describe("`MessageService`", () => {
         expect(deviceService.request).toHaveBeenCalled()
 
         expect(response.status).toEqual(RequestResponseStatus.Error)
+      })
+    })
+  })
+
+  describe("`deleteMessage` method", () => {
+    const messageId = "123"
+    test("construct proper delete request to device service", async () => {
+      deviceService.request = jest.fn().mockReturnValue(successResponse)
+      await subject.deleteMessage(messageId)
+      expect(deviceService.request).toHaveBeenCalledTimes(1)
+      expect(deviceService.request).toHaveBeenCalledWith({
+        body: {
+          category: PureMessagesCategory.message,
+          messageID: 123,
+        },
+        endpoint: Endpoint.Messages,
+        method: Method.Delete,
+      })
+    })
+
+    test("returns success when delete request succeeded", async () => {
+      deviceService.request = jest.fn().mockReturnValue(successResponse)
+      const result = await subject.deleteMessage(messageId)
+      expect(result).toEqual({ status: RequestResponseStatus.Ok })
+    })
+
+    test("returns error when delete request failed", async () => {
+      deviceService.request = jest.fn().mockReturnValue(errorResponse)
+      const result = await subject.deleteMessage(messageId)
+      expect(result).toEqual({
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Delete message: Something went wrong",
+        },
       })
     })
   })

@@ -5,7 +5,9 @@
 
 import React, { ChangeEvent, KeyboardEvent } from "react"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
-import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, {
+  IconSize,
+} from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   IconButton,
@@ -19,7 +21,9 @@ import { defineMessages } from "react-intl"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
-  sendButtonTooltipDescription: { id: "module.messages.sendButtonTooltipDescription" },
+  sendButtonTooltipDescription: {
+    id: "module.messages.sendButtonTooltipDescription",
+  },
 })
 
 interface Props {
@@ -40,15 +44,19 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
   }
 
   const leadingIcons = [
-    flags.get(Feature.DevelopOnly) && (
+    flags.get(Feature.MessagesThreadAttachContactEnabled) && (
       <IconButton
         key={IconType.AttachContact}
         Icon={IconType.AttachContact}
         onClick={onAttachContactClick}
       />
     ),
-    flags.get(Feature.DevelopOnly) && (
-      <Icon type={IconType.Template} key={IconType.Template} size={IconSize.Big} />
+    flags.get(Feature.MessagesThreadAttachTemplateEnabled) && (
+      <Icon
+        type={IconType.Template}
+        key={IconType.Template}
+        size={IconSize.Big}
+      />
     ),
   ]
 

@@ -31,7 +31,8 @@ import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropd
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
-import { Feature, flags } from "App/feature-flags"
+import { Feature } from "App/feature-flags/constants/feature.enum"
+import { flags } from "App/feature-flags/helpers/feature-flag.helpers"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import { Thread, MessageType } from "App/messages/reducers"
@@ -121,7 +122,7 @@ const ThreadRowContainer = styled(ThreadBaseRow)`
     }
 
     ${InitialsAvatar} {
-      ${!flags.get(Feature.ProductionAndAlpha)
+      ${flags.get(Feature.MessagesThreadDeleteEnabled)
         ? css`
             display: none;
             ${animatedOpacityStyles}
@@ -193,7 +194,7 @@ const ThreadRow: FunctionComponent<Props> = ({
   return (
     <ThreadRowContainer key={id} selected={selected} active={active} {...props}>
       <Col>
-        {!flags.get(Feature.ProductionAndAlpha) && (
+        {flags.get(Feature.MessagesThreadDeleteEnabled) && (
           <Checkbox
             checked={selected}
             onChange={handleCheckboxChange}
@@ -291,7 +292,7 @@ const ThreadRow: FunctionComponent<Props> = ({
               onClick={noop}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="dropdown-call"
-              hide={flags.get(Feature.ProductionAndAlpha)}
+              hide={!flags.get(Feature.MessagesCallFromThreadEnabled)}
             />
             {contactCreated ? (
               <ButtonComponent
@@ -314,7 +315,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                 data-testid="dropdown-add-to-contacts"
               />
             )}
-            {!flags.get(Feature.DisabledOnProduction) && (
+            {flags.get(Feature.MessagesThreadDeleteEnabled) && (
               <ButtonComponent
                 labelMessage={{
                   id: "module.messages.dropdownDelete",

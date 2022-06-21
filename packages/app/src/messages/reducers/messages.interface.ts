@@ -6,7 +6,11 @@
 import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { MessagesEvent, ThreadDeletingState } from "App/messages/constants"
+import {
+  MessageDeletingState,
+  MessagesEvent,
+  ThreadDeletingState,
+} from "App/messages/constants"
 
 export enum VisibilityFilter {
   All = "all",
@@ -67,7 +71,9 @@ export type MessagesState = Readonly<{
   threadsState: ResultState
   messagesStateMap: { [id: string]: ResultState }
   error: Error | string | null
-  deletingState: ThreadDeletingState | null
+  threadDeletingState: ThreadDeletingState | null
+  messagesDeletingState: MessageDeletingState | null
+  currentlyDeletingMessageId: MessageId | null
 }>
 
 export enum ReceiverIdentification {
@@ -75,6 +81,8 @@ export enum ReceiverIdentification {
   primary,
   secondary,
 }
+
+export type MessageId = string
 
 export interface Receiver extends Pick<Contact, "firstName" | "lastName"> {
   phoneNumber: string
@@ -89,6 +97,19 @@ export type AddNewMessageAction = PayloadAction<
     }[]
   },
   MessagesEvent.AddNewMessage
+>
+
+export type DeleteMessagePendingAction = PayloadAction<
+  undefined,
+  MessagesEvent.DeleteMessage,
+  {
+    arg: MessageId
+  }
+>
+
+export type DeleteMessageAction = PayloadAction<
+  MessageId,
+  MessagesEvent.DeleteMessage
 >
 
 export type ToggleThreadsReadStatusPendingAction = PayloadAction<

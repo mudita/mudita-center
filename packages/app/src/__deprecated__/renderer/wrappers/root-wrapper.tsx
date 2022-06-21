@@ -243,10 +243,9 @@ const RootWrapper: FunctionComponent<Props> = ({
     loadSettings()
     handleAppUpdateAvailableCheck()
 
-    const devModeHidden = flags.get(Feature.DeveloperModeHidden)
-    const productionEnvironment = flags.get(Feature.DisabledOnProduction)
+    const devModeEnabled = flags.get(Feature.DeveloperModeEnabled)
     //Remove this condition to get devMode on production
-    if (!(devModeHidden && productionEnvironment)) {
+    if (devModeEnabled) {
       // Register hotkeys
       registerHotkeys()
 

@@ -151,6 +151,11 @@ export class DeviceService {
   }): Promise<RequestResponse>
   public request(config: {
     endpoint: Endpoint.Messages
+    method: Method.Delete
+    body: GetMessageBody
+  }): Promise<RequestResponse<undefined>>
+  public request(config: {
+    endpoint: Endpoint.Messages
     method: Method.Put
     body: UpdateThreadReadStatus
   }): Promise<RequestResponse>
