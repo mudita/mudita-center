@@ -11,6 +11,8 @@ export enum MessagesEvent {
   AddNewMessage = "ADD_NEW_MESSAGE",
   ClearAllThreads = "CLEAR_ALL_THREADS",
   HideDeleteModal = "HIDE_DELETE_MODAL",
+  HideMessageDeleteModal = "HIDE_MESSAGE_DELETE_MODAL",
+  DeleteMessage = "DELETE_MESSAGE",
 
   // TODO: move to UI? :think:
   ChangeVisibilityFilter = "CHANGE_VISIBILITY_FILTER",

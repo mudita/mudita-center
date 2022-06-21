@@ -6,7 +6,11 @@
 import { ChangeEvent } from "react"
 import { connect } from "react-redux"
 import Messages from "App/messages/components/messages/messages.component"
-import { ReduxRootState, TmpDispatch, RootState } from "App/__deprecated__/renderer/store"
+import {
+  ReduxRootState,
+  TmpDispatch,
+  RootState,
+} from "App/__deprecated__/renderer/store"
 import {
   Message,
   NewMessage,
@@ -16,6 +20,7 @@ import {
   changeSearchValue,
   changeVisibilityFilter,
   hideDeleteModal,
+  hideMessageDeleteModal,
 } from "App/messages/actions/base.action"
 import { addNewMessage } from "App/messages/actions"
 import {
@@ -39,6 +44,7 @@ import { deleteThreads } from "App/messages/actions/delete-threads.action"
 import { toggleThreadsReadStatus } from "App/messages/actions/toggle-threads-read-status.action"
 import { Thread } from "App/messages/reducers/messages.interface"
 import { markThreadsReadStatus } from "./actions/mark-threads-read-status.action"
+import { deleteMessage } from "./actions/delete-message.action"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,
@@ -47,7 +53,9 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   attachContactFlatList: flatListSelector(state),
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
-  deletingState: state.messages.deletingState,
+  threadDeletingState: state.messages.threadDeletingState,
+  messageDeletingState: state.messages.messagesDeletingState,
+  currentlyDeletingMessageId: state.messages.currentlyDeletingMessageId,
   getContactByPhoneNumber: (phoneNumber: string) =>
     getContactByPhoneNumberSelector(phoneNumber)(state),
   isContactCreatedByPhoneNumber: (phoneNumber: string) =>
@@ -75,9 +83,12 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(markThreadsReadStatus(threads)),
   addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
     dispatch(addNewMessage(newMessage)),
+  deleteMessage: async (messageId: string): Promise<string> =>
+    dispatch(deleteMessage(messageId)),
   removeLayoutNotification: (notificationId: string) =>
     dispatch(removeNotification(notificationId)),
   hideDeleteModal: () => dispatch(hideDeleteModal()),
+  hideMessageDeleteModal: () => dispatch(hideMessageDeleteModal()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)
