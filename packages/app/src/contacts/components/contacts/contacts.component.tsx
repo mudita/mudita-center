@@ -275,6 +275,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   const openDeleteModal = (contact: Contact) => {
     const handleDelete = async () => {
+      resetRows()
       modalService.openModal(
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true
