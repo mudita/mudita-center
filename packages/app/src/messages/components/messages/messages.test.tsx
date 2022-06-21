@@ -685,7 +685,7 @@ describe("Messages component", () => {
   })
 
   test("dropdown mark as read button has correct content ", () => {
-    jest.spyOn(flags, "get").mockReturnValueOnce(false)
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
       intl.formatMessage({
@@ -695,13 +695,13 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown mark as read buttons", () => {
-    jest.spyOn(flags, "get").mockReturnValueOnce(false)
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-mark-as-read")).toBeInTheDocument()
   })
 
   test("dropdown delete button has correct content", () => {
-    jest.spyOn(flags, "get").mockReturnValueOnce(true)
+    jest.spyOn(flags, "get").mockReturnValue(false)
     const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
       intl.formatMessage({
