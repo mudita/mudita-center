@@ -91,4 +91,11 @@ export const features: EnvironmentConfig = {
     [Environment.AlphaProduction]: false,
     [Environment.TestAlphaProduction]: false,
   },
+  [Feature.ReadAndUnreadMessages]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.TestProduction]: false,
+    [Environment.AlphaProduction]: true,
+    [Environment.TestAlphaProduction]: true,
+  },
 }

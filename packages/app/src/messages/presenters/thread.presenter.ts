@@ -5,6 +5,7 @@
 
 import { Thread as PureThread } from "@mudita/pure"
 import { Thread } from "App/messages/reducers"
+import { Feature, flags } from "App/feature-flags"
 
 export class ThreadPresenter {
   static mapToThread(pureThread: PureThread): Thread {
@@ -17,7 +18,7 @@ export class ThreadPresenter {
     } = pureThread
     return {
       messageSnippet,
-      unread: isUnread,
+      unread: flags.get(Feature.ReadAndUnreadMessages) ? isUnread : false,
       id: String(threadID),
       phoneNumber: String(number),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),
