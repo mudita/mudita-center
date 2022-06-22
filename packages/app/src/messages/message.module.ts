@@ -43,10 +43,14 @@ export class MessageModule extends BaseModule {
       this.deviceService,
       threadRepository
     )
-    const messageService = new MessageService(this.deviceService, threadService)
+    const messageRepository = new MessageRepository(messageModel)
+    const messageService = new MessageService(
+      this.deviceService,
+      threadService,
+      messageRepository
+    )
     const messageController = new MessageController(messageService)
     const threadController = new ThreadController(threadService)
-    const messageRepository = new MessageRepository(messageModel)
 
     const messageObserver = new MessageObserver(
       this.ipc,
