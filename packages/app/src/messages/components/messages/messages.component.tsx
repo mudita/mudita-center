@@ -157,18 +157,17 @@ const Messages: FunctionComponent<Props> = ({
   const [tmpActiveThread, setTmpActiveThread] = useState<Thread | undefined>()
 
   const [content, setContent] = useState("")
-  const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
 
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Thread>(threads)
 
+  const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
 
   useEffect(() => {
     if (messageDeletingState === MessageDeletingState.Success) {
       const timeout = setTimeout(() => {
         hideMessageDeleteModal()
-        setMessageToDelete(undefined)
       }, hideSuccessPopupAfterTimeInMs)
       return () => clearTimeout(timeout)
     }
@@ -421,16 +420,19 @@ const Messages: FunctionComponent<Props> = ({
     assert(messageToDelete)
     deleteMessage(messageToDelete)
     setDeleteMessageModalOpen(false)
+    setMessageToDelete(undefined)
   }
 
   const hideDeleteMessageConfirmationModal = () => {
     setDeleteMessageModalOpen(false)
+    setMessageToDelete(undefined)
   }
 
-  const handleMessageDelete = (messageId: string) => {
+  const openDeleteMessageModal = (messageId: string) => {
     setDeleteMessageModalOpen(true)
     setMessageToDelete(messageId)
   }
+
   return (
     <>
       <MessagesPanel
@@ -488,7 +490,7 @@ const Messages: FunctionComponent<Props> = ({
             messageLayoutNotifications={messageLayoutNotifications}
             removeLayoutNotification={removeLayoutNotification}
             onMessageRead={markAsRead}
-            onMessageDelete={handleMessageDelete}
+            onMessageDelete={openDeleteMessageModal}
           />
         )}
         {messagesState === MessagesState.NewMessage && (
