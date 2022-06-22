@@ -5,7 +5,8 @@
 
 import React, { ChangeEvent, ComponentProps } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { Message, Receiver } from "App/messages/reducers/messages.interface"
+import { Receiver } from "App/messages/reducers/messages.interface"
+import { Message } from "App/messages/dto"
 import { MessagesWrapper } from "App/messages/components/thread-details.styled"
 import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"

@@ -4,7 +4,7 @@
  */
 
 import { isCallerMatchingPhoneNumber } from "App/__deprecated__/renderer/models/calls/caller-utils.ts"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 
 const findThreadBySearchParams = (
   searchParams: URLSearchParams,

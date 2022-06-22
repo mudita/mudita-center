@@ -32,6 +32,21 @@ export const features: EnvironmentConfig = {
     [Environment.Production]: false,
     [Environment.AlphaProduction]: false,
   },
+  [Feature.MessagesDeleteEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.MessagesForwardEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.MessagesResendEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
   [Feature.MessagesThreadDeleteEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,

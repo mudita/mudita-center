@@ -23,7 +23,7 @@ import {
   Endpoint,
   Method,
 } from "@mudita/pure"
-import { NewMessage } from "App/messages/reducers"
+import { NewMessage } from "App/messages/dto"
 import assert from "assert"
 
 jest.mock("App/messages/presenters")

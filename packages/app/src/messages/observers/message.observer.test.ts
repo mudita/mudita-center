@@ -20,7 +20,8 @@ import {
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
-import { Message, MessageType, Thread } from "App/messages/reducers"
+import { MessageType } from "App/messages/constants"
+import { Message, Thread } from "App/messages/dto"
 import { flushPromises } from "App/core/helpers/flush-promises"
 import { ThreadService } from "App/messages/services/thread.service"
 

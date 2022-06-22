@@ -10,7 +10,8 @@ import { testError } from "App/__deprecated__/renderer/store/constants"
 import { AddNewMessageError } from "App/messages/errors"
 import { createMessageRequest } from "App/messages/requests"
 import { addNewMessage } from "App/messages/actions/add-new-message.action"
-import { MessageType, NewMessage } from "App/messages/reducers"
+import { NewMessage } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import {
   RequestResponse,
   RequestResponseStatus,

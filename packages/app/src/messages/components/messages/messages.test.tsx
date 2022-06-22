@@ -16,8 +16,6 @@ import { fireEvent, waitFor } from "@testing-library/dom"
 import {
   Receiver,
   ReceiverIdentification,
-  ResultState,
-  Thread,
 } from "App/messages/reducers/messages.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
@@ -26,7 +24,8 @@ import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
-import { MessageType } from "App/messages/reducers"
+import { MessageType, ResultState } from "App/messages/constants"
+import { Thread } from "App/messages/dto"
 
 jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
   flags: {

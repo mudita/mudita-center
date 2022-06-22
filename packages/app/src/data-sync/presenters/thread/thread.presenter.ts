@@ -11,7 +11,7 @@ import {
   SmsEntity,
 } from "App/data-sync/types"
 import { MessageType as PureMessageType } from "@mudita/pure"
-import { MessageType } from "App/messages/reducers"
+import { MessageType } from "App/messages/constants"
 
 export class ThreadPresenter {
   public findRecords<Type extends { _id: string }>(

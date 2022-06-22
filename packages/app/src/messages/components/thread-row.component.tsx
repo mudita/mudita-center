@@ -35,7 +35,8 @@ import { Feature } from "App/feature-flags/constants/feature.enum"
 import { flags } from "App/feature-flags/helpers/feature-flag.helpers"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
-import { Thread, MessageType } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import {
   RowStatus,

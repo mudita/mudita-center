@@ -10,7 +10,7 @@ import Table from "App/__deprecated__/renderer/components/core/table/table.compo
 import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { AutoSizer, IndexRange, List, ListRowProps } from "react-virtualized"
 import ThreadRow from "App/messages/components/thread-row.component"

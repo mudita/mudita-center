@@ -17,7 +17,7 @@ import {
 } from "App/messages/components/messages-panel.styled"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 import { flags, Feature } from "App/feature-flags"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import { ContactSelectionManager } from "App/contacts/components/contact-panel/contact-panel.styled"
 import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"

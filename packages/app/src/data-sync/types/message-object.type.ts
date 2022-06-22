@@ -5,7 +5,7 @@
 
 import { Entity, DBQueryResult } from "App/data-sync/types/entity.type"
 import { MessageTable } from "App/data-sync/constants"
-import { Message } from "App/messages/reducers"
+import { Message } from "App/messages/dto"
 import { ContactNumberEntity } from "App/data-sync/types/contact-object.type"
 import { ThreadEntity } from "App/data-sync/types/thread-object.type"
 

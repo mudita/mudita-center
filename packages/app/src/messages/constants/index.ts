@@ -5,5 +5,8 @@
 
 export * from "./errors.enum"
 export * from "./event.enum"
+export * from "./message-type.constant"
+export * from "./result-state.constant"
 export * from "./thread-deleting.enum"
 export * from "./message-deleting.enum"
+export * from "./visibility-filter.constant"

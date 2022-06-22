@@ -10,7 +10,8 @@ import {
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
 import { ThreadEntryHandlerService } from "App/outbox/services/thread-entry-handler.service"
-import { Thread, MessageType } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { ThreadService } from "App/messages/services"
 import { ThreadRepository } from "App/messages/repositories"
 
