@@ -34,16 +34,15 @@ import {
 } from "App/contacts/reducers/contacts.interface"
 import {
   Message,
+  MessageType,
   NewMessage,
   Receiver,
   ReceiverIdentification,
   ResultState,
   Thread,
-  MessageType,
 } from "App/messages/reducers/messages.interface"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
-import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { IndexRange } from "react-virtualized"
@@ -53,6 +52,7 @@ import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import { ThreadDeletingState } from "App/messages/constants"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import DeletingModal from "App/ui/components/deleting-modal/deleting-modal.component"
+import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },
@@ -323,9 +323,7 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const handleAddNewMessage = async (phoneNumber: string): Promise<void> => {
-    const threadId = threads.find(
-      (thread) => thread.phoneNumber === phoneNumber
-    )?.id
+    const threadId = threads.find(isThreadNumberEqual(phoneNumber))?.id
     if (tmpActiveThread !== undefined) {
       handleReceiverSelect({ phoneNumber })
     }
@@ -337,9 +335,8 @@ const Messages: FunctionComponent<Props> = ({
     if (activeThread === undefined) {
       return
     }
-    const thread = threads.find(
-      (thread) => thread.phoneNumber === activeThread.phoneNumber
-    )
+    const thread = threads.find(isThreadNumberEqual(activeThread.phoneNumber))
+
     if (activeThread.id === thread?.id) {
       return
     } else if (thread) {
@@ -363,10 +360,7 @@ const Messages: FunctionComponent<Props> = ({
   const handleReceiverSelect = ({
     phoneNumber,
   }: Pick<Receiver, "phoneNumber">) => {
-    const thread = threads.find(
-      (thread) =>
-        mapToRawNumber(thread.phoneNumber) === mapToRawNumber(phoneNumber)
-    )
+    const thread = threads.find(isThreadNumberEqual(phoneNumber))
 
     if (thread) {
       setActiveThread(thread)
