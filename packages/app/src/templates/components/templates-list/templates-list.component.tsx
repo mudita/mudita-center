@@ -49,7 +49,7 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   updateTemplate,
 }) => {
   const [templatesList, setTemplateList] = useState<Template[]>(templates)
-
+  //temporary solution, will be changed in CP-1370
   const reorder = (
     list: Template[],
     startIndex: number,
