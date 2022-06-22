@@ -28,6 +28,7 @@ interface Properties {
   messageLayoutNotifications?: Notification[]
   removeLayoutNotification?: (notificationId: string) => void
   onMessageRead?: () => void
+  resendMessage?: (messageId: string) => void
 }
 
 const ThreadDetailsMessages: FunctionComponent<Properties> = ({
@@ -36,6 +37,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   messageLayoutNotifications,
   removeLayoutNotification = noop,
   onMessageRead = noop,
+  resendMessage,
 }) => {
   const wrapperBottomRef = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLDivElement>(null)
@@ -178,6 +180,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
             displayDate: previousDateIsSame,
             message: content,
             messageType,
+            resendMessage,
           }
 
           return <MessageDayBubble key={id} {...messageDayBubble} />

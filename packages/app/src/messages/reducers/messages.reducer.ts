@@ -10,6 +10,8 @@ import {
   rejectedAction,
 } from "App/__deprecated__/renderer/store/helpers"
 import {
+  ResendMessageFulfilledAction,
+  ResendMessageRejectedAction,
   AddNewMessageAction,
   ChangeSearchValueAction,
   ChangeVisibilityFilterAction,
@@ -133,6 +135,49 @@ export const messagesReducer = createReducer<MessagesState>(
           currentlyDeletingMessageId: null,
         }
       })
+
+      .addCase(
+        fulfilledAction(MessagesEvent.ResendMessage),
+        (state, action: ResendMessageFulfilledAction) => {
+          const messageParts = action.payload.messageParts
+          const prevMessageMap = { ...state.messageMap }
+          const prevMessageIdsInThreadMap = { ...state.messageIdsInThreadMap }
+          const prevThreadMap: ThreadMap = { ...state.threadMap }
+
+          for (const { message, thread } of messageParts) {
+            prevMessageMap[message.id] = message
+
+            const messageIds: string[] =
+              prevMessageIdsInThreadMap[message.threadId] ?? []
+            prevMessageIdsInThreadMap[message.threadId] = messageIds.find(
+              (id) => id === message.id
+            )
+              ? messageIds
+              : [...messageIds, message.id]
+
+            if (thread) {
+              prevThreadMap[thread.id] = thread
+            }
+          }
+
+          return {
+            ...state,
+            messageMap: prevMessageMap,
+            messageIdsInThreadMap: prevMessageIdsInThreadMap,
+            threadMap: prevThreadMap,
+          }
+        }
+      )
+
+      .addCase(
+        rejectedAction(MessagesEvent.ResendMessage),
+        (state, action: ResendMessageRejectedAction) => {
+          return {
+            ...state,
+            error: action.payload,
+          }
+        }
+      )
 
       .addCase(
         pendingAction(MessagesEvent.ToggleThreadsReadStatus),

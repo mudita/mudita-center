@@ -82,6 +82,7 @@ const defaultProps: Props = {
   messageLayoutNotifications: [],
   removeLayoutNotification: jest.fn(),
   onMessageRead: jest.fn(),
+  resendMessage: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {
