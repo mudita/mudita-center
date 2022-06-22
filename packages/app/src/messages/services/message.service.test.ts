@@ -25,6 +25,7 @@ import {
 } from "@mudita/pure"
 import { NewMessage } from "App/messages/reducers"
 import assert from "assert"
+import { MessageRepository } from "App/messages/repositories"
 
 jest.mock("App/messages/presenters")
 ;(MessagePresenter as unknown as jest.Mock).mockImplementation(() => {
@@ -42,7 +43,15 @@ const threadService = {
   getThreads: jest.fn(),
 } as unknown as ThreadService
 
-const subject = new MessageService(deviceService, threadService)
+const messageRepository = {
+  delete: jest.fn(),
+} as unknown as MessageRepository
+
+const subject = new MessageService(
+  deviceService,
+  threadService,
+  messageRepository
+)
 
 const successResponse: SuccessRequestResponse<any> = {
   status: RequestResponseStatus.Ok,
@@ -251,7 +260,7 @@ describe("`MessageService`", () => {
 
   describe("`deleteMessage` method", () => {
     const messageId = "123"
-    test("construct proper delete request to device service", async () => {
+    test("construct proper delete request to device service and calls proper repository method", async () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
       await subject.deleteMessage(messageId)
       expect(deviceService.request).toHaveBeenCalledTimes(1)
@@ -263,6 +272,8 @@ describe("`MessageService`", () => {
         endpoint: Endpoint.Messages,
         method: Method.Delete,
       })
+      expect(messageRepository.delete).toHaveBeenCalledTimes(1)
+      expect(messageRepository.delete).toHaveBeenCalledWith(messageId)
     })
 
     test("returns success when delete request succeeded", async () => {

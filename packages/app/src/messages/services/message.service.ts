@@ -4,12 +4,6 @@
  */
 
 import {
-  Message,
-  NewMessage,
-  Thread,
-} from "App/messages/reducers/messages.interface"
-import DeviceService from "App/__deprecated__/backend/device-service"
-import {
   Endpoint,
   GetMessagesBody as PureGetMessagesBody,
   Message as PureMessage,
@@ -18,6 +12,7 @@ import {
   Method,
   PaginationBody,
 } from "@mudita/pure"
+import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -27,9 +22,15 @@ import {
   AcceptablePureMessageType,
   MessagePresenter,
 } from "App/messages/presenters"
-import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
+import {
+  Message,
+  NewMessage,
+  Thread,
+} from "App/messages/reducers/messages.interface"
 import { ThreadService } from "App/messages/services/thread.service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import { splitMessageByBytesSize } from "../helpers"
+import { MessageRepository } from "../repositories"
 
 export interface GetMessagesByThreadIdResponse {
   data: Message[]
@@ -48,7 +49,8 @@ export interface CreateMessageDataResponse {
 export class MessageService {
   constructor(
     private deviceService: DeviceService,
-    private threadService: ThreadService
+    private threadService: ThreadService,
+    private messageRepository: MessageRepository
   ) {}
 
   private MESSAGE_MAX_SIZE_IN_BYTES = 469
@@ -219,6 +221,8 @@ export class MessageService {
     })
 
     if (isResponseSuccess(result)) {
+      this.messageRepository.delete(messageId)
+
       return {
         status: RequestResponseStatus.Ok,
       }
