@@ -125,6 +125,10 @@ const defaultProps: Props = {
   removeLayoutNotification: jest.fn(),
   threadDeletingState: null,
   hideDeleteModal: jest.fn(),
+  hideMessageDeleteModal: jest.fn(),
+  currentlyDeletingMessageId: null,
+  deleteMessage: jest.fn(),
+  messageDeletingState: null,
 }
 
 const propsWithSingleThread: Partial<Props> = {
@@ -244,20 +248,6 @@ describe("Messages component", () => {
         queryByTestId(MessagesTestIds.EmptyThreadListState)
       ).toBeInTheDocument()
       expect(queryByTestId(MessagesTestIds.ThreadList)).not.toBeInTheDocument()
-    })
-
-    test("deleting modals are not showed", () => {
-      const { queryByTestId } = renderer()
-
-      expect(
-        queryByTestId(MessagesTestIds.SuccessThreadDelete)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(MessagesTestIds.ThreadDeleting)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(MessagesTestIds.FailThreadDelete)
-      ).not.toBeInTheDocument()
     })
   })
 

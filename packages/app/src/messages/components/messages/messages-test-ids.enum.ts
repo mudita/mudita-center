@@ -8,7 +8,4 @@ export enum MessagesTestIds {
   ThreadList = "messages-thread-list",
   ThreadDetails = "messages-thread-details",
   NewMessageForm = "messages-new-message-form",
-  SuccessThreadDelete = "messages-success-thread-delete",
-  ThreadDeleting = "message-thread-deleting",
-  FailThreadDelete = "message-fail-thread-delete",
 }

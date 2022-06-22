@@ -12,7 +12,7 @@ import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import { Message as TranslationMessage } from "App/__deprecated__/renderer/interfaces/message.interface"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
-import { DeleteConfirmationModal } from "App/templates/components/delete-confirmation-modal"
+import { DeleteConfirmationModal } from "App/ui/components/delete-confirmation-modal"
 import { DeletingTemplateModalsTestIds } from "App/templates/components/deleting-template-modals/deleting-template-modals-test-ids.enum"
 
 const messages = defineMessages({
@@ -23,6 +23,12 @@ const messages = defineMessages({
   deletingModalTitle: { id: "module.templates.deletingModalTitle" },
   deletingModalSubtitle: { id: "module.templates.deletingModalSubtitle" },
   deleteModalErrorSubtitle: { id: "module.templates.deleteModalErrorSubtitle" },
+})
+
+const confirmationModalMessages = defineMessages({
+  cancelButton: { id: "module.templates.cancelButton" },
+  deleteButton: { id: "module.templates.deleteButton" },
+  title: { id: "module.templates.deleteModalTitle" },
 })
 
 const getDeletedTemplateText = (
@@ -66,6 +72,13 @@ export const DeletingTemplateModals: FunctionComponent<
           }}
           onActionButtonClick={onDelete}
           onCloseButton={onCloseDeletingModal}
+          cancelButtonLabel={intl.formatMessage(
+            confirmationModalMessages.cancelButton
+          )}
+          actionButtonLabel={intl.formatMessage(
+            confirmationModalMessages.deleteButton
+          )}
+          titleLabel={intl.formatMessage(confirmationModalMessages.title)}
         />
       )}
 
