@@ -41,7 +41,11 @@ export class OutboxFactory {
     const messageModel = new MessageModel(index, eventEmitter)
     const messageRepository = new MessageRepository(messageModel)
     const threadService = new ThreadService(deviceService, threadRepository)
-    const messageService = new MessageService(deviceService, threadService)
+    const messageService = new MessageService(
+      deviceService,
+      threadService,
+      messageRepository
+    )
 
     const threadEntryHandlerService = new ThreadEntryHandlerService(
       threadService,

@@ -29,6 +29,7 @@ import history from "App/__deprecated__/renderer/routes/history"
 import { Router } from "react-router"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { PaginationBody } from "@mudita/pure"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 const promiseAction =
   (msg: string): ((...args: any[]) => Promise<any>) =>
@@ -152,15 +153,19 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         getMessagesStateByThreadId={getMessagesResultsMapStateByThreadId}
         isContactCreatedByPhoneNumber={isContactCreatedByPhoneNumber}
         addNewMessage={promiseAction("Add New Message")}
-        getContactByPhoneNumber={jest.fn()}
-        getReceiver={jest.fn()}
+        getContactByPhoneNumber={noop}
+        getReceiver={noop}
         receivers={receivers}
         loadThreads={loadData}
         threadsState={ResultState.Loaded}
         messageLayoutNotifications={[]}
-        removeLayoutNotification={jest.fn()}
+        removeLayoutNotification={noop}
         threadDeletingState={null}
-        hideDeleteModal={jest.fn()}
+        hideDeleteModal={noop}
+        currentlyDeletingMessageId={null}
+        deleteMessage={noop}
+        messageDeletingState={null}
+        hideMessageDeleteModal={noop}
       />
     </div>
   </Router>
