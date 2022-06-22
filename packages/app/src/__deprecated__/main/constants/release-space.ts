@@ -4,7 +4,7 @@
  */
 
 export enum ReleaseSpace {
-  Production = "latest",
-  TestProduction = "rc-latest",
-  Daily = "daily-latest",
+  ProductionReleases = "latest",
+  PreReleases = "rc-latest",
+  DailyReleases = "daily-latest",
 }

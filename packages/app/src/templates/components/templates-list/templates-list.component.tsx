@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useState } from "react"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { TemplatesListProps } from "App/templates/components/templates-list/templates-list.interface"
@@ -21,6 +21,14 @@ import {
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import { TemplateOptions } from "App/templates/components/template-options"
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DraggableProvided,
+  DropResult,
+} from "react-beautiful-dnd"
+import { Template } from "App/templates/dto"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "module.templates.emptyList.title" },
@@ -40,53 +48,108 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   deleteTemplates,
   updateTemplate,
 }) => {
+  const [templatesList, setTemplateList] = useState<Template[]>(templates)
+  //temporary solution, will be changed in CP-1370
+  const reorder = (
+    list: Template[],
+    startIndex: number,
+    endIndex: number
+  ): Template[] => {
+    const result: Template[] = Array.from(list)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+
+    return result
+  }
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return
+    }
+
+    const items: Template[] = reorder(
+      templatesList,
+      result.source.index,
+      result.destination.index
+    )
+
+    setTemplateList(items)
+  }
   return (
-    <Table role="list" hide hideableColumnsIndexes={[2, 3, 4]}>
-      {templates.length > 0 ? (
-        templates.map((template) => {
-          const { selected, indeterminate } = getRowStatus(template)
-          const handleCheckboxChange = () => toggleRow(template)
-          return (
-            <Row key={template.id} role="listitem">
-              <Col />
-              <Col>
-                <Checkbox
-                  checked={selected}
-                  onChange={handleCheckboxChange}
-                  size={Size.Large}
-                  indeterminate={indeterminate}
-                  visible={!noneRowsSelected}
-                  data-testid="template-checkbox"
-                />
-                {noneRowsSelected && (
-                  <IconWrapper>
-                    <TemplateIcon
-                      type={IconType.Template}
-                      width={3}
-                      height={3}
-                    />
-                  </IconWrapper>
-                )}
-              </Col>
-              <TemplateText displayStyle={TextDisplayStyle.Paragraph1}>
-                {template.text}
-              </TemplateText>
-              <Col>
-                <TemplateOptions
-                  templateId={template.id}
-                  onDelete={deleteTemplates}
-                  onUpdate={updateTemplate}
-                />
-              </Col>
-            </Row>
-          )
-        })
-      ) : (
-        <TemplatesEmptyState
-          title={messages.emptyStateTitle}
-          description={messages.emptyStateDescription}
-        />
-      )}
-    </Table>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="droppable">
+        {(provided: any) => (
+          <Table
+            role="list"
+            hide
+            hideableColumnsIndexes={[2, 3, 4]}
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+          >
+            {templatesList.length > 0 ? (
+              templatesList.map((template, index) => {
+                const { selected, indeterminate } = getRowStatus(template)
+                const handleCheckboxChange = () => toggleRow(template)
+                return (
+                  <Draggable
+                    key={template.id}
+                    draggableId={template.id}
+                    index={index}
+                  >
+                    {(provided: DraggableProvided) => (
+                      <Row
+                        key={template.id}
+                        role="listitem"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <Col />
+                        <Col>
+                          <Checkbox
+                            checked={selected}
+                            onChange={handleCheckboxChange}
+                            size={Size.Large}
+                            indeterminate={indeterminate}
+                            visible={!noneRowsSelected}
+                            data-testid="template-checkbox"
+                          />
+                          {noneRowsSelected && (
+                            <IconWrapper>
+                              <TemplateIcon
+                                type={IconType.Template}
+                                width={3}
+                                height={3}
+                              />
+                            </IconWrapper>
+                          )}
+                        </Col>
+                        <TemplateText
+                          displayStyle={TextDisplayStyle.Paragraph1}
+                        >
+                          {template.text}
+                        </TemplateText>
+                        <Col>
+                          <TemplateOptions
+                            templateId={template.id}
+                            onDelete={deleteTemplates}
+                            onUpdate={updateTemplate}
+                          />
+                        </Col>
+                      </Row>
+                    )}
+                  </Draggable>
+                )
+              })
+            ) : (
+              <TemplatesEmptyState
+                title={messages.emptyStateTitle}
+                description={messages.emptyStateDescription}
+              />
+            )}
+          </Table>
+        )}
+      </Droppable>
+    </DragDropContext>
   )
 }

@@ -9,7 +9,7 @@ import { Release } from "App/__deprecated__/update/types"
 import { Feature, flags } from "App/feature-flags"
 
 export const getAllReleasesRequest = async (): Promise<Release[]> => {
-  if (flags.get(Feature.AllReleaseListAvailable)) {
+  if (flags.get(Feature.DeveloperModeEnabled)) {
     return ipcRenderer.callMain<void, Release[]>(IpcUpdate.GetAllReleases)
   } else {
     return []
