@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MessagesCategory } from "@mudita/pure"
+import { MessagesCategory, Method, Endpoint } from "@mudita/pure"
 import { TemplateService } from "App/templates/services/template.service"
 import { TemplateRepository } from "App/templates/repositories"
 import DeviceService from "App/__deprecated__/backend/device-service"
@@ -56,8 +56,8 @@ describe("`TemplateService`", () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
       const response = await subject.createTemplate(newTemplate)
       expect(deviceService.request).toHaveBeenLastCalledWith({
-        endpoint: 8,
-        method: 2,
+        endpoint: Endpoint.Messages,
+        method: Method.Post,
         body: {
           templateBody: "Hello world",
           category: MessagesCategory.template,
@@ -70,8 +70,8 @@ describe("`TemplateService`", () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.createTemplate(newTemplate)
       expect(deviceService.request).toHaveBeenLastCalledWith({
-        endpoint: 8,
-        method: 2,
+        endpoint: Endpoint.Messages,
+        method: Method.Post,
         body: {
           templateBody: "Hello world",
           category: MessagesCategory.template,
@@ -86,8 +86,8 @@ describe("`TemplateService`", () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
       const response = await subject.updateTemplate(template)
       expect(deviceService.request).toHaveBeenLastCalledWith({
-        endpoint: 8,
-        method: 3,
+        endpoint: Endpoint.Messages,
+        method: Method.Put,
         body: {
           templateID: 1,
           templateBody: "Hello world",
@@ -101,8 +101,8 @@ describe("`TemplateService`", () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.updateTemplate(template)
       expect(deviceService.request).toHaveBeenLastCalledWith({
-        endpoint: 8,
-        method: 3,
+        endpoint: Endpoint.Messages,
+        method: Method.Put,
         body: {
           templateID: 1,
           templateBody: "Hello world",
@@ -117,8 +117,8 @@ describe("`TemplateService`", () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
       const response = await subject.updateTemplateOrder(template)
       expect(deviceService.request).toHaveBeenLastCalledWith({
-        endpoint: 8,
-        method: 3,
+        endpoint: Endpoint.Messages,
+        method: Method.Put,
         body: {
           templateID: 1,
           category: MessagesCategory.template,
@@ -132,8 +132,8 @@ describe("`TemplateService`", () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.updateTemplateOrder(template)
       expect(deviceService.request).toHaveBeenLastCalledWith({
-        endpoint: 8,
-        method: 3,
+        endpoint: Endpoint.Messages,
+        method: Method.Put,
         body: {
           templateID: 1,
           category: MessagesCategory.template,
