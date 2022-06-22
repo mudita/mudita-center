@@ -3,23 +3,24 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
+import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
+import { NewMessageBadgeTestIds } from "App/messages/components/new-message-badge-test-ids.enum"
+import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 import {
   Message,
   MessageType,
   Receiver,
   ReceiverIdentification,
 } from "App/messages/reducers/messages.interface"
-import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
-import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
-import { AvatarTestIds } from "App/__deprecated__/renderer/components/core/avatar/avatar-test-ids.enum"
-import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
 import {
   NotificationMethod,
   NotificationResourceType,
 } from "App/notification/constants"
-import { NewMessageBadgeTestIds } from "App/messages/components/new-message-badge-test-ids.enum"
+import { AvatarTestIds } from "App/__deprecated__/renderer/components/core/avatar/avatar-test-ids.enum"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import React, { ComponentProps } from "react"
 
 const intersectionObserverMock = () => ({
   observe: () => null,
@@ -91,6 +92,8 @@ const defaultProps: Props = {
   receiver,
   messages,
   messageLayoutNotifications: [],
+  currentlyDeletingMessageId: null,
+  onMessageRemove: noop,
 }
 
 const renderer = (extraProps?: {}) => {

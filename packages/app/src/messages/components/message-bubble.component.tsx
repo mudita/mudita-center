@@ -93,7 +93,10 @@ const MessageDate = styled.div`
   }
 `
 
-const Bubble = styled.div<{ interlocutor: boolean }>`
+const Bubble = styled.div<{
+  interlocutor: boolean
+  isMessageBeingDeleted: boolean
+}>`
   position: relative;
   padding: 1.1rem 1.2rem;
   margin-top: 0.8rem;
@@ -105,6 +108,8 @@ const Bubble = styled.div<{ interlocutor: boolean }>`
       : "1.2rem 1.2rem 0.2rem 1.2rem"};
   max-width: 38rem;
   box-sizing: border-box;
+  opacity: "100%";
+  ${({ isMessageBeingDeleted }) => isMessageBeingDeleted && "opacity: 50%;"}
 
   &:hover {
     ${MessageDate} {
@@ -147,8 +152,9 @@ interface Props {
   interlocutor?: boolean
   displayAvatar?: boolean
   forwardMessage?: () => void
-  removeMessage?: () => void
+  removeMessage: (messageId: string) => void
   messageType: MessageType
+  isMessageBeingDeleted: boolean
 }
 
 const MessageBubble: FunctionComponent<Props> = ({
@@ -160,8 +166,9 @@ const MessageBubble: FunctionComponent<Props> = ({
   interlocutor = false,
   displayAvatar = false,
   forwardMessage = noop,
-  removeMessage = noop,
+  removeMessage,
   messageType,
+  isMessageBeingDeleted,
 }) => {
   const isMessageFailed = messageType === MessageType.FAILED
   const [clicked, setClicked] = useState<string>("")
@@ -181,7 +188,7 @@ const MessageBubble: FunctionComponent<Props> = ({
           interlocutor={interlocutor}
         >
           {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
-          {process.env.NODE_ENV !== "production" && (
+          {process.env.NODE_ENV !== "production" && !isMessageBeingDeleted && (
             <MessageBubbleDropdown
               toggler={
                 <ActionsButton
@@ -230,6 +237,7 @@ const MessageBubble: FunctionComponent<Props> = ({
           )}
           <Bubble
             interlocutor={interlocutor}
+            isMessageBeingDeleted={isMessageBeingDeleted}
             data-testid={MessageBubbleTestIds.MessageContent}
           >
             <MessageBubbleText displayStyle={TextDisplayStyle.Paragraph4}>

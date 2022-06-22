@@ -57,7 +57,6 @@ import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
 import { IndexRange } from "react-virtualized"
 
-// TODO [mw] clear those!
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },
   deleteModalBody: {
@@ -68,17 +67,6 @@ const messages = defineMessages({
   },
   emptyListDescription: {
     id: "module.messages.emptyListDescription",
-  },
-  deletingModalTitle: { id: "module.messages.deletingModalTitle" },
-  deletingModalSubtitle: { id: "module.messages.deletingModalSubtitle" },
-  deletingModalErrorSubtitle: {
-    id: "module.messages.deleteModalErrorSubtitle",
-  },
-  conversationDeleted: {
-    id: "module.messages.conversationDelete",
-  },
-  conversationsDeleted: {
-    id: "module.messages.conversationsDelete",
   },
 })
 
@@ -112,8 +100,7 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   getMessagesStateByThreadId: (threadId: string) => ResultState
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
-  // TODO [mw] type?
-  deleteMessage: (messageId: string) => Promise<unknown>
+  deleteMessage: (messageId: string) => Promise<string>
   removeLayoutNotification: (notificationId: string) => void
   threadDeletingState: ThreadDeletingState | null
   messageDeletingState: MessageDeletingState | null
@@ -213,7 +200,6 @@ const Messages: FunctionComponent<Props> = ({
     }
   }
 
-  // TODO [mw] delete conversation ("Do you really want to delete 1 conversation?")
   const remove = (ids: string[]) => {
     const title = intl.formatMessage(messages.deleteModalTitle)
     const message = getDeletingMessage(ids)
@@ -431,16 +417,20 @@ const Messages: FunctionComponent<Props> = ({
     })
   }
 
-  const handleDeleteMessageButton = () => {
+  const handleDeleteMessage = () => {
     assert(messageToDelete)
     deleteMessage(messageToDelete)
     setDeleteMessageModalOpen(false)
   }
 
-  const handleDeleteMessageCloseModal = () => {
+  const hideDeleteMessageConfirmationModal = () => {
     setDeleteMessageModalOpen(false)
   }
 
+  const handleMessageDelete = (messageId: string) => {
+    setDeleteMessageModalOpen(true)
+    setMessageToDelete(messageId)
+  }
   return (
     <>
       <MessagesPanel
@@ -484,6 +474,7 @@ const Messages: FunctionComponent<Props> = ({
             content={content}
             receiver={getViewReceiver(activeThread)}
             messages={getMessagesByThreadId(activeThread.id)}
+            currentlyDeletingMessageId={currentlyDeletingMessageId}
             contactCreated={isContactCreatedByPhoneNumber(
               activeThread.phoneNumber
             )}
@@ -497,6 +488,7 @@ const Messages: FunctionComponent<Props> = ({
             messageLayoutNotifications={messageLayoutNotifications}
             removeLayoutNotification={removeLayoutNotification}
             onMessageRead={markAsRead}
+            onMessageDelete={handleMessageDelete}
           />
         )}
         {messagesState === MessagesState.NewMessage && (
@@ -522,9 +514,9 @@ const Messages: FunctionComponent<Props> = ({
 
       <DeleteMessageModals
         messageDeletingState={messageDeletingState}
-        hideConfirmationModal={handleDeleteMessageCloseModal}
+        hideConfirmationModal={hideDeleteMessageConfirmationModal}
         hideDeleteErrorModal={hideMessageDeleteModal}
-        onMessageRemove={handleDeleteMessageButton}
+        onMessageRemove={handleDeleteMessage}
         openDeleteMessageConfirmation={deleteMessageModalOpen}
       />
     </>

@@ -26,18 +26,22 @@ import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 interface Properties {
   messages: Message[]
+  currentlyDeletingMessageId: string | null
   receiver?: Receiver
   messageLayoutNotifications?: Notification[]
   removeLayoutNotification?: (notificationId: string) => void
   onMessageRead?: () => void
+  onMessageRemove?: (messageId: string) => void
 }
 
 const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   messages,
+  currentlyDeletingMessageId,
   receiver,
   messageLayoutNotifications,
   removeLayoutNotification = noop,
   onMessageRead = noop,
+  onMessageRemove = noop,
 }) => {
   const wrapperBottomRef = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLDivElement>(null)
@@ -163,6 +167,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
         {(item, index) => {
           const { messageType, date, content, id } = item
           const interlocutor = messageType === MessageType.INBOX
+          const isMessageBeingDeleted = id === currentlyDeletingMessageId
           const user = interlocutor && receiver ? receiver : {}
           const prevMessage = messages[index - 1]
           const displayAvatar = prevMessage
@@ -180,6 +185,8 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
             displayDate: previousDateIsSame,
             message: content,
             messageType,
+            removeMessage: onMessageRemove,
+            isMessageBeingDeleted,
           }
 
           return <MessageDayBubble key={id} {...messageDayBubble} />
