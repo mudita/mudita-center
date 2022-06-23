@@ -24,6 +24,8 @@ const defaultProps: Properties = {
   displayDate: false,
   date: new Date("2021-02-13T22:22:13.615Z"),
   messageType: MessageType.OUTBOX,
+  isMessageBeingDeleted: false,
+  removeMessage: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {

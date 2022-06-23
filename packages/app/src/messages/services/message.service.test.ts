@@ -4,24 +4,24 @@
  */
 
 import {
+  Endpoint,
+  Message as PureMessage,
+  MessagesCategory as PureMessagesCategory,
+  MessageType,
+  MessageType as PureMessageType,
+  Method,
+} from "@mudita/pure"
+import {
   ErrorRequestResponse,
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
-import { MessageService } from "App/messages/services/message.service"
-import DeviceService from "App/__deprecated__/backend/device-service"
-import { AcceptablePureMessageType } from "App/messages/presenters"
-import { ThreadService } from "App/messages/services/thread.service"
-import {
-  Message as PureMessage,
-  MessageType,
-  MessageType as PureMessageType,
-  MessagesCategory as PureMessagesCategory,
-  Endpoint,
-  Method,
-} from "@mudita/pure"
 import { NewMessage } from "App/messages/dto"
+import { AcceptablePureMessageType } from "App/messages/presenters"
 import { MessageRepository } from "App/messages/repositories"
+import { MessageService } from "App/messages/services/message.service"
+import { ThreadService } from "App/messages/services/thread.service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import assert from "assert"
 
 const deviceService = {
@@ -33,6 +33,7 @@ const threadService = {
 } as unknown as ThreadService
 
 const messageRepository = {
+  delete: jest.fn(),
   findById: jest.fn(),
 } as unknown as MessageRepository
 
@@ -241,7 +242,7 @@ describe("`MessageService`", () => {
 
   describe("`deleteMessage` method", () => {
     const messageId = "123"
-    test("construct proper delete request to device service", async () => {
+    test("construct proper delete request to device service and calls proper repository method", async () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
       await subject.deleteMessage(messageId)
       expect(deviceService.request).toHaveBeenCalledTimes(1)
@@ -253,6 +254,8 @@ describe("`MessageService`", () => {
         endpoint: Endpoint.Messages,
         method: Method.Delete,
       })
+      expect(messageRepository.delete).toHaveBeenCalledTimes(1)
+      expect(messageRepository.delete).toHaveBeenCalledWith(messageId)
     })
 
     test("returns success when delete request succeeded", async () => {

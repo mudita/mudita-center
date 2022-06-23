@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceService from "App/__deprecated__/backend/device-service"
 import {
   Endpoint,
   GetMessagesBody as PureGetMessagesBody,
@@ -13,19 +12,20 @@ import {
   Method,
   PaginationBody,
 } from "@mudita/pure"
+import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
 import {
   RequestResponse,
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
+import { Message, NewMessage, Thread } from "App/messages/dto"
 import {
   AcceptablePureMessageType,
   MessagePresenter,
 } from "App/messages/presenters"
-import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
-import { ThreadService } from "App/messages/services/thread.service"
 import { MessageRepository } from "App/messages/repositories"
-import { Message, Thread, NewMessage } from "App/messages/dto"
+import { ThreadService } from "App/messages/services/thread.service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import { splitMessageByBytesSize } from "../helpers"
 
 export interface GetMessagesByThreadIdResponse {
@@ -217,6 +217,8 @@ export class MessageService {
     })
 
     if (isResponseSuccess(result)) {
+      this.messageRepository.delete(messageId)
+
       return {
         status: RequestResponseStatus.Ok,
       }

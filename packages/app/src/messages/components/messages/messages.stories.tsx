@@ -3,32 +3,33 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import { PaginationBody } from "@mudita/pure"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { action } from "@storybook/addon-actions"
 import { storiesOf } from "@storybook/react"
-import Messages from "App/messages/components/messages/messages.component"
 import {
-  rowMessages,
-  rowThreads,
-} from "App/__deprecated__/renderer/components/core/table/table.fake-data"
+  Contact,
+  ContactCategory,
+} from "App/contacts/reducers/contacts.interface"
 import AttachContactModal from "App/messages/components/attach-contact-modal.component"
+import Messages from "App/messages/components/messages/messages.component"
+import { ResultState } from "App/messages/constants"
+import {
+  Receiver,
+  ReceiverIdentification,
+} from "App/messages/reducers/messages.interface"
 import {
   ModalBackdrop,
   ModalWrapper,
 } from "App/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import {
-  Contact,
-  ContactCategory,
-} from "App/contacts/reducers/contacts.interface"
-import {
-  Receiver,
-  ReceiverIdentification,
-} from "App/messages/reducers/messages.interface"
-import { ResultState } from "App/messages/constants"
-import { action } from "@storybook/addon-actions"
+  rowMessages,
+  rowThreads,
+} from "App/__deprecated__/renderer/components/core/table/table.fake-data"
 import history from "App/__deprecated__/renderer/routes/history"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import React from "react"
 import { Router } from "react-router"
-import { PayloadAction } from "@reduxjs/toolkit"
-import { PaginationBody } from "@mudita/pure"
 
 const promiseAction =
   (msg: string): ((...args: any[]) => Promise<any>) =>
@@ -152,15 +153,19 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         getMessagesStateByThreadId={getMessagesResultsMapStateByThreadId}
         isContactCreatedByPhoneNumber={isContactCreatedByPhoneNumber}
         addNewMessage={promiseAction("Add New Message")}
-        getContactByPhoneNumber={jest.fn()}
-        getReceiver={jest.fn()}
+        getContactByPhoneNumber={noop}
+        getReceiver={noop}
         receivers={receivers}
         loadThreads={loadData}
         threadsState={ResultState.Loaded}
         messageLayoutNotifications={[]}
-        removeLayoutNotification={jest.fn()}
+        removeLayoutNotification={noop}
         threadDeletingState={null}
-        hideDeleteModal={jest.fn()}
+        hideDeleteModal={noop}
+        currentlyDeletingMessageId={null}
+        deleteMessage={noop}
+        messageDeletingState={null}
+        hideMessageDeleteModal={noop}
         resendMessage={jest.fn()}
       />
     </div>
