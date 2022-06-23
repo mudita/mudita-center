@@ -6,7 +6,7 @@
 import { MessagesError } from "App/messages/constants"
 
 export class ResendMessageError extends Error {
-  public type = MessagesError.ResendMessageError
+  public readonly type = MessagesError.ResendMessageError
 
   constructor(public message: string, public payload?: any) {
     super()
