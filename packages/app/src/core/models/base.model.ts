@@ -43,8 +43,11 @@ export class BaseModel<Type extends { id: string }> {
     this.connection?.addDoc(changedData)
     const record = this.findById(data.id)
 
-    if (!skipCallbacks && record) {
+    if (record) {
       this.afterCreate(record)
+    }
+
+    if (!skipCallbacks && record) {
       this.eventEmitter.emit(ModelEvent.Created)
     }
 
@@ -57,8 +60,11 @@ export class BaseModel<Type extends { id: string }> {
     this.connection?.updateDoc(changedData)
     const record = this.findById(data.id)
 
-    if (!skipCallbacks && record) {
+    if (record) {
       this.afterUpdate(record)
+    }
+
+    if (!skipCallbacks && record) {
       this.eventEmitter.emit(ModelEvent.Updated)
     }
 
@@ -75,9 +81,9 @@ export class BaseModel<Type extends { id: string }> {
 
     this.beforeDelete(data)
     this.connection?.removeDocByRef(id)
+    this.afterDelete(data)
 
     if (!skipCallbacks) {
-      this.afterDelete(data)
       this.eventEmitter.emit(ModelEvent.Deleted)
     }
   }
