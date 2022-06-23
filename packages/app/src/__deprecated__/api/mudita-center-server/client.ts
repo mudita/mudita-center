@@ -21,12 +21,16 @@ export interface getLatestProductionReleaseParams {
 }
 
 export class Client implements ClientInterface {
-  private httpClient: AxiosInstance = axios.create({
-    baseURL: process.env.MUDITA_CENTER_SERVER_URL as string,
-    httpsAgent: new https.Agent({
-      rejectUnauthorized: false,
-    }),
-  })
+  private httpClient: AxiosInstance
+
+  constructor() {
+    this.httpClient = axios.create({
+      baseURL: process.env.MUDITA_CENTER_SERVER_URL as string,
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: false,
+      }),
+    })
+  }
 
   async getNews(query: { limit: number }): Promise<EntryCollection<NewsEntry>> {
     try {
