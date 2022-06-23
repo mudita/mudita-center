@@ -147,6 +147,7 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                 description={messages.emptyStateDescription}
               />
             )}
+            {provided.placeholder}
           </Table>
         )}
       </Droppable>

@@ -8,6 +8,7 @@ import {
   PutTemplateBody,
   MessagesCategory as PureMessagesCategory,
   PostTemplateBody,
+  UpdateTemplateOrder,
 } from "@mudita/pure"
 import { NewTemplate, Template } from "App/templates/dto"
 
@@ -32,6 +33,7 @@ export class TemplatePresenter {
       id: String(pureTemplate.templateID),
       text: pureTemplate.templateBody,
       lastUsedAt: String(pureTemplate.lastUsedAt),
+      order: pureTemplate.order,
     }
   }
 
@@ -40,6 +42,15 @@ export class TemplatePresenter {
       templateID: Number(template.id),
       templateBody: template.text,
       lastUsedAt: Number(template.lastUsedAt),
+      order: template.order,
+    }
+  }
+
+  static mapToPureTemplateOrder(template: Template): UpdateTemplateOrder {
+    return {
+      templateID: Number(template.id),
+      category: PureMessagesCategory.template,
+      order: template.order,
     }
   }
 }

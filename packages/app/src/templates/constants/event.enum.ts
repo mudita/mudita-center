@@ -7,4 +7,5 @@ export enum TemplatesEvent {
   CreateTemplate = "TEMPLATE_CREATE_TEMPLATE",
   DeleteTemplates = "DELETE_TEMPLATES",
   UpdateTemplate = "TEMPLATE_UPDATE_TEMPLATE",
+  UpdateTemplateOrder = "TEMPLATE_UPDATE_TEMPLATE_ORDER",
 }
