@@ -24,6 +24,7 @@ import {
 } from "App/messages/presenters"
 import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
 import { ThreadService } from "App/messages/services/thread.service"
+import { MessageRepository } from "App/messages/repositories"
 import { Message, Thread, NewMessage } from "App/messages/dto"
 import { splitMessageByBytesSize } from "../helpers"
 
@@ -44,7 +45,8 @@ export interface CreateMessageDataResponse {
 export class MessageService {
   constructor(
     private deviceService: DeviceService,
-    private threadService: ThreadService
+    private threadService: ThreadService,
+    private messageRepository: MessageRepository
   ) {}
 
   private MESSAGE_MAX_SIZE_IN_BYTES = 469
@@ -226,6 +228,29 @@ export class MessageService {
         message: "Delete message: Something went wrong",
       },
     }
+  }
+
+  public async resendMessage(
+    messageId: string
+  ): Promise<RequestResponse<CreateMessageDataResponse>> {
+    const message = this.messageRepository.findById(messageId)
+
+    if (!message) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Message not fond in internal database",
+        },
+      }
+    }
+
+    const result = await this.createMessage({
+      phoneNumber: message.phoneNumber,
+      content: message.content,
+      threadId: message.threadId,
+    })
+
+    return result
   }
 
   static isAcceptablePureMessageType(

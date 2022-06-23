@@ -124,6 +124,7 @@ const defaultProps: Props = {
   removeLayoutNotification: jest.fn(),
   threadDeletingState: null,
   hideDeleteModal: jest.fn(),
+  resendMessage: jest.fn(),
 }
 
 const propsWithSingleThread: Partial<Props> = {

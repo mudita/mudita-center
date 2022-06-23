@@ -108,6 +108,7 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   removeLayoutNotification: (notificationId: string) => void
   threadDeletingState: ThreadDeletingState | null
   hideDeleteModal: () => void
+  resendMessage: (messageId: string) => void
 }
 
 const Messages: FunctionComponent<Props> = ({
@@ -131,6 +132,7 @@ const Messages: FunctionComponent<Props> = ({
   removeLayoutNotification,
   threadDeletingState,
   hideDeleteModal,
+  resendMessage,
 }) => {
   useEffect(() => {
     messageLayoutNotifications
@@ -473,6 +475,7 @@ const Messages: FunctionComponent<Props> = ({
             messageLayoutNotifications={messageLayoutNotifications}
             removeLayoutNotification={removeLayoutNotification}
             onMessageRead={markAsRead}
+            resendMessage={resendMessage}
           />
         )}
         {messagesState === MessagesState.NewMessage && (

@@ -30,4 +30,11 @@ export class MessageController {
   public async deleteMessage(messageId: string): Promise<RequestResponse> {
     return this.messageService.deleteMessage(messageId)
   }
+
+  @IpcEvent(IpcMessageEvent.ResendMessage)
+  public async resendMessage(
+    messageId: string
+  ): Promise<RequestResponse<CreateMessageDataResponse>> {
+    return this.messageService.resendMessage(messageId)
+  }
 }

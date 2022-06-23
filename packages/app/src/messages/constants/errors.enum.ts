@@ -10,4 +10,5 @@ export enum MessagesError {
   DeleteMessage = "DELETE_MESSAGE_ERROR",
   ToggleThreadsReadStatus = "TOGGLE_THREADS_READ_STATUS_ERROR",
   MarkThreadsReadStatus = "MARK_THREADS_READ_STATUS_ERROR",
+  ResendMessageError = "RESEND_MESSAGE_ERROR",
 }

@@ -11,6 +11,7 @@ const template: Template = {
   id: "1",
   text: "Hello world",
   lastUsedAt: "1234567890",
+  order: 1,
 }
 
 const templateModel = {
