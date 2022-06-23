@@ -15,6 +15,7 @@ const templateMock: Template = {
   id: "1",
   text: "Thanks for reaching out. I can't talk right now, I'll call you later",
   lastUsedAt: "2020-02-12T10:00:00.000Z",
+  order: 1,
 }
 
 const onAddNewTemplateMock = jest.fn()

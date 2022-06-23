@@ -96,6 +96,7 @@ export interface Template {
   templateID: number
   lastUsedAt: number
   templateBody: string
+  order: number
 }
 
 export interface PostTemplateBody {
@@ -112,6 +113,12 @@ export interface PutTemplateBody {
   category: MessagesCategory.template
   templateID: number
   templateBody: string
+}
+
+export interface UpdateTemplateOrder {
+  category: MessagesCategory.template
+  templateID: number
+  order: number
 }
 
 export interface DeleteTemplateBody {

@@ -6,3 +6,4 @@
 export * from "./create-template.error"
 export * from "./delete-template.error"
 export * from "./update-template.error"
+export * from "./update-template-order.error"

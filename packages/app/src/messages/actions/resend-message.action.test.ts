@@ -14,7 +14,6 @@ import {
 import { resendMessageRequest } from "App/messages/requests/resend-message.request"
 import { ResendMessageError } from "App/messages/errors"
 import { testError } from "App/__deprecated__/renderer/store/constants"
-// import { Message } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
 import { CreateMessageDataResponse } from "App/messages/services"
 
@@ -79,7 +78,7 @@ describe("when `resendMessage` request return success", () => {
 })
 
 describe("when `resend` request return error", () => {
-  test("fire `resendMessage` returns `rejected` action if error have `message`", async () => {
+  test("`resendMessage` returns `rejected` action if error have `message`", async () => {
     ;(resendMessageRequest as jest.Mock).mockReturnValue(
       errorDeviceResponseWithMessage
     )
@@ -98,7 +97,7 @@ describe("when `resend` request return error", () => {
     expect(resendMessageRequest).toHaveBeenCalled()
   })
 
-  test("fire `resendMessage` returns `rejected` with default `message` if error haven't `message`", async () => {
+  test("`resendMessage` returns `rejected` with default `message` if error haven't `message`", async () => {
     ;(resendMessageRequest as jest.Mock).mockReturnValue(
       errorDeviceResponseWithoutMessage
     )
@@ -117,7 +116,7 @@ describe("when `resend` request return error", () => {
     expect(resendMessageRequest).toHaveBeenCalled()
   })
 
-  test("fire `resendMessage` returns `rejected` with default `message` data doesn't exists in response", async () => {
+  test("`resendMessage` returns `rejected` with default `message` if data doesn't exists in response", async () => {
     ;(resendMessageRequest as jest.Mock).mockReturnValue(
       successDeviceResponseWithEmptyData
     )

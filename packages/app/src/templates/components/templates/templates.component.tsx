@@ -129,6 +129,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       ...template,
       id: editedTemplate.id,
       lastUsedAt: editedTemplate.lastUsedAt,
+      order: editedTemplate.order,
     })
 
     if (data.payload.type !== TemplateError.UpdateTemplate) {

@@ -3,16 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MessagesError } from "App/messages/constants"
+import { TemplateError } from "App/templates/constants"
 
-export class ResendMessageError extends Error {
-  public readonly type = MessagesError.ResendMessageError
+export class UpdateTemplateOrderError extends Error {
+  public readonly type = TemplateError.UpdateTemplateOrder
 
   constructor(public message: string, public payload?: any) {
     super()
 
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, ResendMessageError)
+      Error.captureStackTrace(this, UpdateTemplateOrderError)
     }
   }
 }

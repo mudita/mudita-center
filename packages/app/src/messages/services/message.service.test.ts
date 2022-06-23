@@ -293,7 +293,7 @@ describe("`MessageService`", () => {
     describe("when message exist in local index", () => {
       const messageId = "6"
 
-      test("returns an error message", async () => {
+      test("returns newly created `message`", async () => {
         messageRepository.findById = jest.fn().mockReturnValueOnce({
           id: "6",
           date: 1547465101,
