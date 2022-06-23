@@ -33,14 +33,11 @@ import {
   ContactCategory,
 } from "App/contacts/reducers/contacts.interface"
 import {
-  Message,
-  NewMessage,
   Receiver,
   ReceiverIdentification,
-  ResultState,
-  Thread,
-  MessageType,
 } from "App/messages/reducers/messages.interface"
+import { Message, NewMessage, Thread } from "App/messages/dto"
+import { ResultState, MessageType } from "App/messages/constants"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"

@@ -4,7 +4,8 @@
  */
 
 import { searchThreads } from "App/messages/helpers/threads.helpers"
-import { Thread, MessageType } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { createFakeContact } from "App/messages/helpers/create-fake-contact"
 import { ContactsCollection } from "App/messages/helpers/messages.helpers"
 

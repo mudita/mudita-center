@@ -4,15 +4,11 @@
  */
 
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import {
-  initialState,
-  messagesReducer,
-  Thread,
-  VisibilityFilter,
-} from "App/messages/reducers"
+import { initialState, messagesReducer } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
 import { filteredThreadsSelector } from "App/messages/selectors/filtered-threads.selector"
 import { initialState as contactsInitialState } from "App/contacts/reducers"
-import { MessageType } from "App/messages/reducers"
+import { MessageType, VisibilityFilter } from "App/messages/constants"
 
 describe("`filteredThreadsSelector` selector", () => {
   test("when initial state is set selector returns value properly", () => {

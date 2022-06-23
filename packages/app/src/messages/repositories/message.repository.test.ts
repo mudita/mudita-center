@@ -5,7 +5,8 @@
 
 import { MessageRepository } from "App/messages/repositories/message.repository"
 import { MessageModel } from "App/messages/models"
-import { Message, MessageType } from "App/messages/reducers"
+import { Message } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 const message: Message = {
   id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",

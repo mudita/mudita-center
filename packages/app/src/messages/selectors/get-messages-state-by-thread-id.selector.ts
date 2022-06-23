@@ -4,7 +4,8 @@
  */
 
 import { createSelector, OutputSelector } from "reselect"
-import { MessagesState, ResultState } from "App/messages/reducers"
+import { MessagesState } from "App/messages/reducers"
+import { ResultState } from "App/messages/constants"
 import { messagesStateSelector } from "App/messages/selectors/messages-state.selector"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 

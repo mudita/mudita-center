@@ -3,13 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MessageType } from "App/messages/constants"
-
-export interface Message {
-  id: string
-  date: Date
-  content: string
+export interface NewMessage {
   phoneNumber: string
-  threadId: string
-  messageType: MessageType
+  content: string
+  threadId?: string
 }

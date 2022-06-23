@@ -12,16 +12,14 @@ import {
 import {
   AddNewMessageAction,
   DeleteMessagePendingAction,
-  Message,
   MessagesState,
-  MessageType,
-  Thread,
-  VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
 import {
   initialState,
   messagesReducer,
 } from "App/messages/reducers/messages.reducer"
+import { Message, Thread } from "App/messages/dto"
+import { MessageType, VisibilityFilter } from "App/messages/constants"
 import {
   fulfilledAction,
   pendingAction,

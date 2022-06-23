@@ -11,7 +11,7 @@ import {
   AcceptablePureMessageType,
   MessagePresenter,
 } from "App/messages/presenters/message.presenter"
-import { NewMessage } from "App/messages/reducers/messages.interface"
+import { NewMessage } from "App/messages/dto"
 
 const pureMessage: PureMessage & {
   messageType: AcceptablePureMessageType

@@ -4,8 +4,8 @@
  */
 
 import { markThreadsReadStatus } from "App/messages/reducers/messages-reducer.helpers"
-import { Thread } from "App/messages/reducers/messages.interface"
-import { MessageType } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 const thread: Thread = {
   id: "1",

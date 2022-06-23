@@ -5,7 +5,8 @@
 
 import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
 import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
-import { Thread, MessageType } from "App/messages/reducers/messages.interface"
+import { MessageType } from "App/messages/constants"
+import { Thread } from "App/messages/dto"
 
 const caller: Caller = {
   id: "1",

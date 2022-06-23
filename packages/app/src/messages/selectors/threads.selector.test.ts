@@ -4,12 +4,9 @@
  */
 
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import {
-  initialState,
-  messagesReducer,
-  Thread,
-  MessageType,
-} from "App/messages/reducers"
+import { initialState, messagesReducer } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { threadsSelector } from "App/messages/selectors/threads.selector"
 
 describe("`threadsSelector` selector", () => {

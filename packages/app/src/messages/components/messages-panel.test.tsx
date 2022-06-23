@@ -7,9 +7,9 @@ import React, { ComponentProps } from "react"
 import { fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import MessagesPanel from "App/messages/components/messages-panel.component"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
-import { MessageType } from "App/messages/reducers"
+import { MessageType } from "App/messages/constants"
 
 type Props = ComponentProps<typeof MessagesPanel>
 

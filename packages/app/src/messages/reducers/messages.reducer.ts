@@ -17,19 +17,19 @@ import {
   MessageIdsInThreadMap,
   MessageMap,
   MessagesState,
-  ResultState,
   ThreadMap,
   MarkThreadsReadStatusPendingAction,
   ToggleThreadsReadStatusPendingAction,
-  VisibilityFilter,
   MarkThreadsReadStatusAction,
   DeleteMessageAction,
   DeleteMessagePendingAction,
 } from "App/messages/reducers/messages.interface"
 import {
-  MessageDeletingState,
   MessagesEvent,
   ThreadDeletingState,
+  MessageDeletingState,
+  ResultState,
+  VisibilityFilter,
 } from "App/messages/constants"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
