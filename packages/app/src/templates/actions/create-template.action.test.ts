@@ -24,6 +24,7 @@ const template: Template = {
   id: "1",
   text: "Hello world!",
   lastUsedAt: "2",
+  order: 1,
 }
 
 beforeEach(() => {

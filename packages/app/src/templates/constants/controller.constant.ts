@@ -15,4 +15,5 @@ export enum IpcTemplateRequest {
   CreateTemplate = "template-create-template",
   DeleteTemplates = "template-delete-templates",
   UpdateTemplate = "template-update-template",
+  UpdateTemplateOrder = "template-update-template-order",
 }

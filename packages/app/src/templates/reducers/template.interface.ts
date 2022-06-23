@@ -68,3 +68,15 @@ export type DeleteTemplateRejectedAction = PayloadAction<
   void,
   Error | string | null
 >
+
+export type UpdateTemplateOrderFulfilledAction = PayloadAction<
+  Template,
+  TemplatesEvent.UpdateTemplateOrder
+>
+
+export type UpdateTemplateOrderRejectedAction = PayloadAction<
+  UpdateTemplateError,
+  TemplatesEvent.UpdateTemplateOrder,
+  void,
+  Error | string | null
+>

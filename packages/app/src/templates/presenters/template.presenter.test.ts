@@ -18,12 +18,14 @@ const template: Template = {
   id: "1",
   text: "Hello world!",
   lastUsedAt: "2",
+  order: 1,
 }
 
 const pureTemplate: PureTemplate = {
   templateID: 1,
   templateBody: "Hello world!",
   lastUsedAt: 2,
+  order: 1,
 }
 
 describe("`mapToPureNewTemplateBody` method", () => {
@@ -51,6 +53,7 @@ describe("`mapToTemplate` method", () => {
       id: "1",
       text: "Hello world!",
       lastUsedAt: "2",
+      order: 1,
     })
   })
 })
@@ -61,6 +64,17 @@ describe("`mapToPureTemplate` method", () => {
       templateID: 1,
       templateBody: "Hello world!",
       lastUsedAt: 2,
+      order: 1,
+    })
+  })
+})
+
+describe("`mapToPureTemplateOrder` method", () => {
+  test("returns serialized `UpdateTemplateOrder` object", () => {
+    expect(TemplatePresenter.mapToPureTemplateOrder(template)).toEqual({
+      templateID: 1,
+      category: PureMessagesCategory.template,
+      order: 1,
     })
   })
 })
