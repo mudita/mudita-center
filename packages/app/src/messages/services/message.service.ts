@@ -23,10 +23,10 @@ import {
   AcceptablePureMessageType,
   MessagePresenter,
 } from "App/messages/presenters"
+import { MessageRepository } from "App/messages/repositories"
 import { ThreadService } from "App/messages/services/thread.service"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { splitMessageByBytesSize } from "../helpers"
-import { MessageRepository } from "../repositories"
 
 export interface GetMessagesByThreadIdResponse {
   data: Message[]
@@ -230,6 +230,29 @@ export class MessageService {
         message: "Delete message: Something went wrong",
       },
     }
+  }
+
+  public async resendMessage(
+    messageId: string
+  ): Promise<RequestResponse<CreateMessageDataResponse>> {
+    const message = this.messageRepository.findById(messageId)
+
+    if (!message) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Message not fond in internal database",
+        },
+      }
+    }
+
+    const result = await this.createMessage({
+      phoneNumber: message.phoneNumber,
+      content: message.content,
+      threadId: message.threadId,
+    })
+
+    return result
   }
 
   static isAcceptablePureMessageType(

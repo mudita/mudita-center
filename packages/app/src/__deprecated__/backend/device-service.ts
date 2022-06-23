@@ -54,6 +54,7 @@ import {
   DeleteTemplateBody,
   GetTemplateResponseBody,
   PostTemplateResponseBody,
+  UpdateTemplateOrder,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
 import { IpcEmitter } from "App/__deprecated__/common/emitters/ipc-emitter.enum"
@@ -172,6 +173,11 @@ export class DeviceService {
     endpoint: Endpoint.Messages
     method: Method.Put
     body: PutTemplateBody
+  }): Promise<RequestResponse>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Put
+    body: UpdateTemplateOrder
   }): Promise<RequestResponse>
   public request(config: {
     endpoint: Endpoint.Messages

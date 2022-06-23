@@ -7,4 +7,5 @@ export interface Template {
   id: string
   text: string
   lastUsedAt: string
+  order: number
 }

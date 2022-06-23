@@ -50,7 +50,6 @@ export class MessageModule extends BaseModule {
       threadService,
       messageRepository
     )
-
     const messageController = new MessageController(messageService)
     const threadController = new ThreadController(threadService)
 

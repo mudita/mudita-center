@@ -121,4 +121,28 @@ export class TemplateService {
       }
     }
   }
+
+  public async updateTemplateOrder(
+    template: Template
+  ): Promise<RequestResponse<Template>> {
+    const response = await this.deviceService.request({
+      endpoint: Endpoint.Messages,
+      method: Method.Put,
+      body: TemplatePresenter.mapToPureTemplateOrder(template),
+    })
+
+    if (isResponseSuccess(response)) {
+      this.templateRepository.update(template)
+
+      return {
+        status: response.status,
+        data: template,
+      }
+    } else {
+      return {
+        status: response.status,
+        error: { message: "Update template order: Something went wrong" },
+      }
+    }
+  }
 }

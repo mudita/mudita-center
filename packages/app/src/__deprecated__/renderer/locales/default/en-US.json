@@ -407,6 +407,7 @@
   "module.messages.marksAsReadTooltipDescription": "Mark as read",
   "module.messages.messageDropdownDelete": "Delete message",
   "module.messages.messageDropdownForward": "Forward message",
+  "module.messages.messageDropdownResend": "Resend message",
   "module.messages.newContactTooltipDescription": "Create new contact",
   "module.messages.newMessage": "New message",
   "module.messages.newMessageBadge": "1 new message",
