@@ -18,13 +18,13 @@ const productsMapper = {
 
 // TODO Merge development and test-production spaces on MC as long as in Release Copier
 const getReleaseSpace = (): ReleaseSpace => {
-  if (flags.get(Feature.ProductionReleaseOnly)) {
-    return ReleaseSpace.Production
-  } else if (flags.get(Feature.TestProductionReleaseOnly)) {
-    return ReleaseSpace.TestProduction
-  } else {
-    return ReleaseSpace.Daily
+  if (flags.get(Feature.ProductionReleasesOnly)) {
+    return ReleaseSpace.ProductionReleases
+  } else if (flags.get(Feature.PreReleasesOnly)) {
+    return ReleaseSpace.PreReleases
   }
+
+  return ReleaseSpace.DailyReleases
 }
 
 export const getLatestReleaseRequest = async (
