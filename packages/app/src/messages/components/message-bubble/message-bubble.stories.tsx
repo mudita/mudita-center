@@ -4,7 +4,7 @@
  */
 
 import { storiesOf } from "@storybook/react"
-import { MessageBubble } from "App/messages/components/message-bubble/message-bubble.component"
+import MessageBubble from "App/messages/components/message-bubble/message-bubble.component"
 import { MessageType } from "App/messages/constants"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import React from "react"
