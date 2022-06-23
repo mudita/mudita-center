@@ -4,12 +4,15 @@
  */
 
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import React, { ComponentProps } from "react"
-import { MessageBubble } from "App/messages/components/message-bubble/message-bubble.component"
+import React from "react"
+import {
+  MessageBubble,
+  MessageBubbleProps,
+} from "App/messages/components/message-bubble"
 import MessageDateTag from "App/messages/components/message-date-tag.component"
 import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
 
-interface Properties extends ComponentProps<typeof MessageBubble> {
+interface Properties extends MessageBubbleProps {
   displayDate: boolean
   date: Date
 }
