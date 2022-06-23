@@ -20,6 +20,7 @@ import { useLoadingState } from "App/ui"
 import { DeletingTemplateModals } from "App/templates/components/deleting-template-modals"
 import { UpdatingTemplateModals } from "App/templates/components/updating-template-modals"
 import { CreatingTemplateModals } from "App/templates/components/creating-template-modals"
+import { DropResult } from "react-beautiful-dnd"
 
 export const Templates: FunctionComponent<TemplatesProps> = ({
   templates,
@@ -29,6 +30,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   createTemplate,
   deleteTemplates,
   updateTemplate,
+  updateTemplateOrder,
 }) => {
   const { states, updateFieldState, resetState } =
     useLoadingState<TemplateServiceState>({
@@ -41,13 +43,18 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       deletingInfo: false,
     })
 
+  // const sortedTemplates = templates.sort((a, b) => a.order = b.order)
   const [editedTemplate, setEditedTemplate] = useState<Template | undefined>()
   const [templateFormOpen, setTemplateFormOpenState] = useState<boolean>(false)
   const [deletedTemplates, setDeletedTemplates] = useState<string[]>([])
+  const [templatesList, setTemplatesList] = useState<Template[]>(templates)
 
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Template>(templates)
 
+  useEffect(() => {
+    setTemplatesList(templates)
+  }, [templates])
   useEffect(() => {
     if (!loaded || error) {
       return
@@ -160,7 +167,45 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const handleCloseCreatingErrorModal = () => {
     updateFieldState("creating", false)
   }
+  const reorder = (
+    list: Template[],
+    startIndex: number,
+    endIndex: number
+  ): void => {
+    const startOrder = startIndex + 1
+    const endOrder = endIndex + 1
+    const updatedTemplate = list.find(
+      (template) => template.order == startOrder
+    )
 
+    if (updatedTemplate !== undefined) {
+      updateTemplateOrder({ ...updatedTemplate, order: endOrder })
+    }
+
+    if (startOrder < endOrder) {
+      const updatedRestTemplates = list.filter((template) => {
+        console.log("rest", template.order)
+        return startOrder < template.order && template.order <= endOrder
+      })
+      updatedRestTemplates.map((template) =>
+        updateTemplateOrder({ ...template, order: template.order - 1 })
+      )
+    } else {
+      const updatedRestTemplates = list.filter((template) => {
+        return endOrder <= template.order && template.order < startOrder
+      })
+      updatedRestTemplates.map((template) =>
+        updateTemplateOrder({ ...template, order: template.order + 1 })
+      )
+    }
+  }
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return
+    }
+    reorder(templatesList, result.source.index, result.destination.index)
+  }
   return (
     <>
       <TemplatesPanel
@@ -173,9 +218,10 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       />
       <TemplatesSection>
         <TemplatesList
-          templates={templates}
+          templates={templatesList}
           deleteTemplates={handleOpenDeleteModal}
           updateTemplate={handleOpenUpdateTemplate}
+          onDragEnd={onDragEnd}
           {...rest}
         />
         {templateFormOpen && (

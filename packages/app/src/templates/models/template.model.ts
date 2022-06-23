@@ -18,4 +18,7 @@ export class TemplateModel extends BaseModel<Template> {
 
   @Field()
   public lastUsedAt: string | undefined
+
+  @Field()
+  public order: number | undefined
 }

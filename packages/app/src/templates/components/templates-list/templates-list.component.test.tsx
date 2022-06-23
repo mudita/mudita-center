@@ -31,6 +31,7 @@ describe("`TemplatesList` component", () => {
         .mockReturnValue({ indeterminate: false, selected: false }),
       noneRowsSelected: true,
       toggleRow: jest.fn(),
+      onDragEnd: jest.fn(),
     })
     expect(
       getByText("[value] module.templates.emptyList.title")
@@ -50,6 +51,7 @@ describe("`TemplatesList` component", () => {
         .mockReturnValue({ indeterminate: false, selected: false }),
       noneRowsSelected: true,
       toggleRow: jest.fn(),
+      onDragEnd: jest.fn(),
     })
     expect(getByText(templateMock.text)).toBeInTheDocument()
   })
@@ -64,6 +66,7 @@ describe("`TemplatesList` component", () => {
         .mockReturnValue({ indeterminate: false, selected: false }),
       noneRowsSelected: false,
       toggleRow: jest.fn(),
+      onDragEnd: jest.fn(),
     })
     expect(getByTestId("template-checkbox")).toBeVisible()
   })

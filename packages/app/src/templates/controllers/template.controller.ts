@@ -33,4 +33,11 @@ export class TemplateController {
   ): Promise<RequestResponse<Template>> {
     return this.templateService.updateTemplate(template)
   }
+
+  @IpcEvent(IpcTemplateEvent.UpdateTemplateOrder)
+  public async updateTemplateOrder(
+    template: Template
+  ): Promise<RequestResponse<Template>> {
+    return this.templateService.updateTemplateOrder(template)
+  }
 }
