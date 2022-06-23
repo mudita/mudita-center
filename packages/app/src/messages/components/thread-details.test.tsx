@@ -84,6 +84,7 @@ const defaultProps: Props = {
   onMessageRead: jest.fn(),
   currentlyDeletingMessageId: null,
   onMessageDelete: jest.fn(),
+  resendMessage: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

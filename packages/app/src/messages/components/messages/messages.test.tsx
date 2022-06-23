@@ -128,6 +128,7 @@ const defaultProps: Props = {
   currentlyDeletingMessageId: null,
   deleteMessage: jest.fn(),
   messageDeletingState: null,
+  resendMessage: jest.fn(),
 }
 
 const propsWithSingleThread: Partial<Props> = {

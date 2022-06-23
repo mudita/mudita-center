@@ -32,6 +32,7 @@ interface Props extends SidebarProps, ThreadDetailsRightHeaderProps {
   removeLayoutNotification: (notificationId: string) => void
   onMessageRead: () => void
   onMessageDelete: (messageId: string) => void
+  resendMessage: (messageId: string) => void
 }
 
 const ThreadDetails: FunctionComponent<Props> = ({
@@ -46,6 +47,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
   onMessageRead,
   onMessageDelete,
   currentlyDeletingMessageId,
+  resendMessage,
   ...props
 }) => {
   const handleTextAreaChange = (
@@ -69,6 +71,7 @@ const ThreadDetails: FunctionComponent<Props> = ({
           removeLayoutNotification={removeLayoutNotification}
           onMessageRead={onMessageRead}
           onMessageRemove={onMessageDelete}
+          resendMessage={resendMessage}
         />
       </MessagesWrapper>
       <ThreadDetailsTextArea

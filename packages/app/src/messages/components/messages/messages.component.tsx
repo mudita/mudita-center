@@ -102,6 +102,7 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   currentlyDeletingMessageId: string | null
   hideDeleteModal: () => void
   hideMessageDeleteModal: () => void
+  resendMessage: (messageId: string) => void
 }
 
 const hideSuccessPopupAfterTimeInMs = 5000
@@ -131,6 +132,7 @@ const Messages: FunctionComponent<Props> = ({
   hideMessageDeleteModal,
   messageDeletingState,
   currentlyDeletingMessageId,
+  resendMessage,
 }) => {
   useEffect(() => {
     messageLayoutNotifications
@@ -486,6 +488,7 @@ const Messages: FunctionComponent<Props> = ({
             removeLayoutNotification={removeLayoutNotification}
             onMessageRead={markAsRead}
             onMessageDelete={openDeleteMessageModal}
+            resendMessage={resendMessage}
           />
         )}
         {messagesState === MessagesState.NewMessage && (

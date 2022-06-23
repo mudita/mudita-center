@@ -14,6 +14,7 @@ import {
   VisibilityFilter,
   ResultState,
 } from "App/messages/constants"
+import { ResendMessageError } from "App/messages/errors"
 
 export type Author = Pick<Caller, "id">
 
@@ -51,6 +52,23 @@ export interface Receiver extends Pick<Contact, "firstName" | "lastName"> {
 }
 
 export type AddNewMessageAction = PayloadAction<
+  {
+    messageParts: {
+      message: Message
+      thread?: Thread
+    }[]
+  },
+  MessagesEvent.AddNewMessage
+>
+
+export type ResendMessageRejectedAction = PayloadAction<
+  ResendMessageError,
+  MessagesEvent.AddNewMessage,
+  void,
+  Error | string | null
+>
+
+export type ResendMessageFulfilledAction = PayloadAction<
   {
     messageParts: {
       message: Message

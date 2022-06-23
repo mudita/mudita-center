@@ -14,7 +14,8 @@ export interface MessageBubbleProps {
   interlocutor?: boolean
   displayAvatar?: boolean
   forwardMessage?: () => void
-  removeMessage?: () => void
-  resendMessage?: () => void
+  removeMessage: (messageId: string) => void
+  resendMessage?: (messageId: string) => void
   messageType: MessageType
+  isMessageBeingDeleted: boolean
 }
