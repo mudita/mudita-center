@@ -8,7 +8,7 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import MessageDayBubble from "App/messages/components/message-day-bubble.component"
 import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
 import { AvatarTestIds } from "App/__deprecated__/renderer/components/core/avatar/avatar-test-ids.enum"
-import { MessageType } from "App/messages/reducers"
+import { MessageType } from "App/messages/constants"
 
 type Properties = ComponentProps<typeof MessageDayBubble>
 

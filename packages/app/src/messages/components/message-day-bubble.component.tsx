@@ -5,7 +5,7 @@
 
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React, { ComponentProps } from "react"
-import MessageBubble from "App/messages/components/message-bubble.component"
+import { MessageBubble } from "App/messages/components/message-bubble/message-bubble.component"
 import MessageDateTag from "App/messages/components/message-date-tag.component"
 import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
 

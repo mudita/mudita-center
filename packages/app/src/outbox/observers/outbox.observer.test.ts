@@ -15,9 +15,9 @@ import { OutboxService } from "App/outbox/services"
 import { ipcMain } from "electron-better-ipc"
 import { IpcEvent as DataSyncIpcEvent } from "App/data-sync/constants"
 import { IpcEvent as NotificationIpcEvent } from "App/notification/constants"
-import { Thread } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
 import { flushPromises } from "App/core/helpers/flush-promises"
-import { MessageType } from "App/messages/reducers"
+import { MessageType } from "App/messages/constants"
 
 const threadMock: Thread = {
   id: "1",
