@@ -5,23 +5,20 @@
 
 import { Repository } from "App/core/types"
 import { MessageModel } from "App/messages/models"
-import { Message } from "App/messages/reducers"
-import { Message as MessageDto } from "App/messages/dto"
+import { Message } from "App/messages/dto"
 
 export class MessageRepository implements Repository {
   constructor(private messageModel: MessageModel) {}
 
-  public create(
-    message: Message,
-    skipCallbacks = false
-  ): MessageDto | undefined {
+  public findById(messageId: string): Message | undefined {
+    return this.messageModel.findById(messageId)
+  }
+
+  public create(message: Message, skipCallbacks = false): Message | undefined {
     return this.messageModel.create(message, skipCallbacks)
   }
 
-  public update(
-    message: Message,
-    skipCallbacks = false
-  ): MessageDto | undefined {
+  public update(message: Message, skipCallbacks = false): Message | undefined {
     return this.messageModel.update(message, skipCallbacks)
   }
 

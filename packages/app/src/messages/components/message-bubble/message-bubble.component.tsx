@@ -3,34 +3,34 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState } from "react"
-import moment from "moment"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import styled from "styled-components"
+import { MessageBubbleTestIds } from "App/messages/components/message-bubble/message-bubble-test-ids.enum"
+import { MessageType } from "App/messages/constants"
+import Avatar, {
+  AvatarSize,
+  User,
+} from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import Dropdown, {
   DropdownPosition,
 } from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
-import Avatar, {
-  User,
-  AvatarSize,
-} from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
+import Text, {
+  TextDisplayStyle,
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import transition from "App/__deprecated__/renderer/styles/functions/transition"
 import {
   backgroundColor,
   borderRadius,
   boxShadowColor,
   textColor,
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
-import Text, {
-  TextDisplayStyle,
-} from "App/__deprecated__/renderer/components/core/text/text.component"
-import transition from "App/__deprecated__/renderer/styles/functions/transition"
-import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
-import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
-import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
-import { MessageType } from "App/messages/reducers"
+import moment from "moment"
+import React, { useState } from "react"
+import styled from "styled-components"
 
 const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean

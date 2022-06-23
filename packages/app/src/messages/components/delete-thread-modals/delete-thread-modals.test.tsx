@@ -4,7 +4,7 @@
  */
 
 import DeleteThreadModals from "App/messages/components/delete-thread-modals/delete-thread-modals.component"
-import { DeleteThreadModalsTestIds } from "App/messages/components/delete-thread-modals/delete-thread-modals.enum"
+import { DeleteThreadModalsTestIds } from "App/messages/components/delete-thread-modals/delete-thread-modals-test-ids.enum"
 import { ThreadDeletingState } from "App/messages/constants"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"

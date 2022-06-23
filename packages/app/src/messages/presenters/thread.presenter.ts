@@ -7,8 +7,8 @@ import {
   Thread as PureThread,
   MessageType as PureMessageType,
 } from "@mudita/pure"
-import { Thread } from "App/messages/reducers"
-import { MessageType } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 export class ThreadPresenter {
   static mapToThread(pureThread: PureThread): Thread {

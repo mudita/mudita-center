@@ -18,9 +18,10 @@ import { MenuGroupTestIds } from "App/__deprecated__/renderer/components/rest/me
 import { SynchronizationState } from "App/data-sync/reducers"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { DeviceState } from "App/device"
-import { Thread, MessagesState } from "App/messages/reducers"
+import { MessagesState } from "App/messages/reducers"
 import { NotificationBadgeTestIds } from "App/notification/components"
-import { MessageType } from "App/messages/reducers"
+import { MessageType } from "App/messages/constants"
+import { Thread } from "App/messages/dto"
 
 jest.mock("App/feature-flags")
 

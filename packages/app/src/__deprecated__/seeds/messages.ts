@@ -3,11 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Message,
-  MessageType,
-  Thread,
-} from "App/messages/reducers/messages.interface"
+import { Message, Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 export const threadsData: Thread[] = [
   {

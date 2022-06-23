@@ -3,6 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./message.object"
-export * from "./new-message.object"
-export * from "./thread.object"
+export * from "./message-bubble.component"
+export * from "./message-bubble.interface"

@@ -4,11 +4,11 @@
  */
 
 import { storiesOf } from "@storybook/react"
-import React from "react"
-import MessageBubble from "App/messages/components/message-bubble.component"
-import styled from "styled-components"
-import { MessageType } from "App/messages/reducers"
+import { MessageBubble } from "App/messages/components/message-bubble/message-bubble.component"
+import { MessageType } from "App/messages/constants"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
+import React from "react"
+import styled from "styled-components"
 
 const Wrapper = styled.div`
   height: 100vh;

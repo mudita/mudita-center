@@ -9,7 +9,8 @@ import {
   MessageType as PureMessageType,
   PostMessagesBody,
 } from "@mudita/pure"
-import { Message, MessageType, NewMessage } from "App/messages/reducers"
+import { Message, NewMessage } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 export type AcceptablePureMessageType =
   | PureMessageType.FAILED

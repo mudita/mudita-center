@@ -3,14 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import React, { ComponentProps } from "react"
-import MessageBubble from "App/messages/components/message-bubble.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom"
-import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
-import { MessageType } from "App/messages/reducers"
+import { MessageBubbleTestIds } from "App/messages/components/message-bubble/message-bubble-test-ids.enum"
+import MessageBubble from "App/messages/components/message-bubble/message-bubble.component"
+import { MessageType } from "App/messages/constants"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import React, { ComponentProps } from "react"
 
 type Props = ComponentProps<typeof MessageBubble>
 

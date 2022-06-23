@@ -22,8 +22,8 @@ import {
 import {
   Receiver,
   ReceiverIdentification,
-  ResultState,
 } from "App/messages/reducers/messages.interface"
+import { ResultState } from "App/messages/constants"
 import { action } from "@storybook/addon-actions"
 import history from "App/__deprecated__/renderer/routes/history"
 import { Router } from "react-router"

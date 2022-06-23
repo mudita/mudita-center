@@ -4,9 +4,9 @@
  */
 
 import { Thread as PureThread } from "@mudita/pure"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 import { ThreadPresenter } from "App/messages/presenters/thread.presenter"
-import { MessageType } from "App/messages/reducers"
+import { MessageType } from "App/messages/constants"
 
 const pureThread: PureThread = {
   contactID: 1,

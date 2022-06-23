@@ -4,7 +4,7 @@
  */
 
 import { MessageType as PureMessageType } from "@mudita/pure"
-import { MessageType } from "App/messages/reducers"
+import { MessageType } from "App/messages/constants"
 import {
   MessageInput,
   MessageObject,

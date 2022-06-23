@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeleteMessageModalsTestIds } from "App/messages/components/delete-message-modals/delete-message-modals.enum"
+import { DeleteMessageModalsTestIds } from "App/messages/components/delete-message-modals/delete-message-modals-test-ids.enum"
 import { MessageDeletingState } from "App/messages/constants"
 import { DeleteConfirmationModal } from "App/ui/components/delete-confirmation-modal"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"

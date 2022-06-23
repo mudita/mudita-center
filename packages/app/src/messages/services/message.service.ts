@@ -18,15 +18,11 @@ import {
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
+import { Message, NewMessage, Thread } from "App/messages/dto"
 import {
   AcceptablePureMessageType,
   MessagePresenter,
 } from "App/messages/presenters"
-import {
-  Message,
-  NewMessage,
-  Thread,
-} from "App/messages/reducers/messages.interface"
 import { ThreadService } from "App/messages/services/thread.service"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { splitMessageByBytesSize } from "../helpers"

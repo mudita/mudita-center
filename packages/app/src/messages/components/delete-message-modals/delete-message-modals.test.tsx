@@ -4,7 +4,7 @@
  */
 
 import DeleteMessageModals from "App/messages/components/delete-message-modals/delete-message-modals.component"
-import { DeleteMessageModalsTestIds } from "App/messages/components/delete-message-modals/delete-message-modals.enum"
+import { DeleteMessageModalsTestIds } from "App/messages/components/delete-message-modals/delete-message-modals-test-ids.enum"
 import { MessageDeletingState } from "App/messages/constants"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"

@@ -6,7 +6,7 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcThreadRequest } from "App/messages/constants/controller.constant"
 import { RequestResponse } from "App/core/types/request-response.interface"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 
 export const toggleThreadsReadStatusRequest = async (
   threads: Thread[]

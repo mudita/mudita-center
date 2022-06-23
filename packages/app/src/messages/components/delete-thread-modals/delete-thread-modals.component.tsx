@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeleteThreadModalsTestIds } from "App/messages/components/delete-thread-modals/delete-thread-modals.enum"
+import { DeleteThreadModalsTestIds } from "App/messages/components/delete-thread-modals/delete-thread-modals-test-ids.enum"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"

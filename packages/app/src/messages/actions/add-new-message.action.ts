@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import { createMessageRequest } from "App/messages/requests"
-import { NewMessage } from "App/messages/reducers"
+import { NewMessage } from "App/messages/dto"
 import { AddNewMessageError } from "App/messages/errors"
 import { CreateMessageDataResponse } from "App/messages/services"
 

@@ -21,18 +21,13 @@ import ThreadDetails from "App/messages/components/thread-details.component"
 import ThreadList from "App/messages/components/thread-list.component"
 import {
   MessageDeletingState,
+  MessageType,
+  ResultState,
   ThreadDeletingState,
 } from "App/messages/constants"
+import { Message, NewMessage, Thread } from "App/messages/dto"
 import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
-import {
-  Message,
-  MessageType,
-  NewMessage,
-  Receiver,
-  ReceiverIdentification,
-  ResultState,
-  Thread,
-} from "App/messages/reducers/messages.interface"
+import { Receiver, ReceiverIdentification } from "App/messages/reducers"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { Notification } from "App/notification/types"
 import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
