@@ -299,6 +299,8 @@ describe("`Templates` component", () => {
 
       expect(updateTemplateMock).toHaveBeenCalledTimes(0)
 
+      await waitFor(noop)
+
       fireEvent.click(saveButton)
 
       await waitFor(() => {
@@ -336,6 +338,8 @@ describe("`Templates` component", () => {
         target: { value: "Hello updated world!" },
       })
 
+      await waitFor(noop)
+
       fireEvent.click(saveButton)
 
       await waitFor(() => {
@@ -371,6 +375,8 @@ describe("`Templates` component", () => {
       fireEvent.change(textField, {
         target: { value: "Hello updated world!" },
       })
+
+      await waitFor(noop)
 
       fireEvent.click(saveButton)
 
@@ -420,6 +426,8 @@ describe("`Templates` component", () => {
       fireEvent.change(textField, {
         target: { value: "Hello updated world!" },
       })
+
+      await waitFor(noop)
 
       fireEvent.click(saveButton)
 

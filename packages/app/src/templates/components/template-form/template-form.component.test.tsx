@@ -37,7 +37,6 @@ describe("`TemplateForm` component", () => {
         onSave: onSaveMock,
         error: null,
         template: undefined,
-        savingPossible: true,
         saving: false,
       })
       const closeButton = getByTestId(TemplateFormTestIds.CancelButton)
@@ -55,7 +54,6 @@ describe("`TemplateForm` component", () => {
         onSave: onSaveMock,
         error: null,
         template: undefined,
-        savingPossible: true,
         saving: false,
       })
       const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
@@ -79,7 +77,6 @@ describe("`TemplateForm` component", () => {
         onSave: onSaveMock,
         error: null,
         template: undefined,
-        savingPossible: true,
         saving: false,
       })
       const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
@@ -101,7 +98,6 @@ describe("`TemplateForm` component", () => {
         onSave: onSaveMock,
         error: null,
         template: undefined,
-        savingPossible: true,
         saving: false,
       })
       const textField = getByTestId(TemplateFormTestIds.TextFiled)
@@ -125,7 +121,6 @@ describe("`TemplateForm` component", () => {
         onSave: onSaveMock,
         error: null,
         template: undefined,
-        savingPossible: true,
         saving: true,
       })
 
@@ -140,7 +135,6 @@ describe("`TemplateForm` component", () => {
         onSave: onSaveMock,
         error: "Luke, I'm your error",
         template: undefined,
-        savingPossible: true,
         saving: false,
       })
 

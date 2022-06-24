@@ -44,6 +44,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const [editedTemplate, setEditedTemplate] = useState<Template | undefined>()
   const [templateFormOpen, setTemplateFormOpenState] = useState<boolean>(false)
   const [deletedTemplates, setDeletedTemplates] = useState<string[]>([])
+  const panelButtonDisabled =
+    templateFormOpen || states.creating || states.updating
 
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Template>(templates)
@@ -148,6 +150,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
 
   const handleCloseNewTemplateForm = () => {
     setTemplateFormOpenState(false)
+    setEditedTemplate(undefined)
   }
 
   const handleCreateTemplate = async (template: NewTemplate) => {
@@ -164,7 +167,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   return (
     <>
       <TemplatesPanel
-        disabled={templateFormOpen}
+        disabled={panelButtonDisabled}
         onAddNewTemplate={handleOpenNewTemplateForm}
         selectedTemplates={selectedRows}
         allItemsSelected={allRowsSelected}
@@ -182,7 +185,6 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
           <TemplateForm
             template={editedTemplate}
             saving={loading}
-            savingPossible={templateFormOpen}
             error={error}
             onSave={
               editedTemplate ? handleUpdateTemplate : handleCreateTemplate
