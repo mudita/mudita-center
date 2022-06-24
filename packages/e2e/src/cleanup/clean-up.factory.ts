@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { DeviceAdapter, SerialPortAdapter, GithubHttpAdapter } from "./adapters"
 import { FlashDeviceCommand, DecompressTarCommand } from "./commands"
 import { TestConfigurationProvider } from "./providers"

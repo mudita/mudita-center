@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { DeviceAdapterClass, SerialPortAdapterClass } from "../adapters"
 import { sleep } from "../helpers"
 import { DeviceServiceClass } from "./device-service.class"
