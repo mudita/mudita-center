@@ -53,6 +53,17 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
   const forward = () => forwardMessage(id)
   const remove = () => removeMessage(id)
   const resend = () => resendMessage(id)
+  const isDropdownShouldVisible = (): boolean => {
+    if (isMessageBeingDeleted) {
+      return false
+    }
+
+    return (
+      flags.get(Feature.MessagesDeleteEnabled) ||
+      flags.get(Feature.MessagesForwardEnabled) ||
+      flags.get(Feature.MessagesResendEnabled)
+    )
+  }
 
   return (
     <MessageBubbleWrapper
@@ -65,9 +76,7 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
           data-testid={MessageBubbleTestIds.Container}
           interlocutor={interlocutor}
         >
-          {(flags.get(Feature.MessagesDeleteEnabled) ||
-            flags.get(Feature.MessagesForwardEnabled) ||
-            flags.get(Feature.MessagesResendEnabled)) && (
+          {isDropdownShouldVisible() && (
             <MessageBubbleDropdown
               toggler={
                 <ActionsButton
