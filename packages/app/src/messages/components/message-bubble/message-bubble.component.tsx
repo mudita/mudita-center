@@ -3,161 +3,36 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { MessageBubbleTestIds } from "App/messages/components/message-bubble/message-bubble-test-ids.enum"
-import { MessageType } from "App/messages/constants"
-import Avatar, {
-  AvatarSize,
-  User,
-} from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
-import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
-import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
-import Dropdown, {
-  DropdownPosition,
-} from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
-import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import React, { useState } from "react"
+import moment from "moment"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import {
+  MessageBubbleWrapper,
+  MessageBubbleContainer,
+  MessageBubbleDropdown,
+  ActionsButton,
+  WarningIconWrapper,
+  Bubble,
+  MessageBubbleText,
+  MessageDate,
+  InitialsAvatar,
+} from "App/messages/components/message-bubble/message-bubble.styled"
+import { MessageBubbleProps } from "App/messages/components/message-bubble/message-bubble.interface"
+import { DropdownPosition } from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { AvatarSize } from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import transition from "App/__deprecated__/renderer/styles/functions/transition"
-import {
-  backgroundColor,
-  borderRadius,
-  boxShadowColor,
-  textColor,
-} from "App/__deprecated__/renderer/styles/theming/theme-getters"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import moment from "moment"
-import React, { useState } from "react"
-import styled from "styled-components"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import { MessageBubbleTestIds } from "App/messages/components/message-bubble/message-bubble-test-ids.enum"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { MessageType } from "App/messages/constants"
+import { flags, Feature } from "App/feature-flags"
 
-const MessageBubbleDropdown = styled(Dropdown)<{
-  interlocutor: boolean
-  display: string
-}>`
-  margin-right: ${({ interlocutor }) => (interlocutor ? "0" : "1.1rem")};
-  margin-left: ${({ interlocutor }) => (interlocutor ? "1.1rem" : "0")};
-  opacity: ${({ display }) => (display === "true" ? "1" : "0")};
-`
-
-const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
-  display: flex;
-  align-items: center;
-  word-wrap: break-word;
-  flex-direction: ${({ interlocutor }) =>
-    interlocutor ? "row-reverse" : "row"};
-  &:hover {
-    ${MessageBubbleDropdown} {
-      opacity: 1;
-      transition: ${transition("opacity", undefined, "ease")};
-    }
-  }
-  margin-bottom: 0.8rem;
-  &:last-of-type {
-    margin-bottom: 0;
-  }
-`
-
-const MessageBubbleWrapper = styled.div<{
-  interlocutor: boolean
-  displayAvatar: boolean
-}>`
-  display: flex;
-  align-items: center;
-  flex-direction: ${({ interlocutor }) =>
-    interlocutor ? "row-reverse" : "row"};
-  justify-content: flex-end;
-  margin-left: ${({ displayAvatar, interlocutor }) =>
-    displayAvatar && interlocutor ? "0" : "7.5rem"};
-  margin-top: ${({ displayAvatar }) => (displayAvatar ? "2.4rem" : "0")};
-  margin-right: ${({ displayAvatar, interlocutor }) =>
-    displayAvatar && !interlocutor ? "0" : "7.5rem"};
-`
-
-const MessageDate = styled.div`
-  box-sizing: border-box;
-  position: absolute;
-  top: -0.5rem;
-  right: 0;
-  transform: translateY(-100%);
-  padding: 0.5rem;
-  opacity: 0;
-  background-color: ${backgroundColor("row")};
-  border-radius: ${borderRadius("medium")};
-  box-shadow: 0 0.5rem 1.5rem 0 ${boxShadowColor("full")};
-  white-space: nowrap;
-
-  p {
-    color: ${textColor("primary")};
-  }
-`
-
-const Bubble = styled.div<{
-  interlocutor: boolean
-  isMessageBeingDeleted: boolean
-}>`
-  position: relative;
-  padding: 1.1rem 1.2rem;
-  margin-top: 0.8rem;
-  background-color: ${({ interlocutor }) =>
-    interlocutor ? backgroundColor("minor") : backgroundColor("message")};
-  border-radius: ${({ interlocutor }) =>
-    interlocutor
-      ? "1.2rem 1.2rem 1.2rem 0.2rem"
-      : "1.2rem 1.2rem 0.2rem 1.2rem"};
-  max-width: 38rem;
-  box-sizing: border-box;
-  opacity: "100%";
-  ${({ isMessageBeingDeleted }) => isMessageBeingDeleted && "opacity: 50%;"}
-
-  &:hover {
-    ${MessageDate} {
-      opacity: 1;
-      transition: ${transition("opacity", undefined, "ease")};
-    }
-  }
-`
-
-const ActionsButton = styled.span`
-  cursor: pointer;
-`
-
-const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
-  margin-left: ${({ interlocutor }) => (interlocutor ? "0" : "2.7rem")};
-  margin-right: ${({ interlocutor }) => (interlocutor ? "2.7rem" : "0")};
-  background-color: ${({ interlocutor }) =>
-    interlocutor ? backgroundColor("minor") : backgroundColor("message")};
-  align-self: end;
-
-  svg g g {
-    fill: ${({ interlocutor }) =>
-      interlocutor ? textColor("secondary") : textColor("iconUser")};
-  }
-`
-
-const MessageBubbleText = styled(Text)`
-  white-space: pre-line;
-`
-
-const WarningIconWrapper = styled.div`
-  margin-right: 1rem;
-`
-
-interface Props {
-  id: string
-  user: User
-  message: string
-  date: Date
-  interlocutor?: boolean
-  displayAvatar?: boolean
-  forwardMessage?: () => void
-  removeMessage: (messageId: string) => void
-  messageType: MessageType
-  isMessageBeingDeleted: boolean
-}
-
-const MessageBubble: FunctionComponent<Props> = ({
+const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
   className,
   id,
   user,
@@ -166,7 +41,8 @@ const MessageBubble: FunctionComponent<Props> = ({
   interlocutor = false,
   displayAvatar = false,
   forwardMessage = noop,
-  removeMessage,
+  removeMessage = noop,
+  resendMessage = noop,
   messageType,
   isMessageBeingDeleted,
 }) => {
@@ -176,6 +52,8 @@ const MessageBubble: FunctionComponent<Props> = ({
   const close = () => setClicked("")
   const forward = () => forwardMessage(id)
   const remove = () => removeMessage(id)
+  const resend = () => resendMessage(id)
+
   return (
     <MessageBubbleWrapper
       className={className}
@@ -187,8 +65,9 @@ const MessageBubble: FunctionComponent<Props> = ({
           data-testid={MessageBubbleTestIds.Container}
           interlocutor={interlocutor}
         >
-          {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
-          {process.env.NODE_ENV !== "production" && !isMessageBeingDeleted && (
+          {(flags.get(Feature.MessagesDeleteEnabled) ||
+            flags.get(Feature.MessagesForwardEnabled) ||
+            flags.get(Feature.MessagesResendEnabled)) && (
             <MessageBubbleDropdown
               toggler={
                 <ActionsButton
@@ -206,24 +85,39 @@ const MessageBubble: FunctionComponent<Props> = ({
               display={(clicked === id).toString()}
               data-testid={MessageBubbleTestIds.Dropdown}
             >
-              <ButtonComponent
-                labelMessage={{
-                  id: "module.messages.messageDropdownForward",
-                }}
-                Icon={IconType.Forward}
-                onClick={forward}
-                displayStyle={DisplayStyle.Dropdown}
-                data-testid={MessageBubbleTestIds.ForwardMessageButton}
-              />
-              <ButtonComponent
-                labelMessage={{
-                  id: "module.messages.messageDropdownDelete",
-                }}
-                Icon={IconType.Delete}
-                onClick={remove}
-                displayStyle={DisplayStyle.Dropdown}
-                data-testid={MessageBubbleTestIds.DeleteMessageButton}
-              />
+              {flags.get(Feature.MessagesResendEnabled) && (
+                <ButtonComponent
+                  labelMessage={{
+                    id: "module.messages.messageDropdownResend",
+                  }}
+                  Icon={IconType.Send}
+                  onClick={resend}
+                  displayStyle={DisplayStyle.Dropdown}
+                  data-testid={MessageBubbleTestIds.ResendMessageButton}
+                />
+              )}
+              {flags.get(Feature.MessagesForwardEnabled) && (
+                <ButtonComponent
+                  labelMessage={{
+                    id: "module.messages.messageDropdownForward",
+                  }}
+                  Icon={IconType.Forward}
+                  onClick={forward}
+                  displayStyle={DisplayStyle.Dropdown}
+                  data-testid={MessageBubbleTestIds.ForwardMessageButton}
+                />
+              )}
+              {flags.get(Feature.MessagesDeleteEnabled) && (
+                <ButtonComponent
+                  labelMessage={{
+                    id: "module.messages.messageDropdownDelete",
+                  }}
+                  Icon={IconType.Delete}
+                  onClick={remove}
+                  displayStyle={DisplayStyle.Dropdown}
+                  data-testid={MessageBubbleTestIds.DeleteMessageButton}
+                />
+              )}
             </MessageBubbleDropdown>
           )}
           {isMessageFailed && (

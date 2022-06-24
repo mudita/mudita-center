@@ -14,7 +14,6 @@ import {
 import Avatar from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
 import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import Text from "App/__deprecated__/renderer/components/core/text/text.component"
-
 export const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean
   display: string
@@ -30,16 +29,13 @@ export const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
   word-wrap: break-word;
   flex-direction: ${({ interlocutor }) =>
     interlocutor ? "row-reverse" : "row"};
-
   &:hover {
     ${MessageBubbleDropdown} {
       opacity: 1;
       transition: ${transition("opacity", undefined, "ease")};
     }
   }
-
   margin-bottom: 0.8rem;
-
   &:last-of-type {
     margin-bottom: 0;
   }
@@ -73,13 +69,15 @@ export const MessageDate = styled.div`
   border-radius: ${borderRadius("medium")};
   box-shadow: 0 0.5rem 1.5rem 0 ${boxShadowColor("full")};
   white-space: nowrap;
-
   p {
     color: ${textColor("primary")};
   }
 `
 
-export const Bubble = styled.div<{ interlocutor: boolean }>`
+export const Bubble = styled.div<{
+  interlocutor: boolean
+  isMessageBeingDeleted: boolean
+}>`
   position: relative;
   padding: 1.1rem 1.2rem;
   margin-top: 0.8rem;
@@ -91,7 +89,8 @@ export const Bubble = styled.div<{ interlocutor: boolean }>`
       : "1.2rem 1.2rem 0.2rem 1.2rem"};
   max-width: 38rem;
   box-sizing: border-box;
-
+  opacity: "100%";
+  ${({ isMessageBeingDeleted }) => isMessageBeingDeleted && "opacity: 50%;"}
   &:hover {
     ${MessageDate} {
       opacity: 1;
@@ -110,7 +109,6 @@ export const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
   background-color: ${({ interlocutor }) =>
     interlocutor ? backgroundColor("minor") : backgroundColor("message")};
   align-self: end;
-
   svg g g {
     fill: ${({ interlocutor }) =>
       interlocutor ? textColor("secondary") : textColor("iconUser")};
