@@ -52,7 +52,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   useEffect(() => {
     if (
       prevMessages.messages.length < messages.length &&
-      messages[messages.length - 1].messageType === MessageType.OUTBOX
+      messages[messages.length - 1]?.messageType === MessageType.OUTBOX
     ) {
       wrapperBottomRef.current &&
         wrapperBottomRef.current.scrollIntoView({
@@ -70,7 +70,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
     return (
       onBottom &&
       prevMessages.messages.length < messages.length &&
-      messages[messages.length - 1].messageType === MessageType.INBOX
+      messages[messages.length - 1]?.messageType === MessageType.INBOX
     )
   }
 
@@ -82,7 +82,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
 
     const notificationOnThread = messageLayoutNotifications?.find(
       (item) =>
-        (item.content as Message)?.threadId === messages[0].threadId &&
+        (item.content as Message)?.threadId === messages[0]?.threadId &&
         (item.content as Message)?.messageType === MessageType.INBOX
     )
     if (notificationOnThread) {
@@ -125,7 +125,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   useEffect(() => {
     const currentNotifications = messageLayoutNotifications?.filter(
       (item) =>
-        (item.content as Message)?.threadId === messages[0].threadId &&
+        (item.content as Message)?.threadId === messages[0]?.threadId &&
         (item.content as Message)?.messageType === MessageType.INBOX
     )
     setNotifications(currentNotifications ? currentNotifications : [])
