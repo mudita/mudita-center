@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { TemplatesListProps } from "App/templates/components/templates-list/templates-list.interface"
@@ -49,7 +49,12 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   updateTemplate,
 }) => {
   const [templatesList, setTemplateList] = useState<Template[]>(templates)
-  //temporary solution, will be changed in CP-1370
+
+  useEffect(() => {
+    setTemplateList(templates)
+  }, [templates])
+
+  // Temporary solution, will be changed in CP-1370
   const reorder = (
     list: Template[],
     startIndex: number,
@@ -75,6 +80,7 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
 
     setTemplateList(items)
   }
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable">
@@ -90,6 +96,7 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
               templatesList.map((template, index) => {
                 const { selected, indeterminate } = getRowStatus(template)
                 const handleCheckboxChange = () => toggleRow(template)
+
                 return (
                   <Draggable
                     key={template.id}
@@ -124,11 +131,13 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                             </IconWrapper>
                           )}
                         </Col>
-                        <TemplateText
-                          displayStyle={TextDisplayStyle.Paragraph1}
-                        >
-                          {template.text}
-                        </TemplateText>
+                        <Col onClick={() => updateTemplate(template.id)}>
+                          <TemplateText
+                            displayStyle={TextDisplayStyle.Paragraph1}
+                          >
+                            {template.text}
+                          </TemplateText>
+                        </Col>
                         <Col>
                           <TemplateOptions
                             templateId={template.id}
