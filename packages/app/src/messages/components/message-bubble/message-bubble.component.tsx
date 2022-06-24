@@ -47,6 +47,7 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
   isMessageBeingDeleted,
 }) => {
   const isMessageFailed = messageType === MessageType.FAILED
+  const isMessageOutbox = messageType === MessageType.OUTBOX
   const [clicked, setClicked] = useState<string>("")
   const open = () => setClicked(id)
   const close = () => setClicked("")
@@ -94,17 +95,18 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
               display={(clicked === id).toString()}
               data-testid={MessageBubbleTestIds.Dropdown}
             >
-              {flags.get(Feature.MessagesResendEnabled) && (
-                <ButtonComponent
-                  labelMessage={{
-                    id: "module.messages.messageDropdownResend",
-                  }}
-                  Icon={IconType.Send}
-                  onClick={resend}
-                  displayStyle={DisplayStyle.Dropdown}
-                  data-testid={MessageBubbleTestIds.ResendMessageButton}
-                />
-              )}
+              {flags.get(Feature.MessagesResendEnabled) &&
+                (isMessageFailed || isMessageOutbox) && (
+                  <ButtonComponent
+                    labelMessage={{
+                      id: "module.messages.messageDropdownResend",
+                    }}
+                    Icon={IconType.Send}
+                    onClick={resend}
+                    displayStyle={DisplayStyle.Dropdown}
+                    data-testid={MessageBubbleTestIds.ResendMessageButton}
+                  />
+                )}
               {flags.get(Feature.MessagesForwardEnabled) && (
                 <ButtonComponent
                   labelMessage={{
