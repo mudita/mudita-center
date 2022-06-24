@@ -25,7 +25,7 @@ export const features: EnvironmentConfig = {
   [Feature.MessagesDeleteEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesForwardEnabled]: {
     [Environment.Development]: true,
@@ -35,12 +35,12 @@ export const features: EnvironmentConfig = {
   [Feature.MessagesResendEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadDeleteEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.LoggerEnabled]: {
     [Environment.Development]: true,
@@ -65,7 +65,7 @@ export const features: EnvironmentConfig = {
   [Feature.MessagesTemplatesTabEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.MuditaCenterPrereleaseEnabled]: {
     [Environment.Development]: true,
@@ -90,7 +90,7 @@ export const features: EnvironmentConfig = {
   [Feature.MessagesThreadDetailsMarkAsReadEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesCallFromThreadEnabled]: {
     [Environment.Development]: true,
