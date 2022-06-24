@@ -10,7 +10,7 @@ import { SerialisedIndexData } from "elasticlunr"
 import { getIndexRequest } from "App/data-sync/requests"
 import { readAllIndexes } from "App/data-sync/actions/read-all-indexes.action"
 import { ReadAllIndexesError } from "App/data-sync/errors"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 
 jest.mock("App/data-sync/requests/get-index.request.ts")
 

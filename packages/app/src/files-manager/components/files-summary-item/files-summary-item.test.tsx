@@ -6,10 +6,10 @@
 import "@testing-library/jest-dom"
 import React, { ComponentProps } from "react"
 import FilesSummaryItem from "App/files-manager/components/files-summary-item/files-summary-item.component"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const defaultProps: ComponentProps<typeof FilesSummaryItem> = {
   type: DiskSpaceCategoryType.UsedSpace,

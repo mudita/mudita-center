@@ -4,12 +4,12 @@
  */
 
 import styled, { keyframes } from "styled-components"
-import InputText from "Renderer/components/core/input-text/input-text.component"
-import { FiltersWrapper } from "Renderer/components/rest/messages/threads-table.component"
+import InputText from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
+import { FiltersWrapper } from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
 import {
   transitionTime,
   transitionTimingFunction,
-} from "Renderer/styles/theming/theme-getters"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
 
 const showToggleableElement = keyframes`
   from {

@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import ContactSupportFlow from "App/contact-support/components/contact-support-flow.component"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { ContactSupportFlowTestIds } from "App/contact-support/components/contact-support-flow-test-ids.component"
 import { SendTicketState } from "App/contact-support/reducers"
 

@@ -6,7 +6,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceEvent, UpdatingState } from "App/device/constants"
 import { MetadataKey, setValue } from "App/metadata"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { setInitState } from "App/device/actions/base.action"
 import { setDataSyncInitState } from "App/data-sync/actions"

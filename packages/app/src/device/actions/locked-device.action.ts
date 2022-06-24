@@ -5,9 +5,9 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DeviceType } from "@mudita/pure"
-import { ReduxRootState } from "App/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { DeviceEvent } from "App/device/constants"
-import getDeviceLockTime from "App/renderer/requests/get-device-lock-time.request"
+import getDeviceLockTime from "App/__deprecated__/renderer/requests/get-device-lock-time.request"
 import { setLockTime } from "App/device/actions/base.action"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 

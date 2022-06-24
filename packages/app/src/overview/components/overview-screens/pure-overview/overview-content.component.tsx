@@ -5,8 +5,8 @@
 
 import React, { ComponentProps } from "react"
 import { DeviceType } from "@mudita/pure"
-import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/basic-info.typings"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { Store as BasicInfoInitialState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   DeviceInfo,
   StatusInfo,
@@ -15,9 +15,9 @@ import {
   FileManagerInfo,
   BackupInfo,
 } from "App/overview/components/overview/overview.styles"
-import { noop } from "Renderer/utils/noop"
-import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
-import { AppSettings } from "App/main/store/settings.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
+import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
 import Backup from "App/overview/components/backup/backup.component"
 
 interface OverviewUIProps {

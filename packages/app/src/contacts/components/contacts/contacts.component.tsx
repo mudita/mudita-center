@@ -6,38 +6,38 @@
 import React, { useEffect, useState } from "react"
 import ContactList from "App/contacts/components/contact-list/contact-list.component"
 import ContactPanel from "App/contacts/components/contact-panel/contact-panel.component"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { TableWithSidebarWrapper } from "App/__deprecated__/renderer/components/core/table/table.component"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
-import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
+import useTableSidebar from "App/__deprecated__/renderer/utils/hooks/use-table-sidebar"
 import ContactEdit, {
   defaultContact,
 } from "App/contacts/components/contact-edit/contact-edit.component"
-import { noop } from "Renderer/utils/noop"
-import modalService from "Renderer/components/core/modal/modal.service"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
 import SpeedDialModal from "App/contacts/components/speed-dial-modal/speed-dial-modal.container"
 import BlockContactModal from "App/contacts/components/block-contact-modal/block-contact-modal.component"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
-import { intl, textFormatters } from "Renderer/utils/intl"
-import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
+import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
 import { ContactSection } from "App/contacts/components/contacts/contacts.styled"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
+import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
-import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
+import useURLSearchParams from "App/__deprecated__/renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "App/contacts/helpers/find-contact-by-phone-number/find-contact-by-phone-number"
 import {
   ExternalProvider,
   Provider,
-} from "Renderer/models/external-providers/external-providers.interface"
+} from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
 import delayResponse from "@appnroll/delay-response"
 import {
   ErrorDataModal,
   ErrorWithRetryDataModal,
   LoadingStateDataModal,
-} from "Renderer/components/rest/data-modal/data.modals"
+} from "App/__deprecated__/renderer/components/rest/data-modal/data.modals"
 import mapVCFsToContacts from "App/contacts/helpers/map-vcfs-to-contacts/map-vcfs-to-contacts"
-import logger from "App/main/utils/logger"
+import logger from "App/__deprecated__/main/utils/logger"
 import {
   ExternalService,
   FileService,
@@ -47,7 +47,7 @@ import {
   PhoneProps,
   FormError,
 } from "App/contacts/components/contacts/contacts.type"
-import appContextMenu from "Renderer/wrappers/app-context-menu"
+import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
 import ContactSearchResults from "App/contacts/components/contact-search-results/contact-search-results.component"
 import ImportContactsFlow, {
   ImportContactsFlowState,
@@ -57,7 +57,7 @@ import {
   ContactCategory,
   NewContact,
 } from "App/contacts/reducers/contacts.interface"
-import { isError } from "Common/helpers/is-error.helpers"
+import { isError } from "App/__deprecated__/common/helpers/is-error.helpers"
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -275,6 +275,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   const openDeleteModal = (contact: Contact) => {
     const handleDelete = async () => {
+      resetRows()
       modalService.openModal(
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true

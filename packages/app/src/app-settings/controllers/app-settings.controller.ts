@@ -11,7 +11,7 @@ import {
 import {
   AppSettings,
   SettingsUpdateOption,
-} from "App/main/store/settings.interface"
+} from "App/__deprecated__/main/store/settings.interface"
 import { AppSettingsService } from "App/app-settings/services"
 
 @Controller(ControllerPrefix)

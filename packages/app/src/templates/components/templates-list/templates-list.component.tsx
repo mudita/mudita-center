@@ -5,12 +5,10 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { TemplatesListProps } from "App/templates/components/templates-list/templates-list.interface"
-import { Actions, Col } from "Renderer/components/core/table/table.component"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import { Actions, Col } from "App/__deprecated__/renderer/components/core/table/table.component"
+import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import {
   TemplatesEmptyState,
   Row,
@@ -18,15 +16,16 @@ import {
   TemplateIcon,
   IconWrapper,
   Checkbox,
+  TemplateText,
 } from "App/templates/components/templates-list/templates-list.styled"
-import { IconType } from "Renderer/components/core/icon/icon-type"
-import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
-import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import { ElementWithTooltipPlace } from "Renderer/components/core/tooltip/element-with-tooltip.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { noop } from "Renderer/utils/noop"
-import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
+import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import { ElementWithTooltipPlace } from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "module.templates.emptyList.title" },
@@ -77,9 +76,9 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                   </IconWrapper>
                 )}
               </Col>
-              <Text displayStyle={TextDisplayStyle.Paragraph1}>
+              <TemplateText displayStyle={TextDisplayStyle.Paragraph1}>
                 {template.text}
-              </Text>
+              </TemplateText>
               <Col>
                 <Actions>
                   <Dropdown

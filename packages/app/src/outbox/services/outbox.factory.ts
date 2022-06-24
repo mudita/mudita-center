@@ -5,7 +5,7 @@
 
 import { EventEmitter } from "events"
 import { OutboxEntryType } from "@mudita/pure"
-import { DeviceService } from "Backend/device-service"
+import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { IndexStorage } from "App/index-storage/types"
 import {
   EntryHandlersMapType,

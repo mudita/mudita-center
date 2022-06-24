@@ -4,9 +4,9 @@
  */
 
 import React, { ComponentProps } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { MessagesSidebar } from "App/messages/components/thread-details.styled"
-import { Sidebar } from "Renderer/components/core/table/table.component"
+import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
 import NewMessageFormSidebarLeftHeader from "App/messages/components/new-message-form-sidebar-left-header.component"
 
 type SidebarProps = ComponentProps<typeof Sidebar>

@@ -5,9 +5,9 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Button from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import Button from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { TemplatesPanelProps } from "App/templates/components/templates-panel/templates-panel.interface"
 import {
   PanelWrapper,
@@ -16,8 +16,8 @@ import {
   TemplatesSelectionManager,
 } from "App/templates/components/templates-panel/templates-panel.styled"
 import { TemplatesPanelTestIds } from "App/templates/components/templates-panel/templates-panel-ids.enum"
-import { IconType } from "Renderer/components/core/icon/icon-type"
-import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 
 const messages = defineMessages({
   newButton: { id: "module.templates.newButton" },

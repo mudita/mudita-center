@@ -10,12 +10,12 @@ import { Observer } from "App/core/types"
 import {
   DeviceService,
   DeviceServiceEventName,
-} from "App/backend/device-service"
+} from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { MetadataKey } from "App/metadata/constants"
 import { IndexStorageService } from "App/index-storage/services"
 import { IpcEvent } from "App/data-sync/constants"
-import { getDeviceInfoRequest } from "Backend/adapters/device-base-info/device-base-info.adapter"
+import { getDeviceInfoRequest } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 
 export class IndexStorageLoadingObserver implements Observer {
   private invoked = false

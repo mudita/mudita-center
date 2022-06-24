@@ -8,12 +8,12 @@ import {
   ContactDetailsActions,
 } from "App/contacts/components/contact-details/contact-details.component"
 import ContactPanel from "App/contacts/components/contact-panel/contact-panel.component"
-import { AuthProviders } from "Renderer/models/auth/auth.typings"
+import { AuthProviders } from "App/__deprecated__/renderer/models/auth/auth.typings"
 import { History, LocationState } from "history"
 import {
   ExternalProvider,
   Provider,
-} from "Renderer/models/external-providers/external-providers.interface"
+} from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
 import { ComponentProps } from "react"
 import {
   Contact,

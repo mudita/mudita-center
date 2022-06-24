@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { GoogleCalendar } from "Renderer/models/external-providers/google/google.interface"
+import { GoogleCalendar } from "App/__deprecated__/renderer/models/external-providers/google/google.interface"
 
 export const mockedGoogleCalendars: GoogleCalendar[] = [
   {

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { notificationReducer, initialState } from "App/notification/reducers"
 import { Notification } from "App/notification/types"
 import { getNotificationByResourceAndMethod } from "App/notification/selectors"

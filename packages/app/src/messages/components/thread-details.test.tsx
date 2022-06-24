@@ -6,7 +6,7 @@
 import "@testing-library/jest-dom/extend-expect"
 import { fireEvent } from "@testing-library/dom"
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ThreadDetails from "App/messages/components/thread-details.component"
 import {
   Message,
@@ -15,7 +15,7 @@ import {
   ReceiverIdentification,
 } from "App/messages/reducers/messages.interface"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
-import { TableTestIds } from "Renderer/components/core/table/table.enum"
+import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 

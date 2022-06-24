@@ -5,13 +5,13 @@
 
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   CrashDumpModal,
   CrashDumpSendingModal,
 } from "App/crash-dump/components"
 import { downloadCrashDump, ignoreCrashDump } from "App/crash-dump/actions"
-import { ReduxRootState } from "App/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 export interface CrashDumpContainerProps {
   hasCrashDump: boolean

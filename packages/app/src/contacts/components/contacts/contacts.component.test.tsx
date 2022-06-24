@@ -7,13 +7,13 @@
 
 import React, { ComponentProps } from "react"
 import { waitFor, fireEvent } from "@testing-library/dom"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import Contacts from "App/contacts/components/contacts/contacts.component"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 import { isContactMatching } from "App/contacts/components/contacts/contacts.component"
-import { InputSearchTestIds } from "Renderer/components/core/input-search/input-search.component"
+import { InputSearchTestIds } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
 import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-search.component"
 import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
 

@@ -9,7 +9,7 @@ import FilesSummary from "App/files-manager/components/files-summary/files-summa
 import styled from "styled-components"
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const fakeData: DiskSpaceCategory[] = [
   {

@@ -4,24 +4,24 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import Image from "Renderer/components/core/image/image.component"
-import Infographic from "Renderer/images/infographic.png"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import Image from "App/__deprecated__/renderer/components/core/image/image.component"
+import Infographic from "App/__deprecated__/renderer/images/infographic.png"
 import {
   Type as ButtonType,
   DisplayStyle,
-} from "Renderer/components/core/button/button.config"
-import { intl, textFormatters } from "Renderer/utils/intl"
-import { noop } from "Renderer/utils/noop"
+} from "App/__deprecated__/renderer/components/core/button/button.config"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import {
   OnboardingWrapper,
   WelcomeButton,
   TroubleshootingButton,
 } from "App/onboarding/components/onboarding-welcome.styled"
-import { Title } from "Renderer/components/core/text/title-text.styled"
+import { Title } from "App/__deprecated__/renderer/components/core/text/title-text.styled"
 export interface Props {
   onCancel?: () => void
   onTroubleshooting?: () => void

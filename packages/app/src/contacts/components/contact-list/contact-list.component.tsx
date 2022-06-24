@@ -4,7 +4,7 @@
  */
 
 import React, { createRef, Ref, useEffect, useState } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
   Col,
@@ -14,33 +14,33 @@ import Table, {
   LoadingState,
   Row,
   TextPlaceholder,
-} from "Renderer/components/core/table/table.component"
-import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
+} from "App/__deprecated__/renderer/components/core/table/table.component"
+import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
+import { VisibleCheckbox } from "App/__deprecated__/renderer/components/rest/visible-checkbox/visible-checkbox"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
-} from "Renderer/components/rest/animated-opacity/animated-opacity"
-import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
+} from "App/__deprecated__/renderer/components/rest/animated-opacity/animated-opacity"
+import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import Avatar, {
   AvatarSize,
   basicAvatarStyles,
-} from "Renderer/components/core/avatar/avatar.component"
+} from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
 import {
   backgroundColor,
   textColor,
-} from "Renderer/styles/theming/theme-getters"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
-import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
+import useTableScrolling from "App/__deprecated__/renderer/utils/hooks/use-table-scrolling"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
-import { intl } from "Renderer/utils/intl"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
-import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
+import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { flags, Feature } from "App/feature-flags"
@@ -52,9 +52,9 @@ import {
 } from "App/contacts/reducers/contacts.interface"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   forwardNamecard: {

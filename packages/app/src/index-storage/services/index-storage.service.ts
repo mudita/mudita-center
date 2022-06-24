@@ -4,7 +4,7 @@
  */
 
 import path from "path"
-import getAppPath from "App/main/utils/get-app-path"
+import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import { DataIndex } from "App/index-storage/constants"
 import { IndexStorage } from "App/index-storage/types"
 import { MetadataStore } from "App/metadata/services"
@@ -12,10 +12,11 @@ import { MetadataKey } from "App/metadata/constants"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import elasticlunr from "elasticlunr"
 
-const cacheFileNames: Record<Exclude<DataIndex, DataIndex.Template>, string> = {
+const cacheFileNames: Record<DataIndex, string> = {
   [DataIndex.Contact]: "contacts.json",
   [DataIndex.Message]: "messages.json",
   [DataIndex.Thread]: "threads.json",
+  [DataIndex.Template]: "templates.json",
 }
 
 export class IndexStorageService {

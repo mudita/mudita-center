@@ -4,7 +4,7 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
-import { DeviceFile } from "Backend/adapters/device-file-system/device-file-system-adapter.class"
+import { DeviceFile } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system-adapter.class"
 import { IpcDeviceFileSystem } from "App/device-file-system"
 import { RequestResponse } from "App/core/types/request-response.interface"
 

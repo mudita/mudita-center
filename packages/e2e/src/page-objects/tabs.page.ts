@@ -11,7 +11,7 @@ class NavigationTabs extends Page {
   public get overviewTab(): ChainablePromiseElement<
     Promise<WebdriverIO.Element>
   > {
-    return $('[data-testid="icon-MenuOverview"]')
+    return $('[data-testid="overview-link"]')
   }
 
   public get messagesTab(): ChainablePromiseElement<

@@ -6,13 +6,13 @@
 import React from "react"
 import styled from "styled-components"
 import { DeviceType } from "@mudita/pure"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { DevicePreviewProps } from "App/overview/components/device-preview/device-preview.interface"
 import {
   CardAction,
   CardActionButton,
 } from "App/overview/components/card.elements"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { useHistory } from "react-router"
 import { DeviceTestIds } from "App/overview/components/device-preview/device-preview-test-ids.enum"
 import {
@@ -22,15 +22,15 @@ import {
   PureSystemButtonContainer,
   SerialNumberWrapper,
 } from "App/overview/components/device-preview/device-preview.styled"
-import { URL_MAIN, URL_OVERVIEW } from "Renderer/constants/urls"
-import Button from "App/renderer/components/core/button/button.component"
-import { DisplayStyle } from "App/renderer/components/core/button/button.config"
+import { URL_MAIN, URL_OVERVIEW } from "App/__deprecated__/renderer/constants/urls"
+import Button from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { DeviceImage } from "App/overview/components/device-preview/device-image.component"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import { IconSize } from "Renderer/components/core/icon/icon.component"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const DeviceSystemButton = styled(Button)`
   width: auto;

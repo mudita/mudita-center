@@ -7,14 +7,14 @@ import { DeviceConnectionObserver } from "./device-connection.observer"
 import { EventEmitter } from "events"
 import { ipcMain } from "electron-better-ipc"
 import { DeviceType, MuditaDevice } from "@mudita/pure"
-import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
+import DeviceService, { DeviceServiceEventName } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { DataSyncService } from "App/data-sync/services/data-sync.service"
-import { getDeviceInfoRequest } from "Backend/adapters/device-base-info/device-base-info.adapter"
+import { getDeviceInfoRequest } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 import { IpcEvent } from "App/data-sync/constants"
 import { flushPromises } from "App/core/helpers/flush-promises"
 
-jest.mock("Backend/adapters/device-base-info/device-base-info.adapter")
+jest.mock("App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter")
 
 let subject: DeviceConnectionObserver
 const eventEmitterMock = new EventEmitter()

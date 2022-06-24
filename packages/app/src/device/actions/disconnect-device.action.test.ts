@@ -6,16 +6,16 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store/helpers"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { disconnectDevice } from "App/device/actions/disconnect-device.action"
 import { DeviceDisconnectionError } from "App/device/errors"
-import disconnectDeviceRequest from "Renderer/requests/disconnect-device.request"
-import { testError } from "App/renderer/store/constants"
+import disconnectDeviceRequest from "App/__deprecated__/renderer/requests/disconnect-device.request"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 const mockStore = createMockStore([thunk])()
 
-jest.mock("Renderer/requests/disconnect-device.request")
+jest.mock("App/__deprecated__/renderer/requests/disconnect-device.request")
 
 jest.mock("App/device/actions/set-connection-status.action", () => ({
   setConnectionStatus: jest.fn().mockReturnValue({

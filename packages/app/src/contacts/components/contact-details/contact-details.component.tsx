@@ -4,17 +4,17 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   SidebarHeaderButton,
   SidebarProps,
-} from "Renderer/components/core/table/table.component"
-import Icon from "Renderer/components/core/icon/icon.component"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { intl } from "Renderer/utils/intl"
+} from "App/__deprecated__/renderer/components/core/table/table.component"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import {
   AdditionalInfo,
   AdditionalInfoItem,
@@ -31,8 +31,8 @@ import { flags, Feature } from "App/feature-flags"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   favourites: { id: "module.contacts.favourites" },

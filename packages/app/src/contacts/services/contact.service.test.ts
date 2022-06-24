@@ -5,7 +5,7 @@
 
 import { ContactService } from "App/contacts/services/contact.service"
 import { ContactRepository } from "App/contacts/repositories"
-import DeviceService from "Backend/device-service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import {
   ErrorRequestResponse,
   RequestResponseStatus,

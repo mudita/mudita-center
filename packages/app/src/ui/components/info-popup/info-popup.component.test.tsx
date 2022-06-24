@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import { InfoPopupTestIds } from "App/ui/components/info-popup/info-popup-test-ids.enum"
 

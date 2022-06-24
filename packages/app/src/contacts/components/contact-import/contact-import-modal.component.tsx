@@ -4,34 +4,34 @@
  */
 
 import React, { useEffect, ComponentProps } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import Table, {
   Col,
   Labels,
   Row,
   RowSize,
-} from "Renderer/components/core/table/table.component"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
+} from "App/__deprecated__/renderer/components/core/table/table.component"
+import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
+import InputCheckbox from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import styled from "styled-components"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import {
   ModalText,
   SelectedText,
 } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
-import { intl, textFormatters } from "Renderer/utils/intl"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import { createFullNameStartingFromLastName } from "App/contacts/helpers/contacts.helpers"
 import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
-import { textColor } from "Renderer/styles/theming/theme-getters"
-import { ModalIcon } from "Renderer/components/core/modal-shared/modal-shared"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { textColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { ModalIcon } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
+import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
 import { NewContact } from "App/contacts/reducers/contacts.interface"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: { id: "module.contacts.importTitle" },

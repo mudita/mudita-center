@@ -6,7 +6,7 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { ReduxRootState, RootState } from "Renderer/store"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { DeviceState } from "App/device"
 import sendTicketRequest, {
   CreateBugTicketResponse,
@@ -16,7 +16,7 @@ import {
   sendTicket,
   SendTicketPayload,
 } from "App/contact-support/actions/send-ticket.action"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { SendTicketError } from "App/contact-support/errors"
 
 jest.mock("App/contact-support/requests/send-ticket.request")

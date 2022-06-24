@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { initialState, deviceReducer } from "App/device/reducers"
 import { deviceStateSelector } from "App/device/selectors/device-state.selector"
 

@@ -9,14 +9,14 @@ import createMockStore from "redux-mock-store"
 import {
   pendingAction,
   rejectedAction,
-} from "Renderer/store/helpers/action.helper"
+} from "App/__deprecated__/renderer/store/helpers/action.helper"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { indexAllRequest } from "App/data-sync/requests"
 import {
   ReadAllIndexesError,
   UpdateAllIndexesError,
 } from "App/data-sync/errors"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
 import { readAllIndexes } from "App/data-sync/actions/read-all-indexes.action"
 

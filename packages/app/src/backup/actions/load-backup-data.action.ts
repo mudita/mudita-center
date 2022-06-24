@@ -5,11 +5,11 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { BackupEvent } from "App/backup/constants"
-import getFileData from "Renderer/requests/get-file-data"
+import getFileData from "App/__deprecated__/renderer/requests/get-file-data"
 import { LoadBackupDataError } from "App/backup/errors"
 import { setBackupData } from "App/backup/actions/base.action"
 import { isResponsesSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
-import { ReduxRootState, RootState } from "Renderer/store"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 export const loadBackupData = createAsyncThunk(
   BackupEvent.Load,

@@ -8,7 +8,7 @@ import { getCrashDumpsRequest } from "App/crash-dump/requests/get-crash-dumps.re
 import { Event } from "App/crash-dump/constants"
 import { GetCrashDumpError } from "App/crash-dump/errors"
 import { setCrashDump } from "App/crash-dump/actions/base.action"
-import { ReduxRootState } from "App/renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 export const getCrashDump = createAsyncThunk<RequestResponseStatus | undefined>(

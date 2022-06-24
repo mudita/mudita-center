@@ -6,10 +6,15 @@ require("dotenv").config({
   path: path.join(__dirname, "../../../.env"),
 })
 
-let defaultData = require("../src/main/default-app-configuration.json")
+let defaultData = require("../src/__deprecated__/main/default-app-configuration.json")
 
 ;(async () => {
-  const jsonPath = path.join("src", "main", "app-configuration.json")
+  const jsonPath = path.join(
+    "src",
+    "__deprecated__",
+    "main",
+    "app-configuration.json"
+  )
   try {
     await fs.ensureDir(path.resolve(path.join("src", "main")))
 

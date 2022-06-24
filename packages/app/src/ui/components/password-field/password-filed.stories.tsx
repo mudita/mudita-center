@@ -6,8 +6,8 @@
 import React, { ComponentProps } from "react"
 import { Meta } from "@storybook/react"
 import { PasswordField } from "App/ui/components/password-field/password-filed.component"
-import StoryContainer from "Renderer/components/storybook/story-container.component"
-import Story from "Renderer/components/storybook/story.component"
+import StoryContainer from "App/__deprecated__/renderer/components/storybook/story-container.component"
+import Story from "App/__deprecated__/renderer/components/storybook/story.component"
 import { css } from "styled-components"
 import { Story as StoryInterface } from "@storybook/react"
 

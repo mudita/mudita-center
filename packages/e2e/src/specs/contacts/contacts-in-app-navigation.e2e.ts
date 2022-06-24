@@ -7,8 +7,7 @@ describe("Contacts screen check", () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
-  })
-
+  })     
   it("Should click Contacts tab and check Import button is displayed", async () => {
     const contactsTab = await NavigationTabs.contactsTab
     await contactsTab.click()

@@ -8,25 +8,25 @@ import { defineMessages } from "react-intl"
 import {
   EmptyState,
   TableWithSidebarWrapper,
-} from "Renderer/components/core/table/table.component"
+} from "App/__deprecated__/renderer/components/core/table/table.component"
 import ThreadList from "App/messages/components/thread-list.component"
 import { ComponentProps as MessagesComponentProps } from "App/messages/components/messages/messages.interface"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { noop } from "Renderer/utils/noop"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import ThreadDetails from "App/messages/components/thread-details.component"
 import MessagesPanel from "App/messages/components/messages-panel.component"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
+import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
+import useURLSearchParams from "App/__deprecated__/renderer/utils/hooks/use-url-search-params"
 import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
-import { intl, textFormatters } from "Renderer/utils/intl"
-import modalService from "Renderer/components/core/modal/modal.service"
-import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
-import { Message as TranslationMessage } from "Renderer/interfaces/message.interface"
-import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
-import { AppSettings } from "App/main/store/settings.interface"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
+import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
+import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
+import { Message as TranslationMessage } from "App/__deprecated__/renderer/interfaces/message.interface"
+import getPrettyCaller from "App/__deprecated__/renderer/models/calls/get-pretty-caller"
+import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
 import { useHistory } from "react-router-dom"
-import createRouterPath from "Renderer/utils/create-router-path"
-import { URL_MAIN } from "Renderer/constants/urls"
+import createRouterPath from "App/__deprecated__/renderer/utils/create-router-path"
+import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
 import AttachContactModal from "App/messages/components/attach-contact-modal.component"
 import {
   Contact,
@@ -34,16 +34,15 @@ import {
 } from "App/contacts/reducers/contacts.interface"
 import {
   Message,
+  MessageType,
   NewMessage,
   Receiver,
   ReceiverIdentification,
   ResultState,
   Thread,
-  MessageType,
 } from "App/messages/reducers/messages.interface"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
-import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { IndexRange } from "react-virtualized"
@@ -53,6 +52,7 @@ import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import { ThreadDeletingState } from "App/messages/constants"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import DeletingModal from "App/ui/components/deleting-modal/deleting-modal.component"
+import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },
@@ -323,25 +323,26 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const handleAddNewMessage = async (phoneNumber: string): Promise<void> => {
-    const threadId = threads.find(
-      (thread) => thread.phoneNumber === phoneNumber
-    )?.id
+    const threadId = threads.find(isThreadNumberEqual(phoneNumber))?.id
     if (tmpActiveThread !== undefined) {
       handleReceiverSelect({ phoneNumber })
     }
     await addNewMessage({ content, phoneNumber, threadId })
+    setContent("")
   }
 
   useEffect(() => {
-    if (activeThread !== undefined) {
-      const thread = threads.find(
-        (thread) => thread.phoneNumber === activeThread.phoneNumber
-      )
-      if (thread) {
-        openThreadDetails(thread)
-      } else if (tmpActiveThread === undefined && thread === undefined) {
-        setActiveThread(undefined)
-      }
+    if (activeThread === undefined) {
+      return
+    }
+    const thread = threads.find(isThreadNumberEqual(activeThread.phoneNumber))
+
+    if (activeThread.id === thread?.id) {
+      return
+    } else if (thread) {
+      openThreadDetails(thread)
+    } else if (tmpActiveThread === undefined && thread === undefined) {
+      setActiveThread(undefined)
     }
   }, [activeThread, threads])
 
@@ -359,10 +360,7 @@ const Messages: FunctionComponent<Props> = ({
   const handleReceiverSelect = ({
     phoneNumber,
   }: Pick<Receiver, "phoneNumber">) => {
-    const thread = threads.find(
-      (thread) =>
-        mapToRawNumber(thread.phoneNumber) === mapToRawNumber(phoneNumber)
-    )
+    const thread = threads.find(isThreadNumberEqual(phoneNumber))
 
     if (thread) {
       setActiveThread(thread)

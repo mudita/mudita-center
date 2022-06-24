@@ -4,14 +4,14 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   NameWrapper,
   PhoneNumberText,
 } from "App/messages/components/thread-details.styled"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 
 interface Props {
   prettyCaller: string

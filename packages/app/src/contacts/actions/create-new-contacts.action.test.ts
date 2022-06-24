@@ -10,7 +10,7 @@ import { ContactsEvent } from "App/contacts/constants"
 import { AddNewContactError } from "App/contacts/errors/add-new-contact.error"
 import { createContactRequest } from "App/contacts/requests"
 import { Contact, initialState, NewContact } from "App/contacts/reducers"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { createNewContact } from "App/contacts/actions/create-new-contacts.action"
 import {
   RequestResponse,

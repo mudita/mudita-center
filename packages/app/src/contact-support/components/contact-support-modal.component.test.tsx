@@ -6,11 +6,11 @@
 import React, { ComponentProps } from "react"
 import { waitFor } from "@testing-library/dom"
 import { fireEvent } from "@testing-library/react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ContactSupportModal from "App/contact-support/components/contact-support-modal.component"
 import { ContactSupportModalTestIds } from "App/contact-support/components/contact-support-modal-test-ids.enum"
-import { noop } from "Renderer/utils/noop"
-import { FileListTestIds } from "Renderer/components/core/file-list/file-list-test-ids.enum"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { FileListTestIds } from "App/__deprecated__/renderer/components/core/file-list/file-list-test-ids.enum"
 
 type Props = ComponentProps<typeof ContactSupportModal>
 const defaultProps: Props = {

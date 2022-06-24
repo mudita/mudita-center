@@ -4,12 +4,12 @@
  */
 
 import styled, { css } from "styled-components"
-import { ListItem } from "Renderer/components/core/list/list.component"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
-import { fontWeight } from "Renderer/styles/theming/theme-getters"
-import { Sidebar } from "Renderer/components/core/table/table.component"
+import { ListItem } from "App/__deprecated__/renderer/components/core/list/list.component"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import InputComponent from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
+import { InputComponentProps } from "App/__deprecated__/renderer/components/core/input-text/input-text.interface"
+import { fontWeight } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
 
 export const Form = styled.form`
   --buttons-bottom-margin: 3.2rem;

@@ -140,7 +140,7 @@ npm version CURRENT_VERSION + 1
 That's because we're using `GT Pressura` font that can't be open-sourced, so we can't publish it in our repository.
 Instead, for development purpose outside the Mudita company, we're using a `Roboto Condensed` font from Google which is quite similar.
 
-More info about managing fonts [can be found here](packages/app/src/renderer/fonts/README.md).
+More info about managing fonts [can be found here](packages/app/src/__deprecated__/renderer/fonts/README.md).
 
 ### The module was compiled against a different Node.js version
 

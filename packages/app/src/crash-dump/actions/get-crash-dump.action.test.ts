@@ -10,7 +10,7 @@ import { Event } from "App/crash-dump/constants"
 import { getCrashDumpsRequest } from "App/crash-dump/requests/get-crash-dumps.request"
 import { getCrashDump } from "App/crash-dump/actions/get-crash-dump.action"
 import { GetCrashDumpError } from "App/crash-dump/errors"
-import { testError } from "App/renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("App/crash-dump/requests/get-crash-dumps.request")

@@ -5,7 +5,7 @@
 
 import React from "react"
 import FilesSummaryItem from "App/files-manager/components/files-summary-item/files-summary-item.component"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import styled from "styled-components"
 import { DiskSpaceCategory } from "App/files-manager/components/files-manager/files-manager.interface"
 import { FilesSummaryTestIds } from "App/files-manager/components/files-summary/files-summary-test-ids.enum"
@@ -16,13 +16,13 @@ import {
 } from "App/files-manager/components/files-manager/files-manager.styled"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import StackedBarChart, {
   DisplayStyle,
   ChartItem,
-} from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
+} from "App/__deprecated__/renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { defineMessages } from "react-intl"
-import { convertFromBytesToDecimal } from "Renderer/utils/convert-from-bytes-to-decimal/convert-from-bytes-to-decimal"
+import { convertFromBytesToDecimal } from "App/__deprecated__/renderer/utils/convert-from-bytes-to-decimal/convert-from-bytes-to-decimal"
 
 const FilesSummaryWrapper = styled.div`
   display: flex;

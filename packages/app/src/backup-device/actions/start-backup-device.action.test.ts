@@ -6,13 +6,13 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store/helpers/action.helper"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers/action.helper"
 import { BackupEvent } from "App/backup/constants"
 import {
   startBackupDevice,
   StartBackupOption,
 } from "App/backup-device/actions/start-backup-device.action"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { StartBackupDeviceError } from "App/backup-device/errors"
 import { downloadDeviceBackupWithRetries } from "App/backup-device/helpers/download-device-backup-with-retries"
 import {

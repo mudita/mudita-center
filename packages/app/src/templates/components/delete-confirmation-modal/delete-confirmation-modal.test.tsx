@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import DeleteConfirmationModal from "App/templates/components/delete-confirmation-modal/delete-confirmation-modal.component"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 
 type Props = ComponentProps<typeof DeleteConfirmationModal>
 

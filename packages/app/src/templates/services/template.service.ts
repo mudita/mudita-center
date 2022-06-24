@@ -4,7 +4,7 @@
  */
 
 import { NewTemplate, Template } from "App/templates/dto"
-import DeviceService from "Backend/device-service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import {
   Endpoint,
   Method,
@@ -35,7 +35,10 @@ export class TemplateService {
     })
 
     if (isResponseSuccessWithData(response)) {
-      const templateData = TemplatePresenter.mapToTemplate(response.data)
+      const templateData = TemplatePresenter.mapToTemplate({
+        ...response.data,
+        templateBody: template.text,
+      })
 
       this.templateRepository.create(templateData)
 

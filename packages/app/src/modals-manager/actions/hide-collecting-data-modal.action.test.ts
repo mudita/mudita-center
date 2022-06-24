@@ -6,12 +6,12 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store/helpers"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
 import { hideCollectingDataModal } from "App/modals-manager/actions/hide-collecting-data-modal.action"
-import { initialState as settingsInitialState } from "Renderer/models/settings/settings"
+import { initialState as settingsInitialState } from "App/__deprecated__/renderer/models/settings/settings"
 import { initialState as modalsManagerInitialState } from "App/modals-manager/reducers"
-import { ReduxRootState, RootState } from "Renderer/store"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 jest.mock(
   "App/modals-manager/actions/check-app-update-flow-to-show.action",

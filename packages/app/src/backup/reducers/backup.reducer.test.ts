@@ -12,7 +12,7 @@ import {
   fulfilledAction,
   pendingAction,
   rejectedAction,
-} from "Renderer/store/helpers"
+} from "App/__deprecated__/renderer/store/helpers"
 
 test("empty event returns initial state", () => {
   expect(backupReducer(undefined, {} as any)).toEqual(initialState)

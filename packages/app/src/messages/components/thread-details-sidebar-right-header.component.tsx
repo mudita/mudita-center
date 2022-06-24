@@ -4,12 +4,12 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { noop } from "Renderer/utils/noop"
-import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { SidebarHeaderButton } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { Feature, flags } from "App/feature-flags"
 import { defineMessages } from "react-intl"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   callsTooltipDescription: { id: "module.messages.callsTooltipDescription" },

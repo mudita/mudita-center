@@ -4,11 +4,11 @@
  */
 
 import React, { ComponentProps } from "react"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { Router } from "react-router"
 import { RenderOptions, RenderResult } from "@testing-library/react"
 import { createMemoryHistory } from "history"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
 import Messages from "App/messages/components/messages/messages.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
@@ -20,7 +20,7 @@ import {
   Thread,
 } from "App/messages/reducers/messages.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { TableTestIds } from "Renderer/components/core/table/table.enum"
+import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
@@ -685,7 +685,7 @@ describe("Messages component", () => {
   })
 
   test("dropdown mark as read button has correct content ", () => {
-    jest.spyOn(flags, "get").mockReturnValueOnce(false)
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
       intl.formatMessage({
@@ -695,13 +695,13 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown mark as read buttons", () => {
-    jest.spyOn(flags, "get").mockReturnValueOnce(false)
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-mark-as-read")).toBeInTheDocument()
   })
 
   test("dropdown delete button has correct content", () => {
-    jest.spyOn(flags, "get").mockReturnValueOnce(true)
+    jest.spyOn(flags, "get").mockReturnValue(false)
     const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
       intl.formatMessage({

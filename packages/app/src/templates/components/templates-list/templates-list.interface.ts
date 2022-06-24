@@ -4,7 +4,7 @@
  */
 
 import { Template } from "App/templates/dto"
-import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
+import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 
 type SelectHook = Pick<
   UseTableSelect<Template>,

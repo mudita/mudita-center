@@ -7,8 +7,7 @@ describe("News screen check", () => {
     await browser.executeAsync((done) => {
       setTimeout(done, 10000)
     })
-  })
-
+  })     
   it("Should click on 'Mudita News' tab and check news will load", async () => {
     const newsTab = await NavigationTabs.muditaNewsTab
     await newsTab.waitForDisplayed()

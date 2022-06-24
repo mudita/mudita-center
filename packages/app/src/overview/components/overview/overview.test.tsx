@@ -7,22 +7,22 @@ import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { Router } from "react-router"
 import { DeviceType, CaseColour } from "@mudita/pure"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Overview from "App/overview/components/overview/overview.component"
 import {
   DataState,
   UpdatingState,
-} from "Renderer/models/basic-info/basic-info.typings"
-import { ConversionFormat, Convert } from "App/main/store/settings.interface"
-import store from "Renderer/store"
-import history from "Renderer/routes/history"
+} from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
+import { ConversionFormat, Convert } from "App/__deprecated__/main/store/settings.interface"
+import store from "App/__deprecated__/renderer/store"
+import history from "App/__deprecated__/renderer/routes/history"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import { BackupDeviceDataState } from "App/backup-device/reducers"
 import { BackupDeviceFlowTestIds } from "App/overview/components/backup-device-flow/backup-device-flow-test-ids.component"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { flags } from "App/feature-flags"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
@@ -39,7 +39,7 @@ jest.mock("electron", () => ({
   },
 }))
 
-jest.mock("Renderer/requests/get-device-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-device-info.request", () =>
   jest.fn(() => ({
     status: RequestResponseStatus.Ok,
     data: {
@@ -52,7 +52,7 @@ jest.mock("Renderer/requests/get-device-info.request", () =>
   }))
 )
 
-jest.mock("Renderer/requests/get-network-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-network-info.request", () =>
   jest.fn(() => ({
     status: RequestResponseStatus.Ok,
     data: {
@@ -76,7 +76,7 @@ jest.mock("Renderer/requests/get-network-info.request", () =>
   }))
 )
 
-jest.mock("Renderer/requests/get-storage-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-storage-info.request", () =>
   jest.fn(() => ({
     status: RequestResponseStatus.Ok,
     data: {
@@ -90,7 +90,7 @@ jest.mock("Renderer/requests/get-storage-info.request", () =>
   }))
 )
 
-jest.mock("Renderer/requests/get-battery-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-battery-info.request", () =>
   jest.fn(() => ({
     status: RequestResponseStatus.Ok,
     data: {

@@ -4,10 +4,10 @@
  */
 
 import React, { ChangeEvent, ComponentProps } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { Message, Receiver } from "App/messages/reducers/messages.interface"
 import { MessagesWrapper } from "App/messages/components/thread-details.styled"
-import { Sidebar } from "Renderer/components/core/table/table.component"
+import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 import ThreadDetailsTextArea from "App/messages/components/thread-details-text-area.component"
 import ThreadDetailsSidebar from "App/messages/components/thread-details-sidebar.component"

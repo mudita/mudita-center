@@ -7,7 +7,7 @@ import vCard from "vcf"
 import utf8 from "utf8"
 import quotedPrintable from "quoted-printable"
 import { NewContact } from "App/contacts/reducers/contacts.interface"
-import mapFileToString from "Renderer/utils/map-file-to-string/map-file-to-string"
+import mapFileToString from "App/__deprecated__/renderer/utils/map-file-to-string/map-file-to-string"
 
 type vCardProperty = vCard.Property & {
   charset?: "UTF-8" | string

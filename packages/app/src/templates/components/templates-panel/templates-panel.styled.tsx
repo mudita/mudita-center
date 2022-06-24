@@ -9,9 +9,9 @@ import {
   backgroundColor,
   transitionTime,
   transitionTimingFunction,
-} from "Renderer/styles/theming/theme-getters"
-import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
-import { showToggleableElement } from "Renderer/modules/tools/tabs/notes.styled"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import SelectionManager from "App/__deprecated__/renderer/components/core/selection-manager/selection-manager.component"
+import { showToggleableElement } from "App/__deprecated__/renderer/modules/tools/tabs/notes.styled"
 
 export const PanelWrapper = styled.div`
   border-bottom: solid 0.1rem ${borderColor("list")};

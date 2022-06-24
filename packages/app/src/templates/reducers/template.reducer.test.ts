@@ -8,7 +8,7 @@ import {
   pendingAction,
   fulfilledAction,
   rejectedAction,
-} from "Renderer/store/helpers"
+} from "App/__deprecated__/renderer/store/helpers"
 import {
   templateReducer,
   initialState,

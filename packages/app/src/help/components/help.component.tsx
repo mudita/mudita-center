@@ -6,28 +6,28 @@
 import React, { ChangeEvent } from "react"
 import { Link } from "react-router-dom"
 import { HelpComponentTestIds } from "App/help/components/help.enum"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import styled from "styled-components"
-import { intl } from "Renderer/utils/intl"
-import InputText from "Renderer/components/core/input-text/input-text.component"
-import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import InputText from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
+import { searchIcon } from "App/__deprecated__/renderer/components/core/input-text/input-text.elements"
 import {
   backgroundColor,
   transitionTime,
   transitionTimingFunction,
   zIndex,
-} from "Renderer/styles/theming/theme-getters"
-import { URL_MAIN } from "Renderer/constants/urls"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import { NormalizedHelpEntry } from "Renderer/utils/contentful/normalize-help-data"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
+import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { NormalizedHelpEntry } from "App/__deprecated__/renderer/utils/contentful/normalize-help-data"
 import ModalsManager from "App/modals-manager/containers/modals-manager.container"
-import { fontWeight } from "Renderer/styles/theming/theme-getters"
-import { IconButtonWithSecondaryTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { fontWeight } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
 import { defineMessages } from "react-intl"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   supportTooltipDescription: { id: "module.help.supportTooltipDescription" },

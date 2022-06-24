@@ -4,7 +4,7 @@
  */
 
 import { getActiveNetworkLevelFromSim } from "./get-network-level.helpers"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
+import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 
 const simCardMock: SimCard[] = [
   {

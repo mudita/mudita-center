@@ -5,13 +5,13 @@
 
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import { convertBytes } from "Renderer/utils/convert-bytes"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import FilesManager from "App/overview/components/files-manager/files-manager.component"
 import { FilesManagerProps } from "App/overview/components/files-manager/files-manager.interface"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
-import history from "Renderer/routes/history"
+import history from "App/__deprecated__/renderer/routes/history"
 import { Router } from "react-router"
 
 const renderFilesManager = ({

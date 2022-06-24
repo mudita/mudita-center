@@ -4,7 +4,7 @@
  */
 
 import { createSelector, OutputSelector } from "reselect"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { Contact, ContactID, ContactsState } from "App/contacts/reducers"
 import { contactsStateSelector } from "App/contacts/selectors/contacts-state.selector"
 

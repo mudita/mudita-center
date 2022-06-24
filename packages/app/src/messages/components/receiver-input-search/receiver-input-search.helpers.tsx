@@ -5,8 +5,8 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
-import { intl } from "Renderer/utils/intl"
-import { RenderListItem } from "Renderer/components/core/list/list.component"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { RenderListItem } from "App/__deprecated__/renderer/components/core/list/list.component"
 import { Receiver } from "App/messages/reducers/messages.interface"
 import {
   ContactListItem,
@@ -15,7 +15,7 @@ import {
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 
 const messages = defineMessages({
   noNameProvided: { id: "module.contacts.panelSearchListNoName" },

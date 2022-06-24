@@ -9,7 +9,7 @@ import {
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
 import { MessageService } from "App/messages/services/message.service"
-import DeviceService from "Backend/device-service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import {
   AcceptablePureMessageType,
   MessagePresenter,

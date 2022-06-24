@@ -14,7 +14,7 @@ import {
 import { CreateMessageDataResponse } from "App/messages/services"
 import { deleteThreadsRequest } from "App/messages/requests"
 import { DeleteThreadError } from "App/messages/errors"
-import { testError } from "Renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { Message, MessageType } from "App/messages/reducers"
 
 jest.mock("App/messages/requests/delete-threads.request")

@@ -7,13 +7,13 @@ import { DeviceType } from "@mudita/pure"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store/helpers/action.helper"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers/action.helper"
 import { DeviceEvent } from "App/device/constants"
-import { testError } from "App/renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { unlockedDevice } from "App/device/actions/unlocked-device.action"
 import { DeviceConnectionError } from "App/device/errors"
 
-jest.mock("App/renderer/requests/get-device-lock-time.request")
+jest.mock("App/__deprecated__/renderer/requests/get-device-lock-time.request")
 jest.mock("App/device/actions/base.action", () => ({
   setLockTime: jest.fn().mockReturnValue({
     type: DeviceEvent.SetLockTime,

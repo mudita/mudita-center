@@ -4,7 +4,7 @@
  */
 
 import { connect } from "react-redux"
-import { ReduxRootState, RootState } from "Renderer/store"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import FilesManager from "App/files-manager/components/files-manager/files-manager.component"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({

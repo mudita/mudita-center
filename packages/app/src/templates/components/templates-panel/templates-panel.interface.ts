@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
+import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { Template } from "App/templates/dto"
 
 export interface TemplatesPanelProps {

@@ -5,8 +5,8 @@
 
 import React, { ComponentProps } from "react"
 import InfoModal from "App/contacts/components/info-modal/info-modal.component"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 
 type Props = ComponentProps<typeof InfoModal>
 

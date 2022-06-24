@@ -4,7 +4,7 @@
  */
 
 import { EventEmitter } from "events"
-import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
+import DeviceService, { DeviceServiceEventName } from "App/__deprecated__/backend/device-service"
 import { CrashDumpObserver } from "App/crash-dump/observers/crash-dump.observer"
 import { CrashDumpService } from "App/crash-dump/services"
 import { AppSettingsService } from "App/app-settings/services"
