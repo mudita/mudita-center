@@ -150,6 +150,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
 
   const handleCloseNewTemplateForm = () => {
     setTemplateFormOpenState(false)
+    setEditedTemplate(undefined)
   }
 
   const handleCreateTemplate = async (template: NewTemplate) => {
@@ -184,7 +185,6 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
           <TemplateForm
             template={editedTemplate}
             saving={loading}
-            savingPossible={templateFormOpen}
             error={error}
             onSave={
               editedTemplate ? handleUpdateTemplate : handleCreateTemplate
