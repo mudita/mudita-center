@@ -17,6 +17,7 @@ import {
   IconWrapper,
   Checkbox,
   TemplateText,
+  TemplateTextColumn,
 } from "App/templates/components/templates-list/templates-list.styled"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
@@ -131,13 +132,15 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                             </IconWrapper>
                           )}
                         </Col>
-                        <Col onClick={() => updateTemplate(template.id)}>
+                        <TemplateTextColumn
+                          onClick={() => updateTemplate(template.id)}
+                        >
                           <TemplateText
                             displayStyle={TextDisplayStyle.Paragraph1}
                           >
                             {template.text}
                           </TemplateText>
-                        </Col>
+                        </TemplateTextColumn>
                         <Col>
                           <TemplateOptions
                             templateId={template.id}

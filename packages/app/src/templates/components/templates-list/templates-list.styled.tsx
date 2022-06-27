@@ -75,6 +75,11 @@ export const TemplateIcon = styled(Icon)`
   margin-left: 0;
 `
 
+export const TemplateTextColumn = styled(Col)`
+  width: 100%;
+  overflow: hidden;
+`
+
 export const TemplateText = styled(Text)`
   width: 100%;
   text-overflow: ellipsis;
