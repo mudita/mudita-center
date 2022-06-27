@@ -11,7 +11,7 @@ import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/te
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import styled from "styled-components"
 import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const ModalContent = styled.div`

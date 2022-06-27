@@ -6,7 +6,6 @@
 import React, { ComponentProps } from "react"
 import styled from "styled-components"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
@@ -17,9 +16,10 @@ import { Size } from "App/__deprecated__/renderer/components/core/button/button.
 import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
 import {
+  ModalDialog,
   RoundIconWrapper,
   ModalMainText,
-} from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog-shared"
+} from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({

@@ -4,7 +4,7 @@
  */
 
 import { ComponentProps } from "react"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { Message as TranslationMessage } from "App/__deprecated__/renderer/interfaces/message.interface"
 
 export interface DeletingConfirmationsModalProps

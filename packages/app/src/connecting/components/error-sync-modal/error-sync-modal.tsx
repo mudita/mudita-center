@@ -12,7 +12,7 @@ import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/te
 import React, { ComponentProps } from "react"
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"

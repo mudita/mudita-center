@@ -6,11 +6,10 @@
 import React from "react"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog, ModalContent } from "App/ui/components/modal-dialog"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
-import { ModalContent } from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog-shared"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
