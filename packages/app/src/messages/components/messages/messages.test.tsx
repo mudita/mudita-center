@@ -26,6 +26,7 @@ import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-det
 import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
 import { MessageType, ResultState } from "App/messages/constants"
 import { Thread } from "App/messages/dto"
+import { flags } from "App/feature-flags"
 
 jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
   flags: {
@@ -682,6 +683,7 @@ describe("Messages component", () => {
   })
 
   test("dropdown mark as read button has correct content ", () => {
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
       intl.formatMessage({
@@ -691,11 +693,13 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown mark as read buttons", () => {
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-mark-as-read")).toBeInTheDocument()
   })
 
   test("dropdown delete button has correct content", () => {
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
       intl.formatMessage({
@@ -705,6 +709,7 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown delete buttons", () => {
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-delete")).toBeInTheDocument()
   })

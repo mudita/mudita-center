@@ -26,7 +26,6 @@ import {
   ThreadDeletingState,
 } from "App/messages/constants"
 import { Message, NewMessage, Thread } from "App/messages/dto"
-import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
 import { Receiver, ReceiverIdentification } from "App/messages/reducers"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { Notification } from "App/notification/types"
@@ -51,6 +50,7 @@ import React, { useEffect, useState } from "react"
 import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
 import { IndexRange } from "react-virtualized"
+import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },
@@ -317,25 +317,26 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const handleAddNewMessage = async (phoneNumber: string): Promise<void> => {
-    const threadId = threads.find(
-      (thread) => thread.phoneNumber === phoneNumber
-    )?.id
+    const threadId = threads.find(isThreadNumberEqual(phoneNumber))?.id
     if (tmpActiveThread !== undefined) {
       handleReceiverSelect({ phoneNumber })
     }
     await addNewMessage({ content, phoneNumber, threadId })
+    setContent("")
   }
 
   useEffect(() => {
-    if (activeThread !== undefined) {
-      const thread = threads.find(
-        (thread) => thread.phoneNumber === activeThread.phoneNumber
-      )
-      if (thread) {
-        openThreadDetails(thread)
-      } else if (tmpActiveThread === undefined && thread === undefined) {
-        setActiveThread(undefined)
-      }
+    if (activeThread === undefined) {
+      return
+    }
+    const thread = threads.find(isThreadNumberEqual(activeThread.phoneNumber))
+
+    if (activeThread.id === thread?.id) {
+      return
+    } else if (thread) {
+      openThreadDetails(thread)
+    } else if (tmpActiveThread === undefined && thread === undefined) {
+      setActiveThread(undefined)
     }
   }, [activeThread, threads])
 
@@ -353,10 +354,7 @@ const Messages: FunctionComponent<Props> = ({
   const handleReceiverSelect = ({
     phoneNumber,
   }: Pick<Receiver, "phoneNumber">) => {
-    const thread = threads.find(
-      (thread) =>
-        mapToRawNumber(thread.phoneNumber) === mapToRawNumber(phoneNumber)
-    )
+    const thread = threads.find(isThreadNumberEqual(phoneNumber))
 
     if (thread) {
       setActiveThread(thread)

@@ -12,6 +12,7 @@ import {
 } from "App/data-sync/types"
 import { MessageType as PureMessageType } from "@mudita/pure"
 import { MessageType } from "App/messages/constants"
+import { Feature, flags } from "App/feature-flags"
 
 export class ThreadPresenter {
   public findRecords<Type extends { _id: string }>(
@@ -63,7 +64,9 @@ export class ThreadPresenter {
           phoneNumber: contactNumber?.number_user,
           lastUpdatedAt: new Date(Number(thread.date) * 1000),
           messageSnippet: thread.snippet,
-          unread: Number(thread.read) !== 0,
+          unread: flags.get(Feature.ReadAndUnreadMessages)
+            ? Number(thread.read) !== 0
+            : false,
           messageType: ThreadPresenter.getMessageType(Number(sms!.type)),
         }
       })
