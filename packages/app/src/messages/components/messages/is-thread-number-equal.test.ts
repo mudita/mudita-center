@@ -4,7 +4,7 @@
  */
 
 import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
-import { Thread } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
 
 describe("`ishreadNumberEqual` helper", () => {
   test("returns true when thread number is formatted and target number isn't", () => {
