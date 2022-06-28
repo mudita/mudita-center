@@ -4,7 +4,9 @@
  */
 
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import { initialState, messagesReducer, Thread } from "App/messages/reducers"
+import { initialState, messagesReducer } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { initialState as contactsInitialState } from "App/contacts/reducers"
 import { getReceiversSelector } from "App/messages/selectors/get-receivers.selector"
 import { Contact } from "App/contacts/reducers/contacts.interface"
@@ -26,6 +28,7 @@ describe("`getReceiversSelector` selector", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: true,
+      messageType: MessageType.INBOX,
     }
 
     const state = {
@@ -56,6 +59,7 @@ describe("`getReceiversSelector` selector", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: true,
+      messageType: MessageType.INBOX,
     }
 
     const contacts: Contact[] = [

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { ChainablePromiseElement } from "webdriverio"
 import Page from "./page"
 
@@ -32,12 +37,9 @@ class NavigationTabs extends Page {
     return $('[data-testid="icon-MenuSettings"]')
   }
 
-  public get helpTab(): ChainablePromiseElement<
-    Promise<WebdriverIO.Element>
-  > {
+  public get helpTab(): ChainablePromiseElement<Promise<WebdriverIO.Element>> {
     return $('[data-testid="help-menu-button"]')
-  }  
-
+  }
 }
 
 export default new NavigationTabs()

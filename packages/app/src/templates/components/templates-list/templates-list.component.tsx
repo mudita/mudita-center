@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { TemplatesListProps } from "App/templates/components/templates-list/templates-list.interface"
-import { Actions, Col } from "App/__deprecated__/renderer/components/core/table/table.component"
+import { Col } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import {
   TemplatesEmptyState,
@@ -17,103 +17,152 @@ import {
   IconWrapper,
   Checkbox,
   TemplateText,
+  TemplateTextColumn,
 } from "App/templates/components/templates-list/templates-list.styled"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
-import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
-import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
-import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
-import { ElementWithTooltipPlace } from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
-import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
-import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
+import { TemplateOptions } from "App/templates/components/template-options"
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DraggableProvided,
+  DropResult,
+} from "react-beautiful-dnd"
+import { Template } from "App/templates/dto"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "module.templates.emptyList.title" },
   emptyStateDescription: {
     id: "module.templates.emptyList.description",
   },
-  dropdownTogllerTooltipDescription: {
-    id: "component.dropdownTogllerTooltipDescription",
+  dropdownTogglerTooltipDescription: {
+    id: "component.dropdownTogglerTooltipDescription",
   },
 })
 
 export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   templates,
-  deleteTemplates = noop,
   getRowStatus,
   noneRowsSelected,
   toggleRow,
+  deleteTemplates,
+  updateTemplate,
 }) => {
-  const handleDeleteClick = (ids: string[]) => {
-    deleteTemplates(ids)
+  const [templatesList, setTemplateList] = useState<Template[]>(templates)
+
+  useEffect(() => {
+    setTemplateList(templates)
+  }, [templates])
+
+  // Temporary solution, will be changed in CP-1370
+  const reorder = (
+    list: Template[],
+    startIndex: number,
+    endIndex: number
+  ): Template[] => {
+    const result: Template[] = Array.from(list)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+
+    return result
+  }
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return
+    }
+
+    const items: Template[] = reorder(
+      templatesList,
+      result.source.index,
+      result.destination.index
+    )
+
+    setTemplateList(items)
   }
 
   return (
-    <Table role="list" hide hideableColumnsIndexes={[2, 3, 4]}>
-      {templates.length > 0 ? (
-        templates.map((template) => {
-          const { selected, indeterminate } = getRowStatus(template)
-          const handleCheckboxChange = () => toggleRow(template)
-          return (
-            <Row key={template.id} role="listitem">
-              <Col />
-              <Col>
-                <Checkbox
-                  checked={selected}
-                  onChange={handleCheckboxChange}
-                  size={Size.Large}
-                  indeterminate={indeterminate}
-                  visible={!noneRowsSelected}
-                  data-testid="template-checkbox"
-                />
-                {noneRowsSelected && (
-                  <IconWrapper>
-                    <TemplateIcon
-                      type={IconType.Template}
-                      width={3}
-                      height={3}
-                    />
-                  </IconWrapper>
-                )}
-              </Col>
-              <TemplateText displayStyle={TextDisplayStyle.Paragraph1}>
-                {template.text}
-              </TemplateText>
-              <Col>
-                <Actions>
-                  <Dropdown
-                    toggler={
-                      <IconButtonWithSecondaryTooltip
-                        iconType={IconType.More}
-                        description={messages.dropdownTogllerTooltipDescription}
-                        // FIXME: The position based on offset is a sticky. However, this is a quick workaround
-                        //  for buggy overridePosition lib feature
-                        place={ElementWithTooltipPlace.Bottom}
-                        offset={{ left: 15, bottom: 5 }}
-                      />
-                    }
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="droppable">
+        {(provided: any) => (
+          <Table
+            role="list"
+            hide
+            hideableColumnsIndexes={[2, 3, 4]}
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+          >
+            {templatesList.length > 0 ? (
+              templatesList.map((template, index) => {
+                const { selected, indeterminate } = getRowStatus(template)
+                const handleCheckboxChange = () => toggleRow(template)
+
+                return (
+                  <Draggable
+                    key={template.id}
+                    draggableId={template.id}
+                    index={index}
                   >
-                    <ButtonComponent
-                      labelMessage={{
-                        id: "module.template.dropdownDelete",
-                      }}
-                      Icon={IconType.Delete}
-                      onClick={() => handleDeleteClick([template.id])}
-                      displayStyle={DisplayStyle.Dropdown}
-                      data-testid="dropdown-delete"
-                    />
-                  </Dropdown>
-                </Actions>
-              </Col>
-            </Row>
-          )
-        })
-      ) : (
-        <TemplatesEmptyState
-          title={messages.emptyStateTitle}
-          description={messages.emptyStateDescription}
-        />
-      )}
-    </Table>
+                    {(provided: DraggableProvided) => (
+                      <Row
+                        key={template.id}
+                        role="listitem"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <Col />
+                        <Col>
+                          <Checkbox
+                            checked={selected}
+                            onChange={handleCheckboxChange}
+                            size={Size.Large}
+                            indeterminate={indeterminate}
+                            visible={!noneRowsSelected}
+                            data-testid="template-checkbox"
+                          />
+                          {noneRowsSelected && (
+                            <IconWrapper>
+                              <TemplateIcon
+                                type={IconType.Template}
+                                width={3}
+                                height={3}
+                              />
+                            </IconWrapper>
+                          )}
+                        </Col>
+                        <TemplateTextColumn
+                          onClick={() => updateTemplate(template.id)}
+                        >
+                          <TemplateText
+                            displayStyle={TextDisplayStyle.Paragraph1}
+                          >
+                            {template.text}
+                          </TemplateText>
+                        </TemplateTextColumn>
+                        <Col>
+                          <TemplateOptions
+                            templateId={template.id}
+                            onDelete={deleteTemplates}
+                            onUpdate={updateTemplate}
+                          />
+                        </Col>
+                      </Row>
+                    )}
+                  </Draggable>
+                )
+              })
+            ) : (
+              <TemplatesEmptyState
+                title={messages.emptyStateTitle}
+                description={messages.emptyStateDescription}
+              />
+            )}
+            {provided.placeholder}
+          </Table>
+        )}
+      </Droppable>
+    </DragDropContext>
   )
 }

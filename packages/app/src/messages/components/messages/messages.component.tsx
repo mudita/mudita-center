@@ -3,55 +3,53 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState } from "react"
-import { defineMessages } from "react-intl"
-import {
-  EmptyState,
-  TableWithSidebarWrapper,
-} from "App/__deprecated__/renderer/components/core/table/table.component"
-import ThreadList from "App/messages/components/thread-list.component"
-import { ComponentProps as MessagesComponentProps } from "App/messages/components/messages/messages.interface"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { noop } from "App/__deprecated__/renderer/utils/noop"
-import ThreadDetails from "App/messages/components/thread-details.component"
-import MessagesPanel from "App/messages/components/messages-panel.component"
-import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
-import useURLSearchParams from "App/__deprecated__/renderer/utils/hooks/use-url-search-params"
-import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
-import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
-import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
-import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
-import { Message as TranslationMessage } from "App/__deprecated__/renderer/interfaces/message.interface"
-import getPrettyCaller from "App/__deprecated__/renderer/models/calls/get-pretty-caller"
-import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
-import { useHistory } from "react-router-dom"
-import createRouterPath from "App/__deprecated__/renderer/utils/create-router-path"
-import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
-import AttachContactModal from "App/messages/components/attach-contact-modal.component"
+import { PaginationBody } from "@mudita/pure"
+import { PayloadAction } from "@reduxjs/toolkit"
 import {
   Contact,
   ContactCategory,
 } from "App/contacts/reducers/contacts.interface"
-import {
-  Message,
-  MessageType,
-  NewMessage,
-  Receiver,
-  ReceiverIdentification,
-  ResultState,
-  Thread,
-} from "App/messages/reducers/messages.interface"
-import NewMessageForm from "App/messages/components/new-message-form.component"
+import AttachContactModal from "App/messages/components/attach-contact-modal.component"
+import DeleteMessageModals from "App/messages/components/delete-message-modals/delete-message-modals.component"
+import DeleteThreadModals from "App/messages/components/delete-thread-modals/delete-thread-modals.component"
+import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
+import MessagesPanel from "App/messages/components/messages-panel.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
-import { PaginationBody } from "@mudita/pure"
-import { PayloadAction } from "@reduxjs/toolkit"
-import { IndexRange } from "react-virtualized"
+import { ComponentProps as MessagesComponentProps } from "App/messages/components/messages/messages.interface"
+import NewMessageForm from "App/messages/components/new-message-form.component"
+import ThreadDetails from "App/messages/components/thread-details.component"
+import ThreadList from "App/messages/components/thread-list.component"
+import {
+  MessageDeletingState,
+  MessageType,
+  ResultState,
+  ThreadDeletingState,
+} from "App/messages/constants"
+import { Message, NewMessage, Thread } from "App/messages/dto"
+import { Receiver, ReceiverIdentification } from "App/messages/reducers"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { Notification } from "App/notification/types"
-import InfoPopup from "App/ui/components/info-popup/info-popup.component"
-import { ThreadDeletingState } from "App/messages/constants"
-import ErrorModal from "App/ui/components/error-modal/error-modal.component"
-import DeletingModal from "App/ui/components/deleting-modal/deleting-modal.component"
+import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
+import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
+import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
+import {
+  EmptyState,
+  TableWithSidebarWrapper,
+} from "App/__deprecated__/renderer/components/core/table/table.component"
+import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
+import { Message as TranslationMessage } from "App/__deprecated__/renderer/interfaces/message.interface"
+import getPrettyCaller from "App/__deprecated__/renderer/models/calls/get-pretty-caller"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import createRouterPath from "App/__deprecated__/renderer/utils/create-router-path"
+import useURLSearchParams from "App/__deprecated__/renderer/utils/hooks/use-url-search-params"
+import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import assert from "assert"
+import React, { useEffect, useState } from "react"
+import { defineMessages } from "react-intl"
+import { useHistory } from "react-router-dom"
+import { IndexRange } from "react-virtualized"
 import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
 
 const messages = defineMessages({
@@ -65,17 +63,6 @@ const messages = defineMessages({
   emptyListDescription: {
     id: "module.messages.emptyListDescription",
   },
-  deletingModalTitle: { id: "module.messages.deletingModalTitle" },
-  deletingModalSubtitle: { id: "module.messages.deletingModalSubtitle" },
-  deletingModalErrorSubtitle: {
-    id: "module.messages.deleteModalErrorSubtitle",
-  },
-  conversationDeleted: {
-    id: "module.messages.conversationDelete",
-  },
-  conversationsDeleted: {
-    id: "module.messages.conversationsDelete",
-  },
 })
 
 const mockThread: Thread = {
@@ -84,6 +71,7 @@ const mockThread: Thread = {
   lastUpdatedAt: new Date(),
   messageSnippet: "",
   unread: false,
+  messageType: MessageType.OUTBOX,
 }
 
 enum MessagesState {
@@ -107,10 +95,17 @@ interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
   getMessagesStateByThreadId: (threadId: string) => ResultState
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
+  deleteMessage: (messageId: string) => Promise<string>
   removeLayoutNotification: (notificationId: string) => void
-  deletingState: ThreadDeletingState | null
+  threadDeletingState: ThreadDeletingState | null
+  messageDeletingState: MessageDeletingState | null
+  currentlyDeletingMessageId: string | null
   hideDeleteModal: () => void
+  hideMessageDeleteModal: () => void
+  resendMessage: (messageId: string) => void
 }
+
+const hideSuccessPopupAfterTimeInMs = 5000
 
 const Messages: FunctionComponent<Props> = ({
   threadsState,
@@ -129,10 +124,15 @@ const Messages: FunctionComponent<Props> = ({
   getContactByPhoneNumber,
   isContactCreatedByPhoneNumber,
   addNewMessage,
+  deleteMessage,
   messageLayoutNotifications,
   removeLayoutNotification,
-  deletingState,
+  threadDeletingState,
   hideDeleteModal,
+  hideMessageDeleteModal,
+  messageDeletingState,
+  currentlyDeletingMessageId,
+  resendMessage,
 }) => {
   useEffect(() => {
     messageLayoutNotifications
@@ -143,6 +143,9 @@ const Messages: FunctionComponent<Props> = ({
         removeLayoutNotification(item.id)
       })
   }, [messageLayoutNotifications])
+
+  const [deleteMessageModalOpen, setDeleteMessageModalOpen] =
+    useState<boolean>(false)
 
   const [messagesState, setMessagesState] = useState(MessagesState.List)
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
@@ -155,35 +158,26 @@ const Messages: FunctionComponent<Props> = ({
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Thread>(threads)
 
+  const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
 
-  const getDeletedThreadText = (
-    deletedThreadsLength: number
-  ): TranslationMessage => {
-    if (deletedThreadsLength === 1) {
-      return {
-        ...messages.conversationDeleted,
-      }
-    } else {
-      return {
-        ...messages.conversationsDeleted,
-        values: {
-          number: deletedThreadsLength,
-        },
-      }
-    }
-  }
-
   useEffect(() => {
-    if (deletingState === ThreadDeletingState.Success) {
+    if (messageDeletingState === MessageDeletingState.Success) {
+      const timeout = setTimeout(() => {
+        hideMessageDeleteModal()
+      }, hideSuccessPopupAfterTimeInMs)
+      return () => clearTimeout(timeout)
+    }
+
+    if (threadDeletingState === ThreadDeletingState.Success) {
       const timeout = setTimeout(() => {
         hideDeleteModal()
         setDeletedThreads([])
-      }, 5000)
+      }, hideSuccessPopupAfterTimeInMs)
       return () => clearTimeout(timeout)
     }
     return
-  }, [deletingState])
+  }, [threadDeletingState, messageDeletingState])
 
   const getDeletingMessage = (ids: string[]): TranslationMessage => {
     const findById = (thread: Thread) => thread.id === ids[0]
@@ -417,6 +411,23 @@ const Messages: FunctionComponent<Props> = ({
     })
   }
 
+  const handleDeleteMessage = () => {
+    assert(messageToDelete)
+    deleteMessage(messageToDelete)
+    setDeleteMessageModalOpen(false)
+    setMessageToDelete(undefined)
+  }
+
+  const hideDeleteMessageConfirmationModal = () => {
+    setDeleteMessageModalOpen(false)
+    setMessageToDelete(undefined)
+  }
+
+  const openDeleteMessageModal = (messageId: string) => {
+    setDeleteMessageModalOpen(true)
+    setMessageToDelete(messageId)
+  }
+
   return (
     <>
       <MessagesPanel
@@ -460,6 +471,7 @@ const Messages: FunctionComponent<Props> = ({
             content={content}
             receiver={getViewReceiver(activeThread)}
             messages={getMessagesByThreadId(activeThread.id)}
+            currentlyDeletingMessageId={currentlyDeletingMessageId}
             contactCreated={isContactCreatedByPhoneNumber(
               activeThread.phoneNumber
             )}
@@ -473,6 +485,8 @@ const Messages: FunctionComponent<Props> = ({
             messageLayoutNotifications={messageLayoutNotifications}
             removeLayoutNotification={removeLayoutNotification}
             onMessageRead={markAsRead}
+            onMessageDelete={openDeleteMessageModal}
+            resendMessage={resendMessage}
           />
         )}
         {messagesState === MessagesState.NewMessage && (
@@ -489,29 +503,20 @@ const Messages: FunctionComponent<Props> = ({
           />
         )}
       </TableWithSidebarWrapper>
-      {deletingState === ThreadDeletingState.Success && (
-        <InfoPopup
-          message={getDeletedThreadText(deletedThreads.length)}
-          data-testid={MessagesTestIds.SuccessThreadDelete}
-        />
-      )}
-      {deletingState === ThreadDeletingState.Deleting && (
-        <DeletingModal
-          data-testid={MessagesTestIds.ThreadDeleting}
-          open={deletingState === ThreadDeletingState.Deleting}
-          title={intl.formatMessage(messages.deletingModalTitle)}
-          subtitle={intl.formatMessage(messages.deletingModalSubtitle)}
-        />
-      )}
-      {deletingState === ThreadDeletingState.Fail && (
-        <ErrorModal
-          data-testid={MessagesTestIds.FailThreadDelete}
-          open={deletingState === ThreadDeletingState.Fail}
-          title={intl.formatMessage(messages.deleteModalTitle)}
-          subtitle={intl.formatMessage(messages.deletingModalErrorSubtitle)}
-          closeModal={hideDeleteModal}
-        />
-      )}
+
+      <DeleteThreadModals
+        deletedThreads={deletedThreads}
+        hideDeleteModal={hideDeleteModal}
+        threadDeletingState={threadDeletingState}
+      />
+
+      <DeleteMessageModals
+        messageDeletingState={messageDeletingState}
+        hideConfirmationModal={hideDeleteMessageConfirmationModal}
+        hideDeleteErrorModal={hideMessageDeleteModal}
+        onMessageRemove={handleDeleteMessage}
+        openDeleteMessageConfirmation={deleteMessageModalOpen}
+      />
     </>
   )
 }

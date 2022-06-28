@@ -10,6 +10,8 @@ import {
   rejectedAction,
 } from "App/__deprecated__/renderer/store/helpers"
 import {
+  ResendMessageFulfilledAction,
+  ResendMessageRejectedAction,
   AddNewMessageAction,
   ChangeSearchValueAction,
   ChangeVisibilityFilterAction,
@@ -17,14 +19,20 @@ import {
   MessageIdsInThreadMap,
   MessageMap,
   MessagesState,
-  ResultState,
   ThreadMap,
   MarkThreadsReadStatusPendingAction,
   ToggleThreadsReadStatusPendingAction,
-  VisibilityFilter,
   MarkThreadsReadStatusAction,
+  DeleteMessageAction,
+  DeleteMessagePendingAction,
 } from "App/messages/reducers/messages.interface"
-import { MessagesEvent, ThreadDeletingState } from "App/messages/constants"
+import {
+  MessagesEvent,
+  ThreadDeletingState,
+  MessageDeletingState,
+  ResultState,
+  VisibilityFilter,
+} from "App/messages/constants"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
 import { markThreadsReadStatus } from "App/messages/reducers/messages-reducer.helpers"
@@ -38,7 +46,9 @@ export const initialState: MessagesState = {
   visibilityFilter: VisibilityFilter.All,
   messagesStateMap: {},
   error: null,
-  deletingState: null,
+  threadDeletingState: null,
+  messagesDeletingState: null,
+  currentlyDeletingMessageId: null,
 }
 
 export const messagesReducer = createReducer<MessagesState>(
@@ -74,6 +84,97 @@ export const messagesReducer = createReducer<MessagesState>(
             messageMap: prevMessageMap,
             messageIdsInThreadMap: prevMessageIdsInThreadMap,
             threadMap: prevThreadMap,
+          }
+        }
+      )
+
+      .addCase(
+        pendingAction(MessagesEvent.DeleteMessage),
+        (state, action: DeleteMessagePendingAction) => {
+          const deletedMessageId = action.meta.arg
+          return {
+            ...state,
+            messagesDeletingState: MessageDeletingState.Deleting,
+            currentlyDeletingMessageId: deletedMessageId,
+          }
+        }
+      )
+
+      .addCase(
+        fulfilledAction(MessagesEvent.DeleteMessage),
+        (state, action: DeleteMessageAction) => {
+          const deletedMessageId = action.payload
+
+          const newMessagesMap = { ...state.messageMap }
+          const newMessageIdsInThreadMap = Object.keys(
+            state.messageIdsInThreadMap
+          ).reduce((acc, threadId) => {
+            const messagesIds: string[] = state.messageIdsInThreadMap[
+              threadId
+            ].filter((messageId) => messageId !== deletedMessageId)
+
+            return { ...acc, [threadId]: messagesIds }
+          }, {})
+
+          delete newMessagesMap[deletedMessageId]
+
+          return {
+            ...state,
+            messageMap: newMessagesMap,
+            messageIdsInThreadMap: newMessageIdsInThreadMap,
+            messagesDeletingState: MessageDeletingState.Success,
+            currentlyDeletingMessageId: null,
+          }
+        }
+      )
+
+      .addCase(rejectedAction(MessagesEvent.DeleteMessage), (state) => {
+        return {
+          ...state,
+          messagesDeletingState: MessageDeletingState.Fail,
+          currentlyDeletingMessageId: null,
+        }
+      })
+
+      .addCase(
+        fulfilledAction(MessagesEvent.ResendMessage),
+        (state, action: ResendMessageFulfilledAction) => {
+          const messageParts = action.payload.messageParts
+          const prevMessageMap = { ...state.messageMap }
+          const prevMessageIdsInThreadMap = { ...state.messageIdsInThreadMap }
+          const prevThreadMap: ThreadMap = { ...state.threadMap }
+
+          for (const { message, thread } of messageParts) {
+            prevMessageMap[message.id] = message
+
+            const messageIds: string[] =
+              prevMessageIdsInThreadMap[message.threadId] ?? []
+            prevMessageIdsInThreadMap[message.threadId] = messageIds.find(
+              (id) => id === message.id
+            )
+              ? messageIds
+              : [...messageIds, message.id]
+
+            if (thread) {
+              prevThreadMap[thread.id] = thread
+            }
+          }
+
+          return {
+            ...state,
+            messageMap: prevMessageMap,
+            messageIdsInThreadMap: prevMessageIdsInThreadMap,
+            threadMap: prevThreadMap,
+          }
+        }
+      )
+
+      .addCase(
+        rejectedAction(MessagesEvent.ResendMessage),
+        (state, action: ResendMessageRejectedAction) => {
+          return {
+            ...state,
+            error: action.payload,
           }
         }
       )
@@ -147,7 +248,7 @@ export const messagesReducer = createReducer<MessagesState>(
 
           return {
             ...state,
-            deletingState: ThreadDeletingState.Success,
+            threadDeletingState: ThreadDeletingState.Success,
             messageMap,
             threadMap,
             messageIdsInThreadMap,
@@ -158,21 +259,28 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(pendingAction(MessagesEvent.DeleteThreads), (state) => {
         return {
           ...state,
-          deletingState: ThreadDeletingState.Deleting,
+          threadDeletingState: ThreadDeletingState.Deleting,
         }
       })
 
       .addCase(rejectedAction(MessagesEvent.DeleteThreads), (state) => {
         return {
           ...state,
-          deletingState: ThreadDeletingState.Fail,
+          threadDeletingState: ThreadDeletingState.Fail,
         }
       })
 
       .addCase(MessagesEvent.HideDeleteModal, (state) => {
         return {
           ...state,
-          deletingState: null,
+          threadDeletingState: null,
+        }
+      })
+      .addCase(MessagesEvent.HideMessageDeleteModal, (state) => {
+        return {
+          ...state,
+          messagesDeletingState: null,
+          currentlyDeletingMessageId: null,
         }
       })
 

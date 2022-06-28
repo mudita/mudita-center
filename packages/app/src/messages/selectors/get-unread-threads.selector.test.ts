@@ -4,7 +4,9 @@
  */
 
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import { initialState, messagesReducer, Thread } from "App/messages/reducers"
+import { initialState, messagesReducer } from "App/messages/reducers"
+import { MessageType } from "App/messages/constants"
+import { Thread } from "App/messages/dto"
 import { initialState as contactsInitialState } from "App/contacts/reducers"
 import { getUnreadThreads } from "App/messages/selectors/get-unread-threads.selector"
 
@@ -25,6 +27,7 @@ describe("`getUnreadThreads` selector", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: false,
+      messageType: MessageType.INBOX,
     }
 
     const threadTwo: Thread = {
@@ -34,6 +37,7 @@ describe("`getUnreadThreads` selector", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: false,
+      messageType: MessageType.INBOX,
     }
 
     const state = {
@@ -61,6 +65,7 @@ describe("`getUnreadThreads` selector", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: true,
+      messageType: MessageType.INBOX,
     }
 
     const threadTwo: Thread = {
@@ -70,6 +75,7 @@ describe("`getUnreadThreads` selector", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: false,
+      messageType: MessageType.INBOX,
     }
 
     const state = {

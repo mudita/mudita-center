@@ -7,89 +7,170 @@ import { EnvironmentConfig } from "App/feature-flags/types"
 import { Feature, Environment } from "App/feature-flags/constants"
 
 export const features: EnvironmentConfig = {
+  [Feature.ProductionReleasesOnly]: {
+    [Environment.Development]: false,
+    [Environment.Production]: true,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.PreReleasesOnly]: {
+    [Environment.Development]: false,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: true,
+  },
+  [Feature.MessagesSearchEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.MessagesDeleteEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: true,
+  },
+  [Feature.MessagesForwardEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.MessagesResendEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: true,
+  },
+  [Feature.MessagesThreadDeleteEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: true,
+  },
   [Feature.LoggerEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: true,
-    [Environment.TestProduction]: true,
     [Environment.AlphaProduction]: true,
-    [Environment.TestAlphaProduction]: true,
   },
-  [Feature.LogsScrubbed]: {
+  [Feature.LogsScrubbingEnabled]: {
     [Environment.Development]: false,
     [Environment.Production]: true,
-    [Environment.TestProduction]: true,
     [Environment.AlphaProduction]: true,
-    [Environment.TestAlphaProduction]: true,
   },
-  [Feature.DeveloperModeHidden]: {
-    [Environment.Development]: false,
-    [Environment.Production]: true,
-    [Environment.TestProduction]: true,
-    [Environment.AlphaProduction]: false,
-    [Environment.TestAlphaProduction]: false,
-  },
-  [Feature.DisabledOnProduction]: {
-    [Environment.Development]: false,
-    [Environment.Production]: true,
-    [Environment.TestProduction]: true,
-    [Environment.AlphaProduction]: false,
-    [Environment.TestAlphaProduction]: false,
-  },
-  [Feature.McPrereleaseAvailable]: {
+  [Feature.DeveloperModeEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.TestProduction]: true,
     [Environment.AlphaProduction]: true,
-    [Environment.TestAlphaProduction]: true,
   },
-  [Feature.MessagesHidden]: {
-    [Environment.Development]: false,
-    [Environment.Production]: false,
-    [Environment.TestProduction]: false,
-    [Environment.AlphaProduction]: false,
-    [Environment.TestAlphaProduction]: false,
-  },
-  [Feature.DevelopOnly]: {
+  [Feature.FilesManagerEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.TestProduction]: false,
     [Environment.AlphaProduction]: false,
-    [Environment.TestAlphaProduction]: false,
   },
-  [Feature.ProductionAndAlpha]: {
-    [Environment.Development]: false,
-    [Environment.Production]: true,
-    [Environment.TestProduction]: true,
-    [Environment.AlphaProduction]: true,
-    [Environment.TestAlphaProduction]: true,
-  },
-  [Feature.MessagesSearch]: {
+  [Feature.MessagesTemplatesTabEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.TestProduction]: false,
-    [Environment.AlphaProduction]: false,
-    [Environment.TestAlphaProduction]: false,
-  },
-  [Feature.ProductionReleaseOnly]: {
-    [Environment.Development]: false,
-    [Environment.Production]: true,
-    [Environment.TestProduction]: false,
-    [Environment.AlphaProduction]: false,
-    [Environment.TestAlphaProduction]: false,
-  },
-  [Feature.TestProductionReleaseOnly]: {
-    [Environment.Development]: false,
-    [Environment.Production]: false,
-    [Environment.TestProduction]: true,
     [Environment.AlphaProduction]: true,
-    [Environment.TestAlphaProduction]: true,
   },
-  [Feature.AllReleaseListAvailable]: {
+  [Feature.MuditaCenterPrereleaseEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.TestProduction]: false,
     [Environment.AlphaProduction]: false,
-    [Environment.TestAlphaProduction]: false,
+  },
+  [Feature.MessagesThreadAttachContactEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.MessagesThreadAttachTemplateEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.MessagesThreadCallsEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.MessagesThreadDetailsMarkAsReadEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: true,
+  },
+  [Feature.MessagesCallFromThreadEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.ContactForwardEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.ContactBlockingEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.ContactPhoneFieldIconsEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.ContactExportEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.TetheringEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.SettingsNotificationTabEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.SettingsAudioConversionTabEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.PhoneDialTabEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.PhoneTabEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.ToolsTabEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.MusicTabEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.CalendarTabEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.MeditationTabEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.RecoveryModeTabEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
+  },
+  [Feature.YourPureIconsEnabled]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
   },
   [Feature.ReadAndUnreadMessages]: {
     [Environment.Development]: true,

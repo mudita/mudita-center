@@ -8,7 +8,6 @@ import { Template } from "App/templates/dto"
 export interface TemplateFormProps {
   onClose: () => void
   onSave: (template: Pick<Template, "text">) => void
-  savingPossible: boolean
   saving: boolean
   template?: Template
   error?: Error | string | null

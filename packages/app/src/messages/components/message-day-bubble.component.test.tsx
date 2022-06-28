@@ -8,6 +8,7 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import MessageDayBubble from "App/messages/components/message-day-bubble.component"
 import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
 import { AvatarTestIds } from "App/__deprecated__/renderer/components/core/avatar/avatar-test-ids.enum"
+import { MessageType } from "App/messages/constants"
 
 type Properties = ComponentProps<typeof MessageDayBubble>
 
@@ -22,6 +23,9 @@ const defaultProps: Properties = {
   id: "c7873064-ee7c-49ae-a1c0-bd2d73f401ib",
   displayDate: false,
   date: new Date("2021-02-13T22:22:13.615Z"),
+  messageType: MessageType.OUTBOX,
+  isMessageBeingDeleted: false,
+  removeMessage: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {

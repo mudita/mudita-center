@@ -10,7 +10,8 @@ import {
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
 import { ThreadEntryHandlerService } from "App/outbox/services/thread-entry-handler.service"
-import { Thread } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { ThreadService } from "App/messages/services"
 import { ThreadRepository } from "App/messages/repositories"
 
@@ -21,6 +22,7 @@ const threadMock: Thread = {
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
   unread: true,
+  messageType: MessageType.INBOX,
 }
 const successResponse: SuccessRequestResponse<Thread> = {
   status: RequestResponseStatus.Ok,

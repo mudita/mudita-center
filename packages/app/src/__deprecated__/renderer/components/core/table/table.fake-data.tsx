@@ -5,13 +5,13 @@
 
 import Faker from "faker"
 import { groupBy, random, sample, times } from "lodash"
-import { Call, CallStatus } from "App/__deprecated__/renderer/models/calls/calls.interface"
-import { resolveCallType } from "App/__deprecated__/renderer/components/rest/calls/call-details.helpers"
 import {
-  Message,
-  MessageType,
-  Thread,
-} from "App/messages/reducers/messages.interface"
+  Call,
+  CallStatus,
+} from "App/__deprecated__/renderer/models/calls/calls.interface"
+import { resolveCallType } from "App/__deprecated__/renderer/components/rest/calls/call-details.helpers"
+import { Message, Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants/message-type.constant"
 import { createFakeContact } from "App/messages/helpers/create-fake-contact"
 
 const createCall = (): Call => {
@@ -80,6 +80,9 @@ const createThread = (): Thread => {
     unread: Faker.datatype.boolean(),
     lastUpdatedAt: Faker.date.past(),
     messageSnippet: Faker.lorem.paragraphs(random(1, 3)),
+    messageType: Faker.datatype.boolean()
+      ? MessageType.OUTBOX
+      : MessageType.INBOX,
   }
 }
 

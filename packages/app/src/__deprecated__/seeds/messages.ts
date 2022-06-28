@@ -3,11 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Message,
-  MessageType,
-  Thread,
-} from "App/messages/reducers/messages.interface"
+import { Message, Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 export const threadsData: Thread[] = [
   {
@@ -17,6 +14,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
     unread: false,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+85102096521",
@@ -25,6 +23,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Et beatae dicta ut consequatur aut. Consequuntur odio voluptas sed eligendi repudiandae quo amet.",
     unread: false,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+98007298780",
@@ -33,6 +32,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Rerum quae fugit enim officia quia optio itaque fuga sapiente. Est enim eaque.",
     unread: false,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+03026752736",
@@ -41,6 +41,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Sunt autem sed ut aut aspernatur totam modi qui. Atque tenetur est ex totam repudiandae voluptatibus tempora sed.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+48799230788",
@@ -48,6 +49,7 @@ export const threadsData: Thread[] = [
     lastUpdatedAt: new Date("2019-10-04T21:38:05.708Z"),
     messageSnippet: "Quo omnis est enim. Dolorem tempora recusandae.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+36724240162",
@@ -55,6 +57,7 @@ export const threadsData: Thread[] = [
     lastUpdatedAt: new Date("2020-01-03T19:22:06.272Z"),
     messageSnippet: "Ipsam expedita sunt est sit. Ea autem laborum et.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+53137792360",
@@ -63,6 +66,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Autem impedit dicta officia praesentium magni harum aut repellendus recusandae. Qui et molestiae quam consequuntur.",
     unread: false,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+46333060911",
@@ -71,6 +75,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Odit tempore eaque non ratione occaecati magnam voluptatum. Atque unde mollitia natus laborum voluptates cum.",
     unread: false,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+32964648391",
@@ -79,6 +84,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Consequuntur vel sunt voluptas numquam incidunt delectus ut possimus. Id quia accusamus minima dolor.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+35160648062",
@@ -87,6 +93,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Totam repudiandae modi nihil odit et. Porro consequatur tenetur in quis qui.",
     unread: false,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+31137043005",
@@ -95,6 +102,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Accusantium voluptates qui sint enim accusantium voluptatem. Beatae recusandae velit deserunt.",
     unread: false,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+83563598841",
@@ -103,6 +111,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Minima porro voluptatem occaecati. Praesentium eligendi sequi suscipit porro.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+00287614353",
@@ -111,6 +120,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Architecto accusantium quae harum ipsum quod velit quibusdam corporis quis. Qui molestiae ab sed quas nobis.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+87859344351",
@@ -119,6 +129,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Exercitationem expedita eos pariatur enim nostrum corrupti. Facilis aperiam minus nihil.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+90669222797",
@@ -127,6 +138,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Dolorum hic facilis perferendis deserunt et autem recusandae amet corporis. Id vero iste magni aspernatur.",
     unread: false,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+50051893223",
@@ -135,6 +147,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Commodi et commodi voluptatem et ullam consectetur libero. Est id eligendi.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+13066262752",
@@ -143,6 +156,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Accusamus tenetur at a alias aut dicta dolorem enim ut. Iusto ullam totam totam voluptatem et expedita quo quia quas.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+72383361402",
@@ -151,6 +165,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Rerum quae eum placeat non mollitia ipsum corrupti repudiandae atque. Id molestias aut voluptatem.",
     unread: false,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+33999999999",
@@ -159,6 +174,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Et molestias occaecati dignissimos fugit enim dolore. Sed aut maiores.",
     unread: false,
+    messageType: MessageType.INBOX,
   },
   {
     id: "+47999999999",
@@ -167,6 +183,7 @@ export const threadsData: Thread[] = [
     messageSnippet:
       "Quis ut consequuntur delectus in deleniti distinctio quisquam enim ut. Aut quo ex possimus blanditiis voluptatem consequatur ut saepe est.",
     unread: false,
+    messageType: MessageType.INBOX,
   },
 ]
 

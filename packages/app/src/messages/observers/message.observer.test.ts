@@ -4,7 +4,9 @@
  */
 
 import { EventEmitter } from "events"
-import DeviceService, { DeviceServiceEventName } from "App/__deprecated__/backend/device-service"
+import DeviceService, {
+  DeviceServiceEventName,
+} from "App/__deprecated__/backend/device-service"
 import { ipcMain } from "electron-better-ipc"
 import { IpcEvent } from "App/data-sync/constants"
 import { MessageObserver } from "App/messages/observers/message.observer"
@@ -18,7 +20,8 @@ import {
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
-import { Message, MessageType, Thread } from "App/messages/reducers"
+import { MessageType } from "App/messages/constants"
+import { Message, Thread } from "App/messages/dto"
 import { flushPromises } from "App/core/helpers/flush-promises"
 import { ThreadService } from "App/messages/services/thread.service"
 
@@ -39,6 +42,7 @@ const thread: Thread = {
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
   unread: true,
+  messageType: MessageType.INBOX,
 }
 
 const getMessagesSuccessResponse: SuccessRequestResponse<GetMessagesByThreadIdResponse> =

@@ -14,8 +14,9 @@ import { CreateMessageDataResponse } from "App/messages/services"
 import { ToggleThreadsReadStatusError } from "App/messages/errors"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { toggleThreadsReadStatusRequest } from "App/messages/requests"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 import { toggleThreadsReadStatus } from "App/messages/actions/toggle-threads-read-status.action"
+import { MessageType } from "App/messages/constants"
 
 jest.mock("App/messages/requests/toggle-threads-read-status.request")
 
@@ -26,6 +27,7 @@ const thread: Thread = {
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
   unread: true,
+  messageType: MessageType.INBOX,
 }
 
 const successDeviceResponse: RequestResponse<CreateMessageDataResponse> = {

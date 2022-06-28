@@ -13,6 +13,7 @@ const templateMock: Template = {
   id: "1",
   text: "Thanks for reaching out. I can't talk right now, I'll call you later",
   lastUsedAt: "2020-02-12T10:00:00.000Z",
+  order: 1,
 }
 
 const render = (props: TemplatesListProps) => {
@@ -24,6 +25,7 @@ describe("`TemplatesList` component", () => {
     const { getByText } = render({
       templates: [],
       deleteTemplates: jest.fn(),
+      updateTemplate: jest.fn(),
       getRowStatus: jest
         .fn()
         .mockReturnValue({ indeterminate: false, selected: false }),
@@ -42,6 +44,7 @@ describe("`TemplatesList` component", () => {
     const { getByText } = render({
       templates: [templateMock],
       deleteTemplates: jest.fn(),
+      updateTemplate: jest.fn(),
       getRowStatus: jest
         .fn()
         .mockReturnValue({ indeterminate: false, selected: false }),
@@ -55,6 +58,7 @@ describe("`TemplatesList` component", () => {
     const { getByTestId } = render({
       templates: [templateMock],
       deleteTemplates: jest.fn(),
+      updateTemplate: jest.fn(),
       getRowStatus: jest
         .fn()
         .mockReturnValue({ indeterminate: false, selected: false }),

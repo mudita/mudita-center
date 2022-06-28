@@ -12,7 +12,7 @@ import {
   getLatestReleaseRequest,
   downloadOsUpdateRequest,
 } from "App/__deprecated__/update"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import {
   TooLowBatteryModal,
   UpdatingForceModal,

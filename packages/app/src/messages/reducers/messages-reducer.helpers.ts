@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Thread, ThreadMap } from "App/messages/reducers/messages.interface"
+import { ThreadMap } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 
 export const markThreadsReadStatus = (
   threads: Thread[],

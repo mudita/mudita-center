@@ -4,7 +4,8 @@
  */
 
 import { markThreadsReadStatus } from "App/messages/reducers/messages-reducer.helpers"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 const thread: Thread = {
   id: "1",
@@ -13,6 +14,7 @@ const thread: Thread = {
   messageSnippet:
     "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
   unread: true,
+  messageType: MessageType.INBOX,
 }
 
 describe("Messages Reducer - helpers", () => {

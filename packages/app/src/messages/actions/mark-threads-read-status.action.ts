@@ -7,7 +7,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { toggleThreadsReadStatusRequest } from "App/messages/requests"
 import { MessagesEvent } from "App/messages/constants"
 import { MarkThreadsReadStatusError } from "App/messages/errors"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 
 export const markThreadsReadStatus = createAsyncThunk<
   Error | Thread[],

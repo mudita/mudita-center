@@ -8,7 +8,7 @@ import { defineMessages } from "react-intl"
 import styled from "styled-components"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import Text, {

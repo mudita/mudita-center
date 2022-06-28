@@ -4,12 +4,6 @@
  */
 
 import {
-  Message,
-  NewMessage,
-  Thread,
-} from "App/messages/reducers/messages.interface"
-import DeviceService from "App/__deprecated__/backend/device-service"
-import {
   Endpoint,
   GetMessagesBody as PureGetMessagesBody,
   Message as PureMessage,
@@ -18,17 +12,20 @@ import {
   Method,
   PaginationBody,
 } from "@mudita/pure"
+import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
 import {
   RequestResponse,
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
+import { Message, NewMessage, Thread } from "App/messages/dto"
 import {
   AcceptablePureMessageType,
   MessagePresenter,
 } from "App/messages/presenters"
-import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { MessageRepository } from "App/messages/repositories"
 import { ThreadService } from "App/messages/services/thread.service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import { splitMessageByBytesSize } from "../helpers"
 
 export interface GetMessagesByThreadIdResponse {
@@ -48,7 +45,8 @@ export interface CreateMessageDataResponse {
 export class MessageService {
   constructor(
     private deviceService: DeviceService,
-    private threadService: ThreadService
+    private threadService: ThreadService,
+    private messageRepository: MessageRepository
   ) {}
 
   private MESSAGE_MAX_SIZE_IN_BYTES = 469
@@ -204,6 +202,57 @@ export class MessageService {
     return {
       status: RequestResponseStatus.Error,
     }
+  }
+
+  public async deleteMessage(
+    messageId: string
+  ): Promise<RequestResponse<undefined>> {
+    const result = await this.deviceService.request({
+      body: {
+        category: PureMessagesCategory.message,
+        messageID: Number(messageId),
+      },
+      endpoint: Endpoint.Messages,
+      method: Method.Delete,
+    })
+
+    if (isResponseSuccess(result)) {
+      this.messageRepository.delete(messageId)
+
+      return {
+        status: RequestResponseStatus.Ok,
+      }
+    }
+
+    return {
+      status: RequestResponseStatus.Error,
+      error: {
+        message: "Delete message: Something went wrong",
+      },
+    }
+  }
+
+  public async resendMessage(
+    messageId: string
+  ): Promise<RequestResponse<CreateMessageDataResponse>> {
+    const message = this.messageRepository.findById(messageId)
+
+    if (!message) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Message not fond in internal database",
+        },
+      }
+    }
+
+    const result = await this.createMessage({
+      phoneNumber: message.phoneNumber,
+      content: message.content,
+      threadId: message.threadId,
+    })
+
+    return result
   }
 
   static isAcceptablePureMessageType(

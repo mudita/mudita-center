@@ -30,7 +30,7 @@ import { emailValidator } from "App/__deprecated__/renderer/utils/form-validator
 import { getModalButtonsSize } from "App/__deprecated__/renderer/components/core/modal/modal.helpers"
 import { ContactSupportModalTestIds } from "App/contact-support/components/contact-support-modal-test-ids.enum"
 import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import FileList from "App/__deprecated__/renderer/components/core/file-list/file-list.component"
 import { SendTicketPayload } from "App/contact-support/actions/send-ticket.action"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"

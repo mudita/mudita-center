@@ -18,8 +18,8 @@ import { defineMessages } from "react-intl"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
-  dropdownTogllerTooltipDescription: {
-    id: "component.dropdownTogllerTooltipDescription",
+  dropdownTogglerTooltipDescription: {
+    id: "component.dropdownTogglerTooltipDescription",
   },
 })
 
@@ -81,7 +81,7 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
   toggler = (
     <IconButtonWithSecondaryTooltip
       iconType={IconType.More}
-      description={messages.dropdownTogllerTooltipDescription}
+      description={messages.dropdownTogglerTooltipDescription}
     />
   ),
   children,

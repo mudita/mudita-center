@@ -9,13 +9,13 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import {
+  ModalDialog,
   ModalContent as SimpleModal,
   RoundIconWrapper,
-} from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog-shared"
+} from "App/ui/components/modal-dialog"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({

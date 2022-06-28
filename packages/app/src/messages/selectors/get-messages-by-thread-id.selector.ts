@@ -4,7 +4,8 @@
  */
 
 import { createSelector, OutputSelector } from "reselect"
-import { Message, MessagesState } from "App/messages/reducers"
+import { MessagesState } from "App/messages/reducers"
+import { Message } from "App/messages/dto"
 import { messagesStateSelector } from "App/messages/selectors/messages-state.selector"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { sortMessages } from "App/messages/helpers/threads.helpers"

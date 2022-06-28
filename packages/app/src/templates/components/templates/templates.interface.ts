@@ -11,8 +11,18 @@ export interface TemplatesProps {
   loading: boolean
   loaded: boolean
   error: Error | string | null
-  deleting: boolean
   createTemplate: (arg: NewTemplate) => Promise<PayloadAction<any>>
   deleteTemplates: (arg: string[]) => Promise<PayloadAction<any>>
-  hideDeleteModal: () => void
+  updateTemplate: (arg: Template) => Promise<PayloadAction<any>>
+  updateTemplateOrder: (arg: Template) => Promise<PayloadAction<any>>
+}
+
+export interface TemplateServiceState {
+  creating: boolean
+  creatingInfo: boolean
+  updating: boolean
+  updatingInfo: boolean
+  deleting: boolean
+  deletingConfirmation: boolean
+  deletingInfo: boolean
 }

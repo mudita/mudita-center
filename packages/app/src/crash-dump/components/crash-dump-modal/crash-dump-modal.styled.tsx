@@ -4,8 +4,7 @@
  */
 
 import styled from "styled-components"
-import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog-shared"
-import { ModalContent } from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog-shared"
+import { ModalContent, RoundIconWrapper } from "App/ui/components/modal-dialog"
 
 export const IconWrapper = styled(RoundIconWrapper)`
   width: 8rem;

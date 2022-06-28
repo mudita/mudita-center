@@ -9,7 +9,8 @@ import {
   MessageType as PureMessageType,
   PostMessagesBody,
 } from "@mudita/pure"
-import { Message, MessageType, NewMessage } from "App/messages/reducers"
+import { Message, NewMessage } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 export type AcceptablePureMessageType =
   | PureMessageType.FAILED
@@ -47,11 +48,12 @@ export class MessagePresenter {
     messageType: AcceptablePureMessageType
   ): MessageType {
     if (
-      messageType === PureMessageType.FAILED ||
       messageType === PureMessageType.QUEUED ||
       messageType === PureMessageType.OUTBOX
     ) {
       return MessageType.OUTBOX
+    } else if (messageType === PureMessageType.FAILED) {
+      return MessageType.FAILED
     } else {
       return MessageType.INBOX
     }

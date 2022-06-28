@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { DeviceServiceClass } from "./device-service.class"
 import { FlashDeviceServiceClass } from "./flash-device-service.class"
 import { ReleaseServiceClass } from "./release-service.class"

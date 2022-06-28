@@ -39,7 +39,7 @@ module.exports = {
     minifyJS: false,
     minifyCSS: false,
     minifyURLs: true,
-    title: "", // needed for overriding title
+    template: path.join(__dirname, "../../templates/index.html"),
   }),
   env: new EnvironmentPlugin({
     ...dotenv.config({

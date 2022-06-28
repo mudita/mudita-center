@@ -16,7 +16,7 @@ import Text, {
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
 import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 
 const ModalContent = styled.div`
   display: flex;

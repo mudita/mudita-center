@@ -4,7 +4,7 @@
  */
 
 import { MessageType as PureMessageType } from "@mudita/pure"
-import { MessageType } from "App/messages/reducers"
+import { MessageType } from "App/messages/constants"
 import {
   MessageInput,
   MessageObject,
@@ -74,11 +74,12 @@ export class MessagePresenter {
 
   private static getMessageType(messageType: PureMessageType): MessageType {
     if (
-      messageType === PureMessageType.FAILED ||
       messageType === PureMessageType.QUEUED ||
       messageType === PureMessageType.OUTBOX
     ) {
       return MessageType.OUTBOX
+    } else if (messageType === PureMessageType.FAILED) {
+      return MessageType.FAILED
     } else {
       return MessageType.INBOX
     }

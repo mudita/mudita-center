@@ -4,32 +4,25 @@
  */
 
 import {
+  Endpoint,
+  Message as PureMessage,
+  MessagesCategory as PureMessagesCategory,
+  MessageType,
+  MessageType as PureMessageType,
+  Method,
+} from "@mudita/pure"
+import {
   ErrorRequestResponse,
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
+import { NewMessage } from "App/messages/dto"
+import { AcceptablePureMessageType } from "App/messages/presenters"
+import { MessageRepository } from "App/messages/repositories"
 import { MessageService } from "App/messages/services/message.service"
-import DeviceService from "App/__deprecated__/backend/device-service"
-import {
-  AcceptablePureMessageType,
-  MessagePresenter,
-} from "App/messages/presenters"
 import { ThreadService } from "App/messages/services/thread.service"
-import {
-  Message as PureMessage,
-  MessageType,
-  MessageType as PureMessageType,
-} from "@mudita/pure"
-import { NewMessage } from "App/messages/reducers"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import assert from "assert"
-
-jest.mock("App/messages/presenters")
-;(MessagePresenter as unknown as jest.Mock).mockImplementation(() => {
-  return {
-    mapToMessage: jest.fn(),
-    mapToPureMessageMessagesBody: jest.fn(),
-  }
-})
 
 const deviceService = {
   request: jest.fn(),
@@ -39,7 +32,16 @@ const threadService = {
   getThreads: jest.fn(),
 } as unknown as ThreadService
 
-const subject = new MessageService(deviceService, threadService)
+const messageRepository = {
+  delete: jest.fn(),
+  findById: jest.fn(),
+} as unknown as MessageRepository
+
+const subject = new MessageService(
+  deviceService,
+  threadService,
+  messageRepository
+)
 
 const successResponse: SuccessRequestResponse<any> = {
   status: RequestResponseStatus.Ok,
@@ -97,7 +99,6 @@ describe("`MessageService`", () => {
       })
       const response = await subject.getMessage("1")
       expect(deviceService.request).toHaveBeenCalled()
-      expect(MessagePresenter.mapToMessage).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
@@ -105,7 +106,6 @@ describe("`MessageService`", () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.getMessage("1")
       expect(deviceService.request).toHaveBeenCalled()
-      expect(MessagePresenter.mapToMessage).not.toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
@@ -118,7 +118,6 @@ describe("`MessageService`", () => {
       })
       const response = await subject.getMessages({ limit: 1, offset: 0 })
       expect(deviceService.request).toHaveBeenCalled()
-      expect(MessagePresenter.mapToMessage).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
@@ -126,7 +125,6 @@ describe("`MessageService`", () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.getMessages({ limit: 1, offset: 0 })
       expect(deviceService.request).toHaveBeenCalled()
-      expect(MessagePresenter.mapToMessage).not.toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
   })
@@ -171,7 +169,6 @@ describe("`MessageService`", () => {
             newLongMessageWithThreadId
           )
           expect(deviceService.request).toHaveBeenCalled()
-          expect(MessagePresenter.mapToMessage).toHaveBeenCalled()
           expect(response.status).toEqual(RequestResponseStatus.Ok)
 
           assert(response.data?.messageParts)
@@ -194,7 +191,6 @@ describe("`MessageService`", () => {
             newLongMessageWithoutThreadId
           )
           expect(deviceService.request).toHaveBeenCalled()
-          expect(MessagePresenter.mapToMessage).toHaveBeenCalled()
           expect(response.status).toEqual(RequestResponseStatus.Ok)
 
           assert(response.data?.messageParts)
@@ -214,7 +210,6 @@ describe("`MessageService`", () => {
         })
         const response = await subject.createMessage(newMessageWithThreadId)
         expect(deviceService.request).toHaveBeenCalled()
-        expect(MessagePresenter.mapToMessage).not.toHaveBeenCalled()
         expect(response.status).toEqual(RequestResponseStatus.Error)
       })
     })
@@ -224,7 +219,6 @@ describe("`MessageService`", () => {
         deviceService.request = jest.fn().mockReturnValue(errorResponse)
         const response = await subject.createMessage(newMessageWithThreadId)
         expect(deviceService.request).toHaveBeenCalled()
-        expect(MessagePresenter.mapToMessage).not.toHaveBeenCalled()
         expect(response.status).toEqual(RequestResponseStatus.Error)
       })
     })
@@ -242,6 +236,112 @@ describe("`MessageService`", () => {
         expect(deviceService.request).toHaveBeenCalled()
 
         expect(response.status).toEqual(RequestResponseStatus.Error)
+      })
+    })
+  })
+
+  describe("`deleteMessage` method", () => {
+    const messageId = "123"
+    test("construct proper delete request to device service and calls proper repository method", async () => {
+      deviceService.request = jest.fn().mockReturnValue(successResponse)
+      await subject.deleteMessage(messageId)
+      expect(deviceService.request).toHaveBeenCalledTimes(1)
+      expect(deviceService.request).toHaveBeenCalledWith({
+        body: {
+          category: PureMessagesCategory.message,
+          messageID: 123,
+        },
+        endpoint: Endpoint.Messages,
+        method: Method.Delete,
+      })
+      expect(messageRepository.delete).toHaveBeenCalledTimes(1)
+      expect(messageRepository.delete).toHaveBeenCalledWith(messageId)
+    })
+
+    test("returns success when delete request succeeded", async () => {
+      deviceService.request = jest.fn().mockReturnValue(successResponse)
+      const result = await subject.deleteMessage(messageId)
+      expect(result).toEqual({ status: RequestResponseStatus.Ok })
+    })
+
+    test("returns error when delete request failed", async () => {
+      deviceService.request = jest.fn().mockReturnValue(errorResponse)
+      const result = await subject.deleteMessage(messageId)
+      expect(result).toEqual({
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Delete message: Something went wrong",
+        },
+      })
+    })
+  })
+
+  describe("`resendMessage` method", () => {
+    describe("when message doesn't exist in local index", () => {
+      const messageId = "123"
+
+      test("returns an error message", async () => {
+        messageRepository.findById = jest.fn().mockReturnValueOnce(undefined)
+        const result = await subject.resendMessage(messageId)
+        expect(deviceService.request).toHaveBeenCalledTimes(0)
+        expect(result).toEqual({
+          status: RequestResponseStatus.Error,
+          error: {
+            message: "Message not fond in internal database",
+          },
+        })
+      })
+    })
+
+    describe("when message exist in local index", () => {
+      const messageId = "6"
+
+      test("returns newly created `message`", async () => {
+        messageRepository.findById = jest.fn().mockReturnValueOnce({
+          id: "6",
+          date: 1547465101,
+          content:
+            "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+          threadId: "1",
+          phoneNumber: "+48500600700",
+          messageType: MessageType.INBOX,
+        })
+        deviceService.request = jest.fn().mockReturnValue({
+          ...successResponse,
+          data: pureMessage,
+        })
+
+        const result = await subject.resendMessage(messageId)
+        expect(deviceService.request).toHaveBeenLastCalledWith({
+          body: {
+            number: "+48500600700",
+            messageBody:
+              "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+            category: "message",
+          },
+          endpoint: Endpoint.Messages,
+          method: Method.Post,
+        })
+
+        expect(result).toEqual({
+          status: RequestResponseStatus.Ok,
+          data: {
+            messageParts: [
+              {
+                message: {
+                  phoneNumber: "+48500600700",
+                  id: "6",
+                  date: new Date("2019-01-14T11:25:01.000Z"),
+                  content:
+                    "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+                  threadId: "1",
+                  messageType: "OUTBOX",
+                },
+                thread: undefined,
+              },
+            ],
+          },
+        })
       })
     })
   })

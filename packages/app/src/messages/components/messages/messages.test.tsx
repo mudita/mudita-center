@@ -16,8 +16,6 @@ import { fireEvent, waitFor } from "@testing-library/dom"
 import {
   Receiver,
   ReceiverIdentification,
-  ResultState,
-  Thread,
 } from "App/messages/reducers/messages.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
@@ -26,9 +24,15 @@ import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
+import { MessageType, ResultState } from "App/messages/constants"
+import { Thread } from "App/messages/dto"
 import { flags } from "App/feature-flags"
 
-jest.mock("App/feature-flags")
+jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
+  flags: {
+    get: () => true,
+  },
+}))
 
 jest.mock("react-virtualized", () => {
   const ReactVirtualized = jest.requireActual("react-virtualized")
@@ -67,6 +71,7 @@ const firstThread: Thread = {
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+  messageType: MessageType.INBOX,
 }
 
 const secondThread: Thread = {
@@ -76,6 +81,7 @@ const secondThread: Thread = {
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+  messageType: MessageType.INBOX,
 }
 
 const incomingThread: Thread = {
@@ -85,6 +91,7 @@ const incomingThread: Thread = {
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+  messageType: MessageType.INBOX,
 }
 
 const receiver: Receiver = {
@@ -116,8 +123,13 @@ const defaultProps: Props = {
   attachContactFlatList: [],
   messageLayoutNotifications: [],
   removeLayoutNotification: jest.fn(),
-  deletingState: null,
+  threadDeletingState: null,
   hideDeleteModal: jest.fn(),
+  hideMessageDeleteModal: jest.fn(),
+  currentlyDeletingMessageId: null,
+  deleteMessage: jest.fn(),
+  messageDeletingState: null,
+  resendMessage: jest.fn(),
 }
 
 const propsWithSingleThread: Partial<Props> = {
@@ -237,20 +249,6 @@ describe("Messages component", () => {
         queryByTestId(MessagesTestIds.EmptyThreadListState)
       ).toBeInTheDocument()
       expect(queryByTestId(MessagesTestIds.ThreadList)).not.toBeInTheDocument()
-    })
-
-    test("deleting modals are not showed", () => {
-      const { queryByTestId } = renderer()
-
-      expect(
-        queryByTestId(MessagesTestIds.SuccessThreadDelete)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(MessagesTestIds.ThreadDeleting)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(MessagesTestIds.FailThreadDelete)
-      ).not.toBeInTheDocument()
     })
   })
 
@@ -711,7 +709,6 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown delete buttons", () => {
-    jest.spyOn(flags, "get").mockReturnValueOnce(true)
     const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-delete")).toBeInTheDocument()
   })

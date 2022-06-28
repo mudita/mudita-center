@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import {
   Endpoint,
@@ -17,7 +17,7 @@ import {
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 import { ThreadPresenter } from "App/messages/presenters"
-import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponseSuccessWithData } from "App/core/helpers"
 import { ThreadRepository } from "App/messages/repositories"
 
 export interface GetThreadsResponse {

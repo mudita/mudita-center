@@ -6,5 +6,6 @@
 export enum TemplatesEvent {
   CreateTemplate = "TEMPLATE_CREATE_TEMPLATE",
   DeleteTemplates = "DELETE_TEMPLATES",
-  HideDeleteModal = "HIDE_DELETE_MODAL",
+  UpdateTemplate = "TEMPLATE_UPDATE_TEMPLATE",
+  UpdateTemplateOrder = "TEMPLATE_UPDATE_TEMPLATE_ORDER",
 }

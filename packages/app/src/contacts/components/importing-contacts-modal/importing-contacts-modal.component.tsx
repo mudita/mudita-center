@@ -16,7 +16,7 @@ import StackedBarChart, {
   DisplayStyle,
 } from "App/__deprecated__/renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({

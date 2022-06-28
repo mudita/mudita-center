@@ -13,7 +13,7 @@ import {
   IpcMessageEvent,
   MessageControllerPrefix,
 } from "App/messages/constants/controller.constant"
-import { NewMessage } from "App/messages/reducers"
+import { NewMessage } from "App/messages/dto"
 
 @Controller(MessageControllerPrefix)
 export class MessageController {
@@ -24,5 +24,17 @@ export class MessageController {
     newMessage: NewMessage
   ): Promise<RequestResponse<CreateMessageDataResponse>> {
     return this.messageService.createMessage(newMessage)
+  }
+
+  @IpcEvent(IpcMessageEvent.DeleteMessage)
+  public async deleteMessage(messageId: string): Promise<RequestResponse> {
+    return this.messageService.deleteMessage(messageId)
+  }
+
+  @IpcEvent(IpcMessageEvent.ResendMessage)
+  public async resendMessage(
+    messageId: string
+  ): Promise<RequestResponse<CreateMessageDataResponse>> {
+    return this.messageService.resendMessage(messageId)
   }
 }
