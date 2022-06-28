@@ -699,7 +699,7 @@ describe("Messages component", () => {
   })
 
   test("dropdown delete button has correct content", () => {
-    jest.spyOn(flags, "get").mockReturnValue(false)
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
       intl.formatMessage({
@@ -709,6 +709,7 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown delete buttons", () => {
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-delete")).toBeInTheDocument()
   })
