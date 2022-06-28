@@ -16,7 +16,7 @@ import {
   ModalContent,
   Paragraph,
 } from "App/__deprecated__/renderer/modules/settings/components/collecting-data-modal/collecting-data-modal.styled"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"

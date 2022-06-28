@@ -11,7 +11,7 @@ import {
   RestoreSpinnerModal,
   RestoreSuccessModal,
 } from "App/overview/components/restore-modal-dialogs/restore-modal-dialogs"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
 import { Backup } from "App/backup/reducers"
 import RestoreAvailableBackupModal from "App/overview/components/restore-modal-dialogs/restore-available-backup-modal"

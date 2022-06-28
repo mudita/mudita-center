@@ -29,7 +29,7 @@ import { createFullNameStartingFromLastName } from "App/contacts/helpers/contact
 import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
 import { textColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { ModalIcon } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { NewContact } from "App/contacts/reducers/contacts.interface"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 

@@ -3,5 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./password-field"
-export * from "./modal-dialog"
+export * from "./modal-dialog.component"
+export * from "./modal-dialog.interface"
+export * from "./modal-dialog.styles"

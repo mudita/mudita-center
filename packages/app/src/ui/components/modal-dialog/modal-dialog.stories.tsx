@@ -10,14 +10,14 @@ import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import * as React from "react"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import {
   ModalSize,
   TitleOrder,
 } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { Story as StoryInterface } from "@storybook/react"
-import { Size } from "../button/button.config"
+import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 
 const Template: StoryInterface<
   React.ComponentProps<typeof ModalDialog> & { storyTitle: string }

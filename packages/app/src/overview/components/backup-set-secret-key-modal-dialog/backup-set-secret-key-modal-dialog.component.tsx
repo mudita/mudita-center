@@ -5,7 +5,7 @@
 
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import React, { ComponentProps } from "react"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"

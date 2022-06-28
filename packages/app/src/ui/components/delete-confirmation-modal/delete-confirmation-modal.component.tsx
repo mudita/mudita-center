@@ -8,7 +8,7 @@ import { DeletingConfirmationsModalProps } from "App/ui/components/delete-confir
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"

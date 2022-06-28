@@ -15,7 +15,7 @@ import registerDownloadedAppUpdateListener from "App/__deprecated__/main/functio
 import registerErrorAppUpdateListener from "App/__deprecated__/main/functions/register-error-app-update-listener"
 import installAppUpdateRequest from "App/__deprecated__/renderer/requests/install-app-update.request"
 import downloadAppUpdateRequest from "App/__deprecated__/renderer/requests/download-app-update.request"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import {
   trackCenterUpdate,
   TrackCenterUpdateState,

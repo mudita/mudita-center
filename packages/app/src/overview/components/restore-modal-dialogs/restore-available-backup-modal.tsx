@@ -9,12 +9,14 @@ import styled from "styled-components"
 import moment from "moment"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
-import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, {
+  IconSize,
+} from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { Backup } from "App/backup/reducers"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
