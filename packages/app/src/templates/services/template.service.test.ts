@@ -62,6 +62,7 @@ describe("`TemplateService`", () => {
         body: {
           templateBody: "Hello world",
           category: MessagesCategory.template,
+          order: 1,
         },
       })
       expect(response.status).toEqual(RequestResponseStatus.Ok)
@@ -76,6 +77,7 @@ describe("`TemplateService`", () => {
         body: {
           templateBody: "Hello world",
           category: MessagesCategory.template,
+          order: 1,
         },
       })
       expect(response.status).toEqual(RequestResponseStatus.Error)

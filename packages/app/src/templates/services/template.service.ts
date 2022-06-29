@@ -38,9 +38,11 @@ export class TemplateService {
     })
 
     if (isResponseSuccessWithData(response)) {
+      console.log("responnse", response.data)
       const templateData = TemplatePresenter.mapToTemplate({
         ...response.data,
         templateBody: template.text,
+        order: template.order,
       })
 
       this.templateRepository.create(templateData)

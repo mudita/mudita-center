@@ -53,7 +53,8 @@ describe("async `updateTemplateOrder`", () => {
   describe("when `updateTemplateOrderRequest` requests return success", () => {
     test("fire async `updateTemplateOrder` returns updated template", async () => {
       ;(updateTemplateOrderRequest as jest.Mock).mockReturnValue({
-        dupa: "dupa",
+        data: [template, secondTemplate],
+        error: null,
       })
 
       const {
