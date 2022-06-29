@@ -3,4 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./hash-table.structure"
+export * from "./contact-input-search.component"
+export * from "./contact-input-search.interface"

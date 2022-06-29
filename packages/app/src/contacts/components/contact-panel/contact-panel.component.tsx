@@ -27,7 +27,7 @@ import {
   LoadingStateDataModal,
 } from "App/__deprecated__/renderer/components/rest/data-modal/data.modals"
 import delayResponse from "@appnroll/delay-response"
-import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
+import { ContactInputSearch } from "App/contacts/components/contact-input-search/contact-input-search.component"
 import styled from "styled-components"
 import { borderColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import Text, {
@@ -168,7 +168,7 @@ const ContactPanel: FunctionComponent<Props> = ({
             onSearchEnterClick={onSearchEnterClick}
             searchValue={searchValue}
             onSearchValueChange={onSearchValueChange}
-            showSearchResults={showSearchResults}
+            showSearchResults
             results={results}
           />
         )}

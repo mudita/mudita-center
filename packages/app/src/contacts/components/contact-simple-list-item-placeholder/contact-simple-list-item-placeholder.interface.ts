@@ -3,4 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./hash-table.structure"
+import { Contact } from "App/contacts/dto"
+
+export interface ContactSimpleListItemPlaceholderProps {
+  contact: Contact
+}
