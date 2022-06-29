@@ -50,7 +50,7 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
 }) => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="droppable">
+      <Droppable droppableId="droppable" type="COLUMN">
         {(provided: any) => (
           <Table
             role="list"
@@ -103,6 +103,7 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                         >
                           <TemplateText
                             displayStyle={TextDisplayStyle.Paragraph1}
+                            data-testId="template-text"
                           >
                             {template.text}
                           </TemplateText>
