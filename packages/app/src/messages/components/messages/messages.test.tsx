@@ -6,6 +6,10 @@
 import React, { ComponentProps } from "react"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { Router } from "react-router"
+import { Provider } from "react-redux"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { RenderOptions, RenderResult } from "@testing-library/react"
 import { createMemoryHistory } from "history"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
@@ -54,6 +58,11 @@ const unknownContact: Contact = {
   firstName: "",
   lastName: "",
   primaryPhoneNumber: "+123 456 123",
+}
+
+const contactsMap: Record<string, Contact> = {
+  1: contact,
+  2: unknownContact,
 }
 
 const unknownReceiver: Receiver = {
@@ -119,8 +128,6 @@ const defaultProps: Props = {
   getMessagesStateByThreadId: jest.fn(),
   isContactCreatedByPhoneNumber: jest.fn(),
   getMessagesByThreadId: jest.fn().mockReturnValue([contact]),
-  attachContactList: [],
-  attachContactFlatList: [],
   messageLayoutNotifications: [],
   removeLayoutNotification: jest.fn(),
   threadDeletingState: null,
@@ -136,7 +143,6 @@ const propsWithSingleThread: Partial<Props> = {
   threadsState: ResultState.Loaded,
   threads: [firstThread],
   receivers: [receiver],
-  attachContactFlatList: [contact],
   loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
   getReceiver: jest.fn().mockReturnValue(receiver),
   getContactByPhoneNumber: jest.fn(),
@@ -165,6 +171,12 @@ const renderer = (
   options?: Omit<RenderOptions, "queries">
 ) => {
   const history = createMemoryHistory()
+  const storeMock = createMockStore([thunk])({
+    contacts: {
+      db: contactsMap,
+      collection: ["1", "2"],
+    },
+  } as unknown as ReduxRootState)
   const props = {
     ...defaultProps,
     ...extraProps,
@@ -172,7 +184,9 @@ const renderer = (
 
   const outcome = renderWithThemeAndIntl(
     <Router history={history}>
-      <Messages {...props} />
+      <Provider store={storeMock}>
+        <Messages {...props} />
+      </Provider>
     </Router>,
     options
   )

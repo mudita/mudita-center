@@ -3,19 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PaginationBody } from "@mudita/pure"
-import { PayloadAction } from "@reduxjs/toolkit"
-import {
-  Contact,
-  ContactCategory,
-} from "App/contacts/reducers/contacts.interface"
-import AttachContactModal from "App/messages/components/attach-contact-modal.component"
 import DeleteMessageModals from "App/messages/components/delete-message-modals/delete-message-modals.component"
 import DeleteThreadModals from "App/messages/components/delete-thread-modals/delete-thread-modals.component"
 import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
 import MessagesPanel from "App/messages/components/messages-panel.component"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
-import { ComponentProps as MessagesComponentProps } from "App/messages/components/messages/messages.interface"
 import NewMessageForm from "App/messages/components/new-message-form.component"
 import ThreadDetails from "App/messages/components/thread-details.component"
 import ThreadList from "App/messages/components/thread-list.component"
@@ -25,11 +17,8 @@ import {
   ResultState,
   ThreadDeletingState,
 } from "App/messages/constants"
-import { Message, NewMessage, Thread } from "App/messages/dto"
+import { Message, Thread } from "App/messages/dto"
 import { Receiver, ReceiverIdentification } from "App/messages/reducers"
-import { CreateMessageDataResponse } from "App/messages/services"
-import { Notification } from "App/notification/types"
-import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
 import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
 import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
 import {
@@ -37,6 +26,7 @@ import {
   TableWithSidebarWrapper,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
+import { MessagesProps } from "App/messages/components/messages/messages.interface"
 import { Message as TranslationMessage } from "App/__deprecated__/renderer/interfaces/message.interface"
 import getPrettyCaller from "App/__deprecated__/renderer/models/calls/get-pretty-caller"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -51,6 +41,7 @@ import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
 import { IndexRange } from "react-virtualized"
 import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
+import { ContactSelectModal } from "App/contacts"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },
@@ -80,34 +71,9 @@ enum MessagesState {
   NewMessage,
 }
 
-interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
-  receivers: Receiver[]
-  attachContactList: ContactCategory[]
-  attachContactFlatList: Contact[]
-  messageLayoutNotifications: Notification[]
-  loadThreads: (
-    pagination: PaginationBody
-  ) => Promise<PayloadAction<PaginationBody | undefined>>
-  getMessagesByThreadId: (threadId: string) => Message[]
-  getContact: (contactId: string) => Contact | undefined
-  getReceiver: (phoneNumber: string) => Receiver
-  getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
-  getMessagesStateByThreadId: (threadId: string) => ResultState
-  isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
-  addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
-  deleteMessage: (messageId: string) => Promise<string>
-  removeLayoutNotification: (notificationId: string) => void
-  threadDeletingState: ThreadDeletingState | null
-  messageDeletingState: MessageDeletingState | null
-  currentlyDeletingMessageId: string | null
-  hideDeleteModal: () => void
-  hideMessageDeleteModal: () => void
-  resendMessage: (messageId: string) => void
-}
-
 const hideSuccessPopupAfterTimeInMs = 5000
 
-const Messages: FunctionComponent<Props> = ({
+const Messages: FunctionComponent<MessagesProps> = ({
   threadsState,
   receivers,
   searchValue,
@@ -119,8 +85,6 @@ const Messages: FunctionComponent<Props> = ({
   toggleReadStatus = noop,
   markThreadsReadStatus = noop,
   language,
-  attachContactList,
-  attachContactFlatList,
   getContactByPhoneNumber,
   isContactCreatedByPhoneNumber,
   addNewMessage,
@@ -134,6 +98,8 @@ const Messages: FunctionComponent<Props> = ({
   currentlyDeletingMessageId,
   resendMessage,
 }) => {
+  // TODO move component logic to custom hook
+
   useEffect(() => {
     messageLayoutNotifications
       .filter(
@@ -145,6 +111,8 @@ const Messages: FunctionComponent<Props> = ({
   }, [messageLayoutNotifications])
 
   const [deleteMessageModalOpen, setDeleteMessageModalOpen] =
+    useState<boolean>(false)
+  const [showAttachContactModal, setShowAttachContactModal] =
     useState<boolean>(false)
 
   const [messagesState, setMessagesState] = useState(MessagesState.List)
@@ -230,13 +198,11 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const openAttachContactModal = () => {
-    modalService.openModal(
-      <AttachContactModal
-        contactFlatList={attachContactFlatList}
-        contactList={attachContactList}
-      />,
-      true
-    )
+    setShowAttachContactModal(true)
+  }
+
+  const closeAttachContactModal = () => {
+    setShowAttachContactModal(false)
   }
 
   const openNewMessage = (): void => {
@@ -430,6 +396,11 @@ const Messages: FunctionComponent<Props> = ({
 
   return (
     <>
+      <ContactSelectModal
+        open={showAttachContactModal}
+        onClose={closeAttachContactModal}
+        onSelect={console.log}
+      />
       <MessagesPanel
         searchValue={searchValue}
         onSearchValueChange={changeSearchValue}
