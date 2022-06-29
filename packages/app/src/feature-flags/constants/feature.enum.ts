@@ -4,15 +4,16 @@
  */
 
 export enum Feature {
-  ProductionReleaseOnly = "production-release-only",
-  TestProductionReleaseOnly = "test-production-release-only",
-  AllReleaseListAvailable = "all-release-list-available",
-
+  ProductionReleasesOnly = "production-releases-only",
+  PreReleasesOnly = "pre-releases-only",
   LoggerEnabled = "logger-enabled",
   LogsScrubbingEnabled = "logs-scrubbing-enabled",
   DeveloperModeEnabled = "developer-mode-enabled",
   FilesManagerEnabled = "files-manager-enabled",
   MessagesSearchEnabled = "messages-search-enabled",
+  MessagesDeleteEnabled = "messages-delete-enabled",
+  MessagesForwardEnabled = "messages-forward-enabled",
+  MessagesResendEnabled = "messages-resend-enabled",
   MessagesThreadDeleteEnabled = "messages-thread-delete-enabled",
   MessagesThreadAttachContactEnabled = "messages-thread-attach-contact-enabled",
   MessagesThreadAttachTemplateEnabled = "messages-thread-attach-template-enabled",
@@ -36,4 +37,5 @@ export enum Feature {
   MeditationTabEnabled = "meditation-tab-enabled",
   RecoveryModeTabEnabled = "recovery-mode-tab-enabled",
   YourPureIconsEnabled = "your-pure-icons-enabled",
+  ReadAndUnreadMessages = "read-and-unread-messages",
 }

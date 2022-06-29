@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import axios, { AxiosInstance, Method, ResponseType } from "axios"
 import { Release } from "../types"
 import { GithubHttpAdapterClass } from "./github-http-adapter.class"

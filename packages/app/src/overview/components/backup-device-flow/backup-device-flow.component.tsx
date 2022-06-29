@@ -11,7 +11,7 @@ import {
   BackupSpinnerModal,
   BackupSuccessModal,
 } from "App/overview/components/backup-modal-dialogs/backup-modal-dialogs"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { BackupDeviceFlowTestIds } from "App/overview/components/backup-device-flow/backup-device-flow-test-ids.component"
 import { BackupSetSecretKeyModal } from "App/overview/components/backup-set-secret-key-modal-dialog/backup-set-secret-key-modal-dialog.component"
 

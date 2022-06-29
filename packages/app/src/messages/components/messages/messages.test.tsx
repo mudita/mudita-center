@@ -16,8 +16,6 @@ import { fireEvent, waitFor } from "@testing-library/dom"
 import {
   Receiver,
   ReceiverIdentification,
-  ResultState,
-  Thread,
 } from "App/messages/reducers/messages.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
@@ -26,7 +24,9 @@ import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
-import { MessageType } from "App/messages/reducers"
+import { MessageType, ResultState } from "App/messages/constants"
+import { Thread } from "App/messages/dto"
+import { flags } from "App/feature-flags"
 
 jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
   flags: {
@@ -125,6 +125,11 @@ const defaultProps: Props = {
   removeLayoutNotification: jest.fn(),
   threadDeletingState: null,
   hideDeleteModal: jest.fn(),
+  hideMessageDeleteModal: jest.fn(),
+  currentlyDeletingMessageId: null,
+  deleteMessage: jest.fn(),
+  messageDeletingState: null,
+  resendMessage: jest.fn(),
 }
 
 const propsWithSingleThread: Partial<Props> = {
@@ -244,20 +249,6 @@ describe("Messages component", () => {
         queryByTestId(MessagesTestIds.EmptyThreadListState)
       ).toBeInTheDocument()
       expect(queryByTestId(MessagesTestIds.ThreadList)).not.toBeInTheDocument()
-    })
-
-    test("deleting modals are not showed", () => {
-      const { queryByTestId } = renderer()
-
-      expect(
-        queryByTestId(MessagesTestIds.SuccessThreadDelete)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(MessagesTestIds.ThreadDeleting)
-      ).not.toBeInTheDocument()
-      expect(
-        queryByTestId(MessagesTestIds.FailThreadDelete)
-      ).not.toBeInTheDocument()
     })
   })
 
@@ -692,6 +683,7 @@ describe("Messages component", () => {
   })
 
   test("dropdown mark as read button has correct content ", () => {
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
       intl.formatMessage({
@@ -701,11 +693,13 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown mark as read buttons", () => {
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-mark-as-read")).toBeInTheDocument()
   })
 
   test("dropdown delete button has correct content", () => {
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
       intl.formatMessage({
@@ -715,6 +709,7 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown delete buttons", () => {
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-delete")).toBeInTheDocument()
   })

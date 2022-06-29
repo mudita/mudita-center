@@ -11,11 +11,8 @@ import {
   TmpDispatch,
   RootState,
 } from "App/__deprecated__/renderer/store"
-import {
-  Message,
-  NewMessage,
-  VisibilityFilter,
-} from "App/messages/reducers/messages.interface"
+import { Thread, Message, NewMessage } from "App/messages/dto"
+import { VisibilityFilter } from "App/messages/constants"
 import {
   changeSearchValue,
   changeVisibilityFilter,
@@ -40,11 +37,13 @@ import {
   NotificationMethod,
   NotificationResourceType,
 } from "App/notification/constants"
-import { deleteThreads } from "App/messages/actions/delete-threads.action"
 import { toggleThreadsReadStatus } from "App/messages/actions/toggle-threads-read-status.action"
-import { Thread } from "App/messages/reducers/messages.interface"
-import { markThreadsReadStatus } from "./actions/mark-threads-read-status.action"
-import { deleteMessage } from "./actions/delete-message.action"
+import {
+  deleteMessage,
+  deleteThreads,
+  markThreadsReadStatus,
+  resendMessage,
+} from "./actions"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,
@@ -89,6 +88,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(removeNotification(notificationId)),
   hideDeleteModal: () => dispatch(hideDeleteModal()),
   hideMessageDeleteModal: () => dispatch(hideMessageDeleteModal()),
+  resendMessage: (messageId: string) => dispatch(resendMessage(messageId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

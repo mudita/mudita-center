@@ -6,7 +6,7 @@
 import { TemplateError } from "App/templates/constants"
 
 export class UpdateTemplateOrderError extends Error {
-  public type = TemplateError.UpdateTemplateOrder
+  public readonly type = TemplateError.UpdateTemplateOrder
 
   constructor(public message: string, public payload?: any) {
     super()

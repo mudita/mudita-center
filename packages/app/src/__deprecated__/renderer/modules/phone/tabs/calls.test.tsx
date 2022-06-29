@@ -8,9 +8,12 @@ import { CallsTableTestIds } from "App/__deprecated__/renderer/components/rest/c
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { mockData } from "App/__mocks__/calls-mock-data"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
-import Calls, { CallsProps } from "App/__deprecated__/renderer/modules/phone/tabs/calls.component"
+import Calls, {
+  CallsProps,
+} from "App/__deprecated__/renderer/modules/phone/tabs/calls.component"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
+import { mapToRawNumber } from "App/messages/helpers"
 
 const defaultProps: CallsProps = {
   calls: mockData,
@@ -60,7 +63,9 @@ test("when caller is unknown, displays only phone number + times missed", () => 
     examplesIndex
   ]
   expect(unknownsCallerCol).toHaveTextContent(
-    `${mockData[examplesIndex].caller.phoneNumber} (${mockData[examplesIndex].timesMissed})`
+    `${mapToRawNumber(mockData[examplesIndex].caller.phoneNumber)} (${
+      mockData[examplesIndex].timesMissed
+    })`
   )
 })
 

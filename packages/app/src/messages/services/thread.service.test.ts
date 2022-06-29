@@ -13,7 +13,8 @@ import { ThreadService } from "App/messages/services/thread.service"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import { ThreadPresenter } from "App/messages/presenters"
 import { ThreadRepository } from "../repositories"
-import { Thread, MessageType } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 jest.mock("App/messages/presenters")
 ;(ThreadPresenter as unknown as jest.Mock).mockImplementation(() => {

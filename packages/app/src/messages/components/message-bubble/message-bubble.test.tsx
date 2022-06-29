@@ -3,13 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import React, { ComponentProps } from "react"
-import MessageBubble from "App/messages/components/message-bubble.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom"
-import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
-import { MessageType } from "App/messages/reducers"
+import { MessageBubbleTestIds } from "App/messages/components/message-bubble/message-bubble-test-ids.enum"
+import MessageBubble from "App/messages/components/message-bubble/message-bubble.component"
+import { MessageType } from "App/messages/constants"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import React, { ComponentProps } from "react"
 
 type Props = ComponentProps<typeof MessageBubble>
 
@@ -20,6 +21,8 @@ const defaultProps: Props = {
   id: "123",
   message:
     "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
+  isMessageBeingDeleted: false,
+  removeMessage: noop,
   messageType: MessageType.INBOX,
 }
 
@@ -82,9 +85,42 @@ describe("Message Bubble Container", () => {
     const container = getByTestId(MessageBubbleTestIds.Container)
     expect(container).toHaveStyle("flex-direction: row")
   })
+  test("should be a little transparent when message is being deleted", () => {
+    const { getByTestId } = renderer({ isMessageBeingDeleted: true })
+    const container = getByTestId(MessageBubbleTestIds.Container)
+    expect(container).toHaveStyle("opacity: 50%")
+  })
+
+  test("should be not transparent when message is not being deleted", () => {
+    const { getByTestId } = renderer({ isMessageBeingDeleted: false })
+    const container = getByTestId(MessageBubbleTestIds.Container)
+    expect(container).toHaveStyle("opacity: 100%")
+  })
 })
 
 test("should show not send status if sending message failed", () => {
   const { getByTestId } = renderer({ messageType: MessageType.FAILED })
   expect(getByTestId(MessageBubbleTestIds.NotSendIcon)).toBeInTheDocument()
+})
+
+describe("dropdown", () => {
+  test("should not show bubble dropdown when message is being deleted", () => {
+    const { queryByTestId } = renderer({
+      messageType: MessageType.INBOX,
+      isMessageBeingDeleted: true,
+    })
+    expect(
+      queryByTestId(MessageBubbleTestIds.DropdownActionButton)
+    ).not.toBeInTheDocument()
+  })
+
+  test("should show bubble dropdown when message is not being deleted", () => {
+    const { queryByTestId } = renderer({
+      messageType: MessageType.INBOX,
+      isMessageBeingDeleted: false,
+    })
+    expect(
+      queryByTestId(MessageBubbleTestIds.DropdownActionButton)
+    ).toBeInTheDocument()
+  })
 })

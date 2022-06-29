@@ -42,7 +42,6 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
   onSave,
   error,
   template,
-  savingPossible = true,
   saving = false,
 }) => {
   const {
@@ -50,6 +49,7 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
     handleSubmit,
     formState: { errors },
     setError,
+    watch,
   } = useForm({
     defaultValues: template
       ? template
@@ -58,6 +58,8 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
         },
     mode: "onChange",
   })
+
+  const dataChanged = watch("text") !== template?.text
 
   useEffect(() => {
     if (error) {
@@ -109,9 +111,7 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
           <ButtonComponent
             type={Type.Submit}
             data-testid={TemplateFormTestIds.SaveButton}
-            disabled={
-              !savingPossible || Object.keys(errors).length > 0 || saving
-            }
+            disabled={Object.keys(errors).length > 0 || saving || !dataChanged}
             label={
               saving ? (
                 <Loader

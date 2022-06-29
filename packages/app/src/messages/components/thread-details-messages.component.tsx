@@ -15,29 +15,33 @@ import ViewportList from "react-viewport-list"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { MessageBubblesWrapper } from "App/messages/components/thread-details.styled"
 import MessageDayBubble from "App/messages/components/message-day-bubble.component"
-import {
-  Message,
-  MessageType,
-  Receiver,
-} from "App/messages/reducers/messages.interface"
+import { Receiver } from "App/messages/reducers/messages.interface"
+import { Message } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import NewMessageBadge from "App/messages/components/new-message-badge.component"
 import { Notification } from "App/notification/types"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 interface Properties {
   messages: Message[]
+  currentlyDeletingMessageId: string | null
   receiver?: Receiver
   messageLayoutNotifications?: Notification[]
   removeLayoutNotification?: (notificationId: string) => void
   onMessageRead?: () => void
+  onMessageRemove?: (messageId: string) => void
+  resendMessage?: (messageId: string) => void
 }
 
 const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   messages,
+  currentlyDeletingMessageId,
   receiver,
   messageLayoutNotifications,
   removeLayoutNotification = noop,
   onMessageRead = noop,
+  onMessageRemove = noop,
+  resendMessage,
 }) => {
   const wrapperBottomRef = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLDivElement>(null)
@@ -48,7 +52,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   useEffect(() => {
     if (
       prevMessages.messages.length < messages.length &&
-      messages[messages.length - 1].messageType === MessageType.OUTBOX
+      messages[messages.length - 1]?.messageType === MessageType.OUTBOX
     ) {
       wrapperBottomRef.current &&
         wrapperBottomRef.current.scrollIntoView({
@@ -66,7 +70,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
     return (
       onBottom &&
       prevMessages.messages.length < messages.length &&
-      messages[messages.length - 1].messageType === MessageType.INBOX
+      messages[messages.length - 1]?.messageType === MessageType.INBOX
     )
   }
 
@@ -78,7 +82,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
 
     const notificationOnThread = messageLayoutNotifications?.find(
       (item) =>
-        (item.content as Message)?.threadId === messages[0].threadId &&
+        (item.content as Message)?.threadId === messages[0]?.threadId &&
         (item.content as Message)?.messageType === MessageType.INBOX
     )
     if (notificationOnThread) {
@@ -121,7 +125,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   useEffect(() => {
     const currentNotifications = messageLayoutNotifications?.filter(
       (item) =>
-        (item.content as Message)?.threadId === messages[0].threadId &&
+        (item.content as Message)?.threadId === messages[0]?.threadId &&
         (item.content as Message)?.messageType === MessageType.INBOX
     )
     setNotifications(currentNotifications ? currentNotifications : [])
@@ -163,6 +167,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
         {(item, index) => {
           const { messageType, date, content, id } = item
           const interlocutor = messageType === MessageType.INBOX
+          const isMessageBeingDeleted = id === currentlyDeletingMessageId
           const user = interlocutor && receiver ? receiver : {}
           const prevMessage = messages[index - 1]
           const displayAvatar = prevMessage
@@ -180,6 +185,9 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
             displayDate: previousDateIsSame,
             message: content,
             messageType,
+            removeMessage: onMessageRemove,
+            isMessageBeingDeleted,
+            resendMessage,
           }
 
           return <MessageDayBubble key={id} {...messageDayBubble} />

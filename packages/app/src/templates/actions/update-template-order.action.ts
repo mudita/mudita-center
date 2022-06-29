@@ -19,7 +19,10 @@ export const updateTemplateOrder = createAsyncThunk<
 
     if (error && error.data === undefined) {
       return rejectWithValue(
-        new UpdateTemplateOrderError("Update Templates Order request failed")
+        new UpdateTemplateOrderError(
+          error?.message || "Something went wrong",
+          error?.data
+        )
       )
     }
 

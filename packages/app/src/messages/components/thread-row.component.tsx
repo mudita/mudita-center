@@ -35,7 +35,8 @@ import { Feature } from "App/feature-flags/constants/feature.enum"
 import { flags } from "App/feature-flags/helpers/feature-flag.helpers"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
-import { Thread, MessageType } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import {
   RowStatus,
@@ -243,17 +244,27 @@ const ThreadRow: FunctionComponent<Props> = ({
                       .locale(language ?? "en")
                       .format("ll")}
               </Time>
-              <LastMessageText
-                unread={unread}
-                color="secondary"
-                displayStyle={
-                  unread
-                    ? TextDisplayStyle.Paragraph3
-                    : TextDisplayStyle.Paragraph4
-                }
-              >
-                {thread?.messageSnippet}
-              </LastMessageText>
+              {flags.get(Feature.ReadAndUnreadMessages) ? (
+                <LastMessageText
+                  unread={unread}
+                  color="secondary"
+                  displayStyle={
+                    unread
+                      ? TextDisplayStyle.Paragraph3
+                      : TextDisplayStyle.Paragraph4
+                  }
+                >
+                  {thread?.messageSnippet}
+                </LastMessageText>
+              ) : (
+                <LastMessageText
+                  unread={false}
+                  color="secondary"
+                  displayStyle={TextDisplayStyle.Paragraph4}
+                >
+                  {thread?.messageSnippet}
+                </LastMessageText>
+              )}
             </ThreadDataWrapper>
             {isMessageFailed && (
               <WarningIconWrapper>
@@ -326,17 +337,19 @@ const ThreadRow: FunctionComponent<Props> = ({
                 data-testid="dropdown-delete"
               />
             )}
-            <ButtonComponent
-              labelMessage={{
-                id: unread
-                  ? "module.messages.markAsRead"
-                  : "module.messages.markAsUnread",
-              }}
-              Icon={IconType.BorderCheckIcon}
-              onClick={handleToggleClick}
-              displayStyle={DisplayStyle.Dropdown}
-              data-testid="dropdown-mark-as-read"
-            />
+            {flags.get(Feature.ReadAndUnreadMessages) && (
+              <ButtonComponent
+                labelMessage={{
+                  id: unread
+                    ? "module.messages.markAsRead"
+                    : "module.messages.markAsUnread",
+                }}
+                Icon={IconType.BorderCheckIcon}
+                onClick={handleToggleClick}
+                displayStyle={DisplayStyle.Dropdown}
+                data-testid="dropdown-mark-as-read"
+              />
+            )}
           </Dropdown>
         </Actions>
       </Col>

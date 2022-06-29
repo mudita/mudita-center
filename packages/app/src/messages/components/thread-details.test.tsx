@@ -9,13 +9,13 @@ import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ThreadDetails from "App/messages/components/thread-details.component"
 import {
-  Message,
-  MessageType,
   Receiver,
   ReceiverIdentification,
 } from "App/messages/reducers/messages.interface"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
+import { Message } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
@@ -82,6 +82,9 @@ const defaultProps: Props = {
   messageLayoutNotifications: [],
   removeLayoutNotification: jest.fn(),
   onMessageRead: jest.fn(),
+  currentlyDeletingMessageId: null,
+  onMessageDelete: jest.fn(),
+  resendMessage: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

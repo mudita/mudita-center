@@ -93,7 +93,10 @@ const NewMessageForm: FunctionComponent<Props> = ({
       {...props}
     >
       <MessagesWrapper>
-        <ThreadDetailsMessages messages={[]} />
+        <ThreadDetailsMessages
+          messages={[]}
+          currentlyDeletingMessageId={null}
+        />
       </MessagesWrapper>
       <ThreadDetailsTextArea
         value={content}

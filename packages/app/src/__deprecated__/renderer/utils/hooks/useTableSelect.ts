@@ -45,7 +45,7 @@ const useTableSelect = <T, K = T>(
     ]
   }, [])
 
-  const allSelected = selectedRows.length === selectableRows.length
+  const allSelected = selectedRows.length >= selectableRows.length
 
   const toggleAll = () => {
     // If all rows are selected deselect them, otherwise select all

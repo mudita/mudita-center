@@ -10,7 +10,7 @@ import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/te
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import styled from "styled-components"
 import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
-import ModalDialog from "App/__deprecated__/renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
 import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
 import { LoaderModalTestIds } from "App/ui/components/loader-modal/loader-modal-test-ids.enum"
