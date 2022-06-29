@@ -11,8 +11,16 @@ import { UpdateTemplateOrderError } from "App/templates/errors"
 import { Template } from "App/templates/dto"
 import { updateTemplateOrderRequest } from "App/templates/requests/update-template-order.request"
 import { updateTemplateOrder } from "App/templates/actions/update-template-order.action"
+import {
+  RequestResponse,
+  RequestResponseStatus,
+} from "App/core/types/request-response.interface"
 
-const errorMock = new UpdateTemplateOrderError("Something went wrong")
+jest.mock("App/templates/requests/update-template-order.request")
+
+const errorMock = new UpdateTemplateOrderError(
+  "Update Templates Order request failed"
+)
 
 const mockStore = createMockStore([thunk])()
 
@@ -23,50 +31,66 @@ const template: Template = {
   order: 1,
 }
 
+const secondTemplate: Template = {
+  id: "2",
+  text: "Hello world! Second text",
+  lastUsedAt: "2",
+  order: 2,
+}
+
+const errorResponse: RequestResponse = {
+  status: RequestResponseStatus.Error,
+  error: {
+    message: "I'm error",
+  },
+}
+
 beforeEach(() => {
   mockStore.clearActions()
 })
-
-jest.mock("App/templates/requests/update-template-order.request")
 
 describe("async `updateTemplateOrder`", () => {
   describe("when `updateTemplateOrderRequest` requests return success", () => {
     test("fire async `updateTemplateOrder` returns updated template", async () => {
       ;(updateTemplateOrderRequest as jest.Mock).mockReturnValue({
-        data: { ...template },
-        error: null,
+        dupa: "dupa",
       })
 
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        updateTemplateOrder(template) as unknown as AnyAction
+        updateTemplateOrder([template, secondTemplate]) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        updateTemplateOrder.pending(requestId, template),
-        updateTemplateOrder.fulfilled(template, requestId, template),
+        updateTemplateOrder.pending(requestId, [template, secondTemplate]),
+        updateTemplateOrder.fulfilled([template, secondTemplate], requestId, [
+          template,
+          secondTemplate,
+        ]),
       ])
 
       expect(updateTemplateOrderRequest).toHaveBeenCalled()
     })
   })
 
-  describe("when `updateTemplateOrderRequest` returns undefined `data` or `error` exists", () => {
-    test("fire async `updateTemplateOrder` returns `rejected` action if data is undefined", async () => {
-      ;(updateTemplateOrderRequest as jest.Mock).mockReturnValue({
-        data: undefined,
-        error: null,
-      })
+  describe("when `updateTemplateOrderRequest` returns error`", () => {
+    test("fire async `updateTemplateOrder` returns `rejected` action", async () => {
+      ;(updateTemplateOrderRequest as jest.Mock).mockReturnValue(errorResponse)
       const {
         meta: { requestId },
       } = await mockStore.dispatch(
-        updateTemplateOrder(template) as unknown as AnyAction
+        updateTemplateOrder([template, secondTemplate]) as unknown as AnyAction
       )
 
       expect(mockStore.getActions()).toEqual([
-        updateTemplateOrder.pending(requestId, template),
-        updateTemplateOrder.rejected(testError, requestId, template, errorMock),
+        updateTemplateOrder.pending(requestId, [template, secondTemplate]),
+        updateTemplateOrder.rejected(
+          testError,
+          requestId,
+          [template, secondTemplate],
+          errorMock
+        ),
       ])
 
       expect(updateTemplateOrderRequest).toHaveBeenCalled()

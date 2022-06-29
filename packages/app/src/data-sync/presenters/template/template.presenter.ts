@@ -41,7 +41,7 @@ export class TemplatePresenter {
           id: template._id,
           text: template.text,
           lastUsedAt: template.lastUsageTimestamp,
-          order: template.rowOrder,
+          order: Number(template.rowOrder),
         }
       })
       .filter((thread) => typeof thread !== "undefined") as TemplateObject[]

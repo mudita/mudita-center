@@ -116,7 +116,7 @@ describe("`TemplateService`", () => {
   describe("`updateTemplateOrder` method", () => {
     test("map data and returns success when `deviceService.request` returns success", async () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
-      const response = await subject.updateTemplateOrder(template)
+      const response = await subject.updateTemplatesOrder([template])
       expect(deviceService.request).toHaveBeenLastCalledWith({
         endpoint: 8,
         method: 3,
@@ -131,7 +131,7 @@ describe("`TemplateService`", () => {
 
     test("returns error  when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
-      const response = await subject.updateTemplateOrder(template)
+      const response = await subject.updateTemplatesOrder([template])
       expect(deviceService.request).toHaveBeenLastCalledWith({
         endpoint: 8,
         method: 3,

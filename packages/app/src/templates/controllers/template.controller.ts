@@ -36,8 +36,8 @@ export class TemplateController {
 
   @IpcEvent(IpcTemplateEvent.UpdateTemplateOrder)
   public async updateTemplateOrder(
-    template: Template
-  ): Promise<RequestResponse<Template>> {
-    return this.templateService.updateTemplateOrder(template)
+    templates: Template[]
+  ): Promise<RequestResponse<Template[]>> {
+    return this.templateService.updateTemplatesOrder(templates)
   }
 }

@@ -172,32 +172,28 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     startIndex: number,
     endIndex: number
   ): void => {
-    const startOrder = startIndex + 1
-    const endOrder = endIndex + 1
-    const updatedTemplate = list.find(
-      (template) => template.order == startOrder
+    const result = Array.from(list)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+
+    const movedTemplates = result.filter((_template, index) => {
+      if (startIndex < endIndex) {
+        return startIndex <= index && index <= endIndex
+      } else {
+        return endIndex <= index && index <= startIndex
+      }
+    })
+    const orderStartValue = startIndex < endIndex ? startIndex : endIndex
+    const indexToOrderValue = 1
+    const updatedTemplates: Template[] = movedTemplates.map(
+      (template, index) => {
+        return {
+          ...template,
+          order: orderStartValue + indexToOrderValue + index,
+        }
+      }
     )
-
-    if (updatedTemplate !== undefined) {
-      updateTemplateOrder({ ...updatedTemplate, order: endOrder })
-    }
-
-    if (startOrder < endOrder) {
-      const updatedRestTemplates = list.filter((template) => {
-        console.log("rest", template.order)
-        return startOrder < template.order && template.order <= endOrder
-      })
-      updatedRestTemplates.map((template) =>
-        updateTemplateOrder({ ...template, order: template.order - 1 })
-      )
-    } else {
-      const updatedRestTemplates = list.filter((template) => {
-        return endOrder <= template.order && template.order < startOrder
-      })
-      updatedRestTemplates.map((template) =>
-        updateTemplateOrder({ ...template, order: template.order + 1 })
-      )
-    }
+    updateTemplateOrder(updatedTemplates)
   }
 
   const onDragEnd = (result: DropResult) => {

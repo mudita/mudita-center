@@ -34,6 +34,7 @@ describe("`mapToPureNewTemplateBody` method", () => {
     expect(TemplatePresenter.mapToPureNewTemplateBody(newTemplate)).toEqual({
       templateBody: "Hello world!",
       category: PureMessagesCategory.template,
+      order: 1,
     })
   })
 })
