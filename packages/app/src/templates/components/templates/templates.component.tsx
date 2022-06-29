@@ -55,8 +55,11 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     useTableSelect<Template>(templates)
 
   useEffect(() => {
-    setTemplatesList(templates)
+    if (!loading) {
+      setTemplatesList(templates)
+    }
   }, [templates])
+
   useEffect(() => {
     if (!loaded || error) {
       return
@@ -179,7 +182,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     const result = Array.from(list)
     const [removed] = result.splice(startIndex, 1)
     result.splice(endIndex, 0, removed)
-
+    setTemplatesList(result)
     const movedTemplates = result.filter((_template, index) => {
       if (startIndex < endIndex) {
         return startIndex <= index && index <= endIndex
@@ -218,7 +221,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       />
       <TemplatesSection>
         <TemplatesList
-          templates={templatesList}
+          templates={loading ? templatesList : templates}
           deleteTemplates={handleOpenDeleteModal}
           updateTemplate={handleOpenUpdateTemplate}
           onDragEnd={onDragEnd}
