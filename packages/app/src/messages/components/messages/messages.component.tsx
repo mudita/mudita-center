@@ -74,6 +74,10 @@ const mockThread: Thread = {
   messageType: MessageType.OUTBOX,
 }
 
+const isMockedThreadUsedForNewMessageForm = (thread: Thread) => {
+  return thread.id === mockThread.id
+}
+
 enum MessagesState {
   List,
   ThreadDetails,
@@ -178,6 +182,25 @@ const Messages: FunctionComponent<Props> = ({
     }
     return
   }, [threadDeletingState, messageDeletingState])
+
+  useEffect(() => {
+    handlePotentialThreadDeletion()
+  }, [threads])
+
+  const handlePotentialThreadDeletion = () => {
+    const isThreadInThreadsList = (thread: Thread) => {
+      return threads.find((item) => item.id === thread.id)
+    }
+
+    if (
+      activeThread &&
+      !isMockedThreadUsedForNewMessageForm(activeThread) &&
+      !isThreadInThreadsList(activeThread)
+    ) {
+      setMessagesState(MessagesState.List)
+      setActiveThread(undefined)
+    }
+  }
 
   const getDeletingMessage = (ids: string[]): TranslationMessage => {
     const findById = (thread: Thread) => thread.id === ids[0]
@@ -441,9 +464,7 @@ const Messages: FunctionComponent<Props> = ({
         onDeleteClick={handleDeleteSelected}
       />
       <TableWithSidebarWrapper>
-        {threads.length === 0 &&
-        messagesState !== MessagesState.NewMessage &&
-        messagesState !== MessagesState.ThreadDetails ? (
+        {threads.length === 0 && messagesState === MessagesState.List ? (
           <EmptyState
             data-testid={MessagesTestIds.EmptyThreadListState}
             title={messages.emptyListTitle}
