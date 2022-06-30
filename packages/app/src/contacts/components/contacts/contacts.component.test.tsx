@@ -12,7 +12,6 @@ import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import Contacts from "App/contacts/components/contacts/contacts.component"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
-import { isContactMatching } from "App/contacts/components/contacts/contacts.component"
 import { InputSearchTestIds } from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
 import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-select-test-ids.enum"
 import { Contact, ResultState } from "App/contacts/reducers/contacts.interface"
@@ -210,32 +209,6 @@ test("changing contact details preview, when the user switching between contacts
     expect(getByTestId(ContactDetailsTestIds.AddressDetails)).toHaveTextContent(
       contactTwo.firstAddressLine ?? ""
     )
-  })
-})
-
-describe("isContactMatching", () => {
-  test("returns true when search string in email", () => {
-    const searchString = "example"
-    const result = isContactMatching(contacts[0], searchString)
-    expect(result).toBe(true)
-  })
-
-  test("returns true when search string in primaryPhoneNumber", () => {
-    const searchString = "069"
-    const result = isContactMatching(contacts[0], searchString)
-    expect(result).toBe(true)
-  })
-
-  test("returns false when no match ", () => {
-    const searchString = "000"
-    const result = isContactMatching(contacts[0], searchString)
-    expect(result).toBe(false)
-  })
-
-  test("returns true when match and if contact don't have all params ", () => {
-    const searchString = "Bednarów 3"
-    const result = isContactMatching(contacts[3], searchString)
-    expect(result).toBe(false)
   })
 })
 
