@@ -113,7 +113,7 @@ beforeAll(() => {
 })
 
 describe("Functionality: open/close", () => {
-  test("Modal is closed `open` field is equal to `false`", () => {
+  test("Modal is closed when `open` field is equal to `false`", () => {
     const { queryByTestId } = render({
       onClose,
       onSelect,

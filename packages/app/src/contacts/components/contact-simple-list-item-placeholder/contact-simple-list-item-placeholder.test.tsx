@@ -47,7 +47,7 @@ describe("Contact with phone number", () => {
 })
 
 describe("Contact without phone number", () => {
-  test("Exist's only avatar and name placeholders", () => {
+  test("Only avatar and name placeholders exist", () => {
     const { getByTestId, queryByTestId } = render({
       contact: {
         ...contact,

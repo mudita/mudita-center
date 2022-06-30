@@ -77,7 +77,7 @@ describe("When contacts state is empty", () => {
 })
 
 describe("When contacts state have records", () => {
-  test("selector returns empty table", () => {
+  test("selector hash table with contacts", () => {
     const state = {
       contacts: {
         db: contacts,

@@ -111,7 +111,7 @@ describe("Contact list isn't empty", () => {
   })
 })
 
-describe("Contact list isn empty", () => {
+describe("Contact list is empty", () => {
   test("Renders empty state", () => {
     const { getByTestId, getByText } = render({
       contacts: contactsHash,
