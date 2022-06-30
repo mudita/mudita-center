@@ -207,6 +207,17 @@ export class MessageService {
   public async deleteMessage(
     messageId: string
   ): Promise<RequestResponse<undefined>> {
+    const message = this.messageRepository.findById(messageId)
+
+    if (!message) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Delete message: Message not found",
+        },
+      }
+    }
+
     const result = await this.deviceService.request({
       body: {
         category: PureMessagesCategory.message,
@@ -216,19 +227,32 @@ export class MessageService {
       method: Method.Delete,
     })
 
-    if (isResponseSuccess(result)) {
-      this.messageRepository.delete(messageId)
-
+    if (!isResponseSuccess(result)) {
       return {
-        status: RequestResponseStatus.Ok,
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Delete message: Something went wrong",
+        },
+      }
+    }
+
+    this.messageRepository.delete(messageId)
+
+    const refreshThreadResult = await this.threadService.refreshThread(
+      message.threadId
+    )
+
+    if (!isResponseSuccess(refreshThreadResult)) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Refresh message: Something went wrong",
+        },
       }
     }
 
     return {
-      status: RequestResponseStatus.Error,
-      error: {
-        message: "Delete message: Something went wrong",
-      },
+      status: RequestResponseStatus.Ok,
     }
   }
 

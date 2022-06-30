@@ -8,7 +8,10 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { Router } from "react-router"
 import { RenderOptions, RenderResult } from "@testing-library/react"
 import { createMemoryHistory } from "history"
-import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import {
+  constructWrapper,
+  renderWithThemeAndIntl,
+} from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
 import Messages from "App/messages/components/messages/messages.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
@@ -176,10 +179,24 @@ const renderer = (
     </Router>,
     options
   )
+
   mockAllIsIntersecting(true)
   callbacks.forEach((callback) => callback(outcome))
   return {
     ...outcome,
+    rerender: (newExtraProps: Partial<RenderProps>) => {
+      const newProps = {
+        ...defaultProps,
+        ...newExtraProps,
+      }
+      outcome.rerender(
+        constructWrapper(
+          <Router history={history}>
+            <Messages {...newProps} />
+          </Router>
+        )
+      )
+    },
   }
 }
 
@@ -712,5 +729,79 @@ describe("Messages component", () => {
     jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-delete")).toBeInTheDocument()
+  })
+
+  describe("when the thread is deleted", () => {
+    describe("when deleted thread is the active thread", () => {
+      test("the thread details view is closed", () => {
+        const firstTimeRenderProps: RenderProps = {
+          callbacks: [setThreadDetailsState],
+          ...propsWithSingleThread,
+          threads: [firstThread, secondThread],
+        }
+
+        const rerenderComponentsProps = {
+          ...propsWithSingleThread,
+          threads: [secondThread],
+        }
+
+        // lets's have two threads and make the first one active
+        const { rerender, queryByTestId } = renderer(firstTimeRenderProps)
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+
+        // then simulate the fact of deleting the first thread
+        rerender(rerenderComponentsProps)
+        expect(
+          queryByTestId(MessagesTestIds.ThreadDetails)
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    describe("when deleted thread is not the active thread", () => {
+      test("the thread details view is not closed", () => {
+        const firstTimeRenderProps: RenderProps = {
+          callbacks: [setThreadDetailsState],
+          ...propsWithSingleThread,
+          threads: [firstThread, secondThread],
+        }
+
+        const rerenderComponentsProps = {
+          ...propsWithSingleThread,
+          threads: [firstThread],
+        }
+
+        const { rerender, queryByTestId } = renderer(firstTimeRenderProps)
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+
+        rerender(rerenderComponentsProps)
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+      })
+    })
+
+    describe("when the deleted thread is the last one", () => {
+      test("empty state list should be shown", () => {
+        const firstTimeRenderProps: RenderProps = {
+          callbacks: [setThreadDetailsState],
+          ...propsWithSingleThread,
+          threads: [firstThread],
+        }
+
+        const rerenderComponentsProps = {
+          ...propsWithSingleThread,
+          threads: [],
+        }
+
+        const { rerender, queryByTestId } = renderer(firstTimeRenderProps)
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+        expect(
+          queryByTestId(MessagesTestIds.EmptyThreadListState)
+        ).not.toBeInTheDocument()
+
+        rerender(rerenderComponentsProps)
+        expect(
+          queryByTestId(MessagesTestIds.EmptyThreadListState)
+        ).toBeInTheDocument()
+      })
+    })
   })
 })

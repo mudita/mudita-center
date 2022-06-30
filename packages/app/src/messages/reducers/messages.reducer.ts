@@ -36,6 +36,7 @@ import {
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
 import { markThreadsReadStatus } from "App/messages/reducers/messages-reducer.helpers"
+import assert from "assert"
 
 export const initialState: MessagesState = {
   threadMap: {},
@@ -104,23 +105,40 @@ export const messagesReducer = createReducer<MessagesState>(
         fulfilledAction(MessagesEvent.DeleteMessage),
         (state, action: DeleteMessageAction) => {
           const deletedMessageId = action.payload
-
           const newMessagesMap = { ...state.messageMap }
-          const newMessageIdsInThreadMap = Object.keys(
-            state.messageIdsInThreadMap
-          ).reduce((acc, threadId) => {
-            const messagesIds: string[] = state.messageIdsInThreadMap[
-              threadId
-            ].filter((messageId) => messageId !== deletedMessageId)
+          const newThreadMap = {
+            ...state.threadMap,
+          }
+          const newMessageIdsInThreadMap = {
+            ...state.messageIdsInThreadMap,
+          }
+          const threadId = Object.keys(state.messageIdsInThreadMap).find(
+            (thread) => {
+              return state.messageIdsInThreadMap[thread].find((messageId) => {
+                return messageId === deletedMessageId
+              })
+            }
+          )
 
-            return { ...acc, [threadId]: messagesIds }
-          }, {})
+          assert(threadId)
+
+          const filteredAffectedThreadMessages = state.messageIdsInThreadMap[
+            threadId
+          ].filter((messageId) => messageId !== deletedMessageId)
+
+          if (filteredAffectedThreadMessages.length === 0) {
+            delete newMessageIdsInThreadMap[threadId]
+            delete newThreadMap[threadId]
+          } else {
+            newMessageIdsInThreadMap[threadId] = filteredAffectedThreadMessages
+          }
 
           delete newMessagesMap[deletedMessageId]
 
           return {
             ...state,
             messageMap: newMessagesMap,
+            threadMap: newThreadMap,
             messageIdsInThreadMap: newMessageIdsInThreadMap,
             messagesDeletingState: MessageDeletingState.Success,
             currentlyDeletingMessageId: null,
