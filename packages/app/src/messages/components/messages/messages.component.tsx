@@ -98,7 +98,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   currentlyDeletingMessageId,
   resendMessage,
 }) => {
-  // TODO move component logic to custom hook
+  // TODO [CP-1401] move component logic to custom hook
 
   useEffect(() => {
     messageLayoutNotifications
