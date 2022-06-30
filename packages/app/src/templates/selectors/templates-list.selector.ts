@@ -13,7 +13,7 @@ const sortTemplates = (templates: Template[]): Template[] => {
   return [...templates].sort((a, b) => {
     const orderA = a.order
     const orderB = b.order
-    return orderA - orderB
+    return orderA && orderB ? orderA - orderB : -1
   })
 }
 
