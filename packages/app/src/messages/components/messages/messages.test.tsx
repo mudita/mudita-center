@@ -206,7 +206,9 @@ const renderer = (
       outcome.rerender(
         constructWrapper(
           <Router history={history}>
-            <Messages {...newProps} />
+            <Provider store={storeMock}>
+              <Messages {...newProps} />
+            </Provider>
           </Router>
         )
       )
