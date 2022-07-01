@@ -4,6 +4,7 @@
  */
 
 export * from "./contact-list.selector"
+export * from "./contacts-hash.selector"
 export * from "./contacts-state.selector"
 export * from "./flat-list.selector"
 export * from "./get-contact.selector"

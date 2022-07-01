@@ -28,8 +28,6 @@ import {
 } from "App/messages/selectors"
 import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
 import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
-import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
-import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
 import { removeNotification } from "App/notification/actions"
 import { getNotificationByResourceAndMethod } from "App/notification/selectors"
@@ -48,8 +46,6 @@ import {
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,
   threadsState: state.messages.threadsState,
-  attachContactList: contactListSelector(state),
-  attachContactFlatList: flatListSelector(state),
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
   threadDeletingState: state.messages.threadDeletingState,

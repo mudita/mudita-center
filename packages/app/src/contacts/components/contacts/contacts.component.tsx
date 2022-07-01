@@ -58,6 +58,7 @@ import {
   NewContact,
 } from "App/contacts/reducers/contacts.interface"
 import { isError } from "App/__deprecated__/common/helpers/is-error.helpers"
+import { contactsFilter } from "App/contacts/helpers/contacts-filter/contacts-filter.helper"
 
 export const messages = defineMessages({
   deleteTitle: { id: "module.contacts.deleteTitle" },
@@ -67,36 +68,6 @@ export const messages = defineMessages({
   editingText: { id: "module.contacts.editingText" },
   downloadingText: { id: "module.contacts.downloadingText" },
 })
-
-export const isContactMatching = (
-  contact: Contact,
-  search: string
-): boolean => {
-  const query: (keyof Contact)[] = [
-    "firstName",
-    "lastName",
-    "primaryPhoneNumber",
-    "secondaryPhoneNumber",
-    "email",
-    "firstAddressLine",
-    "secondAddressLine",
-  ]
-  for (const key of query) {
-    const param: typeof contact[keyof typeof contact] = contact[key]
-    const fullNameMatchContact = createFullName(contact)
-      .toLowerCase()
-      .includes(search.toLowerCase())
-    if (
-      (param !== undefined &&
-        typeof param === "string" &&
-        param.toLowerCase().includes(search.toLowerCase())) ||
-      fullNameMatchContact
-    ) {
-      return true
-    }
-  }
-  return false
-}
 
 const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const {
@@ -544,7 +515,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const results = flatList.filter((item) =>
-    isContactMatching(item, searchValue || "")
+    contactsFilter(item, searchValue || "")
   )
 
   const handleExport = async (contacts: Contact[]): Promise<void> => {
