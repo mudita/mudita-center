@@ -497,7 +497,7 @@ describe("Delete message functionality", () => {
       },
     })
   })
-  test("Event: DeleteMessage does not remove thread when the message is the last one", () => {
+  test("Event: DeleteMessage removes thread when the message is the last one", () => {
     const deleteMessageAction: PayloadAction<DeleteMessageAction["payload"]> = {
       type: fulfilledAction(MessagesEvent.DeleteMessage),
       payload: messageOne.id,
@@ -522,13 +522,9 @@ describe("Delete message functionality", () => {
     ).toEqual({
       ...initialState,
       messagesDeletingState: MessageDeletingState.Success,
-      threadMap: {
-        [thread.id]: thread,
-      },
+      threadMap: {},
       messageMap: {},
-      messageIdsInThreadMap: {
-        [thread.id]: [],
-      },
+      messageIdsInThreadMap: {},
     })
   })
 
