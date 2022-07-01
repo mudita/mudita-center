@@ -148,11 +148,10 @@ export class TemplateService {
       .filter(({ status }) => status === RequestResponseStatus.Ok)
       .map(({ template }) => template)
 
+    successTemplates.forEach((template) =>
+      this.templateRepository.update(template)
+    )
     if (errorTemplates.length > 0) {
-      successTemplates.forEach((template) =>
-        this.templateRepository.update(template)
-      )
-
       return {
         status: RequestResponseStatus.Error,
         error: {
@@ -161,8 +160,6 @@ export class TemplateService {
         },
       }
     } else {
-      templates.forEach((template) => this.templateRepository.update(template))
-
       return {
         status: RequestResponseStatus.Ok,
       }

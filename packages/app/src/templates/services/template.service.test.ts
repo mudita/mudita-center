@@ -47,6 +47,13 @@ const template: Template = {
   order: 1,
 }
 
+const secondTemplate: Template = {
+  id: "2",
+  text: "Hello world",
+  lastUsedAt: "1",
+  order: 2,
+}
+
 beforeEach(() => {
   jest.resetAllMocks()
 })
@@ -118,32 +125,46 @@ describe("`TemplateService`", () => {
   describe("`updateTemplateOrder` method", () => {
     test("map data and returns success when `deviceService.request` returns success", async () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
-      const response = await subject.updateTemplatesOrder([template])
+      const response = await subject.updateTemplatesOrder([
+        template,
+        secondTemplate,
+      ])
       expect(deviceService.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Put,
         body: {
-          templateID: 1,
+          templateID: 2,
           category: MessagesCategory.template,
-          order: 1,
+          order: 2,
         },
       })
       expect(response.status).toEqual(RequestResponseStatus.Ok)
+      expect(deviceService.request).toHaveBeenCalledTimes(2)
     })
 
     test("returns error  when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
-      const response = await subject.updateTemplatesOrder([template])
+      const response = await subject.updateTemplatesOrder([
+        template,
+        secondTemplate,
+      ])
       expect(deviceService.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Put,
         body: {
-          templateID: 1,
+          templateID: 2,
           category: MessagesCategory.template,
-          order: 1,
+          order: 2,
         },
       })
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
+  })
+
+  test("calls templateRepository update method for each updated template", async () => {
+    deviceService.request = jest.fn().mockReturnValue(successResponse)
+    await subject.updateTemplatesOrder([template, secondTemplate])
+
+    expect(templateRepository.update).toHaveBeenCalledTimes(2)
   })
 })

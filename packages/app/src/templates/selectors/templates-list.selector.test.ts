@@ -23,14 +23,14 @@ const secondTemplate: Template = {
 }
 
 describe("`templatesListSelector` selector", () => {
-  test("when initial state is set selector returns undefined", () => {
+  test("when initial state is set selector returns an empty array", () => {
     const state = {
       templates: templateReducer(undefined, {} as any),
     } as unknown as ReduxRootState
     expect(templatesListSelector(state)).toEqual([])
   })
 
-  test("when there are multiple templates selector returns them ascending by order", () => {
+  test("when there are multiple templates, selector returns them sorted by `order` files in ascending way", () => {
     const state = {
       templates: templateReducer(
         { ...initialState, data: [secondTemplate, template] },

@@ -43,7 +43,6 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       deletingInfo: false,
     })
 
-  // const sortedTemplates = templates.sort((a, b) => a.order = b.order)
   const [editedTemplate, setEditedTemplate] = useState<Template | undefined>()
   const [templateFormOpen, setTemplateFormOpenState] = useState<boolean>(false)
   const [deletedTemplates, setDeletedTemplates] = useState<string[]>([])

@@ -11,9 +11,7 @@ const templatesSelector = ({ templates }: ReduxRootState) => templates.data
 
 const sortTemplates = (templates: Template[]): Template[] => {
   return [...templates].sort((a, b) => {
-    const orderA = a.order
-    const orderB = b.order
-    return orderA - orderB
+    return a.order - b.order
   })
 }
 
