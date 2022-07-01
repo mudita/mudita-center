@@ -3,7 +3,7 @@
 exports[`when network is connected online data is returned 1`] = `
 Object {
   "muditaNews": Object {
-    "lastUpdate": "2020-04-29T11:23:22.696Z",
+    "lastUpdate": "2021-05-29T13:42:59.777Z",
     "newsItems": Array [
       Object {
         "category": "Forum",
@@ -55,7 +55,7 @@ Object {
 }
 `;
 
-exports[`when network is not connected offline data and returned 1`] = `
+exports[`when network is not connected offline data is returned 1`] = `
 Object {
   "muditaNews": Object {
     "lastUpdate": "2020-04-28T11:23:22.696Z",
