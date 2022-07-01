@@ -113,7 +113,10 @@ const receiver: Receiver = {
   identification: ReceiverIdentification.unknown,
 }
 
-beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
+beforeAll(() => {
+  mockAllIsIntersecting(true)
+  Element.prototype.scrollIntoView = jest.fn()
+})
 
 type Props = ComponentProps<typeof Messages>
 
@@ -194,7 +197,6 @@ const renderer = (
     options
   )
 
-  mockAllIsIntersecting(true)
   callbacks.forEach((callback) => callback(outcome))
   return {
     ...outcome,
@@ -206,7 +208,9 @@ const renderer = (
       outcome.rerender(
         constructWrapper(
           <Router history={history}>
-            <Messages {...newProps} />
+            <Provider store={storeMock}>
+              <Messages {...newProps} />
+            </Provider>
           </Router>
         )
       )

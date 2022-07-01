@@ -97,7 +97,7 @@ test("select input resets after selecting empty option", () => {
   })
   expect(listItems()[0]).toHaveTextContent("empty")
   fireEvent.click(listItems()[0])
-  expect(onSelect).toBeCalledWith("")
+  expect(onSelect).toBeCalledWith(null)
 })
 
 test("Item marked as disabled in `disabledOptions` list should have a `disabled` attribute", () => {
