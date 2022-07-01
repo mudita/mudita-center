@@ -1,0 +1,96 @@
+{
+  "newsItems": [
+    {
+      "category": "Blog",
+      "title": "Mudita Zaprasza na Festiwal Wibracje! ",
+      "content": "Jesteśmy bardzo szczęśliwi mogąc ogłosić, że Mudita weźmie udział w tegorocznym Festiwalu Wibracje! ",
+      "image": {
+        "metadata": { "tags": [] },
+        "sys": {
+          "space": {
+            "sys": { "type": "Link", "linkType": "Space", "id": "isxmxtc67n72" }
+          },
+          "id": "4V0n9I2pR0jRhTnbuaZiHr",
+          "type": "Asset",
+          "createdAt": "2021-06-28T16:12:27.412Z",
+          "updatedAt": "2021-06-28T16:12:27.412Z",
+          "environment": {
+            "sys": { "id": "master", "type": "Link", "linkType": "Environment" }
+          },
+          "revision": 3,
+          "locale": "en-US"
+        },
+        "fields": {
+          "title": "Festiwal Wibracje 2022 ",
+          "description": "",
+          "file": {
+            "url": "//images.ctfassets.net/isxmxtc67n72/4V0n9I2pR0jRhTnbuaZiHr/c0e428afa273e4e79abd40e0390ebd86/festiwal_wibracje_blog__2_.png",
+            "details": {
+              "size": 1057531,
+              "image": { "width": 1158, "height": 1158 }
+            },
+            "fileName": "festiwal_wibracje_blog (2).png",
+            "contentType": "image/png"
+          }
+        }
+      },
+      "communityLink": "https://forum.mudita.com/t/win-free-tickets-to-the-vibes-festival-in-poland-and-a-mudita-bell/4549",
+      "link": "https://mudita.com/community/blog/mudita-zaprasza-na-festiwal-wibracje/",
+      "commentsCount": 2,
+      "date": "2022-03-10T16:55:20.273Z",
+      "newsId": "3IVgLGkVDPZl1g7qFg1vHu",
+      "updatedAt": "2021-06-28T16:12:27.412Z",
+      "createdAt": "2021-06-28T16:12:27.412Z",
+      "imageId": "4V0n9I2pR0jRhTnbuaZiHr",
+      "imageSource": "mocked-image-source",
+      "imageAlt": "Festiwal Wibracje 2022 "
+    },
+    {
+      "category": "Blog",
+      "title": "Digital Technology Changed How We Consume & Process News",
+      "content": "Technology has transformed the way news is produced, delivered and consumed around the world.",
+      "image": {
+        "metadata": { "tags": [] },
+        "sys": {
+          "space": {
+            "sys": { "type": "Link", "linkType": "Space", "id": "isxmxtc67n72" }
+          },
+          "id": "36Pl8iklxvI82Vim8JfX4L",
+          "type": "Asset",
+          "createdAt": "2022-03-14T14:20:15.335Z",
+          "updatedAt": "2022-03-14T14:20:15.335Z",
+          "environment": {
+            "sys": { "id": "master", "type": "Link", "linkType": "Environment" }
+          },
+          "revision": 1,
+          "locale": "en-US"
+        },
+        "fields": {
+          "title": "Mudita Pure Newspaper",
+          "description": "",
+          "file": {
+            "url": "//images.ctfassets.net/isxmxtc67n72/36Pl8iklxvI82Vim8JfX4L/f5eb3f029f440b8a63ffb993cdf727d0/Mudita_Pure_Newspaper.jpg",
+            "details": {
+              "size": 126155,
+              "image": { "width": 960, "height": 640 }
+            },
+            "fileName": "Mudita Pure Newspaper.jpg",
+            "contentType": "image/jpeg"
+          }
+        }
+      },
+      "communityLink": "https://forum.mudita.com/t/are-we-consuming-too-much-information/3880",
+      "link": "https://mudita.com/community/blog/digital-technology-changed-how-we-consume-and-process-news/",
+      "discussionId": "3880",
+      "commentsCount": 20,
+      "date": "2022-03-01T14:19+00:00",
+      "newsId": "2qiCpsDXEZnFclvttImF57",
+      "updatedAt": "2022-03-24T13:43:44.315Z",
+      "createdAt": "2022-03-24T13:43:40.033Z",
+      "imageId": "36Pl8iklxvI82Vim8JfX4L",
+      "imageSource": "mocked-image-source",
+      "imageAlt": "Mudita Pure Newspaper"
+    }
+  ],
+  "lastUpdate": "2022-07-01T09:20:43.146Z"
+}

@@ -3,14 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ipcRenderer } from "electron-better-ipc"
-import { NewsEvents } from "App/__deprecated__/main/functions/register-news-listener"
 import { DefaultNewsItems } from "App/__deprecated__/main/default-news-item"
+import { NewsEvents } from "App/__deprecated__/main/functions/register-news-listener/register-news-listener"
+import { ipcRenderer } from "electron-better-ipc"
 
-export const getNews = (): Promise<DefaultNewsItems> => {
-  return ipcRenderer.callMain(NewsEvents.Get)
+export const getUpdatedNews = (): Promise<DefaultNewsItems> => {
+  return ipcRenderer.callMain(NewsEvents.GetUpdatedNews)
 }
 
-export const initNews = (): Promise<DefaultNewsItems> => {
-  return ipcRenderer.callMain(NewsEvents.Init)
+export const getOfflineNews = (): Promise<DefaultNewsItems> => {
+  return ipcRenderer.callMain(NewsEvents.GetCachedNews)
 }

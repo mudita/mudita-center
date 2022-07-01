@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`call is performed after dispatching effect with data 1`] = `
+exports[`when network is connected online data is returned 1`] = `
 Object {
   "muditaNews": Object {
-    "lastUpdate": "2020-04-28T11:23:22.696Z",
+    "lastUpdate": "2020-04-29T11:23:22.696Z",
     "newsItems": Array [
       Object {
         "category": "Forum",
@@ -52,5 +52,30 @@ Object {
   "networkStatus": Object {
     "online": true,
   },
+}
+`;
+
+exports[`when network is not connected offline data and returned 1`] = `
+Object {
+  "muditaNews": Object {
+    "lastUpdate": "2020-04-28T11:23:22.696Z",
+    "newsItems": Array [
+      Object {
+        "category": "Forum",
+        "commentsCount": 11,
+        "communityLink": "https://forum.mudita.com/t/one-feature-i-would-love-to-see-added/299",
+        "content": "One feature I would love to see added",
+        "createdAt": "2019-07-11T09:48:32.097Z",
+        "date": "2021-02-26T11:56:59.782Z",
+        "discussionId": "299",
+        "imageSource": "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
+        "link": "https://forum.mudita.com/t/one-feature-i-would-love-to-see-added/299",
+        "newsId": "23cbaCgEf6PC1llqI5XYBf",
+        "title": "Hot discussion",
+        "updatedAt": "2019-07-11T09:48:32.097Z",
+      },
+    ],
+  },
+  "networkStatus": Object {},
 }
 `;

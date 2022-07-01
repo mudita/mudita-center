@@ -8,7 +8,10 @@ import { createModel } from "@rematch/core"
 import { Slicer } from "@rematch/select"
 import { Store } from "App/__deprecated__/news/store/mudita-news.interface"
 import { sortByCreationDateInDescendingOrder } from "App/__deprecated__/news/helpers/sort-by-creation-date-in-descending-order.helpers"
-import { getNews, initNews } from "App/__deprecated__/renderer/requests/get-news.request"
+import {
+  getUpdatedNews,
+  getOfflineNews,
+} from "App/__deprecated__/renderer/requests/get-news.request"
 import { DefaultNewsItems } from "App/__deprecated__/main/default-news-item"
 import { RootModel } from "App/__deprecated__/renderer/models/models"
 
@@ -31,11 +34,14 @@ const muditaNews = createModel<RootModel>({
         _: any,
         rootState: { networkStatus: { online: boolean } }
       ) {
+        // first load offline data and display it to user
+        const offlineNews = await getOfflineNews()
+        dispatch.muditaNews.update(offlineNews)
+
+        // then try to fetch display the latest news
+        // it may take some time
         if (rootState.networkStatus.online) {
-          const data = await initNews()
-          dispatch.muditaNews.update(data)
-        } else {
-          const defaultNews: DefaultNewsItems = await getNews()
+          const defaultNews: DefaultNewsItems = await getUpdatedNews()
           dispatch.muditaNews.update(defaultNews)
         }
       },
