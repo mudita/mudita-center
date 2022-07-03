@@ -11,17 +11,12 @@ import {
   Contact,
   ContactCategory,
 } from "App/contacts/reducers/contacts.interface"
-import AttachContactModal from "App/messages/components/attach-contact-modal.component"
 import Messages from "App/messages/components/messages/messages.component"
 import { ResultState } from "App/messages/constants"
 import {
   Receiver,
   ReceiverIdentification,
 } from "App/messages/reducers/messages.interface"
-import {
-  ModalBackdrop,
-  ModalWrapper,
-} from "App/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import {
   rowMessages,
   rowThreads,
@@ -146,8 +141,6 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         language={"en"}
         threads={rowThreads}
         searchValue={""}
-        attachContactList={attachContactListData}
-        attachContactFlatList={attachContactFlatListData}
         getContact={getContact}
         getMessagesByThreadId={getMessagesByThreadId}
         getMessagesStateByThreadId={getMessagesResultsMapStateByThreadId}
@@ -171,28 +164,3 @@ storiesOf("Views|Messages", module).add("Messages", () => (
     </div>
   </Router>
 ))
-
-storiesOf("Views|Messages/Modals", module)
-  .add("Attach contact", () => {
-    return (
-      <div style={{ maxWidth: "97.5rem" }}>
-        <ModalWrapper>
-          <AttachContactModal
-            contactList={attachContactListData}
-            contactFlatList={attachContactFlatListData}
-          />
-        </ModalWrapper>
-        <ModalBackdrop />
-      </div>
-    )
-  })
-  .add("Attach contact - empty list", () => {
-    return (
-      <div style={{ maxWidth: "97.5rem" }}>
-        <ModalWrapper>
-          <AttachContactModal contactList={[]} contactFlatList={[]} />
-        </ModalWrapper>
-        <ModalBackdrop />
-      </div>
-    )
-  })

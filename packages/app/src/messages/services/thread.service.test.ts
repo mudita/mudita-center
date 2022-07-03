@@ -16,13 +16,6 @@ import { ThreadRepository } from "../repositories"
 import { Thread } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
 
-jest.mock("App/messages/presenters")
-;(ThreadPresenter as unknown as jest.Mock).mockImplementation(() => {
-  return {
-    mapToThread: jest.fn(),
-  }
-})
-
 const deviceService = {
   request: jest.fn(),
 } as unknown as DeviceService
@@ -47,9 +40,16 @@ const pureThread: PureThread = {
   threadID: 1,
 }
 
+const mappedPureThread = ThreadPresenter.mapToThread(pureThread)
+
 const successResponse: SuccessRequestResponse<any> = {
   status: RequestResponseStatus.Ok,
   data: pureThread,
+}
+
+const getThreadsSuccessResponse: SuccessRequestResponse<any> = {
+  ...successResponse,
+  data: { entries: [pureThread] },
 }
 
 const errorResponse: ErrorRequestResponse = {
@@ -77,7 +77,6 @@ describe("`ThreadService`", () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
       const response = await subject.getThread("1")
       expect(deviceService.request).toHaveBeenCalled()
-      expect(ThreadPresenter.mapToThread).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
 
@@ -85,29 +84,51 @@ describe("`ThreadService`", () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.getThread("1")
       expect(deviceService.request).toHaveBeenCalled()
-      expect(ThreadPresenter.mapToThread).not.toHaveBeenCalled()
-      expect(response.status).toEqual(RequestResponseStatus.Error)
+      expect(response).toEqual({
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Get thread: Something went wrong",
+        },
+      })
     })
   })
 
   describe("`getThreads` method", () => {
     test("map data and returns success when `deviceService.request` returns success", async () => {
-      deviceService.request = jest.fn().mockReturnValue({
-        ...successResponse,
-        data: { entries: [pureThread] },
-      })
+      deviceService.request = jest
+        .fn()
+        .mockReturnValue(getThreadsSuccessResponse)
       const response = await subject.getThreads({ limit: 1, offset: 0 })
       expect(deviceService.request).toHaveBeenCalled()
-      expect(ThreadPresenter.mapToThread).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
+      expect(response.data).toMatchInlineSnapshot(`
+        Object {
+          "data": Array [
+            Object {
+              "id": "1",
+              "lastUpdatedAt": 2021-03-30T07:32:38.000Z,
+              "messageSnippet": "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+              "messageType": "INBOX",
+              "phoneNumber": "+48500600700",
+              "unread": true,
+            },
+          ],
+          "nextPage": undefined,
+          "totalCount": undefined,
+        }
+      `)
     })
 
     test("returns error when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.getThreads({ limit: 1, offset: 0 })
       expect(deviceService.request).toHaveBeenCalled()
-      expect(ThreadPresenter.mapToThread).not.toHaveBeenCalled()
-      expect(response.status).toEqual(RequestResponseStatus.Error)
+      expect(response).toEqual({
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Get threads: Something went wrong",
+        },
+      })
     })
   })
 
@@ -119,14 +140,26 @@ describe("`ThreadService`", () => {
       })
       const response = await subject.deleteThreads(["1"])
       expect(deviceService.request).toHaveBeenCalled()
-      expect(response.status).toEqual(RequestResponseStatus.Ok)
+      expect(response).toEqual({
+        status: RequestResponseStatus.Ok,
+      })
     })
 
     test("returns error when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.deleteThreads(["1"])
       expect(deviceService.request).toHaveBeenCalled()
-      expect(response.status).toEqual(RequestResponseStatus.Error)
+      expect(response).toMatchInlineSnapshot(`
+        Object {
+          "error": Object {
+            "data": Array [
+              "1",
+            ],
+            "message": "Delete thread: Something went wrong",
+          },
+          "status": "error",
+        }
+      `)
     })
   })
 
@@ -138,14 +171,78 @@ describe("`ThreadService`", () => {
       })
       const response = await subject.toggleThreadsReadStatus([thread])
       expect(deviceService.request).toHaveBeenCalled()
-      expect(response.status).toEqual(RequestResponseStatus.Ok)
+      expect(response).toEqual({
+        status: RequestResponseStatus.Ok,
+      })
     })
 
     test("returns error when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.toggleThreadsReadStatus([thread])
       expect(deviceService.request).toHaveBeenCalled()
-      expect(response.status).toEqual(RequestResponseStatus.Error)
+      expect(response).toMatchInlineSnapshot(`
+        Object {
+          "error": Object {
+            "data": Array [
+              Object {
+                "id": "1",
+                "lastUpdatedAt": 2020-06-01T13:53:27.087Z,
+                "messageSnippet": "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+                "messageType": "INBOX",
+                "phoneNumber": "+48 755 853 216",
+                "unread": true,
+              },
+            ],
+            "message": "Delete thread: Something went wrong",
+          },
+          "status": "error",
+        }
+      `)
+    })
+  })
+
+  describe("`refreshThread` method", () => {
+    test("returns error when fetching thread failed", async () => {
+      deviceService.request = jest.fn().mockReturnValue(errorResponse)
+      const response = await subject.refreshThread("1")
+      expect(response).toEqual({
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Refresh thread: Something went wrong",
+        },
+      })
+    })
+
+    describe("when the thread was not found in the device", () => {
+      test("removes thread from the repository and returns success response", async () => {
+        deviceService.request = jest
+          .fn()
+          .mockReturnValue(getThreadsSuccessResponse)
+        const response = await subject.refreshThread("6666")
+
+        expect(threadRepository.delete).toHaveBeenCalledTimes(1)
+        expect(threadRepository.delete).toHaveBeenLastCalledWith("6666")
+        expect(response).toEqual({
+          status: RequestResponseStatus.Ok,
+        })
+      })
+    })
+
+    describe("when the thread was found in the device", () => {
+      test("updates the thread and returns success response", async () => {
+        deviceService.request = jest
+          .fn()
+          .mockReturnValue(getThreadsSuccessResponse)
+        const response = await subject.refreshThread("1")
+
+        expect(threadRepository.update).toHaveBeenCalledTimes(1)
+        expect(threadRepository.update).toHaveBeenLastCalledWith(
+          mappedPureThread
+        )
+        expect(response).toEqual({
+          status: RequestResponseStatus.Ok,
+        })
+      })
     })
   })
 })

@@ -115,6 +115,7 @@ export interface TextProps {
   readonly message?: MessageInterface
   readonly displayStyle?: TextDisplayStyle
   readonly color?: keyof Theme["color"]["text"]
+  readonly onClick?: () => void
 }
 
 export enum TextDisplayStyle {

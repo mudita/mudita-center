@@ -4,22 +4,52 @@
  */
 
 import { ChangeEvent } from "react"
+import { PaginationBody } from "@mudita/pure"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { Contact } from "App/contacts/reducers/contacts.interface"
+import {
+  MessageDeletingState,
+  ResultState,
+  ThreadDeletingState,
+} from "App/messages/constants"
 import { MessagesState } from "App/messages/reducers/messages.interface"
-import { Thread } from "App/messages/dto"
+import { Thread, NewMessage, Message } from "App/messages/dto"
+import { CreateMessageDataResponse } from "App/messages/services"
+import { Notification } from "App/notification/types"
+import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
+import { Receiver } from "App/messages/reducers"
 
 export interface Content {
   id: string
   text: string
 }
 
-export type ComponentProps = Pick<
-  MessagesState,
-  "searchValue" | "threadsState"
-> &
-  Readonly<{
-    changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
-    deleteThreads?: (ids: string[]) => void
-    threads: Thread[]
-    toggleReadStatus?: (threads: Thread[]) => void
-    markThreadsReadStatus?: (threads: Thread[]) => void
-  }>
+export interface MessagesProps extends Pick<AppSettings, "language"> {
+  searchValue: MessagesState["searchValue"]
+  threadsState: MessagesState["threadsState"]
+  receivers: Receiver[]
+  messageLayoutNotifications: Notification[]
+  loadThreads: (
+    pagination: PaginationBody
+  ) => Promise<PayloadAction<PaginationBody | undefined>>
+  getMessagesByThreadId: (threadId: string) => Message[]
+  getContact: (contactId: string) => Contact | undefined
+  getReceiver: (phoneNumber: string) => Receiver
+  getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
+  getMessagesStateByThreadId: (threadId: string) => ResultState
+  isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
+  addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
+  deleteMessage: (messageId: string) => Promise<string>
+  removeLayoutNotification: (notificationId: string) => void
+  threadDeletingState: ThreadDeletingState | null
+  messageDeletingState: MessageDeletingState | null
+  currentlyDeletingMessageId: string | null
+  hideDeleteModal: () => void
+  hideMessageDeleteModal: () => void
+  resendMessage: (messageId: string) => void
+  changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
+  deleteThreads?: (ids: string[]) => void
+  threads: Thread[]
+  toggleReadStatus?: (threads: Thread[]) => void
+  markThreadsReadStatus?: (threads: Thread[]) => void
+}
