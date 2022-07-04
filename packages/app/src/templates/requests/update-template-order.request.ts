@@ -6,10 +6,13 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcTemplateRequest } from "App/templates/constants"
 import { Template } from "App/templates/dto"
-import { RequestResponse } from "App/core/types/request-response.interface"
+import { UpdateTemplateOrderRequestResponse } from "App/templates/reducers"
 
 export const updateTemplateOrderRequest = async (
-  template: Template
-): Promise<RequestResponse<Template>> => {
-  return ipcRenderer.callMain(IpcTemplateRequest.UpdateTemplateOrder, template)
+  templates: Template[]
+): Promise<UpdateTemplateOrderRequestResponse> => {
+  return await ipcRenderer.callMain(
+    IpcTemplateRequest.UpdateTemplateOrder,
+    templates
+  )
 }
