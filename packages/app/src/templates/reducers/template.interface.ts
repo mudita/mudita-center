@@ -4,14 +4,10 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import { TemplatesEvent } from "App/templates/constants"
-import {
-  CreateTemplateError,
-  DeleteTemplateError,
-  UpdateTemplateError,
-} from "App/templates/errors"
-import { Template } from "App/templates/dto"
+import { AppError } from "App/core/errors"
 import { RequestResponse } from "App/core/types/request-response.interface"
+import { TemplateError, TemplatesEvent } from "App/templates/constants"
+import { Template } from "App/templates/dto"
 
 export interface TemplateState {
   data: Template[]
@@ -26,7 +22,7 @@ export type CreateTemplateFulfilledAction = PayloadAction<
 >
 
 export type CreateTemplateRejectedAction = PayloadAction<
-  CreateTemplateError,
+  AppError<TemplateError.CreateTemplate>,
   TemplatesEvent.CreateTemplate,
   void,
   Error | string | null
@@ -38,7 +34,7 @@ export type UpdateTemplateFulfilledAction = PayloadAction<
 >
 
 export type UpdateTemplateRejectedAction = PayloadAction<
-  UpdateTemplateError,
+  AppError<TemplateError.UpdateTemplate>,
   TemplatesEvent.UpdateTemplate,
   void,
   Error | string | null
@@ -63,7 +59,7 @@ export type DeleteTemplateRequestResponse = RequestResponse<
 >
 
 export type DeleteTemplateRejectedAction = PayloadAction<
-  DeleteTemplateError,
+  AppError<TemplateError.DeleteTemplate>,
   TemplatesEvent.DeleteTemplates,
   void,
   Error | string | null
@@ -75,7 +71,7 @@ export type UpdateTemplateOrderFulfilledAction = PayloadAction<
 >
 
 export type UpdateTemplateOrderRejectedAction = PayloadAction<
-  UpdateTemplateError,
+  AppError<TemplateError.UpdateTemplateOrder>,
   TemplatesEvent.UpdateTemplateOrder,
   void,
   Error | string | null

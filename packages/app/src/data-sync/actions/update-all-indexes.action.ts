@@ -4,10 +4,10 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DataSyncEvent } from "App/data-sync/constants"
-import { indexAllRequest } from "App/data-sync/requests"
+import { AppError } from "App/core/errors"
 import { readAllIndexes } from "App/data-sync/actions/read-all-indexes.action"
-import { UpdateAllIndexesError } from "App/data-sync/errors"
+import { DataSyncError, DataSyncEvent } from "App/data-sync/constants"
+import { indexAllRequest } from "App/data-sync/requests"
 
 export const updateAllIndexes = createAsyncThunk<void, void>(
   DataSyncEvent.UpdateAllIndexes,
@@ -16,7 +16,10 @@ export const updateAllIndexes = createAsyncThunk<void, void>(
 
     if (!indexed) {
       return rejectWithValue(
-        new UpdateAllIndexesError("Update All Indexes fails:request")
+        new AppError(
+          DataSyncError.UpdateAllIndexes,
+          "Update All Indexes fails:request"
+        )
       )
     }
 
@@ -24,7 +27,10 @@ export const updateAllIndexes = createAsyncThunk<void, void>(
 
     if (action.payload instanceof Error) {
       return rejectWithValue(
-        new UpdateAllIndexesError("Update All Indexes fails:read indexes")
+        new AppError(
+          DataSyncError.UpdateAllIndexes,
+          "Update All Indexes fails:read indexes"
+        )
       )
     } else {
       return

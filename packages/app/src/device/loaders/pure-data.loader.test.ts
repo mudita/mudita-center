@@ -11,8 +11,9 @@ import getDeviceInfo from "App/__deprecated__/renderer/requests/get-device-info.
 import getNetworkInfo from "App/__deprecated__/renderer/requests/get-network-info.request"
 import getStorageInfo from "App/__deprecated__/renderer/requests/get-storage-info.request"
 import getBatteryInfo from "App/__deprecated__/renderer/requests/get-battery-info.request"
-import { DeviceLoadingError } from "App/device/errors"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { DeviceError } from "App/device/constants"
+import { AppError } from "App/core/errors"
 
 jest.mock("App/__deprecated__/renderer/requests/get-device-info.request")
 jest.mock("App/__deprecated__/renderer/requests/get-network-info.request")
@@ -32,7 +33,7 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
-const errorMock = new DeviceLoadingError("Device data loading error")
+const errorMock = new AppError(DeviceError.Loading, "Device data loading error")
 
 const dataMock = {
   data: {

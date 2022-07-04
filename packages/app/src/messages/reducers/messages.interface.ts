@@ -13,8 +13,9 @@ import {
   ThreadDeletingState,
   VisibilityFilter,
   ResultState,
+  MessagesError,
 } from "App/messages/constants"
-import { ResendMessageError } from "App/messages/errors"
+import { AppError } from "App/core/errors"
 
 export type Author = Pick<Caller, "id">
 
@@ -62,7 +63,7 @@ export type AddNewMessageAction = PayloadAction<
 >
 
 export type ResendMessageRejectedAction = PayloadAction<
-  ResendMessageError,
+  AppError<MessagesError.ResendMessageError>,
   MessagesEvent.AddNewMessage,
   void,
   Error | string | null

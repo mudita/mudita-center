@@ -7,10 +7,11 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { unlockDevice } from "./unlock-device.action"
-import { DeviceUnlockingError } from "App/device/errors"
 import unlockDeviceRequest from "App/__deprecated__/renderer/requests/unlock-device.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
+import { DeviceError } from "App/device/constants"
 
 const mockStore = createMockStore([thunk])()
 
@@ -45,7 +46,8 @@ describe("Unlock Device request returns `error` status", () => {
       status: RequestResponseStatus.Error,
     })
     const codeMock = [1, 2, 3, 4]
-    const errorMock = new DeviceUnlockingError(
+    const errorMock = new AppError(
+      DeviceError.Unlocking,
       "Something went wrong during unlocking"
     )
     const {

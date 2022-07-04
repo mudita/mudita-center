@@ -4,8 +4,8 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import { LoadBackupDataError } from "App/backup/errors"
-import { BackupEvent } from "App/backup/constants"
+import { BackupError, BackupEvent } from "App/backup/constants"
+import { AppError } from "App/core/errors"
 import { FileData } from "App/__deprecated__/main/functions/register-get-file-data-listener"
 
 export interface Backup extends FileData {
@@ -27,7 +27,7 @@ export interface BackupState {
 }
 
 export type LoadBackupDataRejectAction = PayloadAction<
-  LoadBackupDataError,
+  AppError<BackupError.Load>,
   BackupEvent.Load
 >
 

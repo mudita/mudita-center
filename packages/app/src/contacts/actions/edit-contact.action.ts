@@ -4,11 +4,11 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ContactsEvent } from "App/contacts/constants"
-import { EditContactError } from "App/contacts/errors/edit-contact.error"
 import { editContactInState } from "App/contacts/actions/base.action"
+import { ContactsEvent } from "App/contacts/constants"
 import { Contact } from "App/contacts/reducers"
 import { editContactRequest } from "App/contacts/requests"
+import { AppError } from "App/core/errors"
 
 export const editContact = createAsyncThunk<Error | undefined, Contact>(
   ContactsEvent.EditContact,
@@ -17,7 +17,7 @@ export const editContact = createAsyncThunk<Error | undefined, Contact>(
 
     if (error || !data) {
       return rejectWithValue(
-        new EditContactError("Edit Contact request failed")
+        new AppError(ContactsEvent.EditContact, "Edit Contact request failed")
       )
     }
 

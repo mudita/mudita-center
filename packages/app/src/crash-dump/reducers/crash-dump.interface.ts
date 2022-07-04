@@ -4,11 +4,8 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import { Event } from "App/crash-dump/constants"
-import {
-  GetCrashDumpError,
-  DownloadCrashDumpError,
-} from "App/crash-dump/errors"
+import { AppError } from "App/core/errors"
+import { CrashDumpError, Event } from "App/crash-dump/constants"
 
 export interface CrashDumpState {
   data: {
@@ -32,10 +29,10 @@ export type SetDownloadedCrashDumpAction = PayloadAction<
   Event.SetDownloadCrashDumpPath
 >
 export type GetCrashDumpRejectedAction = PayloadAction<
-  GetCrashDumpError,
+  AppError<CrashDumpError.Getting>,
   Event.GetCrashDump
 >
 export type DownloadCrashDumpRejectedAction = PayloadAction<
-  DownloadCrashDumpError,
+  AppError<CrashDumpError.Downloading>,
   Event.DownloadCrashDump
 >

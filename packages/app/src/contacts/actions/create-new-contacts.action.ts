@@ -4,11 +4,11 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ContactsEvent } from "App/contacts/constants"
-import { AddNewContactError } from "App/contacts/errors/add-new-contact.error"
 import { addNewContactsToState } from "App/contacts/actions/base.action"
-import { createContactRequest } from "App/contacts/requests"
+import { ContactsEvent } from "App/contacts/constants"
 import { NewContact } from "App/contacts/reducers"
+import { createContactRequest } from "App/contacts/requests"
+import { AppError } from "App/core/errors"
 
 export const createNewContact = createAsyncThunk<Error | undefined, NewContact>(
   ContactsEvent.AddNewContact,
@@ -17,7 +17,7 @@ export const createNewContact = createAsyncThunk<Error | undefined, NewContact>(
 
     if (error || !data) {
       return rejectWithValue(
-        new AddNewContactError("Add Contact request failed")
+        new AppError(ContactsEvent.AddNewContact, "Add Contact request failed")
       )
     }
 
