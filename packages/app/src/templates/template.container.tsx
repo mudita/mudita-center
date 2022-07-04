@@ -12,9 +12,10 @@ import {
   updateTemplate,
   updateTemplateOrder,
 } from "App/templates/actions"
+import { templatesListSelector } from "App/templates/selectors"
 
 const mapStateToProps = (state: ReduxRootState) => ({
-  templates: state.templates.data,
+  templates: templatesListSelector(state),
   loading: state.templates.loading,
   loaded: state.templates.loaded,
   error: state.templates.error,

@@ -9,6 +9,7 @@ import {
   CreateTemplateError,
   DeleteTemplateError,
   UpdateTemplateError,
+  UpdateTemplateOrderError,
 } from "App/templates/errors"
 import { Template } from "App/templates/dto"
 import { RequestResponse } from "App/core/types/request-response.interface"
@@ -70,13 +71,23 @@ export type DeleteTemplateRejectedAction = PayloadAction<
 >
 
 export type UpdateTemplateOrderFulfilledAction = PayloadAction<
-  Template,
+  Template[],
   TemplatesEvent.UpdateTemplateOrder
 >
 
 export type UpdateTemplateOrderRejectedAction = PayloadAction<
-  UpdateTemplateError,
+  UpdateTemplateOrderError,
   TemplatesEvent.UpdateTemplateOrder,
   void,
   Error | string | null
+>
+
+type ErrorTemplatesOrderData = {
+  errorTemplates: Template[]
+  successTemplates: Template[]
+}
+
+export type UpdateTemplateOrderRequestResponse = RequestResponse<
+  Template[],
+  ErrorTemplatesOrderData
 >

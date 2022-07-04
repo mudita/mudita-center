@@ -9,6 +9,7 @@ export enum IpcTemplateEvent {
   CreateTemplate = "create-template",
   DeleteTemplates = "delete-templates",
   UpdateTemplate = "update-template",
+  UpdateTemplateOrder = "update-template-order",
 }
 
 export enum IpcTemplateRequest {

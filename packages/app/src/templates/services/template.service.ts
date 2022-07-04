@@ -17,7 +17,10 @@ import {
 import { TemplatePresenter } from "App/templates/presenters"
 import { isResponseSuccessWithData, isResponseSuccess } from "App/core/helpers"
 import { TemplateRepository } from "App/templates/repositories"
-import { DeleteTemplateRequestResponse } from "App/templates/reducers"
+import {
+  DeleteTemplateRequestResponse,
+  UpdateTemplateOrderRequestResponse,
+} from "App/templates/reducers"
 
 export class TemplateService {
   constructor(
@@ -38,6 +41,7 @@ export class TemplateService {
       const templateData = TemplatePresenter.mapToTemplate({
         ...response.data,
         templateBody: template.text,
+        order: template.order,
       })
 
       this.templateRepository.create(templateData)
@@ -122,26 +126,42 @@ export class TemplateService {
     }
   }
 
-  public async updateTemplateOrder(
-    template: Template
-  ): Promise<RequestResponse<Template>> {
-    const response = await this.deviceService.request({
-      endpoint: Endpoint.Messages,
-      method: Method.Put,
-      body: TemplatePresenter.mapToPureTemplateOrder(template),
+  public async updateTemplatesOrder(
+    templates: Template[]
+  ): Promise<UpdateTemplateOrderRequestResponse> {
+    const results = templates.map(async (template) => {
+      const { status } = await this.deviceService.request({
+        endpoint: Endpoint.Messages,
+        method: Method.Put,
+        body: TemplatePresenter.mapToPureTemplateOrder(template),
+      })
+      return {
+        status,
+        template,
+      }
     })
 
-    if (isResponseSuccess(response)) {
-      this.templateRepository.update(template)
+    const errorTemplates = (await Promise.all(results))
+      .filter(({ status }) => status === RequestResponseStatus.Error)
+      .map(({ template }) => template)
+    const successTemplates = (await Promise.all(results))
+      .filter(({ status }) => status === RequestResponseStatus.Ok)
+      .map(({ template }) => template)
 
+    successTemplates.forEach((template) =>
+      this.templateRepository.update(template)
+    )
+    if (errorTemplates.length > 0) {
       return {
-        status: response.status,
-        data: template,
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Update template order: Something went wrong",
+          data: { errorTemplates, successTemplates },
+        },
       }
     } else {
       return {
-        status: response.status,
-        error: { message: "Update template order: Something went wrong" },
+        status: RequestResponseStatus.Ok,
       }
     }
   }

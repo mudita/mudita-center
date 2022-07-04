@@ -8,6 +8,7 @@ import { defineMessages } from "react-intl"
 import { useSelector } from "react-redux"
 import { contactHashSelector } from "App/contacts/selectors"
 import { Contact } from "App/contacts/dto"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
@@ -47,8 +48,8 @@ export const ContactSelectModal: FunctionComponent<
     >
       <ContactInputSearch
         onContactSelect={onSelect}
-        onSearchEnterClick={console.log}
-        showSearchResults
+        onSearchEnterClick={noop}
+        showSearchResults={results.length > 0}
         searchValue={searchQuery}
         onSearchValueChange={setSearchQuery}
         results={results}

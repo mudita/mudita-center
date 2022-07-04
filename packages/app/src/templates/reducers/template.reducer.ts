@@ -176,11 +176,10 @@ export const templateReducer = createReducer<TemplateState>(
       fulfilledAction(TemplatesEvent.UpdateTemplateOrder),
       (state, action: UpdateTemplateOrderFulfilledAction) => {
         const updatedList = state.data.map((item) => {
-          if (item.id === action.payload.id) {
-            return action.payload
-          }
-
-          return item
+          const updatedTemplate = action.payload.find(
+            (template) => item.id === template.id
+          )
+          return updatedTemplate ? updatedTemplate : item
         })
         const orderedList = updatedList.sort((a, b) => a.order - b.order)
 

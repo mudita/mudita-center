@@ -9,12 +9,15 @@ import { UpdateTemplateOrderError } from "App/templates/errors"
 import { updateTemplateOrderRequest } from "App/templates/requests"
 import { Template } from "App/templates/dto"
 
-export const updateTemplateOrder = createAsyncThunk<Error | Template, Template>(
+export const updateTemplateOrder = createAsyncThunk<
+  Error | Template[],
+  Template[]
+>(
   TemplatesEvent.UpdateTemplateOrder,
-  async (template, { rejectWithValue }) => {
-    const { data, error } = await updateTemplateOrderRequest(template)
+  async (templates, { rejectWithValue }) => {
+    const { error } = await updateTemplateOrderRequest(templates)
 
-    if (error || !data) {
+    if (error) {
       return rejectWithValue(
         new UpdateTemplateOrderError(
           error?.message || "Something went wrong",
@@ -23,6 +26,6 @@ export const updateTemplateOrder = createAsyncThunk<Error | Template, Template>(
       )
     }
 
-    return data
+    return templates
   }
 )

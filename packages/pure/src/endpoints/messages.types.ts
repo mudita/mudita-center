@@ -102,6 +102,7 @@ export interface Template {
 export interface PostTemplateBody {
   category: MessagesCategory.template
   templateBody: string
+  order: number
 }
 
 export interface GetTemplateBody {

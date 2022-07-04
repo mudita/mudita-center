@@ -35,13 +35,13 @@ export class TemplatePresenter {
       data.templates.values,
       data.templates.columns
     )
-
     return templates
       .map((template) => {
         return {
           id: template._id,
           text: template.text,
           lastUsedAt: template.lastUsageTimestamp,
+          order: Number(template.rowOrder),
         }
       })
       .filter((thread) => typeof thread !== "undefined") as TemplateObject[]

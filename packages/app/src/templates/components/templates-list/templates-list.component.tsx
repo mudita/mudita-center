@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { TemplatesListProps } from "App/templates/components/templates-list/templates-list.interface"
@@ -27,9 +27,7 @@ import {
   Droppable,
   Draggable,
   DraggableProvided,
-  DropResult,
 } from "react-beautiful-dnd"
-import { Template } from "App/templates/dto"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "module.templates.emptyList.title" },
@@ -48,43 +46,11 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   toggleRow,
   deleteTemplates,
   updateTemplate,
+  onDragEnd,
 }) => {
-  const [templatesList, setTemplateList] = useState<Template[]>(templates)
-
-  useEffect(() => {
-    setTemplateList(templates)
-  }, [templates])
-
-  // Temporary solution, will be changed in CP-1370
-  const reorder = (
-    list: Template[],
-    startIndex: number,
-    endIndex: number
-  ): Template[] => {
-    const result: Template[] = Array.from(list)
-    const [removed] = result.splice(startIndex, 1)
-    result.splice(endIndex, 0, removed)
-
-    return result
-  }
-
-  const onDragEnd = (result: DropResult) => {
-    if (!result.destination) {
-      return
-    }
-
-    const items: Template[] = reorder(
-      templatesList,
-      result.source.index,
-      result.destination.index
-    )
-
-    setTemplateList(items)
-  }
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="droppable">
+      <Droppable droppableId="droppable" type="COLUMN">
         {(provided: any) => (
           <Table
             role="list"
@@ -93,8 +59,8 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
-            {templatesList.length > 0 ? (
-              templatesList.map((template, index) => {
+            {templates.length > 0 ? (
+              templates.map((template, index) => {
                 const { selected, indeterminate } = getRowStatus(template)
                 const handleCheckboxChange = () => toggleRow(template)
 
