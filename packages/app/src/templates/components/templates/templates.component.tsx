@@ -183,12 +183,12 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     const [removed] = list.splice(result.source.index, 1)
     list.splice(result.destination.index, 0, removed)
     setTemplatesList(list)
-    reorder(
+    const updatedTemplates = reorder(
       list,
       result.source.index,
-      result.destination.index,
-      updateTemplateOrder
+      result.destination.index
     )
+    updateTemplateOrder(updatedTemplates)
   }
   return (
     <>

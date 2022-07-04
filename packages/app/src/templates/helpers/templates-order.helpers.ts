@@ -4,13 +4,11 @@
  */
 
 import { Template } from "App/templates/dto"
-import { PayloadAction } from "@reduxjs/toolkit"
 
 export const reorder = (
   list: Template[],
   startIndex: number,
-  endIndex: number,
-  updateTemplateOrder: (arg: Template[]) => Promise<PayloadAction<any>>
+  endIndex: number
 ): Template[] => {
   const movedTemplates = list.filter((_template, index) => {
     if (startIndex < endIndex) {
@@ -27,6 +25,6 @@ export const reorder = (
       order: orderStartValue + indexToOrderValue + index,
     }
   })
-  updateTemplateOrder(updatedTemplates)
+
   return updatedTemplates
 }

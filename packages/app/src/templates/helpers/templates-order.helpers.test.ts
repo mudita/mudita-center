@@ -27,27 +27,15 @@ const thirdTemplate: Template = {
   order: 3,
 }
 
-const updateTemplateOrderMock = jest.fn()
 describe("`reorder` function", () => {
   const list: Template[] = [template, secondTemplate, thirdTemplate]
-  test("calls updateTemplate order", () => {
-    reorder(list, 0, 2, updateTemplateOrderMock)
-
-    expect(updateTemplateOrderMock).toBeCalled()
-  })
   test("returns only templates with changed order", () => {
-    expect(reorder(list, 0, 2, updateTemplateOrderMock)).toEqual([
+    expect(reorder(list, 0, 2)).toEqual([
       template,
       secondTemplate,
       thirdTemplate,
     ])
-    expect(reorder(list, 0, 1, updateTemplateOrderMock)).toEqual([
-      template,
-      secondTemplate,
-    ])
-    expect(reorder(list, 2, 1, updateTemplateOrderMock)).toEqual([
-      secondTemplate,
-      thirdTemplate,
-    ])
+    expect(reorder(list, 0, 1)).toEqual([template, secondTemplate])
+    expect(reorder(list, 2, 1)).toEqual([secondTemplate, thirdTemplate])
   })
 })
