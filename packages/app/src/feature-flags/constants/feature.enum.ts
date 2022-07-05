@@ -38,4 +38,5 @@ export enum Feature {
   RecoveryModeTabEnabled = "recovery-mode-tab-enabled",
   YourPureIconsEnabled = "your-pure-icons-enabled",
   ReadAndUnreadMessages = "read-and-unread-messages",
+  OrderTemplate = "order-template",
 }

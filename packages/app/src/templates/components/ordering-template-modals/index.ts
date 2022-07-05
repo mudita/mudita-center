@@ -3,9 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface Template {
-  id: string
-  text: string
-  lastUsedAt: string
-  order?: number
-}
+export * from "./ordering-template-modals.component"
+export * from "./ordering-template-modals.interface"

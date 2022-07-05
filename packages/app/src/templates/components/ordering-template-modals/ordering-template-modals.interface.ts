@@ -3,9 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface Template {
-  id: string
-  text: string
-  lastUsedAt: string
-  order?: number
+export interface OrderingTemplateModalsProps {
+  error: Error | string | null
+  updated: boolean
+  updating: boolean
 }

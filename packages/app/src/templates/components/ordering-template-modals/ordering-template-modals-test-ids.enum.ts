@@ -3,9 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface Template {
-  id: string
-  text: string
-  lastUsedAt: string
-  order?: number
+export enum OrderingTemplateModalsTestIds {
+  OrderUpdated = "ordering-template-modals-order-updated",
+  Error = "ordering-template-modals-error",
 }
