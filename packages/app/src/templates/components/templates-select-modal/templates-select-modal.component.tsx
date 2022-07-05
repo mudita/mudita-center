@@ -15,7 +15,7 @@ import Table, {
   RowSize,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { Template } from "App/templates/dto"
-import { TemplatesSelectModalTestIds } from "App/messages/components/templates-select-modal/templates-select-modal-test-ids.enum"
+import { TemplatesSelectModalTestIds } from "App/templates/components/templates-select-modal/templates-select-modal-test-ids.enum"
 export interface TemplatesSelectModalProps {
   open: boolean
   onClose: () => void

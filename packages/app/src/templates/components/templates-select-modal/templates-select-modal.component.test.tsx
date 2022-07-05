@@ -11,8 +11,8 @@ import { Template } from "App/templates/dto"
 import {
   TemplatesSelectModal,
   TemplatesSelectModalProps,
-} from "App/messages/components/templates-select-modal/templates-select-modal.component"
-import { TemplatesSelectModalTestIds } from "App/messages/components/templates-select-modal/templates-select-modal-test-ids.enum"
+} from "App/templates/components/templates-select-modal/templates-select-modal.component"
+import { TemplatesSelectModalTestIds } from "App/templates/components/templates-select-modal/templates-select-modal-test-ids.enum"
 
 const templates: Template[] = [
   {
