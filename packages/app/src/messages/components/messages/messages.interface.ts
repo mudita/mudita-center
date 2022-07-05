@@ -18,6 +18,7 @@ import { CreateMessageDataResponse } from "App/messages/services"
 import { Notification } from "App/notification/types"
 import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
 import { Receiver } from "App/messages/reducers"
+import { Template } from "App/templates/dto"
 
 export interface Content {
   id: string
@@ -52,4 +53,5 @@ export interface MessagesProps extends Pick<AppSettings, "language"> {
   threads: Thread[]
   toggleReadStatus?: (threads: Thread[]) => void
   markThreadsReadStatus?: (threads: Thread[]) => void
+  templates: Template[]
 }
