@@ -25,4 +25,6 @@ export interface TemplateServiceState {
   deleting: boolean
   deletingConfirmation: boolean
   deletingInfo: boolean
+  updatingOrder: boolean
+  updatingOrderInfo: boolean
 }

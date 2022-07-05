@@ -106,7 +106,6 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                             >
                               <TemplateText
                                 displayStyle={TextDisplayStyle.Paragraph1}
-                                data-testId="template-text"
                               >
                                 {template.text}
                               </TemplateText>

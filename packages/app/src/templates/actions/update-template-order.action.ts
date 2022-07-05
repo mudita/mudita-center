@@ -17,17 +17,13 @@ export const updateTemplateOrder = createAsyncThunk<
   async (templates, { rejectWithValue }) => {
     const { error } = await updateTemplateOrderRequest(templates)
 
-    if (error && error.data === undefined) {
+    if (error) {
       return rejectWithValue(
         new UpdateTemplateOrderError(
           error?.message || "Something went wrong",
           error?.data
         )
       )
-    }
-
-    if (error && error.data !== undefined) {
-      return error.data.successTemplates
     }
 
     return templates

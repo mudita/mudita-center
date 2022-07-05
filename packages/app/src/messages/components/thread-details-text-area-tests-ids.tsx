@@ -6,4 +6,5 @@
 export enum ThreadDetailsTextAreaTestIds {
   Input = "thread-details-text-area-input",
   SendButton = "thread-details-text-area-send-button",
+  AttachContactButton = "thread-details-attach-contact-button",
 }

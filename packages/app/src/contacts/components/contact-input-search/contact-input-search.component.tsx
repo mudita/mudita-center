@@ -21,10 +21,8 @@ import {
   ContactListItemName,
 } from "App/contacts/components/contact-input-search/contact-input-search.styled"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-
-export enum ContactInputSelectTestIds {
-  Input = "contact-input-select-input",
-}
+import { ContactInputSelectTestIds } from "App/contacts/components/contact-input-search/contact-input-select-test-ids.enum"
+import { ContactInputSearchProps } from "App/contacts/components/contact-input-search/contact-input-search.interface"
 
 const messages = defineMessages({
   searchPlaceholder: { id: "module.contacts.panelSearchPlaceholder" },
@@ -94,16 +92,8 @@ export const secondParam = (contact: Contact, search: string): string => {
   }
   return intl.formatMessage(messages.noDataProvided)
 }
-interface Props {
-  onContactSelect: (contact: Contact) => void
-  onSearchEnterClick: () => void
-  showSearchResults?: boolean
-  searchValue: string
-  onSearchValueChange: (value: string) => void
-  results: Contact[]
-}
 
-const ContactInputSearch: FunctionComponent<Props> = ({
+export const ContactInputSearch: FunctionComponent<ContactInputSearchProps> = ({
   onContactSelect,
   onSearchEnterClick,
   showSearchResults = false,
@@ -130,12 +120,10 @@ const ContactInputSearch: FunctionComponent<Props> = ({
         max-height: 40rem;
       `}
       onSearchEnterClick={onSearchEnterClick}
-      itemListDisabled={showSearchResults}
+      itemListDisabled={!showSearchResults}
       searchValue={searchValue}
       onSearchValueChange={onSearchValueChange}
       data-testid={ContactInputSelectTestIds.Input}
     />
   )
 }
-
-export default ContactInputSearch

@@ -21,6 +21,8 @@ import { DeletingTemplateModals } from "App/templates/components/deleting-templa
 import { UpdatingTemplateModals } from "App/templates/components/updating-template-modals"
 import { CreatingTemplateModals } from "App/templates/components/creating-template-modals"
 import { DropResult } from "react-beautiful-dnd"
+import { reorder } from "App/templates/helpers/templates-order.helpers"
+import { OrderingTemplateModals } from "App/templates/components/ordering-template-modals"
 
 export const Templates: FunctionComponent<TemplatesProps> = ({
   templates,
@@ -41,9 +43,10 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       deleting: false,
       deletingConfirmation: false,
       deletingInfo: false,
+      updatingOrder: false,
+      updatingOrderInfo: false,
     })
 
-  // const sortedTemplates = templates.sort((a, b) => a.order = b.order)
   const [editedTemplate, setEditedTemplate] = useState<Template | undefined>()
   const [templateFormOpen, setTemplateFormOpenState] = useState<boolean>(false)
   const [deletedTemplates, setDeletedTemplates] = useState<string[]>([])
@@ -80,6 +83,11 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       if (states.creating) {
         updateFieldState("creating", false)
         updateFieldState("creatingInfo", true)
+      }
+
+      if (states.updatingOrder) {
+        updateFieldState("updatingOrder", false)
+        updateFieldState("updatingOrderInfo", true)
       }
     }, 1000)
 
@@ -174,40 +182,22 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const handleCloseCreatingErrorModal = () => {
     updateFieldState("creating", false)
   }
-  const reorder = (
-    list: Template[],
-    startIndex: number,
-    endIndex: number
-  ): void => {
-    const result = Array.from(list)
-    const [removed] = result.splice(startIndex, 1)
-    result.splice(endIndex, 0, removed)
-    setTemplatesList(result)
-    const movedTemplates = result.filter((_template, index) => {
-      if (startIndex < endIndex) {
-        return startIndex <= index && index <= endIndex
-      } else {
-        return endIndex <= index && index <= startIndex
-      }
-    })
-    const orderStartValue = startIndex < endIndex ? startIndex : endIndex
-    const indexToOrderValue = 1
-    const updatedTemplates: Template[] = movedTemplates.map(
-      (template, index) => {
-        return {
-          ...template,
-          order: orderStartValue + indexToOrderValue + index,
-        }
-      }
-    )
-    updateTemplateOrder(updatedTemplates)
-  }
 
   const onDragEnd = (result: DropResult) => {
+    updateFieldState("updatingOrder", true)
     if (!result.destination) {
       return
     }
-    reorder(templatesList, result.source.index, result.destination.index)
+    const list = Array.from(templatesList)
+    const [removed] = list.splice(result.source.index, 1)
+    list.splice(result.destination.index, 0, removed)
+    setTemplatesList(list)
+    const updatedTemplates = reorder(
+      list,
+      result.source.index,
+      result.destination.index
+    )
+    updateTemplateOrder(updatedTemplates)
   }
   return (
     <>
@@ -263,6 +253,12 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
         creating={states.creating}
         creatingInfo={states.creatingInfo}
         onCloseCreatingErrorModal={handleCloseCreatingErrorModal}
+      />
+
+      <OrderingTemplateModals
+        error={error}
+        updating={states.updatingOrder}
+        updated={states.updatingOrderInfo}
       />
     </>
   )

@@ -6,9 +6,16 @@
 import React, { ComponentProps } from "react"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { Router } from "react-router"
+import { Provider } from "react-redux"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { RenderOptions, RenderResult } from "@testing-library/react"
 import { createMemoryHistory } from "history"
-import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import {
+  constructWrapper,
+  renderWithThemeAndIntl,
+} from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
 import Messages from "App/messages/components/messages/messages.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
@@ -56,6 +63,11 @@ const unknownContact: Contact = {
   primaryPhoneNumber: "+123 456 123",
 }
 
+const contactsMap: Record<string, Contact> = {
+  1: contact,
+  2: unknownContact,
+}
+
 const unknownReceiver: Receiver = {
   phoneNumber: "200 000 00",
   identification: ReceiverIdentification.unknown,
@@ -101,7 +113,10 @@ const receiver: Receiver = {
   identification: ReceiverIdentification.unknown,
 }
 
-beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
+beforeAll(() => {
+  mockAllIsIntersecting(true)
+  Element.prototype.scrollIntoView = jest.fn()
+})
 
 type Props = ComponentProps<typeof Messages>
 
@@ -119,8 +134,6 @@ const defaultProps: Props = {
   getMessagesStateByThreadId: jest.fn(),
   isContactCreatedByPhoneNumber: jest.fn(),
   getMessagesByThreadId: jest.fn().mockReturnValue([contact]),
-  attachContactList: [],
-  attachContactFlatList: [],
   messageLayoutNotifications: [],
   removeLayoutNotification: jest.fn(),
   threadDeletingState: null,
@@ -136,7 +149,6 @@ const propsWithSingleThread: Partial<Props> = {
   threadsState: ResultState.Loaded,
   threads: [firstThread],
   receivers: [receiver],
-  attachContactFlatList: [contact],
   loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
   getReceiver: jest.fn().mockReturnValue(receiver),
   getContactByPhoneNumber: jest.fn(),
@@ -165,6 +177,12 @@ const renderer = (
   options?: Omit<RenderOptions, "queries">
 ) => {
   const history = createMemoryHistory()
+  const storeMock = createMockStore([thunk])({
+    contacts: {
+      db: contactsMap,
+      collection: ["1", "2"],
+    },
+  } as unknown as ReduxRootState)
   const props = {
     ...defaultProps,
     ...extraProps,
@@ -172,14 +190,31 @@ const renderer = (
 
   const outcome = renderWithThemeAndIntl(
     <Router history={history}>
-      <Messages {...props} />
+      <Provider store={storeMock}>
+        <Messages {...props} />
+      </Provider>
     </Router>,
     options
   )
-  mockAllIsIntersecting(true)
+
   callbacks.forEach((callback) => callback(outcome))
   return {
     ...outcome,
+    rerender: (newExtraProps: Partial<RenderProps>) => {
+      const newProps = {
+        ...defaultProps,
+        ...newExtraProps,
+      }
+      outcome.rerender(
+        constructWrapper(
+          <Router history={history}>
+            <Provider store={storeMock}>
+              <Messages {...newProps} />
+            </Provider>
+          </Router>
+        )
+      )
+    },
   }
 }
 
@@ -712,5 +747,79 @@ describe("Messages component", () => {
     jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-delete")).toBeInTheDocument()
+  })
+
+  describe("when the thread is deleted", () => {
+    describe("when deleted thread is the active thread", () => {
+      test("the thread details view is closed", () => {
+        const firstTimeRenderProps: RenderProps = {
+          callbacks: [setThreadDetailsState],
+          ...propsWithSingleThread,
+          threads: [firstThread, secondThread],
+        }
+
+        const rerenderComponentsProps = {
+          ...propsWithSingleThread,
+          threads: [secondThread],
+        }
+
+        // lets's have two threads and make the first one active
+        const { rerender, queryByTestId } = renderer(firstTimeRenderProps)
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+
+        // then simulate the fact of deleting the first thread
+        rerender(rerenderComponentsProps)
+        expect(
+          queryByTestId(MessagesTestIds.ThreadDetails)
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    describe("when deleted thread is not the active thread", () => {
+      test("the thread details view is not closed", () => {
+        const firstTimeRenderProps: RenderProps = {
+          callbacks: [setThreadDetailsState],
+          ...propsWithSingleThread,
+          threads: [firstThread, secondThread],
+        }
+
+        const rerenderComponentsProps = {
+          ...propsWithSingleThread,
+          threads: [firstThread],
+        }
+
+        const { rerender, queryByTestId } = renderer(firstTimeRenderProps)
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+
+        rerender(rerenderComponentsProps)
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+      })
+    })
+
+    describe("when the deleted thread is the last one", () => {
+      test("empty state list should be shown", () => {
+        const firstTimeRenderProps: RenderProps = {
+          callbacks: [setThreadDetailsState],
+          ...propsWithSingleThread,
+          threads: [firstThread],
+        }
+
+        const rerenderComponentsProps = {
+          ...propsWithSingleThread,
+          threads: [],
+        }
+
+        const { rerender, queryByTestId } = renderer(firstTimeRenderProps)
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+        expect(
+          queryByTestId(MessagesTestIds.EmptyThreadListState)
+        ).not.toBeInTheDocument()
+
+        rerender(rerenderComponentsProps)
+        expect(
+          queryByTestId(MessagesTestIds.EmptyThreadListState)
+        ).toBeInTheDocument()
+      })
+    })
   })
 })
