@@ -128,6 +128,7 @@ const commonWindowOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
+    devTools: !productionEnvironment,
   },
 }
 const getWindowOptions = (
@@ -138,6 +139,7 @@ const getWindowOptions = (
 })
 
 const createWindow = async () => {
+  console.log("productionEnvironment", process.env.NODE_ENV)
   if (!productionEnvironment) {
     await installExtensions()
   }
