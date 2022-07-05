@@ -5,10 +5,10 @@
 
 import { createClient } from "App/__deprecated__/api/mudita-center-server/create-client"
 import logger from "App/__deprecated__/main/utils/logger"
-import { normalizeContentfulData } from "App/__deprecated__/news/helpers/normalize-contentful-data.helpers"
-import { NewsEntry } from "App/__deprecated__/news/store/mudita-news.interface"
+import { NewsEntry } from "App/news/dto"
 import { Entry, EntryCollection } from "contentful"
 import fs from "fs-extra"
+import { normalizeContentfulData } from "App/news/helpers"
 
 const checkForUpdateAndGetNewData = async (
   newsFilePath: string
@@ -34,6 +34,7 @@ const checkForUpdateAndGetNewData = async (
     if (newestOnlineItemDate > newestLocalItemDate) {
       return data
     }
+
     return false
   } catch (error) {
     logger.error(

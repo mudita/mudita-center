@@ -3,17 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import getDefaultNewsItems from "App/__deprecated__/main/default-news-item"
+import { IpcNewsEvents } from "App/news/constants"
+import getDefaultNewsItems from "App/news/default-news-item"
 import { getUpdatedNews } from "App/__deprecated__/main/functions/register-news-listener/get-updated-news"
 import { app } from "electron"
 import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
 import packageInfo from "../../../../../package.json"
-
-export enum NewsEvents {
-  GetUpdatedNews = "get-updated-news",
-  GetCachedNews = "get-cached-news",
-}
 
 const registerNewsListener = (): void => {
   const newsFilePath = `${app.getPath("appData")}/${
@@ -25,11 +21,11 @@ const registerNewsListener = (): void => {
     fs.writeJsonSync(newsFilePath, defaultNews)
   }
 
-  ipcMain.answerRenderer(NewsEvents.GetCachedNews, async () => {
+  ipcMain.answerRenderer(IpcNewsEvents.GetCachedNews, async () => {
     return fs.readJson(newsFilePath)
   })
 
-  ipcMain.answerRenderer(NewsEvents.GetUpdatedNews, () => {
+  ipcMain.answerRenderer(IpcNewsEvents.GetUpdatedNews, () => {
     return getUpdatedNews(newsFilePath)
   })
 }
