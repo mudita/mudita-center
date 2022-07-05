@@ -44,6 +44,8 @@ import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-
 import { ContactSelectModal } from "App/contacts"
 import { TemplatesSelectModal } from "App/messages/components/templates-select-modal/templates-select-modal.component"
 import { Template } from "App/templates/dto"
+import { Contact } from "App/contacts/dto"
+import { ContactAttachmentPresenter } from "App/contacts/presenters"
 
 const messages = defineMessages({
   deleteModalTitle: { id: "module.messages.deleteModalTitle" },
@@ -239,6 +241,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const closeAttachTemplateModal = () => {
     setShowAttachTemplateModal(false)
+  }
+  const handleContactAttach = (contact: Contact): void => {
+    if (!contact) {
+      return
+    }
+
+    setShowAttachContactModal(false)
+    setContent(ContactAttachmentPresenter.toAttachment(contact))
   }
 
   const openNewMessage = (): void => {
@@ -439,7 +449,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       <ContactSelectModal
         open={showAttachContactModal}
         onClose={closeAttachContactModal}
-        onSelect={console.log}
+        onSelect={handleContactAttach}
       />
       <TemplatesSelectModal
         open={showAttachTemplateModal}

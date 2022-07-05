@@ -34,12 +34,12 @@ export const ContactSimpleList: FunctionComponent<ContactSimpleListProps> = ({
   return (
     <ListWrapper data-testid={ContactSimpleListTestIdsEnum.ListWrapper}>
       {contacts.length > 0 ? (
-        contacts.map((key, contacts) => (
+        contacts.map((key, contactsList) => (
           <ContactGroup key={key}>
             <GroupLabel data-testid={ContactSimpleListTestIdsEnum.GroupLabel}>
               <Col>{key ? key.toLocaleUpperCase() : "#"}</Col>
             </GroupLabel>
-            {contacts.map((contact) => (
+            {contactsList.map((contact) => (
               <InView key={key + contact.id}>
                 {({ inView, ref }) =>
                   inView ? (

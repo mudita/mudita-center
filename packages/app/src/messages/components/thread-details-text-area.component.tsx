@@ -48,6 +48,7 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
         key={IconType.AttachContact}
         Icon={IconType.AttachContact}
         onClick={onAttachContactClick}
+        data-testid={ThreadDetailsTextAreaTestIds.AttachContactButton}
       />
     ),
     flags.get(Feature.MessagesThreadAttachTemplateEnabled) && (

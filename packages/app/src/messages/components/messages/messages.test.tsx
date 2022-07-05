@@ -113,7 +113,10 @@ const receiver: Receiver = {
   identification: ReceiverIdentification.unknown,
 }
 
-beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
+beforeAll(() => {
+  mockAllIsIntersecting(true)
+  Element.prototype.scrollIntoView = jest.fn()
+})
 
 type Props = ComponentProps<typeof Messages>
 
@@ -195,7 +198,6 @@ const renderer = (
     options
   )
 
-  mockAllIsIntersecting(true)
   callbacks.forEach((callback) => callback(outcome))
   return {
     ...outcome,

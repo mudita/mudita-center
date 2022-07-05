@@ -11,7 +11,7 @@ import { Template } from "App/templates/dto"
 
 const templateMock: Template = {
   id: "1",
-  text: "Thanks for reaching out. I can't talk right now, I'll call you later",
+  text: "Thanks for reaching out",
   lastUsedAt: "2020-02-12T10:00:00.000Z",
   order: 1,
 }
@@ -31,6 +31,7 @@ describe("`TemplatesList` component", () => {
         .mockReturnValue({ indeterminate: false, selected: false }),
       noneRowsSelected: true,
       toggleRow: jest.fn(),
+      onDragEnd: jest.fn(),
     })
     expect(
       getByText("[value] module.templates.emptyList.title")
@@ -50,6 +51,7 @@ describe("`TemplatesList` component", () => {
         .mockReturnValue({ indeterminate: false, selected: false }),
       noneRowsSelected: true,
       toggleRow: jest.fn(),
+      onDragEnd: jest.fn(),
     })
     expect(getByText(templateMock.text)).toBeInTheDocument()
   })
@@ -64,6 +66,7 @@ describe("`TemplatesList` component", () => {
         .mockReturnValue({ indeterminate: false, selected: false }),
       noneRowsSelected: false,
       toggleRow: jest.fn(),
+      onDragEnd: jest.fn(),
     })
     expect(getByTestId("template-checkbox")).toBeVisible()
   })

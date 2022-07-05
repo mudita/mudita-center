@@ -12,6 +12,7 @@ import { TemplatePresenter } from "App/templates/presenters/template.presenter"
 
 const newTemplate: NewTemplate = {
   text: "Hello world!",
+  order: 1,
 }
 
 const template: Template = {
@@ -33,6 +34,7 @@ describe("`mapToPureNewTemplateBody` method", () => {
     expect(TemplatePresenter.mapToPureNewTemplateBody(newTemplate)).toEqual({
       templateBody: "Hello world!",
       category: PureMessagesCategory.template,
+      order: 1,
     })
   })
 })

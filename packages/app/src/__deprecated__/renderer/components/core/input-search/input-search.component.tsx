@@ -90,7 +90,7 @@ export type ListItemProps = {
 export type RenderInputSelectListItem<T> = RenderListItem<T, ListItemProps>
 
 interface KeysType {
-  [key: string]: () => void
+  [key: string]: (event: KeyboardEvent) => void
 }
 
 interface InputSearchListProps {
@@ -134,6 +134,7 @@ const InputSearchList: FunctionComponent<InputSearchListProps> = ({
       )}
       {items.length > 0 ? (
         items.map((item, index) => {
+          const key = `search-key-${index}`
           const onClick = () => onItemClick(item)
           const selected = item === selectedItem
           const disabled = disabledItems.includes(item)
@@ -146,7 +147,7 @@ const InputSearchList: FunctionComponent<InputSearchListProps> = ({
           const onMouseEnter = () => handleMouseEnter(index)
           const active = activeItemIndex === index
           return (
-            <Fragment key={index}>
+            <Fragment key={key}>
               {renderListItem({
                 searchString,
                 item,
@@ -219,13 +220,13 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   const [activeItemIndex, setActiveItemIndex] = useState<number>(-1)
   const selectRef = useRef<HTMLInputElement>(null)
 
-  const resetSelection = () => onSelect("")
+  const resetSelection = () => onSelect(null)
 
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
     onBlur(event)
     setFocus(false)
     if (searchValue !== "") {
-      onSelect("")
+      onSelect(null)
     }
   }
 
@@ -279,19 +280,25 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   }
 
   const onKeyDown = (event: KeyboardEvent) => {
-    const handleArrowDown = () => {
+    const handleArrowDown = (event: KeyboardEvent) => {
+      event.preventDefault()
+
       const maxListLength =
         items.length <= searchResultRows ? items.length : searchResultRows
       if (activeItemIndex + 1 < maxListLength) {
         setActiveItemIndex((prevState) => prevState + 1)
       }
     }
-    const handleArrowUp = () => {
+    const handleArrowUp = (event: KeyboardEvent) => {
+      event.preventDefault()
+
       if (activeItemIndex >= 0) {
         setActiveItemIndex((prevState) => prevState - 1)
       }
     }
-    const handleEnter = () => {
+    const handleEnter = (event: KeyboardEvent) => {
+      event.preventDefault()
+
       setActiveItemIndex(0)
       if (selectRef.current) {
         selectRef.current.blur()
@@ -307,7 +314,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
       ArrowUp: handleArrowUp,
       Enter: handleEnter,
     }
-    return keys[event.key] && keys[event.key]()
+    return keys[event.key] && keys[event.key](event)
   }
 
   const handleMouseEnter = (itemIndex: number) => {

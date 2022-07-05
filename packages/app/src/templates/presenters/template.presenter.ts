@@ -17,6 +17,7 @@ export class TemplatePresenter {
     return {
       templateBody: template.text,
       category: PureMessagesCategory.template,
+      order: template.order,
     }
   }
 
