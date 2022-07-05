@@ -8,8 +8,8 @@ import * as CreateClientModule from "App/__deprecated__/api/mudita-center-server
 import { getUpdatedNews } from "App/__deprecated__/main/functions/register-news-listener/get-updated-news"
 import { generateMockedNewsResponse } from "App/__deprecated__/main/functions/register-news-listener/__mocks__/generate-mocked-news-response"
 import logger from "App/__deprecated__/main/utils/logger"
-import * as normalizeContentfulDataModule from "App/__deprecated__/news/helpers/normalize-contentful-data.helpers"
-import { NewsEntry } from "App/__deprecated__/news/store/mudita-news.interface"
+import * as normalizeContentfulDataModule from "App/news/helpers/normalize-contentful-data/normalize-contentful-data.helper"
+import { NewsEntry } from "App/news/dto"
 import { EntryCollection } from "contentful"
 import fs from "fs-extra"
 

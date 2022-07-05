@@ -4,7 +4,7 @@
  */
 
 import { EntryCollection, SyncCollection } from "contentful"
-import { NewsEntry } from "App/__deprecated__/news/store/mudita-news.interface"
+import { NewsEntry } from "App/news/dto"
 
 export interface ClientInterface {
   getNews(query: { limit: number }): Promise<EntryCollection<NewsEntry>>
