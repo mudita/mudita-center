@@ -12,7 +12,7 @@ export type TemplateObject = Template
 export type TemplateEntity = Entity<{
   text: string
   lastUsageTimestamp: string
-  rowOrder: number
+  rowOrder?: number
 }>
 
 export interface TemplateInput {
