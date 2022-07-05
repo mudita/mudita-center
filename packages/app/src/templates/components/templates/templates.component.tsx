@@ -22,6 +22,7 @@ import { UpdatingTemplateModals } from "App/templates/components/updating-templa
 import { CreatingTemplateModals } from "App/templates/components/creating-template-modals"
 import { DropResult } from "react-beautiful-dnd"
 import { reorder } from "App/templates/helpers/templates-order.helpers"
+import { OrderingTemplateModals } from "App/templates/components/ordering-template-modals"
 
 export const Templates: FunctionComponent<TemplatesProps> = ({
   templates,
@@ -42,6 +43,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       deleting: false,
       deletingConfirmation: false,
       deletingInfo: false,
+      updatingOrder: false,
+      updatingOrderInfo: false,
     })
 
   const [editedTemplate, setEditedTemplate] = useState<Template | undefined>()
@@ -80,6 +83,11 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       if (states.creating) {
         updateFieldState("creating", false)
         updateFieldState("creatingInfo", true)
+      }
+
+      if (states.updatingOrder) {
+        updateFieldState("updatingOrder", false)
+        updateFieldState("updatingOrderInfo", true)
       }
     }, 1000)
 
@@ -176,6 +184,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   }
 
   const onDragEnd = (result: DropResult) => {
+    updateFieldState("updatingOrder", true)
     if (!result.destination) {
       return
     }
@@ -244,6 +253,12 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
         creating={states.creating}
         creatingInfo={states.creatingInfo}
         onCloseCreatingErrorModal={handleCloseCreatingErrorModal}
+      />
+
+      <OrderingTemplateModals
+        error={error}
+        updating={states.updatingOrder}
+        updated={states.updatingOrderInfo}
       />
     </>
   )
