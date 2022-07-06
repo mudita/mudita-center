@@ -673,6 +673,7 @@
   "module.settings.onLabel": "On",
   "module.settings.tetheringLabel": "Start tethering",
   "module.templates": "Templates",
+  "module.templates.attachTemplateModalTitle": "Use template",
   "module.templates.deleteButton": "Delete",
   "module.templates.deleteModalBody": "Do you really want to delete <b>{num, plural, =-1 {all templates} one {# template} other {# templates}}?</b>",
   "module.templates.deleteModalErrorSubtitle": "Deleting failed",

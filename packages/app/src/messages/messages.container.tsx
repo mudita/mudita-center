@@ -63,6 +63,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
     NotificationResourceType.Message,
     NotificationMethod.Layout
   )(state),
+  templates: state.templates.data,
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({

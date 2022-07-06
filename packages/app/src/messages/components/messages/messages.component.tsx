@@ -42,6 +42,8 @@ import { useHistory } from "react-router-dom"
 import { IndexRange } from "react-virtualized"
 import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
 import { ContactSelectModal } from "App/contacts"
+import { TemplatesSelectModal } from "App/templates/components/templates-select-modal/templates-select-modal.component"
+import { Template } from "App/templates/dto"
 import { Contact } from "App/contacts/dto"
 import { ContactAttachmentPresenter } from "App/contacts/presenters"
 
@@ -103,6 +105,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   messageDeletingState,
   currentlyDeletingMessageId,
   resendMessage,
+  templates,
 }) => {
   // TODO [CP-1401] move component logic to custom hook
 
@@ -119,6 +122,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [deleteMessageModalOpen, setDeleteMessageModalOpen] =
     useState<boolean>(false)
   const [showAttachContactModal, setShowAttachContactModal] =
+    useState<boolean>(false)
+  const [showAttachTemplateModal, setShowAttachTemplateModal] =
     useState<boolean>(false)
 
   const [messagesState, setMessagesState] = useState(MessagesState.List)
@@ -230,6 +235,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setShowAttachContactModal(false)
   }
 
+  const openAttachTemplateModal = () => {
+    setShowAttachTemplateModal(true)
+  }
+
+  const closeAttachTemplateModal = () => {
+    setShowAttachTemplateModal(false)
+  }
   const handleContactAttach = (contact: Contact): void => {
     if (!contact) {
       return
@@ -428,12 +440,22 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setMessageToDelete(messageId)
   }
 
+  const handleSelectTemplate = (template: Template) => {
+    setContent(template.text)
+    closeAttachTemplateModal()
+  }
   return (
     <>
       <ContactSelectModal
         open={showAttachContactModal}
         onClose={closeAttachContactModal}
         onSelect={handleContactAttach}
+      />
+      <TemplatesSelectModal
+        open={showAttachTemplateModal}
+        onClose={closeAttachTemplateModal}
+        onSelect={handleSelectTemplate}
+        templates={templates}
       />
       <MessagesPanel
         searchValue={searchValue}
@@ -490,6 +512,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onMessageRead={markAsRead}
             onMessageDelete={openDeleteMessageModal}
             resendMessage={resendMessage}
+            onAttachTemplateClick={openAttachTemplateModal}
           />
         )}
         {messagesState === MessagesState.NewMessage && (
@@ -503,6 +526,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onReceiverSelect={handleReceiverSelect}
             onClose={closeSidebars}
             onAttachContactClick={openAttachContactModal}
+            onAttachTemplateClick={openAttachTemplateModal}
           />
         )}
       </TableWithSidebarWrapper>
