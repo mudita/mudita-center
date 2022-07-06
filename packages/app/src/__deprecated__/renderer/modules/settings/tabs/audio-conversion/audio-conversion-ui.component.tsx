@@ -18,11 +18,14 @@ import {
   SettingsDescriptionWrapper,
   SettingsLabel,
   SettingsTableRow,
-} from "App/__deprecated__/renderer/modules/settings/components/settings-ui.component"
-import SettingsToggler from "App/__deprecated__/renderer/modules/settings/components/settings-toggler.component"
-import AudioConversionRadioGroup from "App/__deprecated__/renderer/modules/settings/components/audio-conversion-radio-group.component"
+} from "App/__deprecated__/renderer/modules/settings/components/settings/settings-ui.component"
+import SettingsToggler from "App/__deprecated__/renderer/modules/settings/components/settings-toggler/settings-toggler.component"
+import AudioConversionRadioGroup from "App/__deprecated__/renderer/modules/settings/components/audio-conversion-radio-group/audio-conversion-radio-group.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { ConversionFormat, Convert } from "App/__deprecated__/main/store/settings.interface"
+import {
+  ConversionFormat,
+  Convert,
+} from "App/__deprecated__/main/store/settings.interface"
 
 const ConvertRadioGroup = styled(AudioConversionRadioGroup)`
   margin-left: 4rem;

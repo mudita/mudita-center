@@ -6,9 +6,9 @@
 import React from "react"
 import { ModalsManagerState } from "App/modals-manager/reducers"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import CollectingDataModal from "App/__deprecated__/renderer/modules/settings/containers/collecting-data-modal.container"
-import AppForcedUpdateFlow from "App/__deprecated__/renderer/modules/settings/containers/app-forced-update-flow.container"
-import AppUpdateFlow from "App/__deprecated__/renderer/modules/settings/containers/app-update-flow.container"
+import CollectingDataModal from "App/__deprecated__/renderer/modules/settings/components/collecting-data-modal/collecting-data-modal.container"
+import AppForcedUpdateFlow from "App/__deprecated__/renderer/modules/settings/components/app-forced-update-flow/app-forced-update-flow.container"
+import AppUpdateFlow from "App/__deprecated__/renderer/modules/settings/components/app-update-flow/app-update-flow.container"
 import ContactSupportFlow from "App/contact-support/containers/contact-support-flow.container"
 
 type Props = ModalsManagerState

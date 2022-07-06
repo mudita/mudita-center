@@ -4,7 +4,7 @@
  */
 
 import { connect } from "react-redux"
-import Settings from "App/__deprecated__/renderer/modules/settings/settings.component"
+import Settings from "App/__deprecated__/renderer/modules/settings/components/settings/settings.component"
 import { RootModel } from "App/__deprecated__/renderer/models/models"
 import { TmpDispatch } from "App/__deprecated__/renderer/store"
 
