@@ -42,6 +42,8 @@ import { useHistory } from "react-router-dom"
 import { IndexRange } from "react-virtualized"
 import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
 import { ContactSelectModal } from "App/contacts"
+import { TemplatesSelectModal } from "App/templates/components/templates-select-modal/templates-select-modal.component"
+import { Template } from "App/templates/dto"
 import { Contact } from "App/contacts/dto"
 import { ContactAttachmentPresenter } from "App/contacts/presenters"
 
@@ -108,6 +110,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   messageDeletingState,
   currentlyDeletingMessageId,
   resendMessage,
+  templates,
 }) => {
   // TODO [CP-1401] move component logic to custom hook
 
@@ -126,6 +129,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [showAttachContactModal, setShowAttachContactModal] =
     useState<boolean>(false)
   const [showBrowseContactModal, setShowBrowseContactModal] =
+    useState<boolean>(false)
+
+  const [showAttachTemplateModal, setShowAttachTemplateModal] =
     useState<boolean>(false)
 
   const [messagesState, setMessagesState] = useState(MessagesState.List)
@@ -243,6 +249,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const closeBrowseContactModal = () => {
     setShowBrowseContactModal(false)
+  }
+
+  const openAttachTemplateModal = () => {
+    setShowAttachTemplateModal(true)
+  }
+
+  const closeAttachTemplateModal = () => {
+    setShowAttachTemplateModal(false)
   }
 
   const handleBrowseSelect = (contact: Contact | null): void => {
@@ -457,6 +471,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setMessageToDelete(messageId)
   }
 
+  const handleSelectTemplate = (template: Template) => {
+    setContent(template.text)
+    closeAttachTemplateModal()
+  }
   return (
     <>
       <ContactSelectModal
@@ -478,6 +496,12 @@ const Messages: FunctionComponent<MessagesProps> = ({
         title={intl.formatMessage(
           contactsModalMessages.browseContactsModalTitle
         )}
+      />
+      <TemplatesSelectModal
+        open={showAttachTemplateModal}
+        onClose={closeAttachTemplateModal}
+        onSelect={handleSelectTemplate}
+        templates={templates}
       />
       <MessagesPanel
         searchValue={searchValue}
@@ -534,6 +558,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onMessageRead={markAsRead}
             onMessageDelete={openDeleteMessageModal}
             resendMessage={resendMessage}
+            onAttachTemplateClick={openAttachTemplateModal}
           />
         )}
         {messagesState === MessagesState.NewMessage && (
@@ -548,6 +573,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onClose={closeSidebars}
             onAttachContactClick={openAttachContactModal}
             onBrowseContactsClick={openBrowseContactModal}
+            onAttachTemplateClick={openAttachTemplateModal}
           />
         )}
       </TableWithSidebarWrapper>
