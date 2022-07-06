@@ -160,6 +160,7 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         messageDeletingState={null}
         hideMessageDeleteModal={noop}
         resendMessage={jest.fn()}
+        templates={[]}
       />
     </div>
   </Router>

@@ -42,6 +42,7 @@ interface Props extends SidebarProps {
   onPhoneNumberSelect: (phoneNumber: string) => void
   onReceiverSelect: (receiver: Receiver) => void
   onAttachContactClick: () => void
+  onAttachTemplateClick: () => void
 }
 
 const NewMessageForm: FunctionComponent<Props> = ({
@@ -52,6 +53,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
   onPhoneNumberSelect,
   onReceiverSelect,
   onAttachContactClick,
+  onAttachTemplateClick,
   ...props
 }) => {
   const [searchValue, setSearchValue] = useState("")
@@ -103,6 +105,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
         onSendClick={handleSendClick}
         onChange={handleTextAreaChange}
         onAttachContactClick={onAttachContactClick}
+        onAttachTemplateClick={onAttachTemplateClick}
       />
     </NewMessageFormSidebar>
   )

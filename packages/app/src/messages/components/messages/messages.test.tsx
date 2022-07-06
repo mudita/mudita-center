@@ -123,6 +123,7 @@ type Props = ComponentProps<typeof Messages>
 const defaultProps: Props = {
   threadsState: ResultState.Empty,
   threads: [],
+  templates: [],
   receivers: [],
   searchValue: "",
   language: "en",
