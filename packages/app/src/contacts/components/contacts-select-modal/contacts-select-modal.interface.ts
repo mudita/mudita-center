@@ -9,4 +9,7 @@ export interface ContactsSelectModalProps {
   open: boolean
   onClose: () => void
   onSelect: (contact: Contact) => void
+  title: string
+  withPhoneNumberOnly: boolean
+  testId?: string
 }

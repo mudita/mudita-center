@@ -18,9 +18,9 @@ import MessageDayBubble from "App/messages/components/message-day-bubble.compone
 import { Receiver } from "App/messages/reducers/messages.interface"
 import { Message } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
-import NewMessageBadge from "App/messages/components/new-message-badge.component"
 import { Notification } from "App/notification/types"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
+import NewMessageBadge from "App/messages/components/new-message-badge/new-message-badge.component"
 
 interface Properties {
   messages: Message[]
