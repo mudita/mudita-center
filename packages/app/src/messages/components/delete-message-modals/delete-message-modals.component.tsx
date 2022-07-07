@@ -3,88 +3,77 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import React from "react"
+import { defineMessages } from "react-intl"
 import { DeleteMessageModalsTestIds } from "App/messages/components/delete-message-modals/delete-message-modals-test-ids.enum"
-import { MessageDeletingState } from "App/messages/constants"
+import { DeleteMessageModalProps } from "App/messages/components/delete-message-modals/delete-message-modals.interface"
 import { DeleteConfirmationModal } from "App/ui/components/delete-confirmation-modal"
+import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
-import React from "react"
-import { defineMessages } from "react-intl"
-
-interface Props {
-  messageDeletingState: MessageDeletingState | null
-  openDeleteMessageConfirmation: boolean
-  onMessageRemove: () => void
-  hideConfirmationModal: () => void
-  hideDeleteErrorModal: () => void
-}
 
 const messages = defineMessages({
-  deleteMessageModalTitle: {
-    id: "module.messages.deleteMessageModalTitle",
-  },
-  deleteMessageConfirmationModalBody: {
-    id: "module.messages.deleteMessageConfirmationModalBody",
-  },
-  deleteMessageConfirmationModalCancel: {
-    id: "module.messages.deleteMessageConfirmationModalCancel",
-  },
-  deleteMessageConfirmationModalDelete: {
-    id: "module.messages.deleteMessageConfirmationModalDelete",
-  },
-
-  deleteMessageSuccessPopupInfo: {
-    id: "module.messages.deleteMessageSuccessPopupInfo",
-  },
-
-  deleteMessageFailureModalSubtitle: {
-    id: "module.messages.deleteMessageFailureModalSubtitle",
+  deletedMessageInfo: { id: "module.messages.deletedMessageInfo" },
+  deleteModalTitle: { id: "module.messages.deleteMessageModalTitle" },
+  deleteModalBody: { id: "module.messages.deleteMessageModalBody" },
+  deleteModalCancel: { id: "module.messages.deleteMessageModalCancel" },
+  deleteModalAction: { id: "module.messages.deleteMessageModalAction" },
+  deletingModalTitle: { id: "module.messages.deletingMessageModalTitle" },
+  deletingModalSubtitle: { id: "module.messages.deletingMessageModalSubtitle" },
+  deleteModalErrorTitle: { id: "module.messages.deleteMessageModalErrorTitle" },
+  deleteModalErrorSubtitle: {
+    id: "module.messages.deleteMessageModalErrorSubtitle",
   },
 })
 
-const DeleteMessageModals: FunctionComponent<Props> = ({
-  messageDeletingState,
-  openDeleteMessageConfirmation,
-  onMessageRemove,
-  hideDeleteErrorModal,
-  hideConfirmationModal,
+const DeleteMessageModals: FunctionComponent<DeleteMessageModalProps> = ({
+  error,
+  deleting,
+  deletingInfo,
+  deletingConfirmation,
+  onDelete,
+  onCloseDeletingModal,
+  onCloseDeletingErrorModal,
 }) => {
   return (
     <>
-      {openDeleteMessageConfirmation && (
+      {deletingConfirmation && (
         <DeleteConfirmationModal
           testId={DeleteMessageModalsTestIds.DeleteMessageConfirmation}
-          open={openDeleteMessageConfirmation}
-          info={messages.deleteMessageConfirmationModalBody}
-          onActionButtonClick={onMessageRemove}
-          onCloseButton={hideConfirmationModal}
-          cancelButtonLabel={intl.formatMessage(
-            messages.deleteMessageConfirmationModalCancel
-          )}
-          actionButtonLabel={intl.formatMessage(
-            messages.deleteMessageConfirmationModalDelete
-          )}
-          titleLabel={intl.formatMessage(messages.deleteMessageModalTitle)}
+          open={deletingConfirmation}
+          titleLabel={intl.formatMessage(messages.deleteModalTitle)}
+          info={messages.deleteModalBody}
+          onActionButtonClick={onDelete}
+          onCloseButton={onCloseDeletingModal}
+          cancelButtonLabel={intl.formatMessage(messages.deleteModalCancel)}
+          actionButtonLabel={intl.formatMessage(messages.deleteModalAction)}
         />
       )}
 
-      {messageDeletingState === MessageDeletingState.Success && (
+      {deleting && !error && (
+        <LoaderModal
+          testId={DeleteMessageModalsTestIds.LoadingModal}
+          open={deleting}
+          title={intl.formatMessage(messages.deletingModalTitle)}
+          subtitle={intl.formatMessage(messages.deletingModalSubtitle)}
+        />
+      )}
+
+      {deletingInfo && (
         <InfoPopup
-          message={messages.deleteMessageSuccessPopupInfo}
+          message={messages.deletedMessageInfo}
           testId={DeleteMessageModalsTestIds.SuccessMessageDelete}
         />
       )}
-      {messageDeletingState === MessageDeletingState.Fail && (
+      {deleting && error !== null && (
         <ErrorModal
           testId={DeleteMessageModalsTestIds.FailMessageDelete}
-          open={messageDeletingState === MessageDeletingState.Fail}
-          title={intl.formatMessage(messages.deleteMessageModalTitle)}
-          subtitle={intl.formatMessage(
-            messages.deleteMessageFailureModalSubtitle
-          )}
-          closeModal={hideDeleteErrorModal}
+          open={deleting && error !== null}
+          title={intl.formatMessage(messages.deleteModalErrorTitle)}
+          subtitle={intl.formatMessage(messages.deleteModalErrorSubtitle)}
+          closeModal={onCloseDeletingErrorModal}
         />
       )}
     </>

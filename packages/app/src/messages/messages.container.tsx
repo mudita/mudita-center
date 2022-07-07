@@ -16,8 +16,6 @@ import { VisibilityFilter } from "App/messages/constants"
 import {
   changeSearchValue,
   changeVisibilityFilter,
-  hideDeleteModal,
-  hideMessageDeleteModal,
 } from "App/messages/actions/base.action"
 import { addNewMessage } from "App/messages/actions"
 import {
@@ -45,11 +43,11 @@ import {
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   ...state.settings,
+  error: state.messages.error,
+  loaded: state.messages.loaded,
   threadsState: state.messages.threadsState,
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
-  threadDeletingState: state.messages.threadDeletingState,
-  messageDeletingState: state.messages.messagesDeletingState,
   currentlyDeletingMessageId: state.messages.currentlyDeletingMessageId,
   getContactByPhoneNumber: (phoneNumber: string) =>
     getContactByPhoneNumberSelector(phoneNumber)(state),
@@ -83,8 +81,6 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(deleteMessage(messageId)),
   removeLayoutNotification: (notificationId: string) =>
     dispatch(removeNotification(notificationId)),
-  hideDeleteModal: () => dispatch(hideDeleteModal()),
-  hideMessageDeleteModal: () => dispatch(hideMessageDeleteModal()),
   resendMessage: (messageId: string) => dispatch(resendMessage(messageId)),
 })
 
