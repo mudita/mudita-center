@@ -16,6 +16,7 @@ const defaultProps: Props = {
   onAttachContactClick: jest.fn(),
   onChange: jest.fn(),
   onSendClick: jest.fn(),
+  onAttachTemplateClick: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>) => {

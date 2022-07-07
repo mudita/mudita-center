@@ -5,9 +5,6 @@
 
 import React, { ChangeEvent, KeyboardEvent } from "react"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
-import Icon, {
-  IconSize,
-} from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   IconButton,
@@ -31,6 +28,7 @@ interface Props {
   onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void
   onSendClick: () => void
   onAttachContactClick: () => void
+  onAttachTemplateClick: () => void
 }
 
 const ThreadDetailsTextArea: FunctionComponent<Props> = ({
@@ -38,6 +36,7 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
   onSendClick,
   onChange,
   onAttachContactClick,
+  onAttachTemplateClick,
 }) => {
   const isValueEmpty = (): boolean => {
     return value.length === 0
@@ -53,10 +52,10 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
       />
     ),
     flags.get(Feature.MessagesThreadAttachTemplateEnabled) && (
-      <Icon
-        type={IconType.Template}
+      <IconButton
+        Icon={IconType.Template}
         key={IconType.Template}
-        size={IconSize.Big}
+        onClick={onAttachTemplateClick}
       />
     ),
   ]
