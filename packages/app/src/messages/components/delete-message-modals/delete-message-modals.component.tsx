@@ -8,7 +8,6 @@ import { defineMessages } from "react-intl"
 import { DeleteMessageModalsTestIds } from "App/messages/components/delete-message-modals/delete-message-modals-test-ids.enum"
 import { DeleteMessageModalProps } from "App/messages/components/delete-message-modals/delete-message-modals.interface"
 import { DeleteConfirmationModal } from "App/ui/components/delete-confirmation-modal"
-import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
 import ErrorModal from "App/ui/components/error-modal/error-modal.component"
 import InfoPopup from "App/ui/components/info-popup/info-popup.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
@@ -49,15 +48,6 @@ const DeleteMessageModals: FunctionComponent<DeleteMessageModalProps> = ({
           onCloseButton={onCloseDeletingModal}
           cancelButtonLabel={intl.formatMessage(messages.deleteModalCancel)}
           actionButtonLabel={intl.formatMessage(messages.deleteModalAction)}
-        />
-      )}
-
-      {deleting && !error && (
-        <LoaderModal
-          testId={DeleteMessageModalsTestIds.LoadingModal}
-          open={deleting}
-          title={intl.formatMessage(messages.deletingModalTitle)}
-          subtitle={intl.formatMessage(messages.deletingModalSubtitle)}
         />
       )}
 

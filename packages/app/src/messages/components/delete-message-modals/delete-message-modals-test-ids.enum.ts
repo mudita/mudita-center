@@ -6,6 +6,5 @@
 export enum DeleteMessageModalsTestIds {
   SuccessMessageDelete = "success-message-delete",
   FailMessageDelete = "fail-message-delete",
-  LoadingModal = "message-loading-modal",
   DeleteMessageConfirmation = "message-delete-confirmation",
 }
