@@ -15,7 +15,7 @@ import {
   SettingsLabel,
   SettingsTableRow,
   SettingsWrapper,
-} from "App/__deprecated__/renderer/modules/settings/components/settings-ui.component"
+} from "App/__deprecated__/renderer/modules/settings/components/settings/settings-ui.component"
 import { AboutTestIds } from "App/__deprecated__/renderer/modules/settings/tabs/about/about.enum"
 import {
   backgroundColor,
@@ -171,7 +171,7 @@ const AboutUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <ButtonComponent
-            data-testid={AboutTestIds.LicenseButton} 
+            data-testid={AboutTestIds.LicenseButton}
             displayStyle={DisplayStyle.ActionLink}
             labelMessage={{
               id: "module.settings.aboutLearnMore",

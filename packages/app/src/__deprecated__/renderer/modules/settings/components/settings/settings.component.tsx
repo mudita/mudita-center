@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import SettingsUI from "App/__deprecated__/renderer/modules/settings/components/settings-ui.component"
+import SettingsUI from "App/__deprecated__/renderer/modules/settings/components/settings/settings-ui.component"
 
 type Properties = ComponentProps<typeof SettingsUI>
 

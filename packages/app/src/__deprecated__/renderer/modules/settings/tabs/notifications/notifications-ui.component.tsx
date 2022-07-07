@@ -15,8 +15,8 @@ import {
   SettingsDescriptionWrapper,
   SettingsLabel,
   SettingsTableRow,
-} from "App/__deprecated__/renderer/modules/settings/components/settings-ui.component"
-import SettingsToggler from "App/__deprecated__/renderer/modules/settings/components/settings-toggler.component"
+} from "App/__deprecated__/renderer/modules/settings/components/settings/settings-ui.component"
+import SettingsToggler from "App/__deprecated__/renderer/modules/settings/components/settings-toggler/settings-toggler.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 export const SettingsWrapper = styled.section`
