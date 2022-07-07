@@ -14,10 +14,8 @@ import Table, {
   Row,
   RowSize,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
-import {
-  TemplatesSelectModalTestIds,
-  TemplatesSelectModalProps,
-} from "App/templates/components/templates-select-modal"
+import { TemplatesSelectModalTestIds } from "App/templates/components/templates-select-modal/templates-select-modal-test-ids.enum"
+import { TemplatesSelectModalProps } from "App/templates/components/templates-select-modal/templates-select-modal.interface"
 
 const messages = defineMessages({
   title: { id: "module.templates.attachTemplateModalTitle" },
