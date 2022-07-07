@@ -29,7 +29,8 @@ const messages = defineMessages({
 
 export const ContactSimpleList: FunctionComponent<ContactSimpleListProps> = ({
   contacts,
-  onSelect,
+  onContactSelect,
+  onPhoneNumberSelect,
 }) => {
   return (
     <ListWrapper data-testid={ContactSimpleListTestIdsEnum.ListWrapper}>
@@ -43,10 +44,14 @@ export const ContactSimpleList: FunctionComponent<ContactSimpleListProps> = ({
               <InView key={key + contact.id}>
                 {({ inView, ref }) =>
                   inView ? (
-                    <Row ref={ref}>
+                    <Row
+                      ref={ref}
+                      disableHoverState={onPhoneNumberSelect !== undefined}
+                    >
                       <ContactSimpleListItem
                         contact={contact}
-                        onSelect={onSelect}
+                        onContactSelect={onContactSelect}
+                        onPhoneNumberSelect={onPhoneNumberSelect}
                       />
                     </Row>
                   ) : (

@@ -8,7 +8,8 @@ import { Contact } from "App/contacts/dto"
 export interface ContactsSelectModalProps {
   open: boolean
   onClose: () => void
-  onSelect: (contact: Contact) => void
+  onContactSelect: (contact: Contact) => void
+  onPhoneNumberSelect?: (phoneNumber: string) => void
   title: string
   withPhoneNumberOnly: boolean
   testId?: string

@@ -18,7 +18,15 @@ import { useSelector } from "react-redux"
 
 export const ContactSelectModal: FunctionComponent<
   ContactsSelectModalProps
-> = ({ open, onClose, onSelect, title, withPhoneNumberOnly, testId }) => {
+> = ({
+  open,
+  onClose,
+  onContactSelect,
+  onPhoneNumberSelect,
+  title,
+  withPhoneNumberOnly,
+  testId,
+}) => {
   const contacts = useSelector(contactHashSelector(withPhoneNumberOnly))
   const [results, setResults] = useState<Contact[]>([])
   const [searchQuery, setSearchQuery] = useState<string>("")
@@ -39,14 +47,18 @@ export const ContactSelectModal: FunctionComponent<
       testId={testId}
     >
       <ContactInputSearch
-        onContactSelect={onSelect}
+        onContactSelect={onContactSelect}
         onSearchEnterClick={noop}
         showSearchResults={results.length > 0}
         searchValue={searchQuery}
         onSearchValueChange={setSearchQuery}
         results={results}
       />
-      <ContactSimpleList contacts={contacts} onSelect={onSelect} />
+      <ContactSimpleList
+        contacts={contacts}
+        onContactSelect={onPhoneNumberSelect ? undefined : onContactSelect}
+        onPhoneNumberSelect={onPhoneNumberSelect}
+      />
     </ModalDialog>
   )
 }

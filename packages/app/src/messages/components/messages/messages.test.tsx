@@ -897,7 +897,50 @@ describe("Messages component", () => {
 
       onlyBrowseContactsModalCalls[
         onlyBrowseContactsModalCalls.length - 1
-      ][0].onSelect(contact)
+      ][0].onContactSelect(contact)
+
+      await waitFor(() => {
+        expect(
+          queryByTestId(MessagesTestIds.BrowseContactsModal)
+        ).not.toBeInTheDocument()
+        expect(
+          queryByTestId(MessagesTestIds.NewMessageForm)
+        ).not.toBeInTheDocument()
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+      })
+    })
+    test("selecting any contact by phone number closes the modal, new message form and opens thread details", async () => {
+      const spy = jest.spyOn(ContactSelectModalModule, "ContactSelectModal")
+
+      const { queryByTestId } = renderer({
+        callbacks: [setNewMessageState],
+      })
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(MessagesTestIds.ThreadDetails)
+      ).not.toBeInTheDocument()
+      expect(queryByTestId(MessagesTestIds.NewMessageForm)).toBeInTheDocument()
+
+      const browseContactsButton = queryByTestId(
+        NewMessageFormSidebarTestIds.BrowseContacts
+      ) as HTMLElement
+      fireEvent.click(browseContactsButton)
+
+      const contactsSelectModalsCalls = spy.mock.calls
+
+      const onlyBrowseContactsModalCalls = contactsSelectModalsCalls.filter(
+        (item) => item[0].testId === MessagesTestIds.BrowseContactsModal
+      )
+
+      const lastBrowseContactsModalCall =
+        onlyBrowseContactsModalCalls[onlyBrowseContactsModalCalls.length - 1][0]
+
+      if (lastBrowseContactsModalCall.onPhoneNumberSelect) {
+        lastBrowseContactsModalCall.onPhoneNumberSelect("123 456 789")
+      }
 
       await waitFor(() => {
         expect(

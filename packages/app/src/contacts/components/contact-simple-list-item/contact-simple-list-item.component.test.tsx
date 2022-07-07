@@ -15,7 +15,8 @@ import { AvatarTestIds } from "App/__deprecated__/renderer/components/core/avata
 const render = (props: ContactSimpleListItemProps) =>
   renderWithThemeAndIntl(<ContactSimpleListItem {...props} />)
 
-const onSelect = jest.fn()
+const onContactSelect = jest.fn()
+const onPhoneNumberSelect = jest.fn()
 const contact: Contact = {
   id: "0",
   firstName: "Sławomir",
@@ -35,7 +36,7 @@ describe("Contact with complete data", () => {
   test("Renders contact information with blocked icon if `blocked` field is equal to `true`", () => {
     const { getByTestId, getByText } = render({
       contact,
-      onSelect,
+      onContactSelect,
     })
 
     expect(getByTestId(AvatarTestIds.AvatarText)).toHaveTextContent("SB")
@@ -44,7 +45,7 @@ describe("Contact with complete data", () => {
     ).toBeInTheDocument()
     expect(getByText("Sławomir Borewicz")).toBeInTheDocument()
     expect(
-      getByTestId(ContactSimpleListItemTestIdsEnum.PhoneNumber)
+      getByTestId(ContactSimpleListItemTestIdsEnum.ContactSelectableColumn)
     ).toHaveTextContent("+71 195 069 214 +1 433 323 23 33")
   })
 
@@ -54,7 +55,7 @@ describe("Contact with complete data", () => {
         ...contact,
         blocked: false,
       },
-      onSelect,
+      onContactSelect,
     })
 
     expect(
@@ -70,7 +71,7 @@ describe("Contact with incomplete name", () => {
         ...contact,
         lastName: "",
       },
-      onSelect,
+      onContactSelect,
     })
 
     expect(getByTestId(AvatarTestIds.AvatarText)).toHaveTextContent("S")
@@ -83,7 +84,7 @@ describe("Contact with incomplete name", () => {
         ...contact,
         firstName: "",
       },
-      onSelect,
+      onContactSelect,
     })
 
     expect(getByTestId(AvatarTestIds.AvatarText)).toHaveTextContent("B")
@@ -97,7 +98,7 @@ describe("Contact with incomplete name", () => {
         firstName: "",
         lastName: "",
       },
-      onSelect,
+      onContactSelect,
     })
 
     expect(queryByTestId(AvatarTestIds.AvatarText)).not.toBeInTheDocument()
@@ -116,11 +117,11 @@ describe("Contact with incomplete number", () => {
         ...contact,
         secondaryPhoneNumber: "",
       },
-      onSelect,
+      onContactSelect,
     })
 
     expect(
-      getByTestId(ContactSimpleListItemTestIdsEnum.PhoneNumber)
+      getByTestId(ContactSimpleListItemTestIdsEnum.ContactSelectableColumn)
     ).toHaveTextContent("+71 195 069 214")
     expect(queryByText("+1 433 323 23 33")).not.toBeInTheDocument()
   })
@@ -131,11 +132,11 @@ describe("Contact with incomplete number", () => {
         ...contact,
         primaryPhoneNumber: "",
       },
-      onSelect,
+      onContactSelect,
     })
 
     expect(
-      getByTestId(ContactSimpleListItemTestIdsEnum.PhoneNumber)
+      getByTestId(ContactSimpleListItemTestIdsEnum.ContactSelectableColumn)
     ).toHaveTextContent("+1 433 323 23 33")
     expect(queryByText("+71 195 069 214")).not.toBeInTheDocument()
   })
@@ -147,7 +148,7 @@ describe("Contact with incomplete number", () => {
         primaryPhoneNumber: "",
         secondaryPhoneNumber: "",
       },
-      onSelect,
+      onContactSelect,
     })
 
     expect(queryByText("+71 195 069 214")).not.toBeInTheDocument()
@@ -155,27 +156,142 @@ describe("Contact with incomplete number", () => {
   })
 })
 
-describe("Action: onSelect", () => {
-  test("Calls `onSelect` method when user clicks on element", () => {
+describe("when onContactSelect is defined", () => {
+  test("clicking on any element of the row call calls onContactSelect", () => {
     const { getByTestId } = render({
       contact,
-      onSelect,
+      onContactSelect,
     })
 
-    const nameArea = getByTestId(ContactSimpleListItemTestIdsEnum.NameWrapper)
+    const nameArea = getByTestId(
+      ContactSimpleListItemTestIdsEnum.NameWrapperColumn
+    )
     const phoneNumberArea = getByTestId(
-      ContactSimpleListItemTestIdsEnum.PhoneNumber
+      ContactSimpleListItemTestIdsEnum.ContactSelectableColumn
     )
 
-    expect(onSelect).toHaveBeenCalledTimes(0)
+    expect(onContactSelect).toHaveBeenCalledTimes(0)
 
     fireEvent.click(nameArea)
 
-    expect(onSelect).toHaveBeenCalledTimes(1)
+    expect(onContactSelect).toHaveBeenCalledTimes(1)
 
     fireEvent.click(phoneNumberArea)
 
-    expect(onSelect).toHaveBeenCalledTimes(2)
-    expect(onSelect).toHaveBeenLastCalledWith(contact)
+    expect(onContactSelect).toHaveBeenCalledTimes(2)
+    expect(onContactSelect).toHaveBeenLastCalledWith(contact)
+  })
+
+  test("clickable column with the full column name is displayed", () => {
+    const { getByTestId } = render({
+      contact,
+      onContactSelect,
+    })
+
+    expect(
+      getByTestId(ContactSimpleListItemTestIdsEnum.ContactSelectableColumn)
+    ).toBeInTheDocument()
+  })
+  test("columns with clickable phone number is not defined", () => {
+    const { queryByTestId } = render({
+      contact,
+      onContactSelect,
+    })
+
+    expect(
+      queryByTestId(
+        ContactSimpleListItemTestIdsEnum.PrimaryPhoneNumberSelectableColumn
+      )
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(
+        ContactSimpleListItemTestIdsEnum.SecondaryPhoneNumberSelectableColumn
+      )
+    ).not.toBeInTheDocument()
+  })
+})
+
+describe("when onPhoneNumberSelect is defined", () => {
+  test("clickable column with the full column name is not displayed", () => {
+    const { queryByTestId } = render({
+      contact,
+      onPhoneNumberSelect,
+    })
+
+    expect(
+      queryByTestId(ContactSimpleListItemTestIdsEnum.ContactSelectableColumn)
+    ).not.toBeInTheDocument()
+  })
+
+  describe("when primary phone number is assigned to contact", () => {
+    test("clickable field with primary phone number is displayed", () => {
+      const { queryByTestId, queryByText } = render({
+        contact: {
+          ...contact,
+          primaryPhoneNumber: "123 456 777",
+        },
+        onPhoneNumberSelect,
+      })
+
+      expect(
+        queryByTestId(
+          ContactSimpleListItemTestIdsEnum.PrimaryPhoneNumberSelectableColumn
+        )
+      ).toBeInTheDocument()
+
+      expect(queryByText("123 456 777")).toBeInTheDocument()
+    })
+  })
+  describe("when secondary phone number is assigned to contact", () => {
+    test("clickable field with secondary phone number is displayed", () => {
+      const { queryByTestId, queryByText } = render({
+        contact: {
+          ...contact,
+          secondaryPhoneNumber: "222 456 666",
+        },
+        onPhoneNumberSelect,
+      })
+
+      expect(
+        queryByTestId(
+          ContactSimpleListItemTestIdsEnum.PrimaryPhoneNumberSelectableColumn
+        )
+      ).toBeInTheDocument()
+
+      expect(queryByText("222 456 666")).toBeInTheDocument()
+    })
+  })
+})
+
+describe("when both onPhoneNumberSelect and onContactSelect are defined", () => {
+  test("the exception is raised", () => {
+    try {
+      render({
+        contact,
+        onContactSelect,
+        onPhoneNumberSelect,
+      })
+    } catch (error) {
+      expect(error).toMatchInlineSnapshot(
+        `[Error: You should define only one of the properties: onContactSelect or onPhoneNumberSelect]`
+      )
+    }
+
+    expect.assertions(1)
+  })
+})
+describe("when both onPhoneNumberSelect and onContactSelect are not defined", () => {
+  test("the exception is raised", () => {
+    try {
+      render({
+        contact,
+      })
+    } catch (error) {
+      expect(error).toMatchInlineSnapshot(
+        `[Error: You should define one of the properties: onContactSelect or onPhoneNumberSelect]`
+      )
+    }
+
+    expect.assertions(1)
   })
 })

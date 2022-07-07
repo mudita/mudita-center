@@ -259,7 +259,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setShowAttachTemplateModal(false)
   }
 
-  const handleBrowseSelect = (contact: Contact | null): void => {
+  const handleBrowseContactSelection = (contact: Contact | null): void => {
     if (!contact) {
       return
     }
@@ -270,6 +270,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
       handlePhoneNumberSelect(contact.secondaryPhoneNumber)
     }
 
+    setShowBrowseContactModal(false)
+  }
+
+  const handleBrowsePhoneNumberSelection = (phoneNumber: string): void => {
+    handlePhoneNumberSelect(phoneNumber)
     setShowBrowseContactModal(false)
   }
 
@@ -482,7 +487,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         open={showAttachContactModal}
         withPhoneNumberOnly={false}
         onClose={closeAttachContactModal}
-        onSelect={handleContactAttach}
+        onContactSelect={handleContactAttach}
         title={intl.formatMessage(
           contactsModalMessages.attachContactModalTitle
         )}
@@ -492,7 +497,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
         open={showBrowseContactModal}
         withPhoneNumberOnly
         onClose={closeBrowseContactModal}
-        onSelect={handleBrowseSelect}
+        onContactSelect={handleBrowseContactSelection}
+        onPhoneNumberSelect={handleBrowsePhoneNumberSelection}
         title={intl.formatMessage(
           contactsModalMessages.browseContactsModalTitle
         )}

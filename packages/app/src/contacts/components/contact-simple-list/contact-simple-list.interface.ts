@@ -8,5 +8,6 @@ import { Contact } from "App/contacts/dto"
 
 export interface ContactSimpleListProps {
   contacts: ContactsHashTable
-  onSelect: (contact: Contact) => void
+  onContactSelect?: (contact: Contact) => void
+  onPhoneNumberSelect?: (phoneNumber: string) => void
 }

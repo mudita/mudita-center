@@ -121,7 +121,8 @@ const render = (props: ContactsSelectModalProps) => {
   }
 }
 
-const onSelect = jest.fn()
+const onPhoneNumberSelect = jest.fn()
+const onContactSelect = jest.fn()
 const onClose = jest.fn()
 
 beforeAll(() => {
@@ -132,7 +133,7 @@ describe("Functionality: open/close", () => {
   test("Modal is closed when `open` field is equal to `false`", () => {
     const { queryByTestId } = render({
       onClose,
-      onSelect,
+      onContactSelect,
       open: false,
       title: "Hello",
       withPhoneNumberOnly: false,
@@ -149,7 +150,7 @@ describe("Functionality: open/close", () => {
   test("Modal is opened after `open` field change value to `true`", () => {
     const { queryByTestId, rerender } = render({
       onClose,
-      onSelect,
+      onContactSelect,
       open: false,
       title: "Hello",
       withPhoneNumberOnly: false,
@@ -164,7 +165,7 @@ describe("Functionality: open/close", () => {
 
     rerender({
       onClose,
-      onSelect,
+      onContactSelect,
       open: true,
       title: "Hello",
       withPhoneNumberOnly: false,
@@ -179,7 +180,7 @@ describe("Functionality: open/close", () => {
   test("Calls `onClose` action when user click on close button", () => {
     const { getByTestId } = render({
       onClose,
-      onSelect,
+      onContactSelect,
       open: true,
       title: "Hello",
       withPhoneNumberOnly: false,
@@ -203,7 +204,7 @@ describe("Functionality: search", () => {
   test("Display search results in below input", () => {
     const { getByTestId } = render({
       onClose,
-      onSelect,
+      onContactSelect,
       open: true,
       title: "Hello",
       withPhoneNumberOnly: false,
@@ -221,7 +222,7 @@ describe("Functionality: search", () => {
   test("Calls `onSelect` action with selected component", () => {
     const { getByTestId } = render({
       onClose,
-      onSelect,
+      onContactSelect,
       open: true,
       title: "Hello",
       withPhoneNumberOnly: false,
@@ -233,11 +234,11 @@ describe("Functionality: search", () => {
 
     const searchResult = getByTestId(InputSearchTestIds.ListItem)
 
-    expect(onSelect).toHaveBeenCalledTimes(0)
+    expect(onContactSelect).toHaveBeenCalledTimes(0)
 
     fireEvent.click(searchResult)
 
-    expect(onSelect).toHaveBeenLastCalledWith({
+    expect(onContactSelect).toHaveBeenLastCalledWith({
       id: "1",
       firstName: "John",
       lastName: "Doe",
@@ -252,27 +253,31 @@ describe("Functionality: search", () => {
 })
 
 describe("Functionality: contacts list", () => {
-  let spy: jest.SpyInstance
+  let contactSimpleListSpy: jest.SpyInstance
 
   beforeEach(() => {
-    spy = jest.spyOn(ContactSimpleListModule, "ContactSimpleList")
+    contactSimpleListSpy = jest.spyOn(
+      ContactSimpleListModule,
+      "ContactSimpleList"
+    )
   })
 
   afterEach(() => {
-    spy.mockRestore()
+    contactSimpleListSpy.mockRestore()
   })
 
   describe("when withPhoneNumberOnly equals to false", () => {
     test("all contacts are passed to the component", () => {
       render({
         onClose,
-        onSelect,
+        onContactSelect,
         open: true,
         title: "Hello",
         withPhoneNumberOnly: false,
       })
 
-      const contactListProps = spy.mock.calls[0][0] as ContactSimpleListProps
+      const contactListProps = contactSimpleListSpy.mock
+        .calls[0][0] as ContactSimpleListProps
 
       expect(contactListProps.contacts.flat().length).toEqual(5)
       expect(contactListProps.contacts.flat()).toMatchInlineSnapshot(`
@@ -353,13 +358,14 @@ describe("Functionality: contacts list", () => {
     test("only contacts with phone numbers are passed to the component", async () => {
       render({
         onClose,
-        onSelect,
+        onContactSelect,
         open: true,
         title: "Hello",
         withPhoneNumberOnly: true,
       })
 
-      const contactListProps = spy.mock.calls[0][0] as ContactSimpleListProps
+      const contactListProps = contactSimpleListSpy.mock
+        .calls[0][0] as ContactSimpleListProps
 
       expect(contactListProps.contacts.flat().length).toEqual(4)
       expect(contactListProps.contacts.flat()).toMatchInlineSnapshot(`
@@ -419,6 +425,41 @@ describe("Functionality: contacts list", () => {
           },
         ]
       `)
+    })
+  })
+
+  describe("when onPhoneNumberSelect is defined", () => {
+    test("passes undefined onContactSelect", () => {
+      render({
+        onClose,
+        onContactSelect,
+        onPhoneNumberSelect,
+        open: true,
+        title: "Hello",
+        withPhoneNumberOnly: false,
+      })
+
+      const contactListProps = contactSimpleListSpy.mock
+        .calls[0][0] as ContactSimpleListProps
+
+      expect(contactListProps.onContactSelect).toBeUndefined()
+    })
+  })
+
+  describe("when onPhoneNumberSelect is not defined", () => {
+    test("passes onContactSelect to list component", () => {
+      render({
+        onClose,
+        onContactSelect,
+        open: true,
+        title: "Hello",
+        withPhoneNumberOnly: false,
+      })
+
+      const contactListProps = contactSimpleListSpy.mock
+        .calls[0][0] as ContactSimpleListProps
+
+      expect(contactListProps.onContactSelect).toEqual(onContactSelect)
     })
   })
 })
