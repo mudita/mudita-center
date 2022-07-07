@@ -6,8 +6,8 @@
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import SettingsUI from "App/__deprecated__/renderer/modules/settings/components/settings-ui.component"
-import { SettingsTestIds } from "App/__deprecated__/renderer/modules/settings/settings.enum"
+import SettingsUI from "App/__deprecated__/renderer/modules/settings/components/settings/settings-ui.component"
+import { SettingsTestIds } from "App/__deprecated__/renderer/modules/settings/constants/settings.enum"
 
 const renderer = (
   config = {

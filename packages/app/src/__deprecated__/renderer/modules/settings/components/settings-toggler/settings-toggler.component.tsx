@@ -10,9 +10,9 @@ import styled from "styled-components"
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "App/__deprecated__/renderer/components/core/button-toggler/button-toggler.component"
-import { twoStateToggler } from "App/__deprecated__/renderer/modules/settings/settings-toggler-state"
+import { twoStateToggler } from "App/__deprecated__/renderer/modules/settings/helpers/settings-toggler-state"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { SettingsTogglerTestIds } from "App/__deprecated__/renderer/modules/settings/components/settings-toggler-test-ids.enum"
+import { SettingsTogglerTestIds } from "App/__deprecated__/renderer/modules/settings/components/settings-toggler/settings-toggler-test-ids.enum"
 
 const Toggler = styled(ButtonToggler)`
   margin-right: 3.2rem;

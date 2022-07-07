@@ -6,28 +6,28 @@
 import React from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import AppUpdateStepModal from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
-import { AppUpdateFlowTestIds } from "App/__deprecated__/renderer/modules/settings/components/app-update-flow-test-ids.enum"
+import { AppForcedUpdateFlowTestIds } from "App/__deprecated__/renderer/modules/settings/components/app-forced-update-flow/app-forced-update-flow-test-ids.enum"
 
 interface Props {
   appCurrentVersion?: string
   appLatestVersion?: string
-  closeModal: () => void
+  hideModals: () => void
 }
 
-const AppUpdateFlow: FunctionComponent<Props> = ({
+const AppForcedUpdateFlow: FunctionComponent<Props> = ({
   appCurrentVersion,
   appLatestVersion,
-  closeModal,
+  hideModals,
 }) => {
   return (
     <AppUpdateStepModal
       forced
       appCurrentVersion={appCurrentVersion}
       appLatestVersion={appLatestVersion}
-      closeModal={closeModal}
-      testId={AppUpdateFlowTestIds.Container}
+      closeModal={hideModals}
+      testId={AppForcedUpdateFlowTestIds.Container}
     />
   )
 }
 
-export default AppUpdateFlow
+export default AppForcedUpdateFlow

@@ -4,9 +4,9 @@
  */
 
 import { connect } from "react-redux"
-import { ReduxRootState, RootState, TmpDispatch } from "App/__deprecated__/renderer/store"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { hideModals } from "App/modals-manager/actions"
-import AppUpdateFlow from "App/__deprecated__/renderer/modules/settings/components/app-update-flow.component"
+import AppForcedUpdateFlow from "App/__deprecated__/renderer/modules/settings/components/app-forced-update-flow/app-forced-update-flow.component"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
@@ -15,8 +15,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  closeModal: () => dispatch(hideModals()),
-})
+const mapDispatchToProps = {
+  hideModals,
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppUpdateFlow)
+export default connect(mapStateToProps, mapDispatchToProps)(AppForcedUpdateFlow)
