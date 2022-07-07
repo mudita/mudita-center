@@ -80,7 +80,7 @@ export const features: EnvironmentConfig = {
   [Feature.MessagesThreadAttachTemplateEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadCallsEnabled]: {
     [Environment.Development]: true,
