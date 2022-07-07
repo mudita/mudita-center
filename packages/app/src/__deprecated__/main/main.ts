@@ -139,7 +139,6 @@ const getWindowOptions = (
 })
 
 const createWindow = async () => {
-  console.log("productionEnvironment", process.env.NODE_ENV)
   if (!productionEnvironment) {
     await installExtensions()
   }
