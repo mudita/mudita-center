@@ -6,7 +6,7 @@
 import React from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
-import AudioConversionRadioGroup from "App/__deprecated__/renderer/modules/settings/components/audio-conversion-radio-group.component"
+import AudioConversionRadioGroup from "App/__deprecated__/renderer/modules/settings/components/audio-conversion-radio-group/audio-conversion-radio-group.component"
 import { fireEvent } from "@testing-library/dom"
 
 const convertRadioGroup = [

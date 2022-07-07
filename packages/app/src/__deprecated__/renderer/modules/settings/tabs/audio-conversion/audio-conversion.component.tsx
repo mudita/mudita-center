@@ -6,8 +6,11 @@
 import React, { ChangeEvent, useEffect } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
-import AudioConversionUI from "App/__deprecated__/renderer/modules/settings/components/audio-conversion-ui.component"
-import { ConversionFormat, Convert } from "App/__deprecated__/main/store/settings.interface"
+import AudioConversionUI from "App/__deprecated__/renderer/modules/settings/tabs/audio-conversion/audio-conversion-ui.component"
+import {
+  ConversionFormat,
+  Convert,
+} from "App/__deprecated__/main/store/settings.interface"
 
 export const conversionRadioGroup = [
   {
