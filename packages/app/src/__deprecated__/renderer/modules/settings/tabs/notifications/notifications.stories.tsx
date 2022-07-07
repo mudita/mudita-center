@@ -5,7 +5,7 @@
 
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import NotificationsUI from "App/__deprecated__/renderer/modules/settings/components/notifications-ui.component"
+import NotificationsUI from "App/__deprecated__/renderer/modules/settings/tabs/notifications/notifications-ui.component"
 
 storiesOf("Settings/Notifications", module).add("Notifications", () => (
   <div style={{ maxWidth: "63rem" }}>

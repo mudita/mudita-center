@@ -128,6 +128,7 @@ const commonWindowOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
+    devTools: !productionEnvironment,
   },
 }
 const getWindowOptions = (
