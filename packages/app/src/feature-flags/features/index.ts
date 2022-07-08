@@ -75,12 +75,12 @@ export const features: EnvironmentConfig = {
   [Feature.MessagesThreadAttachContactEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadAttachTemplateEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadCallsEnabled]: {
     [Environment.Development]: true,
@@ -176,5 +176,10 @@ export const features: EnvironmentConfig = {
     [Environment.Development]: true,
     [Environment.Production]: false,
     [Environment.AlphaProduction]: true,
+  },
+  [Feature.OrderTemplate]: {
+    [Environment.Development]: true,
+    [Environment.Production]: false,
+    [Environment.AlphaProduction]: false,
   },
 }

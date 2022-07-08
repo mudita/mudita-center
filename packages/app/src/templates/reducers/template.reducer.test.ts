@@ -64,12 +64,14 @@ const thirdTemplate: Template = {
   order: 3,
 }
 
-const templateUpdateOrderPayloadMock: Template = {
-  id: "1",
-  text: "Test template",
-  lastUsedAt: "1574335694",
-  order: 4,
-}
+const templateUpdateOrderPayloadMock: Template[] = [
+  {
+    id: "1",
+    text: "Test template",
+    lastUsedAt: "1574335694",
+    order: 4,
+  },
+]
 
 describe("Create template functionality", () => {
   test("Event: CreateTemplate/pending changed `loading` to `true` and `loaded` to `false`", () => {
@@ -356,7 +358,11 @@ describe("Delete Template data functionality", () => {
         )
       ).toEqual({
         ...initialState,
-        data: [secondTemplate, thirdTemplate, templateUpdateOrderPayloadMock],
+        data: [
+          secondTemplate,
+          thirdTemplate,
+          ...templateUpdateOrderPayloadMock,
+        ],
         loaded: true,
         loading: false,
       })
@@ -367,17 +373,17 @@ describe("Delete Template data functionality", () => {
         templateReducer(
           {
             ...initialState,
-            data: [templateMock],
+            data: [template],
             error: "Some error",
           },
           {
             type: fulfilledAction(TemplatesEvent.UpdateTemplateOrder),
-            payload: templateUpdatePayloadMock,
+            payload: templateUpdateOrderPayloadMock,
           }
         )
       ).toEqual({
         ...initialState,
-        data: [templateUpdatePayloadMock],
+        data: [...templateUpdateOrderPayloadMock],
         error: null,
         loaded: true,
         loading: false,

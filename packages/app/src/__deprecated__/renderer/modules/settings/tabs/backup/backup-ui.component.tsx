@@ -20,7 +20,7 @@ import {
   Data,
   SettingsLabel,
   SettingsTableRow,
-} from "App/__deprecated__/renderer/modules/settings/components/settings-ui.component"
+} from "App/__deprecated__/renderer/modules/settings/components/settings/settings-ui.component"
 
 const BackupTableRow = styled(SettingsTableRow)`
   grid-template-areas: "Checkbox Actions";

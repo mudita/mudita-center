@@ -7,7 +7,7 @@ import { Template } from "App/templates/dto"
 
 export interface TemplateFormProps {
   onClose: () => void
-  onSave: (template: Pick<Template, "text">) => void
+  onSave: (template: Pick<Template, "text" | "order">) => void
   saving: boolean
   template?: Template
   error?: Error | string | null

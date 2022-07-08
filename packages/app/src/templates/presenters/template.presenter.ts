@@ -11,13 +11,19 @@ import {
   UpdateTemplateOrder,
 } from "@mudita/pure"
 import { NewTemplate, Template } from "App/templates/dto"
-
+import { Feature, flags } from "App/feature-flags"
 export class TemplatePresenter {
   static mapToPureNewTemplateBody(template: NewTemplate): PostTemplateBody {
-    return {
-      templateBody: template.text,
-      category: PureMessagesCategory.template,
-    }
+    return flags.get(Feature.OrderTemplate)
+      ? {
+          templateBody: template.text,
+          category: PureMessagesCategory.template,
+          order: template.order,
+        }
+      : {
+          templateBody: template.text,
+          category: PureMessagesCategory.template,
+        }
   }
 
   static mapToPureTemplateBody(template: Template): PutTemplateBody {
@@ -29,21 +35,33 @@ export class TemplatePresenter {
   }
 
   static mapToTemplate(pureTemplate: PureTemplate): Template {
-    return {
-      id: String(pureTemplate.templateID),
-      text: pureTemplate.templateBody,
-      lastUsedAt: String(pureTemplate.lastUsedAt),
-      order: pureTemplate.order,
-    }
+    return flags.get(Feature.OrderTemplate)
+      ? {
+          id: String(pureTemplate.templateID),
+          text: pureTemplate.templateBody,
+          lastUsedAt: String(pureTemplate.lastUsedAt),
+          order: pureTemplate.order,
+        }
+      : {
+          id: String(pureTemplate.templateID),
+          text: pureTemplate.templateBody,
+          lastUsedAt: String(pureTemplate.lastUsedAt),
+        }
   }
 
   static mapToPureTemplate(template: Template): PureTemplate {
-    return {
-      templateID: Number(template.id),
-      templateBody: template.text,
-      lastUsedAt: Number(template.lastUsedAt),
-      order: template.order,
-    }
+    return flags.get(Feature.OrderTemplate)
+      ? {
+          templateID: Number(template.id),
+          templateBody: template.text,
+          lastUsedAt: Number(template.lastUsedAt),
+          order: template.order,
+        }
+      : {
+          templateID: Number(template.id),
+          templateBody: template.text,
+          lastUsedAt: Number(template.lastUsedAt),
+        }
   }
 
   static mapToPureTemplateOrder(template: Template): UpdateTemplateOrder {

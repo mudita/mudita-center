@@ -66,7 +66,7 @@ export type DeleteTemplateRejectedAction = PayloadAction<
 >
 
 export type UpdateTemplateOrderFulfilledAction = PayloadAction<
-  Template,
+  Template[],
   TemplatesEvent.UpdateTemplateOrder
 >
 
@@ -75,4 +75,14 @@ export type UpdateTemplateOrderRejectedAction = PayloadAction<
   TemplatesEvent.UpdateTemplateOrder,
   void,
   Error | string | null
+>
+
+type ErrorTemplatesOrderData = {
+  errorTemplates: Template[]
+  successTemplates: Template[]
+}
+
+export type UpdateTemplateOrderRequestResponse = RequestResponse<
+  Template[],
+  ErrorTemplatesOrderData
 >

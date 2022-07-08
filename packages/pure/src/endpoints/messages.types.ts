@@ -96,12 +96,13 @@ export interface Template {
   templateID: number
   lastUsedAt: number
   templateBody: string
-  order: number
+  order?: number
 }
 
 export interface PostTemplateBody {
   category: MessagesCategory.template
   templateBody: string
+  order?: number
 }
 
 export interface GetTemplateBody {
@@ -118,7 +119,7 @@ export interface PutTemplateBody {
 export interface UpdateTemplateOrder {
   category: MessagesCategory.template
   templateID: number
-  order: number
+  order?: number
 }
 
 export interface DeleteTemplateBody {

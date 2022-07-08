@@ -14,7 +14,7 @@ export interface TemplatesProps {
   createTemplate: (arg: NewTemplate) => Promise<PayloadAction<any>>
   deleteTemplates: (arg: string[]) => Promise<PayloadAction<any>>
   updateTemplate: (arg: Template) => Promise<PayloadAction<any>>
-  updateTemplateOrder: (arg: Template) => Promise<PayloadAction<any>>
+  updateTemplateOrder: (arg: Template[]) => Promise<PayloadAction<any>>
 }
 
 export interface TemplateServiceState {
@@ -25,4 +25,6 @@ export interface TemplateServiceState {
   deleting: boolean
   deletingConfirmation: boolean
   deletingInfo: boolean
+  updatingOrder: boolean
+  updatingOrderInfo: boolean
 }

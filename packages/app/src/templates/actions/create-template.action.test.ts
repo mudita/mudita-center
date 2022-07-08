@@ -22,6 +22,7 @@ const mockStore = createMockStore([thunk])()
 
 const newTemplate: NewTemplate = {
   text: "Hello world!",
+  order: 1,
 }
 
 const template: Template = {

@@ -23,6 +23,7 @@ import {
   rejectedAction,
   fulfilledAction,
 } from "App/__deprecated__/renderer/store/helpers"
+import { Feature, flags } from "App/feature-flags"
 
 export const initialState: TemplateState = {
   data: [],
@@ -176,18 +177,19 @@ export const templateReducer = createReducer<TemplateState>(
       fulfilledAction(TemplatesEvent.UpdateTemplateOrder),
       (state, action: UpdateTemplateOrderFulfilledAction) => {
         const updatedList = state.data.map((item) => {
-          if (item.id === action.payload.id) {
-            return action.payload
-          }
-
-          return item
+          const updatedTemplate = action.payload.find(
+            (template) => item.id === template.id
+          )
+          return updatedTemplate ? updatedTemplate : item
         })
-        const orderedList = updatedList.sort((a, b) => a.order - b.order)
+        const orderedList = updatedList.sort(function (a, b) {
+          return a.order && b.order ? a.order - b.order : -1
+        })
 
         return {
           ...state,
           error: null,
-          data: orderedList,
+          data: flags.get(Feature.OrderTemplate) ? orderedList : updatedList,
           loaded: true,
           loading: false,
         }

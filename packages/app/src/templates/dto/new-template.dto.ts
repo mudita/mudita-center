@@ -5,4 +5,4 @@
 
 import { Template } from "App/templates/dto"
 
-export type NewTemplate = Pick<Template, "text">
+export type NewTemplate = Pick<Template, "text" | "order">

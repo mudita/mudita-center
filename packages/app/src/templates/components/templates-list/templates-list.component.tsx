@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { TemplatesListProps } from "App/templates/components/templates-list/templates-list.interface"
@@ -27,9 +27,8 @@ import {
   Droppable,
   Draggable,
   DraggableProvided,
-  DropResult,
 } from "react-beautiful-dnd"
-import { Template } from "App/templates/dto"
+import { Feature, flags } from "App/feature-flags"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "module.templates.emptyList.title" },
@@ -48,121 +47,146 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   toggleRow,
   deleteTemplates,
   updateTemplate,
+  onDragEnd,
 }) => {
-  const [templatesList, setTemplateList] = useState<Template[]>(templates)
-
-  useEffect(() => {
-    setTemplateList(templates)
-  }, [templates])
-
-  // Temporary solution, will be changed in CP-1370
-  const reorder = (
-    list: Template[],
-    startIndex: number,
-    endIndex: number
-  ): Template[] => {
-    const result: Template[] = Array.from(list)
-    const [removed] = result.splice(startIndex, 1)
-    result.splice(endIndex, 0, removed)
-
-    return result
-  }
-
-  const onDragEnd = (result: DropResult) => {
-    if (!result.destination) {
-      return
-    }
-
-    const items: Template[] = reorder(
-      templatesList,
-      result.source.index,
-      result.destination.index
-    )
-
-    setTemplateList(items)
-  }
-
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="droppable">
-        {(provided: any) => (
-          <Table
-            role="list"
-            hide
-            hideableColumnsIndexes={[2, 3, 4]}
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-          >
-            {templatesList.length > 0 ? (
-              templatesList.map((template, index) => {
-                const { selected, indeterminate } = getRowStatus(template)
-                const handleCheckboxChange = () => toggleRow(template)
+    <>
+      {flags.get(Feature.OrderTemplate) ? (
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable" type="COLUMN">
+            {(provided: any) => (
+              <Table
+                role="list"
+                hide
+                hideableColumnsIndexes={[2, 3, 4]}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {templates.length > 0 ? (
+                  templates.map((template, index) => {
+                    const { selected, indeterminate } = getRowStatus(template)
+                    const handleCheckboxChange = () => toggleRow(template)
 
-                return (
-                  <Draggable
-                    key={template.id}
-                    draggableId={template.id}
-                    index={index}
-                  >
-                    {(provided: DraggableProvided) => (
-                      <Row
+                    return (
+                      <Draggable
                         key={template.id}
-                        role="listitem"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
+                        draggableId={template.id}
+                        index={index}
                       >
-                        <Col />
-                        <Col>
-                          <Checkbox
-                            checked={selected}
-                            onChange={handleCheckboxChange}
-                            size={Size.Large}
-                            indeterminate={indeterminate}
-                            visible={!noneRowsSelected}
-                            data-testid="template-checkbox"
-                          />
-                          {noneRowsSelected && (
-                            <IconWrapper>
-                              <TemplateIcon
-                                type={IconType.Template}
-                                width={3}
-                                height={3}
-                              />
-                            </IconWrapper>
-                          )}
-                        </Col>
-                        <TemplateTextColumn
-                          onClick={() => updateTemplate(template.id)}
-                        >
-                          <TemplateText
-                            displayStyle={TextDisplayStyle.Paragraph1}
+                        {(provided: DraggableProvided) => (
+                          <Row
+                            key={template.id}
+                            role="listitem"
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
                           >
-                            {template.text}
-                          </TemplateText>
-                        </TemplateTextColumn>
-                        <Col>
-                          <TemplateOptions
-                            templateId={template.id}
-                            onDelete={deleteTemplates}
-                            onUpdate={updateTemplate}
-                          />
-                        </Col>
-                      </Row>
-                    )}
-                  </Draggable>
-                )
-              })
-            ) : (
-              <TemplatesEmptyState
-                title={messages.emptyStateTitle}
-                description={messages.emptyStateDescription}
-              />
+                            <Col />
+                            <Col>
+                              <Checkbox
+                                checked={selected}
+                                onChange={handleCheckboxChange}
+                                size={Size.Large}
+                                indeterminate={indeterminate}
+                                visible={!noneRowsSelected}
+                                data-testid="template-checkbox"
+                              />
+                              {noneRowsSelected && (
+                                <IconWrapper>
+                                  <TemplateIcon
+                                    type={IconType.Template}
+                                    width={3}
+                                    height={3}
+                                  />
+                                </IconWrapper>
+                              )}
+                            </Col>
+                            <TemplateTextColumn
+                              onClick={() => updateTemplate(template.id)}
+                            >
+                              <TemplateText
+                                displayStyle={TextDisplayStyle.Paragraph1}
+                              >
+                                {template.text}
+                              </TemplateText>
+                            </TemplateTextColumn>
+                            <Col>
+                              <TemplateOptions
+                                templateId={template.id}
+                                onDelete={deleteTemplates}
+                                onUpdate={updateTemplate}
+                              />
+                            </Col>
+                          </Row>
+                        )}
+                      </Draggable>
+                    )
+                  })
+                ) : (
+                  <TemplatesEmptyState
+                    title={messages.emptyStateTitle}
+                    description={messages.emptyStateDescription}
+                  />
+                )}
+                {provided.placeholder}
+              </Table>
             )}
-            {provided.placeholder}
-          </Table>
-        )}
-      </Droppable>
-    </DragDropContext>
+          </Droppable>
+        </DragDropContext>
+      ) : (
+        <Table role="list" hide hideableColumnsIndexes={[2, 3, 4]}>
+          {templates.length > 0 ? (
+            templates.map((template) => {
+              const { selected, indeterminate } = getRowStatus(template)
+              const handleCheckboxChange = () => toggleRow(template)
+
+              return (
+                <Row key={template.id} role="listitem">
+                  <Col />
+                  <Col>
+                    <Checkbox
+                      checked={selected}
+                      onChange={handleCheckboxChange}
+                      size={Size.Large}
+                      indeterminate={indeterminate}
+                      visible={!noneRowsSelected}
+                      data-testid="template-checkbox"
+                    />
+                    {noneRowsSelected && (
+                      <IconWrapper>
+                        <TemplateIcon
+                          type={IconType.Template}
+                          width={3}
+                          height={3}
+                        />
+                      </IconWrapper>
+                    )}
+                  </Col>
+                  <TemplateTextColumn
+                    onClick={() => updateTemplate(template.id)}
+                  >
+                    <TemplateText displayStyle={TextDisplayStyle.Paragraph1}>
+                      {template.text}
+                    </TemplateText>
+                  </TemplateTextColumn>
+                  <Col>
+                    <TemplateOptions
+                      templateId={template.id}
+                      onDelete={deleteTemplates}
+                      onUpdate={updateTemplate}
+                    />
+                  </Col>
+                </Row>
+              )
+            })
+          ) : (
+            <TemplatesEmptyState
+              title={messages.emptyStateTitle}
+              description={messages.emptyStateDescription}
+            />
+          )}
+        </Table>
+      )}
+    </>
   )
 }

@@ -16,6 +16,7 @@ import { contactsReducer } from "App/contacts/reducers"
 import { dataSyncReducer } from "App/data-sync/reducers"
 import { notificationReducer } from "App/notification/reducers"
 import { templateReducer } from "App/templates/reducers"
+import { newsReducer } from "App/news/reducers"
 
 export const reducers = {
   device: deviceReducer,
@@ -30,6 +31,7 @@ export const reducers = {
   contactSupport: contactSupportReducer,
   notification: notificationReducer,
   templates: templateReducer,
+  news: newsReducer,
 }
 
 export const combinedReducers = combineReducers(reducers)

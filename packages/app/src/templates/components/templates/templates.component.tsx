@@ -20,6 +20,9 @@ import { useLoadingState } from "App/ui"
 import { DeletingTemplateModals } from "App/templates/components/deleting-template-modals"
 import { UpdatingTemplateModals } from "App/templates/components/updating-template-modals"
 import { CreatingTemplateModals } from "App/templates/components/creating-template-modals"
+import { DropResult } from "react-beautiful-dnd"
+import { reorder } from "App/templates/helpers/templates-order.helpers"
+import { OrderingTemplateModals } from "App/templates/components/ordering-template-modals"
 
 export const Templates: FunctionComponent<TemplatesProps> = ({
   templates,
@@ -29,6 +32,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   createTemplate,
   deleteTemplates,
   updateTemplate,
+  updateTemplateOrder,
 }) => {
   const { states, updateFieldState, resetState } =
     useLoadingState<TemplateServiceState>({
@@ -39,16 +43,25 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       deleting: false,
       deletingConfirmation: false,
       deletingInfo: false,
+      updatingOrder: false,
+      updatingOrderInfo: false,
     })
 
   const [editedTemplate, setEditedTemplate] = useState<Template | undefined>()
   const [templateFormOpen, setTemplateFormOpenState] = useState<boolean>(false)
   const [deletedTemplates, setDeletedTemplates] = useState<string[]>([])
+  const [templatesList, setTemplatesList] = useState<Template[]>(templates)
   const panelButtonDisabled =
     templateFormOpen || states.creating || states.updating
 
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Template>(templates)
+
+  useEffect(() => {
+    if (!loading) {
+      setTemplatesList(templates)
+    }
+  }, [templates])
 
   useEffect(() => {
     if (!loaded || error) {
@@ -70,6 +83,11 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       if (states.creating) {
         updateFieldState("creating", false)
         updateFieldState("creatingInfo", true)
+      }
+
+      if (states.updatingOrder) {
+        updateFieldState("updatingOrder", false)
+        updateFieldState("updatingOrderInfo", true)
       }
     }, 1000)
 
@@ -156,14 +174,31 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const handleCreateTemplate = async (template: NewTemplate) => {
     updateFieldState("creating", true)
     setTemplateFormOpenState(false)
-
-    await createTemplate(template)
+    const lastTemplateOrder = templates[templates.length - 1]?.order
+    const newTemplateOrder = lastTemplateOrder ? lastTemplateOrder + 1 : 1
+    await createTemplate({ ...template, order: newTemplateOrder })
   }
 
   const handleCloseCreatingErrorModal = () => {
     updateFieldState("creating", false)
   }
 
+  const onDragEnd = (result: DropResult) => {
+    updateFieldState("updatingOrder", true)
+    if (!result.destination) {
+      return
+    }
+    const list = Array.from(templatesList)
+    const [removed] = list.splice(result.source.index, 1)
+    list.splice(result.destination.index, 0, removed)
+    setTemplatesList(list)
+    const updatedTemplates = reorder(
+      list,
+      result.source.index,
+      result.destination.index
+    )
+    updateTemplateOrder(updatedTemplates)
+  }
   return (
     <>
       <TemplatesPanel
@@ -176,9 +211,10 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       />
       <TemplatesSection>
         <TemplatesList
-          templates={templates}
+          templates={loading ? templatesList : templates}
           deleteTemplates={handleOpenDeleteModal}
           updateTemplate={handleOpenUpdateTemplate}
+          onDragEnd={onDragEnd}
           {...rest}
         />
         {templateFormOpen && (
@@ -217,6 +253,12 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
         creating={states.creating}
         creatingInfo={states.creatingInfo}
         onCloseCreatingErrorModal={handleCloseCreatingErrorModal}
+      />
+
+      <OrderingTemplateModals
+        error={error}
+        updating={states.updatingOrder}
+        updated={states.updatingOrderInfo}
       />
     </>
   )
