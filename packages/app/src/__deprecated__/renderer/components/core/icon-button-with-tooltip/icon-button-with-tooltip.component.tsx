@@ -24,11 +24,13 @@ interface Props
     >,
     Omit<ComponentProps<typeof ElementWithTooltip>, "Element"> {
   iconType?: IconType
+  testId?: string
 }
 
 const IconButtonWithTooltip: FunctionComponent<Props> = ({
   iconType = IconType.Tooltip,
   iconSize = IconSize.Medium,
+  testId,
   ...props
 }) => {
   return (
@@ -36,7 +38,7 @@ const IconButtonWithTooltip: FunctionComponent<Props> = ({
       Element={
         <IconButton
           Icon={iconType}
-          data-testid={IconButtonWithTooltipTestIds.Icon}
+          data-testid={testId ?? IconButtonWithTooltipTestIds.Icon}
           iconSize={iconSize}
         />
       }

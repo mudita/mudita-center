@@ -3,37 +3,72 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
-import { defineMessages } from "react-intl"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { intl } from "App/__deprecated__/renderer/utils/intl"
-import { AvatarSize } from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
-import { createFullName } from "App/contacts/helpers/contacts.helpers"
+import { ContactSimpleListItemTestIdsEnum } from "App/contacts/components/contact-simple-list-item/contact-simple-list-item-test-ids.enum"
 import { ContactSimpleListItemProps } from "App/contacts/components/contact-simple-list-item/contact-simple-list-item.interface"
 import {
-  InitialsAvatar,
   BlockedIcon,
   ClickableCol,
+  InitialsAvatar,
+  HoverablePhoneNumber,
+  ItemCol,
 } from "App/contacts/components/contact-simple-list-item/contact-simple-list-item.styled"
-import { ContactSimpleListItemTestIdsEnum } from "App/contacts/components/contact-simple-list-item/contact-simple-list-item-test-ids.enum"
+import { createFullName } from "App/contacts/helpers/contacts.helpers"
+import { AvatarSize } from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import React from "react"
+import { defineMessages } from "react-intl"
+import assert from "assert"
 
 const messages = defineMessages({
   unnamedContact: { id: "module.contacts.listUnnamedContact" },
 })
 
+const validateProps = ({
+  onContactSelect,
+  onPhoneNumberSelect,
+}: ContactSimpleListItemProps) => {
+  if (!onContactSelect && !onPhoneNumberSelect) {
+    throw new Error(
+      "You should define one of the properties: onContactSelect or onPhoneNumberSelect"
+    )
+  }
+  if (onContactSelect && onPhoneNumberSelect) {
+    throw new Error(
+      "You should define only one of the properties: onContactSelect or onPhoneNumberSelect"
+    )
+  }
+}
+
 export const ContactSimpleListItem: FunctionComponent<
   ContactSimpleListItemProps
-> = ({ contact, onSelect }) => {
+> = (props) => {
+  validateProps(props)
+
+  const { contact, onContactSelect, onPhoneNumberSelect } = props
+
+  const isPhoneNumberSelectionModeEnabled = onPhoneNumberSelect !== undefined
   const fullName = createFullName(contact)
+
   const handleSelectContact = () => {
-    onSelect(contact)
+    assert(onContactSelect)
+    onContactSelect(contact)
   }
+
+  const handlePhoneNumberSelection = (phoneNumber: string) => {
+    assert(onPhoneNumberSelect)
+    onPhoneNumberSelect(phoneNumber)
+  }
+
+  const FirstCol = onPhoneNumberSelect ? ItemCol : ClickableCol
 
   return (
     <>
-      <ClickableCol
-        data-testid={ContactSimpleListItemTestIdsEnum.NameWrapper}
-        onClick={handleSelectContact}
+      <FirstCol
+        data-testid={ContactSimpleListItemTestIdsEnum.NameWrapperColumn}
+        onClick={
+          isPhoneNumberSelectionModeEnabled ? undefined : handleSelectContact
+        }
       >
         <InitialsAvatar user={contact} size={AvatarSize.Small} />
         {fullName || intl.formatMessage(messages.unnamedContact)}
@@ -44,13 +79,47 @@ export const ContactSimpleListItem: FunctionComponent<
             data-testid={ContactSimpleListItemTestIdsEnum.Blocked}
           />
         )}
-      </ClickableCol>
-      <ClickableCol
-        onClick={handleSelectContact}
-        data-testid={ContactSimpleListItemTestIdsEnum.PhoneNumber}
-      >
-        {[contact.primaryPhoneNumber, contact.secondaryPhoneNumber].join("  ")}
-      </ClickableCol>
+      </FirstCol>
+
+      {!isPhoneNumberSelectionModeEnabled && (
+        <ClickableCol
+          onClick={handleSelectContact}
+          data-testid={ContactSimpleListItemTestIdsEnum.ContactSelectableColumn}
+        >
+          {[contact.primaryPhoneNumber, contact.secondaryPhoneNumber].join(
+            "  "
+          )}
+        </ClickableCol>
+      )}
+
+      {isPhoneNumberSelectionModeEnabled && (
+        <ClickableCol>
+          {contact.primaryPhoneNumber && (
+            <HoverablePhoneNumber
+              onClick={() =>
+                handlePhoneNumberSelection(contact.primaryPhoneNumber!)
+              }
+              data-testid={
+                ContactSimpleListItemTestIdsEnum.PrimaryPhoneNumberSelectableColumn
+              }
+            >
+              {contact.primaryPhoneNumber}
+            </HoverablePhoneNumber>
+          )}
+          {contact.secondaryPhoneNumber && (
+            <HoverablePhoneNumber
+              onClick={() =>
+                handlePhoneNumberSelection(contact.secondaryPhoneNumber!)
+              }
+              data-testid={
+                ContactSimpleListItemTestIdsEnum.SecondaryPhoneNumberSelectableColumn
+              }
+            >
+              {contact.secondaryPhoneNumber}
+            </HoverablePhoneNumber>
+          )}
+        </ClickableCol>
+      )}
     </>
   )
 }

@@ -65,6 +65,7 @@ export interface TableRowProps {
   size?: RowSize
   active?: boolean
   selected?: boolean
+  disableHoverState?: boolean
 }
 
 export const Row = styled.div<TableRowProps>`
@@ -94,9 +95,13 @@ export const Row = styled.div<TableRowProps>`
     }
   }}rem;
 
-  &:hover {
-    background-color: ${backgroundColor("minor")};
-  }
+  ${({ disableHoverState }) =>
+    !disableHoverState &&
+    css`
+      &:hover {
+        background-color: ${backgroundColor("minor")};
+      }
+    `}
 
   ${({ active }) => active && activeRowStyles};
   ${({ selected }) => selected && selectedRowStyles};

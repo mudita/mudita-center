@@ -4,7 +4,9 @@
  */
 
 export enum ContactSimpleListItemTestIdsEnum {
-  NameWrapper = "contact-name-wrapper",
+  NameWrapperColumn = "contact-name-wrapper-column",
   Blocked = "contact-blocked",
-  PhoneNumber = "contact-phone-number",
+  ContactSelectableColumn = "contact-selectable-column",
+  PrimaryPhoneNumberSelectableColumn = "primary-phone-number-selectable-column",
+  SecondaryPhoneNumberSelectableColumn = "secondary-phone-number-selectable-column",
 }

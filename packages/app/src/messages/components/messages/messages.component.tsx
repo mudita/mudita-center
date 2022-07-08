@@ -60,6 +60,11 @@ const messages = defineMessages({
   },
 })
 
+const contactsModalMessages = defineMessages({
+  attachContactModalTitle: { id: "module.messages.attachContactModalTitle" },
+  browseContactsModalTitle: { id: "module.messages.browseContactsModalTitle" },
+})
+
 const mockThread: Thread = {
   id: "tmpId",
   phoneNumber: "New Conversation",
@@ -123,6 +128,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
     useState<boolean>(false)
   const [showAttachContactModal, setShowAttachContactModal] =
     useState<boolean>(false)
+  const [showBrowseContactModal, setShowBrowseContactModal] =
+    useState<boolean>(false)
+
   const [showAttachTemplateModal, setShowAttachTemplateModal] =
     useState<boolean>(false)
 
@@ -235,6 +243,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setShowAttachContactModal(false)
   }
 
+  const openBrowseContactModal = () => {
+    setShowBrowseContactModal(true)
+  }
+
+  const closeBrowseContactModal = () => {
+    setShowBrowseContactModal(false)
+  }
+
   const openAttachTemplateModal = () => {
     setShowAttachTemplateModal(true)
   }
@@ -242,7 +258,27 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const closeAttachTemplateModal = () => {
     setShowAttachTemplateModal(false)
   }
-  const handleContactAttach = (contact: Contact): void => {
+
+  const handleBrowseContactSelection = (contact: Contact | null): void => {
+    if (!contact) {
+      return
+    }
+
+    if (contact.primaryPhoneNumber) {
+      handlePhoneNumberSelect(contact.primaryPhoneNumber)
+    } else if (contact.secondaryPhoneNumber) {
+      handlePhoneNumberSelect(contact.secondaryPhoneNumber)
+    }
+
+    setShowBrowseContactModal(false)
+  }
+
+  const handleBrowsePhoneNumberSelection = (phoneNumber: string): void => {
+    handlePhoneNumberSelect(phoneNumber)
+    setShowBrowseContactModal(false)
+  }
+
+  const handleContactAttach = (contact: Contact | null): void => {
     if (!contact) {
       return
     }
@@ -447,9 +483,25 @@ const Messages: FunctionComponent<MessagesProps> = ({
   return (
     <>
       <ContactSelectModal
+        testId={MessagesTestIds.AttachContactModal}
         open={showAttachContactModal}
+        withPhoneNumberOnly={false}
         onClose={closeAttachContactModal}
-        onSelect={handleContactAttach}
+        onContactSelect={handleContactAttach}
+        title={intl.formatMessage(
+          contactsModalMessages.attachContactModalTitle
+        )}
+      />
+      <ContactSelectModal
+        testId={MessagesTestIds.BrowseContactsModal}
+        open={showBrowseContactModal}
+        withPhoneNumberOnly
+        onClose={closeBrowseContactModal}
+        onContactSelect={handleBrowseContactSelection}
+        onPhoneNumberSelect={handleBrowsePhoneNumberSelection}
+        title={intl.formatMessage(
+          contactsModalMessages.browseContactsModalTitle
+        )}
       />
       <TemplatesSelectModal
         open={showAttachTemplateModal}
@@ -526,6 +578,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onReceiverSelect={handleReceiverSelect}
             onClose={closeSidebars}
             onAttachContactClick={openAttachContactModal}
+            onBrowseContactsClick={openBrowseContactModal}
             onAttachTemplateClick={openAttachTemplateModal}
           />
         )}
