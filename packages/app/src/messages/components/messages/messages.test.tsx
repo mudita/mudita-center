@@ -140,13 +140,11 @@ const defaultProps: Props = {
   getMessagesByThreadId: jest.fn().mockReturnValue([contact]),
   messageLayoutNotifications: [],
   removeLayoutNotification: jest.fn(),
-  threadDeletingState: null,
-  hideDeleteModal: jest.fn(),
-  hideMessageDeleteModal: jest.fn(),
   currentlyDeletingMessageId: null,
   deleteMessage: jest.fn(),
-  messageDeletingState: null,
   resendMessage: jest.fn(),
+  error: null,
+  loaded: false,
 }
 
 const propsWithSingleThread: Partial<Props> = {

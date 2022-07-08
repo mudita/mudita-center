@@ -5,24 +5,25 @@
 
 import DeleteMessageModals from "App/messages/components/delete-message-modals/delete-message-modals.component"
 import { DeleteMessageModalsTestIds } from "App/messages/components/delete-message-modals/delete-message-modals-test-ids.enum"
-import { MessageDeletingState } from "App/messages/constants"
-import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React, { ComponentProps } from "react"
 
 type Props = ComponentProps<typeof DeleteMessageModals>
 
-const renderer = (extraProps?: Partial<Props>) => {
-  const props: Props = {
-    messageDeletingState: null,
-    openDeleteMessageConfirmation: false,
-    onMessageRemove: noop,
-    hideConfirmationModal: noop,
-    hideDeleteErrorModal: noop,
-    ...extraProps,
-  }
+const props: Props = {
+  error: null,
+  deleting: false,
+  deletingInfo: false,
+  deletingConfirmation: false,
+  onCloseDeletingErrorModal: jest.fn(),
+  onDelete: jest.fn(),
+  onCloseDeletingModal: jest.fn(),
+}
 
-  return renderWithThemeAndIntl(<DeleteMessageModals {...props} />)
+const renderer = (extraProps?: Partial<Props>) => {
+  return renderWithThemeAndIntl(
+    <DeleteMessageModals {...props} {...extraProps} />
+  )
 }
 
 describe("when deleting state is empty and delete  message confirmation is not supposed to be opened", () => {
@@ -44,7 +45,7 @@ describe("when deleting state is empty and delete  message confirmation is not s
 describe("when delete message confirmation is supposed to be opened", () => {
   test("the modal is shown", () => {
     const { queryByTestId } = renderer({
-      openDeleteMessageConfirmation: true,
+      deletingConfirmation: true,
     })
 
     expect(
@@ -56,8 +57,8 @@ describe("when delete message confirmation is supposed to be opened", () => {
 describe("when deleting state equals to success", () => {
   test("only the success info popup is shown", () => {
     const { queryByTestId } = renderer({
-      openDeleteMessageConfirmation: false,
-      messageDeletingState: MessageDeletingState.Success,
+      deletingConfirmation: false,
+      deletingInfo: true,
     })
 
     expect(
@@ -72,8 +73,9 @@ describe("when deleting state equals to success", () => {
 describe("when deleting state equals to fail", () => {
   test("only the fail modal is shown", () => {
     const { queryByTestId } = renderer({
-      openDeleteMessageConfirmation: false,
-      messageDeletingState: MessageDeletingState.Fail,
+      deletingConfirmation: false,
+      deleting: true,
+      error: "Luke, I'm your error",
     })
 
     expect(

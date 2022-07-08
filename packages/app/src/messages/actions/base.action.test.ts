@@ -9,7 +9,6 @@ import {
   changeSearchValue,
   changeVisibilityFilter,
   clearAllThreads,
-  hideMessageDeleteModal,
 } from "App/messages/actions/base.action"
 import { MessagesEvent, VisibilityFilter } from "App/messages/constants"
 
@@ -49,18 +48,6 @@ describe("Action: clearAllThreads", () => {
     expect(mockStore.getActions()).toEqual([
       {
         type: MessagesEvent.ClearAllThreads,
-        payload: undefined,
-      },
-    ])
-  })
-})
-
-describe("Action: hideMessageDeleteModal", () => {
-  test("fire action without payload and `HideMessageDeleteModal` type", () => {
-    mockStore.dispatch(hideMessageDeleteModal())
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: MessagesEvent.HideMessageDeleteModal,
         payload: undefined,
       },
     ])
