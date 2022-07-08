@@ -7,11 +7,7 @@ import { ChangeEvent } from "react"
 import { PaginationBody } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import {
-  MessageDeletingState,
-  ResultState,
-  ThreadDeletingState,
-} from "App/messages/constants"
+import { ResultState } from "App/messages/constants"
 import { MessagesState } from "App/messages/reducers/messages.interface"
 import { Thread, NewMessage, Message } from "App/messages/dto"
 import { CreateMessageDataResponse } from "App/messages/services"
@@ -23,6 +19,18 @@ import { Template } from "App/templates/dto"
 export interface Content {
   id: string
   text: string
+}
+
+export interface MessagesServiceState {
+  messageDeleting: boolean
+  messageDeletingConfirmation: boolean
+  messageDeletingInfo: boolean
+  attachContact: boolean
+  attachTemplate: boolean
+  threadDeleting: boolean
+  threadDeletingConfirmation: boolean
+  threadDeletingInfo: boolean
+  browseContact: boolean
 }
 
 export interface MessagesProps extends Pick<AppSettings, "language"> {
@@ -42,11 +50,7 @@ export interface MessagesProps extends Pick<AppSettings, "language"> {
   addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
   deleteMessage: (messageId: string) => Promise<string>
   removeLayoutNotification: (notificationId: string) => void
-  threadDeletingState: ThreadDeletingState | null
-  messageDeletingState: MessageDeletingState | null
   currentlyDeletingMessageId: string | null
-  hideDeleteModal: () => void
-  hideMessageDeleteModal: () => void
   resendMessage: (messageId: string) => void
   changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
   deleteThreads?: (ids: string[]) => void
@@ -54,4 +58,6 @@ export interface MessagesProps extends Pick<AppSettings, "language"> {
   toggleReadStatus?: (threads: Thread[]) => void
   markThreadsReadStatus?: (threads: Thread[]) => void
   templates: Template[]
+  error: Error | string | null
+  loaded: boolean
 }

@@ -3,114 +3,208 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeleteThreadModals from "App/messages/components/delete-thread-modals/delete-thread-modals.component"
-import { DeleteThreadModalsTestIds } from "App/messages/components/delete-thread-modals/delete-thread-modals-test-ids.enum"
-import { ThreadDeletingState } from "App/messages/constants"
-import { noop } from "App/__deprecated__/renderer/utils/noop"
+import React from "react"
+import { fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import React, { ComponentProps } from "react"
+import { DeleteThreadModals } from "App/messages/components/delete-thread-modals/delete-thread-modals.component"
+import { DeleteThreadModalProps } from "App/messages/components/delete-thread-modals/delete-thread-modals.interface"
+import { DeleteThreadModalsTestIds } from "App/messages/components/delete-thread-modals/delete-thread-modals-test-ids.enum"
+import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 
-type Props = ComponentProps<typeof DeleteThreadModals>
+const defaultPropsMock: DeleteThreadModalProps = {
+  deletedThreads: [],
+  error: null,
+  deleting: false,
+  deletingInfo: false,
+  deletingConfirmation: false,
+  onCloseDeletingErrorModal: jest.fn(),
+  onDelete: jest.fn(),
+  onCloseDeletingModal: jest.fn(),
+}
 
-const renderer = (extraProps?: Partial<Props>) => {
-  const props: Props = {
-    deletedThreads: ["thread one"],
-    hideDeleteModal: noop,
-    threadDeletingState: null,
-    ...extraProps,
-  }
-
+const render = (props: DeleteThreadModalProps) => {
   return renderWithThemeAndIntl(<DeleteThreadModals {...props} />)
 }
 
-describe("when thread deleting state is null", () => {
-  test("deleting modals are not showed", () => {
-    const { queryByTestId } = renderer()
-
-    expect(
-      queryByTestId(DeleteThreadModalsTestIds.SuccessThreadDelete)
-    ).not.toBeInTheDocument()
-    expect(
-      queryByTestId(DeleteThreadModalsTestIds.ThreadDeleting)
-    ).not.toBeInTheDocument()
-    expect(
-      queryByTestId(DeleteThreadModalsTestIds.FailThreadDelete)
-    ).not.toBeInTheDocument()
-  })
+beforeEach(() => {
+  jest.clearAllMocks()
 })
 
-describe("when thread deleting state equals to success", () => {
-  test("only success popup is shown", () => {
-    const { queryByTestId } = renderer({
-      threadDeletingState: ThreadDeletingState.Success,
+describe("Component: `DeletingTemplateModals`", () => {
+  test("don't render modals if default props has been provided", () => {
+    const { queryByTestId } = render(defaultPropsMock)
+
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ConfirmationModal)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.DeletedPopUp)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.LoadingModal)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ErrorModal)
+    ).not.toBeInTheDocument()
+  })
+
+  test("displays deletion confirmation modals if `deletingConfirmation` is equal to `true`", () => {
+    const { queryByTestId } = render({
+      ...defaultPropsMock,
+      deletingConfirmation: true,
     })
 
     expect(
-      queryByTestId(DeleteThreadModalsTestIds.SuccessThreadDelete)
+      queryByTestId(DeleteThreadModalsTestIds.ConfirmationModal)
     ).toBeInTheDocument()
+
     expect(
-      queryByTestId(DeleteThreadModalsTestIds.ThreadDeleting)
+      queryByTestId(DeleteThreadModalsTestIds.DeletedPopUp)
     ).not.toBeInTheDocument()
     expect(
-      queryByTestId(DeleteThreadModalsTestIds.FailThreadDelete)
+      queryByTestId(DeleteThreadModalsTestIds.LoadingModal)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ErrorModal)
     ).not.toBeInTheDocument()
   })
 
-  test("sets 'singular' info message when only one thread is deleted", () => {
-    const { getByText } = renderer({
-      threadDeletingState: ThreadDeletingState.Success,
-      deletedThreads: ["thread one"],
+  test("triggers `onDelete` action when clicks on delete button", () => {
+    const { getByText } = render({
+      ...defaultPropsMock,
+      deletingConfirmation: true,
     })
 
-    expect(
-      getByText("[value] module.messages.conversationDelete")
-    ).toBeInTheDocument()
+    const deleteButton = getByText(
+      "[value] module.messages.deleteThreadModalAction"
+    )
+
+    expect(defaultPropsMock.onDelete).not.toBeCalled()
+
+    fireEvent.click(deleteButton)
+
+    expect(defaultPropsMock.onDelete).toBeCalled()
   })
 
-  test("sets 'plural' info message when only one thread is deleted", () => {
-    const { getByText } = renderer({
-      threadDeletingState: ThreadDeletingState.Success,
-      deletedThreads: ["thread one", "thread two"],
+  test("triggers `onCloseDeletingModal` action when clicks on cancel button", () => {
+    const { getByText } = render({
+      ...defaultPropsMock,
+      deletingConfirmation: true,
     })
 
-    expect(
-      getByText("[value] module.messages.conversationsDelete")
-    ).toBeInTheDocument()
+    const cancelButton = getByText(
+      "[value] module.messages.deleteThreadModalCancel"
+    )
+
+    expect(defaultPropsMock.onCloseDeletingModal).not.toBeCalled()
+
+    fireEvent.click(cancelButton)
+
+    expect(defaultPropsMock.onCloseDeletingModal).toBeCalled()
   })
-})
 
-describe("when thread deleting state equals to loading state", () => {
-  test("only loading modal is shown", () => {
-    const { queryByTestId } = renderer({
-      threadDeletingState: ThreadDeletingState.Deleting,
+  test("displays info pop up if `creatingInfo` is equal to `true` and `error` is empty", () => {
+    const { queryByTestId } = render({
+      ...defaultPropsMock,
+      deletingInfo: true,
+      deletedThreads: ["1"],
     })
 
+    const popUp = queryByTestId(DeleteThreadModalsTestIds.DeletedPopUp)
+
+    expect(popUp).toBeInTheDocument()
+    expect(popUp).toHaveTextContent("[value] module.messages.deletedThread")
+
     expect(
-      queryByTestId(DeleteThreadModalsTestIds.SuccessThreadDelete)
+      queryByTestId(DeleteThreadModalsTestIds.ConfirmationModal)
     ).not.toBeInTheDocument()
     expect(
-      queryByTestId(DeleteThreadModalsTestIds.ThreadDeleting)
-    ).toBeInTheDocument()
+      queryByTestId(DeleteThreadModalsTestIds.LoadingModal)
+    ).not.toBeInTheDocument()
     expect(
-      queryByTestId(DeleteThreadModalsTestIds.FailThreadDelete)
+      queryByTestId(DeleteThreadModalsTestIds.ErrorModal)
     ).not.toBeInTheDocument()
   })
-})
 
-describe("when thread deleting state equals to failure", () => {
-  test("only failure modal is shown", () => {
-    const { queryByTestId } = renderer({
-      threadDeletingState: ThreadDeletingState.Fail,
+  test("displays info pop up with deleted entity count if `creatingInfo` is equal to `true`, `error` is empty and `deletedTemplatesLength` is more then `1`", () => {
+    const { queryByTestId } = render({
+      ...defaultPropsMock,
+      deletingInfo: true,
+      deletedThreads: ["1", "2"],
+    })
+
+    const popUp = queryByTestId(DeleteThreadModalsTestIds.DeletedPopUp)
+
+    expect(popUp).toBeInTheDocument()
+    expect(popUp).toHaveTextContent("[value] module.messages.deletedThreads")
+
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ConfirmationModal)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.LoadingModal)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ErrorModal)
+    ).not.toBeInTheDocument()
+  })
+
+  test("displays loading modal if `deleting` is equal to `true` and `error` is empty", () => {
+    const { queryByTestId } = render({
+      ...defaultPropsMock,
+      deleting: true,
     })
 
     expect(
-      queryByTestId(DeleteThreadModalsTestIds.SuccessThreadDelete)
-    ).not.toBeInTheDocument()
-    expect(
-      queryByTestId(DeleteThreadModalsTestIds.ThreadDeleting)
-    ).not.toBeInTheDocument()
-    expect(
-      queryByTestId(DeleteThreadModalsTestIds.FailThreadDelete)
+      queryByTestId(DeleteThreadModalsTestIds.LoadingModal)
     ).toBeInTheDocument()
+
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.DeletedPopUp)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ConfirmationModal)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ErrorModal)
+    ).not.toBeInTheDocument()
+  })
+
+  test("displays error modal if `deleting` is equal to `true` and `error` isn't empty", () => {
+    const { queryByTestId } = render({
+      ...defaultPropsMock,
+      deleting: true,
+      error: "Luke, I'm your error",
+    })
+
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ErrorModal)
+    ).toBeInTheDocument()
+
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.LoadingModal)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.DeletedPopUp)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(DeleteThreadModalsTestIds.ConfirmationModal)
+    ).not.toBeInTheDocument()
+  })
+
+  test("triggers `onCloseDeletingErrorModal` when clicks on `close` button", async () => {
+    const { getByTestId } = render({
+      ...defaultPropsMock,
+      deleting: true,
+      error: "Luke, I'm your error",
+    })
+
+    const closeModalButton = getByTestId(ModalTestIds.CloseButton)
+
+    expect(defaultPropsMock.onCloseDeletingErrorModal).not.toBeCalled()
+
+    fireEvent.click(closeModalButton)
+
+    expect(defaultPropsMock.onCloseDeletingErrorModal).toBeCalled()
   })
 })

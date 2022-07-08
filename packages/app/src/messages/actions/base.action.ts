@@ -16,9 +16,3 @@ export const changeSearchValue = createAction<string>(
 )
 
 export const clearAllThreads = createAction(MessagesEvent.ClearAllThreads)
-
-export const hideDeleteModal = createAction(MessagesEvent.HideDeleteModal)
-
-export const hideMessageDeleteModal = createAction(
-  MessagesEvent.HideMessageDeleteModal
-)

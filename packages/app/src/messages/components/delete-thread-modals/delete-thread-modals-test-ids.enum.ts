@@ -4,7 +4,8 @@
  */
 
 export enum DeleteThreadModalsTestIds {
-  SuccessThreadDelete = "messages-success-thread-delete",
-  ThreadDeleting = "message-thread-deleting",
-  FailThreadDelete = "message-fail-thread-delete",
+  ConfirmationModal = "deleting-thread-modals-confirmation-modal",
+  DeletedPopUp = "deleting-thread-modals-info-popup",
+  LoadingModal = "deleting-thread-modals-loading-modal",
+  ErrorModal = "deleting-thread-modals-error-modal",
 }
