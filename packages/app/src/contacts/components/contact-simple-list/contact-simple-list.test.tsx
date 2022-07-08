@@ -17,7 +17,7 @@ const render = (props: ContactSimpleListProps) =>
 
 let contactsHash = new ContactsHashTable()
 
-const onSelect = jest.fn()
+const onContactSelect = jest.fn()
 const contacts: Contact[] = [
   {
     id: "1",
@@ -92,7 +92,7 @@ describe("Contact list isn't empty", () => {
   test("Renders contact list", () => {
     const { getAllByTestId } = render({
       contacts: contactsHash,
-      onSelect,
+      onContactSelect,
     })
 
     expect(
@@ -103,7 +103,7 @@ describe("Contact list isn't empty", () => {
   test.each(["D", "B", "#"])("Contact list have group with name: %s", (i) => {
     const { getAllByTestId } = render({
       contacts: contactsHash,
-      onSelect,
+      onContactSelect,
     })
 
     const groups = getAllByTestId(ContactSimpleListTestIdsEnum.GroupLabel)
@@ -115,7 +115,7 @@ describe("Contact list is empty", () => {
   test("Renders empty state", () => {
     const { getByTestId, getByText } = render({
       contacts: contactsHash,
-      onSelect,
+      onContactSelect,
     })
 
     expect(

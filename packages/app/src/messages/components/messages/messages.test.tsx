@@ -34,6 +34,9 @@ import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-inp
 import { MessageType, ResultState } from "App/messages/constants"
 import { Thread } from "App/messages/dto"
 import { flags } from "App/feature-flags"
+import { NewMessageFormSidebarTestIds } from "App/messages/components/new-message-form-sidebar/new-message-form-sidebar-test-ids.enum"
+import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
+import * as ContactSelectModalModule from "App/contacts/components/contacts-select-modal/contacts-select-modal.component"
 
 jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
   flags: {
@@ -251,6 +254,10 @@ const setNewMessageState = ({ queryByTestId }: RenderResult): void => {
   ) as HTMLElement
   fireEvent.click(button)
 }
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
 
 describe("Messages component", () => {
   describe("when component is render with defaults props", () => {
@@ -820,6 +827,129 @@ describe("Messages component", () => {
         expect(
           queryByTestId(MessagesTestIds.EmptyThreadListState)
         ).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe("browse contacts on new message form", () => {
+    test("opens browse modal on click", () => {
+      const { queryByTestId } = renderer({ callbacks: [setNewMessageState] })
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).not.toBeInTheDocument()
+
+      const browseContactsButton = queryByTestId(
+        NewMessageFormSidebarTestIds.BrowseContacts
+      ) as HTMLElement
+      fireEvent.click(browseContactsButton)
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).toBeInTheDocument()
+    })
+
+    test("closes browse modal on click", () => {
+      const { queryByTestId, getByTestId } = renderer({
+        callbacks: [setNewMessageState],
+      })
+      const browseContactsButton = queryByTestId(
+        NewMessageFormSidebarTestIds.BrowseContacts
+      ) as HTMLElement
+      fireEvent.click(browseContactsButton)
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).toBeInTheDocument()
+
+      getByTestId(ModalTestIds.CloseButton).click()
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).not.toBeInTheDocument()
+    })
+
+    test("selecting any contact closes the modal, new message form and opens thread details", async () => {
+      const spy = jest.spyOn(ContactSelectModalModule, "ContactSelectModal")
+
+      const { queryByTestId } = renderer({
+        callbacks: [setNewMessageState],
+      })
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(MessagesTestIds.ThreadDetails)
+      ).not.toBeInTheDocument()
+      expect(queryByTestId(MessagesTestIds.NewMessageForm)).toBeInTheDocument()
+
+      const browseContactsButton = queryByTestId(
+        NewMessageFormSidebarTestIds.BrowseContacts
+      ) as HTMLElement
+      fireEvent.click(browseContactsButton)
+
+      const contactsSelectModalsCalls = spy.mock.calls
+
+      const onlyBrowseContactsModalCalls = contactsSelectModalsCalls.filter(
+        (item) => item[0].testId === MessagesTestIds.BrowseContactsModal
+      )
+
+      onlyBrowseContactsModalCalls[
+        onlyBrowseContactsModalCalls.length - 1
+      ][0].onContactSelect(contact)
+
+      await waitFor(() => {
+        expect(
+          queryByTestId(MessagesTestIds.BrowseContactsModal)
+        ).not.toBeInTheDocument()
+        expect(
+          queryByTestId(MessagesTestIds.NewMessageForm)
+        ).not.toBeInTheDocument()
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+      })
+    })
+    test("selecting any contact by phone number closes the modal, new message form and opens thread details", async () => {
+      const spy = jest.spyOn(ContactSelectModalModule, "ContactSelectModal")
+
+      const { queryByTestId } = renderer({
+        callbacks: [setNewMessageState],
+      })
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(MessagesTestIds.ThreadDetails)
+      ).not.toBeInTheDocument()
+      expect(queryByTestId(MessagesTestIds.NewMessageForm)).toBeInTheDocument()
+
+      const browseContactsButton = queryByTestId(
+        NewMessageFormSidebarTestIds.BrowseContacts
+      ) as HTMLElement
+      fireEvent.click(browseContactsButton)
+
+      const contactsSelectModalsCalls = spy.mock.calls
+
+      const onlyBrowseContactsModalCalls = contactsSelectModalsCalls.filter(
+        (item) => item[0].testId === MessagesTestIds.BrowseContactsModal
+      )
+
+      const lastBrowseContactsModalCall =
+        onlyBrowseContactsModalCalls[onlyBrowseContactsModalCalls.length - 1][0]
+
+      if (lastBrowseContactsModalCall.onPhoneNumberSelect) {
+        lastBrowseContactsModalCall.onPhoneNumberSelect("123 456 789")
+      }
+
+      await waitFor(() => {
+        expect(
+          queryByTestId(MessagesTestIds.BrowseContactsModal)
+        ).not.toBeInTheDocument()
+        expect(
+          queryByTestId(MessagesTestIds.NewMessageForm)
+        ).not.toBeInTheDocument()
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
       })
     })
   })

@@ -5,8 +5,8 @@
 
 import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import NewMessageBadge from "App/messages/components/new-message-badge.component"
-import { NewMessageBadgeTestIds } from "App/messages/components/new-message-badge-test-ids.enum"
+import NewMessageBadge from "App/messages/components/new-message-badge/new-message-badge.component"
+import { NewMessageBadgeTestIds } from "App/messages/components/new-message-badge/new-message-badge-test-ids.enum"
 
 type Props = ComponentProps<typeof NewMessageBadge>
 

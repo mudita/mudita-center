@@ -65,6 +65,20 @@ const contacts: Record<string, Contact> = {
     firstAddressLine: "",
     secondAddressLine: "",
   },
+  5: {
+    id: "4",
+    firstName: "Jan",
+    lastName: "Nowak",
+    primaryPhoneNumber: "",
+    secondaryPhoneNumber: "",
+    email: "",
+    note: "",
+    ice: true,
+    favourite: false,
+    blocked: false,
+    firstAddressLine: "",
+    secondAddressLine: "",
+  },
 }
 
 describe("When contacts state is empty", () => {
@@ -72,7 +86,7 @@ describe("When contacts state is empty", () => {
     const state = {
       contacts: initialState,
     } as ReduxRootState
-    expect(contactHashSelector(state).table).toEqual(contactsHash.table)
+    expect(contactHashSelector(false)(state).table).toEqual(contactsHash.table)
   })
 })
 
@@ -81,11 +95,11 @@ describe("When contacts state have records", () => {
     const state = {
       contacts: {
         db: contacts,
-        collection: ["1", "2", "3", "4"],
+        collection: ["1", "2", "3", "4", "5"],
       } as unknown as ContactsState,
     } as ReduxRootState
 
-    expect(contactHashSelector(state).table).toEqual({
+    expect(contactHashSelector(false)(state).table).toEqual({
       b: [
         {
           id: "2",
@@ -145,6 +159,89 @@ describe("When contacts state have records", () => {
           secondAddressLine: "",
         },
       ],
+      n: [
+        {
+          blocked: false,
+          email: "",
+          favourite: false,
+          firstAddressLine: "",
+          firstName: "Jan",
+          ice: true,
+          id: "4",
+          lastName: "Nowak",
+          note: "",
+          primaryPhoneNumber: "",
+          secondAddressLine: "",
+          secondaryPhoneNumber: "",
+        },
+      ],
     })
   })
+})
+
+describe("selector can filter contact by existence of primary or secondary phone number", () => {
+  const state = {
+    contacts: {
+      db: contacts,
+      collection: ["4", "5"],
+    } as unknown as ContactsState,
+  } as ReduxRootState
+
+  expect(contactHashSelector(false)(state).table).toMatchInlineSnapshot(`
+    Object {
+      "": Array [
+        Object {
+          "blocked": false,
+          "email": "",
+          "favourite": false,
+          "firstAddressLine": "",
+          "firstName": "",
+          "ice": true,
+          "id": "4",
+          "lastName": "",
+          "note": "",
+          "primaryPhoneNumber": "911",
+          "secondAddressLine": "",
+          "secondaryPhoneNumber": "",
+        },
+      ],
+      "n": Array [
+        Object {
+          "blocked": false,
+          "email": "",
+          "favourite": false,
+          "firstAddressLine": "",
+          "firstName": "Jan",
+          "ice": true,
+          "id": "4",
+          "lastName": "Nowak",
+          "note": "",
+          "primaryPhoneNumber": "",
+          "secondAddressLine": "",
+          "secondaryPhoneNumber": "",
+        },
+      ],
+    }
+  `)
+
+  expect(contactHashSelector(true)(state).table).toMatchInlineSnapshot(`
+    Object {
+      "": Array [
+        Object {
+          "blocked": false,
+          "email": "",
+          "favourite": false,
+          "firstAddressLine": "",
+          "firstName": "",
+          "ice": true,
+          "id": "4",
+          "lastName": "",
+          "note": "",
+          "primaryPhoneNumber": "911",
+          "secondAddressLine": "",
+          "secondaryPhoneNumber": "",
+        },
+      ],
+    }
+  `)
 })
