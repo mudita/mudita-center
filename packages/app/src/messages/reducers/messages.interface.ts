@@ -4,18 +4,16 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { Message, Thread } from "App/messages/dto"
-import {
-  MessageDeletingState,
-  MessagesEvent,
-  ThreadDeletingState,
-  VisibilityFilter,
-  ResultState,
-  MessagesError,
-} from "App/messages/constants"
 import { AppError } from "App/core/errors"
+import {
+  MessagesError,
+  MessagesEvent,
+  ResultState,
+  VisibilityFilter,
+} from "App/messages/constants"
+import { Message, Thread } from "App/messages/dto"
+import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
 
 export type Author = Pick<Caller, "id">
 
@@ -34,8 +32,8 @@ export type MessagesState = Readonly<{
   threadsState: ResultState
   messagesStateMap: { [id: string]: ResultState }
   error: Error | string | null
-  threadDeletingState: ThreadDeletingState | null
-  messagesDeletingState: MessageDeletingState | null
+  loaded: boolean
+  loading: boolean
   currentlyDeletingMessageId: MessageId | null
 }>
 
@@ -92,6 +90,13 @@ export type DeleteMessageAction = PayloadAction<
   MessagesEvent.DeleteMessage
 >
 
+export type DeleteMessageRejectedAction = PayloadAction<
+  AppError<MessagesError.DeleteMessage>,
+  MessagesEvent.DeleteMessage,
+  void,
+  Error | string | null
+>
+
 export type ToggleThreadsReadStatusPendingAction = PayloadAction<
   undefined,
   MessagesEvent.ToggleThreadsReadStatus,
@@ -117,6 +122,13 @@ export type MarkThreadsReadStatusAction = PayloadAction<
 export type DeleteThreadsAction = PayloadAction<
   string[],
   MessagesEvent.DeleteThreads
+>
+
+export type DeleteThreadsRejectedAction = PayloadAction<
+  AppError<MessagesEvent.DeleteThreads>,
+  MessagesEvent.DeleteThreads,
+  void,
+  Error | null | string
 >
 
 export type ChangeVisibilityFilterAction = PayloadAction<

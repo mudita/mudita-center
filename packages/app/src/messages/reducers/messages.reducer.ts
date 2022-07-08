@@ -25,11 +25,11 @@ import {
   MarkThreadsReadStatusAction,
   DeleteMessageAction,
   DeleteMessagePendingAction,
+  DeleteMessageRejectedAction,
+  DeleteThreadsRejectedAction,
 } from "App/messages/reducers/messages.interface"
 import {
   MessagesEvent,
-  ThreadDeletingState,
-  MessageDeletingState,
   ResultState,
   VisibilityFilter,
 } from "App/messages/constants"
@@ -47,8 +47,8 @@ export const initialState: MessagesState = {
   visibilityFilter: VisibilityFilter.All,
   messagesStateMap: {},
   error: null,
-  threadDeletingState: null,
-  messagesDeletingState: null,
+  loaded: false,
+  loading: false,
   currentlyDeletingMessageId: null,
 }
 
@@ -95,7 +95,8 @@ export const messagesReducer = createReducer<MessagesState>(
           const deletedMessageId = action.meta.arg
           return {
             ...state,
-            messagesDeletingState: MessageDeletingState.Deleting,
+            loaded: false,
+            loading: true,
             currentlyDeletingMessageId: deletedMessageId,
           }
         }
@@ -139,20 +140,26 @@ export const messagesReducer = createReducer<MessagesState>(
             ...state,
             messageMap: newMessagesMap,
             threadMap: newThreadMap,
+            loaded: true,
+            loading: false,
             messageIdsInThreadMap: newMessageIdsInThreadMap,
-            messagesDeletingState: MessageDeletingState.Success,
             currentlyDeletingMessageId: null,
           }
         }
       )
 
-      .addCase(rejectedAction(MessagesEvent.DeleteMessage), (state) => {
-        return {
-          ...state,
-          messagesDeletingState: MessageDeletingState.Fail,
-          currentlyDeletingMessageId: null,
+      .addCase(
+        rejectedAction(MessagesEvent.DeleteMessage),
+        (state, action: DeleteMessageRejectedAction) => {
+          return {
+            ...state,
+            loaded: false,
+            loading: false,
+            error: action.payload,
+            currentlyDeletingMessageId: null,
+          }
         }
-      })
+      )
 
       .addCase(
         fulfilledAction(MessagesEvent.ResendMessage),
@@ -266,7 +273,8 @@ export const messagesReducer = createReducer<MessagesState>(
 
           return {
             ...state,
-            threadDeletingState: ThreadDeletingState.Success,
+            loaded: true,
+            loading: false,
             messageMap,
             threadMap,
             messageIdsInThreadMap,
@@ -277,30 +285,22 @@ export const messagesReducer = createReducer<MessagesState>(
       .addCase(pendingAction(MessagesEvent.DeleteThreads), (state) => {
         return {
           ...state,
-          threadDeletingState: ThreadDeletingState.Deleting,
+          loaded: false,
+          loading: true,
         }
       })
 
-      .addCase(rejectedAction(MessagesEvent.DeleteThreads), (state) => {
-        return {
-          ...state,
-          threadDeletingState: ThreadDeletingState.Fail,
+      .addCase(
+        rejectedAction(MessagesEvent.DeleteThreads),
+        (state, action: DeleteThreadsRejectedAction) => {
+          return {
+            ...state,
+            loaded: false,
+            loading: false,
+            error: action.payload,
+          }
         }
-      })
-
-      .addCase(MessagesEvent.HideDeleteModal, (state) => {
-        return {
-          ...state,
-          threadDeletingState: null,
-        }
-      })
-      .addCase(MessagesEvent.HideMessageDeleteModal, (state) => {
-        return {
-          ...state,
-          messagesDeletingState: null,
-          currentlyDeletingMessageId: null,
-        }
-      })
+      )
 
       .addCase(
         MessagesEvent.ChangeVisibilityFilter,

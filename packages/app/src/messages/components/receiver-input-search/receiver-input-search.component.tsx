@@ -46,11 +46,14 @@ const ReceiverInputSearch: FunctionComponent<Props> = ({
   onReceiverSelect,
   ...props
 }) => {
-  const handleSelect = (receiver?: Receiver | string) => {
-    if (receiver !== undefined && typeof receiver !== "string") {
-      onReceiverSelect(receiver)
+  const handleSelect = (receiver: Receiver) => {
+    if (!receiver) {
+      return
     }
+
+    onReceiverSelect(receiver)
   }
+
   return (
     <ReceiverInputSelect
       type="search"

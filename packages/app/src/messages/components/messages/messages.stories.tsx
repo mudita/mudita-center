@@ -153,14 +153,12 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         threadsState={ResultState.Loaded}
         messageLayoutNotifications={[]}
         removeLayoutNotification={noop}
-        threadDeletingState={null}
-        hideDeleteModal={noop}
         currentlyDeletingMessageId={null}
         deleteMessage={noop}
-        messageDeletingState={null}
-        hideMessageDeleteModal={noop}
         resendMessage={jest.fn()}
         templates={[]}
+        error={null}
+        loaded
       />
     </div>
   </Router>
