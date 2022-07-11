@@ -220,6 +220,7 @@ const ContactList: FunctionComponent<Props> = ({
   const CategoryLabels = styled(Labels)`
     align-items: end;
     background-color: var(--rowBackground) !important;
+    grid-template-columns: 1fr;
     > div:first-child {
       margin-bottom: 1.5rem;
       margin-left: 3.2rem;
