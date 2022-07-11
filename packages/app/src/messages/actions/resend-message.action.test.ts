@@ -3,19 +3,19 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import createMockStore from "redux-mock-store"
-import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { resendMessage } from "App/messages/actions/resend-message.action"
+import { AppError } from "App/core/errors"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { resendMessage } from "App/messages/actions/resend-message.action"
+import { MessagesError, MessageType } from "App/messages/constants"
 import { resendMessageRequest } from "App/messages/requests/resend-message.request"
-import { ResendMessageError } from "App/messages/errors"
-import { testError } from "App/__deprecated__/renderer/store/constants"
-import { MessageType } from "App/messages/constants"
 import { CreateMessageDataResponse } from "App/messages/services"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 
 jest.mock("App/messages/requests/resend-message.request")
 
@@ -83,7 +83,10 @@ describe("when `resend` request return error", () => {
       errorDeviceResponseWithMessage
     )
 
-    const errorMock = new ResendMessageError("I'm error")
+    const errorMock = new AppError(
+      MessagesError.ResendMessageError,
+      "I'm error"
+    )
     const mockStore = createMockStore([thunk])()
     const {
       meta: { requestId },
@@ -102,7 +105,10 @@ describe("when `resend` request return error", () => {
       errorDeviceResponseWithoutMessage
     )
 
-    const errorMock = new ResendMessageError("Resending failed")
+    const errorMock = new AppError(
+      MessagesError.ResendMessageError,
+      "Resending failed"
+    )
     const mockStore = createMockStore([thunk])()
     const {
       meta: { requestId },
@@ -121,7 +127,10 @@ describe("when `resend` request return error", () => {
       successDeviceResponseWithEmptyData
     )
 
-    const errorMock = new ResendMessageError("Resending failed")
+    const errorMock = new AppError(
+      MessagesError.ResendMessageError,
+      "Resending failed"
+    )
     const mockStore = createMockStore([thunk])()
     const {
       meta: { requestId },

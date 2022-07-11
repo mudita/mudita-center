@@ -3,16 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import createMockStore from "redux-mock-store"
-import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
+import { AppError } from "App/core/errors"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { DeviceError, DeviceEvent } from "App/device/constants"
 import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
-import { changeSim } from "./change-sim.action"
-import { DeviceEvent } from "App/device/constants"
-import { DeviceChangeSimError } from "App/device/errors"
 import changeSimRequest from "App/__deprecated__/renderer/requests/change-sim.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { changeSim } from "./change-sim.action"
 
 const mockStore = createMockStore([thunk])()
 
@@ -57,7 +57,10 @@ describe("Change SimCard request returns `error` status", () => {
     ;(changeSimRequest as jest.Mock).mockReturnValueOnce({
       status: RequestResponseStatus.Error,
     })
-    const errorMock = new DeviceChangeSimError("Cannot change sim card")
+    const errorMock = new AppError(
+      DeviceError.ChangeSim,
+      "Cannot change sim card"
+    )
     const {
       meta: { requestId },
     } = await mockStore.dispatch(changeSim(simCardMock) as unknown as AnyAction)

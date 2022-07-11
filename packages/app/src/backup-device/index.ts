@@ -5,7 +5,6 @@
 
 export * from "./actions"
 export * from "./constants"
-export * from "./errors"
 export * from "./listeners"
 export * from "./reducers"
 export * from "./requests"

@@ -4,11 +4,11 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { MessagesEvent } from "App/messages/constants"
+import { MessagesError, MessagesEvent } from "App/messages/constants"
 import { createMessageRequest } from "App/messages/requests"
 import { NewMessage } from "App/messages/dto"
-import { AddNewMessageError } from "App/messages/errors"
 import { CreateMessageDataResponse } from "App/messages/services"
+import { AppError } from "App/core/errors"
 
 export const addNewMessage = createAsyncThunk<
   CreateMessageDataResponse,
@@ -18,7 +18,10 @@ export const addNewMessage = createAsyncThunk<
 
   if (error || data === undefined) {
     return rejectWithValue(
-      new AddNewMessageError("Add New Message request failed")
+      new AppError(
+        MessagesError.AddNewMessage,
+        "Add New Message request failed"
+      )
     )
   }
 

@@ -7,16 +7,16 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { testError } from "App/__deprecated__/renderer/store/constants"
-import { AddNewMessageError } from "App/messages/errors"
 import { createMessageRequest } from "App/messages/requests"
 import { addNewMessage } from "App/messages/actions/add-new-message.action"
 import { NewMessage } from "App/messages/dto"
-import { MessageType } from "App/messages/constants"
+import { MessagesError, MessageType } from "App/messages/constants"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 import { CreateMessageDataResponse } from "App/messages/services"
+import { AppError } from "App/core/errors"
 
 jest.mock("App/messages/requests/create-message.request")
 const mockAddedNewMessageData: NewMessage = {
@@ -81,7 +81,10 @@ describe("async `addNewMessage` ", () => {
   describe("when `addMessage` request return error", () => {
     test("fire async `addNewMessage` returns `rejected` action", async () => {
       ;(createMessageRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new AddNewMessageError("Add New Message request failed")
+      const errorMock = new AppError(
+        MessagesError.AddNewMessage,
+        "Add New Message request failed"
+      )
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },

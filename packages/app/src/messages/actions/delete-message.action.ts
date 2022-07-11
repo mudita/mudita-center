@@ -4,8 +4,8 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { MessagesEvent } from "App/messages/constants"
-import { DeleteMessageError } from "App/messages/errors"
+import { AppError } from "App/core/errors"
+import { MessagesError, MessagesEvent } from "App/messages/constants"
 import { deleteMessageRequest } from "App/messages/requests"
 
 type DeletedMessageId = string
@@ -18,7 +18,7 @@ export const deleteMessage = createAsyncThunk<
 
   if (error) {
     return rejectWithValue(
-      new DeleteMessageError("Delete message request failed")
+      new AppError(MessagesError.DeleteMessage, "Delete message request failed")
     )
   }
 
