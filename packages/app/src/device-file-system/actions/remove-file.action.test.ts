@@ -8,9 +8,10 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { removeFileRequest } from "App/device-file-system/requests"
 import { removeFile } from "./remove-file.action"
-import { DeviceFileRemovingError } from "App/device-file-system/errors"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
+import { DeviceFileSystemError } from "App/device-file-system/constants"
 
 const mockStore = createMockStore([thunk])()
 
@@ -54,7 +55,10 @@ describe("Remove File request returns `error` status", () => {
     } = await mockStore.dispatch(
       removeFile(filePathMock) as unknown as AnyAction
     )
-    const errorMock = new DeviceFileRemovingError("Cannot remove the file")
+    const errorMock = new AppError(
+      DeviceFileSystemError.Removing,
+      "Cannot remove the file"
+    )
 
     expect(mockStore.getActions()).toEqual([
       removeFile.pending(requestId, filePathMock),

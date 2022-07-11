@@ -4,15 +4,19 @@
  */
 
 import { AnyAction } from "@reduxjs/toolkit"
-import thunk from "redux-thunk"
-import createMockStore from "redux-mock-store"
-import { testError } from "App/__deprecated__/renderer/store/constants"
-import { UpdateTemplateError } from "App/templates/errors"
+import { AppError } from "App/core/errors"
+import { updateTemplate } from "App/templates/actions/update-template.action"
+import { TemplateError } from "App/templates/constants"
 import { Template } from "App/templates/dto"
 import { updateTemplateRequest } from "App/templates/requests/update-template.request"
-import { updateTemplate } from "App/templates/actions/update-template.action"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 
-const errorMock = new UpdateTemplateError("Something went wrong")
+const errorMock = new AppError(
+  TemplateError.UpdateTemplate,
+  "Something went wrong"
+)
 
 const mockStore = createMockStore([thunk])()
 
@@ -89,7 +93,7 @@ describe("async `updateTemplate`", () => {
           testError,
           requestId,
           template,
-          new UpdateTemplateError("Some error")
+          new AppError(TemplateError.UpdateTemplate, "Some error")
         ),
       ])
 

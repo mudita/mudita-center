@@ -9,16 +9,10 @@ import {
   GetPhoneLockTimeResponseBody,
 } from "@mudita/pure"
 import { PayloadAction } from "@reduxjs/toolkit"
-import { DeviceEvent } from "App/device/constants"
+import { DeviceError, DeviceEvent } from "App/device/constants"
 import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { UpdatingState, ConnectionState } from "App/device/constants"
-import {
-  DeviceConnectionError,
-  DeviceDisconnectionError,
-  DeviceLoadingError,
-  DeviceInvalidPhoneLockTimeError,
-  DeviceUpdateProcessError,
-} from "App/device/errors"
+import { AppError } from "App/core/errors"
 
 export interface PureDeviceData {
   networkName: string
@@ -70,11 +64,11 @@ export type ConnectedFulfilledAction = PayloadAction<
   DeviceEvent.Connected
 >
 export type ConnectedRejectedAction = PayloadAction<
-  DeviceConnectionError,
+  AppError<DeviceError.Connection>,
   DeviceEvent.Connected
 >
 export type DisconnectedRejectedAction = PayloadAction<
-  DeviceDisconnectionError,
+  AppError<DeviceError.Disconnection>,
   DeviceEvent.Disconnected
 >
 export type SetDeviceDataAction = PayloadAction<
@@ -82,7 +76,7 @@ export type SetDeviceDataAction = PayloadAction<
   DeviceEvent.SetData
 >
 export type LoadDataRejectAction = PayloadAction<
-  DeviceLoadingError,
+  AppError<DeviceError.Loading>,
   DeviceEvent.Loading
 >
 export type SetPhoneLockTimeAction = PayloadAction<
@@ -90,7 +84,7 @@ export type SetPhoneLockTimeAction = PayloadAction<
   DeviceEvent.SetLockTime
 >
 export type UnlockDeviceRejectedAction = PayloadAction<
-  DeviceConnectionError | DeviceInvalidPhoneLockTimeError,
+  AppError<DeviceError.Connection> | AppError<DeviceError.InvalidPhoneLockTime>,
   DeviceEvent.Unlocked
 >
 export type SetSimDataAction = PayloadAction<number, DeviceEvent.SetSimData>
@@ -103,7 +97,7 @@ export type SetUpdateStateAction = PayloadAction<
   DeviceEvent.SetUpdateState
 >
 export type OsUpdateRejectedAction = PayloadAction<
-  DeviceUpdateProcessError,
+  AppError<DeviceError.UpdateProcess>,
   DeviceEvent.StartOsUpdateProcess
 >
 export type SetConnectionStateAction = PayloadAction<

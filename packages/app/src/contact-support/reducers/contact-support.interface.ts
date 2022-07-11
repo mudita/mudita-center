@@ -5,8 +5,9 @@
 
 import { PayloadAction } from "@reduxjs/toolkit"
 import { ContactSupportEvent } from "App/contact-support/constants"
+import { ContactSupportError } from "App/contact-support/constants/errors.enum"
 import { attachedFileName } from "App/contact-support/helpers/downloading-logs"
-import { SendTicketError } from "App/contact-support/errors"
+import { AppError } from "App/core/errors"
 
 export const files = [
   {
@@ -26,6 +27,6 @@ export interface ContactSupportState {
 }
 
 export type SendTicketRejectAction = PayloadAction<
-  SendTicketError,
+  AppError<ContactSupportError.SendTicket>,
   ContactSupportEvent.SendTicket
 >

@@ -3,16 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ContactSupportEvent, SendTicketState } from "App/contact-support"
+import { ContactSupportError } from "App/contact-support/constants/errors.enum"
 import {
   contactSupportReducer,
   initialState,
 } from "App/contact-support/reducers/contact-support.reducer"
-import { fulfilledAction, pendingAction, rejectedAction } from "App/__deprecated__/renderer/store/helpers"
+import { AppError } from "App/core/errors"
 import {
-  ContactSupportEvent,
-  SendTicketError,
-  SendTicketState,
-} from "App/contact-support"
+  fulfilledAction,
+  pendingAction,
+  rejectedAction,
+} from "App/__deprecated__/renderer/store/helpers"
 
 test("empty event returns initial state", () => {
   expect(contactSupportReducer(undefined, {} as any)).toEqual(initialState)
@@ -42,7 +44,7 @@ describe("Start Backup Device functionality", () => {
   })
 
   test("Event: `SendTicket/rejected` change `state` to Error", () => {
-    const error = new SendTicketError("I'm error")
+    const error = new AppError(ContactSupportError.SendTicket, "I'm error")
 
     expect(
       contactSupportReducer(undefined, {
@@ -58,7 +60,7 @@ describe("Start Backup Device functionality", () => {
 })
 
 describe("`CloseContactSupportFlow` data functionality", () => {
-  const error = new SendTicketError("I'm error")
+  const error = new AppError(ContactSupportError.SendTicket, "I'm error")
 
   test("Event: `CloseContactSupportFlow/fulfilled` set error property and state to null", () => {
     expect(
@@ -78,4 +80,3 @@ describe("`CloseContactSupportFlow` data functionality", () => {
     })
   })
 })
-

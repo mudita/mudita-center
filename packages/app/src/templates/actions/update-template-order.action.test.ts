@@ -4,13 +4,15 @@
  */
 
 import { AnyAction } from "@reduxjs/toolkit"
-import thunk from "redux-thunk"
-import createMockStore from "redux-mock-store"
-import { testError } from "App/__deprecated__/renderer/store/constants"
-import { UpdateTemplateOrderError } from "App/templates/errors"
+import { AppError } from "App/core/errors"
+import { updateTemplateOrder } from "App/templates/actions/update-template-order.action"
+import { TemplateError } from "App/templates/constants"
 import { Template } from "App/templates/dto"
 import { updateTemplateOrderRequest } from "App/templates/requests/update-template-order.request"
-import { updateTemplateOrder } from "App/templates/actions/update-template-order.action"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+
 import {
   RequestResponse,
   RequestResponseStatus,
@@ -18,8 +20,7 @@ import {
 
 jest.mock("App/templates/requests/update-template-order.request")
 
-const errorMock = new UpdateTemplateOrderError("I'm error")
-
+const errorMock = new AppError(TemplateError.UpdateTemplateOrder, "I'm error")
 const mockStore = createMockStore([thunk])()
 
 const template: Template = {

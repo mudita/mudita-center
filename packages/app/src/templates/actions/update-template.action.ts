@@ -4,10 +4,10 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { TemplatesEvent } from "App/templates/constants"
-import { UpdateTemplateError } from "App/templates/errors"
-import { updateTemplateRequest } from "App/templates/requests/update-template.request"
+import { AppError } from "App/core/errors"
+import { TemplateError, TemplatesEvent } from "App/templates/constants"
 import { Template } from "App/templates/dto"
+import { updateTemplateRequest } from "App/templates/requests/update-template.request"
 
 export const updateTemplate = createAsyncThunk<Error | Template, Template>(
   TemplatesEvent.UpdateTemplate,
@@ -16,7 +16,10 @@ export const updateTemplate = createAsyncThunk<Error | Template, Template>(
 
     if (error || !data) {
       return rejectWithValue(
-        new UpdateTemplateError(error?.data || "Something went wrong")
+        new AppError(
+          TemplateError.UpdateTemplate,
+          error?.data || "Something went wrong"
+        )
       )
     }
 

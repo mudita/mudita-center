@@ -4,12 +4,15 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { BackupDeviceEvent } from "App/backup-device/constants"
-import { isResponsesSuccessWithData } from "App/core/helpers"
-import { StartBackupDeviceError } from "App/backup-device/errors"
-import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import { loadBackupData } from "App/backup/actions"
+import {
+  BackupDeviceError,
+  BackupDeviceEvent,
+} from "App/backup-device/constants"
 import { downloadDeviceBackupWithRetries } from "App/backup-device/helpers/download-device-backup-with-retries"
+import { loadBackupData } from "App/backup/actions"
+import { AppError } from "App/core/errors"
+import { isResponsesSuccessWithData } from "App/core/helpers"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 export interface StartBackupOption {
   secretKey: string
@@ -26,7 +29,8 @@ export const startBackupDevice = createAsyncThunk<undefined, StartBackupOption>(
       pureOsBackupDesktopFileDir === ""
     ) {
       return rejectWithValue(
-        new StartBackupDeviceError(
+        new AppError(
+          BackupDeviceError.StartBackupDevice,
           "Pure OS Backup Desktop Location is undefined"
         )
       )
@@ -39,7 +43,8 @@ export const startBackupDevice = createAsyncThunk<undefined, StartBackupOption>(
 
     if (!isResponsesSuccessWithData([downloadDeviceBackupResponse])) {
       return rejectWithValue(
-        new StartBackupDeviceError(
+        new AppError(
+          BackupDeviceError.StartBackupDevice,
           downloadDeviceBackupResponse.error?.message ?? ""
         )
       )

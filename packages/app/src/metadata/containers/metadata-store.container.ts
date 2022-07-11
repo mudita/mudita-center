@@ -3,14 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppError } from "App/core/errors"
+import { MetadataError } from "App/metadata/constants"
 import { MetadataStore } from "App/metadata/services"
-import { MetadataStoreDoesntInitializedError } from "App/metadata/errors"
 
 let metadataStore: MetadataStore | null = null
 
 export const getMetadataStore = (): MetadataStore | never => {
   if (!metadataStore) {
-    throw new MetadataStoreDoesntInitializedError(
+    throw new AppError(
+      MetadataError.MetadataStoreDoesntInitialized,
       "Store doesn't initialized yet!"
     )
   }

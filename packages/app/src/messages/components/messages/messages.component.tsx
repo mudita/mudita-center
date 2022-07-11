@@ -109,7 +109,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       threadDeletingInfo: false,
       attachContact: false,
       attachTemplate: false,
-      browseContact: false
+      browseContact: false,
     })
 
   // TODO [CP-1401] move component logic to custom hook

@@ -4,11 +4,11 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceEvent } from "App/device/constants"
-import disconnectDeviceRequest from "App/__deprecated__/renderer/requests/disconnect-device.request"
-import { setConnectionStatus } from "App/device/actions/set-connection-status.action"
-import { DeviceDisconnectionError } from "App/device/errors"
+import { AppError } from "App/core/errors"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { setConnectionStatus } from "App/device/actions/set-connection-status.action"
+import { DeviceError, DeviceEvent } from "App/device/constants"
+import disconnectDeviceRequest from "App/__deprecated__/renderer/requests/disconnect-device.request"
 
 export const disconnectDevice = createAsyncThunk(
   DeviceEvent.Disconnected,
@@ -17,7 +17,11 @@ export const disconnectDevice = createAsyncThunk(
 
     if (response.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(
-        new DeviceDisconnectionError("Cannot disconnect from device", response)
+        new AppError(
+          DeviceError.Disconnection,
+          "Cannot disconnect from device",
+          response
+        )
       )
     }
 
