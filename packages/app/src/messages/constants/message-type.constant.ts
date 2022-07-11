@@ -7,4 +7,5 @@ export enum MessageType {
   INBOX = "INBOX",
   OUTBOX = "OUTBOX",
   FAILED = "FAILED",
+  DRAFT = "DRAFT",
 }

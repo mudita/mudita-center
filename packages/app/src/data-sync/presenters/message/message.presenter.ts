@@ -49,7 +49,6 @@ export class MessagePresenter {
     )
 
     return sms
-      .filter((message) => message.type !== 1)
       .map((message) => {
         const thread = this.findRecords<ThreadEntity>(
           threads,
@@ -80,6 +79,8 @@ export class MessagePresenter {
       return MessageType.OUTBOX
     } else if (messageType === PureMessageType.FAILED) {
       return MessageType.FAILED
+    } else if (messageType === PureMessageType.DRAFT) {
+      return MessageType.DRAFT
     } else {
       return MessageType.INBOX
     }
