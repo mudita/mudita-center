@@ -7,10 +7,9 @@ import { ipcRenderer } from "electron-better-ipc"
 import { IpcMessageRequest } from "App/messages/constants/controller.constant"
 import { Message } from "App/messages/dto"
 import { RequestResponse } from "App/core/types/request-response.interface"
-import { CreateMessageDataResponse } from "App/messages/services"
 
 export const updateMessageRequest = (
   message: Message
-): Promise<RequestResponse<CreateMessageDataResponse>> => {
+): Promise<RequestResponse> => {
   return ipcRenderer.callMain(IpcMessageRequest.UpdateMessage, message)
 }

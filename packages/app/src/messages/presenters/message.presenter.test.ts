@@ -11,7 +11,8 @@ import {
   AcceptablePureMessageType,
   MessagePresenter,
 } from "App/messages/presenters/message.presenter"
-import { NewMessage } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
+import { NewMessage, Message } from "App/messages/dto"
 
 const pureMessage: PureMessage & {
   messageType: AcceptablePureMessageType
@@ -32,8 +33,18 @@ const newMessage: NewMessage = {
   phoneNumber: "+48500600700",
 }
 
-describe("`MessagePresenter`", () => {
-  test("`mapToPureMessageMessagesBody` record properly", () => {
+const message: Message = {
+  id: "1",
+  threadId: "2",
+  messageType: MessageType.INBOX,
+  date: new Date(1547465101 * 1000),
+  content:
+    "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+  phoneNumber: "+48500600700",
+}
+
+describe("Method: mapToCreatePureMessageBody", () => {
+  test("returns serialized pure Message", () => {
     const result = MessagePresenter.mapToCreatePureMessageBody(newMessage)
     expect(result).toEqual({
       category: "message",
@@ -43,7 +54,35 @@ describe("`MessagePresenter`", () => {
     })
   })
 
-  test("`mapToMessages` record properly", () => {
+  test("returns serialized pure Message with `messageType` field if provided", () => {
+    const result = MessagePresenter.mapToCreatePureMessageBody({
+      ...newMessage,
+      messageType: MessageType.DRAFT,
+    })
+    expect(result).toEqual({
+      category: "message",
+      messageBody:
+        "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+      number: "+48500600700",
+      messageType: 1,
+    })
+  })
+})
+
+describe("Method: mapToUpdatePureMessagesBody", () => {
+  test("returns serialized pure Message", () => {
+    const result = MessagePresenter.mapToUpdatePureMessagesBody(message)
+    expect(result).toEqual({
+      category: "message",
+      messageBody: message.content,
+      messageID: Number(message.id),
+      messageType: 4,
+    })
+  })
+})
+
+describe("Method: mapToMessages", () => {
+  test("returns serialized Message DTO", () => {
     const result = MessagePresenter.mapToMessage(pureMessage)
     expect(result).toEqual({
       content:
