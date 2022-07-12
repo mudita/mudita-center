@@ -13,7 +13,7 @@ import { MainProcessIpc } from "electron-better-ipc"
 import { IpcEvent as DataSyncIpcEvent } from "App/data-sync/constants"
 import { IpcEvent as NotificationIpcEvent } from "App/notification/constants"
 
-export const outboxTime = 30000
+export const outboxTime = 10000
 
 export class OutboxObserver implements Observer {
   private invoked = false
@@ -57,6 +57,7 @@ export class OutboxObserver implements Observer {
     }
 
     const updatedData = await this.outboxService.readOutboxEntries()
+
     if (updatedData) {
       this.ipc.sendToRenderers(DataSyncIpcEvent.DataUpdated)
       this.ipc.sendToRenderers(
