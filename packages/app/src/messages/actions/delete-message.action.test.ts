@@ -13,7 +13,8 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { deleteMessage } from "./delete-message.action"
 import { testError } from "App/__deprecated__/renderer/store/constants"
-import { DeleteMessageError } from "../errors/delete-message.error"
+import { AppError } from "App/core/errors"
+import { MessagesError } from "App/messages/constants"
 
 jest.mock("App/messages/requests/delete-message.request.ts")
 
@@ -59,7 +60,10 @@ describe("when `deleteMessage` returns error", () => {
     ;(deleteMessageRequest as jest.Mock).mockReturnValue(errorResponse)
 
     const mockStore = createMockStore([thunk])()
-    const errorMock = new DeleteMessageError("Delete message request failed")
+    const errorMock = new AppError(
+      MessagesError.DeleteMessage,
+      "Delete message request failed"
+    )
 
     const {
       meta: { requestId },

@@ -3,28 +3,29 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import createMockStore from "redux-mock-store"
-import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import {
-  startRestoreDevice,
-  StartRestoreOption,
-} from "App/restore-device/actions/start-restore-device.action"
-import { testError } from "App/__deprecated__/renderer/store/constants"
-import { StartRestoreDeviceError } from "App/restore-device/errors"
+import { BackupDeviceError } from "App/backup-device"
 import { Backup } from "App/backup/reducers"
-import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
-import { DeviceState } from "App/device"
-import { StartBackupDeviceError } from "App/backup-device/errors"
-import uploadDeviceFile from "App/device-file-system/requests/upload-device-file.request"
-import startRestoreDeviceRequest from "App/__deprecated__/renderer/requests/start-restore-device.request"
-import readFile from "App/file-system/requests/read-file.request"
-import decryptFile from "App/file-system/requests/decrypt-file.request"
-import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers"
+import { AppError } from "App/core/errors"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { DeviceState } from "App/device"
+import uploadDeviceFile from "App/device-file-system/requests/upload-device-file.request"
+import decryptFile from "App/file-system/requests/decrypt-file.request"
+import readFile from "App/file-system/requests/read-file.request"
+import {
+  startRestoreDevice,
+  StartRestoreOption,
+} from "App/restore-device/actions/start-restore-device.action"
+import { RestoreDeviceError } from "App/restore-device/constants"
+import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers"
+import startRestoreDeviceRequest from "App/__deprecated__/renderer/requests/start-restore-device.request"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 
 jest.mock("App/file-system/requests/decrypt-file.request")
 jest.mock("App/file-system/requests/read-file.request")
@@ -98,7 +99,8 @@ describe("async `startRestoreDevice` ", () => {
 
   describe("when `backupLocation` of deviceInfo is empty", () => {
     test("fire async `startRestoreDevice` returns `rejected` action", async () => {
-      const errorMock = new StartBackupDeviceError(
+      const errorMock = new AppError(
+        BackupDeviceError.StartBackupDevice,
         "Pure OS Backup Pure Location is undefined"
       )
 
@@ -130,7 +132,10 @@ describe("async `startRestoreDevice` ", () => {
 
   describe("when `readFile` return error", () => {
     test("fire async `startRestoreDevice` returns `rejected` action", async () => {
-      const errorMock = new StartRestoreDeviceError("Read File fails")
+      const errorMock = new AppError(
+        RestoreDeviceError.StartRestoreDevice,
+        "Read File fails"
+      )
       ;(readFile as jest.Mock).mockReturnValue(undefined)
       const mockStore = createMockStore([thunk])(mockStoreState)
       const {
@@ -154,7 +159,10 @@ describe("async `startRestoreDevice` ", () => {
 
   describe("when `decryptFile` return error", () => {
     test("fire async `startRestoreDevice` returns `rejected` action", async () => {
-      const errorMock = new StartRestoreDeviceError("Decrypt buffer fails")
+      const errorMock = new AppError(
+        RestoreDeviceError.StartRestoreDevice,
+        "Decrypt buffer fails"
+      )
       ;(readFile as jest.Mock).mockReturnValue(encryptedBuffer)
       ;(decryptFile as jest.Mock).mockReturnValue(undefined)
       const mockStore = createMockStore([thunk])(mockStoreState)
@@ -179,7 +187,8 @@ describe("async `startRestoreDevice` ", () => {
 
   describe("when `uploadDeviceFile` return error", () => {
     test("fire async `startRestoreDevice` returns `rejected` action", async () => {
-      const errorMock = new StartRestoreDeviceError(
+      const errorMock = new AppError(
+        RestoreDeviceError.StartRestoreDevice,
         "Upload Backup File returns error"
       )
       ;(readFile as jest.Mock).mockReturnValue(encryptedBuffer)
@@ -207,7 +216,8 @@ describe("async `startRestoreDevice` ", () => {
 
   describe("when `startRestoreDeviceRequest` return error", () => {
     test("fire async `startRestoreDevice` returns `rejected` action", async () => {
-      const errorMock = new StartRestoreDeviceError(
+      const errorMock = new AppError(
+        RestoreDeviceError.StartRestoreDevice,
         "Start restore Device returns error"
       )
       ;(readFile as jest.Mock).mockReturnValue(encryptedBuffer)
@@ -238,7 +248,8 @@ describe("async `startRestoreDevice` ", () => {
 
   describe("when `waitUntilRestoreDeviceFinished` return error", () => {
     test("fire async `startRestoreDevice` returns `rejected` action", async () => {
-      const errorMock = new StartRestoreDeviceError(
+      const errorMock = new AppError(
+        RestoreDeviceError.StartRestoreDevice,
         "One of the getRestoreDeviceStatus requests returns error"
       )
       ;(readFile as jest.Mock).mockReturnValue(encryptedBuffer)

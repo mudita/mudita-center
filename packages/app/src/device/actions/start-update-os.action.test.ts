@@ -8,10 +8,11 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { startUpdateOs } from "./start-update-os.action"
-import { DeviceUpdateProcessError } from "App/device/errors"
 import updateOs from "App/__deprecated__/renderer/requests/update-os.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
+import { DeviceError } from "App/device/constants"
 
 const mockStore = createMockStore([thunk])()
 
@@ -61,7 +62,8 @@ describe("Update Os request returns `error` status", () => {
       status: RequestResponseStatus.Error,
     })
     const filePathMock = "far/far/far/in/some/catalog/update.img"
-    const errorMock = new DeviceUpdateProcessError(
+    const errorMock = new AppError(
+      DeviceError.UpdateProcess,
       "Device updating process failed"
     )
     const {

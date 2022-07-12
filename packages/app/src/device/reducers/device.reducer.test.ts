@@ -13,17 +13,14 @@ import {
   DeviceEvent,
   ConnectionState,
   UpdatingState,
+  DeviceError,
 } from "App/device/constants"
 import {
   rejectedAction,
   fulfilledAction,
   pendingAction,
 } from "App/__deprecated__/renderer/store/helpers"
-import {
-  DeviceConnectionError,
-  DeviceLoadingError,
-  DeviceInvalidPhoneLockTimeError,
-} from "App/device/errors"
+import { AppError } from "App/core/errors"
 
 const pureDeviceMock: PureDeviceData = {
   networkName: "Network",
@@ -90,7 +87,7 @@ describe("Connecting/Disconnecting functionality", () => {
   })
 
   test("Event: Connected/rejected set error message and updates state to error", () => {
-    const errorMock = new DeviceConnectionError("I'm error")
+    const errorMock = new AppError(DeviceError.Connection, "I'm error")
 
     expect(
       deviceReducer(undefined, {
@@ -124,7 +121,7 @@ describe("Connecting/Disconnecting functionality", () => {
   })
 
   test("Event: Disconnected/rejected set error message and updates state to error", () => {
-    const errorMock = new DeviceConnectionError("I'm error")
+    const errorMock = new AppError(DeviceError.Connection, "I'm error")
 
     expect(
       deviceReducer(undefined, {
@@ -250,8 +247,12 @@ describe("Lock/Unlock functionality", () => {
   })
 
   test("Event: Unlocked/rejected set error with proper type", () => {
-    const deviceConnectionErrorMock = new DeviceConnectionError("I'm error")
-    const deviceInvalidPhoneLockTimeError = new DeviceInvalidPhoneLockTimeError(
+    const deviceConnectionErrorMock = new AppError(
+      DeviceError.Connection,
+      "I'm error"
+    )
+    const deviceInvalidPhoneLockTimeError = new AppError(
+      DeviceError.InvalidPhoneLockTime,
       "I'm error"
     )
 
@@ -271,7 +272,7 @@ describe("Lock/Unlock functionality", () => {
         deviceReducer(undefined, {
           type: rejectedAction(DeviceEvent.Unlocked),
           payload: deviceConnectionErrorMock,
-        }).error as DeviceConnectionError
+        }).error as AppError
       ).type
     ).toEqual(deviceConnectionErrorMock.type)
 
@@ -280,7 +281,7 @@ describe("Lock/Unlock functionality", () => {
         deviceReducer(undefined, {
           type: rejectedAction(DeviceEvent.Unlocked),
           payload: deviceInvalidPhoneLockTimeError,
-        }).error as DeviceInvalidPhoneLockTimeError
+        }).error as AppError
       ).type
     ).toEqual(deviceInvalidPhoneLockTimeError.type)
   })
@@ -387,7 +388,7 @@ describe("Updates loading functionality", () => {
   })
 
   test("Event: Loading/rejected change `state` to Loaded", () => {
-    const errorMock = new DeviceLoadingError("I'm error")
+    const errorMock = new AppError(DeviceError.Loading, "I'm error")
 
     expect(
       deviceReducer(undefined, {

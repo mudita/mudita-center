@@ -4,19 +4,16 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { Message, Thread } from "App/messages/dto"
+import { AppError } from "App/core/errors"
 import {
+  MessagesError,
   MessagesEvent,
-  VisibilityFilter,
   ResultState,
+  VisibilityFilter,
 } from "App/messages/constants"
-import {
-  ResendMessageError,
-  DeleteMessageError,
-  DeleteThreadError,
-} from "App/messages/errors"
+import { Message, Thread } from "App/messages/dto"
+import { Caller } from "App/__deprecated__/renderer/models/calls/calls.interface"
 
 export type Author = Pick<Caller, "id">
 
@@ -64,7 +61,7 @@ export type AddNewMessageAction = PayloadAction<
 >
 
 export type ResendMessageRejectedAction = PayloadAction<
-  ResendMessageError,
+  AppError<MessagesError.ResendMessageError>,
   MessagesEvent.AddNewMessage,
   void,
   Error | string | null
@@ -94,7 +91,7 @@ export type DeleteMessageAction = PayloadAction<
 >
 
 export type DeleteMessageRejectedAction = PayloadAction<
-  DeleteMessageError,
+  AppError<MessagesError.DeleteMessage>,
   MessagesEvent.DeleteMessage,
   void,
   Error | string | null
@@ -128,7 +125,7 @@ export type DeleteThreadsAction = PayloadAction<
 >
 
 export type DeleteThreadsRejectedAction = PayloadAction<
-  DeleteThreadError,
+  AppError<MessagesEvent.DeleteThreads>,
   MessagesEvent.DeleteThreads,
   void,
   Error | null | string

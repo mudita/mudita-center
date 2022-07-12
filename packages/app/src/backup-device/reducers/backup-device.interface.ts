@@ -4,8 +4,11 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import { StartBackupDeviceError } from "App/backup-device/errors"
-import { BackupDeviceEvent } from "App/backup-device/constants"
+import {
+  BackupDeviceError,
+  BackupDeviceEvent,
+} from "App/backup-device/constants"
+import { AppError } from "App/core/errors"
 
 export enum BackupDeviceDataState {
   Running,
@@ -20,6 +23,6 @@ export interface BackupDeviceState {
 }
 
 export type StartBackupDeviceErrorRejectAction = PayloadAction<
-  StartBackupDeviceError,
+  AppError<BackupDeviceError.StartBackupDevice>,
   BackupDeviceEvent.StartBackupDevice
 >

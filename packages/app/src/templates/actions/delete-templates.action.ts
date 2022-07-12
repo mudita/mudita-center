@@ -4,9 +4,9 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
+import { AppError } from "App/core/errors"
+import { TemplateError, TemplatesEvent } from "App/templates/constants"
 import { deleteTemplatesRequest } from "App/templates/requests"
-import { TemplatesEvent } from "App/templates/constants"
-import { DeleteTemplateError } from "App/templates/errors"
 
 export const deleteTemplates = createAsyncThunk<Error | string[], string[]>(
   TemplatesEvent.DeleteTemplates,
@@ -14,7 +14,10 @@ export const deleteTemplates = createAsyncThunk<Error | string[], string[]>(
     const { error } = await deleteTemplatesRequest(ids)
     if (error && error.data === undefined) {
       return rejectWithValue(
-        new DeleteTemplateError("Delete Template request failed")
+        new AppError(
+          TemplateError.DeleteTemplate,
+          "Delete Template request failed"
+        )
       )
     }
 

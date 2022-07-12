@@ -9,11 +9,11 @@ import { AnyAction } from "@reduxjs/toolkit"
 import { DeviceType } from "@mudita/pure"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { connectDevice } from "./connect-device.action"
-import { ConnectionState } from "App/device/constants"
-import { DeviceConnectionError } from "App/device/errors"
+import { ConnectionState, DeviceError } from "App/device/constants"
 import connectDeviceRequest from "App/__deprecated__/renderer/requests/connect-device.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
 
 const mockStore = createMockStore([thunk])({
   device: {
@@ -98,7 +98,10 @@ describe("Connect Device request returns `error` status", () => {
       status: RequestResponseStatus.Error,
     })
 
-    const errorMock = new DeviceConnectionError("Cannot connected to device")
+    const errorMock = new AppError(
+      DeviceError.Connection,
+      "Cannot connected to device"
+    )
     const {
       meta: { requestId },
     } = await mockStore.dispatch(

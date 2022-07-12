@@ -11,12 +11,12 @@ import {
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 import { CreateMessageDataResponse } from "App/messages/services"
-import { MarkThreadsReadStatusError } from "App/messages/errors"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { toggleThreadsReadStatusRequest } from "App/messages/requests"
 import { Thread } from "App/messages/dto"
 import { markThreadsReadStatus } from "App/messages/actions/mark-threads-read-status.action"
-import { MessageType } from "App/messages/constants"
+import { MessagesError, MessageType } from "App/messages/constants"
+import { AppError } from "App/core/errors"
 
 jest.mock("App/messages/requests/toggle-threads-read-status.request")
 
@@ -80,7 +80,8 @@ describe("`markThreadsReadStatus`", () => {
       ;(toggleThreadsReadStatusRequest as jest.Mock).mockReturnValue(
         errorDeviceResponse
       )
-      const errorMock = new MarkThreadsReadStatusError(
+      const errorMock = new AppError(
+        MessagesError.MarkThreadsReadStatus,
         "Mark threads read status request failed"
       )
       const mockStore = createMockStore([thunk])()

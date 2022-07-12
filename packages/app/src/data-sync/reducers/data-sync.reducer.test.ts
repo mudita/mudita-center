@@ -3,18 +3,18 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  fulfilledAction,
-  pendingAction,
-  rejectedAction,
-} from "App/__deprecated__/renderer/store/helpers"
+import { AppError } from "App/core/errors"
+import { DataSyncError, DataSyncEvent } from "App/data-sync/constants"
 import {
   dataSyncReducer,
   initialState,
   SynchronizationState,
 } from "App/data-sync/reducers"
-import { DataSyncEvent } from "App/data-sync/constants"
-import { UpdateAllIndexesError } from "App/data-sync/errors"
+import {
+  fulfilledAction,
+  pendingAction,
+  rejectedAction,
+} from "App/__deprecated__/renderer/store/helpers"
 
 describe("data-sync functionality", () => {
   test("Event: SetDataSyncInitState set `state` to initial", () => {
@@ -51,7 +51,7 @@ describe("data-sync functionality", () => {
   })
 
   test("Event: UpdateAllIndexes/rejected change `state` to Error", () => {
-    const errorMock = new UpdateAllIndexesError("I'm error")
+    const errorMock = new AppError(DataSyncError.UpdateAllIndexes, "I'm error")
 
     expect(
       dataSyncReducer(undefined, {

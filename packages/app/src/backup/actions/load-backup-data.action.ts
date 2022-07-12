@@ -4,11 +4,11 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { BackupEvent } from "App/backup/constants"
-import getFileData from "App/__deprecated__/renderer/requests/get-file-data"
-import { LoadBackupDataError } from "App/backup/errors"
 import { setBackupData } from "App/backup/actions/base.action"
+import { BackupError, BackupEvent } from "App/backup/constants"
+import { AppError } from "App/core/errors"
 import { isResponsesSuccessWithData } from "App/core/helpers"
+import getFileData from "App/__deprecated__/renderer/requests/get-file-data"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 export const loadBackupData = createAsyncThunk(
@@ -23,7 +23,10 @@ export const loadBackupData = createAsyncThunk(
       pureOsBackupDesktopLocation === ""
     ) {
       return rejectWithValue(
-        new LoadBackupDataError("Pure OS Backup Desktop Location is undefined")
+        new AppError(
+          BackupError.Load,
+          "Pure OS Backup Desktop Location is undefined"
+        )
       )
     }
 
@@ -33,7 +36,7 @@ export const loadBackupData = createAsyncThunk(
 
     if (!isResponsesSuccessWithData([response])) {
       return rejectWithValue(
-        new LoadBackupDataError("Get Backups Data request failed")
+        new AppError(BackupError.Load, "Get Backups Data request failed")
       )
     }
 
