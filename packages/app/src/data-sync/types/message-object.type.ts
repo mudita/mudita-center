@@ -12,12 +12,12 @@ import { ThreadEntity } from "App/data-sync/types/thread-object.type"
 export type MessageObject = Message
 
 export type SmsEntity = Entity<{
-  thread_id: number
-  contact_id: number
+  thread_id: string
+  contact_id: string
   date: number
   error_code: number
   body: string
-  type: number
+  type: string
 }>
 
 export interface MessageInput {
