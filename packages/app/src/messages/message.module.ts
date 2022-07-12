@@ -14,7 +14,6 @@ import { BaseModule } from "App/core/module"
 import { MessageModel, ThreadModel } from "App/messages/models"
 import { MessageService, ThreadService } from "App/messages/services"
 import { MessageController, ThreadController } from "App/messages/controllers"
-import { MessageObserver } from "App/messages/observers/message.observer"
 import { MessageRepository, ThreadRepository } from "App/messages/repositories"
 
 export class MessageModule extends BaseModule {
@@ -53,16 +52,7 @@ export class MessageModule extends BaseModule {
     const messageController = new MessageController(messageService)
     const threadController = new ThreadController(threadService)
 
-    const messageObserver = new MessageObserver(
-      this.ipc,
-      this.deviceService,
-      messageService,
-      threadService,
-      messageRepository,
-      threadRepository
-    )
     this.models = [messageModel, threadModel]
     this.controllers = [messageController, threadController]
-    this.observers = [messageObserver]
   }
 }
