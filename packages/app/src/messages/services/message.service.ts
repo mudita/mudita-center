@@ -159,7 +159,7 @@ export class MessageService {
     newMessage: NewMessage
   ): Promise<RequestResponse<CreateMessagePartDataResponse>> {
     const { data } = await this.deviceService.request({
-      body: MessagePresenter.mapToPureMessageMessagesBody(newMessage),
+      body: MessagePresenter.mapToCreatePureMessageBody(newMessage),
       endpoint: Endpoint.Messages,
       method: Method.Post,
     })
@@ -279,6 +279,14 @@ export class MessageService {
     return result
   }
 
+  public async updateMessage(message: Message): Promise<RequestResponse> {
+    return this.deviceService.request({
+      body: MessagePresenter.mapToUpdatePureMessagesBody(message),
+      endpoint: Endpoint.Messages,
+      method: Method.Put,
+    })
+  }
+
   static isAcceptablePureMessageType(
     pureMessage?: PureMessage
   ): pureMessage is PureMessage & { messageType: AcceptablePureMessageType } {
@@ -289,7 +297,8 @@ export class MessageService {
       pureMessage.messageType === PureMessageType.FAILED ||
       pureMessage.messageType === PureMessageType.QUEUED ||
       pureMessage.messageType === PureMessageType.INBOX ||
-      pureMessage.messageType === PureMessageType.OUTBOX
+      pureMessage.messageType === PureMessageType.OUTBOX ||
+      pureMessage.messageType === PureMessageType.DRAFT
     )
   }
 }

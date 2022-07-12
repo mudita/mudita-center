@@ -143,6 +143,8 @@ const defaultProps: Props = {
   currentlyDeletingMessageId: null,
   deleteMessage: jest.fn(),
   resendMessage: jest.fn(),
+  getThreadDraftMessagesSelector: jest.fn(),
+  updateMessage: jest.fn(),
   error: null,
   loaded: false,
 }

@@ -34,7 +34,7 @@ const newMessage: NewMessage = {
 
 describe("`MessagePresenter`", () => {
   test("`mapToPureMessageMessagesBody` record properly", () => {
-    const result = MessagePresenter.mapToPureMessageMessagesBody(newMessage)
+    const result = MessagePresenter.mapToCreatePureMessageBody(newMessage)
     expect(result).toEqual({
       category: "message",
       messageBody:

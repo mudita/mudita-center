@@ -77,6 +77,14 @@ export interface PostMessagesBody {
   category: MessagesCategory.message
   number: string
   messageBody: string
+  messageType?: MessageType
+}
+
+export interface PutMessageBody {
+  category: MessagesCategory.message
+  messageBody: string
+  messageID: number
+  messageType: MessageType
 }
 
 export interface UpdateThreadReadStatus {
