@@ -47,6 +47,27 @@ export const TemplateTextColumn = styled(Col)`
   overflow: hidden;
 `
 
+export const IconWrapper = styled.div`
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: ${backgroundColor("minor")};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const activeRowStyles = css`
+  ${IconWrapper} {
+    background-color: ${backgroundColor("row")};
+  }
+  ${TemplateTextColumn} {
+    ${TemplateText} {
+      color: ${textColor("primary")};
+    }
+  }
+`
+
 export const Table = styled(BaseTable)<{ mouseLock?: boolean }>`
   --columnsGap: 0;
   --columnsTemplate: 3.2rem 5.6rem 1fr 7rem;
@@ -57,25 +78,6 @@ export const Table = styled(BaseTable)<{ mouseLock?: boolean }>`
     ${TemplateText} {
       color: ${({ mouseLock }) =>
         mouseLock ? textColor("disabled") : "inherit"};
-    }
-  }
-`
-export const IconWrapper = styled.div`
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  background-color: ${backgroundColor("minor")};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-const activeRowStyles = css`
-  ${IconWrapper} {
-    background-color: ${backgroundColor("row")};
-  }
-  ${TemplateTextColumn} {
-    ${TemplateText} {
-      color: ${textColor("primary")};
     }
   }
 `
