@@ -395,6 +395,7 @@
   "module.messages.markAsRead": "Mark as read",
   "module.messages.markAsUnread": "Mark as unread",
   "module.messages.marksAsReadTooltipDescription": "Mark as read",
+  "module.messages.marksAsUnreadTooltipDescription": "Mark as unread",
   "module.messages.messageDropdownDelete": "Delete message",
   "module.messages.messageDropdownForward": "Forward message",
   "module.messages.messageDropdownResend": "Resend message",
