@@ -215,6 +215,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
           deleteTemplates={handleOpenDeleteModal}
           updateTemplate={handleOpenUpdateTemplate}
           onDragEnd={onDragEnd}
+          templateFormOpen={templateFormOpen}
+          active={editedTemplate}
           {...rest}
         />
         {templateFormOpen && (
