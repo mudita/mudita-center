@@ -32,7 +32,7 @@ export class ThreadPresenter {
 
   private static buildMessageSnippet(thread: PureThread): string {
     return [
-      thread.messageType === PureMessageType.DRAFT ? "Draft" : "",
+      ...(thread.messageType === PureMessageType.DRAFT ? ["Draft"] : []),
       thread.messageSnippet,
     ].join(": ")
   }
