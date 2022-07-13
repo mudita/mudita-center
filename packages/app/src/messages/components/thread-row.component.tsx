@@ -350,7 +350,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                     ? "module.messages.markAsRead"
                     : "module.messages.markAsUnread",
                 }}
-                Icon={IconType.BorderCheckIcon}
+                Icon={unread ? IconType.MarkAsRead : IconType.MarkAsUnread}
                 onClick={handleToggleClick}
                 displayStyle={DisplayStyle.Dropdown}
                 data-testid="dropdown-mark-as-read"
