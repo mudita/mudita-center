@@ -8,13 +8,17 @@ import { MessageType } from "App/messages/constants"
 import { Message } from "App/messages/dto"
 import { messagesStateSelector } from "App/messages/selectors/messages-state.selector"
 
-export const getThreadDraftMessagesSelector = (threadId: string) =>
+export const getThreadDraftMessageSelector = (threadId: string) =>
   createSelector(
     messagesStateSelector,
     ({ messageIdsInThreadMap, messageMap }) => {
       const messageIds = messageIdsInThreadMap[threadId] ?? []
-      return messageIds
-        .map((messageId) => messageMap[messageId])
-        .find((message: Message) => message.messageType === MessageType.DRAFT)
+      const messages = [
+        ...messageIds.map((messageId) => messageMap[messageId]),
+      ].reverse()
+
+      return messages.find(
+        (message: Message) => message.messageType === MessageType.DRAFT
+      )
     }
   )

@@ -11,7 +11,7 @@ import { messagesStateSelector } from "App/messages/selectors/messages-state.sel
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { sortMessages } from "App/messages/helpers/threads.helpers"
 
-export const getMessagesByThreadIdSelector = (
+export const getActiveMessagesByThreadIdSelector = (
   threadId: string
 ): OutputSelector<
   ReduxRootState,

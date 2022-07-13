@@ -83,8 +83,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
   changeSearchValue = noop,
   deleteThreads = noop,
   threads,
-  getMessagesByThreadId,
-  getThreadDraftMessagesSelector,
+  getActiveMessagesByThreadIdSelector,
+  getThreadDraftMessageSelector,
   getReceiver,
   toggleReadStatus = noop,
   markThreadsReadStatus = noop,
@@ -224,7 +224,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       return
     }
 
-    const tmpDraftMessage = getThreadDraftMessagesSelector(activeThread.id)
+    const tmpDraftMessage = getThreadDraftMessageSelector(activeThread.id)
     if (tmpDraftMessage) {
       setDraftMessage(tmpDraftMessage)
       setContent(tmpDraftMessage.content)
@@ -622,7 +622,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             data-testid={MessagesTestIds.ThreadDetails}
             content={content}
             receiver={getViewReceiver(activeThread)}
-            messages={getMessagesByThreadId(activeThread.id)}
+            messages={getActiveMessagesByThreadIdSelector(activeThread.id)}
             currentlyDeletingMessageId={currentlyDeletingMessageId}
             contactCreated={isContactCreatedByPhoneNumber(
               activeThread.phoneNumber

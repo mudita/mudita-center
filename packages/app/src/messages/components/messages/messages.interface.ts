@@ -42,8 +42,8 @@ export interface MessagesProps extends Pick<AppSettings, "language"> {
   loadThreads: (
     pagination: PaginationBody
   ) => Promise<PayloadAction<PaginationBody | undefined>>
-  getMessagesByThreadId: (threadId: string) => Message[]
-  getThreadDraftMessagesSelector: (threadId: string) => Message | undefined
+  getActiveMessagesByThreadIdSelector: (threadId: string) => Message[]
+  getThreadDraftMessageSelector: (threadId: string) => Message | undefined
   getContact: (contactId: string) => Contact | undefined
   getReceiver: (phoneNumber: string) => Receiver
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined

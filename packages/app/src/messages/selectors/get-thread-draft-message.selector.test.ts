@@ -4,7 +4,7 @@
  */
 
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
-import { getThreadDraftMessagesSelector } from "App/messages/selectors/get-thread-draft-messages.selector"
+import { getThreadDraftMessageSelector } from "App/messages/selectors/get-thread-draft-message.selector"
 import { MessagesState } from "App/messages/reducers"
 import { Message, Thread } from "App/messages/dto"
 import {
@@ -87,7 +87,7 @@ describe("When thread hasn't any message", () => {
         },
       },
     } as ReduxRootState
-    expect(getThreadDraftMessagesSelector(thread.id)(state)).toBeUndefined()
+    expect(getThreadDraftMessageSelector(thread.id)(state)).toBeUndefined()
   })
 })
 
@@ -105,7 +105,7 @@ describe("When thread have only `OUTBOX` messages", () => {
         },
       },
     } as ReduxRootState
-    expect(getThreadDraftMessagesSelector(thread.id)(state)).toBeUndefined()
+    expect(getThreadDraftMessageSelector(thread.id)(state)).toBeUndefined()
   })
 })
 
@@ -124,7 +124,7 @@ describe("When thread have `DRAFT` messages", () => {
         },
       },
     } as ReduxRootState
-    expect(getThreadDraftMessagesSelector(thread.id)(state)).toEqual(
+    expect(getThreadDraftMessageSelector(thread.id)(state)).toEqual(
       firstDraftMessage
     )
   })
@@ -135,7 +135,7 @@ describe("When thread have `DRAFT` messages", () => {
         ...messagesState,
         messageMap: {
           [firstDraftMessage.id]: firstDraftMessage,
-          [secondDraftMessage.id]: firstDraftMessage,
+          [secondDraftMessage.id]: secondDraftMessage,
           [outboxMessage.id]: outboxMessage,
         },
         messageIdsInThreadMap: {
@@ -143,13 +143,13 @@ describe("When thread have `DRAFT` messages", () => {
           [thread.id]: [
             outboxMessage.id,
             firstDraftMessage.id,
-            firstDraftMessage.id,
+            secondDraftMessage.id,
           ],
         },
       },
     } as ReduxRootState
-    expect(getThreadDraftMessagesSelector(thread.id)(state)).toEqual(
-      firstDraftMessage
+    expect(getThreadDraftMessageSelector(thread.id)(state)).toEqual(
+      secondDraftMessage
     )
   })
 })

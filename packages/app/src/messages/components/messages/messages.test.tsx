@@ -137,13 +137,13 @@ const defaultProps: Props = {
   getContact: jest.fn(),
   getMessagesStateByThreadId: jest.fn(),
   isContactCreatedByPhoneNumber: jest.fn(),
-  getMessagesByThreadId: jest.fn().mockReturnValue([contact]),
+  getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([contact]),
   messageLayoutNotifications: [],
   removeLayoutNotification: jest.fn(),
   currentlyDeletingMessageId: null,
   deleteMessage: jest.fn(),
   resendMessage: jest.fn(),
-  getThreadDraftMessagesSelector: jest.fn(),
+  getThreadDraftMessageSelector: jest.fn(),
   updateMessage: jest.fn(),
   error: null,
   loaded: false,
@@ -158,9 +158,9 @@ const propsWithSingleThread: Partial<Props> = {
   getContactByPhoneNumber: jest.fn(),
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
-  getMessagesStateByThreadId: jest.fn(),
+  getThreadDraftMessageSelector: jest.fn(),
   isContactCreatedByPhoneNumber: jest.fn(),
-  getMessagesByThreadId: jest.fn().mockReturnValue([
+  getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([
     {
       content: "Test Message #1",
       date: new Date("1970-01-01T00:06:31.000Z"),
@@ -467,7 +467,7 @@ describe("Messages component", () => {
     test("choosing the receiver at form opens ThreadDetails component", async () => {
       const { queryByTestId } = renderer({
         ...renderProps,
-        getMessagesByThreadId: jest.fn().mockReturnValue([
+        getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([
           {
             content: "Test Message #1",
             date: new Date("1970-01-01T00:06:31.000Z"),
@@ -706,7 +706,7 @@ describe("Messages component", () => {
     const { getByTestId } = renderer({
       ...propsWithSingleThread,
       getContactByPhoneNumber,
-      getMessagesByThreadId: jest.fn(),
+      getActiveMessagesByThreadIdSelector: jest.fn(),
     })
     expect(getByTestId("dropdown-contact-details")).toBeInTheDocument()
   })
