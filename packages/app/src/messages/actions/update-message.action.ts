@@ -19,7 +19,7 @@ export const updateMessage = createAsyncThunk<AppError | void, Message>(
       return rejectWithValue(
         new AppError(
           MessagesError.UpdateMessageError,
-          (error as unknown as Error)?.message || "Update failed"
+          (error as unknown as Error)?.message || "Message update failed"
         )
       )
     }
