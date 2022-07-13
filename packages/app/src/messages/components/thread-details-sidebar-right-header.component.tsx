@@ -19,8 +19,8 @@ const messages = defineMessages({
   newContactTooltipDescription: {
     id: "module.messages.newContactTooltipDescription",
   },
-  marksAsReadTooltipDescription: {
-    id: "module.messages.marksAsReadTooltipDescription",
+  marksAsUnreadTooltipDescription: {
+    id: "module.messages.marksAsUnreadTooltipDescription",
   },
   deleteTooltipDescription: { id: "module.messages.deleteTooltipDescription" },
 })
@@ -62,8 +62,8 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
       )}
       {flags.get(Feature.MessagesThreadDetailsMarkAsReadEnabled) && (
         <SidebarHeaderButton
-          description={messages.marksAsReadTooltipDescription}
-          iconType={IconType.BorderCheckIcon}
+          description={messages.marksAsUnreadTooltipDescription}
+          iconType={IconType.MarkAsUnread}
           onClick={onCheckClick}
         />
       )}

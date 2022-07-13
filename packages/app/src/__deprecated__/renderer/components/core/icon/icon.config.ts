@@ -123,6 +123,7 @@ import Visible from "App/__deprecated__/renderer/svg/password-show.svg"
 import Hidden from "App/__deprecated__/renderer/svg/password-hide.svg"
 import Cloud from "App/__deprecated__/renderer/svg/cloud.svg"
 import Warning from "App/__deprecated__/renderer/svg/warning.svg"
+import MarkAsUnread from "App/__deprecated__/renderer/svg/mark-as-unread.svg"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
@@ -246,6 +247,7 @@ const typeToIcon: Partial<Record<IconType, typeof Arrow>> = {
   [IconType.Hidden]: Hidden,
   [IconType.ThinFail]: ThinFail,
   [IconType.Warning]: Warning,
+  [IconType.MarkAsUnread]: MarkAsUnread,
 }
 
 export const getIconType = (
