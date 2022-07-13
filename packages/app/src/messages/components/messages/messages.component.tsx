@@ -280,6 +280,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setActiveThread(thread)
     setTmpActiveThread(undefined)
     setMessagesState(MessagesState.ThreadDetails)
+    resetRows()
   }
 
   const closeSidebars = (): void => {
@@ -323,6 +324,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
 
     toggleReadStatus([activeThread])
+    resetRows()
     closeSidebars()
   }
 
@@ -336,6 +338,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const handleContentChange = (content: string): void => {
     setContent(content)
+  }
+
+  const handleToggleReadStatus = (threads: Thread[]) => {
+    toggleReadStatus(threads)
+    resetRows()
   }
 
   const handleAddNewMessage = async (
@@ -554,7 +561,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onThreadClick={handleThreadClick}
             getContactByPhoneNumber={getContactByPhoneNumber}
             onDeleteClick={handleDeleteThread}
-            onToggleReadStatus={toggleReadStatus}
+            onToggleReadStatus={handleToggleReadStatus}
             onContactClick={contactClick}
             loadMoreRows={loadMoreRows}
             newConversation={mockThread.phoneNumber}

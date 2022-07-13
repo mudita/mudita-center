@@ -194,6 +194,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   const handleEditingContact = (contact: Contact) => {
     setEditedContact(contact)
+    resetRows()
   }
 
   const cancelEditingContact = (contact?: Contact) => {
