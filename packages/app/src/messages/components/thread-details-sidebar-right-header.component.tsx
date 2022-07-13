@@ -63,7 +63,7 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
       {flags.get(Feature.MessagesThreadDetailsMarkAsReadEnabled) && (
         <SidebarHeaderButton
           description={messages.marksAsUnreadTooltipDescription}
-          iconType={IconType.BorderCheckIcon}
+          iconType={IconType.MarkAsUnread}
           onClick={onCheckClick}
         />
       )}
