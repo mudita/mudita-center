@@ -5,8 +5,6 @@
 
 import { Contact } from "App/contacts/dto"
 
-export interface ContactSimpleListItemProps {
+export interface ContactSimpleListItemAvatarProps {
   contact: Contact
-  onContactSelect?: (contact: Contact) => void
-  onPhoneNumberSelect?: (phoneNumber: string) => void
 }

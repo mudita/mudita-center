@@ -12,7 +12,7 @@ import {
   EmptyState,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { ContactSimpleListItem } from "App/contacts/components/contact-simple-list-item"
+import { ContactSimpleListItemContactSelection } from "App/contacts/components/contact-simple-list-item-contact-selection"
 import { ContactSimpleListItemPlaceholder } from "App/contacts/components/contact-simple-list-item-placeholder"
 import { ContactSimpleListProps } from "App/contacts/components/contact-simple-list/contact-simple-list.interface"
 import {
@@ -21,6 +21,7 @@ import {
   ListWrapper,
 } from "App/contacts/components/contact-simple-list/contact-simple-list.styled"
 import { ContactSimpleListTestIdsEnum } from "App/contacts/components/contact-simple-list/contact-simple-list-test-ids.enum"
+import { ContactSimpleItemListPhoneSelection } from "App/contacts/components/contact-simple-list-item-phone-selection"
 
 const messages = defineMessages({
   emptyListTitle: { id: "module.contacts.emptyListTitle" },
@@ -48,11 +49,18 @@ export const ContactSimpleList: FunctionComponent<ContactSimpleListProps> = ({
                       ref={ref}
                       disableHoverState={onPhoneNumberSelect !== undefined}
                     >
-                      <ContactSimpleListItem
-                        contact={contact}
-                        onContactSelect={onContactSelect}
-                        onPhoneNumberSelect={onPhoneNumberSelect}
-                      />
+                      {onContactSelect && (
+                        <ContactSimpleListItemContactSelection
+                          contact={contact}
+                          onContactSelect={onContactSelect}
+                        />
+                      )}
+                      {onPhoneNumberSelect && (
+                        <ContactSimpleItemListPhoneSelection
+                          contact={contact}
+                          onPhoneNumberSelect={onPhoneNumberSelect}
+                        />
+                      )}
                     </Row>
                   ) : (
                     <Row ref={ref}>
