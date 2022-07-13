@@ -77,7 +77,7 @@ export class MessageModel extends BaseModel<Message> {
   ): void {
     if (message.messageType === MessageType.DRAFT) {
       thread.messageSnippet = [
-        ...(message.messageType === MessageType.DRAFT ? ["Draft"] : []),
+        message.messageType === MessageType.DRAFT ? "Draft" : "",
         message.content,
       ].join(": ")
 
