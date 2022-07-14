@@ -32,6 +32,8 @@ describe("`TemplatesList` component", () => {
       noneRowsSelected: true,
       toggleRow: jest.fn(),
       onDragEnd: jest.fn(),
+      active: undefined,
+      templateFormOpen: false,
     })
     expect(
       getByText("[value] module.templates.emptyList.title")
@@ -52,6 +54,8 @@ describe("`TemplatesList` component", () => {
       noneRowsSelected: true,
       toggleRow: jest.fn(),
       onDragEnd: jest.fn(),
+      active: undefined,
+      templateFormOpen: false,
     })
     expect(getByText(templateMock.text)).toBeInTheDocument()
   })
@@ -67,6 +71,8 @@ describe("`TemplatesList` component", () => {
       noneRowsSelected: false,
       toggleRow: jest.fn(),
       onDragEnd: jest.fn(),
+      active: undefined,
+      templateFormOpen: false,
     })
     expect(getByTestId("template-checkbox")).toBeVisible()
   })

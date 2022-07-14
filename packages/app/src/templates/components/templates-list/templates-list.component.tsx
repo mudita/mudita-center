@@ -48,6 +48,8 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   deleteTemplates,
   updateTemplate,
   onDragEnd,
+  templateFormOpen,
+  active,
 }) => {
   return (
     <>
@@ -57,8 +59,9 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
             {(provided: any) => (
               <Table
                 role="list"
-                hide
-                hideableColumnsIndexes={[2, 3, 4]}
+                hideColumns={templateFormOpen}
+                hideableColumnsIndexes={[3]}
+                mouseLock={templateFormOpen}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
@@ -78,6 +81,7 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                             key={template.id}
                             role="listitem"
                             ref={provided.innerRef}
+                            active={active?.id === template.id}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
@@ -134,14 +138,23 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
           </Droppable>
         </DragDropContext>
       ) : (
-        <Table role="list" hide hideableColumnsIndexes={[2, 3, 4]}>
+        <Table
+          role="list"
+          hideColumns={templateFormOpen}
+          hideableColumnsIndexes={[3]}
+          mouseLock={templateFormOpen}
+        >
           {templates.length > 0 ? (
             templates.map((template) => {
               const { selected, indeterminate } = getRowStatus(template)
               const handleCheckboxChange = () => toggleRow(template)
 
               return (
-                <Row key={template.id} role="listitem">
+                <Row
+                  key={template.id}
+                  role="listitem"
+                  active={active?.id === template.id}
+                >
                   <Col />
                   <Col>
                     <Checkbox

@@ -17,7 +17,10 @@ import {
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
 import { Message, NewMessage } from "App/messages/dto"
-import { AcceptablePureMessageType } from "App/messages/presenters"
+import {
+  AcceptablePureMessageType,
+  MessagePresenter,
+} from "App/messages/presenters"
 import { MessageRepository } from "App/messages/repositories"
 import { MessageService } from "App/messages/services/message.service"
 import { ThreadService } from "App/messages/services/thread.service"
@@ -404,6 +407,36 @@ describe("`MessageService`", () => {
               },
             ],
           },
+        })
+      })
+    })
+  })
+
+  describe("`updateMessage` method", () => {
+    describe("`DeviceService` returns success status", () => {
+      test("returns success result", async () => {
+        deviceService.request = jest.fn().mockReturnValue(successResponse)
+        const result = await subject.updateMessage(message)
+
+        expect(result).toEqual(successResponse)
+        expect(deviceService.request).toHaveBeenCalledWith({
+          body: MessagePresenter.mapToUpdatePureMessagesBody(message),
+          endpoint: Endpoint.Messages,
+          method: Method.Put,
+        })
+      })
+    })
+
+    describe("`DeviceService` returns failed satus", () => {
+      test("returns failed result", async () => {
+        deviceService.request = jest.fn().mockReturnValue(errorResponse)
+        const result = await subject.updateMessage(message)
+
+        expect(result).toEqual(errorResponse)
+        expect(deviceService.request).toHaveBeenCalledWith({
+          body: MessagePresenter.mapToUpdatePureMessagesBody(message),
+          endpoint: Endpoint.Messages,
+          method: Method.Put,
         })
       })
     })

@@ -17,4 +17,6 @@ export interface TemplatesListProps extends SelectHook {
   deleteTemplates: (ids: string[]) => void
   updateTemplate: (id: string) => void
   onDragEnd: (result: DropResult) => void
+  templateFormOpen: boolean
+  active?: Template
 }

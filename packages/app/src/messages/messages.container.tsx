@@ -20,9 +20,10 @@ import {
 import { addNewMessage } from "App/messages/actions"
 import {
   filteredThreadsSelector,
-  getMessagesByThreadIdSelector,
+  getActiveMessagesByThreadIdSelector,
   getReceiverSelector,
   getReceiversSelector,
+  getThreadDraftMessageSelector,
 } from "App/messages/selectors"
 import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
 import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
@@ -39,6 +40,7 @@ import {
   deleteThreads,
   markThreadsReadStatus,
   resendMessage,
+  updateMessage,
 } from "./actions"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
@@ -55,8 +57,10 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
     isContactCreatedByPhoneNumberSelector(phoneNumber)(state),
   getContact: (id: string) => getContactSelector(id)(state),
   getReceiver: (phoneNumber: string) => getReceiverSelector(phoneNumber)(state),
-  getMessagesByThreadId: (threadId: string) =>
-    getMessagesByThreadIdSelector(threadId)(state),
+  getActiveMessagesByThreadIdSelector: (threadId: string) =>
+    getActiveMessagesByThreadIdSelector(threadId)(state),
+  getThreadDraftMessageSelector: (threadId: string) =>
+    getThreadDraftMessageSelector(threadId)(state),
   messageLayoutNotifications: getNotificationByResourceAndMethod(
     NotificationResourceType.Message,
     NotificationMethod.Layout
@@ -82,6 +86,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   removeLayoutNotification: (notificationId: string) =>
     dispatch(removeNotification(notificationId)),
   resendMessage: (messageId: string) => dispatch(resendMessage(messageId)),
+  updateMessage: (message: Message) => dispatch(updateMessage(message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

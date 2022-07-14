@@ -36,6 +36,7 @@ export class TemplatePresenter {
       data.templates.values,
       data.templates.columns
     )
+
     return templates
       .map((template) => {
         return flags.get(Feature.OrderTemplate)

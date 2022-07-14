@@ -9,6 +9,7 @@ import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
 import { IndexRange } from "react-virtualized"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { useDebounce } from "usehooks-ts"
 import DeleteMessageModals from "App/messages/components/delete-message-modals/delete-message-modals.component"
 import { DeleteThreadModals } from "App/messages/components/delete-thread-modals/delete-thread-modals.component"
 import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
@@ -82,7 +83,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
   changeSearchValue = noop,
   deleteThreads = noop,
   threads,
-  getMessagesByThreadId,
+  getActiveMessagesByThreadIdSelector,
+  getThreadDraftMessageSelector,
   getReceiver,
   toggleReadStatus = noop,
   markThreadsReadStatus = noop,
@@ -95,6 +97,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   removeLayoutNotification,
   currentlyDeletingMessageId,
   resendMessage,
+  updateMessage,
   templates,
   error,
   loaded,
@@ -110,6 +113,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       attachContact: false,
       attachTemplate: false,
       browseContact: false,
+      draftDeleting: false,
     })
 
   // TODO [CP-1401] move component logic to custom hook
@@ -121,7 +125,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
   )
   const [phoneNumber, setPhoneNumber] = useState<string>("")
   const [tmpActiveThread, setTmpActiveThread] = useState<Thread | undefined>()
+  const [draftMessage, setDraftMessage] = useState<Message>()
   const [content, setContent] = useState("")
+  const debouncedContent = useDebounce(content, 1000)
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Thread>(threads)
   const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
@@ -190,6 +196,38 @@ const Messages: FunctionComponent<MessagesProps> = ({
       openThreadDetails(thread)
     } else if (tmpActiveThread === undefined && thread === undefined) {
       setActiveThread(undefined)
+    }
+  }, [activeThread, threads])
+
+  useEffect(() => {
+    if (draftMessage) {
+      if (content && content !== draftMessage.content) {
+        updateMessage({ ...draftMessage, content })
+      }
+
+      if (!content.length) {
+        deleteMessage(draftMessage.id)
+        updateFieldState("draftDeleting", true)
+        setDraftMessage(undefined)
+        setContent("")
+      }
+    } else {
+      if (debouncedContent) {
+        handleAddNewMessage(MessageType.DRAFT)
+        updateFieldState("draftDeleting", false)
+      }
+    }
+  }, [debouncedContent])
+
+  useEffect(() => {
+    if (!activeThread || states.draftDeleting) {
+      return
+    }
+
+    const tmpDraftMessage = getThreadDraftMessageSelector(activeThread.id)
+    if (tmpDraftMessage) {
+      setDraftMessage(tmpDraftMessage)
+      setContent(tmpDraftMessage.content)
     }
   }, [activeThread, threads])
 
@@ -287,6 +325,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setContent("")
     setActiveThread(undefined)
     setTmpActiveThread(undefined)
+    setDraftMessage(undefined)
+    updateFieldState("draftDeleting", false)
     setMessagesState(MessagesState.List)
   }
 
@@ -302,6 +342,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleThreadClick = (thread: Thread): void => {
     if (activeThread?.id !== thread.id) {
       openThreadDetails(thread)
+
+      if (!thread.unread) {
+        return
+      }
+
       markThreadsReadStatus([thread])
     }
   }
@@ -319,7 +364,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   const markAsUnread = (): void => {
-    if (!activeThread) {
+    if (!activeThread || !activeThread.unread) {
       return
     }
 
@@ -330,6 +375,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const markAsRead = (): void => {
     if (!activeThread) {
+      return
+    }
+
+    if (!activeThread.unread) {
       return
     }
 
@@ -348,13 +397,20 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleAddNewMessage = async (
     messageType = MessageType.OUTBOX
   ): Promise<void> => {
+    if (draftMessage) {
+      await deleteMessage(draftMessage.id)
+      setDraftMessage(undefined)
+    }
+
     const threadId = threads.find(isThreadNumberEqual(phoneNumber))?.id
     if (tmpActiveThread !== undefined) {
       handleReceiverSelect({ phoneNumber })
     }
     await addNewMessage({ content, phoneNumber, threadId, messageType })
 
-    setContent("")
+    if (messageType === MessageType.OUTBOX) {
+      setContent("")
+    }
   }
 
   const handleNewMessageSendClick = async () => {
@@ -573,7 +629,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             data-testid={MessagesTestIds.ThreadDetails}
             content={content}
             receiver={getViewReceiver(activeThread)}
-            messages={getMessagesByThreadId(activeThread.id)}
+            messages={getActiveMessagesByThreadIdSelector(activeThread.id)}
             currentlyDeletingMessageId={currentlyDeletingMessageId}
             contactCreated={isContactCreatedByPhoneNumber(
               activeThread.phoneNumber
