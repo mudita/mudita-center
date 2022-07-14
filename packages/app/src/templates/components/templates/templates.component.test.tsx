@@ -618,4 +618,37 @@ describe("`Templates` component", () => {
       })
     })
   })
+  test("Remove checkboxes and selection manager when opening template details", async () => {
+    const { getByTestId, queryAllByTestId, queryByTestId } = await render({
+      templates: [templateMock],
+      createTemplate: createTemplateMock,
+      deleteTemplates: deleteTemplatesMock,
+      updateTemplate: updateTemplateMock,
+      updateTemplateOrder: updateTemplateOrderMock,
+      loading: false,
+      loaded: false,
+      error: null,
+    })
+    const checkboxes = queryAllByTestId("template-checkbox")
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
+    fireEvent.click(checkboxes[0])
+    checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
+    expect(
+      queryByTestId(TemplatesPanelTestIds.SelectionManager)
+    ).toBeInTheDocument()
+
+    const dropdownButton = getByTestId(
+      TemplateOptionsTestIds.OptionsDropDown
+    ).querySelector("button")
+    dropdownButton?.click()
+
+    const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
+    fireEvent.click(editButton)
+
+    expect(queryByTestId(TemplateFormTestIds.Container)).toBeInTheDocument()
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
+    expect(
+      queryByTestId(TemplatesPanelTestIds.SelectionManager)
+    ).not.toBeInTheDocument()
+  })
 })

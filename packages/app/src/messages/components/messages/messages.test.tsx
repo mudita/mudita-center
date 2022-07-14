@@ -670,6 +670,24 @@ describe("Messages component", () => {
     checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
   })
 
+  test("Remove checkboxes  and selection manager when opening thread details", () => {
+    const { queryAllByTestId, queryByTestId } = renderer(propsWithSingleThread)
+    const checkboxes = queryAllByTestId("checkbox")
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
+    fireEvent.click(checkboxes[0])
+    checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
+    expect(
+      queryByTestId(MessagePanelTestIds.SelectionManager)
+    ).toBeInTheDocument()
+    const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
+    fireEvent.click(tableRow)
+    expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
+    expect(
+      queryByTestId(MessagePanelTestIds.SelectionManager)
+    ).not.toBeInTheDocument()
+  })
+
   test("dropdown call button has correct content", () => {
     const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-call")[0]).toHaveTextContent(
