@@ -46,6 +46,7 @@ import {
   GetMessageBody,
   Message,
   GetThreadBody,
+  PutMessageBody,
   Thread,
   UpdateThreadReadStatus,
   GetTemplateBody,
@@ -144,6 +145,11 @@ export class DeviceService {
     method: Method.Post
     body: PostMessagesBody
   }): Promise<RequestResponse<PostMessagesResponseBody>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Put
+    body: PutMessageBody
+  }): Promise<RequestResponse>
   public request(config: {
     endpoint: Endpoint.Messages
     method: Method.Delete

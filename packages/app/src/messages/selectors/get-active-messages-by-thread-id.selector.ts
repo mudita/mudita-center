@@ -6,11 +6,12 @@
 import { createSelector, OutputSelector } from "reselect"
 import { MessagesState } from "App/messages/reducers"
 import { Message } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { messagesStateSelector } from "App/messages/selectors/messages-state.selector"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { sortMessages } from "App/messages/helpers/threads.helpers"
 
-export const getMessagesByThreadIdSelector = (
+export const getActiveMessagesByThreadIdSelector = (
   threadId: string
 ): OutputSelector<
   ReduxRootState,
@@ -21,7 +22,9 @@ export const getMessagesByThreadIdSelector = (
     messagesStateSelector,
     ({ messageIdsInThreadMap, messageMap }) => {
       const messageIds = messageIdsInThreadMap[threadId] ?? []
-      const messages = messageIds.map((messageId) => messageMap[messageId])
+      const messages = messageIds
+        .map((messageId) => messageMap[messageId])
+        .filter((message: Message) => message.messageType !== MessageType.DRAFT)
       return sortMessages(messages)
     }
   )
