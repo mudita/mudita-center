@@ -189,7 +189,13 @@ const ThreadRow: FunctionComponent<Props> = ({
   const handleCheckboxChange = () => onCheckboxChange(thread)
   const handleRowClick = () => onRowClick(thread)
   const handleDeleteClick = () => onDeleteClick(id)
-  const handleToggleClick = () => onToggleReadClick([thread])
+  const handleToggleClick = () => {
+    if (!thread.unread) {
+      return
+    }
+
+    onToggleReadClick([thread])
+  }
   const handleContactClick = () => onContactClick(phoneNumber)
 
   return (

@@ -107,7 +107,7 @@ describe("`ThreadService`", () => {
             Object {
               "id": "1",
               "lastUpdatedAt": 2021-03-30T07:32:38.000Z,
-              "messageSnippet": "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+              "messageSnippet": "Draft: Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
               "messageType": "INBOX",
               "phoneNumber": "+48500600700",
               "unread": true,
