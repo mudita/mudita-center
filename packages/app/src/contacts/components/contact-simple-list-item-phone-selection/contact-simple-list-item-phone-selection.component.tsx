@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-// import { ContactSimpleListItemAvatar } from "App/contacts/components/contact-simple-list-item-avatar"
 import { ContactSimpleListItemAvatar } from "App/contacts/components/contact-simple-list-item-avatar"
 import { ContactSimpleListPhoneSelectionItemTestIdsEnum } from "App/contacts/components/contact-simple-list-item-phone-selection/contact-simple-list-item-phone-selection-test-ids.enum"
 import { ContactSimpleItemListPhoneSelectionProps } from "App/contacts/components/contact-simple-list-item-phone-selection/contact-simple-list-item-phone-selection.interface"
@@ -19,14 +18,14 @@ import React, { useState } from "react"
 export const ContactSimpleItemListPhoneSelection: FunctionComponent<
   ContactSimpleItemListPhoneSelectionProps
 > = ({ contact, onPhoneNumberSelect }) => {
-  const [mainRowHovered, setMainRowHovered] = useState<boolean>(false)
+  const [mainColumnHovered, setMainColumnHovered] = useState<boolean>(false)
 
-  const onRowHoverIn = () => {
-    setMainRowHovered(true)
+  const onMainColumnMouseEnter = () => {
+    setMainColumnHovered(true)
   }
 
-  const onRowHoverOut = () => {
-    setMainRowHovered(false)
+  const onMainColumnMouseOut = () => {
+    setMainColumnHovered(false)
   }
 
   const handlePhoneNumberSelection = (phoneNumber: string) => {
@@ -47,19 +46,19 @@ export const ContactSimpleItemListPhoneSelection: FunctionComponent<
         data-testid={
           ContactSimpleListPhoneSelectionItemTestIdsEnum.AvatarColumn
         }
-        onMouseEnter={onRowHoverIn}
-        onMouseLeave={onRowHoverOut}
-        isHovered={mainRowHovered}
+        onMouseEnter={onMainColumnMouseEnter}
+        onMouseLeave={onMainColumnMouseOut}
+        hovered={mainColumnHovered}
         onClick={onAvatarColClick}
       >
         <ContactSimpleListItemAvatar contact={contact} />
       </AvatarCol>
       <PhoneNumberCol>
-        {contact.primaryPhoneNumber && !contact.secondaryPhoneNumber && (
+        {contact.primaryPhoneNumber && (
           <FirstPhoneNumber
-            onMouseEnter={onRowHoverIn}
-            onMouseLeave={onRowHoverOut}
-            isHovered={mainRowHovered}
+            onMouseEnter={onMainColumnMouseEnter}
+            onMouseLeave={onMainColumnMouseOut}
+            hovered={mainColumnHovered}
             onClick={() =>
               handlePhoneNumberSelection(contact.primaryPhoneNumber!)
             }
@@ -70,36 +69,22 @@ export const ContactSimpleItemListPhoneSelection: FunctionComponent<
             {contact.primaryPhoneNumber}
           </FirstPhoneNumber>
         )}
-        {!contact.primaryPhoneNumber && contact.secondaryPhoneNumber && (
-          <FirstPhoneNumber
-            onMouseEnter={onRowHoverIn}
-            onMouseLeave={onRowHoverOut}
-            isHovered={mainRowHovered}
-            onClick={() =>
-              handlePhoneNumberSelection(contact.secondaryPhoneNumber!)
-            }
-            data-testid={
-              ContactSimpleListPhoneSelectionItemTestIdsEnum.SecondaryPhoneField
-            }
-          >
-            {contact.primaryPhoneNumber}
-          </FirstPhoneNumber>
-        )}
-        {contact.primaryPhoneNumber && contact.secondaryPhoneNumber && (
-          <>
+        {contact.secondaryPhoneNumber &&
+          (!contact.primaryPhoneNumber ? (
             <FirstPhoneNumber
-              onMouseEnter={onRowHoverIn}
-              onMouseLeave={onRowHoverOut}
-              isHovered={mainRowHovered}
+              onMouseEnter={onMainColumnMouseEnter}
+              onMouseLeave={onMainColumnMouseOut}
+              hovered={mainColumnHovered}
               onClick={() =>
-                handlePhoneNumberSelection(contact.primaryPhoneNumber!)
+                handlePhoneNumberSelection(contact.secondaryPhoneNumber!)
               }
               data-testid={
-                ContactSimpleListPhoneSelectionItemTestIdsEnum.PrimaryPhoneField
+                ContactSimpleListPhoneSelectionItemTestIdsEnum.SecondaryPhoneField
               }
             >
               {contact.primaryPhoneNumber}
             </FirstPhoneNumber>
+          ) : (
             <SecondPhoneNumber
               onClick={() =>
                 handlePhoneNumberSelection(contact.secondaryPhoneNumber!)
@@ -110,8 +95,7 @@ export const ContactSimpleItemListPhoneSelection: FunctionComponent<
             >
               {contact.secondaryPhoneNumber}
             </SecondPhoneNumber>
-          </>
-        )}
+          ))}
       </PhoneNumberCol>
     </>
   )

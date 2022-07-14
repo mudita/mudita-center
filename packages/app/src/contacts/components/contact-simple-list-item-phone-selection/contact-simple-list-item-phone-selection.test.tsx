@@ -3,13 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-// import { fireEvent } from "@testing-library/react"
-import { fireEvent, screen } from "@testing-library/react"
+import { fireEvent } from "@testing-library/react"
 import { ContactSimpleListPhoneSelectionItemTestIdsEnum } from "App/contacts/components/contact-simple-list-item-phone-selection/contact-simple-list-item-phone-selection-test-ids.enum"
 import { ContactSimpleItemListPhoneSelection } from "App/contacts/components/contact-simple-list-item-phone-selection/contact-simple-list-item-phone-selection.component"
 import { ContactSimpleItemListPhoneSelectionProps } from "App/contacts/components/contact-simple-list-item-phone-selection/contact-simple-list-item-phone-selection.interface"
 import { Contact } from "App/contacts/dto"
-import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
 
@@ -48,6 +46,10 @@ const contactOnlyWithSecondaryPhone: Contact = {
   lastName: "Makłowicz",
   primaryPhoneNumber: undefined,
 }
+
+beforeEach(() => {
+  jest.clearAllMocks()
+})
 
 test("Avatar Col is rendered", () => {
   const { getByTestId } = renderer({
@@ -111,6 +113,23 @@ describe("when contact only has primary number defined", () => {
       )
     ).toHaveStyle(`background-color: ${expectedHoverColor};`)
   })
+
+  test("clicking on avatar column calls onPhoneNumberSelect with primary phone number", () => {
+    const { getByTestId } = renderer({
+      contact: {
+        ...contactOnlyWithPrimaryPhone,
+      },
+      onPhoneNumberSelect,
+    })
+    fireEvent.click(
+      getByTestId(ContactSimpleListPhoneSelectionItemTestIdsEnum.AvatarColumn)
+    )
+
+    expect(onPhoneNumberSelect).toHaveBeenCalledTimes(1)
+    expect(onPhoneNumberSelect).toHaveBeenCalledWith(
+      contactOnlyWithPrimaryPhone.primaryPhoneNumber
+    )
+  })
 })
 
 describe("when contact only has secondary number defined", () => {
@@ -163,6 +182,23 @@ describe("when contact only has secondary number defined", () => {
         ContactSimpleListPhoneSelectionItemTestIdsEnum.SecondaryPhoneField
       )
     ).toHaveStyle(`background-color: ${expectedHoverColor};`)
+  })
+
+  test("clicking on avatar column calls onPhoneNumberSelect with secondary phone number", () => {
+    const { getByTestId } = renderer({
+      contact: {
+        ...contactOnlyWithSecondaryPhone,
+      },
+      onPhoneNumberSelect,
+    })
+    fireEvent.click(
+      getByTestId(ContactSimpleListPhoneSelectionItemTestIdsEnum.AvatarColumn)
+    )
+
+    expect(onPhoneNumberSelect).toHaveBeenCalledTimes(1)
+    expect(onPhoneNumberSelect).toHaveBeenCalledWith(
+      contactOnlyWithSecondaryPhone.secondaryPhoneNumber
+    )
   })
 })
 
@@ -227,5 +263,22 @@ describe("when contact has both primary and secondary phone number defined", () 
         ContactSimpleListPhoneSelectionItemTestIdsEnum.SecondaryPhoneField
       )
     ).not.toHaveStyle(`background-color: ${expectedHoverColor};`)
+  })
+
+  test("clicking on avatar column calls onPhoneNumberSelect with secondary phone number", () => {
+    const { getByTestId } = renderer({
+      contact: {
+        ...contactWithBothPhoneNumbers,
+      },
+      onPhoneNumberSelect,
+    })
+    fireEvent.click(
+      getByTestId(ContactSimpleListPhoneSelectionItemTestIdsEnum.AvatarColumn)
+    )
+
+    expect(onPhoneNumberSelect).toHaveBeenCalledTimes(1)
+    expect(onPhoneNumberSelect).toHaveBeenCalledWith(
+      contactWithBothPhoneNumbers.primaryPhoneNumber
+    )
   })
 })

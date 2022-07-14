@@ -20,9 +20,9 @@ const hoverStyle = css`
   ${RowBackgroundTransitionStyles}
 `
 
-export const AvatarCol = styled(ItemCol)<{ isHovered: boolean }>`
+export const AvatarCol = styled(ItemCol)<{ hovered: boolean }>`
   padding-left: 2rem !important;
-  ${({ isHovered }) => (isHovered ? hoverStyle : "")};
+  ${({ hovered }) => (hovered ? hoverStyle : "")};
 `
 export const PhoneNumberCol = styled(ItemCol)``
 
@@ -34,12 +34,12 @@ const PhoneNumber = styled.div`
   padding: 0 0.4rem;
 `
 
-export const FirstPhoneNumber = styled(PhoneNumber)<{ isHovered: boolean }>`
+export const FirstPhoneNumber = styled(PhoneNumber)<{ hovered: boolean }>`
   :first-of-type {
     padding-left: 2rem;
   }
 
-  ${({ isHovered }) => (isHovered ? hoverStyle : "")};
+  ${({ hovered }) => (hovered ? hoverStyle : "")};
 `
 
 export const SecondPhoneNumber = styled(PhoneNumber)`
