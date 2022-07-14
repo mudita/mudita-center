@@ -189,7 +189,13 @@ const ThreadRow: FunctionComponent<Props> = ({
   const handleCheckboxChange = () => onCheckboxChange(thread)
   const handleRowClick = () => onRowClick(thread)
   const handleDeleteClick = () => onDeleteClick(id)
-  const handleToggleClick = () => onToggleReadClick([thread])
+  const handleToggleClick = () => {
+    if (!thread.unread) {
+      return
+    }
+
+    onToggleReadClick([thread])
+  }
   const handleContactClick = () => onContactClick(phoneNumber)
 
   return (
@@ -344,7 +350,7 @@ const ThreadRow: FunctionComponent<Props> = ({
                     ? "module.messages.markAsRead"
                     : "module.messages.markAsUnread",
                 }}
-                Icon={IconType.BorderCheckIcon}
+                Icon={unread ? IconType.MarkAsRead : IconType.MarkAsUnread}
                 onClick={handleToggleClick}
                 displayStyle={DisplayStyle.Dropdown}
                 data-testid="dropdown-mark-as-read"

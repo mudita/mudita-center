@@ -125,4 +125,5 @@ export enum IconType {
   Hidden,
   ThinFail,
   Warning,
+  MarkAsUnread,
 }

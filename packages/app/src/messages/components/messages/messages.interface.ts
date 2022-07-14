@@ -31,6 +31,7 @@ export interface MessagesServiceState {
   threadDeletingConfirmation: boolean
   threadDeletingInfo: boolean
   browseContact: boolean
+  draftDeleting: boolean
 }
 
 export interface MessagesProps extends Pick<AppSettings, "language"> {
@@ -41,7 +42,8 @@ export interface MessagesProps extends Pick<AppSettings, "language"> {
   loadThreads: (
     pagination: PaginationBody
   ) => Promise<PayloadAction<PaginationBody | undefined>>
-  getMessagesByThreadId: (threadId: string) => Message[]
+  getActiveMessagesByThreadIdSelector: (threadId: string) => Message[]
+  getThreadDraftMessageSelector: (threadId: string) => Message | undefined
   getContact: (contactId: string) => Contact | undefined
   getReceiver: (phoneNumber: string) => Receiver
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
@@ -49,6 +51,7 @@ export interface MessagesProps extends Pick<AppSettings, "language"> {
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
   addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
   deleteMessage: (messageId: string) => Promise<string>
+  updateMessage: (message: Message) => Promise<void>
   removeLayoutNotification: (notificationId: string) => void
   currentlyDeletingMessageId: string | null
   resendMessage: (messageId: string) => void
