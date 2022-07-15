@@ -5,7 +5,7 @@
 
 import React from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { ModalContent } from "App/__deprecated__/renderer/modules/settings/components/collecting-data-modal/collecting-data-modal.styled"
+import { ModalContent } from "App/settings/components/collecting-data-modal/collecting-data-modal.styled"
 import { ModalDialog } from "App/ui/components/modal-dialog"
 import styled from "styled-components"
 import theme from "App/__deprecated__/renderer/styles/theming/theme"

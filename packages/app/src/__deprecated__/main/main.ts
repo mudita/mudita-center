@@ -86,7 +86,7 @@ import {
 import { registerGetAllReleasesListener } from "App/__deprecated__/update/listeners/get-all-releases.listener"
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/__deprecated__/update/requests/register-os-update-already-downloaded-checker.request"
 import { registerGetLatestReleaseListener } from "App/__deprecated__/update/listeners/get-latest-release.listener"
-import { createAppSettingsService } from "App/app-settings/containers/app-settings.container"
+import { createSettingsService } from "App/settings/containers/settings.container"
 
 require("dotenv").config()
 
@@ -168,8 +168,8 @@ const createWindow = async () => {
   MuditaDeviceManager.registerLogger(new PureLogger())
   MuditaDeviceManager.toggleLogs(enabled)
 
-  const appSettingsService = createAppSettingsService()
-  appSettingsService.init()
+  const settingsService = createSettingsService()
+  settingsService.init()
   startBackend(MuditaDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerGetAllReleasesListener()

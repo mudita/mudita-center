@@ -13,10 +13,7 @@ export const checkCollectingDataModalToShow = createAsyncThunk<void, undefined>(
   ModalsManagerEvent.CheckCollectingDataModalToShow,
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState & ReduxRootState
-    if (
-      state.settings.settingsLoaded &&
-      state.settings.appCollectingData === undefined
-    ) {
+    if (state.settings.loaded && state.settings.collectingData === undefined) {
       dispatch(showModal(ModalStateKey.CollectingDataModal))
     }
   }

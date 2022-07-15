@@ -29,32 +29,23 @@ import {
 } from "App/overview/components/overview-modals.component"
 import { UpdatingForceModal } from "App/overview/components/overview.modal-dialogs"
 import OverviewContent from "App/overview/components/overview-screens/pure-overview/overview-content.component"
-import { CaseColour, DeviceType } from "@mudita/pure"
+import { CaseColour } from "@mudita/pure"
 
 type Props = ComponentProps<typeof OverviewContent>
 
 const defaultProps: Props = {
-  deviceType: DeviceType.MuditaPure,
-  appAutostart: false,
-  appCollectingData: undefined,
-  appConversionFormat: undefined,
-  appConvert: undefined,
-  appIncomingCalls: false,
-  appIncomingMessages: false,
-  appLowBattery: false,
-  appNonStandardAudioFilesConversion: false,
-  appOsUpdates: false,
-  appTethering: false,
-  appTray: false,
+  onBackupRestore: jest.fn(),
+  lastBackupDate: new Date("2020-01-15T07:35:01.562Z"),
+  pureOsDownloaded: false,
+  pureOsAvailable: false,
+  networkLevel: 0,
   batteryLevel: 0,
   caseColour: CaseColour.Gray,
-  changeSim: noop,
-  diagnosticSentTimestamp: 0,
   disconnectDevice: noop,
-  language: "",
   memorySpace: {
     free: 0,
     full: 16000000000,
+    total: 16000000000,
   },
   networkName: "Orange",
   onBackupCreate: noop,
@@ -62,10 +53,6 @@ const defaultProps: Props = {
   onUpdateDownload: noop,
   onUpdateInstall: noop,
   osVersion: "3.0",
-  pureNeverConnected: false,
-  pureOsBackupLocation: "",
-  pureOsDownloadLocation: "",
-  simCards: [],
   serialNumber: "123456",
 }
 
@@ -75,13 +62,9 @@ storiesOf("Views|Overview", module).add("Overview", () => (
       <OverviewContent
         {...defaultProps}
         disconnectDevice={action("Disconnect device")}
-        changeSim={action("Changing sim")}
         onUpdateCheck={action("Checking update")}
         onUpdateDownload={noop}
         onUpdateInstall={noop}
-        onOpenBackupModal={action("Starting backup creation")}
-        onOpenBackupRestorationModal={action("Starting backup restoration")}
-        toggleAppCollectingData={noop}
       />
     </Router>
   </div>
@@ -93,13 +76,9 @@ const ModalStory: FunctionComponent = ({ children }) => (
       <OverviewContent
         {...defaultProps}
         disconnectDevice={action("Disconnect device")}
-        changeSim={action("Changing sim")}
         onUpdateCheck={action("Checking update")}
         onUpdateDownload={noop}
         onUpdateInstall={noop}
-        onOpenBackupModal={action("Starting backup creation")}
-        onOpenBackupRestorationModal={action("Starting backup restoration")}
-        toggleAppCollectingData={noop}
       />
     </Router>
     <ModalWrapper>{children}</ModalWrapper>

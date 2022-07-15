@@ -7,46 +7,63 @@ import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
-import { DevMode } from "App/__deprecated__/dev-mode/store/dev-mode.interface"
 import React, { useEffect, useState } from "react"
 import OverviewContent from "App/overview/components/overview-screens/pure-overview/overview-content.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { PhoneUpdateStore } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
-import { SettingsState } from "App/__deprecated__/main/store/settings.interface"
+import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
 import useSystemUpdateFlow from "App/overview/helpers/system-update.hook"
 import logger from "App/__deprecated__/main/utils/logger"
-import BackupDeviceFlow, { BackupDeviceFlowState } from "App/overview/components/backup-device-flow/backup-device-flow.component"
+import BackupDeviceFlow, {
+  BackupDeviceFlowState,
+} from "App/overview/components/backup-device-flow/backup-device-flow.component"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
-import UpdatingForceModalFlow, { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
-import { DeviceState } from "App/device"
-import { BackupDeviceDataState, BackupDeviceState } from "App/backup-device/reducers"
-import { BackupState } from "App/backup/reducers"
-import RestoreDeviceFlow, { RestoreDeviceFlowState } from "App/overview/components/restore-device-flow/restore-device-flow.component"
-import { RestoreDeviceDataState, RestoreDeviceState } from "App/restore-device/reducers"
-import { DeviceType } from "@mudita/pure"
+import UpdatingForceModalFlow, {
+  UpdatingForceModalFlowState,
+} from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
+import { BackupDeviceDataState } from "App/backup-device/reducers"
+import { Backup } from "App/backup/reducers"
+import RestoreDeviceFlow, {
+  RestoreDeviceFlowState,
+} from "App/overview/components/restore-device-flow/restore-device-flow.component"
+import { RestoreDeviceDataState } from "App/restore-device/reducers"
+import { DeviceType, CaseColour } from "@mudita/pure"
 import { StartRestoreOption } from "App/restore-device/actions"
 import { SynchronizationState } from "App/data-sync/reducers"
+import { MemorySpace } from "App/files-manager/components/files-manager/files-manager.interface"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 
-type Props = DeviceState["data"] &
-  PhoneUpdateStore &
-  SettingsState &
-  DevMode & {
-    backups: BackupState["backups"]
-    backupDeviceState: BackupDeviceState["state"]
-    readBackupDeviceDataState: () => void
-    startBackupDevice: (secretKey: string) => void
-    restoreDeviceState: RestoreDeviceState["state"]
-    startRestoreDevice: (option: StartRestoreOption) => void
-    readRestoreDeviceDataState: () => void
-    openContactSupportFlow: () => void
-    syncState: SynchronizationState
-    updateAllIndexes: () => Promise<void>
-  }
+interface PureOverviewProps {
+  readonly lowestSupportedOsVersion: string | undefined
+  readonly lastAvailableOsVersion: string
+  readonly batteryLevel: number | undefined
+  readonly osVersion: string | undefined
+  readonly memorySpace: MemorySpace | undefined
+  readonly networkName: string
+  readonly networkLevel: number
+  readonly pureOsBackupLocation: string
+  readonly updatingState: UpdatingState
+  readonly caseColour: CaseColour
+  readonly lastBackupDate: Date
+  readonly backupDeviceState: BackupDeviceDataState
+  readonly restoreDeviceState: RestoreDeviceDataState
+  readonly backups: Backup[]
+  readonly pureOsDownloaded: boolean | undefined
+  readonly syncState: SynchronizationState
+  readonly serialNumber: string | undefined
+  readonly updateAllIndexes: () => Promise<void>
+  readonly openContactSupportFlow: () => void
+  readonly readRestoreDeviceDataState: () => void
+  readonly startRestoreDevice: (option: StartRestoreOption) => void
+  readonly readBackupDeviceDataState: () => void
+  readonly startBackupDevice: (secretKey: string) => void
+  readonly setUpdateState: (data: UpdatingState) => void
+  readonly startUpdateOs: (data: string) => void
+  readonly updatePhoneOsInfo: (data: PhoneUpdate) => void
+  readonly disconnectDevice: () => void
+}
 
-export const PureOverview: FunctionComponent<Props> = ({
+export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   batteryLevel = 0,
-  changeSim = noop,
   disconnectDevice = noop,
   osVersion = "",
   lastAvailableOsVersion,
@@ -54,16 +71,8 @@ export const PureOverview: FunctionComponent<Props> = ({
   memorySpace = {
     free: 0,
     full: 16000000000,
+    total: 16000000000,
   },
-  simCards = [
-    {
-      networkLevel: 0,
-      network: undefined,
-      active: false,
-      number: 0,
-      slot: 1,
-    },
-  ],
   networkName,
   networkLevel,
   pureOsBackupLocation = "",
@@ -277,11 +286,9 @@ export const PureOverview: FunctionComponent<Props> = ({
       )}
       <OverviewContent
         batteryLevel={batteryLevel}
-        changeSim={changeSim}
         disconnectDevice={disconnectDevice}
         osVersion={osVersion}
         memorySpace={memorySpace}
-        simCards={simCards}
         networkName={networkName}
         networkLevel={networkLevel}
         pureOsAvailable={isPureOsAvailable()}
@@ -290,7 +297,6 @@ export const PureOverview: FunctionComponent<Props> = ({
         onUpdateInstall={install}
         onUpdateDownload={download}
         caseColour={caseColour}
-        deviceType={DeviceType.MuditaPure}
         lastBackupDate={lastBackupDate}
         onBackupCreate={handleBackupCreate}
         onBackupRestore={handleRestoreCreate}

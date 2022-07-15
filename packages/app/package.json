@@ -19,7 +19,7 @@
     "LINT COMMANDS": "=========================================================",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint '{src,test,mocks}/**/*.{ts,tsx}'",
-    "lint:js": "eslint '{src,test,mocks}/**/*.{ts,tsx}'",
+    "lint:js": "eslint --ext .ts,.tsx src --quiet",
     "lint:typecheck": "tsc --noEmit",
     "lint:fix": "npm run lint:js -- --fix",
     "DIST COMMANDS": "=========================================================",

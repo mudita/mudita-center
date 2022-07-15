@@ -39,6 +39,7 @@ export interface HarmonyDeviceData {
   memorySpace: {
     free: number
     full: number
+    total: number
   }
 }
 

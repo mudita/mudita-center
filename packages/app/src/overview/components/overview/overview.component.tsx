@@ -13,8 +13,8 @@ import {
 
 type PureOverviewProps = ComponentProps<typeof PureOverview>
 type HarmonyOverviewProps = ComponentProps<typeof HarmonyOverview>
-type Props = PureOverviewProps & HarmonyOverviewProps
-
+type Props = PureOverviewProps &
+  HarmonyOverviewProps & { deviceType: DeviceType | null }
 
 const Screen: FunctionComponent<Props> = (props) => {
   switch (props.deviceType) {
