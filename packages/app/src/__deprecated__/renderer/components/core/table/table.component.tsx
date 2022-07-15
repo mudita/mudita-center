@@ -68,6 +68,11 @@ export interface TableRowProps {
   disableHoverState?: boolean
 }
 
+export const RowBackgroundTransitionStyles = css`
+  transition: background-color ${transitionTime("veryQuick")}
+    ${transitionTimingFunction("smooth")};
+`
+
 export const Row = styled.div<TableRowProps>`
   display: grid;
   grid-auto-flow: column;
@@ -78,8 +83,8 @@ export const Row = styled.div<TableRowProps>`
   box-sizing: border-box;
   border-bottom: solid 0.1rem ${borderColor("list")};
   background-color: var(--rowBackground);
-  transition: background-color ${transitionTime("veryQuick")}
-    ${transitionTimingFunction("smooth")};
+
+  ${RowBackgroundTransitionStyles}
 
   height: ${({ size }) => {
     switch (size) {

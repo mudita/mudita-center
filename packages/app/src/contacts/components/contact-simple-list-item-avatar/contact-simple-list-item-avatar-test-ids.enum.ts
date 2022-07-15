@@ -3,5 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./contact-simple-list-item.component"
-export * from "./contact-simple-list-item.interface"
+export enum ContactSimpleListItemAvatarTestIds {
+  Blocked = "contact-simple-list-item-avatar-blocked",
+}
