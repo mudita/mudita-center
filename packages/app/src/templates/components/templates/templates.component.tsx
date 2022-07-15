@@ -135,6 +135,7 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     const template = templates.find((template) => template.id === id)
     setEditedTemplate(template)
     setTemplateFormOpenState(true)
+    resetRows()
   }
 
   const handleUpdateTemplate = async (template: NewTemplate) => {
@@ -215,6 +216,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
           deleteTemplates={handleOpenDeleteModal}
           updateTemplate={handleOpenUpdateTemplate}
           onDragEnd={onDragEnd}
+          templateFormOpen={templateFormOpen}
+          active={editedTemplate}
           {...rest}
         />
         {templateFormOpen && (
