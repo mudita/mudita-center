@@ -14,7 +14,7 @@ import { BaseModule } from "App/core/module"
 import { SettingsController } from "App/settings/controllers"
 import { getSettingsService } from "App/settings/containers/settings.container"
 
-export class SettingsModuleModule extends BaseModule {
+export class SettingsModule extends BaseModule {
   constructor(
     public index: IndexStorage,
     public deviceService: DeviceService,
