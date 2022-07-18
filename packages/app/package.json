@@ -14,7 +14,7 @@
     "build:main": "cross-env NODE_ENV=production webpack --config webpack.config.main.js",
     "build:renderer": "cross-env NODE_ENV=production webpack --config webpack.config.renderer.js",
     "DEV COMMANDS": "==========================================================",
-    "dev:start:main": "webpack --config webpack.config.main.js && electron ./dist/main.js",
+    "dev:start:main": "nodemon --config electron-nodemon.json",
     "dev:start:renderer": "webpack serve --config webpack.config.renderer.js",
     "LINT COMMANDS": "=========================================================",
     "lint": "npm run lint:js && npm run lint:css",
