@@ -11,7 +11,7 @@ import logger from "App/__deprecated__/main/utils/logger"
 
 export const toggleCollectionData = createAsyncThunk<boolean, boolean>(
   SettingsEvent.ToggleCollectionData,
-  async (payload, { dispatch }) => {
+  async (payload) => {
     payload ? logger.enableRollbar() : logger.disableRollbar()
     await toggleTrackingRequest(payload)
     await updateSettings({ key: "collectingData", value: payload })
