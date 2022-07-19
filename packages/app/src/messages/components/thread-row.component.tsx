@@ -50,7 +50,7 @@ import {
 } from "App/__deprecated__/renderer/components/rest/animated-opacity/animated-opacity"
 import { lightAvatarStyles } from "App/contacts/components/contact-list/contact-list.component"
 import { VisibleCheckbox } from "App/__deprecated__/renderer/components/rest/visible-checkbox/visible-checkbox"
-import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
+import { Settings } from "App/settings/dto"
 import ThreadBaseRow from "App/messages/components/thread-base-row.component"
 import { ListRowProps } from "react-virtualized"
 import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
@@ -151,7 +151,7 @@ type SelectHook = Pick<UseTableSelect<Thread>, "noneRowsSelected">
 interface Props
   extends SelectHook,
     RowStatus,
-    Pick<AppSettings, "language">,
+    Pick<Settings, "language">,
     Pick<ListRowProps, "style"> {
   sidebarOpened: boolean
   active: boolean

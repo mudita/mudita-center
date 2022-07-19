@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { updateAppSettings } from "App/__deprecated__/renderer/requests/app-settings.request"
+import { updateSettings } from "App/settings/requests"
 
 const registerFirstPhoneConnection = (): void => {
-  void updateAppSettings({ key: "pureNeverConnected", value: false })
+  void updateSettings({ key: "neverConnected", value: false })
 }
 
 export default registerFirstPhoneConnection

@@ -12,7 +12,7 @@ import Music from "App/__deprecated__/renderer/modules/music/music.component"
 import News from "App/news/news.container"
 import Overview from "App/overview/overview.container"
 import Contacts from "App/contacts/contacts.container"
-import Settings from "App/__deprecated__/renderer/modules/settings/settings.container"
+import Settings from "App/settings/settings.container"
 import Tethering from "App/__deprecated__/renderer/modules/tethering/tethering.container"
 import {
   URL_MAIN,
@@ -32,10 +32,12 @@ import Connecting from "App/connecting/connecting.container"
 import Troubleshooting from "App/__deprecated__/troubleshooting/troubleshooting.container"
 import LayoutDesktopWrapper from "App/__deprecated__/renderer/wrappers/layout-desktop-wrapper"
 import LayoutBlankWrapper from "App/__deprecated__/renderer/wrappers/layout-blank-wrapper"
-import Backup from "App/__deprecated__/renderer/modules/settings/tabs/backup/backup-container.component"
-import Notifications from "App/__deprecated__/renderer/modules/settings/tabs/notifications/notifications.container"
-import AudioConversion from "App/__deprecated__/renderer/modules/settings/tabs/audio-conversion/audio-conversion.container"
-import About from "../modules/settings/tabs/about/about.container"
+import {
+  AboutContainer,
+  NotificationsContainer,
+  BackupContainer,
+  AudioConversionContainer,
+} from "App/settings/components"
 import RecoveryMode from "App/__deprecated__/recovery-mode/recovery-mode.container"
 import PureSystem from "App/overview/components/pure-system/pure-system.container"
 import LayoutDesktopWrapperWithoutHeader from "App/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
@@ -93,19 +95,19 @@ export default () => (
         <Route path={URL_MAIN.settings} component={Settings} exact />
         <Route
           path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
-          component={Notifications}
+          component={NotificationsContainer}
         />
         <Route
           path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
-          component={AudioConversion}
+          component={AudioConversionContainer}
         />
         <Route
           path={`${URL_MAIN.settings}${URL_TABS.backup}`}
-          component={Backup}
+          component={BackupContainer}
         />
         <Route
           path={`${URL_MAIN.settings}${URL_TABS.about}`}
-          component={About}
+          component={AboutContainer}
         />
         <Route path={URL_MAIN.tethering} component={Tethering} />
         <Route path={URL_MAIN.tools} component={Notes} exact />

@@ -18,23 +18,23 @@ const lastBackupDate = new Date("2020-01-15T07:35:01.562Z")
 type Props = ComponentProps<typeof Backup>
 
 const defaultProps: Props = {
-  appAutostart: false,
-  appCollectingData: undefined,
-  appConversionFormat: undefined,
-  appConvert: undefined,
-  appIncomingCalls: false,
-  appIncomingMessages: false,
-  appLowBattery: false,
-  appNonStandardAudioFilesConversion: false,
-  appOsUpdates: false,
-  appTethering: false,
-  appTray: false,
+  autostart: false,
+  collectingData: undefined,
+  conversionFormat: undefined,
+  convert: undefined,
+  incomingCalls: false,
+  incomingMessages: false,
+  lowBattery: false,
+  nonStandardAudioFilesConversion: false,
+  osUpdates: false,
+  tethering: false,
+  tray: false,
   diagnosticSentTimestamp: 0,
   language: "en-US",
   onBackupCreate: noop,
-  pureNeverConnected: false,
-  pureOsBackupLocation: "",
-  pureOsDownloadLocation: "",
+  neverConnected: false,
+  osBackupLocation: "",
+  osDownloadLocation: "",
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

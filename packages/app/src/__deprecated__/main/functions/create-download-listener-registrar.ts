@@ -38,13 +38,13 @@ export const createDownloadChannels = (uniqueKey: string): DownloadChannel => {
 }
 
 const removeOldDownloadFiles = async (filename: string) => {
-  const { pureOsDownloadLocation } = await getAppSettingsMain()
-  fs.readdir(pureOsDownloadLocation, (error, files) => {
+  const { osDownloadLocation } = await getAppSettingsMain()
+  fs.readdir(osDownloadLocation, (error, files) => {
     if (error) {
       logger.error(error)
     }
     files.forEach((file) => {
-      const fileDir = path.join(pureOsDownloadLocation, file)
+      const fileDir = path.join(osDownloadLocation, file)
       if (file !== filename) {
         fs.unlinkSync(fileDir)
       }

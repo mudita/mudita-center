@@ -44,6 +44,7 @@ export class HarmonyDataLoader extends BaseLoader {
       memorySpace: {
         full: storageInfo.data!.capacity,
         free: storageInfo.data!.available,
+        total: storageInfo.data!.totalSpace,
       },
     }
   }
