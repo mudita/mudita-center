@@ -14,7 +14,10 @@ import {
   DataState,
   UpdatingState,
 } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
-import { ConversionFormat, Convert } from "App/__deprecated__/main/store/settings.interface"
+import {
+  ConversionFormat,
+  Convert,
+} from "App/__deprecated__/main/store/settings.interface"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
@@ -127,7 +130,40 @@ test("Renders Mudita pure data", () => {
   expect(getByTestId(SystemTestIds.OsVersion)).toHaveTextContent("1.0.0")
 })
 
-test("PureOverview shows Sync error modal if sync error occurred", () => {
-  const { getByTestId } = render({ syncState: SynchronizationState.Error })
-  expect(getByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
+describe("`ErrorSyncModal` logic", () => {
+  test("when sync error occurred and `restoreDeviceState` is undefined modal is visible", () => {
+    const { queryByTestId } = render({
+      restoreDeviceState: undefined,
+      syncState: SynchronizationState.Error,
+    })
+    expect(queryByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
+  })
+  test("when sync error occurred and `restoreDeviceState` has empty state is visible", () => {
+    const { queryByTestId } = render({
+      restoreDeviceState: RestoreDeviceDataState.Empty,
+      syncState: SynchronizationState.Error,
+    })
+    expect(queryByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
+  })
+  test("when sync error occurred and `restoreDeviceState` has error state isn't visible", () => {
+    const { queryByTestId } = render({
+      restoreDeviceState: RestoreDeviceDataState.Error,
+      syncState: SynchronizationState.Error,
+    })
+    expect(queryByTestId(ErrorSyncModalTestIds.Container)).not.toBeInTheDocument()
+  })
+  test("when sync error occurred and `restoreDeviceState` has running state isn't visible", () => {
+    const { queryByTestId } = render({
+      restoreDeviceState: RestoreDeviceDataState.Running,
+      syncState: SynchronizationState.Error,
+    })
+    expect(queryByTestId(ErrorSyncModalTestIds.Container)).not.toBeInTheDocument()
+  })
+  test("when sync error occurred and `restoreDeviceState` has finished state isn't visible", () => {
+    const { queryByTestId } = render({
+      restoreDeviceState: RestoreDeviceDataState.Finished,
+      syncState: SynchronizationState.Error,
+    })
+    expect(queryByTestId(ErrorSyncModalTestIds.Container)).not.toBeInTheDocument()
+  })
 })
