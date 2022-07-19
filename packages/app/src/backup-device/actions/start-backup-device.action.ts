@@ -22,7 +22,7 @@ export const startBackupDevice = createAsyncThunk<undefined, StartBackupOption>(
   BackupDeviceEvent.StartBackupDevice,
   async ({ secretKey }, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as RootState & ReduxRootState
-    const pureOsBackupDesktopFileDir = state.settings.pureOsBackupLocation
+    const pureOsBackupDesktopFileDir = state.settings.osBackupLocation
 
     if (
       pureOsBackupDesktopFileDir === undefined ||

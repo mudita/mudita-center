@@ -8,7 +8,7 @@ import axios, { AxiosInstance } from "axios"
 import logger from "App/__deprecated__/main/utils/logger"
 import { AnalyticDataTrackerClass } from "App/analytic-data-tracker/services/analytic-data-tracker-class.interface"
 import { AnalyticDataTrackerService } from "App/analytic-data-tracker/services/analytic-data-tracker.service"
-import { getAppSettingsService } from "App/app-settings/containers/app-settings.container"
+import { getSettingsService } from "App/settings/containers/settings.container"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { TrackerCacheService } from "App/analytic-data-tracker/services/tracker-cache.service"
 import { TrackEvent } from "App/analytic-data-tracker/types/track-event.interface"
@@ -48,16 +48,16 @@ export class AnalyticDataTrackerFactory {
       return new MatomoTrackerPlaceholder()
     }
 
-    const appSettingsService = getAppSettingsService()
+    const settingsService = getSettingsService()
 
-    if (appSettingsService === undefined) {
-      throw new Error("Initialize `AppSettingsService` before get it")
+    if (settingsService === undefined) {
+      throw new Error("Initialize `SettingsService` before get it")
     }
 
-    const appSettings = appSettingsService.getAppSettings()
+    const appSettings = settingsService.getSettings()
 
     const _id = appSettings.applicationId
-    const trackingEnabled = appSettings.appCollectingData
+    const trackingEnabled = appSettings.collectingData
 
     const axiosInstance: AxiosInstance = axios.create({
       httpsAgent: new https.Agent({

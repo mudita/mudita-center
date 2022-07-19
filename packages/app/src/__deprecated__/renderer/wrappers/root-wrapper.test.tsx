@@ -11,14 +11,16 @@ import thunk from "redux-thunk"
 import { deviceReducer } from "App/device"
 import { crashDumpReducer } from "App/crash-dump/reducers"
 import RootWrapper from "App/__deprecated__/renderer/wrappers/root-wrapper"
-import settings from "App/__deprecated__/renderer/models/settings/settings"
 import networkStatus from "App/__deprecated__/renderer/models/network-status/network-status"
 import history from "App/__deprecated__/renderer/routes/history"
-import { Store } from "App/__deprecated__/renderer/store"
+import { Store, ReduxRootState } from "App/__deprecated__/renderer/store"
 import { restoreDeviceReducer } from "App/restore-device/reducers/restore-device.reducer"
 import { modalsManagerReducer } from "App/modals-manager/reducers"
+import { settingsReducer } from "App/settings/reducers"
+import { checkUpdateAvailable } from "App/settings/actions/check-update-available.action"
 
-jest.mock("App/__deprecated__/renderer/register-hotkeys", jest.fn)
+jest.mock("App/settings/actions/check-update-available.action")
+jest.mock("App/__deprecated__/renderer/register-hotkeys")
 
 jest.mock("electron", () => ({
   remote: {
@@ -27,6 +29,7 @@ jest.mock("electron", () => ({
       append: jest.fn,
     }),
     MenuItem: () => jest.fn(),
+    getCurrentWindow: jest.fn(),
     app: {
       getPath: () => "",
     },
@@ -56,30 +59,32 @@ jest.mock("App/__deprecated__/renderer/requests/connect-device.request", () =>
   })
 )
 
-jest.mock("App/__deprecated__/renderer/requests/get-application-configuration.request", () =>
-  jest.fn().mockReturnValue({
-    centerVersion: "20.1.0",
-    osVersion: "76.0.1",
-  })
+jest.mock(
+  "App/__deprecated__/renderer/requests/get-application-configuration.request",
+  () =>
+    jest.fn().mockReturnValue({
+      centerVersion: "20.1.0",
+      osVersion: "76.0.1",
+    })
 )
 
-jest.mock("App/__deprecated__/renderer/requests/app-settings.request", () => ({
+jest.mock("App/settings/requests/get-settings.request.ts", () => ({
   getAppSettings: jest.fn().mockReturnValue({
-    appAutostart: false,
-    appTethering: false,
-    appIncomingCalls: false,
-    appIncomingMessages: false,
-    appLowBattery: false,
-    appOsUpdates: false,
-    appNonStandardAudioFilesConversion: false,
-    appConvert: "Convert automatically",
-    appConversionFormat: "WAV",
-    appTray: true,
-    pureOsBackupLocation: `fake/path/pure/phone/backups/`,
-    pureOsDownloadLocation: `fake/path/pure/os/downloads/`,
+    autostart: false,
+    tethering: false,
+    incomingCalls: false,
+    incomingMessages: false,
+    lowBattery: false,
+    osUpdates: false,
+    nonStandardAudioFilesConversion: false,
+    convert: "Convert automatically",
+    conversionFormat: "WAV",
+    tray: true,
+    osBackupLocation: `fake/path/pure/phone/backups/`,
+    osDownloadLocation: `fake/path/pure/os/downloads/`,
     language: "en-US",
-    pureNeverConnected: true,
-    appCollectingData: undefined,
+    neverConnected: true,
+    collectingData: undefined,
     diagnosticSentTimestamp: 0,
   }),
 }))
@@ -93,7 +98,7 @@ const defaultProps: Props = {
 }
 
 const store = init({
-  models: { settings, networkStatus },
+  models: { networkStatus },
   redux: {
     middlewares: [thunk],
     reducers: {
@@ -101,6 +106,7 @@ const store = init({
       restoreDevice: restoreDeviceReducer,
       crashDump: crashDumpReducer,
       modalsManager: modalsManagerReducer,
+      settings: settingsReducer,
     },
   },
 }) as Store
@@ -124,13 +130,11 @@ const render = (extraProps?: Partial<Props>) => {
 test("checkAppUpdateRequest isn't call when online is set to false ", async () => {
   const online = jest.spyOn(window.navigator, "onLine", "get")
   online.mockReturnValue(false)
-  jest.spyOn(store.dispatch.settings, "checkAppUpdateAvailable")
+
   render()
 
   await waitFor(() => {
-    expect(
-      store.dispatch.settings.checkAppUpdateAvailable
-    ).not.toHaveBeenCalled()
+    expect(checkUpdateAvailable).not.toHaveBeenCalled()
   })
 })
 
@@ -141,6 +145,8 @@ test("appUpdateAvailable is to false when online is set to false", async () => {
   const { store } = render()
 
   await waitFor(() => {
-    expect(store.getState().settings.appUpdateAvailable).toBeFalsy()
+    expect(
+      (store.getState() as unknown as ReduxRootState).settings.updateAvailable
+    ).toBeFalsy()
   })
 })

@@ -86,7 +86,7 @@ import {
 import { registerGetAllReleasesListener } from "App/__deprecated__/update/listeners/get-all-releases.listener"
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/__deprecated__/update/requests/register-os-update-already-downloaded-checker.request"
 import { registerGetLatestReleaseListener } from "App/__deprecated__/update/listeners/get-latest-release.listener"
-import { createAppSettingsService } from "App/app-settings/containers/app-settings.container"
+import { createSettingsService } from "App/settings/containers/settings.container"
 
 require("dotenv").config()
 
@@ -159,6 +159,10 @@ const createWindow = async () => {
     })
   )
 
+  win.on("closed", () => {
+    win = null
+  })
+
   new MetadataInitializer(metadataStore).init()
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
@@ -168,8 +172,8 @@ const createWindow = async () => {
   MuditaDeviceManager.registerLogger(new PureLogger())
   MuditaDeviceManager.toggleLogs(enabled)
 
-  const appSettingsService = createAppSettingsService()
-  appSettingsService.init()
+  const settingsService = createSettingsService()
+  settingsService.init()
   startBackend(MuditaDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerGetAllReleasesListener()
@@ -223,10 +227,6 @@ const createWindow = async () => {
     })
   }
 
-  win.on("closed", () => {
-    win = null
-  })
-
   logger.updateMetadata()
 }
 
@@ -252,6 +252,14 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
         title,
       })
     )
+
+    helpWindow.on("closed", () => {
+      removeDownloadHelpHandler()
+      removeSetHelpStoreHandler()
+      removeGetHelpStoreHandler()
+      helpWindow = null
+    })
+
     helpWindow.loadURL(
       !productionEnvironment
         ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
@@ -269,13 +277,6 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   } else {
     helpWindow.show()
   }
-
-  helpWindow.on("closed", () => {
-    removeDownloadHelpHandler()
-    removeSetHelpStoreHandler()
-    removeGetHelpStoreHandler()
-    helpWindow = null
-  })
 })
 
 const createOpenWindowListener = (
@@ -294,6 +295,11 @@ const createOpenWindowListener = (
           title,
         })
       )
+
+      newWindow.on("closed", () => {
+        newWindow = null
+      })
+
       await newWindow.loadURL(
         !productionEnvironment
           ? `http://localhost:2003/?mode=${mode}#${urlMain}`
@@ -312,10 +318,6 @@ const createOpenWindowListener = (
     } else {
       newWindow.show()
     }
-
-    newWindow.on("closed", () => {
-      newWindow = null
-    })
   })
 }
 
@@ -387,6 +389,11 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
         })
       )
 
+      googleAuthWindow.on("close", () => {
+        googleAuthWindow = null
+        killAuthServer()
+      })
+
       if (await checkPort(authServerPort)) {
         await createErrorWindow(googleAuthWindow)
         return
@@ -409,11 +416,6 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
     } else {
       googleAuthWindow.show()
     }
-
-    googleAuthWindow.on("close", () => {
-      googleAuthWindow = null
-      killAuthServer()
-    })
   } else {
     console.log("No Google Auth URL defined!")
   }

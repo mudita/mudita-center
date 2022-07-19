@@ -50,7 +50,7 @@ describe("async `startBackupDevice` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         settings: {
-          pureOsBackupLocation: "C:\\backups",
+          osBackupLocation: "C:\\backups",
         },
       })
       const {
@@ -80,7 +80,7 @@ describe("async `startBackupDevice` ", () => {
       })
       const mockStore = createMockStore([thunk])({
         settings: {
-          pureOsBackupLocation: "C:\\backups",
+          osBackupLocation: "C:\\backups",
         },
       })
       const {

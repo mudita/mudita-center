@@ -14,7 +14,7 @@ export const checkAppForcedUpdateFlowToShow = createAsyncThunk<void, undefined>(
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState & ReduxRootState
 
-    if (state.settings.settingsLoaded && state.settings.appUpdateRequired) {
+    if (state.settings.loaded && state.settings.updateRequired) {
       dispatch(showModal(ModalStateKey.AppForcedUpdateFlow))
     }
   }
