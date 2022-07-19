@@ -42,15 +42,15 @@ afterEach(() => {
 })
 
 describe("`SettingsController`", () => {
-  test("`getAppSettings` return AppSettings", () => {
+  test("`getSettings` return Settings", () => {
     expect(subject.getSettings()).toEqual(fakeSettings)
   })
-  test("`resetAppSettings` calls `resetAppSettings` method ", () => {
+  test("`resetSettings` calls `resetAppSettings` method ", () => {
     subject.resetSettings()
     expect(settingsService.resetSettings).toHaveBeenCalled()
   })
 
-  test("`updateAppSettings` calls `updateAppSettings` method ", () => {
+  test("`updateSettings` calls `settingsService.updateSettings` method ", () => {
     subject.updateSettings({
       key: "applicationId",
       value: "app-Nr8uiSV7KmWxX3WOFqZPF7uw",

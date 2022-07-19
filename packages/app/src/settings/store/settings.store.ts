@@ -5,16 +5,19 @@
 
 import Store from "electron-store"
 import { settingsSchema } from "App/settings/store/schemas"
+import project from "../../../package.json"
 import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 
 import { removeUnusedFields } from "App/settings/store/migrations"
 
 export const settingsStore = new Store({
   name: "settings",
+  // @ts-ignore
+  projectVersion: project.version,
   cwd: getAppPath(),
   schema: settingsSchema,
   clearInvalidConfig: process.env.NODE_ENV === "production",
   migrations: {
-    "1.4.1": removeUnusedFields,
+    ">=1.4.1": removeUnusedFields,
   },
 })

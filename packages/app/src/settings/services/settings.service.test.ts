@@ -84,12 +84,12 @@ describe("`SettingsService`", () => {
     expect(subject.getSettings()).toEqual(fakeSettings)
   })
 
-  test("`resetSettings` cals reset methods ", () => {
+  test("`resetSettings` calls reset methods ", () => {
     subject.resetSettings()
     expect(defaultStore.reset).toHaveBeenCalled()
   })
 
-  test("`updateSettings` cals set and get methods ", () => {
+  test("`updateSettings` calls set and get methods ", () => {
     subject.updateSettings({
       key: "applicationId",
       value: "app-Nr8uiSV7KmWxX3WOFqZPF7uw",
