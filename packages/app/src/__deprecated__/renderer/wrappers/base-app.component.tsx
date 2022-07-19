@@ -10,12 +10,17 @@ import { History } from "history"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import NetworkStatusChecker from "App/__deprecated__/renderer/components/core/network-status-checker/network-status-checker.container"
 import BaseRoutes from "App/__deprecated__/renderer/routes/base-routes"
-import { ReduxRootState, RootState, TmpDispatch } from "App/__deprecated__/renderer/store"
-import { URL_MAIN, URL_ONBOARDING, URL_OVERVIEW } from "App/__deprecated__/renderer/constants/urls"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import {
+  URL_MAIN,
+  URL_ONBOARDING,
+  URL_OVERVIEW,
+} from "App/__deprecated__/renderer/constants/urls"
 import useRouterListener from "App/__deprecated__/renderer/utils/hooks/use-router-listener/use-router-listener"
 import ModalsManager from "App/modals-manager/containers/modals-manager.container"
 import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
-import { getConnectedDevice } from "App/device"
+import { getConnectedDevice } from "App/device/actions"
+import { sendDiagnosticData } from "App/settings/actions"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { CrashDump } from "App/crash-dump"
 
@@ -95,15 +100,15 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
       state.device.status.connected && !state.device.status.unlocked,
     deviceParred:
       state.device.status.loaded && Boolean(state.device.status.unlocked),
-    settingsLoaded: state.settings.settingsLoaded,
+    settingsLoaded: state.settings.loaded,
     deviceConnected: state.device.status.connected,
     deviceUpdating: state.device.updatingState === UpdatingState.Updating,
   }
 }
 
-const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  getConnectedDevice: () => dispatch(getConnectedDevice()),
-  sendDiagnosticData: dispatch.settings.sendDiagnosticData,
-})
+const mapDispatchToProps = {
+  getConnectedDevice,
+  sendDiagnosticData,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)

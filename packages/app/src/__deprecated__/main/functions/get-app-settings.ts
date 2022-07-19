@@ -6,9 +6,9 @@
 import fs from "fs-extra"
 import { app } from "electron"
 import packageInfo from "../../../../package.json"
-import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
+import { Settings } from "App/settings/dto"
 
-const getAppSettingsMain = (): Promise<AppSettings> => {
+const getAppSettingsMain = (): Promise<Settings> => {
   return fs.readJSON(
     `${app.getPath("appData")}/${packageInfo.name}/settings.json`
   )

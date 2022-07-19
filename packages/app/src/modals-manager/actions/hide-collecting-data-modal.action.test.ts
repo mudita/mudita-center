@@ -9,7 +9,7 @@ import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
 import { hideCollectingDataModal } from "App/modals-manager/actions/hide-collecting-data-modal.action"
-import { initialState as settingsInitialState } from "App/__deprecated__/renderer/models/settings/settings"
+import { initialState as settingsInitialState } from "App/settings/reducers/settings.reducer"
 import { initialState as modalsManagerInitialState } from "App/modals-manager/reducers"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 

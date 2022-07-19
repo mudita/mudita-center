@@ -5,7 +5,7 @@
 
 import { ipcMain } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
-import settingsStore from "App/__deprecated__/main/store/settings"
+import { settingsStore } from "App/settings/store"
 import { normalizeHelpData } from "App/__deprecated__/renderer/utils/contentful/normalize-help-data"
 import { createClient } from "App/__deprecated__/api/mudita-center-server"
 import logger from "App/__deprecated__/main/utils/logger"

@@ -16,7 +16,7 @@ export const loadBackupData = createAsyncThunk(
   async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as RootState & ReduxRootState
 
-    const pureOsBackupDesktopLocation = state.settings.pureOsBackupLocation
+    const pureOsBackupDesktopLocation = state.settings.osBackupLocation
 
     if (
       pureOsBackupDesktopLocation === undefined ||

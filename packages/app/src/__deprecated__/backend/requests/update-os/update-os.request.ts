@@ -14,8 +14,8 @@ const handleUpdateOs = async (
   { purePhone }: Adapters,
   { fileName }: { fileName: string }
 ): Promise<RequestResponse> => {
-  const { pureOsDownloadLocation } = await getAppSettingsMain()
-  const filePath = path.join(pureOsDownloadLocation, fileName)
+  const { osDownloadLocation } = await getAppSettingsMain()
+  const filePath = path.join(osDownloadLocation, fileName)
 
   return purePhone.updateOs(filePath)
 }
