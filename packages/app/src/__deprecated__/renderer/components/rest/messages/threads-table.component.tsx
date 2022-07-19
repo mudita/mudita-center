@@ -19,6 +19,8 @@ import {
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 
+/* stylelint-disable property-no-vendor-prefix */
+/* stylelint-disable value-no-vendor-prefix */
 export const Name = styled(Text)`
   grid-area: Name;
   align-self: end;
