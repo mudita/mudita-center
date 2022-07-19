@@ -88,7 +88,7 @@ export const HorizontalLine = styled.div<{ position: number }>`
 
 export const Label = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.Label,
-  color: "disabled"
+  color: "disabled",
 }))<{ position?: number }>`
   bottom: ${({ position = 0 }) => position}%;
 `
@@ -155,7 +155,7 @@ export const Bar = styled.div<{
 }>`
   cursor: pointer;
   position: relative;
-  height: ${({ height }) => height + "%"};
+  height: ${({ height }) => `${height}%`};
   background-color: ${backgroundColor("chartBar")};
   border-radius: 0.5rem 0.5rem 0 0;
   transition: background-color ${transitionTime("quick")}

@@ -236,6 +236,8 @@ const ContactList: FunctionComponent<Props> = ({
         enableScroll()
       }
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editMode])
 
   return (

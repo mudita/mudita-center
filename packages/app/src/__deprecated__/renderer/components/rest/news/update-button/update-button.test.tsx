@@ -9,6 +9,8 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import UpdateButtonComponent from "App/__deprecated__/renderer/components/rest/news/update-button/update-button.component"
 import { fireEvent } from "@testing-library/react"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("calls function passed through props", async () => {
   const onUpdating = jest.fn()
 

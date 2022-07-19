@@ -26,6 +26,8 @@ const defaultProps: Props = {
   messageType: MessageType.INBOX,
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const renderer = (extraProps?: {}) => {
   const props: Props = {
     ...defaultProps,

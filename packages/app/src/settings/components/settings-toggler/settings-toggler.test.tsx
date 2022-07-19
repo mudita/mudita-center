@@ -10,6 +10,8 @@ import { SettingsToggler } from "App/settings/components/settings-toggler/settin
 import { fireEvent } from "@testing-library/dom"
 import { SettingsTogglerTestIds } from "App/settings/components/settings-toggler/settings-toggler-test-ids.enum"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("off button is active by default", async () => {
   const onToggle = jest.fn()
   const { queryAllByRole } = renderWithThemeAndIntl(
@@ -31,6 +33,8 @@ test("passed function is called with right argument", async () => {
   )
   const [, onButton] = queryAllByRole("button")
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await fireEvent.click(onButton)
   expect(onToggle).toBeCalledWith(true)
 })
@@ -41,6 +45,8 @@ test("informs about toggle", async () => {
     <SettingsToggler onToggle={onToggle} />
   )
   const [, onButton] = queryAllByRole("button")
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await fireEvent.click(onButton)
   expect(onToggle).toHaveBeenCalled()
 })

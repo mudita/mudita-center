@@ -73,6 +73,8 @@ const createMessage = ({ id }: Thread): Message => {
 
 const createThread = (): Thread => {
   const contact = createFakeContact()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const threadId = contact.primaryPhoneNumber!
   return {
     id: threadId,

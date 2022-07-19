@@ -98,6 +98,8 @@ const Menu: FunctionComponent<Properties> = ({
     .filter(({ visibleOn }) =>
       deviceType && visibleOn ? visibleOn.includes(deviceType) : true
     )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .map(({ connectedPhoneOnly, ...props }, indexMenu) => {
       return (
         <MenuGroup

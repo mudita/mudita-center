@@ -5,6 +5,8 @@
 
 import { FunctionComponent } from "react"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Element = FunctionComponent<any>
 
 const deprecated = (component: Element, message?: string): Element => {

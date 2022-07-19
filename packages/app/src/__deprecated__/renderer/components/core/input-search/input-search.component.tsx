@@ -78,6 +78,8 @@ const NoResultsItem = styled(ListItem)`
 `
 
 export type ListItemProps = {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onClick: (item: any) => void
   onMouseDown: (event: MouseEvent) => void
   onMouseEnter: (event: MouseEvent) => void
@@ -95,14 +97,26 @@ interface KeysType {
 
 interface InputSearchListProps {
   expanded: boolean
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onTransitionEnd: any
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   selectedItem?: any
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   disabledItems?: any[]
   searchString: string
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: any[]
   emptyItemValue?: ItemValue
   onEmptyItemValueClick: (event: MouseEvent) => void
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onItemClick: (item: any) => void
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderListItem?: RenderInputSelectListItem<any>
   activeItemIndex?: number
   handleMouseEnter?: (itemIndex: number) => void
@@ -144,12 +158,16 @@ const InputSearchList: FunctionComponent<InputSearchListProps> = ({
               event.preventDefault()
             }
           }
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           const onMouseEnter = () => handleMouseEnter(index)
           const active = activeItemIndex === index
           return (
             <Fragment key={key}>
               {renderListItem({
                 searchString,
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 item,
                 props: {
                   onClick,
@@ -172,12 +190,24 @@ const InputSearchList: FunctionComponent<InputSearchListProps> = ({
 }
 
 export interface InputSearchProps extends Partial<InputProps> {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   selectedItem?: any
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   items: any[]
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   disabledItems?: any[]
   emptyItemValue?: ItemValue
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderItemValue?: (item: any) => ItemValue
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderListItem?: RenderInputSelectListItem<any>
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSelect?: (item: any) => void
   listStyles?: FlattenSimpleInterpolation
   searchable?: boolean
@@ -197,6 +227,8 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   items,
   disabledItems,
   emptyItemValue = "",
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderItemValue = (item: any) => String(item),
   renderListItem,
   onSelect = noop,
@@ -209,6 +241,8 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   onFocus = noop,
   type = "text",
   searchResultRows = 8,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   active,
   onSearchEnterClick = noop,
   itemListDisabled = false,
@@ -220,6 +254,8 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
   const [activeItemIndex, setActiveItemIndex] = useState<number>(-1)
   const selectRef = useRef<HTMLInputElement>(null)
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const resetSelection = () => onSelect(null)
 
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
@@ -350,6 +386,8 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
       {!itemListDisabled &&
         (searchValue?.length || 0) >= minCharsToShowResults && (
           <InputSearchList
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             selectedItem={selectedItem}
             disabledItems={disabledItems}
             emptyItemValue={emptyItemValue}

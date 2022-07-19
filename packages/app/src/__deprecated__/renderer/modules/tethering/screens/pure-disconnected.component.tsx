@@ -62,6 +62,8 @@ const PureDisconnected: FunctionComponent = () => (
     <TetheringImageWrapper data-testid={TetheringTestIds.DisconnectedImage}>
       <Image
         width={"100%"}
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         src={NoTethering}
         alt={intl.formatMessage(tetheringMessages.notConnected)}
         title={intl.formatMessage(tetheringMessages.notConnected)}

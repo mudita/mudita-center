@@ -69,22 +69,48 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   changeSearchValue: ({ target }: ChangeEvent<HTMLInputElement>) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(changeSearchValue(target.value)),
   changeVisibilityFilter: (filter: VisibilityFilter) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(changeVisibilityFilter(filter)),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   deleteThreads: async (threadIds: string[]): Promise<string[] | undefined> =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(deleteThreads(threadIds)),
   toggleReadStatus: (threads: Thread[]) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(toggleThreadsReadStatus(threads)),
   markThreadsReadStatus: (threads: Thread[]) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(markThreadsReadStatus(threads)),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   addNewMessage: async (newMessage: NewMessage): Promise<void> =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(addNewMessage(newMessage)),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   deleteMessage: async (messageId: string): Promise<string> =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(deleteMessage(messageId)),
   removeLayoutNotification: (notificationId: string) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(removeNotification(notificationId)),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   resendMessage: (messageId: string) => dispatch(resendMessage(messageId)),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   updateMessage: (message: Message) => dispatch(updateMessage(message)),
 })
 

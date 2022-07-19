@@ -56,13 +56,19 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
       {flags.get(Feature.OrderTemplate) ? (
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable" type="COLUMN">
+            {/* AUTO DISABLED - fix me if you like :) */}
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {(provided: any) => (
               <Table
                 role="list"
                 hideColumns={templateFormOpen}
                 hideableColumnsIndexes={[3]}
                 mouseLock={templateFormOpen}
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 {...provided.droppableProps}
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
                 ref={provided.innerRef}
               >
                 {templates.length > 0 ? (
@@ -132,6 +138,8 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                     description={messages.emptyStateDescription}
                   />
                 )}
+                {/* AUTO DISABLED - fix me if you like :) */}
+                {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                 {provided.placeholder}
               </Table>
             )}

@@ -71,6 +71,8 @@ const overridePosition =
 
 const ElementWithTooltip: FunctionComponent<Props> = ({
   children,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   className,
   place = ElementWithTooltipPlace.BottomRight,
   Element,

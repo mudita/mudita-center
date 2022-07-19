@@ -141,6 +141,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
       .forEach((item) => {
         removeLayoutNotification(item.id)
       })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messageLayoutNotifications])
 
   useEffect(() => {
@@ -169,10 +171,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
       clearTimeout(firstTimeout)
       clearTimeout(secondTimeout)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded, error])
 
   useEffect(() => {
     handlePotentialThreadDeletion()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [threads])
 
   useEffect(() => {
@@ -197,15 +203,21 @@ const Messages: FunctionComponent<MessagesProps> = ({
     } else if (tmpActiveThread === undefined && thread === undefined) {
       setActiveThread(undefined)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeThread, threads])
 
   useEffect(() => {
     if (draftMessage) {
       if (content && content !== draftMessage.content) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         updateMessage({ ...draftMessage, content })
       }
 
       if (!content.length) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         deleteMessage(draftMessage.id)
         updateFieldState("draftDeleting", true)
         setDraftMessage(undefined)
@@ -213,10 +225,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
       }
     } else {
       if (debouncedContent) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         handleAddNewMessage(MessageType.DRAFT)
         updateFieldState("draftDeleting", false)
       }
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedContent])
 
   useEffect(() => {
@@ -229,6 +245,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
       setDraftMessage(tmpDraftMessage)
       setContent(tmpDraftMessage.content)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeThread, threads])
 
   const handlePotentialThreadDeletion = () => {
@@ -497,6 +515,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
   // Delete messages functionality
   const handleDeleteMessage = () => {
     assert(messageToDelete)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     deleteMessage(messageToDelete)
     setMessageToDelete(undefined)
 

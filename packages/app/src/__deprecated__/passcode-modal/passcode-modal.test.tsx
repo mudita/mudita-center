@@ -82,6 +82,8 @@ test("Passcode inputs are disabled when filled", () => {
   const { inputsList } = renderer()
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
   expect(inputsList()[0]).toBeDisabled()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(inputsList()[0]).toHaveStyleRule("background-color", "#f4f5f6")
 })
 
@@ -141,31 +143,45 @@ test("Modal should show phoneLocked info when phone have time block", () => {
 test("backspace key down event refresh previous input state to default", () => {
   const { inputsList } = renderer()
   expect(inputsList()[0]).toBeEnabled()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(inputsList()[0]).not.toHaveStyleRule("background-color", "#f4f5f6")
 
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
   expect(inputsList()[0]).toBeDisabled()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(inputsList()[0]).toHaveStyleRule("background-color", "#f4f5f6")
 
   fireEvent.keyDown(inputsList()[1] as Element, backspaceKeyEvent)
   expect(inputsList()[0]).toBeEnabled()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(inputsList()[0]).not.toHaveStyleRule("background-color", "#f4f5f6")
 })
 
 test("pass digit value in input that with the same value move cursor to the next input", () => {
   const { inputsList } = renderer()
   expect(inputsList()[0]).toBeEnabled()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(inputsList()[0]).not.toHaveStyleRule("background-color", "#f4f5f6")
 
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
   expect(inputsList()[0]).toBeDisabled()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(inputsList()[0]).toHaveStyleRule("background-color", "#f4f5f6")
 
   fireEvent.keyDown(inputsList()[1] as Element, backspaceKeyEvent)
   expect(inputsList()[0]).toBeEnabled()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(inputsList()[0]).not.toHaveStyleRule("background-color", "#f4f5f6")
 
   fireEvent.keyDown(inputsList()[0] as Element, digitKeyEvent)
   expect(inputsList()[0]).toBeDisabled()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(inputsList()[0]).toHaveStyleRule("background-color", "#f4f5f6")
 })

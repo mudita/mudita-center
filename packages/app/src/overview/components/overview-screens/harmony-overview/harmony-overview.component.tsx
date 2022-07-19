@@ -87,10 +87,16 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
 
   useEffect(() => {
     if (osVersion) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       initialCheck()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [osVersion])
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   const closeUpdatingForceModalFlow = async () => {
     setUpdateState(UpdatingState.Standby)
   }

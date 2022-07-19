@@ -105,6 +105,8 @@ const ContactPanel: FunctionComponent<Props> = ({
     const nameAvailable =
       selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
     const onDelete = async () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.openModal(
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true
@@ -113,8 +115,12 @@ const ContactPanel: FunctionComponent<Props> = ({
         deleteContacts(selectedContactsIds)
       )
       if (payload) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         modalService.openModal(<ErrorDataModal />, true)
       } else {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         modalService.closeModal()
       }
       resetRows()
@@ -132,6 +138,8 @@ const ContactPanel: FunctionComponent<Props> = ({
       onDelete,
       onClose: resetRows,
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modalService.openModal(<DeleteModal {...modalConfig} />)
   }
   return (

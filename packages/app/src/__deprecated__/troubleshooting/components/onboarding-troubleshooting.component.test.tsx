@@ -9,6 +9,8 @@ import { fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import OnboardingTroubleshooting from "App/__deprecated__/troubleshooting/components/onboarding-troubleshooting.component"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("troubleshooting retry button works properly", async () => {
   const onRetry = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
@@ -19,6 +21,8 @@ test("troubleshooting retry button works properly", async () => {
   expect(onRetry).toBeCalled()
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("troubleshooting contact button works properly", async () => {
   const onContact = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
@@ -29,6 +33,8 @@ test("troubleshooting contact button works properly", async () => {
   expect(onContact).toBeCalled()
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("troubleshooting more instructions button works properly", async () => {
   const { getByTestId } = renderWithThemeAndIntl(<OnboardingTroubleshooting />)
   fireEvent.click(getByTestId("more-instructions"))

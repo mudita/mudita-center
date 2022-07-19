@@ -35,6 +35,8 @@ export const LicenseUI: FunctionComponent = () => (
       Definitions:
     </WindowTitle>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       "Software" refers to the Mudita Center computer application available on
       computers, used primarily for managing the Mudita Pure and Mudita Harmony.
       As of the publication date of these Terms, the application can be
@@ -44,10 +46,14 @@ export const LicenseUI: FunctionComponent = () => (
       expanded.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       "Update" refers to any update to the Software, including the addition or
       changing of features or replacing the Software with a new application.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       "Mudita" refers to Mudita sp. z o.o. with its registered office in Warsaw
       (address: Jana Czeczota 6, 02- 607 Warsaw, Poland), entered into the
       Register of Entrepreneurs of the National Court Register under KRS number
@@ -55,6 +61,8 @@ export const LicenseUI: FunctionComponent = () => (
       21,100.00.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       "User" (also referred to as "you") refers to any person who has accepted
       the Terms of Use for the Mudita Center Software and installed the
       Software.

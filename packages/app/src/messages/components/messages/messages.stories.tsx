@@ -26,12 +26,14 @@ import { noop } from "App/__deprecated__/renderer/utils/noop"
 import React from "react"
 import { Router } from "react-router"
 
-const promiseAction =
-  (msg: string): ((...args: any[]) => Promise<any>) =>
-  (...args) => {
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const promiseAction = (msg: string): ((...args: any[]) => Promise<any>) => {
+  return (...args) => {
     action(msg)(...args)
     return Promise.resolve()
   }
+}
 
 const receivers: Receiver[] = [
   {

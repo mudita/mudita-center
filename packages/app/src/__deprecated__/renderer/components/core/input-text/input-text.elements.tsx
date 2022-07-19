@@ -469,6 +469,8 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
 
   useLayoutEffect(() => {
     calculateHeight()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, defaultValue, maxRows])
 
   const onChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -524,10 +526,14 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
 }
 
 export const InputPasscode: FunctionComponent<InputPasscodeProps> = ({
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   className,
   inputRef,
   error = false,
   onChange = noop,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   focusable = false,
   filled = false,
   ...rest

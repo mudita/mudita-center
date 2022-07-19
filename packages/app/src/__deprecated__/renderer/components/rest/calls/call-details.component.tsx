@@ -9,7 +9,9 @@ import { useHistory } from "react-router-dom"
 import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
 import Button from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
-import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, {
+  IconSize,
+} from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { CallsTableTestIds } from "App/__deprecated__/renderer/components/rest/calls/calls-table.enum"
 import {
   CallDescription,
@@ -63,6 +65,8 @@ interface ContactDetailsProps {
   onDeleteClick: (id: string) => void
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const CallDetails = ({
   calls,
   onClose,

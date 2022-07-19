@@ -138,6 +138,8 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
           } else {
             return React.cloneElement(child, {
               onClick: () => {
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
                 child.props.onClick()
                 closeDropdown()
               },

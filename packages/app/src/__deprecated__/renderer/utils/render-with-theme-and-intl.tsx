@@ -21,6 +21,8 @@ import ReactModal from "react-modal"
 ReactModal.setAppElement(document.createElement("div"))
 const testLocale = extractLanguageKeys(localeEn)
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function constructWrapper(ui: React.ReactElement) {
   return (
     <ThemeProvider theme={theme}>
@@ -49,6 +51,8 @@ export function renderWithThemeAndIntl<Q extends Queries>(
 ): RenderResult {
   return render(
     constructWrapper(ui),
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     options
   )

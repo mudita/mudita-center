@@ -18,8 +18,12 @@ export const Backup: FunctionComponent<BackupProps> = ({
   osBackupLocation,
 }) => {
   const openDialog = async () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const location = await useLocationPicker(osBackupLocation)
     if (location) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       await setOsBackupLocation(location)
     }
   }

@@ -25,11 +25,17 @@ export const DeviceImage: FunctionComponent<DeviceImageProps> = ({
     <>
       {deviceType === DeviceType.MuditaPure ? (
         caseColour === CaseColour.Gray ? (
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           <Image src={PureGrayImage} data-testid={DeviceTestIds.PureGray} />
         ) : (
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           <Image src={PureBlackImage} data-testid={DeviceTestIds.PureBlack} />
         )
       ) : (
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         <Image src={HarmonyImage} />
       )}
     </>

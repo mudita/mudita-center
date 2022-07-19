@@ -16,7 +16,11 @@ const defaultProps = {
   size: ModalSize.Medium,
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const renderer = (extraProps?: any) => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const props = {
     ...defaultProps,
     ...extraProps,
@@ -24,6 +28,8 @@ const renderer = (extraProps?: any) => {
   return renderWithThemeAndIntl(
     <Modal {...props}>
       <h1>lala</h1>
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
       {extraProps?.children}
     </Modal>
   )

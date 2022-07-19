@@ -507,10 +507,18 @@ storiesOf("Components|Core/Table/Basic", module)
 
 storiesOf("Components|Core/Table/Nested", module)
   .add("Default", () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const SingleRow = ({ data, ...rest }: any) => (
       <Row {...rest}>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
         <Col>{data.fileType}</Col>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
         <Col>{new Date(data.lastBackup).toLocaleString()}</Col>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
         <Col>{data.size}</Col>
       </Row>
     )
@@ -543,10 +551,18 @@ storiesOf("Components|Core/Table/Nested", module)
     )
   })
   .add("Without labels", () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const SingleRow = ({ data, ...rest }: any) => (
       <Row {...rest}>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
         <Col>{data.fileType}</Col>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
         <Col>{new Date(data.lastBackup).toLocaleString()}</Col>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
         <Col>{data.size}</Col>
       </Row>
     )
@@ -574,10 +590,18 @@ storiesOf("Components|Core/Table/Nested", module)
     )
   })
   .add("With columns hidden", () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const SingleRow = ({ data, ...rest }: any) => (
       <Row {...rest}>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
         <Col>{data.fileType}</Col>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
         <Col>{new Date(data.lastBackup).toLocaleString()}</Col>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
         <Col>{data.size}</Col>
       </Row>
     )
@@ -618,6 +642,8 @@ storiesOf("Components|Core/Table/Nested", module)
       noneRowsSelected,
     } = useTableSelect(nestedRows)
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const SingleRow = ({ data, ...rest }: any) => {
       const onChange = () => {
         toggleRow(data)
@@ -631,9 +657,15 @@ storiesOf("Components|Core/Table/Nested", module)
               indeterminate={indeterminate}
               onChange={onChange}
             />
+            {/* AUTO DISABLED - fix me if you like :) */}
+            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
             <div>{data.fileType}</div>
           </Col>
+          {/* AUTO DISABLED - fix me if you like :) */}
+          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
           <Col>{new Date(data.lastBackup).toLocaleString()}</Col>
+          {/* AUTO DISABLED - fix me if you like :) */}
+          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
           <Col>{data.size}</Col>
         </Row>
       )
@@ -683,11 +715,17 @@ storiesOf("Components|Core/Table/Grouped", module)
             <Labels>
               <Col>{group}</Col>
             </Labels>
+            {/* AUTO DISABLED - fix me if you like :) */}
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {labeledRows[group].map((row: any, index: number) => (
               <Row key={index}>
                 <Col>
+                  {/* AUTO DISABLED - fix me if you like :) */}
+                  {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                   {row.firstName} {row.lastName}
                 </Col>
+                {/* AUTO DISABLED - fix me if you like :) */}
+                {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                 <Col>{row.phoneNumber}</Col>
               </Row>
             ))}
@@ -704,11 +742,17 @@ storiesOf("Components|Core/Table/Grouped", module)
             <Labels>
               <Col>{group}</Col>
             </Labels>
+            {/* AUTO DISABLED - fix me if you like :) */}
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {labeledRows[group].map((row: any, index: number) => (
               <Row key={index}>
                 <Col>
+                  {/* AUTO DISABLED - fix me if you like :) */}
+                  {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                   {row.firstName} {row.lastName}
                 </Col>
+                {/* AUTO DISABLED - fix me if you like :) */}
+                {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                 <Col>{row.phoneNumber}</Col>
               </Row>
             ))}
@@ -729,8 +773,16 @@ storiesOf("Components|Core/Table/Grouped", module)
 
     const SidebarActions = () => (
       <>
-        <SidebarHeaderButton iconType={IconType.Upload} onClick={action("Export")} description={{ id: "Export" }} />
-        <SidebarHeaderButton iconType={IconType.Delete} onClick={action("Delete")} description={{ id: "Delete" }} />
+        <SidebarHeaderButton
+          iconType={IconType.Upload}
+          onClick={action("Export")}
+          description={{ id: "Export" }}
+        />
+        <SidebarHeaderButton
+          iconType={IconType.Delete}
+          onClick={action("Delete")}
+          description={{ id: "Delete" }}
+        />
       </>
     )
 
@@ -743,13 +795,19 @@ storiesOf("Components|Core/Table/Grouped", module)
                 <Labels>
                   <Col>{group}</Col>
                 </Labels>
+                {/* AUTO DISABLED - fix me if you like :) */}
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {labeledRows[group].map((row: any, index: number) => {
                   const onClick = () => openSidebar(row)
                   return (
                     <Row key={index} onClick={onClick}>
                       <Col>
+                        {/* AUTO DISABLED - fix me if you like :) */}
+                        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                         {row.firstName} {row.lastName}
                       </Col>
+                      {/* AUTO DISABLED - fix me if you like :) */}
+                      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                       <Col>{row.phoneNumber}</Col>
                     </Row>
                   )
@@ -781,6 +839,8 @@ storiesOf("Components|Core/Table/Grouped", module)
                 <Col />
                 <Col>{group}</Col>
               </Labels>
+              {/* AUTO DISABLED - fix me if you like :) */}
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               {labeledRows[group].map((row: any, index: number) => {
                 const { selected, indeterminate } = getRowStatus(row)
                 const onChange = () => toggleRow(row)
@@ -794,8 +854,12 @@ storiesOf("Components|Core/Table/Grouped", module)
                       />
                     </Col>
                     <Col>
+                      {/* AUTO DISABLED - fix me if you like :) */}
+                      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                       {row.firstName} {row.lastName}
                     </Col>
+                    {/* AUTO DISABLED - fix me if you like :) */}
+                    {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                     <Col>{row.phoneNumber}</Col>
                   </Row>
                 )

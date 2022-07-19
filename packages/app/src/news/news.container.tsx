@@ -20,6 +20,8 @@ const mapStateToProps = (state: RootState & ReduxRootState) => {
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   loadData: () => dispatch(loadNews()),
 })
 

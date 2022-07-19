@@ -11,7 +11,10 @@ import {
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { disabledSecondaryStyles } from "App/__deprecated__/renderer/components/core/button/button.styled.elements"
-import { borderRadius, zIndex } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import {
+  borderRadius,
+  zIndex,
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import { IconButtonWithPrimaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-primary-tooltip.component"
@@ -43,6 +46,8 @@ const buttonTogglerTransitionStyles = css`
     )};
 `
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const ButtonTogglerItem = styled(({ filled, active, ...props }) => (
   <ButtonComponent data-testid={ButtonTogglerTestIds.Item} {...props} />
 )).attrs<ButtonTogglerItemProps>(({ filled, active }) => {
@@ -58,6 +63,8 @@ export const ButtonTogglerItem = styled(({ filled, active, ...props }) => (
   pointer-events: all;
 
   ${({ active }) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     active &&
     css`
       z-index: 3;

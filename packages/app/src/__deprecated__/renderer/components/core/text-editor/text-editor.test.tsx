@@ -113,6 +113,8 @@ test("renders edit mode with saving changes properly", () => {
     },
   })
   expect(getByTestId("reject")).toBeDisabled()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(getByTestId("save")).toHaveStyleRule("pointer-events", "none")
   expect(getByTestId("save")).toHaveTextContent(
     intl.formatMessage(messages.savingButton)

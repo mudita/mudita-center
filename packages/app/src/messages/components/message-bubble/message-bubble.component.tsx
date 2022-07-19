@@ -51,8 +51,14 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
   const [clicked, setClicked] = useState<string>("")
   const open = () => setClicked(id)
   const close = () => setClicked("")
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const forward = () => forwardMessage(id)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const remove = () => removeMessage(id)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const resend = () => resendMessage(id)
   const isDropdownShouldVisible = (): boolean => {
     if (isMessageBeingDeleted) {

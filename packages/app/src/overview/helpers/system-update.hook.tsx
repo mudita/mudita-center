@@ -60,6 +60,8 @@ const onOsDownloadCancel = () => {
 
 type useSystemUpdateFlowOption = TrackOsVersionOptions
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const useSystemUpdateFlow = (
   options: useSystemUpdateFlowOption,
   onUpdate: (updateInfo: PhoneUpdate) => void,
@@ -123,25 +125,37 @@ const useSystemUpdateFlow = (
           })
         : [{ label: "No releases available" }],
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return () => unregisterItem()
   }, [devReleases])
 
   useEffect(() => {
     if (releaseToInstall?.devMode) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       ;(async () => {
         if (await osUpdateAlreadyDownloadedCheck(releaseToInstall.file)) {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           openDevModal(true)
         } else {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           openDevModal()
         }
       })()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [releaseToInstall])
 
   const openDevModal = async (install = false) => {
     const { date, version, prerelease } = releaseToInstall as Release
     const action = async () => {
       await modalService.closeModal()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       install ? updatePure(releaseToInstall) : downloadUpdate(releaseToInstall)
     }
 
@@ -182,10 +196,16 @@ const useSystemUpdateFlow = (
     const { version, date } = release
     const onDownload = () => {
       if (notEnoughBattery) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         openTooLowBatteryModal()
         return
       }
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       downloadUpdate(release)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       openDownloadingUpdateModal()
     }
 
@@ -216,6 +236,8 @@ const useSystemUpdateFlow = (
         const latestRelease = await getLatestReleaseRequest(currentDeviceType)
 
         if (!silent && latestRelease === undefined) {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           await openCheckingForUpdatesFailedModal(() => checkForUpdates())
           return
         }
@@ -241,17 +263,23 @@ const useSystemUpdateFlow = (
           }
 
           if (!silent) {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             openAvailableUpdateModal(latestRelease)
           }
         } else {
           onUpdate({ lastAvailableOsVersion: latestRelease?.version })
 
           if (!silent) {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             openNotAvailableUpdateModal()
           }
         }
       } catch (error) {
         if (!silent) {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           await openCheckingForUpdatesFailedModal(() => checkForUpdates())
         }
         logger.error(
@@ -319,6 +347,8 @@ const useSystemUpdateFlow = (
         ? releaseToInstall
         : releaseInstance
     if (notEnoughBattery) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       openTooLowBatteryModal()
       return
     }
@@ -331,15 +361,23 @@ const useSystemUpdateFlow = (
         })
       )
       if (release?.devMode) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         openDevModal(true)
       } else {
         onUpdate({ pureOsDownloaded: true })
         await openDownloadSucceededModal(release)
       }
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (error.status === DownloadStatus.Cancelled) {
         await openDownloadCanceledModal()
       } else {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         await openDownloadInterruptedModal(() => downloadUpdate(release))
       }
     }
@@ -358,18 +396,24 @@ const useSystemUpdateFlow = (
     }
 
     if (notEnoughBattery) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       openTooLowBatteryModal()
       return
     }
 
     const { file, version } = release
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     trackOsUpdate({
       ...options,
       fromOsVersion: osVersion,
       toOsVersion: version,
       state: TrackOsUpdateState.Start,
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modalService.openModal(<UpdatingSpinnerModal />, true)
 
     toggleDeviceUpdating(true)
@@ -378,6 +422,8 @@ const useSystemUpdateFlow = (
     const response = await updateOs(file.name)
 
     if (response.status !== RequestResponseStatus.Ok) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       logger.info(`updateOs: ${response.error?.message}`)
     }
     if (response.status === RequestResponseStatus.Ok) {
@@ -387,6 +433,8 @@ const useSystemUpdateFlow = (
     toggleDeviceUpdating(false)
 
     if (!releaseToInstall?.devMode) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       await onUpdate({
         pureOsFileUrl: "",
         pureOsDownloaded: false,
@@ -406,15 +454,23 @@ const useSystemUpdateFlow = (
     }
 
     if (isEqual(response, { status: RequestResponseStatus.Ok })) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       trackOsVersion({ ...options, osVersion: version })
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       trackOsUpdate({
         ...options,
         fromOsVersion: osVersion,
         toOsVersion: version,
         state: TrackOsUpdateState.Success,
       })
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.openModal(<UpdatingSuccessModal />, true)
     } else {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       trackOsUpdate({
         ...options,
         fromOsVersion: osVersion,
@@ -422,6 +478,8 @@ const useSystemUpdateFlow = (
         state: TrackOsUpdateState.Fail,
       })
       logger.error(
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         `Overview: updating pure fails. Message: ${response.error?.message}`
       )
       displayErrorModal()
@@ -432,12 +490,16 @@ const useSystemUpdateFlow = (
     action: () => void
   ): (() => void) => {
     return () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.closeModal()
       action()
     }
   }
 
   const displayErrorModal = () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modalService.openModal(
       <UpdatingFailureWithHelpModal
         onHelp={callActionAfterCloseModal(onHelp)}

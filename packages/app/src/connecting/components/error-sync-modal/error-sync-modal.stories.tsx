@@ -9,6 +9,8 @@ import Story from "App/__deprecated__/renderer/components/storybook/story.compon
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const ErrorSyncModalStory = () => {
   return (
     <Story transparentMode>

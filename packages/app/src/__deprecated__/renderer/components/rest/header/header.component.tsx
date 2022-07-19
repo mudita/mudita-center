@@ -26,6 +26,8 @@ const HeaderWrapper = styled.div`
 `
 
 interface HeaderProps {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   middleComponent?: any
   button?: ReactElement
 }

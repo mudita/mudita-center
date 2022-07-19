@@ -45,9 +45,15 @@ jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
 }))
 
 jest.mock("react-virtualized", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const ReactVirtualized = jest.requireActual("react-virtualized")
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
     ...ReactVirtualized,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     AutoSizer: ({ children }: any) => children({ height: 1000, width: 1000 }),
   }
 })
@@ -81,6 +87,8 @@ const secondThreadId = "2"
 
 const firstThread: Thread = {
   id: firstThreadId,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   phoneNumber: contact.primaryPhoneNumber!,
   unread: true,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
@@ -91,6 +99,8 @@ const firstThread: Thread = {
 
 const secondThread: Thread = {
   id: secondThreadId,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   phoneNumber: unknownContact.primaryPhoneNumber!,
   unread: false,
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
@@ -110,6 +120,8 @@ const incomingThread: Thread = {
 }
 
 const receiver: Receiver = {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   phoneNumber: contact.primaryPhoneNumber!,
   firstName: contact.firstName,
   lastName: contact.lastName,
@@ -417,6 +429,8 @@ describe("Messages component", () => {
       ...propsWithSingleThread,
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     test("length of thread list is increased by 1 (tmp thread)", async () => {
       const { queryByTestId } = renderer({
         ...renderProps,
@@ -637,6 +651,8 @@ describe("Messages component", () => {
       ...propsWithSingleThread,
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     test("`NewMessageForm` closes after clicking send button", async () => {
       const addNewMessage = jest.fn()
       const outcome = renderer({ ...renderProps, addNewMessage })

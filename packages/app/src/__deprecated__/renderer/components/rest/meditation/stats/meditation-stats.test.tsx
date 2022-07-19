@@ -60,6 +60,8 @@ describe("general meditation stats", () => {
   test("renders horizontal lines properly", () => {
     const { getHorizontalLines } = chart
     getHorizontalLines().forEach((line, index) => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect(line).toHaveStyleRule("bottom", `${index * 25}%`)
     })
   })
@@ -67,6 +69,8 @@ describe("general meditation stats", () => {
   test("renders horizontal labels properly", () => {
     const { getYLabels } = chart
     getYLabels().forEach((label, index) => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       expect(label).toHaveStyleRule("bottom", `${(index + 1) * 25}%`)
     })
   })

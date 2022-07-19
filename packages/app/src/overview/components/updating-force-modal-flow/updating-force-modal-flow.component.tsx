@@ -106,11 +106,15 @@ const UpdatingForceModalFlow: FunctionComponent<Props> = ({
       return
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await updateOs(latestRelease.file.name)
   }
 
   const handleUpdateOsFailed = (code?: number): void => {
     setUpdatingForceOpenState(UpdatingForceModalFlowState.Fail)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     logger.error(`Overview: force updating pure fails. Code: ${code}`)
   }
 

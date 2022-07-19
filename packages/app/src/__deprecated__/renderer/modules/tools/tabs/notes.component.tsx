@@ -10,7 +10,9 @@ import {
   DisplayStyle,
   Size as ButtonSize,
 } from "App/__deprecated__/renderer/components/core/button/button.config"
-import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, {
+  IconSize,
+} from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { Size as CheckboxSize } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import {
   Col,
@@ -145,6 +147,8 @@ const Notes: FunctionComponent<NotesProps> = ({
 
   const { rejectChanges, ...textEditorHook } = useTextEditor(activeRow)
   const {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     temporaryText: { length: textLength },
   } = textEditorHook
 
@@ -161,8 +165,12 @@ const Notes: FunctionComponent<NotesProps> = ({
     const onDelete = () => {
       onRemoveNotes(ids)
       resetRows()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.closeModal()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modalService.openModal(
       <DeleteModal
         title={title}
@@ -183,6 +191,8 @@ const Notes: FunctionComponent<NotesProps> = ({
 
   const tryToSave = () => {
     if (activeRow) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const content = textEditorHook.temporaryText
       const { id } = activeRow
 
@@ -276,6 +286,8 @@ const Notes: FunctionComponent<NotesProps> = ({
               {notes.map((note) => {
                 const { id, content, date } = note
                 const { selected } = getRowStatus(note)
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line react-hooks/rules-of-hooks
                 const { getTemporaryValue } = useTemporaryStorage<string>(
                   id,
                   content
@@ -374,9 +386,13 @@ const Notes: FunctionComponent<NotesProps> = ({
               onChangesReject={handleChangesReject}
               statsInfoError={textLength > maxCharacters}
               statsInfo={intl.formatMessage(messages.charactersNumber, {
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 currentCharacters: textLength,
                 maxCharacters,
               })}
+              // AUTO DISABLED - fix me if you like :)
+              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus={newNoteId === activeRow?.id}
               onChangesSave={tryToSave}
             />
