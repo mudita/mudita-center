@@ -138,28 +138,28 @@ describe("`ErrorSyncModal` logic", () => {
     })
     expect(queryByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
   })
-  test("when sync error occurred and `restoreDeviceState` has empty state is visible", () => {
+  test("when sync error occurred and `restoreDeviceState` has empty state modal is visible", () => {
     const { queryByTestId } = render({
       restoreDeviceState: RestoreDeviceDataState.Empty,
       syncState: SynchronizationState.Error,
     })
     expect(queryByTestId(ErrorSyncModalTestIds.Container)).toBeInTheDocument()
   })
-  test("when sync error occurred and `restoreDeviceState` has error state isn't visible", () => {
+  test("when sync error occurred and `restoreDeviceState` has error state modal isn't visible", () => {
     const { queryByTestId } = render({
       restoreDeviceState: RestoreDeviceDataState.Error,
       syncState: SynchronizationState.Error,
     })
     expect(queryByTestId(ErrorSyncModalTestIds.Container)).not.toBeInTheDocument()
   })
-  test("when sync error occurred and `restoreDeviceState` has running state isn't visible", () => {
+  test("when sync error occurred and `restoreDeviceState` has running state modal isn't visible", () => {
     const { queryByTestId } = render({
       restoreDeviceState: RestoreDeviceDataState.Running,
       syncState: SynchronizationState.Error,
     })
     expect(queryByTestId(ErrorSyncModalTestIds.Container)).not.toBeInTheDocument()
   })
-  test("when sync error occurred and `restoreDeviceState` has finished state isn't visible", () => {
+  test("when sync error occurred and `restoreDeviceState` has finished state modal isn't visible", () => {
     const { queryByTestId } = render({
       restoreDeviceState: RestoreDeviceDataState.Finished,
       syncState: SynchronizationState.Error,
