@@ -11,11 +11,11 @@ import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/mod
 import { ModalDialog } from "App/ui/components/modal-dialog"
 import Table, {
   Col,
-  Row,
   RowSize,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { TemplatesSelectModalTestIds } from "App/templates/components/templates-select-modal/templates-select-modal-test-ids.enum"
 import { TemplatesSelectModalProps } from "App/templates/components/templates-select-modal/templates-select-modal.interface"
+import { TemplateRow } from "App/templates/components/templates-select-modal/templates-select-modal.styled"
 
 const messages = defineMessages({
   title: { id: "module.templates.attachTemplateModalTitle" },
@@ -35,14 +35,14 @@ export const TemplatesSelectModal: FunctionComponent<
       <Table data-testid={TemplatesSelectModalTestIds.TemplatesList}>
         {templates.map((template) => {
           return (
-            <Row
+            <TemplateRow
               key={template.order}
               size={RowSize.Small}
               onClick={() => onSelect(template)}
               data-testid={TemplatesSelectModalTestIds.TemplatesRow}
             >
               <Col>{template.text}</Col>
-            </Row>
+            </TemplateRow>
           )
         })}
       </Table>
