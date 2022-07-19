@@ -22,6 +22,11 @@ import styled, { css } from "styled-components"
 export const Name = styled(Text)`
   grid-area: Name;
   align-self: end;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `
 
 export const NameWrapper = styled.div`
@@ -66,7 +71,7 @@ export const ActionsWrapper = styled.div`
 
 export const DataWrapper = styled.div`
   display: grid;
-  grid-template-columns: auto 5.6rem;
+  grid-template-columns: auto minmax(5.6rem, 1fr);
   grid-template-rows: 1fr 2.2rem;
   grid-template-areas: "Name Time" "Message Message";
 `
