@@ -191,7 +191,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     const thread = threads.find(isThreadNumberEqual(activeThread.phoneNumber))
 
     if (activeThread.id === thread?.id) {
-      return
+      setActiveThread(thread)
     } else if (thread) {
       openThreadDetails(thread)
     } else if (tmpActiveThread === undefined && thread === undefined) {
@@ -364,7 +364,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   const markAsUnread = (): void => {
-    if (!activeThread || !activeThread.unread) {
+    if (!activeThread || activeThread.unread) {
       return
     }
 
@@ -637,7 +637,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onAttachContactClick={openAttachContactModal}
             onContactClick={handleContactClick}
             onDeleteClick={handleDeleteTmpThreadClick}
-            onCheckClick={markAsUnread}
+            onMarkAsUnreadClick={markAsUnread}
             onClose={closeSidebars}
             onSendClick={handleSendClick}
             onContentChange={handleContentChange}
