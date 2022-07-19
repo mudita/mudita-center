@@ -245,6 +245,7 @@
     "moment": "^2.29.3",
     "moxios": "^0.4.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
+    "nodemon": "^2.0.19",
     "quoted-printable": "^1.0.1",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
