@@ -42,6 +42,8 @@ export const fakeAppSettings: Settings = {
 }
 
 const mockIpc = () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
     [HelpActions.DownloadContentfulData]: Promise.resolve({
       ...testSeed,
@@ -70,6 +72,8 @@ const renderer = () => {
 describe("Online scenario", () => {
   beforeEach(() => mockOnlineScenario())
   afterEach(() => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     ;(ipcRenderer as any).__rendererCalls = {}
   })
   test("return correct amount of data", async () => {

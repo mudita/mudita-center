@@ -12,6 +12,8 @@ export const passwordRegexp =
   /^(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
 
 export const primaryPhoneNumberValidator = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fields: Record<any, any>
 ): RegisterOptions => ({
   minLength: {
@@ -35,6 +37,8 @@ export const primaryPhoneNumberValidator = (
     }),
   },
   validate: (value): string | undefined => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (value.length > 0 && value === fields.secondaryPhoneNumber) {
       return intl.formatMessage({
         id: "component.formErrorNumberUnique",
@@ -46,6 +50,8 @@ export const primaryPhoneNumberValidator = (
 })
 
 export const secondaryPhoneNumberValidator = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fields: Record<any, any>
 ): RegisterOptions => ({
   minLength: {
@@ -69,6 +75,8 @@ export const secondaryPhoneNumberValidator = (
     }),
   },
   validate: (value): string | undefined => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (value.length > 0 && value === fields.primaryPhoneNumber) {
       return intl.formatMessage({
         id: "component.formErrorNumberUnique",

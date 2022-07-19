@@ -20,6 +20,8 @@ const messages = defineMessages({
   button: { id: "module.contacts.exportButton" },
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const registerContactsExportListener = () => {
   ipcMain.answerRenderer<Contact[], boolean>(
     IpcRequest.ExportContacts,

@@ -10,10 +10,14 @@ import registerUploadDeviceFileRequest from "App/device-file-system/listeners/up
 
 test("`UploadDeviceFileRequest` returns properly value", async () => {
   registerUploadDeviceFileRequest(getFakeAdapters())
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
   const [pendingResponse] = (ipcMain as any)._flush(
     IpcDeviceFileSystem.UploadDeviceFile,
     { data: new Uint8Array([1]), targetPath: "" }
   )
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const result = await pendingResponse
   expect(result).toMatchInlineSnapshot(`
     Object {

@@ -34,6 +34,8 @@ const contactEntities: (
 ]
 
 describe("`ContactPresenter`", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`findRecords` method return records by `contactId`", async () => {
     const presenter = new ContactPresenter()
     const records = presenter.findRecords(contactEntities, "1")
@@ -41,6 +43,8 @@ describe("`ContactPresenter`", () => {
     expect(records).toEqual([contactEntities[0]])
   })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeRecord` serialize record properly", async () => {
     const contactNameEntity: ContactNameEntity = {
       _id: "4",
@@ -67,6 +71,8 @@ describe("`ContactPresenter`", () => {
     expect(records).toEqual([contactNameEntity])
   })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` serialize record properly", async () => {
     const contactInput: ContactInput = {
       contacts: {

@@ -18,8 +18,12 @@ beforeEach(() => {
 
 test("reducer should update the state", () => {
   const state = store.getState()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(state.phoneUpdate.pureOsAvailable).toBeFalsy()
   store.dispatch.phoneUpdate.update({ pureOsAvailable: true })
   const updatedState = store.getState()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(updatedState.phoneUpdate.pureOsAvailable).toBeTruthy()
 })

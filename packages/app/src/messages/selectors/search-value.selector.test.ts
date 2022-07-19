@@ -10,6 +10,8 @@ import { searchValueSelector } from "App/messages/selectors/search-value.selecto
 describe("`searchValueSelector` selector", () => {
   test("when initial state is set selector returns value properly", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       messages: messagesReducer(initialState, {} as any),
     } as ReduxRootState
     expect(searchValueSelector(state)).toEqual(initialState.searchValue)

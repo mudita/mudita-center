@@ -7,6 +7,8 @@ import { MessagePresenter } from "App/data-sync/presenters"
 import { MessageInput } from "App/data-sync/types"
 
 describe("`MessagePresenter`", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` serialize record properly", async () => {
     const messageInput: MessageInput = {
       sms: {

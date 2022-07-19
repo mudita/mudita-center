@@ -55,6 +55,8 @@ describe("async `startBackupDevice` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         startBackupDevice(option) as unknown as AnyAction
       )
@@ -85,6 +87,8 @@ describe("async `startBackupDevice` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         startBackupDevice(option) as unknown as AnyAction
       )

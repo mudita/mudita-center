@@ -12,6 +12,8 @@ import { isThreadOpenedSelector } from "App/messages/selectors/is-thread-opened.
 describe("`isThreadOpenedSelector` selector", () => {
   test("when initial state is set selector returns false value", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       messages: messagesReducer(initialState, {} as any),
     } as ReduxRootState
     expect(isThreadOpenedSelector("500500500")(state)).toBeFalsy()
@@ -36,6 +38,8 @@ describe("`isThreadOpenedSelector` selector", () => {
             [thread.id]: thread,
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
     } as ReduxRootState
@@ -61,6 +65,8 @@ describe("`isThreadOpenedSelector` selector", () => {
             [thread.id]: thread,
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
     } as ReduxRootState

@@ -6,7 +6,10 @@
 import "reflect-metadata"
 import Adapters from "App/__deprecated__/backend/adapters/adapters.interface"
 import { ipcMain } from "electron-better-ipc"
-import { backendAdaptersChannel, EndpointRemover } from "App/__deprecated__/backend/backend.types"
+import {
+  backendAdaptersChannel,
+  EndpointRemover,
+} from "App/__deprecated__/backend/backend.types"
 
 class Backend {
   private usingFakeAdapters = false
@@ -38,6 +41,8 @@ class Backend {
     this.registerEndpoints()
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public init() {
     ipcMain.answerRenderer<boolean>(backendAdaptersChannel, () => {
       this.toggleAdapters()

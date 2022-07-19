@@ -12,6 +12,8 @@ import { threadsSelector } from "App/messages/selectors/threads.selector"
 describe("`threadsSelector` selector", () => {
   test("when initial state is set selector returns value properly", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       messages: messagesReducer(initialState, {} as any),
     } as ReduxRootState
     expect(threadsSelector(state)).toEqual([])
@@ -36,6 +38,8 @@ describe("`threadsSelector` selector", () => {
             [thread.id]: thread,
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
     } as ReduxRootState

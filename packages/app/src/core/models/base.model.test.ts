@@ -135,6 +135,8 @@ describe("Index: exists", () => {
       const afterCreate = jest.fn()
 
       expect(afterCreate).toBeCalledTimes(0)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(fakeEventEmitter.emit).toBeCalledTimes(0)
 
       jest.spyOn(subject, "afterCreate").mockImplementationOnce(afterCreate)
@@ -144,6 +146,8 @@ describe("Index: exists", () => {
         text: "Test #2",
       })
       expect(afterCreate).toBeCalledTimes(1)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(fakeEventEmitter.emit).toBeCalledTimes(0)
     })
   })
@@ -194,6 +198,8 @@ describe("Index: exists", () => {
       const afterUpdate = jest.fn()
 
       expect(afterUpdate).toBeCalledTimes(0)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(fakeEventEmitter.emit).toBeCalledTimes(0)
 
       jest.spyOn(subject, "afterUpdate").mockImplementationOnce(afterUpdate)
@@ -203,6 +209,8 @@ describe("Index: exists", () => {
         text: "Updated #2",
       })
       expect(afterUpdate).toBeCalledTimes(1)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(fakeEventEmitter.emit).toBeCalledTimes(0)
     })
   })
@@ -248,6 +256,8 @@ describe("Index: exists", () => {
       const afterDelete = jest.fn()
 
       expect(afterDelete).toBeCalledTimes(0)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(fakeEventEmitter.emit).toBeCalledTimes(0)
 
       jest.spyOn(subject, "afterDelete").mockImplementationOnce(afterDelete)
@@ -256,6 +266,8 @@ describe("Index: exists", () => {
 
       expect(subject.all()).toEqual([])
       expect(afterDelete).toBeCalledTimes(1)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(fakeEventEmitter.emit).toBeCalledTimes(0)
     })
   })

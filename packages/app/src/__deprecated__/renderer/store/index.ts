@@ -54,6 +54,8 @@ export type Store = typeof store
 export type Dispatch = RematchDispatch<RootModel>
 
 // TODO replace `TmpDispatch` with legit `Dispatch`
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type TmpDispatch = any
 
 export type ReduxRootState = ReturnType<typeof combinedReducers>

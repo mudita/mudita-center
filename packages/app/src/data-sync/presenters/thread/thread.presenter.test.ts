@@ -42,6 +42,8 @@ const threadInput: ThreadInput = {
 }
 
 describe("Draft messages", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` returns `messageSnippet` with `Draft` suffix", async () => {
     const presenter = new ThreadPresenter()
     const threadObjects = presenter.serializeToObject(threadInput)
@@ -61,6 +63,8 @@ describe("Draft messages", () => {
 })
 
 describe("Other types of messages", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` returns `messageSnippet` without `Draft` suffix", async () => {
     const presenter = new ThreadPresenter()
     const threadObjects = presenter.serializeToObject({
@@ -90,6 +94,8 @@ describe("Other types of messages", () => {
 })
 
 describe("Thread without messages", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` returns empty `messageSnippet`", async () => {
     const presenter = new ThreadPresenter()
     const threadObjects = presenter.serializeToObject({

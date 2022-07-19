@@ -11,6 +11,8 @@ export interface UseTemporaryStorageHook<T> {
   removeTemporaryValue: () => void
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useTemporaryStorage = <T = any>(
   id: string | number,
   originalValue?: T
@@ -31,6 +33,8 @@ export const useTemporaryStorage = <T = any>(
   const get = () => {
     try {
       const item = storage.getItem(key)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return item ? JSON.parse(item) : originalValue
     } catch (error) {
       logger.error(

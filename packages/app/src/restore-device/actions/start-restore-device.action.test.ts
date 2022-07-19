@@ -81,6 +81,8 @@ describe("async `startRestoreDevice` ", () => {
       const mockStore = createMockStore([thunk])(mockStoreState)
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         startRestoreDevice(option) as unknown as AnyAction
       )
@@ -113,6 +115,8 @@ describe("async `startRestoreDevice` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         startRestoreDevice(option) as unknown as AnyAction
       )
@@ -140,6 +144,8 @@ describe("async `startRestoreDevice` ", () => {
       const mockStore = createMockStore([thunk])(mockStoreState)
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         startRestoreDevice(option) as unknown as AnyAction
       )
@@ -168,6 +174,8 @@ describe("async `startRestoreDevice` ", () => {
       const mockStore = createMockStore([thunk])(mockStoreState)
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         startRestoreDevice(option) as unknown as AnyAction
       )
@@ -197,6 +205,8 @@ describe("async `startRestoreDevice` ", () => {
       const mockStore = createMockStore([thunk])(mockStoreState)
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         startRestoreDevice(option) as unknown as AnyAction
       )
@@ -229,6 +239,8 @@ describe("async `startRestoreDevice` ", () => {
       const mockStore = createMockStore([thunk])(mockStoreState)
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         startRestoreDevice(option) as unknown as AnyAction
       )
@@ -264,6 +276,8 @@ describe("async `startRestoreDevice` ", () => {
       const mockStore = createMockStore([thunk])(mockStoreState)
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         startRestoreDevice(option) as unknown as AnyAction
       )

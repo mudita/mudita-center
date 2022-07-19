@@ -12,6 +12,8 @@ import { AppendIv } from "App/file-system/helpers/append-iv"
 import CryptoFileService from "App/file-system/services/crypto-file-service/crypto-file-service"
 
 export class FileSystemService {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async createDirectory(
     filePath: string,
     recursive = true
@@ -21,6 +23,8 @@ export class FileSystemService {
     })
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async appendFile(
     filePath: PathOrFileDescriptor,
     data: string | Uint8Array,
@@ -29,10 +33,14 @@ export class FileSystemService {
     return fs.appendFileSync(filePath, data, options)
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async exists(filePath: string): Promise<boolean> {
     return fs.existsSync(filePath)
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async writeFile(
     filePath: string,
     data: string | Buffer | Uint8Array
@@ -40,6 +48,8 @@ export class FileSystemService {
     return fs.writeFileSync(filePath, data)
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async readFile(filePath: string): Promise<Buffer | Uint8Array> {
     return fs.readFileSync(filePath)
   }

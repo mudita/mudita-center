@@ -16,7 +16,10 @@ import axios from "axios"
 import { baseGraphUrl } from "App/__deprecated__/renderer/models/external-providers/outlook/outlook.constants"
 import { ContactBuilder } from "App/__deprecated__/renderer/models/external-providers/outlook/contact-builder"
 import { Provider } from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
-import { Calendar, CalendarEvent } from "App/__deprecated__/calendar/store/calendar.interfaces"
+import {
+  Calendar,
+  CalendarEvent,
+} from "App/__deprecated__/calendar/store/calendar.interfaces"
 import { ByWeekday, Frequency, RRule } from "rrule"
 import { WeekdayStr } from "rrule/dist/esm/src/weekday"
 import moment from "moment"
@@ -52,12 +55,18 @@ export const mapContact = (contact: OutlookContactResourceItem): Contact => {
     .build()
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const fetchContacts = async (accessToken: string) => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { data } = await axios.get(`${baseGraphUrl}/me/contacts`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   return data.value.map(mapContact)
 }
 
@@ -73,10 +82,14 @@ export const mapCalendars = (calendars: OutlookCalendar[]): Calendar[] => {
 export const fetchCalendars = async (
   accessToken: string
 ): Promise<Calendar[]> => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { data } = await axios.get(`${baseGraphUrl}/me/calendars`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   return mapCalendars(data.value)
 }
 
@@ -185,6 +198,8 @@ export const fetchEvents = async (
   id: string
 ): Promise<CalendarEvent[]> => {
   try {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { data } = await axios.get(
       `${baseGraphUrl}/me/calendars/${id}/calendarView?startDateTime=${moment()
         .startOf("day")
@@ -195,14 +210,24 @@ export const fetchEvents = async (
       { headers: { Authorization: `Bearer ${accessToken}` } }
     )
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     let nextPage: string = data["@odata.nextLink"]
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     let events: OutlookEvent[] = data.value
 
     while (nextPage) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { data } = await axios.get(nextPage, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       events = [...events, ...data.value]
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       nextPage = data["@odata.nextLink"]
     }
 

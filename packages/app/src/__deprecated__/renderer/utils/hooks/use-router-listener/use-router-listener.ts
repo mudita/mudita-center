@@ -5,7 +5,11 @@
 
 import { History } from "history"
 import { useEffect } from "react"
-import { URL_MAIN, URL_OVERVIEW, URL_TABS } from "App/__deprecated__/renderer/constants/urls"
+import {
+  URL_MAIN,
+  URL_OVERVIEW,
+  URL_TABS,
+} from "App/__deprecated__/renderer/constants/urls"
 import { useHistory } from "react-router-dom"
 
 type MainRoutesKeys = keyof typeof URL_MAIN
@@ -19,6 +23,8 @@ type Values =
   | (MainRoutesValues & NestedRoutesValues)
   | OverViewRoutesValues
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 type Actions = { [key in Values]?: Array<Function> }
 
 const isPathnameCorrect = (
@@ -26,7 +32,11 @@ const isPathnameCorrect = (
   pathname: string
 ): pathname is MainRoutesValues => Object.keys(actions).includes(pathname)
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const useRouterListener = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   history: Pick<History, "listen"> = useHistory(),
   actions: Actions
 ) => {
@@ -38,6 +48,8 @@ const useRouterListener = (
         }
       }
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history])
 }
 

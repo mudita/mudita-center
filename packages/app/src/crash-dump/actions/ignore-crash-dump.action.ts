@@ -22,6 +22,8 @@ export const ignoreCrashDump = createAsyncThunk<void>(
       await ignoreCrashDumpRequest(file)
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await dispatch(resetCrashDump())
   }
 )

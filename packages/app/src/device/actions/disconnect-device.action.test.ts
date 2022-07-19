@@ -36,6 +36,8 @@ describe("Disconnect Device request returns `success` status", () => {
     })
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(disconnectDevice() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -62,6 +64,8 @@ describe("Disconnect Device request returns `error` status", () => {
     )
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(disconnectDevice() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([

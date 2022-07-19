@@ -75,6 +75,8 @@ describe("`TrackerCacheService`", () => {
       expect(
         await subject.saveEvent({ e_c: "Category 2", e_a: "Action" })
       ).toBeUndefined()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(fileSystem.writeFile).toHaveBeenCalledWith(
         "track-cache.json",
         '{"Category 2":{"e_c":"Category 2","e_a":"Action"}}'
@@ -90,6 +92,8 @@ describe("`TrackerCacheService`", () => {
 
       const subject = new TrackerCacheService(fileSystem)
       expect(await subject.saveEvent({ e_a: "Action" })).toBeUndefined()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(fileSystem.writeFile).not.toHaveBeenCalled()
     })
 
@@ -110,6 +114,8 @@ describe("`TrackerCacheService`", () => {
       expect(
         await subject.saveEvent({ e_c: "Category 2", e_a: "Action Replaced" })
       ).toBeUndefined()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(fileSystem.writeFile).toHaveBeenCalledWith(
         "track-cache.json",
         '{"Category 1":{"e_c":"Category 1","e_a":"Action"},"Category 2":{"e_c":"Category 2","e_a":"Action Replaced"}}'

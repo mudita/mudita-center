@@ -24,7 +24,7 @@ jest.mock("electron", () => ({
 }))
 
 jest.mock(
- "App/__deprecated__/renderer/store",
+  "App/__deprecated__/renderer/store",
   jest.fn().mockReturnValueOnce({
     getState: () => storeMock.getState(),
   })
@@ -35,15 +35,23 @@ test("calls ContextMenu registerItems method with proper attributes", () => {
   registerAppContextMenu(appContextMenu)
 
   expect(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (ContextMenu as jest.Mock).mock.instances[0].registerItems.mock.calls[0][0]
   ).toEqual("Device")
   expect(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (ContextMenu as jest.Mock).mock.instances[0].registerItems.mock.calls[1][0]
   ).toEqual("Messages")
   expect(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (ContextMenu as jest.Mock).mock.instances[0].registerItems.mock.calls[2][0]
   ).toEqual("Contacts")
   expect(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (ContextMenu as jest.Mock).mock.instances[0].registerItems.mock.calls[3][0]
   ).toEqual("Calendar")
 })

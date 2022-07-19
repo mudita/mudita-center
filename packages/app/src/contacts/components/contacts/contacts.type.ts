@@ -38,12 +38,18 @@ export type PhoneProps = ContactActions &
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
     speedDialChosenList: number[]
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setProviderData: (provider: AuthProviders, data: any) => void
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onManageButtonClick: (cb?: any) => Promise<void>
     isThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
     authorize: (
       provider: ExternalProvider
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) => Promise<PayloadAction<Error | any>>
     addNewContact: (
       contact: NewContact

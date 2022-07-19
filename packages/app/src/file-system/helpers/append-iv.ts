@@ -15,6 +15,8 @@ export class AppendIv extends Transform {
     this.iv = iv
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
   _transform(chunk: any, _: BufferEncoding, callback: TransformCallback): void {
     if (!this.appended) {
       this.push(this.iv)

@@ -11,6 +11,8 @@ import { createClient } from "App/__deprecated__/api/mudita-center-server"
 import logger from "App/__deprecated__/main/utils/logger"
 import { HelpQuery } from "App/__deprecated__/api/mudita-center-server/client.interface"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const registerDownloadHelpHandler = () => {
   const locale = settingsStore.get("language")
 
@@ -32,5 +34,7 @@ export const registerDownloadHelpHandler = () => {
   })
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const removeDownloadHelpHandler = () =>
   ipcMain.removeHandler(HelpActions.DownloadContentfulData)

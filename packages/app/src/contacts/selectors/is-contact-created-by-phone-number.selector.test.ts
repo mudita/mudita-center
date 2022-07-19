@@ -10,9 +10,13 @@ import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is
 describe("`isContactCreatedByPhoneNumberSelector` selector", () => {
   test("when initial state is set selector returns undefined", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       contacts: contactsReducer(initialState, {} as any),
     } as ReduxRootState
-    expect(isContactCreatedByPhoneNumberSelector("+71195069214")(state)).toBeFalsy()
+    expect(
+      isContactCreatedByPhoneNumberSelector("+71195069214")(state)
+    ).toBeFalsy()
   })
 
   test("when contacts are loaded selector returns properly contact", () => {
@@ -39,9 +43,13 @@ describe("`isContactCreatedByPhoneNumberSelector` selector", () => {
             [contact.id]: contact,
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
     } as ReduxRootState
-    expect(isContactCreatedByPhoneNumberSelector("+71195069214")(state)).toBeTruthy()
+    expect(
+      isContactCreatedByPhoneNumberSelector("+71195069214")(state)
+    ).toBeTruthy()
   })
 })

@@ -19,6 +19,8 @@ export class ContactsHashTable extends HashTable<Contact> {
     return Object.keys(this.table).length
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public map(callback: (key: string, value: Contact[]) => any): any {
     const results = []
     const keys = Object.keys(this.table).sort((first, second) => {
@@ -38,6 +40,8 @@ export class ContactsHashTable extends HashTable<Contact> {
       results.push(callback(key, this.table[key]))
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return results
   }
 

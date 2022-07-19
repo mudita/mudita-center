@@ -117,6 +117,8 @@ const createDownloadListenerRegistrar =
               totalBytes: item.getTotalBytes(),
             }
 
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             removeOldDownloadFiles(fileName)
 
             resolve(finished)

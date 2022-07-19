@@ -47,6 +47,8 @@ describe("async `loadBackupData` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(loadBackupData() as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([
@@ -76,6 +78,8 @@ describe("async `loadBackupData` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(loadBackupData() as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([
@@ -101,6 +105,8 @@ describe("async `loadBackupData` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(loadBackupData() as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([

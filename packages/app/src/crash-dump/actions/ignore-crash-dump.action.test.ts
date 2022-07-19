@@ -27,6 +27,8 @@ describe("Crash dumps doesn't exists", () => {
   test("fire `ignoreCrashDump` action doesn't call `ignoreCrashDumpRequest`", async () => {
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(ignoreCrashDump() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -54,6 +56,8 @@ describe("Crash dumps list isn't empty", () => {
   test("fire `ignoreCrashDump` action calls `ignoreCrashDumpRequest`, and dispatch `resetCrashDump`", async () => {
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(ignoreCrashDump() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([

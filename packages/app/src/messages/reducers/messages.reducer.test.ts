@@ -24,6 +24,8 @@ import {
 import { DeleteMessageAction } from "."
 
 test("empty event returns initial state", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   expect(messagesReducer(undefined, {} as any)).toEqual(initialState)
 })
 

@@ -8,6 +8,8 @@ import logger from "App/__deprecated__/main/utils/logger"
 import { flags, Feature } from "App/feature-flags"
 
 export interface ScrubProps {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body?: any
   endpoint: number
   status: number
@@ -46,12 +48,16 @@ class PureLogger implements ConsoleLogger {
       if (
         messageParsed[0].body &&
         messageParsed[0].endpoint === 3 &&
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         Boolean(messageParsed[0].body?.data)
       ) {
         return JSON.stringify(
           [
             {
               ...messageParsed[0],
+              // AUTO DISABLED - fix me if you like :)
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
               body: { ...messageParsed[0].body, data: "scrubbed" },
             },
           ],

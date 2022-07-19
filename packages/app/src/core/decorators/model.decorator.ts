@@ -5,7 +5,11 @@
 
 import { ReflectKey } from "App/core/constants"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Model = (name = ""): any => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (target: any) => {
     Reflect.defineMetadata(ReflectKey.Model, name, target)
 

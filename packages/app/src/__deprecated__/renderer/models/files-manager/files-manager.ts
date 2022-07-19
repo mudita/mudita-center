@@ -17,6 +17,8 @@ const filesManager = createModel<RootModel>({
   selectors: (slice: Slicer<typeof initialState>) => ({
     memoryChartData() {
       return slice((state) => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
         return state.memoryData
       })
     },

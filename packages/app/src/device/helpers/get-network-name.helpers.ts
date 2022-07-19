@@ -5,6 +5,8 @@
 
 import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getActiveNetworkFromSim = (simCards: SimCard[] = []) => {
   const activeSimCard = simCards.filter((simCard) => simCard.active)
   if (activeSimCard.length === 0) {

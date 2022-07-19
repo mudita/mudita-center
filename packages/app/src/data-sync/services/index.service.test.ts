@@ -9,6 +9,8 @@ import { DataIndex } from "App/data-sync/constants"
 import { InitializeOptions } from "App/data-sync/types"
 
 const dataSyncService: DataSyncClass = {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   indexesMap: new Map(),
   indexAll: jest.fn(),
   initialize: jest.fn(),
@@ -35,6 +37,8 @@ describe("`IndexService`", () => {
 
   test("`getIndex` return undefined if index isn't exist", async () => {
     const indexService = new IndexService(dataSyncService)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     const contactIndex = await indexService.getIndex(DataIndex.Contact)
 
     expect(contactIndex).toBeUndefined()

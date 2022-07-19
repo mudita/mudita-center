@@ -28,6 +28,8 @@ const registerGetFileDataListener = (): void => {
   ipcMain.answerRenderer<
     GetFileDataProps,
     Promise<RequestResponse<FileData[]>>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
   >(GetFileDataEvents.Get, async ({ filePath }) => {
     try {
       if (!fs.existsSync(filePath)) {

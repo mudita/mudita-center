@@ -20,6 +20,8 @@ import {
 import { EntryHandler } from "App/outbox/services/entry-handler.type"
 
 export type EntryHandlersMapType = Record<OutboxEntryType, EntryHandler>
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type EntryChangesEvent = { entry: OutboxEntry; payload: any }
 
 export class OutboxService {
@@ -43,6 +45,8 @@ export class OutboxService {
     }
 
     for (const entry of entries) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       const handle = this.entryHandlersMap[entry.type].handleEntry ?? asyncNoop
       const payload = await handle(entry)
       changes.push({ entry, payload })

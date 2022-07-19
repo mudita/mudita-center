@@ -62,6 +62,8 @@ describe("`deleteThreads`", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         deleteThreads([message.threadId]) as unknown as AnyAction
       )
@@ -87,6 +89,8 @@ describe("`deleteThreads`", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         deleteThreads([message.threadId]) as unknown as AnyAction
       )
@@ -111,6 +115,8 @@ describe("`deleteThreads`", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         deleteThreads([message.threadId]) as unknown as AnyAction
       )

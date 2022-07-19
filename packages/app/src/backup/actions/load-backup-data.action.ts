@@ -40,6 +40,8 @@ export const loadBackupData = createAsyncThunk(
       )
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     dispatch(setBackupData(response.data!))
 
     return

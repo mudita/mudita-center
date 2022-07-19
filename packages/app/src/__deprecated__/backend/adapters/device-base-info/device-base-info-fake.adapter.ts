@@ -17,6 +17,8 @@ class DeviceBaseInfo extends DeviceBaseInfoAdapter {
     super()
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async getDeviceInfo(): Promise<RequestResponse<DeviceInfo>> {
     return {
       status: RequestResponseStatus.Ok,

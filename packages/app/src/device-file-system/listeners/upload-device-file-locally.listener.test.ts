@@ -10,7 +10,13 @@ import registerUploadDeviceFileLocallyRequest from "App/device-file-system/liste
 
 test("`UploadDeviceFileLocally` returns properly value", async () => {
   registerUploadDeviceFileLocallyRequest(getFakeAdapters())
-  const [pendingResponse] = (ipcMain as any)._flush(IpcDeviceFileSystem.UploadDeviceFileLocally)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+  const [pendingResponse] = (ipcMain as any)._flush(
+    IpcDeviceFileSystem.UploadDeviceFileLocally
+  )
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const result = await pendingResponse
   expect(result).toMatchInlineSnapshot(`
     Object {

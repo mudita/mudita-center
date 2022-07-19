@@ -47,6 +47,8 @@ describe("Function: toggleHarmonySimulation", () => {
   test("changing `harmonySimulation` flag to `true` if it's disabled", () => {
     toggleHarmonySimulation()
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(ipc.ipcRenderer.callMain).toHaveBeenCalledWith(
       backendAdaptersChannel
     )
@@ -58,6 +60,8 @@ describe("Function: toggleHarmonySimulation", () => {
 
     toggleHarmonySimulation()
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(ipc.ipcRenderer.callMain).toHaveBeenCalledWith(
       backendAdaptersChannel
     )
@@ -77,6 +81,8 @@ describe("Function: togglePureSimulation", () => {
   test("changing `pureSimulation` flag to `true` if it's disabled", () => {
     togglePureSimulation()
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(ipc.ipcRenderer.callMain).toHaveBeenCalledWith(
       backendAdaptersChannel
     )
@@ -88,6 +94,8 @@ describe("Function: togglePureSimulation", () => {
 
     togglePureSimulation()
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(ipc.ipcRenderer.callMain).toHaveBeenCalledWith(
       backendAdaptersChannel
     )

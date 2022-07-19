@@ -25,16 +25,22 @@ const subject = new TemplateRepository(templateModel)
 describe("`TemplateRepository`", () => {
   test("fire `delete` call `templateModel.delete` with id", () => {
     expect(subject.delete("1")).toBeUndefined()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(templateModel.delete).toHaveBeenCalledWith("1")
   })
 
   test("fire `create` call `templateModel.create` with template", () => {
     expect(subject.create(template)).toEqual(template)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(templateModel.create).toHaveBeenCalledWith(template)
   })
 
   test("fire `update` call `templateModel.update` with template", () => {
     expect(subject.update(template)).toEqual(template)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(templateModel.update).toHaveBeenCalledWith(template)
   })
 })

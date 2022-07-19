@@ -47,6 +47,8 @@ describe("`SettingsController`", () => {
   })
   test("`resetSettings` calls `resetAppSettings` method ", () => {
     subject.resetSettings()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(settingsService.resetSettings).toHaveBeenCalled()
   })
 
@@ -55,6 +57,8 @@ describe("`SettingsController`", () => {
       key: "applicationId",
       value: "app-Nr8uiSV7KmWxX3WOFqZPF7uw",
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(settingsService.updateSettings).toHaveBeenCalled()
   })
 })

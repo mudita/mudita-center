@@ -11,6 +11,8 @@ import {
 } from "App/core/types/request-response.interface"
 
 class PurePhoneNetworkFake extends PurePhoneNetworkAdapter {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async getSimCards(): Promise<RequestResponse<SimCard[]>> {
     return {
       status: RequestResponseStatus.Ok,

@@ -8,6 +8,8 @@ import { IpcDataSyncRequest, DataIndex } from "App/data-sync/constants"
 import { getIndexRequest } from "App/data-sync/requests"
 import { SerialisedIndexData } from "elasticlunr"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getIndexResponse: SerialisedIndexData<any> = {
   fields: [],
   index: {},
@@ -19,6 +21,8 @@ const getIndexResponse: SerialisedIndexData<any> = {
 
 describe("`getIndexRequest`", () => {
   test("return properly value", async () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     ;(ipcRenderer as any).__rendererCalls = {
       [IpcDataSyncRequest.GetIndex]: getIndexResponse,
     }

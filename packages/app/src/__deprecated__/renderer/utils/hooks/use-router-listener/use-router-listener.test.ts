@@ -6,12 +6,18 @@
 import { renderHook } from "@testing-library/react-hooks"
 import useRouterListener from "App/__deprecated__/renderer/utils/hooks/use-router-listener/use-router-listener"
 import { createMemoryHistory } from "history"
-import { URL_MAIN, URL_TABS, URL_OVERVIEW } from "App/__deprecated__/renderer/constants/urls"
+import {
+  URL_MAIN,
+  URL_TABS,
+  URL_OVERVIEW,
+} from "App/__deprecated__/renderer/constants/urls"
 import { MemoryHistory } from "history/createMemoryHistory"
 
 let history: MemoryHistory
 beforeEach(() => (history = createMemoryHistory()))
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("action on wrong path is not called", async () => {
   const contactsAction = jest.fn()
   const { rerender } = renderHook(() =>
@@ -24,6 +30,8 @@ test("action on wrong path is not called", async () => {
   expect(contactsAction).not.toBeCalled()
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("actions are called on correct location render", async () => {
   const contactsAction = jest.fn()
   const { rerender } = renderHook(() =>
@@ -37,6 +45,8 @@ test("actions are called on correct location render", async () => {
   expect(contactsAction).toBeCalledTimes(2)
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("actions in nested routes are handled", async () => {
   const nestedRouteAction = jest.fn()
   const { rerender } = renderHook(() =>

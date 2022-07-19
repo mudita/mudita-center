@@ -88,6 +88,8 @@ import { registerOsUpdateAlreadyDownloadedCheck } from "App/__deprecated__/updat
 import { registerGetLatestReleaseListener } from "App/__deprecated__/update/listeners/get-latest-release.listener"
 import { createSettingsService } from "App/settings/containers/settings.container"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 require("dotenv").config()
 
 logger.info("Starting the app")
@@ -111,11 +113,15 @@ process.on("uncaughtException", (error) => {
 })
 
 const installExtensions = async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const installer = require("electron-devtools-installer")
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS
   const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
 
   return Promise.all(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     extensions.map((name) => installer.default(installer[name], forceDownload))
   ).catch(logger.error)
 }
@@ -145,6 +151,8 @@ const createWindow = async () => {
 
   const title = "Mudita Center"
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call
   ;(global as any).__static = require("path")
     .join(__dirname, "/static")
     .replace(/\\/g, "\\\\")
@@ -197,6 +205,8 @@ const createWindow = async () => {
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     win.loadURL(
       url.format({
         pathname: path.join(__dirname, "index.html"),
@@ -207,18 +217,24 @@ const createWindow = async () => {
     autoupdate(win)
   } else {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     win.loadURL(`http://localhost:2003`)
     mockAutoupdate(win)
   }
 
   win.webContents.on("new-window", (event, href) => {
     event.preventDefault()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     shell.openExternal(href)
   })
 
   if (!productionEnvironment) {
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
     win.webContents.once("dom-ready", () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       win!.webContents.openDevTools()
     })
   }
@@ -230,6 +246,8 @@ const createWindow = async () => {
   logger.updateMetadata()
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
 app.on("ready", createWindow)
 
 app.on("window-all-closed", () => {
@@ -252,6 +270,8 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
         title,
       })
     )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     helpWindow.loadURL(
       !productionEnvironment
         ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
@@ -287,6 +307,8 @@ const createOpenWindowListener = (
 ) => {
   ipcMain.answerRenderer(channel, async () => {
     if (newWindow === null) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       newWindow = await new BrowserWindow(
         getWindowOptions({
           width: DEFAULT_WINDOWS_SIZE.width,
@@ -307,6 +329,8 @@ const createOpenWindowListener = (
       )
       newWindow.webContents.on("new-window", (event, href) => {
         event.preventDefault()
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         shell.openExternal(href)
       })
     } else {
@@ -369,6 +393,8 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
   const title = "Mudita Center - Google Auth"
   if (process.env.MUDITA_CENTER_SERVER_URL) {
     const cb = (data: string) => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       ipcMain.callRenderer(
         win as BrowserWindow,
         GoogleAuthActions.GotCredentials,
@@ -405,6 +431,8 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           break
       }
       const url = `${process.env.MUDITA_CENTER_SERVER_URL}/google-auth-init`
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       googleAuthWindow.loadURL(`${url}?scope=${scopeUrl}`)
     } else {
       googleAuthWindow.show()
@@ -426,6 +454,8 @@ ipcMain.answerRenderer(GoogleAuthActions.CloseWindow, () => {
 
 ipcMain.answerRenderer(
   OutlookAuthActions.OpenWindow,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async (data: { authorizationUrl: string; scope: string }) => {
     const title = "Mudita Center - Outlook Auth"
     const { authorizationUrl, scope } = data
@@ -441,6 +471,8 @@ ipcMain.answerRenderer(
           })
         )
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         outlookAuthWindow.loadURL(authorizationUrl)
 
         const {
@@ -450,17 +482,23 @@ ipcMain.answerRenderer(
           {
             urls: [`${redirectUrl}*`],
           }, // * character is used to "catch all" url params
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           async ({ url }) => {
             const code = new URL(url).searchParams.get("code") || ""
             try {
               const tokenRequester = new TokenRequester()
               const tokens = await tokenRequester.requestTokens(code, scope)
+              // AUTO DISABLED - fix me if you like :)
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
               ipcMain.callRenderer(
                 win as BrowserWindow,
                 OutlookAuthActions.GotCredentials,
                 tokens
               )
             } catch (error) {
+              // AUTO DISABLED - fix me if you like :)
+              // eslint-disable-next-line @typescript-eslint/no-floating-promises
               ipcMain.callRenderer(
                 win as BrowserWindow,
                 OutlookAuthActions.GotCredentials,

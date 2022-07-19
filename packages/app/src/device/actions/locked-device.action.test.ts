@@ -26,6 +26,8 @@ describe("Device: MuditaHarmony", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(lockedDevice() as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([
@@ -55,6 +57,8 @@ describe("Device: MuditaPure", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(lockedDevice() as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([
@@ -83,6 +87,8 @@ describe("Device: MuditaPure", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(lockedDevice() as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([

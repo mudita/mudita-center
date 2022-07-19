@@ -27,6 +27,8 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkAppUpdateFlowToShow() as unknown as AnyAction
       )
@@ -49,6 +51,8 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkAppUpdateFlowToShow() as unknown as AnyAction
       )
@@ -71,6 +75,8 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkAppUpdateFlowToShow() as unknown as AnyAction
       )
@@ -97,6 +103,8 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkAppUpdateFlowToShow() as unknown as AnyAction
       )
@@ -130,6 +138,8 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkAppUpdateFlowToShow() as unknown as AnyAction
       )
@@ -159,6 +169,8 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkAppUpdateFlowToShow() as unknown as AnyAction
       )

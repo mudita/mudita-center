@@ -42,6 +42,8 @@ describe("Environment: production", () => {
   describe("Device: MuditaPure", () => {
     test("returns latestRelease for Mudita Pure correctly", async () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(true)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       ;(ipcRenderer as any).__rendererCalls = {
         [IpcUpdate.GetLatestRelease]: prodPureRelease,
       }
@@ -53,6 +55,8 @@ describe("Environment: production", () => {
   describe("Device: MuditaHarmony", () => {
     test("returns latestRelease for Mudita Harmony correctly", async () => {
       jest.spyOn(flags, "get").mockReturnValueOnce(true)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       ;(ipcRenderer as any).__rendererCalls = {
         [IpcUpdate.GetLatestRelease]: prodBellRelease,
       }

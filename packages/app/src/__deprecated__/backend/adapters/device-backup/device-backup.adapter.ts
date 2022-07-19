@@ -52,6 +52,8 @@ export class DeviceBackup implements DeviceBackupAdapter {
       }
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const filePath = runDeviceBackupResponse.data!
 
     const downloadDeviceFileResponse =
@@ -107,6 +109,8 @@ export class DeviceBackup implements DeviceBackupAdapter {
       }
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const backupId = startBackupDeviceResponse.data!.id
 
     const getBackupDeviceStatusResponse =
@@ -122,6 +126,8 @@ export class DeviceBackup implements DeviceBackupAdapter {
     }
 
     const filePath = `${
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       getBackupLocationResponse.data!.backupLocation
     }/${backupId}`
 

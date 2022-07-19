@@ -30,6 +30,8 @@ describe("Get Unlock Device Status request returns `success` status", () => {
     })
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(getUnlockStatus() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -49,6 +51,8 @@ describe("Get Unlock Device Status request returns `error` status", () => {
     const errorMock = new AppError(DeviceError.Locked, "Device is locked")
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(getUnlockStatus() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
