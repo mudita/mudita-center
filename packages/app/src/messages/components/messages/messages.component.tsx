@@ -42,6 +42,7 @@ import { Template } from "App/templates/dto"
 import { Contact } from "App/contacts/dto"
 import { ContactAttachmentPresenter } from "App/contacts/presenters"
 import { useLoadingState } from "App/ui"
+import { Feature, flags } from "App/feature-flags"
 
 const messages = defineMessages({
   emptyListTitle: {
@@ -200,6 +201,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }, [activeThread, threads])
 
   useEffect(() => {
+    if (!flags.get(Feature.MessagesDraftStatus)) {
+      return
+    }
+
     if (draftMessage) {
       if (content && content !== draftMessage.content) {
         updateMessage({ ...draftMessage, content })
@@ -220,6 +225,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }, [debouncedContent])
 
   useEffect(() => {
+    if (!flags.get(Feature.MessagesDraftStatus)) {
+      return
+    }
+
     if (!activeThread || states.draftDeleting) {
       return
     }
