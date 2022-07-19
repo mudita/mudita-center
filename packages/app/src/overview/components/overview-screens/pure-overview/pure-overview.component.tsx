@@ -15,14 +15,26 @@ import { PhoneUpdateStore } from "App/__deprecated__/renderer/models/phone-updat
 import { SettingsState } from "App/__deprecated__/main/store/settings.interface"
 import useSystemUpdateFlow from "App/overview/helpers/system-update.hook"
 import logger from "App/__deprecated__/main/utils/logger"
-import BackupDeviceFlow, { BackupDeviceFlowState } from "App/overview/components/backup-device-flow/backup-device-flow.component"
+import BackupDeviceFlow, {
+  BackupDeviceFlowState,
+} from "App/overview/components/backup-device-flow/backup-device-flow.component"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
-import UpdatingForceModalFlow, { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
+import UpdatingForceModalFlow, {
+  UpdatingForceModalFlowState,
+} from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { DeviceState } from "App/device"
-import { BackupDeviceDataState, BackupDeviceState } from "App/backup-device/reducers"
+import {
+  BackupDeviceDataState,
+  BackupDeviceState,
+} from "App/backup-device/reducers"
 import { BackupState } from "App/backup/reducers"
-import RestoreDeviceFlow, { RestoreDeviceFlowState } from "App/overview/components/restore-device-flow/restore-device-flow.component"
-import { RestoreDeviceDataState, RestoreDeviceState } from "App/restore-device/reducers"
+import RestoreDeviceFlow, {
+  RestoreDeviceFlowState,
+} from "App/overview/components/restore-device-flow/restore-device-flow.component"
+import {
+  RestoreDeviceDataState,
+  RestoreDeviceState,
+} from "App/restore-device/reducers"
 import { DeviceType } from "@mudita/pure"
 import { StartRestoreOption } from "App/restore-device/actions"
 import { SynchronizationState } from "App/data-sync/reducers"
@@ -272,9 +284,10 @@ export const PureOverview: FunctionComponent<Props> = ({
           onSupportButtonClick={openContactSupportFlow}
         />
       )}
-      {syncState === SynchronizationState.Error && (
-        <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
-      )}
+      {syncState === SynchronizationState.Error &&
+        restoreDeviceState === undefined && (
+          <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
+        )}
       <OverviewContent
         batteryLevel={batteryLevel}
         changeSim={changeSim}
