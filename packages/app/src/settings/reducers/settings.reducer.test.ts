@@ -12,7 +12,6 @@ import {
 import {
   fulfilledAction,
   pendingAction,
-  // rejectedAction,
 } from "App/__deprecated__/renderer/store/helpers"
 import { SettingsState } from "App/settings/reducers"
 import { ConversionFormat, Convert } from "App/settings/constants"

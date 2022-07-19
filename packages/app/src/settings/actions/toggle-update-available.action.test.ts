@@ -18,7 +18,7 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
-test("calls `toggleTethering` action dispatch SettingsEvent.ToggleUpdateAvailable", async () => {
+test("calls `toggleUpdateAvailable` action dispatch SettingsEvent.ToggleUpdateAvailable", async () => {
   const {
     meta: { requestId },
   } = await mockStore.dispatch(
