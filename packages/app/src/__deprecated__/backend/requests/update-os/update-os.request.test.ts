@@ -17,7 +17,7 @@ jest.mock("electron", () => ({
 
 jest.mock("fs-extra", () => ({
   readJSON: () => ({
-    pureOsDownloadLocation: "pure/os",
+    osDownloadLocation: "pure/os",
   }),
 }))
 

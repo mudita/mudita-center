@@ -58,6 +58,12 @@ import {
 } from "App/device"
 import { getCrashDump } from "App/crash-dump"
 import {
+  loadSettings,
+  setLatestVersion,
+  toggleUpdateAvailable,
+  checkUpdateAvailable,
+} from "App/settings/actions"
+import {
   registerDataSyncListener,
   registerCacheDataListener,
 } from "App/data-sync/listeners"
@@ -76,7 +82,7 @@ interface Props {
   // TODO remove legacy staff
   checkAppUpdateAvailable: () => void
   toggleAppUpdateAvailable: (value: boolean) => void
-  setAppLatestVersion: (value: string) => void
+  setLatestVersion: (value: string) => void
   loadSettings: () => void
   loadDeviceData: (value: DeviceType) => void
   connectedAndUnlocked: boolean
@@ -94,7 +100,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   // TODO remove legacy staff
   checkAppUpdateAvailable,
   toggleAppUpdateAvailable,
-  setAppLatestVersion,
+  setLatestVersion,
   loadSettings,
   loadDeviceData,
   connectedAndUnlocked,
@@ -225,7 +231,7 @@ const RootWrapper: FunctionComponent<Props> = ({
   useEffect(() => {
     const unregister = registerAvailableAppUpdateListener((version) => {
       toggleAppUpdateAvailable(true)
-      setAppLatestVersion(version as string)
+      setLatestVersion(version as string)
     })
 
     return () => unregister()
@@ -289,12 +295,11 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   unlockedDevice: () => dispatch(unlockedDevice()),
   getCrashDump: () => dispatch(getCrashDump()),
   // TODO remove legacy staff
-  checkAppUpdateAvailable: () => dispatch.settings.checkAppUpdateAvailable(),
+  checkAppUpdateAvailable: () => dispatch(checkUpdateAvailable()),
   toggleAppUpdateAvailable: (value: boolean) =>
-    dispatch.settings.toggleAppUpdateAvailable(value),
-  setAppLatestVersion: (value: string) =>
-    dispatch.settings.setAppLatestVersion(value),
-  loadSettings: () => dispatch.settings.loadSettings(),
+    dispatch(toggleUpdateAvailable(value)),
+  setLatestVersion: (value: string) => dispatch(setLatestVersion(value)),
+  loadSettings: () => dispatch(loadSettings()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootWrapper)

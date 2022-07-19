@@ -11,7 +11,7 @@ import {
   LightText,
   LightTextNested,
   WindowHeader,
-} from "App/__deprecated__/renderer/modules/settings/tabs/about/components/shared"
+} from "App/settings/components/about/shared"
 import { PureSystemTestIds } from "App/overview/components/pure-system//pure-system-test-ids.enum"
 
 const SarComponent: FunctionComponent = () => (

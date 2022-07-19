@@ -11,7 +11,7 @@ import {
   TmpDispatch,
   RootState,
 } from "App/__deprecated__/renderer/store"
-import { Thread, Message, NewMessage } from "App/messages/dto"
+import { Thread, NewMessage, Message } from "App/messages/dto"
 import { VisibilityFilter } from "App/messages/constants"
 import {
   changeSearchValue,
@@ -44,7 +44,6 @@ import {
 } from "./actions"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
-  ...state.settings,
   error: state.messages.error,
   loaded: state.messages.loaded,
   threadsState: state.messages.threadsState,
@@ -79,7 +78,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(toggleThreadsReadStatus(threads)),
   markThreadsReadStatus: (threads: Thread[]) =>
     dispatch(markThreadsReadStatus(threads)),
-  addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
+  addNewMessage: async (newMessage: NewMessage): Promise<void> =>
     dispatch(addNewMessage(newMessage)),
   deleteMessage: async (messageId: string): Promise<string> =>
     dispatch(deleteMessage(messageId)),

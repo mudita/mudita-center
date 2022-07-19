@@ -8,7 +8,7 @@ import { History } from "history"
 import { Route, Router } from "react-router"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
-import PrivacyPolicyUI from "App/__deprecated__/renderer/modules/settings/tabs/about/components/privacy-policy/privacy-policy-ui.component"
+import { PrivacyPolicyUI } from "App/settings/components"
 
 interface Props {
   history: History

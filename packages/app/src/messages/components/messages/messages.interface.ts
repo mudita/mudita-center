@@ -10,9 +10,8 @@ import { Contact } from "App/contacts/reducers/contacts.interface"
 import { ResultState } from "App/messages/constants"
 import { MessagesState } from "App/messages/reducers/messages.interface"
 import { Thread, NewMessage, Message } from "App/messages/dto"
-import { CreateMessageDataResponse } from "App/messages/services"
 import { Notification } from "App/notification/types"
-import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
+import { Settings } from "App/settings/dto"
 import { Receiver } from "App/messages/reducers"
 import { Template } from "App/templates/dto"
 
@@ -34,7 +33,7 @@ export interface MessagesServiceState {
   draftDeleting: boolean
 }
 
-export interface MessagesProps extends Pick<AppSettings, "language"> {
+export interface MessagesProps extends Pick<Settings, "language"> {
   searchValue: MessagesState["searchValue"]
   threadsState: MessagesState["threadsState"]
   receivers: Receiver[]
@@ -49,7 +48,7 @@ export interface MessagesProps extends Pick<AppSettings, "language"> {
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   getMessagesStateByThreadId: (threadId: string) => ResultState
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
-  addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
+  addNewMessage: (newMessage: NewMessage) => Promise<void>
   deleteMessage: (messageId: string) => Promise<string>
   updateMessage: (message: Message) => Promise<void>
   removeLayoutNotification: (notificationId: string) => void

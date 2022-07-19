@@ -6,4 +6,5 @@
 export enum SystemTestIds {
   OsVersion = "os-version",
   DownloadButton = "download-button",
+  BackupDate = "backup-date",
 }

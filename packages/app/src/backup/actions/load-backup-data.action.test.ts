@@ -37,12 +37,12 @@ beforeEach(() => {
 })
 
 describe("async `loadBackupData` ", () => {
-  describe("when pureOsBackupLocation isn't empty and `getFileData` request return success", () => {
+  describe("when osBackupLocation isn't empty and `getFileData` request return success", () => {
     test("fire async `loadBackupData` call `setBackupData` action", async () => {
       ;(getFileData as jest.Mock).mockReturnValue(successRequestResponse)
       const mockStore = createMockStore([thunk])({
         settings: {
-          pureOsBackupLocation: "C:\\backups",
+          osBackupLocation: "C:\\backups",
         },
       })
       const {
@@ -71,7 +71,7 @@ describe("async `loadBackupData` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         settings: {
-          pureOsBackupLocation: "",
+          osBackupLocation: "",
         },
       })
       const {
@@ -96,7 +96,7 @@ describe("async `loadBackupData` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         settings: {
-          pureOsBackupLocation: "C:\\backups",
+          osBackupLocation: "C:\\backups",
         },
       })
       const {
