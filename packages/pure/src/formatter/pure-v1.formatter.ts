@@ -8,6 +8,8 @@ import { Formatter } from "./formatter"
 import { DeviceUpdateError, deviceUpdateErrorCodeMap } from "../endpoints"
 
 export class PureV1Formatter extends Formatter {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formatResponse(method: Method, response: Response<any>): Response<any> {
     const { endpoint } = response
     switch (endpoint) {
@@ -18,6 +20,8 @@ export class PureV1Formatter extends Formatter {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private handleUpdateEndpointResponse(response: Response<any>): Response<any> {
     const { error } = response
     if (error) {

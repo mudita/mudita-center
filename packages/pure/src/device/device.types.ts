@@ -10,6 +10,8 @@ export interface MuditaDevice {
   deviceType: DeviceType
   connect(): Promise<Response>
   disconnect(): Promise<Response>
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   request(config: RequestConfig<any>): Promise<Response<any>>
   on(eventName: DeviceEventName, listener: () => void): void
   off(eventName: DeviceEventName, listener: () => void): void

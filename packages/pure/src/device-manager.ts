@@ -51,11 +51,18 @@ class DeviceManager implements MuditaDeviceManager {
   public async getDevices(): Promise<MuditaDevice[]> {
     const portList = await DeviceManager.getSerialPortList()
 
-    return portList
-      .filter(PortInfoValidator.isPortInfoMatch)
-      .map(({ path, productId }) => {
-        return this.deviceResolver.resolve({ productId }, path) as MuditaDevice
-      })
+    return (
+      portList
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        .filter(PortInfoValidator.isPortInfoMatch)
+        .map(({ path, productId }) => {
+          return this.deviceResolver.resolve(
+            { productId },
+            path
+          ) as MuditaDevice
+        })
+    )
   }
 
   public onAttachDevice(
@@ -83,6 +90,8 @@ class DeviceManager implements MuditaDeviceManager {
         for (let i = 0; i < retryLimit; i++) {
           const portList = await DeviceManager.getSerialPortList()
 
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/unbound-method
           const port = portList.find(PortInfoValidator.isPortInfoMatch)
 
           if (port) {

@@ -161,6 +161,8 @@ export class PureStrategy extends BaseDevice {
       update: boolean
       reboot: boolean
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }): Promise<any>
   public request(
     config: GetFileSystemRequestConfig
@@ -188,7 +190,11 @@ export class PureStrategy extends BaseDevice {
     config: GetEntriesRequestConfig
   ): Promise<Response<GetEntriesResponseBody>>
   public request(config: DeleteEntriesRequestConfig): Promise<Response>
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public request(config: RequestConfig<any>): Promise<Response<any>>
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async request(config: RequestConfig<any>): Promise<Response<any>> {
     const response = await super.request(config)
     return this.#formatter.formatResponse(config.method, response)
