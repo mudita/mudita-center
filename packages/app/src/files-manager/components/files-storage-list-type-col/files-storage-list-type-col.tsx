@@ -4,8 +4,8 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Col } from "Renderer/components/core/table/table.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { Col } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { McUsbFile, McUsbFileType } from "@mudita/pure"
 import { FilesStorageListTypeColTestIds } from "App/files-manager/components/files-storage-list-type-col/files-storage-list-type-col-test-ids.enum"
 

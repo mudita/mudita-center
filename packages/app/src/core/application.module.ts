@@ -6,12 +6,12 @@
 import { ipcMain } from "electron-better-ipc"
 import MuditaDeviceManager from "@mudita/pure"
 import { EventEmitter } from "events"
-import { DeviceService } from "App/backend/device-service"
+import { DeviceService } from "App/__deprecated__/backend/device-service"
 // TODO change module name to `KeyStorage`
 import { MetadataStore } from "App/metadata/services"
-import logger from "App/main/utils/logger"
+import logger from "App/__deprecated__/main/utils/logger"
 import { flags, Feature } from "App/feature-flags"
-import PureLogger from "App/main/utils/pure-logger"
+import PureLogger from "App/__deprecated__/main/utils/pure-logger"
 import { IndexFactory } from "App/index-storage/factories"
 import {
   DataIndexInitializer,
@@ -27,9 +27,10 @@ import { ContactModule } from "App/contacts/contact.module"
 import { MessageModule } from "App/messages/message.module"
 import { OutboxModule } from "App/outbox/outbox.module"
 import { AnalyticDataTrackerModule } from "App/analytic-data-tracker/analytic-data-tracker.module"
-import { AppSettingsModuleModule } from "App/app-settings/app-settings.module"
-import { FilesManagerModule } from "App/files-manager/files-manager.module"
+import { SettingsModule } from "App/settings/settings.module"
 import { CrashDumpModule } from "App/crash-dump/crash-dump.module"
+import { TemplateModule } from "App/templates/template.module"
+import { FilesManagerModule } from "App/files-manager/files-manager.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
@@ -37,11 +38,12 @@ export class ApplicationModule {
     DataSyncModule,
     OutboxModule,
     AnalyticDataTrackerModule,
-    AppSettingsModuleModule,
+    SettingsModule,
     ContactModule,
     MessageModule,
     FilesManagerModule,
     CrashDumpModule,
+    TemplateModule,
   ]
 
   private ipc = ipcMain

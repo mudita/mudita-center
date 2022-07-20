@@ -4,16 +4,14 @@
  */
 
 import { connect } from "react-redux"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 import Overview from "App/overview/components/overview/overview.component"
-import { ReduxRootState, TmpDispatch } from "Renderer/store"
-import { RootModel } from "Renderer/models/models"
-import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
+import { ReduxRootState, TmpDispatch } from "App/__deprecated__/renderer/store"
+import { RootModel } from "App/__deprecated__/renderer/models/models"
+import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
 import {
   UpdatingState,
   PureDeviceData,
   disconnectDevice,
-  changeSim,
   setUpdateState,
   startUpdateOs,
 } from "App/device"
@@ -27,32 +25,31 @@ import {
 } from "App/restore-device/actions"
 import { ModalStateKey, showModal } from "App/modals-manager"
 import { updateAllIndexes } from "App/data-sync/actions/update-all-indexes.action"
+import { getDeviceLatestVersion } from "App/settings/selectors"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   return {
-    lastBackupDate: lastBackupDateSelector(state),
     deviceType: state.device.deviceType,
+    lastBackupDate: lastBackupDateSelector(state),
     batteryLevel: state.device.data?.batteryLevel,
     osVersion: state.device.data?.osVersion,
     memorySpace: state.device.data?.memorySpace,
     serialNumber: state.device.data?.serialNumber,
-    simCards: (state.device.data as PureDeviceData)?.simCards,
     networkName: (state.device.data as PureDeviceData)?.networkName,
-    networkLevel: (state.device.data as PureDeviceData)?.networkLevel,
+    networkLevel: Number((state.device.data as PureDeviceData)?.networkLevel),
     caseColour: (state.device.data as PureDeviceData)?.caseColour,
     backupDeviceState: state.backupDevice.state,
     restoreDeviceState: state.restoreDevice.state,
     backups: state.backup.backups,
     ...state.phoneUpdate,
-    ...state.settings,
     ...state.devMode,
     syncState: state.dataSync.state,
+    lowestSupportedOsVersion: getDeviceLatestVersion(state),
   }
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   disconnectDevice: () => dispatch(disconnectDevice()),
-  changeSim: (card: SimCard) => dispatch(changeSim(card)),
   setUpdateState: (state: UpdatingState) => dispatch(setUpdateState(state)),
   startUpdateOs: (file: string) => dispatch(startUpdateOs(file)),
   startBackupDevice: (secretKey: string) =>

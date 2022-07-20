@@ -4,7 +4,7 @@
  */
 
 import { Endpoint, Method } from "@mudita/pure"
-import DeviceService from "Backend/device-service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import { Contact, ContactID } from "App/contacts/reducers"
 import { ContactRepository } from "App/contacts/repositories"
 import { ContactPresenter } from "App/contacts/presenters"
@@ -12,7 +12,7 @@ import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
-import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponseSuccessWithData } from "App/core/helpers"
 
 export class ContactService {
   constructor(

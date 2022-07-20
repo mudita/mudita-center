@@ -5,4 +5,5 @@
 
 export * from "./contact/contact.presenter"
 export * from "./message/message.presenter"
+export * from "./template/template.presenter"
 export * from "./thread/thread.presenter"

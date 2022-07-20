@@ -6,16 +6,17 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { testError } from "Renderer/store/constants"
-import { AddNewMessageError } from "App/messages/errors"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { createMessageRequest } from "App/messages/requests"
 import { addNewMessage } from "App/messages/actions/add-new-message.action"
-import { MessageType, NewMessage } from "App/messages/reducers"
+import { NewMessage } from "App/messages/dto"
+import { MessagesError, MessageType } from "App/messages/constants"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 import { CreateMessageDataResponse } from "App/messages/services"
+import { AppError } from "App/core/errors"
 
 jest.mock("App/messages/requests/create-message.request")
 const mockAddedNewMessageData: NewMessage = {
@@ -23,16 +24,19 @@ const mockAddedNewMessageData: NewMessage = {
     "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   phoneNumber: "+48500600700",
 }
-
 const mockAddedMessageData: CreateMessageDataResponse = {
-  message: {
-    id: "6",
-    date: new Date(),
-    content: mockAddedNewMessageData.content,
-    threadId: "1",
-    phoneNumber: mockAddedNewMessageData.phoneNumber,
-    messageType: MessageType.OUTBOX,
-  },
+  messageParts: [
+    {
+      message: {
+        id: "6",
+        date: new Date(),
+        content: mockAddedNewMessageData.content,
+        threadId: "1",
+        phoneNumber: mockAddedNewMessageData.phoneNumber,
+        messageType: MessageType.OUTBOX,
+      },
+    },
+  ],
 }
 
 const successDeviceResponse: RequestResponse<CreateMessageDataResponse> = {
@@ -77,7 +81,10 @@ describe("async `addNewMessage` ", () => {
   describe("when `addMessage` request return error", () => {
     test("fire async `addNewMessage` returns `rejected` action", async () => {
       ;(createMessageRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new AddNewMessageError("Add New Message request failed")
+      const errorMock = new AppError(
+        MessagesError.AddNewMessage,
+        "Add New Message request failed"
+      )
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },

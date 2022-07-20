@@ -5,10 +5,10 @@
 
 import React, { ComponentProps } from "react"
 import { act } from "@testing-library/react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Connecting from "App/connecting/components/connecting.component"
 import { ErrorConnectingModalTestIds } from "App/connecting/components/error-connecting-modal-test-ids.enum"
-import { PasscodeModalTestIds } from "App/passcode-modal/passcode-modal-test-ids.enum"
+import { PasscodeModalTestIds } from "App/__deprecated__/passcode-modal/passcode-modal-test-ids.enum"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { DeviceType } from "@mudita/pure"
@@ -22,7 +22,7 @@ const defaultProps: Props = {
   loaded: false,
   deviceType: DeviceType.MuditaPure,
   unlocked: null,
-  phoneLockTime: undefined,
+  leftTime: undefined,
   getUnlockStatus: jest.fn().mockReturnValue({
     payload: RequestResponseStatus.Ok,
   }),

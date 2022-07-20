@@ -4,7 +4,7 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
-import getFakeAdapters from "App/tests/get-fake-adapters"
+import getFakeAdapters from "App/__deprecated__/tests/get-fake-adapters"
 import { IpcDeviceFileSystem } from "App/device-file-system"
 import registerUploadDeviceFileLocallyRequest from "App/device-file-system/listeners/upload-device-file-locally.listener"
 

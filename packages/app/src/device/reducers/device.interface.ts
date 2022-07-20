@@ -3,18 +3,16 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CaseColour, DeviceType } from "@mudita/pure"
-import { PayloadAction } from "@reduxjs/toolkit"
-import { DeviceEvent } from "App/device/constants"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
-import { UpdatingState, ConnectionState } from "App/device/constants"
 import {
-  DeviceConnectionError,
-  DeviceDisconnectionError,
-  DeviceLoadingError,
-  DeviceInvalidPhoneLockTimeError,
-  DeviceUpdateProcessError,
-} from "App/device/errors"
+  CaseColour,
+  DeviceType,
+  GetPhoneLockTimeResponseBody,
+} from "@mudita/pure"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { DeviceError, DeviceEvent } from "App/device/constants"
+import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
+import { UpdatingState, ConnectionState } from "App/device/constants"
+import { AppError } from "App/core/errors"
 
 export interface PureDeviceData {
   networkName: string
@@ -23,7 +21,8 @@ export interface PureDeviceData {
   batteryLevel: number
   simCards: SimCard[]
   serialNumber: string
-  phoneLockTime: number
+  phoneLockTime?: number
+  timeLeftToNextAttempt?: number
   memorySpace: {
     free: number
     full: number
@@ -66,11 +65,11 @@ export type ConnectedFulfilledAction = PayloadAction<
   DeviceEvent.Connected
 >
 export type ConnectedRejectedAction = PayloadAction<
-  DeviceConnectionError,
+  AppError<DeviceError.Connection>,
   DeviceEvent.Connected
 >
 export type DisconnectedRejectedAction = PayloadAction<
-  DeviceDisconnectionError,
+  AppError<DeviceError.Disconnection>,
   DeviceEvent.Disconnected
 >
 export type SetDeviceDataAction = PayloadAction<
@@ -78,15 +77,15 @@ export type SetDeviceDataAction = PayloadAction<
   DeviceEvent.SetData
 >
 export type LoadDataRejectAction = PayloadAction<
-  DeviceLoadingError,
+  AppError<DeviceError.Loading>,
   DeviceEvent.Loading
 >
 export type SetPhoneLockTimeAction = PayloadAction<
-  number,
+  GetPhoneLockTimeResponseBody,
   DeviceEvent.SetLockTime
 >
 export type UnlockDeviceRejectedAction = PayloadAction<
-  DeviceConnectionError | DeviceInvalidPhoneLockTimeError,
+  AppError<DeviceError.Connection> | AppError<DeviceError.InvalidPhoneLockTime>,
   DeviceEvent.Unlocked
 >
 export type SetSimDataAction = PayloadAction<number, DeviceEvent.SetSimData>
@@ -99,7 +98,7 @@ export type SetUpdateStateAction = PayloadAction<
   DeviceEvent.SetUpdateState
 >
 export type OsUpdateRejectedAction = PayloadAction<
-  DeviceUpdateProcessError,
+  AppError<DeviceError.UpdateProcess>,
   DeviceEvent.StartOsUpdateProcess
 >
 export type SetConnectionStateAction = PayloadAction<

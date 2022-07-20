@@ -4,15 +4,13 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
 import { McUsbFile } from "@mudita/pure"
 import styled from "styled-components"
 import { defineMessages } from "react-intl"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import Text, { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import FilesStorageList from "App/files-manager/components/files-storage-list/files-storage-list.component"
 
 const TitleWrapper = styled.div`

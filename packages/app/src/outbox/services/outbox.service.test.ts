@@ -8,7 +8,7 @@ import {
   EntryHandlersMapType,
   OutboxService,
 } from "App/outbox/services/outbox.service"
-import DeviceService from "Backend/device-service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import { IpcEvent } from "App/data-sync/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import {
@@ -19,7 +19,7 @@ import {
   OutboxEntryType,
 } from "@mudita/pure"
 
-jest.mock("Backend/device-service")
+jest.mock("App/__deprecated__/backend/device-service")
 
 beforeEach(() => {
   jest.resetAllMocks()

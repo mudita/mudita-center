@@ -4,18 +4,18 @@
  */
 
 import { AnyAction } from "@reduxjs/toolkit"
-import thunk from "redux-thunk"
-import createMockStore from "redux-mock-store"
+import { deleteContacts } from "App/contacts/actions/delete-contacts.action"
 import { ContactsEvent } from "App/contacts/constants"
 import { Contact, initialState } from "App/contacts/reducers"
-import { testError } from "Renderer/store/constants"
-import { DeleteContactsError } from "App/contacts/errors/delete-contacts.error"
 import { deleteContactsRequest } from "App/contacts/requests"
-import { deleteContacts } from "App/contacts/actions/delete-contacts.action"
+import { AppError } from "App/core/errors"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 
 jest.mock("App/contacts/requests/delete-contacts.request")
 
@@ -89,7 +89,8 @@ describe("async `deleteContacts` ", () => {
   describe("when `deleteContactsRequest` request return error", () => {
     test("fire async `deleteContacts` returns `rejected` action", async () => {
       ;(deleteContactsRequest as jest.Mock).mockReturnValue(errorDeviceResponse)
-      const errorMock = new DeleteContactsError(
+      const errorMock = new AppError(
+        ContactsEvent.DeleteContacts,
         "Delete Contacts request failed"
       )
       const mockStore = createMockStore([thunk])({

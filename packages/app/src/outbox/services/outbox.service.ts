@@ -11,8 +11,8 @@ import {
   OutboxCategory,
   OutboxEntryType,
 } from "@mudita/pure"
-import { asyncNoop } from "Renderer/utils/noop"
-import { DeviceService } from "App/backend/device-service"
+import { asyncNoop } from "App/__deprecated__/renderer/utils/noop"
+import { DeviceService } from "App/__deprecated__/backend/device-service"
 import {
   RequestResponse,
   RequestResponseStatus,

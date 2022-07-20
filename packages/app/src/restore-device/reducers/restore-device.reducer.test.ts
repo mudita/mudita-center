@@ -3,19 +3,22 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  restoreDeviceReducer,
-  initialState,
-} from "App/restore-device/reducers/restore-device.reducer"
-import { RestoreDeviceEvent } from "App/restore-device/constants"
-import { StartRestoreDeviceError } from "App/restore-device/errors"
-import { RestoreDeviceDataState } from "App/restore-device/reducers/restore-device.interface"
+import { AppError } from "App/core/errors"
 import { readRestoreDeviceDataState } from "App/restore-device/actions"
+import {
+  RestoreDeviceError,
+  RestoreDeviceEvent,
+} from "App/restore-device/constants"
+import { RestoreDeviceDataState } from "App/restore-device/reducers/restore-device.interface"
+import {
+  initialState,
+  restoreDeviceReducer,
+} from "App/restore-device/reducers/restore-device.reducer"
 import {
   fulfilledAction,
   pendingAction,
   rejectedAction,
-} from "Renderer/store/helpers/action.helper"
+} from "App/__deprecated__/renderer/store/helpers/action.helper"
 
 test("empty event returns initial state", () => {
   expect(restoreDeviceReducer(undefined, {} as any)).toEqual(initialState)
@@ -45,7 +48,10 @@ describe("Start Restore Device functionality", () => {
   })
 
   test("Event: StartRestoreDevice/rejected change `state` to Error", () => {
-    const errorMock = new StartRestoreDeviceError("I'm error")
+    const errorMock = new AppError(
+      RestoreDeviceError.StartRestoreDevice,
+      "I'm error"
+    )
 
     expect(
       restoreDeviceReducer(undefined, {
@@ -61,7 +67,10 @@ describe("Start Restore Device functionality", () => {
 })
 
 describe("`ReadRestoreDeviceDataState` data functionality", () => {
-  const errorMock = new StartRestoreDeviceError("I'm error")
+  const errorMock = new AppError(
+    RestoreDeviceError.StartRestoreDevice,
+    "I'm error"
+  )
 
   test("Event: `ReadRestoreDeviceDataState` set error property to null", () => {
     expect(

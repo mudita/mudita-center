@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ContactList from "App/contacts/components/contact-list/contact-list.component"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"

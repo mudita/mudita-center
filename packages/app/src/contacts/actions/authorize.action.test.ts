@@ -8,9 +8,9 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { initialState } from "App/contacts/reducers"
 import { authorize } from "App/contacts/actions/authorize.action"
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import { Provider } from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
 
-jest.mock("Renderer/store/external-providers")
+jest.mock("App/__deprecated__/renderer/store/external-providers")
 
 afterEach(() => {
   jest.resetAllMocks()

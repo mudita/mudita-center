@@ -6,13 +6,24 @@
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { fireEvent } from "@testing-library/dom"
-import store from "Renderer/store"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import store from "App/__deprecated__/renderer/store"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { HelpComponentTestIds } from "App/help/components/help.enum"
 import Help from "App/help/components/help.component"
 import { Router } from "react-router"
-import history from "Renderer/routes/history"
-import { data } from "App/seeds/help"
+import history from "App/__deprecated__/renderer/routes/history"
+import { data } from "App/__deprecated__/seeds/help"
+
+jest.mock(
+  "electron",
+  jest.fn().mockImplementation(() => ({
+    remote: {
+      dialog: {
+        showOpenDialog: jest.fn(),
+      },
+    },
+  }))
+)
 
 type Props = ComponentProps<typeof Help>
 

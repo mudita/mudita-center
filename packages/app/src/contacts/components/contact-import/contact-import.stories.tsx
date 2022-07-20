@@ -8,9 +8,9 @@ import React from "react"
 import ContactImportModal, {
   ModalType,
 } from "App/contacts/components/contact-import/contact-import-modal.component"
-import { ModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
-import { contactsSeedInput } from "App/seeds/contacts"
-import { noop } from "Renderer/utils/noop"
+import { ModalWrapper } from "App/__deprecated__/renderer/components/core/modal/modal.styled.elements"
+import { contactsSeedInput } from "App/__deprecated__/seeds/contacts"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 storiesOf("Views|Contacts/Modals", module)
   .add("Select contacts to save", () => {

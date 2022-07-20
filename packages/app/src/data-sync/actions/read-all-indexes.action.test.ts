@@ -4,13 +4,14 @@
  */
 
 import { AnyAction } from "@reduxjs/toolkit"
-import thunk from "redux-thunk"
-import createMockStore from "redux-mock-store"
-import { SerialisedIndexData } from "elasticlunr"
-import { getIndexRequest } from "App/data-sync/requests"
+import { AppError } from "App/core/errors"
 import { readAllIndexes } from "App/data-sync/actions/read-all-indexes.action"
-import { ReadAllIndexesError } from "App/data-sync/errors"
-import { testError } from "Renderer/store/constants"
+import { DataSyncError } from "App/data-sync/constants"
+import { getIndexRequest } from "App/data-sync/requests"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import { SerialisedIndexData } from "elasticlunr"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
 
 jest.mock("App/data-sync/requests/get-index.request.ts")
 
@@ -37,7 +38,7 @@ describe("async `readAllIndexes` ", () => {
       expect(mockStore.getActions()).toEqual([
         readAllIndexes.pending(requestId),
         readAllIndexes.fulfilled(
-          { contacts: {}, messages: {}, threads: {} },
+          { contacts: {}, messages: {}, threads: {}, templates: {} },
           requestId,
           undefined
         ),
@@ -50,7 +51,10 @@ describe("async `readAllIndexes` ", () => {
   describe("when `getIndexRequest` return undefined", () => {
     test("fire async `readAllIndexes` returns `rejected` action", async () => {
       ;(getIndexRequest as jest.Mock).mockReturnValue(undefined)
-      const errorMock = new ReadAllIndexesError("Read All Indexes fails")
+      const errorMock = new AppError(
+        DataSyncError.ReadAllIndexes,
+        "Read All Indexes fails"
+      )
 
       const mockStore = createMockStore([thunk])()
 

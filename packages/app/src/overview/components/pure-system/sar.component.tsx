@@ -4,14 +4,14 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import {
   WindowContainer,
   LightText,
   LightTextNested,
   WindowHeader,
-} from "Renderer/modules/settings/tabs/about/components/shared"
+} from "App/settings/components/about/shared"
 import { PureSystemTestIds } from "App/overview/components/pure-system//pure-system-test-ids.enum"
 
 const SarComponent: FunctionComponent = () => (

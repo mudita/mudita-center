@@ -4,14 +4,14 @@
  */
 
 import { storiesOf } from "@storybook/react"
-import Story from "Renderer/components/storybook/story.component"
-import { StoryModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
+import Story from "App/__deprecated__/renderer/components/storybook/story.component"
+import { StoryModalWrapper } from "App/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import React from "react"
 import SyncContactsModal from "App/contacts/components/sync-contacts-modal/sync-contacts-modal.component"
 import { action } from "@storybook/addon-actions"
 import ImportingContactsModal from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"
-import StoryContainer from "Renderer/components/storybook/story-container.component"
-import { noop } from "Renderer/utils/noop"
+import StoryContainer from "App/__deprecated__/renderer/components/storybook/story-container.component"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 storiesOf("Components|Rest/Sync Contacts Modal", module)
   .add("Choose sync option modal", () => (

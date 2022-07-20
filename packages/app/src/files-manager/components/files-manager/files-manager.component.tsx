@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { FilesManagerContainer } from "App/files-manager/components/files-manager/files-manager.styled"
 import FilesSummary from "App/files-manager/components/files-summary/files-summary.component"
 import {

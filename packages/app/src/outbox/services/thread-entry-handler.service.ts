@@ -5,7 +5,7 @@
 
 import { ThreadRepository } from "App/messages/repositories"
 import { OutboxEntry, OutboxEntryChange } from "@mudita/pure"
-import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponseSuccessWithData } from "App/core/helpers"
 import { EntryHandler } from "App/outbox/services/entry-handler.type"
 import { ThreadService } from "App/messages/services"
 import { Thread } from "App/messages/dto"

@@ -3,57 +3,48 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import assert from "assert"
 import React, { useEffect, useState } from "react"
 import { defineMessages } from "react-intl"
+import { useHistory } from "react-router-dom"
+import { IndexRange } from "react-virtualized"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { useDebounce } from "usehooks-ts"
+import DeleteMessageModals from "App/messages/components/delete-message-modals/delete-message-modals.component"
+import { DeleteThreadModals } from "App/messages/components/delete-thread-modals/delete-thread-modals.component"
+import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
+import MessagesPanel from "App/messages/components/messages-panel.component"
+import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
+import NewMessageForm from "App/messages/components/new-message-form.component"
+import ThreadDetails from "App/messages/components/thread-details.component"
+import ThreadList from "App/messages/components/thread-list.component"
+import { MessageType, ResultState } from "App/messages/constants"
+import { Message, Thread } from "App/messages/dto"
+import { Receiver, ReceiverIdentification } from "App/messages/reducers"
 import {
   EmptyState,
   TableWithSidebarWrapper,
-} from "Renderer/components/core/table/table.component"
-import ThreadList from "App/messages/components/thread-list.component"
-import { ComponentProps as MessagesComponentProps } from "App/messages/components/messages/messages.interface"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { noop } from "Renderer/utils/noop"
-import ThreadDetails from "App/messages/components/thread-details.component"
-import MessagesPanel from "App/messages/components/messages-panel.component"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
-import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
-import { intl, textFormatters } from "Renderer/utils/intl"
-import modalService from "Renderer/components/core/modal/modal.service"
-import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
-import { Message as TranslationMessage } from "Renderer/interfaces/message.interface"
-import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
-import { AppSettings } from "App/main/store/settings.interface"
-import { useHistory } from "react-router-dom"
-import createRouterPath from "Renderer/utils/create-router-path"
-import { URL_MAIN } from "Renderer/constants/urls"
-import AttachContactModal from "App/messages/components/attach-contact-modal.component"
+} from "App/__deprecated__/renderer/components/core/table/table.component"
+import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
 import {
-  Contact,
-  ContactCategory,
-} from "App/contacts/reducers/contacts.interface"
-import {
-  Message,
-  NewMessage,
-  Receiver,
-  ReceiverIdentification,
-  ResultState,
-  Thread,
-} from "App/messages/reducers/messages.interface"
-import NewMessageForm from "App/messages/components/new-message-form.component"
-import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
-import { mapToRawNumber } from "App/messages/helpers/map-to-raw-number"
-import { PaginationBody } from "@mudita/pure"
-import { PayloadAction } from "@reduxjs/toolkit"
-import { IndexRange } from "react-virtualized"
-import { CreateMessageDataResponse } from "App/messages/services"
-import { Notification } from "App/notification/types"
+  MessagesProps,
+  MessagesServiceState,
+} from "App/messages/components/messages/messages.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import createRouterPath from "App/__deprecated__/renderer/utils/create-router-path"
+import useURLSearchParams from "App/__deprecated__/renderer/utils/hooks/use-url-search-params"
+import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
+import { ContactSelectModal } from "App/contacts"
+import { TemplatesSelectModal } from "App/templates/components/templates-select-modal/templates-select-modal.component"
+import { Template } from "App/templates/dto"
+import { Contact } from "App/contacts/dto"
+import { ContactAttachmentPresenter } from "App/contacts/presenters"
+import { useLoadingState } from "App/ui"
+import { Feature, flags } from "App/feature-flags"
 
 const messages = defineMessages({
-  deleteModalTitle: { id: "module.messages.deleteModalTitle" },
-  deleteModalBody: {
-    id: "module.messages.deleteModalBody",
-  },
   emptyListTitle: {
     id: "module.messages.emptyListTitle",
   },
@@ -62,12 +53,22 @@ const messages = defineMessages({
   },
 })
 
+const contactsModalMessages = defineMessages({
+  attachContactModalTitle: { id: "module.messages.attachContactModalTitle" },
+  browseContactsModalTitle: { id: "module.messages.browseContactsModalTitle" },
+})
+
 const mockThread: Thread = {
   id: "tmpId",
   phoneNumber: "New Conversation",
   lastUpdatedAt: new Date(),
   messageSnippet: "",
   unread: false,
+  messageType: MessageType.OUTBOX,
+}
+
+const isMockedThreadUsedForNewMessageForm = (thread: Thread) => {
+  return thread.id === mockThread.id
 }
 
 enum MessagesState {
@@ -76,111 +77,183 @@ enum MessagesState {
   NewMessage,
 }
 
-interface Props extends MessagesComponentProps, Pick<AppSettings, "language"> {
-  receivers: Receiver[]
-  attachContactList: ContactCategory[]
-  attachContactFlatList: Contact[]
-  messageLayoutNotifications: Notification[]
-  loadThreads: (
-    pagination: PaginationBody
-  ) => Promise<PayloadAction<PaginationBody | undefined>>
-  getMessagesByThreadId: (threadId: string) => Message[]
-  getContact: (contactId: string) => Contact | undefined
-  getReceiver: (phoneNumber: string) => Receiver
-  getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
-  getMessagesStateByThreadId: (threadId: string) => ResultState
-  isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
-  addNewMessage: (newMessage: NewMessage) => Promise<CreateMessageDataResponse>
-  removeLayoutNotification: (notificationId: string) => void
-}
-
-const Messages: FunctionComponent<Props> = ({
-  threadsTotalCount,
+const Messages: FunctionComponent<MessagesProps> = ({
   threadsState,
   receivers,
   searchValue,
   changeSearchValue = noop,
   deleteThreads = noop,
   threads,
-  getMessagesByThreadId,
+  getActiveMessagesByThreadIdSelector,
+  getThreadDraftMessageSelector,
   getReceiver,
   toggleReadStatus = noop,
+  markThreadsReadStatus = noop,
   language,
-  attachContactList,
-  attachContactFlatList,
   getContactByPhoneNumber,
   isContactCreatedByPhoneNumber,
   addNewMessage,
+  deleteMessage,
   messageLayoutNotifications,
   removeLayoutNotification,
+  currentlyDeletingMessageId,
+  resendMessage,
+  updateMessage,
+  templates,
+  error,
+  loaded,
 }) => {
-  const [_, setThreadsPaginationOffset] = useState<
-    PaginationBody["offset"] | undefined
-  >(0)
-
-  useEffect(() => {
-    messageLayoutNotifications.forEach((item) => {
-      removeLayoutNotification(item.id)
+  const { states, updateFieldState, resetState } =
+    useLoadingState<MessagesServiceState>({
+      messageDeleting: false,
+      messageDeletingConfirmation: false,
+      messageDeletingInfo: false,
+      threadDeleting: false,
+      threadDeletingConfirmation: false,
+      threadDeletingInfo: false,
+      attachContact: false,
+      attachTemplate: false,
+      browseContact: false,
+      draftDeleting: false,
     })
-  }, [messageLayoutNotifications])
 
-  useEffect(() => {
-    if (threadsTotalCount === 0) {
-      setThreadsPaginationOffset(0)
-    }
-  }, [threadsTotalCount])
+  // TODO [CP-1401] move component logic to custom hook
 
+  const history = useHistory()
   const [messagesState, setMessagesState] = useState(MessagesState.List)
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
     findThreadBySearchParams(useURLSearchParams(), threads)
   )
+  const [phoneNumber, setPhoneNumber] = useState<string>("")
   const [tmpActiveThread, setTmpActiveThread] = useState<Thread | undefined>()
-
+  const [draftMessage, setDraftMessage] = useState<Message>()
   const [content, setContent] = useState("")
-
+  const debouncedContent = useDebounce(content, 1000)
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Thread>(threads)
+  const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
+  const [deletedThreads, setDeletedThreads] = useState<string[]>([])
 
-  const getDeletingMessage = (ids: string[]): TranslationMessage => {
-    const findById = (thread: Thread) => thread.id === ids[0]
-    const thread = threads.find(findById) as Thread
+  useEffect(() => {
+    messageLayoutNotifications
+      .filter(
+        (item) => (item.content as Message)?.messageType === MessageType.OUTBOX
+      )
+      .forEach((item) => {
+        removeLayoutNotification(item.id)
+      })
+  }, [messageLayoutNotifications])
 
-    return {
-      ...messages.deleteModalBody,
-      values: {
-        caller: getPrettyCaller(
-          getContactByPhoneNumber(thread.phoneNumber),
-          thread.id
-        ),
-        num: allRowsSelected ? -1 : ids.length,
-        ...textFormatters,
-      },
+  useEffect(() => {
+    if (!loaded || error) {
+      return
     }
-  }
 
-  const remove = (ids: string[]) => {
-    const title = intl.formatMessage(messages.deleteModalTitle)
-    const message = getDeletingMessage(ids)
-    const onDelete = () => {
-      deleteThreads(ids)
-      resetRows()
+    const firstTimeout = setTimeout(() => {
+      if (states.messageDeleting) {
+        updateFieldState("messageDeleting", false)
+        updateFieldState("messageDeletingConfirmation", false)
+        updateFieldState("messageDeletingInfo", true)
+      }
+
+      if (states.threadDeleting) {
+        updateFieldState("threadDeleting", false)
+        updateFieldState("threadDeletingInfo", true)
+      }
+    }, 1000)
+
+    const secondTimeout = setTimeout(() => {
+      resetState()
+    }, 5000)
+
+    return () => {
+      clearTimeout(firstTimeout)
+      clearTimeout(secondTimeout)
+    }
+  }, [loaded, error])
+
+  useEffect(() => {
+    handlePotentialThreadDeletion()
+  }, [threads])
+
+  useEffect(() => {
+    if (!activeThread) {
+      return
+    }
+
+    setPhoneNumber(activeThread.phoneNumber)
+  }, [activeThread])
+
+  useEffect(() => {
+    if (!activeThread) {
+      return
+    }
+
+    const thread = threads.find(isThreadNumberEqual(activeThread.phoneNumber))
+
+    if (activeThread.id === thread?.id) {
+      return
+    } else if (thread) {
+      openThreadDetails(thread)
+    } else if (tmpActiveThread === undefined && thread === undefined) {
       setActiveThread(undefined)
-      modalService.closeModal()
+    }
+  }, [activeThread, threads])
+
+  useEffect(() => {
+    if (!flags.get(Feature.MessagesDraftStatus)) {
+      return
     }
 
-    modalService.openModal(
-      <DeleteModal
-        title={title}
-        message={message}
-        onClose={resetRows}
-        onDelete={onDelete}
-      />
-    )
+    if (draftMessage) {
+      if (content && content !== draftMessage.content) {
+        updateMessage({ ...draftMessage, content })
+      }
+
+      if (!content.length) {
+        deleteMessage(draftMessage.id)
+        updateFieldState("draftDeleting", true)
+        setDraftMessage(undefined)
+        setContent("")
+      }
+    } else {
+      if (debouncedContent) {
+        handleAddNewMessage(MessageType.DRAFT)
+        updateFieldState("draftDeleting", false)
+      }
+    }
+  }, [debouncedContent])
+
+  useEffect(() => {
+    if (!flags.get(Feature.MessagesDraftStatus)) {
+      return
+    }
+
+    if (!activeThread || states.draftDeleting) {
+      return
+    }
+
+    const tmpDraftMessage = getThreadDraftMessageSelector(activeThread.id)
+    if (tmpDraftMessage) {
+      setDraftMessage(tmpDraftMessage)
+      setContent(tmpDraftMessage.content)
+    }
+  }, [activeThread, threads])
+
+  const handlePotentialThreadDeletion = () => {
+    const isThreadInThreadsList = (thread: Thread) => {
+      return threads.find((item) => item.id === thread.id)
+    }
+
+    if (
+      activeThread &&
+      !isMockedThreadUsedForNewMessageForm(activeThread) &&
+      !isThreadInThreadsList(activeThread)
+    ) {
+      setMessagesState(MessagesState.List)
+      setActiveThread(undefined)
+    }
   }
-
-  const removeSingleConversation = (id: string) => remove([id])
-
-  const history = useHistory()
 
   const contactClick = (phoneNumber: string) => {
     history.push(
@@ -191,13 +264,55 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const openAttachContactModal = () => {
-    modalService.openModal(
-      <AttachContactModal
-        contactFlatList={attachContactFlatList}
-        contactList={attachContactList}
-      />,
-      true
-    )
+    updateFieldState("attachContact", true)
+  }
+
+  const closeAttachContactModal = () => {
+    updateFieldState("attachContact", false)
+  }
+
+  const openBrowseContactModal = () => {
+    updateFieldState("browseContact", true)
+  }
+
+  const closeBrowseContactModal = () => {
+    updateFieldState("browseContact", false)
+  }
+
+  const openAttachTemplateModal = () => {
+    updateFieldState("attachTemplate", true)
+  }
+
+  const closeAttachTemplateModal = () => {
+    updateFieldState("attachTemplate", false)
+  }
+
+  const handleBrowseContactSelection = (contact: Contact | null): void => {
+    if (!contact) {
+      return
+    }
+
+    if (contact.primaryPhoneNumber) {
+      handlePhoneNumberSelect(contact.primaryPhoneNumber)
+    } else if (contact.secondaryPhoneNumber) {
+      handlePhoneNumberSelect(contact.secondaryPhoneNumber)
+    }
+
+    updateFieldState("browseContact", false)
+  }
+
+  const handleBrowsePhoneNumberSelection = (phoneNumber: string): void => {
+    handlePhoneNumberSelect(phoneNumber)
+    updateFieldState("browseContact", false)
+  }
+
+  const handleContactAttach = (contact: Contact): void => {
+    if (!contact) {
+      return
+    }
+
+    updateFieldState("attachContact", false)
+    setContent(ContactAttachmentPresenter.toAttachment(contact))
   }
 
   const openNewMessage = (): void => {
@@ -212,12 +327,15 @@ const Messages: FunctionComponent<Props> = ({
     setActiveThread(thread)
     setTmpActiveThread(undefined)
     setMessagesState(MessagesState.ThreadDetails)
+    resetRows()
   }
 
   const closeSidebars = (): void => {
     setContent("")
     setActiveThread(undefined)
     setTmpActiveThread(undefined)
+    setDraftMessage(undefined)
+    updateFieldState("draftDeleting", false)
     setMessagesState(MessagesState.List)
   }
 
@@ -233,84 +351,107 @@ const Messages: FunctionComponent<Props> = ({
   const handleThreadClick = (thread: Thread): void => {
     if (activeThread?.id !== thread.id) {
       openThreadDetails(thread)
+
+      if (!thread.unread) {
+        return
+      }
+
+      markThreadsReadStatus([thread])
     }
   }
 
-  const handleDeleteClick = (): void => {
-    if (tmpActiveThread !== undefined) {
-      closeSidebars()
-    } else if (activeThread) {
-      remove([activeThread.id])
-    }
-  }
   const handleContactClick = (): void => {
-    if (activeThread) {
-      history.push(
-        createRouterPath(URL_MAIN.contacts, {
-          phoneNumber: activeThread.phoneNumber,
-        })
-      )
+    if (!activeThread) {
+      return
     }
+
+    history.push(
+      createRouterPath(URL_MAIN.contacts, {
+        phoneNumber: activeThread.phoneNumber,
+      })
+    )
   }
 
   const markAsUnread = (): void => {
-    if (activeThread) {
-      toggleReadStatus([activeThread.id])
-      closeSidebars()
+    if (!activeThread || !activeThread.unread) {
+      return
     }
+
+    toggleReadStatus([activeThread])
+    resetRows()
+    closeSidebars()
+  }
+
+  const markAsRead = (): void => {
+    if (!activeThread) {
+      return
+    }
+
+    if (!activeThread.unread) {
+      return
+    }
+
+    markThreadsReadStatus([activeThread])
   }
 
   const handleContentChange = (content: string): void => {
-    setContent((previousValue) => {
-      return content.length >= 115 ? previousValue : content
-    })
+    setContent(content)
   }
 
-  const handleAddNewMessage = async (phoneNumber: string): Promise<void> => {
-    const threadId = threads.find(
-      (thread) => thread.phoneNumber === phoneNumber
-    )?.id
-    await addNewMessage({ content, phoneNumber, threadId })
+  const handleToggleReadStatus = (threads: Thread[]) => {
+    toggleReadStatus(threads)
+    resetRows()
   }
 
-  useEffect(() => {
-    if (activeThread !== undefined) {
-      const thread = threads.find(
-        (thread) => thread.phoneNumber === activeThread.phoneNumber
-      )
-      if (thread) {
-        openThreadDetails(thread)
-      } else {
-        setActiveThread(undefined)
-      }
+  const handleAddNewMessage = async (
+    messageType = MessageType.OUTBOX
+  ): Promise<void> => {
+    if (draftMessage) {
+      await deleteMessage(draftMessage.id)
+      setDraftMessage(undefined)
     }
-  }, [activeThread, threads])
 
-  const handleNewMessageSendClick = async (number: string) => {
-    await handleAddNewMessage(number)
+    const threadId = threads.find(isThreadNumberEqual(phoneNumber))?.id
+    if (tmpActiveThread !== undefined) {
+      handleReceiverSelect({ phoneNumber })
+    }
+    await addNewMessage({ content, phoneNumber, threadId, messageType })
+
+    if (messageType === MessageType.OUTBOX) {
+      setContent("")
+    }
+  }
+
+  const handleNewMessageSendClick = async () => {
+    await handleAddNewMessage()
   }
 
   const handleSendClick = async () => {
-    if (activeThread) {
-      const phoneNumber = activeThread.phoneNumber
-      await handleAddNewMessage(phoneNumber)
+    if (!activeThread) {
+      return
     }
+
+    await handleAddNewMessage()
   }
 
-  const handleReceiverSelect = ({
-    phoneNumber,
-  }: Pick<Receiver, "phoneNumber">) => {
-    const thread = threads.find(
-      (thread) =>
-        mapToRawNumber(thread.phoneNumber) === mapToRawNumber(phoneNumber)
-    )
+  const handleReceiverSelect = (receiver: Pick<Receiver, "phoneNumber">) => {
+    if (!receiver) {
+      return
+    }
+
+    setPhoneNumber(receiver.phoneNumber)
+
+    const thread = threads.find(isThreadNumberEqual(receiver.phoneNumber))
 
     if (thread) {
       setActiveThread(thread)
       setTmpActiveThread(undefined)
       setMessagesState(MessagesState.ThreadDetails)
     } else {
-      const tmpThread: Thread = { ...mockThread, phoneNumber }
+      const tmpThread: Thread = {
+        ...mockThread,
+        phoneNumber: receiver.phoneNumber,
+      }
       setTmpActiveThread(tmpThread)
       setActiveThread(tmpThread)
       setMessagesState(MessagesState.ThreadDetails)
@@ -318,9 +459,11 @@ const Messages: FunctionComponent<Props> = ({
   }
 
   const handlePhoneNumberSelect = (phoneNumber: string) => {
-    handleReceiverSelect({
-      phoneNumber,
-    })
+    if (!phoneNumber) {
+      return
+    }
+
+    handleReceiverSelect({ phoneNumber: phoneNumber })
   }
 
   const getViewReceiver = (activeThread: Thread): Receiver => {
@@ -350,13 +493,6 @@ const Messages: FunctionComponent<Props> = ({
       return threads
     }
   }
-  const getThreadsTotalCount = (): number => {
-    if (tmpActiveThread !== undefined) {
-      return threadsTotalCount + 1
-    } else {
-      return threadsTotalCount
-    }
-  }
 
   const loadMoreRows = async ({ startIndex }: IndexRange): Promise<void> => {
     return new Promise((resolve) => {
@@ -367,18 +503,115 @@ const Messages: FunctionComponent<Props> = ({
     })
   }
 
+  // Delete messages functionality
+  const handleDeleteMessage = () => {
+    assert(messageToDelete)
+    deleteMessage(messageToDelete)
+    setMessageToDelete(undefined)
+
+    updateFieldState("messageDeletingConfirmation", false)
+    updateFieldState("messageDeleting", true)
+  }
+
+  const hideDeleteMessageConfirmationModal = () => {
+    setMessageToDelete(undefined)
+    updateFieldState("messageDeleting", false)
+  }
+
+  const hideDeleteMessageErrorModal = () => {
+    updateFieldState("messageDeleting", false)
+  }
+
+  const openDeleteMessageModal = (messageId: string) => {
+    setMessageToDelete(messageId)
+    updateFieldState("messageDeletingConfirmation", true)
+  }
+
+  // Delete threads functionality
+  const hideDeleteThreadConfirmationModal = () => {
+    updateFieldState("threadDeletingConfirmation", false)
+  }
+
+  const hideDeleteThreadErrorModal = () => {
+    updateFieldState("threadDeleting", false)
+  }
+
+  const handleConfirmThreadDelete = async (): Promise<void> => {
+    updateFieldState("threadDeletingConfirmation", false)
+    updateFieldState("threadDeleting", true)
+
+    await deleteThreads(deletedThreads)
+
+    resetRows()
+    setActiveThread(undefined)
+  }
+
+  const handleDeleteThreads = (): void => {
+    const ids = selectedRows.map((thread) => thread.id)
+    setDeletedThreads(ids)
+    updateFieldState("threadDeletingConfirmation", true)
+  }
+
+  const handleDeleteThread = (id: string): void => {
+    setDeletedThreads([id])
+    updateFieldState("threadDeletingConfirmation", true)
+  }
+
+  const handleDeleteTmpThreadClick = async (): Promise<void> => {
+    if (tmpActiveThread !== undefined) {
+      closeSidebars()
+    } else if (activeThread) {
+      await deleteThreads([activeThread.id])
+      resetRows()
+      setActiveThread(undefined)
+    }
+  }
+
+  const handleSelectTemplate = (template: Template) => {
+    setContent(template.text)
+    closeAttachTemplateModal()
+  }
   return (
     <>
+      <ContactSelectModal
+        testId={MessagesTestIds.AttachContactModal}
+        withPhoneNumberOnly={false}
+        open={states.attachContact}
+        onClose={closeAttachContactModal}
+        onContactSelect={handleContactAttach}
+        title={intl.formatMessage(
+          contactsModalMessages.attachContactModalTitle
+        )}
+      />
+      <ContactSelectModal
+        testId={MessagesTestIds.BrowseContactsModal}
+        open={states.browseContact}
+        withPhoneNumberOnly
+        onClose={closeBrowseContactModal}
+        onContactSelect={handleBrowseContactSelection}
+        onPhoneNumberSelect={handleBrowsePhoneNumberSelection}
+        title={intl.formatMessage(
+          contactsModalMessages.browseContactsModalTitle
+        )}
+      />
+      <TemplatesSelectModal
+        open={states.attachTemplate}
+        onClose={closeAttachTemplateModal}
+        onSelect={handleSelectTemplate}
+        templates={templates}
+      />
       <MessagesPanel
         searchValue={searchValue}
         onSearchValueChange={changeSearchValue}
         onNewMessageClick={handleNewMessageClick}
         buttonDisabled={messagesState === MessagesState.NewMessage}
+        selectedThreads={selectedRows}
+        allItemsSelected={allRowsSelected}
+        toggleAll={toggleAll}
+        onDeleteClick={handleDeleteThreads}
       />
       <TableWithSidebarWrapper>
-        {threads.length === 0 &&
-        messagesState !== MessagesState.NewMessage &&
-        messagesState !== MessagesState.ThreadDetails ? (
+        {threads.length === 0 && messagesState === MessagesState.List ? (
           <EmptyState
             data-testid={MessagesTestIds.EmptyThreadListState}
             title={messages.emptyListTitle}
@@ -387,14 +620,13 @@ const Messages: FunctionComponent<Props> = ({
         ) : (
           <ThreadList
             data-testid={MessagesTestIds.ThreadList}
-            threadsTotalCount={getThreadsTotalCount()}
             language={language}
             activeThread={activeThread}
             threads={getThreads()}
             onThreadClick={handleThreadClick}
             getContactByPhoneNumber={getContactByPhoneNumber}
-            onDeleteClick={removeSingleConversation}
-            onToggleReadStatus={toggleReadStatus}
+            onDeleteClick={handleDeleteThread}
+            onToggleReadStatus={handleToggleReadStatus}
             onContactClick={contactClick}
             loadMoreRows={loadMoreRows}
             newConversation={mockThread.phoneNumber}
@@ -406,17 +638,24 @@ const Messages: FunctionComponent<Props> = ({
             data-testid={MessagesTestIds.ThreadDetails}
             content={content}
             receiver={getViewReceiver(activeThread)}
-            messages={getMessagesByThreadId(activeThread.id)}
+            messages={getActiveMessagesByThreadIdSelector(activeThread.id)}
+            currentlyDeletingMessageId={currentlyDeletingMessageId}
             contactCreated={isContactCreatedByPhoneNumber(
               activeThread.phoneNumber
             )}
             onAttachContactClick={openAttachContactModal}
             onContactClick={handleContactClick}
-            onDeleteClick={handleDeleteClick}
+            onDeleteClick={handleDeleteTmpThreadClick}
             onCheckClick={markAsUnread}
             onClose={closeSidebars}
             onSendClick={handleSendClick}
             onContentChange={handleContentChange}
+            messageLayoutNotifications={messageLayoutNotifications}
+            removeLayoutNotification={removeLayoutNotification}
+            onMessageRead={markAsRead}
+            onMessageDelete={openDeleteMessageModal}
+            resendMessage={resendMessage}
+            onAttachTemplateClick={openAttachTemplateModal}
           />
         )}
         {messagesState === MessagesState.NewMessage && (
@@ -430,9 +669,32 @@ const Messages: FunctionComponent<Props> = ({
             onReceiverSelect={handleReceiverSelect}
             onClose={closeSidebars}
             onAttachContactClick={openAttachContactModal}
+            onBrowseContactsClick={openBrowseContactModal}
+            onAttachTemplateClick={openAttachTemplateModal}
           />
         )}
       </TableWithSidebarWrapper>
+
+      <DeleteThreadModals
+        deletedThreads={deletedThreads}
+        deletingConfirmation={states.threadDeletingConfirmation}
+        deleting={states.threadDeleting}
+        deletingInfo={states.threadDeletingInfo}
+        error={error}
+        onCloseDeletingModal={hideDeleteThreadConfirmationModal}
+        onCloseDeletingErrorModal={hideDeleteThreadErrorModal}
+        onDelete={handleConfirmThreadDelete}
+      />
+
+      <DeleteMessageModals
+        deletingConfirmation={states.messageDeletingConfirmation}
+        deleting={states.messageDeleting}
+        deletingInfo={states.messageDeletingInfo}
+        error={error}
+        onCloseDeletingModal={hideDeleteMessageConfirmationModal}
+        onCloseDeletingErrorModal={hideDeleteMessageErrorModal}
+        onDelete={handleDeleteMessage}
+      />
     </>
   )
 }

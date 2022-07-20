@@ -4,12 +4,12 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import changeSimRequest from "Renderer/requests/change-sim.request"
-import { DeviceEvent } from "App/device/constants"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
-import { DeviceChangeSimError } from "App/device/errors"
-import { setSimData } from "App/device/actions/base.action"
+import { AppError } from "App/core/errors"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { setSimData } from "App/device/actions/base.action"
+import { DeviceError, DeviceEvent } from "App/device/constants"
+import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
+import changeSimRequest from "App/__deprecated__/renderer/requests/change-sim.request"
 
 export const changeSim = createAsyncThunk<SimCard, SimCard>(
   DeviceEvent.ChangeSimData,
@@ -18,7 +18,7 @@ export const changeSim = createAsyncThunk<SimCard, SimCard>(
 
     if (response.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(
-        new DeviceChangeSimError("Cannot change sim card", response)
+        new AppError(DeviceError.ChangeSim, "Cannot change sim card", response)
       )
     }
 

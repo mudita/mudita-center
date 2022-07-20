@@ -4,23 +4,23 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { Event } from "App/crash-dump/constants"
-import { ReduxRootState } from "App/renderer/store"
-import { SendingCrashDumpError } from "App/crash-dump/errors"
-import { DeviceConnectionError } from "App/device"
-import { removeFile } from "App/device-file-system"
+import {
+  attachedFileName,
+  downloadingLogs,
+} from "App/contact-support/helpers/downloading-logs"
+import { AppError } from "App/core/errors"
 import { resetCrashDump } from "App/crash-dump/actions/base.action"
-import createFreshdeskTicket from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
+import { CrashDumpError, Event } from "App/crash-dump/constants"
+import { removeFile } from "App/device-file-system"
+import { DeviceError } from "App/device/constants"
+import archiveFiles from "App/__deprecated__/renderer/requests/archive-files.request"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import createFile from "App/__deprecated__/renderer/utils/create-file/create-file"
+import createFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import {
   FreshdeskTicketData,
   FreshdeskTicketDataType,
-} from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
-import createFile from "Renderer/utils/create-file/create-file"
-import archiveFiles from "Renderer/requests/archive-files.request"
-import {
-  downloadingLogs,
-  attachedFileName,
-} from "App/contact-support/helpers/downloading-logs"
+} from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 
 const mapToAttachments = (paths: string[]): File[] => {
   return paths.map((path) => createFile(path))
@@ -37,7 +37,7 @@ export const sendCrashDumpData = createAsyncThunk(
 
     if (!state.device.data?.serialNumber) {
       return rejectWithValue(
-        new DeviceConnectionError("Device isn't connected")
+        new AppError(DeviceError.Connection, "Device isn't connected")
       )
     }
 
@@ -47,7 +47,8 @@ export const sendCrashDumpData = createAsyncThunk(
 
     if (buffer === undefined) {
       return rejectWithValue(
-        new SendingCrashDumpError(
+        new AppError(
+          CrashDumpError.Sending,
           "Create Crash Dump Ticket - ArchiveFiles error"
         )
       )
@@ -73,7 +74,8 @@ export const sendCrashDumpData = createAsyncThunk(
       await createFreshdeskTicket(data)
     } catch (error) {
       return rejectWithValue(
-        new SendingCrashDumpError(
+        new AppError(
+          CrashDumpError.Sending,
           "The error happened during crash dump sending process",
           error
         )

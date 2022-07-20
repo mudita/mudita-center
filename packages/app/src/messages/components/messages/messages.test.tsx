@@ -4,11 +4,18 @@
  */
 
 import React, { ComponentProps } from "react"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { Router } from "react-router"
-import { RenderResult } from "@testing-library/react"
+import { Provider } from "react-redux"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { RenderOptions, RenderResult } from "@testing-library/react"
 import { createMemoryHistory } from "history"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import {
+  constructWrapper,
+  renderWithThemeAndIntl,
+} from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
 import Messages from "App/messages/components/messages/messages.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
@@ -16,19 +23,26 @@ import { fireEvent, waitFor } from "@testing-library/dom"
 import {
   Receiver,
   ReceiverIdentification,
-  ResultState,
-  Thread,
 } from "App/messages/reducers/messages.interface"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import { TableTestIds } from "Renderer/components/core/table/table.enum"
+import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
 import { MessagesTestIds } from "App/messages/components/messages/messages-test-ids.enum"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { ReceiverInputSelectTestIds } from "App/messages/components/receiver-input-search/receiver-input-search-test-ids.enum"
+import { MessageType, ResultState } from "App/messages/constants"
+import { Thread } from "App/messages/dto"
 import { flags } from "App/feature-flags"
+import { NewMessageFormSidebarTestIds } from "App/messages/components/new-message-form-sidebar/new-message-form-sidebar-test-ids.enum"
+import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
+import * as ContactSelectModalModule from "App/contacts/components/contacts-select-modal/contacts-select-modal.component"
 
-jest.mock("App/feature-flags")
+jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
+  flags: {
+    get: () => true,
+  },
+}))
 
 jest.mock("react-virtualized", () => {
   const ReactVirtualized = jest.requireActual("react-virtualized")
@@ -52,6 +66,16 @@ const unknownContact: Contact = {
   primaryPhoneNumber: "+123 456 123",
 }
 
+const contactsMap: Record<string, Contact> = {
+  1: contact,
+  2: unknownContact,
+}
+
+const unknownReceiver: Receiver = {
+  phoneNumber: "200 000 00",
+  identification: ReceiverIdentification.unknown,
+}
+
 const firstThreadId = "1"
 const secondThreadId = "2"
 
@@ -62,6 +86,7 @@ const firstThread: Thread = {
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+  messageType: MessageType.INBOX,
 }
 
 const secondThread: Thread = {
@@ -71,6 +96,17 @@ const secondThread: Thread = {
   lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
   messageSnippet:
     "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+  messageType: MessageType.INBOX,
+}
+
+const incomingThread: Thread = {
+  id: "3",
+  phoneNumber: unknownReceiver.phoneNumber,
+  unread: true,
+  lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
+  messageSnippet:
+    "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+  messageType: MessageType.INBOX,
 }
 
 const receiver: Receiver = {
@@ -80,14 +116,17 @@ const receiver: Receiver = {
   identification: ReceiverIdentification.unknown,
 }
 
-beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
+beforeAll(() => {
+  mockAllIsIntersecting(true)
+  Element.prototype.scrollIntoView = jest.fn()
+})
 
 type Props = ComponentProps<typeof Messages>
 
 const defaultProps: Props = {
-  threadsTotalCount: 0,
   threadsState: ResultState.Empty,
   threads: [],
+  templates: [],
   receivers: [],
   searchValue: "",
   language: "en",
@@ -98,27 +137,30 @@ const defaultProps: Props = {
   getContact: jest.fn(),
   getMessagesStateByThreadId: jest.fn(),
   isContactCreatedByPhoneNumber: jest.fn(),
-  getMessagesByThreadId: jest.fn().mockReturnValue([contact]),
-  attachContactList: [],
-  attachContactFlatList: [],
+  getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([contact]),
   messageLayoutNotifications: [],
   removeLayoutNotification: jest.fn(),
+  currentlyDeletingMessageId: null,
+  deleteMessage: jest.fn(),
+  resendMessage: jest.fn(),
+  getThreadDraftMessageSelector: jest.fn(),
+  updateMessage: jest.fn(),
+  error: null,
+  loaded: false,
 }
 
 const propsWithSingleThread: Partial<Props> = {
-  threadsTotalCount: 1,
   threadsState: ResultState.Loaded,
   threads: [firstThread],
   receivers: [receiver],
-  attachContactFlatList: [contact],
   loadThreads: jest.fn().mockReturnValue({ payload: undefined }),
   getReceiver: jest.fn().mockReturnValue(receiver),
   getContactByPhoneNumber: jest.fn(),
   addNewMessage: jest.fn(),
   getContact: jest.fn(),
-  getMessagesStateByThreadId: jest.fn(),
+  getThreadDraftMessageSelector: jest.fn(),
   isContactCreatedByPhoneNumber: jest.fn(),
-  getMessagesByThreadId: jest.fn().mockReturnValue([
+  getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([
     {
       content: "Test Message #1",
       date: new Date("1970-01-01T00:06:31.000Z"),
@@ -135,9 +177,16 @@ type callback = (outcome: RenderResult) => void
 type RenderProps = Partial<Props> & { callbacks?: callback[] }
 
 const renderer = (
-  { callbacks = [], ...extraProps }: RenderProps = { callbacks: [] }
+  { callbacks = [], ...extraProps }: RenderProps = { callbacks: [] },
+  options?: Omit<RenderOptions, "queries">
 ) => {
   const history = createMemoryHistory()
+  const storeMock = createMockStore([thunk])({
+    contacts: {
+      db: contactsMap,
+      collection: ["1", "2"],
+    },
+  } as unknown as ReduxRootState)
   const props = {
     ...defaultProps,
     ...extraProps,
@@ -145,13 +194,31 @@ const renderer = (
 
   const outcome = renderWithThemeAndIntl(
     <Router history={history}>
-      <Messages {...props} />
-    </Router>
+      <Provider store={storeMock}>
+        <Messages {...props} />
+      </Provider>
+    </Router>,
+    options
   )
-  mockAllIsIntersecting(true)
+
   callbacks.forEach((callback) => callback(outcome))
   return {
     ...outcome,
+    rerender: (newExtraProps: Partial<RenderProps>) => {
+      const newProps = {
+        ...defaultProps,
+        ...newExtraProps,
+      }
+      outcome.rerender(
+        constructWrapper(
+          <Router history={history}>
+            <Provider store={storeMock}>
+              <Messages {...newProps} />
+            </Provider>
+          </Router>
+        )
+      )
+    },
   }
 }
 
@@ -174,12 +241,23 @@ const putReceiverNumber = ({ queryByTestId }: RenderResult): void => {
   fireEvent.change(input, { target: { value: firstThread.phoneNumber } })
 }
 
+const putNewReceiverNumber = ({ queryByTestId }: RenderResult): void => {
+  const input = queryByTestId(
+    ReceiverInputSelectTestIds.Input
+  ) as HTMLInputElement
+  fireEvent.change(input, { target: { value: unknownReceiver.phoneNumber } })
+}
+
 const setNewMessageState = ({ queryByTestId }: RenderResult): void => {
   const button = queryByTestId(
     MessagePanelTestIds.NewMessageButton
   ) as HTMLElement
   fireEvent.click(button)
 }
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
 
 describe("Messages component", () => {
   describe("when component is render with defaults props", () => {
@@ -227,7 +305,7 @@ describe("Messages component", () => {
     })
 
     test("length of passed empty thread list should be equal 0", () => {
-      const { queryByTestId } = renderer({ threads: [], threadsTotalCount: 0 })
+      const { queryByTestId } = renderer({ threads: [] })
       expect(queryByTestId(ThreadListTestIds.Row)).not.toBeInTheDocument()
     })
 
@@ -302,9 +380,16 @@ describe("Messages component", () => {
     })
 
     test("ThreadDetails closes if thread doesn't exist", () => {
-      const { queryByTestId } = renderer(defaultProps)
+      const outcome1 = renderer(renderProps)
       expect(
-        queryByTestId(MessagesTestIds.ThreadDetails)
+        outcome1.queryByTestId(MessagesTestIds.ThreadDetails)
+      ).toBeInTheDocument()
+      const outcome2 = renderer(
+        { threads: [] },
+        { container: outcome1.container }
+      )
+      expect(
+        outcome2.queryByTestId(MessagesTestIds.ThreadDetails)
       ).not.toBeInTheDocument()
     })
 
@@ -336,7 +421,6 @@ describe("Messages component", () => {
       const { queryByTestId } = renderer({
         ...renderProps,
         threads: [],
-        threadsTotalCount: 0,
       })
       expect(queryByTestId(ThreadListTestIds.Row)).toBeInTheDocument()
     })
@@ -383,7 +467,7 @@ describe("Messages component", () => {
     test("choosing the receiver at form opens ThreadDetails component", async () => {
       const { queryByTestId } = renderer({
         ...renderProps,
-        getMessagesByThreadId: jest.fn().mockReturnValue([
+        getActiveMessagesByThreadIdSelector: jest.fn().mockReturnValue([
           {
             content: "Test Message #1",
             date: new Date("1970-01-01T00:06:31.000Z"),
@@ -494,7 +578,6 @@ describe("Messages component", () => {
       const { queryByTestId, queryAllByTestId } = renderer({
         ...renderProps,
         threads: [firstThread, secondThread],
-        threadsTotalCount: 2,
       })
       const tableRow = queryAllByTestId(ThreadListTestIds.Row)[1]
       fireEvent.click(tableRow)
@@ -548,12 +631,61 @@ describe("Messages component", () => {
     })
   })
 
+  describe("when NewMessageForm is open with some content and new receiver number is put", () => {
+    const renderProps: RenderProps = {
+      callbacks: [setNewMessageState, setMockContent, putNewReceiverNumber],
+      ...propsWithSingleThread,
+    }
+
+    test("`NewMessageForm` closes after clicking send button", async () => {
+      const addNewMessage = jest.fn()
+      const outcome = renderer({ ...renderProps, addNewMessage })
+      const input = outcome.queryByTestId(
+        ReceiverInputSelectTestIds.Input
+      ) as HTMLInputElement
+      fireEvent.keyDown(input, { keyCode: 13 })
+      fireEvent.click(
+        outcome.queryByTestId(
+          ThreadDetailsTextAreaTestIds.SendButton
+        ) as HTMLElement
+      )
+      const outcome2 = renderer(
+        { threads: [incomingThread] },
+        { container: outcome.container }
+      )
+      expect(
+        outcome2.queryByTestId(MessagesTestIds.NewMessageForm)
+      ).not.toBeInTheDocument()
+      expect(
+        outcome2.queryByTestId(MessagesTestIds.ThreadDetails)
+      ).toBeInTheDocument()
+    })
+  })
+
   test("when at least one checkbox is checked, all checkboxes are visible", () => {
     const { getAllByTestId } = renderer(propsWithSingleThread)
     const checkboxes = getAllByTestId("checkbox")
     checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
     fireEvent.click(checkboxes[0])
     checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
+  })
+
+  test("Remove checkboxes  and selection manager when opening thread details", () => {
+    const { queryAllByTestId, queryByTestId } = renderer(propsWithSingleThread)
+    const checkboxes = queryAllByTestId("checkbox")
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
+    fireEvent.click(checkboxes[0])
+    checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
+    expect(
+      queryByTestId(MessagePanelTestIds.SelectionManager)
+    ).toBeInTheDocument()
+    const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
+    fireEvent.click(tableRow)
+    expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
+    expect(
+      queryByTestId(MessagePanelTestIds.SelectionManager)
+    ).not.toBeInTheDocument()
   })
 
   test("dropdown call button has correct content", () => {
@@ -592,7 +724,7 @@ describe("Messages component", () => {
     const { getByTestId } = renderer({
       ...propsWithSingleThread,
       getContactByPhoneNumber,
-      getMessagesByThreadId: jest.fn(),
+      getActiveMessagesByThreadIdSelector: jest.fn(),
     })
     expect(getByTestId("dropdown-contact-details")).toBeInTheDocument()
   })
@@ -612,7 +744,7 @@ describe("Messages component", () => {
   })
 
   test("dropdown mark as read button has correct content ", () => {
-    jest.spyOn(flags, "get").mockReturnValueOnce(false)
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
       intl.formatMessage({
@@ -622,13 +754,13 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown mark as read buttons", () => {
-    jest.spyOn(flags, "get").mockReturnValueOnce(false)
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-mark-as-read")).toBeInTheDocument()
   })
 
   test("dropdown delete button has correct content", () => {
-    jest.spyOn(flags, "get").mockReturnValueOnce(true)
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getAllByTestId } = renderer(propsWithSingleThread)
     expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
       intl.formatMessage({
@@ -638,8 +770,205 @@ describe("Messages component", () => {
   })
 
   test("displays correct amount of dropdown delete buttons", () => {
-    jest.spyOn(flags, "get").mockReturnValueOnce(true)
+    jest.spyOn(flags, "get").mockReturnValue(true)
     const { getByTestId } = renderer(propsWithSingleThread)
     expect(getByTestId("dropdown-delete")).toBeInTheDocument()
+  })
+
+  describe("when the thread is deleted", () => {
+    describe("when deleted thread is the active thread", () => {
+      test("the thread details view is closed", () => {
+        const firstTimeRenderProps: RenderProps = {
+          callbacks: [setThreadDetailsState],
+          ...propsWithSingleThread,
+          threads: [firstThread, secondThread],
+        }
+
+        const rerenderComponentsProps = {
+          ...propsWithSingleThread,
+          threads: [secondThread],
+        }
+
+        // lets's have two threads and make the first one active
+        const { rerender, queryByTestId } = renderer(firstTimeRenderProps)
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+
+        // then simulate the fact of deleting the first thread
+        rerender(rerenderComponentsProps)
+        expect(
+          queryByTestId(MessagesTestIds.ThreadDetails)
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    describe("when deleted thread is not the active thread", () => {
+      test("the thread details view is not closed", () => {
+        const firstTimeRenderProps: RenderProps = {
+          callbacks: [setThreadDetailsState],
+          ...propsWithSingleThread,
+          threads: [firstThread, secondThread],
+        }
+
+        const rerenderComponentsProps = {
+          ...propsWithSingleThread,
+          threads: [firstThread],
+        }
+
+        const { rerender, queryByTestId } = renderer(firstTimeRenderProps)
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+
+        rerender(rerenderComponentsProps)
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+      })
+    })
+
+    describe("when the deleted thread is the last one", () => {
+      test("empty state list should be shown", () => {
+        const firstTimeRenderProps: RenderProps = {
+          callbacks: [setThreadDetailsState],
+          ...propsWithSingleThread,
+          threads: [firstThread],
+        }
+
+        const rerenderComponentsProps = {
+          ...propsWithSingleThread,
+          threads: [],
+        }
+
+        const { rerender, queryByTestId } = renderer(firstTimeRenderProps)
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+        expect(
+          queryByTestId(MessagesTestIds.EmptyThreadListState)
+        ).not.toBeInTheDocument()
+
+        rerender(rerenderComponentsProps)
+        expect(
+          queryByTestId(MessagesTestIds.EmptyThreadListState)
+        ).toBeInTheDocument()
+      })
+    })
+  })
+
+  describe("browse contacts on new message form", () => {
+    test("opens browse modal on click", () => {
+      const { queryByTestId } = renderer({ callbacks: [setNewMessageState] })
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).not.toBeInTheDocument()
+
+      const browseContactsButton = queryByTestId(
+        NewMessageFormSidebarTestIds.BrowseContacts
+      ) as HTMLElement
+      fireEvent.click(browseContactsButton)
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).toBeInTheDocument()
+    })
+
+    test("closes browse modal on click", () => {
+      const { queryByTestId, getByTestId } = renderer({
+        callbacks: [setNewMessageState],
+      })
+      const browseContactsButton = queryByTestId(
+        NewMessageFormSidebarTestIds.BrowseContacts
+      ) as HTMLElement
+      fireEvent.click(browseContactsButton)
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).toBeInTheDocument()
+
+      getByTestId(ModalTestIds.CloseButton).click()
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).not.toBeInTheDocument()
+    })
+
+    test("selecting any contact closes the modal, new message form and opens thread details", async () => {
+      const spy = jest.spyOn(ContactSelectModalModule, "ContactSelectModal")
+
+      const { queryByTestId } = renderer({
+        callbacks: [setNewMessageState],
+      })
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(MessagesTestIds.ThreadDetails)
+      ).not.toBeInTheDocument()
+      expect(queryByTestId(MessagesTestIds.NewMessageForm)).toBeInTheDocument()
+
+      const browseContactsButton = queryByTestId(
+        NewMessageFormSidebarTestIds.BrowseContacts
+      ) as HTMLElement
+      fireEvent.click(browseContactsButton)
+
+      const contactsSelectModalsCalls = spy.mock.calls
+
+      const onlyBrowseContactsModalCalls = contactsSelectModalsCalls.filter(
+        (item) => item[0].testId === MessagesTestIds.BrowseContactsModal
+      )
+
+      onlyBrowseContactsModalCalls[
+        onlyBrowseContactsModalCalls.length - 1
+      ][0].onContactSelect(contact)
+
+      await waitFor(() => {
+        expect(
+          queryByTestId(MessagesTestIds.BrowseContactsModal)
+        ).not.toBeInTheDocument()
+        expect(
+          queryByTestId(MessagesTestIds.NewMessageForm)
+        ).not.toBeInTheDocument()
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+      })
+    })
+    test("selecting any contact by phone number closes the modal, new message form and opens thread details", async () => {
+      const spy = jest.spyOn(ContactSelectModalModule, "ContactSelectModal")
+
+      const { queryByTestId } = renderer({
+        callbacks: [setNewMessageState],
+      })
+
+      expect(
+        queryByTestId(MessagesTestIds.BrowseContactsModal)
+      ).not.toBeInTheDocument()
+      expect(
+        queryByTestId(MessagesTestIds.ThreadDetails)
+      ).not.toBeInTheDocument()
+      expect(queryByTestId(MessagesTestIds.NewMessageForm)).toBeInTheDocument()
+
+      const browseContactsButton = queryByTestId(
+        NewMessageFormSidebarTestIds.BrowseContacts
+      ) as HTMLElement
+      fireEvent.click(browseContactsButton)
+
+      const contactsSelectModalsCalls = spy.mock.calls
+
+      const onlyBrowseContactsModalCalls = contactsSelectModalsCalls.filter(
+        (item) => item[0].testId === MessagesTestIds.BrowseContactsModal
+      )
+
+      const lastBrowseContactsModalCall =
+        onlyBrowseContactsModalCalls[onlyBrowseContactsModalCalls.length - 1][0]
+
+      if (lastBrowseContactsModalCall.onPhoneNumberSelect) {
+        lastBrowseContactsModalCall.onPhoneNumberSelect("123 456 789")
+      }
+
+      await waitFor(() => {
+        expect(
+          queryByTestId(MessagesTestIds.BrowseContactsModal)
+        ).not.toBeInTheDocument()
+        expect(
+          queryByTestId(MessagesTestIds.NewMessageForm)
+        ).not.toBeInTheDocument()
+        expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
+      })
+    })
   })
 })

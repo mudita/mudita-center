@@ -8,23 +8,40 @@ import {
   MessagesCategory as PureMessagesCategory,
   MessageType as PureMessageType,
   PostMessagesBody,
+  PutMessageBody,
 } from "@mudita/pure"
-import { Message, MessageType, NewMessage } from "App/messages/reducers"
+import { Message, NewMessage } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 export type AcceptablePureMessageType =
   | PureMessageType.FAILED
   | PureMessageType.QUEUED
   | PureMessageType.INBOX
   | PureMessageType.OUTBOX
+  | PureMessageType.DRAFT
 
 export class MessagePresenter {
-  static mapToPureMessageMessagesBody(
-    newMessage: NewMessage
-  ): PostMessagesBody {
+  static mapToCreatePureMessageBody(newMessage: NewMessage): PostMessagesBody {
     return {
       number: newMessage.phoneNumber,
       messageBody: newMessage.content,
       category: PureMessagesCategory.message,
+      ...(newMessage.messageType
+        ? {
+            messageType: MessagePresenter.mapToPureMessageType(
+              newMessage.messageType
+            ),
+          }
+        : {}),
+    }
+  }
+
+  static mapToUpdatePureMessagesBody(message: Message): PutMessageBody {
+    return {
+      category: PureMessagesCategory.message,
+      messageBody: message.content,
+      messageID: Number(message.id),
+      messageType: MessagePresenter.mapToPureMessageType(message.messageType),
     }
   }
 
@@ -47,13 +64,27 @@ export class MessagePresenter {
     messageType: AcceptablePureMessageType
   ): MessageType {
     if (
-      messageType === PureMessageType.FAILED ||
       messageType === PureMessageType.QUEUED ||
       messageType === PureMessageType.OUTBOX
     ) {
       return MessageType.OUTBOX
+    } else if (messageType === PureMessageType.FAILED) {
+      return MessageType.FAILED
+    } else if (messageType === PureMessageType.DRAFT) {
+      return MessageType.DRAFT
     } else {
       return MessageType.INBOX
     }
+  }
+
+  private static mapToPureMessageType(
+    messageType: MessageType
+  ): PureMessageType {
+    return {
+      [MessageType.DRAFT]: PureMessageType.DRAFT,
+      [MessageType.FAILED]: PureMessageType.FAILED,
+      [MessageType.INBOX]: PureMessageType.INBOX,
+      [MessageType.OUTBOX]: PureMessageType.OUTBOX,
+    }[messageType]
   }
 }

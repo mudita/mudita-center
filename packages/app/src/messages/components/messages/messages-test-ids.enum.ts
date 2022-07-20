@@ -8,4 +8,6 @@ export enum MessagesTestIds {
   ThreadList = "messages-thread-list",
   ThreadDetails = "messages-thread-details",
   NewMessageForm = "messages-new-message-form",
+  BrowseContactsModal = "messages-browse-contacts-modal",
+  AttachContactModal = "messages-attach-contact-modal",
 }

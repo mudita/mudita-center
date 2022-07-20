@@ -4,14 +4,15 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import logger from "App/main/utils/logger"
+import { BackupDeviceError } from "App/backup-device/constants"
 import { ContactSupportEvent } from "App/contact-support/constants"
 import sendTicketRequest, {
   CreateBugTicketResponseStatus,
 } from "App/contact-support/requests/send-ticket.request"
-import { ReduxRootState, RootState } from "Renderer/store"
-import { StartBackupDeviceError } from "App/backup-device"
-import { FreshdeskTicketData } from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
+import { AppError } from "App/core/errors"
+import logger from "App/__deprecated__/main/utils/logger"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
+import { FreshdeskTicketData } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 
 export type SendTicketPayload = Pick<
   FreshdeskTicketData,
@@ -36,7 +37,10 @@ export const sendTicket = createAsyncThunk<undefined, SendTicketPayload>(
     } else {
       logger.error(`Send Ticket: ${response.error?.message}`)
       return rejectWithValue(
-        new StartBackupDeviceError("Send ticket throw error")
+        new AppError(
+          BackupDeviceError.StartBackupDevice,
+          "Send ticket throw error"
+        )
       )
     }
   }

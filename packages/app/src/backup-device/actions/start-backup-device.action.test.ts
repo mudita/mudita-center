@@ -6,19 +6,20 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { pendingAction } from "Renderer/store/helpers/action.helper"
+import { pendingAction } from "App/__deprecated__/renderer/store/helpers/action.helper"
 import { BackupEvent } from "App/backup/constants"
 import {
   startBackupDevice,
   StartBackupOption,
 } from "App/backup-device/actions/start-backup-device.action"
-import { testError } from "Renderer/store/constants"
-import { StartBackupDeviceError } from "App/backup-device/errors"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import { downloadDeviceBackupWithRetries } from "App/backup-device/helpers/download-device-backup-with-retries"
 import {
   RequestResponse,
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
+import { BackupDeviceError } from "App/backup-device/constants"
 
 jest.mock("App/backup-device/helpers/download-device-backup-with-retries")
 jest.mock("App/backup/actions/load-backup-data.action", () => ({
@@ -49,7 +50,7 @@ describe("async `startBackupDevice` ", () => {
       )
       const mockStore = createMockStore([thunk])({
         settings: {
-          pureOsBackupLocation: "C:\\backups",
+          osBackupLocation: "C:\\backups",
         },
       })
       const {
@@ -73,13 +74,13 @@ describe("async `startBackupDevice` ", () => {
 
   describe("when `startBackupDeviceRequest` return error", () => {
     test("fire async `startBackupDevice` returns `rejected` action", async () => {
-      const errorMock = new StartBackupDeviceError("")
+      const errorMock = new AppError(BackupDeviceError.StartBackupDevice, "")
       ;(downloadDeviceBackupWithRetries as jest.Mock).mockReturnValue({
         status: RequestResponseStatus.Error,
       })
       const mockStore = createMockStore([thunk])({
         settings: {
-          pureOsBackupLocation: "C:\\backups",
+          osBackupLocation: "C:\\backups",
         },
       })
       const {

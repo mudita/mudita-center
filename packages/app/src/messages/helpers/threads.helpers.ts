@@ -4,13 +4,12 @@
  */
 
 import {
-  Message,
   MessagesState as MessagesProps,
   Receiver,
   ReceiverIdentification,
-  Thread,
-  VisibilityFilter,
 } from "App/messages/reducers/messages.interface"
+import { Message, Thread } from "App/messages/dto"
+import { VisibilityFilter } from "App/messages/constants"
 import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 

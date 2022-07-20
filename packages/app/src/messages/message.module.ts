@@ -5,16 +5,15 @@
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { EventEmitter } from "events"
-import { DeviceService } from "App/backend/device-service"
+import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
-import { AppLogger } from "App/main/utils/logger"
+import { AppLogger } from "App/__deprecated__/main/utils/logger"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { MessageModel, ThreadModel } from "App/messages/models"
 import { MessageService, ThreadService } from "App/messages/services"
-import { MessageController } from "App/messages/controllers"
-import { MessageObserver } from "App/messages/observers/message.observer"
+import { MessageController, ThreadController } from "App/messages/controllers"
 import { MessageRepository, ThreadRepository } from "App/messages/repositories"
 
 export class MessageModule extends BaseModule {
@@ -39,21 +38,21 @@ export class MessageModule extends BaseModule {
 
     const messageModel = new MessageModel(this.index, this.eventEmitter)
     const threadModel = new ThreadModel(this.index, this.eventEmitter)
-    const threadService = new ThreadService(this.deviceService)
-    const messageService = new MessageService(this.deviceService, threadService)
-    const messageController = new MessageController(messageService)
-    const messageRepository = new MessageRepository(messageModel)
     const threadRepository = new ThreadRepository(threadModel)
-    const messageObserver = new MessageObserver(
-      this.ipc,
+    const messageRepository = new MessageRepository(messageModel)
+    const threadService = new ThreadService(
       this.deviceService,
-      messageService,
-      threadService,
-      messageRepository,
       threadRepository
     )
+    const messageService = new MessageService(
+      this.deviceService,
+      threadService,
+      messageRepository
+    )
+    const messageController = new MessageController(messageService)
+    const threadController = new ThreadController(threadService)
+
     this.models = [messageModel, threadModel]
-    this.controllers = [messageController]
-    this.observers = [messageObserver]
+    this.controllers = [messageController, threadController]
   }
 }

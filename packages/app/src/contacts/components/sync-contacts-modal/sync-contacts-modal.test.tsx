@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import React from "react"
 import SyncContactsModal from "App/contacts/components/sync-contacts-modal/sync-contacts-modal.component"
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"

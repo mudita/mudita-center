@@ -6,18 +6,27 @@
 import "@testing-library/jest-dom/extend-expect"
 import { fireEvent } from "@testing-library/dom"
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ThreadDetails from "App/messages/components/thread-details.component"
 import {
-  Message,
-  MessageType,
   Receiver,
   ReceiverIdentification,
 } from "App/messages/reducers/messages.interface"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
-import { TableTestIds } from "Renderer/components/core/table/table.enum"
+import { TableTestIds } from "App/__deprecated__/renderer/components/core/table/table.enum"
+import { Message } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
+
+const intersectionObserverMock = () => ({
+  observe: () => null,
+  disconnect: () => null,
+  unobserve: () => null,
+})
+window.IntersectionObserver = jest
+  .fn()
+  .mockImplementation(intersectionObserverMock)
 
 const phoneNumber = "123 456 789"
 const firstThreadId = "1"
@@ -70,6 +79,13 @@ const defaultProps: Props = {
   onDeleteClick: jest.fn(),
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
+  messageLayoutNotifications: [],
+  removeLayoutNotification: jest.fn(),
+  onMessageRead: jest.fn(),
+  currentlyDeletingMessageId: null,
+  onMessageDelete: jest.fn(),
+  resendMessage: jest.fn(),
+  onAttachTemplateClick: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

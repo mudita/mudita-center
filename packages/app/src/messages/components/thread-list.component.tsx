@@ -4,51 +4,25 @@
  */
 
 import React from "react"
-import styled, { css } from "styled-components"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Table from "Renderer/components/core/table/table.component"
-import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { noop } from "Renderer/utils/noop"
-import {
-  animatedOpacityActiveStyles,
-  animatedOpacityStyles,
-} from "Renderer/components/rest/animated-opacity/animated-opacity"
-import { AppSettings } from "App/main/store/settings.interface"
-import { Thread } from "App/messages/reducers/messages.interface"
+import styled from "styled-components"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import Table from "App/__deprecated__/renderer/components/core/table/table.component"
+import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { Settings } from "App/settings/dto"
+import { Thread } from "App/messages/dto"
 import { Contact } from "App/contacts/reducers/contacts.interface"
-import {
-  AutoSizer,
-  Index,
-  IndexRange,
-  InfiniteLoader,
-  List,
-  ListRowProps,
-} from "react-virtualized"
-import ThreadRow, {
-  Checkbox,
-  InitialsAvatar,
-} from "App/messages/components/thread-row.component"
+import { AutoSizer, IndexRange, List, ListRowProps } from "react-virtualized"
+import ThreadRow from "App/messages/components/thread-row.component"
 import ThreadPlaceholderRow from "App/messages/components/thread-placeholder-row.component"
 
 const Threads = styled(Table)<{
   noneRowsSelected?: boolean
 }>`
   min-width: 32rem;
-  --columnsTemplate: 10.4rem 60.5rem 1fr;
+  --columnsTemplate: 10.4rem 1fr 6rem;
   --columnsTemplateWithOpenedSidebar: 10.4rem 1fr;
   --columnsGap: 0;
-
-  ${({ noneRowsSelected }) =>
-    !noneRowsSelected &&
-    css`
-      ${InitialsAvatar} {
-        ${animatedOpacityStyles};
-      }
-
-      ${Checkbox} {
-        ${animatedOpacityActiveStyles};
-      }
-    `};
 `
 
 const listContainerStyle: React.CSSProperties = { minHeight: "100%" }
@@ -58,13 +32,12 @@ type SelectHook = Pick<
   "getRowStatus" | "toggleRow" | "noneRowsSelected"
 >
 
-interface Props extends SelectHook, Pick<AppSettings, "language"> {
-  threadsTotalCount: number
+interface Props extends SelectHook, Pick<Settings, "language"> {
   threads: Thread[]
   onThreadClick?: (thread: Thread) => void
   activeThread?: Thread
   onDeleteClick: (id: string) => void
-  onToggleReadStatus: (ids: string[]) => void
+  onToggleReadStatus: (threads: Thread[]) => void
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   onContactClick: (phoneNumber: string) => void
   loadMoreRows: (props: IndexRange) => Promise<void>
@@ -72,7 +45,6 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
 }
 
 const ThreadList: FunctionComponent<Props> = ({
-  threadsTotalCount,
   activeThread,
   threads,
   onThreadClick = noop,
@@ -123,8 +95,6 @@ const ThreadList: FunctionComponent<Props> = ({
     }
   }
 
-  const isRowLoaded = ({ index }: Index) => Boolean(threads[index])
-
   return (
     <Threads
       scrollable={false}
@@ -133,28 +103,18 @@ const ThreadList: FunctionComponent<Props> = ({
       hideColumns={sidebarOpened}
       {...props}
     >
-      <InfiniteLoader
-        isRowLoaded={isRowLoaded}
-        loadMoreRows={loadMoreRows}
-        rowCount={threadsTotalCount}
-      >
-        {({ onRowsRendered, registerChild }) => (
-          <AutoSizer>
-            {({ width, height }) => (
-              <List
-                height={height}
-                width={width}
-                rowRenderer={renderRow}
-                rowCount={threadsTotalCount}
-                rowHeight={80}
-                onRowsRendered={onRowsRendered}
-                registerChild={registerChild}
-                containerStyle={listContainerStyle}
-              />
-            )}
-          </AutoSizer>
+      <AutoSizer>
+        {({ width, height }) => (
+          <List
+            height={height}
+            width={width}
+            rowRenderer={renderRow}
+            rowHeight={80}
+            rowCount={threads.length}
+            containerStyle={listContainerStyle}
+          />
         )}
-      </InfiniteLoader>
+      </AutoSizer>
     </Threads>
   )
 }

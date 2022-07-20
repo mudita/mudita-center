@@ -8,6 +8,7 @@ import { PaginationBody } from "./response.types"
 export enum MessagesCategory {
   thread = "thread",
   message = "message",
+  template = "template",
 }
 
 export interface Thread {
@@ -76,6 +77,64 @@ export interface PostMessagesBody {
   category: MessagesCategory.message
   number: string
   messageBody: string
+  messageType?: MessageType
+}
+
+export interface PutMessageBody {
+  category: MessagesCategory.message
+  messageBody: string
+  messageID: number
+  messageType: MessageType
+}
+
+export interface UpdateThreadReadStatus {
+  category: MessagesCategory.thread
+  threadID: number
+  isUnread: boolean
+}
+
+export interface GetTemplateBody {
+  category: MessagesCategory.template
+  templateID: number
 }
 
 export type PostMessagesResponseBody = Message
+
+export interface Template {
+  templateID: number
+  lastUsedAt: number
+  templateBody: string
+  order?: number
+}
+
+export interface PostTemplateBody {
+  category: MessagesCategory.template
+  templateBody: string
+  order?: number
+}
+
+export interface GetTemplateBody {
+  category: MessagesCategory.template
+  templateID: number
+}
+
+export interface PutTemplateBody {
+  category: MessagesCategory.template
+  templateID: number
+  templateBody: string
+}
+
+export interface UpdateTemplateOrder {
+  category: MessagesCategory.template
+  templateID: number
+  order?: number
+}
+
+export interface DeleteTemplateBody {
+  category: MessagesCategory.template
+  templateID: number
+}
+
+export type PostTemplateResponseBody = Template
+export type GetTemplateResponseBody = Template
+export type PutTemplateResponseBody = Template

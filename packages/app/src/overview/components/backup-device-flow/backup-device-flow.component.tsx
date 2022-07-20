@@ -4,14 +4,14 @@
  */
 
 import React, { ComponentProps, useEffect, useState } from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   BackupFailureModal,
   BackupModal,
   BackupSpinnerModal,
   BackupSuccessModal,
 } from "App/overview/components/backup-modal-dialogs/backup-modal-dialogs"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 import { BackupDeviceFlowTestIds } from "App/overview/components/backup-device-flow/backup-device-flow-test-ids.component"
 import { BackupSetSecretKeyModal } from "App/overview/components/backup-set-secret-key-modal-dialog/backup-set-secret-key-modal-dialog.component"
 

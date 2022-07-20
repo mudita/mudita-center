@@ -4,9 +4,8 @@
  */
 
 import React, { ChangeEvent, KeyboardEvent } from "react"
-import { intl } from "Renderer/utils/intl"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   IconButton,
   Textarea,
@@ -14,12 +13,14 @@ import {
 } from "App/messages/components/thread-details.styled"
 import { ThreadDetailsTextAreaTestIds } from "App/messages/components/thread-details-text-area-tests-ids"
 import { Feature, flags } from "App/feature-flags"
-import { IconBackgroundWithTooltip } from "Renderer/components/core/icon-button-with-tooltip/icon-background-with-tooltip.component"
+import { IconBackgroundWithTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-background-with-tooltip.component"
 import { defineMessages } from "react-intl"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
-  sendButtonTooltipDescription: { id: "module.messages.sendButtonTooltipDescription" },
+  sendButtonTooltipDescription: {
+    id: "module.messages.sendButtonTooltipDescription",
+  },
 })
 
 interface Props {
@@ -27,6 +28,7 @@ interface Props {
   onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void
   onSendClick: () => void
   onAttachContactClick: () => void
+  onAttachTemplateClick: () => void
 }
 
 const ThreadDetailsTextArea: FunctionComponent<Props> = ({
@@ -34,21 +36,27 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
   onSendClick,
   onChange,
   onAttachContactClick,
+  onAttachTemplateClick,
 }) => {
   const isValueEmpty = (): boolean => {
     return value.length === 0
   }
 
   const leadingIcons = [
-    flags.get(Feature.DevelopOnly) && (
+    flags.get(Feature.MessagesThreadAttachContactEnabled) && (
       <IconButton
         key={IconType.AttachContact}
         Icon={IconType.AttachContact}
         onClick={onAttachContactClick}
+        data-testid={ThreadDetailsTextAreaTestIds.AttachContactButton}
       />
     ),
-    flags.get(Feature.DevelopOnly) && (
-      <Icon type={IconType.Template} key={IconType.Template} size={IconSize.Big} />
+    flags.get(Feature.MessagesThreadAttachTemplateEnabled) && (
+      <IconButton
+        Icon={IconType.Template}
+        key={IconType.Template}
+        onClick={onAttachTemplateClick}
+      />
     ),
   ]
 

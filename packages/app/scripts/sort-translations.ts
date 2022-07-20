@@ -1,12 +1,12 @@
 namespace SortTranslations {
   const fs = require("fs-extra")
-  const { availableLanguages } = require("../src/translations.config.json")
+  const translationConfig = require("../src/translations.config.json")
 
   const script = async () => {
     console.log("Sorting translations")
 
     try {
-      for (const { code } of availableLanguages) {
+      for (const { code } of translationConfig.availableLanguages) {
         const filePath = `./src/renderer/locales/default/${code}.json`
 
         if (await fs.pathExists(filePath)) {
@@ -31,7 +31,7 @@ namespace SortTranslations {
           console.log(`Translation for ${code} sorted`)
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error)
     }
   }

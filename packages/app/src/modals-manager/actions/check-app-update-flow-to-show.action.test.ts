@@ -6,8 +6,8 @@
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
-import { initialState as settingsInitialState } from "Renderer/models/settings/settings"
-import { ReduxRootState, RootState } from "Renderer/store"
+import { initialState as settingsInitialState } from "App/settings/reducers/settings.reducer"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { checkAppUpdateFlowToShow } from "App/modals-manager/actions/check-app-update-flow-to-show.action"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
 import {
@@ -38,9 +38,9 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
     })
   })
 
-  describe("when `settingsLoaded` in settings is set to true", () => {
+  describe("when `loaded` in settings is set to true", () => {
     const storeState: Partial<RootState & ReduxRootState> = {
-      settings: { ...settingsInitialState, settingsLoaded: true },
+      settings: { ...settingsInitialState, loaded: true },
       modalsManager: modalsManagerInitialState,
     }
 
@@ -60,9 +60,9 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
     })
   })
 
-  describe("when `appUpdateAvailable` in settings is set to true", () => {
+  describe("when `updateAvailable` in settings is set to true", () => {
     const storeState: Partial<RootState & ReduxRootState> = {
-      settings: { ...settingsInitialState, appUpdateAvailable: true },
+      settings: { ...settingsInitialState, updateAvailable: true },
       modalsManager: modalsManagerInitialState,
     }
 
@@ -82,12 +82,12 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
     })
   })
 
-  describe("when `appUpdateAvailable` and `settingsLoaded` in settings is set to true", () => {
+  describe("when `updateAvailable` and `loaded` in settings is set to true", () => {
     const storeState: Partial<RootState & ReduxRootState> = {
       settings: {
         ...settingsInitialState,
-        appUpdateAvailable: true,
-        settingsLoaded: true,
+        updateAvailable: true,
+        loaded: true,
       },
       modalsManager: modalsManagerInitialState,
     }
@@ -112,12 +112,12 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
     })
   })
 
-  describe("when `appUpdateAvailable` and `settingsLoaded` in settings is set to true but `collectingDataModalShow` is set to true", () => {
+  describe("when `updateAvailable` and `loaded` in settings is set to true but `collectingDataModalShow` is set to true", () => {
     const storeState: Partial<RootState & ReduxRootState> = {
       settings: {
         ...settingsInitialState,
-        appUpdateAvailable: true,
-        settingsLoaded: true,
+        updateAvailable: true,
+        loaded: true,
       },
       modalsManager: {
         ...modalsManagerInitialState,
@@ -141,12 +141,12 @@ describe("async `checkAppUpdateFlowToShow` ", () => {
     })
   })
 
-  describe("when `appUpdateAvailable` and `settingsLoaded` in settings is set to true but `appForcedUpdateFlowShow` is set to true", () => {
+  describe("when `updateAvailable` and `loaded` in settings is set to true but `appForcedUpdateFlowShow` is set to true", () => {
     const storeState: Partial<RootState & ReduxRootState> = {
       settings: {
         ...settingsInitialState,
-        appUpdateAvailable: true,
-        settingsLoaded: true,
+        updateAvailable: true,
+        loaded: true,
       },
       modalsManager: {
         ...modalsManagerInitialState,

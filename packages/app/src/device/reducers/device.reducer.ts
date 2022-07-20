@@ -9,7 +9,7 @@ import {
   rejectedAction,
   pendingAction,
   fulfilledAction,
-} from "App/renderer/store/helpers"
+} from "App/__deprecated__/renderer/store/helpers"
 import {
   DeviceEvent,
   ConnectionState,
@@ -179,7 +179,8 @@ export const deviceReducer = createReducer<DeviceState>(
             ...state,
             data: {
               ...(state.data ?? {}),
-              phoneLockTime: action.payload,
+              phoneLockTime: action.payload?.phoneLockTime,
+              timeLeftToNextAttempt: action.payload?.timeLeftToNextAttempt,
             },
           }
         }

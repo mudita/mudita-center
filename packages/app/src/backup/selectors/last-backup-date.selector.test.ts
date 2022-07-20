@@ -4,7 +4,7 @@
  */
 
 import { lastBackupDateSelector } from "App/backup/selectors/last-backup-date.selector"
-import { ReduxRootState } from "Renderer/store"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { Backup, backupReducer, initialState } from "App/backup/reducers"
 
 const today = new Date()

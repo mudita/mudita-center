@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import Card, {
   CardAction,
   CardActionButton,
@@ -15,13 +15,13 @@ import Card, {
 } from "App/overview/components/card.elements"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import { defineMessages, FormattedMessage } from "react-intl"
 import styled from "styled-components"
-import { noop } from "Renderer/utils/noop"
-import Button from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { AppSettings } from "App/main/store/settings.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import Button from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import { Settings } from "App/settings/dto"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import moment from "moment"
 
@@ -59,7 +59,7 @@ interface Props {
   onBackupRestore?: () => void
 }
 
-const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
+const Backup: FunctionComponent<Props & Partial<Settings>> = ({
   lastBackupDate,
   onBackupCreate,
   onBackupRestore = noop,
@@ -80,7 +80,7 @@ const Backup: FunctionComponent<Props & Partial<AppSettings>> = ({
             </Text>
             <Text
               displayStyle={TextDisplayStyle.Paragraph1}
-              data-testid={SystemTestIds.OsVersion}
+              data-testid={SystemTestIds.BackupDate}
             >
               {moment(lastBackupDate).format("MMMM D, YYYY")}
             </Text>

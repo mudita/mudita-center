@@ -4,7 +4,7 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ReduxRootState, RootState } from "Renderer/store"
+import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import { ModalsManagerEvent } from "App/modals-manager/constants"
 import { showModal } from "App/modals-manager/actions/base.action"
 import { ModalStateKey } from "App/modals-manager/reducers"
@@ -13,10 +13,7 @@ export const checkCollectingDataModalToShow = createAsyncThunk<void, undefined>(
   ModalsManagerEvent.CheckCollectingDataModalToShow,
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState & ReduxRootState
-    if (
-      state.settings.settingsLoaded &&
-      state.settings.appCollectingData === undefined
-    ) {
+    if (state.settings.loaded && state.settings.collectingData === undefined) {
       dispatch(showModal(ModalStateKey.CollectingDataModal))
     }
   }

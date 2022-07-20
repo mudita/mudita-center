@@ -9,7 +9,7 @@ import {
   IpcFilesManagerEvent,
 } from "App/files-manager/constants"
 import { McUsbFile, ObjectResult } from "@mudita/pure"
-import { DeviceService } from "Backend/device-service"
+import DeviceService from "App/__deprecated__/backend/device-service"
 
 @Controller(ControllerPrefix)
 export class FilesManagerController {

@@ -5,7 +5,7 @@
 
 import React, { ComponentProps } from "react"
 import { DeviceType } from "@mudita/pure"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   PureOverview,
   HarmonyOverview,
@@ -13,8 +13,8 @@ import {
 
 type PureOverviewProps = ComponentProps<typeof PureOverview>
 type HarmonyOverviewProps = ComponentProps<typeof HarmonyOverview>
-type Props = PureOverviewProps & HarmonyOverviewProps
-
+type Props = PureOverviewProps &
+  HarmonyOverviewProps & { deviceType: DeviceType | null }
 
 const Screen: FunctionComponent<Props> = (props) => {
   switch (props.deviceType) {

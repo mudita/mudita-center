@@ -5,11 +5,11 @@
 
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import { helpSeed } from "App/seeds/help"
+import { helpSeed } from "App/__deprecated__/seeds/help"
 import Help from "App/help/components/help.component"
-import history from "Renderer/routes/history"
+import history from "App/__deprecated__/renderer/routes/history"
 import { Router } from "react-router"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 storiesOf("Views/Help", module).add("Help", () => (
   <div style={{ maxWidth: "97.5rem" }}>

@@ -5,10 +5,12 @@
 
 import React from "react"
 import { ModalsManagerState } from "App/modals-manager/reducers"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import CollectingDataModal from "Renderer/modules/settings/containers/collecting-data-modal.container"
-import AppForcedUpdateFlow from "Renderer/modules/settings/containers/app-forced-update-flow.container"
-import AppUpdateFlow from "Renderer/modules/settings/containers/app-update-flow.container"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import {
+  CollectingDataModalContainer,
+  AppForcedUpdateFlowContainer,
+  AppUpdateFlowContainer,
+} from "App/settings/components"
 import ContactSupportFlow from "App/contact-support/containers/contact-support-flow.container"
 
 type Props = ModalsManagerState
@@ -21,9 +23,9 @@ const ModalsManager: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      <CollectingDataModal open={collectingDataModalShow} />
-      {appForcedUpdateFlowShow && <AppForcedUpdateFlow />}
-      {appUpdateFlowShow && <AppUpdateFlow />}
+      <CollectingDataModalContainer open={collectingDataModalShow} />
+      {appForcedUpdateFlowShow && <AppForcedUpdateFlowContainer />}
+      {appUpdateFlowShow && <AppUpdateFlowContainer />}
       {contactSupportFlowShow && <ContactSupportFlow />}
     </>
   )

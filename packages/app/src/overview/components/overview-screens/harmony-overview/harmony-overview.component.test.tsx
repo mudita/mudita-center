@@ -5,17 +5,13 @@
 
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
-import store from "Renderer/store"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import store from "App/__deprecated__/renderer/store"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { HarmonyOverview } from "App/overview/components/overview-screens/harmony-overview/harmony-overview.component"
-import {
-  DataState,
-  UpdatingState,
-} from "Renderer/models/basic-info/basic-info.typings"
-import { ConversionFormat, Convert } from "App/main/store/settings.interface"
+import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 
 jest.mock("electron", () => ({
   remote: {
@@ -28,57 +24,18 @@ jest.mock("electron", () => ({
 }))
 
 const defaultProps: ComponentProps<typeof HarmonyOverview> = {
-  deviceType: null,
-  appLatestVersion: "",
-  appUpdateAvailable: undefined,
-  lowestSupportedOsVersion: undefined,
-  lowestSupportedCenterVersion: undefined,
-  settingsLoaded: false,
-  deviceUnlocked: undefined,
-  appAutostart: false,
-  appCollectingData: undefined,
-  appConversionFormat: ConversionFormat.FLAC,
-  appConvert: Convert.ConvertAutomatically,
-  appIncomingCalls: false,
-  appIncomingMessages: false,
-  appLowBattery: false,
-  appNonStandardAudioFilesConversion: false,
-  appOsUpdates: false,
-  appTethering: false,
-  appTray: false,
-  batteryLevel: 0,
-  changeSim: jest.fn(),
-  disconnectDevice: jest.fn(),
-  deviceConnected: true,
-  language: "en-US",
-  loadData: jest.fn(),
-  networkName: "network name",
-  osVersion: "release-1.0.0",
-  pureNeverConnected: false,
-  pureOsBackupLocation: "path/location/backup",
-  pureOsDownloadLocation: "path/location/download",
-  basicInfoDataState: DataState.Empty,
-  serialNumber: undefined,
-  initialDataLoaded: false,
-  appVersion: undefined,
-  toggleAppCollectingData: jest.fn(),
-  simCards: [
-    {
-      active: true,
-      network: "Y-Mobile",
-      networkLevel: 0.2,
-      number: 12345678,
-      slot: 1,
-    },
-  ],
-  toggleDeviceUpdating: jest.fn(),
-  updatePhoneOsInfo: jest.fn(),
+  lowestSupportedOsVersion: "",
+  lastAvailableOsVersion: "",
+  batteryLevel: undefined,
+  osVersion: "1.0.0",
+  pureOsDownloaded: false,
   updatingState: UpdatingState.Standby,
-  memorySpace: {
-    free: 100,
-    full: 200,
-    total: 4000,
-  },
+  serialNumber: undefined,
+  startUpdateOs: jest.fn(),
+  setUpdateState: jest.fn(),
+  updatePhoneOsInfo: jest.fn(),
+  disconnectDevice: jest.fn(),
+  openContactSupportFlow: jest.fn(),
 }
 
 const render = () => {

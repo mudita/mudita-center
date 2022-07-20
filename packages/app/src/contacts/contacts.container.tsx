@@ -6,11 +6,11 @@
 import { connect } from "react-redux"
 import { History, LocationState } from "history"
 import Contacts from "App/contacts/components/contacts/contacts.component"
-import { noop } from "Renderer/utils/noop"
-import { ReduxRootState, TmpDispatch } from "Renderer/store"
-import { RootModel } from "Renderer/models/models"
-import { URL_MAIN } from "Renderer/constants/urls"
-import createRouterPath from "Renderer/utils/create-router-path"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { ReduxRootState, TmpDispatch } from "App/__deprecated__/renderer/store"
+import { RootModel } from "App/__deprecated__/renderer/models/models"
+import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
+import createRouterPath from "App/__deprecated__/renderer/utils/create-router-path"
 import {
   Contact,
   ContactID,
@@ -20,8 +20,8 @@ import {
 import {
   ExternalProvider,
   Provider,
-} from "Renderer/models/external-providers/external-providers.interface"
-import externalProvidersStore from "Renderer/store/external-providers"
+} from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
+import externalProvidersStore from "App/__deprecated__/renderer/store/external-providers"
 import {
   contactDatabaseFactory,
   getFlatList,

@@ -8,13 +8,13 @@ import thunk from "redux-thunk"
 import { AnyAction } from "@reduxjs/toolkit"
 import { DeviceType } from "@mudita/pure"
 import { lockedDevice } from "./locked-device.action"
-import getDeviceLockTime from "App/renderer/requests/get-device-lock-time.request"
+import getDeviceLockTime from "App/__deprecated__/renderer/requests/get-device-lock-time.request"
 import { flags } from "App/feature-flags"
 import { DeviceEvent } from "App/device"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("App/feature-flags")
-jest.mock("App/renderer/requests/get-device-lock-time.request")
+jest.mock("App/__deprecated__/renderer/requests/get-device-lock-time.request")
 
 describe("Device: MuditaHarmony", () => {
   describe("Get Device Lock Time request returns `success` status", () => {
@@ -61,7 +61,7 @@ describe("Device: MuditaPure", () => {
         lockedDevice.pending(requestId),
         {
           type: DeviceEvent.SetLockTime,
-          payload: 123456789,
+          payload: { phoneLockTime: 123456789 },
         },
         lockedDevice.fulfilled(undefined, requestId, undefined),
       ])

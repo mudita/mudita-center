@@ -7,14 +7,14 @@ import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { DeviceType } from "@mudita/pure"
 import { AnyAction } from "@reduxjs/toolkit"
-import { ConnectionState } from "App/device/constants"
+import { ConnectionState, DeviceError } from "App/device/constants"
 import { loadDeviceData } from "App/device/actions"
-import { DeviceLoadingError } from "App/device/errors"
 import { DeviceDataLoader } from "App/device/loaders/device-data.loader"
 import { PureDeviceData, HarmonyDeviceData } from "App/device/reducers"
-import { testError } from "App/renderer/store/constants"
+import { testError } from "App/__deprecated__/renderer/store/constants"
+import { AppError } from "App/core/errors"
 
-const errorMock = new DeviceLoadingError("Device data loading error")
+const errorMock = new AppError(DeviceError.Loading, "Device data loading error")
 
 afterEach(() => {
   jest.clearAllMocks()

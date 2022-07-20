@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Thread } from "App/messages/reducers/messages.interface"
-import DeviceService from "Backend/device-service"
+import { Thread } from "App/messages/dto"
+import DeviceService from "App/__deprecated__/backend/device-service"
 import {
   Endpoint,
   GetThreadsBody,
@@ -17,7 +17,8 @@ import {
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 import { ThreadPresenter } from "App/messages/presenters"
-import { isResponseSuccessWithData } from "App/core/helpers/is-responses-success-with-data.helpers"
+import { isResponseSuccess, isResponseSuccessWithData } from "App/core/helpers"
+import { ThreadRepository } from "App/messages/repositories"
 
 export interface GetThreadsResponse {
   data: Thread[]
@@ -26,13 +27,22 @@ export interface GetThreadsResponse {
 }
 
 export class ThreadService {
-  constructor(private deviceService: DeviceService) {}
+  constructor(
+    private deviceService: DeviceService,
+    private threadRepository: ThreadRepository
+  ) {}
 
-  public async getThread(
-    id: string
-  ): Promise<RequestResponse<Thread>> {
-    // return this.getThreadRequest(id)
-     return this.getThreadRequestViaWorkaround(id)
+  public async getThread(id: string): Promise<RequestResponse<Thread>> {
+    const threadResult = await this.getThreadRequestViaWorkaround(id)
+
+    if (isResponseSuccessWithData(threadResult)) {
+      return threadResult
+    } else {
+      return {
+        status: RequestResponseStatus.Error,
+        error: { message: "Get thread: Something went wrong" },
+      }
+    }
   }
 
   public async getThreads(
@@ -71,23 +81,23 @@ export class ThreadService {
   // Target method is getThreadRequest. This is workaround to handle no implemented `getThread` API
   private async getThreadRequestViaWorkaround(
     id: string
-  ): Promise<RequestResponse<Thread>> {
+  ): Promise<RequestResponse<Thread | undefined>> {
     const response = await this.loadAllThreadsInSingleRequest({
       limit: 99999,
       offset: 0,
     })
-    const success = isResponseSuccessWithData(response)
-    const thread = response.data?.data.find((thread) => thread.id === id)
-    if (success && thread) {
-      return {
-        status: response.status,
-        data: thread,
-      }
-    } else {
+
+    if (!isResponseSuccess(response)) {
       return {
         status: RequestResponseStatus.Error,
-        error: { message: "Get thread: Something went wrong" },
+        error: { message: "Fetch thread: Something went wrong" },
       }
+    }
+
+    const thread = response.data?.data.find((thread) => thread.id === id)
+    return {
+      status: response.status,
+      data: thread,
     }
   }
 
@@ -158,6 +168,119 @@ export class ThreadService {
         status: RequestResponseStatus.Error,
         error: { message: "Get thread: Something went wrong" },
       }
+    }
+  }
+
+  public async toggleThreadsReadStatus(
+    threads: Thread[]
+  ): Promise<RequestResponse<Thread[]>> {
+    const results = threads.map(async (thread) => {
+      const { status } = await this.deviceService.request({
+        endpoint: Endpoint.Messages,
+        method: Method.Put,
+        body: {
+          category: PureMessagesCategory.thread,
+          threadID: Number(thread.id),
+          isUnread: !thread.unread,
+        },
+      })
+      return {
+        status,
+        thread,
+      }
+    })
+
+    const errorThreads = (await Promise.all(results))
+      .filter(({ status }) => status === RequestResponseStatus.Error)
+      .map(({ thread }) => thread)
+    const successThreads = (await Promise.all(results))
+      .filter(({ status }) => status === RequestResponseStatus.Ok)
+      .map(({ thread }) => thread)
+
+    if (errorThreads.length > 0) {
+      successThreads.forEach((thread) =>
+        this.threadRepository.update(thread, true)
+      )
+
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Delete thread: Something went wrong",
+          data: errorThreads,
+        },
+      }
+    } else {
+      threads.forEach((thread) => this.threadRepository.update(thread, true))
+
+      return {
+        status: RequestResponseStatus.Ok,
+      }
+    }
+  }
+
+  public async deleteThreads(
+    threadIds: string[]
+  ): Promise<RequestResponse<string[]>> {
+    const results = threadIds.map(async (id) => {
+      const { status } = await this.deviceService.request({
+        endpoint: Endpoint.Messages,
+        method: Method.Delete,
+        body: { category: PureMessagesCategory.thread, threadID: Number(id) },
+      })
+      return {
+        status,
+        id,
+      }
+    })
+
+    const errorIds = (await Promise.all(results))
+      .filter(({ status }) => status === RequestResponseStatus.Error)
+      .map(({ id }) => id)
+    const successIds = (await Promise.all(results))
+      .filter(({ status }) => status === RequestResponseStatus.Ok)
+      .map(({ id }) => id)
+
+    if (errorIds.length > 0) {
+      successIds.forEach((id) => this.threadRepository.delete(id, true))
+
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Delete thread: Something went wrong",
+          data: errorIds,
+        },
+      }
+    } else {
+      threadIds.forEach((id) => this.threadRepository.delete(id, true))
+
+      return {
+        status: RequestResponseStatus.Ok,
+      }
+    }
+  }
+
+  async refreshThread(threadId: string): Promise<RequestResponse<undefined>> {
+    const response = await this.getThreadRequestViaWorkaround(threadId)
+
+    if (!isResponseSuccess(response)) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Refresh thread: Something went wrong",
+        },
+      }
+    }
+
+    const thread = response.data
+
+    if (thread) {
+      this.threadRepository.update(thread)
+    } else {
+      this.threadRepository.delete(threadId)
+    }
+
+    return {
+      status: RequestResponseStatus.Ok,
     }
   }
 }

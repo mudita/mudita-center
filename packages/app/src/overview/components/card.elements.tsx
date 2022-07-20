@@ -7,13 +7,13 @@ import styled from "styled-components"
 import {
   backgroundColor,
   borderRadius,
-} from "Renderer/styles/theming/theme-getters"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import ButtonToggler, {
   ButtonTogglerItem,
-} from "Renderer/components/core/button-toggler/button-toggler.component"
+} from "App/__deprecated__/renderer/components/core/button-toggler/button-toggler.component"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 
 const Card = styled.section`
   display: flex;

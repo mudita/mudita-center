@@ -7,33 +7,33 @@ import React, { ComponentProps } from "react"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { FieldValues, useForm } from "react-hook-form"
 import styled from "styled-components"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { intl } from "Renderer/utils/intl"
-import { noop } from "Renderer/utils/noop"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
 import {
   backgroundColor,
   borderRadius,
-} from "Renderer/styles/theming/theme-getters"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import { Message } from "Renderer/interfaces/message.interface"
-import Button from "Renderer/components/core/button/button.component"
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import InputComponent from "App/__deprecated__/renderer/components/core/input-text/input-text.component"
+import { Message } from "App/__deprecated__/renderer/interfaces/message.interface"
+import Button from "App/__deprecated__/renderer/components/core/button/button.component"
 import {
   DisplayStyle,
   Type,
-} from "Renderer/components/core/button/button.config"
-import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
-import { emailValidator } from "Renderer/utils/form-validators"
-import { getModalButtonsSize } from "Renderer/components/core/modal/modal.helpers"
+} from "App/__deprecated__/renderer/components/core/button/button.config"
+import { InputComponentProps } from "App/__deprecated__/renderer/components/core/input-text/input-text.interface"
+import { emailValidator } from "App/__deprecated__/renderer/utils/form-validators"
+import { getModalButtonsSize } from "App/__deprecated__/renderer/components/core/modal/modal.helpers"
 import { ContactSupportModalTestIds } from "App/contact-support/components/contact-support-modal-test-ids.enum"
-import { IconSize } from "Renderer/components/core/icon/icon.component"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import FileList from "Renderer/components/core/file-list/file-list.component"
+import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { ModalDialog } from "App/ui/components/modal-dialog"
+import FileList from "App/__deprecated__/renderer/components/core/file-list/file-list.component"
 import { SendTicketPayload } from "App/contact-support/actions/send-ticket.action"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   actionButton: {

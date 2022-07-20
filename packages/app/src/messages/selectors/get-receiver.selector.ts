@@ -6,7 +6,7 @@
 import { createSelector } from "reselect"
 import { getReceiversSelector } from "App/messages/selectors/get-receivers.selector"
 import { Receiver } from "App/messages/reducers"
-import { removeDecoratorsFromPhoneNumber } from "Renderer/models/utils/remove-decorators-from-phone-number"
+import { removeDecoratorsFromPhoneNumber } from "App/__deprecated__/renderer/models/utils/remove-decorators-from-phone-number"
 
 export const getReceiverSelector = (phoneNumber: string) => {
   return createSelector(getReceiversSelector, (receivers) => {

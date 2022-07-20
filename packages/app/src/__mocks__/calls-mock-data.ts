@@ -3,8 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Call, CallStatus } from "Renderer/models/calls/calls.interface"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+import { Call, CallStatus } from "App/__deprecated__/renderer/models/calls/calls.interface"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 export const todaysCall: Call = {
   id: "05ed5479-1770-44e8-9e7c-09333ddc87195",

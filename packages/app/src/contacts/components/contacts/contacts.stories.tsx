@@ -18,17 +18,17 @@ import SpeedDialModal from "App/contacts/components/speed-dial-modal/speed-dial-
 import {
   ModalBackdrop,
   ModalWrapper,
-} from "Renderer/components/core/modal/modal.styled.elements"
-import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
-import { intl, textFormatters } from "Renderer/utils/intl"
-import { contactsSeed, contactsSeedInput } from "App/seeds/contacts"
+} from "App/__deprecated__/renderer/components/core/modal/modal.styled.elements"
+import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
+import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
+import { contactsSeed, contactsSeedInput } from "App/__deprecated__/seeds/contacts"
 import {
   createFullName,
   getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
 } from "App/contacts/helpers/contacts.helpers"
-import { asyncNoop, noop } from "Renderer/utils/noop"
+import { asyncNoop, noop } from "App/__deprecated__/renderer/utils/noop"
 import { PhoneProps } from "App/contacts/components/contacts/contacts.type"
 import {
   Contact,

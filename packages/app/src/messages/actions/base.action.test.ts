@@ -8,54 +8,14 @@ import createMockStore from "redux-mock-store"
 import {
   changeSearchValue,
   changeVisibilityFilter,
-  deleteThreads,
   clearAllThreads,
-  markThreadsAsRead,
-  toggleThreadsReadStatus,
 } from "App/messages/actions/base.action"
-import { MessagesEvent } from "App/messages/constants"
-import { VisibilityFilter } from "App/messages/reducers"
+import { MessagesEvent, VisibilityFilter } from "App/messages/constants"
 
 const mockStore = createMockStore([thunk])()
 
 afterEach(() => {
   mockStore.clearActions()
-})
-
-describe("Action: toggleThreadsReadStatus", () => {
-  test("fire action with empty array and `ToggleThreadReadStatus` type", () => {
-    mockStore.dispatch(toggleThreadsReadStatus([]))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: MessagesEvent.ToggleThreadReadStatus,
-        payload: [],
-      },
-    ])
-  })
-})
-
-describe("Action: markThreadsAsRead", () => {
-  test("fire action with empty array and `MarkThreadAsRead` type", () => {
-    mockStore.dispatch(markThreadsAsRead([]))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: MessagesEvent.MarkThreadAsRead,
-        payload: [],
-      },
-    ])
-  })
-})
-
-describe("Action: deleteThreads", () => {
-  test("fire action with empty array and `DeleteThreads` type", () => {
-    mockStore.dispatch(deleteThreads([]))
-    expect(mockStore.getActions()).toEqual([
-      {
-        type: MessagesEvent.DeleteThreads,
-        payload: [],
-      },
-    ])
-  })
 })
 
 describe("Action: changeVisibilityFilter", () => {

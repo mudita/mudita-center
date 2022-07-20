@@ -4,10 +4,10 @@
  */
 
 import styled, { css } from "styled-components"
-import { ListItem } from "Renderer/components/core/list/list.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import InputSearch from "Renderer/components/core/input-search/input-search.component"
-import Text from "Renderer/components/core/text/text.component"
+import { ListItem } from "App/__deprecated__/renderer/components/core/list/list.component"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import InputSearch from "App/__deprecated__/renderer/components/core/input-search/input-search.component"
+import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 
 export const ContactListItem = styled(ListItem)<{
   active: boolean

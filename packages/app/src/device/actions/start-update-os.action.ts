@@ -5,11 +5,11 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { DiagnosticsFilePath } from "@mudita/pure"
-import { DeviceEvent } from "App/device/constants"
-import updateOs from "Renderer/requests/update-os.request"
-import { DeviceUpdateProcessError } from "App/device/errors"
+import { DeviceError, DeviceEvent } from "App/device/constants"
+import updateOs from "App/__deprecated__/renderer/requests/update-os.request"
 import { removeFile } from "App/device-file-system"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
 
 export const startUpdateOs = createAsyncThunk<string, string>(
   DeviceEvent.StartOsUpdateProcess,
@@ -19,7 +19,11 @@ export const startUpdateOs = createAsyncThunk<string, string>(
 
     if (data.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(
-        new DeviceUpdateProcessError("Device updating process failed", data)
+        new AppError(
+          DeviceError.UpdateProcess,
+          "Device updating process failed",
+          data
+        )
       )
     }
 

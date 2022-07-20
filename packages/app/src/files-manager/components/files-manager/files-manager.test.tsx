@@ -5,10 +5,10 @@
 
 import React, { ComponentProps } from "react"
 import FilesManager from "App/files-manager/components/files-manager/files-manager.component"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
-import { noop } from "Renderer/utils/noop"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 const defaultProps: ComponentProps<typeof FilesManager> = {
   memorySpace: {

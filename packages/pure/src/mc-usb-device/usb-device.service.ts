@@ -66,7 +66,7 @@ export class UsbDeviceService {
         success: true,
         data: readResponse!.payload,
       }
-    } catch (error) {
+    } catch (error: any) {
       return {
         success: false,
         error,

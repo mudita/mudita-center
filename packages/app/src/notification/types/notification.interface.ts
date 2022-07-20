@@ -14,5 +14,5 @@ export interface Notification {
   type: NotificationType
   method: NotificationMethod
   resourceType: NotificationResourceType
-  content: any
+  content: unknown
 }

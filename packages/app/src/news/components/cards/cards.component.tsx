@@ -4,12 +4,12 @@
  */
 
 import * as React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import Card from "App/news/components/card/card.component"
 import styled from "styled-components"
 import { useEffect } from "react"
-import { noop } from "Renderer/utils/noop"
-import { NewsEntry } from "App/news/store/mudita-news.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { NewsEntry } from "App/news/dto"
 
 interface Props {
   newsItems: NewsEntry[]

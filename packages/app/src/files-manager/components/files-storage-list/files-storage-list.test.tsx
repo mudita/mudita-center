@@ -4,7 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import FilesStorageList from "App/files-manager/components/files-storage-list/files-storage-list.component"
 import { FilesStorageListTestIds } from "App/files-manager/components/files-storage-list/files-storage-list-test-ids.enum"

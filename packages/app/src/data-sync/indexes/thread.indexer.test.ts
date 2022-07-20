@@ -27,6 +27,7 @@ describe("`ThreadIndexer`", () => {
         "id": "1",
         "lastUpdatedAt": 1970-01-01T00:06:31.000Z,
         "messageSnippet": "Test",
+        "messageType": "FAILED",
         "phoneNumber": "123123123",
         "unread": false,
       }

@@ -4,19 +4,22 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import {
-  contactsReducer,
-  initialState,
-} from "App/contacts/reducers/contacts.reducer"
 import { ContactsEvent } from "App/contacts/constants"
 import {
   Contact,
   ContactID,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
-import { fulfilledAction, rejectedAction } from "Renderer/store/helpers"
-import { DataSyncEvent } from "App/data-sync/constants"
-import { ReadAllIndexesError } from "App/data-sync/errors"
+import {
+  contactsReducer,
+  initialState,
+} from "App/contacts/reducers/contacts.reducer"
+import { AppError } from "App/core/errors"
+import { DataSyncError, DataSyncEvent } from "App/data-sync/constants"
+import {
+  fulfilledAction,
+  rejectedAction,
+} from "App/__deprecated__/renderer/store/helpers"
 
 describe("ReadAllIndexes data functionality", () => {
   test("Event: ReadAllIndexes/fulfilled change `resultState` to Loaded", () => {
@@ -56,7 +59,7 @@ describe("ReadAllIndexes data functionality", () => {
   })
 
   test("Event: ReadAllIndexes/rejected change `resultState` to Error", () => {
-    const errorMock = new ReadAllIndexesError("I'm error")
+    const errorMock = new AppError(DataSyncError.ReadAllIndexes, "I'm error")
 
     expect(
       contactsReducer(undefined, {

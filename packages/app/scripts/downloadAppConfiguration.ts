@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import axios from "axios"
 const path = require("path")
 const fs = require("fs-extra")
@@ -6,10 +11,15 @@ require("dotenv").config({
   path: path.join(__dirname, "../../../.env"),
 })
 
-let defaultData = require("../src/main/default-app-configuration.json")
+let defaultData = require("../src/__deprecated__/main/default-app-configuration.json")
 
 ;(async () => {
-  const jsonPath = path.join("src", "main", "app-configuration.json")
+  const jsonPath = path.join(
+    "src",
+    "__deprecated__",
+    "main",
+    "app-configuration.json"
+  )
   try {
     await fs.ensureDir(path.resolve(path.join("src", "main")))
 
@@ -23,7 +33,7 @@ let defaultData = require("../src/main/default-app-configuration.json")
     } else {
       await fs.writeJson(path.resolve(jsonPath), defaultData)
     }
-  } catch (error) {
+  } catch (error: any) {
     await fs.writeJson(path.resolve(jsonPath), defaultData)
   }
 })()

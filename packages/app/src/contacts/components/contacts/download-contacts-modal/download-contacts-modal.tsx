@@ -5,18 +5,18 @@
 
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import React, { ComponentProps } from "react"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import { intl } from "Renderer/utils/intl"
-import { Message } from "Renderer/interfaces/message.interface"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { Message } from "App/__deprecated__/renderer/interfaces/message.interface"
 import Text, {
   TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import Loader from "Renderer/components/core/loader/loader.component"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+} from "App/__deprecated__/renderer/components/core/text/text.component"
+import Loader from "App/__deprecated__/renderer/components/core/loader/loader.component"
+import { LoaderType } from "App/__deprecated__/renderer/components/core/loader/loader.interface"
+import { ModalDialog } from "App/ui/components/modal-dialog"
 
 const ModalContent = styled.div`
   display: flex;

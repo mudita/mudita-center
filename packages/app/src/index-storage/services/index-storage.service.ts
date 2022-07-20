@@ -4,7 +4,7 @@
  */
 
 import path from "path"
-import getAppPath from "App/main/utils/get-app-path"
+import getAppPath from "App/__deprecated__/main/utils/get-app-path"
 import { DataIndex } from "App/index-storage/constants"
 import { IndexStorage } from "App/index-storage/types"
 import { MetadataStore } from "App/metadata/services"
@@ -16,6 +16,7 @@ const cacheFileNames: Record<DataIndex, string> = {
   [DataIndex.Contact]: "contacts.json",
   [DataIndex.Message]: "messages.json",
   [DataIndex.Thread]: "threads.json",
+  [DataIndex.Template]: "templates.json",
 }
 
 export class IndexStorageService {
@@ -60,7 +61,10 @@ export class IndexStorageService {
           }
 
           try {
-            this.index.set(indexName, elasticlunr.Index.load(JSON.parse(data.toString("utf-8"))))
+            this.index.set(
+              indexName,
+              elasticlunr.Index.load(JSON.parse(data.toString("utf-8")))
+            )
             resolve(true)
           } catch {
             resolve(false)

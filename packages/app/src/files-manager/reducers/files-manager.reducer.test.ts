@@ -12,7 +12,7 @@ import {
   fulfilledAction,
   pendingAction,
   rejectedAction,
-} from "Renderer/store/helpers"
+} from "App/__deprecated__/renderer/store/helpers"
 import { GetFilesError } from "App/files-manager/errors"
 import { FilesManagerEvent } from "App/files-manager/constants"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"

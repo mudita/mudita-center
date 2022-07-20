@@ -6,13 +6,13 @@
 import { IndexStorageLoadingObserver } from "./index-storage-loading.observer"
 import { EventEmitter } from "events"
 import { ipcMain } from "electron-better-ipc"
-import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
+import DeviceService, { DeviceServiceEventName } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { IndexStorageService } from "App/index-storage/services/index-storage.service"
-import { getDeviceInfoRequest } from "Backend/adapters/device-base-info/device-base-info.adapter"
+import { getDeviceInfoRequest } from "App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter"
 import { flushPromises } from "App/core/helpers/flush-promises"
 
-jest.mock("Backend/adapters/device-base-info/device-base-info.adapter")
+jest.mock("App/__deprecated__/backend/adapters/device-base-info/device-base-info.adapter")
 
 let subject: IndexStorageLoadingObserver
 const eventEmitterMock = new EventEmitter()

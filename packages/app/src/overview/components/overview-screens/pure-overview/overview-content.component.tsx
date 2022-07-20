@@ -3,10 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
-import { DeviceType } from "@mudita/pure"
-import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/basic-info.typings"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import React from "react"
+import { DeviceType, CaseColour } from "@mudita/pure"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   DeviceInfo,
   StatusInfo,
@@ -15,36 +14,30 @@ import {
   FileManagerInfo,
   BackupInfo,
 } from "App/overview/components/overview/overview.styles"
-import { noop } from "Renderer/utils/noop"
-import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
-import { AppSettings } from "App/main/store/settings.interface"
-import Backup from "App/overview/components/backup/backup.component"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { MemorySpace } from "App/files-manager/components/files-manager/files-manager.interface"
 
-interface OverviewUIProps {
+interface OverviewContentProps {
+  readonly batteryLevel: number
+  readonly memorySpace: MemorySpace
+  readonly networkName: string
+  readonly networkLevel: number | undefined
+  readonly pureOsAvailable: boolean
+  readonly pureOsDownloaded: boolean | undefined
+  readonly osVersion: string
+  readonly caseColour: CaseColour | undefined
+  readonly lastBackupDate: Date
+  readonly serialNumber: string | undefined
+  readonly disconnectDevice: () => void
+  readonly onBackupCreate: () => void
+  readonly onBackupRestore: () => void
   readonly onUpdateCheck: () => void
   readonly onUpdateDownload: () => void
   readonly onUpdateInstall: () => void
-  toggleDevMode?: () => void
+  readonly toggleDevMode?: () => void
 }
 
-type BackupProps = ComponentProps<typeof Backup>
-
-const OverviewContent: FunctionComponent<
-  Omit<
-    BasicInfoInitialState,
-    | "loadData"
-    | "basicInfoDataState"
-    | "updatingState"
-    | "deviceConnected"
-    | "deviceUnlocked"
-    | "initialDataLoaded"
-    | "deviceType"
-  > &
-    PhoneUpdate &
-    OverviewUIProps &
-    Partial<AppSettings> &
-    BackupProps
-> = ({
+const OverviewContent: FunctionComponent<OverviewContentProps> = ({
   batteryLevel,
   disconnectDevice,
   memorySpace,

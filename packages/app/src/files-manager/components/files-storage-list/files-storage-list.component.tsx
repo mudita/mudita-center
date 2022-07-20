@@ -4,7 +4,7 @@
  */
 
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { FilesStorageListTestIds } from "App/files-manager/components/files-storage-list/files-storage-list-test-ids.enum"
 import { McUsbFile } from "@mudita/pure"
 import styled from "styled-components"
@@ -15,15 +15,15 @@ import Table, {
   LoadingState,
   Row,
   RowSize,
-} from "Renderer/components/core/table/table.component"
-import Avatar from "Renderer/components/core/avatar/avatar.component"
-import { IconType } from "Renderer/components/core/icon/icon-type"
-import { intl } from "Renderer/utils/intl"
+} from "App/__deprecated__/renderer/components/core/table/table.component"
+import Avatar from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import FilesStorageListTypeCol
   from "App/files-manager/components/files-storage-list-type-col/files-storage-list-type-col"
-import { convertBytes } from "Renderer/utils/convert-bytes"
+import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
 
 const FilesTable = styled(Table)`
   flex: 1;

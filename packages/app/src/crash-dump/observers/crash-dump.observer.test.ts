@@ -4,10 +4,12 @@
  */
 
 import { EventEmitter } from "events"
-import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
+import DeviceService, {
+  DeviceServiceEventName,
+} from "App/__deprecated__/backend/device-service"
 import { CrashDumpObserver } from "App/crash-dump/observers/crash-dump.observer"
 import { CrashDumpService } from "App/crash-dump/services"
-import { AppSettingsService } from "App/app-settings/services"
+import { SettingsService } from "App/settings/services"
 import { ipcMain } from "electron-better-ipc"
 import { IpcCrashDumpRenderedEvent } from "App/crash-dump/constants"
 
@@ -25,7 +27,7 @@ describe("Crash Dump Observer: observe", () => {
       let subject: CrashDumpObserver
       let eventEmitterMock: EventEmitter
       let crashDumpService: CrashDumpService
-      let appSettingsService: AppSettingsService
+      let settingsService: SettingsService
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
@@ -37,16 +39,16 @@ describe("Crash Dump Observer: observe", () => {
         crashDumpService = {
           getDeviceCrashDumpFiles: jest.fn().mockReturnValue({ data: [] }),
         } as unknown as CrashDumpService
-        appSettingsService = {
-          getAppSettings: jest.fn().mockReturnValue({
+        settingsService = {
+          getSettings: jest.fn().mockReturnValue({
             ignoredCrashDumps: [],
           }),
-        } as unknown as AppSettingsService
+        } as unknown as SettingsService
         subject = new CrashDumpObserver(
           ipcMain,
           deviceService,
           crashDumpService,
-          appSettingsService
+          settingsService
         )
       })
 
@@ -54,7 +56,7 @@ describe("Crash Dump Observer: observe", () => {
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           0
         )
-        expect(appSettingsService.getAppSettings).toHaveBeenCalledTimes(0)
+        expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
         eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
@@ -62,7 +64,7 @@ describe("Crash Dump Observer: observe", () => {
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalled()
-        expect(appSettingsService.getAppSettings).toHaveBeenCalled()
+        expect(settingsService.getSettings).toHaveBeenCalled()
 
         expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
           IpcCrashDumpRenderedEvent.CrashDumpExists
@@ -74,7 +76,7 @@ describe("Crash Dump Observer: observe", () => {
       let subject: CrashDumpObserver
       let eventEmitterMock: EventEmitter
       let crashDumpService: CrashDumpService
-      let appSettingsService: AppSettingsService
+      let settingsService: SettingsService
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
@@ -88,16 +90,16 @@ describe("Crash Dump Observer: observe", () => {
             .fn()
             .mockReturnValue({ data: ["/sys/crash_dumps/crashdump.hex"] }),
         } as unknown as CrashDumpService
-        appSettingsService = {
-          getAppSettings: jest.fn().mockReturnValue({
+        settingsService = {
+          getSettings: jest.fn().mockReturnValue({
             ignoredCrashDumps: [],
           }),
-        } as unknown as AppSettingsService
+        } as unknown as SettingsService
         subject = new CrashDumpObserver(
           ipcMain,
           deviceService,
           crashDumpService,
-          appSettingsService
+          settingsService
         )
       })
 
@@ -105,7 +107,7 @@ describe("Crash Dump Observer: observe", () => {
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           0
         )
-        expect(appSettingsService.getAppSettings).toHaveBeenCalledTimes(0)
+        expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
         eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
@@ -113,7 +115,7 @@ describe("Crash Dump Observer: observe", () => {
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalled()
-        expect(appSettingsService.getAppSettings).toHaveBeenCalled()
+        expect(settingsService.getSettings).toHaveBeenCalled()
 
         expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
           IpcCrashDumpRenderedEvent.CrashDumpExists,
@@ -126,7 +128,7 @@ describe("Crash Dump Observer: observe", () => {
       let subject: CrashDumpObserver
       let eventEmitterMock: EventEmitter
       let crashDumpService: CrashDumpService
-      let appSettingsService: AppSettingsService
+      let settingsService: SettingsService
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
@@ -140,16 +142,16 @@ describe("Crash Dump Observer: observe", () => {
             .fn()
             .mockReturnValue({ data: ["/sys/crash_dumps/crashdump.hex"] }),
         } as unknown as CrashDumpService
-        appSettingsService = {
-          getAppSettings: jest.fn().mockReturnValue({
+        settingsService = {
+          getSettings: jest.fn().mockReturnValue({
             ignoredCrashDumps: ["/sys/crash_dumps/crashdump.hex"],
           }),
-        } as unknown as AppSettingsService
+        } as unknown as SettingsService
         subject = new CrashDumpObserver(
           ipcMain,
           deviceService,
           crashDumpService,
-          appSettingsService
+          settingsService
         )
       })
 
@@ -157,7 +159,7 @@ describe("Crash Dump Observer: observe", () => {
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           0
         )
-        expect(appSettingsService.getAppSettings).toHaveBeenCalledTimes(0)
+        expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
         eventEmitterMock.emit(DeviceServiceEventName.DeviceUnlocked)
@@ -165,7 +167,7 @@ describe("Crash Dump Observer: observe", () => {
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalled()
-        expect(appSettingsService.getAppSettings).toHaveBeenCalled()
+        expect(settingsService.getSettings).toHaveBeenCalled()
 
         expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
           IpcCrashDumpRenderedEvent.CrashDumpExists,
@@ -178,7 +180,7 @@ describe("Crash Dump Observer: observe", () => {
       let subject: CrashDumpObserver
       let eventEmitterMock: EventEmitter
       let crashDumpService: CrashDumpService
-      let appSettingsService: AppSettingsService
+      let settingsService: SettingsService
 
       beforeEach(() => {
         eventEmitterMock = new EventEmitter()
@@ -192,16 +194,16 @@ describe("Crash Dump Observer: observe", () => {
             .fn()
             .mockReturnValue({ data: ["/sys/crash_dumps/crashdump.hex"] }),
         } as unknown as CrashDumpService
-        appSettingsService = {
-          getAppSettings: jest.fn().mockReturnValue({
+        settingsService = {
+          getSettings: jest.fn().mockReturnValue({
             ignoredCrashDumps: [],
           }),
-        } as unknown as AppSettingsService
+        } as unknown as SettingsService
         subject = new CrashDumpObserver(
           ipcMain,
           deviceService,
           crashDumpService,
-          appSettingsService
+          settingsService
         )
       })
 
@@ -209,7 +211,7 @@ describe("Crash Dump Observer: observe", () => {
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           0
         )
-        expect(appSettingsService.getAppSettings).toHaveBeenCalledTimes(0)
+        expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
         subject.observe()
@@ -221,7 +223,7 @@ describe("Crash Dump Observer: observe", () => {
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           1
         )
-        expect(appSettingsService.getAppSettings).toHaveBeenCalledTimes(1)
+        expect(settingsService.getSettings).toHaveBeenCalledTimes(1)
         expect((ipcMain as any).sendToRenderers).toHaveBeenCalledTimes(1)
       })
     })

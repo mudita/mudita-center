@@ -7,7 +7,7 @@ import {
   DataSyncState,
   SynchronizationState,
   UpdateAllIndexesRejectAction,
-  DataInitializingError,
+  SetErrorStateError,
 } from "App/data-sync/reducers/data-sync.interface"
 import { createReducer } from "@reduxjs/toolkit"
 import { DataSyncEvent } from "App/data-sync/constants/event.enum"
@@ -15,7 +15,7 @@ import {
   fulfilledAction,
   pendingAction,
   rejectedAction,
-} from "Renderer/store/helpers"
+} from "App/__deprecated__/renderer/store/helpers"
 
 export const initialState: DataSyncState = {
   initialized: false,
@@ -26,7 +26,7 @@ export const dataSyncReducer = createReducer<DataSyncState>(
   initialState,
   (builder) => {
     builder
-      .addCase(DataSyncEvent.SetDataSyncInitState, (state) => {
+      .addCase(DataSyncEvent.SetDataSyncInitState, () => {
         return initialState
       })
       .addCase(DataSyncEvent.SetDataSyncInitialized, (state) => {
@@ -36,25 +36,7 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           error: null,
         }
       })
-      .addCase(DataSyncEvent.SetLoadedState, (state) => {
-        return {
-          ...state,
-          state: SynchronizationState.Loaded,
-        }
-      })
-      .addCase(pendingAction(DataSyncEvent.InitializeDataSync), (state) => {
-        return {
-          ...state,
-          state: SynchronizationState.Loading,
-        }
-      })
       .addCase(pendingAction(DataSyncEvent.UpdateAllIndexes), (state) => {
-        return {
-          ...state,
-          state: SynchronizationState.Loading,
-        }
-      })
-      .addCase(DataSyncEvent.InitializingDataSync, (state) => {
         return {
           ...state,
           state: SynchronizationState.Loading,
@@ -69,16 +51,6 @@ export const dataSyncReducer = createReducer<DataSyncState>(
         }
       })
       .addCase(
-        DataSyncEvent.InitializingDataError,
-        (state, action: DataInitializingError) => {
-          return {
-            ...state,
-            state: SynchronizationState.Error,
-            error: action.payload,
-          }
-        }
-      )
-      .addCase(
         rejectedAction(DataSyncEvent.UpdateAllIndexes),
         (state, action: UpdateAllIndexesRejectAction) => {
           return {
@@ -88,6 +60,12 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           }
         }
       )
+      .addCase(DataSyncEvent.SetLoadingState, (state) => {
+        return {
+          ...state,
+          state: SynchronizationState.Loading,
+        }
+      })
       .addCase(DataSyncEvent.SetCacheState, (state) => {
         return {
           ...state,
@@ -95,5 +73,21 @@ export const dataSyncReducer = createReducer<DataSyncState>(
           initialized: true,
         }
       })
+      .addCase(DataSyncEvent.SetLoadedState, (state) => {
+        return {
+          ...state,
+          state: SynchronizationState.Loaded,
+        }
+      })
+      .addCase(
+        DataSyncEvent.SetErrorState,
+        (state, action: SetErrorStateError) => {
+          return {
+            ...state,
+            state: SynchronizationState.Error,
+            error: action.payload,
+          }
+        }
+      )
   }
 )

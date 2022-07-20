@@ -3,8 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ReduxRootState } from "Renderer/store"
-import { initialState, messagesReducer, Thread } from "App/messages/reducers"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { initialState, messagesReducer } from "App/messages/reducers"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { isThreadOpenedSelector } from "App/messages/selectors/is-thread-opened.selector"
 
 describe("`isThreadOpenedSelector` selector", () => {
@@ -23,6 +25,7 @@ describe("`isThreadOpenedSelector` selector", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: true,
+      messageType: MessageType.INBOX,
     }
 
     const state = {
@@ -47,6 +50,7 @@ describe("`isThreadOpenedSelector` selector", () => {
       messageSnippet:
         "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
       unread: true,
+      messageType: MessageType.INBOX,
     }
 
     const state = {

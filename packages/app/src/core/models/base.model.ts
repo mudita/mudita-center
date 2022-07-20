@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ModelError, ModelEvent } from "App/core/constants"
+import { AppError } from "App/core/errors"
+import { DataIndex } from "App/index-storage/constants"
+import { IndexStorage } from "App/index-storage/types"
 import { Index, SerialisedIndexData } from "elasticlunr"
 import { EventEmitter } from "events"
-import { IndexStorage } from "App/index-storage/types"
-import { DataIndex } from "App/index-storage/constants"
-import { IndexConnectionError } from "App/core/errors"
-import { ModelEvent } from "App/core/constants"
 
 export class BaseModel<Type extends { id: string }> {
   private _modelName: DataIndex = "" as DataIndex
@@ -43,8 +43,11 @@ export class BaseModel<Type extends { id: string }> {
     this.connection?.addDoc(changedData)
     const record = this.findById(data.id)
 
-    if (!skipCallbacks && record) {
+    if (record) {
       this.afterCreate(record)
+    }
+
+    if (!skipCallbacks && record) {
       this.eventEmitter.emit(ModelEvent.Created)
     }
 
@@ -57,8 +60,11 @@ export class BaseModel<Type extends { id: string }> {
     this.connection?.updateDoc(changedData)
     const record = this.findById(data.id)
 
-    if (!skipCallbacks && record) {
+    if (record) {
       this.afterUpdate(record)
+    }
+
+    if (!skipCallbacks && record) {
       this.eventEmitter.emit(ModelEvent.Updated)
     }
 
@@ -75,9 +81,9 @@ export class BaseModel<Type extends { id: string }> {
 
     this.beforeDelete(data)
     this.connection?.removeDocByRef(id)
+    this.afterDelete(data)
 
     if (!skipCallbacks) {
-      this.afterDelete(data)
       this.eventEmitter.emit(ModelEvent.Deleted)
     }
   }
@@ -86,7 +92,8 @@ export class BaseModel<Type extends { id: string }> {
     this.connection = this.index.get(this._modelName)
 
     if (!this.connection) {
-      throw new IndexConnectionError(
+      throw new AppError(
+        ModelError.IndexConnection,
         `Cannot connect to '${this._modelName}' index`
       )
     }

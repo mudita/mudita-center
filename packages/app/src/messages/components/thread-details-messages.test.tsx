@@ -3,18 +3,33 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import { MessageBubbleTestIds } from "App/messages/components/message-bubble/message-bubble-test-ids.enum"
+import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
+import { NewMessageBadgeTestIds } from "App/messages/components/new-message-badge/new-message-badge-test-ids.enum"
+import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
+import { MessageType } from "App/messages/constants"
+import { Message } from "App/messages/dto"
 import {
-  Message,
-  MessageType,
   Receiver,
   ReceiverIdentification,
 } from "App/messages/reducers/messages.interface"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
-import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
-import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
-import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
+import {
+  NotificationMethod,
+  NotificationResourceType,
+} from "App/notification/constants"
+import { AvatarTestIds } from "App/__deprecated__/renderer/components/core/avatar/avatar-test-ids.enum"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import React, { ComponentProps } from "react"
+
+const intersectionObserverMock = () => ({
+  observe: () => null,
+  disconnect: () => null,
+  unobserve: () => null,
+})
+window.IntersectionObserver = jest
+  .fn()
+  .mockImplementation(intersectionObserverMock)
 
 jest.mock("react-viewport-list", () => {
   return ({ children, items }: any) => {
@@ -34,29 +49,51 @@ const receiver: Receiver = {
 
 const threadId = "1"
 
-const messages: Message[] = [
+const outboxMessage = {
+  threadId,
+  id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+  date: new Date("2019-10-18T11:45:35.112Z"),
+  content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+  phoneNumber: receiver.phoneNumber,
+  messageType: MessageType.OUTBOX,
+}
+const inboxMessage = {
+  threadId,
+  id: "27b7108d-d5b8-4bb5-87bc-2cfebcecd571",
+  date: new Date(),
+  content: "Adipisicing non qui Lorem aliqua officia laboris.",
+  phoneNumber: receiver.phoneNumber,
+  messageType: MessageType.INBOX,
+}
+
+const messages: Message[] = [inboxMessage, outboxMessage]
+
+const messageLayoutNotifications = [
   {
-    threadId,
-    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-    date: new Date(),
-    content:
-      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-    phoneNumber: receiver.phoneNumber,
-    messageType: MessageType.INBOX,
+    id: "1234",
+    type: NotificationResourceType.Message,
+    method: NotificationMethod.Layout,
+    resourceType: NotificationResourceType.Message,
+    content: inboxMessage,
   },
+]
+
+const messageLayoutNotificationsOutbox = [
   {
-    threadId,
-    id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
-    date: new Date("2019-10-18T11:45:35.112Z"),
-    content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-    phoneNumber: receiver.phoneNumber,
-    messageType: MessageType.OUTBOX,
+    id: "1234",
+    type: NotificationResourceType.Message,
+    method: NotificationMethod.Layout,
+    resourceType: NotificationResourceType.Message,
+    content: outboxMessage,
   },
 ]
 
 const defaultProps: Props = {
   receiver,
   messages,
+  messageLayoutNotifications: [],
+  currentlyDeletingMessageId: null,
+  onMessageRemove: noop,
 }
 
 const renderer = (extraProps?: {}) => {
@@ -106,5 +143,19 @@ describe("Message Bubble Container", () => {
     const { getByTestId } = renderer({ messages: [messages[1]] })
     const container = getByTestId(MessageBubbleTestIds.Container)
     expect(container).toHaveStyle("flex-direction: row")
+  })
+  test("should show NewMessageBadge if there is new inbox notification", () => {
+    const { getByTestId } = renderer({
+      messageLayoutNotifications: messageLayoutNotifications,
+    })
+    expect(getByTestId(NewMessageBadgeTestIds.Wrapper)).toBeInTheDocument()
+  })
+  test("should not show NewMessageBadge if there is new outbox notification", () => {
+    const { queryByTestId } = renderer({
+      messageLayoutNotifications: messageLayoutNotificationsOutbox,
+    })
+    expect(
+      queryByTestId(NewMessageBadgeTestIds.Wrapper)
+    ).not.toBeInTheDocument()
   })
 })

@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import archiveFiles from "Renderer/requests/archive-files.request"
-import createFreshdeskTicket from "App/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
+import archiveFiles from "App/__deprecated__/renderer/requests/archive-files.request"
+import createFreshdeskTicket from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
 import {
   FreshdeskTicketData,
   FreshdeskTicketDataType,
-} from "Renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
+} from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 import {
   downloadingLogs,
   attachedFileName,
@@ -55,7 +55,7 @@ const sendTicketRequest = async (
     return {
       status: CreateBugTicketResponseStatus.Ok,
     }
-  } catch (e) {
+  } catch (e: any) {
     if (e?.response?.data) {
       const error = {
         message: e.response.data.description,

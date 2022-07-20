@@ -4,15 +4,15 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import { backupReducer, initialState } from "App/backup/reducers/backup.reducer"
-import { BackupEvent } from "App/backup/constants"
+import { BackupError, BackupEvent } from "App/backup/constants"
 import { Backup, BackupDataState } from "App/backup/reducers/backup.interface"
-import { LoadBackupDataError } from "App/backup/errors"
+import { backupReducer, initialState } from "App/backup/reducers/backup.reducer"
+import { AppError } from "App/core/errors"
 import {
   fulfilledAction,
   pendingAction,
   rejectedAction,
-} from "Renderer/store/helpers"
+} from "App/__deprecated__/renderer/store/helpers"
 
 test("empty event returns initial state", () => {
   expect(backupReducer(undefined, {} as any)).toEqual(initialState)
@@ -42,7 +42,7 @@ describe("Load Backup data functionality", () => {
   })
 
   test("Event: Load/rejected change `state` to Error", () => {
-    const errorMock = new LoadBackupDataError("I'm error")
+    const errorMock = new AppError(BackupError.Load, "I'm error")
 
     expect(
       backupReducer(undefined, {

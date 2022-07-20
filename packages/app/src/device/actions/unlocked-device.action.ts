@@ -4,10 +4,10 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceEvent } from "App/device/constants"
-import { ReduxRootState } from "App/renderer/store"
+import { DeviceError, DeviceEvent } from "App/device/constants"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import { loadDeviceData } from "App/device/actions/load-device-data.action"
-import { DeviceConnectionError } from "App/device/errors"
+import { AppError } from "App/core/errors"
 
 export const unlockedDevice = createAsyncThunk(
   DeviceEvent.Unlocked,
@@ -20,7 +20,7 @@ export const unlockedDevice = createAsyncThunk(
 
     if (!state.device.deviceType) {
       return rejectWithValue(
-        new DeviceConnectionError("Cannot connected to device")
+        new AppError(DeviceError.Connection, "Cannot connected to device")
       )
     }
 

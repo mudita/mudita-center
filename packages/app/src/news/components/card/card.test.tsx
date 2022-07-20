@@ -5,7 +5,7 @@
 
 import "@testing-library/jest-dom"
 import React from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Card from "App/news/components/card/card.component"
 
 test("should render links with passed urls", () => {

@@ -5,36 +5,36 @@
 
 import "@testing-library/jest-dom/extend-expect"
 import React, { ComponentProps } from "react"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { noop } from "Renderer/utils/noop"
-import { intl } from "Renderer/utils/intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { fireEvent } from "@testing-library/react"
 import Backup from "App/overview/components/backup/backup.component"
 
-jest.mock("Renderer/requests/get-file-data")
+jest.mock("App/__deprecated__/renderer/requests/get-file-data")
 
 const lastBackupDate = new Date("2020-01-15T07:35:01.562Z")
 
 type Props = ComponentProps<typeof Backup>
 
 const defaultProps: Props = {
-  appAutostart: false,
-  appCollectingData: undefined,
-  appConversionFormat: undefined,
-  appConvert: undefined,
-  appIncomingCalls: false,
-  appIncomingMessages: false,
-  appLowBattery: false,
-  appNonStandardAudioFilesConversion: false,
-  appOsUpdates: false,
-  appTethering: false,
-  appTray: false,
+  autostart: false,
+  collectingData: undefined,
+  conversionFormat: undefined,
+  convert: undefined,
+  incomingCalls: false,
+  incomingMessages: false,
+  lowBattery: false,
+  nonStandardAudioFilesConversion: false,
+  osUpdates: false,
+  tethering: false,
+  tray: false,
   diagnosticSentTimestamp: 0,
   language: "en-US",
   onBackupCreate: noop,
-  pureNeverConnected: false,
-  pureOsBackupLocation: "",
-  pureOsDownloadLocation: "",
+  neverConnected: false,
+  osBackupLocation: "",
+  osDownloadLocation: "",
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

@@ -4,8 +4,9 @@
  */
 
 import { Thread as PureThread } from "@mudita/pure"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
 import { ThreadPresenter } from "App/messages/presenters/thread.presenter"
+import { MessageType } from "App/messages/constants"
 
 const pureThread: PureThread = {
   contactID: 1,
@@ -24,8 +25,9 @@ const thread: Thread = {
   phoneNumber: "+48500600700",
   lastUpdatedAt: new Date(1617089558 * 1000),
   messageSnippet:
-    "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+    "Draft: Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
   unread: true,
+  messageType: MessageType.INBOX,
 }
 
 describe("`ThreadPresenter`", () => {

@@ -50,13 +50,14 @@ lerna run --stream --scope @mudita/mudita-center-app dev:start:main
 ## Enable Developer mode inside the application
 
 To run additional Developer mode in Mudita Center, tap on the right button of your mouse and select "Enable developer mode". You can also toggle it on/off using `Ctrl`/`Cmd`+`D` keys. When Developer mode is enabled you can:
+
 - `Ctrl`/`Cmd`+`P` toggle simulating Mudita Pure connection.
 - `Ctrl`/`Cmd`+`B` toggle simulating Mudita Harmony connection.
 
 Using Developer mode you can:
 
 - simulate a connected Mudita Pure device
-- simulate a connected Mudita Harmony device  
+- simulate a connected Mudita Harmony device
 - load/clear default 'placeholder' topics in the "Messages" view
 - load/clear default 'placeholder' contacts in the "Contacts" view
 - load/clear default 'placeholder' events in the "Calendar" view
@@ -115,9 +116,7 @@ The Mudita Center have the next feature toggle environments:
 
 - development
 - production
-- test-production
 - alpha-production
-- test-alpha-production
 
 **Note:** You might not be able to build the app for all platforms one one platform. Read more about it the ["Multi Platform Build" article](https://www.electron.build/multi-platform-build).
 
@@ -139,7 +138,7 @@ npm version CURRENT_VERSION + 1
 That's because we're using `GT Pressura` font that can't be open-sourced, so we can't publish it in our repository.
 Instead, for development purpose outside the Mudita company, we're using a `Roboto Condensed` font from Google which is quite similar.
 
-More info about managing fonts [can be found here](packages/app/src/renderer/fonts/README.md).
+More info about managing fonts [can be found here](packages/app/src/__deprecated__/renderer/fonts/README.md).
 
 ### The module was compiled against a different Node.js version
 
@@ -176,7 +175,24 @@ To fix that, `settings.json` file should be updated manually according to change
 - Linux: `~/.config/@mudita/mudita-center-app`
 - macOS: `~/Library/Application Support/@mudita/mudita-center-app`
 
-### How to get logs from the built application
+### I am unable to update Pure soft with the application in the development mode
+
+When you are in the development mode and you try to update your phone to the latest version, it may happen that it would not work (due to our internal bug). To fix this, try to change `FEATURE_TOGGLE_ENVIRONMENT` from `development` to `production`.
+
+Disclaimer:
+When you read this, it may happen that this problem does not exist anymore - it means that the bug was fixed.
+
+### I am unable to run the application that has version equal or older than 1.3 (due to webpack errors)
+
+Solution:
+In the file `rules.js`, find a function `tsxMain` add to `plugins` array:
+
+```
+    ["@babel/plugin-proposal-optional-chaining"],
+    ["@babel/plugin-proposal-nullish-coalescing-operator"],
+```
+
+## How to get logs from the built application
 
 Logs are saved in file logs folder. The file format is `mc-YYYY-MM-DD`.
 

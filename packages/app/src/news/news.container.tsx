@@ -3,28 +3,24 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { connect } from "react-redux"
-import { RootModel } from "Renderer/models/models"
-import { TmpDispatch, select } from "Renderer/store"
+import { loadNews } from "App/news/actions"
 import News from "App/news/components/news/news.component"
-import { DefaultNewsItems } from "App/main/default-news-item"
+import { newsSortedByCreationDateSelector } from "App/news/selectors"
+import {
+  ReduxRootState,
+  RootState,
+  TmpDispatch,
+} from "App/__deprecated__/renderer/store"
+import { connect } from "react-redux"
 
-const selection = select((models: any) => ({
-  newsItems: models.muditaNews.newsSortedByCreationDateInDescendingOrder,
-}))
-
-const mapStateToProps = (state: RootModel) => {
+const mapStateToProps = (state: RootState & ReduxRootState) => {
   return {
-    ...state.muditaNews,
-    ...state.networkStatus,
-    ...selection(state, null),
+    newsItems: newsSortedByCreationDateSelector(state),
   }
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
-  loadData: () => dispatch.muditaNews.loadData(),
-  updateData: (data: DefaultNewsItems | { updating: boolean }) =>
-    dispatch.muditaNews.updateData(data),
+  loadData: () => dispatch(loadNews()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(News)

@@ -5,28 +5,34 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { DeviceType } from "@mudita/pure"
-import { HelpActions } from "Common/enums/help-actions.enum"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { UpdatingState } from "Renderer/models/basic-info/basic-info.typings"
-import { DevMode } from "App/dev-mode/store/dev-mode.interface"
+import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import React, { useEffect, useState } from "react"
 import OverviewContent from "App/overview/components/overview-screens/harmony-overview/overview-content.component"
-import { noop } from "Renderer/utils/noop"
-import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
-import { SettingsState } from "App/main/store/settings.interface"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
 import useSystemUpdateFlow from "App/overview/helpers/system-update.hook"
-import logger from "App/main/utils/logger"
+import logger from "App/__deprecated__/main/utils/logger"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import UpdatingForceModalFlow, {
   UpdatingForceModalFlowState,
 } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 
-import { DeviceState } from "App/device"
-
-export type HarmonyOverviewProps = DeviceState["data"] &
-  PhoneUpdateStore &
-  SettingsState &
-  DevMode
+export interface HarmonyOverviewProps {
+  readonly lowestSupportedOsVersion: string | undefined
+  readonly lastAvailableOsVersion: string
+  readonly batteryLevel: number | undefined
+  readonly osVersion: string | undefined
+  readonly pureOsDownloaded: boolean
+  readonly updatingState: UpdatingState
+  readonly serialNumber: string | undefined
+  readonly startUpdateOs: (data: string) => void
+  readonly setUpdateState: (data: UpdatingState) => void
+  readonly updatePhoneOsInfo: (data: PhoneUpdate) => void
+  readonly disconnectDevice: () => void
+  readonly openContactSupportFlow: () => void
+}
 
 export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   batteryLevel = 0,
@@ -35,11 +41,6 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
   lastAvailableOsVersion,
   pureOsDownloaded,
   updatePhoneOsInfo = noop,
-  memorySpace = {
-    free: 0,
-    full: 4000000000,
-    total: 4000000000,
-  },
   lowestSupportedOsVersion = "",
   updatingState,
   startUpdateOs,
@@ -138,7 +139,6 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
         batteryLevel={batteryLevel}
         disconnectDevice={disconnectDevice}
         osVersion={osVersion}
-        memorySpace={memorySpace}
         pureOsAvailable={isPureOsAvailable()}
         pureOsDownloaded={pureOsDownloaded}
         onUpdateCheck={check}

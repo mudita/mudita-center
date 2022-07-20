@@ -4,7 +4,8 @@
  */
 
 import { searchThreads } from "App/messages/helpers/threads.helpers"
-import { Thread } from "App/messages/reducers/messages.interface"
+import { Thread } from "App/messages/dto"
+import { MessageType } from "App/messages/constants"
 import { createFakeContact } from "App/messages/helpers/create-fake-contact"
 import { ContactsCollection } from "App/messages/helpers/messages.helpers"
 
@@ -21,6 +22,7 @@ const threads: Thread[] = [
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
   {
     id: secondThreadId,
@@ -29,6 +31,7 @@ const threads: Thread[] = [
     messageSnippet:
       "Velit et ut ut odit quo. Ratione eligendi non consequatur ipsum neque.",
     unread: true,
+    messageType: MessageType.INBOX,
   },
 ]
 

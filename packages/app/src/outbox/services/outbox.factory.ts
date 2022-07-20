@@ -5,7 +5,7 @@
 
 import { EventEmitter } from "events"
 import { OutboxEntryType } from "@mudita/pure"
-import { DeviceService } from "Backend/device-service"
+import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { IndexStorage } from "App/index-storage/types"
 import {
   EntryHandlersMapType,
@@ -35,13 +35,18 @@ export class OutboxFactory {
       contactRepository
     )
 
-    const messageModel = new MessageModel(index, eventEmitter)
-    const messageRepository = new MessageRepository(messageModel)
-    const threadService = new ThreadService(deviceService)
-    const messageService = new MessageService(deviceService, threadService)
-
     const threadModel = new ThreadModel(index, eventEmitter)
     const threadRepository = new ThreadRepository(threadModel)
+
+    const messageModel = new MessageModel(index, eventEmitter)
+    const messageRepository = new MessageRepository(messageModel)
+    const threadService = new ThreadService(deviceService, threadRepository)
+    const messageService = new MessageService(
+      deviceService,
+      threadService,
+      messageRepository
+    )
+
     const threadEntryHandlerService = new ThreadEntryHandlerService(
       threadService,
       threadRepository

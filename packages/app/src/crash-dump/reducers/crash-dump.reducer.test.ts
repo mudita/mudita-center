@@ -3,20 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppError } from "App/core/errors"
+import { CrashDumpError, Event } from "App/crash-dump/constants"
 import {
   crashDumpReducer,
   initialState,
 } from "App/crash-dump/reducers/crash-dump.reducer"
 import {
-  rejectedAction,
   fulfilledAction,
   pendingAction,
-} from "App/renderer/store/helpers"
-import { Event } from "App/crash-dump/constants"
-import {
-  GetCrashDumpError,
-  DownloadCrashDumpError,
-} from "App/crash-dump/errors"
+  rejectedAction,
+} from "App/__deprecated__/renderer/store/helpers"
 
 test("empty event returns initial state", () => {
   expect(crashDumpReducer(undefined, {} as any)).toEqual(initialState)
@@ -54,7 +51,7 @@ describe("Getting crush dumps functionality", () => {
   })
 
   test("Event: GetCrashDump/rejected set loading state and error", () => {
-    const errorMock = new GetCrashDumpError("I'm error")
+    const errorMock = new AppError(CrashDumpError.Getting, "I'm error")
 
     expect(
       crashDumpReducer(undefined, {
@@ -120,7 +117,7 @@ describe("Downloading crush dumps functionality", () => {
   })
 
   test("Event: DownloadCrashDump/rejected set loading state and error", () => {
-    const errorMock = new DownloadCrashDumpError("I'm error")
+    const errorMock = new AppError(CrashDumpError.Downloading, "I'm error")
 
     expect(
       crashDumpReducer(undefined, {

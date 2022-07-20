@@ -55,7 +55,7 @@ const harmonyDeviceMock: HarmonyDeviceData = {
   memorySpace: {
     free: 124,
     full: 1021,
-    total: 4000000000,
+    total: 1021,
   },
 }
 
@@ -91,11 +91,11 @@ describe("Action: setDeviceData", () => {
 
 describe("Action: setLockTime", () => {
   test("fire action with device lock time and `SetLockTime` type", () => {
-    mockStore.dispatch(setLockTime(123456789))
+    mockStore.dispatch(setLockTime({ phoneLockTime: 123456789 }))
     expect(mockStore.getActions()).toEqual([
       {
         type: DeviceEvent.SetLockTime,
-        payload: 123456789,
+        payload: { phoneLockTime: 123456789 },
       },
     ])
   })

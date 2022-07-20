@@ -5,8 +5,8 @@
 
 import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
-import store from "Renderer/store"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import store from "App/__deprecated__/renderer/store"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import ModalsManager from "App/modals-manager/containers/modals-manager.container"
 import ContactSupportFlow from "App/contact-support/containers/contact-support-flow.container"
 import { ContactSupportFlowTestIds } from "App/contact-support/components/contact-support-flow-test-ids.component"

@@ -4,20 +4,20 @@
  */
 
 import React, { ComponentProps } from "react"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { intl } from "Renderer/utils/intl"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
+import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import StackedBarChart, {
   DisplayStyle,
-} from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import { RoundIconWrapper } from "Renderer/components/core/modal-shared/modal-shared"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { IconType } from "Renderer/components/core/icon/icon-type"
+} from "App/__deprecated__/renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
+import { RoundIconWrapper } from "App/__deprecated__/renderer/components/core/modal-shared/modal-shared"
+import { ModalDialog } from "App/ui/components/modal-dialog"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const messages = defineMessages({
   title: {

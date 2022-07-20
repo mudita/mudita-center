@@ -7,22 +7,18 @@ import React, { ComponentProps } from "react"
 import { Provider } from "react-redux"
 import { Router } from "react-router"
 import { DeviceType, CaseColour } from "@mudita/pure"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import Overview from "App/overview/components/overview/overview.component"
-import {
-  DataState,
-  UpdatingState,
-} from "Renderer/models/basic-info/basic-info.typings"
-import { ConversionFormat, Convert } from "App/main/store/settings.interface"
-import store from "Renderer/store"
-import history from "Renderer/routes/history"
+import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
+import store from "App/__deprecated__/renderer/store"
+import history from "App/__deprecated__/renderer/routes/history"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import { BackupDeviceDataState } from "App/backup-device/reducers"
 import { BackupDeviceFlowTestIds } from "App/overview/components/backup-device-flow/backup-device-flow-test-ids.component"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { RestoreDeviceFlowTestIds } from "App/overview/components/restore-device-flow/restore-device-flow-test-ids.component"
-import { intl } from "Renderer/utils/intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { flags } from "App/feature-flags"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
@@ -39,7 +35,7 @@ jest.mock("electron", () => ({
   },
 }))
 
-jest.mock("Renderer/requests/get-device-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-device-info.request", () =>
   jest.fn(() => ({
     status: RequestResponseStatus.Ok,
     data: {
@@ -52,7 +48,7 @@ jest.mock("Renderer/requests/get-device-info.request", () =>
   }))
 )
 
-jest.mock("Renderer/requests/get-network-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-network-info.request", () =>
   jest.fn(() => ({
     status: RequestResponseStatus.Ok,
     data: {
@@ -76,7 +72,7 @@ jest.mock("Renderer/requests/get-network-info.request", () =>
   }))
 )
 
-jest.mock("Renderer/requests/get-storage-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-storage-info.request", () =>
   jest.fn(() => ({
     status: RequestResponseStatus.Ok,
     data: {
@@ -90,7 +86,7 @@ jest.mock("Renderer/requests/get-storage-info.request", () =>
   }))
 )
 
-jest.mock("Renderer/requests/get-battery-info.request", () =>
+jest.mock("App/__deprecated__/renderer/requests/get-battery-info.request", () =>
   jest.fn(() => ({
     status: RequestResponseStatus.Ok,
     data: {
@@ -103,7 +99,6 @@ jest.mock("Renderer/requests/get-battery-info.request", () =>
 
 const defaultProps: Props = {
   openContactSupportFlow: jest.fn(),
-  backupLocation: "",
   backups: [],
   readRestoreDeviceDataState: jest.fn(),
   restoreDeviceState: RestoreDeviceDataState.Empty,
@@ -111,59 +106,26 @@ const defaultProps: Props = {
   startRestoreDevice: jest.fn(),
   readBackupDeviceDataState: jest.fn(),
   backupDeviceState: BackupDeviceDataState.Empty,
-  diagnosticSentTimestamp: 0,
-  networkLevel: "",
-  phoneLockTime: 0,
+  networkLevel: 0,
   deviceType: DeviceType.MuditaPure,
-  appLatestVersion: "",
-  appUpdateAvailable: undefined,
   lowestSupportedOsVersion: undefined,
-  lowestSupportedCenterVersion: undefined,
-  settingsLoaded: false,
-  deviceUnlocked: undefined,
-  appAutostart: false,
-  appCollectingData: undefined,
-  appConversionFormat: ConversionFormat.FLAC,
-  appConvert: Convert.ConvertAutomatically,
-  appIncomingCalls: false,
-  appIncomingMessages: false,
-  appLowBattery: false,
-  appNonStandardAudioFilesConversion: false,
-  appOsUpdates: false,
-  appTethering: false,
-  appTray: false,
+  lastAvailableOsVersion: "",
+  lastBackupDate: new Date("2020-01-15T07:35:01.562Z"),
+  pureOsDownloaded: false,
+  setUpdateState: jest.fn(),
+  startUpdateOs: jest.fn(),
   batteryLevel: 0,
-  changeSim: jest.fn(),
   disconnectDevice: jest.fn(),
-  deviceConnected: true,
-  language: "en-US",
-  loadData: jest.fn(),
   networkName: "network name",
-  osVersion: "release-1.0.0",
-  pureNeverConnected: false,
+  osVersion: "1.0.0",
   pureOsBackupLocation: "path/location/backup",
-  pureOsDownloadLocation: "path/location/download",
-  basicInfoDataState: DataState.Empty,
   serialNumber: undefined,
-  initialDataLoaded: false,
-  appVersion: undefined,
-  toggleAppCollectingData: jest.fn(),
-  simCards: [
-    {
-      active: true,
-      network: "Y-Mobile",
-      networkLevel: 0.2,
-      number: 12345678,
-      slot: 1,
-    },
-  ],
-  toggleDeviceUpdating: jest.fn(),
   updatePhoneOsInfo: jest.fn(),
   updatingState: UpdatingState.Standby,
   memorySpace: {
     free: 100,
     full: 200,
-    total: 16000000000,
+    total: 200,
   },
   caseColour: CaseColour.Gray,
   syncState: SynchronizationState.Loaded,

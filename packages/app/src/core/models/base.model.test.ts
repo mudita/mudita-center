@@ -3,11 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ModelError } from "App/core/constants"
+import { AppError } from "App/core/errors"
+import { DataIndex } from "App/index-storage/constants"
 import elasticlunr, { Index } from "elasticlunr"
 import { EventEmitter } from "events"
 import { BaseModel } from "./base.model"
-import { DataIndex } from "App/index-storage/constants"
-import { IndexConnectionError } from "App/core/errors"
 
 type TestingRecord = { id: string; text: string }
 
@@ -15,8 +16,14 @@ let index = elasticlunr<TestingRecord>()
 const dataIndexMap = new Map<DataIndex, Index<TestingRecord>>()
 dataIndexMap.set(DataIndex.Contact, index)
 
-const fakeEventEmitter = new EventEmitter()
+const fakeEventEmitter = {
+  emit: jest.fn(),
+} as unknown as EventEmitter
 const subject = new BaseModel<TestingRecord>(dataIndexMap, fakeEventEmitter)
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
 
 describe("Index: exists", () => {
   beforeAll(() => {
@@ -128,6 +135,7 @@ describe("Index: exists", () => {
       const afterCreate = jest.fn()
 
       expect(afterCreate).toBeCalledTimes(0)
+      expect(fakeEventEmitter.emit).toBeCalledTimes(0)
 
       jest.spyOn(subject, "afterCreate").mockImplementationOnce(afterCreate)
 
@@ -135,7 +143,8 @@ describe("Index: exists", () => {
         id: "1",
         text: "Test #2",
       })
-      expect(afterCreate).toBeCalledTimes(0)
+      expect(afterCreate).toBeCalledTimes(1)
+      expect(fakeEventEmitter.emit).toBeCalledTimes(0)
     })
   })
 
@@ -185,6 +194,7 @@ describe("Index: exists", () => {
       const afterUpdate = jest.fn()
 
       expect(afterUpdate).toBeCalledTimes(0)
+      expect(fakeEventEmitter.emit).toBeCalledTimes(0)
 
       jest.spyOn(subject, "afterUpdate").mockImplementationOnce(afterUpdate)
 
@@ -192,7 +202,8 @@ describe("Index: exists", () => {
         id: "1",
         text: "Updated #2",
       })
-      expect(afterUpdate).toBeCalledTimes(0)
+      expect(afterUpdate).toBeCalledTimes(1)
+      expect(fakeEventEmitter.emit).toBeCalledTimes(0)
     })
   })
 
@@ -237,12 +248,15 @@ describe("Index: exists", () => {
       const afterDelete = jest.fn()
 
       expect(afterDelete).toBeCalledTimes(0)
+      expect(fakeEventEmitter.emit).toBeCalledTimes(0)
 
       jest.spyOn(subject, "afterDelete").mockImplementationOnce(afterDelete)
 
       subject.delete("1", true)
+
       expect(subject.all()).toEqual([])
-      expect(afterDelete).toBeCalledTimes(0)
+      expect(afterDelete).toBeCalledTimes(1)
+      expect(fakeEventEmitter.emit).toBeCalledTimes(0)
     })
   })
 })
@@ -254,7 +268,10 @@ describe("Index: doesn't exists", () => {
 
   test("throw an `IndexConnectionError` error", () => {
     expect(() => subject.all()).toThrow(
-      new IndexConnectionError("Cannot connect to 'I doesn't exists' index")
+      new AppError(
+        ModelError.IndexConnection,
+        "Cannot connect to 'I doesn't exists' index"
+      )
     )
   })
 })
