@@ -41,7 +41,7 @@ export interface TextareaProps
     BasicProps {
   maxRows?: number
   inputRef?: Ref<HTMLTextAreaElement>
-  type?: "textarea"
+  type: "textarea"
 }
 export interface InputPasscodeProps
   extends TextareaHTMLAttributes<HTMLInputElement>,

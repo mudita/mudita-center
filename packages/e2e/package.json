@@ -19,6 +19,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "test": "./node_modules/.bin/wdio run wdio.conf.ts",
+    "lint:typecheck": "tsc --noEmit",
     "postinstall": "npm run build"
   },
   "bugs": {
@@ -36,7 +37,7 @@
     "semver": "^7.3.5",
     "serialport": "^10.1.0",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.5",
+    "typescript": "^4.7.4",
     "usb": "^1.9.2",
     "util": "^0.12.4",
     "wdio-chromedriver-service": "^7.2.6",
