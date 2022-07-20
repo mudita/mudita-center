@@ -35,11 +35,8 @@ export const InputComponent: FunctionComponent<InputComponentProps> = (
     return <TextArea {...props} />
   } else if (isInputPasscodeProps(props)) {
     return <InputPasscode {...props} />
-  } else if (props.type !== undefined) {
-    return <InputText {...props} />
-  } else {
-    return <InputText {...props} type={"text"} />
   }
+  return <InputText {...props} />
 }
 
 export default React.forwardRef<
