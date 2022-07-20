@@ -3,15 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import translationConfig from "App/translations.config.json"
+import App from "App/__deprecated__/renderer/app.component"
+import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
+import store from "App/__deprecated__/renderer/store"
 import * as React from "react"
 import * as ReactDOM from "react-dom"
-import { Provider } from "react-redux"
-import { AppContainer } from "react-hot-loader"
-import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
-import translationConfig from "App/translations.config.json"
-import history from "App/__deprecated__/renderer/routes/history"
-import store from "App/__deprecated__/renderer/store"
-import RootWrapper from "App/__deprecated__/renderer/wrappers/root-wrapper"
 import Modal from "react-modal"
 
 try {
@@ -28,14 +25,7 @@ mainElement.id = "app"
 document.body.appendChild(mainElement)
 Modal.setAppElement("#app")
 
-ReactDOM.render(
-  <Provider store={store}>
-    <AppContainer>
-      <RootWrapper history={history} />
-    </AppContainer>
-  </Provider>,
-  mainElement
-)
+ReactDOM.render(<App />, mainElement)
 
 // Setup modal service
 modalService.bindStore(store)
