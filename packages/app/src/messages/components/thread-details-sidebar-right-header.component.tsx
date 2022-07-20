@@ -29,14 +29,14 @@ interface Props {
   contactCreated: boolean
   onContactClick: () => void
   onDeleteClick: () => void
-  onCheckClick: () => void
+  onMarkAsUnreadClick: () => void
 }
 
 const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
   contactCreated,
   onContactClick,
   onDeleteClick,
-  onCheckClick,
+  onMarkAsUnreadClick,
 }) => {
   return (
     <>
@@ -64,7 +64,7 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
         <SidebarHeaderButton
           description={messages.marksAsUnreadTooltipDescription}
           iconType={IconType.MarkAsUnread}
-          onClick={onCheckClick}
+          onClick={onMarkAsUnreadClick}
         />
       )}
       {flags.get(Feature.MessagesThreadDeleteEnabled) && (
