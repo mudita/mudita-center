@@ -6,26 +6,14 @@
 import React from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
-import styled from "styled-components"
-import ButtonToggler, {
-  ButtonTogglerItem,
-} from "App/__deprecated__/renderer/components/core/button-toggler/button-toggler.component"
 import { twoStateToggler } from "App/settings/helpers/settings-toggler-state"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { SettingsTogglerTestIds } from "App/settings/components/settings-toggler/settings-toggler-test-ids.enum"
-
-const Toggler = styled(ButtonToggler)`
-  margin-right: 3.2rem;
-`
-
-const TogglerItem = styled(ButtonTogglerItem)`
-  width: 8.8rem;
-`
-
-export interface SettingsTogglerProps {
-  toggleValue?: boolean
-  onToggle?: (option: boolean) => void
-}
+import {
+  Toggler,
+  TogglerItem,
+} from "App/settings/components/settings-toggler/settings-toggler.styled"
+import { SettingsTogglerProps } from "App/settings/components/settings-toggler/settings-toggler.interface"
 
 export const SettingsToggler: FunctionComponent<SettingsTogglerProps> = ({
   toggleValue,
