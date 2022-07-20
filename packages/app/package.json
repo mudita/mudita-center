@@ -40,7 +40,7 @@
     "translations:sync": "ts-node ./scripts/sync-translations.ts",
     "fonts:download": "node ./scripts/downloadFonts.js",
     "news:download": "ts-node ./scripts/downloadNews.ts",
-    "app-configuration:download": "ts-node ./scripts/downloadAppConfiguration.ts",
+    "app-configuration:download": "ts-node ./scripts/download-configuration.ts",
     "UTILITY/AUTO COMMANDS": "=================================================",
     "postinstall": "npm run fonts:download && npm run news:download && npm run app-configuration:download",
     "prerelease": "npm run translations:overwrite && npm run build",

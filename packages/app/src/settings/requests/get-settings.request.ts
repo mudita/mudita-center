@@ -5,7 +5,7 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { Settings } from "App/settings/dto"
-import { IpcAppSettingsRequest } from "App/settings/constants"
+import { IpcSettingsRequest } from "App/settings/constants"
 
 export const getSettings = (): Promise<Settings> =>
-  ipcRenderer.callMain(IpcAppSettingsRequest.Get)
+  ipcRenderer.callMain(IpcSettingsRequest.Get)

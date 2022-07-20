@@ -59,14 +59,15 @@ jest.mock("App/__deprecated__/renderer/requests/connect-device.request", () =>
   })
 )
 
-jest.mock(
-  "App/__deprecated__/renderer/requests/get-application-configuration.request",
-  () =>
-    jest.fn().mockReturnValue({
-      centerVersion: "20.1.0",
-      osVersion: "76.0.1",
-    })
-)
+jest.mock("App/settings/requests", () => ({
+  getConfiguration: jest.fn().mockReturnValue({
+    centerVersion: "1.0.0",
+    productVersions: {
+      MuditaHarmony: "1.0.0",
+      MuditaPure: "1.0.0",
+    },
+  }),
+}))
 
 jest.mock("App/settings/requests/get-settings.request.ts", () => ({
   getAppSettings: jest.fn().mockReturnValue({

@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceType } from "@mudita/pure"
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { SettingsEvent } from "App/settings/constants"
@@ -16,7 +15,7 @@ import {
 } from "App/modals-manager/actions"
 import { setSettings } from "App/settings/actions/set-settings.action"
 import logger from "App/__deprecated__/main/utils/logger"
-import getApplicationConfiguration from "App/__deprecated__/renderer/requests/get-application-configuration.request"
+import { getConfiguration } from "App/settings/requests"
 import packageInfo from "../../../package.json"
 
 export const loadSettings = createAsyncThunk<void, void>(
@@ -24,7 +23,7 @@ export const loadSettings = createAsyncThunk<void, void>(
   async (_, { dispatch }) => {
     let updateRequired = false
     const settings = await getSettings()
-    const configuration = await getApplicationConfiguration()
+    const configuration = await getConfiguration()
 
     try {
       updateRequired = isVersionGreater(
@@ -46,10 +45,7 @@ export const loadSettings = createAsyncThunk<void, void>(
         currentVersion: packageInfo.version,
         lowestSupportedVersions: {
           lowestSupportedCenterVersion: configuration.centerVersion,
-          lowestSupportedProductVersion: {
-            [DeviceType.MuditaHarmony]: "1.5.0",
-            [DeviceType.MuditaPure]: configuration.osVersion,
-          },
+          lowestSupportedProductVersion: configuration.productVersions,
         },
       })
     )

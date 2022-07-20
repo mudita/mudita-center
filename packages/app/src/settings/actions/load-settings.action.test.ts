@@ -6,23 +6,22 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
-import getApplicationConfiguration from "App/__deprecated__/renderer/requests/get-application-configuration.request"
+import { DeviceType } from "@mudita/pure"
+import { getConfiguration } from "App/settings/requests"
 import { getSettings } from "App/settings/requests"
 import { SettingsEvent } from "App/settings/constants"
 import { loadSettings } from "./load-settings.action"
 
 jest.mock("App/settings/requests", () => ({
   getSettings: jest.fn().mockReturnValue({ collectingData: false }),
+  getConfiguration: jest.fn().mockReturnValue({
+    centerVersion: "1.0.0",
+    productVersions: {
+      [DeviceType.MuditaHarmony]: "1.0.0",
+      [DeviceType.MuditaPure]: "1.0.0",
+    },
+  }),
 }))
-
-jest.mock(
-  "App/__deprecated__/renderer/requests/get-application-configuration.request",
-  () =>
-    jest.fn().mockReturnValue({
-      centerVersion: "1.0.0",
-      osVersion: "1.0.0",
-    })
-)
 
 jest.mock("App/backup/actions/load-backup-data.action", () => ({
   loadBackupData: () => jest.fn(),
@@ -46,7 +45,7 @@ const mockStore = createMockStore([thunk])({
 
 test("`loadSettings` action dispatch SettingsEvent.LoadSettings event and calls loadSettings", async () => {
   expect(getSettings).not.toHaveBeenCalled()
-  expect(getApplicationConfiguration).not.toHaveBeenCalled()
+  expect(getConfiguration).not.toHaveBeenCalled()
 
   const {
     meta: { requestId },
@@ -62,7 +61,7 @@ test("`loadSettings` action dispatch SettingsEvent.LoadSettings event and calls 
         lowestSupportedVersions: {
           lowestSupportedCenterVersion: "1.0.0",
           lowestSupportedProductVersion: {
-            MuditaHarmony: "1.5.0",
+            MuditaHarmony: "1.0.0",
             MuditaPure: "1.0.0",
           },
         },
@@ -72,5 +71,5 @@ test("`loadSettings` action dispatch SettingsEvent.LoadSettings event and calls 
     loadSettings.fulfilled(undefined, requestId, undefined),
   ])
   expect(getSettings).toHaveBeenCalled()
-  expect(getApplicationConfiguration).toHaveBeenCalled()
+  expect(getConfiguration).toHaveBeenCalled()
 })
