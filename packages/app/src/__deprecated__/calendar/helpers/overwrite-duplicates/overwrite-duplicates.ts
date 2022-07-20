@@ -4,7 +4,7 @@
  */
 
 import { CalendarEvent } from "App/__deprecated__/calendar/store/calendar.interfaces"
-import RRule from "rrule"
+import { RRule } from "rrule"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import moment from "moment"

@@ -5,8 +5,8 @@
 
 import { Provider } from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
 import { ResultState } from "App/contacts/reducers/contacts.interface"
-import RRule from "rrule/dist/esm/src/rrule"
-import RRuleSet from "rrule/dist/esm/src/rruleset"
+import { RRule } from "rrule"
+import { RRuleSet } from "rrule"
 
 export interface CalendarEvent {
   id: string
