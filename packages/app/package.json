@@ -275,7 +275,7 @@
     "redux-thunk": "^2.4.1",
     "reflect-metadata": "^0.1.13",
     "rrule": "^2.7.1",
-    "sass-loader": "^12.6.0",
+    "sass-loader": "^13.0.2",
     "semver": "^7.3.7",
     "source-map-loader": "^3.0.1",
     "sql.js": "^1.6.2",
