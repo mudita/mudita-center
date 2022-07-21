@@ -8,7 +8,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
 import { SettingsEvent } from "App/settings/constants"
 import { getSettings } from "App/settings/requests"
-import { loadBackupData } from "App/backup/actions"
+import { loadBackupData } from "App/backup/actions/load-backup-data.action"
 import {
   checkAppForcedUpdateFlowToShow,
   checkCollectingDataModalToShow,

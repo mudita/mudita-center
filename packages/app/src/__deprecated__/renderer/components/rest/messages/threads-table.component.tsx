@@ -19,9 +19,16 @@ import {
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 
+/* stylelint-disable property-no-vendor-prefix */
+/* stylelint-disable value-no-vendor-prefix */
 export const Name = styled(Text)`
   grid-area: Name;
   align-self: end;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `
 
 export const NameWrapper = styled.div`
@@ -66,8 +73,8 @@ export const ActionsWrapper = styled.div`
 
 export const DataWrapper = styled.div`
   display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: 2.4rem 2.2rem;
+  grid-template-columns: auto minmax(5.6rem, 1fr);
+  grid-template-rows: 1fr 2.2rem;
   grid-template-areas: "Name Time" "Message Message";
 `
 
@@ -78,7 +85,6 @@ export const TableRow = styled.div<{
   grid-template-columns: 11rem 1fr 9rem;
   grid-template-areas: "Checkbox . Actions";
   align-content: center;
-  height: 8rem;
   min-height: 8rem;
   box-sizing: border-box;
   border-bottom: solid 0.1rem ${borderColor("list")};
