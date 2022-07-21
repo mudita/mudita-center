@@ -217,7 +217,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
         setContent("")
       }
     } else {
-      if (debouncedContent) {
+      if (
+        debouncedContent &&
+        activeThread?.phoneNumber !== mockThread?.phoneNumber
+      ) {
         handleAddNewMessage(MessageType.DRAFT)
         updateFieldState("draftDeleting", false)
       }
@@ -237,6 +240,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (tmpDraftMessage) {
       setDraftMessage(tmpDraftMessage)
       setContent(tmpDraftMessage.content)
+    } else {
+      setDraftMessage(undefined)
     }
   }, [activeThread, threads])
 
