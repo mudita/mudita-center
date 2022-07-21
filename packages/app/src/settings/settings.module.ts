@@ -11,7 +11,11 @@ import { FileSystemService } from "App/file-system/services/file-system.service.
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
-import { SettingsController } from "App/settings/controllers"
+import {
+  SettingsController,
+  ConfigurationController,
+} from "App/settings/controllers"
+import { ConfigurationService } from "App/settings/services"
 import { getSettingsService } from "App/settings/containers/settings.container"
 
 export class SettingsModule extends BaseModule {
@@ -40,8 +44,12 @@ export class SettingsModule extends BaseModule {
       throw new Error("Initialize `SettingsService` before get it")
     }
 
+    const configurationService = new ConfigurationService()
     const settingsController = new SettingsController(settingsService)
+    const configurationController = new ConfigurationController(
+      configurationService
+    )
 
-    this.controllers = [settingsController]
+    this.controllers = [settingsController, configurationController]
   }
 }

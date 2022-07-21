@@ -3,6 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./configuration.object"
-export * from "./settings-option.object"
-export * from "./settings.object"
+import { DeviceType } from "@mudita/pure"
+
+export interface Configuration {
+  centerVersion: string
+  productVersions: Record<DeviceType, string>
+}
