@@ -4,7 +4,6 @@
  */
 
 import { CaseColour } from "@mudita/pure"
-import appConfig from "App/__deprecated__/main/default-app-configuration.json"
 import DeviceBaseInfoAdapter from "App/__deprecated__/backend/adapters/device-base-info/device-base-info-adapter.class"
 import DeviceInfo from "App/__deprecated__/common/interfaces/device-info.interface"
 import {
@@ -22,7 +21,7 @@ class DeviceBaseInfo extends DeviceBaseInfoAdapter {
       status: RequestResponseStatus.Ok,
       data: {
         deviceToken: "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa",
-        osVersion: appConfig.osVersion,
+        osVersion: "1.0.0",
         serialNumber: "1UB13213MN14K1",
         caseColour: CaseColour.Gray,
         backupLocation: "path/to/directory",

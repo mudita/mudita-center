@@ -3,4 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export * from "./configuration.controller"
 export * from "./settings.controller"

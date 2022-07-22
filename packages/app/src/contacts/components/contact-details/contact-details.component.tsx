@@ -213,10 +213,14 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                 message={messages.information}
               />
               {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber ? (
-                <Input label={intl.formatMessage(messages.noPhoneNumber)} />
+                <Input
+                  type={"text"}
+                  label={intl.formatMessage(messages.noPhoneNumber)}
+                />
               ) : (
                 <div>
                   <Input
+                    type={"text"}
                     data-testid={ContactDetailsTestIds.PrimaryPhoneInput}
                     value={contact.primaryPhoneNumber}
                     label={intl.formatMessage(messages.noPrimaryNumber)}
@@ -235,6 +239,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                     }
                   />
                   <Input
+                    type={"text"}
                     data-testid={ContactDetailsTestIds.SecondaryPhoneInput}
                     value={contact.secondaryPhoneNumber}
                     label={intl.formatMessage(messages.noSecondNumber)}

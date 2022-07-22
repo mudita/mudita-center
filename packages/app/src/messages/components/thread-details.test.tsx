@@ -72,7 +72,7 @@ const defaultProps: Props = {
   messages: messages,
   content: "",
   contactCreated: false,
-  onCheckClick: jest.fn(),
+  onMarkAsUnreadClick: jest.fn(),
   onContentChange: jest.fn(),
   onSendClick: jest.fn(),
   onClose: jest.fn(),

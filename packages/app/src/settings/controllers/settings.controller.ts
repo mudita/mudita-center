@@ -4,26 +4,29 @@
  */
 
 import { Controller, IpcEvent } from "App/core/decorators"
-import { ControllerPrefix, IpcAppSettingsEvent } from "App/settings/constants"
+import {
+  SettingsControllerPrefix,
+  IpcSettingsEvent,
+} from "App/settings/constants"
 import { Settings, SettingsUpdateOption } from "App/settings/dto"
 import { SettingsService } from "App/settings/services"
 import { SettingsValue } from "App/settings/types"
 
-@Controller(ControllerPrefix)
+@Controller(SettingsControllerPrefix)
 export class SettingsController {
   constructor(private settingsService: SettingsService) {}
 
-  @IpcEvent(IpcAppSettingsEvent.Get)
+  @IpcEvent(IpcSettingsEvent.Get)
   getSettings(): Settings {
     return this.settingsService.getSettings()
   }
 
-  @IpcEvent(IpcAppSettingsEvent.Reset)
+  @IpcEvent(IpcSettingsEvent.Reset)
   resetSettings(): Settings {
     return this.settingsService.resetSettings()
   }
 
-  @IpcEvent(IpcAppSettingsEvent.Update)
+  @IpcEvent(IpcSettingsEvent.Update)
   updateSettings(option: SettingsUpdateOption): SettingsValue {
     return this.settingsService.updateSettings(option)
   }
