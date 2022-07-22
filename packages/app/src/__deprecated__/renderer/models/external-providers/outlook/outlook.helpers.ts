@@ -16,9 +16,11 @@ import axios from "axios"
 import { baseGraphUrl } from "App/__deprecated__/renderer/models/external-providers/outlook/outlook.constants"
 import { ContactBuilder } from "App/__deprecated__/renderer/models/external-providers/outlook/contact-builder"
 import { Provider } from "App/__deprecated__/renderer/models/external-providers/external-providers.interface"
-import { Calendar, CalendarEvent } from "App/__deprecated__/calendar/store/calendar.interfaces"
-import { ByWeekday, Frequency, RRule } from "rrule"
-import { WeekdayStr } from "rrule/dist/esm/src/weekday"
+import {
+  Calendar,
+  CalendarEvent,
+} from "App/__deprecated__/calendar/store/calendar.interfaces"
+import { ByWeekday, Frequency, RRule, WeekdayStr } from "rrule"
 import moment from "moment"
 import logger from "App/__deprecated__/main/utils/logger"
 
