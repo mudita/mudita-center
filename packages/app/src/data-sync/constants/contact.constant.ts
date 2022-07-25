@@ -8,4 +8,6 @@ export enum ContactTable {
   Numbers = "contact_number",
   Names = "contact_name",
   Addresses = "contact_address",
+  Group = "contact_groups",
+  MatchGroup = "contact_match_groups",
 }

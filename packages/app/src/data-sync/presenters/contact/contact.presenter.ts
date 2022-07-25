@@ -10,6 +10,8 @@ import {
   ContactNameEntity,
   ContactNumberEntity,
   ContactAddressEntity,
+  ContactGroupEntity,
+  ContactMatchGroupEntity,
 } from "App/data-sync/types"
 
 export class ContactPresenter {
@@ -31,6 +33,19 @@ export class ContactPresenter {
         return acc
       }, {})
     }) as unknown as Type[]
+  }
+
+  private contactFavored(
+    groups: ContactGroupEntity[],
+    contactGroup?: ContactMatchGroupEntity
+  ): boolean {
+    if (!contactGroup) {
+      return false
+    }
+    return (
+      groups.find((group) => group._id === contactGroup.group_id)?.name ===
+      "Favourites"
+    )
   }
 
   public serializeToObject(data: ContactInput): ContactObject[] {
@@ -59,6 +74,14 @@ export class ContactPresenter {
       data.contact_address.values,
       data.contact_address.columns
     )
+    const contactGroupsMatch = this.serializeRecord<ContactMatchGroupEntity>(
+      data.contact_match_groups.values,
+      data.contact_match_groups.columns
+    )
+    const contactGroups = this.serializeRecord<ContactGroupEntity>(
+      data.contact_groups.values,
+      data.contact_groups.columns
+    )
 
     return contacts
       .map((contact) => {
@@ -83,6 +106,10 @@ export class ContactPresenter {
           contactAddresses,
           contact._id
         )[0]
+        const contactGroup = this.findRecords<ContactMatchGroupEntity>(
+          contactGroupsMatch,
+          contact._id
+        )[0]
 
         if (!contactName || !contactNumber.length) {
           return
@@ -104,6 +131,7 @@ export class ContactPresenter {
           lastName: contactName?.name_alternative,
           note: contactAddress?.note,
           email: contactAddress?.mail,
+          favourite: this.contactFavored(contactGroups, contactGroup),
         }
         return contactObject
       })
