@@ -8,6 +8,7 @@ import { Provider } from "react-redux"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
 import { screen, fireEvent } from "@testing-library/dom"
+import { DeviceType } from "@mudita/pure"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { CrashDump } from "App/crash-dump/containers/crash-dump/crash-dump.component"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
@@ -30,6 +31,9 @@ const initialStateMock = {
       sent: false,
     },
     error: null,
+  },
+  device: {
+    deviceType: DeviceType.MuditaPure,
   },
 } as unknown as ReduxRootState
 
@@ -56,6 +60,23 @@ const render = (initialState?: ReduxRootState) => {
 
 test("don't rendering the modals if `crushDump` state is equal to initial", () => {
   render()
+
+  expect(
+    screen.queryByTestId(CrashDumpModalTestingIds.Content)
+  ).not.toBeInTheDocument()
+  expect(
+    screen.queryByTestId(CrashDumpSendingModalTestingIds.Content)
+  ).not.toBeInTheDocument()
+})
+
+test("don't rendering the modals if `deviceType` equal to `null`", () => {
+  render({
+    ...initialStateMock,
+    device: {
+      ...initialStateMock.device,
+      deviceType: null,
+    },
+  })
 
   expect(
     screen.queryByTestId(CrashDumpModalTestingIds.Content)
