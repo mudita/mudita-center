@@ -6,10 +6,8 @@
 import React from "react"
 import styled from "styled-components"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import {
-  MetadataDeviceFile,
-  ResultState,
-} from "App/files-manager/reducers/files-manager.interface"
+import { ResultState } from "App/files-manager/reducers/files-manager.interface"
+import { File } from "App/files-manager/dto"
 import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
 import { defineMessages } from "react-intl"
 import Text, {
@@ -28,7 +26,7 @@ const messages = defineMessages({
 })
 interface Props {
   resultState: ResultState
-  files: MetadataDeviceFile[]
+  files: File[]
 }
 
 const FilesStorage: FunctionComponent<Props> = ({

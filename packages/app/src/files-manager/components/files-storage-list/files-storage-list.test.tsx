@@ -5,10 +5,8 @@
 
 import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import {
-  MetadataDeviceFile,
-  ResultState,
-} from "App/files-manager/reducers/files-manager.interface"
+import { ResultState } from "App/files-manager/reducers/files-manager.interface"
+import { File } from "App/files-manager/dto"
 import FilesStorageList from "App/files-manager/components/files-storage-list/files-storage-list.component"
 import { FilesStorageListTestIds } from "App/files-manager/components/files-storage-list/files-storage-list-test-ids.enum"
 
@@ -19,7 +17,7 @@ const defaultProps: Props = {
   files: [],
 }
 
-const files: MetadataDeviceFile[] = [
+const files: File[] = [
   {
     id: "user/music/example_file_name.mp3",
     size: 1234,

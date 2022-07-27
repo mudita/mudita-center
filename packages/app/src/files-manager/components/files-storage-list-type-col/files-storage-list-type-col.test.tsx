@@ -4,35 +4,35 @@
  */
 
 import React, { ComponentProps } from "react"
-import { MetadataDeviceFile } from "App/files-manager/reducers"
+import { File } from "App/files-manager/dto"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import FilesStorageListTypeCol from "App/files-manager/components/files-storage-list-type-col/files-storage-list-type-col"
 import { FilesStorageListTypeColTestIds } from "App/files-manager/components/files-storage-list-type-col/files-storage-list-type-col-test-ids.enum"
 
 type Props = ComponentProps<typeof FilesStorageListTypeCol>
 
-const mp3File: MetadataDeviceFile = {
+const mp3File: File = {
   id: "user/music/example_file_name.mp3",
   size: 1234,
   name: "example_file_name.mp3",
   type: "mp3",
 }
 
-const wavFile: MetadataDeviceFile = {
+const wavFile: File = {
   id: "user/music/example_file_name.wav",
   size: 1234,
   name: "example_file_name.wav",
   type: "wav",
 }
 
-const flacFile: MetadataDeviceFile = {
+const flacFile: File = {
   id: "user/music/example_file_name.flac",
   size: 1234,
   name: "example_file_name.flac",
   type: "flac",
 }
 
-const undefiledFile: MetadataDeviceFile = {
+const undefiledFile: File = {
   id: "user/music/example_file_name.mp4",
   size: 1234,
   name: "example_file_name.mp4",

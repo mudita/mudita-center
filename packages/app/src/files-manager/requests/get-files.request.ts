@@ -4,12 +4,12 @@
  */
 
 import { ipcRenderer } from "electron-better-ipc"
+import { ResultObject } from "App/core/builder"
 import { IpcFilesManagerRequest } from "App/files-manager/constants"
-import { MetadataDeviceFile } from "App/files-manager/reducers"
-import { RequestResponse } from "App/core/types"
+import { File } from "App/files-manager/dto"
 
 export const getFilesRequest = async (): Promise<
-  RequestResponse<MetadataDeviceFile[]>
+  ResultObject<File[] | undefined>
 > => {
   return ipcRenderer.callMain(IpcFilesManagerRequest.GetFiles)
 }

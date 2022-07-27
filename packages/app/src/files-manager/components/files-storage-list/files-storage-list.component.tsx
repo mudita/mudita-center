@@ -19,10 +19,8 @@ import Avatar from "App/__deprecated__/renderer/components/core/avatar/avatar.co
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import {
-  MetadataDeviceFile,
-  ResultState,
-} from "App/files-manager/reducers/files-manager.interface"
+import { ResultState } from "App/files-manager/reducers/files-manager.interface"
+import { File } from "App/files-manager/dto"
 import FilesStorageListTypeCol from "App/files-manager/components/files-storage-list-type-col/files-storage-list-type-col"
 import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
 
@@ -77,7 +75,7 @@ const messages = defineMessages({
 
 interface Props {
   resultState: ResultState
-  files: MetadataDeviceFile[]
+  files: File[]
 }
 
 const FilesStorageList: FunctionComponent<Props> = ({

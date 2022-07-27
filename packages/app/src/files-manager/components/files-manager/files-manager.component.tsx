@@ -15,15 +15,13 @@ import { FilesManagerTestIds } from "App/files-manager/components/files-manager/
 import { filesSummaryElements } from "App/files-manager/constants"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
-import {
-  MetadataDeviceFile,
-  ResultState,
-} from "App/files-manager/reducers/files-manager.interface"
+import { ResultState } from "App/files-manager/reducers/files-manager.interface"
+import { File } from "App/files-manager/dto"
 
 interface Props {
   memorySpace?: MemorySpace
   resultState: ResultState
-  files: MetadataDeviceFile[]
+  files: File[]
   getFiles: () => void
 }
 
