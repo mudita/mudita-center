@@ -4,8 +4,11 @@
  */
 
 import { PayloadAction } from "@reduxjs/toolkit"
-import { StartRestoreDeviceError } from "App/restore-device/errors"
-import { RestoreDeviceEvent } from "App/restore-device/constants"
+import { AppError } from "App/core/errors"
+import {
+  RestoreDeviceError,
+  RestoreDeviceEvent,
+} from "App/restore-device/constants"
 
 export enum RestoreDeviceDataState {
   Running,
@@ -20,6 +23,6 @@ export interface RestoreDeviceState {
 }
 
 export type StartRestoreDeviceErrorRejectAction = PayloadAction<
-  StartRestoreDeviceError,
+  AppError<RestoreDeviceError.StartRestoreDevice>,
   RestoreDeviceEvent.StartRestoreDevice
 >

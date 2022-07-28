@@ -63,6 +63,12 @@ export class ContactIndexer extends BaseIndexer {
       [ContactTable.Addresses]: db.exec(
         `SELECT * FROM ${ContactTable.Addresses};`
       )[0] as unknown as ContactInput["contact_address"],
+      [ContactTable.Group]: db.exec(
+        `SELECT * FROM ${ContactTable.Group};`
+      )[0] as unknown as ContactInput["contact_groups"],
+      [ContactTable.MatchGroup]: db.exec(
+        `SELECT * FROM ${ContactTable.MatchGroup};`
+      )[0] as unknown as ContactInput["contact_match_groups"],
     }
   }
 

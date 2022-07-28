@@ -4,11 +4,7 @@
  */
 
 import { Action, PayloadAction } from "@reduxjs/toolkit"
-import {
-  MessageDeletingState,
-  MessagesEvent,
-  ThreadDeletingState,
-} from "App/messages/constants"
+import { MessagesEvent } from "App/messages/constants"
 import {
   AddNewMessageAction,
   DeleteMessagePendingAction,
@@ -187,8 +183,8 @@ describe("Delete Threads data functionality", () => {
       )
     ).toEqual({
       ...initialState,
+      loaded: true,
       threadMap: {},
-      threadDeletingState: ThreadDeletingState.Success,
     })
   })
 
@@ -219,7 +215,7 @@ describe("Delete Threads data functionality", () => {
       threadMap: {},
       messageMap: {},
       messageIdsInThreadMap: {},
-      threadDeletingState: ThreadDeletingState.Success,
+      loaded: true,
     })
   })
 
@@ -279,7 +275,7 @@ describe("Delete Threads data functionality", () => {
       messageIdsInThreadMap: {
         [message.threadId]: [message.id],
       },
-      threadDeletingState: ThreadDeletingState.Success,
+      loaded: true,
     })
   })
 })
@@ -485,7 +481,7 @@ describe("Delete message functionality", () => {
       )
     ).toEqual({
       ...initialState,
-      messagesDeletingState: MessageDeletingState.Success,
+      loaded: true,
       threadMap: {
         [thread.id]: thread,
       },
@@ -497,7 +493,7 @@ describe("Delete message functionality", () => {
       },
     })
   })
-  test("Event: DeleteMessage does not remove thread when the message is the last one", () => {
+  test("Event: DeleteMessage removes thread when the message is the last one", () => {
     const deleteMessageAction: PayloadAction<DeleteMessageAction["payload"]> = {
       type: fulfilledAction(MessagesEvent.DeleteMessage),
       payload: messageOne.id,
@@ -521,14 +517,10 @@ describe("Delete message functionality", () => {
       )
     ).toEqual({
       ...initialState,
-      messagesDeletingState: MessageDeletingState.Success,
-      threadMap: {
-        [thread.id]: thread,
-      },
+      loaded: true,
+      threadMap: {},
       messageMap: {},
-      messageIdsInThreadMap: {
-        [thread.id]: [],
-      },
+      messageIdsInThreadMap: {},
     })
   })
 
@@ -553,9 +545,6 @@ describe("Delete message functionality", () => {
     }
     const deleteMessageRejectedAction: Action = {
       type: rejectedAction(MessagesEvent.DeleteMessage),
-    }
-    const hideDeleteMessageModalAction: Action = {
-      type: MessagesEvent.HideMessageDeleteModal,
     }
 
     const testcaseInitialState = {
@@ -584,26 +573,21 @@ describe("Delete message functionality", () => {
       { ...stateAfterPendingAction },
       deleteMessageRejectedAction
     )
-    const stateAfterClosingMessageModal = messagesReducer(
-      { ...stateAfterFulfilledAction },
-      hideDeleteMessageModalAction
-    )
 
     expect(stateAfterPendingAction).toMatchObject({
-      messagesDeletingState: MessageDeletingState.Deleting,
       currentlyDeletingMessageId: messageOne.id,
+      loading: true,
+      loaded: false,
     })
     expect(stateAfterFulfilledAction).toMatchObject({
-      messagesDeletingState: MessageDeletingState.Success,
       currentlyDeletingMessageId: null,
+      loading: false,
+      loaded: true,
     })
     expect(stateAfterRejectedAction).toMatchObject({
-      messagesDeletingState: MessageDeletingState.Fail,
       currentlyDeletingMessageId: null,
-    })
-    expect(stateAfterClosingMessageModal).toMatchObject({
-      messagesDeletingState: null,
-      currentlyDeletingMessageId: null,
+      loading: false,
+      loaded: false,
     })
   })
 })

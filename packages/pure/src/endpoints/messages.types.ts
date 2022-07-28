@@ -77,6 +77,14 @@ export interface PostMessagesBody {
   category: MessagesCategory.message
   number: string
   messageBody: string
+  messageType?: MessageType
+}
+
+export interface PutMessageBody {
+  category: MessagesCategory.message
+  messageBody: string
+  messageID: number
+  messageType: MessageType
 }
 
 export interface UpdateThreadReadStatus {
@@ -96,12 +104,13 @@ export interface Template {
   templateID: number
   lastUsedAt: number
   templateBody: string
-  order: number
+  order?: number
 }
 
 export interface PostTemplateBody {
   category: MessagesCategory.template
   templateBody: string
+  order?: number
 }
 
 export interface GetTemplateBody {
@@ -118,7 +127,7 @@ export interface PutTemplateBody {
 export interface UpdateTemplateOrder {
   category: MessagesCategory.template
   templateID: number
-  order: number
+  order?: number
 }
 
 export interface DeleteTemplateBody {

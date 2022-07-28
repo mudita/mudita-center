@@ -4,20 +4,14 @@
  */
 
 import React, { ComponentProps } from "react"
+import { CaseColour } from "@mudita/pure"
 import { Provider } from "react-redux"
 import { Router } from "react-router"
 import store from "App/__deprecated__/renderer/store"
 import history from "App/__deprecated__/renderer/routes/history"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { PureOverview } from "App/overview/components/overview-screens/pure-overview/pure-overview.component"
-import {
-  DataState,
-  UpdatingState,
-} from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
-import {
-  ConversionFormat,
-  Convert,
-} from "App/__deprecated__/main/store/settings.interface"
+import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { StatusTestIds } from "App/overview/components/status/status-test-ids.enum"
 import { SystemTestIds } from "App/overview/components/system/system-test-ids.enum"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
@@ -41,66 +35,32 @@ type Props = ComponentProps<typeof PureOverview>
 const defaultProps: Props = {
   openContactSupportFlow: jest.fn(),
   backupDeviceState: BackupDeviceDataState.Empty,
-  backupLocation: "",
   backups: [],
-  caseColour: undefined,
-  diagnosticSentTimestamp: 0,
-  networkLevel: "",
-  phoneLockTime: 0,
+  caseColour: CaseColour.Black,
+  networkLevel: 0,
   readBackupDeviceDataState: jest.fn(),
   readRestoreDeviceDataState: jest.fn(),
   restoreDeviceState: RestoreDeviceDataState.Empty,
   startBackupDevice: jest.fn(),
   startRestoreDevice: jest.fn(),
-  deviceType: null,
-  appLatestVersion: "",
-  appUpdateAvailable: undefined,
+  setUpdateState: jest.fn(),
+  startUpdateOs: jest.fn(),
   lowestSupportedOsVersion: undefined,
-  lowestSupportedCenterVersion: undefined,
-  settingsLoaded: false,
-  deviceUnlocked: undefined,
-  appAutostart: false,
-  appCollectingData: undefined,
-  appConversionFormat: ConversionFormat.FLAC,
-  appConvert: Convert.ConvertAutomatically,
-  appIncomingCalls: false,
-  appIncomingMessages: false,
-  appLowBattery: false,
-  appNonStandardAudioFilesConversion: false,
-  appOsUpdates: false,
-  appTethering: false,
-  appTray: false,
   batteryLevel: 0,
-  changeSim: jest.fn(),
   disconnectDevice: jest.fn(),
-  deviceConnected: true,
-  language: "en-US",
-  loadData: jest.fn(),
+  lastBackupDate: new Date("2020-01-15T07:35:01.562Z"),
+  lastAvailableOsVersion: "",
   networkName: "network name",
-  osVersion: "release-1.0.0",
-  pureNeverConnected: false,
+  osVersion: "1.0.0",
+  pureOsDownloaded: false,
   pureOsBackupLocation: "path/location/backup",
-  pureOsDownloadLocation: "path/location/download",
-  basicInfoDataState: DataState.Empty,
   serialNumber: undefined,
-  initialDataLoaded: false,
-  appVersion: undefined,
-  toggleAppCollectingData: jest.fn(),
-  simCards: [
-    {
-      active: true,
-      network: "Y-Mobile",
-      networkLevel: 0.2,
-      number: 12345678,
-      slot: 1,
-    },
-  ],
-  toggleDeviceUpdating: jest.fn(),
   updatePhoneOsInfo: jest.fn(),
   updatingState: UpdatingState.Standby,
   memorySpace: {
     free: 100,
     full: 200,
+    total: 200,
   },
   syncState: SynchronizationState.Loaded,
   updateAllIndexes: jest.fn(),

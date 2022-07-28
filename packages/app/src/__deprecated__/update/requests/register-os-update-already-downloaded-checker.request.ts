@@ -16,8 +16,8 @@ export const registerOsUpdateAlreadyDownloadedCheck = (): void => {
     osUpdateAlreadyDownloadedChannel,
     async ({ url, size }) => {
       const fileName = url.split("/").pop() as string
-      const { pureOsDownloadLocation } = await getAppSettingsMain()
-      const filePath = path.join(pureOsDownloadLocation, fileName)
+      const { osDownloadLocation } = await getAppSettingsMain()
+      const filePath = path.join(osDownloadLocation, fileName)
 
       return fs.existsSync(filePath) && fs.statSync(filePath).size === size
     }

@@ -9,7 +9,7 @@ import { MessagesWrapper } from "App/messages/components/thread-details.styled"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 import ThreadDetailsTextArea from "App/messages/components/thread-details-text-area.component"
 import { phoneNumberRegexp } from "App/__deprecated__/renderer/utils/form-validators"
-import NewMessageFormSidebar from "App/messages/components/new-message-form-sidebar.component"
+import NewMessageFormSidebar from "App/messages/components/new-message-form-sidebar/new-message-form-sidebar.component"
 import { Sidebar } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { Receiver } from "App/messages/reducers/messages.interface"
 import uniqBy from "lodash/uniqBy"
@@ -42,6 +42,8 @@ interface Props extends SidebarProps {
   onPhoneNumberSelect: (phoneNumber: string) => void
   onReceiverSelect: (receiver: Receiver) => void
   onAttachContactClick: () => void
+  onBrowseContactsClick: () => void
+  onAttachTemplateClick: () => void
 }
 
 const NewMessageForm: FunctionComponent<Props> = ({
@@ -52,6 +54,8 @@ const NewMessageForm: FunctionComponent<Props> = ({
   onPhoneNumberSelect,
   onReceiverSelect,
   onAttachContactClick,
+  onBrowseContactsClick,
+  onAttachTemplateClick,
   ...props
 }) => {
   const [searchValue, setSearchValue] = useState("")
@@ -90,6 +94,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
       onSearchValueChange={handleSearchValueChange}
       onSearchEnterClick={handleSearchEnterClick}
       onReceiverSelect={onReceiverSelect}
+      onBrowseContactsClick={onBrowseContactsClick}
       {...props}
     >
       <MessagesWrapper>
@@ -103,6 +108,7 @@ const NewMessageForm: FunctionComponent<Props> = ({
         onSendClick={handleSendClick}
         onChange={handleTextAreaChange}
         onAttachContactClick={onAttachContactClick}
+        onAttachTemplateClick={onAttachTemplateClick}
       />
     </NewMessageFormSidebar>
   )

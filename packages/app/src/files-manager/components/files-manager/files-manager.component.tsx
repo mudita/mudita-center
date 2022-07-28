@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { useEffect } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { FilesManagerContainer } from "App/files-manager/components/files-manager/files-manager.styled"
 import FilesSummary from "App/files-manager/components/files-summary/files-summary.component"
@@ -14,9 +14,15 @@ import {
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
 import { filesSummaryElements } from "App/files-manager/constants"
 import { DiskSpaceCategoryType } from "App/files-manager/constants"
+import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
+import { ResultState } from "App/files-manager/reducers/files-manager.interface"
+import { File } from "App/files-manager/dto"
 
 interface Props {
   memorySpace?: MemorySpace
+  resultState: ResultState
+  files: File[]
+  getFiles: () => void
 }
 
 const FilesManager: FunctionComponent<Props> = ({
@@ -25,9 +31,19 @@ const FilesManager: FunctionComponent<Props> = ({
     full: 0,
     total: 0,
   },
+  resultState,
+  files,
+  getFiles,
 }) => {
   const { free, total } = memorySpace
   const systemMemory = total - free
+
+  const downloadFiles = async () => {
+    await getFiles()
+  }
+  useEffect(() => {
+    void downloadFiles()
+  }, [])
 
   const diskSpaceCategories: DiskSpaceCategory[] = filesSummaryElements.map(
     (element) => {
@@ -54,6 +70,7 @@ const FilesManager: FunctionComponent<Props> = ({
         totalMemorySpace={total}
         systemMemory={systemMemory}
       />
+      <FilesStorage resultState={resultState} files={files} />
     </FilesManagerContainer>
   )
 }

@@ -17,10 +17,12 @@ export enum Feature {
   MessagesThreadDeleteEnabled = "messages-thread-delete-enabled",
   MessagesThreadAttachContactEnabled = "messages-thread-attach-contact-enabled",
   MessagesThreadAttachTemplateEnabled = "messages-thread-attach-template-enabled",
+  MessagesThreadBrowseContacts = "messages-thread-browse-contacts",
   MessagesThreadCallsEnabled = "messages-thread-calls-enabled",
   MessagesThreadDetailsMarkAsReadEnabled = "messages-thread-details-mark-as-read-enabled",
   MessagesCallFromThreadEnabled = "messages-call-from-thread-enabled",
   MessagesTemplatesTabEnabled = "messages-templates-tab-enabled",
+  MessagesDraftStatus = "messages-draft-status",
   MuditaCenterPrereleaseEnabled = "mudita-center-prerelease-enabled",
   ContactForwardEnabled = "contact-forward-enabled",
   ContactBlockingEnabled = "contact-blocking-enabled",
@@ -38,4 +40,5 @@ export enum Feature {
   RecoveryModeTabEnabled = "recovery-mode-tab-enabled",
   YourPureIconsEnabled = "your-pure-icons-enabled",
   ReadAndUnreadMessages = "read-and-unread-messages",
+  OrderTemplate = "order-template",
 }

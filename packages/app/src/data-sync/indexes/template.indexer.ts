@@ -35,6 +35,7 @@ export class TemplateIndexer extends BaseIndexer {
     index.setRef("id")
     index.addField("text")
     index.addField("lastUsedAt")
+    index.addField("order")
 
     data.forEach((item) => {
       index.addDoc(item)

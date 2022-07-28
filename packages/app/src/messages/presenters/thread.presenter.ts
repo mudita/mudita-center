@@ -16,19 +16,25 @@ export class ThreadPresenter {
     const {
       isUnread,
       lastUpdatedAt,
-      messageSnippet,
       threadID,
       number = "",
       messageType,
     } = pureThread
     return {
-      messageSnippet,
+      messageSnippet: ThreadPresenter.buildMessageSnippet(pureThread),
       unread: flags.get(Feature.ReadAndUnreadMessages) ? isUnread : false,
       id: String(threadID),
       phoneNumber: String(number),
       lastUpdatedAt: new Date(lastUpdatedAt * 1000),
       messageType: ThreadPresenter.getMessageType(Number(messageType)),
     }
+  }
+
+  private static buildMessageSnippet(thread: PureThread): string {
+    return [
+      ...(thread.messageType === PureMessageType.DRAFT ? ["Draft"] : []),
+      thread.messageSnippet,
+    ].join(": ")
   }
 
   private static getMessageType(messageType: PureMessageType): MessageType {

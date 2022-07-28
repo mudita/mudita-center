@@ -4,16 +4,20 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DataSyncEvent, DataIndex } from "App/data-sync/constants"
+import { AppError } from "App/core/errors"
+import {
+  DataIndex,
+  DataSyncError,
+  DataSyncEvent,
+} from "App/data-sync/constants"
 import { getIndexRequest } from "App/data-sync/requests"
 import {
   ContactObject,
   MessageObject,
-  ThreadObject,
   TemplateObject,
+  ThreadObject,
 } from "App/data-sync/types"
 import { AllIndexes } from "App/data-sync/types/all-indexes.type"
-import { ReadAllIndexesError } from "App/data-sync/errors"
 
 export const readAllIndexes = createAsyncThunk<AllIndexes, void>(
   DataSyncEvent.ReadAllIndexes,
@@ -29,7 +33,9 @@ export const readAllIndexes = createAsyncThunk<AllIndexes, void>(
       templates === undefined ||
       threads === undefined
     ) {
-      return rejectWithValue(new ReadAllIndexesError("Read All Indexes fails"))
+      return rejectWithValue(
+        new AppError(DataSyncError.ReadAllIndexes, "Read All Indexes fails")
+      )
     }
 
     return {

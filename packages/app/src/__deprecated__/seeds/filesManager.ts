@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { initialState } from "App/__deprecated__/renderer/models/files-manager/files-manager"
+import { initialState } from "App/files-manager/reducers"
 import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 

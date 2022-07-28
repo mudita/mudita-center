@@ -159,7 +159,7 @@ export class MessageService {
     newMessage: NewMessage
   ): Promise<RequestResponse<CreateMessagePartDataResponse>> {
     const { data } = await this.deviceService.request({
-      body: MessagePresenter.mapToPureMessageMessagesBody(newMessage),
+      body: MessagePresenter.mapToCreatePureMessageBody(newMessage),
       endpoint: Endpoint.Messages,
       method: Method.Post,
     })
@@ -207,6 +207,17 @@ export class MessageService {
   public async deleteMessage(
     messageId: string
   ): Promise<RequestResponse<undefined>> {
+    const message = this.messageRepository.findById(messageId)
+
+    if (!message) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Delete message: Message not found",
+        },
+      }
+    }
+
     const result = await this.deviceService.request({
       body: {
         category: PureMessagesCategory.message,
@@ -216,19 +227,32 @@ export class MessageService {
       method: Method.Delete,
     })
 
-    if (isResponseSuccess(result)) {
-      this.messageRepository.delete(messageId)
-
+    if (!isResponseSuccess(result)) {
       return {
-        status: RequestResponseStatus.Ok,
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Delete message: Something went wrong",
+        },
+      }
+    }
+
+    this.messageRepository.delete(messageId)
+
+    const refreshThreadResult = await this.threadService.refreshThread(
+      message.threadId
+    )
+
+    if (!isResponseSuccess(refreshThreadResult)) {
+      return {
+        status: RequestResponseStatus.Error,
+        error: {
+          message: "Refresh message: Something went wrong",
+        },
       }
     }
 
     return {
-      status: RequestResponseStatus.Error,
-      error: {
-        message: "Delete message: Something went wrong",
-      },
+      status: RequestResponseStatus.Ok,
     }
   }
 
@@ -255,6 +279,14 @@ export class MessageService {
     return result
   }
 
+  public async updateMessage(message: Message): Promise<RequestResponse> {
+    return this.deviceService.request({
+      body: MessagePresenter.mapToUpdatePureMessagesBody(message),
+      endpoint: Endpoint.Messages,
+      method: Method.Put,
+    })
+  }
+
   static isAcceptablePureMessageType(
     pureMessage?: PureMessage
   ): pureMessage is PureMessage & { messageType: AcceptablePureMessageType } {
@@ -265,7 +297,8 @@ export class MessageService {
       pureMessage.messageType === PureMessageType.FAILED ||
       pureMessage.messageType === PureMessageType.QUEUED ||
       pureMessage.messageType === PureMessageType.INBOX ||
-      pureMessage.messageType === PureMessageType.OUTBOX
+      pureMessage.messageType === PureMessageType.OUTBOX ||
+      pureMessage.messageType === PureMessageType.DRAFT
     )
   }
 }

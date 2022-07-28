@@ -72,7 +72,7 @@ const defaultProps: Props = {
   messages: messages,
   content: "",
   contactCreated: false,
-  onCheckClick: jest.fn(),
+  onMarkAsUnreadClick: jest.fn(),
   onContentChange: jest.fn(),
   onSendClick: jest.fn(),
   onClose: jest.fn(),
@@ -85,6 +85,7 @@ const defaultProps: Props = {
   currentlyDeletingMessageId: null,
   onMessageDelete: jest.fn(),
   resendMessage: jest.fn(),
+  onAttachTemplateClick: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

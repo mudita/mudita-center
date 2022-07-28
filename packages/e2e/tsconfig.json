@@ -7,7 +7,8 @@
       "expect-webdriverio"
     ],
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "target": "es5"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

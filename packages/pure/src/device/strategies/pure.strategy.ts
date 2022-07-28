@@ -22,18 +22,20 @@ import {
   GetFileListBody,
   GetFileListResponseBody,
   GetFileSystemRequestConfig,
+  GetFileSystemDirectoryRequestConfig,
+  GetFileSystemDirectoryResponse,
   GetRestoreDeviceStatusRequestConfig,
   GetRestoreDeviceStatusResponseBody,
   GetThreadResponseBody,
   PostMessagesBody,
   PostMessagesResponseBody,
+  PutMessageBody,
   GetTemplateBody,
   PostTemplateBody,
   PutTemplateBody,
   DeleteTemplateBody,
   GetTemplateResponseBody,
   PostTemplateResponseBody,
-  PutTemplateResponseBody,
   PutFileSystemErrorResponse,
   PutFileSystemRequestConfig,
   PutFileSystemResponse,
@@ -111,6 +113,11 @@ export class PureStrategy extends BaseDevice {
   }): Promise<Response<PostMessagesResponseBody>>
   public request(config: {
     endpoint: Endpoint.Messages
+    method: Method.Put
+    body: PutMessageBody
+  }): Promise<Response>
+  public request(config: {
+    endpoint: Endpoint.Messages
     method: Method.Delete
     body: GetThreadsBody
   }): Promise<Response>
@@ -157,6 +164,9 @@ export class PureStrategy extends BaseDevice {
       reboot: boolean
     }
   }): Promise<any>
+  public request(
+    config: GetFileSystemDirectoryRequestConfig
+  ): Promise<GetFileSystemDirectoryResponse>
   public request(
     config: GetFileSystemRequestConfig
   ): Promise<GetFileSystemResponse | GetFileSystemErrorResponse>

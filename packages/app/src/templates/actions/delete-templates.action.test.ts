@@ -13,9 +13,10 @@ import {
 } from "App/core/types/request-response.interface"
 import { CreateMessageDataResponse } from "App/messages/services"
 import { deleteTemplatesRequest } from "App/templates/requests"
-import { DeleteTemplateError } from "App/templates/errors"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { Template } from "App/templates/dto"
+import { AppError } from "App/core/errors"
+import { TemplateError } from "App/templates/constants"
 
 jest.mock("App/templates/requests/delete-templates.request")
 
@@ -83,7 +84,8 @@ describe("`deleteTemplates`", () => {
       ;(deleteTemplatesRequest as jest.Mock).mockReturnValue(
         errorDeviceResponse
       )
-      const errorMock = new DeleteTemplateError(
+      const errorMock = new AppError(
+        TemplateError.DeleteTemplate,
         "Delete Template request failed"
       )
       const mockStore = createMockStore([thunk])()

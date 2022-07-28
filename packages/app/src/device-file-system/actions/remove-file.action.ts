@@ -4,10 +4,13 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { DeviceFileSystemEvent } from "App/device-file-system/constants"
+import {
+  DeviceFileSystemError,
+  DeviceFileSystemEvent,
+} from "App/device-file-system/constants"
 import { removeFileRequest } from "App/device-file-system/requests"
-import { DeviceFileRemovingError } from "App/device-file-system/errors"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
 
 export const removeFile = createAsyncThunk<void, string>(
   DeviceFileSystemEvent.Remove,
@@ -16,7 +19,11 @@ export const removeFile = createAsyncThunk<void, string>(
 
     if (response.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(
-        new DeviceFileRemovingError("Cannot remove the file", response)
+        new AppError(
+          DeviceFileSystemError.Removing,
+          "Cannot remove the file",
+          response
+        )
       )
     }
 

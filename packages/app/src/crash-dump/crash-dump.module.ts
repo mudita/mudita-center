@@ -8,7 +8,7 @@ import { EventEmitter } from "events"
 import { DeviceService } from "App/__deprecated__/backend/device-service"
 import { MetadataStore } from "App/metadata/services"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
-import { getAppSettingsService } from "App/app-settings/containers/app-settings.container"
+import { getSettingsService } from "App/settings/containers/settings.container"
 import { DeviceFileSystem } from "App/__deprecated__/backend/adapters/device-file-system/device-file-system.adapter"
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
@@ -41,10 +41,10 @@ export class CrashDumpModule extends BaseModule {
       fileSystem
     )
 
-    const appSettingsService = getAppSettingsService()
+    const settingsService = getSettingsService()
 
-    if (appSettingsService === undefined) {
-      throw new Error("Initialize `AppSettingsService` before get it")
+    if (settingsService === undefined) {
+      throw new Error("Initialize `SettingsService` before get it")
     }
 
     this.crashDumpService = new CrashDumpService(
@@ -53,13 +53,13 @@ export class CrashDumpModule extends BaseModule {
     )
     this.crashDumpController = new CrashDumpController(
       this.crashDumpService,
-      appSettingsService
+      settingsService
     )
     this.crashDumpObserver = new CrashDumpObserver(
       this.ipc,
       this.deviceService,
       this.crashDumpService,
-      appSettingsService
+      settingsService
     )
 
     this.controllers = [this.crashDumpController]

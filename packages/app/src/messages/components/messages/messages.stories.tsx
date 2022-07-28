@@ -11,17 +11,12 @@ import {
   Contact,
   ContactCategory,
 } from "App/contacts/reducers/contacts.interface"
-import AttachContactModal from "App/messages/components/attach-contact-modal.component"
 import Messages from "App/messages/components/messages/messages.component"
 import { ResultState } from "App/messages/constants"
 import {
   Receiver,
   ReceiverIdentification,
 } from "App/messages/reducers/messages.interface"
-import {
-  ModalBackdrop,
-  ModalWrapper,
-} from "App/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import {
   rowMessages,
   rowThreads,
@@ -146,10 +141,8 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         language={"en"}
         threads={rowThreads}
         searchValue={""}
-        attachContactList={attachContactListData}
-        attachContactFlatList={attachContactFlatListData}
         getContact={getContact}
-        getMessagesByThreadId={getMessagesByThreadId}
+        getActiveMessagesByThreadIdSelector={getMessagesByThreadId}
         getMessagesStateByThreadId={getMessagesResultsMapStateByThreadId}
         isContactCreatedByPhoneNumber={isContactCreatedByPhoneNumber}
         addNewMessage={promiseAction("Add New Message")}
@@ -160,39 +153,15 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         threadsState={ResultState.Loaded}
         messageLayoutNotifications={[]}
         removeLayoutNotification={noop}
-        threadDeletingState={null}
-        hideDeleteModal={noop}
         currentlyDeletingMessageId={null}
         deleteMessage={noop}
-        messageDeletingState={null}
-        hideMessageDeleteModal={noop}
         resendMessage={jest.fn()}
+        getThreadDraftMessageSelector={jest.fn()}
+        updateMessage={jest.fn()}
+        templates={[]}
+        error={null}
+        loaded
       />
     </div>
   </Router>
 ))
-
-storiesOf("Views|Messages/Modals", module)
-  .add("Attach contact", () => {
-    return (
-      <div style={{ maxWidth: "97.5rem" }}>
-        <ModalWrapper>
-          <AttachContactModal
-            contactList={attachContactListData}
-            contactFlatList={attachContactFlatListData}
-          />
-        </ModalWrapper>
-        <ModalBackdrop />
-      </div>
-    )
-  })
-  .add("Attach contact - empty list", () => {
-    return (
-      <div style={{ maxWidth: "97.5rem" }}>
-        <ModalWrapper>
-          <AttachContactModal contactList={[]} contactFlatList={[]} />
-        </ModalWrapper>
-        <ModalBackdrop />
-      </div>
-    )
-  })

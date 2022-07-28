@@ -11,25 +11,22 @@ import {
   TmpDispatch,
   RootState,
 } from "App/__deprecated__/renderer/store"
-import { Thread, Message, NewMessage } from "App/messages/dto"
+import { Thread, NewMessage, Message } from "App/messages/dto"
 import { VisibilityFilter } from "App/messages/constants"
 import {
   changeSearchValue,
   changeVisibilityFilter,
-  hideDeleteModal,
-  hideMessageDeleteModal,
 } from "App/messages/actions/base.action"
 import { addNewMessage } from "App/messages/actions"
 import {
   filteredThreadsSelector,
-  getMessagesByThreadIdSelector,
+  getActiveMessagesByThreadIdSelector,
   getReceiverSelector,
   getReceiversSelector,
+  getThreadDraftMessageSelector,
 } from "App/messages/selectors"
 import { getContactSelector } from "App/contacts/selectors/get-contact.selector"
 import { isContactCreatedByPhoneNumberSelector } from "App/contacts/selectors/is-contact-created-by-phone-number.selector"
-import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
-import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-contact-by-phone-number.selector"
 import { removeNotification } from "App/notification/actions"
 import { getNotificationByResourceAndMethod } from "App/notification/selectors"
@@ -43,17 +40,15 @@ import {
   deleteThreads,
   markThreadsReadStatus,
   resendMessage,
+  updateMessage,
 } from "./actions"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
-  ...state.settings,
+  error: state.messages.error,
+  loaded: state.messages.loaded,
   threadsState: state.messages.threadsState,
-  attachContactList: contactListSelector(state),
-  attachContactFlatList: flatListSelector(state),
   threads: filteredThreadsSelector(state),
   receivers: getReceiversSelector(state),
-  threadDeletingState: state.messages.threadDeletingState,
-  messageDeletingState: state.messages.messagesDeletingState,
   currentlyDeletingMessageId: state.messages.currentlyDeletingMessageId,
   getContactByPhoneNumber: (phoneNumber: string) =>
     getContactByPhoneNumberSelector(phoneNumber)(state),
@@ -61,12 +56,15 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
     isContactCreatedByPhoneNumberSelector(phoneNumber)(state),
   getContact: (id: string) => getContactSelector(id)(state),
   getReceiver: (phoneNumber: string) => getReceiverSelector(phoneNumber)(state),
-  getMessagesByThreadId: (threadId: string) =>
-    getMessagesByThreadIdSelector(threadId)(state),
+  getActiveMessagesByThreadIdSelector: (threadId: string) =>
+    getActiveMessagesByThreadIdSelector(threadId)(state),
+  getThreadDraftMessageSelector: (threadId: string) =>
+    getThreadDraftMessageSelector(threadId)(state),
   messageLayoutNotifications: getNotificationByResourceAndMethod(
     NotificationResourceType.Message,
     NotificationMethod.Layout
   )(state),
+  templates: state.templates.data,
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
@@ -80,15 +78,14 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(toggleThreadsReadStatus(threads)),
   markThreadsReadStatus: (threads: Thread[]) =>
     dispatch(markThreadsReadStatus(threads)),
-  addNewMessage: async (newMessage: NewMessage): Promise<Message | undefined> =>
+  addNewMessage: async (newMessage: NewMessage): Promise<void> =>
     dispatch(addNewMessage(newMessage)),
   deleteMessage: async (messageId: string): Promise<string> =>
     dispatch(deleteMessage(messageId)),
   removeLayoutNotification: (notificationId: string) =>
     dispatch(removeNotification(notificationId)),
-  hideDeleteModal: () => dispatch(hideDeleteModal()),
-  hideMessageDeleteModal: () => dispatch(hideMessageDeleteModal()),
   resendMessage: (messageId: string) => dispatch(resendMessage(messageId)),
+  updateMessage: (message: Message) => dispatch(updateMessage(message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

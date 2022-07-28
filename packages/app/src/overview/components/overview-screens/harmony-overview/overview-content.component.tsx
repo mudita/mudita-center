@@ -4,6 +4,7 @@
  */
 
 import React from "react"
+import { DeviceType } from "@mudita/pure"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   DeviceInfo,
@@ -11,23 +12,21 @@ import {
   SystemInfo,
   OverviewWrapper,
 } from "App/overview/components/overview/overview.styles"
-import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/phone-update.interface"
-import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
-import { HarmonyDeviceData } from "App/device"
 
-interface OverviewUIProps {
+interface OverviewProps {
   readonly onUpdateCheck: () => void
   readonly onUpdateDownload: () => void
   readonly onUpdateInstall: () => void
-  toggleDevMode?: () => void
+  readonly toggleDevMode?: () => void
+  readonly disconnectDevice: () => void
+  readonly osVersion: string
+  readonly batteryLevel: number
+  readonly pureOsAvailable: boolean
+  readonly pureOsDownloaded: boolean | undefined
+  readonly deviceType: DeviceType
 }
 
-const OverviewContent: FunctionComponent<
-  Omit<HarmonyDeviceData, "serialNumber"> &
-    PhoneUpdate &
-    OverviewUIProps &
-    Partial<AppSettings>
-> = ({
+const OverviewContent: FunctionComponent<OverviewProps> = ({
   batteryLevel,
   disconnectDevice,
   onUpdateCheck,

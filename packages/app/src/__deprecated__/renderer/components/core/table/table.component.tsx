@@ -65,7 +65,13 @@ export interface TableRowProps {
   size?: RowSize
   active?: boolean
   selected?: boolean
+  disableHoverState?: boolean
 }
+
+export const RowBackgroundTransitionStyles = css`
+  transition: background-color ${transitionTime("veryQuick")}
+    ${transitionTimingFunction("smooth")};
+`
 
 export const Row = styled.div<TableRowProps>`
   display: grid;
@@ -77,8 +83,8 @@ export const Row = styled.div<TableRowProps>`
   box-sizing: border-box;
   border-bottom: solid 0.1rem ${borderColor("list")};
   background-color: var(--rowBackground);
-  transition: background-color ${transitionTime("veryQuick")}
-    ${transitionTimingFunction("smooth")};
+
+  ${RowBackgroundTransitionStyles}
 
   height: ${({ size }) => {
     switch (size) {
@@ -94,9 +100,13 @@ export const Row = styled.div<TableRowProps>`
     }
   }}rem;
 
-  &:hover {
-    background-color: ${backgroundColor("minor")};
-  }
+  ${({ disableHoverState }) =>
+    !disableHoverState &&
+    css`
+      &:hover {
+        background-color: ${backgroundColor("minor")};
+      }
+    `}
 
   ${({ active }) => active && activeRowStyles};
   ${({ selected }) => selected && selectedRowStyles};

@@ -13,9 +13,9 @@ import {
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 import { FileData } from "App/__deprecated__/main/functions/register-get-file-data-listener"
-import { BackupEvent } from "App/backup/constants"
+import { BackupError, BackupEvent } from "App/backup/constants"
 import { testError } from "App/__deprecated__/renderer/store/constants"
-import { LoadBackupDataError } from "App/backup/errors"
+import { AppError } from "App/core/errors"
 
 jest.mock("App/__deprecated__/renderer/requests/get-file-data")
 const successRequestResponse: RequestResponse<FileData[]> = {
@@ -37,12 +37,12 @@ beforeEach(() => {
 })
 
 describe("async `loadBackupData` ", () => {
-  describe("when pureOsBackupLocation isn't empty and `getFileData` request return success", () => {
+  describe("when osBackupLocation isn't empty and `getFileData` request return success", () => {
     test("fire async `loadBackupData` call `setBackupData` action", async () => {
       ;(getFileData as jest.Mock).mockReturnValue(successRequestResponse)
       const mockStore = createMockStore([thunk])({
         settings: {
-          pureOsBackupLocation: "C:\\backups",
+          osBackupLocation: "C:\\backups",
         },
       })
       const {
@@ -65,12 +65,13 @@ describe("async `loadBackupData` ", () => {
   describe("when pureOsBackupLocation is empty", () => {
     test("fire async `loadBackupData` returns `rejected` action", async () => {
       ;(getFileData as jest.Mock).mockReturnValue(successRequestResponse)
-      const errorMock = new LoadBackupDataError(
+      const errorMock = new AppError(
+        BackupError.Load,
         "Pure OS Backup Desktop Location is undefined"
       )
       const mockStore = createMockStore([thunk])({
         settings: {
-          pureOsBackupLocation: "",
+          osBackupLocation: "",
         },
       })
       const {
@@ -89,12 +90,13 @@ describe("async `loadBackupData` ", () => {
   describe("when `getFileData` request return error", () => {
     test("fire async `loadBackupData` returns `rejected` action", async () => {
       ;(getFileData as jest.Mock).mockReturnValue(errorRequestResponse)
-      const errorMock = new LoadBackupDataError(
+      const errorMock = new AppError(
+        BackupError.Load,
         "Get Backups Data request failed"
       )
       const mockStore = createMockStore([thunk])({
         settings: {
-          pureOsBackupLocation: "C:\\backups",
+          osBackupLocation: "C:\\backups",
         },
       })
       const {

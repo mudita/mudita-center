@@ -4,9 +4,11 @@
  */
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { RestoreDeviceEvent } from "App/restore-device/constants"
+import {
+  RestoreDeviceError,
+  RestoreDeviceEvent,
+} from "App/restore-device/constants"
 import startRestoreDeviceRequest from "App/__deprecated__/renderer/requests/start-restore-device.request"
-import { StartRestoreDeviceError } from "App/restore-device/errors"
 import uploadDeviceFile from "App/device-file-system/requests/upload-device-file.request"
 import { Backup } from "App/backup/reducers"
 import { PureDeviceData } from "App/device"
@@ -15,6 +17,7 @@ import { waitUntilRestoreDeviceFinished } from "App/restore-device/helpers"
 import decryptFile from "App/file-system/requests/decrypt-file.request"
 import readFile from "App/file-system/requests/read-file.request"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
 
 export interface StartRestoreOption {
   secretKey: string
@@ -38,14 +41,19 @@ export const startRestoreDevice = createAsyncThunk<
       pureOsBackupPureLocation === ""
     ) {
       return rejectWithValue(
-        new StartRestoreDeviceError("Pure OS Backup Pure Location is undefined")
+        new AppError(
+          RestoreDeviceError.StartRestoreDevice,
+          "Pure OS Backup Pure Location is undefined"
+        )
       )
     }
 
     const buffer = await readFile(backup.filePath)
 
     if (buffer === undefined) {
-      return rejectWithValue(new StartRestoreDeviceError("Read File fails"))
+      return rejectWithValue(
+        new AppError(RestoreDeviceError.StartRestoreDevice, "Read File fails")
+      )
     }
 
     const decryptedBuffer = await decryptFile({
@@ -55,7 +63,10 @@ export const startRestoreDevice = createAsyncThunk<
 
     if (decryptedBuffer === undefined) {
       return rejectWithValue(
-        new StartRestoreDeviceError("Decrypt buffer fails")
+        new AppError(
+          RestoreDeviceError.StartRestoreDevice,
+          "Decrypt buffer fails"
+        )
       )
     }
 
@@ -66,7 +77,10 @@ export const startRestoreDevice = createAsyncThunk<
 
     if (uploadDeviceFileResponse.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(
-        new StartRestoreDeviceError("Upload Backup File returns error")
+        new AppError(
+          RestoreDeviceError.StartRestoreDevice,
+          "Upload Backup File returns error"
+        )
       )
     }
 
@@ -76,7 +90,10 @@ export const startRestoreDevice = createAsyncThunk<
 
     if (startRestoreDeviceResponse.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(
-        new StartRestoreDeviceError("Start restore Device returns error")
+        new AppError(
+          RestoreDeviceError.StartRestoreDevice,
+          "Start restore Device returns error"
+        )
       )
     }
 
@@ -86,7 +103,8 @@ export const startRestoreDevice = createAsyncThunk<
 
     if (getRestoreDeviceStatusResponse.status !== RequestResponseStatus.Ok) {
       return rejectWithValue(
-        new StartRestoreDeviceError(
+        new AppError(
+          RestoreDeviceError.StartRestoreDevice,
           "One of the getRestoreDeviceStatus requests returns error"
         )
       )

@@ -3,15 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AnyAction } from "@reduxjs/toolkit"
+import { AppError } from "App/core/errors"
+import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { downloadCrashDump } from "App/crash-dump/actions/download-crash-dump.action"
+import { CrashDumpError, Event } from "App/crash-dump/constants"
+import { downloadCrashDumpRequest } from "App/crash-dump/requests/download-crash-dump.request"
+import { testError } from "App/__deprecated__/renderer/store/constants"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
-import { AnyAction } from "@reduxjs/toolkit"
-import { Event } from "App/crash-dump/constants"
-import { downloadCrashDumpRequest } from "App/crash-dump/requests/download-crash-dump.request"
-import { downloadCrashDump } from "App/crash-dump/actions/download-crash-dump.action"
-import { DownloadCrashDumpError } from "App/crash-dump/errors"
-import { testError } from "App/__deprecated__/renderer/store/constants"
-import { RequestResponseStatus } from "App/core/types/request-response.interface"
 
 jest.mock("App/crash-dump/actions/send-crash-dump-data.action", () => ({
   sendCrashDumpData: () => jest.fn(),
@@ -96,7 +96,8 @@ describe("Download Device Crash Dump Files request returns `error` status", () =
       status: RequestResponseStatus.Error,
     })
 
-    const errorMock = new DownloadCrashDumpError(
+    const errorMock = new AppError(
+      CrashDumpError.Downloading,
       "Downloading process have been interrupted"
     )
     const {

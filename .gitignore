@@ -59,7 +59,7 @@ packages/app/src/__deprecated__/renderer/fonts/main/**/*
 !packages/app/src/__deprecated__/renderer/fonts/main/.gitkeep
 
 # Fetched news
-packages/app/src/__deprecated__/main/default-news.json
+packages/app/src/news/default-news.json
 
-# Fetched app configuration
-packages/app/src/__deprecated__/main/app-configuration.json
+# Fetched appplication configuration
+packages/app/src/settings/static/app-configuration.json

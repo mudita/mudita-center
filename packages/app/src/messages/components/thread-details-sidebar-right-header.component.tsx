@@ -19,8 +19,8 @@ const messages = defineMessages({
   newContactTooltipDescription: {
     id: "module.messages.newContactTooltipDescription",
   },
-  marksAsReadTooltipDescription: {
-    id: "module.messages.marksAsReadTooltipDescription",
+  marksAsUnreadTooltipDescription: {
+    id: "module.messages.marksAsUnreadTooltipDescription",
   },
   deleteTooltipDescription: { id: "module.messages.deleteTooltipDescription" },
 })
@@ -29,14 +29,14 @@ interface Props {
   contactCreated: boolean
   onContactClick: () => void
   onDeleteClick: () => void
-  onCheckClick: () => void
+  onMarkAsUnreadClick: () => void
 }
 
 const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
   contactCreated,
   onContactClick,
   onDeleteClick,
-  onCheckClick,
+  onMarkAsUnreadClick,
 }) => {
   return (
     <>
@@ -62,9 +62,9 @@ const ThreadDetailsSidebarRightHeader: FunctionComponent<Props> = ({
       )}
       {flags.get(Feature.MessagesThreadDetailsMarkAsReadEnabled) && (
         <SidebarHeaderButton
-          description={messages.marksAsReadTooltipDescription}
-          iconType={IconType.BorderCheckIcon}
-          onClick={onCheckClick}
+          description={messages.marksAsUnreadTooltipDescription}
+          iconType={IconType.MarkAsUnread}
+          onClick={onMarkAsUnreadClick}
         />
       )}
       {flags.get(Feature.MessagesThreadDeleteEnabled) && (

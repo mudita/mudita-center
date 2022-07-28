@@ -11,7 +11,7 @@ import {
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import Button from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
-import SettingsToggler from "App/__deprecated__/renderer/modules/settings/components/settings-toggler.component"
+import { SettingsToggler } from "App/settings/components"
 import { fadeAnimation } from "App/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 

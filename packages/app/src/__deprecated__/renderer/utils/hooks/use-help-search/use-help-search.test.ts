@@ -7,32 +7,32 @@ import { act, renderHook } from "@testing-library/react-hooks"
 import { useHelpSearch } from "App/__deprecated__/renderer/utils/hooks/use-help-search/use-help-search"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
-import { testSeed, testQuestion, testSeedCollectionIds } from "App/__deprecated__/seeds/help"
-import { defaultHelpItems } from "App/__deprecated__/main/store/default-help-items"
-import { IpcAppSettingsRequest } from "App/app-settings/constants"
 import {
-  AppSettings,
-  ConversionFormat,
-  Convert,
-} from "App/__deprecated__/main/store/settings.interface"
+  testSeed,
+  testQuestion,
+  testSeedCollectionIds,
+} from "App/__deprecated__/seeds/help"
+import { defaultHelpItems } from "App/__deprecated__/main/store/default-help-items"
+import { ConversionFormat, Convert } from "App/settings/constants"
+import { Settings } from "App/settings/dto"
 
-export const fakeAppSettings: AppSettings = {
+export const fakeAppSettings: Settings = {
   applicationId: "app-Nr8uiSV7KmWxX3WOFqZPF7uB",
-  appAutostart: false,
-  appTethering: false,
-  appIncomingCalls: false,
-  appIncomingMessages: false,
-  appLowBattery: false,
-  appOsUpdates: false,
-  appNonStandardAudioFilesConversion: false,
-  appConvert: Convert.ConvertAutomatically,
-  appConversionFormat: ConversionFormat.WAV,
-  appTray: true,
-  pureOsBackupLocation: `fake/path/pure/phone/backups/`,
-  pureOsDownloadLocation: `fake/path/pure/os/downloads/`,
+  autostart: false,
+  tethering: false,
+  incomingCalls: false,
+  incomingMessages: false,
+  lowBattery: false,
+  osUpdates: false,
+  nonStandardAudioFilesConversion: false,
+  convert: Convert.ConvertAutomatically,
+  conversionFormat: ConversionFormat.WAV,
+  tray: true,
+  osBackupLocation: `fake/path/pure/phone/backups/`,
+  osDownloadLocation: `fake/path/pure/os/downloads/`,
   language: "en-US",
-  pureNeverConnected: true,
-  appCollectingData: undefined,
+  neverConnected: true,
+  collectingData: undefined,
   diagnosticSentTimestamp: 0,
   ignoredCrashDumps: [],
 }
@@ -42,7 +42,6 @@ const mockIpc = () => {
     [HelpActions.DownloadContentfulData]: Promise.resolve({
       ...testSeed,
     }),
-    [IpcAppSettingsRequest.Get]: Promise.resolve(fakeAppSettings),
   }
 }
 

@@ -9,7 +9,9 @@ import { useHistory } from "react-router-dom"
 import { URL_MAIN } from "App/__deprecated__/renderer/constants/urls"
 import Button from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
-import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, {
+  IconSize,
+} from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { CallsTableTestIds } from "App/__deprecated__/renderer/components/rest/calls/calls-table.enum"
 import {
   CallDescription,
@@ -147,6 +149,7 @@ export const CallDetails = ({
                       message={messages.information}
                     />
                     <Input
+                      type={"text"}
                       value={details.caller.phoneNumber}
                       trailingIcons={phoneActions(
                         details.caller.phoneNumber,
@@ -164,6 +167,7 @@ export const CallDetails = ({
                     message={messages.type}
                   />
                   <Input
+                    type={"text"}
                     leadingIcons={[
                       <Icon
                         key={`icon-${details.icon}`}
@@ -195,10 +199,13 @@ export const CallDetails = ({
               </AdditionalInfo>
               <AdditionalInfo large>
                 <AdditionalInfoItem>
-                  <Input value={formatDuration(details.duration)} />
+                  <Input
+                    type={"text"}
+                    value={formatDuration(details.duration)}
+                  />
                 </AdditionalInfoItem>
                 <AdditionalInfoItem>
-                  <Input value={callDate} />
+                  <Input type={"text"} value={callDate} />
                 </AdditionalInfoItem>
               </AdditionalInfo>
             </>

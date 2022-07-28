@@ -9,10 +9,11 @@ import { DeviceType } from "@mudita/pure"
 import { AnyAction } from "@reduxjs/toolkit"
 import { pendingAction } from "App/__deprecated__/renderer/store/helpers"
 import { getConnectedDevice } from "./get-connected-device.action"
-import { DeviceConnectionError } from "App/device/errors"
 import connectDeviceRequest from "App/__deprecated__/renderer/requests/connect-device.request"
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
+import { AppError } from "App/core/errors"
+import { DeviceError } from "App/device/constants"
 
 const mockStore = createMockStore([thunk])()
 
@@ -35,7 +36,10 @@ describe("Get Connected Device request returns `success` status without `data`",
       status: RequestResponseStatus.Ok,
     })
 
-    const errorMock = new DeviceConnectionError("Cannot connected to device")
+    const errorMock = new AppError(
+      DeviceError.Connection,
+      "Cannot connected to device"
+    )
     const {
       meta: { requestId },
     } = await mockStore.dispatch(getConnectedDevice() as unknown as AnyAction)
@@ -78,7 +82,10 @@ describe("Get Connected Device request returns `error` status", () => {
     ;(connectDeviceRequest as jest.Mock).mockReturnValueOnce({
       status: RequestResponseStatus.Error,
     })
-    const errorMock = new DeviceConnectionError("Cannot connected to device")
+    const errorMock = new AppError(
+      DeviceError.Connection,
+      "Cannot connected to device"
+    )
     const {
       meta: { requestId },
     } = await mockStore.dispatch(getConnectedDevice() as unknown as AnyAction)

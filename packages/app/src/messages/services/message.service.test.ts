@@ -16,13 +16,17 @@ import {
   RequestResponseStatus,
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
-import { NewMessage } from "App/messages/dto"
-import { AcceptablePureMessageType } from "App/messages/presenters"
+import { Message, NewMessage } from "App/messages/dto"
+import {
+  AcceptablePureMessageType,
+  MessagePresenter,
+} from "App/messages/presenters"
 import { MessageRepository } from "App/messages/repositories"
 import { MessageService } from "App/messages/services/message.service"
 import { ThreadService } from "App/messages/services/thread.service"
 import DeviceService from "App/__deprecated__/backend/device-service"
 import assert from "assert"
+import { MessageType as MessageTypeFromDTO } from "App/messages/constants"
 
 const deviceService = {
   request: jest.fn(),
@@ -30,6 +34,7 @@ const deviceService = {
 
 const threadService = {
   getThreads: jest.fn(),
+  refreshThread: jest.fn(),
 } as unknown as ThreadService
 
 const messageRepository = {
@@ -47,6 +52,10 @@ const successResponse: SuccessRequestResponse<any> = {
   status: RequestResponseStatus.Ok,
   data: {},
 }
+const refreshThreadSuccessResponse: SuccessRequestResponse<any> = {
+  status: RequestResponseStatus.Ok,
+  data: undefined,
+}
 
 const errorResponse: ErrorRequestResponse = {
   status: RequestResponseStatus.Error,
@@ -63,6 +72,16 @@ const pureMessage: PureMessage & {
   createdAt: 1547465101,
   threadID: 1,
   number: "+48500600700",
+}
+
+const message: Message = {
+  id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+  date: new Date("2019-10-18T11:27:15.256Z"),
+  content:
+    "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+  threadId: "1",
+  phoneNumber: "+48 755 853 216",
+  messageType: MessageTypeFromDTO.INBOX,
 }
 
 const newMessageWithThreadId: NewMessage = {
@@ -242,36 +261,83 @@ describe("`MessageService`", () => {
 
   describe("`deleteMessage` method", () => {
     const messageId = "123"
-    test("construct proper delete request to device service and calls proper repository method", async () => {
-      deviceService.request = jest.fn().mockReturnValue(successResponse)
-      await subject.deleteMessage(messageId)
-      expect(deviceService.request).toHaveBeenCalledTimes(1)
-      expect(deviceService.request).toHaveBeenCalledWith({
-        body: {
-          category: PureMessagesCategory.message,
-          messageID: 123,
-        },
-        endpoint: Endpoint.Messages,
-        method: Method.Delete,
+
+    describe("when everything is fine", () => {
+      let result: unknown
+      beforeEach(async () => {
+        deviceService.request = jest.fn().mockReturnValue(successResponse)
+        messageRepository.findById = jest.fn().mockReturnValue(message)
+        threadService.refreshThread = jest
+          .fn()
+          .mockReturnValue(refreshThreadSuccessResponse)
+
+        result = await subject.deleteMessage(messageId)
       })
-      expect(messageRepository.delete).toHaveBeenCalledTimes(1)
-      expect(messageRepository.delete).toHaveBeenCalledWith(messageId)
+
+      test("construct proper delete request to device service and calls proper repository method", async () => {
+        expect(deviceService.request).toHaveBeenCalledTimes(1)
+        expect(deviceService.request).toHaveBeenCalledWith({
+          body: {
+            category: PureMessagesCategory.message,
+            messageID: 123,
+          },
+          endpoint: Endpoint.Messages,
+          method: Method.Delete,
+        })
+        expect(messageRepository.delete).toHaveBeenCalledTimes(1)
+        expect(messageRepository.delete).toHaveBeenCalledWith(messageId)
+      })
+
+      test("after deleting message, the related thread is refreshed", async () => {
+        expect(threadService.refreshThread).toHaveBeenCalledTimes(1)
+        expect(threadService.refreshThread).toHaveBeenLastCalledWith(
+          message.threadId
+        )
+      })
+
+      test("returns success when delete request succeeded", async () => {
+        expect(result).toEqual({ status: RequestResponseStatus.Ok })
+      })
     })
 
-    test("returns success when delete request succeeded", async () => {
-      deviceService.request = jest.fn().mockReturnValue(successResponse)
-      const result = await subject.deleteMessage(messageId)
-      expect(result).toEqual({ status: RequestResponseStatus.Ok })
-    })
+    describe("when an error appears", () => {
+      test("returns error when message was not found in the repository", async () => {
+        deviceService.request = jest.fn().mockReturnValue(successResponse)
+        messageRepository.findById = jest.fn().mockReturnValue(undefined)
 
-    test("returns error when delete request failed", async () => {
-      deviceService.request = jest.fn().mockReturnValue(errorResponse)
-      const result = await subject.deleteMessage(messageId)
-      expect(result).toEqual({
-        status: RequestResponseStatus.Error,
-        error: {
-          message: "Delete message: Something went wrong",
-        },
+        const result = await subject.deleteMessage(messageId)
+        expect(result).toEqual({
+          status: RequestResponseStatus.Error,
+          error: {
+            message: "Delete message: Message not found",
+          },
+        })
+      })
+
+      test("returns error when delete request failed", async () => {
+        deviceService.request = jest.fn().mockReturnValue(errorResponse)
+        messageRepository.findById = jest.fn().mockReturnValue(message)
+        const result = await subject.deleteMessage(messageId)
+        expect(result).toEqual({
+          status: RequestResponseStatus.Error,
+          error: {
+            message: "Delete message: Something went wrong",
+          },
+        })
+      })
+
+      test("returns error when refreshing repository failed", async () => {
+        deviceService.request = jest.fn().mockReturnValue(successResponse)
+        messageRepository.findById = jest.fn().mockReturnValue(message)
+        threadService.refreshThread = jest.fn().mockResolvedValue(errorResponse)
+
+        const result = await subject.deleteMessage(messageId)
+        expect(result).toEqual({
+          status: RequestResponseStatus.Error,
+          error: {
+            message: "Refresh message: Something went wrong",
+          },
+        })
       })
     })
   })
@@ -341,6 +407,36 @@ describe("`MessageService`", () => {
               },
             ],
           },
+        })
+      })
+    })
+  })
+
+  describe("`updateMessage` method", () => {
+    describe("`DeviceService` returns success status", () => {
+      test("returns success result", async () => {
+        deviceService.request = jest.fn().mockReturnValue(successResponse)
+        const result = await subject.updateMessage(message)
+
+        expect(result).toEqual(successResponse)
+        expect(deviceService.request).toHaveBeenCalledWith({
+          body: MessagePresenter.mapToUpdatePureMessagesBody(message),
+          endpoint: Endpoint.Messages,
+          method: Method.Put,
+        })
+      })
+    })
+
+    describe("`DeviceService` returns failed satus", () => {
+      test("returns failed result", async () => {
+        deviceService.request = jest.fn().mockReturnValue(errorResponse)
+        const result = await subject.updateMessage(message)
+
+        expect(result).toEqual(errorResponse)
+        expect(deviceService.request).toHaveBeenCalledWith({
+          body: MessagePresenter.mapToUpdatePureMessagesBody(message),
+          endpoint: Endpoint.Messages,
+          method: Method.Put,
         })
       })
     })

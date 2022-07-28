@@ -10,9 +10,20 @@ import history from "App/__deprecated__/renderer/routes/history"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import TetheringUI from "App/__deprecated__/renderer/modules/tethering/tethering-ui.component"
 import { TetheringTestIds } from "App/__deprecated__/renderer/modules/tethering/screens/tethering.enum"
-import { SettingsTogglerTestIds } from "App/__deprecated__/renderer/modules/settings/components/settings-toggler-test-ids.enum"
+import { SettingsTogglerTestIds } from "App/settings/components/settings-toggler/settings-toggler-test-ids.enum"
 import { Provider } from "react-redux"
 import store from "App/__deprecated__/renderer/store"
+
+jest.mock(
+  "electron",
+  jest.fn().mockImplementation(() => ({
+    remote: {
+      dialog: {
+        showOpenDialog: jest.fn(),
+      },
+    },
+  }))
+)
 
 const renderer = (props = {}) =>
   renderWithThemeAndIntl(

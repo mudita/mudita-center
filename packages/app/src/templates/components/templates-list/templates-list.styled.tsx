@@ -16,7 +16,10 @@ import {
   animatedOpacityStyles,
 } from "App/__deprecated__/renderer/components/rest/animated-opacity/animated-opacity"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
-import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  textColor,
+} from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import Text from "App/__deprecated__/renderer/components/core/text/text.component"
 
 const checkboxShowedStyles = css`
@@ -33,11 +36,17 @@ export const DeleteCol = styled(Col)`
   transition: opacity ${transitionTime("veryQuick")};
 `
 
-export const Table = styled(BaseTable)`
-  --columnsGap: 0;
-  --columnsTemplate: 3.2rem 5.6rem 1fr 7rem;
-  --columnsTemplateWithOpenedSidebar: 4rem 27.5rem;
+export const TemplateText = styled(Text)`
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `
+export const TemplateTextColumn = styled(Col)`
+  width: 100%;
+  overflow: hidden;
+`
+
 export const IconWrapper = styled.div`
   width: 4rem;
   height: 4rem;
@@ -48,7 +57,33 @@ export const IconWrapper = styled.div`
   align-items: center;
 `
 
+const activeRowStyles = css`
+  ${IconWrapper} {
+    background-color: ${backgroundColor("row")};
+  }
+  ${TemplateTextColumn} {
+    ${TemplateText} {
+      color: ${textColor("primary")};
+    }
+  }
+`
+
+export const Table = styled(BaseTable)<{ mouseLock?: boolean }>`
+  --columnsGap: 0;
+  --columnsTemplate: 3.2rem 5.6rem 1fr 7rem;
+  --columnsTemplateWithOpenedSidebar: 3.2rem 5.6rem 1fr;
+  pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
+
+  ${TemplateTextColumn} {
+    ${TemplateText} {
+      color: ${({ mouseLock }) =>
+        mouseLock ? textColor("disabled") : "inherit"};
+    }
+  }
+`
+
 export const Row = styled(BaseRow)`
+  ${({ active }) => active && activeRowStyles};
   &:hover {
     ${Checkbox} {
       ${animatedOpacityActiveStyles};
@@ -73,16 +108,4 @@ export const TemplatesEmptyState = styled(EmptyState)`
 export const TemplateIcon = styled(Icon)`
   margin-right: 0;
   margin-left: 0;
-`
-
-export const TemplateTextColumn = styled(Col)`
-  width: 100%;
-  overflow: hidden;
-`
-
-export const TemplateText = styled(Text)`
-  width: 100%;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 `

@@ -9,7 +9,7 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import Table from "App/__deprecated__/renderer/components/core/table/table.component"
 import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { AppSettings } from "App/__deprecated__/main/store/settings.interface"
+import { Settings } from "App/settings/dto"
 import { Thread } from "App/messages/dto"
 import { Contact } from "App/contacts/reducers/contacts.interface"
 import { AutoSizer, IndexRange, List, ListRowProps } from "react-virtualized"
@@ -32,7 +32,7 @@ type SelectHook = Pick<
   "getRowStatus" | "toggleRow" | "noneRowsSelected"
 >
 
-interface Props extends SelectHook, Pick<AppSettings, "language"> {
+interface Props extends SelectHook, Pick<Settings, "language"> {
   threads: Thread[]
   onThreadClick?: (thread: Thread) => void
   activeThread?: Thread

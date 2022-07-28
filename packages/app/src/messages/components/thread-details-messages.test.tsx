@@ -5,7 +5,7 @@
 
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble/message-bubble-test-ids.enum"
 import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
-import { NewMessageBadgeTestIds } from "App/messages/components/new-message-badge-test-ids.enum"
+import { NewMessageBadgeTestIds } from "App/messages/components/new-message-badge/new-message-badge-test-ids.enum"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 import { MessageType } from "App/messages/constants"
 import { Message } from "App/messages/dto"

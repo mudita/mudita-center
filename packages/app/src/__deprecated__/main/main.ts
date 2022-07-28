@@ -15,7 +15,7 @@ import { ipcMain } from "electron-better-ipc"
 import * as path from "path"
 import * as url from "url"
 import registerPureOsDownloadListener from "App/__deprecated__/main/functions/register-pure-os-download-listener"
-import registerNewsListener from "App/__deprecated__/main/functions/register-news-listener"
+import registerNewsListener from "App/__deprecated__/main/functions/register-news-listener/register-news-listener"
 import registerAppLogsListeners from "App/__deprecated__/main/functions/register-app-logs-listener"
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/__deprecated__/calendar/backend/export-events"
@@ -25,7 +25,6 @@ import registerWriteGzipListener from "App/__deprecated__/main/functions/registe
 import registerRmdirListener from "App/__deprecated__/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/__deprecated__/main/functions/register-archive-files-listener"
 import registerReadFileListener from "App/file-system/listeners/read-file.listener"
-import registerGetApplicationConfigurationListener from "App/__deprecated__/main/functions/register-get-application-configuration-listener"
 import registerGetFileDataListener from "App/__deprecated__/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/__deprecated__/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/__deprecated__/main/functions/create-download-listener-registrar"
@@ -86,7 +85,7 @@ import {
 import { registerGetAllReleasesListener } from "App/__deprecated__/update/listeners/get-all-releases.listener"
 import { registerOsUpdateAlreadyDownloadedCheck } from "App/__deprecated__/update/requests/register-os-update-already-downloaded-checker.request"
 import { registerGetLatestReleaseListener } from "App/__deprecated__/update/listeners/get-latest-release.listener"
-import { createAppSettingsService } from "App/app-settings/containers/app-settings.container"
+import { createSettingsService } from "App/settings/containers/settings.container"
 
 require("dotenv").config()
 
@@ -128,6 +127,7 @@ const commonWindowOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
+    devTools: !productionEnvironment,
   },
 }
 const getWindowOptions = (
@@ -158,6 +158,10 @@ const createWindow = async () => {
     })
   )
 
+  win.on("closed", () => {
+    win = null
+  })
+
   new MetadataInitializer(metadataStore).init()
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
@@ -167,8 +171,8 @@ const createWindow = async () => {
   MuditaDeviceManager.registerLogger(new PureLogger())
   MuditaDeviceManager.toggleLogs(enabled)
 
-  const appSettingsService = createAppSettingsService()
-  appSettingsService.init()
+  const settingsService = createSettingsService()
+  settingsService.init()
   startBackend(MuditaDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerGetAllReleasesListener()
@@ -182,7 +186,6 @@ const createWindow = async () => {
   registerCopyFileListener()
   registerRmdirListener()
   registerWriteGzipListener()
-  registerGetApplicationConfigurationListener()
   registerArchiveFilesListener()
   registerGetFileDataListener()
   registerEncryptFileListener()
@@ -222,10 +225,6 @@ const createWindow = async () => {
     })
   }
 
-  win.on("closed", () => {
-    win = null
-  })
-
   logger.updateMetadata()
 }
 
@@ -251,6 +250,14 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
         title,
       })
     )
+
+    helpWindow.on("closed", () => {
+      removeDownloadHelpHandler()
+      removeSetHelpStoreHandler()
+      removeGetHelpStoreHandler()
+      helpWindow = null
+    })
+
     helpWindow.loadURL(
       !productionEnvironment
         ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
@@ -268,13 +275,6 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   } else {
     helpWindow.show()
   }
-
-  helpWindow.on("closed", () => {
-    removeDownloadHelpHandler()
-    removeSetHelpStoreHandler()
-    removeGetHelpStoreHandler()
-    helpWindow = null
-  })
 })
 
 const createOpenWindowListener = (
@@ -293,6 +293,11 @@ const createOpenWindowListener = (
           title,
         })
       )
+
+      newWindow.on("closed", () => {
+        newWindow = null
+      })
+
       await newWindow.loadURL(
         !productionEnvironment
           ? `http://localhost:2003/?mode=${mode}#${urlMain}`
@@ -311,10 +316,6 @@ const createOpenWindowListener = (
     } else {
       newWindow.show()
     }
-
-    newWindow.on("closed", () => {
-      newWindow = null
-    })
   })
 }
 
@@ -386,6 +387,11 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
         })
       )
 
+      googleAuthWindow.on("close", () => {
+        googleAuthWindow = null
+        killAuthServer()
+      })
+
       if (await checkPort(authServerPort)) {
         await createErrorWindow(googleAuthWindow)
         return
@@ -408,11 +414,6 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
     } else {
       googleAuthWindow.show()
     }
-
-    googleAuthWindow.on("close", () => {
-      googleAuthWindow = null
-      killAuthServer()
-    })
   } else {
     console.log("No Google Auth URL defined!")
   }

@@ -8,7 +8,7 @@ import {
   DeviceService,
   DeviceServiceEventName,
 } from "App/__deprecated__/backend/device-service"
-import { AppSettingsService } from "App/app-settings/services"
+import { SettingsService } from "App/settings/services"
 import { CrashDumpService } from "App/crash-dump/services"
 import { MainProcessIpc } from "electron-better-ipc"
 import { IpcCrashDumpRenderedEvent } from "App/crash-dump/constants"
@@ -21,7 +21,7 @@ export class CrashDumpObserver implements Observer {
     private ipc: MainProcessIpc,
     private deviceService: DeviceService,
     private crashDumpService: CrashDumpService,
-    private settingsService: AppSettingsService
+    private settingsService: SettingsService
   ) {}
 
   public observe(): void {
@@ -39,7 +39,7 @@ export class CrashDumpObserver implements Observer {
       this.invoked = true
 
       const crashDumps = await this.crashDumpService.getDeviceCrashDumpFiles()
-      const settings = this.settingsService.getAppSettings()
+      const settings = this.settingsService.getSettings()
       const crashDumpsIgnored = crashDumps.data?.every((file) =>
         settings.ignoredCrashDumps.includes(file)
       )

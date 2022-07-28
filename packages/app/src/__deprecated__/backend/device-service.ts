@@ -9,6 +9,7 @@ import {
   DeviceInfo,
   Endpoint,
   DeviceType,
+  GetFileSystemDirectoryRequestConfig,
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
   PutFileSystemRequestConfig,
@@ -46,6 +47,7 @@ import {
   GetMessageBody,
   Message,
   GetThreadBody,
+  PutMessageBody,
   Thread,
   UpdateThreadReadStatus,
   GetTemplateBody,
@@ -146,6 +148,11 @@ export class DeviceService {
   }): Promise<RequestResponse<PostMessagesResponseBody>>
   public request(config: {
     endpoint: Endpoint.Messages
+    method: Method.Put
+    body: PutMessageBody
+  }): Promise<RequestResponse>
+  public request(config: {
+    endpoint: Endpoint.Messages
     method: Method.Delete
     body: GetThreadBody
   }): Promise<RequestResponse>
@@ -218,6 +225,9 @@ export class DeviceService {
       reboot: boolean
     }
   }): Promise<RequestResponse>
+  public request(
+    config: GetFileSystemDirectoryRequestConfig
+  ): Promise<RequestResponse<Record<string, { path: string }[]>>>
   public request(config: GetFileSystemRequestConfig): Promise<
     RequestResponse<{
       rxID: string
