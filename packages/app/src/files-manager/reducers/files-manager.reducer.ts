@@ -4,17 +4,11 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { FilesManagerEvent } from "App/files-manager/constants"
-import {
-  fulfilledAction,
-  pendingAction,
-  rejectedAction,
-} from "App/__deprecated__/renderer/store/helpers"
+import { getFiles } from "App/files-manager/actions"
+import { AppError } from "App/core/errors"
 import {
   FilesManagerState,
   ResultState,
-  SetFilesAction,
-  GetFilesRejectAction,
 } from "App/files-manager/reducers/files-manager.interface"
 
 export const initialState: FilesManagerState = {
@@ -27,34 +21,25 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
   initialState,
   (builder) => {
     builder
-      .addCase(pendingAction(FilesManagerEvent.GetFiles), (state) => {
+      .addCase(getFiles.pending, (state) => {
         return {
           ...state,
           resultState: ResultState.Loading,
         }
       })
-      .addCase(fulfilledAction(FilesManagerEvent.GetFiles), (state) => {
+      .addCase(getFiles.fulfilled, (state, action) => {
         return {
           ...state,
           resultState: ResultState.Loaded,
+          files: action.payload,
           error: null,
         }
       })
-      .addCase(
-        rejectedAction(FilesManagerEvent.GetFiles),
-        (state, action: GetFilesRejectAction) => {
-          return {
-            ...state,
-            resultState: ResultState.Error,
-            error: action.payload,
-          }
-        }
-      )
-      .addCase(FilesManagerEvent.SetFiles, (state, action: SetFilesAction) => {
-        const files = action.payload
+      .addCase(getFiles.rejected, (state, action) => {
         return {
           ...state,
-          files: files,
+          resultState: ResultState.Error,
+          error: action.payload as AppError,
         }
       })
   }

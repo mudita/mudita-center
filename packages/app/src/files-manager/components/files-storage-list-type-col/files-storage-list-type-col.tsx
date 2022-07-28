@@ -7,13 +7,13 @@ import React from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { Col } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { FilesStorageListTypeColTestIds } from "App/files-manager/components/files-storage-list-type-col/files-storage-list-type-col-test-ids.enum"
-import { MetadataDeviceFile } from "App/files-manager/reducers"
+import { File } from "App/files-manager/dto"
 
 interface Props {
-  file: MetadataDeviceFile
+  file: File
 }
 
-const getTypeContent = (file: MetadataDeviceFile): string => {
+const getTypeContent = (file: File): string => {
   if (file.type === "") {
     return "-"
   } else {

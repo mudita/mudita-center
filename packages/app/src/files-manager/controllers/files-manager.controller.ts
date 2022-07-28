@@ -4,33 +4,20 @@
  */
 
 import { Controller, IpcEvent } from "App/core/decorators"
+import { ResultObject } from "App/core/builder"
 import {
   ControllerPrefix,
   IpcFilesManagerEvent,
 } from "App/files-manager/constants"
-import { MetadataDeviceFile } from "App/files-manager/reducers"
-import { RequestResponse, RequestResponseStatus } from "App/core/types"
+import { File } from "App/files-manager/dto"
+import { FileManagerService } from "App/files-manager/services"
 
 @Controller(ControllerPrefix)
 export class FilesManagerController {
+  constructor(private fileManagerService: FileManagerService) {}
+
   @IpcEvent(IpcFilesManagerEvent.GetFiles)
-  public async getFiles(): Promise<RequestResponse<MetadataDeviceFile[]>> {
-    return {
-      status: RequestResponseStatus.Ok,
-      data: [
-        {
-          id: "user/music/example_file_name.mp3",
-          size: 1234,
-          name: "example_file_name.mp3",
-          type: "mp3",
-        },
-        {
-          id: "user/music/second_example_file_name.wav",
-          size: 12345,
-          name: "second_example_file_name.wav",
-          type: "wav",
-        },
-      ],
-    }
+  public async getFiles(): Promise<ResultObject<File[] | undefined>> {
+    return this.fileManagerService.getDeviceFiles()
   }
 }

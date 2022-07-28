@@ -37,9 +37,23 @@ export type ContactAddressEntity = Entity<{
   mail: string
 }>
 
+export type ContactGroupEntity = Entity<{
+  name: string
+}>
+
+export type ContactMatchGroupEntity = Entity<{
+  group_id: string
+  contact_id: string
+}>
+
 export interface ContactInput {
   [ContactTable.Contacts]: DBQueryResult<keyof ContactEntity, string[]>
   [ContactTable.Names]: DBQueryResult<keyof ContactNameEntity, string[]>
   [ContactTable.Numbers]: DBQueryResult<keyof ContactNumberEntity, string[]>
   [ContactTable.Addresses]: DBQueryResult<keyof ContactAddressEntity, string[]>
+  [ContactTable.Group]: DBQueryResult<keyof ContactGroupEntity, string[]>
+  [ContactTable.MatchGroup]: DBQueryResult<
+    keyof ContactMatchGroupEntity,
+    string[]
+  >
 }

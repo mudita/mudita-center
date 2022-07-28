@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
+import { DeviceType } from "@mudita/pure"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
   CrashDumpModal,
@@ -17,6 +18,7 @@ export interface CrashDumpContainerProps {
   hasCrashDump: boolean
   downloading: boolean
   sending: boolean
+  deviceType: DeviceType | null
   downloadCrashDump: () => void
   ignoreCrashDump: () => void
 }
@@ -25,6 +27,7 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
   hasCrashDump,
   downloading,
   sending,
+  deviceType,
   downloadCrashDump,
   ignoreCrashDump,
 }) => {
@@ -57,11 +60,16 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
     setOpenInfo(false)
   }
 
+  if (!deviceType) {
+    return <></>
+  }
+
   return (
     <>
       <CrashDumpSendingModal open={openSending} />
       <CrashDumpModal
         open={openInfo}
+        deviceType={deviceType}
         onClose={handleCloseModal}
         onAccept={handleDownloadCrashDump}
       />
@@ -73,6 +81,7 @@ const mapStateToProps = (state: ReduxRootState) => ({
   hasCrashDump: Boolean(state.crashDump.data.files.length),
   downloading: state.crashDump.status.downloading,
   sending: state.crashDump.status.sending,
+  deviceType: state.device.deviceType,
 })
 
 const mapDispatchToProps = {

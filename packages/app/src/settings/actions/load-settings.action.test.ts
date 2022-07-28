@@ -11,6 +11,7 @@ import { getConfiguration } from "App/settings/requests"
 import { getSettings } from "App/settings/requests"
 import { SettingsEvent } from "App/settings/constants"
 import { loadSettings } from "./load-settings.action"
+import packageInfo from "../../../package.json"
 
 jest.mock("App/settings/requests", () => ({
   getSettings: jest.fn().mockReturnValue({ collectingData: false }),
@@ -57,7 +58,7 @@ test("`loadSettings` action dispatch SettingsEvent.LoadSettings event and calls 
       type: SettingsEvent.SetSettings,
       payload: {
         collectingData: false,
-        currentVersion: "1.4.1",
+        currentVersion: `${packageInfo.version}`,
         lowestSupportedVersions: {
           lowestSupportedCenterVersion: "1.0.0",
           lowestSupportedProductVersion: {

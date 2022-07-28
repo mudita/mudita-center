@@ -5,26 +5,18 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { FilesManagerEvent } from "App/files-manager/constants"
-import { GetFilesError } from "App/files-manager/errors"
-import { setFiles } from "App/files-manager/actions/base.action"
 import { getFilesRequest } from "App/files-manager/requests/get-files.request"
-import { MetadataDeviceFile } from "App/files-manager/reducers"
-import { RequestResponseStatus } from "App/core/types"
+import { File } from "App/files-manager/dto"
 
-export const getFiles = createAsyncThunk<Error | MetadataDeviceFile[]>(
+export const getFiles = createAsyncThunk<File[]>(
   FilesManagerEvent.GetFiles,
-  async (_, { dispatch, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     const result = await getFilesRequest()
 
-    if (result.status !== RequestResponseStatus.Ok) {
-      const message = result.error?.message ?? "Get files request failed"
-      return rejectWithValue(new GetFilesError(message))
+    if (!result.ok || !result.data) {
+      return rejectWithValue(result.error)
     }
 
-    const data = result.data ?? []
-
-    dispatch(setFiles(data))
-
-    return data
+    return result.data
   }
 )
