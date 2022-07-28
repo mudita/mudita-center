@@ -89,7 +89,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MessagesThreadDetailsMarkAsReadEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesCallFromThreadEnabled]: {
@@ -184,7 +184,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.ReadAndUnreadMessages]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.OrderTemplate]: {
