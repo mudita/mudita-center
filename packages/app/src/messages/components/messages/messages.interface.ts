@@ -62,4 +62,8 @@ export interface MessagesProps extends Pick<Settings, "language"> {
   templates: Template[]
   error: Error | string | null
   loaded: boolean
+  selectedItems: { rows: string[] }
+  toggleItem: (threadId: string) => void
+  selectAllItems: () => void
+  resetItems: () => void
 }

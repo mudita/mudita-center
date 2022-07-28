@@ -27,6 +27,8 @@ import {
   DeleteMessagePendingAction,
   DeleteMessageRejectedAction,
   DeleteThreadsRejectedAction,
+  SelectAllItemsAction,
+  ToggleItemAction,
 } from "App/messages/reducers/messages.interface"
 import {
   MessagesEvent,
@@ -35,7 +37,10 @@ import {
 } from "App/messages/constants"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
-import { markThreadsReadStatus } from "App/messages/reducers/messages-reducer.helpers"
+import {
+  markThreadsReadStatus,
+  toggleItemSelect,
+} from "App/messages/reducers/messages-reducer.helpers"
 import assert from "assert"
 
 export const initialState: MessagesState = {
@@ -50,6 +55,7 @@ export const initialState: MessagesState = {
   loaded: false,
   loading: false,
   currentlyDeletingMessageId: null,
+  selectedItems: { rows: [] },
 }
 
 export const messagesReducer = createReducer<MessagesState>(
@@ -352,5 +358,25 @@ export const messagesReducer = createReducer<MessagesState>(
           }
         }
       )
+      .addCase(
+        fulfilledAction(MessagesEvent.SelectAll),
+        (state, action: SelectAllItemsAction) => {
+          return {
+            ...state,
+            selectedItems: { rows: action.payload },
+          }
+        }
+      )
+      .addCase(MessagesEvent.ResetItems, (state) => {
+        return { ...state, selectedItems: { rows: [] } }
+      })
+      .addCase(MessagesEvent.ToggleItem, (state, action: ToggleItemAction) => {
+        const id = action.payload
+        const threadIds = toggleItemSelect(state.selectedItems, id)
+        return {
+          ...state,
+          selectedItems: { rows: threadIds },
+        }
+      })
   }
 )
