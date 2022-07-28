@@ -67,7 +67,9 @@ export class ThreadPresenter {
           unread: flags.get(Feature.ReadAndUnreadMessages)
             ? Number(thread.read) !== 0
             : false,
-          messageType: ThreadPresenter.getMessageType(Number(sms!.type)),
+          messageType: sms
+            ? ThreadPresenter.getMessageType(Number(sms.type))
+            : MessageType.OUTBOX,
         }
       })
       .filter((thread) => typeof thread !== "undefined") as ThreadObject[]
