@@ -109,8 +109,7 @@ describe("Other types of messages", () => {
       },
       sms: {
         columns: [],
-        values: [
-        ],
+        values: [],
       },
     }
 
@@ -121,7 +120,7 @@ describe("Other types of messages", () => {
         Object {
           "id": "1",
           "lastUpdatedAt": 1970-01-01T00:06:31.000Z,
-          "messageSnippet": "Test",
+          "messageSnippet": "",
           "messageType": "OUTBOX",
           "phoneNumber": "+91898402777",
           "unread": true,
