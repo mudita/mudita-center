@@ -22,6 +22,8 @@ import {
   GetFileListBody,
   GetFileListResponseBody,
   GetFileSystemRequestConfig,
+  GetFileSystemDirectoryRequestConfig,
+  GetFileSystemDirectoryResponse,
   GetRestoreDeviceStatusRequestConfig,
   GetRestoreDeviceStatusResponseBody,
   GetThreadResponseBody,
@@ -162,6 +164,9 @@ export class PureStrategy extends BaseDevice {
       reboot: boolean
     }
   }): Promise<any>
+  public request(
+    config: GetFileSystemDirectoryRequestConfig
+  ): Promise<GetFileSystemDirectoryResponse>
   public request(
     config: GetFileSystemRequestConfig
   ): Promise<GetFileSystemResponse | GetFileSystemErrorResponse>

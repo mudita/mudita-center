@@ -12,6 +12,7 @@ import { AppLogger } from "App/__deprecated__/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
 import { FilesManagerController } from "App/files-manager/controllers"
+import { FileManagerService } from "App/files-manager/services"
 
 export class FilesManagerModule extends BaseModule {
   private readonly filesManagerController: FilesManagerController
@@ -35,7 +36,9 @@ export class FilesManagerModule extends BaseModule {
       fileSystem
     )
 
-    this.filesManagerController = new FilesManagerController()
+    const fileManagerService = new FileManagerService(this.deviceService)
+
+    this.filesManagerController = new FilesManagerController(fileManagerService)
 
     this.controllers = [this.filesManagerController]
   }

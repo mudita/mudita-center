@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { PayloadAction } from "@reduxjs/toolkit"
 import {
   filesManagerReducer,
   initialState,
@@ -15,10 +14,23 @@ import {
 } from "App/__deprecated__/renderer/store/helpers"
 import { GetFilesError } from "App/files-manager/errors"
 import { FilesManagerEvent } from "App/files-manager/constants"
-import {
-  MetadataDeviceFile,
-  ResultState,
-} from "App/files-manager/reducers/files-manager.interface"
+import { ResultState } from "App/files-manager/reducers/files-manager.interface"
+import { File } from "App/files-manager/dto"
+
+const payload: File[] = [
+  {
+    id: "user/music/example_file_name.mp3",
+    size: 1234,
+    name: "example_file_name.mp3",
+    type: "mp3",
+  },
+  {
+    id: "user/music/second_example_file_name.wav",
+    size: 12345,
+    name: "second_example_file_name.wav",
+    type: "wav",
+  },
+]
 
 test("empty event returns initial state", () => {
   expect(filesManagerReducer(undefined, {} as any)).toEqual(initialState)
@@ -40,9 +52,11 @@ describe("Getting files functionality", () => {
     expect(
       filesManagerReducer(undefined, {
         type: fulfilledAction(FilesManagerEvent.GetFiles),
+        payload,
       })
     ).toEqual({
       ...initialState,
+      files: payload,
       resultState: ResultState.Loaded,
     })
   })
@@ -59,35 +73,6 @@ describe("Getting files functionality", () => {
       ...initialState,
       resultState: ResultState.Error,
       error: errorMock,
-    })
-  })
-})
-
-describe("Set Files data functionality", () => {
-  const file: MetadataDeviceFile = {
-    id: "user/music/example_file_name.mp3",
-    size: 1234,
-    name: "example_file_name.mp3",
-    type: "mp3",
-  }
-
-  test("Event: SetFiles set files field", () => {
-    const setFilesAction: PayloadAction<MetadataDeviceFile[]> = {
-      type: FilesManagerEvent.SetFiles,
-      payload: [file],
-    }
-
-    expect(
-      filesManagerReducer(
-        {
-          ...initialState,
-          files: [file],
-        },
-        setFilesAction
-      )
-    ).toEqual({
-      ...initialState,
-      files: [file],
     })
   })
 })
