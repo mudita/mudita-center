@@ -6,12 +6,12 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
-import packageInfo from "../../../package.json"
 import { DeviceType } from "@mudita/pure"
 import { getConfiguration } from "App/settings/requests"
 import { getSettings } from "App/settings/requests"
 import { SettingsEvent } from "App/settings/constants"
 import { loadSettings } from "./load-settings.action"
+import packageInfo from "../../../package.json"
 
 jest.mock("App/settings/requests", () => ({
   getSettings: jest.fn().mockReturnValue({ collectingData: false }),
@@ -58,7 +58,7 @@ test("`loadSettings` action dispatch SettingsEvent.LoadSettings event and calls 
       type: SettingsEvent.SetSettings,
       payload: {
         collectingData: false,
-        currentVersion: packageInfo.version,
+        currentVersion: `${packageInfo.version}`,
         lowestSupportedVersions: {
           lowestSupportedCenterVersion: "1.0.0",
           lowestSupportedProductVersion: {

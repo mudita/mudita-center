@@ -251,6 +251,16 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
     updateAllIndexes()
   }
 
+  const shouldErrorSyncModalVisible = (): boolean => {
+    if (syncState !== SynchronizationState.Error) {
+      return false
+    }
+    return (
+      restoreDeviceState === undefined ||
+      restoreDeviceState === RestoreDeviceDataState.Empty
+    )
+  }
+
   return (
     <>
       <UpdatingForceModalFlow
@@ -281,7 +291,7 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
           onSupportButtonClick={openContactSupportFlow}
         />
       )}
-      {syncState === SynchronizationState.Error && (
+      {shouldErrorSyncModalVisible() && (
         <ErrorSyncModal open onRetry={onRetry} closeModal={close} />
       )}
       <OverviewContent
