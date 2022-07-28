@@ -6,6 +6,7 @@
 import { AnyAction } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 import createMockStore from "redux-mock-store"
+import packageInfo from "../../../package.json"
 import { DeviceType } from "@mudita/pure"
 import { getConfiguration } from "App/settings/requests"
 import { getSettings } from "App/settings/requests"
@@ -57,7 +58,7 @@ test("`loadSettings` action dispatch SettingsEvent.LoadSettings event and calls 
       type: SettingsEvent.SetSettings,
       payload: {
         collectingData: false,
-        currentVersion: "1.4.1",
+        currentVersion: packageInfo.version,
         lowestSupportedVersions: {
           lowestSupportedCenterVersion: "1.0.0",
           lowestSupportedProductVersion: {
