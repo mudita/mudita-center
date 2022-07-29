@@ -24,7 +24,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MessagesDeleteEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesForwardEnabled]: {
@@ -34,12 +34,12 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MessagesResendEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadDeleteEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.LoggerEnabled]: {
@@ -64,7 +64,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MessagesTemplatesTabEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MuditaCenterPrereleaseEnabled]: {
@@ -74,12 +74,12 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MessagesThreadAttachContactEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadAttachTemplateEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesThreadCallsEnabled]: {
@@ -89,7 +89,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MessagesThreadDetailsMarkAsReadEnabled]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesCallFromThreadEnabled]: {
@@ -99,7 +99,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.MessagesThreadBrowseContacts]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesDraftStatus]: {
@@ -184,7 +184,7 @@ export const features: EnvironmentConfig = {
   },
   [Feature.ReadAndUnreadMessages]: {
     [Environment.Development]: true,
-    [Environment.Production]: false,
+    [Environment.Production]: true,
     [Environment.AlphaProduction]: true,
   },
   [Feature.OrderTemplate]: {
