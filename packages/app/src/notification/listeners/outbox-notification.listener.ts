@@ -4,7 +4,7 @@
  */
 
 import { v4 as uuid } from "uuid"
-import { OutboxEntryType, OutboxEntryChange } from "@mudita/pure"
+import { OutboxEntryType } from "@mudita/pure"
 import { ipcRenderer } from "electron-better-ipc"
 import store from "App/__deprecated__/renderer/store"
 import { pushNotification } from "App/notification/actions"
@@ -24,13 +24,6 @@ const resourceTypeMap: Record<OutboxEntryType, NotificationResourceType> = {
 
 const newNotifications = (_: any, data: EntryChangesEvent[]): void => {
   data.forEach((item) => {
-    const threadUpdate =
-      item.entry.type === OutboxEntryType.Thread &&
-      item.entry.change === OutboxEntryChange.Updated
-    if (threadUpdate) {
-      return
-    }
-
     store.dispatch(
       pushNotification({
         id: uuid(),

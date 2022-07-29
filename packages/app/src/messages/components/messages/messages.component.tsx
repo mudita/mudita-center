@@ -132,8 +132,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [draftMessage, setDraftMessage] = useState<Message>()
   const [content, setContent] = useState("")
   const debouncedContent = useDebounce(content, 1000)
-  // const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
-  //   useTableSelect<Thread>(threads)
   const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
   const allItemsSelected = threads.length === selectedItems.rows.length

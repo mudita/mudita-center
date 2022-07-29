@@ -602,11 +602,19 @@ describe("Checkboxes manage", () => {
     unread: true,
     messageType: MessageType.INBOX,
   }
+  const secondThread: Thread = {
+    id: "2",
+    phoneNumber: "+48 444 853 216",
+    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+    messageSnippet: "Exercitationem vel quasi doloremque.",
+    unread: true,
+    messageType: MessageType.INBOX,
+  }
 
   test("Event: SelectAll set selectedItems rows to array with all thread ids", () => {
     const setThreadsAction: PayloadAction<string[]> = {
       type: fulfilledAction(MessagesEvent.SelectAll),
-      payload: [thread.id],
+      payload: [thread.id, secondThread.id],
     }
 
     expect(
@@ -615,6 +623,7 @@ describe("Checkboxes manage", () => {
           ...initialState,
           threadMap: {
             [thread.id]: thread,
+            [secondThread.id]: secondThread,
           },
         },
         setThreadsAction
@@ -623,20 +632,27 @@ describe("Checkboxes manage", () => {
       ...initialState,
       threadMap: {
         [thread.id]: thread,
+        [secondThread.id]: secondThread,
       },
-      selectedItems: { rows: [thread.id] },
+      selectedItems: { rows: [thread.id, secondThread.id] },
     })
   })
 
   test("Event: ToggleItem set properly selectedItems rows", () => {
-    const setThreadsAction: PayloadAction<string> = {
-      type: MessagesEvent.ToggleItem,
-      payload: "1",
+    const setThreadsAction: PayloadAction<string[]> = {
+      type: fulfilledAction(MessagesEvent.ToggleItem),
+      payload: [thread.id],
     }
-
-    expect(messagesReducer(undefined, setThreadsAction)).toEqual({
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+        },
+        setThreadsAction
+      )
+    ).toEqual({
       ...initialState,
-      selectedItems: { rows: ["1"] },
+      selectedItems: { rows: [thread.id] },
     })
   })
   test("Event: ResetItems clear properly selectedItems rows field", () => {
@@ -644,7 +660,7 @@ describe("Checkboxes manage", () => {
       messagesReducer(
         {
           ...initialState,
-          selectedItems: { rows: ["1", "2"] },
+          selectedItems: { rows: [thread.id, secondThread.id] },
         },
         { type: MessagesEvent.ResetItems }
       )

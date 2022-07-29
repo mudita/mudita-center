@@ -7,6 +7,19 @@ import { createAsyncThunk, createAction } from "@reduxjs/toolkit"
 import { MessagesEvent } from "App/messages/constants"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
+const toggleItemSelect = (
+  selectedItems: { rows: string[] },
+  id: string
+): string[] => {
+  let threadIds = [...selectedItems.rows]
+  if (threadIds.includes(id)) {
+    threadIds = threadIds.filter((item) => item !== id)
+    return threadIds
+  } else {
+    return [...threadIds, id]
+  }
+}
+
 export const selectAllItems = createAsyncThunk<string[]>(
   MessagesEvent.SelectAll,
   async (_, { getState }) => {
@@ -20,4 +33,13 @@ export const selectAllItems = createAsyncThunk<string[]>(
 
 export const resetItems = createAction(MessagesEvent.ResetItems)
 
-export const toggleItem = createAction<string>(MessagesEvent.ToggleItem)
+export const toggleItem = createAsyncThunk<string[], string>(
+  MessagesEvent.ToggleItem,
+  async (id, { getState }) => {
+    const state = getState() as RootState & ReduxRootState
+
+    const threadIds = toggleItemSelect(state.messages.selectedItems, id)
+
+    return threadIds
+  }
+)

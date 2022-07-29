@@ -27,16 +27,3 @@ export const markThreadsReadStatus = (
     { ...threadMap }
   )
 }
-
-export const toggleItemSelect = (
-  selectedItems: { rows: string[] },
-  id: string
-): string[] => {
-  let threadIds = [...selectedItems.rows]
-  if (threadIds.includes(id)) {
-    threadIds = threadIds.filter((item) => item !== id)
-    return threadIds
-  } else {
-    return [...threadIds, id]
-  }
-}

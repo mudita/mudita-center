@@ -147,4 +147,4 @@ export type SelectAllItemsAction = PayloadAction<
   MessagesEvent.SelectAll
 >
 
-export type ToggleItemAction = PayloadAction<string, MessagesEvent.ToggleItem>
+export type ToggleItemAction = PayloadAction<string[], MessagesEvent.ToggleItem>
