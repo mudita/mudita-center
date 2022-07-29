@@ -33,7 +33,6 @@ import {
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import createRouterPath from "App/__deprecated__/renderer/utils/create-router-path"
 import useURLSearchParams from "App/__deprecated__/renderer/utils/hooks/use-url-search-params"
-import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { isThreadNumberEqual } from "App/messages/components/messages/is-thread-number-equal.helper"
 import { ContactSelectModal } from "App/contacts"
@@ -102,6 +101,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
   templates,
   error,
   loaded,
+  selectedItems,
+  toggleItem,
+  selectAllItems,
+  resetItems,
 }) => {
   const { states, updateFieldState, resetState } =
     useLoadingState<MessagesServiceState>({
@@ -129,10 +132,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [draftMessage, setDraftMessage] = useState<Message>()
   const [content, setContent] = useState("")
   const debouncedContent = useDebounce(content, 1000)
-  const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
-    useTableSelect<Thread>(threads)
   const [messageToDelete, setMessageToDelete] = useState<string | undefined>()
   const [deletedThreads, setDeletedThreads] = useState<string[]>([])
+  const allItemsSelected = threads.length === selectedItems.rows.length
 
   useEffect(() => {
     messageLayoutNotifications
@@ -332,7 +334,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     setActiveThread(thread)
     setTmpActiveThread(undefined)
     setMessagesState(MessagesState.ThreadDetails)
-    resetRows()
+    resetItems()
   }
 
   const closeSidebars = (): void => {
@@ -383,7 +385,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
 
     toggleReadStatus([activeThread])
-    resetRows()
+    resetItems()
     closeSidebars()
   }
 
@@ -405,7 +407,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const handleToggleReadStatus = (threads: Thread[]) => {
     toggleReadStatus(threads)
-    resetRows()
+    resetItems()
   }
 
   const handleAddNewMessage = async (
@@ -546,18 +548,17 @@ const Messages: FunctionComponent<MessagesProps> = ({
     updateFieldState("threadDeleting", true)
 
     await deleteThreads(deletedThreads)
-
-    resetRows()
+    resetItems()
     setActiveThread(undefined)
   }
 
   const handleDeleteThreads = (): void => {
-    const ids = selectedRows.map((thread) => thread.id)
-    setDeletedThreads(ids)
+    setDeletedThreads(selectedItems.rows)
     updateFieldState("threadDeletingConfirmation", true)
   }
 
   const handleDeleteThread = (id: string): void => {
+    resetItems()
     setDeletedThreads([id])
     updateFieldState("threadDeletingConfirmation", true)
   }
@@ -567,7 +568,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       closeSidebars()
     } else if (activeThread) {
       await deleteThreads([activeThread.id])
-      resetRows()
+      resetItems()
       setActiveThread(undefined)
     }
   }
@@ -575,6 +576,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const handleSelectTemplate = (template: Template) => {
     setContent(template.text)
     closeAttachTemplateModal()
+  }
+
+  const handleToggleAllCheckboxes = () => {
+    allItemsSelected ? resetItems() : selectAllItems()
   }
   return (
     <>
@@ -610,9 +615,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
         onSearchValueChange={changeSearchValue}
         onNewMessageClick={handleNewMessageClick}
         buttonDisabled={messagesState === MessagesState.NewMessage}
-        selectedThreads={selectedRows}
-        allItemsSelected={allRowsSelected}
-        toggleAll={toggleAll}
+        selectedIds={selectedItems.rows}
+        allItemsSelected={allItemsSelected}
+        toggleAll={handleToggleAllCheckboxes}
         onDeleteClick={handleDeleteThreads}
       />
       <TableWithSidebarWrapper>
@@ -624,6 +629,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
           />
         ) : (
           <ThreadList
+            selectedItems={selectedItems}
+            toggleItem={toggleItem}
             data-testid={MessagesTestIds.ThreadList}
             language={language}
             activeThread={activeThread}
@@ -635,7 +642,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onContactClick={contactClick}
             loadMoreRows={loadMoreRows}
             newConversation={mockThread.phoneNumber}
-            {...rest}
           />
         )}
         {messagesState === MessagesState.ThreadDetails && activeThread && (
