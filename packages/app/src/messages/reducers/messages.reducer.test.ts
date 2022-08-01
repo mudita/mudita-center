@@ -591,3 +591,82 @@ describe("Delete message functionality", () => {
     })
   })
 })
+
+describe("Checkboxes manage", () => {
+  const thread: Thread = {
+    id: "1",
+    phoneNumber: "+48 755 853 216",
+    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+    messageSnippet:
+      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+    unread: true,
+    messageType: MessageType.INBOX,
+  }
+  const secondThread: Thread = {
+    id: "2",
+    phoneNumber: "+48 444 853 216",
+    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+    messageSnippet: "Exercitationem vel quasi doloremque.",
+    unread: true,
+    messageType: MessageType.INBOX,
+  }
+
+  test("Event: SelectAll set selectedItems rows to array with all thread ids", () => {
+    const setThreadsAction: PayloadAction<string[]> = {
+      type: fulfilledAction(MessagesEvent.SelectAll),
+      payload: [thread.id, secondThread.id],
+    }
+
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          threadMap: {
+            [thread.id]: thread,
+            [secondThread.id]: secondThread,
+          },
+        },
+        setThreadsAction
+      )
+    ).toEqual({
+      ...initialState,
+      threadMap: {
+        [thread.id]: thread,
+        [secondThread.id]: secondThread,
+      },
+      selectedItems: { rows: [thread.id, secondThread.id] },
+    })
+  })
+
+  test("Event: ToggleItem set properly selectedItems rows", () => {
+    const setThreadsAction: PayloadAction<string[]> = {
+      type: fulfilledAction(MessagesEvent.ToggleItem),
+      payload: [thread.id],
+    }
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+        },
+        setThreadsAction
+      )
+    ).toEqual({
+      ...initialState,
+      selectedItems: { rows: [thread.id] },
+    })
+  })
+  test("Event: ResetItems clear properly selectedItems rows field", () => {
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          selectedItems: { rows: [thread.id, secondThread.id] },
+        },
+        { type: MessagesEvent.ResetItems }
+      )
+    ).toEqual({
+      ...initialState,
+      selectedItems: { rows: [] },
+    })
+  })
+})

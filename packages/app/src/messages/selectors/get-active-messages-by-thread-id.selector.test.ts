@@ -70,6 +70,7 @@ const messagesState: MessagesState = {
   loaded: false,
   loading: false,
   currentlyDeletingMessageId: null,
+  selectedItems: { rows: [] },
 }
 
 describe("When thread hasn't any message", () => {

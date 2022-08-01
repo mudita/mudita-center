@@ -18,4 +18,7 @@ export enum MessagesEvent {
   // Yes!
   ChangeVisibilityFilter = "CHANGE_VISIBILITY_FILTER",
   ChangeSearchValue = "CHANGE_SEARCH_VALUE",
+  SelectAll = "SELECT_ALL",
+  ResetItems = "RESET_ITEMS",
+  ToggleItem = "TOGGLE_ITEM",
 }
