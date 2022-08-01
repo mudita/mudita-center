@@ -59,7 +59,8 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
     mode: "onChange",
   })
 
-  const dataChanged = watch("text") !== template?.text
+  const dataChanged =
+    watch("text").length !== 0 && watch("text") !== template?.text
 
   useEffect(() => {
     if (error) {

@@ -48,6 +48,24 @@ describe("`TemplateForm` component", () => {
   })
 
   describe("Save functionality", () => {
+    test("`Save` button is disabled when no template text", async () => {
+      const { getByTestId } = await renderWithWaitForm({
+        onClose: onCloseMock,
+        onSave: onSaveMock,
+        error: null,
+        template: undefined,
+        saving: false,
+      })
+      const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
+      const textField = getByTestId(TemplateFormTestIds.TextFiled)
+
+      fireEvent.change(textField, {
+        target: { value: "" },
+      })
+      expect(saveButton).toBeDisabled()
+      fireEvent.click(saveButton)
+      expect(onSaveMock).toHaveBeenCalledTimes(0)
+    })
     test("`onSave` callback called with provided string when click on `Save` button", async () => {
       const { getByTestId } = await renderWithWaitForm({
         onClose: onCloseMock,
