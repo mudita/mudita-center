@@ -41,4 +41,5 @@ export enum Feature {
   YourPureIconsEnabled = "your-pure-icons-enabled",
   ReadAndUnreadMessages = "read-and-unread-messages",
   OrderTemplate = "order-template",
+  AlphaRelaseWarning = "alpha-release-warning",
 }
