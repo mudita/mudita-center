@@ -1,4 +1,6 @@
 {
+  "component.alphaWarning": "This is not an official Mudita Center version. You use the application at your own risk. Your data may be corrupted and updating your device can upload an unstable OS. Please download ",
+  "component.alphaWarningLink": "the last stable Mudita Center.",
   "component.buttonMonthly": "Monthly",
   "component.cancelButton": "Cancel",
   "component.collectingDataModalAgree": "Agree",
