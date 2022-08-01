@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+// TODO: CP-1494, CP-1495
+
 import { createReducer } from "@reduxjs/toolkit"
 import {
   fulfilledAction,

@@ -21,7 +21,6 @@ import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
 import { ContactSection } from "App/contacts/components/contacts/contacts.styled"
-import useTableSelect from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
 import { useHistory } from "react-router-dom"
 import useURLSearchParams from "App/__deprecated__/renderer/utils/hooks/use-url-search-params"
@@ -39,24 +38,18 @@ import {
 import mapVCFsToContacts from "App/contacts/helpers/map-vcfs-to-contacts/map-vcfs-to-contacts"
 import logger from "App/__deprecated__/main/utils/logger"
 import {
+  ContactsProps,
+  FormError,
   ExternalService,
   FileService,
-} from "App/contacts/components/contacts/contacts.interface"
-import {
   NewContactResponse,
-  PhoneProps,
-  FormError,
-} from "App/contacts/components/contacts/contacts.type"
+} from "App/contacts/components/contacts/contacts.interface"
 import appContextMenu from "App/__deprecated__/renderer/wrappers/app-context-menu"
 import ContactSearchResults from "App/contacts/components/contact-search-results/contact-search-results.component"
 import ImportContactsFlow, {
   ImportContactsFlowState,
 } from "App/contacts/components/import-contacts-flow/import-contacts-flow.component"
-import {
-  Contact,
-  ContactCategory,
-  NewContact,
-} from "App/contacts/reducers/contacts.interface"
+import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import { isError } from "App/__deprecated__/common/helpers/is-error.helpers"
 import { contactsFilter } from "App/contacts/helpers/contacts-filter/contacts-filter.helper"
 
@@ -69,25 +62,30 @@ export const messages = defineMessages({
   downloadingText: { id: "module.contacts.downloadingText" },
 })
 
-const Contacts: FunctionComponent<PhoneProps> = (props) => {
-  const {
-    resultState,
-    getContact,
-    contactList = [],
-    flatList,
-    speedDialChosenList,
-    isThreadOpened,
-    loadContacts,
-    addNewContact,
-    importContact,
-    editContact,
-    deleteContacts,
-    authorize,
-    onCall,
-    onMessage,
-    exportContacts,
-    addNewContactsToState,
-  } = props
+const Contacts: FunctionComponent<ContactsProps> = ({
+  resultState,
+  getContact,
+  contactList = [],
+  flatList,
+  speedDialChosenList,
+  isThreadOpened,
+  loadContacts,
+  addNewContact,
+  importContact,
+  editContact,
+  deleteContacts,
+  authorize,
+  onCall,
+  onMessage,
+  exportContacts,
+  addNewContactsToState,
+
+  resetAllItems,
+  selectAllItems,
+  toggleItem,
+  selectedItems,
+  allItemsSelected,
+}) => {
   const history = useHistory()
   const searchParams = useURLSearchParams()
   const phoneNumber = searchParams.get("phoneNumber") || ""
@@ -103,11 +101,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     initNewContact
   )
   const [editedContact, setEditedContact] = useState<Contact>()
-
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
-
-  const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
-    useTableSelect<Contact, ContactCategory>(contactList, "contacts")
   const [formErrors, setFormErrors] = useState<FormError[]>([])
 
   const detailsEnabled = activeRow && !newContact && !editedContact
@@ -194,7 +188,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   const handleEditingContact = (contact: Contact) => {
     setEditedContact(contact)
-    resetRows()
+    resetAllItems()
   }
 
   const cancelEditingContact = (contact?: Contact) => {
@@ -245,16 +239,17 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   const handleMessage = (phoneNumber: string) => onMessage(history, phoneNumber)
 
-  const openDeleteModal = (contact: Contact) => {
+  const openDeleteModal = (id: string) => {
+    const contact = flatList.find((contact) => contact.id === id)
     const handleDelete = async () => {
-      resetRows()
+      resetAllItems()
       modalService.openModal(
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true
       )
 
       // await can be restored if we will process the result directly in here, not globally
-      const { payload } = await delayResponse(deleteContacts([contact.id]))
+      const { payload } = await delayResponse(deleteContacts([id]))
 
       if (payload) {
         modalService.openModal(<ErrorDataModal />, true)
@@ -519,11 +514,13 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     contactsFilter(item, searchValue || "")
   )
 
-  const handleExport = async (contacts: Contact[]): Promise<void> => {
+  const handleExport = async (ids: string[]): Promise<void> => {
+    const contacts = flatList.filter((contact) => ids.includes(contact.id))
+    console.log(ids, contacts)
     const exported = await exportContacts(contacts)
 
     if (exported) {
-      resetRows()
+      resetAllItems()
     }
   }
 
@@ -544,14 +541,15 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       )}
       <ContactSection>
         <ContactPanel
+          contactsList={flatList}
           onContactSelect={handleContactSelect}
           onManageButtonClick={handleImportContacts}
           onNewButtonClick={handleAddingContact}
-          selectedContacts={selectedRows}
-          allItemsSelected={allRowsSelected}
-          toggleAll={toggleAll}
+          selectedContacts={selectedItems}
+          allItemsSelected={allItemsSelected}
+          toggleAll={selectAllItems}
           deleteContacts={deleteContacts}
-          resetRows={resetRows}
+          resetRows={resetAllItems}
           editMode={Boolean(editedContact || newContact)}
           onSearchEnterClick={openSearchResults}
           searchValue={searchValue}
@@ -571,7 +569,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
             onDelete={openDeleteModal}
             resultsState={resultState}
             selectedContact={selectedContact}
-            {...rest}
+            selectedItems={selectedItems}
           />
         ) : (
           <TableWithSidebarWrapper>
@@ -588,7 +586,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               editMode={Boolean(editedContact || newContact)}
               resultsState={resultState}
               selectedContact={selectedContact}
-              {...rest}
+              toggleRow={toggleItem}
+              selectedItems={selectedItems}
             />
             {newContact && (
               <ContactEdit
@@ -614,7 +613,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               <ContactDetails
                 contact={contactFreshData(activeRow)}
                 onClose={closeSidebar}
-                onExport={exportContacts}
+                onExport={handleExport}
                 onForward={noop}
                 onUnblock={handleUnblock}
                 onBlock={openBlockModal}

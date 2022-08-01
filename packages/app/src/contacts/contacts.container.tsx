@@ -5,6 +5,7 @@
 
 import { connect } from "react-redux"
 import { History, LocationState } from "history"
+import { PayloadAction } from "@reduxjs/toolkit"
 import Contacts from "App/contacts/components/contacts/contacts.component"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 import { ReduxRootState, TmpDispatch } from "App/__deprecated__/renderer/store"
@@ -27,7 +28,7 @@ import {
   getFlatList,
 } from "App/contacts/helpers/contacts.helpers"
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
-import { ContactErrorResponse } from "App/contacts/components/contacts/contacts.type"
+import { ContactErrorResponse } from "App/contacts/components/contacts/contacts.interface"
 import { isThreadOpenedSelector } from "App/messages/selectors"
 import { createNewContact } from "App/contacts/actions/create-new-contacts.action"
 import { deleteContacts } from "App/contacts/actions/delete-contacts.action"
@@ -39,14 +40,19 @@ import { flatListSelector } from "App/contacts/selectors/flat-list.selector"
 import { contactListSelector } from "App/contacts/selectors/contact-list.selector"
 import { authorize } from "App/contacts/actions/authorize.action"
 import { editContact } from "App/contacts/actions/edit-contact.action"
-import { PayloadAction } from "@reduxjs/toolkit"
+import { resetAllItems, selectAllItems, toggleItem } from "App/contacts/actions"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   const { contacts, auth } = state
+  const contactsList = contactListSelector(state)
+
   return {
     ...auth,
+    selectedItems: state.contacts.selectedItems.rows,
+    allItemsSelected:
+      state.contacts.selectedItems.rows.length === contactsList.length,
     resultState: contacts.resultState,
-    contactList: contactListSelector(state),
+    contactList: contactsList,
     flatList: flatListSelector(state),
     speedDialChosenList: speedDialChosenListSelector(state),
     getContact: (id: string) => getContactSelector(id)(state),
@@ -80,7 +86,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
     },
     addNewContact: async (
       contact: NewContact
-    ): Promise<ContactErrorResponse | void> => dispatch(createNewContact(contact)),
+    ): Promise<ContactErrorResponse | void> =>
+      dispatch(createNewContact(contact)),
     importContact: async (contact: NewContact): Promise<string | void> =>
       dispatch(importContact(contact)),
     editContact: async (
@@ -94,7 +101,9 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
     ): Promise<string | undefined> => dispatch(authorize(provider)),
     addNewContactsToState: async (contacts: Contact[]): Promise<void> =>
       dispatch(addNewContactsToState(contacts)),
-
+    resetAllItems: () => dispatch(resetAllItems()),
+    selectAllItems: () => dispatch(selectAllItems()),
+    toggleItem: (id: string) => dispatch(toggleItem(id)),
     // TODO: Add proper actions
     onForward: noop,
     onBlock: noop,
