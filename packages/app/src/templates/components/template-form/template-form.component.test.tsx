@@ -29,6 +29,10 @@ const renderWithWaitForm = async (props: TemplateFormProps) => {
   return outcome
 }
 
+beforeEach(() => {
+  jest.resetAllMocks()
+})
+
 describe("`TemplateForm` component", () => {
   describe("Close functionality", () => {
     test("close the form when click on `Close` button", async () => {
@@ -89,7 +93,7 @@ describe("`TemplateForm` component", () => {
       })
 
       await waitFor(() => {
-        expect(saveButton).not.toBeDisabled()
+        expect(saveButton).toBeEnabled()
         fireEvent.click(saveButton)
         expect(onSaveMock).toHaveBeenCalledTimes(0)
       })
