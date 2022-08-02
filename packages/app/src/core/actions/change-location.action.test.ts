@@ -13,6 +13,8 @@ afterEach(() => {
   jest.resetAllMocks()
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("call `changeLocation` dispatching `CoreEvent.ChangeLocation` event", async () => {
   const mockStore = createMockStore([thunk])()
 

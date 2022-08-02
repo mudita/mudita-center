@@ -34,7 +34,11 @@ const isPathnameCorrect = (
   pathname: string
 ): pathname is MainRoutesValues => Object.keys(actions).includes(pathname)
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useRouterListener = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   history: Pick<History, "listen"> = useHistory(),
   actions: Actions
 ) => {

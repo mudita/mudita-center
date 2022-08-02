@@ -267,6 +267,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     const contact = flatList.find((contact) => contact.id === id)
     const handleDelete = async () => {
       resetAllItems()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.openModal(
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true

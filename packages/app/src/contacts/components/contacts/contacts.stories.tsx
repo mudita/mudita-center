@@ -63,6 +63,8 @@ const ContactsComponent = ({
 }: Partial<Pick<ContactsProps, "resultState" | "contactList">>) => (
   <Contacts
     allItemsSelected={false}
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
     getContact={getContact as any}
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
