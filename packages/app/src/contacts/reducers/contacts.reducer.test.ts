@@ -15,6 +15,7 @@ import {
   initialState,
 } from "App/contacts/reducers/contacts.reducer"
 import { AppError } from "App/core/errors"
+import { CoreEvent } from "App/core/constants"
 import { DataSyncError, DataSyncEvent } from "App/data-sync/constants"
 import {
   fulfilledAction,
@@ -314,6 +315,30 @@ describe("Select contact functionality", () => {
         },
         {
           type: ContactsEvent.ResetAllItems,
+          payload: undefined,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: [],
+      },
+    })
+  })
+
+  test("Event: CoreEvent.ChangeLocation removes all selected items", () => {
+    expect(
+      contactsReducer(
+        {
+          ...initialState,
+          selectedItems: {
+            ...initialState.selectedItems,
+            rows: ["1", "2"],
+          },
+        },
+        {
+          type: CoreEvent.ChangeLocation,
           payload: undefined,
         }
       )

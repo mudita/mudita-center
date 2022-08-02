@@ -31,6 +31,7 @@ import {
   ReadAllIndexesRejectAction,
 } from "App/data-sync/reducers/data-sync.interface"
 import { selectAllItems, resetAllItems, toggleItem } from "App/contacts/actions"
+import { changeLocation } from "App/core/actions"
 
 export const initialState: ContactsState = {
   db: {},
@@ -138,6 +139,9 @@ export const contactsReducer = createReducer<ContactsState>(
             rows: [],
           },
         }
+      })
+      .addCase(changeLocation, (state) => {
+        return { ...state, selectedItems: { rows: [] } }
       })
   }
 )

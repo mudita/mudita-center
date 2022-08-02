@@ -29,17 +29,17 @@ import {
   DeleteMessagePendingAction,
   DeleteMessageRejectedAction,
   DeleteThreadsRejectedAction,
-  SelectAllItemsAction,
-  ToggleItemAction,
 } from "App/messages/reducers/messages.interface"
 import {
   MessagesEvent,
   ResultState,
   VisibilityFilter,
 } from "App/messages/constants"
+import { selectAllItems, resetItems, toggleItem } from "App/messages/actions"
 import { DataSyncEvent } from "App/data-sync/constants"
 import { ReadAllIndexesAction } from "App/data-sync/reducers"
 import { markThreadsReadStatus } from "App/messages/reducers/messages-reducer.helpers"
+import { changeLocation } from "App/core/actions"
 import assert from "assert"
 
 export const initialState: MessagesState = {
@@ -357,26 +357,24 @@ export const messagesReducer = createReducer<MessagesState>(
           }
         }
       )
-      .addCase(
-        fulfilledAction(MessagesEvent.SelectAll),
-        (state, action: SelectAllItemsAction) => {
-          return {
-            ...state,
-            selectedItems: { rows: action.payload },
-          }
+
+      .addCase(selectAllItems.fulfilled, (state, action) => {
+        return {
+          ...state,
+          selectedItems: { rows: action.payload },
         }
-      )
-      .addCase(MessagesEvent.ResetItems, (state) => {
+      })
+      .addCase(resetItems, (state) => {
         return { ...state, selectedItems: { rows: [] } }
       })
-      .addCase(
-        fulfilledAction(MessagesEvent.ToggleItem),
-        (state, action: ToggleItemAction) => {
-          return {
-            ...state,
-            selectedItems: { rows: action.payload },
-          }
+      .addCase(toggleItem.fulfilled, (state, action) => {
+        return {
+          ...state,
+          selectedItems: { rows: action.payload },
         }
-      )
+      })
+      .addCase(changeLocation, (state) => {
+        return { ...state, selectedItems: { rows: [] } }
+      })
   }
 )
