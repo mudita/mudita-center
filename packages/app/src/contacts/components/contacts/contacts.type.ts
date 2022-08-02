@@ -58,6 +58,7 @@ export type PhoneProps = ContactActions &
     loadContacts: (provider: Provider) => Promise<Contact[]>
     addNewContactsToState: (contacts: Contact[]) => Promise<void>
     exportContacts: (contacts: Contact[]) => Promise<boolean>
+    searchContacts: (query: string) => Promise<Contact[]>
   } & Store
 
 export interface NewContactResponse extends NewContact {

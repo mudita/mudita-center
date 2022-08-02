@@ -9,10 +9,12 @@ export enum IpcContactEvent {
   CreateContact = "create-contact",
   EditContact = "edit-contact",
   DeleteContacts = "delete-contacts",
+  SearchContacts = "search-contacts",
 }
 
 export enum IpcContactRequest {
   CreateContact = "contact-create-contact",
   EditContact = "contact-edit-contact",
   DeleteContacts = "contact-delete-contacts",
+  SearchContacts = "contact-search-contacts",
 }

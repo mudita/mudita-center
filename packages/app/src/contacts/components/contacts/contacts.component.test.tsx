@@ -146,6 +146,7 @@ const defaultProps: Props = {
   onUnblock: jest.fn(),
   resetRows: jest.fn(),
   setProviderData: jest.fn(),
+  searchContacts: jest.fn(),
   resultState: ResultState.Loaded,
   speedDialChosenList: [],
   contactList: [

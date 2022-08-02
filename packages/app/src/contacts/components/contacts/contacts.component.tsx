@@ -87,6 +87,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     onMessage,
     exportContacts,
     addNewContactsToState,
+    searchContacts,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -105,6 +106,8 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const [editedContact, setEditedContact] = useState<Contact>()
 
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
+
+  const [filteredContacts, setFilteredContacts] = useState<Contact[]>([])
 
   const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
     useTableSelect<Contact, ContactCategory>(contactList, "contacts")
@@ -500,6 +503,11 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   useEffect(() => {
     if (searchValue === "") {
       setShowSearchResults(false)
+      setFilteredContacts([])
+    } else {
+      searchContacts(searchValue).then((result) => {
+        setFilteredContacts(result)
+      })
     }
   }, [searchValue])
 
@@ -514,10 +522,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     setEditedContact(undefined)
     setNewContact(undefined)
   }
-
-  const results = flatList.filter((item) =>
-    contactsFilter(item, searchValue || "")
-  )
 
   const handleExport = async (contacts: Contact[]): Promise<void> => {
     const exported = await exportContacts(contacts)
@@ -556,13 +560,13 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
           onSearchEnterClick={openSearchResults}
           searchValue={searchValue}
           onSearchValueChange={setSearchValue}
-          results={results}
+          results={filteredContacts}
           showSearchResults={showSearchResults}
           onExport={handleExport}
         />
         {showSearchResults ? (
           <ContactSearchResults
-            results={results}
+            results={filteredContacts}
             onSelect={handleContactSelect}
             onExport={handleExport}
             onForward={noop}

@@ -21,7 +21,10 @@ import {
 } from "App/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
-import { contactsSeed, contactsSeedInput } from "App/__deprecated__/seeds/contacts"
+import {
+  contactsSeed,
+  contactsSeedInput,
+} from "App/__deprecated__/seeds/contacts"
 import {
   createFullName,
   getFlatList,
@@ -88,7 +91,9 @@ const ContactsComponent = ({
     searchValue={""}
     onSearchValueChange={asyncNoop}
     results={[]}
-    exportContacts={asyncNoop}/>
+    searchContacts={asyncNoop}
+    exportContacts={asyncNoop}
+  />
 )
 
 storiesOf("Views|Phone", module)

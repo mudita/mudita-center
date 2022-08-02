@@ -6,3 +6,4 @@
 export * from "./create-contact.request"
 export * from "./delete-contacts.request"
 export * from "./edit-contact.request"
+export * from "./search-contact.request"

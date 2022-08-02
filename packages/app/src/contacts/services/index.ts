@@ -4,3 +4,4 @@
  */
 
 export * from "./contact.service"
+export * from "./search-contacts.service"

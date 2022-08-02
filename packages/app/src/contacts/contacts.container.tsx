@@ -40,6 +40,7 @@ import { contactListSelector } from "App/contacts/selectors/contact-list.selecto
 import { authorize } from "App/contacts/actions/authorize.action"
 import { editContact } from "App/contacts/actions/edit-contact.action"
 import { PayloadAction } from "@reduxjs/toolkit"
+import { searchContactRequest } from "App/contacts/requests"
 
 const mapStateToProps = (state: RootModel & ReduxRootState) => {
   const { contacts, auth } = state
@@ -80,7 +81,8 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
     },
     addNewContact: async (
       contact: NewContact
-    ): Promise<ContactErrorResponse | void> => dispatch(createNewContact(contact)),
+    ): Promise<ContactErrorResponse | void> =>
+      dispatch(createNewContact(contact)),
     importContact: async (contact: NewContact): Promise<string | void> =>
       dispatch(importContact(contact)),
     editContact: async (
@@ -94,7 +96,7 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
     ): Promise<string | undefined> => dispatch(authorize(provider)),
     addNewContactsToState: async (contacts: Contact[]): Promise<void> =>
       dispatch(addNewContactsToState(contacts)),
-
+    searchContacts: (query: string) => searchContactRequest(query),
     // TODO: Add proper actions
     onForward: noop,
     onBlock: noop,

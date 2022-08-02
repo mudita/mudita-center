@@ -15,6 +15,8 @@ import { ContactModel } from "App/contacts/models"
 import { ContactController } from "App/contacts/controllers"
 import { ContactService } from "App/contacts/services"
 import { ContactRepository } from "App/contacts/repositories"
+import { SearchContactsService } from "App/contacts/services/search-contacts.service"
+import { SearchService } from "App/search/services"
 
 export class ContactModule extends BaseModule {
   constructor(
@@ -41,7 +43,16 @@ export class ContactModule extends BaseModule {
       contactRepository,
       this.deviceService
     )
-    const contactController = new ContactController(contactService)
+    const searchService = new SearchService(this.index)
+    const searchContactsService = new SearchContactsService(
+      contactRepository,
+      searchService
+    )
+
+    const contactController = new ContactController(
+      contactService,
+      searchContactsService
+    )
 
     this.models = [contactModel]
     this.controllers = [contactController]

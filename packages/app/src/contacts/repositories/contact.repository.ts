@@ -11,6 +11,10 @@ import { Contact as ContactDto } from "App/contacts/dto"
 export class ContactRepository implements Repository {
   constructor(private contactModel: ContactModel) {}
 
+  public findById(id: string): ContactDto | undefined {
+    return this.contactModel.findById(id)
+  }
+
   public create(
     contact: Contact,
     skipCallbacks = false
