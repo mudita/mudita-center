@@ -7,7 +7,6 @@ import * as React from "react"
 import {
   getEnumName,
   getIconType,
-
 } from "App/__deprecated__/renderer/components/core/icon/icon.config"
 import Svg from "App/__deprecated__/renderer/components/core/svg/svg.component"
 import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
@@ -78,6 +77,8 @@ const Icon: FunctionComponent<Props> = ({
   return (
     <Wrapper
       badge={badge}
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       data-testid={`icon-${getEnumName(type)}`}
       className={className}
       height={size || height || width}

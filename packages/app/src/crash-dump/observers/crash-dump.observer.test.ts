@@ -53,9 +53,13 @@ describe("Crash Dump Observer: observe", () => {
       })
 
       test("calls `getDeviceCrashDumpFiles` and `getAppSettings` methods", async () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           0
         )
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
@@ -63,9 +67,15 @@ describe("Crash Dump Observer: observe", () => {
 
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalled()
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(settingsService.getSettings).toHaveBeenCalled()
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
           IpcCrashDumpRenderedEvent.CrashDumpExists
         )
@@ -104,9 +114,13 @@ describe("Crash Dump Observer: observe", () => {
       })
 
       test("emits `IpcCrashDumpRenderedEvent.CrashDumpExists` event", async () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           0
         )
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
@@ -114,9 +128,15 @@ describe("Crash Dump Observer: observe", () => {
 
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalled()
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(settingsService.getSettings).toHaveBeenCalled()
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         expect((ipcMain as any).sendToRenderers).toHaveBeenCalledWith(
           IpcCrashDumpRenderedEvent.CrashDumpExists,
           ["/sys/crash_dumps/crashdump.hex"]
@@ -156,9 +176,13 @@ describe("Crash Dump Observer: observe", () => {
       })
 
       test("doesn't emits `IpcCrashDumpRenderedEvent.CrashDumpExists` event", async () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           0
         )
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
@@ -166,9 +190,15 @@ describe("Crash Dump Observer: observe", () => {
 
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalled()
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(settingsService.getSettings).toHaveBeenCalled()
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
           IpcCrashDumpRenderedEvent.CrashDumpExists,
           ["/sys/crash_dumps/crashdump.hex"]
@@ -208,9 +238,13 @@ describe("Crash Dump Observer: observe", () => {
       })
 
       test("emits `IpcCrashDumpRenderedEvent.CrashDumpExists` event only once", async () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           0
         )
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(settingsService.getSettings).toHaveBeenCalledTimes(0)
 
         subject.observe()
@@ -220,10 +254,16 @@ describe("Crash Dump Observer: observe", () => {
 
         await Promise.resolve().then(() => jest.advanceTimersByTime(100))
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(crashDumpService.getDeviceCrashDumpFiles).toHaveBeenCalledTimes(
           1
         )
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(settingsService.getSettings).toHaveBeenCalledTimes(1)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
         expect((ipcMain as any).sendToRenderers).toHaveBeenCalledTimes(1)
       })
     })

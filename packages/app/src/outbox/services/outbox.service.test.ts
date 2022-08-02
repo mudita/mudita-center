@@ -56,6 +56,8 @@ describe("`OutboxService`", () => {
 
     test("`DataLoaded` isn't emits", async () => {
       await subject.readOutboxEntries()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
         IpcEvent.DataLoaded
       )
@@ -63,6 +65,8 @@ describe("`OutboxService`", () => {
 
     test("outbox `delete` request was called", async () => {
       await subject.readOutboxEntries()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenCalledWith({
         endpoint: Endpoint.Outbox,
         method: Method.Delete,
@@ -75,6 +79,8 @@ describe("`OutboxService`", () => {
     test("contact handler was called", async () => {
       await subject.readOutboxEntries()
       expect(
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         entryHandlersMap[OutboxEntryType.Contact].handleEntry
       ).toHaveBeenCalledWith(entries[0])
     })
@@ -96,6 +102,8 @@ describe("`OutboxService`", () => {
 
     test("`DataLoaded` isn't emits", async () => {
       await subject.readOutboxEntries()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
         IpcEvent.DataLoaded
       )
@@ -118,6 +126,8 @@ describe("`OutboxService`", () => {
 
     test("`DataLoaded` isn't emits", async () => {
       await subject.readOutboxEntries()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
       expect((ipcMain as any).sendToRenderers).not.toHaveBeenCalledWith(
         IpcEvent.DataLoaded
       )

@@ -60,6 +60,8 @@ describe("`SettingsService`", () => {
     } as unknown as Store<Settings>
     const subject = new SettingsService(store)
     subject.init()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(store.set).toHaveBeenCalledWith(
       "applicationId",
       "default-application-id"
@@ -74,6 +76,8 @@ describe("`SettingsService`", () => {
     } as unknown as Store<Settings>
     const subject = new SettingsService(store)
     subject.init()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(store.set).toHaveBeenCalledWith(
       "applicationId",
       "stored-application-id"
@@ -86,6 +90,8 @@ describe("`SettingsService`", () => {
 
   test("`resetSettings` calls reset methods ", () => {
     subject.resetSettings()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(defaultStore.reset).toHaveBeenCalled()
   })
 
@@ -94,7 +100,11 @@ describe("`SettingsService`", () => {
       key: "applicationId",
       value: "app-Nr8uiSV7KmWxX3WOFqZPF7uw",
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(defaultStore.set).toHaveBeenCalled()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(defaultStore.get).toHaveBeenCalled()
   })
 })

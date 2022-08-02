@@ -51,6 +51,8 @@ export class ContactService {
     if (isResponseSuccessWithData(response)) {
       return {
         status: response.status,
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         data: response.data.entries.map(ContactPresenter.mapToContact),
       }
     } else {

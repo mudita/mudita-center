@@ -19,6 +19,8 @@ export const importContact = createAsyncThunk<Error | Contact, NewContact>(
     if (status === RequestResponseStatus.Duplicated) {
       const contact = {
         ...newContact,
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-non-null-assertion
         id: String(error!.data.id),
       } as Contact
       const response = await editContactRequest(contact)

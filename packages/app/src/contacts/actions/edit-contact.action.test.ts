@@ -59,6 +59,8 @@ describe("async `editContact` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(editContact(contact) as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([
@@ -86,6 +88,8 @@ describe("async `editContact` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(editContact(contact) as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([

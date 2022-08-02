@@ -51,6 +51,8 @@ const ThreadList: FunctionComponent<Props> = ({
   language,
   getContactByPhoneNumber,
   onContactClick,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   loadMoreRows,
   newConversation,
   selectedItems,

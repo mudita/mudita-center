@@ -13,6 +13,8 @@ import { css } from "styled-components"
 const renderStory = ({ ...props }: Partial<StoryProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
     <Story {...props}>
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       <div>I'm a component</div>
     </Story>
   )
@@ -29,17 +31,25 @@ test("renders default story properly", () => {
 
 test("renders default styles properly", () => {
   const { getCard } = renderStory()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(getCard()).toHaveStyleRule("background-color", "#ffffff")
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(getCard()).toHaveStyleRule("box-shadow", "0 0.2rem 2rem 0 #00000014")
 })
 
 test("renders dark mode properly", () => {
   const { getCard } = renderStory({ darkMode: true })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(getCard()).toHaveStyleRule("background-color", "#999999")
 })
 
 test("renders transparent mode properly", () => {
   const { getCard } = renderStory({ transparentMode: true })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(getCard()).toHaveStyleRule("background-color", "transparent")
 })
 
@@ -56,6 +66,8 @@ test("passes custom styles properly", () => {
       opacity: 0.5;
     `,
   })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(getCard()).toHaveStyleRule("opacity", "0.5")
 })
 

@@ -33,6 +33,8 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
       2016 on the protection of natural persons with regard to the processing of
       personal data and on the free movement of such data, and repealing
       Directive 95/46/EC (General Data Protection Regulation), hereinafter
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       referred to as "GDPR", we inform you about the rules of processing your
       personal data and about your rights related with it.
     </LightText>
@@ -46,7 +48,11 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
       entered into the entrepreneur register of the National Court Register by
       the District Court for the Capital City of Warsaw, XII Commercial Division
       of the National Court Register (KRS) under No.: 0000467620, share capital
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       (fully paid) PLN 20 000 (hereinafter referred to as "<b>We</b>”, "
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       <b>Mudita</b>"). Mudita distributes a desktop application called Mudita
       Center (hereinafter “<b>Center</b>”).
     </LightText>
@@ -55,6 +61,8 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
       personal data issues. If you would like to contact us, please write us an
       e-mail to: <a href={`mailto:office@mudita.com`}>office@mudita.com</a> or
       send a letter to: Mudita sp. z o.o., Jana Czeczota Street No. 6, 02-607
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       Warsaw with the note: "Personal data".
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
@@ -212,7 +220,11 @@ export const PrivacyPolicyUI: FunctionComponent = () => (
       You can perform the above-mentioned rights by contacting us at the e-mail
       address <a href={`mailto:office@mudita.com`}>office@mudita.com</a> or by
       post on <b>Mudita sp. z o.o.</b>, Jana Czeczota Street No.6, 02-607
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       Warsaw, with the note "<b>Personal data</b>
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       ".
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>

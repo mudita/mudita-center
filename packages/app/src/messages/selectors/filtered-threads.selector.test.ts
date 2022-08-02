@@ -13,6 +13,8 @@ import { MessageType, VisibilityFilter } from "App/messages/constants"
 describe("`filteredThreadsSelector` selector", () => {
   test("when initial state is set selector returns value properly", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       messages: messagesReducer(initialState, {} as any),
       contacts: contactsInitialState,
     } as RootState & ReduxRootState
@@ -39,6 +41,8 @@ describe("`filteredThreadsSelector` selector", () => {
             [thread.id]: thread,
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
       contacts: contactsInitialState,
@@ -66,6 +70,8 @@ describe("`filteredThreadsSelector` selector", () => {
             [thread.id]: thread,
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
       contacts: contactsInitialState,

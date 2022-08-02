@@ -25,13 +25,21 @@ const defaultProps = {
 }
 
 jest.mock("react-virtualized", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const ReactVirtualized = jest.requireActual("react-virtualized")
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
     ...ReactVirtualized,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     AutoSizer: ({ children }: any) => children({ height: 1000, width: 1000 }),
   }
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const renderer = (extraProps?: {}) => {
   const props = {
     ...defaultProps,

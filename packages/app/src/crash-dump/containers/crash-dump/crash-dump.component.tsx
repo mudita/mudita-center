@@ -44,10 +44,14 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
     } else {
       setOpenInfo(true)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasCrashDump])
 
   useEffect(() => {
     setOpenSending((sending || downloading) && hasCrashDump)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sending, downloading])
 
   const handleCloseModal = () => {

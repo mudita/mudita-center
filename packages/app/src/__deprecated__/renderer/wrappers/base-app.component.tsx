@@ -62,18 +62,26 @@ const BaseApp: FunctionComponent<Props> = ({
     } else if (!deviceFeaturesVisible) {
       history.push(URL_ONBOARDING.welcome)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceFeaturesVisible, deviceConnecting])
 
   useEffect(() => {
     if (deviceParred && Boolean(settingsLoaded)) {
       sendDiagnosticData()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceParred, settingsLoaded])
 
   useEffect(() => {
     if (!deviceConnected && !deviceUpdating) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.closeModal(true)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceConnected])
 
   return (

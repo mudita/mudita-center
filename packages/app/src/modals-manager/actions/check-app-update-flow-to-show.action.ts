@@ -11,6 +11,8 @@ import { ModalStateKey } from "App/modals-manager/reducers"
 
 export const checkAppUpdateFlowToShow = createAsyncThunk<void, undefined>(
   ModalsManagerEvent.CheckAppUpdateFlowToShow,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { getState, dispatch }) => {
     const state = getState() as RootState & ReduxRootState
     if (

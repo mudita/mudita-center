@@ -276,6 +276,8 @@ describe("Functionality: contacts list", () => {
         withPhoneNumberOnly: false,
       })
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const contactListProps = contactSimpleListSpy.mock
         .calls[0][0] as ContactSimpleListProps
 
@@ -355,6 +357,8 @@ describe("Functionality: contacts list", () => {
   })
 
   describe("when withPhoneNumberOnly equals to true", () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     test("only contacts with phone numbers are passed to the component", async () => {
       render({
         onClose,
@@ -364,6 +368,8 @@ describe("Functionality: contacts list", () => {
         withPhoneNumberOnly: true,
       })
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const contactListProps = contactSimpleListSpy.mock
         .calls[0][0] as ContactSimpleListProps
 
@@ -439,6 +445,8 @@ describe("Functionality: contacts list", () => {
         withPhoneNumberOnly: false,
       })
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const contactListProps = contactSimpleListSpy.mock
         .calls[0][0] as ContactSimpleListProps
 
@@ -456,6 +464,8 @@ describe("Functionality: contacts list", () => {
         withPhoneNumberOnly: false,
       })
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const contactListProps = contactSimpleListSpy.mock
         .calls[0][0] as ContactSimpleListProps
 

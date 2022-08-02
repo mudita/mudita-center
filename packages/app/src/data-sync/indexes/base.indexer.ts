@@ -12,7 +12,11 @@ export abstract class BaseIndexer {
     // TODO: Will be covered with test as part of  CP-979
     return initSqlJs({
       locateFile: (fileName: string) =>
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         `${__static}/${fileName}`,
     })
   }

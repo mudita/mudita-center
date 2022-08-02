@@ -13,6 +13,8 @@ MockDate.set("2000-2-1")
 describe("`getLeftTimeSelector` selector", () => {
   test("when initial state is set selector returns undefined", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       device: deviceReducer(initialState, {} as any),
     } as ReduxRootState
     expect(getLeftTimeSelector(state)).toEqual(undefined)
@@ -25,6 +27,8 @@ describe("`getLeftTimeSelector` selector", () => {
           ...initialState,
           data: { phoneLockTime: undefined, timeLeftToNextAttempt: undefined },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
     } as ReduxRootState
@@ -38,6 +42,8 @@ describe("`getLeftTimeSelector` selector", () => {
           ...initialState,
           data: { phoneLockTime: undefined, timeLeftToNextAttempt: 30 },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
     } as ReduxRootState

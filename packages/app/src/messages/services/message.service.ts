@@ -96,7 +96,11 @@ export class MessageService {
         status: RequestResponseStatus.Ok,
         data: {
           data: response.data.entries
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/unbound-method
             .filter(MessageService.isAcceptablePureMessageType)
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/unbound-method
             .map(MessagePresenter.mapToMessage),
           nextPage: response.data.nextPage,
         },

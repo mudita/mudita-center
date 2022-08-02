@@ -33,16 +33,22 @@ const subject = new ContactRepository(contactModel)
 describe("`ContactRepository`", () => {
   test("fire `delete` call `contactModel.delete` with string", () => {
     expect(subject.delete("1")).toBeUndefined()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(contactModel.delete).toHaveBeenCalledWith("1", false)
   })
 
   test("fire `create` call `contactModel.create` with contact", () => {
     expect(subject.create(contact)).toEqual(contact)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(contactModel.create).toHaveBeenCalledWith(contact, false)
   })
 
   test("fire `update` call `contactModel.update` with contact", () => {
     expect(subject.update(contact)).toEqual(contact)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(contactModel.update).toHaveBeenCalledWith(contact, false)
   })
 })

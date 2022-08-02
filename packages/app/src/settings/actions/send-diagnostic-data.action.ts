@@ -12,6 +12,8 @@ import { setDiagnosticTimestamp } from "App/settings/actions/set-diagnostic-time
 
 export const sendDiagnosticData = createAsyncThunk<void, void>(
   SettingsEvent.SendDiagnosticData,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { dispatch, getState }) => {
     const state = getState() as ReduxRootState
 
@@ -42,6 +44,8 @@ export const sendDiagnosticData = createAsyncThunk<void, void>(
 
     const nowTimestamp = Date.now()
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(setDiagnosticTimestamp(nowTimestamp))
 
     return

@@ -27,6 +27,8 @@ export class MessageController {
   }
 
   @IpcEvent(IpcMessageEvent.UpdateMessage)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public updateMessage(message: Message): Promise<RequestResponse<any>> {
     return this.messageService.updateMessage(message)
   }

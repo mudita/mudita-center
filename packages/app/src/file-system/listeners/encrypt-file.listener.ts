@@ -12,6 +12,8 @@ import CryptoFileService, {
 const registerEncryptFileListener = (): void => {
   ipcMain.answerRenderer<CryptoFileOptions, Uint8Array | undefined>(
     IpcFileSystem.EncryptFile,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     CryptoFileService.encrypt
   )
 }

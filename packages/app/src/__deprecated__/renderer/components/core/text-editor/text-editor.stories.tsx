@@ -126,6 +126,8 @@ storiesOf("Components|Core/TextEditor", module)
     }
 
     const {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       temporaryText,
       keepTemporaryText,
       rejectChanges,
@@ -138,10 +140,14 @@ storiesOf("Components|Core/TextEditor", module)
     return (
       <Story customStyle={storyStyles}>
         <TextEditor
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           temporaryText={temporaryText}
           keepTemporaryText={keepTemporaryText}
           onChangesReject={rejectChanges}
           onChangesSave={saveChanges}
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
           statsInfo={`${temporaryText.length} characters`}
           status={status}
           enableEditMode={enableEditMode}

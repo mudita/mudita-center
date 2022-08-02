@@ -37,6 +37,8 @@ const calls = createModel<RootModel>({
   selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {
       return slice((state) => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const list = filterCalls(state.calls, state.visibilityFilter)
         return orderBy(list, ["date"], ["desc"])
       })

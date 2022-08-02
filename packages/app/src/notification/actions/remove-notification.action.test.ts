@@ -42,6 +42,8 @@ const mockStore = createMockStore([thunk])({
 })
 
 test("fire `removeNotification` action dispatch NotificationEvent.RemoveEvent event", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await mockStore.dispatch(removeNotification("1234") as unknown as AnyAction)
 
   expect(mockStore.getActions()).toEqual([

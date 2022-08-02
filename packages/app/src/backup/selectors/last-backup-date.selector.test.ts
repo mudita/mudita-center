@@ -23,6 +23,8 @@ const backup2: Backup = {
 describe("`lastBackupDateSelector` selector", () => {
   test("when initial state is set selector returns undefined", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       backup: backupReducer(undefined, {} as any),
     } as ReduxRootState
     expect(lastBackupDateSelector(state)).toBeUndefined()
@@ -30,6 +32,8 @@ describe("`lastBackupDateSelector` selector", () => {
 
   test("when is visible just single backup selector returns date", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       backup: backupReducer({ ...initialState, backups: [backup1] }, {} as any),
     } as ReduxRootState
     expect(lastBackupDateSelector(state)).toEqual(backup1.date)
@@ -39,6 +43,8 @@ describe("`lastBackupDateSelector` selector", () => {
     const state = {
       backup: backupReducer(
         { ...initialState, backups: [backup1, backup2] },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
     } as ReduxRootState

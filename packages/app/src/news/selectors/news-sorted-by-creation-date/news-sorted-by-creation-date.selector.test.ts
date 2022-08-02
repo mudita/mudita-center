@@ -36,6 +36,8 @@ test("returns news sorted by creation date in descending order", () => {
         ...initialState,
         newsItems: newsToBeSorted,
       },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       {} as any
     ),
   } as ReduxRootState

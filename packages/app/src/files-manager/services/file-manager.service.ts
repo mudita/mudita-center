@@ -35,6 +35,8 @@ export class FileManagerService {
     }
 
     return Result.success(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       data[DeviceDirectory.Music].map(FileObjectPresenter.toFile)
     )
   }

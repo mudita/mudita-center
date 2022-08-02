@@ -9,6 +9,8 @@ import { getValue } from "./get-value.request"
 import { IpcMetadata, MetadataKey } from "App/metadata/constants"
 
 beforeEach(() => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcMetadata.GetValue]: Promise.resolve("1.0.0"),
   }

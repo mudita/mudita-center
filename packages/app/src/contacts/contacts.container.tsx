@@ -62,7 +62,11 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
 }
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     ...dispatch.auth,
     exportContacts: exportContacts,
     onMessage: (history: History<LocationState>, phoneNumber: string) =>
@@ -74,35 +78,67 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => {
       switch (provider) {
         case Provider.Google:
           contacts =
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/await-thenable
             (await externalProvidersStore.dispatch.google.getContacts()) as unknown as Contact[]
           return getFlatList(contactDatabaseFactory(contacts))
         case Provider.Apple:
           return
         case Provider.Outlook:
           contacts =
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/await-thenable
             (await externalProvidersStore.dispatch.outlook.getContacts()) as unknown as Contact[]
           return getFlatList(contactDatabaseFactory(contacts))
       }
     },
     addNewContact: async (
       contact: NewContact
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/require-await
     ): Promise<ContactErrorResponse | void> =>
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
       dispatch(createNewContact(contact)),
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     importContact: async (contact: NewContact): Promise<string | void> =>
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
       dispatch(importContact(contact)),
     editContact: async (
       contact: Contact
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/require-await
     ): Promise<PayloadAction<ContactErrorResponse | undefined>> =>
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
       dispatch(editContact(contact)),
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     deleteContacts: async (ids: ContactID[]): Promise<string | void> =>
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
       dispatch(deleteContacts(ids)),
     authorize: async (
       provider: ExternalProvider
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     ): Promise<string | undefined> => dispatch(authorize(provider)),
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     addNewContactsToState: async (contacts: Contact[]): Promise<void> =>
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
       dispatch(addNewContactsToState(contacts)),
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     resetAllItems: () => dispatch(resetAllItems()),
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     selectAllItems: () => dispatch(selectAllItems()),
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     toggleItem: (id: string) => dispatch(toggleItem(id)),
     // TODO: Add proper actions
     onForward: noop,

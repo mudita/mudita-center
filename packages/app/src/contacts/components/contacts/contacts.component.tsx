@@ -113,8 +113,12 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       )
 
       if (newData) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setEditedContact((curr: any) => {
           if ("speedDial" in newData) {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
             return {
               ...curr,
               speedDial: newData.speedDial,
@@ -122,13 +126,19 @@ const Contacts: FunctionComponent<ContactsProps> = ({
           }
 
           if (curr && "speedDial" in curr) {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             delete curr.speedDial
           }
 
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return curr
         })
       }
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flatList])
 
   const closeModal = () => modalService.closeModal()
@@ -151,6 +161,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   const saveNewContact = async (contact: NewContact) => {
     const add = async (retried?: boolean) => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.openModal(
         <LoadingStateDataModal textMessage={messages.addingText} />,
         true
@@ -171,11 +183,15 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       }
 
       if (payload && !retried) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         modalService.openModal(
           <ErrorWithRetryDataModal onRetry={() => add(true)} />,
           true
         )
       } else if (payload) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         modalService.openModal(<ErrorDataModal />, true)
       } else {
         cancelOrCloseContactHandler()
@@ -199,6 +215,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   const editContactWithRetry = async (contact: Contact) => {
     return new Promise((resolve, reject) => {
       const edit = async (retried?: boolean) => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         modalService.openModal(
           <LoadingStateDataModal textMessage={messages.editingText} />,
           true
@@ -207,11 +225,15 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         const { payload } = await delayResponse(editContact(contact))
 
         if (payload && !retried) {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           modalService.openModal(
             <ErrorWithRetryDataModal onRetry={() => edit(true)} />,
             true
           )
         } else if (payload) {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           modalService.openModal(<ErrorDataModal />, true)
           reject()
         } else {
@@ -220,6 +242,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         }
       }
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       edit()
     })
   }
@@ -243,6 +267,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     const contact = flatList.find((contact) => contact.id === id)
     const handleDelete = async () => {
       resetAllItems()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.openModal(
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true
@@ -252,6 +278,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       const { payload } = await delayResponse(deleteContacts([id]))
 
       if (payload) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         modalService.openModal(<ErrorDataModal />, true)
       } else {
         cancelOrCloseContactHandler()
@@ -259,6 +287,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       }
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modalService.openModal(
       <DeleteModal
         onDelete={handleDelete}
@@ -319,12 +349,16 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       }
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modalService.openModal(
       <BlockContactModal contact={contact} onBlock={handleBlock} />
     )
   }
 
   const openSpeedDialModal = () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modalService.openModal(<SpeedDialModal onSave={closeModal} />)
   }
 
@@ -337,6 +371,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         `${syncShouldFail ? "Disable" : "Enable"} saving failure`,
       click: () => setSyncFailure((prevState) => !prevState),
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return () => unregisterItem()
   }, [syncShouldFail])
 
@@ -349,6 +385,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
         `${parseShouldFail ? "Disable" : "Enable"} parsing failure`,
       click: () => setParseFailure((prevState) => !prevState),
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return () => unregisterItem()
   }, [parseShouldFail])
 
@@ -389,9 +427,13 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   }
 
   // Synchronization, step 2a: file select
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   const importFromFile = async (inputElement: HTMLInputElement) => {
     const onFileSelect = () => {
       if (inputElement.files) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         getContacts({ type: "files", data: Array.from(inputElement.files) })
         inputElement.removeEventListener("change", onFileSelect)
       }
@@ -410,6 +452,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
       await authorize(provider)
       await getContacts({ type: provider })
     } catch {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       await showAuthorizaionFailedModal()
     }
   }
@@ -424,6 +468,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
     }
 
     try {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       await showDownloadingLoader()
 
       if (parseShouldFail) {
@@ -445,6 +491,8 @@ const Contacts: FunctionComponent<ContactsProps> = ({
   // Synchronization, step 5: sending contacts to phone
   const sendContactsToPhone = async (contacts: NewContact[]) => {
     setImportedContacts(contacts)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await showContactsImportingModal()
 
     const newContactResponses = await contacts.reduce(

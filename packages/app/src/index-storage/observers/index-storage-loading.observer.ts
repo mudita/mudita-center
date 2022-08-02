@@ -30,6 +30,8 @@ export class IndexStorageLoadingObserver implements Observer {
 
   public observe(): void {
     this.registerListeners()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.deviceService.on(DeviceServiceEventName.DeviceUnlocked, async () => {
       if (this.invoked) {
         return
@@ -38,6 +40,8 @@ export class IndexStorageLoadingObserver implements Observer {
 
       const { data } = await getDeviceInfoRequest(this.deviceService)
       if (data === undefined) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
         await this.ipc.sendToRenderers(IpcEvent.DataError)
         return
       }
@@ -51,12 +55,16 @@ export class IndexStorageLoadingObserver implements Observer {
       const restored = await this.indexStorageService.loadIndex()
 
       if (restored) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
         await this.ipc.sendToRenderers(IpcEvent.DataRestored)
       }
     })
 
     this.deviceService.on(
       DeviceServiceEventName.DeviceDisconnected,
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
       async () => {
         this.invoked = false
       }

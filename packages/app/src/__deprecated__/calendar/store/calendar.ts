@@ -8,7 +8,10 @@ import {
   CalendarEvent,
   CalendarState,
 } from "App/__deprecated__/calendar/store/calendar.interfaces"
-import { getSortedEvents, mapEvents } from "App/__deprecated__/calendar/store/calendar.helpers"
+import {
+  getSortedEvents,
+  mapEvents,
+} from "App/__deprecated__/calendar/store/calendar.helpers"
 import { Slicer } from "@rematch/select"
 import { RootState } from "App/__deprecated__/renderer/store"
 import externalProvidersStore from "App/__deprecated__/renderer/store/external-providers"
@@ -85,15 +88,23 @@ const calendar = createModel<RootModel>({
           return
         }
         loading = true
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         dispatch.calendar.setResultState(ResultState.Loading)
         const { error, data = [] } = await getEvents()
         if (error) {
           logger.error(
             `Calendar: loads data fails. Data: ${JSON.stringify(error)}`
           )
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
           dispatch.calendar.setResultState(ResultState.Error)
         } else {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
           dispatch.calendar.setEvents(data)
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
           dispatch.calendar.setResultState(ResultState.Loaded)
         }
         loading = false
@@ -102,38 +113,54 @@ const calendar = createModel<RootModel>({
       async loadCalendars(provider: Provider) {
         let calendars: Calendar[] = []
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         dispatch.calendar.clearCalendars()
 
         switch (provider) {
           case Provider.Apple:
             break
           case Provider.Outlook:
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/await-thenable
             await externalProvidersStore.dispatch.outlook.authorize(
               OutLookScope.Calendars
             )
             calendars =
+              // AUTO DISABLED - fix me if you like :)
+              // eslint-disable-next-line @typescript-eslint/await-thenable
               (await externalProvidersStore.dispatch.outlook.getCalendars()) as unknown as Calendar[]
             break
           case Provider.Google:
             calendars =
+              // AUTO DISABLED - fix me if you like :)
+              // eslint-disable-next-line @typescript-eslint/await-thenable
               (await externalProvidersStore.dispatch.google.getCalendars()) as unknown as Calendar[]
         }
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         dispatch.calendar.setCalendars(calendars)
       },
       async loadEvents(calendar: Calendar) {
         let events: CalendarEvent[] = []
         switch (calendar.provider) {
           case Provider.Google:
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/await-thenable
             events = (await externalProvidersStore.dispatch.google.getEvents(
               calendar.id
             )) as unknown as CalendarEvent[]
             break
           case Provider.Outlook:
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/await-thenable
             events = (await externalProvidersStore.dispatch.outlook.getEvents(
               calendar.id
             )) as unknown as CalendarEvent[]
             break
         }
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         dispatch.calendar.setEvents(events)
         return events
       },

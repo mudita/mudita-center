@@ -42,6 +42,8 @@ test("fire async `unlockedDevice` call `loadDeviceData` action if device is `loc
 
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(unlockedDevice() as unknown as AnyAction)
 
   expect(mockStore.getActions()).toEqual([
@@ -69,6 +71,8 @@ test("fire async `unlockedDevice` call `readAllIndexes` action if `initialized` 
 
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(unlockedDevice() as unknown as AnyAction)
 
   expect(mockStore.getActions()).toEqual([
@@ -92,6 +96,8 @@ test("fire async `unlockedDevice` doesn't call `loadDeviceData` action if device
 
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(unlockedDevice() as unknown as AnyAction)
 
   expect(mockStore.getActions()).toEqual([
@@ -116,6 +122,8 @@ test("fire async `unlockedDevice` returns `rejected` if `deviceType` is undefine
   )
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(unlockedDevice() as unknown as AnyAction)
 
   expect(mockStore.getActions()).toEqual([

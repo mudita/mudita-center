@@ -35,6 +35,8 @@ describe("Get Device Crash Dump Files request returns `success` status", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(getCrashDump() as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([
@@ -63,6 +65,8 @@ describe("Get Device Crash Dump Files request returns `success` status", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(getCrashDump() as unknown as AnyAction)
 
       expect(mockStore.getActions()).toEqual([
@@ -99,6 +103,8 @@ describe("Get Device Crash Dump Files request returns `error` status", () => {
     )
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(getCrashDump() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([

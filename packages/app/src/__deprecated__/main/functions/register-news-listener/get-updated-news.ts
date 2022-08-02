@@ -13,8 +13,12 @@ import { normalizeContentfulData } from "App/news/helpers"
 const checkForUpdateAndGetNewData = async (
   newsFilePath: string
 ): Promise<boolean | EntryCollection<NewsEntry>> => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { newsItems } = await fs.readJson(newsFilePath)
   const newestLocalItemDate = Math.max(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     ...newsItems.map((item: NewsEntry) => {
       return new Date(item.updatedAt).getTime()
     })
@@ -46,6 +50,8 @@ const checkForUpdateAndGetNewData = async (
   }
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getUpdatedNews = async (newsFilePath: string) => {
   const updatedNews = await checkForUpdateAndGetNewData(newsFilePath)
   if (updatedNews) {

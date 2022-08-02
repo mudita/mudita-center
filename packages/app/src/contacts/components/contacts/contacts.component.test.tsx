@@ -122,6 +122,8 @@ const contacts: Contact[] = [
 
 const defaultProps: Props = {
   getContact: (id: string) => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return [contactOne, contactTwo].find((contact) => contact.id === id)!
   },
   allItemsSelected: false,

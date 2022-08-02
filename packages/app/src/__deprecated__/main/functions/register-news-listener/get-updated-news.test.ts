@@ -141,6 +141,8 @@ describe("when news are found", () => {
     beforeEach(async () => {
       jest
         .spyOn(normalizeContentfulDataModule, "normalizeContentfulData")
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .mockResolvedValue(normalizedContentfulDataMock as any)
 
       jest.spyOn(CreateClientModule, "createClient").mockImplementation(() => {

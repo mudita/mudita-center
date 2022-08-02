@@ -29,6 +29,8 @@ export class CrashDumpObserver implements Observer {
   }
 
   private registerListener(): void {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.deviceService.on(DeviceServiceEventName.DeviceUnlocked, async () => {
       this.disconnected = false
 
@@ -54,6 +56,8 @@ export class CrashDumpObserver implements Observer {
 
     this.deviceService.on(
       DeviceServiceEventName.DeviceDisconnected,
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
       async () => {
         this.invoked = false
         this.disconnected = true

@@ -96,6 +96,8 @@ const RootWrapper: FunctionComponent<Props> = ({
   connectDevice,
   lockedDevice,
   unlockedDevice,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getCrashDump,
   // TODO remove legacy staff
   checkAppUpdateAvailable,
@@ -160,6 +162,8 @@ const RootWrapper: FunctionComponent<Props> = ({
 
   useEffect(() => {
     connect()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -186,6 +190,8 @@ const RootWrapper: FunctionComponent<Props> = ({
     return () => {
       clearInterval(interval)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceType, connectedAndUnlocked])
 
   useEffect(() => {
@@ -200,6 +206,8 @@ const RootWrapper: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const listener = (_: any, props: MuditaDevice) => {
       connectDevice(props.deviceType)
     }
@@ -226,6 +234,8 @@ const RootWrapper: FunctionComponent<Props> = ({
     }
     registerDeviceUnlockedListener(listener)
     return () => removeDeviceUnlockedListener(listener)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connectedAndUnlocked])
 
   useEffect(() => {
@@ -259,6 +269,8 @@ const RootWrapper: FunctionComponent<Props> = ({
       registerAppContextMenu(appContextMenu)
       appContextMenu.init()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -287,18 +299,40 @@ const mapStateToProps = (state: ReduxRootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   loadDeviceData: (value: DeviceType) => dispatch(loadDeviceData(value)),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   connect: () => dispatch(getConnectedDevice()),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   setFalseConnectionStatus: () => dispatch(setConnectionStatus(false)),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   connectDevice: (value: DeviceType) => dispatch(connectDevice(value)),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   lockedDevice: () => dispatch(lockedDevice()),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   unlockedDevice: () => dispatch(unlockedDevice()),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   getCrashDump: () => dispatch(getCrashDump()),
   // TODO remove legacy staff
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   checkAppUpdateAvailable: () => dispatch(checkUpdateAvailable()),
   toggleAppUpdateAvailable: (value: boolean) =>
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(toggleUpdateAvailable(value)),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   setLatestVersion: (value: string) => dispatch(setLatestVersion(value)),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   loadSettings: () => dispatch(loadSettings()),
 })
 

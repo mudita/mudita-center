@@ -13,7 +13,11 @@ import {
 export class DeviceBackupFakeAdapter implements DeviceBackupAdapter {
   public backuping = false
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async downloadDeviceBackup(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     options: DownloadDeviceFileLocallyOptions
   ): Promise<RequestResponse<string[]>> {
     return {

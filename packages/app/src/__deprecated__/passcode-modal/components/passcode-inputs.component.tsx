@@ -67,6 +67,8 @@ export const PasscodeInputs: FunctionComponent<Props> = ({
     } else if (activeInput === undefined) {
       setActiveInput(0)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeInput])
 
   useEffect(() => {

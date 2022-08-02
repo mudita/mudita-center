@@ -33,6 +33,8 @@ describe("async `setConnectionStatus` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         setConnectionStatus(true) as unknown as AnyAction
       )
@@ -48,6 +50,8 @@ describe("async `setConnectionStatus` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         setConnectionStatus(false) as unknown as AnyAction
       )
@@ -69,6 +73,8 @@ describe("async `setConnectionStatus` ", () => {
     test("`setValue` is dispatch if the payload is `false`", async () => {
       const store = createMockStore([thunk])(state)
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       await store.dispatch(setConnectionStatus(false) as unknown as AnyAction)
 
       expect(setValue).toHaveBeenCalled()
@@ -85,6 +91,8 @@ describe("async `setConnectionStatus` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         setConnectionStatus(false) as unknown as AnyAction
       )
@@ -106,6 +114,8 @@ describe("async `setConnectionStatus` ", () => {
         },
       })
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       await store.dispatch(setConnectionStatus(false) as unknown as AnyAction)
 
       expect(setValue).not.toHaveBeenCalled()
@@ -123,6 +133,8 @@ describe("async `setConnectionStatus` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         setConnectionStatus(false) as unknown as AnyAction
       )
@@ -145,6 +157,8 @@ describe("async `setConnectionStatus` ", () => {
         },
       })
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       await store.dispatch(setConnectionStatus(false) as unknown as AnyAction)
 
       expect(setValue).not.toHaveBeenCalled()

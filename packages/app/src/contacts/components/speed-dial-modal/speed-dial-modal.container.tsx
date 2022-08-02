@@ -17,11 +17,15 @@ export interface SpeedDialProps {
   onSave: () => void
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return
 const mapState = ({ contacts }: any, ownProps: any) => ({
   flatList: getFlatList(contacts),
   ...ownProps,
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return
 const mapDispatch = ({ contacts }: any) => ({
   ...contacts,
 })

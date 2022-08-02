@@ -32,7 +32,11 @@ window.IntersectionObserver = jest
   .mockImplementation(intersectionObserverMock)
 
 jest.mock("react-viewport-list", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return ({ children, items }: any) => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return
     return <>{items.map((item: any, index: any) => children(item, index))}</>
   }
 })
@@ -96,6 +100,8 @@ const defaultProps: Props = {
   onMessageRemove: noop,
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const renderer = (extraProps?: {}) => {
   const props: Props = {
     ...defaultProps,

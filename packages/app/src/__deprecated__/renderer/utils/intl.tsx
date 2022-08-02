@@ -19,8 +19,16 @@ export const intl = createIntl({
 // https://github.com/formatjs/formatjs/issues/1467#issuecomment-543872950
 let index = 0
 export const textFormatters = {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   b: (str: string) => <strong key={`bold-${++index}`}>{str}</strong>,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   u: (str: string) => <u key={`underline-${++index}`}>{str}</u>,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   i: (str: string) => <em key={`italics-${++index}`}>{str}</em>,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   s: (str: string) => <s key={`strike-${++index}`}>{str}</s>,
 }

@@ -29,6 +29,8 @@ afterEach(() => {
   jest.resetAllMocks()
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("action on wrong path is not called", async () => {
   const contactsAction = jest.fn()
   const { rerender } = renderHook(() =>
@@ -44,6 +46,8 @@ test("action on wrong path is not called", async () => {
   expect(contactsAction).not.toBeCalled()
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("actions are called on correct location render", async () => {
   const contactsAction = jest.fn()
   const { rerender } = renderHook(() =>
@@ -62,6 +66,8 @@ test("actions are called on correct location render", async () => {
   expect(mockDispatch).toHaveBeenCalled()
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("actions in nested routes are handled", async () => {
   const nestedRouteAction = jest.fn()
   const { rerender } = renderHook(() =>

@@ -25,6 +25,8 @@ interface TestCase {
 interface TestScenario {
   name: string
   cases: TestCase[]
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/ban-types
   commonProps?: object
 }
 
@@ -34,6 +36,8 @@ describe("Button matches snapshots", () => {
     testScenario.cases.forEach((testCase: TestCase) => {
       const { disabled, displayStyle, size } = testCase
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       test(`${name} displayStyle: ${displayStyle} size: ${size} disabled: ${!!disabled}`, () => {
         const { container } = renderWithThemeAndIntl(
           <Button {...testCase} {...testScenario.commonProps} />

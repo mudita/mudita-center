@@ -37,21 +37,29 @@ export class ContactBuilder implements ContactBuilderInterface {
     return { ...this.contact }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   addId(id: string) {
     this.contact.id = id
     return this
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   addFirstName(name = "") {
     this.contact.firstName = name
     return this
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   addLastName(lastName = "") {
     this.contact.lastName = lastName
     return this
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   addPhoneNumbers(phoneNumbers: Array<string | undefined>) {
     const filteredPhoneNumbers = phoneNumbers.filter(Boolean)
     this.contact.primaryPhoneNumber = filteredPhoneNumbers[0] || ""
@@ -59,6 +67,8 @@ export class ContactBuilder implements ContactBuilderInterface {
     return this
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   addAddress(addresses: OutlookContactAddress[]) {
     const filteredAddresses = addresses.filter(
       (address) => Object.keys(address).length !== 0
@@ -73,6 +83,8 @@ export class ContactBuilder implements ContactBuilderInterface {
     return this
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   addEmailAddress(emails: OutlookEmailAddress[]) {
     if (emails.length) {
       this.contact.email = emails[0].address
@@ -80,6 +92,8 @@ export class ContactBuilder implements ContactBuilderInterface {
     return this
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   addNote(note = "") {
     this.contact.note = note
     return this

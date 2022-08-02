@@ -24,6 +24,8 @@ test("calls `setIncomingMessages` and `updateSettings` request with boolean", as
 
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(
     setIncomingMessages(true) as unknown as AnyAction
   )

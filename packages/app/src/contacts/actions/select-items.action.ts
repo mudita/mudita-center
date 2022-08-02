@@ -9,6 +9,8 @@ import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 
 export const selectAllItems = createAsyncThunk<string[]>(
   ContactsEvent.SelectAllItems,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { getState }) => {
     const state = getState() as RootState & ReduxRootState
     const contactIds = state.contacts.collection
@@ -19,6 +21,8 @@ export const selectAllItems = createAsyncThunk<string[]>(
 
 export const toggleItem = createAsyncThunk<string[], string>(
   ContactsEvent.ToggleItem,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async (payload, { getState }) => {
     const state = getState() as RootState & ReduxRootState
     const selectedItems = state.contacts.selectedItems.rows

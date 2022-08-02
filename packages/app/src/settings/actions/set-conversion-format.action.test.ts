@@ -28,6 +28,8 @@ test.each([ConversionFormat.FLAC, ConversionFormat.MP3, ConversionFormat.WAV])(
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(
       setConversionFormat(key) as unknown as AnyAction
     )

@@ -16,7 +16,11 @@ import ContextMenu from "App/__deprecated__/context-menu/context-menu"
 
 interface Props {
   history: History
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   saveToStore?: (data: QuestionAndAnswer) => Promise<any>
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getStoreData?: (key?: string) => Promise<any>
 }
 
@@ -29,6 +33,8 @@ const HelpApp: FunctionComponent<Props> = ({
   const [searchInputValue, setSearchInputValue] = useState("")
   useEffect(() => {
     searchQuestion(searchInputValue)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchInputValue])
   const AnswerComponent = (
     props: RouteComponentProps<{ questionId: string }>

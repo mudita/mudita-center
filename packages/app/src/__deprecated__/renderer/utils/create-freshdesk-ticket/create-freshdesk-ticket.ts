@@ -22,6 +22,8 @@ const createFreshdeskTicket = async ({
   const config: AxiosRequestConfig = {
     headers: {
       "Content-Type": "multipart/form-data",
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       Authorization: `Basic ${token}`,
     },
   }
@@ -50,6 +52,8 @@ const createFreshdeskTicket = async ({
     formData.append("attachments[]", attachment)
   })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   return axios.post(`${url}/api/v2/tickets`, formData, config)
 }
 

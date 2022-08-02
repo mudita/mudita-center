@@ -10,6 +10,8 @@ import {
 } from "App/core/types/request-response.interface"
 
 class PurePhoneBatteryServiceFakeAdapter extends PurePhoneBatteryServiceAdapter {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async getBatteryLevel(): Promise<RequestResponse<number>> {
     return {
       status: RequestResponseStatus.Ok,

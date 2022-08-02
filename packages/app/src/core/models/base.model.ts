@@ -20,6 +20,8 @@ export class BaseModel<Type extends { id: string }> {
     this._modelName = value
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   get modelName() {
     return this._modelName
   }
@@ -103,20 +105,23 @@ export class BaseModel<Type extends { id: string }> {
     return data
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   public afterCreate(_data: Type): void {}
 
   public beforeUpdate(data: Type): Type {
     return data
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   public afterUpdate(_data: Type): void {}
 
   public beforeDelete(data: Type): Type {
     return data
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   public afterDelete(_data: Type): void {}
 }

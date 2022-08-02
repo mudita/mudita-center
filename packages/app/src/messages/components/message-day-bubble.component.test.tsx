@@ -28,6 +28,8 @@ const defaultProps: Properties = {
   removeMessage: jest.fn(),
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const renderer = (extraProps?: {}) => {
   const props: Properties = {
     ...defaultProps,

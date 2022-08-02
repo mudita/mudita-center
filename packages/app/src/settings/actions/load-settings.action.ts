@@ -30,8 +30,12 @@ export const loadSettings = createAsyncThunk<void, void>(
         configuration.centerVersion,
         packageInfo.version
       )
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       logger.error(
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
         `Settings -> LoadSettings: Check that app update required fails: ${error.message}`
       )
     }
@@ -49,9 +53,17 @@ export const loadSettings = createAsyncThunk<void, void>(
         },
       })
     )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(loadBackupData())
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(checkAppUpdateFlowToShow())
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(checkAppForcedUpdateFlowToShow())
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(checkCollectingDataModalToShow())
 
     return

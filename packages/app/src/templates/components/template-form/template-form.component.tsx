@@ -65,6 +65,8 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
         message: error?.toString(),
       })
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
   const HeaderLeft = (
@@ -94,6 +96,8 @@ export const TemplateForm: FunctionComponent<TemplateFormProps> = ({
             defaultHeight="100%"
             errorMessage={errors.text?.message}
             label={intl.formatMessage(messages.text)}
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
           />
         </Content>

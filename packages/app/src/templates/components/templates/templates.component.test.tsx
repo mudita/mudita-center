@@ -44,9 +44,13 @@ const updateTemplateOrderMock = jest
   .mockResolvedValue({ payload: templateMock })
 
 const render = async (props: TemplatesProps) => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   const result = await renderWithThemeAndIntl(<Templates {...props} />)
   return {
     ...result,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     rerender: async (newProps: TemplatesProps) =>
       result.rerender(constructWrapper(<Templates {...newProps} />)),
   }

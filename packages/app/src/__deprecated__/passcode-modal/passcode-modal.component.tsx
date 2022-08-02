@@ -76,6 +76,8 @@ const PasscodeModal: FunctionComponent<Props> = ({
       ) {
         setErrorState(ErrorState.InternalServerError)
       } else {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         timeoutId = setTimeout(async () => {
           const unlockCheckStatus = await getUnlockStatus()
 
@@ -99,6 +101,8 @@ const PasscodeModal: FunctionComponent<Props> = ({
     return () => {
       clearTimeout(timeoutId)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values])
 
   useEffect(() => {
@@ -117,6 +121,8 @@ const PasscodeModal: FunctionComponent<Props> = ({
     return () => {
       clearTimeout(timeoutId)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorState])
   return (
     <PasscodeModalUI

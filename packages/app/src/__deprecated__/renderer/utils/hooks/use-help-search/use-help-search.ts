@@ -10,8 +10,14 @@ import { HelpActions } from "App/__deprecated__/common/enums/help-actions.enum"
 import debounce from "lodash/debounce"
 import { getDefaultHelpItems } from "App/__deprecated__/main/store/default-help-items"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useHelpSearch = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   saveToStore?: (data: QuestionAndAnswer) => Promise<any>,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getStoreData?: (key?: string) => Promise<any>
 ) => {
   const [networkStatus, setNetworkStatus] = useState(window.navigator.onLine)
@@ -23,6 +29,8 @@ export const useHelpSearch = (
 
   const setDefaultHelpItemsAndSaveToStore = async (): Promise<void> => {
     if (getStoreData) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const storeData = await getStoreData("data")
       if (storeData) {
         setData(storeData)
@@ -49,10 +57,16 @@ export const useHelpSearch = (
 
   useEffect(() => {
     if (networkStatus) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       fetchDataAndSaveToStore()
     } else {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       setDefaultHelpItemsAndSaveToStore()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [networkStatus])
 
   useEffect(() => {
@@ -78,6 +92,8 @@ export const useHelpSearch = (
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const delaySearch = useCallback(
     debounce((value: string) => setSearchValue(value), 1000),
     []

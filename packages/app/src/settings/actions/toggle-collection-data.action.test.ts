@@ -36,6 +36,8 @@ test("enables `logging/tracking` functionalities and class `updateSettings` with
 
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(
     toggleCollectionData(true) as unknown as AnyAction
   )
@@ -59,6 +61,8 @@ test("disenables `logging/tracking` functionalities and class `updateSettings` w
 
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(
     toggleCollectionData(false) as unknown as AnyAction
   )

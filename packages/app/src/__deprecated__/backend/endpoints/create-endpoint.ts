@@ -38,6 +38,8 @@ const createEndpoint =
   (adapters: Adapters): (() => void) => {
     return ipcMain.answerRenderer<Response>(
       name,
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       handler.bind(null, adapters) as (data: unknown) => any
     )
   }

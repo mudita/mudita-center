@@ -104,6 +104,8 @@ export class DataSyncService {
 
     const contactIndex = await this.contactIndexer.index(syncFileDir, token)
     const messageIndex = await this.messageIndexer.index(syncFileDir, token)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const templateIndex = await this.templateIndexer.index(syncFileDir, token)
     const threadIndex = await this.threadIndexer.index(syncFileDir, token)
 

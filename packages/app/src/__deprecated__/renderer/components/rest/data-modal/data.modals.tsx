@@ -60,6 +60,8 @@ const ErrorModal: FunctionComponent<Partial<ModalProps>> = ({
   </Modal>
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const ErrorDataModal = ({
   onClose = noop,
   title = intl.formatMessage(messages.errorTitle),
@@ -86,6 +88,8 @@ export const ErrorDataModal = ({
   </ErrorModal>
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const ErrorWithRetryDataModal = (props: {
   onClose?: () => void
   onRetry?: () => void
@@ -100,6 +104,8 @@ export const ErrorWithRetryDataModal = (props: {
   />
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const LoadingStateDataModal = ({
   title = intl.formatMessage(messages.loadingTitle),
   textMessage,

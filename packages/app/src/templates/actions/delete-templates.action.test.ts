@@ -66,6 +66,8 @@ describe("`deleteTemplates`", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         deleteTemplates([template.id]) as unknown as AnyAction
       )
@@ -91,6 +93,8 @@ describe("`deleteTemplates`", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         deleteTemplates([template.id]) as unknown as AnyAction
       )
@@ -115,6 +119,8 @@ describe("`deleteTemplates`", () => {
       const mockStore = createMockStore([thunk])()
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         deleteTemplates([
           template.id,

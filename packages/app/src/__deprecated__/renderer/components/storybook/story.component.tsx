@@ -38,6 +38,8 @@ interface ContainerProps {
   darkMode?: boolean
   borderMode?: boolean
   transparentMode?: boolean
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   customStyle?: FlattenInterpolation<any>
 }
 
@@ -103,6 +105,8 @@ const Story: FunctionComponent<StoryProps> = ({
 
   useEffect(() => {
     setCompatibleStory(true)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

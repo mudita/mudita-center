@@ -29,16 +29,24 @@ const subject = new ThreadRepository(threadModel)
 describe("`ThreadRepository`", () => {
   test("fire `create` call `contactModel.create` with thread", () => {
     expect(subject.create(thread)).toEqual(thread)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(threadModel.create).toHaveBeenCalledWith(thread, false)
   })
 
   test("fire `update` call `contactModel.update` with thread", () => {
     expect(subject.update(thread)).toEqual(thread)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(threadModel.update).toHaveBeenCalledWith(thread, false)
   })
 
   test("fire `delete` call `contactModel.delete` with thread", () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(subject.delete(thread.id)).toBeUndefined
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(threadModel.delete).toHaveBeenCalledWith(thread.id, false)
   })
 })

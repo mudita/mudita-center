@@ -213,6 +213,8 @@ const ContactList: FunctionComponent<ContactListProps> = ({
     if (!editMode) {
       setContactsList(contactsList)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contactList, editMode])
 
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
@@ -236,6 +238,8 @@ const ContactList: FunctionComponent<ContactListProps> = ({
         enableScroll()
       }
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editMode])
 
   return (
