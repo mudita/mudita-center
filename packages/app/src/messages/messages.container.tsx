@@ -41,6 +41,9 @@ import {
   markThreadsReadStatus,
   resendMessage,
   updateMessage,
+  selectAllItems,
+  toggleItem,
+  resetItems,
 } from "./actions"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
@@ -65,6 +68,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
     NotificationMethod.Layout
   )(state),
   templates: state.templates.data,
+  selectedItems: state.messages.selectedItems,
 })
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
@@ -112,6 +116,9 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   updateMessage: (message: Message) => dispatch(updateMessage(message)),
+  selectAllItems: () => dispatch(selectAllItems()),
+  toggleItem: (threadId: string) => dispatch(toggleItem(threadId)),
+  resetItems: () => dispatch(resetItems()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

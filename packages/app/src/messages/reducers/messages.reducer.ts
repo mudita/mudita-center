@@ -27,6 +27,8 @@ import {
   DeleteMessagePendingAction,
   DeleteMessageRejectedAction,
   DeleteThreadsRejectedAction,
+  SelectAllItemsAction,
+  ToggleItemAction,
 } from "App/messages/reducers/messages.interface"
 import {
   MessagesEvent,
@@ -50,6 +52,7 @@ export const initialState: MessagesState = {
   loaded: false,
   loading: false,
   currentlyDeletingMessageId: null,
+  selectedItems: { rows: [] },
 }
 
 export const messagesReducer = createReducer<MessagesState>(
@@ -349,6 +352,27 @@ export const messagesReducer = createReducer<MessagesState>(
                 return prev
               }, {}),
             threadsState: ResultState.Loaded,
+          }
+        }
+      )
+      .addCase(
+        fulfilledAction(MessagesEvent.SelectAll),
+        (state, action: SelectAllItemsAction) => {
+          return {
+            ...state,
+            selectedItems: { rows: action.payload },
+          }
+        }
+      )
+      .addCase(MessagesEvent.ResetItems, (state) => {
+        return { ...state, selectedItems: { rows: [] } }
+      })
+      .addCase(
+        fulfilledAction(MessagesEvent.ToggleItem),
+        (state, action: ToggleItemAction) => {
+          return {
+            ...state,
+            selectedItems: { rows: action.payload },
           }
         }
       )

@@ -91,6 +91,47 @@ describe("Other types of messages", () => {
       ]
     `)
   })
+
+  test("when sms table is empty serialize record properly", async () => {
+    const threadInput: ThreadInput = {
+      threads: {
+        columns: [
+          "_id",
+          "contact_id",
+          "date",
+          "last_dir",
+          "msg_count",
+          "number_id",
+          "read",
+          "snippet",
+        ],
+        values: [["1", "4", "391", "2", "2", "5", "1", "Test"]],
+      },
+      contact_number: {
+        columns: ["_id", "contact_id", "number_user", "number_e164", "type"],
+        values: [["5", "4", "+91898402777", "", "0"]],
+      },
+      sms: {
+        columns: [],
+        values: [],
+      },
+    }
+
+    const presenter = new ThreadPresenter()
+    const threadObjects = presenter.serializeToObject(threadInput)
+    expect(threadObjects).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "id": "1",
+          "lastUpdatedAt": 1970-01-01T00:06:31.000Z,
+          "messageSnippet": "",
+          "messageType": "OUTBOX",
+          "phoneNumber": "+91898402777",
+          "unread": true,
+        },
+      ]
+    `)
+  })
 })
 
 describe("Thread without messages", () => {

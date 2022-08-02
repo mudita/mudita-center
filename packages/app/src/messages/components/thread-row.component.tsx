@@ -157,7 +157,7 @@ interface Props
   active: boolean
   thread: Thread
   contact: Contact | undefined
-  onCheckboxChange: (thread: Thread) => void
+  onCheckboxChange: (threadId: string) => void
   onRowClick: (thread: Thread) => void
   onDeleteClick: (id: Thread["id"]) => void
   onToggleReadClick: (threads: Thread[]) => void
@@ -186,14 +186,10 @@ const ThreadRow: FunctionComponent<Props> = ({
   const { unread, id, phoneNumber } = thread
   const isMessageFailed = thread.messageType === MessageType.FAILED
 
-  const handleCheckboxChange = () => onCheckboxChange(thread)
+  const handleCheckboxChange = () => onCheckboxChange(thread.id)
   const handleRowClick = () => onRowClick(thread)
   const handleDeleteClick = () => onDeleteClick(id)
   const handleToggleClick = () => {
-    if (!thread.unread) {
-      return
-    }
-
     onToggleReadClick([thread])
   }
   const handleContactClick = () => onContactClick(phoneNumber)

@@ -37,7 +37,7 @@ const ThreadDetailsSidebar: FunctionComponent<Props> = ({
   contactCreated,
   onContactClick,
   onDeleteClick,
-  onCheckClick,
+  onMarkAsUnreadClick,
   children,
   ...props
 }) => {
@@ -62,7 +62,7 @@ const ThreadDetailsSidebar: FunctionComponent<Props> = ({
           contactCreated={contactCreated}
           onContactClick={onContactClick}
           onDeleteClick={onDeleteClick}
-          onCheckClick={onCheckClick}
+          onMarkAsUnreadClick={onMarkAsUnreadClick}
         />
       }
       {...props}

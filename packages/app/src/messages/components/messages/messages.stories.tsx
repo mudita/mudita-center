@@ -163,6 +163,12 @@ storiesOf("Views|Messages", module).add("Messages", () => (
         templates={[]}
         error={null}
         loaded
+        selectedItems={{
+          rows: [],
+        }}
+        toggleItem={jest.fn()}
+        selectAllItems={jest.fn()}
+        resetItems={jest.fn()}
       />
     </div>
   </Router>

@@ -18,6 +18,8 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import styled from "styled-components"
 import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { Feature, flags } from "App/feature-flags"
+import AlphaReleaseWarning from "App/__deprecated__/renderer/wrappers/components/alpha-release-warning.component"
 
 const Layout = styled.div`
   display: grid;
@@ -59,6 +61,8 @@ const ViewWrapper = styled.div`
 `
 
 const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
+  const [warningOpen, setWarningOpen] = React.useState<boolean>(true)
+  const handleCloseWarning = () => setWarningOpen(false)
   return (
     <Layout>
       <MenuWrapper>
@@ -79,7 +83,12 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
           }
         />
       </HeaderWrapper>
-      <ViewWrapper>{children}</ViewWrapper>
+      <ViewWrapper>
+        {flags.get(Feature.AlphaRelaseWarning) && warningOpen && (
+          <AlphaReleaseWarning onClose={handleCloseWarning} />
+        )}
+        {children}
+      </ViewWrapper>
     </Layout>
   )
 }

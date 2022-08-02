@@ -3,16 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export const ControllerPrefix = "settings"
+export const SettingsControllerPrefix = "settings"
+export const ConfigurationsControllerPrefix = "configurations"
 
-export enum IpcAppSettingsEvent {
+export enum IpcSettingsEvent {
   Get = "get",
   Reset = "reset",
   Update = "update",
 }
 
-export enum IpcAppSettingsRequest {
+export enum IpcConfigurationsEvent {
+  Get = "get",
+}
+
+export enum IpcSettingsRequest {
   Get = "settings-get",
   Reset = "settings-reset",
   Update = "settings-update",
+}
+
+export enum IpcConfigurationsRequest {
+  Get = "configurations-get",
 }

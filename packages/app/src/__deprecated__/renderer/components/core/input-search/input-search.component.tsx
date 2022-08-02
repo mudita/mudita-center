@@ -374,7 +374,7 @@ const InputSearchComponent: FunctionComponent<InputSearchProps> = ({
         {...rest}
         type={type}
         value={getInputValue()}
-        trailingIcons={type === "text" ? [toggleIcon] : []}
+        trailingIcons={type === "text" ? [toggleIcon] : undefined}
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}

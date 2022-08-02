@@ -9,6 +9,7 @@ import {
   DeviceInfo,
   Endpoint,
   DeviceType,
+  GetFileSystemDirectoryRequestConfig,
   DownloadFileSystemRequestConfig,
   GetFileSystemRequestConfig,
   PutFileSystemRequestConfig,
@@ -224,6 +225,9 @@ export class DeviceService {
       reboot: boolean
     }
   }): Promise<RequestResponse>
+  public request(
+    config: GetFileSystemDirectoryRequestConfig
+  ): Promise<RequestResponse<Record<string, { path: string }[]>>>
   public request(config: GetFileSystemRequestConfig): Promise<
     RequestResponse<{
       rxID: string

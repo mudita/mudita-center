@@ -159,6 +159,10 @@ const defaultProps: Props = {
   updateMessage: jest.fn(),
   error: null,
   loaded: false,
+  selectedItems: { rows: [] },
+  toggleItem: jest.fn().mockReturnValue({ selectedItems: { rows: ["1"] } }),
+  selectAllItems: jest.fn(),
+  resetItems: jest.fn(),
 }
 
 const propsWithSingleThread: Partial<Props> = {
@@ -679,24 +683,45 @@ describe("Messages component", () => {
   })
 
   test("when at least one checkbox is checked, all checkboxes are visible", () => {
-    const { getAllByTestId } = renderer(propsWithSingleThread)
+    const toggleItem = jest.fn()
+    const { getAllByTestId, rerender } = renderer({
+      ...propsWithSingleThread,
+      toggleItem,
+    })
     const checkboxes = getAllByTestId("checkbox")
     checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
-    fireEvent.click(checkboxes[0])
+    //simulate clicking on one checkbox
+    rerender({ ...propsWithSingleThread, selectedItems: { rows: ["1"] } })
     checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
   })
 
-  test("Remove checkboxes  and selection manager when opening thread details", () => {
-    const { queryAllByTestId, queryByTestId } = renderer(propsWithSingleThread)
-    const checkboxes = queryAllByTestId("checkbox")
-    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
+  test("when selecting checkbox, toggleItem is called", () => {
+    const toggleItem = jest.fn()
+    const { getAllByTestId } = renderer({
+      ...propsWithSingleThread,
+      toggleItem,
+    })
+    const checkboxes = getAllByTestId("checkbox")
     fireEvent.click(checkboxes[0])
+    expect(toggleItem).toBeCalled()
+  })
+
+  test("Remove checkboxes and selection manager when opening thread details", () => {
+    const resetItems = jest.fn()
+    const { queryAllByTestId, queryByTestId, rerender } = renderer({
+      ...propsWithSingleThread,
+      selectedItems: { rows: ["1"] },
+      resetItems,
+    })
+    const checkboxes = queryAllByTestId("checkbox")
     checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
     expect(
       queryByTestId(MessagePanelTestIds.SelectionManager)
     ).toBeInTheDocument()
     const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
     fireEvent.click(tableRow)
+    expect(resetItems).toBeCalled()
+    rerender({ ...propsWithSingleThread, selectedItems: { rows: [] } })
     expect(queryByTestId(MessagesTestIds.ThreadDetails)).toBeInTheDocument()
     checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
     expect(

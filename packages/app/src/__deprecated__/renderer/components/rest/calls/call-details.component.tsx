@@ -151,6 +151,7 @@ export const CallDetails = ({
                       message={messages.information}
                     />
                     <Input
+                      type={"text"}
                       value={details.caller.phoneNumber}
                       trailingIcons={phoneActions(
                         details.caller.phoneNumber,
@@ -168,6 +169,7 @@ export const CallDetails = ({
                     message={messages.type}
                   />
                   <Input
+                    type={"text"}
                     leadingIcons={[
                       <Icon
                         key={`icon-${details.icon}`}
@@ -199,10 +201,13 @@ export const CallDetails = ({
               </AdditionalInfo>
               <AdditionalInfo large>
                 <AdditionalInfoItem>
-                  <Input value={formatDuration(details.duration)} />
+                  <Input
+                    type={"text"}
+                    value={formatDuration(details.duration)}
+                  />
                 </AdditionalInfoItem>
                 <AdditionalInfoItem>
-                  <Input value={callDate} />
+                  <Input type={"text"} value={callDate} />
                 </AdditionalInfoItem>
               </AdditionalInfo>
             </>

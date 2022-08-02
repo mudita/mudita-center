@@ -22,6 +22,8 @@ import {
   GetFileListBody,
   GetFileListResponseBody,
   GetFileSystemRequestConfig,
+  GetFileSystemDirectoryRequestConfig,
+  GetFileSystemDirectoryResponse,
   GetRestoreDeviceStatusRequestConfig,
   GetRestoreDeviceStatusResponseBody,
   GetThreadResponseBody,
@@ -164,6 +166,9 @@ export class PureStrategy extends BaseDevice {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }): Promise<any>
+  public request(
+    config: GetFileSystemDirectoryRequestConfig
+  ): Promise<GetFileSystemDirectoryResponse>
   public request(
     config: GetFileSystemRequestConfig
   ): Promise<GetFileSystemResponse | GetFileSystemErrorResponse>

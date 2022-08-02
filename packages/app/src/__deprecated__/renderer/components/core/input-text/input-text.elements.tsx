@@ -182,13 +182,13 @@ const TextInput = styled.input<{ type: string }>`
       &::-webkit-search-cancel-button {
         -webkit-appearance: none;
         cursor: pointer;
-        height: 1rem;
-        width: 1rem;
-        margin-left: 2rem;
+        height: 2.4rem;
+        width: 2.4rem;
         background-image: url(${CloseImage});
         background-repeat: no-repeat;
-        background-size: 1.2rem;
+        background-size: 2.4rem;
         display: block;
+        margin-right: 0;
       }
     `};
 `
@@ -240,6 +240,7 @@ interface InputWrapperProps {
 }
 
 const searchStyles = css`
+  padding-right: 0.8rem;
   &:focus-within {
     background-color: ${backgroundColor("row")};
   }

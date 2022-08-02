@@ -5,6 +5,7 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
+import { DeviceType } from "@mudita/pure"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { ModalDialog } from "App/ui/components/modal-dialog"
@@ -23,13 +24,15 @@ import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-
 
 export interface CrashDumpProps {
   open: boolean
+  deviceType: DeviceType
   onClose: () => void
   onAccept: () => void
 }
 
 const messages = defineMessages({
   title: { id: "component.crashDumpModal.title" },
-  label: { id: "component.crashDumpModal.label" },
+  pureLabel: { id: "component.crashDumpModal.pureLabel" },
+  harmonyLabel: { id: "component.crashDumpModal.harmonyLabel" },
   text: { id: "component.crashDumpModal.text" },
   accept: { id: "component.crashDumpModal.accept" },
   close: { id: "component.crashDumpModal.close" },
@@ -37,6 +40,7 @@ const messages = defineMessages({
 
 export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({
   open,
+  deviceType,
   onClose,
   onAccept,
 }) => {
@@ -55,11 +59,19 @@ export const CrashDumpModal: FunctionComponent<CrashDumpProps> = ({
         <IconWrapper>
           <Icon type={IconType.ThinFail} width={3.2} height={3.2} />
         </IconWrapper>
-        <Text
-          data-testid={CrashDumpModalTestingIds.Label}
-          displayStyle={TextDisplayStyle.Headline4}
-          message={messages.label}
-        />
+        {deviceType === DeviceType.MuditaPure ? (
+          <Text
+            data-testid={CrashDumpModalTestingIds.Label}
+            displayStyle={TextDisplayStyle.Headline4}
+            message={messages.pureLabel}
+          />
+        ) : (
+          <Text
+            data-testid={CrashDumpModalTestingIds.Label}
+            displayStyle={TextDisplayStyle.Headline4}
+            message={messages.harmonyLabel}
+          />
+        )}
         <Text
           data-testid={CrashDumpModalTestingIds.Text}
           displayStyle={TextDisplayStyle.Paragraph4}

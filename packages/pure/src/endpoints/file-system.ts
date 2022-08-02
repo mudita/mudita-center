@@ -70,6 +70,19 @@ export interface GetFileSystemRequestConfig
   method: Method.Get
 }
 
+export interface GetFileSystemDirectoryRequestConfig
+  extends RequestConfig<{
+    listDir: string
+  }> {
+  endpoint: Endpoint.FileSystem
+  method: Method.Get
+}
+
+export interface GetFileSystemDirectoryResponse
+  extends Response<Record<string, { path: string }[]>> {
+  status: ResponseStatus
+}
+
 export interface GetFileSystemResponse
   extends Response<{
     rxID: string

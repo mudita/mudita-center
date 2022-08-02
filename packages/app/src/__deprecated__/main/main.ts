@@ -25,7 +25,6 @@ import registerWriteGzipListener from "App/__deprecated__/main/functions/registe
 import registerRmdirListener from "App/__deprecated__/main/functions/register-rmdir-listener"
 import registerArchiveFilesListener from "App/__deprecated__/main/functions/register-archive-files-listener"
 import registerReadFileListener from "App/file-system/listeners/read-file.listener"
-import registerGetApplicationConfigurationListener from "App/__deprecated__/main/functions/register-get-application-configuration-listener"
 import registerGetFileDataListener from "App/__deprecated__/main/functions/register-get-file-data-listener"
 import registerPureOsDownloadProxy from "App/__deprecated__/main/functions/register-pure-os-download-proxy"
 import createDownloadListenerRegistrar from "App/__deprecated__/main/functions/create-download-listener-registrar"
@@ -167,6 +166,10 @@ const createWindow = async () => {
     })
   )
 
+  win.on("closed", () => {
+    win = null
+  })
+
   new MetadataInitializer(metadataStore).init()
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
@@ -191,7 +194,6 @@ const createWindow = async () => {
   registerCopyFileListener()
   registerRmdirListener()
   registerWriteGzipListener()
-  registerGetApplicationConfigurationListener()
   registerArchiveFilesListener()
   registerGetFileDataListener()
   registerEncryptFileListener()
@@ -239,10 +241,6 @@ const createWindow = async () => {
     })
   }
 
-  win.on("closed", () => {
-    win = null
-  })
-
   logger.updateMetadata()
 }
 
@@ -270,6 +268,14 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
         title,
       })
     )
+
+    helpWindow.on("closed", () => {
+      removeDownloadHelpHandler()
+      removeSetHelpStoreHandler()
+      removeGetHelpStoreHandler()
+      helpWindow = null
+    })
+
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     helpWindow.loadURL(
@@ -289,13 +295,6 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   } else {
     helpWindow.show()
   }
-
-  helpWindow.on("closed", () => {
-    removeDownloadHelpHandler()
-    removeSetHelpStoreHandler()
-    removeGetHelpStoreHandler()
-    helpWindow = null
-  })
 })
 
 const createOpenWindowListener = (
@@ -316,6 +315,11 @@ const createOpenWindowListener = (
           title,
         })
       )
+
+      newWindow.on("closed", () => {
+        newWindow = null
+      })
+
       await newWindow.loadURL(
         !productionEnvironment
           ? `http://localhost:2003/?mode=${mode}#${urlMain}`
@@ -336,10 +340,6 @@ const createOpenWindowListener = (
     } else {
       newWindow.show()
     }
-
-    newWindow.on("closed", () => {
-      newWindow = null
-    })
   })
 }
 
@@ -413,6 +413,11 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
         })
       )
 
+      googleAuthWindow.on("close", () => {
+        googleAuthWindow = null
+        killAuthServer()
+      })
+
       if (await checkPort(authServerPort)) {
         await createErrorWindow(googleAuthWindow)
         return
@@ -437,11 +442,6 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
     } else {
       googleAuthWindow.show()
     }
-
-    googleAuthWindow.on("close", () => {
-      googleAuthWindow = null
-      killAuthServer()
-    })
   } else {
     console.log("No Google Auth URL defined!")
   }

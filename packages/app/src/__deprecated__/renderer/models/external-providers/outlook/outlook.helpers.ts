@@ -20,8 +20,7 @@ import {
   Calendar,
   CalendarEvent,
 } from "App/__deprecated__/calendar/store/calendar.interfaces"
-import { ByWeekday, Frequency, RRule } from "rrule"
-import { WeekdayStr } from "rrule/dist/esm/src/weekday"
+import { ByWeekday, Frequency, RRule, WeekdayStr } from "rrule"
 import moment from "moment"
 import logger from "App/__deprecated__/main/utils/logger"
 

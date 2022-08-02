@@ -35,6 +35,7 @@ export type MessagesState = Readonly<{
   loaded: boolean
   loading: boolean
   currentlyDeletingMessageId: MessageId | null
+  selectedItems: { rows: string[] }
 }>
 
 export enum ReceiverIdentification {
@@ -140,3 +141,10 @@ export type ChangeSearchValueAction = PayloadAction<
   string,
   MessagesEvent.ChangeSearchValue
 >
+
+export type SelectAllItemsAction = PayloadAction<
+  string[],
+  MessagesEvent.SelectAll
+>
+
+export type ToggleItemAction = PayloadAction<string[], MessagesEvent.ToggleItem>

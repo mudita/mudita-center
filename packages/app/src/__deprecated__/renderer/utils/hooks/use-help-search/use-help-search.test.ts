@@ -13,11 +13,7 @@ import {
   testSeedCollectionIds,
 } from "App/__deprecated__/seeds/help"
 import { defaultHelpItems } from "App/__deprecated__/main/store/default-help-items"
-import {
-  IpcAppSettingsRequest,
-  ConversionFormat,
-  Convert,
-} from "App/settings/constants"
+import { ConversionFormat, Convert } from "App/settings/constants"
 import { Settings } from "App/settings/dto"
 
 export const fakeAppSettings: Settings = {
@@ -48,7 +44,6 @@ const mockIpc = () => {
     [HelpActions.DownloadContentfulData]: Promise.resolve({
       ...testSeed,
     }),
-    [IpcAppSettingsRequest.Get]: Promise.resolve(fakeAppSettings),
   }
 }
 

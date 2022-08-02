@@ -22,6 +22,7 @@ export enum Feature {
   MessagesThreadDetailsMarkAsReadEnabled = "messages-thread-details-mark-as-read-enabled",
   MessagesCallFromThreadEnabled = "messages-call-from-thread-enabled",
   MessagesTemplatesTabEnabled = "messages-templates-tab-enabled",
+  MessagesDraftStatus = "messages-draft-status",
   MuditaCenterPrereleaseEnabled = "mudita-center-prerelease-enabled",
   ContactForwardEnabled = "contact-forward-enabled",
   ContactBlockingEnabled = "contact-blocking-enabled",
@@ -40,4 +41,5 @@ export enum Feature {
   YourPureIconsEnabled = "your-pure-icons-enabled",
   ReadAndUnreadMessages = "read-and-unread-messages",
   OrderTemplate = "order-template",
+  AlphaRelaseWarning = "alpha-release-warning",
 }
