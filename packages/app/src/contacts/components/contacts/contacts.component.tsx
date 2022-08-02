@@ -516,7 +516,6 @@ const Contacts: FunctionComponent<ContactsProps> = ({
 
   const handleExport = async (ids: string[]): Promise<void> => {
     const contacts = flatList.filter((contact) => ids.includes(contact.id))
-    console.log(ids, contacts)
     const exported = await exportContacts(contacts)
 
     if (exported) {
