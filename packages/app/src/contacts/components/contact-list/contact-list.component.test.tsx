@@ -27,10 +27,7 @@ type Props = ComponentProps<typeof ContactList>
 
 const defaultProps: Props = {
   contactList: [],
-  getRowStatus: jest
-    .fn()
-    .mockReturnValue({ indeterminate: false, selected: false }),
-  noneRowsSelected: false,
+  selectedItems: [],
   onEdit: jest.fn(),
   onBlock: jest.fn(),
   onDelete: jest.fn(),
@@ -41,7 +38,7 @@ const defaultProps: Props = {
   toggleRow: jest.fn(),
   selectedContact: null,
   resultsState: ResultState.Empty,
-  editMode: false
+  editMode: false,
 }
 
 const johnContact: Contact = {

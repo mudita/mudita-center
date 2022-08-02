@@ -20,6 +20,7 @@ const defaultProps: Props = {
   onExport: jest.fn(),
   onForward: jest.fn(),
   onMessage: jest.fn(),
+  onClose: jest.fn(),
   isThreadOpened: () => false,
 }
 
@@ -79,6 +80,6 @@ describe("`ContactDetails` component", () => {
     const onExport = jest.fn()
     const { getByTestId } = render({ contact: contactBasic, onExport })
     getByTestId(ContactDetailsTestIds.ExportButton).click()
-    expect(onExport).toBeCalledWith([contactBasic])
+    expect(onExport).toBeCalledWith([contactBasic.id])
   })
 })
