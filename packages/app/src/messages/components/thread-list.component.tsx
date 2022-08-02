@@ -22,6 +22,10 @@ const Threads = styled(Table)`
   --columnsGap: 0;
 `
 
+const ListStyle: React.CSSProperties = {
+  outline: "none",
+}
+
 const listContainerStyle: React.CSSProperties = { minHeight: "100%" }
 
 interface Props extends Pick<Settings, "language"> {
@@ -105,6 +109,7 @@ const ThreadList: FunctionComponent<Props> = ({
             rowHeight={80}
             rowCount={threads.length}
             containerStyle={listContainerStyle}
+            style={ListStyle}
           />
         )}
       </AutoSizer>
