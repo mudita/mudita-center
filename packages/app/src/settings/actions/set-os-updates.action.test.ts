@@ -24,6 +24,8 @@ test("calls `setOsUpdates` and `updateSettings` request with Boolean", async () 
 
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(setOsUpdates(true) as unknown as AnyAction)
 
   expect(mockStore.getActions()).toEqual([

@@ -235,6 +235,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
         debouncedContent &&
         activeThread?.phoneNumber !== mockThread?.phoneNumber
       ) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         handleAddNewMessage(MessageType.DRAFT)
         updateFieldState("draftDeleting", false)
       }

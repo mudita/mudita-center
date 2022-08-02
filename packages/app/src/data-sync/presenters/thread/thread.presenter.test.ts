@@ -92,6 +92,8 @@ describe("Other types of messages", () => {
     `)
   })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("when sms table is empty serialize record properly", async () => {
     const threadInput: ThreadInput = {
       threads: {
