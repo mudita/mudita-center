@@ -5,10 +5,7 @@
 
 import React from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import {
-  SidebarHeaderButton,
-  SidebarProps,
-} from "App/__deprecated__/renderer/components/core/table/table.component"
+import { SidebarHeaderButton } from "App/__deprecated__/renderer/components/core/table/table.component"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
@@ -60,26 +57,17 @@ const messages = defineMessages({
   blockTooltipDescription: { id: "module.contacts.blockTooltipDescription" },
 })
 
-export interface ContactActions {
-  onExport: (contact: Contact[]) => void
+interface ContactDetailsProps {
+  contact?: Contact
+  onExport: (ids: string[]) => void
   onForward: (contact: Contact) => void
   onBlock: (contact: Contact) => void
   onUnblock: (contact: Contact) => void
-  onDelete: (contact: Contact) => void
-  onEdit: (contact: Contact) => void
-}
-
-export interface ContactDetailsActions {
+  onDelete: (id: string) => void
   onEdit: (contact: Contact) => void
   onCall: (phoneNumber: string) => void
   onMessage: (phoneNumber: string) => void
-}
-
-interface ContactDetailsProps
-  extends SidebarProps,
-    ContactActions,
-    ContactDetailsActions {
-  contact?: Contact
+  onClose: () => void
   isThreadOpened: (phoneNumber: string) => boolean
 }
 
@@ -120,15 +108,15 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onCall,
   onMessage,
   isThreadOpened,
-  ...rest
+  onClose,
 }) => {
   if (contact) {
     const handleEdit = () => onEdit(contact)
-    const handleExport = () => onExport([contact])
+    const handleExport = () => onExport([contact.id])
     const handleForward = () => onForward(contact)
     const handleBlock = () => onBlock(contact)
     const handleUnblock = () => onUnblock(contact)
-    const handleDelete = () => onDelete(contact)
+    const handleDelete = () => onDelete(contact.id)
     const handleMessage = (phoneNumber: string) => onMessage(phoneNumber)
 
     const icons = (
@@ -184,8 +172,8 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
 
     return (
       <ContactDetailsWrapper
-        {...rest}
         show
+        onClose={onClose}
         headerRight={icons}
         data-testid={ContactDetailsTestIds.Details}
       >

@@ -3,8 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+// TODO: CP-1494, CP-1495
+
 import { createReducer } from "@reduxjs/toolkit"
-import { fulfilledAction, rejectedAction } from "App/__deprecated__/renderer/store/helpers"
+import {
+  fulfilledAction,
+  rejectedAction,
+} from "App/__deprecated__/renderer/store/helpers"
 import {
   AddNewContactToStateAction,
   ContactsState,
@@ -25,12 +30,16 @@ import {
   ReadAllIndexesAction,
   ReadAllIndexesRejectAction,
 } from "App/data-sync/reducers/data-sync.interface"
+import { selectAllItems, resetAllItems, toggleItem } from "App/contacts/actions"
 
 export const initialState: ContactsState = {
   db: {},
   collection: [],
   resultState: ResultState.Loading,
   error: null,
+  selectedItems: {
+    rows: [],
+  },
 }
 
 export const contactsReducer = createReducer<ContactsState>(
@@ -100,6 +109,34 @@ export const contactsReducer = createReducer<ContactsState>(
           db: {},
           collection: [],
           resultState: ResultState.Empty,
+        }
+      })
+
+      .addCase(selectAllItems.fulfilled, (state, action) => {
+        return {
+          ...state,
+          selectedItems: {
+            ...state.selectedItems,
+            rows: action.payload,
+          },
+        }
+      })
+      .addCase(toggleItem.fulfilled, (state, action) => {
+        return {
+          ...state,
+          selectedItems: {
+            ...state.selectedItems,
+            rows: action.payload,
+          },
+        }
+      })
+      .addCase(resetAllItems, (state) => {
+        return {
+          ...state,
+          selectedItems: {
+            ...state.selectedItems,
+            rows: [],
+          },
         }
       })
   }

@@ -270,3 +270,59 @@ describe("Clear All Contacts data functionality", () => {
     })
   })
 })
+
+describe("Select contact functionality", () => {
+  test("Event: ContactsEvent.SelectAllItems set provided ids to `selectedItems.rows`", () => {
+    expect(
+      contactsReducer(initialState, {
+        type: fulfilledAction(ContactsEvent.SelectAllItems),
+        payload: ["1", "2"],
+      })
+    ).toEqual({
+      ...initialState,
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: ["1", "2"],
+      },
+    })
+  })
+
+  test("Event: ContactsEvent.ToggleItem set provided ids to `selectedItems.rows`", () => {
+    expect(
+      contactsReducer(initialState, {
+        type: fulfilledAction(ContactsEvent.ToggleItem),
+        payload: ["1", "2"],
+      })
+    ).toEqual({
+      ...initialState,
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: ["1", "2"],
+      },
+    })
+  })
+
+  test("Event: ContactsEvent.ResetAllItems removes all selected items", () => {
+    expect(
+      contactsReducer(
+        {
+          ...initialState,
+          selectedItems: {
+            ...initialState.selectedItems,
+            rows: ["1", "2"],
+          },
+        },
+        {
+          type: ContactsEvent.ResetAllItems,
+          payload: undefined,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: [],
+      },
+    })
+  })
+})
