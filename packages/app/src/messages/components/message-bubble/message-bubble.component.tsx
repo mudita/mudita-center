@@ -89,7 +89,7 @@ const MessageBubble: FunctionComponent<MessageBubbleProps> = ({
               onOpen={open}
               onClose={close}
               dropdownPosition={
-                interlocutor ? DropdownPosition.Left : DropdownPosition.Right
+                interlocutor ? DropdownPosition.Right : DropdownPosition.Left
               }
               interlocutor={interlocutor}
               display={(clicked === id).toString()}
