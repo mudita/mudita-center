@@ -64,6 +64,8 @@ const ButtonComponent: FunctionComponent<Props> = ({
   buttonRef,
   ...rest
 }) => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let Component: any
   const filteredProps = {}
 

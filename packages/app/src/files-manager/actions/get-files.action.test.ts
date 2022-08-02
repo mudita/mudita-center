@@ -46,6 +46,8 @@ describe("when `getFiles` request return success result", () => {
     })
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(getFiles() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -65,11 +67,15 @@ describe("when `getFiles` request return error", () => {
     })
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(getFiles() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
       getFiles.pending(requestId),
       getFiles.rejected(
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         successObjectResult.error!,
         requestId,
         undefined,

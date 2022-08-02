@@ -11,6 +11,8 @@ import {
 } from "App/core/types/request-response.interface"
 
 class PurePhoneStorageFakeAdapter extends PurePhoneStorageAdapter {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async getAvailableSpace(): Promise<RequestResponse<number>> {
     return {
       status: RequestResponseStatus.Ok,
@@ -18,6 +20,8 @@ class PurePhoneStorageFakeAdapter extends PurePhoneStorageAdapter {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async getCapacity(): Promise<RequestResponse<number>> {
     return {
       status: RequestResponseStatus.Ok,

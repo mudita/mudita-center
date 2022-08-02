@@ -9,6 +9,8 @@ import { fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import OnboardingWelcome from "App/onboarding/components/onboarding-welcome.component"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("onboarding: welcome Not now button works properly", async () => {
   const onCancel = jest.fn()
   const { getByText } = renderWithThemeAndIntl(
@@ -19,6 +21,8 @@ test("onboarding: welcome Not now button works properly", async () => {
   expect(onCancel).toBeCalled()
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("onboarding: phone doesn't show up button works properly button works properly", async () => {
   const onTroubleshooting = jest.fn()
   const { getByText } = renderWithThemeAndIntl(

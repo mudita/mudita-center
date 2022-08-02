@@ -12,7 +12,11 @@ import getAppPath, {
 } from "App/__deprecated__/main/utils/get-app-path"
 import { getMetadataStore } from "App/metadata/containers"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const DailyRotateFile = require("winston-daily-rotate-file")
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const RollbarTransport = require("winston-transport-rollbar-3")
 const testing = process.env.NODE_ENV === "test"
 const { combine, timestamp, printf, colorize, simple } = format
@@ -26,10 +30,14 @@ export type AppLogger = Logger & {
 
 export const logsPath = path.join(getAppPath(), "logs")
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let defaultMeta: any | null = {}
 
 const createDailyRotateFileTransport = (
   type: AppType,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   defaultMetadata: any
 ) => {
   const format = combine(
@@ -38,12 +46,18 @@ const createDailyRotateFileTransport = (
       const paddedProcess = `[${type}]`.padEnd(10, " ")
       const paddedLevel = `[${level}]:`.padEnd(8, " ")
       const metadata = `\n[metadata]:\n${Object.entries(defaultMetadata)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         .map(([key, value]) => (value ? `${key}: ${value}` : ""))
         .filter((item) => item)
         .join("\n")}`
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       return `${paddedProcess} [${timestamp}] ${paddedLevel} ${message} ${metadata}`
     })
   )
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
   return new DailyRotateFile({
     dirname: logsPath,
     filename: "mc-%DATE%",
@@ -62,6 +76,8 @@ const consoleTransport = new transports.Console({
   format: combine(colorize(), simple()),
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 let dailyRotateFileTransport = createDailyRotateFileTransport(
   AppType.Main,
   defaultMeta
@@ -70,11 +86,12 @@ let dailyRotateFileTransport = createDailyRotateFileTransport(
 // TODO: test this. https://appnroll.atlassian.net/browse/PDA-764
 export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
   const { app, type } = resolveApp()
-  dailyRotateFileTransport = createDailyRotateFileTransport(
-    type,
-    defaultMeta
-  )
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  dailyRotateFileTransport = createDailyRotateFileTransport(type, defaultMeta)
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const rollbarTransport = new RollbarTransport({
     rollbarConfig: {
       accessToken: process.env.ROLLBAR_TOKEN || "test",
@@ -103,30 +120,42 @@ export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
   const appLogger = createLogger({
     level: "info",
     format: format.combine(format.metadata(), format.json()),
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     defaultMeta,
     exitOnError: false,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     transports: [...(app ? [dailyRotateFileTransport] : []), consoleTransport],
   })
   const enableRollbar = () => {
     appLogger.add(rollbarTransport)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     rollbarTransport.rollbar.configure({ enabled: true })
   }
   const disableRollbar = () => {
     appLogger.remove(rollbarTransport)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     rollbarTransport.rollbar.configure({ enabled: false })
   }
   const updateMetadata = () => {
     const tmpMetadata = getMetadataStore().metadata ?? {}
     defaultMeta = Object.fromEntries(tmpMetadata)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     appLogger.defaultMeta = defaultMeta
     appLogger.remove(dailyRotateFileTransport)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     dailyRotateFileTransport = createDailyRotateFileTransport(type, defaultMeta)
     appLogger.add(dailyRotateFileTransport)
   }
   return Object.assign(appLogger, {
     enableRollbar,
     disableRollbar,
-    updateMetadata
+    updateMetadata,
   })
 }
 const logger = createAppLogger(resolve)

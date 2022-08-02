@@ -31,6 +31,8 @@ import {
 
 import { TokenRequester } from "App/__deprecated__/renderer/models/external-providers/outlook/token-requester"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createInitialState = () => ({
   [OutLookScope.Contacts]: {},
   [OutLookScope.Calendars]: {},
@@ -52,9 +54,15 @@ const outlook = createModel<ExternalProvidersModels>({
         scope: OutLookScope
       }
     ) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return {
         ...state,
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         [payload.scope]: {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           ...state[payload.scope],
           ...payload.data,
         },
@@ -90,6 +98,8 @@ const outlook = createModel<ExternalProvidersModels>({
 
         let unregisterMainListener = noop
 
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         ipcRenderer.callMain(OutlookAuthActions.OpenWindow, {
           authorizationUrl: getAuthorizationUrl(),
           scope: getOutlookEndpoint(scope),
@@ -101,12 +111,16 @@ const outlook = createModel<ExternalProvidersModels>({
           if (isOutlookErrorResponse(response)) {
             reject(response.error)
           } else {
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
             dispatch.outlook.setAuthData({
               scope,
               data: response,
             })
             resolve()
           }
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           ipcRenderer.callMain(OutlookAuthActions.CloseWindow)
           unregisterMainListener()
         }
@@ -126,6 +140,8 @@ const outlook = createModel<ExternalProvidersModels>({
       const accessToken = rootState.outlook[OutLookScope.Contacts].accessToken
       const refreshToken = rootState.outlook[OutLookScope.Contacts].refreshToken
       try {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return await fetchContacts(accessToken)
       } catch ({ error }) {
         if (error === "invalid_grant") {
@@ -134,10 +150,14 @@ const outlook = createModel<ExternalProvidersModels>({
             refreshToken,
             OutLookScope.Contacts
           )
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
           dispatch.outlook.setAuthData({
             scope: OutLookScope.Contacts,
             data: regeneratedTokens,
           })
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return await fetchContacts(regeneratedTokens.accessToken)
         }
       }
@@ -167,6 +187,8 @@ const outlook = createModel<ExternalProvidersModels>({
             refreshToken,
             OutLookScope.Calendars
           )
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
           dispatch.outlook.setAuthData({
             scope: OutLookScope.Calendars,
             data: regeneratedTokens,
@@ -181,6 +203,8 @@ const outlook = createModel<ExternalProvidersModels>({
 
           try {
             logger.info("Reauthorizing Outlook account")
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
             await dispatch.outlook.authorize(OutLookScope.Calendars)
             return await fetchCalendars(accessToken)
           } catch (authorizeError) {

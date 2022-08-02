@@ -28,6 +28,8 @@ beforeEach(() => {
 })
 
 afterEach(() => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
   ;(getEvents as any).mockClear()
 })
 
@@ -45,20 +47,28 @@ test("store returns initial state", () => {
 
 test("calendars are set properly", () => {
   store.dispatch.calendar.setCalendars(mockedCalendars)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().calendar.calendars).toStrictEqual(mockedCalendars)
 })
 
 test("calendars are cleared properly", () => {
   store.dispatch.calendar.setCalendars(mockedCalendars)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().calendar.calendars).toHaveLength(
     mockedCalendars.length
   )
   store.dispatch.calendar.clearCalendars()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().calendar.calendars).toHaveLength(0)
 })
 
 test("events are set properly", () => {
   store.dispatch.calendar.setEvents(eventsData)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().calendar.events).toHaveLength(eventsData.length)
 })
 
@@ -117,16 +127,24 @@ test("events are cleared properly", () => {
     },
   ]
   store.dispatch.calendar.setEvents(events)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().calendar.events).toHaveLength(events.length)
   store.dispatch.calendar._devClearAllEvents()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().calendar.events).toHaveLength(0)
 })
 
 test("starts with an empty result state", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().calendar.resultState).toBe(ResultState.Empty)
 })
 
 test("doesn't load the calendar data if it's already loading", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await store.dispatch.calendar.loadData()
   expect(getEvents).toHaveBeenCalled()
 })
@@ -140,29 +158,47 @@ test("it doesn't load when it's already loading", async () => {
 })
 
 test("stores the events after data is loaded", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await store.dispatch.calendar.loadData()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().calendar.events).toEqual([{ id: "1" }, { id: "2" }])
 })
 
 test("starts with the empty result state", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().calendar.resultState).toBe(ResultState.Empty)
 })
 
 test("sets the loading state when data is in the loading process", async () => {
   jest.spyOn(store.dispatch.calendar, "setResultState")
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await store.dispatch.calendar.loadData()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   expect((store.dispatch.calendar.setResultState as any).mock.calls[0][0]).toBe(
     ResultState.Loading
   )
 })
 
 test("sets the loaded state when data loading is complete", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await store.dispatch.calendar.loadData()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().calendar.resultState).toBe(ResultState.Loaded)
 })
 
 test("sets the error result when loading events fails", async () => {
   ;(getEvents as Mock).mockReturnValue({ error: new Error("failed") })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await store.dispatch.calendar.loadData()
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(store.getState().calendar.resultState).toBe(ResultState.Error)
 })

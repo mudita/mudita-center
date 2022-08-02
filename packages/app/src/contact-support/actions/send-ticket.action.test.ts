@@ -52,6 +52,8 @@ describe("async `sendTicket` ", () => {
       const store = createMockStore([thunk])(state)
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(sendTicket(payload) as unknown as AnyAction)
 
       expect(store.getActions()).toEqual([
@@ -73,6 +75,8 @@ describe("async `sendTicket` ", () => {
       const store = createMockStore([thunk])(state)
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(sendTicket(payload) as unknown as AnyAction)
 
       expect(store.getActions()).toEqual([

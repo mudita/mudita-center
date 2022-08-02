@@ -48,10 +48,14 @@ const subject = new MessageService(
   messageRepository
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const successResponse: SuccessRequestResponse<any> = {
   status: RequestResponseStatus.Ok,
   data: {},
 }
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const refreshThreadSuccessResponse: SuccessRequestResponse<any> = {
   status: RequestResponseStatus.Ok,
   data: undefined,
@@ -117,6 +121,8 @@ describe("`MessageService`", () => {
         data: pureMessage,
       })
       const response = await subject.getMessage("1")
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
@@ -124,6 +130,8 @@ describe("`MessageService`", () => {
     test("returns error  when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.getMessage("1")
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
@@ -136,6 +144,8 @@ describe("`MessageService`", () => {
         data: { entries: [pureMessage] },
       })
       const response = await subject.getMessages({ limit: 1, offset: 0 })
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Ok)
     })
@@ -143,6 +153,8 @@ describe("`MessageService`", () => {
     test("returns error when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.getMessages({ limit: 1, offset: 0 })
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenCalled()
       expect(response.status).toEqual(RequestResponseStatus.Error)
     })
@@ -157,6 +169,8 @@ describe("`MessageService`", () => {
         })
         const response = await subject.createMessage(newMessageWithThreadId)
         expect(response.status).toEqual(RequestResponseStatus.Ok)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(deviceService.request).toHaveBeenCalledTimes(1)
       })
     })
@@ -173,6 +187,8 @@ describe("`MessageService`", () => {
         }
         const response = await subject.createMessage(newLongMessageWithThreadId)
         expect(response.status).toEqual(RequestResponseStatus.Ok)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(deviceService.request).toHaveBeenCalledTimes(2)
       })
     })
@@ -187,6 +203,8 @@ describe("`MessageService`", () => {
           const response = await subject.createMessage(
             newLongMessageWithThreadId
           )
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/unbound-method
           expect(deviceService.request).toHaveBeenCalled()
           expect(response.status).toEqual(RequestResponseStatus.Ok)
 
@@ -209,6 +227,8 @@ describe("`MessageService`", () => {
           const response = await subject.createMessage(
             newLongMessageWithoutThreadId
           )
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/unbound-method
           expect(deviceService.request).toHaveBeenCalled()
           expect(response.status).toEqual(RequestResponseStatus.Ok)
 
@@ -228,6 +248,8 @@ describe("`MessageService`", () => {
           data: { ...pureMessage, messageType: MessageType.UNKNOWN },
         })
         const response = await subject.createMessage(newMessageWithThreadId)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(deviceService.request).toHaveBeenCalled()
         expect(response.status).toEqual(RequestResponseStatus.Error)
       })
@@ -237,6 +259,8 @@ describe("`MessageService`", () => {
       test("method returns error", async () => {
         deviceService.request = jest.fn().mockReturnValue(errorResponse)
         const response = await subject.createMessage(newMessageWithThreadId)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(deviceService.request).toHaveBeenCalled()
         expect(response.status).toEqual(RequestResponseStatus.Error)
       })
@@ -252,6 +276,8 @@ describe("`MessageService`", () => {
           })
           .mockReturnValueOnce(errorResponse)
         const response = await subject.createMessage(newLongMessageWithThreadId)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(deviceService.request).toHaveBeenCalled()
 
         expect(response.status).toEqual(RequestResponseStatus.Error)
@@ -274,8 +300,14 @@ describe("`MessageService`", () => {
         result = await subject.deleteMessage(messageId)
       })
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/require-await
       test("construct proper delete request to device service and calls proper repository method", async () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(deviceService.request).toHaveBeenCalledTimes(1)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(deviceService.request).toHaveBeenCalledWith({
           body: {
             category: PureMessagesCategory.message,
@@ -284,17 +316,29 @@ describe("`MessageService`", () => {
           endpoint: Endpoint.Messages,
           method: Method.Delete,
         })
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(messageRepository.delete).toHaveBeenCalledTimes(1)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(messageRepository.delete).toHaveBeenCalledWith(messageId)
       })
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/require-await
       test("after deleting message, the related thread is refreshed", async () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(threadService.refreshThread).toHaveBeenCalledTimes(1)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(threadService.refreshThread).toHaveBeenLastCalledWith(
           message.threadId
         )
       })
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/require-await
       test("returns success when delete request succeeded", async () => {
         expect(result).toEqual({ status: RequestResponseStatus.Ok })
       })
@@ -349,6 +393,8 @@ describe("`MessageService`", () => {
       test("returns an error message", async () => {
         messageRepository.findById = jest.fn().mockReturnValueOnce(undefined)
         const result = await subject.resendMessage(messageId)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(deviceService.request).toHaveBeenCalledTimes(0)
         expect(result).toEqual({
           status: RequestResponseStatus.Error,
@@ -378,6 +424,8 @@ describe("`MessageService`", () => {
         })
 
         const result = await subject.resendMessage(messageId)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(deviceService.request).toHaveBeenLastCalledWith({
           body: {
             number: "+48500600700",
@@ -419,6 +467,8 @@ describe("`MessageService`", () => {
         const result = await subject.updateMessage(message)
 
         expect(result).toEqual(successResponse)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(deviceService.request).toHaveBeenCalledWith({
           body: MessagePresenter.mapToUpdatePureMessagesBody(message),
           endpoint: Endpoint.Messages,
@@ -433,6 +483,8 @@ describe("`MessageService`", () => {
         const result = await subject.updateMessage(message)
 
         expect(result).toEqual(errorResponse)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         expect(deviceService.request).toHaveBeenCalledWith({
           body: MessagePresenter.mapToUpdatePureMessagesBody(message),
           endpoint: Endpoint.Messages,

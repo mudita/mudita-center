@@ -307,6 +307,8 @@ const InputFile: FunctionComponent<InputFileProps> = ({
     if (inputRef.current) {
       inputRef.current.value = ""
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files])
 
   useEffect(() => () => removeTimeoutHandler(), [])

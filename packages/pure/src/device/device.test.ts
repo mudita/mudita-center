@@ -89,5 +89,7 @@ test("multiple requests are executed properly", async () => {
   await device.connect()
   await Promise.all(queue.map((config) => device.request(config)))
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   expect(device.request).toBeCalledTimes(10)
 })

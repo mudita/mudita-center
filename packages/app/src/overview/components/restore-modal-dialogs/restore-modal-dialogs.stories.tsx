@@ -23,6 +23,8 @@ const backups: Backup[] = [
   },
 ]
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const RestoreAvailableBackupModalStory = () => {
   return (
     <Story transparentMode>
@@ -36,6 +38,8 @@ export const RestoreAvailableBackupModalStory = () => {
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const RestoreModalStory = () => {
   return (
     <Story transparentMode>
@@ -50,6 +54,8 @@ export const RestoreModalStory = () => {
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const RestoreSpinnerModalStory = () => {
   return (
     <Story transparentMode>
@@ -58,6 +64,8 @@ export const RestoreSpinnerModalStory = () => {
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const RestoreFailureModalStory = () => {
   return (
     <Story transparentMode>
@@ -70,6 +78,8 @@ export const RestoreFailureModalStory = () => {
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const RestoreSuccessModalStory = () => {
   return (
     <Story transparentMode>

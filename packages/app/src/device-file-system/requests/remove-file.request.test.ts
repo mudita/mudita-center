@@ -11,6 +11,8 @@ import { IpcDeviceFileSystem } from "App/device-file-system/constants"
 const filePathMock = "C:/MuditaOs/files"
 
 beforeEach(() => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcDeviceFileSystem.Remove]: Promise.resolve("test"),
   }

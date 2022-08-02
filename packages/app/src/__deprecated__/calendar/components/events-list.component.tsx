@@ -65,6 +65,8 @@ const EventsList: FunctionComponent<EventsListProps> = ({
       <Row
         active={selectedEventIndex === index}
         data-testid={CalendarTestIds.Event}
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         key={id + index}
         style={style}
       >

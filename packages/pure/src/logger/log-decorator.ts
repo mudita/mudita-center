@@ -21,8 +21,12 @@ export default function log(
     propertyKey: string,
     descriptor: PropertyDescriptor
   ): PropertyDescriptor {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const targetMethod = descriptor.value
     descriptor.value = function (...args: unknown[]) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       const valueOrPromise: Promise<unknown> | unknown = targetMethod.apply(
         this,
         args

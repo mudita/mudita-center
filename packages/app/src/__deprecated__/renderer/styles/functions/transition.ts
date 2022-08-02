@@ -13,6 +13,8 @@ import theme from "App/__deprecated__/renderer/styles/theming/theme"
  * @param time - transition time in ms
  * @param timingFunction - transition timing function
  */
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function transition(
   property: string,
   time: string = theme.transitionTime.standard,

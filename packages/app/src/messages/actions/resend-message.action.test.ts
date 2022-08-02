@@ -66,6 +66,8 @@ describe("when `resendMessage` request return success", () => {
     const mockStore = createMockStore([thunk])()
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(resendMessage("6") as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -90,6 +92,8 @@ describe("when `resend` request return error", () => {
     const mockStore = createMockStore([thunk])()
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(resendMessage("6") as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -112,6 +116,8 @@ describe("when `resend` request return error", () => {
     const mockStore = createMockStore([thunk])()
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(resendMessage("6") as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -134,6 +140,8 @@ describe("when `resend` request return error", () => {
     const mockStore = createMockStore([thunk])()
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(resendMessage("6") as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([

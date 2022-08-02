@@ -35,6 +35,8 @@ export const ContactSelectModal: FunctionComponent<
     setResults(
       contacts.flat().filter((item) => contactsFilter(item, searchQuery || ""))
     )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery])
 
   return (

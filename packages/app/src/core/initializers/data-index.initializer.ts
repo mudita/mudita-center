@@ -13,12 +13,18 @@ export class DataIndexInitializer {
 
   public initialize(models: Model[]): void {
     models.forEach((model) => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const prefix = Reflect.getMetadata(ReflectKey.Model, model.constructor)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const fields: FieldDefinition[] = Reflect.getMetadata(
         ReflectKey.Field,
         model.constructor
       )
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const index = elasticlunr<any>()
 
       fields.forEach((field) => {

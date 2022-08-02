@@ -9,7 +9,10 @@ import { fireEvent } from "@testing-library/dom"
 import { screen } from "@testing-library/react"
 import AppUpdateStepModal from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal.component"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
-import { AppUpdateEvent, AppUpdateAction } from "App/__deprecated__/main/autoupdate"
+import {
+  AppUpdateEvent,
+  AppUpdateAction,
+} from "App/__deprecated__/main/autoupdate"
 import { AppUpdateStepModalTestIds } from "App/__deprecated__/renderer/wrappers/app-update-step-modal/app-update-step-modal-test-ids.enum"
 
 const onCloseMock = jest.fn()
@@ -29,10 +32,14 @@ jest.mock(
       },
       answerMain: (
         channel: AppUpdateEvent,
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         callback: (data: any) => PromiseLike<any>
       ) => {
         switch (channel) {
           case AppUpdateEvent.Downloaded:
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
             callback(jest.fn)
             return () => jest.fn()
           default:
@@ -47,6 +54,8 @@ jest.mock(
 
 jest.mock("electron", () => ({
   shell: {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     openExternal: jest.fn((...args) => openExternalMock(...args)),
   },
 }))

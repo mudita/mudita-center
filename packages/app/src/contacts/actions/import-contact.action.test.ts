@@ -76,6 +76,8 @@ describe("async `importContact` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         importContact(newContact) as unknown as AnyAction
       )
@@ -105,6 +107,8 @@ describe("async `importContact` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         importContact(newContact) as unknown as AnyAction
       )
@@ -131,6 +135,8 @@ describe("async `importContact` ", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         importContact(newContact) as unknown as AnyAction
       )
@@ -140,6 +146,8 @@ describe("async `importContact` ", () => {
         importContact.fulfilled(
           {
             ...newContact,
+            // AUTO DISABLED - fix me if you like :)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-non-null-assertion
             id: duplicatedErrorDeviceResponse.error!.data.id,
           } as Contact,
           requestId,

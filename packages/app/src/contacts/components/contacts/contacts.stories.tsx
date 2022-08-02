@@ -36,9 +36,15 @@ import {
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return
 const dummyPromise = (result: any) => () => result
 const getContact = (id: ContactID) => contactsSeed.db[id]
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const labeledContactList: any = getSortedContactList(contactsSeed)
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const flatList: any = getFlatList(contactsSeed)
 const speedDialChosenList: number[] = getSpeedDialChosenList(contactsSeed)
 const isThreadOpened = () => true
@@ -51,11 +57,17 @@ const ContactsWrapper = styled.div`
 
 const ContactsComponent = ({
   resultState = ResultState.Empty,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   contactList = labeledContactList,
 }: Partial<Pick<ContactsProps, "resultState" | "contactList">>) => (
   <Contacts
     allItemsSelected={false}
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
     getContact={getContact as any}
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     flatList={flatList}
     contactList={contactList}
     speedDialChosenList={speedDialChosenList}
@@ -231,9 +243,13 @@ storiesOf("Views|Contacts/Modals", module)
     <>
       <ModalWrapper>
         <SpeedDialModal
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
           editContact={noop as any}
           onSave={action("Save")}
           onClose={action("Close")}
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           flatList={flatList}
         />
       </ModalWrapper>

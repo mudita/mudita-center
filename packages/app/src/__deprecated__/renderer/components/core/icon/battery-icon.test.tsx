@@ -41,6 +41,8 @@ describe("battery icon returns correct component", () => {
     },
   ]
   testScenario.forEach(({ batteryLevel, charging = false, dataTestId }) => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     test(`batteryLevel: ${batteryLevel}, charging ${charging}, dataTestId: ${dataTestId}`, () => {
       const { getByTestId } = renderWithThemeAndIntl(
         <BatteryIcon level={batteryLevel} charging={charging} />

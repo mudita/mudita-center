@@ -61,6 +61,8 @@ describe("Select items actions", () => {
     })
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(toggleItem(thread.id) as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -80,6 +82,8 @@ describe("Select items actions", () => {
     })
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(selectAllItems() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([

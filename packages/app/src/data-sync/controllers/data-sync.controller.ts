@@ -21,10 +21,12 @@ export class DataSyncController {
   ) {}
 
   @IpcEvent(IpcDataSyncEvent.GetIndex)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public getIndex(indexName: DataIndex): SerialisedIndexData<any> | undefined {
     const index = this.index.get(indexName)
 
-    if(index === undefined){
+    if (index === undefined) {
       return undefined
     } else {
       return index.toJSON()

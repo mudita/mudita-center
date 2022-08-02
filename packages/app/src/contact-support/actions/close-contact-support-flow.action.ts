@@ -9,6 +9,8 @@ import { hideModals } from "App/modals-manager"
 
 export const closeContactSupportFlow = createAsyncThunk<void, undefined>(
   ContactSupportEvent.CloseContactSupportFlow,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { dispatch }) => {
     dispatch(hideModals())
   }

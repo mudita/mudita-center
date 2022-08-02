@@ -9,16 +9,22 @@ import { IpcEvent } from "./ipc-event.decorator"
 
 @Controller("fake-controller-with-events")
 class FakeControllerWithEvents {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   @IpcEvent("first-event")
   public async firstEvent(): Promise<void> {
     console.log("first event")
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   @IpcEvent("second-event")
   public async secondEvent(): Promise<void> {
     console.log("second event")
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   @IpcEvent("second-event")
   public async duplicatedEvent(): Promise<void> {
     console.log("second event")

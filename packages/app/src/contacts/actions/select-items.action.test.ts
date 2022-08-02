@@ -29,6 +29,8 @@ describe("Action: `selectAllItems`", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(selectAllItems() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -47,6 +49,8 @@ describe("Action: `selectAllItems`", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(selectAllItems() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -69,6 +73,8 @@ describe("Action: `toggleItem`", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(toggleItem("2") as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -89,6 +95,8 @@ describe("Action: `toggleItem`", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(toggleItem("2") as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -99,6 +107,8 @@ describe("Action: `toggleItem`", () => {
 })
 
 describe("Action: `resetAllItems`", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("dispatch `ContactsEvent.ResetAllItems` event", async () => {
     const mockStore = createMockStore([thunk])({
       contacts: {

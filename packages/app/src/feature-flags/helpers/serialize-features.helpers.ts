@@ -7,18 +7,18 @@ import { EnvironmentConfig, Criteria } from "App/feature-flags/types"
 import { Feature, Environment } from "App/feature-flags/constants"
 
 const getFeatureToggleEnvironment = (): Environment =>
-  process.env.FEATURE_TOGGLE_ENVIRONMENT as Environment || Environment.Development
+  (process.env.FEATURE_TOGGLE_ENVIRONMENT as Environment) ||
+  Environment.Development
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const serializeFeature = (features: EnvironmentConfig) => {
   return (Object.keys(features) as (keyof EnvironmentConfig)[]).reduce(
     (accum, value) => {
       accum[value] = {
         criteria: [
           {
-            always:
-              features[value][
-                getFeatureToggleEnvironment()
-              ],
+            always: features[value][getFeatureToggleEnvironment()],
           },
         ],
       }

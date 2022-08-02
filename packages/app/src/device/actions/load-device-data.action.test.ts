@@ -29,6 +29,8 @@ test("fire async `loadDeviceData` don't call nothing if `state` is equal to `Loa
 
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(
     loadDeviceData(DeviceType.MuditaPure) as unknown as AnyAction
   )
@@ -72,6 +74,8 @@ describe("Device type: MuditaPure", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         loadDeviceData(DeviceType.MuditaPure) as unknown as AnyAction
       )
@@ -121,6 +125,8 @@ describe("Device type: MuditaPure", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         loadDeviceData(DeviceType.MuditaPure) as unknown as AnyAction
       )
@@ -159,6 +165,8 @@ describe("Device type: MuditaHarmony", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         loadDeviceData(DeviceType.MuditaHarmony) as unknown as AnyAction
       )
@@ -201,6 +209,8 @@ describe("Device type: MuditaHarmony", () => {
       })
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         loadDeviceData(DeviceType.MuditaHarmony) as unknown as AnyAction
       )

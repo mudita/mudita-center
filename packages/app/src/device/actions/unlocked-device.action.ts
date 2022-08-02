@@ -11,6 +11,8 @@ import { AppError } from "App/core/errors"
 
 export const unlockedDevice = createAsyncThunk(
   DeviceEvent.Unlocked,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as ReduxRootState
 
@@ -24,6 +26,8 @@ export const unlockedDevice = createAsyncThunk(
       )
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(loadDeviceData(state.device.deviceType))
 
     return

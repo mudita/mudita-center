@@ -19,6 +19,8 @@ import { clearAllThreads } from "App/messages/actions/base.action"
 
 const cwd = `${remote.app.getPath("appData")}/${packageInfo.name}/pure-logs`
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Device", [
     {

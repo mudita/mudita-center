@@ -30,6 +30,8 @@ export class OutboxObserver implements Observer {
   }
 
   private registerListener(): void {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.deviceService.on(DeviceServiceEventName.DeviceUnlocked, async () => {
       this.disconnected = false
 
@@ -44,6 +46,8 @@ export class OutboxObserver implements Observer {
 
     this.deviceService.on(
       DeviceServiceEventName.DeviceDisconnected,
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
       async () => {
         this.invoked = false
         this.disconnected = true
@@ -66,6 +70,8 @@ export class OutboxObserver implements Observer {
       )
     }
     return new Promise((resolve) => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       setTimeout(async () => {
         resolve(await this.watchOutboxEntries())
       }, outboxTime)

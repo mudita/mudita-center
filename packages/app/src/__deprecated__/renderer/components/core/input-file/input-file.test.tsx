@@ -29,6 +29,8 @@ export const mockJpg = (name: string): File => {
   })
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const mockEvent = (...files: File[]) => ({
   target: {
     files: [...files],

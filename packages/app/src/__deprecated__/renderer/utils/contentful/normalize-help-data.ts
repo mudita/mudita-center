@@ -33,7 +33,11 @@ export const normalizeHelpData = (
       ...acc,
       [currentValue.sys.id]: {
         id: currentValue.sys.id,
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         question: currentValue.fields.question[locale],
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         answer: currentValue.fields.answer[locale],
       },
     }

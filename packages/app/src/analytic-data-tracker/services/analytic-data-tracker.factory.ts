@@ -14,9 +14,13 @@ import { TrackerCacheService } from "App/analytic-data-tracker/services/tracker-
 import { TrackEvent } from "App/analytic-data-tracker/types/track-event.interface"
 
 class MatomoTrackerPlaceholder implements AnalyticDataTrackerClass {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   track(): Promise<any> {
     return Promise.resolve()
   }
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   trackUnique(): Promise<any> {
     return Promise.resolve()
   }

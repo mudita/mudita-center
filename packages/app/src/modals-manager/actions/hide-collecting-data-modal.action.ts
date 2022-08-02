@@ -11,9 +11,15 @@ import { checkAppUpdateFlowToShow } from "App/modals-manager/actions/check-app-u
 
 export const hideCollectingDataModal = createAsyncThunk<void, undefined>(
   ModalsManagerEvent.HideCollectingDataModal,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { dispatch }) => {
     dispatch(hideModals())
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(checkAppUpdateFlowToShow())
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(checkAppForcedUpdateFlowToShow())
   }
 )

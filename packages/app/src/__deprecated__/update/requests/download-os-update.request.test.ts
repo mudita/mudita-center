@@ -14,6 +14,8 @@ test("successful download returns data", async () => {
     directory: "some/directory/",
     totalBytes: 123213,
   }
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
     [PureOsDownloadChannels.start]: data,
   }
@@ -34,6 +36,8 @@ test.each([
 ])(
   "test cases for failing the download request with status: %s,  returns error: %s",
   async (downloadStatus, errorMessage) => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
     ;(ipcRenderer as any).__rendererCalls = {
       [PureOsDownloadChannels.start]: {
         status: downloadStatus,

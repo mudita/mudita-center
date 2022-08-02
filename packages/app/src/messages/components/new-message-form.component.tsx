@@ -71,12 +71,16 @@ const NewMessageForm: FunctionComponent<Props> = ({
   }
 
   const handleSendClick = (): void => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
     if (searchValue.match(phoneNumberRegexp) && searchValue.length > 0) {
       onSendClick(searchValue)
     }
   }
 
   const handleSearchEnterClick = () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
     if (searchValue.match(phoneNumberRegexp)) {
       onPhoneNumberSelect(searchValue)
     }

@@ -24,6 +24,8 @@ test("calls `toggleTethering` and `updateSettings` request with boolean", async 
 
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(toggleTethering(true) as unknown as AnyAction)
 
   expect(mockStore.getActions()).toEqual([

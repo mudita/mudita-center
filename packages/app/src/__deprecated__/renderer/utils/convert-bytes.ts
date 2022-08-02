@@ -17,12 +17,16 @@ export const convertBytes = (
   const sizes = ["B", "KB", "MB", "GB", "TB"]
 
   if (bytes === 0) {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     return bytes + " " + sizes[0]
   }
 
   const i = Math.floor(Math.log(bytes) / Math.log(1024))
 
   if (i === 0) {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     return bytes + " " + sizes[i]
   }
 
@@ -32,5 +36,7 @@ export const convertBytes = (
     ? value.toFixed(precision)
     : round(value, precision)
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   return returnedValue + " " + sizes[i]
 }

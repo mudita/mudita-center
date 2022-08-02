@@ -17,7 +17,11 @@ export const isResponseSuccessWithData = <DataType>(
 }
 
 export const isResponsesSuccessWithData = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   responses: RequestResponse<any>[]
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): responses is SuccessRequestResponse<any>[] => {
   return responses.every(isResponseSuccessWithData)
 }

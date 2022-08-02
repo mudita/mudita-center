@@ -10,6 +10,8 @@ import { ipcMain } from "electron-better-ipc"
 
 test("returns change sim info", () => {
   registerChangeSimCardRequest(getFakeAdapters())
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
   const [result] = (ipcMain as any)._flush(IpcRequest.ChangeSim)
   expect(result).toMatchInlineSnapshot(`
     Object {

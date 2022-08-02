@@ -61,6 +61,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
     if (!loading) {
       setTemplatesList(templates)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templates])
 
   useEffect(() => {
@@ -98,6 +100,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       clearTimeout(firstTimeout)
       clearTimeout(secondTimeout)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded, error])
 
   // Deleting functionality
@@ -153,6 +157,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       order: editedTemplate.order,
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (data.payload.type !== TemplateError.UpdateTemplate) {
       setEditedTemplate(undefined)
     }
@@ -198,6 +204,8 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
       result.source.index,
       result.destination.index
     )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     updateTemplateOrder(updatedTemplates)
   }
   return (

@@ -134,10 +134,14 @@ export interface RemoveFileSystemRequestConfig
   method: Method.Delete
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 export interface RemoveFileSystemResponse extends Response<{}> {
   status: ResponseStatus
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 export interface RemoveFileSystemErrorResponse extends Response<{}> {
   status: ResponseStatus
 }

@@ -13,6 +13,8 @@ import { VisibilityFilter } from "App/messages/constants"
 import { Contact, ContactID } from "App/contacts/reducers/contacts.interface"
 import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const searchThreads = (
   threads: Thread[] = [],
   contactMap: Record<ContactID, Contact>,
@@ -38,6 +40,8 @@ export const searchThreads = (
   }
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const filterThreads = (
   threads: Thread[],
   visibilityFilter: MessagesProps["visibilityFilter"]
@@ -46,6 +50,8 @@ export const filterThreads = (
     visibilityFilter === VisibilityFilter.Unread ? unread : true
   )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const sortThreads = (threads: Thread[]) => {
   return threads?.sort((a, b) => {
     const x = a.lastUpdatedAt

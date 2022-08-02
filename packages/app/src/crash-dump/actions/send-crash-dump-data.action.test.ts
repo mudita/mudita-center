@@ -53,6 +53,8 @@ describe("when Crash dumps doesn't downloaded", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -85,6 +87,8 @@ describe("when Crash dumps downloaded", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -121,6 +125,8 @@ describe("when Crash dumps downloaded", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -169,6 +175,8 @@ describe("when `createFreshdeskTicket` returns `error` status", () => {
     )
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -205,6 +213,8 @@ describe("when logs downloaded", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([

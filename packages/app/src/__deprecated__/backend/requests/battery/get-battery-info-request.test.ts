@@ -45,9 +45,15 @@ test("returns required battery info", async () => {
       new DeviceService(MuditaDeviceManager, ipcMain)
     ),
   } as unknown as Adapters)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetBatteryInfo)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const result = await pendingResponse
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   expect(result.data).toMatchInlineSnapshot(`
     Object {
       "charging": true,
