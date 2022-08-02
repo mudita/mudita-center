@@ -5,4 +5,5 @@
 
 export interface FileInput {
   path: string
+  fileSize: number
 }

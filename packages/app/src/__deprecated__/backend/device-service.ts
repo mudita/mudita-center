@@ -227,7 +227,9 @@ export class DeviceService {
   }): Promise<RequestResponse>
   public request(
     config: GetFileSystemDirectoryRequestConfig
-  ): Promise<RequestResponse<Record<string, { path: string }[]>>>
+  ): Promise<
+    RequestResponse<Record<string, { path: string; fileSize: number }[]>>
+  >
   public request(config: GetFileSystemRequestConfig): Promise<
     RequestResponse<{
       rxID: string

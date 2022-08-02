@@ -79,7 +79,7 @@ export interface GetFileSystemDirectoryRequestConfig
 }
 
 export interface GetFileSystemDirectoryResponse
-  extends Response<Record<string, { path: string }[]>> {
+  extends Response<Record<string, { path: string; fileSize: number }[]>> {
   status: ResponseStatus
 }
 
