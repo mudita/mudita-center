@@ -4,7 +4,7 @@
  */
 
 import { renderHook } from "@testing-library/react-hooks"
-import useRouterListener from "App/__deprecated__/renderer/utils/hooks/use-router-listener/use-router-listener"
+import { useRouterListener } from "App/core/hooks/use-router-listener.hook"
 import { createMemoryHistory } from "history"
 import {
   URL_MAIN,
@@ -14,7 +14,20 @@ import {
 import { MemoryHistory } from "history/createMemoryHistory"
 
 let history: MemoryHistory
-beforeEach(() => (history = createMemoryHistory()))
+const mockDispatch = jest.fn()
+
+jest.mock("react-redux", () => ({
+  useSelector: jest.fn(),
+  useDispatch: () => mockDispatch,
+}))
+
+beforeEach(() => {
+  history = createMemoryHistory()
+})
+
+afterEach(() => {
+  jest.resetAllMocks()
+})
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/require-await
@@ -25,8 +38,11 @@ test("action on wrong path is not called", async () => {
       [URL_OVERVIEW.root]: [contactsAction],
     })
   )
+
   history.push(URL_MAIN.contacts)
+
   rerender()
+
   expect(contactsAction).not.toBeCalled()
 })
 
@@ -39,10 +55,15 @@ test("actions are called on correct location render", async () => {
       [URL_MAIN.contacts]: [contactsAction, contactsAction],
     })
   )
+
+  expect(mockDispatch).not.toHaveBeenCalled()
   expect(contactsAction).not.toBeCalledTimes(2)
   history.push(URL_MAIN.contacts)
+
   rerender()
+
   expect(contactsAction).toBeCalledTimes(2)
+  expect(mockDispatch).toHaveBeenCalled()
 })
 
 // AUTO DISABLED - fix me if you like :)
@@ -54,8 +75,13 @@ test("actions in nested routes are handled", async () => {
       [`${URL_MAIN.messages}${URL_TABS.templates}`]: [nestedRouteAction],
     })
   )
+
+  expect(mockDispatch).not.toHaveBeenCalled()
   expect(nestedRouteAction).not.toBeCalled()
   history.push(`${URL_MAIN.messages}${URL_TABS.templates}`)
+
   rerender()
+
   expect(nestedRouteAction).toBeCalledTimes(1)
+  expect(mockDispatch).toHaveBeenCalled()
 })

@@ -16,7 +16,7 @@ import {
   URL_ONBOARDING,
   URL_OVERVIEW,
 } from "App/__deprecated__/renderer/constants/urls"
-import useRouterListener from "App/__deprecated__/renderer/utils/hooks/use-router-listener/use-router-listener"
+import { useRouterListener } from "App/core/hooks"
 import ModalsManager from "App/modals-manager/containers/modals-manager.container"
 import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device/actions"

@@ -21,10 +21,7 @@ import {
 } from "App/__deprecated__/renderer/components/core/modal/modal.styled.elements"
 import DeleteModal from "App/__deprecated__/renderer/components/core/modal/delete-modal.component"
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
-import {
-  contactsSeed,
-  contactsSeedInput,
-} from "App/__deprecated__/seeds/contacts"
+import { contactsSeed } from "App/__deprecated__/seeds/contacts"
 import {
   createFullName,
   getFlatList,
@@ -32,7 +29,7 @@ import {
   getSpeedDialChosenList,
 } from "App/contacts/helpers/contacts.helpers"
 import { asyncNoop, noop } from "App/__deprecated__/renderer/utils/noop"
-import { PhoneProps } from "App/contacts/components/contacts/contacts.type"
+import { ContactsProps } from "App/contacts/components/contacts/contacts.interface"
 import {
   Contact,
   ContactID,
@@ -63,10 +60,9 @@ const ContactsComponent = ({
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   contactList = labeledContactList,
-}: Partial<Pick<PhoneProps, "resultState" | "contactList">>) => (
+}: Partial<Pick<ContactsProps, "resultState" | "contactList">>) => (
   <Contacts
-    // AUTO DISABLED - fix me if you like :)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+    allItemsSelected={false}
     getContact={getContact as any}
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -74,9 +70,7 @@ const ContactsComponent = ({
     contactList={contactList}
     speedDialChosenList={speedDialChosenList}
     onManageButtonClick={dummyPromise(action("Manage contact"))}
-    onNewButtonClick={action("New contact")}
     onEdit={action("Edit contact")}
-    onExport={action("Export contact")}
     onForward={action("Forward contact")}
     onUnblock={action("Unblock contact")}
     onBlock={action("Block contact")}
@@ -85,25 +79,21 @@ const ContactsComponent = ({
     onCall={action("Call")}
     onSpeedDialSettingsSave={action("Save speed dial settings")}
     resultState={resultState}
-    selectedContacts={[]}
-    resetRows={action("Reset rows")}
     setProviderData={noop}
     isThreadOpened={isThreadOpened}
     addNewContactsToState={asyncNoop}
     addNewContact={asyncNoop}
     importContact={asyncNoop}
     editContact={asyncNoop}
-    contacts={contactsSeedInput}
     loadContacts={asyncNoop}
-    inputValue={""}
-    speedDialContacts={[]}
     deleteContacts={asyncNoop}
     authorize={asyncNoop}
-    editMode={false}
-    searchValue={""}
-    onSearchValueChange={asyncNoop}
-    results={[]}
     exportContacts={asyncNoop}
+    selectedItems={[]}
+    allRowsSelected={false}
+    resetAllItems={noop}
+    selectAllItems={noop}
+    toggleItem={noop}
   />
 )
 

@@ -17,7 +17,10 @@ export type Contact =
 export type ContactFactorySignature<T = Contact | null> = (...args: any[]) => T
 export type NewContact = Omit<Contact, "id">
 export type ContactsState = PhoneContacts &
-  Pick<StoreData, "resultState"> & { error: Error | string | null }
+  Pick<StoreData, "resultState"> & {
+    error: Error | string | null
+    selectedItems: { rows: string[] }
+  }
 export type Store = StoreData & StoreSelectors
 
 export interface BaseContactModel {

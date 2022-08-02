@@ -21,7 +21,8 @@ import {
   pendingAction,
   rejectedAction,
 } from "App/__deprecated__/renderer/store/helpers"
-import { DeleteMessageAction } from "."
+import { DeleteMessageAction } from "App/messages/reducers/messages.interface"
+import { CoreEvent } from "App/core/constants"
 
 test("empty event returns initial state", () => {
   // AUTO DISABLED - fix me if you like :)
@@ -657,6 +658,7 @@ describe("Checkboxes manage", () => {
       selectedItems: { rows: [thread.id] },
     })
   })
+
   test("Event: ResetItems clear properly selectedItems rows field", () => {
     expect(
       messagesReducer(
@@ -665,6 +667,24 @@ describe("Checkboxes manage", () => {
           selectedItems: { rows: [thread.id, secondThread.id] },
         },
         { type: MessagesEvent.ResetItems }
+      )
+    ).toEqual({
+      ...initialState,
+      selectedItems: { rows: [] },
+    })
+  })
+
+  test("Event: CoreEvent.ChangeLocation removes all selected items", () => {
+    expect(
+      messagesReducer(
+        {
+          ...initialState,
+          selectedItems: { rows: [thread.id, secondThread.id] },
+        },
+        {
+          type: CoreEvent.ChangeLocation,
+          payload: undefined,
+        }
       )
     ).toEqual({
       ...initialState,

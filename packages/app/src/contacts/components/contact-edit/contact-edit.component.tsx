@@ -36,7 +36,7 @@ import {
 } from "App/contacts/components/contact-edit/contact-edit.styled"
 import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/contact-panel-test-ids.enum"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
-import { FormError } from "App/contacts/components/contacts/contacts.type"
+import { FormError } from "App/contacts/components/contacts/contacts.interface"
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
