@@ -106,6 +106,24 @@ test("should show not send status if sending message failed", () => {
 })
 
 describe("dropdown", () => {
+  describe("Failed message", () => {
+    test("renders resend button", () => {
+      const { getByTestId } = renderer({ messageType: MessageType.FAILED })
+      expect(
+        getByTestId(MessageBubbleTestIds.ResendMessageButton)
+      ).toBeInTheDocument()
+    })
+  })
+
+  describe("Outbox message", () => {
+    test("don't renders resend button", () => {
+      const { queryByTestId } = renderer({ messageType: MessageType.OUTBOX })
+      expect(
+        queryByTestId(MessageBubbleTestIds.ResendMessageButton)
+      ).not.toBeInTheDocument()
+    })
+  })
+
   test("should not show bubble dropdown when message is being deleted", () => {
     const { queryByTestId } = renderer({
       messageType: MessageType.INBOX,
