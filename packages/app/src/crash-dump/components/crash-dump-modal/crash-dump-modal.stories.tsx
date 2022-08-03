@@ -14,6 +14,6 @@ storiesOf("Crash Dump/Modals", module).add("Information", () => (
     open
     deviceType={DeviceType.MuditaPure}
     onClose={action("Close")}
-    onAccept={action("Accept")}
+    onSubmit={action("Submit")}
   />
 ))

@@ -4,6 +4,7 @@
  */
 
 import React from "react"
+import { waitFor } from "@testing-library/dom"
 import { Provider } from "react-redux"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
@@ -166,7 +167,7 @@ test("close `CrashDumpModal` modal if user clicked on `close` button and calls `
     },
   })
 
-  const closeButton = screen.getByTestId(ModalTestIds.CloseBottomButton)
+  const closeButton = screen.getByTestId(ModalTestIds.CloseButton)
 
   expect(
     screen.queryByTestId(CrashDumpModalTestingIds.Content)
@@ -183,7 +184,7 @@ test("close `CrashDumpModal` modal if user clicked on `close` button and calls `
   ).not.toBeInTheDocument()
 })
 
-test("calls `downloadCrashDump` action if user click on `send` button", () => {
+test("calls `downloadCrashDump` action if user click on `send` button", async () => {
   render({
     ...initialStateMock,
     crashDump: {
@@ -195,11 +196,12 @@ test("calls `downloadCrashDump` action if user click on `send` button", () => {
     },
   })
 
-  const actionButton = screen.getByTestId(ModalTestIds.ModalActionButton)
+  const actionButton = screen.getByTestId(CrashDumpModalTestingIds.Submit)
 
   expect(downloadCrashDumpMock).not.toHaveBeenCalled()
 
   fireEvent.click(actionButton)
-
-  expect(downloadCrashDumpMock).toHaveBeenCalled()
+  await waitFor(() => {
+    expect(downloadCrashDumpMock).toHaveBeenCalled()
+  })
 })

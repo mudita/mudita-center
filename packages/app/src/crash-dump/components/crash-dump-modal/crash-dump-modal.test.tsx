@@ -4,6 +4,7 @@
  */
 
 import React from "react"
+import { waitFor } from "@testing-library/dom"
 import { DeviceType } from "@mudita/pure"
 import { screen, fireEvent } from "@testing-library/dom"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
@@ -18,7 +19,7 @@ const propsMock: CrashDumpProps = {
   open: false,
   deviceType: DeviceType.MuditaPure,
   onClose: jest.fn(),
-  onAccept: jest.fn(),
+  onSubmit: jest.fn(),
 }
 
 const render = (extraProps?: CrashDumpProps) => {
@@ -75,23 +76,32 @@ describe("When `deviceType` is equal to `MuditaHarmony`", () => {
   })
 })
 
-test("Modal buttons react on click actions", () => {
+test("Modal close button react on click actions", () => {
   render({
     ...propsMock,
     open: true,
   })
 
   const crossButton = screen.getByTestId(ModalTestIds.CloseButton)
-  const closeButton = screen.getByTestId(ModalTestIds.CloseBottomButton)
-  const actionButton = screen.getByTestId(ModalTestIds.ModalActionButton)
 
   expect(propsMock.onClose).toHaveBeenCalledTimes(0)
-  expect(propsMock.onAccept).toHaveBeenCalledTimes(0)
 
   fireEvent.click(crossButton)
-  fireEvent.click(closeButton)
-  fireEvent.click(actionButton)
 
-  expect(propsMock.onClose).toHaveBeenCalledTimes(2)
-  expect(propsMock.onAccept).toHaveBeenCalledTimes(1)
+  expect(propsMock.onClose).toHaveBeenCalledTimes(1)
+})
+
+test("Modal submit button react on click actions", async () => {
+  render({
+    ...propsMock,
+    open: true,
+  })
+  const submitButton = screen.getByTestId(CrashDumpModalTestingIds.Submit)
+  expect(propsMock.onSubmit).toHaveBeenCalledTimes(0)
+
+  fireEvent.click(submitButton)
+
+  await waitFor(() => {
+    expect(propsMock.onSubmit).toHaveBeenCalledTimes(1)
+  })
 })

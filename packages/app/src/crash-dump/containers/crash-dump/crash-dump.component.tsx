@@ -13,13 +13,14 @@ import {
 } from "App/crash-dump/components"
 import { downloadCrashDump, ignoreCrashDump } from "App/crash-dump/actions"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { SendCrashDumpPayload } from "App/crash-dump/reducers/crash-dump.interface"
 
 export interface CrashDumpContainerProps {
   hasCrashDump: boolean
   downloading: boolean
   sending: boolean
   deviceType: DeviceType | null
-  downloadCrashDump: () => void
+  downloadCrashDump: (payload: SendCrashDumpPayload) => void
   ignoreCrashDump: () => void
 }
 
@@ -59,8 +60,8 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
     setOpenInfo(false)
   }
 
-  const handleDownloadCrashDump = () => {
-    downloadCrashDump()
+  const handleDownloadCrashDump = (data: SendCrashDumpPayload) => {
+    downloadCrashDump(data)
     setOpenInfo(false)
   }
 
@@ -75,7 +76,7 @@ const CrashDumpContainer: FunctionComponent<CrashDumpContainerProps> = ({
         open={openInfo}
         deviceType={deviceType}
         onClose={handleCloseModal}
-        onAccept={handleDownloadCrashDump}
+        onSubmit={handleDownloadCrashDump}
       />
     </>
   )
