@@ -15,7 +15,8 @@ class EncoderVCard extends vCard {
     value: string,
     params?: { [key: string]: string | string[] }
   ): vCard {
-    const encodedValue = quotedPrintable.encode(utf8.encode(value))
+    const input = utf8.encode(value)
+    const encodedValue = input !== "" ? quotedPrintable.encode(utf8.encode(value)) : ""
     if (encodedValue === value) {
       return super.add(key, value, params)
     } else {
