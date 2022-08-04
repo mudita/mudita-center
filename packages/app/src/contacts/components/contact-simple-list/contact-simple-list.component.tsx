@@ -5,6 +5,7 @@
 
 import React from "react"
 import { defineMessages } from "react-intl"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { InView } from "react-intersection-observer"
 import {
   Col,
@@ -24,17 +25,58 @@ import { ContactSimpleListTestIdsEnum } from "App/contacts/components/contact-si
 import { ContactSimpleItemListPhoneSelection } from "App/contacts/components/contact-simple-list-item-phone-selection"
 
 const messages = defineMessages({
+  favourites: { id: "module.contacts.favourites" },
   emptyListTitle: { id: "module.contacts.emptyListTitle" },
   emptySearchDescription: { id: "module.contacts.emptySearchDescription" },
 })
 
 export const ContactSimpleList: FunctionComponent<ContactSimpleListProps> = ({
   contacts,
+  favouriteContacts,
   onContactSelect,
   onPhoneNumberSelect,
 }) => {
   return (
     <ListWrapper data-testid={ContactSimpleListTestIdsEnum.ListWrapper}>
+      {favouriteContacts && favouriteContacts.length > 0 ? (
+        <ContactGroup>
+          <GroupLabel data-testid={ContactSimpleListTestIdsEnum.GroupLabel}>
+            <Col>{intl.formatMessage(messages.favourites)}</Col>
+          </GroupLabel>
+          {favouriteContacts.flat().map((contact) => (
+            <InView key={contact.id}>
+              {({ inView, ref }) =>
+                inView ? (
+                  <Row
+                    ref={ref}
+                    disableHoverState={onPhoneNumberSelect !== undefined}
+                  >
+                    {onContactSelect && (
+                      <ContactSimpleListItemContactSelection
+                        contact={contact}
+                        onContactSelect={onContactSelect}
+                      />
+                    )}
+                    {onPhoneNumberSelect && (
+                      <ContactSimpleItemListPhoneSelection
+                        contact={contact}
+                        onPhoneNumberSelect={onPhoneNumberSelect}
+                      />
+                    )}
+                  </Row>
+                ) : (
+                  <Row ref={ref}>
+                    <ContactSimpleListItemPlaceholder contact={contact} />
+                  </Row>
+                )
+              }
+            </InView>
+          ))}
+        </ContactGroup>
+      ) : (
+        <></>
+      )}
+
       {contacts.length > 0 ? (
         contacts.map((key, contactsList) => (
           <ContactGroup key={key}>

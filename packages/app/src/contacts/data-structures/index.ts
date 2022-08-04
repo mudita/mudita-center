@@ -4,3 +4,4 @@
  */
 
 export * from "./contacts-hash-table.structure"
+export * from "./favourite-contacts-hash-table.structure"
