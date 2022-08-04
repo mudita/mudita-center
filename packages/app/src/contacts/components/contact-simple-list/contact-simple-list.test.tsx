@@ -9,6 +9,7 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import { ContactSimpleListProps } from "App/contacts/components/contact-simple-list/contact-simple-list.interface"
 import { ContactSimpleList } from "App/contacts/components/contact-simple-list/contact-simple-list.component"
 import { ContactsHashTable } from "App/contacts/data-structures/contacts-hash-table.structure"
+import { FavouriteContactsHashTable } from "App/contacts/data-structures/favourite-contacts-hash-table.structure"
 import { Contact } from "App/contacts/dto"
 import { ContactSimpleListTestIdsEnum } from "App/contacts/components/contact-simple-list/contact-simple-list-test-ids.enum"
 
@@ -16,6 +17,7 @@ const render = (props: ContactSimpleListProps) =>
   renderWithThemeAndIntl(<ContactSimpleList {...props} />)
 
 let contactsHash = new ContactsHashTable()
+let favouriteContactsHash = new FavouriteContactsHashTable()
 
 const onContactSelect = jest.fn()
 const contacts: Contact[] = [
@@ -74,6 +76,21 @@ const contacts: Contact[] = [
   },
 ]
 
+const favouritesContacts: Contact = {
+  id: "2",
+  firstName: "Sławomir",
+  lastName: "Borewicz",
+  primaryPhoneNumber: "+71 195 069 214",
+  secondaryPhoneNumber: "",
+  email: "example@mudita.com",
+  note: "sapiente rem dignissimos sunt",
+  ice: false,
+  favourite: true,
+  blocked: false,
+  firstAddressLine: "Malczewskiego 3, Warszawa",
+  secondAddressLine: "",
+}
+
 beforeAll(() => {
   mockAllIsIntersecting(true)
 })
@@ -100,15 +117,46 @@ describe("Contact list isn't empty", () => {
     ).toBeGreaterThan(0)
   })
 
-  test.each(["D", "B", "#"])("Contact list have group with name: %s", (i) => {
-    const { getAllByTestId } = render({
-      contacts: contactsHash,
-      onContactSelect,
-    })
+  test.each(["d", "b", "e", "#"])(
+    "Contact list have group with name: %s",
+    (i) => {
+      const { getAllByTestId } = render({
+        contacts: contactsHash,
+        onContactSelect,
+      })
 
-    const groups = getAllByTestId(ContactSimpleListTestIdsEnum.GroupLabel)
-    expect(groups.find((item) => item.textContent === i)).toBeInTheDocument()
+      const groups = getAllByTestId(ContactSimpleListTestIdsEnum.GroupLabel)
+      expect(groups.find((item) => item.textContent === i)).toBeInTheDocument()
+    }
+  )
+})
+
+describe("Favourites list isn't empty", () => {
+  beforeAll(() => {
+    contacts.forEach((contact) => {
+      contactsHash.push(contact)
+    })
+    favouriteContactsHash.push(favouritesContacts)
   })
+
+  afterAll(() => {
+    contactsHash = new ContactsHashTable()
+    favouriteContactsHash = new FavouriteContactsHashTable()
+  })
+
+  test.each(["[value] module.contacts.favourites", "d", "b", "e", "#"])(
+    "Contact list have group with name: %s",
+    (i) => {
+      const { getAllByTestId } = render({
+        contacts: contactsHash,
+        favouriteContacts: favouriteContactsHash,
+        onContactSelect,
+      })
+
+      const groups = getAllByTestId(ContactSimpleListTestIdsEnum.GroupLabel)
+      expect(groups.find((item) => item.textContent === i)).toBeInTheDocument()
+    }
+  )
 })
 
 describe("Contact list is empty", () => {
