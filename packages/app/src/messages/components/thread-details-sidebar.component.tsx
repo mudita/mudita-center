@@ -15,6 +15,7 @@ import {
   Receiver,
   ReceiverIdentification,
 } from "App/messages/reducers/messages.interface"
+import { mapToRawNumber } from "App/messages/helpers"
 
 interface Props
   extends ComponentProps<typeof Sidebar>,
@@ -42,6 +43,10 @@ const ThreadDetailsSidebar: FunctionComponent<Props> = ({
   ...props
 }) => {
   const nameAvailable = isNameAvailable(receiver)
+  const prettyCaller = nameAvailable
+    ? createFullName(receiver)
+    : mapToRawNumber(receiver.phoneNumber)
+  const callerNumber = nameAvailable ? receiver.phoneNumber : undefined
 
   return (
     <MessagesSidebar
@@ -51,10 +56,8 @@ const ThreadDetailsSidebar: FunctionComponent<Props> = ({
       headerLeft={
         <ThreadDetailsSidebarLeftHeader
           callerIdentification={getCallerIdentification(receiver)}
-          prettyCaller={
-            nameAvailable ? createFullName(receiver) : receiver.phoneNumber
-          }
-          callerNumber={nameAvailable ? receiver.phoneNumber : undefined}
+          prettyCaller={prettyCaller}
+          callerNumber={callerNumber}
         />
       }
       headerRight={

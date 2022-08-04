@@ -9,12 +9,14 @@ import { SimpleRecord } from "App/__deprecated__/common/typings"
 import { isNameAvailable } from "App/__deprecated__/renderer/components/rest/messages/is-name-available"
 import {
   BaseContactModel,
-  Contact, ContactCategory,
+  Contact,
+  ContactCategory,
   ContactFactorySignature,
   ContactID,
   ContactsState,
   PhoneContacts,
 } from "App/contacts/reducers/contacts.interface"
+import { mapToRawNumber } from "App/messages/helpers"
 
 const lengthy = (input = "") => input.length > 0
 const prepareData = <T = any>(input: T | T[]): T[] =>
@@ -27,7 +29,7 @@ export const phoneNumberFormatter = (
   const needle = Object.keys(input)[0]
   if (haystack.indexOf(needle) > -1) {
     return {
-      [needle]: input[needle].replace(new RegExp(/\s/g), ""),
+      [needle]: mapToRawNumber(input[needle]),
     }
   }
 
@@ -193,7 +195,10 @@ export const createFullNameStartingFromLastName = ({
   return `${lastName} ${firstName}`.trim()
 }
 
-export const getSortedContactList = ({ collection, db }: PhoneContacts): ContactCategory[] => {
+export const getSortedContactList = ({
+  collection,
+  db,
+}: PhoneContacts): ContactCategory[] => {
   const anonymousContacts = []
   const favouriteContacts = []
   const uncategorizedContacts = []
