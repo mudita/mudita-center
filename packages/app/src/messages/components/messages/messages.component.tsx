@@ -124,7 +124,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [activeThread, setActiveThread] = useState<Thread | undefined>(
     findThreadBySearchParams(useURLSearchParams(), threads)
   )
-  const [phoneNumber, setPhoneNumber] = useState<string>("")
   const [tmpActiveThread, setTmpActiveThread] = useState<Thread | undefined>()
   const [draftMessage, setDraftMessage] = useState<Message>()
   const [content, setContent] = useState("")
@@ -181,21 +180,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
       return
     }
 
-    setPhoneNumber(activeThread.phoneNumber)
-  }, [activeThread])
-
-  useEffect(() => {
-    if (!activeThread) {
-      return
-    }
-
     const thread = threads.find(isThreadNumberEqual(activeThread.phoneNumber))
 
-    if (activeThread.id === thread?.id) {
-      setActiveThread(thread)
-    } else if (thread) {
-      openThreadDetails(thread)
-    } else if (tmpActiveThread === undefined && thread === undefined) {
+    if (tmpActiveThread === undefined && thread === undefined) {
       setActiveThread(undefined)
     }
   }, [activeThread, threads])
@@ -218,10 +205,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
       }
     } else {
       if (
+        activeThread &&
         debouncedContent &&
-        activeThread?.phoneNumber !== mockThread?.phoneNumber
+        activeThread.phoneNumber !== mockThread.phoneNumber
       ) {
-        handleAddNewMessage(MessageType.DRAFT)
+        void handleAddNewMessage(activeThread.phoneNumber, MessageType.DRAFT)
         updateFieldState("draftDeleting", false)
       }
     }
@@ -409,6 +397,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   }
 
   const handleAddNewMessage = async (
+    phoneNumber: string,
     messageType = MessageType.OUTBOX
   ): Promise<void> => {
     if (draftMessage) {
@@ -420,15 +409,24 @@ const Messages: FunctionComponent<MessagesProps> = ({
     if (tmpActiveThread !== undefined) {
       handleReceiverSelect({ phoneNumber })
     }
-    await addNewMessage({ content, phoneNumber, threadId, messageType })
-
+    const response = await addNewMessage({
+      content,
+      phoneNumber,
+      threadId,
+      messageType,
+    })
+    const thread = response.payload.messageParts[0].thread
+    if (thread) {
+      openThreadDetails(thread)
+    }
     if (messageType === MessageType.OUTBOX) {
       setContent("")
     }
   }
 
-  const handleNewMessageSendClick = async () => {
-    await handleAddNewMessage()
+  // event with the dynamically receiver when `phoneNumber` can't be set before
+  const handleNewMessageSendClick = async (phoneNumber: string) => {
+    await handleAddNewMessage(phoneNumber)
   }
 
   const handleSendClick = async () => {
@@ -436,17 +434,16 @@ const Messages: FunctionComponent<MessagesProps> = ({
       return
     }
 
-    await handleAddNewMessage()
+    await handleAddNewMessage(activeThread.phoneNumber)
   }
 
   const handleReceiverSelect = (receiver: Pick<Receiver, "phoneNumber">) => {
     if (!receiver) {
       return
     }
+    const phoneNumber = receiver.phoneNumber
 
-    setPhoneNumber(receiver.phoneNumber)
-
-    const thread = threads.find(isThreadNumberEqual(receiver.phoneNumber))
+    const thread = threads.find(isThreadNumberEqual(phoneNumber))
 
     if (thread) {
       setActiveThread(thread)
@@ -455,7 +452,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     } else {
       const tmpThread: Thread = {
         ...mockThread,
-        phoneNumber: receiver.phoneNumber,
+        phoneNumber,
       }
       setTmpActiveThread(tmpThread)
       setActiveThread(tmpThread)
@@ -468,7 +465,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       return
     }
 
-    handleReceiverSelect({ phoneNumber: phoneNumber })
+    handleReceiverSelect({ phoneNumber })
   }
 
   const getViewReceiver = (activeThread: Thread): Receiver => {
