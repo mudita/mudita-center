@@ -83,12 +83,14 @@ describe("Method: map", () => {
 
   test("returns alphabetically sorted hash filled with contacts", () => {
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       subject
         .map((key, value) => {
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           return value.map(
             (contact) =>
+              // AUTO DISABLED - fix me if you like :)
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
               `key: ${key} name: ${contact.firstName} phone: ${contact.primaryPhoneNumber}`
           )
         })

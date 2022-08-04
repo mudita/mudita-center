@@ -11,6 +11,8 @@ export class FavouriteContactsHashTable extends HashTable<Contact> {
     super()
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public hash(_: Contact): string {
     return ""
   }
@@ -19,6 +21,8 @@ export class FavouriteContactsHashTable extends HashTable<Contact> {
     return Object.keys(this.table).length
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public map(callback: (key: string, value: Contact[]) => any): any {
     const results = []
 

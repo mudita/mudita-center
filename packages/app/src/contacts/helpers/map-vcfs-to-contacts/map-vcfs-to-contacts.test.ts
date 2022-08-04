@@ -14,6 +14,10 @@ describe("map VCF's to Contacts helper", () => {
   const multipleContactsFile = createFile(
     path.join(__dirname, "./multiple-contacts.vcf")
   )
+  const emptyContact = createFile(path.join(__dirname, "./empty-contact.vcf"))
+  const multipleContactsWithEmpty = createFile(
+    path.join(__dirname, "./multiple-contacts-with-empty.vcf")
+  )
   const encodedContactFile = createFile(
     path.join(__dirname, "./encoded-contact.vcf")
   )
@@ -43,6 +47,16 @@ describe("map VCF's to Contacts helper", () => {
 
   test("should return contact list when in a file is multiple records", async () => {
     const contacts = await mapVCFsToContacts([multipleContactsFile])
+    expect(contacts).toHaveLength(2)
+  })
+
+  test("when contact is empty the import should return empty array", async () => {
+    const contacts = await mapVCFsToContacts([emptyContact])
+    expect(contacts).toMatchInlineSnapshot(`Array []`)
+  })
+
+  test("should skip empty contacts", async () => {
+    const contacts = await mapVCFsToContacts([multipleContactsWithEmpty])
     expect(contacts).toHaveLength(2)
   })
 
