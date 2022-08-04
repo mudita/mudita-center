@@ -39,7 +39,7 @@ export const ContactSimpleList: FunctionComponent<ContactSimpleListProps> = ({
         contacts.map((key, contactsList) => (
           <ContactGroup key={key}>
             <GroupLabel data-testid={ContactSimpleListTestIdsEnum.GroupLabel}>
-              <Col>{key ? key.toLocaleUpperCase() : "#"}</Col>
+              <Col>{key ? key : "#"}</Col>
             </GroupLabel>
             {contactsList.map((contact) => (
               <InView key={key + contact.id}>

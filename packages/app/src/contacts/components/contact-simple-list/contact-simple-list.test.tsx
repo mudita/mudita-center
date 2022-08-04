@@ -100,15 +100,18 @@ describe("Contact list isn't empty", () => {
     ).toBeGreaterThan(0)
   })
 
-  test.each(["D", "B", "#"])("Contact list have group with name: %s", (i) => {
-    const { getAllByTestId } = render({
-      contacts: contactsHash,
-      onContactSelect,
-    })
+  test.each(["d", "b", "e", "#"])(
+    "Contact list have group with name: %s",
+    (i) => {
+      const { getAllByTestId } = render({
+        contacts: contactsHash,
+        onContactSelect,
+      })
 
-    const groups = getAllByTestId(ContactSimpleListTestIdsEnum.GroupLabel)
-    expect(groups.find((item) => item.textContent === i)).toBeInTheDocument()
-  })
+      const groups = getAllByTestId(ContactSimpleListTestIdsEnum.GroupLabel)
+      expect(groups.find((item) => item.textContent === i)).toBeInTheDocument()
+    }
+  )
 })
 
 describe("Contact list is empty", () => {

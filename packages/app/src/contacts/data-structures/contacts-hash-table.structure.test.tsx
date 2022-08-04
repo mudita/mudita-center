@@ -8,6 +8,19 @@ import { Contact } from "App/contacts/dto"
 
 let subject = new ContactsHashTable()
 
+const favouriteContact: Contact = {
+  id: "4",
+  firstName: "Luke",
+  lastName: "Skywalker",
+  email: "luke@jedi.com",
+  primaryPhoneNumber: "123 456 789",
+  secondaryPhoneNumber: "32 123 44 55",
+  firstAddressLine: "4929 Pine Garden Lane",
+  secondAddressLine: "Atlanta, GA, 30339, USA",
+  note: "",
+  favourite: true,
+}
+
 const contacts: Contact[] = [
   {
     id: "abc-123",
@@ -48,6 +61,20 @@ const contacts: Contact[] = [
     firstAddressLine: "016 McClure Curve",
     secondAddressLine: "",
   },
+  {
+    id: "3",
+    firstName: "",
+    lastName: "",
+    primaryPhoneNumber: "+33 333 060 911",
+    secondaryPhoneNumber: "",
+    email: "",
+    note: "",
+    ice: true,
+    favourite: false,
+    blocked: false,
+    firstAddressLine: "016 McClure Curve",
+    secondAddressLine: "",
+  },
 ]
 
 test("returns empty hash", () => {
@@ -55,44 +82,100 @@ test("returns empty hash", () => {
 })
 
 describe("Method: push", () => {
-  beforeEach(() => {
-    contacts.forEach((contact) => {
-      subject.push(contact)
-    })
-  })
-
   afterEach(() => {
     subject = new ContactsHashTable()
   })
 
-  test("returns alphabetically sorted hash with contacts", () => {
-    expect(subject.table["b"]).toEqual([contacts[1]])
-    expect(subject.table["d"]).toEqual([contacts[0]])
-    expect(subject.table[""]).toEqual([contacts[2]])
+  describe("fauvorites contact present", () => {
+    beforeEach(() => {
+      const contactsWithFavourite = [...contacts, favouriteContact]
+
+      contactsWithFavourite.forEach((contact) => {
+        subject.push(contact)
+      })
+    })
+
+    test("returns category contacts hash with favourite category", () => {
+      expect(subject.table["b"]).toEqual([contacts[1]])
+      expect(subject.table["d"]).toEqual([contacts[0]])
+      expect(subject.table["s"]).toEqual([favouriteContact])
+      expect(subject.table[""]).toEqual([contacts[3]])
+      expect(subject.table["e"]).toEqual([contacts[2]])
+      expect(subject.table["[value] module.contacts.listFavourites"]).toEqual([
+        favouriteContact,
+      ])
+    })
+  })
+
+  describe("only regular contacts present", () => {
+    beforeEach(() => {
+      contacts.forEach((contact) => {
+        subject.push(contact)
+      })
+    })
+
+    test("returns category contacts hash", () => {
+      expect(subject.table["b"]).toEqual([contacts[1]])
+      expect(subject.table["d"]).toEqual([contacts[0]])
+      expect(subject.table["e"]).toEqual([contacts[2]])
+      expect(subject.table[""]).toEqual([contacts[3]])
+    })
   })
 })
 
 describe("Method: map", () => {
-  beforeEach(() => {
-    contacts.forEach((contact) => {
-      subject.push(contact)
-    })
-  })
-
   afterEach(() => {
     subject = new ContactsHashTable()
   })
 
-  test("returns filled hash with contacts", () => {
-    expect(
-      subject.map((key, value) => {
-        return `key: ${key} name: ${value[0].firstName} phone: ${value[0].primaryPhoneNumber}`
+  describe("fauvorites contact present", () => {
+    beforeEach(() => {
+      const contactsWithFavourite = [...contacts, favouriteContact]
+
+      contactsWithFavourite.forEach((contact) => {
+        subject.push(contact)
       })
-    ).toEqual([
-      "key:  name: Edmund phone: +46 333 060 911",
-      "key: b name: Sławomir phone: +71 195 069 214",
-      "key: d name: John phone: 123 456 789",
-    ])
+    })
+
+    test("returns alphabetically sorted hash filled with contacts and favorite category in first place", () => {
+      expect(
+        subject.map((key, value) => {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          return `key: ${key} name: ${value[0].firstName} phone: ${value[0].primaryPhoneNumber}`
+        })
+      ).toEqual([
+        "key: [value] module.contacts.listFavourites name: Luke phone: 123 456 789",
+        "key: b name: Sławomir phone: +71 195 069 214",
+        "key: d name: John phone: 123 456 789",
+        "key: e name: Edmund phone: +46 333 060 911",
+        "key: s name: Luke phone: 123 456 789",
+        "key:  name:  phone: +33 333 060 911",
+      ])
+    })
+  })
+
+  describe("only regular contacts present", () => {
+    beforeEach(() => {
+      contacts.forEach((contact) => {
+        subject.push(contact)
+      })
+    })
+
+    test("returns alphabetically sorted hash filled with contacts", () => {
+      expect(
+        subject.map((key, value) => {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+          return `key: ${key} name: ${value[0].firstName} phone: ${value[0].primaryPhoneNumber}`
+        })
+      ).toEqual([
+        "key: b name: Sławomir phone: +71 195 069 214",
+        "key: d name: John phone: 123 456 789",
+        "key: e name: Edmund phone: +46 333 060 911",
+        "key:  name:  phone: +33 333 060 911",
+      ])
+    })
   })
 })
 
@@ -124,6 +207,6 @@ describe("Method: length", () => {
   })
 
   test("returns length of hash", () => {
-    expect(subject.length).toEqual(3)
+    expect(subject.length).toEqual(4)
   })
 })
