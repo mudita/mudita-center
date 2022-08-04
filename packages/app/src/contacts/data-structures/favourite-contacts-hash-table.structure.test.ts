@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ContactsHashTable } from "App/contacts/data-structures/contacts-hash-table.structure"
+import { FavouriteContactsHashTable } from "App/contacts/data-structures/favourite-contacts-hash-table.structure"
 import { Contact } from "App/contacts/dto"
 
-let subject = new ContactsHashTable()
+let subject = new FavouriteContactsHashTable()
 
 const contacts: Contact[] = [
   {
@@ -48,20 +48,6 @@ const contacts: Contact[] = [
     firstAddressLine: "016 McClure Curve",
     secondAddressLine: "",
   },
-  {
-    id: "3",
-    firstName: "",
-    lastName: "",
-    primaryPhoneNumber: "+33 333 060 911",
-    secondaryPhoneNumber: "",
-    email: "",
-    note: "",
-    ice: true,
-    favourite: false,
-    blocked: false,
-    firstAddressLine: "016 McClure Curve",
-    secondAddressLine: "",
-  },
 ]
 
 test("returns empty hash", () => {
@@ -70,7 +56,7 @@ test("returns empty hash", () => {
 
 describe("Method: push", () => {
   afterEach(() => {
-    subject = new ContactsHashTable()
+    subject = new FavouriteContactsHashTable()
   })
 
   beforeEach(() => {
@@ -80,16 +66,13 @@ describe("Method: push", () => {
   })
 
   test("returns category contacts hash", () => {
-    expect(subject.table["b"]).toEqual([contacts[1]])
-    expect(subject.table["d"]).toEqual([contacts[0]])
-    expect(subject.table["e"]).toEqual([contacts[2]])
-    expect(subject.table[""]).toEqual([contacts[3]])
+    expect(subject.table[""]).toEqual(contacts)
   })
 })
 
 describe("Method: map", () => {
   afterEach(() => {
-    subject = new ContactsHashTable()
+    subject = new FavouriteContactsHashTable()
   })
 
   beforeEach(() => {
@@ -100,16 +83,22 @@ describe("Method: map", () => {
 
   test("returns alphabetically sorted hash filled with contacts", () => {
     expect(
-      subject.map((key, value) => {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        return `key: ${key} name: ${value[0].firstName} phone: ${value[0].primaryPhoneNumber}`
-      })
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      subject
+        .map((key, value) => {
+          return value.map(
+            (contact) =>
+              // AUTO DISABLED - fix me if you like :)
+              // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+              `key: ${key} name: ${contact.firstName} phone: ${contact.primaryPhoneNumber}`
+          )
+        })
+        .flat()
     ).toEqual([
-      "key: b name: Sławomir phone: +71 195 069 214",
-      "key: d name: John phone: 123 456 789",
-      "key: e name: Edmund phone: +46 333 060 911",
-      "key:  name:  phone: +33 333 060 911",
+      "key:  name: John phone: 123 456 789",
+      "key:  name: Sławomir phone: +71 195 069 214",
+      "key:  name: Edmund phone: +46 333 060 911",
     ])
   })
 })
@@ -122,7 +111,7 @@ describe("Method: flat", () => {
   })
 
   afterEach(() => {
-    subject = new ContactsHashTable()
+    subject = new FavouriteContactsHashTable()
   })
 
   test("returns flatten contact list", () => {
@@ -138,10 +127,10 @@ describe("Method: length", () => {
   })
 
   afterEach(() => {
-    subject = new ContactsHashTable()
+    subject = new FavouriteContactsHashTable()
   })
 
   test("returns length of hash", () => {
-    expect(subject.length).toEqual(4)
+    expect(subject.length).toEqual(1)
   })
 })

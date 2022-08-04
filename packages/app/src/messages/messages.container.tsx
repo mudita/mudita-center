@@ -45,6 +45,8 @@ import {
   toggleItem,
   resetItems,
 } from "./actions"
+import { CreateMessageDataResponse } from "App/messages/services"
+import { PayloadAction } from "@reduxjs/toolkit"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   error: state.messages.error,
@@ -94,9 +96,11 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(markThreadsReadStatus(threads)),
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
-  addNewMessage: async (newMessage: NewMessage): Promise<void> =>
+  addNewMessage: async (
+    newMessage: NewMessage
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
+  ): Promise<PayloadAction<CreateMessageDataResponse>> =>
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     dispatch(addNewMessage(newMessage)),

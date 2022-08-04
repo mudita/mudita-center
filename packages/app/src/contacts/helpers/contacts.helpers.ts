@@ -16,6 +16,7 @@ import {
   ContactsState,
   PhoneContacts,
 } from "App/contacts/reducers/contacts.interface"
+import { mapToRawNumber } from "App/messages/helpers"
 
 const lengthy = (input = "") => input.length > 0
 // AUTO DISABLED - fix me if you like :)
@@ -30,7 +31,7 @@ export const phoneNumberFormatter = (
   const needle = Object.keys(input)[0]
   if (haystack.indexOf(needle) > -1) {
     return {
-      [needle]: input[needle].replace(new RegExp(/\s/g), ""),
+      [needle]: mapToRawNumber(input[needle]),
     }
   }
 

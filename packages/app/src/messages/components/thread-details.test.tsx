@@ -118,13 +118,11 @@ test("Left part of sidebar displays details correctly", () => {
   )
 })
 
-test("Message from unknown person displays only phone number", () => {
+test("Message from unknown person displays only phone number as raw phone number", () => {
   const { getByTestId } = renderer({
     receiver: unknownReceiver,
   })
-  expect(getByTestId("sidebar-fullname")).toHaveTextContent(
-    unknownReceiver.phoneNumber
-  )
+  expect(getByTestId("sidebar-fullname")).toHaveTextContent("+123456123")
 })
 
 test("Open contacts", () => {

@@ -14,6 +14,7 @@ import { Notification } from "App/notification/types"
 import { Settings } from "App/settings/dto"
 import { Receiver } from "App/messages/reducers"
 import { Template } from "App/templates/dto"
+import { CreateMessageDataResponse } from "App/messages/services"
 
 export interface Content {
   id: string
@@ -48,7 +49,9 @@ export interface MessagesProps extends Pick<Settings, "language"> {
   getContactByPhoneNumber: (phoneNumber: string) => Contact | undefined
   getMessagesStateByThreadId: (threadId: string) => ResultState
   isContactCreatedByPhoneNumber: (phoneNumber: string) => boolean
-  addNewMessage: (newMessage: NewMessage) => Promise<void>
+  addNewMessage: (
+    newMessage: NewMessage
+  ) => Promise<PayloadAction<CreateMessageDataResponse>>
   deleteMessage: (messageId: string) => Promise<string>
   updateMessage: (message: Message) => Promise<void>
   removeLayoutNotification: (notificationId: string) => void
