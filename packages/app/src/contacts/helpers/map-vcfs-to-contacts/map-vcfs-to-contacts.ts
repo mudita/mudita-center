@@ -21,17 +21,19 @@ const mapToContact = (vContact: vCardContact): NewContact => {
 
   assertValueIsStringNotArray(decodedValues.n, "name")
   assertValueIsStringNotArray(decodedValues.fv, "full name")
-  const [lastName = "", firstName = ""] = decodedValues.n.split(";")
-  const fullName = decodedValues.fv
+  const [lastName = "", firstName = ""] = decodedValues.n
+    ? decodedValues.n.split(";")
+    : []
+  const fullName = decodedValues.fv ?? ""
 
   if (decodedValues.tel) {
     if (Array.isArray(decodedValues.tel)) {
       contact["primaryPhoneNumber"] = decodedValues.tel[0]
-        .valueOf()
-        .replace(/\s/g, "")
+        ? decodedValues.tel[0].valueOf().replace(/\s/g, "")
+        : ""
       contact["secondaryPhoneNumber"] = decodedValues.tel[1]
-        .valueOf()
-        .replace(/\s/g, "")
+        ? decodedValues.tel[1].valueOf().replace(/\s/g, "")
+        : ""
     } else {
       contact["primaryPhoneNumber"] = decodedValues.tel.replace(/\s/g, "")
     }
@@ -42,7 +44,7 @@ const mapToContact = (vContact: vCardContact): NewContact => {
     let secondAddressLine = ""
 
     if (Array.isArray(decodedValues.adr)) {
-      address = decodedValues.adr[0]
+      address = decodedValues.adr[0] ?? ""
     } else {
       address = decodedValues.adr
     }
@@ -91,7 +93,9 @@ const getVCardDecodedValues = (
   )
 }
 
-const getValueFromProperty = (property: vCardProperty | vCardProperty[]) => {
+const getValueFromProperty = (
+  property: vCardProperty | vCardProperty[]
+): string | string[] => {
   if (Array.isArray(property)) {
     return property.map((prop) => decodeIfNeeded(prop.valueOf(), prop.charset))
   } else {
@@ -119,6 +123,12 @@ function assertValueIsStringNotArray(
   }
 }
 
+const isEmptyContact = (contact: NewContact): boolean => {
+  return Object.values(contact).every((value) => {
+    return value === undefined || value === ""
+  })
+}
+
 const mapVCFsToContacts = async (files: File[]): Promise<NewContact[]> => {
   try {
     const contacts: NewContact[] = []
@@ -132,7 +142,7 @@ const mapVCFsToContacts = async (files: File[]): Promise<NewContact[]> => {
       vCards.forEach(({ data }) => contacts.push(mapToContact(data)))
     }
 
-    return contacts
+    return contacts.filter((contact) => !isEmptyContact(contact))
   } catch {
     return []
   }
