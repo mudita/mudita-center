@@ -8,6 +8,8 @@ import { IpcMetadata } from "App/metadata/constants"
 import { getMetadataStore } from "App/metadata/containers"
 
 export const registerMetadataAllGetValueListener = (): void => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   ipcMain.answerRenderer(IpcMetadata.GetAllValues, async () => {
     const store = getMetadataStore()
     return store.metadata

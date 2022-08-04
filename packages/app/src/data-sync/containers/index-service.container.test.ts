@@ -10,6 +10,8 @@ import {
 } from "App/data-sync/containers/index-service.container"
 
 const dataSyncService: DataSyncClass = {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   indexesMap: new Map(),
   indexAll: jest.fn(),
   initialize: jest.fn(),

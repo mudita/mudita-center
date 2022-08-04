@@ -11,6 +11,8 @@ import { contactsSeed } from "App/__deprecated__/seeds/contacts"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
 import { noop } from "App/__deprecated__/renderer/utils/noop"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const renderer = (extraProps?: {}) => {
   const defaultProps = {
     onCancel: noop,

@@ -63,6 +63,8 @@ const TextWrapper = styled.div`
 
 const InputRadio: FunctionComponent<InputProps> = ({
   className,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   children,
   label,
   subLabel,

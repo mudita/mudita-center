@@ -24,10 +24,16 @@ const BlackSvg = styled(Svg)`
 /**
  * any is sick and should be banned, but here importing RequireContext from Webpack triggers * errors.
  */
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const requireAll = (requireContext: any) => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   return requireContext.keys().map((fileName: string) => {
     return {
       fileName,
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
       component: requireContext(fileName),
     }
   }) as { fileName: string; component: FunctionComponent }[]

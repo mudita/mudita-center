@@ -61,7 +61,7 @@ const messages = defineMessages({
   optional: { id: "component.contactSupportModalFormOptional" },
 })
 
-const DescriptionInput = styled(InputComponent)<InputComponentProps>`
+export const DescriptionInput = styled(InputComponent)<InputComponentProps>`
   min-height: 8rem;
   align-items: flex-start;
   padding: 0 1.2rem;
@@ -94,11 +94,9 @@ interface FormInputLabelProps {
   optional?: boolean
 }
 
-const FormInputLabelComponent: FunctionComponent<FormInputLabelProps> = ({
-  className,
-  label,
-  optional,
-}) => (
+export const FormInputLabelComponent: FunctionComponent<
+  FormInputLabelProps
+> = ({ className, label, optional }) => (
   <Text className={className} displayStyle={TextDisplayStyle.Paragraph3}>
     <FormattedMessage {...label} />
     {optional && (
@@ -114,7 +112,7 @@ const FormInputLabelComponent: FunctionComponent<FormInputLabelProps> = ({
   </Text>
 )
 
-const FormInputLabel = styled(FormInputLabelComponent)`
+export const FormInputLabel = styled(FormInputLabelComponent)`
   margin-bottom: 0.4rem;
 
   &:not(:first-of-type) {

@@ -61,6 +61,8 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     test("`delete` method in threadRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toBeUndefined()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(threadRepository.delete).toHaveBeenCalledWith("1")
     })
   })
@@ -88,6 +90,8 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     test("`create` method in threadRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toEqual(threadMock)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(threadRepository.create).toHaveBeenCalled()
     })
   })
@@ -115,6 +119,8 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     test("`update` method in threadRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toEqual(threadMock)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(threadRepository.update).toHaveBeenCalled()
     })
   })
@@ -143,6 +149,8 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     test("`create` method in threadRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toEqual(threadMock)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(threadRepository.create).toHaveBeenCalled()
     })
   })
@@ -170,6 +178,8 @@ describe("ThreadEntryHandlerService: handleEntry", () => {
 
     test("`update` method in threadRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toBeUndefined()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(threadRepository.update).not.toHaveBeenCalled()
     })
   })

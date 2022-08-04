@@ -16,7 +16,7 @@ import {
   URL_ONBOARDING,
   URL_OVERVIEW,
 } from "App/__deprecated__/renderer/constants/urls"
-import useRouterListener from "App/__deprecated__/renderer/utils/hooks/use-router-listener/use-router-listener"
+import { useRouterListener } from "App/core/hooks"
 import ModalsManager from "App/modals-manager/containers/modals-manager.container"
 import { UpdatingState } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { getConnectedDevice } from "App/device/actions"
@@ -62,18 +62,26 @@ const BaseApp: FunctionComponent<Props> = ({
     } else if (!deviceFeaturesVisible) {
       history.push(URL_ONBOARDING.welcome)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceFeaturesVisible, deviceConnecting])
 
   useEffect(() => {
     if (deviceParred && Boolean(settingsLoaded)) {
       sendDiagnosticData()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceParred, settingsLoaded])
 
   useEffect(() => {
     if (!deviceConnected && !deviceUpdating) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.closeModal(true)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceConnected])
 
   return (

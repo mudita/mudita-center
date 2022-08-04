@@ -11,6 +11,8 @@ enum Unit {
   Day = Unit.Hour * 24,
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const formatDuration = (seconds: Seconds) => {
   let secondsLeft = seconds
 

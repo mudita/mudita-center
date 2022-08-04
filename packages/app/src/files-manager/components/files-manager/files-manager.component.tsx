@@ -39,10 +39,14 @@ const FilesManager: FunctionComponent<Props> = ({
   const systemMemory = total - free
 
   const downloadFiles = async () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await getFiles()
   }
   useEffect(() => {
     void downloadFiles()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const diskSpaceCategories: DiskSpaceCategory[] = filesSummaryElements.map(

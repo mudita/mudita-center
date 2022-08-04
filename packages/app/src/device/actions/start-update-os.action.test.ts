@@ -35,6 +35,8 @@ describe("Update Os request returns `success` status", () => {
     const filePathMock = "far/far/far/in/some/catalog/update.img"
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(
       startUpdateOs(filePathMock) as unknown as AnyAction
     )
@@ -68,6 +70,8 @@ describe("Update Os request returns `error` status", () => {
     )
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(
       startUpdateOs(filePathMock) as unknown as AnyAction
     )

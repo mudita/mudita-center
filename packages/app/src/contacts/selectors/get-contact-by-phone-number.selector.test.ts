@@ -10,9 +10,13 @@ import { getContactByPhoneNumberSelector } from "App/contacts/selectors/get-cont
 describe("`getContactByPhoneNumberSelector` selector", () => {
   test("when initial state is set selector returns undefined", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       contacts: contactsReducer(initialState, {} as any),
     } as ReduxRootState
-    expect(getContactByPhoneNumberSelector("+71195069214")(state)).toBeUndefined()
+    expect(
+      getContactByPhoneNumberSelector("+71195069214")(state)
+    ).toBeUndefined()
   })
 
   test("when contacts are loaded selector returns properly contact", () => {
@@ -39,9 +43,13 @@ describe("`getContactByPhoneNumberSelector` selector", () => {
             [contact.id]: contact,
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
     } as ReduxRootState
-    expect(getContactByPhoneNumberSelector("+71195069214")(state)).toEqual(contact)
+    expect(getContactByPhoneNumberSelector("+71195069214")(state)).toEqual(
+      contact
+    )
   })
 })

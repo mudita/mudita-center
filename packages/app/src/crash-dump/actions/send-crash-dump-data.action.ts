@@ -21,14 +21,18 @@ import {
   FreshdeskTicketData,
   FreshdeskTicketDataType,
 } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
+import { SendCrashDumpPayload } from "App/crash-dump/reducers/crash-dump.interface"
 
 const mapToAttachments = (paths: string[]): File[] => {
   return paths.map((path) => createFile(path))
 }
 
-export const sendCrashDumpData = createAsyncThunk(
+export const sendCrashDumpData = createAsyncThunk<
+  undefined,
+  SendCrashDumpPayload
+>(
   Event.SendCrashDump,
-  async (_, { dispatch, rejectWithValue, getState }) => {
+  async ({ email, description }, { dispatch, rejectWithValue, getState }) => {
     const state = getState() as ReduxRootState
 
     if (!state.crashDump.data.downloadedFiles.length) {
@@ -68,6 +72,8 @@ export const sendCrashDumpData = createAsyncThunk(
       subject: "Error - Crash dump",
       serialNumber: state.device.data.serialNumber,
       attachments,
+      email,
+      description,
     }
 
     try {
@@ -84,6 +90,8 @@ export const sendCrashDumpData = createAsyncThunk(
 
     await Promise.all([
       ...state.crashDump.data.files.map((path) => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         dispatch(removeFile(path))
       }),
     ])

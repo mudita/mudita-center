@@ -14,6 +14,8 @@ test("effect is dispatched and store is updated - false return variant", async (
     models: { networkStatus },
   })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await store.dispatch.networkStatus.updateOnlineStatus()
 
   expect(store.getState()).toEqual({
@@ -33,6 +35,8 @@ test("effect is dispatched and store is updated - true return variant", async ()
     models: { networkStatus },
   })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await store.dispatch.networkStatus.updateOnlineStatus()
 
   expect(store.getState()).toEqual({

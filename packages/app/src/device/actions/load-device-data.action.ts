@@ -12,6 +12,8 @@ import { DeviceDataLoader } from "App/device/loaders/device-data.loader"
 import { setValue, MetadataKey } from "App/metadata"
 import { trackOsVersion } from "App/analytic-data-tracker/helpers"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const loadDeviceData = createAsyncThunk<any, DeviceType>(
   DeviceEvent.Loading,
   async (payload, { getState, dispatch, rejectWithValue }) => {
@@ -26,16 +28,22 @@ export const loadDeviceData = createAsyncThunk<any, DeviceType>(
     try {
       const data = await loader.loadDeviceData(payload)
       if (state.device.deviceType !== null) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         trackOsVersion({
           serialNumber: data.serialNumber,
           osVersion: data.osVersion,
           deviceType: state.device.deviceType,
         })
       }
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       setValue({
         key: MetadataKey.DeviceOsVersion,
         value: data.osVersion ?? null,
       })
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       setValue({
         key: MetadataKey.DeviceType,
         value: state.device.deviceType,

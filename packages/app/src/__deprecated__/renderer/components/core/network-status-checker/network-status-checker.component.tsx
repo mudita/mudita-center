@@ -21,6 +21,8 @@ const NetworkStatusChecker: FunctionComponent<NetworkStatusCheckerProps> = ({
       window.removeEventListener("online", updateOnlineStatus)
       window.removeEventListener("offline", updateOnlineStatus)
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return null
 }

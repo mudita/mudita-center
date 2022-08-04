@@ -24,6 +24,8 @@ test("calls `setNonStandardAudioFilesConversion` and `updateSettings` request wi
 
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(
     setNonStandardAudioFilesConversion(true) as unknown as AnyAction
   )

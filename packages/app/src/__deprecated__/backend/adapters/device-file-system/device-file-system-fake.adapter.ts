@@ -14,8 +14,14 @@ import {
 } from "App/core/types/request-response.interface"
 
 export class DeviceFileSystemFakeAdapter implements DeviceFileSystemAdapter {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async downloadDeviceFilesLocally(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     filePaths: string[],
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     options: DownloadDeviceFileLocallyOptions
   ): Promise<RequestResponse<string[]>> {
     return {
@@ -24,7 +30,11 @@ export class DeviceFileSystemFakeAdapter implements DeviceFileSystemAdapter {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async downloadDeviceFiles(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     filePaths: string[]
   ): Promise<RequestResponse<DeviceFile[]>> {
     return {
@@ -38,6 +48,8 @@ export class DeviceFileSystemFakeAdapter implements DeviceFileSystemAdapter {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-unused-vars
   async downloadFile(filePath: string): Promise<RequestResponse<Buffer>> {
     return {
       status: RequestResponseStatus.Ok,
@@ -45,8 +57,14 @@ export class DeviceFileSystemFakeAdapter implements DeviceFileSystemAdapter {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async uploadFile({
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     data,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     targetPath,
   }: UploadFilePayload): Promise<RequestResponse> {
     return {
@@ -54,12 +72,16 @@ export class DeviceFileSystemFakeAdapter implements DeviceFileSystemAdapter {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async uploadFileLocally(): Promise<RequestResponse> {
     return {
       status: RequestResponseStatus.Ok,
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async removeDeviceFile(): Promise<RequestResponse> {
     return {
       status: RequestResponseStatus.Ok,

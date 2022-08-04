@@ -10,6 +10,8 @@ import { isContactCreatedSelector } from "App/contacts/selectors/is-contact-crea
 describe("`isContactCreatedSelector` selector", () => {
   test("when initial state is set selector returns undefined", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       contacts: contactsReducer(initialState, {} as any),
     } as ReduxRootState
     expect(isContactCreatedSelector("0")(state)).toBeFalsy()
@@ -39,6 +41,8 @@ describe("`isContactCreatedSelector` selector", () => {
             [contact.id]: contact,
           },
         },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {} as any
       ),
     } as ReduxRootState

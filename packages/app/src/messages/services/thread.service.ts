@@ -65,6 +65,8 @@ export class ThreadService {
       return {
         status: RequestResponseStatus.Ok,
         data: {
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/unbound-method
           data: data.entries.map(ThreadPresenter.mapToThread),
           nextPage: data.nextPage,
           totalCount: data.totalCount,
@@ -146,6 +148,8 @@ export class ThreadService {
     )
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   // the method is commented until os part will be implemented as CP-1232
   private async getThreadRequest(id: string): Promise<RequestResponse<Thread>> {

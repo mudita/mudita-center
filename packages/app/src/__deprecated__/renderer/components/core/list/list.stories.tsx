@@ -46,11 +46,17 @@ export const advancedItems = [
 
 export type AdvancedItem = typeof advancedItems[number]
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getItemName = (item: AdvancedItem) => item.name
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const isItemMatching = (item: AdvancedItem, search: string) => {
   return item.name.toLowerCase().includes(search.toLowerCase())
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const renderCustomListItem: RenderListItem<AdvancedItem, any> = ({
   item: { name, type, icon },
   searchString,

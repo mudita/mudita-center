@@ -11,12 +11,14 @@ import { sendCrashDumpData } from "App/crash-dump/actions/send-crash-dump-data.a
 import { CrashDumpError, Event } from "App/crash-dump/constants"
 import { downloadCrashDumpRequest } from "App/crash-dump/requests/download-crash-dump.request"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { SendCrashDumpPayload } from "App/crash-dump/reducers/crash-dump.interface"
 
 export const downloadCrashDump = createAsyncThunk<
-  RequestResponseStatus | undefined
+  RequestResponseStatus | undefined,
+  SendCrashDumpPayload
 >(
   Event.DownloadCrashDump,
-  async (_, { dispatch, rejectWithValue, getState }) => {
+  async ({ email, description }, { dispatch, rejectWithValue, getState }) => {
     const state = getState() as ReduxRootState
 
     if (!state.crashDump.data.files.length) {
@@ -27,7 +29,9 @@ export const downloadCrashDump = createAsyncThunk<
 
     if (status === RequestResponseStatus.Ok && data) {
       dispatch(setDownloadedCrashDump(data))
-      dispatch(sendCrashDumpData())
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      dispatch(sendCrashDumpData({ email, description }))
     } else {
       return rejectWithValue(
         new AppError(

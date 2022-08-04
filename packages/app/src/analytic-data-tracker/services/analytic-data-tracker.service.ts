@@ -85,6 +85,8 @@ export class AnalyticDataTrackerService implements AnalyticDataTrackerClass {
     }
 
     return this.httpClient.post(this.apiUrl, undefined, {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       params,
     })
   }

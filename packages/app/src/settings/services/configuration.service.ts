@@ -30,6 +30,8 @@ export class ConfigurationService {
       }
     } catch (error) {
       try {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         this.defaultConfiguration = require("../app-configuration.json")
       } catch {
         console.error("read app-configuration.json is failed")

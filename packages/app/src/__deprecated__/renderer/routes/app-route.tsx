@@ -9,15 +9,23 @@ import LayoutDesktopWrapper from "App/__deprecated__/renderer/wrappers/layout-de
 
 interface AppRouteProps extends Omit<RouteProps, "component"> {
   layout?: ComponentType
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: ComponentType<any>
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const AppRoute = ({
   layout: Layout = LayoutDesktopWrapper,
   component: Component,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   path,
   ...rest
 }: AppRouteProps) => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const routeRenderer = (props: RouteComponentProps<any>) => (
     <Layout>
       <Component {...props} />

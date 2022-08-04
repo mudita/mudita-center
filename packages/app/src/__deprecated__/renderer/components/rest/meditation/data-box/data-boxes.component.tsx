@@ -32,6 +32,8 @@ export const DataBoxesWrapper = styled.div`
   max-width: 90.5rem;
 `
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const DataBoxes: FunctionComponent<{}> = () => (
   <DataBoxesWrapper>
     <DataBox>

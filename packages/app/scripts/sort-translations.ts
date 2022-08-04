@@ -1,13 +1,18 @@
 namespace SortTranslations {
   const fs = require("fs-extra")
   const translationConfig = require("../src/translations.config.json")
+  const path = require("path")
 
   const script = async () => {
     console.log("Sorting translations")
 
     try {
       for (const { code } of translationConfig.availableLanguages) {
-        const filePath = `./src/renderer/locales/default/${code}.json`
+        const filePath = path.join(
+          __dirname,
+          "..",
+          `src/__deprecated__/renderer/locales/default/${code}.json`
+        )
 
         if (await fs.pathExists(filePath)) {
           let data: Record<string, string> = await fs.readJson(filePath)
@@ -29,6 +34,8 @@ namespace SortTranslations {
           await fs.writeFileSync(filePath, JSON.stringify(data, null, 2))
 
           console.log(`Translation for ${code} sorted`)
+        } else {
+          console.error("Translation file not found!", filePath)
         }
       }
     } catch (error: any) {

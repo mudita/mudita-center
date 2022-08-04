@@ -156,6 +156,8 @@ interface UpdatingFailureWithHelpModalProps
   onHelp: () => void
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdatingFailureWithHelpModal = ({
   onContact,
   onHelp,

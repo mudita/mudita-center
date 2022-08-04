@@ -23,6 +23,8 @@ export class TemplateIndexer extends BaseIndexer {
     super(fileSystemService)
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async index(fileDir: string, token: string): Promise<any> {
     const db = await this.initTmpDatabase(fileDir, token)
     const object = this.dataPresenter.serializeToObject(this.loadTables(db))

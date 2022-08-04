@@ -116,6 +116,8 @@ describe("PureDataLoader", () => {
   test("throw error if one of the request returns failed status", () => {
     requestStatusFactory(RequestResponseStatus.Error)
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     expect(async () => await subject.load()).rejects.toThrowError(errorMock)
 
     expect(getDeviceInfo).toHaveBeenCalled()

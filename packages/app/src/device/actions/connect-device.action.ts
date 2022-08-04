@@ -23,7 +23,11 @@ export const connectDevice = createAsyncThunk<DeviceType, DeviceType>(
       )
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(setConnectionStatus(true))
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(loadDeviceData(payload))
 
     return payload

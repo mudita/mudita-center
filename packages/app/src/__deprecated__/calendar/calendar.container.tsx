@@ -20,6 +20,8 @@ const mapStateToProps = (state: RootModel) => {
   }
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return
 const mapDispatch = ({ calendar }: any) => ({
   ...calendar,
 })

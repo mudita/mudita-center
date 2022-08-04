@@ -5,7 +5,10 @@
 
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import { Checkbox, Files } from "App/__deprecated__/renderer/components/core/table/table.stories"
+import {
+  Checkbox,
+  Files,
+} from "App/__deprecated__/renderer/components/core/table/table.stories"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import {
   Col,
@@ -204,6 +207,8 @@ const NestedSelectableTable = () => {
     noneRowsSelected,
   } = useTableSelect(nestedRows)
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const SingleRow = ({ data, ...rest }: any) => {
     const onChange = () => {
       toggleRow(data)
@@ -218,9 +223,15 @@ const NestedSelectableTable = () => {
             onChange={onChange}
             data-testid="row-checkbox"
           />
+          {/* AUTO DISABLED - fix me if you like :) */}
+          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
           <div>{data.fileType}</div>
         </Col>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
         <Col>{new Date(data.lastBackup).toLocaleString()}</Col>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
         <Col>{data.size}</Col>
       </Row>
     )

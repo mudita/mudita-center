@@ -25,6 +25,8 @@ const CardContainer = styled.div`
 const Cards: FunctionComponent<Props> = ({ newsItems, loadData = noop }) => {
   useEffect(() => {
     loadData()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <CardContainer>

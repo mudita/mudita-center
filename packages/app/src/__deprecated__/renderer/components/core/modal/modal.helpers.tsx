@@ -11,6 +11,8 @@ import {
 } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { Size } from "App/__deprecated__/renderer/components/core/button/button.config"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getModalSize = (size: ModalSize) => {
   switch (size) {
     case ModalSize.VerySmall:
@@ -36,6 +38,8 @@ export const getModalSize = (size: ModalSize) => {
   }
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getTitleStyle = (size: ModalSize) => {
   switch (size) {
     case ModalSize.VerySmall:
@@ -50,6 +54,8 @@ export const getTitleStyle = (size: ModalSize) => {
   }
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getSubtitleStyle = (size: ModalSize) => {
   switch (size) {
     case ModalSize.Small:
@@ -62,6 +68,8 @@ export const getSubtitleStyle = (size: ModalSize) => {
   }
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getHeaderTemplate = (order: TitleOrder) => {
   switch (order) {
     case TitleOrder.TitleFirst:
@@ -81,6 +89,8 @@ export const getHeaderTemplate = (order: TitleOrder) => {
   }
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getModalButtonsSize = (size: ModalSize) => {
   switch (size) {
     case ModalSize.VerySmall:
@@ -96,6 +106,8 @@ export const getModalButtonsSize = (size: ModalSize) => {
   }
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getButtonsPosition = (size: ModalSize) => {
   switch (size) {
     case ModalSize.VerySmall:

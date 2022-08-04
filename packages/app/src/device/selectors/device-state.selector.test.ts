@@ -10,6 +10,8 @@ import { deviceStateSelector } from "App/device/selectors/device-state.selector"
 describe("`deviceStateSelector` selector", () => {
   test("when initial state is set selector returns initial state", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       device: deviceReducer(initialState, {} as any),
     } as ReduxRootState
     expect(deviceStateSelector(state)).toEqual(initialState)

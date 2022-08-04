@@ -43,6 +43,8 @@ import PureSystem from "App/overview/components/pure-system/pure-system.containe
 import LayoutDesktopWrapperWithoutHeader from "App/__deprecated__/renderer/wrappers/layout-desktop-wrapper-without-header"
 import TemplatesContainer from "App/templates/template.container"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default () => (
   <Switch>
     <Redirect exact from={URL_MAIN.root} to={URL_MAIN.news} />

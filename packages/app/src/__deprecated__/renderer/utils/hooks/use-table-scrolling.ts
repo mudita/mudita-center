@@ -5,6 +5,8 @@
 
 import { useState } from "react"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const useTableScrolling = () => {
   const [scrollable, setScrollingAbility] = useState(true)
 

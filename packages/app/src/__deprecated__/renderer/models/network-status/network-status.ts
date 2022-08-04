@@ -11,7 +11,11 @@ import { RootModel } from "App/__deprecated__/renderer/models/models"
 const networkStatus = createModel<RootModel>({
   state: {},
   reducers: {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     update(state: Store, payload: any) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return { ...state, ...payload }
     },
   },
@@ -21,6 +25,8 @@ const networkStatus = createModel<RootModel>({
     return {
       updateOnlineStatus() {
         const online = navigator.onLine
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         dispatch.networkStatus.update({
           online,
         })

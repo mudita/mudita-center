@@ -44,9 +44,13 @@ const updateTemplateOrderMock = jest
   .mockResolvedValue({ payload: templateMock })
 
 const render = async (props: TemplatesProps) => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   const result = await renderWithThemeAndIntl(<Templates {...props} />)
   return {
     ...result,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     rerender: async (newProps: TemplatesProps) =>
       result.rerender(constructWrapper(<Templates {...newProps} />)),
   }
@@ -139,10 +143,12 @@ describe("`Templates` component", () => {
       const textField = getByTestId(TemplateFormTestIds.TextFiled)
       const saveButton = getByTestId(TemplateFormTestIds.SaveButton)
 
-      fireEvent.change(textField, {
+      fireEvent.input(textField, {
         target: { value: "Hello world!" },
       })
-      expect(createTemplateMock).toHaveBeenCalledTimes(0)
+      await waitFor(() => {
+        expect(createTemplateMock).toHaveBeenCalledTimes(0)
+      })
       fireEvent.click(saveButton)
       await waitFor(() => {
         expect(createTemplateMock).toHaveBeenCalledTimes(1)
@@ -170,6 +176,8 @@ describe("`Templates` component", () => {
       fireEvent.change(textField, {
         target: { value: "Hello world!" },
       })
+
+      await waitFor(noop)
 
       fireEvent.click(saveButton)
 
@@ -201,6 +209,7 @@ describe("`Templates` component", () => {
       fireEvent.change(textField, {
         target: { value: "Hello world!" },
       })
+      await waitFor(noop)
 
       fireEvent.click(saveButton)
 
@@ -245,6 +254,7 @@ describe("`Templates` component", () => {
       fireEvent.change(textField, {
         target: { value: "Hello world!" },
       })
+      await waitFor(noop)
 
       fireEvent.click(saveButton)
 

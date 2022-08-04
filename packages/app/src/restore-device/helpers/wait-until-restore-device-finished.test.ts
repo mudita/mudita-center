@@ -15,8 +15,12 @@ import {
   RequestResponseStatus,
 } from "App/core/types/request-response.interface"
 
-jest.mock("App/__deprecated__/renderer/requests/get-restore-device-status.request")
-jest.mock("App/__deprecated__/renderer/requests/get-unlock-device-status.request")
+jest.mock(
+  "App/__deprecated__/renderer/requests/get-restore-device-status.request"
+)
+jest.mock(
+  "App/__deprecated__/renderer/requests/get-unlock-device-status.request"
+)
 
 const successGetRestoreDeviceResponse: RequestResponse<GetRestoreDeviceStatusResponseBody> =
   {
@@ -55,6 +59,8 @@ beforeEach(() => {
   // mock timer to call callbacks immediately
   jest
     .spyOn(window, "setTimeout")
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-return
     .mockImplementation((handler: () => any) => handler())
 })
 

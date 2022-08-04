@@ -13,7 +13,6 @@ import Table, {
   Row,
   TextPlaceholder,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
-import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { VisibleCheckbox } from "App/__deprecated__/renderer/components/rest/visible-checkbox/visible-checkbox"
 import Avatar, {
   AvatarSize,
@@ -21,7 +20,6 @@ import Avatar, {
 } from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
 import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
-import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
 import useTableScrolling from "App/__deprecated__/renderer/utils/hooks/use-table-scrolling"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
@@ -88,19 +86,20 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   }
 `
 
-type SelectHook = Pick<
-  UseTableSelect<Contact>,
-  "getRowStatus" | "toggleRow" | "noneRowsSelected"
->
-
-interface Props extends Omit<ContactActions, "onEdit">, SelectHook {
+interface ContactSearchResultProps {
   selectedContact: Contact | null
   onSelect: (contact: Contact) => void
   resultsState: ResultState
   results: Contact[]
+  selectedItems: string[]
+  onExport: (ids: string[]) => void
+  onForward: (contact: Contact) => void
+  onBlock: (contact: Contact) => void
+  onUnblock: (contact: Contact) => void
+  onDelete: (id: string) => void
 }
 
-const ContactSearchResults: FunctionComponent<Props> = ({
+const ContactSearchResults: FunctionComponent<ContactSearchResultProps> = ({
   results,
   onSelect,
   onExport,
@@ -109,7 +108,7 @@ const ContactSearchResults: FunctionComponent<Props> = ({
   onUnblock,
   onDelete,
   resultsState,
-  getRowStatus,
+  selectedItems,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
@@ -134,12 +133,12 @@ const ContactSearchResults: FunctionComponent<Props> = ({
       {resultsState === ResultState.Loaded &&
         (results.length
           ? results.map((contact) => {
-              const { selected } = getRowStatus(contact)
-              const handleExport = () => onExport([contact])
+              const selected = selectedItems.includes(contact.id)
+              const handleExport = () => onExport([contact.id])
               const handleForward = () => onForward(contact)
               const handleBlock = () => onBlock(contact)
               const handleUnblock = () => onUnblock(contact)
-              const handleDelete = () => onDelete(contact)
+              const handleDelete = () => onDelete(contact.id)
               const handleSelect = () => onSelect(contact)
 
               const fullName = createFullName(contact)

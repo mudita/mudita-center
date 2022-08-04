@@ -22,6 +22,8 @@ const toggleItemSelect = (
 
 export const selectAllItems = createAsyncThunk<string[]>(
   MessagesEvent.SelectAll,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async (_, { getState }) => {
     const state = getState() as RootState & ReduxRootState
 
@@ -35,6 +37,8 @@ export const resetItems = createAction(MessagesEvent.ResetItems)
 
 export const toggleItem = createAsyncThunk<string[], string>(
   MessagesEvent.ToggleItem,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   async (id, { getState }) => {
     const state = getState() as RootState & ReduxRootState
 

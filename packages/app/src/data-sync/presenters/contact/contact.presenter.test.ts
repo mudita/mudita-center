@@ -33,6 +33,8 @@ const contactEntities: (
   },
 ]
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("`findRecords` method return records by `contactId`", async () => {
   const presenter = new ContactPresenter()
   const records = presenter.findRecords(contactEntities, "1")
@@ -40,6 +42,8 @@ test("`findRecords` method return records by `contactId`", async () => {
   expect(records).toEqual([contactEntities[0]])
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/require-await
 test("`serializeRecord` serialize record properly", async () => {
   const contactNameEntity: ContactNameEntity = {
     _id: "4",
@@ -64,6 +68,8 @@ test("`serializeRecord` serialize record properly", async () => {
 })
 
 describe("When contact isn't belongs to any group", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` serialize record properly", async () => {
     const contactInput: ContactInput = {
       contacts: {
@@ -126,6 +132,8 @@ describe("When contact isn't belongs to any group", () => {
 })
 
 describe("When contact isn't belongs to `Favourites` group", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` serialize record properly", async () => {
     const contactInput: ContactInput = {
       contacts: {

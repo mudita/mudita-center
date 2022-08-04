@@ -20,6 +20,8 @@ import {
 import { asyncNoop } from "App/__deprecated__/renderer/utils/noop"
 import { useTemporaryStorage } from "App/__deprecated__/renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const normalizeText = (text: string) => {
   return text.replace(new RegExp(/\r?\n|\r/g), " ")
 }
@@ -40,8 +42,12 @@ interface Options {
   statusChangeDelay?: number
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useTextEditor = (
   defaultTextObject: Text = { id: "", content: "" },
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   saveResults: (textObject: Text) => Promise<any> = asyncNoop,
   options: Options = {
     autosaveDebounceTime: 1000,
@@ -51,12 +57,18 @@ export const useTextEditor = (
   const { setTemporaryValue, getTemporaryValue, removeTemporaryValue } =
     useTemporaryStorage(defaultTextObject.id)
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const temporaryValue = getTemporaryValue()
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const defaultText =
     temporaryValue === undefined ? defaultTextObject.content : temporaryValue
 
   const { autosaveDebounceTime, statusChangeDelay } = options
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [text, setText] = useState(defaultText)
   const init = useRef(true)
 
@@ -90,6 +102,8 @@ export const useTextEditor = (
 
   const setAutoSavedStatus = () =>
     setStatus({ type: Action.AutoSave, payload: SaveStatus.Saved })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceAutoSavedStatusSetter = useCallback(
     debounce(setAutoSavedStatus, statusChangeDelay),
     []
@@ -103,6 +117,8 @@ export const useTextEditor = (
     setTemporaryValue(text)
     debounceAutoSavedStatusSetter()
   }
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceAutoSave = useCallback(
     debounce(autoSave, autosaveDebounceTime),
     [text]
@@ -122,6 +138,8 @@ export const useTextEditor = (
 
   const saveChanges = async () => {
     setStatus({ type: Action.Save, payload: SaveStatus.Saving })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     await saveResults({ ...defaultTextObject, content: text })
     clearAutoSave()
     resetSaveStatus()
@@ -155,14 +173,20 @@ export const useTextEditor = (
       debounceAutoSave.cancel()
       debounceAutoSavedStatusSetter.cancel()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text])
 
   useEffect(() => {
     setText(defaultText)
     init.current = true
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultTextObject.id, defaultTextObject.content])
 
   return {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     temporaryText: text,
     keepTemporaryText: handleChangeEvent,
     rejectChanges,

@@ -12,11 +12,15 @@ class FakeControllerWithOutEvents {}
 
 @Controller("fake-controller-with-events")
 class FakeControllerWithEvents {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   @IpcEvent("first-event")
   public async firstEvent(): Promise<void> {
     console.log("first event")
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   @IpcEvent("second-event")
   public async secondEvent(): Promise<void> {
     console.log("second event")
@@ -56,12 +60,16 @@ describe("Event: exists", () => {
 
   test("registered twice controller doesn't duplicated `event` keys", () => {
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       Reflect.getMetadata(
         ReflectKey.Event,
         firstFakeControllerWithEvents.constructor
       ).length
     ).toEqual(2)
     expect(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       Reflect.getMetadata(
         ReflectKey.Event,
         secondFakeControllerWithEvents.constructor

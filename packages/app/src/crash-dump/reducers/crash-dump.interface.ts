@@ -6,6 +6,7 @@
 import { PayloadAction } from "@reduxjs/toolkit"
 import { AppError } from "App/core/errors"
 import { CrashDumpError, Event } from "App/crash-dump/constants"
+import { FreshdeskTicketData } from "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket.types"
 
 export interface CrashDumpState {
   data: {
@@ -35,4 +36,9 @@ export type GetCrashDumpRejectedAction = PayloadAction<
 export type DownloadCrashDumpRejectedAction = PayloadAction<
   AppError<CrashDumpError.Downloading>,
   Event.DownloadCrashDump
+>
+
+export type SendCrashDumpPayload = Pick<
+  FreshdeskTicketData,
+  "email" | "description"
 >

@@ -17,11 +17,15 @@ describe("`TemplateIndexer`", () => {
       new FileSystemService(),
       new TemplatePresenter()
     )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const index = await indexer.index(
       "./src/testing-support/mocks/",
       "Nr8uiSV7KmWxX3WOFqZPF7uB+Zx8qaPa"
     )
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     expect(index.documentStore.toJSON().docs).toMatchInlineSnapshot(`
       Object {
         "1": Object {

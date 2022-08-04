@@ -11,7 +11,11 @@ import { RequestResponse } from "App/core/types/request-response.interface"
 
 test("returns disconnected info", (done) => {
   registerConnectDeviceRequest(getFakeAdapters())
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
   const [promise] = (ipcMain as any)._flush(IpcRequest.ConnectDevice)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   promise.then((result: RequestResponse) => {
     expect(result).toMatchInlineSnapshot(`
     Object {

@@ -22,6 +22,8 @@ const mapStateToProps = (state: ReduxRootState & RootState) => {
   return state.settings
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
 const mapDispatchToProps = (dispatch: TmpDispatch) => dispatch.settings
 
 const Onboarding: FunctionComponent = () => {

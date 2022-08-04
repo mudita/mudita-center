@@ -15,7 +15,6 @@ import Table, {
   Row,
   TextPlaceholder,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
-import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { VisibleCheckbox } from "App/__deprecated__/renderer/components/rest/visible-checkbox/visible-checkbox"
 import {
   animatedOpacityActiveStyles,
@@ -33,7 +32,6 @@ import {
 import Icon, {
   IconSize,
 } from "App/__deprecated__/renderer/components/core/icon/icon.component"
-import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
 import useTableScrolling from "App/__deprecated__/renderer/utils/hooks/use-table-scrolling"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
@@ -49,7 +47,6 @@ import { flags, Feature } from "App/feature-flags"
 import {
   Contact,
   ContactCategory,
-  Contacts,
   ResultState,
 } from "App/contacts/reducers/contacts.interface"
 import Text, {
@@ -175,19 +172,24 @@ const ContactListRow = styled(Row)`
   }
 `
 
-type SelectHook = Pick<
-  UseTableSelect<Contact>,
-  "getRowStatus" | "toggleRow" | "noneRowsSelected"
->
-interface Props extends Contacts, ContactActions, SelectHook {
+interface ContactListProps {
   activeRow?: Contact
   selectedContact: Contact | null
   onSelect: (contact: Contact) => void
   editMode?: boolean
   resultsState: ResultState
+  toggleRow: (id: string) => void
+  selectedItems: string[]
+  onExport: (ids: string[]) => void
+  onForward: (contact: Contact) => void
+  onBlock: (contact: Contact) => void
+  onUnblock: (contact: Contact) => void
+  onDelete: (id: string) => void
+  onEdit: (contact: Contact) => void
+  contactList: ContactCategory[]
 }
 
-const ContactList: FunctionComponent<Props> = ({
+const ContactList: FunctionComponent<ContactListProps> = ({
   activeRow,
   selectedContact,
   onSelect,
@@ -199,21 +201,21 @@ const ContactList: FunctionComponent<Props> = ({
   onDelete,
   resultsState,
   editMode,
-  getRowStatus,
+  selectedItems,
   toggleRow,
-  noneRowsSelected,
-  ...props
+  contactList,
 }) => {
-  const [contactList, setContactList] = useState<ContactCategory[]>(
-    props.contactList
-  )
-  const componentContactList = editMode ? contactList : props.contactList
+  const [contactsList, setContactsList] =
+    useState<ContactCategory[]>(contactList)
+  const componentContactList = editMode ? contactsList : contactList
 
   useEffect(() => {
     if (!editMode) {
-      setContactList(props.contactList)
+      setContactsList(contactsList)
     }
-  }, [props.contactList, editMode])
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contactList, editMode])
 
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
@@ -236,6 +238,8 @@ const ContactList: FunctionComponent<Props> = ({
         enableScroll()
       }
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editMode])
 
   return (
@@ -268,14 +272,14 @@ const ContactList: FunctionComponent<Props> = ({
               {contacts.map((contact, index) => {
                 const rowActive = activeRow?.id === contact.id
                 const rowDisabled = editMode && !rowActive
-                const { selected } = getRowStatus(contact)
-                const onChange = () => toggleRow(contact)
-                const handleExport = () => onExport([contact])
+                const selected = selectedItems.includes(contact.id)
+                const onChange = () => toggleRow(contact.id)
+                const handleExport = () => onExport([contact.id])
                 const handleEdit = () => onEdit(contact)
                 const handleForward = () => onForward(contact)
                 const handleBlock = () => onBlock(contact)
                 const handleUnblock = () => onUnblock(contact)
-                const handleDelete = () => onDelete(contact)
+                const handleDelete = () => onDelete(contact.id)
                 const handleSelect = () => onSelect(contact)
 
                 const fullName = createFullName(contact)
@@ -316,9 +320,9 @@ const ContactList: FunctionComponent<Props> = ({
                         checked={selected}
                         onChange={onChange}
                         size={Size.Medium}
-                        visible={!noneRowsSelected}
+                        visible={Boolean(selectedItems.length !== 0)}
                       />
-                      {noneRowsSelected && (
+                      {selectedItems.length === 0 && (
                         <InitialsAvatar
                           user={contact}
                           light={selected || activeRow === contact}

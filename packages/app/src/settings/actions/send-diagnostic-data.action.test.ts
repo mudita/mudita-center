@@ -49,6 +49,8 @@ describe("When `serialNumber` is equal to `undefined`", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(sendDiagnosticData() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -78,6 +80,8 @@ describe("When user disallow sending diagnostic data", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(sendDiagnosticData() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -107,6 +111,8 @@ describe("When diagnostic data has been sended today", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(sendDiagnosticData() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -136,6 +142,8 @@ describe("When diagnostic data has been sended day before", () => {
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(sendDiagnosticData() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([

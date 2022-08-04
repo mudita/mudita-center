@@ -11,6 +11,8 @@ import logger from "App/__deprecated__/main/utils/logger"
 export const registerMetadataSetValueListener = (): void => {
   ipcMain.answerRenderer(
     IpcMetadata.SetValue,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     async (data: { key: MetadataKey; value: string | number | null }) => {
       const store = getMetadataStore()
       const result = store.setValue(data.key, data.value)
