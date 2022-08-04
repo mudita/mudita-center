@@ -194,4 +194,29 @@ describe("map Contacts to string list helper", () => {
       `)
     })
   })
+  describe("when a full name returns is empty", () => {
+    const contacts: Contact[] = [
+      {
+        id: "ae193f79-a65b-4b36-bef7-b6b6532811cb",
+        firstName: "",
+        primaryPhoneNumber: "+98007298785",
+        secondAddressLine: "800 East Gwen Street, Phoenix",
+      },
+    ]
+
+    test("should convert a contact properly", () => {
+      const result = mapContactsToVCardStrings(contacts)
+      expect(result).toMatchInlineSnapshot(`
+        "BEGIN:VCARD
+        VERSION:4.0
+        N:;;;;
+        FN:
+        TEL;TYPE=voice:+98007298785
+        ADR;TYPE=home;LABEL=\\"800 East Gwen Street, Phoenix\\":;;;800 East Gwen
+          Street; Phoenix;;
+        UID:ae193f79-a65b-4b36-bef7-b6b6532811cb
+        END:VCARD"
+      `)
+    })
+  })
 })
