@@ -21,7 +21,9 @@ describe("When device return list of files with `Ok` status code", () => {
   test("returns result with serialized files", async () => {
     deviceService.request = jest.fn().mockResolvedValueOnce({
       data: {
-        [DeviceDirectory.Music]: [{ path: "/test/file-1.mp3" }],
+        [DeviceDirectory.Music]: [
+          { path: "/test/file-1.mp3", fileSize: 654321 },
+        ],
       },
       status: RequestResponseStatus.Ok,
       error: undefined,
@@ -35,7 +37,7 @@ describe("When device return list of files with `Ok` status code", () => {
           name: "file-1.mp3",
           type: "mp3",
           id: "/test/file-1.mp3",
-          size: 1234,
+          size: 654321,
         },
       ])
     )
