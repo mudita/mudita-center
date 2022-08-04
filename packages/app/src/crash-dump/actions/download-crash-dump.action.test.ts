@@ -12,6 +12,7 @@ import { downloadCrashDumpRequest } from "App/crash-dump/requests/download-crash
 import { testError } from "App/__deprecated__/renderer/store/constants"
 import createMockStore from "redux-mock-store"
 import thunk from "redux-thunk"
+import { SendCrashDumpPayload } from "App/crash-dump/reducers/crash-dump.interface"
 
 jest.mock("App/crash-dump/actions/send-crash-dump-data.action", () => ({
   sendCrashDumpData: () => jest.fn(),
@@ -19,6 +20,11 @@ jest.mock("App/crash-dump/actions/send-crash-dump-data.action", () => ({
 jest.mock("App/crash-dump/requests/download-crash-dump.request")
 
 const downloadedCrashDumpsMock: string[] = ["C:/MuditaOs/crash-dumps"]
+
+const payload: SendCrashDumpPayload = {
+  description: "",
+  email: "",
+}
 
 describe("Download Device Crash Dump Files request returns `success` status", () => {
   describe("Crash dumps doesnt exist on device", () => {
@@ -40,11 +46,13 @@ describe("Download Device Crash Dump Files request returns `success` status", ()
         meta: { requestId },
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/await-thenable
-      } = await mockStore.dispatch(downloadCrashDump() as unknown as AnyAction)
+      } = await mockStore.dispatch(
+        downloadCrashDump(payload) as unknown as AnyAction
+      )
 
       expect(mockStore.getActions()).toEqual([
-        downloadCrashDump.pending(requestId),
-        downloadCrashDump.fulfilled(undefined, requestId),
+        downloadCrashDump.pending(requestId, payload),
+        downloadCrashDump.fulfilled(undefined, requestId, payload),
       ])
 
       expect(downloadCrashDumpRequest).not.toHaveBeenCalled()
@@ -70,15 +78,21 @@ describe("Download Device Crash Dump Files request returns `success` status", ()
         meta: { requestId },
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/await-thenable
-      } = await mockStore.dispatch(downloadCrashDump() as unknown as AnyAction)
+      } = await mockStore.dispatch(
+        downloadCrashDump(payload) as unknown as AnyAction
+      )
 
       expect(mockStore.getActions()).toEqual([
-        downloadCrashDump.pending(requestId),
+        downloadCrashDump.pending(requestId, payload),
         {
           type: Event.SetDownloadCrashDumpPath,
           payload: downloadedCrashDumpsMock,
         },
-        downloadCrashDump.fulfilled(RequestResponseStatus.Ok, requestId),
+        downloadCrashDump.fulfilled(
+          RequestResponseStatus.Ok,
+          requestId,
+          payload
+        ),
       ])
 
       expect(downloadCrashDumpRequest).toHaveBeenCalled()
@@ -108,11 +122,13 @@ describe("Download Device Crash Dump Files request returns `error` status", () =
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(downloadCrashDump() as unknown as AnyAction)
+    } = await mockStore.dispatch(
+      downloadCrashDump(payload) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      downloadCrashDump.pending(requestId),
-      downloadCrashDump.rejected(testError, requestId, undefined, errorMock),
+      downloadCrashDump.pending(requestId, payload),
+      downloadCrashDump.rejected(testError, requestId, payload, errorMock),
     ])
   })
 })

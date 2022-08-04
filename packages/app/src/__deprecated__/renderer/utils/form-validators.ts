@@ -11,6 +11,9 @@ export const phoneNumberRegexp = /^[ \\.+\-#()\d]*$/im
 export const passwordRegexp =
   /^(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~])(?=.*[a-z])(?=.*[A-Z]).{8,}$/
 
+export const emailRegexp =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
 export const primaryPhoneNumberValidator = (
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -89,11 +92,17 @@ export const secondaryPhoneNumberValidator = (
 
 export const emailValidator: RegisterOptions = {
   pattern: {
-    value:
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    value: emailRegexp,
     message: intl.formatMessage({ id: "component.formErrorInvalidEmail" }),
   },
   required: intl.formatMessage({ id: "component.formErrorRequiredEmail" }),
+}
+
+export const emailValidatorNotRequired: RegisterOptions = {
+  pattern: {
+    value: emailRegexp,
+    message: intl.formatMessage({ id: "component.formErrorInvalidEmail" }),
+  },
 }
 
 export const backupSecretKeyValidator = {

@@ -16,11 +16,17 @@ import archiveFiles from "App/__deprecated__/renderer/requests/archive-files.req
 import { AppError } from "App/core/errors"
 import { CrashDumpError } from "App/crash-dump/constants"
 import { DeviceError } from "App/device/constants"
+import { SendCrashDumpPayload } from "App/crash-dump/reducers/crash-dump.interface"
 
 const crashDumpsMock: string[] = ["/pure/logs/crash-dumps/file.hex"]
 
 const muditaOSLogs = new File([""], "MuditaOS.log", { type: "text/html" })
 const logsFiles: File[] = [muditaOSLogs]
+
+const payload: SendCrashDumpPayload = {
+  description: "",
+  email: "",
+}
 
 jest.mock(
   "App/__deprecated__/renderer/utils/create-freshdesk-ticket/create-freshdesk-ticket"
@@ -55,11 +61,13 @@ describe("when Crash dumps doesn't downloaded", () => {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+    } = await mockStore.dispatch(
+      sendCrashDumpData(payload) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      sendCrashDumpData.pending(requestId),
-      sendCrashDumpData.fulfilled(undefined, requestId),
+      sendCrashDumpData.pending(requestId, payload),
+      sendCrashDumpData.fulfilled(undefined, requestId, payload),
     ])
 
     expect(createFile).not.toHaveBeenCalled()
@@ -89,11 +97,13 @@ describe("when Crash dumps downloaded", () => {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+    } = await mockStore.dispatch(
+      sendCrashDumpData(payload) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      sendCrashDumpData.pending(requestId),
-      sendCrashDumpData.rejected(testError, requestId, undefined, errorMock),
+      sendCrashDumpData.pending(requestId, payload),
+      sendCrashDumpData.rejected(testError, requestId, payload, errorMock),
     ])
 
     expect(createFile).not.toHaveBeenCalled()
@@ -127,10 +137,12 @@ describe("when Crash dumps downloaded", () => {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+    } = await mockStore.dispatch(
+      sendCrashDumpData(payload) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      sendCrashDumpData.pending(requestId),
+      sendCrashDumpData.pending(requestId, payload),
       {
         payload: undefined,
         type: "DEVICE_FILE_SYSTEM_REMOVE/pending",
@@ -139,7 +151,7 @@ describe("when Crash dumps downloaded", () => {
         payload: undefined,
         type: "RESET_CRASH_DUMP",
       },
-      sendCrashDumpData.fulfilled(undefined, requestId),
+      sendCrashDumpData.fulfilled(undefined, requestId, payload),
     ])
 
     expect(createFile).toHaveBeenCalledWith(crashDumpsMock[0])
@@ -177,11 +189,13 @@ describe("when `createFreshdeskTicket` returns `error` status", () => {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+    } = await mockStore.dispatch(
+      sendCrashDumpData(payload) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      sendCrashDumpData.pending(requestId),
-      sendCrashDumpData.rejected(testError, requestId, undefined, errorMock),
+      sendCrashDumpData.pending(requestId, payload),
+      sendCrashDumpData.rejected(testError, requestId, payload, errorMock),
     ])
     expect(createFile).toHaveBeenCalled()
     expect(createFreshdeskTicket).toHaveBeenCalled()
@@ -215,11 +229,13 @@ describe("when logs downloaded", () => {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(sendCrashDumpData() as unknown as AnyAction)
+    } = await mockStore.dispatch(
+      sendCrashDumpData(payload) as unknown as AnyAction
+    )
 
     expect(mockStore.getActions()).toEqual([
-      sendCrashDumpData.pending(requestId),
-      sendCrashDumpData.rejected(testError, requestId, undefined, errorMock),
+      sendCrashDumpData.pending(requestId, payload),
+      sendCrashDumpData.rejected(testError, requestId, payload, errorMock),
     ])
 
     expect(createFile).not.toHaveBeenCalled()
