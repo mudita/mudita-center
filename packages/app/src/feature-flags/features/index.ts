@@ -60,7 +60,7 @@ export const features: EnvironmentConfig = {
   [Feature.FilesManagerEnabled]: {
     [Environment.Development]: true,
     [Environment.Production]: false,
-    [Environment.AlphaProduction]: false,
+    [Environment.AlphaProduction]: true,
   },
   [Feature.MessagesTemplatesTabEnabled]: {
     [Environment.Development]: true,
