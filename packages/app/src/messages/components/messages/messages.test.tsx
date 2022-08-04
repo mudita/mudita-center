@@ -37,6 +37,8 @@ import { flags } from "App/feature-flags"
 import { NewMessageFormSidebarTestIds } from "App/messages/components/new-message-form-sidebar/new-message-form-sidebar-test-ids.enum"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 import * as ContactSelectModalModule from "App/contacts/components/contacts-select-modal/contacts-select-modal.component"
+import { PayloadAction } from "@reduxjs/toolkit"
+import { CreateMessageDataResponse } from "App/messages/services"
 
 jest.mock("App/feature-flags/helpers/feature-flag.helpers", () => ({
   flags: {
@@ -115,6 +117,10 @@ const receiver: Receiver = {
   lastName: contact.lastName,
   identification: ReceiverIdentification.unknown,
 }
+
+const addNewMessageResponse = {
+  payload: { messageParts: [{ thread: firstThread }] },
+} as PayloadAction<CreateMessageDataResponse>
 
 beforeAll(() => {
   mockAllIsIntersecting(true)
@@ -553,7 +559,7 @@ describe("Messages component", () => {
     })
 
     test("component emit addNewMessage event when Send Button is clicked", () => {
-      const addNewMessage = jest.fn()
+      const addNewMessage = jest.fn().mockReturnValue(addNewMessageResponse)
       const { queryByTestId } = renderer({ ...renderProps, addNewMessage })
       fireEvent.click(
         queryByTestId(ThreadDetailsTextAreaTestIds.SendButton) as HTMLElement
@@ -562,7 +568,11 @@ describe("Messages component", () => {
     })
 
     test("value of new message text area isn't cleared after clicked active thread row", async () => {
-      const { queryByTestId, queryAllByTestId } = renderer(renderProps)
+      const addNewMessage = jest.fn().mockReturnValue(addNewMessageResponse)
+      const { queryByTestId, queryAllByTestId } = renderer({
+        ...renderProps,
+        addNewMessage,
+      })
       const tableRow = queryAllByTestId(ThreadListTestIds.Row)[0]
       fireEvent.click(tableRow)
 
@@ -606,7 +616,7 @@ describe("Messages component", () => {
     })
 
     test("component no emit addNewMessage event when Send Button is clicked", () => {
-      const addNewMessage = jest.fn()
+      const addNewMessage = jest.fn().mockReturnValue(addNewMessageResponse)
       const { queryByTestId } = renderer({ ...renderProps, addNewMessage })
       fireEvent.click(
         queryByTestId(ThreadDetailsTextAreaTestIds.SendButton) as HTMLElement
@@ -622,7 +632,7 @@ describe("Messages component", () => {
     }
 
     test("component emit addNewMessage event when Send Button is clicked ", () => {
-      const addNewMessage = jest.fn()
+      const addNewMessage = jest.fn().mockReturnValue(addNewMessageResponse)
       const { queryByTestId } = renderer({ ...renderProps, addNewMessage })
       fireEvent.click(
         queryByTestId(ThreadDetailsTextAreaTestIds.SendButton) as HTMLElement
@@ -638,7 +648,7 @@ describe("Messages component", () => {
     }
 
     test("`NewMessageForm` closes after clicking send button", async () => {
-      const addNewMessage = jest.fn()
+      const addNewMessage = jest.fn().mockReturnValue(addNewMessageResponse)
       const outcome = renderer({ ...renderProps, addNewMessage })
       const input = outcome.queryByTestId(
         ReceiverInputSelectTestIds.Input

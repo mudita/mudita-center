@@ -42,6 +42,8 @@ import {
   resendMessage,
   updateMessage,
 } from "./actions"
+import { CreateMessageDataResponse } from "App/messages/services"
+import { PayloadAction } from "@reduxjs/toolkit"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   error: state.messages.error,
@@ -78,7 +80,9 @@ const mapDispatchToProps = (dispatch: TmpDispatch) => ({
     dispatch(toggleThreadsReadStatus(threads)),
   markThreadsReadStatus: (threads: Thread[]) =>
     dispatch(markThreadsReadStatus(threads)),
-  addNewMessage: async (newMessage: NewMessage): Promise<void> =>
+  addNewMessage: async (
+    newMessage: NewMessage
+  ): Promise<PayloadAction<CreateMessageDataResponse>> =>
     dispatch(addNewMessage(newMessage)),
   deleteMessage: async (messageId: string): Promise<string> =>
     dispatch(deleteMessage(messageId)),
