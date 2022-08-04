@@ -42,15 +42,16 @@ const messages = defineMessages({
 
 export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   templates,
-  getRowStatus,
-  noneRowsSelected,
   toggleRow,
+  selectedItems,
   deleteTemplates,
   updateTemplate,
   onDragEnd,
   templateFormOpen,
   active,
 }) => {
+  const noneRowsSelected = selectedItems.length === 0
+
   return (
     <>
       {flags.get(Feature.OrderTemplate) ? (
@@ -73,8 +74,8 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
               >
                 {templates.length > 0 ? (
                   templates.map((template, index) => {
-                    const { selected, indeterminate } = getRowStatus(template)
-                    const handleCheckboxChange = () => toggleRow(template)
+                    const selected = selectedItems.includes(template.id)
+                    const handleCheckboxChange = () => toggleRow(template.id)
 
                     return (
                       <Draggable
@@ -97,7 +98,6 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                                 checked={selected}
                                 onChange={handleCheckboxChange}
                                 size={Size.Large}
-                                indeterminate={indeterminate}
                                 visible={!noneRowsSelected}
                                 data-testid="template-checkbox"
                               />
@@ -154,8 +154,8 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
         >
           {templates.length > 0 ? (
             templates.map((template) => {
-              const { selected, indeterminate } = getRowStatus(template)
-              const handleCheckboxChange = () => toggleRow(template)
+              const selected = selectedItems.includes(template.id)
+              const handleCheckboxChange = () => toggleRow(template.id)
 
               return (
                 <Row
@@ -169,7 +169,6 @@ export const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                       checked={selected}
                       onChange={handleCheckboxChange}
                       size={Size.Large}
-                      indeterminate={indeterminate}
                       visible={!noneRowsSelected}
                       data-testid="template-checkbox"
                     />

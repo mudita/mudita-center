@@ -4,19 +4,15 @@
  */
 
 import { Template } from "App/templates/dto"
-import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { DropResult } from "react-beautiful-dnd"
 
-type SelectHook = Pick<
-  UseTableSelect<Template>,
-  "getRowStatus" | "toggleRow" | "noneRowsSelected"
->
-
-export interface TemplatesListProps extends SelectHook {
+export interface TemplatesListProps {
   templates: Template[]
   deleteTemplates: (ids: string[]) => void
   updateTemplate: (id: string) => void
   onDragEnd: (result: DropResult) => void
+  toggleRow: (id: string) => void
   templateFormOpen: boolean
+  selectedItems: string[]
   active?: Template
 }
