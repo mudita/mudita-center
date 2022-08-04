@@ -9,6 +9,7 @@ import Text from "App/__deprecated__/renderer/components/core/text/text.componen
 export const WindowContainer = styled.div`
   margin: 2.4rem 21rem 3.4rem;
   min-width: 5.9rem;
+  max-width: 47rem;
 `
 export const WindowHeader = styled(Text)`
   font-weight: normal;
