@@ -17,6 +17,8 @@ const renderStoryContainer = ({
   return renderWithThemeAndIntl(
     <StoryContainer {...props}>
       <Story title="I'm a story">
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
         <div data-testid="component">I'm a component</div>
       </Story>
     </StoryContainer>
@@ -40,11 +42,15 @@ test("renders story title properly", () => {
 
 test("renders column mode properly", () => {
   const { getByTestId } = renderStoryContainer({ column: true })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(getByTestId("container")).toHaveStyleRule("flex-direction", "column")
 })
 
 test("renders dark mode properly", () => {
   const { getByTestId } = renderStoryContainer({ darkMode: true })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(getByTestId("component").parentElement).toHaveStyleRule(
     "background-color",
     "#999999"
@@ -57,5 +63,7 @@ test("passes custom styles properly", () => {
       opacity: 0.5;
     `,
   })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(getByTestId("container")).toHaveStyleRule("opacity", "0.5")
 })

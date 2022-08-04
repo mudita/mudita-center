@@ -62,6 +62,8 @@ describe("async `updateTemplateOrder`", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         updateTemplateOrder([{ ...updatedTemplate }]) as unknown as AnyAction
       )
@@ -82,6 +84,8 @@ describe("async `updateTemplateOrder`", () => {
       ;(updateTemplateOrderRequest as jest.Mock).mockReturnValue(errorResponse)
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await mockStore.dispatch(
         updateTemplateOrder([template, secondTemplate]) as unknown as AnyAction
       )

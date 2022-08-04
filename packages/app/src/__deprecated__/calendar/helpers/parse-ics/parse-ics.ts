@@ -10,7 +10,11 @@ import { CalendarEvent } from "App/__deprecated__/calendar/store/calendar.interf
 const parseIcs = async (filePaths: string[]): Promise<CalendarEvent[]> => {
   const parsedEvents: CalendarEvent[] = []
   for (const filePath of filePaths) {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     const fileData = await fs.readFileSync(filePath)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     const calendarEvents = await ICalParser.toJSON(fileData.toString())
 
     for (const event of calendarEvents.events) {

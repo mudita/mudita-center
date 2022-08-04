@@ -188,6 +188,8 @@ describe("Component: `DeletingTemplateModals`", () => {
     ).not.toBeInTheDocument()
   })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("triggers `onCloseDeletingErrorModal` when clicks on `close` button", async () => {
     const { getByTestId } = render({
       ...defaultPropsMock,

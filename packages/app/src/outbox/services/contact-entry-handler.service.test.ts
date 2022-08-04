@@ -68,6 +68,8 @@ describe("ContactEntryHandlerService: handleEntry", () => {
 
     test("`delete` method in contactRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toBeUndefined()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(contactRepository.delete).toHaveBeenCalledWith("1")
     })
   })
@@ -98,6 +100,8 @@ describe("ContactEntryHandlerService: handleEntry", () => {
 
     test("`create` method in contactRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toEqual(contactMock)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(contactRepository.create).toHaveBeenCalled()
     })
   })
@@ -128,6 +132,8 @@ describe("ContactEntryHandlerService: handleEntry", () => {
 
     test("`update` method in contactRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toEqual(contactMock)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(contactRepository.update).toHaveBeenCalled()
     })
   })
@@ -158,6 +164,8 @@ describe("ContactEntryHandlerService: handleEntry", () => {
 
     test("`update` method in contactRepository was called", async () => {
       expect(await subject.handleEntry(entry)).toBeUndefined()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(contactRepository.update).not.toHaveBeenCalled()
     })
   })

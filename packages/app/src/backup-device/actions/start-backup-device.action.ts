@@ -50,6 +50,8 @@ export const startBackupDevice = createAsyncThunk<undefined, StartBackupOption>(
       )
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     dispatch(loadBackupData())
 
     return

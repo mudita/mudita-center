@@ -39,6 +39,8 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/ban-types
 const renderer = (extraProps?: {}) => {
   const props = {
     ...defaultProps,
@@ -115,6 +117,8 @@ test("reset rows is called when export is succeed ", async () => {
     selectedEvents,
     exportCalendarEvents,
   })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await getByTestId(CalendarPanelTestIds.ExportButton).click()
   expect(mockedResetRows).toHaveBeenCalled()
   expect(exportCalendarEvents).toHaveBeenCalledWith(selectedEvents)
@@ -129,6 +133,8 @@ test("modal is opened when there is error returned ", async () => {
     exportCalendarEvents,
     openModal,
   })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   await getByTestId(CalendarPanelTestIds.ExportButton).click()
   expect(mockedResetRows).not.toHaveBeenCalled()
   expect(openModal).toHaveBeenCalledWith(<ExportErrorModal />)

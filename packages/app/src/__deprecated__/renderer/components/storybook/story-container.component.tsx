@@ -16,6 +16,8 @@ const ContainerHeading = styled(Heading)`
 
 const Container = styled.div<{
   column?: boolean
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   customStyle?: FlattenInterpolation<any>
 }>`
   display: flex;
@@ -32,6 +34,8 @@ export interface StoryContainerProps {
   title?: string
   column?: boolean
   darkMode?: boolean
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   customStyle?: FlattenInterpolation<any>
 }
 

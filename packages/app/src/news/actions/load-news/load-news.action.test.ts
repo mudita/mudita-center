@@ -19,7 +19,11 @@ const updatedDataResponse = {
 }
 
 jest.mock("App/news/requests/get-news.request", () => ({
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   getOfflineNews: jest.fn().mockImplementation(async () => offlineDataResponse),
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   getUpdatedNews: jest.fn().mockImplementation(async () => updatedDataResponse),
 }))
 
@@ -32,6 +36,8 @@ describe("when there is an internet connection", () => {
     })
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await store.dispatch(loadNews() as unknown as AnyAction)
 
     expect(store.getActions()).toEqual([
@@ -51,6 +57,8 @@ describe("when the internet is disconnected", () => {
     })
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await store.dispatch(loadNews() as unknown as AnyAction)
 
     expect(store.getActions()).toEqual([

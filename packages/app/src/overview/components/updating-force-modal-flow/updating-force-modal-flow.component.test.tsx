@@ -132,6 +132,8 @@ test("Force modal is visible even fail modal was read ", () => {
 })
 
 test("failure modal is display if no is latestRelease", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcUpdate.GetLatestRelease]: undefined,
   }
@@ -161,6 +163,8 @@ test("failure modal is display if no is latestRelease", async () => {
 })
 
 test("failure modal is display if latestRelease isn't higher than os", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcUpdate.GetLatestRelease]: release,
   }
@@ -192,6 +196,8 @@ test("failure modal is display if latestRelease isn't higher than os", async () 
 })
 
 test("failure modal is display if failure download os", async () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcUpdate.GetLatestRelease]: undefined,
     [PureOsDownloadChannels.start]: {

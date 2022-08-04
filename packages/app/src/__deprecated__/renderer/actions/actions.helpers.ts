@@ -26,6 +26,8 @@ interface ActionNoPayload {
 }
 
 export const actionCreator = <T>(type: string): ActionCreator<T> =>
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Object.assign((payload: T): any => ({ type, payload }), {
     type,
     test(action: Action): action is ActionWithPayload<T> {
@@ -34,6 +36,8 @@ export const actionCreator = <T>(type: string): ActionCreator<T> =>
   })
 
 export const actionCreatorVoid = (type: string): ActionNoPayload =>
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Object.assign((): any => ({ type }), {
     type,
     test(action: Action): action is Action {

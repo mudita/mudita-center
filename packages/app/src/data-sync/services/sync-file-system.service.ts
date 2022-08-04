@@ -17,6 +17,8 @@ export class SyncFileSystemService implements SyncFileSystemClass {
     return CryptoFileService.decryptViaToken({ buffer, token: this.token })
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   writeIndexSync(filePath: string, index: SerialisedIndexData<any>): void {
     const serialisedIndex = JSON.stringify(index) ?? ""
     const buffer = Buffer.from(serialisedIndex)
@@ -39,9 +41,13 @@ export class SyncFileSystemService implements SyncFileSystemClass {
     fs.writeFileSync(filePath, encryptedBuffer)
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readIndexSync(filePath: string): SerialisedIndexData<any> {
     const index = this.readFileSync(filePath)
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return JSON.parse(index as unknown as string)
   }
 }

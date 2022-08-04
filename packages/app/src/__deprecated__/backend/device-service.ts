@@ -273,6 +273,8 @@ export class DeviceService {
   ): Promise<RequestResponse<GetEntriesResponseBody>>
   public request(config: DeleteEntriesRequestConfig): Promise<RequestResponse>
   async request(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     config: RequestConfig<any>
   ): Promise<RequestResponse<unknown> | RequestResponse<undefined>> {
     if (!this.currentDevice) {
@@ -383,10 +385,14 @@ export class DeviceService {
     this.eventEmitter.off(eventName, listener)
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
   public sendToRenderers(eventName: string, data: any): void {
     this.ipcMain.sendToRenderers(eventName, data)
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private getUnlockedStatusRequest(): Promise<RequestResponse<any>> {
     return this.request({
       endpoint: Endpoint.Security,
@@ -396,6 +402,8 @@ export class DeviceService {
   }
 
   private registerAttachDeviceListener(): void {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.deviceManager.onAttachDevice(async (device) => {
       this.devices[device.path] = device
 
@@ -506,6 +514,8 @@ export class DeviceService {
   }
 
   private checkDeviceIsUnlocked(
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     config: RequestConfig<any>,
     response: RequestResponse<unknown>
   ): void {
@@ -542,12 +552,16 @@ export class DeviceService {
     }
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static isEndpointSecure(config: RequestConfig<any>): boolean {
     const isConfigEndpointSecurity = config.endpoint === Endpoint.Security
     const iSetPhoneLockOffEndpoint =
       isConfigEndpointSecurity && config.method === Method.Put
     const isPhoneLockTimeEndpoint =
       isConfigEndpointSecurity &&
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       config.body.category === PhoneLockCategory.Time
     if (!(iSetPhoneLockOffEndpoint || isPhoneLockTimeEndpoint)) {
       return true

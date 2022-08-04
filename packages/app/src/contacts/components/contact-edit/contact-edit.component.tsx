@@ -36,7 +36,7 @@ import {
 } from "App/contacts/components/contact-edit/contact-edit.styled"
 import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/contact-panel-test-ids.enum"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
-import { FormError } from "App/contacts/components/contacts/contacts.type"
+import { FormError } from "App/contacts/components/contacts/contacts.interface"
 import { Contact, NewContact } from "App/contacts/reducers/contacts.interface"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
@@ -92,9 +92,13 @@ interface ContactEditProps {
 
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
   contact,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   speedDialChosenList,
   onCancel,
   onSave,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onSpeedDialSettingsOpen,
   saving,
   validationError,
@@ -134,6 +138,8 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
 
   useEffect(() => {
     handleSpeedDialSelect(contact?.speedDial)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contact?.speedDial])
 
   useEffect(() => {
@@ -145,6 +151,8 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
         })
       })
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [validationError])
 
   useEffect(() => {
@@ -154,8 +162,12 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
       fields.primaryPhoneNumber?.length > 0 &&
       fields.secondaryPhoneNumber?.length > 0
     ) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       trigger()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fields.primaryPhoneNumber, fields.secondaryPhoneNumber])
 
   const savingPossible =

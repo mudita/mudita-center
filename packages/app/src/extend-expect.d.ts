@@ -17,6 +17,8 @@ declare module "brie" {
   }
 
   interface SetupArgs {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: any
     features: Record<string, { criteria: Criteria[] }>
   }

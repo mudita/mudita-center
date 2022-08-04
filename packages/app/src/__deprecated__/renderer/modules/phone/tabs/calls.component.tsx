@@ -77,9 +77,13 @@ const Calls: FunctionComponent<CallsProps> = ({
       deleteCall(ids)
       resetRows()
       closeSidebar()
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.closeModal()
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modalService.openModal(
       <DeleteModal
         title={title}

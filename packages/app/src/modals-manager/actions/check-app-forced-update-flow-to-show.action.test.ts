@@ -23,6 +23,8 @@ describe("async `checkAppForcedUpdateFlowToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkAppForcedUpdateFlowToShow() as unknown as AnyAction
       )
@@ -48,6 +50,8 @@ describe("async `checkAppForcedUpdateFlowToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkAppForcedUpdateFlowToShow() as unknown as AnyAction
       )
@@ -73,6 +77,8 @@ describe("async `checkAppForcedUpdateFlowToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkAppForcedUpdateFlowToShow() as unknown as AnyAction
       )
@@ -102,6 +108,8 @@ describe("async `checkAppForcedUpdateFlowToShow` ", () => {
 
       const {
         meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
       } = await store.dispatch(
         checkAppForcedUpdateFlowToShow() as unknown as AnyAction
       )

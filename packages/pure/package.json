@@ -12,7 +12,7 @@
     "clean": "rm -rf ./dist",
     "build": "npm run clean && tsc",
     "prepublish": "npm rebuild && npm run build",
-    "lint": "eslint 'src/**/*.ts'",
+    "lint": "eslint 'src/**/*.ts' --max-warnings=0",
     "lint:typecheck": "tsc --noEmit",
     "lint:fix": "eslint 'src/**/*.ts' --fix",
     "test": "jest --config=jest.config.js --forceExit --detectOpenHandles",

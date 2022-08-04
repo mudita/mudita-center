@@ -95,6 +95,8 @@ const Modal: FunctionComponent<ModalProps> = ({
   const modalService = useModalServiceContext()
 
   const closeModal = async () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await modalService.allowClosingModal()
     await modalService.closeModal()
     onClose()
@@ -102,6 +104,8 @@ const Modal: FunctionComponent<ModalProps> = ({
 
   const closeModalByButtonClick = () => {
     onCloseButton()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     closeModal()
   }
 

@@ -24,19 +24,31 @@ const releasesRequest = async (
         per_page: perPage,
       },
     })
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return response.data
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (error.response) {
       logger.error(
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
         `Checking for OS updated failed with code ${error.response.status}: ${error.response.statusText}`
       )
     } else {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
       logger.error(`Checking for OS updated failed: ${error.message}`)
     }
     return []
   }
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const registerGetAllReleasesListener = () => {
   if (osUpdateServerUrl) {
     ipcMain.answerRenderer(IpcUpdate.GetAllReleases, async () => {

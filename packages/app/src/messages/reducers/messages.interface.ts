@@ -35,6 +35,7 @@ export type MessagesState = Readonly<{
   loaded: boolean
   loading: boolean
   currentlyDeletingMessageId: MessageId | null
+  selectedItems: { rows: string[] }
 }>
 
 export enum ReceiverIdentification {

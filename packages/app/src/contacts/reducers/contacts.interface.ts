@@ -12,10 +12,15 @@ export type Contact =
   | ContactWithEmail
   | ContactWithFirstName
   | ContactWithLastName
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ContactFactorySignature<T = Contact | null> = (...args: any[]) => T
 export type NewContact = Omit<Contact, "id">
 export type ContactsState = PhoneContacts &
-  Pick<StoreData, "resultState"> & { error: Error | string | null }
+  Pick<StoreData, "resultState"> & {
+    error: Error | string | null
+    selectedItems: { rows: string[] }
+  }
 export type Store = StoreData & StoreSelectors
 
 export interface BaseContactModel {
@@ -109,4 +114,3 @@ export type DeleteContactsInStateAction = PayloadAction<
   ContactID[],
   ContactsEvent.DeleteContactsInState
 >
-

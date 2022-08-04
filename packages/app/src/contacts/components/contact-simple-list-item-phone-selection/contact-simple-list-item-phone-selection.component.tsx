@@ -60,6 +60,8 @@ export const ContactSimpleItemListPhoneSelection: FunctionComponent<
             onMouseLeave={onMainColumnMouseOut}
             hovered={mainColumnHovered}
             onClick={() =>
+              // AUTO DISABLED - fix me if you like :)
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               handlePhoneNumberSelection(contact.primaryPhoneNumber!)
             }
             data-testid={
@@ -76,6 +78,8 @@ export const ContactSimpleItemListPhoneSelection: FunctionComponent<
               onMouseLeave={onMainColumnMouseOut}
               hovered={mainColumnHovered}
               onClick={() =>
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 handlePhoneNumberSelection(contact.secondaryPhoneNumber!)
               }
               data-testid={
@@ -87,6 +91,8 @@ export const ContactSimpleItemListPhoneSelection: FunctionComponent<
           ) : (
             <SecondPhoneNumber
               onClick={() =>
+                // AUTO DISABLED - fix me if you like :)
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 handlePhoneNumberSelection(contact.secondaryPhoneNumber!)
               }
               data-testid={

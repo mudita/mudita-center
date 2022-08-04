@@ -52,4 +52,6 @@ export const GotoButton = styled(ButtonComponent).attrs(() => ({
   top: -0.2rem;
 `
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const Separator = () => <span> - </span>

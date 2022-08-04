@@ -51,9 +51,13 @@ const defaultStorySettings = {
 
 export const StoryContext = createContext({
   storySettings: defaultStorySettings,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setStorySettings: (action: ActionType) => {
     // Do nothing
   },
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setCompatibleStory: (compatible: boolean) => {
     // Do nothing
   },
@@ -104,9 +108,15 @@ const StorybookWrapper: FunctionComponent = ({ className, children }) => {
 
   useEffect(() => {
     if (fileName) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       ;(async () => {
         const path = fileName.split("/src/")[1].replace(".stories.tsx", ".json")
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const file = await import(`../../../../../.storybook/tmp/${path}`)
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         setCode(file.code)
       })()
     }

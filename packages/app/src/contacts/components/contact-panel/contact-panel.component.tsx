@@ -9,7 +9,6 @@ import ButtonComponent from "App/__deprecated__/renderer/components/core/button/
 import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
-import { UseTableSelect } from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
 import { isNameAvailable } from "App/__deprecated__/renderer/components/rest/messages/is-name-available"
 import { createFullName } from "App/contacts/helpers/contacts.helpers"
 import modalService from "App/__deprecated__/renderer/components/core/modal/modal.service"
@@ -56,33 +55,34 @@ const PanelWrapper = styled.div<{ showSearchResults: boolean }>`
 const SearchTitle = styled(Text)`
   padding: 2.7rem 3.2rem 2rem;
 `
-interface Props {
+interface ContactPanelProps {
+  contactsList: Contact[]
   onContactSelect: (contact: Contact) => void
   onManageButtonClick: () => void
   onNewButtonClick: () => void
-  selectedContacts: Contact[]
+  selectedContacts: string[]
   allItemsSelected?: boolean
-  toggleAll?: UseTableSelect<Contact>["toggleAll"]
+  toggleAll: () => void
   deleteContacts: (
     ids: ContactID[]
   ) => Promise<PayloadAction<Error | undefined>>
-  resetRows: UseTableSelect<Contact>["resetRows"]
+  resetRows: () => void
   editMode: boolean
   onSearchEnterClick?: () => void
   searchValue: string
   onSearchValueChange: (value: string) => void
   showSearchResults?: boolean
   results: Contact[]
-  onExport: (contact: Contact[]) => void
+  onExport: (ids: string[]) => void
 }
 
-const ContactPanel: FunctionComponent<Props> = ({
+const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   onContactSelect,
   onManageButtonClick,
   onNewButtonClick,
   selectedContacts,
   allItemsSelected,
-  toggleAll = noop,
+  toggleAll,
   deleteContacts,
   resetRows,
   editMode,
@@ -92,6 +92,7 @@ const ContactPanel: FunctionComponent<Props> = ({
   showSearchResults = false,
   results,
   onExport,
+  contactsList,
 }) => {
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
@@ -101,37 +102,46 @@ const ContactPanel: FunctionComponent<Props> = ({
   }
 
   const openModal = () => {
-    const selectedContactsIds = selectedContacts.map(({ id }) => id)
+    const selectedContact = contactsList.find(
+      (contact) => contact.id === selectedContacts[0]
+    )
     const nameAvailable =
-      selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
+      selectedContacts.length === 1 && isNameAvailable(selectedContact)
     const onDelete = async () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       modalService.openModal(
         <LoadingStateDataModal textMessage={messages.deletingText} />,
         true
       )
-      const { payload } = await delayResponse(
-        deleteContacts(selectedContactsIds)
-      )
+      const { payload } = await delayResponse(deleteContacts(selectedContacts))
       if (payload) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         modalService.openModal(<ErrorDataModal />, true)
       } else {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         modalService.closeModal()
       }
       resetRows()
     }
+
     const modalConfig = {
       title: intl.formatMessage(messages.title),
       message: {
         ...messages.body,
         values: {
-          num: allItemsSelected ? -1 : selectedContactsIds.length,
-          name: nameAvailable && createFullName(selectedContacts[0]),
+          num: allItemsSelected ? -1 : selectedContacts.length,
+          name: nameAvailable && createFullName(selectedContact),
           ...textFormatters,
         },
       },
       onDelete,
       onClose: resetRows,
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     modalService.openModal(<DeleteModal {...modalConfig} />)
   }
   return (
@@ -140,10 +150,10 @@ const ContactPanel: FunctionComponent<Props> = ({
         {selectionMode ? (
           <ContactSelectionManager
             selectedItemsNumber={selectedItemsCount}
-            allItemsSelected={Boolean(allItemsSelected)}
+            allItemsSelected={allItemsSelected}
             message={{ id: "module.contacts.selectionsNumber" }}
             checkboxSize={Size.Medium}
-            onToggle={toggleAll}
+            onToggle={allItemsSelected ? resetRows : toggleAll}
             buttons={[
               <ButtonComponent
                 key="export"

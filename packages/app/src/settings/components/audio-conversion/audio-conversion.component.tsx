@@ -71,6 +71,8 @@ export const AudioConversion: FunctionComponent<AudioConversionProps> = ({
 }) => {
   useEffect(() => {
     loadSettings()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const changeConvertValue = (event: ChangeEvent<HTMLInputElement>) => {
     setConvert(event.target.value as Convert)

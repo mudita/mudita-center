@@ -22,6 +22,8 @@ const stateObject = {
 
 describe("Hook: `useLoadingState`", () => {
   describe("Method: `updateFieldState`", () => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     test("Put existed key updated state", async () => {
       const { result } = renderHook(() => useLoadingState<Props>(stateObject))
 
@@ -34,6 +36,8 @@ describe("Hook: `useLoadingState`", () => {
       expect(result.current.states.creating).toBeTruthy()
     })
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/require-await
     test("Put not existed key updated state", async () => {
       const { result } = renderHook(() => useLoadingState<Props>(stateObject))
 

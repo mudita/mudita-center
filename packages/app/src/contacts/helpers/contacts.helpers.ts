@@ -19,6 +19,8 @@ import {
 import { mapToRawNumber } from "App/messages/helpers"
 
 const lengthy = (input = "") => input.length > 0
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const prepareData = <T = any>(input: T | T[]): T[] =>
   Array.isArray(input) ? input : [input]
 
@@ -37,18 +39,30 @@ export const phoneNumberFormatter = (
 }
 
 export const contactTypeGuard = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
   input: any,
   inputValidator: (str: string) => boolean = lengthy
 ): input is Contact => {
   const firstNameIsDeclared =
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     "firstName" in input && inputValidator(input.firstName)
   const lastNameIsDeclared =
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     "lastName" in input && inputValidator(input.lastName)
   const primaryPhoneNumberIsDeclared =
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     "primaryPhoneNumber" in input && inputValidator(input.primaryPhoneNumber)
   const secondaryPhoneNumberIsDeclared =
     "secondaryPhoneNumber" in input &&
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     inputValidator(input.secondaryPhoneNumber)
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   const emailIsDeclared = "email" in input && inputValidator(input.email)
 
   return (
@@ -61,7 +75,11 @@ export const contactTypeGuard = (
 }
 
 export const contactFactory = (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   input: Record<string, any>,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   guard: (input: any) => boolean = contactTypeGuard,
   numberFormatter: (
     input: SimpleRecord<string>
@@ -69,7 +87,11 @@ export const contactFactory = (
 ): Contact | null => {
   if (guard(input)) {
     return Object.keys(input).reduce((acc: SimpleRecord, key: string) => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const value = input[key]
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const item = value ? numberFormatter({ [key]: value }) : {}
 
       return {
@@ -157,6 +179,8 @@ export const removeContact = (
 export const editContact = (
   state: ContactsState,
   data: BaseContactModel,
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   guard: (input: any) => boolean = contactTypeGuard
 ): PhoneContacts => {
   if (guard(data)) {
@@ -210,6 +234,8 @@ export const getSortedContactList = ({
   const sortedContacts = contacts.sort((a, b) => {
     const sortTextA = a.lastName || a.firstName || ""
     const sortTextB = b.lastName || b.firstName || ""
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     return sortTextA.localeCompare(sortTextB)
   })
 
@@ -305,6 +331,8 @@ export const findMultipleContacts = (
   const result = filter(db, query)
 
   if (result.length > 0) {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any
     return result.map(({ id }: any) => id)
   }
 

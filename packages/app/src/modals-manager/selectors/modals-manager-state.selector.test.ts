@@ -10,6 +10,8 @@ import { modalsManagerStateSelector } from "App/modals-manager/selectors/modals-
 describe("`modalsManagerStateSelector` selector", () => {
   test("when initial state is set selector returns initial state", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       modalsManager: modalsManagerReducer(initialState, {} as any),
     } as ReduxRootState
     expect(modalsManagerStateSelector(state)).toEqual(initialState)

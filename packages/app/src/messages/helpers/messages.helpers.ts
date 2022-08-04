@@ -62,6 +62,8 @@ export const splitMessageByBytesSize = (
   return messages.map((message) => message.letters.join(""))
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getStringSizeInBytes = (content: string) => {
   return new TextEncoder().encode(content).length
 }

@@ -42,6 +42,8 @@ describe("Get Connected Device request returns `success` status without `data`",
     )
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(getConnectedDevice() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -62,6 +64,8 @@ describe("Get Connected Device request returns `success` status within `data`", 
 
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(getConnectedDevice() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
@@ -88,6 +92,8 @@ describe("Get Connected Device request returns `error` status", () => {
     )
     const {
       meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
     } = await mockStore.dispatch(getConnectedDevice() as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([

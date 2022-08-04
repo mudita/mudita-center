@@ -17,6 +17,8 @@ const ScrollAnchorContainer: FunctionComponent<Props> = ({ active }) => {
     if (active) {
       ref?.current?.scrollIntoView()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return <span ref={ref} />

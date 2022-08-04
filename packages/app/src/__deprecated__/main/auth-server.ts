@@ -22,6 +22,8 @@ export const createAuthServer = (
       res.statusCode = 200
       req.on("data", (chunk) => (rawData += chunk))
       req.on("end", () => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         callback(rawData)
       })
     } else {

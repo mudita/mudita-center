@@ -10,6 +10,8 @@ import { initialState, messagesReducer } from "App/messages/reducers"
 describe("`messagesStateSelector` selector", () => {
   test("when initial state is set selector returns initial state", () => {
     const state = {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       messages: messagesReducer(initialState, {} as any),
     } as ReduxRootState
     expect(messagesStateSelector(state)).toEqual(initialState)

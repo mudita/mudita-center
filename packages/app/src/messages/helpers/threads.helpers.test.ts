@@ -17,6 +17,8 @@ const secondThreadId = "2"
 const threads: Thread[] = [
   {
     id: firstThreadId,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     phoneNumber: contact.primaryPhoneNumber!,
     lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
     messageSnippet:
@@ -26,6 +28,8 @@ const threads: Thread[] = [
   },
   {
     id: secondThreadId,
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     phoneNumber: anotherContact.primaryPhoneNumber!,
     lastUpdatedAt: new Date("2020-05-17T19:58:05.136Z"),
     messageSnippet:
@@ -60,6 +64,8 @@ test("fails search - last name", () => {
 })
 
 test("searches value - phone number", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const searchValue = contact.primaryPhoneNumber!
   expect(searchThreads(threads, contactsMock, searchValue)).toHaveLength(1)
 })

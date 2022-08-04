@@ -13,6 +13,8 @@ const customStyle = css`
   width: 30rem;
 `
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const tag = () => (
   <StoryContainer title="Tag">
     <Story title="Default" customStyle={customStyle}>

@@ -103,5 +103,7 @@ test("renders enlarged selection manager properly", () => {
   const { getWrapper } = renderSelectionManager({
     enlarged: true,
   })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(getWrapper()).toHaveStyleRule("padding-left", "1.4rem")
 })

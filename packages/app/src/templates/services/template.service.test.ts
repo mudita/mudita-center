@@ -26,6 +26,8 @@ const deviceService = {
 
 const subject = new TemplateService(deviceService, templateRepository)
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const successResponse: SuccessRequestResponse<any> = {
   status: RequestResponseStatus.Ok,
   data: {},
@@ -63,6 +65,8 @@ describe("`TemplateService`", () => {
     test("map data and returns success when `deviceService.request` returns success", async () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
       const response = await subject.createTemplate(newTemplate)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Post,
@@ -78,6 +82,8 @@ describe("`TemplateService`", () => {
     test("returns error  when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.createTemplate(newTemplate)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Post,
@@ -95,6 +101,8 @@ describe("`TemplateService`", () => {
     test("map data and returns success when `deviceService.request` returns success", async () => {
       deviceService.request = jest.fn().mockReturnValue(successResponse)
       const response = await subject.updateTemplate(template)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Put,
@@ -110,6 +118,8 @@ describe("`TemplateService`", () => {
     test("returns error  when `deviceService.request` returns error", async () => {
       deviceService.request = jest.fn().mockReturnValue(errorResponse)
       const response = await subject.updateTemplate(template)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Put,
@@ -129,6 +139,8 @@ describe("`TemplateService`", () => {
         template,
         secondTemplate,
       ])
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Put,
@@ -139,6 +151,8 @@ describe("`TemplateService`", () => {
         },
       })
       expect(response.status).toEqual(RequestResponseStatus.Ok)
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenCalledTimes(2)
     })
 
@@ -148,6 +162,8 @@ describe("`TemplateService`", () => {
         template,
         secondTemplate,
       ])
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(deviceService.request).toHaveBeenLastCalledWith({
         endpoint: Endpoint.Messages,
         method: Method.Put,
@@ -165,6 +181,8 @@ describe("`TemplateService`", () => {
     deviceService.request = jest.fn().mockReturnValue(successResponse)
     await subject.updateTemplatesOrder([template, secondTemplate])
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(templateRepository.update).toHaveBeenCalledTimes(2)
   })
 })

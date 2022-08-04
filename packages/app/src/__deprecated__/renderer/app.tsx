@@ -17,6 +17,8 @@ try {
   require("./fonts/fallback/style.css")
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 require("dotenv").config()
 
 // Create main element

@@ -86,6 +86,8 @@ describe("Method: map", () => {
   test("returns filled hash with contacts", () => {
     expect(
       subject.map((key, value) => {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         return `key: ${key} name: ${value[0].firstName} phone: ${value[0].primaryPhoneNumber}`
       })
     ).toEqual([

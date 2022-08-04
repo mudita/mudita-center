@@ -122,8 +122,11 @@ const contacts: Contact[] = [
 
 const defaultProps: Props = {
   getContact: (id: string) => {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return [contactOne, contactTwo].find((contact) => contact.id === id)!
   },
+  allItemsSelected: false,
   exportContacts: jest.fn(),
   addNewContact: jest.fn(),
   importContact: jest.fn(),
@@ -133,36 +136,30 @@ const defaultProps: Props = {
   loadContacts: jest.fn(),
   addNewContactsToState: jest.fn(),
   isThreadOpened: jest.fn(),
-  onBlock: jest.fn(),
   onCall: jest.fn(),
-  onDelete: jest.fn(),
-  onEdit: jest.fn(),
-  onExport: jest.fn(),
-  onForward: jest.fn(),
   onManageButtonClick: jest.fn(),
   onMessage: jest.fn(),
-  onNewButtonClick: jest.fn(),
   onSpeedDialSettingsSave: jest.fn(),
-  onUnblock: jest.fn(),
-  resetRows: jest.fn(),
   setProviderData: jest.fn(),
+  onEdit: jest.fn(),
+  onForward: jest.fn(),
+  onBlock: jest.fn(),
+  onUnblock: jest.fn(),
+  onDelete: jest.fn(),
   resultState: ResultState.Loaded,
   speedDialChosenList: [],
   contactList: [
     {
-      category: "#",
+      category: "S",
       contacts: [contactOne, contactTwo],
     },
   ],
-  contacts: [],
   flatList: [],
-  selectedContacts: [],
-  speedDialContacts: [],
-  editMode: false,
-  inputValue: "",
-  searchValue: "",
-  onSearchValueChange: jest.fn(),
-  results: [],
+  selectedItems: [],
+  allRowsSelected: false,
+  resetAllItems: jest.fn(),
+  selectAllItems: jest.fn(),
+  toggleItem: jest.fn(),
 }
 
 const renderer = (extraProps?: Partial<Props>) => {

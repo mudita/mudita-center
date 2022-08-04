@@ -25,7 +25,11 @@ const registerPureOsDownloadProxy = (): void => {
         callback({ requestHeaders: details.requestHeaders })
       }
     )
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
     logger.error(`Checking for OS updated failed: ${error.message}`)
   }
 }

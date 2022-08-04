@@ -22,6 +22,8 @@ export const deleteThreads = createAsyncThunk<Error | string[], string[]>(
     }
 
     if (error && error.data !== undefined) {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       const successIds = ids.filter((id) => error.data.includes(id))
       return successIds
     }

@@ -29,16 +29,22 @@ const subject = new MessageRepository(messageModel)
 describe("`MessageRepository`", () => {
   test("fire `create` call `messageModel.create` with message", () => {
     expect(subject.create(message)).toEqual(message)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(messageModel.create).toHaveBeenCalledWith(message, false)
   })
 
   test("fire `update` call `messageModel.update` with message", () => {
     expect(subject.update(message)).toEqual(message)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(messageModel.update).toHaveBeenCalledWith(message, false)
   })
 
   test("fire `delete` call `messageModel.delete` with message id", () => {
     expect(subject.delete(message.id)).toBeUndefined()
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(messageModel.delete).toHaveBeenCalledWith(message.id, false)
   })
 })

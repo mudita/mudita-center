@@ -7,4 +7,5 @@ export enum CrashDumpModalTestingIds {
   Content = "crash-dump-modal-content",
   Label = "crash-dump-modal-label",
   Text = "crash-dump-modal-text",
+  Submit = "crash-dump-modal-submit",
 }

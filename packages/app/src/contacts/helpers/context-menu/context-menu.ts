@@ -10,6 +10,8 @@ import { devClearAllContacts } from "App/contacts/actions/base.action"
 const contactsContextMenu: ContextMenuItem[] = [
   {
     label: "Clear all contacts",
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     click: () => store.dispatch(devClearAllContacts()),
   },
 ]

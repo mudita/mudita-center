@@ -139,6 +139,8 @@ class CryptoFileService {
     return crypto.createCipheriv(cipherAlgorithm, token, iv)
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   static createToken({
     algorithm = defaultHashAlgorithm,
     key,

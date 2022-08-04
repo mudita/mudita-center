@@ -207,6 +207,8 @@ const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
   </Modal>
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const CheckingUpdatesModal = () => (
   <LoadingStateDataModal
     title={intl.formatMessage(messages.muditaOsUpdateTitle)}
@@ -214,6 +216,8 @@ export const CheckingUpdatesModal = () => (
   />
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdateAvailable = ({
   onDownload = noop,
   version = "",
@@ -249,6 +253,8 @@ export const UpdateAvailable = ({
   </OSUpdateModal>
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdateNotAvailable = ({ version = "" }) => (
   <OSUpdateModal>
     <RoundIconWrapper>
@@ -271,6 +277,8 @@ export const UpdateNotAvailable = ({ version = "" }) => (
   </OSUpdateModal>
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdateServerError = ({ onRetry = noop }) => (
   <ErrorWithRetryDataModal
     onRetry={onRetry}
@@ -280,6 +288,8 @@ export const UpdateServerError = ({ onRetry = noop }) => (
   />
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const DownloadingUpdateModal = ({
   percent = 0,
   speed = 0,
@@ -329,6 +339,8 @@ export const DownloadingUpdateModal = ({
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
   <OSUpdateModal
     actionButtonLabel={intl.formatMessage(messages.downloadCompletedButton)}
@@ -351,6 +363,8 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
   </OSUpdateModal>
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const DownloadingUpdateCancelledModal = () => (
   <ErrorDataModal
     title={intl.formatMessage(messages.muditaOsUpdateTitle)}
@@ -358,6 +372,8 @@ export const DownloadingUpdateCancelledModal = () => (
   />
 )
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
   <ErrorWithRetryDataModal
     onRetry={onRetry}
@@ -388,6 +404,8 @@ export const UpdatingSpinnerModal: FunctionComponent = () => {
 }
 
 // FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdatingSuccessModal = () => (
   <OSUpdateModal data-testid={OverviewModalsTestIds.UpdatingSuccessModal}>
     <RoundIconWrapper>
@@ -406,6 +424,8 @@ export const UpdatingSuccessModal = () => (
 )
 
 // FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdatingFailureModal = ({
   code,
   onContact,
@@ -432,6 +452,8 @@ export const UpdatingFailureModal = ({
 }
 
 // FIXME: I'm deprecated, please use component from overview.modal-dialogs.tsx
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const UpdatingFailureWithHelpModal = ({
   onContact,
   onHelp,
@@ -455,6 +477,8 @@ export const UpdatingFailureWithHelpModal = ({
   )
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const DevUpdate = ({
   action = noop,
   install = false,
@@ -480,6 +504,8 @@ export const DevUpdate = ({
         {install ? "Installing" : "Downloading"}. Are you sure?
       </ModalMainText>
       <CenteredText displayStyle={TextDisplayStyle.Paragraph3}>
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
         You're about to {install ? "install" : "download"} an update that{" "}
         {prerelease ? (
           <span>may be unstable</span>
@@ -492,6 +518,8 @@ export const DevUpdate = ({
         <strong>{textDate}</strong>).
         <br />
         <br />
+        {/* AUTO DISABLED - fix me if you like :) */}
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
         Please make sure you know what you're doing!
       </CenteredText>
     </OSUpdateModal>

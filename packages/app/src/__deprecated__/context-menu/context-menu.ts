@@ -94,6 +94,8 @@ class ContextMenu {
           new electron.remote.MenuItem({
             label: mainMenuLabel,
             submenu: visibleMenuItems.map(
+              // AUTO DISABLED - fix me if you like :)
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               ({ devModeOnly, labelCreator, ...options }) => ({
                 label: labelCreator ? labelCreator() : options.label,
                 ...options,
@@ -148,6 +150,8 @@ class ContextMenu {
     this.contextMenu.popup()
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public init() {
     window.addEventListener(
       "contextmenu",
@@ -156,12 +160,16 @@ class ContextMenu {
     )
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/ban-types
   public registerItem(mainLabel: string, menuItem: ContextMenuItem): Function {
     const newItem: ContextMenuItem = {
       devModeOnly: true,
       ...menuItem,
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line no-prototype-builtins
     if (this.customMenu.hasOwnProperty(mainLabel)) {
       const menuItems = this.customMenu[mainLabel]
 
@@ -184,11 +192,15 @@ class ContextMenu {
   public registerItems(
     mainLabel: string,
     menuItems: ContextMenuItem[]
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Function {
     const unregisterItemsFunctions = menuItems.map((item) =>
       this.registerItem(mainLabel, item)
     )
     return () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       unregisterItemsFunctions.forEach((unregister) => unregister())
     }
   }

@@ -86,6 +86,8 @@ export const errorResponse: AxiosResponse<unknown> = {
 }
 
 const mockCreateFreshdeskTicket = async (
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _data: FreshdeskTicketData
 ): Promise<AxiosResponse<unknown>> => {
   return Promise.resolve(response)

@@ -35,6 +35,8 @@ export const sendTicket = createAsyncThunk<undefined, SendTicketPayload>(
     if (response.status === CreateBugTicketResponseStatus.Ok) {
       return
     } else {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       logger.error(`Send Ticket: ${response.error?.message}`)
       return rejectWithValue(
         new AppError(

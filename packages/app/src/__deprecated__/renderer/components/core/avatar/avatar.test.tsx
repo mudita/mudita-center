@@ -25,12 +25,20 @@ const renderAvatar = ({ ...props }: Partial<AvatarProps> = {}) => {
 
 const testSize = (size: AvatarSize) => {
   const { container } = renderAvatar({ size })
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(container.firstChild).toHaveStyleRule(
     "width",
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     getAvatarSize(size) + "rem"
   )
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   expect(container.firstChild).toHaveStyleRule(
     "height",
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     getAvatarSize(size) + "rem"
   )
 }

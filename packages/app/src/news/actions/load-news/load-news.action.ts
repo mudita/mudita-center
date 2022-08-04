@@ -20,6 +20,8 @@ export const loadNews = createAsyncThunk<void, undefined>(
     const offlineNews = await getOfflineNews()
     dispatch(setNews(offlineNews.newsItems))
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (state.networkStatus.online) {
       const updatedNews = await getUpdatedNews()
       if (updatedNews?.newsItems) {

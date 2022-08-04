@@ -12,6 +12,8 @@ import { removeUnusedFields } from "App/settings/store/migrations"
 
 export const settingsStore = new Store({
   name: "settings",
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   projectVersion: project.version,
   cwd: getAppPath(),

@@ -21,6 +21,8 @@ const LoaderLogo: FunctionComponent<
 > = ({ size = 10, width, height, ...rest }) => (
   <LoaderImage
     data-testid="loader-logo"
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     src={Gif}
     width={width || size * 10}
     height={height || size * 10}

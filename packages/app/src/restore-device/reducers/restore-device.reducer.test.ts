@@ -21,6 +21,8 @@ import {
 } from "App/__deprecated__/renderer/store/helpers/action.helper"
 
 test("empty event returns initial state", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   expect(restoreDeviceReducer(undefined, {} as any)).toEqual(initialState)
 })
 

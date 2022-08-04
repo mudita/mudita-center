@@ -1,4 +1,6 @@
 {
+  "component.alphaWarning": "This is not an official Mudita Center version. You use the application at your own risk. Your data may be corrupted and updating your device can upload an unstable OS. Please download ",
+  "component.alphaWarningLink": "the last stable Mudita Center.",
   "component.buttonMonthly": "Monthly",
   "component.cancelButton": "Cancel",
   "component.collectingDataModalAgree": "Agree",
@@ -45,6 +47,10 @@
   "component.contactSupportModalTitle": "Mudita Center Support",
   "component.crashDumpModal.accept": "Accept",
   "component.crashDumpModal.close": "Close",
+  "component.crashDumpModal.formEmailLabel": "Email",
+  "component.crashDumpModal.formEmailPlaceholder": "Your email",
+  "component.crashDumpModal.formMessageLabel": "Message",
+  "component.crashDumpModal.formMessagePlaceholder": "How can we help?",
   "component.crashDumpModal.harmonyLabel": "Mudita Harmony crashed",
   "component.crashDumpModal.label": "Mudita Pure crashed",
   "component.crashDumpModal.pureLabel": "Mudita Pure crashed",

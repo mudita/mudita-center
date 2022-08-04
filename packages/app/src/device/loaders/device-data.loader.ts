@@ -13,6 +13,8 @@ export class DeviceDataLoader {
     [DeviceType.MuditaHarmony]: HarmonyDataLoader,
   }
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public async loadDeviceData(deviceType: DeviceType) {
     return new DeviceDataLoader.loadersMapper[deviceType]().load()
   }

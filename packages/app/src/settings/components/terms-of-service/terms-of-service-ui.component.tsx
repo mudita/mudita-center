@@ -49,6 +49,8 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       <a href={`mailto:hello@mudita.com`}>hello@mudita.com</a>.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       4. The user's full use of the App and its functionalities requires access
       to the computer operating on macOS, Windows, or Linux.
     </LightText>
@@ -132,6 +134,8 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       and Mudita Harmony while using a computer (“The Services”).
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       2. The App is a source of information about Mudita's products, services
       offered by Mudita, and its strategy and philosophy.
     </LightText>
@@ -205,6 +209,8 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       2. Mudita informs that, should the equipment or network used by the User
       fail to meet the requirements of the Terms and Conditions, as well as
       other problems or technical limitations arise from the use of such
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       equipment or network, they may limit or prevent the User's access to The
       App or adversely affect the quality and continuity of providing services
       by means of The App.
@@ -212,8 +218,12 @@ export const TermsOfServiceUI: FunctionComponent = () => (
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
       3. Mudita shall not be responsible for improper operation of The App or
       provision of services contrary to the Terms of Conditions resulting from
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       reasons beyond Mudita's control (e.g. force majeure or actions of third
       parties not acting on behalf of or on behalf of Mudita) and from the
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       User's use of The App or services in a manner inconsistent with the Terms
       and Conditions.
     </LightText>
@@ -302,6 +312,8 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       3. The Feedback should consist of at least the following information:
     </LightText>
     <LightTextNested displayStyle={TextDisplayStyle.Paragraph4}>
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       a. User's e-mail address used for downloading the App through the App
       Distributor
     </LightTextNested>
@@ -318,7 +330,11 @@ export const TermsOfServiceUI: FunctionComponent = () => (
       correct supplementation of such data and information by the User.
     </LightText>
     <LightText displayStyle={TextDisplayStyle.Paragraph4}>
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       5. Mudita shall respond to the User's Feedback and shall contact the User
+      {/* AUTO DISABLED - fix me if you like :) */}
+      {/* eslint-disable-next-line react/no-unescaped-entities */}
       with regard to the Feedback writing to the User's e-mail address used for
       initially submitting the Feedback to Mudita.
     </LightText>

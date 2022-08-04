@@ -64,6 +64,8 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
     return () => {
       prevMessages.messages = messages
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages])
 
   const isMessageIncomingWhileScrollOnBottom = (): boolean => {
@@ -89,6 +91,8 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
       removeLayoutNotification(notificationOnThread.id)
       onMessageRead()
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messageLayoutNotifications])
 
   const handleNotificationButtonClick = () => {
@@ -120,6 +124,8 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
     return () => {
       prevMessages.messages = messages
     }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages, onBottom])
 
   useEffect(() => {
@@ -133,6 +139,8 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
       return
     }
 
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     observer = new IntersectionObserver(callback, {
       rootMargin: "150px",
       threshold: 1.0,
@@ -142,6 +150,8 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
 
     return () => {
       if (wrapperBottomRef.current) {
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         observer.unobserve(wrapperBottomRef.current)
       }
     }

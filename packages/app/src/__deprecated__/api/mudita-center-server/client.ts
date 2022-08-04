@@ -37,11 +37,17 @@ export class Client implements ClientInterface {
       const params = new URLSearchParams({
         limit: String(query.limit),
       })
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { data }: AxiosResponse = await this.httpClient.get(
         MuditaCenterServerRoutes.News,
         { params }
       )
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return data
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       throw new Error(error)
     }
@@ -57,12 +63,18 @@ export class Client implements ClientInterface {
         params.append("nextSyncToken", query.nextSyncToken)
       }
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { data }: AxiosResponse = await this.httpClient.get(
         MuditaCenterServerRoutes.Help,
         { params }
       )
 
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return data
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       throw new Error(error)
     }

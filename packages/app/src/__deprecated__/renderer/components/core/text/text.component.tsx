@@ -35,6 +35,8 @@ const paragraph3SharedStyles = css`
   letter-spacing: ${letterSpacing("small")}rem;
 `
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getTextStyles = (displayStyle: TextDisplayStyle) => {
   switch (displayStyle) {
     case TextDisplayStyle.Headline1:

@@ -8,6 +8,8 @@ import { TmpDispatch } from "App/__deprecated__/renderer/store"
 import NetworkStatusChecker from "App/__deprecated__/renderer/components/core/network-status-checker/network-status-checker.component"
 
 const mapDispatchToProps = (dispatch: TmpDispatch) => ({
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   updateOnlineStatus: () => dispatch.networkStatus.updateOnlineStatus(),
 })
 

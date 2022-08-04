@@ -23,6 +23,8 @@ const templateInputMock: TemplateInput = {
 }
 
 describe("`TemplatePresenter`", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` serialize record properly", async () => {
     const result = subject.serializeToObject(templateInputMock)
 
@@ -38,6 +40,8 @@ describe("`TemplatePresenter`", () => {
     `)
   })
 
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` returns empty array when `templates` is `undefined`", async () => {
     const result = subject.serializeToObject({ templates: undefined })
 

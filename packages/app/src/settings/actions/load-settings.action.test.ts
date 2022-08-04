@@ -50,6 +50,8 @@ test("`loadSettings` action dispatch SettingsEvent.LoadSettings event and calls 
 
   const {
     meta: { requestId },
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/await-thenable
   } = await mockStore.dispatch(loadSettings() as unknown as AnyAction)
 
   expect(mockStore.getActions()).toEqual([

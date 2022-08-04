@@ -12,12 +12,16 @@ export enum RequestResponseStatus {
   UnprocessableEntity = "unprocessable-entity",
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface RequestResponseError<ErrorDataType = any> {
   code?: number
   message: string
   data?: ErrorDataType
 }
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface RequestResponse<DataType = undefined, ErrorDataType = any> {
   status: RequestResponseStatus
   data?: DataType
