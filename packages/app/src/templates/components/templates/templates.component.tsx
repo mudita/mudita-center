@@ -59,9 +59,6 @@ export const Templates: FunctionComponent<TemplatesProps> = ({
   const panelButtonDisabled =
     templateFormOpen || states.creating || states.updating
 
-  // const { selectedRows, allRowsSelected, toggleAll, resetRows, ...rest } =
-  //   useTableSelect<Template>(templates)
-
   useEffect(() => {
     if (!loading) {
       setTemplatesList(templates)
