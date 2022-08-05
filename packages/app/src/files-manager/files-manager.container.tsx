@@ -12,6 +12,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   memorySpace: state.device.data?.memorySpace,
   files: state.filesManager.files,
   resultState: state.filesManager.resultState,
+  deviceType: state.device.deviceType,
 })
 
 const mapDispatchToProps = {

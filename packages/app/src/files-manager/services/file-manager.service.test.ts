@@ -29,7 +29,7 @@ describe("When device return list of files with `Ok` status code", () => {
       error: undefined,
     })
 
-    const result = await subject.getDeviceFiles()
+    const result = await subject.getDeviceFiles(DeviceDirectory.Music)
 
     expect(result).toEqual(
       new SuccessResult([
@@ -54,7 +54,7 @@ describe("When device return list of files with filed status code", () => {
       error: undefined,
     })
 
-    const result = await subject.getDeviceFiles()
+    const result = await subject.getDeviceFiles(DeviceDirectory.Music)
 
     expect(result).toEqual(
       new FailedResult({
@@ -74,7 +74,7 @@ describe("When device return error response", () => {
       },
     })
 
-    const result = await subject.getDeviceFiles()
+    const result = await subject.getDeviceFiles(DeviceDirectory.Music)
 
     expect(result).toEqual(
       new FailedResult({
