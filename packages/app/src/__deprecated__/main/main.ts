@@ -91,6 +91,11 @@ import { createSettingsService } from "App/settings/containers/settings.containe
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 require("dotenv").config()
 
+// FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+//  There is almost always a better way to accomplish your task than using this module.
+//  You can read more in https://github.com/electron/remote#migrating-from-remote
+require("@electron/remote/main").initialize()
+
 logger.info("Starting the app")
 
 let win: BrowserWindow | null
@@ -116,7 +121,9 @@ const installExtensions = async () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const installer = require("electron-devtools-installer")
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-  const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
+  // FIXME: electron v9 throw error, you can read more in https://github.com/zalmoxisus/redux-devtools-extension/issues/767
+  // const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
+  const extensions: string[] = []
 
   return Promise.all(
     // AUTO DISABLED - fix me if you like :)
@@ -133,6 +140,9 @@ const commonWindowOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
+    // FIXME: electron v12 throw error: 'Require' is not defined. `contextIsolation` default value is changed to `true`.
+    //  You can read more in https://www.electronjs.org/blog/electron-12-0#breaking-changes
+    contextIsolation: false,
     devTools: !productionEnvironment,
   },
 }
@@ -169,7 +179,10 @@ const createWindow = async () => {
   win.on("closed", () => {
     win = null
   })
-
+  // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+  //  There is almost always a better way to accomplish your task than using this module.
+  //  You can read more in https://github.com/electron/remote#migrating-from-remote
+  require("@electron/remote/main").enable(win.webContents)
   new MetadataInitializer(metadataStore).init()
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
@@ -225,6 +238,8 @@ const createWindow = async () => {
     mockAutoupdate(win)
   }
 
+  // FIXME: Note: the new-window event itself is already deprecated and has been replaced by setWindowOpenHandler,
+  //  you can read more in https://www.electronjs.org/blog/electron-14-0#removed-additionalfeatures
   win.webContents.on("new-window", (event, href) => {
     event.preventDefault()
     // AUTO DISABLED - fix me if you like :)
@@ -276,6 +291,10 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
       helpWindow = null
     })
 
+    // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+    //  There is almost always a better way to accomplish your task than using this module.
+    //  You can read more in https://github.com/electron/remote#migrating-from-remote
+    require("@electron/remote/main").enable(helpWindow.webContents)
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     helpWindow.loadURL(
@@ -320,6 +339,10 @@ const createOpenWindowListener = (
         newWindow = null
       })
 
+      // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
+      //  There is almost always a better way to accomplish your task than using this module.
+      //  You can read more in https://github.com/electron/remote#migrating-from-remote
+      require("@electron/remote/main").enable(newWindow.webContents)
       await newWindow.loadURL(
         !productionEnvironment
           ? `http://localhost:2003/?mode=${mode}#${urlMain}`
@@ -331,6 +354,8 @@ const createOpenWindowListener = (
               search: `?mode=${mode}`,
             })
       )
+      // FIXME: Note: the new-window event itself is already deprecated and has been replaced by setWindowOpenHandler,
+      //  you can read more in https://www.electronjs.org/blog/electron-14-0#removed-additionalfeatures
       newWindow.webContents.on("new-window", (event, href) => {
         event.preventDefault()
         // AUTO DISABLED - fix me if you like :)

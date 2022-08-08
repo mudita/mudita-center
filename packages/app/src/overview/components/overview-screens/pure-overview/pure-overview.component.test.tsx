@@ -20,14 +20,12 @@ import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
 
-jest.mock("electron", () => ({
-  remote: {
-    Menu: () => ({
-      popup: jest.fn(),
-      append: jest.fn(),
-    }),
-    MenuItem: () => jest.fn(),
-  },
+jest.mock("@electron/remote", () => ({
+  Menu: () => ({
+    popup: jest.fn(),
+    append: jest.fn(),
+  }),
+  MenuItem: () => jest.fn(),
 }))
 
 type Props = ComponentProps<typeof PureOverview>
