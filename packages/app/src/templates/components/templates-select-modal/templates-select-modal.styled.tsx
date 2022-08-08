@@ -4,7 +4,7 @@
  */
 
 import styled from "styled-components"
-import {
+import Table, {
   Col,
   Row,
   RowSize,
@@ -17,4 +17,9 @@ export const TemplateRow = styled(Row)<{ size: RowSize }>`
     padding-top: 1.3rem;
     padding-bottom: 1.3rem;
   }
+`
+
+export const TemplatesListWrapper = styled(Table)`
+  max-height: 54rem;
+  overflow: scroll;
 `
