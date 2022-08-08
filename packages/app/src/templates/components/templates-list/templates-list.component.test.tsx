@@ -26,14 +26,11 @@ describe("`TemplatesList` component", () => {
       templates: [],
       deleteTemplates: jest.fn(),
       updateTemplate: jest.fn(),
-      getRowStatus: jest
-        .fn()
-        .mockReturnValue({ indeterminate: false, selected: false }),
-      noneRowsSelected: true,
       toggleRow: jest.fn(),
       onDragEnd: jest.fn(),
       active: undefined,
       templateFormOpen: false,
+      selectedItems: [],
     })
     expect(
       getByText("[value] module.templates.emptyList.title")
@@ -46,12 +43,9 @@ describe("`TemplatesList` component", () => {
   test("shows templates list", () => {
     const { getByText } = render({
       templates: [templateMock],
+      selectedItems: [],
       deleteTemplates: jest.fn(),
       updateTemplate: jest.fn(),
-      getRowStatus: jest
-        .fn()
-        .mockReturnValue({ indeterminate: false, selected: false }),
-      noneRowsSelected: true,
       toggleRow: jest.fn(),
       onDragEnd: jest.fn(),
       active: undefined,
@@ -63,12 +57,9 @@ describe("`TemplatesList` component", () => {
   test("shows checkbox if at least one row is selected", () => {
     const { getByTestId } = render({
       templates: [templateMock],
+      selectedItems: [templateMock.id],
       deleteTemplates: jest.fn(),
       updateTemplate: jest.fn(),
-      getRowStatus: jest
-        .fn()
-        .mockReturnValue({ indeterminate: false, selected: false }),
-      noneRowsSelected: false,
       toggleRow: jest.fn(),
       onDragEnd: jest.fn(),
       active: undefined,

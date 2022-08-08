@@ -31,6 +31,7 @@ export const TemplatesPanel: FunctionComponent<TemplatesPanelProps> = ({
   allItemsSelected,
   onDeleteClick,
   toggleAll,
+  resetRows,
 }) => {
   const selectedItemsCount = selectedTemplates.length
   const selectionMode = selectedItemsCount > 0
@@ -45,7 +46,7 @@ export const TemplatesPanel: FunctionComponent<TemplatesPanelProps> = ({
             allItemsSelected={Boolean(allItemsSelected)}
             message={{ id: "module.templates.selectionNumber" }}
             checkboxSize={Size.Medium}
-            onToggle={toggleAll}
+            onToggle={allItemsSelected ? resetRows : toggleAll}
             buttons={[
               <Button
                 key="delete"
