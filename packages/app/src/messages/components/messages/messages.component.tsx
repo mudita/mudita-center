@@ -537,7 +537,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const hideDeleteMessageConfirmationModal = () => {
     setMessageToDelete(undefined)
-    updateFieldState("messageDeleting", false)
+    updateFieldState("messageDeletingConfirmation", false)
   }
 
   const hideDeleteMessageErrorModal = () => {
