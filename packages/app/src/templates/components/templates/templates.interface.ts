@@ -23,6 +23,12 @@ export interface TemplatesProps {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateTemplateOrder: (arg: Template[]) => Promise<PayloadAction<any>>
+
+  selectedItems: string[]
+  allItemsSelected: boolean
+  resetAllItems: () => void
+  selectAllItems: () => void
+  toggleItem: (id: string) => void
 }
 
 export interface TemplateServiceState {

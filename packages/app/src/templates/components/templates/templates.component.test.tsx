@@ -61,6 +61,11 @@ describe("`Templates` component", () => {
     test("open/close template form", async () => {
       const { getByTestId, queryByTestId } = await render({
         templates: [],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -91,6 +96,11 @@ describe("`Templates` component", () => {
     test("renders list of templates", async () => {
       const { getByText } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -106,6 +116,11 @@ describe("`Templates` component", () => {
     test("renders empty message if templates array is empty", async () => {
       const { getByText } = await render({
         templates: [],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -128,6 +143,11 @@ describe("`Templates` component", () => {
     test("Calls `createTemplate` when clicks on `Save` button", async () => {
       const { getByTestId } = await render({
         templates: [],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -158,6 +178,11 @@ describe("`Templates` component", () => {
     test("Shows creating template loader after click on save button", async () => {
       const { getByTestId } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -191,6 +216,11 @@ describe("`Templates` component", () => {
     test("Shows creation templates info after state changed to `loaded: true`", async () => {
       const { getByTestId, rerender } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -217,6 +247,11 @@ describe("`Templates` component", () => {
 
       await rerender({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -236,6 +271,11 @@ describe("`Templates` component", () => {
     test("Shows creating template error if error isn't empty", async () => {
       const { getByTestId, rerender } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -262,6 +302,11 @@ describe("`Templates` component", () => {
 
       await rerender({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -283,6 +328,11 @@ describe("`Templates` component", () => {
     test("Calls `updateTemplate` when clicks on `Save` button", async () => {
       const { getByTestId } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -324,6 +374,11 @@ describe("`Templates` component", () => {
     test("Shows updating template loader after click on save button", async () => {
       const { getByTestId } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -362,6 +417,11 @@ describe("`Templates` component", () => {
     test("Shows updating templates info after state changed to `loaded: true`", async () => {
       const { getByTestId, rerender } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -394,6 +454,11 @@ describe("`Templates` component", () => {
 
       await rerender({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -413,6 +478,11 @@ describe("`Templates` component", () => {
     test("Shows updating template error if error isn't empty", async () => {
       const { getByTestId, rerender } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -445,6 +515,11 @@ describe("`Templates` component", () => {
 
       await rerender({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -466,6 +541,11 @@ describe("`Templates` component", () => {
     test("Clicking on dropdown delete opens delete confirmation modal", async () => {
       const { getByTestId } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -491,6 +571,11 @@ describe("`Templates` component", () => {
     test("Clicking on confirmation delete triggers `deleteTemplates` action", async () => {
       const { getByTestId } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -519,6 +604,11 @@ describe("`Templates` component", () => {
     test("Shows deleted templates loader after click on delete confirmation button", async () => {
       const { getByTestId } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -549,6 +639,11 @@ describe("`Templates` component", () => {
     test("Shows deleted templates info after state changed to `loaded: true`", async () => {
       const { getByTestId, rerender } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -571,6 +666,11 @@ describe("`Templates` component", () => {
 
       await rerender({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -590,6 +690,11 @@ describe("`Templates` component", () => {
     test("Shows deleted templates error if error isn't empty", async () => {
       const { getByTestId, rerender } = await render({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -612,6 +717,11 @@ describe("`Templates` component", () => {
 
       await rerender({
         templates: [templateMock],
+        selectedItems: [],
+        allItemsSelected: false,
+        resetAllItems: jest.fn(),
+        selectAllItems: jest.fn(),
+        toggleItem: jest.fn(),
         createTemplate: createTemplateMock,
         deleteTemplates: deleteTemplatesMock,
         updateTemplate: updateTemplateMock,
@@ -627,38 +737,5 @@ describe("`Templates` component", () => {
         ).toBeInTheDocument()
       })
     })
-  })
-  test("Remove checkboxes and selection manager when opening template details", async () => {
-    const { getByTestId, queryAllByTestId, queryByTestId } = await render({
-      templates: [templateMock],
-      createTemplate: createTemplateMock,
-      deleteTemplates: deleteTemplatesMock,
-      updateTemplate: updateTemplateMock,
-      updateTemplateOrder: updateTemplateOrderMock,
-      loading: false,
-      loaded: false,
-      error: null,
-    })
-    const checkboxes = queryAllByTestId("template-checkbox")
-    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
-    fireEvent.click(checkboxes[0])
-    checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
-    expect(
-      queryByTestId(TemplatesPanelTestIds.SelectionManager)
-    ).toBeInTheDocument()
-
-    const dropdownButton = getByTestId(
-      TemplateOptionsTestIds.OptionsDropDown
-    ).querySelector("button")
-    dropdownButton?.click()
-
-    const editButton = getByTestId(TemplateOptionsTestIds.EditButton)
-    fireEvent.click(editButton)
-
-    expect(queryByTestId(TemplateFormTestIds.Container)).toBeInTheDocument()
-    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
-    expect(
-      queryByTestId(TemplatesPanelTestIds.SelectionManager)
-    ).not.toBeInTheDocument()
   })
 })

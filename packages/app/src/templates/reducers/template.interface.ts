@@ -13,6 +13,7 @@ export interface TemplateState {
   data: Template[]
   loading: boolean
   loaded: boolean
+  selectedItems: { rows: string[] }
   error: Error | string | null
 }
 

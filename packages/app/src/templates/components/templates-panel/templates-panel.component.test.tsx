@@ -33,6 +33,9 @@ describe("`TemplatesPanel` component", () => {
         onAddNewTemplate: onAddNewTemplateMock,
         onDeleteClick: onDeleteClick,
         selectedTemplates: [],
+        toggleAll: jest.fn(),
+        resetRows: jest.fn(),
+        allItemsSelected: false,
       })
       const button = getByTestId(TemplatesPanelTestIds.Button)
 
@@ -45,6 +48,9 @@ describe("`TemplatesPanel` component", () => {
         onAddNewTemplate: onAddNewTemplateMock,
         onDeleteClick: onDeleteClick,
         selectedTemplates: [],
+        toggleAll: jest.fn(),
+        resetRows: jest.fn(),
+        allItemsSelected: false,
       })
       const button = getByTestId(TemplatesPanelTestIds.Button)
 
@@ -59,6 +65,9 @@ describe("`TemplatesPanel` component", () => {
         onAddNewTemplate: onAddNewTemplateMock,
         onDeleteClick: onDeleteClick,
         selectedTemplates: [],
+        toggleAll: jest.fn(),
+        resetRows: jest.fn(),
+        allItemsSelected: false,
       })
       const button = getByTestId(TemplatesPanelTestIds.Button)
 
@@ -72,7 +81,10 @@ describe("`TemplatesPanel` component", () => {
       disabled: false,
       onAddNewTemplate: onAddNewTemplateMock,
       onDeleteClick: onDeleteClick,
-      selectedTemplates: [templateMock],
+      selectedTemplates: [templateMock.id],
+      toggleAll: jest.fn(),
+      resetRows: jest.fn(),
+      allItemsSelected: false,
     })
     expect(
       getByTestId(TemplatesPanelTestIds.SelectionManager)
