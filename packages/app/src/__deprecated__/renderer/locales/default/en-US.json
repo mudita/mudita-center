@@ -388,6 +388,8 @@
   "module.messages": "Messages",
   "module.messages.allMessages": "All messages",
   "module.messages.attachContactModalTitle": "Attach Contact",
+  "module.messages.attachContactTooltipDescription": "Attach Contact",
+  "module.messages.attachTemplateTooltipDescription": "Attach Template",
   "module.messages.attachModalEmptyList": "Empty list",
   "module.messages.browseContactsButton": "Browse Contacts",
   "module.messages.browseContactsModalTitle": "Browse Contacts",
