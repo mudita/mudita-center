@@ -578,12 +578,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
     updateFieldState("threadDeletingConfirmation", true)
   }
 
-  const handleDeleteTmpThreadClick = async (): Promise<void> => {
+  const handleDeleteTmpThreadClick = (): void => {
     if (tmpActiveThread !== undefined) {
       closeSidebars()
     } else if (activeThread) {
-      await deleteThreads([activeThread.id])
-      resetItems()
+      handleDeleteThread(activeThread.id)
       setActiveThread(undefined)
     }
   }
