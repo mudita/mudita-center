@@ -199,7 +199,7 @@ const ThreadRow: FunctionComponent<Props> = ({
     onToggleReadClick([thread])
   }
   const handleContactClick = () => onContactClick(phoneNumber)
-  console.log("newConversationOpen", newConversationOpen)
+
   return (
     <ThreadRowContainer
       key={id}
