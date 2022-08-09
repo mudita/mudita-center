@@ -120,6 +120,8 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
       return UpdatingForceModalFlowState.Success
     } else if (updatingState === UpdatingState.Fail) {
       return UpdatingForceModalFlowState.Fail
+    } else if (updatingState === UpdatingState.Updating) {
+      return UpdatingForceModalFlowState.Updating
     } else if (!osVersionSupported) {
       return UpdatingForceModalFlowState.Info
     } else {

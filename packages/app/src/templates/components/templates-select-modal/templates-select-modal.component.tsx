@@ -9,13 +9,16 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { ModalSize } from "App/__deprecated__/renderer/components/core/modal/modal.interface"
 import { ModalDialog } from "App/ui/components/modal-dialog"
-import Table, {
+import {
   Col,
   RowSize,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
 import { TemplatesSelectModalTestIds } from "App/templates/components/templates-select-modal/templates-select-modal-test-ids.enum"
 import { TemplatesSelectModalProps } from "App/templates/components/templates-select-modal/templates-select-modal.interface"
-import { TemplateRow } from "App/templates/components/templates-select-modal/templates-select-modal.styled"
+import {
+  TemplateRow,
+  TemplatesListWrapper,
+} from "App/templates/components/templates-select-modal/templates-select-modal.styled"
 
 const messages = defineMessages({
   title: { id: "module.templates.attachTemplateModalTitle" },
@@ -32,11 +35,13 @@ export const TemplatesSelectModal: FunctionComponent<
       closeButton={false}
       open={open}
     >
-      <Table data-testid={TemplatesSelectModalTestIds.TemplatesList}>
+      <TemplatesListWrapper
+        data-testid={TemplatesSelectModalTestIds.TemplatesList}
+      >
         {templates.map((template) => {
           return (
             <TemplateRow
-              key={template.order}
+              key={template.id}
               size={RowSize.Small}
               onClick={() => onSelect(template)}
               data-testid={TemplatesSelectModalTestIds.TemplatesRow}
@@ -45,7 +50,7 @@ export const TemplatesSelectModal: FunctionComponent<
             </TemplateRow>
           )
         })}
-      </Table>
+      </TemplatesListWrapper>
     </ModalDialog>
   )
 }
