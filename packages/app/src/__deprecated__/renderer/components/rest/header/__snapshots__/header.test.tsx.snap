@@ -85,7 +85,7 @@ exports[`matches snapshot with tabs 1`] = `
   overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  width: autorem;
+  width: "auto";
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;

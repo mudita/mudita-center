@@ -37,7 +37,7 @@ const getSize = (size: Size) => {
       `
     case Size.Auto:
       return css`
-        width: ${width("auto")};
+        width: "auto";
       `
     default:
       return
