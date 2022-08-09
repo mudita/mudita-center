@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { Index, SerialisedIndexData } from "elasticlunr"
 import { ModelError, ModelEvent } from "App/core/constants"
 import { AppError } from "App/core/errors"
 import { DataIndex } from "App/index-storage/constants"
 import { IndexStorage } from "App/index-storage/types"
-import { Index, SerialisedIndexData } from "elasticlunr"
 import { EventEmitter } from "events"
 
 export class BaseModel<Type extends { id: string }> {
