@@ -3,61 +3,58 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
+import { lightAvatarStyles } from "App/contacts/components/contact-list/contact-list.component"
+import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
+import { Contact } from "App/contacts/reducers/contacts.interface"
+import { Feature } from "App/feature-flags/constants/feature.enum"
+import { flags } from "App/feature-flags/helpers/feature-flag.helpers"
+import ThreadBaseRow from "App/messages/components/thread-base-row.component"
+import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
+import ThreadRowName from "App/messages/components/thread-row-name"
+import { MessageType } from "App/messages/constants"
+import { Thread } from "App/messages/dto"
+import { Settings } from "App/settings/dto"
 import Avatar, {
   AvatarSize,
 } from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
-import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
-import {
-  DataWrapper,
-  Message,
-  Name,
-  NameWrapper,
-  Time,
-} from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
-import Text, {
-  TextDisplayStyle,
-} from "App/__deprecated__/renderer/components/core/text/text.component"
-import getPrettyCaller from "App/__deprecated__/renderer/models/calls/get-pretty-caller"
-import { isToday } from "App/__deprecated__/renderer/utils/is-today"
-import moment from "moment"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
+import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
 import {
   Actions,
   Col,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
-import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
-import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
-import { noop } from "App/__deprecated__/renderer/utils/noop"
-import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
-import { Feature } from "App/feature-flags/constants/feature.enum"
-import { flags } from "App/feature-flags/helpers/feature-flag.helpers"
-import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
-import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
-import { Thread } from "App/messages/dto"
-import { MessageType } from "App/messages/constants"
-import { Contact } from "App/contacts/reducers/contacts.interface"
-import {
-  RowStatus,
-  UseTableSelect,
-} from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
-import styled, { css } from "styled-components"
-import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { TextDisplayStyle } from "App/__deprecated__/renderer/components/core/text/text.component"
+import { ElementWithTooltipPlace } from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
 } from "App/__deprecated__/renderer/components/rest/animated-opacity/animated-opacity"
-import { lightAvatarStyles } from "App/contacts/components/contact-list/contact-list.component"
+import {
+  DataWrapper,
+  Message,
+  Time,
+} from "App/__deprecated__/renderer/components/rest/messages/threads-table.component"
+import ScrollAnchorContainer from "App/__deprecated__/renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import { VisibleCheckbox } from "App/__deprecated__/renderer/components/rest/visible-checkbox/visible-checkbox"
-import { Settings } from "App/settings/dto"
-import ThreadBaseRow from "App/messages/components/thread-base-row.component"
-import { ListRowProps } from "react-virtualized"
-import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import getPrettyCaller from "App/__deprecated__/renderer/models/calls/get-pretty-caller"
+import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/theme-getters"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import {
+  RowStatus,
+  UseTableSelect,
+} from "App/__deprecated__/renderer/utils/hooks/useTableSelect"
+import { isToday } from "App/__deprecated__/renderer/utils/is-today"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import moment from "moment"
+import React from "react"
 import { defineMessages } from "react-intl"
-import { ElementWithTooltipPlace } from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
-import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
-import Icon from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import { ListRowProps } from "react-virtualized"
+import styled, { css } from "styled-components"
 
 const messages = defineMessages({
   dropdownTogglerTooltipDescription: {
@@ -215,9 +212,7 @@ const ThreadRow: FunctionComponent<Props> = ({
         {getPrettyCaller(contact, phoneNumber) === newConversation ||
         !thread.messageSnippet ? (
           <NewThreadWrapper>
-            <Name displayStyle={TextDisplayStyle.Headline4}>
-              {getPrettyCaller(contact, phoneNumber)}
-            </Name>
+            <ThreadRowName contact={contact} phoneNumber={phoneNumber} />
           </NewThreadWrapper>
         ) : (
           <>
@@ -225,20 +220,7 @@ const ThreadRow: FunctionComponent<Props> = ({
               sidebarOpened={sidebarOpened}
               isMessageFailed={isMessageFailed}
             >
-              <NameWrapper>
-                <Name displayStyle={TextDisplayStyle.Headline4}>
-                  {getPrettyCaller(contact, phoneNumber)}
-                </Name>
-                {Boolean(phoneNumber && contact?.secondaryPhoneNumber) && (
-                  <Text displayStyle={TextDisplayStyle.Paragraph2}>
-                    &nbsp;
-                    {phoneNumber.split(" ").join("") ===
-                    contact?.secondaryPhoneNumber?.split(" ").join("")
-                      ? "#2"
-                      : "#1"}
-                  </Text>
-                )}
-              </NameWrapper>
+              <ThreadRowName contact={contact} phoneNumber={phoneNumber} />
               <Time displayStyle={TextDisplayStyle.Label} color="secondary">
                 {isToday(thread.lastUpdatedAt)
                   ? moment(thread.lastUpdatedAt).format("h:mm A")
