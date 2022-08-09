@@ -6,7 +6,7 @@
 import { connect } from "react-redux"
 import { ReduxRootState, RootState } from "App/__deprecated__/renderer/store"
 import FilesManager from "App/files-manager/components/files-manager/files-manager.component"
-import { getFiles } from "App/files-manager/actions"
+import { getFiles, uploadFiles } from "App/files-manager/actions"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   memorySpace: state.device.data?.memorySpace,
@@ -17,6 +17,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
 
 const mapDispatchToProps = {
   getFiles,
+  uploadFiles,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilesManager)

@@ -10,12 +10,17 @@ import { DeviceDirectory } from "App/files-manager/constants"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { FilesManagerError } from "App/files-manager/constants"
 import { FileManagerService } from "App/files-manager/services/file-manager.service"
+import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
 
 const deviceService = {
   request: jest.fn(),
 } as unknown as DeviceService
 
-const subject = new FileManagerService(deviceService)
+const fileSystemService = {
+  readFile: jest.fn(),
+} as unknown as FileSystemService
+
+const subject = new FileManagerService(deviceService, fileSystemService)
 
 describe("When device return list of files with `Ok` status code", () => {
   test("returns result with serialized files", async () => {

@@ -9,7 +9,6 @@ import FilesManager from "App/files-manager/components/files-manager/files-manag
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
-import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 const defaultProps: ComponentProps<typeof FilesManager> = {
   memorySpace: {
@@ -19,7 +18,8 @@ const defaultProps: ComponentProps<typeof FilesManager> = {
   },
   files: [],
   resultState: ResultState.Empty,
-  getFiles: noop,
+  getFiles: jest.fn(),
+  uploadFiles: jest.fn(),
   deviceType: DeviceType.MuditaPure,
 }
 

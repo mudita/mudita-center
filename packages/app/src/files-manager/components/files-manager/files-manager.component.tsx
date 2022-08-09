@@ -19,6 +19,8 @@ import {
   filesSummaryElements,
 } from "App/files-manager/constants"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
+import { FilesManagerPanel } from "App/files-manager/components/files-manager-panel"
+import { Feature, flags } from "App/feature-flags"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -29,6 +31,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   resultState,
   files,
   getFiles,
+  uploadFiles,
   deviceType,
 }) => {
   const { free, total } = memorySpace
@@ -76,6 +79,23 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         totalMemorySpace={total}
         systemMemory={systemMemory}
       />
+      {flags.get(Feature.FilesManagerActionsEnabled) && (
+        <FilesManagerPanel
+          onUploadFile={uploadFiles}
+          disabled={false}
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+          toggleAll={() => {}}
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+          resetRows={() => {}}
+          // AUTO DISABLED - fix me if you like :)
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+          onDeleteClick={() => {}}
+          selectedFiles={[]}
+          allItemsSelected={false}
+        />
+      )}
       <FilesStorage resultState={resultState} files={files} />
     </FilesManagerContainer>
   )

@@ -11,12 +11,10 @@ import { FileSystemService } from "App/file-system/services/file-system.service.
 import { AppLogger } from "App/__deprecated__/main/utils/logger"
 import { IndexStorage } from "App/index-storage/types"
 import { BaseModule } from "App/core/module"
-import { FilesManagerController } from "App/files-manager/controllers"
-import { FileManagerService } from "App/files-manager/services"
+import { FilesSystemDialogService } from "App/file-system/services"
+import { DialogFileSystemController } from "App/file-system/controllers"
 
-export class FilesManagerModule extends BaseModule {
-  private readonly filesManagerController: FilesManagerController
-
+export class FileSystemModule extends BaseModule {
   constructor(
     public index: IndexStorage,
     public deviceService: DeviceService,
@@ -36,13 +34,11 @@ export class FilesManagerModule extends BaseModule {
       fileSystem
     )
 
-    const fileManagerService = new FileManagerService(
-      this.deviceService,
-      this.fileSystem
+    const filesSystemDialogService = new FilesSystemDialogService()
+    const dialogFileSystemController = new DialogFileSystemController(
+      filesSystemDialogService
     )
 
-    this.filesManagerController = new FilesManagerController(fileManagerService)
-
-    this.controllers = [this.filesManagerController]
+    this.controllers = [dialogFileSystemController]
   }
 }

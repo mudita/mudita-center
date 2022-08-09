@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./file.input"
-export * from "./file.object"
-export * from "./upload-file.input"
+export enum DialogFileSystemError {
+  GetPath = "CANT_GET_SELECTED_FILES_PATH",
+}

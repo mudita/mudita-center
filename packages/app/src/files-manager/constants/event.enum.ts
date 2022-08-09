@@ -6,4 +6,5 @@
 export enum FilesManagerEvent {
   GetFiles = "FILES_MANAGER_GET_FILES",
   SetFiles = "FILES_MANAGER_SET_FILES",
+  UploadFiles = "FILES_MANAGER_UPLOAD_FILES",
 }

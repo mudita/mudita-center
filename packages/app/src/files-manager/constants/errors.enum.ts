@@ -5,4 +5,5 @@
 
 export enum FilesManagerError {
   GetFiles = "FILES_MANAGER_GET_FILES_ERROR",
+  UploadFiles = "FILES_MANAGER_UPLOAD_FILES_ERROR",
 }

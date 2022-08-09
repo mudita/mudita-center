@@ -16,6 +16,7 @@ export interface FilesManagerProps {
   resultState: ResultState
   files: File[]
   getFiles: (directory: DeviceDirectory) => void
+  uploadFiles: () => void
 }
 
 export interface DiskSpaceCategory {

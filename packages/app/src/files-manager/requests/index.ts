@@ -4,3 +4,4 @@
  */
 
 export * from "./get-files.request"
+export * from "./upload-files.request"
