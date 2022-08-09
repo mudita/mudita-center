@@ -15,9 +15,8 @@ import { PhoneUpdate } from "App/__deprecated__/renderer/models/phone-update/pho
 import useSystemUpdateFlow from "App/overview/helpers/system-update.hook"
 import logger from "App/__deprecated__/main/utils/logger"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
-import UpdatingForceModalFlow, {
-  UpdatingForceModalFlowState,
-} from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
+import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
+import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 
 export interface HarmonyOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
@@ -25,7 +24,7 @@ export interface HarmonyOverviewProps {
   readonly batteryLevel: number | undefined
   readonly osVersion: string | undefined
   readonly pureOsDownloaded: boolean
-  readonly updatingState: UpdatingState
+  readonly updatingState: UpdatingState | null
   readonly serialNumber: string | undefined
   readonly startUpdateOs: (data: string) => void
   readonly setUpdateState: (data: UpdatingState) => void
@@ -121,6 +120,8 @@ export const HarmonyOverview: FunctionComponent<HarmonyOverviewProps> = ({
       return UpdatingForceModalFlowState.Success
     } else if (updatingState === UpdatingState.Fail) {
       return UpdatingForceModalFlowState.Fail
+    } else if (updatingState === UpdatingState.Updating) {
+      return UpdatingForceModalFlowState.Updating
     } else if (!osVersionSupported) {
       return UpdatingForceModalFlowState.Info
     } else {

@@ -45,6 +45,7 @@ const mapStateToProps = (state: RootModel & ReduxRootState) => {
     ...state.devMode,
     syncState: state.dataSync.state,
     lowestSupportedOsVersion: getDeviceLatestVersion(state),
+    updatingState: state.device.updatingState,
   }
 }
 
