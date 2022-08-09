@@ -15,29 +15,68 @@ type vCardProperty = vCard.Property & {
 
 type vCardContact = Record<string, vCardProperty | vCardProperty[]>
 
+class vcfPresenter {
+  static getFirstName(
+    decodedValues: Record<string, string | string[]>
+  ): string {
+    const n = vcfPresenter.getValueFromArray(decodedValues.n, 0)
+    const first = vcfPresenter.mapRecordToValue(decodedValues.first)
+    return n ?? first ?? ""
+  }
+
+  static getLastName(decodedValues: Record<string, string | string[]>): string {
+    const n = vcfPresenter.getValueFromArray(decodedValues.n, 1)
+    const last = vcfPresenter.mapRecordToValue(decodedValues.last)
+    return n ?? last ?? ""
+  }
+
+  static getFullName(decodedValues: Record<string, string | string[]>): string {
+    const fv = vcfPresenter.mapRecordToValue(decodedValues.fv)
+    const fn = vcfPresenter.mapRecordToValue(decodedValues.fn)
+    return fv ?? fn ?? ""
+  }
+
+  static getPrimaryPhoneNumber(
+    decodedValues: Record<string, string | string[]>
+  ): string {
+    const tel = vcfPresenter.getValueFromArray(decodedValues.tel, 0)
+    const rev = vcfPresenter.mapRecordToValue(decodedValues.rev)
+    return vcfPresenter.mapTel(tel ?? rev ?? "")
+  }
+  static getSecondaryPhoneNumber(
+    decodedValues: Record<string, string | string[]>
+  ): string {
+    const tel = vcfPresenter.getValueFromArray(decodedValues.tel, 1)
+    return vcfPresenter.mapTel(tel ?? "")
+  }
+
+  private static mapTel(tel: string): string {
+    return tel.valueOf().replace(/\s/g, "")
+  }
+
+  private static mapRecordToValue(
+    value: string | string[]
+  ): string | undefined {
+    return !Array.isArray(value) ? value : undefined
+  }
+  private static getValueFromArray(
+    value: string | string[],
+    index: number
+  ): string | undefined {
+    return Array.isArray(value) ? value[index] : undefined
+  }
+}
+
 const mapToContact = (vContact: vCardContact): NewContact => {
   const contact: NewContact = {}
   const decodedValues = getVCardDecodedValues(vContact)
+  const firstName = vcfPresenter.getFirstName(decodedValues)
+  const lastName = vcfPresenter.getLastName(decodedValues)
+  const fullName = vcfPresenter.getFullName(decodedValues)
+  const primaryPhoneNumber = vcfPresenter.getPrimaryPhoneNumber(decodedValues)
+  const secondaryPhoneNumber =
+    vcfPresenter.getSecondaryPhoneNumber(decodedValues)
 
-  assertValueIsStringNotArray(decodedValues.n, "name")
-  assertValueIsStringNotArray(decodedValues.fv, "full name")
-  const [lastName = "", firstName = ""] = decodedValues.n
-    ? decodedValues.n.split(";")
-    : []
-  const fullName = decodedValues.fv ?? ""
-
-  if (decodedValues.tel) {
-    if (Array.isArray(decodedValues.tel)) {
-      contact["primaryPhoneNumber"] = decodedValues.tel[0]
-        ? decodedValues.tel[0].valueOf().replace(/\s/g, "")
-        : ""
-      contact["secondaryPhoneNumber"] = decodedValues.tel[1]
-        ? decodedValues.tel[1].valueOf().replace(/\s/g, "")
-        : ""
-    } else {
-      contact["primaryPhoneNumber"] = decodedValues.tel.replace(/\s/g, "")
-    }
-  }
   if (decodedValues.adr) {
     let address: string
     let firstAddressLine = ""
@@ -78,6 +117,8 @@ const mapToContact = (vContact: vCardContact): NewContact => {
 
   contact["firstName"] = !firstName && !lastName ? fullName : firstName
   contact["lastName"] = lastName
+  contact["primaryPhoneNumber"] = primaryPhoneNumber
+  contact["secondaryPhoneNumber"] = secondaryPhoneNumber
 
   return contact
 }

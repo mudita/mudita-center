@@ -27,6 +27,9 @@ describe("map VCF's to Contacts helper", () => {
   const withPolishCharsContactFile = createFile(
     path.join(__dirname, "./utf-8-polish-characters.vcf")
   )
+  const contactWithAnotherPropertyFormat = createFile(
+    path.join(__dirname, "./contact-with-another-property-format.vcf")
+  )
   const noVcfFile = createFile(path.join(__dirname, "./no-vcf.png"))
 
   test("should return list with one contact when is just single record", async () => {
@@ -94,6 +97,26 @@ describe("map VCF's to Contacts helper", () => {
         secondAddressLine: "اكتشف",
       },
     ])
+  })
+
+  test("Contact with another properties format is supported", async () => {
+    const contacts = await mapVCFsToContacts([contactWithAnotherPropertyFormat])
+    expect(contacts).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "firstName": "Alfred",
+          "lastName": "Pacleb",
+          "primaryPhoneNumber": "1660051324447",
+          "secondaryPhoneNumber": "",
+        },
+        Object {
+          "firstName": "Alexis",
+          "lastName": "Morguson",
+          "primaryPhoneNumber": "1660051324448",
+          "secondaryPhoneNumber": "",
+        },
+      ]
+    `)
   })
 
   test("should return contact with file that contains polish characters", async () => {
