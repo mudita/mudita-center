@@ -112,9 +112,7 @@ const activeRowStyles = css`
     ${lightAvatarStyles};
   }
 `
-
-const ThreadRowContainer = styled(ThreadBaseRow)`
-  ${({ active }) => active && activeRowStyles};
+const hoverRowStyles = css`
   :hover {
     background-color: ${backgroundColor("minor")};
     ${Checkbox} {
@@ -131,6 +129,13 @@ const ThreadRowContainer = styled(ThreadBaseRow)`
         : lightAvatarStyles}
     }
   }
+`
+
+const ThreadRowContainer = styled(ThreadBaseRow)<{
+  notNewConversation: boolean
+}>`
+  ${({ active }) => active && activeRowStyles};
+  ${({ notNewConversation }) => notNewConversation && hoverRowStyles};
 `
 
 const ThreadDataWrapper = styled(DataWrapper)<{
@@ -185,7 +190,8 @@ const ThreadRow: FunctionComponent<Props> = ({
   const contactCreated = contact !== undefined
   const { unread, id, phoneNumber } = thread
   const isMessageFailed = thread.messageType === MessageType.FAILED
-
+  const newConversationOpen =
+    getPrettyCaller(contact, phoneNumber) === newConversation
   const handleCheckboxChange = () => onCheckboxChange(thread.id)
   const handleRowClick = () => onRowClick(thread)
   const handleDeleteClick = () => onDeleteClick(id)
@@ -195,25 +201,31 @@ const ThreadRow: FunctionComponent<Props> = ({
   const handleContactClick = () => onContactClick(phoneNumber)
 
   return (
-    <ThreadRowContainer key={id} selected={selected} active={active} {...props}>
+    <ThreadRowContainer
+      key={id}
+      selected={selected}
+      active={active}
+      notNewConversation={!newConversationOpen}
+      {...props}
+    >
       <Col>
-        {flags.get(Feature.MessagesThreadDeleteEnabled) && (
-          <Checkbox
-            checked={selected}
-            onChange={handleCheckboxChange}
-            size={Size.Large}
-            indeterminate={indeterminate}
-            visible={!noneRowsSelected}
-            data-testid="checkbox"
-          />
-        )}
-        {noneRowsSelected && (
+        {flags.get(Feature.MessagesThreadDeleteEnabled) &&
+          !newConversationOpen && (
+            <Checkbox
+              checked={selected}
+              onChange={handleCheckboxChange}
+              size={Size.Large}
+              indeterminate={indeterminate}
+              visible={!noneRowsSelected}
+              data-testid="checkbox"
+            />
+          )}
+        {(noneRowsSelected || newConversationOpen) && (
           <InitialsAvatar user={contact} light={active} size={AvatarSize.Big} />
         )}
       </Col>
       <ThreadCol onClick={handleRowClick} data-testid={ThreadListTestIds.Row}>
-        {getPrettyCaller(contact, phoneNumber) === newConversation ||
-        !thread.messageSnippet ? (
+        {newConversationOpen || !thread.messageSnippet ? (
           <NewThreadWrapper>
             <Name displayStyle={TextDisplayStyle.Headline4}>
               {getPrettyCaller(contact, phoneNumber)}
