@@ -968,7 +968,6 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   padding: 0.8rem 0;
   border: none;
   position: relative;
-  width: 100%;
 }
 
 .c0:after {
@@ -1101,7 +1100,6 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   padding: 0.8rem 0;
   border: none;
   position: relative;
-  width: 100%;
 }
 
 .c0:after {

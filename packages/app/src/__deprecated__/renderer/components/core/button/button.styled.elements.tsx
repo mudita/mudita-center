@@ -35,6 +35,10 @@ const getSize = (size: Size) => {
       return css`
         width: ${width("buttonBig")};
       `
+    case Size.Auto:
+      return css`
+        width: ${width("auto")};
+      `
     default:
       return
   }
@@ -281,7 +285,6 @@ const buttonStyles = css<{
           padding: 0.8rem 0;
           border: none;
           position: relative;
-          width: 100%;
           &:after {
             content: "";
             position: absolute;
