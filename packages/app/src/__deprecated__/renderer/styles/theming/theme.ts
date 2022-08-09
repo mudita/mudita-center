@@ -5,6 +5,7 @@
 
 const columnWidth = 7.2
 const gutterWidth = 3.2
+const auto = "auto"
 
 const blue1 = "#40749a"
 const blue2 = "#6d9bbc"
@@ -143,6 +144,7 @@ const theme = {
     viewWidth: columnWidth * 12 + gutterWidth * 13,
     menuWidth: columnWidth * 3 + gutterWidth * 3,
     scrollbar: 0.2,
+    auto: auto,
   },
   zIndex: {
     content: 1,
