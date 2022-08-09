@@ -565,6 +565,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
     await deleteThreads(deletedThreads)
     resetItems()
     setActiveThread(undefined)
+    if (messagesState === MessagesState.NewMessage) {
+      setActiveThread(mockThread)
+    }
   }
 
   const handleDeleteThreads = (): void => {
