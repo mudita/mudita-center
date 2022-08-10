@@ -94,7 +94,7 @@ export class FileUploadCommand extends BaseCommand {
         return Result.failed(
           new AppError(
             DeviceFileSystemError.FileUploadChunk,
-            "Uploading file: Something went wrong in sent chunk fie."
+            "Uploading file: Something went wrong in sent chunk file"
           )
         )
       } else {
@@ -109,7 +109,7 @@ export class FileUploadCommand extends BaseCommand {
           DeviceFileSystemError.FileUploadChunk,
           error
             ? (error as Error).message
-            : "Uploading file: Something went wrong in sent chunk fie."
+            : "Uploading file: Something went wrong in sent chunk file"
         )
       )
     }

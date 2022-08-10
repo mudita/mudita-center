@@ -182,7 +182,7 @@ describe("When requested file is valid", () => {
         new FailedResult({
           ...new AppError(
             DeviceFileSystemError.FileUploadChunk,
-            "Uploading file: Something went wrong in sent chunk fie."
+            "Uploading file: Something went wrong in sent chunk file"
           ),
         })
       )

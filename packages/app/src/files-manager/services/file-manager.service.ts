@@ -31,7 +31,7 @@ export class FileManagerService {
       return Result.failed(
         new AppError(
           FilesManagerError.GetFiles,
-          error ? error.message : "Something wen't wrong"
+          error ? error.message : "Something went wrong"
         )
       )
     }
