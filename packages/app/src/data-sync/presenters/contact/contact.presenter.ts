@@ -74,14 +74,18 @@ export class ContactPresenter {
       data.contact_address.values,
       data.contact_address.columns
     )
-    const contactGroupsMatch = this.serializeRecord<ContactMatchGroupEntity>(
-      data.contact_match_groups.values,
-      data.contact_match_groups.columns
-    )
-    const contactGroups = this.serializeRecord<ContactGroupEntity>(
-      data.contact_groups.values,
-      data.contact_groups.columns
-    )
+    const contactGroupsMatch = data.contact_match_groups
+      ? this.serializeRecord<ContactMatchGroupEntity>(
+          data.contact_match_groups.values,
+          data.contact_match_groups.columns
+        )
+      : []
+    const contactGroups = data.contact_groups
+      ? this.serializeRecord<ContactGroupEntity>(
+          data.contact_groups.values,
+          data.contact_groups.columns
+        )
+      : []
 
     return contacts
       .map((contact) => {
