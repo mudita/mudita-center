@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppError } from "App/core/errors"
 import {
   filesManagerReducer,
   initialState,
@@ -12,7 +13,6 @@ import {
   pendingAction,
   rejectedAction,
 } from "App/__deprecated__/renderer/store/helpers"
-import { GetFilesError } from "App/files-manager/errors"
 import { FilesManagerEvent } from "App/files-manager/constants"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import { File } from "App/files-manager/dto"
@@ -64,7 +64,7 @@ describe("Getting files functionality", () => {
   })
 
   test("Event: `getFiles/rejected` change `resultState` to Error", () => {
-    const errorMock = new GetFilesError("I'm error")
+    const errorMock = new AppError("SOME_ERROR_TYPE", "I'm error")
 
     expect(
       filesManagerReducer(undefined, {
