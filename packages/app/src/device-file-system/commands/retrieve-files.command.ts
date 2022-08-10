@@ -9,20 +9,12 @@ import { Result, ResultObject } from "App/core/builder"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
 import { BaseCommand } from "App/device-file-system/commands/base.command"
 import { DeviceFileSystemError } from "App/device-file-system/constants"
+import { DirectoryFile } from "App/device-file-system/types"
 
 export class RetrieveFilesCommand extends BaseCommand {
-  public async exec(directory: string): Promise<
-    ResultObject<
-      | Record<
-          string,
-          {
-            path: string
-            fileSize: number
-          }[]
-        >
-      | undefined
-    >
-  > {
+  public async exec(
+    directory: string
+  ): Promise<ResultObject<Record<string, DirectoryFile[]> | undefined>> {
     const { data, status, error } = await this.deviceService.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
@@ -35,7 +27,7 @@ export class RetrieveFilesCommand extends BaseCommand {
       return Result.failed(
         new AppError(
           DeviceFileSystemError.FilesRetrieve,
-          error ? error.message : "Something wen't wrong"
+          error ? error.message : "Something went wrong"
         )
       )
     }
