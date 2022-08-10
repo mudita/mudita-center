@@ -370,6 +370,8 @@
   "module.error": "Error",
   "module.errorBody": "We're sorry, authentication cannot be performed at this time.",
   "module.filesManager": "Files manager",
+  "module.filesManager.uploadButton": "Upload",
+  "module.filesManager.deleteButton": "Delete",
   "module.help": "Help",
   "module.help.answerError": "Something went wrong",
   "module.help.backLinkText": "Back",

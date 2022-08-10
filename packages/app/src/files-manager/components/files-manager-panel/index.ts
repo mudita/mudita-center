@@ -3,6 +3,5 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./password-field"
-export * from "./modal-dialog"
-export * from "./visible-on-device"
+export * from "./files-manager-panel.component"
+export * from "./files-manager-panel.interface"

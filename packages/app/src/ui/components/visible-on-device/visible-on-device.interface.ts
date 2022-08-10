@@ -3,6 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./password-field"
-export * from "./modal-dialog"
-export * from "./visible-on-device"
+import { DeviceType } from "@mudita/pure"
+
+export interface VisibleOnDeviceProps {
+  devices: DeviceType[]
+}
