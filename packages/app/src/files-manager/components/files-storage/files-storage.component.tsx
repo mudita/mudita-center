@@ -14,6 +14,8 @@ import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import FilesStorageList from "App/files-manager/components/files-storage-list/files-storage-list.component"
+import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { FilesManagerPanel } from "App/files-manager/components/files-manager-panel"
 
 const TitleWrapper = styled.div`
   margin: 1.6rem 3.2rem 1rem;
@@ -27,11 +29,23 @@ const messages = defineMessages({
 interface Props {
   resultState: ResultState
   files: File[]
+  resetAllItems: () => void
+  selectAllItems: () => void
+  toggleItem: (id: string) => void
+  selectedItems: string[]
+  allItemsSelected: boolean
+  onDeleteClick: () => void
 }
 
 const FilesStorage: FunctionComponent<Props> = ({
   resultState,
   files = [],
+  resetAllItems,
+  selectAllItems,
+  toggleItem,
+  selectedItems,
+  allItemsSelected,
+  onDeleteClick,
 }) => {
   return (
     <>
@@ -42,10 +56,22 @@ const FilesStorage: FunctionComponent<Props> = ({
           message={messages.title}
         />
       </TitleWrapper>
+      <FilesManagerPanel
+        onUploadFile={noop}
+        disabled={false}
+        toggleAll={selectAllItems}
+        resetRows={resetAllItems}
+        onDeleteClick={onDeleteClick}
+        selectedFiles={selectedItems}
+        allItemsSelected={allItemsSelected}
+      />
       <FilesStorageList
         data-testid={FilesStorageTestIds.List}
         files={files}
+        selectedItems={selectedItems}
+        toggleRow={toggleItem}
         resultState={resultState}
+        onDeleteClick={onDeleteClick}
       />
     </>
   )
