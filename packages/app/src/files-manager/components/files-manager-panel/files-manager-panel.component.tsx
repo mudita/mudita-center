@@ -16,7 +16,7 @@ import {
   Panel,
   ButtonWrapper,
   FilesManagerSelectionManager,
-} from "App/files-manager/components/files-manager-panel/files-manager-panel.styles"
+} from "App/files-manager/components/files-manager-panel/files-manager-panel.styled"
 import { FilesManagerPanelTestIds } from "App/files-manager/components/files-manager-panel/files-manager-panel-ids.enum"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
