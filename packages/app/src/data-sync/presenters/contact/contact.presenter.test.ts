@@ -194,3 +194,56 @@ describe("When contact isn't belongs to `Favourites` group", () => {
     `)
   })
 })
+
+describe("When `contacts` table don't supports `contact_groups` & `contact_match_groups`", () => {
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/require-await
+  test("`serializeToObject` serialize record properly", async () => {
+    const contactInput: ContactInput = {
+      contacts: {
+        columns: [
+          "_id",
+          "name_id",
+          "numbers_id",
+          "ring_id",
+          "address_id",
+          "speeddial",
+        ],
+        values: [["4", "4", "5", "4", "4", ""]],
+      },
+      contact_name: {
+        columns: ["_id", "contact_id", "name_primary", "name_alternative"],
+        values: [["4", "4", "Theron", "Paucek"]],
+      },
+      contact_number: {
+        columns: ["_id", "contact_id", "number_user", "number_e164", "type"],
+        values: [["5", "4", "+91898402777", "", "0"]],
+      },
+      contact_address: {
+        columns: ["_id", "contact_id", "address", "note", "mail"],
+        values: [["4", "4", "Kochmouth", "", ""]],
+      },
+      contact_groups: undefined,
+      contact_match_groups: undefined,
+    }
+
+    const presenter = new ContactPresenter()
+    const contactObjects = presenter.serializeToObject(contactInput)
+    expect(contactObjects).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "email": "",
+          "favourite": false,
+          "firstAddressLine": "",
+          "firstName": "Theron",
+          "id": "4",
+          "lastName": "Paucek",
+          "note": "",
+          "primaryPhoneNumber": "+91898402777",
+          "secondAddressLine": "Kochmouth",
+          "secondaryPhoneNumber": "",
+        },
+      ]
+    `)
+  })
+})
