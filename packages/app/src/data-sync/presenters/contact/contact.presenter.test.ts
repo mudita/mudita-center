@@ -195,7 +195,7 @@ describe("When contact isn't belongs to `Favourites` group", () => {
   })
 })
 
-describe("When `contacts` table don't supports `contact_groups` & `contact_match_groups`", () => {
+describe("When `contacts` table doesn't support `contact_groups` & `contact_match_groups`", () => {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/require-await
   test("`serializeToObject` serialize record properly", async () => {
