@@ -16,6 +16,12 @@ export interface FilesManagerProps {
   resultState: ResultState
   files: File[]
   getFiles: (directory: DeviceDirectory) => void
+  resetAllItems: () => void
+  selectAllItems: () => void
+  toggleItem: (id: string) => void
+  selectedItems: string[]
+  allItemsSelected: boolean
+  onDeleteFiles: () => void
 }
 
 export interface DiskSpaceCategory {

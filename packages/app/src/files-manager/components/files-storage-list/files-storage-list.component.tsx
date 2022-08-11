@@ -4,18 +4,15 @@
  */
 
 import React from "react"
-import styled from "styled-components"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { FilesStorageListTestIds } from "App/files-manager/components/files-storage-list/files-storage-list-test-ids.enum"
-import Table, {
+import {
   Col,
   EmptyState,
   Labels,
   LoadingState,
-  Row,
   RowSize,
 } from "App/__deprecated__/renderer/components/core/table/table.component"
-import Avatar from "App/__deprecated__/renderer/components/core/avatar/avatar.component"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
@@ -23,28 +20,24 @@ import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import { File } from "App/files-manager/dto"
 import FilesStorageListTypeCol from "App/files-manager/components/files-storage-list-type-col/files-storage-list-type-col"
 import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
-
-const FilesTable = styled(Table)`
-  flex: 1;
-  overflow: auto;
-  --columnsTemplate: 8.8rem 1fr 15.2rem 15.2rem auto;
-  --columnsGap: 0;
-
-  ${Row} {
-    &:hover {
-      background-color: var(--rowBackground);
-    }
-  }
-`
-const FirstCol = styled(Col)`
-  margin-left: 3.2rem;
-`
-const FileIcon = styled(Avatar)`
-  margin-left: 3.2rem;
-`
-const FilesStorageContainer = styled.div`
-  height: 100%;
-`
+import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import ButtonComponent from "App/__deprecated__/renderer/components/core/button/button.component"
+import Dropdown from "App/__deprecated__/renderer/components/core/dropdown/dropdown.component"
+import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import useTableScrolling from "App/__deprecated__/renderer/utils/hooks/use-table-scrolling"
+import { Size } from "App/__deprecated__/renderer/components/core/input-checkbox/input-checkbox.component"
+import {
+  FilesTable,
+  FirstCol,
+  FileIcon,
+  FilesStorageContainer,
+  Actions,
+  Checkbox,
+  FilesListRow,
+  FileIconHarmony,
+} from "App/files-manager/components/files-storage-list/files-storage-list.styled"
+import { DeviceType } from "@mudita/pure"
+import { VisibleOnDevice } from "App/ui/components"
 
 const messages = defineMessages({
   title: {
@@ -71,18 +64,29 @@ const messages = defineMessages({
   errorDescription: {
     id: "component.filesManagerFilesStorageErrorStateDescription",
   },
+  deleteAction: {
+    id: "component.filesManagerFilesStorageDelete",
+  },
 })
 
 interface Props {
   resultState: ResultState
   files: File[]
+  toggleRow: (id: string) => void
+  selectedItems: string[]
+  onDeleteClick: () => void
 }
 
 const FilesStorageList: FunctionComponent<Props> = ({
   resultState,
   files = [],
+  selectedItems,
+  toggleRow,
+  onDeleteClick,
   ...rest
 }) => {
+  const { enableScroll, disableScroll } = useTableScrolling()
+
   return (
     <FilesStorageContainer {...rest}>
       {resultState === ResultState.Loaded && files.length > 0 && (
@@ -96,18 +100,53 @@ const FilesStorageList: FunctionComponent<Props> = ({
             <Col>{intl.formatMessage(messages.type)}</Col>
             <Col>{intl.formatMessage(messages.size)}</Col>
             <Col />
-          </Labels>
-          {files.map((file, i) => (
-            <Row key={i} data-testid={FilesStorageListTestIds.Row}>
-              <Col>
-                <FileIcon iconType={IconType.MenuMusic} />
-              </Col>
-              <Col>{file.name}</Col>
-              <FilesStorageListTypeCol file={file} />
-              <Col>{convertBytes(file.size)}</Col>
+            <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
               <Col />
-            </Row>
-          ))}
+            </VisibleOnDevice>
+          </Labels>
+          {files.map((file, i) => {
+            const selected = selectedItems.includes(file.id)
+            const handleCheckboxChange = () => toggleRow(file.id)
+            return (
+              <FilesListRow key={i} data-testid={FilesStorageListTestIds.Row}>
+                <Col>
+                  <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
+                    <Checkbox
+                      checked={selected}
+                      onChange={handleCheckboxChange}
+                      size={Size.Medium}
+                      visible={Boolean(selectedItems.length !== 0)}
+                    />
+                    {selectedItems.length === 0 && (
+                      <FileIcon iconType={IconType.MenuMusic} />
+                    )}
+                  </VisibleOnDevice>
+                  <VisibleOnDevice devices={[DeviceType.MuditaHarmony]}>
+                    <FileIconHarmony iconType={IconType.MenuMusic} />
+                  </VisibleOnDevice>
+                </Col>
+                <Col>{file.name}</Col>
+                <FilesStorageListTypeCol file={file} />
+                <Col>{convertBytes(file.size)}</Col>
+                <Col />
+                <VisibleOnDevice devices={[DeviceType.MuditaPure]}>
+                  <Col>
+                    <Actions>
+                      <Dropdown onOpen={disableScroll} onClose={enableScroll}>
+                        <ButtonComponent
+                          labelMessage={messages.deleteAction}
+                          Icon={IconType.Delete}
+                          onClick={onDeleteClick}
+                          iconSize={IconSize.Medium}
+                          displayStyle={DisplayStyle.Dropdown}
+                        />
+                      </Dropdown>
+                    </Actions>
+                  </Col>
+                </VisibleOnDevice>
+              </FilesListRow>
+            )
+          })}
         </FilesTable>
       )}
       {resultState === ResultState.Loading && (

@@ -9,12 +9,20 @@ import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import { File } from "App/files-manager/dto"
 import FilesStorageList from "App/files-manager/components/files-storage-list/files-storage-list.component"
 import { FilesStorageListTestIds } from "App/files-manager/components/files-storage-list/files-storage-list-test-ids.enum"
+import { Provider } from "react-redux"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { DeviceType } from "@mudita/pure"
 
 type Props = ComponentProps<typeof FilesStorageList>
 
 const defaultProps: Props = {
   resultState: ResultState.Empty,
   files: [],
+  toggleRow: jest.fn(),
+  selectedItems: [],
+  onDeleteClick: jest.fn(),
 }
 
 const files: File[] = [
@@ -32,12 +40,18 @@ const files: File[] = [
   },
 ]
 
-const render = (extraProps?: Partial<Props>) => {
+const render = (extraProps?: Partial<Props>, state?: ReduxRootState) => {
   const props = {
     ...defaultProps,
     ...extraProps,
   }
-  return renderWithThemeAndIntl(<FilesStorageList {...props} />)
+  const store = createMockStore([thunk])(state)
+
+  return renderWithThemeAndIntl(
+    <Provider store={store}>
+      <FilesStorageList {...props} />
+    </Provider>
+  )
 }
 
 describe("`FilesStorageList` component", () => {
@@ -78,7 +92,11 @@ describe("`FilesStorageList` component", () => {
   })
 
   test("No results is rendered if resultState is Loaded and files list is empty", () => {
-    const { queryByTestId } = render({ resultState: ResultState.Loaded })
+    const { queryByTestId } = render({ resultState: ResultState.Loaded }, {
+      device: {
+        deviceType: DeviceType.MuditaPure,
+      },
+    } as ReduxRootState)
     expect(queryByTestId(FilesStorageListTestIds.Empty)).toBeInTheDocument()
     expect(
       queryByTestId(FilesStorageListTestIds.Loaded)
@@ -90,10 +108,17 @@ describe("`FilesStorageList` component", () => {
   })
 
   test("Files storage list is rendered if resultState is Loaded and files list isn't empty", () => {
-    const { queryByTestId, queryAllByTestId } = render({
-      resultState: ResultState.Loaded,
-      files,
-    })
+    const { queryByTestId, queryAllByTestId } = render(
+      {
+        resultState: ResultState.Loaded,
+        files,
+      },
+      {
+        device: {
+          deviceType: DeviceType.MuditaPure,
+        },
+      } as ReduxRootState
+    )
     expect(queryAllByTestId(FilesStorageListTestIds.Row)[0]).toBeInTheDocument()
     expect(queryByTestId(FilesStorageListTestIds.Loaded)).toBeInTheDocument()
     expect(queryByTestId(FilesStorageListTestIds.Empty)).not.toBeInTheDocument()
