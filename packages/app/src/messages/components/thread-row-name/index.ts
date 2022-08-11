@@ -3,6 +3,4 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./password-field"
-export * from "./modal-dialog"
-export * from "./visible-on-device"
+export { default } from "./thread-row-name.component"

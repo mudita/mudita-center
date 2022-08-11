@@ -5,7 +5,10 @@
 
 import * as React from "react"
 import Button from "App/__deprecated__/renderer/components/core/button/button.component"
-import { DisplayStyle } from "App/__deprecated__/renderer/components/core/button/button.config"
+import {
+  DisplayStyle,
+  Size,
+} from "App/__deprecated__/renderer/components/core/button/button.config"
 import { Message as MessageInterface } from "App/__deprecated__/renderer/interfaces/message.interface"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
@@ -26,6 +29,7 @@ const Tab: FunctionComponent<TabProps> = ({ icon, label, url, className }) => {
       labelMessage={label}
       iconSize={IconSize.Medium}
       Icon={icon}
+      size={Size.Auto}
       to={url}
       exact
     />

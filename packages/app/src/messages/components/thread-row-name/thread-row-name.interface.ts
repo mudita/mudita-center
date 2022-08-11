@@ -3,6 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./password-field"
-export * from "./modal-dialog"
-export * from "./visible-on-device"
+import { Contact } from "App/contacts/reducers/contacts.interface"
+
+export interface ThreadRowNameProps {
+  contact?: Contact
+  phoneNumber: string
+}

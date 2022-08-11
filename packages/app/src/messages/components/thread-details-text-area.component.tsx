@@ -7,7 +7,6 @@ import React, { ChangeEvent, KeyboardEvent } from "react"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import {
-  IconButton,
   Textarea,
   TextareaWrapper,
 } from "App/messages/components/thread-details.styled"
@@ -16,10 +15,18 @@ import { Feature, flags } from "App/feature-flags"
 import { IconBackgroundWithTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-background-with-tooltip.component"
 import { defineMessages } from "react-intl"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
+import { IconButtonWithSecondaryTooltip } from "App/__deprecated__/renderer/components/core/icon-button-with-tooltip/icon-button-with-secondary-tooltip.component"
+import { ElementWithTooltipPlace } from "App/__deprecated__/renderer/components/core/tooltip/element-with-tooltip.component"
 
 const messages = defineMessages({
   sendButtonTooltipDescription: {
     id: "module.messages.sendButtonTooltipDescription",
+  },
+  attachContactTooltipDescription: {
+    id: "module.messages.attachContactTooltipDescription",
+  },
+  attachTemplateTooltipDescription: {
+    id: "module.messages.attachTemplateTooltipDescription",
   },
 })
 
@@ -44,18 +51,22 @@ const ThreadDetailsTextArea: FunctionComponent<Props> = ({
 
   const leadingIcons = [
     flags.get(Feature.MessagesThreadAttachContactEnabled) && (
-      <IconButton
-        key={IconType.AttachContact}
+      <IconButtonWithSecondaryTooltip
+        testId={ThreadDetailsTextAreaTestIds.AttachContactButton}
         Icon={IconType.AttachContact}
+        key={IconType.AttachContact}
+        description={messages.attachContactTooltipDescription}
         onClick={onAttachContactClick}
-        data-testid={ThreadDetailsTextAreaTestIds.AttachContactButton}
+        place={ElementWithTooltipPlace.TopLeft}
       />
     ),
     flags.get(Feature.MessagesThreadAttachTemplateEnabled) && (
-      <IconButton
+      <IconButtonWithSecondaryTooltip
         Icon={IconType.Template}
         key={IconType.Template}
+        description={messages.attachTemplateTooltipDescription}
         onClick={onAttachTemplateClick}
+        place={ElementWithTooltipPlace.TopLeft}
       />
     ),
   ]
