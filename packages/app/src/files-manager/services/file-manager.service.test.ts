@@ -58,7 +58,7 @@ describe("When device return list of files with filed status code", () => {
 
     expect(result).toEqual(
       new FailedResult({
-        ...new AppError(FilesManagerError.GetFiles, "Something wen't wrong"),
+        ...new AppError(FilesManagerError.GetFiles, "Something went wrong"),
       })
     )
   })
