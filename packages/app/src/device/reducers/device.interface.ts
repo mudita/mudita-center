@@ -24,8 +24,8 @@ export interface PureDeviceData {
   phoneLockTime?: number
   timeLeftToNextAttempt?: number
   memorySpace: {
-    free: number
-    full: number
+    reservedSpace: number
+    usedUserSpace: number
     total: number
   }
   caseColour: CaseColour
@@ -37,8 +37,8 @@ export interface HarmonyDeviceData {
   batteryLevel: number
   serialNumber: string
   memorySpace: {
-    free: number
-    full: number
+    reservedSpace: number
+    usedUserSpace: number
     total: number
   }
 }

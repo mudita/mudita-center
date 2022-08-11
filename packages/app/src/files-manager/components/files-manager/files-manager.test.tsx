@@ -13,8 +13,8 @@ import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 const defaultProps: ComponentProps<typeof FilesManager> = {
   memorySpace: {
-    free: 62914560,
-    full: 104857600,
+    reservedSpace: 62914560,
+    usedUserSpace: 104857600,
     total: 16000000000,
   },
   files: [],

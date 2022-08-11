@@ -40,8 +40,8 @@ const pureDeviceMock: PureDeviceData = {
   serialNumber: "303",
   phoneLockTime: 1630703219,
   memorySpace: {
-    free: 124,
-    full: 1021,
+    reservedSpace: 124,
+    usedUserSpace: 1021,
     total: 16000000000,
   },
   caseColour: CaseColour.Gray,
@@ -53,8 +53,8 @@ const harmonyDeviceMock: HarmonyDeviceData = {
   batteryLevel: 0.99,
   serialNumber: "303",
   memorySpace: {
-    free: 124,
-    full: 1021,
+    reservedSpace: 124,
+    usedUserSpace: 1021,
     total: 1021,
   },
 }

@@ -84,8 +84,8 @@ const OverviewContent: FunctionComponent<OverviewContentProps> = ({
       onBackupRestore={onBackupRestore}
     />
     <FileManagerInfo
-      usedSpace={memorySpace.full - memorySpace.free}
-      maxSpace={memorySpace.full}
+      usedSpace={memorySpace.total - memorySpace.reservedSpace}
+      maxSpace={memorySpace.total}
       onFilesOpen={noop}
     />
   </OverviewPureWrapper>

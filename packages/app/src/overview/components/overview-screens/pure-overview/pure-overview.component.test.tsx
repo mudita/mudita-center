@@ -61,8 +61,8 @@ const defaultProps: Props = {
   updatePhoneOsInfo: jest.fn(),
   updatingState: UpdatingState.Standby,
   memorySpace: {
-    free: 100,
-    full: 200,
+    reservedSpace: 100,
+    usedUserSpace: 200,
     total: 200,
   },
   syncState: SynchronizationState.Loaded,

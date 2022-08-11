@@ -13,7 +13,7 @@ import { DiskSpaceCategoryType } from "App/files-manager/constants"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 const defaultProps: ComponentProps<typeof FilesSummary> = {
-  systemMemory: 62914560,
+  usedMemory: 62914560,
   totalMemorySpace: 104857600,
   diskSpaceCategories: [
     {
@@ -29,6 +29,13 @@ const defaultProps: ComponentProps<typeof FilesSummary> = {
       icon: IconType.Cloud,
       label: "Free",
       size: 62914560,
+    },
+    {
+      type: DiskSpaceCategoryType.Music,
+      color: "#E3F3FF",
+      icon: IconType.MenuMusic,
+      label: "Music",
+      size: 4560,
     },
   ],
 }
@@ -47,6 +54,6 @@ describe("FilesSummary", () => {
 
   test("correct amount of items should render", () => {
     const { queryAllByTestId } = render()
-    expect(queryAllByTestId(FilesSummaryItemTestIds.Wrapper)).toHaveLength(2)
+    expect(queryAllByTestId(FilesSummaryItemTestIds.Wrapper)).toHaveLength(3)
   })
 })

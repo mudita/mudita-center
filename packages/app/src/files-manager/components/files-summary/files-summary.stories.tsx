@@ -38,7 +38,7 @@ storiesOf("Views|Files Manager/Files Summary", module).add(
     return (
       <Container>
         <FilesSummary
-          systemMemory={62914560}
+          usedMemory={62914560}
           totalMemorySpace={104857600}
           diskSpaceCategories={fakeData}
         />

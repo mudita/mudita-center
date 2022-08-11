@@ -22,8 +22,8 @@ import FilesStorage from "App/files-manager/components/files-storage/files-stora
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
-    free: 0,
-    full: 0,
+    reservedSpace: 0,
+    usedUserSpace: 0,
     total: 0,
   },
   resultState,
@@ -31,9 +31,9 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   getFiles,
   deviceType,
 }) => {
-  const { free, total } = memorySpace
-  const systemMemory = total - free
-
+  const { reservedSpace, usedUserSpace, total } = memorySpace
+  const free = total - reservedSpace - usedUserSpace
+  const usedMemory = reservedSpace + usedUserSpace
   const downloadFiles = () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/await-thenable
@@ -58,11 +58,16 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           ...element,
           size: free,
         }
-      }
-      if (element.type === DiskSpaceCategoryType.UsedSpace) {
+      } else if (element.type === DiskSpaceCategoryType.UsedSpace) {
         return {
           ...element,
-          size: systemMemory,
+          size: reservedSpace,
+        }
+      } else if (element.type === DiskSpaceCategoryType.Music) {
+        return {
+          ...element,
+          size: usedUserSpace,
+          filesAmount: files.length,
         }
       }
       return element
@@ -74,7 +79,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       <FilesSummary
         diskSpaceCategories={diskSpaceCategories}
         totalMemorySpace={total}
-        systemMemory={systemMemory}
+        usedMemory={usedMemory}
       />
       <FilesStorage resultState={resultState} files={files} />
     </FilesManagerContainer>
