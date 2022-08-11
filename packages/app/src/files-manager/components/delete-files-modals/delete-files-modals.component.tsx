@@ -20,11 +20,15 @@ const messages = defineMessages({
   deleteModalBody: { id: "module.filesManager.deleteFileModalBody" },
   deleteModalCancel: { id: "module.filesManager.deleteFileModalCancel" },
   deleteModalAction: { id: "module.filesManager.deleteFileModalAction" },
-  deletingModalTitle: { id: "module.messages.deletingThreadModalTitle" },
-  deletingModalSubtitle: { id: "module.messages.deletingThreadModalSubtitle" },
-  deleteModalErrorTitle: { id: "module.messages.deleteThreadModalErrorTitle" },
+  deletingModalTitle: { id: "module.filesManager.deletingFileModalTitle" },
+  deletingModalSubtitle: {
+    id: "module.filesManager.deletingFileModalSubtitle",
+  },
+  deleteModalErrorTitle: {
+    id: "module.filesManager.deletingFileModalErrorTitle",
+  },
   deleteModalErrorSubtitle: {
-    id: "module.messages.deleteThreadModalErrorSubtitle",
+    id: "module.filesManager.deletingFileModalErrorSubtitle",
   },
 })
 
