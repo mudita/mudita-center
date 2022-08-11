@@ -106,19 +106,18 @@ const Messages: FunctionComponent<MessagesProps> = ({
   selectAllItems,
   resetItems,
 }) => {
-  const { states, updateFieldState, resetState } =
-    useLoadingState<MessagesServiceState>({
-      messageDeleting: false,
-      messageDeletingConfirmation: false,
-      messageDeletingInfo: false,
-      threadDeleting: false,
-      threadDeletingConfirmation: false,
-      threadDeletingInfo: false,
-      attachContact: false,
-      attachTemplate: false,
-      browseContact: false,
-      draftDeleting: false,
-    })
+  const { states, updateFieldState } = useLoadingState<MessagesServiceState>({
+    messageDeleting: false,
+    messageDeletingConfirmation: false,
+    messageDeletingInfo: false,
+    threadDeleting: false,
+    threadDeletingConfirmation: false,
+    threadDeletingInfo: false,
+    attachContact: false,
+    attachTemplate: false,
+    browseContact: false,
+    draftDeleting: false,
+  })
 
   // TODO [CP-1401] move component logic to custom hook
 
@@ -152,7 +151,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       return
     }
 
-    const firstTimeout = setTimeout(() => {
+    const handleDeletingStateTimeout = setTimeout(() => {
       if (states.messageDeleting) {
         updateFieldState("messageDeleting", false)
         updateFieldState("messageDeletingConfirmation", false)
@@ -161,17 +160,19 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
       if (states.threadDeleting) {
         updateFieldState("threadDeleting", false)
+        updateFieldState("threadDeletingConfirmation", false)
         updateFieldState("threadDeletingInfo", true)
       }
     }, 1000)
 
-    const secondTimeout = setTimeout(() => {
-      resetState()
+    const hideInfoPopupsTimeout = setTimeout(() => {
+      updateFieldState("messageDeletingInfo", false)
+      updateFieldState("threadDeletingInfo", false)
     }, 5000)
 
     return () => {
-      clearTimeout(firstTimeout)
-      clearTimeout(secondTimeout)
+      clearTimeout(handleDeletingStateTimeout)
+      clearTimeout(hideInfoPopupsTimeout)
     }
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
