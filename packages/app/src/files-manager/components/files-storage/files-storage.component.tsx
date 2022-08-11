@@ -5,17 +5,16 @@
 
 import React from "react"
 import styled from "styled-components"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { ResultState } from "App/files-manager/reducers/files-manager.interface"
-import { File } from "App/files-manager/dto"
-import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
 import { defineMessages } from "react-intl"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import FilesStorageList from "App/files-manager/components/files-storage-list/files-storage-list.component"
-import { noop } from "App/__deprecated__/renderer/utils/noop"
+import { Feature, flags } from "App/feature-flags"
 import { FilesManagerPanel } from "App/files-manager/components/files-manager-panel"
+import { FilesStorageProps } from "App/files-manager/components/files-storage/files-storage.interface"
 
 const TitleWrapper = styled.div`
   margin: 1.6rem 3.2rem 1rem;
@@ -26,20 +25,9 @@ const messages = defineMessages({
     id: "component.filesManagerFilesStorageTitle",
   },
 })
-interface Props {
-  resultState: ResultState
-  files: File[]
-  resetAllItems: () => void
-  selectAllItems: () => void
-  toggleItem: (id: string) => void
-  selectedItems: string[]
-  allItemsSelected: boolean
-  onDeleteClick: (ids: string[]) => void
-  onDeleteSelected: () => void
-}
 
-const FilesStorage: FunctionComponent<Props> = ({
-  resultState,
+const FilesStorage: FunctionComponent<FilesStorageProps> = ({
+  state,
   files = [],
   resetAllItems,
   selectAllItems,
@@ -48,6 +36,7 @@ const FilesStorage: FunctionComponent<Props> = ({
   allItemsSelected,
   onDeleteClick,
   onDeleteSelected,
+  uploadFiles,
 }) => {
   return (
     <>
@@ -58,22 +47,24 @@ const FilesStorage: FunctionComponent<Props> = ({
           message={messages.title}
         />
       </TitleWrapper>
-      <FilesManagerPanel
-        onUploadFile={noop}
-        disabled={false}
-        toggleAll={selectAllItems}
-        resetRows={resetAllItems}
-        onDeleteClick={onDeleteSelected}
-        selectedFiles={selectedItems}
-        allItemsSelected={allItemsSelected}
-      />
+      {flags.get(Feature.FilesManagerActionsEnabled) && (
+        <FilesManagerPanel
+          onUploadFile={uploadFiles}
+          disabled={false}
+          toggleAll={selectAllItems}
+          resetRows={resetAllItems}
+          onDeleteClick={onDeleteSelected}
+          selectedFiles={selectedItems}
+          allItemsSelected={allItemsSelected}
+        />
+      )}
       <FilesStorageList
         data-testid={FilesStorageTestIds.List}
         files={files}
         selectedItems={selectedItems}
         toggleRow={toggleItem}
-        resultState={resultState}
         onDelete={onDeleteClick}
+        state={state}
       />
     </>
   )

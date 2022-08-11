@@ -16,7 +16,7 @@ import {
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import { ResultState } from "App/files-manager/reducers/files-manager.interface"
+import { State } from "App/core/constants"
 import { File } from "App/files-manager/dto"
 import FilesStorageListTypeCol from "App/files-manager/components/files-storage-list-type-col/files-storage-list-type-col"
 import { convertBytes } from "App/__deprecated__/renderer/utils/convert-bytes"
@@ -70,7 +70,7 @@ const messages = defineMessages({
 })
 
 interface Props {
-  resultState: ResultState
+  state: State
   files: File[]
   toggleRow: (id: string) => void
   selectedItems: string[]
@@ -78,7 +78,7 @@ interface Props {
 }
 
 const FilesStorageList: FunctionComponent<Props> = ({
-  resultState,
+  state,
   files = [],
   selectedItems,
   toggleRow,
@@ -89,8 +89,8 @@ const FilesStorageList: FunctionComponent<Props> = ({
 
   return (
     <FilesStorageContainer {...rest}>
-      {resultState === ResultState.Loaded && files.length > 0 && (
-        <FilesTable scrollable={false}>
+      {state === State.Loaded && files.length > 0 && (
+        <FilesTable>
           <Labels
             size={RowSize.Tiny}
             data-testid={FilesStorageListTestIds.Loaded}
@@ -150,18 +150,18 @@ const FilesStorageList: FunctionComponent<Props> = ({
           })}
         </FilesTable>
       )}
-      {resultState === ResultState.Loading && (
+      {state === State.Loading && (
         <LoadingState data-testid={FilesStorageListTestIds.Loading} />
       )}
-      {resultState === ResultState.Error && (
+      {state === State.Failed && (
         <EmptyState
           title={messages.errorTitle}
           description={messages.errorDescription}
           data-testid={FilesStorageListTestIds.Error}
         />
       )}
-      {(resultState === ResultState.Empty ||
-        (resultState === ResultState.Loaded && files.length === 0)) && (
+      {(state === State.Initial ||
+        (state === State.Loaded && files.length === 0)) && (
         <EmptyState
           data-testid={FilesStorageListTestIds.Empty}
           title={messages.emptyStateTitle}

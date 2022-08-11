@@ -5,6 +5,9 @@
 
 import { DeviceType } from "@mudita/pure"
 import React, { useEffect, useState } from "react"
+import { defineMessages } from "react-intl"
+import { State } from "App/core/constants"
+import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { FilesManagerContainer } from "App/files-manager/components/files-manager/files-manager.styled"
 import FilesSummary from "App/files-manager/components/files-summary/files-summary.component"
@@ -23,6 +26,12 @@ import FilesStorage from "App/files-manager/components/files-storage/files-stora
 import { DeleteFilesModals } from "App/files-manager/components/delete-files-modals/delete-files-modals.component"
 import { useLoadingState } from "App/ui"
 import { noop } from "lodash"
+import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
+
+const messages = defineMessages({
+  uploadingModalTitle: { id: "module.filesManager.uploadingModalTitle" },
+  uploadingModalSubtitle: { id: "module.filesManager.uploadingModalSubtitle" },
+})
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -30,9 +39,11 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     full: 0,
     total: 0,
   },
-  resultState,
+  loading,
+  uploading,
   files,
   getFiles,
+  uploadFile,
   deviceType,
   error,
   resetAllItems,
@@ -116,13 +127,21 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   }
   return (
     <FilesManagerContainer data-testid={FilesManagerTestIds.Container}>
+      {uploading === State.Loading && (
+        <LoaderModal
+          testId={FilesManagerTestIds.UploadingModal}
+          open={uploading === State.Loading}
+          title={intl.formatMessage(messages.uploadingModalTitle)}
+          subtitle={intl.formatMessage(messages.uploadingModalSubtitle)}
+        />
+      )}
       <FilesSummary
         diskSpaceCategories={diskSpaceCategories}
         totalMemorySpace={total}
         systemMemory={systemMemory}
       />
       <FilesStorage
-        resultState={resultState}
+        state={loading}
         files={files}
         selectAllItems={selectAllItems}
         resetAllItems={resetAllItems}
@@ -131,6 +150,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         toggleItem={toggleItem}
         onDeleteClick={handleOpenDeleteModal}
         onDeleteSelected={handleDeleteSelected}
+        uploadFiles={uploadFile}
       />
       <DeleteFilesModals
         deletedFilesLength={deletedFiles.length}
