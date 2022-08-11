@@ -19,6 +19,7 @@ const thread: Thread = {
 }
 
 const threadModel = {
+  findById: jest.fn().mockImplementationOnce(() => thread),
   create: jest.fn().mockImplementationOnce((value: Thread) => value),
   update: jest.fn().mockImplementationOnce((value: Thread) => value),
   delete: jest.fn().mockImplementationOnce((value: string) => value),
@@ -27,6 +28,13 @@ const threadModel = {
 const subject = new ThreadRepository(threadModel)
 
 describe("`ThreadRepository`", () => {
+  test("fire `findById` call `contactModel.findById` with thread", () => {
+    expect(subject.findById(thread.id)).toEqual(thread)
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    expect(threadModel.findById).toHaveBeenCalledWith(thread.id)
+  })
+
   test("fire `create` call `contactModel.create` with thread", () => {
     expect(subject.create(thread)).toEqual(thread)
     // AUTO DISABLED - fix me if you like :)
