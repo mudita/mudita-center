@@ -18,7 +18,6 @@ import { backgroundColor } from "App/__deprecated__/renderer/styles/theming/them
 
 export const FilesTable = styled(Table)`
   flex: 1;
-  overflow: auto;
   --columnsTemplate: 8.8rem 1fr 15.2rem 15.2rem auto;
   --columnsGap: 0;
 `
