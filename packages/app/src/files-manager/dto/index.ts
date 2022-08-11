@@ -5,3 +5,4 @@
 
 export * from "./file.input"
 export * from "./file.object"
+export * from "./upload-file.input"

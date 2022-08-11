@@ -3,5 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./get-files.request"
-export * from "./upload-file.request"
+import { DeviceDirectory } from "App/files-manager/constants"
+
+export interface UploadFileInput {
+  directory: DeviceDirectory
+  paths: string[]
+}
