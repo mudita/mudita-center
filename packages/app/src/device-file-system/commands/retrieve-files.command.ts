@@ -7,18 +7,14 @@ import { Endpoint, Method } from "@mudita/pure"
 import { AppError } from "App/core/errors"
 import { Result, ResultObject } from "App/core/builder"
 import { RequestResponseStatus } from "App/core/types/request-response.interface"
-import DeviceService from "App/__deprecated__/backend/device-service"
-import { File } from "App/files-manager/dto"
-import { DeviceDirectory } from "App/files-manager/constants"
-import { FileObjectPresenter } from "App/files-manager/presenters"
-import { FilesManagerError } from "App/files-manager/constants"
+import { BaseCommand } from "App/device-file-system/commands/base.command"
+import { DeviceFileSystemError } from "App/device-file-system/constants"
+import { DirectoryFile } from "App/device-file-system/types"
 
-export class FileManagerService {
-  constructor(private deviceService: DeviceService) {}
-
-  public async getDeviceFiles(
-    directory: DeviceDirectory
-  ): Promise<ResultObject<File[] | undefined>> {
+export class RetrieveFilesCommand extends BaseCommand {
+  public async exec(
+    directory: string
+  ): Promise<ResultObject<Record<string, DirectoryFile[]> | undefined>> {
     const { data, status, error } = await this.deviceService.request({
       endpoint: Endpoint.FileSystem,
       method: Method.Get,
@@ -30,16 +26,12 @@ export class FileManagerService {
     if (status !== RequestResponseStatus.Ok || !data) {
       return Result.failed(
         new AppError(
-          FilesManagerError.GetFiles,
+          DeviceFileSystemError.FilesRetrieve,
           error ? error.message : "Something went wrong"
         )
       )
     }
 
-    return Result.success(
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      data[directory].map(FileObjectPresenter.toFile)
-    )
+    return Result.success(data)
   }
 }
