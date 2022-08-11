@@ -18,6 +18,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   files: state.filesManager.files,
   resultState: state.filesManager.resultState,
   deviceType: state.device.deviceType,
+  error: state.templates.error,
   selectedItems: state.filesManager.selectedItems.rows,
   allItemsSelected:
     state.filesManager.selectedItems.rows.length ===

@@ -31,6 +31,7 @@ const defaultProps: ComponentProps<typeof FilesManager> = {
   selectedItems: [],
   allItemsSelected: false,
   onDeleteFiles: noop,
+  error: null,
 }
 
 const render = (state?: ReduxRootState) => {

@@ -74,7 +74,7 @@ interface Props {
   files: File[]
   toggleRow: (id: string) => void
   selectedItems: string[]
-  onDeleteClick: () => void
+  onDelete: (ids: string[]) => void
 }
 
 const FilesStorageList: FunctionComponent<Props> = ({
@@ -82,7 +82,7 @@ const FilesStorageList: FunctionComponent<Props> = ({
   files = [],
   selectedItems,
   toggleRow,
-  onDeleteClick,
+  onDelete,
   ...rest
 }) => {
   const { enableScroll, disableScroll } = useTableScrolling()
@@ -107,6 +107,7 @@ const FilesStorageList: FunctionComponent<Props> = ({
           {files.map((file, i) => {
             const selected = selectedItems.includes(file.id)
             const handleCheckboxChange = () => toggleRow(file.id)
+            const handleDelete = () => onDelete([file.id])
             return (
               <FilesListRow key={i} data-testid={FilesStorageListTestIds.Row}>
                 <Col>
@@ -136,7 +137,7 @@ const FilesStorageList: FunctionComponent<Props> = ({
                         <ButtonComponent
                           labelMessage={messages.deleteAction}
                           Icon={IconType.Delete}
-                          onClick={onDeleteClick}
+                          onClick={handleDelete}
                           iconSize={IconSize.Medium}
                           displayStyle={DisplayStyle.Dropdown}
                         />

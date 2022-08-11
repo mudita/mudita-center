@@ -22,7 +22,7 @@ const defaultProps: Props = {
   files: [],
   toggleRow: jest.fn(),
   selectedItems: [],
-  onDeleteClick: jest.fn(),
+  onDelete: jest.fn(),
 }
 
 const files: File[] = [
