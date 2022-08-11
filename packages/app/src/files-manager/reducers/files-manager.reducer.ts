@@ -10,11 +10,20 @@ import {
   FilesManagerState,
   ResultState,
 } from "App/files-manager/reducers/files-manager.interface"
+import {
+  selectAllItems,
+  resetAllItems,
+  toggleItem,
+} from "App/files-manager/actions"
+import { changeLocation } from "App/core/actions"
 
 export const initialState: FilesManagerState = {
   resultState: ResultState.Empty,
   files: [],
   error: null,
+  selectedItems: {
+    rows: [],
+  },
 }
 
 export const filesManagerReducer = createReducer<FilesManagerState>(
@@ -41,6 +50,36 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
           resultState: ResultState.Error,
           error: action.payload as AppError,
         }
+      })
+      .addCase(selectAllItems.fulfilled, (state, action) => {
+        return {
+          ...state,
+          selectedItems: {
+            ...state.selectedItems,
+            rows: action.payload,
+          },
+        }
+      })
+      .addCase(toggleItem.fulfilled, (state, action) => {
+        return {
+          ...state,
+          selectedItems: {
+            ...state.selectedItems,
+            rows: action.payload,
+          },
+        }
+      })
+      .addCase(resetAllItems, (state) => {
+        return {
+          ...state,
+          selectedItems: {
+            ...state.selectedItems,
+            rows: [],
+          },
+        }
+      })
+      .addCase(changeLocation, (state) => {
+        return { ...state, selectedItems: { rows: [] } }
       })
   }
 )

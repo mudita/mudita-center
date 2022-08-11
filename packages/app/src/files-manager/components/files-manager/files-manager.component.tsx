@@ -19,6 +19,7 @@ import {
   filesSummaryElements,
 } from "App/files-manager/constants"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
+import { noop } from "lodash"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -30,6 +31,12 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   files,
   getFiles,
   deviceType,
+  resetAllItems,
+  selectAllItems,
+  toggleItem,
+  selectedItems,
+  allItemsSelected,
+  onDeleteFiles = noop,
 }) => {
   const { free, total } = memorySpace
   const systemMemory = total - free
@@ -76,7 +83,16 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         totalMemorySpace={total}
         systemMemory={systemMemory}
       />
-      <FilesStorage resultState={resultState} files={files} />
+      <FilesStorage
+        resultState={resultState}
+        files={files}
+        selectAllItems={selectAllItems}
+        resetAllItems={resetAllItems}
+        selectedItems={selectedItems}
+        allItemsSelected={allItemsSelected}
+        toggleItem={toggleItem}
+        onDeleteClick={onDeleteFiles}
+      />
     </FilesManagerContainer>
   )
 }
