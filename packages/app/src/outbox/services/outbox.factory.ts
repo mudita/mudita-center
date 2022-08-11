@@ -55,6 +55,7 @@ export class OutboxFactory {
     const messageEntryHandlerService = new MessageEntryHandlerService(
       messageService,
       messageRepository,
+      threadRepository,
       threadEntryHandlerService
     )
 
