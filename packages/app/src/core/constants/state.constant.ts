@@ -4,7 +4,7 @@
  */
 
 export enum State {
-  Initial = 0,
+  Initial,
   Loading,
   Loaded,
   Failed,

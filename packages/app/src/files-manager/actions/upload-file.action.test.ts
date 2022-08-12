@@ -145,7 +145,7 @@ describe("when `getPathRequest` request return Result.failed", () => {
     jest.resetAllMocks()
   })
 
-  test("reject error", async () => {
+  test("failed with receive from `uploadFileRequest` error", async () => {
     const mockStore = createMockStore([thunk])({
       device: {
         deviceType: DeviceType.MuditaPure,
