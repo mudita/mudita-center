@@ -69,6 +69,9 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   const { reservedSpace, usedUserSpace, total } = memorySpace
   const free = total - reservedSpace - usedUserSpace
   const usedMemory = reservedSpace + usedUserSpace
+  const musicSpace = files.reduce((a, b) => a + b.size, 0)
+  const otherSpace = usedUserSpace - musicSpace
+
   const downloadFiles = () => {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/await-thenable
@@ -78,6 +81,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       getFiles(DeviceDirectory.Relaxation)
     }
   }
+
   useEffect(() => {
     if (deviceType) {
       void downloadFiles()
@@ -86,26 +90,32 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceType])
 
+  const getDiskSpaceCategories = (element: DiskSpaceCategory) => {
+    const elements = {
+      [DiskSpaceCategoryType.Free]: {
+        ...element,
+        size: free,
+      },
+      [DiskSpaceCategoryType.System]: {
+        ...element,
+        size: reservedSpace,
+      },
+      [DiskSpaceCategoryType.Music]: {
+        ...element,
+        size: usedUserSpace,
+        filesAmount: files.length,
+      },
+      [DiskSpaceCategoryType.OtherSpace]: {
+        ...element,
+        size: otherSpace,
+      },
+    }
+    return elements[element.type]
+  }
+
   const diskSpaceCategories: DiskSpaceCategory[] = filesSummaryElements.map(
     (element) => {
-      if (element.type === DiskSpaceCategoryType.Free) {
-        return {
-          ...element,
-          size: free,
-        }
-      } else if (element.type === DiskSpaceCategoryType.UsedSpace) {
-        return {
-          ...element,
-          size: reservedSpace,
-        }
-      } else if (element.type === DiskSpaceCategoryType.Music) {
-        return {
-          ...element,
-          size: usedUserSpace,
-          filesAmount: files.length,
-        }
-      }
-      return element
+      return getDiskSpaceCategories(element)
     }
   )
   const handleOpenDeleteModal = (ids: string[]) => {

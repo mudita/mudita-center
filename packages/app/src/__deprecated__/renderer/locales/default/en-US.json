@@ -83,6 +83,8 @@
   "component.filesManagerSummaryFree": "Free",
   "component.filesManagerSummaryItemDescription": "{filesAmount} files ({size})",
   "component.filesManagerSummaryMusic": "Music",
+  "component.filesManagerSummaryOtherSpace": "Other",
+  "component.filesManagerSummarySystem": "System",
   "component.filesManagerSummaryTitle": "All files summary",
   "component.filesManagerSummaryUsedSpace": "Used space",
   "component.formErrorInvalidEmail": "Email is invalid",

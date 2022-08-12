@@ -19,11 +19,20 @@ export const filesSummaryElements: DiskSpaceCategory[] = [
     size: 0,
   },
   {
-    type: DiskSpaceCategoryType.UsedSpace,
+    type: DiskSpaceCategoryType.OtherSpace,
+    color: "#F8EBD2",
+    icon: IconType.FilesManager,
+    label: intl.formatMessage({
+      id: "component.filesManagerSummaryOtherSpace",
+    }),
+    size: 0,
+  },
+  {
+    type: DiskSpaceCategoryType.System,
     color: "#DFEFDE",
     icon: IconType.MuditaLogo,
     label: intl.formatMessage({
-      id: "component.filesManagerSummaryUsedSpace",
+      id: "component.filesManagerSummarySystem",
     }),
     size: 0,
   },

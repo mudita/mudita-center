@@ -17,7 +17,7 @@ const defaultProps: ComponentProps<typeof FilesSummary> = {
   totalMemorySpace: 104857600,
   diskSpaceCategories: [
     {
-      type: DiskSpaceCategoryType.UsedSpace,
+      type: DiskSpaceCategoryType.System,
       color: "#DFEFDE",
       icon: IconType.MuditaLogo,
       label: "Used space",
