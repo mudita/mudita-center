@@ -31,6 +31,7 @@ import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
 const messages = defineMessages({
   uploadingModalTitle: { id: "module.filesManager.uploadingModalTitle" },
   uploadingModalSubtitle: { id: "module.filesManager.uploadingModalSubtitle" },
+  uploadingModalBody: { id: "module.filesManager.uploadingModalBody" },
 })
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
@@ -133,6 +134,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           open={uploading === State.Loading}
           title={intl.formatMessage(messages.uploadingModalTitle)}
           subtitle={intl.formatMessage(messages.uploadingModalSubtitle)}
+          body={intl.formatMessage(messages.uploadingModalBody)}
         />
       )}
       <FilesSummary
