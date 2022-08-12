@@ -5,6 +5,7 @@
 
 export * from "./files-summary-elements"
 export * from "./device-directory.constant"
+export * from "./eligible-format.constant"
 export * from "./files-manager.enum"
 export * from "./errors.enum"
 export * from "./event.enum"

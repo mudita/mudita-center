@@ -6,4 +6,9 @@
 export enum FilesManagerEvent {
   GetFiles = "FILES_MANAGER_GET_FILES",
   SetFiles = "FILES_MANAGER_SET_FILES",
+  SelectAllItems = "FILES_MANAGER_SELECT_ALL",
+  ToggleItem = "FILES_MANAGER_TOGGLE_ITEM",
+  ResetAllItems = "FILES_MANAGER_RESET_ALL_ITEMS",
+  UploadFiles = "FILES_MANAGER_UPLOAD_FILES",
+  SetUploadingState = "FILES_MANAGER_SET_UPLOADING_STATE",
 }

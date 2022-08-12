@@ -3,19 +3,33 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceType } from "@mudita/pure"
 import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import { ResultState } from "App/files-manager/reducers/files-manager.interface"
+import { State } from "App/core/constants"
 import { File } from "App/files-manager/dto"
 import FilesStorageList from "App/files-manager/components/files-storage-list/files-storage-list.component"
 import { FilesStorageListTestIds } from "App/files-manager/components/files-storage-list/files-storage-list-test-ids.enum"
+import { Provider } from "react-redux"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 type Props = ComponentProps<typeof FilesStorageList>
 
 const defaultProps: Props = {
-  resultState: ResultState.Empty,
+  state: State.Initial,
   files: [],
+  toggleRow: jest.fn(),
+  selectedItems: [],
+  onDelete: jest.fn(),
 }
+
+const defaultState = {
+  device: {
+    deviceType: DeviceType.MuditaPure,
+  },
+} as unknown as ReduxRootState
 
 const files: File[] = [
   {
@@ -32,12 +46,18 @@ const files: File[] = [
   },
 ]
 
-const render = (extraProps?: Partial<Props>) => {
+const render = (extraProps?: Partial<Props>, state = defaultState) => {
   const props = {
     ...defaultProps,
     ...extraProps,
   }
-  return renderWithThemeAndIntl(<FilesStorageList {...props} />)
+  const store = createMockStore([thunk])(state)
+
+  return renderWithThemeAndIntl(
+    <Provider store={store}>
+      <FilesStorageList {...props} />
+    </Provider>
+  )
 }
 
 describe("`FilesStorageList` component", () => {
@@ -53,8 +73,8 @@ describe("`FilesStorageList` component", () => {
     ).not.toBeInTheDocument()
   })
 
-  test("Error info is rendered if resultState is equal to Error", () => {
-    const { queryByTestId } = render({ resultState: ResultState.Error })
+  test("Error info is rendered if State is equal to Failed", () => {
+    const { queryByTestId } = render({ state: State.Failed })
     expect(queryByTestId(FilesStorageListTestIds.Error)).toBeInTheDocument()
     expect(queryByTestId(FilesStorageListTestIds.Empty)).not.toBeInTheDocument()
     expect(
@@ -65,9 +85,9 @@ describe("`FilesStorageList` component", () => {
     ).not.toBeInTheDocument()
   })
 
-  test("Loading component is rendered if resultState is Loading", () => {
+  test("Loading component is rendered if state is Loading", () => {
     const { queryByTestId } = render({
-      resultState: ResultState.Loading,
+      state: State.Loading,
     })
     expect(queryByTestId(FilesStorageListTestIds.Loading)).toBeInTheDocument()
     expect(queryByTestId(FilesStorageListTestIds.Empty)).not.toBeInTheDocument()
@@ -77,8 +97,8 @@ describe("`FilesStorageList` component", () => {
     expect(queryByTestId(FilesStorageListTestIds.Error)).not.toBeInTheDocument()
   })
 
-  test("No results is rendered if resultState is Loaded and files list is empty", () => {
-    const { queryByTestId } = render({ resultState: ResultState.Loaded })
+  test("No results is rendered if state is Loaded and files list is empty", () => {
+    const { queryByTestId } = render({ state: State.Loaded })
     expect(queryByTestId(FilesStorageListTestIds.Empty)).toBeInTheDocument()
     expect(
       queryByTestId(FilesStorageListTestIds.Loaded)
@@ -89,9 +109,9 @@ describe("`FilesStorageList` component", () => {
     ).not.toBeInTheDocument()
   })
 
-  test("Files storage list is rendered if resultState is Loaded and files list isn't empty", () => {
+  test("Files storage list is rendered if state is Loaded and files list isn't empty", () => {
     const { queryByTestId, queryAllByTestId } = render({
-      resultState: ResultState.Loaded,
+      state: State.Loaded,
       files,
     })
     expect(queryAllByTestId(FilesStorageListTestIds.Row)[0]).toBeInTheDocument()

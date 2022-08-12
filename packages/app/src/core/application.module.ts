@@ -20,7 +20,7 @@ import {
 } from "App/core/initializers"
 import { Module } from "App/core/types"
 import { FileSystemService } from "App/file-system/services/file-system.service.refactored"
-
+import { FileSystemModule } from "App/file-system/file-system.module"
 import { IndexStorageModule } from "App/index-storage/index-storage.module"
 import { DataSyncModule } from "App/data-sync/data-sync.module"
 import { ContactModule } from "App/contacts/contact.module"
@@ -34,6 +34,7 @@ import { FilesManagerModule } from "App/files-manager/files-manager.module"
 
 export class ApplicationModule {
   public modules: Module[] = [
+    FileSystemModule,
     IndexStorageModule,
     DataSyncModule,
     OutboxModule,

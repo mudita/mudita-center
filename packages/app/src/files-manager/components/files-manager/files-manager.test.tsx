@@ -5,11 +5,14 @@
 
 import { DeviceType } from "@mudita/pure"
 import React, { ComponentProps } from "react"
+import { Provider } from "react-redux"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
+import { State } from "App/core/constants"
 import FilesManager from "App/files-manager/components/files-manager/files-manager.component"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
-import { ResultState } from "App/files-manager/reducers/files-manager.interface"
-import { noop } from "App/__deprecated__/renderer/utils/noop"
 
 const defaultProps: ComponentProps<typeof FilesManager> = {
   memorySpace: {
@@ -18,18 +21,64 @@ const defaultProps: ComponentProps<typeof FilesManager> = {
     total: 16000000000,
   },
   files: [],
-  resultState: ResultState.Empty,
-  getFiles: noop,
+  loading: State.Initial,
+  uploading: State.Initial,
+  getFiles: jest.fn(),
+  uploadFile: jest.fn(),
   deviceType: DeviceType.MuditaPure,
+  resetAllItems: jest.fn(),
+  selectAllItems: jest.fn(),
+  toggleItem: jest.fn(),
+  selectedItems: [],
+  allItemsSelected: false,
+  onDeleteFiles: jest.fn(),
+  error: null,
 }
 
-const render = () => {
-  return renderWithThemeAndIntl(<FilesManager {...defaultProps} />)
+const defaultState = {
+  device: {
+    deviceType: DeviceType.MuditaPure,
+  },
+} as unknown as ReduxRootState
+
+const render = (props = defaultProps, state = defaultState) => {
+  const store = createMockStore([thunk])(state)
+
+  return renderWithThemeAndIntl(
+    <Provider store={store}>
+      <FilesManager {...props} />
+    </Provider>
+  )
 }
 
 describe("Files Manager component", () => {
-  test("should render properly", () => {
-    const { queryByTestId } = render()
+  test("should render properly for Pure", () => {
+    const { queryByTestId } = render(defaultProps, {
+      device: {
+        deviceType: DeviceType.MuditaPure,
+      },
+    } as ReduxRootState)
     expect(queryByTestId(FilesManagerTestIds.Container)).toBeInTheDocument()
+  })
+  test("should render properly for Harmony", () => {
+    const { queryByTestId } = render(defaultProps, {
+      device: {
+        deviceType: DeviceType.MuditaHarmony,
+      },
+    } as ReduxRootState)
+    expect(queryByTestId(FilesManagerTestIds.Container)).toBeInTheDocument()
+  })
+})
+
+describe("Uploading modal", () => {
+  test("renders LoaderModal if `uploading` is equal to `State.Loading`", () => {
+    const { queryByTestId } = render({
+      ...defaultProps,
+      uploading: State.Loading,
+    })
+
+    expect(
+      queryByTestId(FilesManagerTestIds.UploadingModal)
+    ).toBeInTheDocument()
   })
 })

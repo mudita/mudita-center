@@ -4,16 +4,28 @@
  */
 
 import { createReducer } from "@reduxjs/toolkit"
-import { getFiles } from "App/files-manager/actions"
+import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
 import {
-  FilesManagerState,
-  ResultState,
-} from "App/files-manager/reducers/files-manager.interface"
+  selectAllItems,
+  resetAllItems,
+  toggleItem,
+} from "App/files-manager/actions"
+import { changeLocation } from "App/core/actions"
+import {
+  getFiles,
+  uploadFile,
+  setUploadingState,
+} from "App/files-manager/actions"
+import { FilesManagerState } from "App/files-manager/reducers/files-manager.interface"
 
 export const initialState: FilesManagerState = {
-  resultState: ResultState.Empty,
   files: [],
+  loading: State.Initial,
+  uploading: State.Initial,
+  selectedItems: {
+    rows: [],
+  },
   error: null,
 }
 
@@ -24,13 +36,13 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
       .addCase(getFiles.pending, (state) => {
         return {
           ...state,
-          resultState: ResultState.Loading,
+          loading: State.Loading,
         }
       })
       .addCase(getFiles.fulfilled, (state, action) => {
         return {
           ...state,
-          resultState: ResultState.Loaded,
+          loading: State.Loaded,
           files: action.payload,
           error: null,
         }
@@ -38,9 +50,54 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
       .addCase(getFiles.rejected, (state, action) => {
         return {
           ...state,
-          resultState: ResultState.Error,
+          loading: State.Failed,
           error: action.payload as AppError,
         }
+      })
+
+      .addCase(setUploadingState, (state, action) => {
+        return {
+          ...state,
+          uploading: action.payload,
+        }
+      })
+      .addCase(uploadFile.rejected, (state, action) => {
+        return {
+          ...state,
+          uploading: State.Failed,
+          error: action.payload as AppError,
+        }
+      })
+
+      .addCase(selectAllItems.fulfilled, (state, action) => {
+        return {
+          ...state,
+          selectedItems: {
+            ...state.selectedItems,
+            rows: action.payload,
+          },
+        }
+      })
+      .addCase(toggleItem.fulfilled, (state, action) => {
+        return {
+          ...state,
+          selectedItems: {
+            ...state.selectedItems,
+            rows: action.payload,
+          },
+        }
+      })
+      .addCase(resetAllItems, (state) => {
+        return {
+          ...state,
+          selectedItems: {
+            ...state.selectedItems,
+            rows: [],
+          },
+        }
+      })
+      .addCase(changeLocation, (state) => {
+        return { ...state, selectedItems: { rows: [] } }
       })
   }
 )

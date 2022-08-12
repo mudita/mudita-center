@@ -3,30 +3,59 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { DeviceType } from "@mudita/pure"
 import React, { ComponentProps } from "react"
+import { State } from "App/core/constants"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
-import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
 import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
+import { Provider } from "react-redux"
+import createMockStore from "redux-mock-store"
+import thunk from "redux-thunk"
+import { ReduxRootState } from "App/__deprecated__/renderer/store"
 
 type Props = ComponentProps<typeof FilesStorage>
 
 const defaultProps: Props = {
-  resultState: ResultState.Empty,
+  state: State.Initial,
   files: [],
+  resetAllItems: jest.fn(),
+  selectAllItems: jest.fn(),
+  toggleItem: jest.fn(),
+  selectedItems: [],
+  allItemsSelected: false,
+  onDeleteClick: jest.fn(),
+  onDeleteSelected: jest.fn(),
+  uploadFiles: jest.fn(),
 }
 
-const render = (extraProps?: Partial<Props>) => {
+const defaultState = {
+  device: {
+    deviceType: DeviceType.MuditaPure,
+  },
+} as unknown as ReduxRootState
+
+const render = (extraProps?: Partial<Props>, state = defaultState) => {
   const props = {
     ...defaultProps,
     ...extraProps,
   }
-  return renderWithThemeAndIntl(<FilesStorage {...props} />)
+  const store = createMockStore([thunk])(state)
+
+  return renderWithThemeAndIntl(
+    <Provider store={store}>
+      <FilesStorage {...props} />
+    </Provider>
+  )
 }
 
 describe("`Files Storage` component", () => {
   test("should render properly", () => {
-    const { queryByTestId } = render()
+    const { queryByTestId } = render(undefined, {
+      device: {
+        deviceType: DeviceType.MuditaPure,
+      },
+    } as ReduxRootState)
     expect(queryByTestId(FilesStorageTestIds.Title)).toHaveTextContent(
       "[value] component.filesManagerFilesStorageTitle"
     )
