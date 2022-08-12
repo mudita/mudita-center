@@ -3,4 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./get-files.error"
+export enum DialogFileSystemError {
+  GetPath = "CANT_GET_SELECTED_FILES_PATH_ERROR",
+}

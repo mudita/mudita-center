@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppError } from "App/core/errors"
 import {
   filesManagerReducer,
   initialState,
@@ -12,10 +13,10 @@ import {
   pendingAction,
   rejectedAction,
 } from "App/__deprecated__/renderer/store/helpers"
-import { GetFilesError } from "App/files-manager/errors"
 import { FilesManagerEvent } from "App/files-manager/constants"
 import { ResultState } from "App/files-manager/reducers/files-manager.interface"
 import { File } from "App/files-manager/dto"
+import { CoreEvent } from "App/core/constants"
 
 const payload: File[] = [
   {
@@ -64,7 +65,7 @@ describe("Getting files functionality", () => {
   })
 
   test("Event: `getFiles/rejected` change `resultState` to Error", () => {
-    const errorMock = new GetFilesError("I'm error")
+    const errorMock = new AppError("SOME_ERROR_TYPE", "I'm error")
 
     expect(
       filesManagerReducer(undefined, {
@@ -75,6 +76,85 @@ describe("Getting files functionality", () => {
       ...initialState,
       resultState: ResultState.Error,
       error: errorMock,
+    })
+  })
+})
+
+describe("Select files functionality", () => {
+  test("Event: FilesManagerEven.SelectAllItems set provided ids to `selectedItems.rows`", () => {
+    expect(
+      filesManagerReducer(initialState, {
+        type: fulfilledAction(FilesManagerEvent.SelectAllItems),
+        payload: ["1", "2"],
+      })
+    ).toEqual({
+      ...initialState,
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: ["1", "2"],
+      },
+    })
+  })
+
+  test("Event: FilesManagerEven.ToggleItem set provided ids to `selectedItems.rows`", () => {
+    expect(
+      filesManagerReducer(initialState, {
+        type: fulfilledAction(FilesManagerEvent.ToggleItem),
+        payload: ["1", "2"],
+      })
+    ).toEqual({
+      ...initialState,
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: ["1", "2"],
+      },
+    })
+  })
+
+  test("Event: FilesManagerEven.ResetAllItems removes all selected items", () => {
+    expect(
+      filesManagerReducer(
+        {
+          ...initialState,
+          selectedItems: {
+            ...initialState.selectedItems,
+            rows: ["1", "2"],
+          },
+        },
+        {
+          type: FilesManagerEvent.ResetAllItems,
+          payload: undefined,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: [],
+      },
+    })
+  })
+  test("Event: CoreEvent.ChangeLocation removes all selected items", () => {
+    expect(
+      filesManagerReducer(
+        {
+          ...initialState,
+          selectedItems: {
+            ...initialState.selectedItems,
+            rows: ["1", "2"],
+          },
+        },
+        {
+          type: CoreEvent.ChangeLocation,
+          payload: undefined,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      selectedItems: {
+        ...initialState.selectedItems,
+        rows: [],
+      },
     })
   })
 })

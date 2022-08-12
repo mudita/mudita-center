@@ -17,4 +17,5 @@ export interface FilesManagerState {
   resultState: ResultState
   files: File[]
   error: AppError | null
+  selectedItems: { rows: string[] }
 }

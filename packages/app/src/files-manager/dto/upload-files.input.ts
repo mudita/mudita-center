@@ -3,5 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export * from "./get-files.action"
-export * from "./select-items.action"
+import { DeviceDirectory } from "App/files-manager/constants"
+
+export interface UploadFilesInput {
+  directory: DeviceDirectory
+  paths: string[]
+}

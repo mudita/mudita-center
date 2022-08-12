@@ -4,13 +4,14 @@
  */
 
 import { DeviceType } from "@mudita/pure"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { FilesManagerContainer } from "App/files-manager/components/files-manager/files-manager.styled"
 import FilesSummary from "App/files-manager/components/files-summary/files-summary.component"
 import {
   DiskSpaceCategory,
   FilesManagerProps,
+  FileServiceState,
 } from "App/files-manager/components/files-manager/files-manager.interface"
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
 import {
@@ -19,6 +20,9 @@ import {
   filesSummaryElements,
 } from "App/files-manager/constants"
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
+import { DeleteFilesModals } from "App/files-manager/components/delete-files-modals/delete-files-modals.component"
+import { useLoadingState } from "App/ui"
+import { noop } from "lodash"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -30,7 +34,26 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   files,
   getFiles,
   deviceType,
+  error,
+  resetAllItems,
+  selectAllItems,
+  toggleItem,
+  selectedItems,
+  allItemsSelected,
+  onDeleteFiles = noop,
 }) => {
+  const { states, updateFieldState } = useLoadingState<FileServiceState>({
+    creating: false,
+    creatingInfo: false,
+    updating: false,
+    updatingInfo: false,
+    deleting: false,
+    deletingConfirmation: false,
+    deletingInfo: false,
+    updatingOrder: false,
+    updatingOrderInfo: false,
+  })
+  const [deletedFiles, setDeletedFiles] = useState<string[]>([])
   const { free, total } = memorySpace
   const systemMemory = total - free
 
@@ -68,7 +91,29 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       return element
     }
   )
-
+  const handleOpenDeleteModal = (ids: string[]) => {
+    updateFieldState("deletingConfirmation", true)
+    setDeletedFiles(ids)
+  }
+  const handleDeleteSelected = () => {
+    handleOpenDeleteModal(selectedItems)
+  }
+  const handleCloseDeletingErrorModal = () => {
+    updateFieldState("deleting", false)
+    setDeletedFiles([])
+    resetAllItems()
+  }
+  const handleCloseDeleteModal = () => {
+    updateFieldState("deletingConfirmation", false)
+    setDeletedFiles([])
+    resetAllItems()
+  }
+  const handleConfirmFilesDelete = () => {
+    updateFieldState("deleting", true)
+    updateFieldState("deletingConfirmation", false)
+    resetAllItems()
+    onDeleteFiles()
+  }
   return (
     <FilesManagerContainer data-testid={FilesManagerTestIds.Container}>
       <FilesSummary
@@ -76,7 +121,27 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         totalMemorySpace={total}
         systemMemory={systemMemory}
       />
-      <FilesStorage resultState={resultState} files={files} />
+      <FilesStorage
+        resultState={resultState}
+        files={files}
+        selectAllItems={selectAllItems}
+        resetAllItems={resetAllItems}
+        selectedItems={selectedItems}
+        allItemsSelected={allItemsSelected}
+        toggleItem={toggleItem}
+        onDeleteClick={handleOpenDeleteModal}
+        onDeleteSelected={handleDeleteSelected}
+      />
+      <DeleteFilesModals
+        deletedFilesLength={deletedFiles.length}
+        deletingConfirmation={states.deletingConfirmation}
+        deleting={states.deleting}
+        deletingInfo={states.deletingInfo}
+        error={error}
+        onCloseDeletingModal={handleCloseDeleteModal}
+        onCloseDeletingErrorModal={handleCloseDeletingErrorModal}
+        onDelete={handleConfirmFilesDelete}
+      />
     </FilesManagerContainer>
   )
 }
