@@ -34,7 +34,8 @@ interface Props {
   toggleItem: (id: string) => void
   selectedItems: string[]
   allItemsSelected: boolean
-  onDeleteClick: () => void
+  onDeleteClick: (ids: string[]) => void
+  onDeleteSelected: () => void
 }
 
 const FilesStorage: FunctionComponent<Props> = ({
@@ -46,6 +47,7 @@ const FilesStorage: FunctionComponent<Props> = ({
   selectedItems,
   allItemsSelected,
   onDeleteClick,
+  onDeleteSelected,
 }) => {
   return (
     <>
@@ -61,7 +63,7 @@ const FilesStorage: FunctionComponent<Props> = ({
         disabled={false}
         toggleAll={selectAllItems}
         resetRows={resetAllItems}
-        onDeleteClick={onDeleteClick}
+        onDeleteClick={onDeleteSelected}
         selectedFiles={selectedItems}
         allItemsSelected={allItemsSelected}
       />
@@ -71,7 +73,7 @@ const FilesStorage: FunctionComponent<Props> = ({
         selectedItems={selectedItems}
         toggleRow={toggleItem}
         resultState={resultState}
-        onDeleteClick={onDeleteClick}
+        onDelete={onDeleteClick}
       />
     </>
   )

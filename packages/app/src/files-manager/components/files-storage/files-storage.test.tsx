@@ -25,6 +25,7 @@ const defaultProps: Props = {
   selectedItems: [],
   allItemsSelected: false,
   onDeleteClick: jest.fn(),
+  onDeleteSelected: jest.fn(),
 }
 
 const render = (extraProps?: Partial<Props>, state?: ReduxRootState) => {

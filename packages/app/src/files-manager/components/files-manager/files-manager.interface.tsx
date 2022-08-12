@@ -16,6 +16,7 @@ export interface FilesManagerProps {
   resultState: ResultState
   files: File[]
   getFiles: (directory: DeviceDirectory) => void
+  error: Error | string | null
   resetAllItems: () => void
   selectAllItems: () => void
   toggleItem: (id: string) => void
@@ -37,4 +38,16 @@ export interface MemorySpace {
   free: number
   full: number
   total: number
+}
+
+export interface FileServiceState {
+  creating: boolean
+  creatingInfo: boolean
+  updating: boolean
+  updatingInfo: boolean
+  deleting: boolean
+  deletingConfirmation: boolean
+  deletingInfo: boolean
+  updatingOrder: boolean
+  updatingOrderInfo: boolean
 }
