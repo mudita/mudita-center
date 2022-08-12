@@ -4,5 +4,5 @@
  */
 
 export enum DialogFileSystemError {
-  GetPath = "CANT_GET_SELECTED_FILES_PATH",
+  GetPath = "CANT_GET_SELECTED_FILES_PATH_ERROR",
 }

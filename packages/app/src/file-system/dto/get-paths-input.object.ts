@@ -5,7 +5,7 @@
 
 import { FileFilter, OpenDialogOptions } from "electron"
 
-export interface GetPathInput {
+export interface GetPathsInput {
   filters: FileFilter[]
   properties: OpenDialogOptions["properties"]
 }

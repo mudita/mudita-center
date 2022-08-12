@@ -9,7 +9,7 @@ import {
   DialogControllerPrefix,
   IpcDialogFileSystemEvent,
 } from "App/file-system/constants"
-import { GetPathInput } from "App/file-system/dto"
+import { GetPathsInput } from "App/file-system/dto"
 import { FilesSystemDialogService } from "App/file-system/services/file-system-dialog.service"
 
 @Controller(DialogControllerPrefix)
@@ -20,7 +20,7 @@ export class DialogFileSystemController {
   public async getPaths({
     filters = [],
     properties,
-  }: GetPathInput): Promise<ResultObject<string[] | undefined>> {
+  }: GetPathsInput): Promise<ResultObject<string[] | undefined>> {
     return this.filesSystemDialogService.getPaths(filters, properties)
   }
 }
