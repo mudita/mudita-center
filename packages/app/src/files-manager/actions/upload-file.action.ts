@@ -26,11 +26,7 @@ export const uploadFile = createAsyncThunk(
       filters: [
         {
           name: "Audio",
-          extensions: [
-            EligibleFormat.FLAC,
-            EligibleFormat.MP3,
-            EligibleFormat.WAV,
-          ],
+          extensions: Object.values(EligibleFormat),
         },
       ],
       properties: ["openFile", "multiSelections"],
@@ -56,8 +52,8 @@ export const uploadFile = createAsyncThunk(
       return rejectWithValue(result.error)
     }
 
-    dispatch(setUploadingState(State.Loaded))
     await dispatch(getFiles(directory))
+    dispatch(setUploadingState(State.Loaded))
 
     return
   }

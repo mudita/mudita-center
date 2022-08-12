@@ -45,7 +45,7 @@ const getFilesPathsResponseMock: GetPathsInput = {
   filters: [
     {
       name: "Audio",
-      extensions: [EligibleFormat.FLAC, EligibleFormat.MP3, EligibleFormat.WAV],
+      extensions: Object.values(EligibleFormat),
     },
   ],
   properties: ["openFile", "multiSelections"],
@@ -78,11 +78,11 @@ describe("when `getPathRequest` request return Result.success with files list", 
       expect(mockStore.getActions()).toEqual([
         uploadFile.pending(requestId),
         setUploadingState(State.Loading),
-        setUploadingState(State.Loaded),
         {
           type: pendingAction("FILES_MANAGER_GET_FILES"),
           payload: undefined,
         },
+        setUploadingState(State.Loaded),
         uploadFile.fulfilled(undefined, requestId),
       ])
 
@@ -106,7 +106,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
       jest.resetAllMocks()
     })
 
-    test("dispatch `setUploadingState` with `State.Loaded` and `getFiles` with provided directory", async () => {
+    test("failed with receive from `uploadFileRequest` error", async () => {
       const mockStore = createMockStore([thunk])({
         device: {
           deviceType: DeviceType.MuditaPure,
@@ -122,7 +122,6 @@ describe("when `getPathRequest` request return Result.success with files list", 
       expect(mockStore.getActions()).toEqual([
         uploadFile.pending(requestId),
         setUploadingState(State.Loading),
-
         uploadFile.rejected(testError, requestId, undefined, { ...errorMock }),
       ])
 
@@ -138,37 +137,33 @@ describe("when `getPathRequest` request return Result.success with files list", 
 })
 
 describe("when `getPathRequest` request return Result.failed", () => {
-  describe("when `uploadFileRequest` request return Result.success with uploaded files list", () => {
-    beforeAll(() => {
-      ;(getPathsRequest as jest.Mock).mockResolvedValue(failedGetPathResponse)
+  beforeAll(() => {
+    ;(getPathsRequest as jest.Mock).mockResolvedValue(failedGetPathResponse)
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
+
+  test("reject error", async () => {
+    const mockStore = createMockStore([thunk])({
+      device: {
+        deviceType: DeviceType.MuditaPure,
+      },
     })
 
-    afterEach(() => {
-      jest.resetAllMocks()
-    })
+    const {
+      meta: { requestId },
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/await-thenable
+    } = await mockStore.dispatch(uploadFile() as unknown as AnyAction)
 
-    test("reject error", async () => {
-      const mockStore = createMockStore([thunk])({
-        device: {
-          deviceType: DeviceType.MuditaPure,
-        },
-      })
+    expect(mockStore.getActions()).toEqual([
+      uploadFile.pending(requestId),
+      uploadFile.rejected(testError, requestId, undefined, { ...errorMock }),
+    ])
 
-      const {
-        meta: { requestId },
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/await-thenable
-      } = await mockStore.dispatch(uploadFile() as unknown as AnyAction)
-
-      expect(mockStore.getActions()).toEqual([
-        uploadFile.pending(requestId),
-        uploadFile.rejected(testError, requestId, undefined, { ...errorMock }),
-      ])
-
-      expect(getPathsRequest).toHaveBeenLastCalledWith(
-        getFilesPathsResponseMock
-      )
-      expect(uploadFilesRequest).not.toHaveBeenCalled()
-    })
+    expect(getPathsRequest).toHaveBeenLastCalledWith(getFilesPathsResponseMock)
+    expect(uploadFilesRequest).not.toHaveBeenCalled()
   })
 })
