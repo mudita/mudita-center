@@ -5,7 +5,7 @@
 
 import { DeviceDirectory } from "App/files-manager/constants"
 
-export interface UploadFileInput {
+export interface UploadFilesInput {
   directory: DeviceDirectory
   paths: string[]
 }

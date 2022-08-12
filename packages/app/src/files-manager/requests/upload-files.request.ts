@@ -6,10 +6,10 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { ResultObject } from "App/core/builder"
 import { IpcFilesManagerRequest } from "App/files-manager/constants"
-import { UploadFileInput } from "App/files-manager/dto"
+import { UploadFilesInput } from "App/files-manager/dto"
 
-export const uploadFileRequest = async (
-  props: UploadFileInput
+export const uploadFilesRequest = async (
+  props: UploadFilesInput
 ): Promise<ResultObject<string | undefined>> => {
-  return ipcRenderer.callMain(IpcFilesManagerRequest.UploadFile, props)
+  return ipcRenderer.callMain(IpcFilesManagerRequest.UploadFiles, props)
 }

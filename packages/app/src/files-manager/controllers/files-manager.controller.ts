@@ -10,7 +10,7 @@ import {
   IpcFilesManagerEvent,
   DeviceDirectory,
 } from "App/files-manager/constants"
-import { File, UploadFileInput } from "App/files-manager/dto"
+import { File, UploadFilesInput } from "App/files-manager/dto"
 import { FileManagerService } from "App/files-manager/services"
 
 @Controller(ControllerPrefix)
@@ -24,10 +24,10 @@ export class FilesManagerController {
     return this.fileManagerService.getDeviceFiles(directory)
   }
 
-  @IpcEvent(IpcFilesManagerEvent.UploadFile)
-  public async uploadFile(
-    props: UploadFileInput
+  @IpcEvent(IpcFilesManagerEvent.UploadFiles)
+  public async uploadFiles(
+    props: UploadFilesInput
   ): Promise<ResultObject<string[] | undefined>> {
-    return this.fileManagerService.uploadFile(props)
+    return this.fileManagerService.uploadFiles(props)
   }
 }

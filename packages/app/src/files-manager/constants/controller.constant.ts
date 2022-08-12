@@ -7,10 +7,10 @@ export const ControllerPrefix = "files-manager"
 
 export enum IpcFilesManagerEvent {
   GetFiles = "get-files",
-  UploadFile = "upload-file",
+  UploadFiles = "upload-files",
 }
 
 export enum IpcFilesManagerRequest {
   GetFiles = "files-manager-get-files",
-  UploadFile = "files-manager-upload-file",
+  UploadFiles = "files-manager-upload-files",
 }

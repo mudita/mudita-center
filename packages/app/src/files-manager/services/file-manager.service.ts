@@ -5,7 +5,7 @@
 
 import { AppError } from "App/core/errors"
 import { Result, ResultObject } from "App/core/builder"
-import { File, UploadFileInput } from "App/files-manager/dto"
+import { File, UploadFilesInput } from "App/files-manager/dto"
 import { DeviceDirectory } from "App/files-manager/constants"
 import { FileObjectPresenter } from "App/files-manager/presenters"
 import { FilesManagerError } from "App/files-manager/constants"
@@ -43,10 +43,10 @@ export class FileManagerService {
     )
   }
 
-  public async uploadFile({
+  public async uploadFiles({
     directory,
     paths,
-  }: UploadFileInput): Promise<ResultObject<string[] | undefined>> {
+  }: UploadFilesInput): Promise<ResultObject<string[] | undefined>> {
     const results = []
 
     for await (const path of paths) {
@@ -57,7 +57,7 @@ export class FileManagerService {
 
     if (!success) {
       return Result.failed(
-        new AppError(FilesManagerError.UploadFile, "Upload failed")
+        new AppError(FilesManagerError.UploadFiles, "Upload failed")
       )
     }
 

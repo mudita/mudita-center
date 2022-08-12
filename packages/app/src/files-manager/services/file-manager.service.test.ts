@@ -96,7 +96,7 @@ describe("Method: uploadFiles", () => {
         .fn()
         .mockResolvedValueOnce(new SuccessResult("/test/path/file-1.mp3"))
 
-      const result = await subject.uploadFile({
+      const result = await subject.uploadFiles({
         directory: DeviceDirectory.Music,
         paths: ["/usr/audio/file-1.mp3"],
       })
@@ -118,14 +118,14 @@ describe("Method: uploadFiles", () => {
         })
       )
 
-      const result = await subject.uploadFile({
+      const result = await subject.uploadFiles({
         directory: DeviceDirectory.Music,
         paths: ["/usr/audio/file-1.mp3"],
       })
 
       expect(result).toEqual(
         new FailedResult({
-          ...new AppError(FilesManagerError.UploadFile, "Upload failed"),
+          ...new AppError(FilesManagerError.UploadFiles, "Upload failed"),
         })
       )
     })
