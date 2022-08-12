@@ -10,6 +10,7 @@ export enum Feature {
   LogsScrubbingEnabled = "logs-scrubbing-enabled",
   DeveloperModeEnabled = "developer-mode-enabled",
   FilesManagerEnabled = "files-manager-enabled",
+  FilesManagerActionsEnabled = "files-manager-actions-enabled",
   MessagesSearchEnabled = "messages-search-enabled",
   MessagesDeleteEnabled = "messages-delete-enabled",
   MessagesForwardEnabled = "messages-forward-enabled",

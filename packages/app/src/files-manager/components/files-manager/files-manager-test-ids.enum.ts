@@ -5,4 +5,5 @@
 
 export enum FilesManagerTestIds {
   Container = "files-manager-container",
+  UploadingModal = "files-manager-modal",
 }
