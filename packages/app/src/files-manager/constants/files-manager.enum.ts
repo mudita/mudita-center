@@ -5,6 +5,7 @@
 
 export enum DiskSpaceCategoryType {
   Music = "Music",
-  UsedSpace = "Used space",
+  System = "System",
   Free = "Free",
+  OtherSpace = "OtherSpace",
 }

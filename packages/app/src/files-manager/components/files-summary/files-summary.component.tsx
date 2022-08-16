@@ -38,7 +38,7 @@ export const messages = defineMessages({
 
 interface Props {
   diskSpaceCategories: DiskSpaceCategory[]
-  systemMemory: number
+  usedMemory: number
   totalMemorySpace: number
 }
 
@@ -56,10 +56,10 @@ const memoryToStackedBarChartData = (
 
 const FilesSummary: FunctionComponent<Props> = ({
   diskSpaceCategories,
-  systemMemory,
+  usedMemory,
   totalMemorySpace,
 }) => {
-  const totalMemoryPercent = Math.floor((systemMemory / totalMemorySpace) * 100)
+  const usedMemoryPercent = Math.floor((usedMemory / totalMemorySpace) * 100)
 
   return (
     <FilesSummaryContainer>
@@ -79,9 +79,7 @@ const FilesSummary: FunctionComponent<Props> = ({
       />
       <StatsContainer>
         <Text displayStyle={TextDisplayStyle.Paragraph3} color="secondary">
-          {`${convertFromBytesToDecimal(
-            systemMemory
-          )} (${totalMemoryPercent}%)`}
+          {`${convertFromBytesToDecimal(usedMemory)} (${usedMemoryPercent}%)`}
         </Text>
         <Text displayStyle={TextDisplayStyle.Paragraph3} color="secondary">
           {convertFromBytesToDecimal(totalMemorySpace)}

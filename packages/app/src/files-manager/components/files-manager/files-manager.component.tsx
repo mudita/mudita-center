@@ -36,8 +36,8 @@ const messages = defineMessages({
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
-    free: 0,
-    full: 0,
+    reservedSpace: 0,
+    usedUserSpace: 0,
     total: 0,
   },
   loading,
@@ -66,8 +66,11 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     updatingOrderInfo: false,
   })
   const [deletedFiles, setDeletedFiles] = useState<string[]>([])
-  const { free, total } = memorySpace
-  const systemMemory = total - free
+  const { reservedSpace, usedUserSpace, total } = memorySpace
+  const free = total - reservedSpace - usedUserSpace
+  const usedMemory = reservedSpace + usedUserSpace
+  const musicSpace = files.reduce((a, b) => a + b.size, 0)
+  const otherSpace = usedUserSpace - musicSpace
 
   const downloadFiles = () => {
     // AUTO DISABLED - fix me if you like :)
@@ -78,6 +81,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       getFiles(DeviceDirectory.Relaxation)
     }
   }
+
   useEffect(() => {
     if (deviceType) {
       void downloadFiles()
@@ -86,21 +90,32 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceType])
 
+  const getDiskSpaceCategories = (element: DiskSpaceCategory) => {
+    const elements = {
+      [DiskSpaceCategoryType.Free]: {
+        ...element,
+        size: free,
+      },
+      [DiskSpaceCategoryType.System]: {
+        ...element,
+        size: reservedSpace,
+      },
+      [DiskSpaceCategoryType.Music]: {
+        ...element,
+        size: usedUserSpace,
+        filesAmount: files.length,
+      },
+      [DiskSpaceCategoryType.OtherSpace]: {
+        ...element,
+        size: otherSpace,
+      },
+    }
+    return elements[element.type]
+  }
+
   const diskSpaceCategories: DiskSpaceCategory[] = filesSummaryElements.map(
     (element) => {
-      if (element.type === DiskSpaceCategoryType.Free) {
-        return {
-          ...element,
-          size: free,
-        }
-      }
-      if (element.type === DiskSpaceCategoryType.UsedSpace) {
-        return {
-          ...element,
-          size: systemMemory,
-        }
-      }
-      return element
+      return getDiskSpaceCategories(element)
     }
   )
   const handleOpenDeleteModal = (ids: string[]) => {
@@ -140,7 +155,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       <FilesSummary
         diskSpaceCategories={diskSpaceCategories}
         totalMemorySpace={total}
-        systemMemory={systemMemory}
+        usedMemory={usedMemory}
       />
       <FilesStorage
         state={loading}

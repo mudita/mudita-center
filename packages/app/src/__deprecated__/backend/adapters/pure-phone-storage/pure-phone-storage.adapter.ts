@@ -21,7 +21,7 @@ class PurePhoneStorage extends PurePhoneStorageAdapter {
     super()
   }
 
-  public async getAvailableSpace(): Promise<RequestResponse<number>> {
+  public async getSystemReservedSpace(): Promise<RequestResponse<number>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
@@ -30,17 +30,35 @@ class PurePhoneStorage extends PurePhoneStorageAdapter {
     if (status === RequestResponseStatus.Ok && data) {
       return {
         status,
-        data: fromMebiToByte(Number(data.fsFree)),
+        data: fromMebiToByte(Number(data.systemReservedSpace)),
       }
     } else {
       return {
         status,
-        error: { message: "Get available space: Something went wrong" },
+        error: { message: "Get system reserved space: Something went wrong" },
+      }
+    }
+  }
+  public async getUsedUserSpace(): Promise<RequestResponse<number>> {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.DeviceInfo,
+      method: Method.Get,
+    })
+
+    if (status === RequestResponseStatus.Ok && data) {
+      return {
+        status,
+        data: fromMebiToByte(Number(data.usedUserSpace)),
+      }
+    } else {
+      return {
+        status,
+        error: { message: "Get used user space: Something went wrong" },
       }
     }
   }
 
-  public async getCapacity(): Promise<RequestResponse<number>> {
+  public async getTotalSpace(): Promise<RequestResponse<number>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,
@@ -49,22 +67,18 @@ class PurePhoneStorage extends PurePhoneStorageAdapter {
     if (status === RequestResponseStatus.Ok && data) {
       return {
         status,
-        data: fromMebiToByte(Number(data.fsTotal)),
+        data: fromMebiToByte(Number(data.deviceSpaceTotal)),
       }
     } else {
       return {
         status,
-        error: { message: "Get capacity: Something went wrong" },
+        error: { message: "Get total space: Something went wrong" },
       }
     }
   }
 
   public getStorageCategories(): StorageCategoryInfo[] {
     return []
-  }
-
-  public getTotalSpace(): number {
-    return 16000000000
   }
 }
 

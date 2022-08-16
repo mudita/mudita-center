@@ -28,6 +28,9 @@ const dataMock = {
     serialNumber: "123",
     capacity: 1024,
     available: 1000,
+    usedUserSpace: 1024,
+    reservedSpace: 1000,
+    totalSpace: 2024,
   },
 }
 
@@ -54,7 +57,7 @@ test("HarmonyDataLoader calls required requests", async () => {
     osVersion: "7.7.7",
     batteryLevel: 50,
     serialNumber: "123",
-    memorySpace: { full: 1024, free: 1000 },
+    memorySpace: { usedUserSpace: 1024, reservedSpace: 1000, total: 2024 },
   })
 
   expect(getDeviceInfo).toHaveBeenCalled()

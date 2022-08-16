@@ -7,8 +7,8 @@ import StorageCategoryInfo from "App/__deprecated__/common/interfaces/storage-ca
 import { RequestResponse } from "App/core/types/request-response.interface"
 
 export default abstract class PurePhoneStorageAdapter {
-  public abstract getCapacity(): Promise<RequestResponse<number>>
-  public abstract getAvailableSpace(): Promise<RequestResponse<number>>
+  public abstract getSystemReservedSpace(): Promise<RequestResponse<number>>
+  public abstract getUsedUserSpace(): Promise<RequestResponse<number>>
   public abstract getStorageCategories(): StorageCategoryInfo[]
-  public abstract getTotalSpace(): number
+  public abstract getTotalSpace(): Promise<RequestResponse<number>>
 }

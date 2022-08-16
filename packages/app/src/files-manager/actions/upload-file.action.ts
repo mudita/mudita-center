@@ -5,7 +5,7 @@
 
 import { DeviceType } from "@mudita/pure"
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { State } from "App/core/constants"
+import { State } from "App/core/constants/state.constant"
 import { ReduxRootState } from "App/__deprecated__/renderer/store"
 import {
   FilesManagerEvent,
@@ -16,11 +16,16 @@ import { getPathsRequest } from "App/file-system/requests"
 import { uploadFilesRequest } from "App/files-manager/requests"
 import { getFiles } from "App/files-manager/actions/get-files.action"
 import { setUploadingState } from "App/files-manager/actions/base.action"
+import { loadStorageInfoAction } from "App/device/actions/load-storage-info.action"
 
 export const uploadFile = createAsyncThunk(
   FilesManagerEvent.UploadFiles,
   async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as ReduxRootState
+
+    if(state.device.deviceType === null){
+      return rejectWithValue("device Type isn't set")
+    }
 
     const filesToUpload = await getPathsRequest({
       filters: [
@@ -53,6 +58,7 @@ export const uploadFile = createAsyncThunk(
     }
 
     await dispatch(getFiles(directory))
+    await dispatch(loadStorageInfoAction())
     dispatch(setUploadingState(State.Loaded))
 
     return

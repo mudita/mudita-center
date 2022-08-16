@@ -14,14 +14,16 @@ import {
 } from "App/__deprecated__/renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import styled from "styled-components"
-import Icon, { IconSize } from "App/__deprecated__/renderer/components/core/icon/icon.component"
+import Icon, {
+  IconSize,
+} from "App/__deprecated__/renderer/components/core/icon/icon.component"
 import { FilesSummaryItemTestIds } from "App/files-manager/components/files-summary-item/files-summary-item-test-ids.enum"
 import { convertFromBytesToDecimal } from "App/__deprecated__/renderer/utils/convert-from-bytes-to-decimal/convert-from-bytes-to-decimal"
 import { defineMessages } from "react-intl"
 
 const FilesSummaryItemContainer = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   background-color: ${backgroundColor("row")};
   padding: 1.6rem;
   width: 28rem;
@@ -37,7 +39,7 @@ const SummaryIcon = styled(Icon)<{ fileColor: string }>`
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   height: 100%;
 `
 export const messages = defineMessages({

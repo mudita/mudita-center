@@ -62,10 +62,10 @@ export class PureDataLoader extends BaseLoader {
       memorySpace: {
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        full: storageInfo.data!.capacity,
+        usedUserSpace: storageInfo.data!.usedUserSpace,
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        free: storageInfo.data!.available,
+        reservedSpace: storageInfo.data!.reservedSpace,
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         total: storageInfo.data!.totalSpace,

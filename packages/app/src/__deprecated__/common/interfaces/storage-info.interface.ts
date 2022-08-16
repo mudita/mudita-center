@@ -6,15 +6,15 @@
 import StorageCategoryInfo from "App/__deprecated__/common/interfaces/storage-category-info.interface"
 
 export default interface StorageInfo {
-  // Capacity in bytes.
-  readonly capacity: number
-
-  // Availability in bytes.
-  readonly available: number
+  // Reserved space in bytes.
+  readonly reservedSpace: number
 
   // Categories of the occupied storage
   readonly categories: StorageCategoryInfo[]
 
   //Total space of Pure device in bytes
   readonly totalSpace: number
+
+  // Used user space in bytes
+  readonly usedUserSpace: number
 }

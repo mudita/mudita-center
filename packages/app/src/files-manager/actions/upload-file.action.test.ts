@@ -30,6 +30,13 @@ jest.mock("App/files-manager/actions/get-files.action", () => ({
   }),
 }))
 
+jest.mock("App/device/actions/load-storage-info.action", () => ({
+  loadStorageInfoAction: jest.fn().mockReturnValue({
+    type: pendingAction("DEVICE_LOAD_STORAGE_INFO"),
+    payload: undefined,
+  }),
+}))
+
 const pathsMock = ["/path/file-1.mp3", "/path/file-2.wav"]
 const errorMock = new AppError("SOME_ERROR_TYPE", "Luke, I'm your error")
 const successGetPathResponse = new SuccessResult<string[]>(pathsMock)
@@ -80,6 +87,10 @@ describe("when `getPathRequest` request return Result.success with files list", 
         setUploadingState(State.Loading),
         {
           type: pendingAction("FILES_MANAGER_GET_FILES"),
+          payload: undefined,
+        },
+        {
+          type: pendingAction("DEVICE_LOAD_STORAGE_INFO"),
           payload: undefined,
         },
         setUploadingState(State.Loaded),

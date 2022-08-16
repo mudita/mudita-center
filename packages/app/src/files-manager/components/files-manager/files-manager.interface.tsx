@@ -37,8 +37,8 @@ export interface DiskSpaceCategory {
 }
 
 export interface MemorySpace {
-  free: number
-  full: number
+  reservedSpace: number
+  usedUserSpace: number
   total: number
 }
 
