@@ -13,6 +13,7 @@ import { DeviceError, DeviceEvent } from "App/device/constants"
 import { SimCard } from "App/__deprecated__/renderer/models/basic-info/basic-info.typings"
 import { UpdatingState, ConnectionState } from "App/device/constants"
 import { AppError } from "App/core/errors"
+import StorageInfo from "App/__deprecated__/common/interfaces/storage-info.interface"
 
 export interface PureDeviceData {
   networkName: string
@@ -105,3 +106,11 @@ export type SetConnectionStateAction = PayloadAction<
   boolean,
   DeviceEvent.SetConnectionState
 >
+export type LoadStorageInfoAction = PayloadAction<
+  StorageInfo,
+  DeviceEvent.LoadStorageInfo
+  >
+export type LoadStorageInfoRejectedAction = PayloadAction<
+  AppError<DeviceError.LoadStorageInfo>,
+  DeviceEvent.LoadStorageInfo
+  >

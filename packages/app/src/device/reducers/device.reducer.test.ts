@@ -21,6 +21,7 @@ import {
   pendingAction,
 } from "App/__deprecated__/renderer/store/helpers"
 import { AppError } from "App/core/errors"
+import StorageInfo from "App/__deprecated__/common/interfaces/storage-info.interface"
 
 const pureDeviceMock: PureDeviceData = {
   networkName: "Network",
@@ -56,6 +57,13 @@ const harmonyDeviceMock: HarmonyDeviceData = {
     usedUserSpace: 1021,
     total: 1021,
   },
+}
+
+const storageInfo: StorageInfo = {
+  categories: [],
+  reservedSpace: 0,
+  totalSpace: 0,
+  usedUserSpace: 0,
 }
 
 test("empty event returns initial state", () => {
@@ -506,6 +514,51 @@ describe("Update functionality", () => {
         ...initialState.data,
         osVersion: "7.7.7",
       },
+    })
+  })
+})
+
+describe("`LoadStorageInfo` functionality", () => {
+  test("Event: LoadStorageInfo/fulfilled change `state` to Loaded", () => {
+    expect(
+      deviceReducer(initialState, {
+        type: fulfilledAction(DeviceEvent.LoadStorageInfo),
+        payload: storageInfo,
+      })
+    ).toMatchInlineSnapshot(`
+      Object {
+        "data": Object {
+          "memorySpace": Object {
+            "reservedSpace": 0,
+            "total": 0,
+            "usedUserSpace": 0,
+          },
+        },
+        "deviceType": null,
+        "error": null,
+        "state": 2,
+        "status": Object {
+          "connected": false,
+          "loaded": false,
+          "unlocked": null,
+        },
+        "updatingState": null,
+      }
+    `)
+  })
+
+  test("Event: LoadStorageInfo/rejected change `state` to Loaded", () => {
+    const errorMock = new AppError(DeviceError.LoadStorageInfo, "I'm error")
+
+    expect(
+      deviceReducer(initialState, {
+        type: rejectedAction(DeviceEvent.LoadStorageInfo),
+        payload: errorMock,
+      })
+    ).toEqual({
+      ...initialState,
+      state: ConnectionState.Error,
+      error: errorMock,
     })
   })
 })

@@ -30,6 +30,8 @@ import {
   SetUpdateStateAction,
   OsUpdateRejectedAction,
   SetConnectionStateAction,
+  LoadStorageInfoAction,
+  LoadStorageInfoRejectedAction,
 } from "App/device/reducers/device.interface"
 
 export const initialState: DeviceState = {
@@ -299,6 +301,33 @@ export const deviceReducer = createReducer<DeviceState>(
           return {
             ...state,
             data: null,
+            state: ConnectionState.Error,
+            error: action.payload,
+          }
+        }
+      )
+
+      .addCase(
+        fulfilledAction(DeviceEvent.LoadStorageInfo),
+        (state, action: LoadStorageInfoAction) => {
+          return {
+            ...state,
+            data: {
+              ...state.data,
+              memorySpace: {
+                usedUserSpace: action.payload.usedUserSpace,
+                reservedSpace: action.payload.reservedSpace,
+                total: action.payload.totalSpace,
+              },
+            },
+          }
+        }
+      )
+      .addCase(
+        rejectedAction(DeviceEvent.LoadStorageInfo),
+        (state, action: LoadStorageInfoRejectedAction) => {
+          return {
+            ...state,
             state: ConnectionState.Error,
             error: action.payload,
           }
