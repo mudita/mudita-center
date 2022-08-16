@@ -90,7 +90,7 @@ const FilesStorageList: FunctionComponent<Props> = ({
   return (
     <FilesStorageContainer {...rest}>
       {state === State.Loaded && files.length > 0 && (
-        <FilesTable>
+        <FilesTable scrollable={false}>
           <Labels
             size={RowSize.Tiny}
             data-testid={FilesStorageListTestIds.Loaded}
