@@ -259,3 +259,51 @@ describe("delete files functionality", () => {
     })
   })
 })
+
+describe("reset deleting state functionality", () => {
+  test("Event: `resetDeletingState` change `deleting` to Initial and `error` to null", () => {
+    const errorMock = new AppError("SOME_ERROR_TYPE", "Luke, I'm your error")
+
+    expect(
+      filesManagerReducer(
+        {
+          ...initialState,
+          deleting: State.Failed,
+          error: errorMock,
+        },
+        {
+          type: FilesManagerEvent.ResetDeletingState,
+          payload: errorMock,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      deleting: State.Initial,
+      error: null,
+    })
+  })
+})
+
+describe("reset uploading state functionality", () => {
+  test("Event: `resetUploadingState` change `uploading` to Initial and `error` to null", () => {
+    const errorMock = new AppError("SOME_ERROR_TYPE", "Luke, I'm your error")
+
+    expect(
+      filesManagerReducer(
+        {
+          ...initialState,
+          uploading: State.Failed,
+          error: errorMock,
+        },
+        {
+          type: FilesManagerEvent.ResetUploadingState,
+          payload: errorMock,
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      uploading: State.Initial,
+      error: null,
+    })
+  })
+})

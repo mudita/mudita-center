@@ -5,9 +5,7 @@
 
 import { DeviceType } from "@mudita/pure"
 import React, { useEffect, useState } from "react"
-import { defineMessages } from "react-intl"
 import { State } from "App/core/constants"
-import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
 import { FilesManagerContainer } from "App/files-manager/components/files-manager/files-manager.styled"
 import FilesSummary from "App/files-manager/components/files-summary/files-summary.component"
@@ -25,13 +23,7 @@ import {
 import FilesStorage from "App/files-manager/components/files-storage/files-storage.component"
 import { DeleteFilesModals } from "App/files-manager/components/delete-files-modals/delete-files-modals.component"
 import { useLoadingState } from "App/ui"
-import LoaderModal from "App/ui/components/loader-modal/loader-modal.component"
-
-const messages = defineMessages({
-  uploadingModalTitle: { id: "module.filesManager.uploadingModalTitle" },
-  uploadingModalSubtitle: { id: "module.filesManager.uploadingModalSubtitle" },
-  uploadingModalBody: { id: "module.filesManager.uploadingModalBody" },
-})
+import { UploadFilesModals } from "App/files-manager/components/upload-files-modals/upload-files-modals.component"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -53,12 +45,16 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   allItemsSelected,
   deleteFiles,
   resetDeletingState,
+  resetUploadingState,
 }) => {
   const { states, updateFieldState } = useLoadingState<FileServiceState>({
     deletingFailed: false,
     deleting: false,
     deletingConfirmation: false,
     deletingInfo: false,
+    uploading: false,
+    uploadingInfo: false,
+    uploadingFailed: false,
   })
   const [toDeleteFileIds, setToDeleteFileIds] = useState<string[]>([])
   const { reservedSpace, usedUserSpace, total } = memorySpace
@@ -104,6 +100,23 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   }, [deleting])
 
   useEffect(() => {
+    if (uploading === State.Initial) {
+      updateFieldState("uploadingInfo", false)
+      updateFieldState("uploadingFailed", false)
+    } else if (uploading === State.Loading) {
+      updateFieldState("uploading", true)
+    } else if (uploading === State.Loaded) {
+      updateFieldState("uploading", false)
+      updateFieldState("uploadingInfo", true)
+    } else if (uploading === State.Failed) {
+      updateFieldState("uploading", false)
+      updateFieldState("uploadingFailed", true)
+    }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uploading])
+
+  useEffect(() => {
     if (!states.deletingInfo) {
       return
     }
@@ -119,6 +132,23 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [states.deletingInfo])
+
+  useEffect(() => {
+    if (!states.uploadingInfo) {
+      return
+    }
+
+    const hideInfoPopupsTimeout = setTimeout(() => {
+      updateFieldState("uploadingInfo", false)
+      resetDeletingState()
+    }, 5000)
+
+    return () => {
+      clearTimeout(hideInfoPopupsTimeout)
+    }
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [states.uploadingInfo])
 
   const getDiskSpaceCategories = (element: DiskSpaceCategory) => {
     const elements = {
@@ -161,9 +191,8 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   const handleManagerDeleteClick = () => {
     openDeleteModal(selectedItems)
   }
-  const handleCloseDeletingErrorModal = () => {
-    setToDeleteFileIds([])
-    resetDeletingState()
+  const handleCloseUploadingErrorModal = () => {
+    resetUploadingState()
   }
   const handleCloseDeletingConfirmationModal = () => {
     updateFieldState("deletingConfirmation", false)
@@ -173,17 +202,19 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     resetAllItems()
     void deleteFiles(toDeleteFileIds)
   }
+  const handleCloseDeletingErrorModal = () => {
+    setToDeleteFileIds([])
+    resetDeletingState()
+  }
   return (
     <FilesManagerContainer data-testid={FilesManagerTestIds.Container}>
-      {uploading === State.Loading && (
-        <LoaderModal
-          testId={FilesManagerTestIds.UploadingModal}
-          open={uploading === State.Loading}
-          title={intl.formatMessage(messages.uploadingModalTitle)}
-          subtitle={intl.formatMessage(messages.uploadingModalSubtitle)}
-          body={intl.formatMessage(messages.uploadingModalBody)}
-        />
-      )}
+      <UploadFilesModals
+        filesLength={0}
+        uploading={states.uploading}
+        uploadingInfo={states.uploadingInfo}
+        uploadingFailed={states.uploadingFailed}
+        onCloseUploadingErrorModal={handleCloseUploadingErrorModal}
+      />
       <DeleteFilesModals
         filesLength={toDeleteFileIds.length}
         deletingConfirmation={states.deletingConfirmation}

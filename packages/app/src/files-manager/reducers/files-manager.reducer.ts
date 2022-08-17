@@ -10,6 +10,7 @@ import {
   getFiles,
   resetAllItems,
   resetDeletingState,
+  resetUploadingState,
   selectAllItems,
   setUploadingState,
   toggleItem,
@@ -127,6 +128,13 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
         return {
           ...state,
           deleting: State.Initial,
+          error: null,
+        }
+      })
+      .addCase(resetUploadingState, (state) => {
+        return {
+          ...state,
+          uploading: State.Initial,
           error: null,
         }
       })

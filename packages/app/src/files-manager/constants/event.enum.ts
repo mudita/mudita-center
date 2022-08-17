@@ -13,4 +13,5 @@ export enum FilesManagerEvent {
   DeleteFiles = "FILES_MANAGER_DELETE_FILES",
   SetUploadingState = "FILES_MANAGER_SET_UPLOADING_STATE",
   ResetDeletingState = "FILES_MANAGER_RESET_DELETING_STATE",
+  ResetUploadingState = "FILES_MANAGER_RESET_UPLOADING_STATE",
 }

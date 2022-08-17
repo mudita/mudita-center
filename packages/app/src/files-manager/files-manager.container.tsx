@@ -13,6 +13,7 @@ import {
   getFiles,
   uploadFile,
   resetDeletingState,
+  resetUploadingState,
 } from "App/files-manager/actions"
 import { deleteFiles } from "App/files-manager/actions/delete-files.action"
 
@@ -38,6 +39,7 @@ const mapDispatchToProps = {
   uploadFile,
   deleteFiles,
   resetDeletingState,
+  resetUploadingState,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilesManager)

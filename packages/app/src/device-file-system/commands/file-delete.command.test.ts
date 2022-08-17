@@ -74,16 +74,16 @@ describe("`FileDeleteCommand`", () => {
         },
       })
       expect(result).toMatchInlineSnapshot(`
-      FailedResult {
-        "data": undefined,
-        "error": Object {
-          "message": "Something went wrong",
-          "payload": undefined,
-          "type": "DEVICE_FILE_DELETE_COMMAND",
-        },
-        "ok": false,
-      }
-    `)
+        FailedResult {
+          "data": undefined,
+          "error": Object {
+            "message": "Something went wrong",
+            "payload": undefined,
+            "type": "DEVICE_FILE_DELETE_ERROR",
+          },
+          "ok": false,
+        }
+      `)
     })
   })
 })

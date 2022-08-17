@@ -25,6 +25,7 @@ export interface FilesManagerProps {
   allItemsSelected: boolean
   deleteFiles: (ids: string[]) => void
   resetDeletingState: () => void
+  resetUploadingState: () => void
   uploadFile: () => void
 }
 
@@ -48,4 +49,7 @@ export interface FileServiceState {
   deletingConfirmation: boolean
   deletingInfo: boolean
   deletingFailed: boolean
+  uploading: boolean
+  uploadingInfo: boolean
+  uploadingFailed: boolean
 }

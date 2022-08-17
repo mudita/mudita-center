@@ -8,6 +8,7 @@ import createMockStore from "redux-mock-store"
 import { State } from "App/core/constants"
 import {
   resetDeletingState,
+  resetUploadingState,
   setUploadingState,
 } from "App/files-manager/actions/base.action"
 import { FilesManagerEvent } from "App/files-manager/constants"
@@ -36,6 +37,18 @@ describe("Action: `resetDeletingState`", () => {
     expect(mockStore.getActions()).toEqual([
       {
         type: FilesManagerEvent.ResetDeletingState,
+        payload: undefined,
+      },
+    ])
+  })
+})
+
+describe("Action: `resetUploadingState`", () => {
+  test("dispatch action with provided payload", () => {
+    mockStore.dispatch(resetUploadingState())
+    expect(mockStore.getActions()).toEqual([
+      {
+        type: FilesManagerEvent.ResetUploadingState,
         payload: undefined,
       },
     ])

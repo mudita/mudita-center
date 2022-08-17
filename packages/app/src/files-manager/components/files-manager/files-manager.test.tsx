@@ -13,6 +13,7 @@ import { State } from "App/core/constants"
 import FilesManager from "App/files-manager/components/files-manager/files-manager.component"
 import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render-with-theme-and-intl"
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
+import { UploadFilesModalsTestIds } from "App/files-manager/components/upload-files-modals/upload-files-modals-test-ids.enum"
 
 const defaultProps: ComponentProps<typeof FilesManager> = {
   memorySpace: {
@@ -34,6 +35,7 @@ const defaultProps: ComponentProps<typeof FilesManager> = {
   allItemsSelected: false,
   deleteFiles: jest.fn(),
   resetDeletingState: jest.fn(),
+  resetUploadingState: jest.fn(),
 }
 
 const defaultState = {
@@ -79,7 +81,7 @@ describe("Uploading modal", () => {
     })
 
     expect(
-      queryByTestId(FilesManagerTestIds.UploadingModal)
+      queryByTestId(UploadFilesModalsTestIds.LoadingModal)
     ).toBeInTheDocument()
   })
 })
