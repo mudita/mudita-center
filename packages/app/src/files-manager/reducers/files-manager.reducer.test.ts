@@ -193,3 +193,69 @@ describe("Uploading files functionality", () => {
     })
   })
 })
+
+describe("delete files functionality", () => {
+  test("Event: `deleteFiles/pending` change `deleting` to Loading", () => {
+    expect(
+      filesManagerReducer(undefined, {
+        type: pendingAction(FilesManagerEvent.DeleteFiles),
+        payload: ["user/music/example_file_name.mp3"],
+      })
+    ).toEqual({
+      ...initialState,
+      deleting: State.Loading,
+    })
+  })
+  test("Event: `deleteFiles/fulfilled` change `deleting` to Loaded", () => {
+    expect(
+      filesManagerReducer(
+        {
+          ...initialState,
+          files: [
+            {
+              id: "user/music/example_file_name.mp3",
+              size: 1234,
+              name: "example_file_name.mp3",
+              type: "mp3",
+            },
+            {
+              id: "user/music/second_example_file_name.wav",
+              size: 12345,
+              name: "second_example_file_name.wav",
+              type: "wav",
+            },
+          ],
+        },
+        {
+          type: fulfilledAction(FilesManagerEvent.DeleteFiles),
+          payload: ["user/music/example_file_name.mp3"],
+        }
+      )
+    ).toEqual({
+      ...initialState,
+      deleting: State.Loaded,
+      files: [
+        {
+          id: "user/music/second_example_file_name.wav",
+          size: 12345,
+          name: "second_example_file_name.wav",
+          type: "wav",
+        },
+      ],
+    })
+  })
+  test("Event: `deleteFiles/rejected` change `deleting` to Failed", () => {
+    const errorMock = new AppError("SOME_ERROR_TYPE", "Luke, I'm your error")
+
+    expect(
+      filesManagerReducer(undefined, {
+        type: rejectedAction(FilesManagerEvent.DeleteFiles),
+        payload: errorMock,
+      })
+    ).toEqual({
+      ...initialState,
+      deleting: State.Failed,
+      error: errorMock,
+    })
+  })
+})

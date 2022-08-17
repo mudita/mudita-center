@@ -23,6 +23,7 @@ const defaultProps: ComponentProps<typeof FilesManager> = {
   files: [],
   loading: State.Initial,
   uploading: State.Initial,
+  deleting: State.Initial,
   getFiles: jest.fn(),
   uploadFile: jest.fn(),
   deviceType: DeviceType.MuditaPure,
@@ -31,8 +32,8 @@ const defaultProps: ComponentProps<typeof FilesManager> = {
   toggleItem: jest.fn(),
   selectedItems: [],
   allItemsSelected: false,
-  onDeleteFiles: jest.fn(),
-  error: null,
+  deleteFiles: jest.fn(),
+  resetDeletingState: jest.fn(),
 }
 
 const defaultState = {

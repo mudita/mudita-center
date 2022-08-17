@@ -16,5 +16,5 @@ export interface FilesStorageProps {
   selectedItems: string[]
   allItemsSelected: boolean
   onDeleteClick: (ids: string[]) => void
-  onDeleteSelected: () => void
+  onManagerDeleteClick: () => void
 }

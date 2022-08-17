@@ -10,3 +10,7 @@ import { FilesManagerEvent } from "App/files-manager/constants"
 export const setUploadingState = createAction<State>(
   FilesManagerEvent.SetUploadingState
 )
+
+export const resetDeletingState = createAction(
+  FilesManagerEvent.ResetDeletingState
+)

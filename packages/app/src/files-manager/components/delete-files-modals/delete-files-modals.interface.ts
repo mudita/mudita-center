@@ -4,12 +4,12 @@
  */
 
 export interface DeleteFilesModalProps {
-  error: Error | string | null
   deleting: boolean
   deletingInfo: boolean
+  deletingFailed: boolean
   deletingConfirmation: boolean
-  deletedFilesLength: number
+  filesLength: number
   onCloseDeletingErrorModal: () => void
   onDelete: () => void
-  onCloseDeletingModal: () => void
+  onCloseDeletingConfirmationModal: () => void
 }

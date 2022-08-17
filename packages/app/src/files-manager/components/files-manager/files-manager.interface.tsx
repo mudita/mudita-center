@@ -15,15 +15,16 @@ export interface FilesManagerProps {
   memorySpace?: MemorySpace
   loading: State
   uploading: State
+  deleting: State
   files: File[]
   getFiles: (directory: DeviceDirectory) => void
-  error: Error | string | null
   resetAllItems: () => void
   selectAllItems: () => void
   toggleItem: (id: string) => void
   selectedItems: string[]
   allItemsSelected: boolean
-  onDeleteFiles: () => void
+  deleteFiles: (ids: string[]) => void
+  resetDeletingState: () => void
   uploadFile: () => void
 }
 
@@ -43,13 +44,8 @@ export interface MemorySpace {
 }
 
 export interface FileServiceState {
-  creating: boolean
-  creatingInfo: boolean
-  updating: boolean
-  updatingInfo: boolean
   deleting: boolean
   deletingConfirmation: boolean
   deletingInfo: boolean
-  updatingOrder: boolean
-  updatingOrderInfo: boolean
+  deletingFailed: boolean
 }

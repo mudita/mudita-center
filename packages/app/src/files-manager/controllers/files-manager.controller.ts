@@ -30,4 +30,10 @@ export class FilesManagerController {
   ): Promise<ResultObject<string[] | undefined>> {
     return this.fileManagerService.uploadFiles(props)
   }
+  @IpcEvent(IpcFilesManagerEvent.DeleteFiles)
+  public async deleteFiles(
+    paths: string[]
+  ): Promise<ResultObject<string[] | undefined>> {
+    return this.fileManagerService.deleteFiles(paths)
+  }
 }

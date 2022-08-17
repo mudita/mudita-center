@@ -12,12 +12,15 @@ import {
   toggleItem,
   getFiles,
   uploadFile,
+  resetDeletingState,
 } from "App/files-manager/actions"
+import { deleteFiles } from "App/files-manager/actions/delete-files.action"
 
 const mapStateToProps = (state: RootState & ReduxRootState) => ({
   memorySpace: state.device.data?.memorySpace,
   files: state.filesManager.files,
   loading: state.filesManager.loading,
+  deleting: state.filesManager.deleting,
   uploading: state.filesManager.uploading,
   deviceType: state.device.deviceType,
   error: state.templates.error,
@@ -33,6 +36,8 @@ const mapDispatchToProps = {
   selectAllItems,
   toggleItem,
   uploadFile,
+  deleteFiles,
+  resetDeletingState,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilesManager)

@@ -13,9 +13,11 @@ import {
   RetrieveFilesCommand,
   FileUploadCommand,
 } from "App/device-file-system/commands"
+import { FileDeleteCommand } from "App/device-file-system/commands/file-delete.command"
 
 export class FileManagerService {
   constructor(
+    private fileDeleteCommand: FileDeleteCommand,
     private retrieveFilesCommand: RetrieveFilesCommand,
     private fileUploadCommand: FileUploadCommand
   ) {}
@@ -58,6 +60,26 @@ export class FileManagerService {
     if (!success) {
       return Result.failed(
         new AppError(FilesManagerError.UploadFiles, "Upload failed")
+      )
+    }
+
+    return Result.success(paths)
+  }
+
+  public async deleteFiles(
+    paths: string[]
+  ): Promise<ResultObject<string[] | undefined>> {
+    const results = []
+
+    for await (const path of paths) {
+      results.push(await this.fileDeleteCommand.exec(path))
+    }
+
+    const success = results.every((result) => result.ok)
+
+    if (!success) {
+      return Result.failed(
+        new AppError(FilesManagerError.DeleteFiles, "Delete failed")
       )
     }
 
