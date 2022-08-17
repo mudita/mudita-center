@@ -15,7 +15,10 @@ import {
 import { getPathsRequest } from "App/file-system/requests"
 import { uploadFilesRequest } from "App/files-manager/requests"
 import { getFiles } from "App/files-manager/actions/get-files.action"
-import { setUploadingState } from "App/files-manager/actions/base.action"
+import {
+  setUploadingFileLength,
+  setUploadingState,
+} from "App/files-manager/actions/base.action"
 import { loadStorageInfoAction } from "App/device/actions/load-storage-info.action"
 
 export const uploadFile = createAsyncThunk(
@@ -23,7 +26,7 @@ export const uploadFile = createAsyncThunk(
   async (_, { getState, dispatch, rejectWithValue }) => {
     const state = getState() as ReduxRootState
 
-    if(state.device.deviceType === null){
+    if (state.device.deviceType === null) {
       return rejectWithValue("device Type isn't set")
     }
 
@@ -41,6 +44,13 @@ export const uploadFile = createAsyncThunk(
       return rejectWithValue(filesToUpload.error)
     }
 
+    const filePaths = filesToUpload.data
+
+    if (filePaths?.length === 0) {
+      return
+    }
+
+    dispatch(setUploadingFileLength(filePaths.length))
     dispatch(setUploadingState(State.Loading))
 
     const directory =
@@ -50,7 +60,7 @@ export const uploadFile = createAsyncThunk(
 
     const result = await uploadFilesRequest({
       directory,
-      paths: filesToUpload.data,
+      filePaths,
     })
 
     if (!result.ok) {

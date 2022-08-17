@@ -14,3 +14,11 @@ export const setUploadingState = createAction<State>(
 export const resetDeletingState = createAction(
   FilesManagerEvent.ResetDeletingState
 )
+
+export const resetUploadingState = createAction(
+  FilesManagerEvent.ResetUploadingState
+)
+
+export const setUploadingFileLength = createAction<number>(
+  FilesManagerEvent.SetUploadingFileLength
+)

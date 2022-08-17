@@ -18,7 +18,10 @@ import { EligibleFormat } from "App/files-manager/constants/eligible-format.cons
 import { DeviceDirectory } from "App/files-manager/constants/device-directory.constant"
 import { GetPathsInput } from "App/file-system/dto"
 import { uploadFile } from "App/files-manager/actions/upload-file.action"
-import { setUploadingState } from "App/files-manager/actions/base.action"
+import {
+  setUploadingFileLength,
+  setUploadingState,
+} from "App/files-manager/actions/base.action"
 
 jest.mock("App/file-system/requests")
 jest.mock("App/files-manager/requests")
@@ -84,6 +87,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
 
       expect(mockStore.getActions()).toEqual([
         uploadFile.pending(requestId),
+        setUploadingFileLength(2),
         setUploadingState(State.Loading),
         {
           type: pendingAction("FILES_MANAGER_GET_FILES"),
@@ -102,8 +106,42 @@ describe("when `getPathRequest` request return Result.success with files list", 
       )
       expect(uploadFilesRequest).toHaveBeenLastCalledWith({
         directory: DeviceDirectory.Music,
-        paths: pathsMock,
+        filePaths: pathsMock,
       })
+    })
+  })
+
+  describe("when `uploadFileRequest` request return Result.success with empty files list", () => {
+    beforeAll(() => {
+      ;(getPathsRequest as jest.Mock).mockResolvedValue(new SuccessResult([]))
+    })
+
+    afterEach(() => {
+      jest.resetAllMocks()
+    })
+
+    test("any action is dispatch", async () => {
+      const mockStore = createMockStore([thunk])({
+        device: {
+          deviceType: DeviceType.MuditaPure,
+        },
+      })
+
+      const {
+        meta: { requestId },
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/await-thenable
+      } = await mockStore.dispatch(uploadFile() as unknown as AnyAction)
+
+      expect(mockStore.getActions()).toEqual([
+        uploadFile.pending(requestId),
+        uploadFile.fulfilled(undefined, requestId),
+      ])
+
+      expect(getPathsRequest).toHaveBeenLastCalledWith(
+        getFilesPathsResponseMock
+      )
+      expect(uploadFilesRequest).not.toHaveBeenCalled()
     })
   })
 
@@ -132,6 +170,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
 
       expect(mockStore.getActions()).toEqual([
         uploadFile.pending(requestId),
+        setUploadingFileLength(2),
         setUploadingState(State.Loading),
         uploadFile.rejected(testError, requestId, undefined, { ...errorMock }),
       ])
@@ -141,7 +180,7 @@ describe("when `getPathRequest` request return Result.success with files list", 
       )
       expect(uploadFilesRequest).toHaveBeenLastCalledWith({
         directory: DeviceDirectory.Music,
-        paths: pathsMock,
+        filePaths: pathsMock,
       })
     })
   })

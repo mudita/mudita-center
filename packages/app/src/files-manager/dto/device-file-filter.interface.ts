@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum FilesManagerTestIds {
-  Container = "files-manager-container",
+export interface DeviceFileFilter {
+  extensions: string[]
 }

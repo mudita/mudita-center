@@ -103,7 +103,7 @@ describe("Component: `DeletingFilesModals`", () => {
     expect(defaultProps.onCloseDeletingConfirmationModal).toBeCalled()
   })
 
-  test("displays info pop up if `deletingInfo` is equal to `true` and `error` is empty", () => {
+  test("displays info pop up if `deletingInfo` is equal to `true`", () => {
     const { queryByTestId } = render({
       ...defaultProps,
       deletingInfo: true,
@@ -126,7 +126,7 @@ describe("Component: `DeletingFilesModals`", () => {
     ).not.toBeInTheDocument()
   })
 
-  test("displays info pop up with deleted entity count if `deletingInfo` is equal to `true`, `error` is empty and `deletedTemplatesLength` is more then `1`", () => {
+  test("displays info pop up with deleted entity count if `deletingInfo` is equal to `true`, and `filesLength` is more then `1`", () => {
     const { queryByTestId } = render({
       ...defaultProps,
       deletingInfo: true,
