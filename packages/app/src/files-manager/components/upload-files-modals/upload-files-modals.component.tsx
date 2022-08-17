@@ -14,7 +14,7 @@ import { FunctionComponent } from "App/__deprecated__/renderer/types/function-co
 import { intl, textFormatters } from "App/__deprecated__/renderer/utils/intl"
 
 const messages = defineMessages({
-  uploadingModalInfo: { id: "module.filesManager.uploadingModalInfo" },
+    uploadingModalInfo: { id: "module.filesManager.uploadingModalInfo" },
   uploadingModalErrorTitle: {
     id: "module.filesManager.uploadingModalErrorTitle",
   },

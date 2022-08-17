@@ -23,6 +23,7 @@ const mapStateToProps = (state: RootState & ReduxRootState) => ({
   loading: state.filesManager.loading,
   deleting: state.filesManager.deleting,
   uploading: state.filesManager.uploading,
+  uploadingFileLength: state.filesManager.uploadingFileLength,
   deviceType: state.device.deviceType,
   error: state.templates.error,
   selectedItems: state.filesManager.selectedItems.rows,

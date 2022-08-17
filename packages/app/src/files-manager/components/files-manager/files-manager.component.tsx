@@ -46,6 +46,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   deleteFiles,
   resetDeletingState,
   resetUploadingState,
+  uploadingFileLength,
 }) => {
   const { states, updateFieldState } = useLoadingState<FileServiceState>({
     deletingFailed: false,
@@ -90,6 +91,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       updateFieldState("deletingConfirmation", false)
     } else if (deleting === State.Loaded) {
       updateFieldState("deleting", false)
+      updateFieldState("uploadingInfo", false)
       updateFieldState("deletingInfo", true)
     } else if (deleting === State.Failed) {
       updateFieldState("deleting", false)
@@ -107,6 +109,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       updateFieldState("uploading", true)
     } else if (uploading === State.Loaded) {
       updateFieldState("uploading", false)
+      updateFieldState("deletingInfo", false)
       updateFieldState("uploadingInfo", true)
     } else if (uploading === State.Failed) {
       updateFieldState("uploading", false)
@@ -140,7 +143,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
 
     const hideInfoPopupsTimeout = setTimeout(() => {
       updateFieldState("uploadingInfo", false)
-      resetDeletingState()
+      resetUploadingState()
     }, 5000)
 
     return () => {
@@ -180,6 +183,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   )
   const openDeleteModal = (ids: string[]) => {
     updateFieldState("deletingInfo", false)
+    updateFieldState("uploadingInfo", false)
     updateFieldState("deletingConfirmation", true)
     setToDeleteFileIds(ids)
   }
@@ -209,7 +213,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   return (
     <FilesManagerContainer data-testid={FilesManagerTestIds.Container}>
       <UploadFilesModals
-        filesLength={0}
+        filesLength={uploadingFileLength}
         uploading={states.uploading}
         uploadingInfo={states.uploadingInfo}
         uploadingFailed={states.uploadingFailed}

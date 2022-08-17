@@ -18,3 +18,7 @@ export const resetDeletingState = createAction(
 export const resetUploadingState = createAction(
   FilesManagerEvent.ResetUploadingState
 )
+
+export const setUploadingFileLength = createAction<number>(
+  FilesManagerEvent.SetUploadingFileLength
+)

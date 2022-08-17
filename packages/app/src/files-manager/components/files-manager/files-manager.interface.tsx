@@ -15,6 +15,7 @@ export interface FilesManagerProps {
   memorySpace?: MemorySpace
   loading: State
   uploading: State
+  uploadingFileLength: number
   deleting: State
   files: File[]
   getFiles: (directory: DeviceDirectory) => void

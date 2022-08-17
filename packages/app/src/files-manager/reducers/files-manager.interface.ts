@@ -12,6 +12,7 @@ export interface FilesManagerState {
   loading: State
   deleting: State
   uploading: State
+  uploadingFileLength: number
   selectedItems: { rows: string[] }
   error: AppError | null
 }

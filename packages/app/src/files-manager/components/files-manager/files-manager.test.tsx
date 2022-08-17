@@ -16,6 +16,7 @@ import { FilesManagerTestIds } from "App/files-manager/components/files-manager/
 import { UploadFilesModalsTestIds } from "App/files-manager/components/upload-files-modals/upload-files-modals-test-ids.enum"
 
 const defaultProps: ComponentProps<typeof FilesManager> = {
+  uploadingFileLength: 0,
   memorySpace: {
     reservedSpace: 62914560,
     usedUserSpace: 104857600,
@@ -35,7 +36,7 @@ const defaultProps: ComponentProps<typeof FilesManager> = {
   allItemsSelected: false,
   deleteFiles: jest.fn(),
   resetDeletingState: jest.fn(),
-  resetUploadingState: jest.fn(),
+  resetUploadingState: jest.fn()
 }
 
 const defaultState = {

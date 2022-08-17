@@ -52,7 +52,7 @@ describe("Component: `UploadFilesModals`", () => {
     const popUp = queryByTestId(UploadFilesModalsTestIds.UploadedPopUp)
 
     expect(popUp).toBeInTheDocument()
-    expect(popUp).toHaveTextContent("[value] module.filesManager.deletePopup")
+    expect(popUp).toHaveTextContent("[value] module.filesManager.uploadingModalInfo")
 
     expect(
       queryByTestId(UploadFilesModalsTestIds.LoadingModal)
@@ -72,7 +72,7 @@ describe("Component: `UploadFilesModals`", () => {
     const popUp = queryByTestId(UploadFilesModalsTestIds.UploadedPopUp)
 
     expect(popUp).toBeInTheDocument()
-    expect(popUp).toHaveTextContent("[value] module.filesManager.deletePopup")
+    expect(popUp).toHaveTextContent("[value] module.filesManager.uploadingModalInfo")
 
     expect(
       queryByTestId(UploadFilesModalsTestIds.LoadingModal)

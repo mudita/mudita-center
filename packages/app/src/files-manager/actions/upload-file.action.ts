@@ -15,7 +15,7 @@ import {
 import { getPathsRequest } from "App/file-system/requests"
 import { uploadFilesRequest } from "App/files-manager/requests"
 import { getFiles } from "App/files-manager/actions/get-files.action"
-import { setUploadingState } from "App/files-manager/actions/base.action"
+import { setUploadingFileLength, setUploadingState } from "App/files-manager/actions/base.action"
 import { loadStorageInfoAction } from "App/device/actions/load-storage-info.action"
 
 export const uploadFile = createAsyncThunk(
@@ -41,6 +41,7 @@ export const uploadFile = createAsyncThunk(
       return rejectWithValue(filesToUpload.error)
     }
 
+    dispatch(setUploadingFileLength(filesToUpload.data?.length))
     dispatch(setUploadingState(State.Loading))
 
     const directory =
