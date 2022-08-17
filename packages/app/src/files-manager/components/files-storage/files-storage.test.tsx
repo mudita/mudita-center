@@ -25,7 +25,7 @@ const defaultProps: Props = {
   selectedItems: [],
   allItemsSelected: false,
   onDeleteClick: jest.fn(),
-  onDeleteSelected: jest.fn(),
+  onManagerDeleteClick: jest.fn(),
   uploadFiles: jest.fn(),
 }
 

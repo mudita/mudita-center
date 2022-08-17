@@ -33,14 +33,14 @@ const messages = defineMessages({
 })
 
 export const DeleteFilesModals: FunctionComponent<DeleteFilesModalProps> = ({
-  error,
   deletingConfirmation,
   deleting,
   deletingInfo,
-  deletedFilesLength,
+  deletingFailed,
+  filesLength,
   onCloseDeletingErrorModal,
   onDelete,
-  onCloseDeletingModal,
+  onCloseDeletingConfirmationModal,
 }) => {
   return (
     <>
@@ -50,26 +50,16 @@ export const DeleteFilesModals: FunctionComponent<DeleteFilesModalProps> = ({
           open={deletingConfirmation}
           info={{
             ...messages.deleteModalBody,
-            values: { ...textFormatters, num: deletedFilesLength },
+            values: { ...textFormatters, num: filesLength },
           }}
           titleLabel={intl.formatMessage(messages.deleteModalTitle)}
           onActionButtonClick={onDelete}
-          onCloseButton={onCloseDeletingModal}
+          onCloseButton={onCloseDeletingConfirmationModal}
           cancelButtonLabel={intl.formatMessage(messages.deleteModalCancel)}
           actionButtonLabel={intl.formatMessage(messages.deleteModalAction)}
         />
       )}
-
-      {deletingInfo && (
-        <InfoPopup
-          message={{
-            ...messages.deletedInfo,
-            values: { ...textFormatters, num: deletedFilesLength },
-          }}
-          testId={DeleteFilesModalsTestIds.DeletedPopUp}
-        />
-      )}
-      {deleting && !error && (
+      {deleting && (
         <LoaderModal
           testId={DeleteFilesModalsTestIds.LoadingModal}
           open={deleting}
@@ -77,10 +67,19 @@ export const DeleteFilesModals: FunctionComponent<DeleteFilesModalProps> = ({
           subtitle={intl.formatMessage(messages.deletingModalSubtitle)}
         />
       )}
-      {deleting && error !== null && (
+      {deletingInfo && (
+        <InfoPopup
+          message={{
+            ...messages.deletedInfo,
+            values: { ...textFormatters, num: filesLength },
+          }}
+          testId={DeleteFilesModalsTestIds.DeletedPopUp}
+        />
+      )}
+      {deletingFailed && (
         <ErrorModal
           testId={DeleteFilesModalsTestIds.ErrorModal}
-          open={deleting && error !== null}
+          open={deletingFailed}
           title={intl.formatMessage(messages.deleteModalErrorTitle)}
           subtitle={intl.formatMessage(messages.deleteModalErrorSubtitle)}
           closeModal={onCloseDeletingErrorModal}

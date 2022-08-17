@@ -7,22 +7,23 @@ import { createReducer } from "@reduxjs/toolkit"
 import { State } from "App/core/constants"
 import { AppError } from "App/core/errors"
 import {
-  selectAllItems,
+  getFiles,
   resetAllItems,
+  resetDeletingState,
+  selectAllItems,
+  setUploadingState,
   toggleItem,
+  uploadFile,
 } from "App/files-manager/actions"
 import { changeLocation } from "App/core/actions"
-import {
-  getFiles,
-  uploadFile,
-  setUploadingState,
-} from "App/files-manager/actions"
 import { FilesManagerState } from "App/files-manager/reducers/files-manager.interface"
+import { deleteFiles } from "App/files-manager/actions/delete-files.action"
 
 export const initialState: FilesManagerState = {
   files: [],
   loading: State.Initial,
   uploading: State.Initial,
+  deleting: State.Initial,
   selectedItems: {
     rows: [],
   },
@@ -98,6 +99,36 @@ export const filesManagerReducer = createReducer<FilesManagerState>(
       })
       .addCase(changeLocation, (state) => {
         return { ...state, selectedItems: { rows: [] } }
+      })
+      .addCase(deleteFiles.pending, (state) => {
+        return {
+          ...state,
+          deleting: State.Loading,
+        }
+      })
+      .addCase(deleteFiles.fulfilled, (state, action) => {
+        return {
+          ...state,
+          files: [...state.files].filter(
+            (file) => !action.payload.some((id) => id === file.id)
+          ),
+          deleting: State.Loaded,
+          error: null,
+        }
+      })
+      .addCase(deleteFiles.rejected, (state, action) => {
+        return {
+          ...state,
+          deleting: State.Failed,
+          error: action.payload as AppError,
+        }
+      })
+      .addCase(resetDeletingState, (state) => {
+        return {
+          ...state,
+          deleting: State.Initial,
+          error: null,
+        }
       })
   }
 )

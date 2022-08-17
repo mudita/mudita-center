@@ -13,7 +13,13 @@ import {
   FileUploadCommand,
 } from "App/device-file-system/commands"
 import { DeviceFileSystemError } from "App/device-file-system/constants"
+import { FileDeleteCommand } from "App/device-file-system/commands/file-delete.command"
 
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const fileDeleteCommand = {
+  exec: jest.fn(),
+} as unknown as FileDeleteCommand
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const retrieveFilesCommand = {
@@ -26,7 +32,11 @@ const fileUploadCommand = {
   exec: jest.fn(),
 } as unknown as FileUploadCommand
 
-const subject = new FileManagerService(retrieveFilesCommand, fileUploadCommand)
+const subject = new FileManagerService(
+  fileDeleteCommand,
+  retrieveFilesCommand,
+  fileUploadCommand
+)
 
 beforeEach(() => {
   jest.resetAllMocks()
@@ -106,7 +116,7 @@ describe("Method: uploadFiles", () => {
   })
 
   describe("When `FileUploadCommand` returns `Result.failed` object", () => {
-    test("returns success result object with uploaded path", async () => {
+    test("returns failed result object with error", async () => {
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       fileUploadCommand.exec = jest.fn().mockResolvedValueOnce(
@@ -126,6 +136,45 @@ describe("Method: uploadFiles", () => {
       expect(result).toEqual(
         new FailedResult({
           ...new AppError(FilesManagerError.UploadFiles, "Upload failed"),
+        })
+      )
+    })
+  })
+})
+
+describe("Method: deleteFiles", () => {
+  describe("When `FileDeleteCommand` returns `Result.success` object", () => {
+    test("returns success result object with deleted path", async () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      fileDeleteCommand.exec = jest
+        .fn()
+        .mockResolvedValueOnce(new SuccessResult(undefined))
+
+      const result = await subject.deleteFiles(["/usr/audio/file-1.mp3"])
+
+      expect(result).toEqual(new SuccessResult(["/usr/audio/file-1.mp3"]))
+    })
+  })
+
+  describe("When `FileDeleteCommand` returns `Result.failed` object", () => {
+    test("returns failed result object with error", async () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      fileDeleteCommand.exec = jest.fn().mockResolvedValueOnce(
+        new FailedResult({
+          ...new AppError(
+            DeviceFileSystemError.FileDeleteCommand,
+            "Something went wrong"
+          ),
+        })
+      )
+
+      const result = await subject.deleteFiles(["/usr/audio/file-1.mp3"])
+
+      expect(result).toEqual(
+        new FailedResult({
+          ...new AppError(FilesManagerError.DeleteFiles, "Delete failed"),
         })
       )
     })

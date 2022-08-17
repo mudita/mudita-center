@@ -35,7 +35,7 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
   selectedItems,
   allItemsSelected,
   onDeleteClick,
-  onDeleteSelected,
+  onManagerDeleteClick,
   uploadFiles,
 }) => {
   return (
@@ -53,7 +53,7 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
           disabled={false}
           toggleAll={selectAllItems}
           resetRows={resetAllItems}
-          onDeleteClick={onDeleteSelected}
+          onDeleteClick={onManagerDeleteClick}
           selectedFiles={selectedItems}
           allItemsSelected={allItemsSelected}
         />

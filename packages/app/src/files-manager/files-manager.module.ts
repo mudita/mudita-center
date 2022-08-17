@@ -17,6 +17,7 @@ import {
   RetrieveFilesCommand,
   FileUploadCommand,
 } from "App/device-file-system/commands"
+import { FileDeleteCommand } from "App/device-file-system/commands/file-delete.command"
 
 export class FilesManagerModule extends BaseModule {
   private readonly filesManagerController: FilesManagerController
@@ -41,6 +42,9 @@ export class FilesManagerModule extends BaseModule {
     )
 
     const fileManagerService = new FileManagerService(
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new FileDeleteCommand(this.deviceService),
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       new RetrieveFilesCommand(this.deviceService),

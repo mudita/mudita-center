@@ -11,15 +11,15 @@ import { DeleteFilesModalProps } from "App/files-manager/components/delete-files
 import { DeleteFilesModalsTestIds } from "App/files-manager/components/delete-files-modals/delete-files-modals-test-ids.enum"
 import { ModalTestIds } from "App/__deprecated__/renderer/components/core/modal/modal-test-ids.enum"
 
-const defaultPropsMock: DeleteFilesModalProps = {
-  deletedFilesLength: 0,
-  error: null,
+const defaultProps: DeleteFilesModalProps = {
+  filesLength: 0,
   deleting: false,
   deletingInfo: false,
+  deletingFailed: false,
   deletingConfirmation: false,
   onCloseDeletingErrorModal: jest.fn(),
   onDelete: jest.fn(),
-  onCloseDeletingModal: jest.fn(),
+  onCloseDeletingConfirmationModal: jest.fn(),
 }
 
 const render = (props: DeleteFilesModalProps) => {
@@ -32,7 +32,7 @@ beforeEach(() => {
 
 describe("Component: `DeletingFilesModals`", () => {
   test("don't render modals if default props has been provided", () => {
-    const { queryByTestId } = render(defaultPropsMock)
+    const { queryByTestId } = render(defaultProps)
 
     expect(
       queryByTestId(DeleteFilesModalsTestIds.ConfirmationModal)
@@ -50,7 +50,7 @@ describe("Component: `DeletingFilesModals`", () => {
 
   test("displays deletion confirmation modals if `deletingConfirmation` is equal to `true`", () => {
     const { queryByTestId } = render({
-      ...defaultPropsMock,
+      ...defaultProps,
       deletingConfirmation: true,
     })
 
@@ -71,7 +71,7 @@ describe("Component: `DeletingFilesModals`", () => {
 
   test("triggers `onDelete` action when clicks on delete button", () => {
     const { getByText } = render({
-      ...defaultPropsMock,
+      ...defaultProps,
       deletingConfirmation: true,
     })
 
@@ -79,16 +79,16 @@ describe("Component: `DeletingFilesModals`", () => {
       "[value] module.filesManager.deleteFileModalAction"
     )
 
-    expect(defaultPropsMock.onDelete).not.toBeCalled()
+    expect(defaultProps.onDelete).not.toBeCalled()
 
     fireEvent.click(deleteButton)
 
-    expect(defaultPropsMock.onDelete).toBeCalled()
+    expect(defaultProps.onDelete).toBeCalled()
   })
 
-  test("triggers `onCloseDeletingModal` action when clicks on cancel button", () => {
+  test("triggers `onCloseDeletingConfirmationModal` when clicks on cancel button", () => {
     const { getByText } = render({
-      ...defaultPropsMock,
+      ...defaultProps,
       deletingConfirmation: true,
     })
 
@@ -96,18 +96,18 @@ describe("Component: `DeletingFilesModals`", () => {
       "[value] module.filesManager.deleteFileModalCancel"
     )
 
-    expect(defaultPropsMock.onCloseDeletingModal).not.toBeCalled()
+    expect(defaultProps.onCloseDeletingConfirmationModal).not.toBeCalled()
 
     fireEvent.click(cancelButton)
 
-    expect(defaultPropsMock.onCloseDeletingModal).toBeCalled()
+    expect(defaultProps.onCloseDeletingConfirmationModal).toBeCalled()
   })
 
   test("displays info pop up if `deletingInfo` is equal to `true` and `error` is empty", () => {
     const { queryByTestId } = render({
-      ...defaultPropsMock,
+      ...defaultProps,
       deletingInfo: true,
-      deletedFilesLength: 1,
+      filesLength: 1,
     })
 
     const popUp = queryByTestId(DeleteFilesModalsTestIds.DeletedPopUp)
@@ -128,9 +128,9 @@ describe("Component: `DeletingFilesModals`", () => {
 
   test("displays info pop up with deleted entity count if `deletingInfo` is equal to `true`, `error` is empty and `deletedTemplatesLength` is more then `1`", () => {
     const { queryByTestId } = render({
-      ...defaultPropsMock,
+      ...defaultProps,
       deletingInfo: true,
-      deletedFilesLength: 2,
+      filesLength: 2,
     })
 
     const popUp = queryByTestId(DeleteFilesModalsTestIds.DeletedPopUp)
@@ -149,32 +149,10 @@ describe("Component: `DeletingFilesModals`", () => {
     ).not.toBeInTheDocument()
   })
 
-  test("displays loading modal if `deleting` is equal to `true` and `error` is empty", () => {
+  test("displays error modal if `deletingFailed` is equal to `true`", () => {
     const { queryByTestId } = render({
-      ...defaultPropsMock,
-      deleting: true,
-    })
-
-    expect(
-      queryByTestId(DeleteFilesModalsTestIds.LoadingModal)
-    ).toBeInTheDocument()
-
-    expect(
-      queryByTestId(DeleteFilesModalsTestIds.DeletedPopUp)
-    ).not.toBeInTheDocument()
-    expect(
-      queryByTestId(DeleteFilesModalsTestIds.ConfirmationModal)
-    ).not.toBeInTheDocument()
-    expect(
-      queryByTestId(DeleteFilesModalsTestIds.ErrorModal)
-    ).not.toBeInTheDocument()
-  })
-
-  test("displays error modal if `deleting` is equal to `true` and `error` isn't empty", () => {
-    const { queryByTestId } = render({
-      ...defaultPropsMock,
-      deleting: true,
-      error: "Luke, I'm your error",
+      ...defaultProps,
+      deletingFailed: true,
     })
 
     expect(
@@ -192,21 +170,18 @@ describe("Component: `DeletingFilesModals`", () => {
     ).not.toBeInTheDocument()
   })
 
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/require-await
-  test("triggers `onCloseDeletingErrorModal` when clicks on `close` button", async () => {
+  test("triggers `onCloseDeletingErrorModal` action when clicks on `close` button", () => {
     const { getByTestId } = render({
-      ...defaultPropsMock,
-      deleting: true,
-      error: "Luke, I'm your error",
+      ...defaultProps,
+      deletingFailed: true,
     })
 
     const closeModalButton = getByTestId(ModalTestIds.CloseButton)
 
-    expect(defaultPropsMock.onCloseDeletingErrorModal).not.toBeCalled()
+    expect(defaultProps.onCloseDeletingErrorModal).not.toBeCalled()
 
     fireEvent.click(closeModalButton)
 
-    expect(defaultPropsMock.onCloseDeletingErrorModal).toBeCalled()
+    expect(defaultProps.onCloseDeletingErrorModal).toBeCalled()
   })
 })

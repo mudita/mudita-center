@@ -10,6 +10,7 @@ import { File } from "App/files-manager/dto"
 export interface FilesManagerState {
   files: File[]
   loading: State
+  deleting: State
   uploading: State
   selectedItems: { rows: string[] }
   error: AppError | null
