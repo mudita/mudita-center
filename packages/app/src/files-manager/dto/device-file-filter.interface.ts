@@ -3,9 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { DeviceDirectory } from "App/files-manager/constants"
-
-export interface UploadFilesInput {
-  directory: DeviceDirectory
-  filePaths: string[]
+export interface DeviceFileFilter {
+  extensions: string[]
 }

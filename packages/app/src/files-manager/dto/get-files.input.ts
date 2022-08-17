@@ -4,8 +4,9 @@
  */
 
 import { DeviceDirectory } from "App/files-manager/constants"
+import { DeviceFileFilter } from "App/files-manager/dto/device-file-filter.interface"
 
-export interface UploadFilesInput {
+export interface GetFilesInput {
   directory: DeviceDirectory
-  filePaths: string[]
+  filter?: DeviceFileFilter
 }

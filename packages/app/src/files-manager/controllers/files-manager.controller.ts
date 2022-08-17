@@ -8,9 +8,8 @@ import { ResultObject } from "App/core/builder"
 import {
   ControllerPrefix,
   IpcFilesManagerEvent,
-  DeviceDirectory,
 } from "App/files-manager/constants"
-import { File, UploadFilesInput } from "App/files-manager/dto"
+import { File, UploadFilesInput, GetFilesInput } from "App/files-manager/dto"
 import { FileManagerService } from "App/files-manager/services"
 
 @Controller(ControllerPrefix)
@@ -19,16 +18,16 @@ export class FilesManagerController {
 
   @IpcEvent(IpcFilesManagerEvent.GetFiles)
   public async getFiles(
-    directory: DeviceDirectory
+    input: GetFilesInput
   ): Promise<ResultObject<File[] | undefined>> {
-    return this.fileManagerService.getDeviceFiles(directory)
+    return this.fileManagerService.getDeviceFiles(input)
   }
 
   @IpcEvent(IpcFilesManagerEvent.UploadFiles)
   public async uploadFiles(
-    props: UploadFilesInput
+    input: UploadFilesInput
   ): Promise<ResultObject<string[] | undefined>> {
-    return this.fileManagerService.uploadFiles(props)
+    return this.fileManagerService.uploadFiles(input)
   }
   @IpcEvent(IpcFilesManagerEvent.DeleteFiles)
   public async deleteFiles(

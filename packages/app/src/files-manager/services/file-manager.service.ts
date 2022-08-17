@@ -5,8 +5,7 @@
 
 import { AppError } from "App/core/errors"
 import { Result, ResultObject } from "App/core/builder"
-import { File, UploadFilesInput } from "App/files-manager/dto"
-import { DeviceDirectory } from "App/files-manager/constants"
+import { File, UploadFilesInput, GetFilesInput } from "App/files-manager/dto"
 import { FileObjectPresenter } from "App/files-manager/presenters"
 import { FilesManagerError } from "App/files-manager/constants"
 import {
@@ -22,9 +21,10 @@ export class FileManagerService {
     private fileUploadCommand: FileUploadCommand
   ) {}
 
-  public async getDeviceFiles(
-    directory: DeviceDirectory
-  ): Promise<ResultObject<File[] | undefined>> {
+  public async getDeviceFiles({
+    directory,
+    filter,
+  }: GetFilesInput): Promise<ResultObject<File[] | undefined>> {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const result = await this.retrieveFilesCommand.exec(directory)
@@ -39,20 +39,24 @@ export class FileManagerService {
     }
 
     return Result.success(
-      // AUTO DISABLED - fix me if you like :)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      result.data[directory].map(FileObjectPresenter.toFile)
+      result.data[directory]
+        // AUTO DISABLED - fix me if you like :)
+        // eslint-disable-next-line @typescript-eslint/unbound-method
+        .map(FileObjectPresenter.toFile)
+        .filter((file) =>
+          FileObjectPresenter.isDeviceFileFilterMatch(file, filter)
+        )
     )
   }
 
   public async uploadFiles({
     directory,
-    paths,
+    filePaths,
   }: UploadFilesInput): Promise<ResultObject<string[] | undefined>> {
     const results = []
 
-    for await (const path of paths) {
-      results.push(await this.fileUploadCommand.exec(directory, path))
+    for await (const filePath of filePaths) {
+      results.push(await this.fileUploadCommand.exec(directory, filePath))
     }
 
     const success = results.every((result) => result.ok)
@@ -63,16 +67,16 @@ export class FileManagerService {
       )
     }
 
-    return Result.success(paths)
+    return Result.success(filePaths)
   }
 
   public async deleteFiles(
-    paths: string[]
+    filePaths: string[]
   ): Promise<ResultObject<string[] | undefined>> {
     const results = []
 
-    for await (const path of paths) {
-      results.push(await this.fileDeleteCommand.exec(path))
+    for await (const filePath of filePaths) {
+      results.push(await this.fileDeleteCommand.exec(filePath))
     }
 
     const success = results.every((result) => result.ok)
@@ -83,6 +87,6 @@ export class FileManagerService {
       )
     }
 
-    return Result.success(paths)
+    return Result.success(filePaths)
   }
 }

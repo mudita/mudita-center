@@ -9,7 +9,7 @@ import { IpcFilesManagerRequest } from "App/files-manager/constants"
 import { UploadFilesInput } from "App/files-manager/dto"
 
 export const uploadFilesRequest = async (
-  props: UploadFilesInput
+  input: UploadFilesInput
 ): Promise<ResultObject<string | undefined>> => {
-  return ipcRenderer.callMain(IpcFilesManagerRequest.UploadFiles, props)
+  return ipcRenderer.callMain(IpcFilesManagerRequest.UploadFiles, input)
 }

@@ -58,7 +58,44 @@ describe("Method: getDeviceFiles", () => {
         })
       )
 
-      const result = await subject.getDeviceFiles(DeviceDirectory.Music)
+      const result = await subject.getDeviceFiles({
+        directory: DeviceDirectory.Music,
+      })
+
+      expect(result).toEqual(
+        new SuccessResult([
+          {
+            name: "file-1.mp3",
+            type: "mp3",
+            id: "/test/file-1.mp3",
+            size: 654321,
+          },
+        ])
+      )
+    })
+
+    test("returns result with serialized files and filtered", async () => {
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      retrieveFilesCommand.exec = jest.fn().mockResolvedValueOnce(
+        new SuccessResult({
+          [DeviceDirectory.Music]: [
+            {
+              path: "/test/file-1.mp3",
+              fileSize: 654321,
+            },
+            {
+              path: "/test/file-1.zip",
+              fileSize: 654321,
+            },
+          ],
+        })
+      )
+
+      const result = await subject.getDeviceFiles({
+        directory: DeviceDirectory.Music,
+        filter: { extensions: ["mp3"] },
+      })
 
       expect(result).toEqual(
         new SuccessResult([
@@ -86,7 +123,9 @@ describe("Method: getDeviceFiles", () => {
         })
       )
 
-      const result = await subject.getDeviceFiles(DeviceDirectory.Music)
+      const result = await subject.getDeviceFiles({
+        directory: DeviceDirectory.Music,
+      })
 
       expect(result).toEqual(
         new FailedResult({
@@ -108,7 +147,7 @@ describe("Method: uploadFiles", () => {
 
       const result = await subject.uploadFiles({
         directory: DeviceDirectory.Music,
-        paths: ["/usr/audio/file-1.mp3"],
+        filePaths: ["/usr/audio/file-1.mp3"],
       })
 
       expect(result).toEqual(new SuccessResult(["/usr/audio/file-1.mp3"]))
@@ -130,7 +169,7 @@ describe("Method: uploadFiles", () => {
 
       const result = await subject.uploadFiles({
         directory: DeviceDirectory.Music,
-        paths: ["/usr/audio/file-1.mp3"],
+        filePaths: ["/usr/audio/file-1.mp3"],
       })
 
       expect(result).toEqual(

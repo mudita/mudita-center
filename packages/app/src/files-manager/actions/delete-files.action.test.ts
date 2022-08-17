@@ -22,12 +22,14 @@ jest.mock("App/device/actions/load-storage-info.action", () => ({
   }),
 }))
 
-const paths = [
+const filePaths = [
   "user/music/example_file_name.mp3",
   "user/music/second_example_file_name.wav",
 ]
 
-const successObjectResult: SuccessResult<string[]> = new SuccessResult(paths)
+const successObjectResult: SuccessResult<string[]> = new SuccessResult(
+  filePaths
+)
 
 const errorMock = new AppError("SOME_ERROR_TYPE", "Luke, I'm your error")
 const failedObjectResult = new FailedResult({
@@ -44,15 +46,15 @@ describe("when `deleteFiles` request return success result", () => {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(deleteFiles(paths) as unknown as AnyAction)
+    } = await mockStore.dispatch(deleteFiles(filePaths) as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
-      deleteFiles.pending(requestId, paths),
+      deleteFiles.pending(requestId, filePaths),
       {
         type: pendingAction("DEVICE_LOAD_STORAGE_INFO"),
         payload: undefined,
       },
-      deleteFiles.fulfilled(successObjectResult.data, requestId, paths),
+      deleteFiles.fulfilled(successObjectResult.data, requestId, filePaths),
     ])
 
     expect(deleteFilesRequest).toHaveBeenCalled()
@@ -69,11 +71,11 @@ describe("when `deleteFiles` request return failed result", () => {
       meta: { requestId },
       // AUTO DISABLED - fix me if you like :)
       // eslint-disable-next-line @typescript-eslint/await-thenable
-    } = await mockStore.dispatch(deleteFiles(paths) as unknown as AnyAction)
+    } = await mockStore.dispatch(deleteFiles(filePaths) as unknown as AnyAction)
 
     expect(mockStore.getActions()).toEqual([
-      deleteFiles.pending(requestId, paths),
-      deleteFiles.rejected(testError, requestId, paths, { ...errorMock }),
+      deleteFiles.pending(requestId, filePaths),
+      deleteFiles.rejected(testError, requestId, filePaths, { ...errorMock }),
     ])
 
     expect(deleteFilesRequest).toHaveBeenCalled()

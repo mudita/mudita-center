@@ -165,7 +165,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       },
       [DiskSpaceCategoryType.Music]: {
         ...element,
-        size: usedUserSpace,
+        size: musicSpace,
         filesAmount: files.length,
       },
       [DiskSpaceCategoryType.OtherSpace]: {
