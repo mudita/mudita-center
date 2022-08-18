@@ -15,7 +15,8 @@ import { renderWithThemeAndIntl } from "App/__deprecated__/renderer/utils/render
 import { FilesManagerTestIds } from "App/files-manager/components/files-manager/files-manager-test-ids.enum"
 import { UploadFilesModalsTestIds } from "App/files-manager/components/upload-files-modals/upload-files-modals-test-ids.enum"
 
-const defaultProps: ComponentProps<typeof FilesManager> = {
+type Props = ComponentProps<typeof FilesManager>
+const defaultProps: Props = {
   uploadingFileLength: 0,
   memorySpace: {
     reservedSpace: 62914560,
@@ -36,7 +37,7 @@ const defaultProps: ComponentProps<typeof FilesManager> = {
   allItemsSelected: false,
   deleteFiles: jest.fn(),
   resetDeletingState: jest.fn(),
-  resetUploadingState: jest.fn()
+  resetUploadingState: jest.fn(),
 }
 
 const defaultState = {
@@ -45,7 +46,11 @@ const defaultState = {
   },
 } as unknown as ReduxRootState
 
-const render = (props = defaultProps, state = defaultState) => {
+const render = (extraProps?: Partial<Props>, state = defaultState) => {
+  const props = {
+    ...defaultProps,
+    ...extraProps,
+  }
   const store = createMockStore([thunk])(state)
 
   return renderWithThemeAndIntl(
@@ -77,7 +82,6 @@ describe("Files Manager component", () => {
 describe("Uploading modal", () => {
   test("renders LoaderModal if `uploading` is equal to `State.Loading`", () => {
     const { queryByTestId } = render({
-      ...defaultProps,
       uploading: State.Loading,
     })
 

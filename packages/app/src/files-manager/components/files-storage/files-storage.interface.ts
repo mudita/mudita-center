@@ -3,10 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { ComponentProps } from "react"
 import { File } from "App/files-manager/dto"
 import { State } from "App/core/constants"
+import FilesManagerSearchInput from "App/files-manager/components/files-manager-search-input/files-manager-search-input"
 
-export interface FilesStorageProps {
+export interface FilesStorageProps
+  extends ComponentProps<typeof FilesManagerSearchInput> {
   state: State
   files: File[]
   resetAllItems: () => void

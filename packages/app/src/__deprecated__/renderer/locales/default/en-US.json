@@ -384,6 +384,7 @@
   "module.filesManager.deletingFileModalErrorSubtitle": "Deleting failed",
   "module.filesManager.deletingFileModalTitle": "Deleting Files",
   "module.filesManager.deletingFileModalSubtitle": "Deleting in progress...",
+  "module.filesManager.panelSearchPlaceholder": "Search music files",
   "module.filesManager.selectionNumber": "{num, plural, =-1 {All Files} one {# File} other {# Files}} selected",
   "module.filesManager.uploadingModalInfo": "{num, plural, =-1 {All files} one {# File} other {# Files}} uploaded.",
   "module.filesManager.uploadingModalErrorTitle": "Uploading Files",

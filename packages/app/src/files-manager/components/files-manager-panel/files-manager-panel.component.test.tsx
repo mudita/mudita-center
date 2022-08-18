@@ -16,10 +16,12 @@ import { FilesManagerPanelProps } from "App/files-manager/components/files-manag
 import { FilesManagerPanelTestIds } from "App/files-manager/components/files-manager-panel/files-manager-panel-ids.enum"
 
 const defaultProps: FilesManagerPanelProps = {
+  onSearchValueChange: jest.fn(),
   onUploadFile: jest.fn(),
   toggleAll: jest.fn(),
   resetRows: jest.fn(),
   onDeleteClick: jest.fn(),
+  searchValue: "",
   disabled: false,
   selectedFiles: [],
   allItemsSelected: false,
@@ -31,7 +33,14 @@ const defaultState = {
   },
 } as ReduxRootState
 
-const render = (props = defaultProps, state = defaultState) => {
+const render = (
+  extraProps?: Partial<FilesManagerPanelProps>,
+  state = defaultState
+) => {
+  const props = {
+    ...defaultProps,
+    ...extraProps,
+  }
   const store = createMockStore([thunk])(state)
 
   return renderWithThemeAndIntl(
@@ -81,7 +90,6 @@ describe("When Mudita Pure connected", () => {
   describe("Selection functionality", () => {
     test("displays selection manager if selection list has been provided", () => {
       const { getByTestId } = render({
-        ...defaultProps,
         selectedFiles: ["1"],
       })
 
@@ -92,7 +100,6 @@ describe("When Mudita Pure connected", () => {
 
     test("calls `onDeleteClick` when user click on `delete` button", () => {
       const { getByText } = render({
-        ...defaultProps,
         selectedFiles: ["1"],
       })
 
@@ -103,6 +110,59 @@ describe("When Mudita Pure connected", () => {
       fireEvent.click(button)
 
       expect(defaultProps.onDeleteClick).toBeCalledTimes(1)
+    })
+  })
+})
+
+describe("`FilesManagerPanel` component", () => {
+  describe("when Mudita Pure connected with default properties", () => {
+    test("`FilesManagerSelectionManager` isn't displayed", () => {
+      const { queryByTestId } = render()
+      expect(
+        queryByTestId(FilesManagerPanelTestIds.SelectionManager)
+      ).not.toBeInTheDocument()
+    })
+
+    test("`SearchInput` is displayed", () => {
+      const { queryByTestId } = render()
+      expect(
+        queryByTestId(FilesManagerPanelTestIds.SearchInput)
+      ).toBeInTheDocument()
+    })
+
+    test("`Button` is displayed", () => {
+      const { queryByTestId } = render()
+      expect(queryByTestId(FilesManagerPanelTestIds.Button)).toBeInTheDocument()
+    })
+  })
+  describe("when Mudita Pure connected with default properties", () => {
+    describe("when Mudita Pure connected with `selectedFiles`", () => {
+      test("`FilesManagerSelectionManager` is displayed", () => {
+        const { queryByTestId } = render({
+          selectedFiles: ["1"],
+        })
+        expect(
+          queryByTestId(FilesManagerPanelTestIds.SelectionManager)
+        ).toBeInTheDocument()
+      })
+
+      test("`SearchInput` isn't displayed", () => {
+        const { queryByTestId } = render({
+          selectedFiles: ["1"],
+        })
+        expect(
+          queryByTestId(FilesManagerPanelTestIds.SearchInput)
+        ).not.toBeInTheDocument()
+      })
+
+      test("`Button` isn't displayed", () => {
+        const { queryByTestId } = render({
+          selectedFiles: ["1"],
+        })
+        expect(
+          queryByTestId(FilesManagerPanelTestIds.Button)
+        ).not.toBeInTheDocument()
+      })
     })
   })
 })
