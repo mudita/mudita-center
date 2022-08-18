@@ -15,7 +15,7 @@ import {
   ResponseStatus,
 } from "./device.types"
 import { DeviceType } from "./constants"
-import { createValidRequest, getNewUUID, parseData } from "../parser"
+import { createValidRequest, getNewUUID, parseData } from "./serial-port-parser/parser"
 import { isApiRequestPayload } from "./device-helper"
 import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator"
