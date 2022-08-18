@@ -3,11 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ComponentProps } from "react"
-import FilesManagerSearchInput from "App/files-manager/components/files-manager-search-input/files-manager-search-input"
-
-export interface FilesManagerPanelProps
-  extends ComponentProps<typeof FilesManagerSearchInput> {
+export interface FilesManagerPanelProps {
+  searchValue: string
+  onSearchValueChange: (value: string) => void
   onUploadFile: () => void
   disabled: boolean
   toggleAll: () => void

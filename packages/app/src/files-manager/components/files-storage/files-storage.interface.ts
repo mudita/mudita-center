@@ -3,16 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { ComponentProps } from "react"
 import { File } from "App/files-manager/dto"
 import { State } from "App/core/constants"
-import FilesManagerSearchInput from "App/files-manager/components/files-manager-search-input/files-manager-search-input"
 
-export interface FilesStorageProps
-  extends ComponentProps<typeof FilesManagerSearchInput> {
+export interface FilesStorageProps {
   state: State
   files: File[]
   noFoundFiles: boolean
+  searchValue: string
+  onSearchValueChange: (value: string) => void
   resetAllItems: () => void
   selectAllItems: () => void
   toggleItem: (id: string) => void
