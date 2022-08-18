@@ -20,6 +20,7 @@ type Props = ComponentProps<typeof FilesStorageList>
 const defaultProps: Props = {
   state: State.Initial,
   files: [],
+  noFoundFiles: false,
   toggleRow: jest.fn(),
   selectedItems: [],
   onDelete: jest.fn(),
@@ -71,6 +72,9 @@ describe("`FilesStorageList` component", () => {
     expect(
       queryByTestId(FilesStorageListTestIds.Loading)
     ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(FilesStorageListTestIds.NoFound)
+    ).not.toBeInTheDocument()
   })
 
   test("Error info is rendered if State is equal to Failed", () => {
@@ -82,6 +86,9 @@ describe("`FilesStorageList` component", () => {
     ).not.toBeInTheDocument()
     expect(
       queryByTestId(FilesStorageListTestIds.Loading)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(FilesStorageListTestIds.NoFound)
     ).not.toBeInTheDocument()
   })
 
@@ -95,11 +102,34 @@ describe("`FilesStorageList` component", () => {
       queryByTestId(FilesStorageListTestIds.Loaded)
     ).not.toBeInTheDocument()
     expect(queryByTestId(FilesStorageListTestIds.Error)).not.toBeInTheDocument()
+    expect(
+      queryByTestId(FilesStorageListTestIds.NoFound)
+    ).not.toBeInTheDocument()
   })
 
-  test("No results is rendered if state is Loaded and files list is empty", () => {
+  test("Empty state is rendered if state is Loaded and files list is empty", () => {
     const { queryByTestId } = render({ state: State.Loaded })
     expect(queryByTestId(FilesStorageListTestIds.Empty)).toBeInTheDocument()
+    expect(
+      queryByTestId(FilesStorageListTestIds.Loaded)
+    ).not.toBeInTheDocument()
+    expect(queryByTestId(FilesStorageListTestIds.Error)).not.toBeInTheDocument()
+    expect(
+      queryByTestId(FilesStorageListTestIds.Loading)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(FilesStorageListTestIds.NoFound)
+    ).not.toBeInTheDocument()
+  })
+
+  test("No results is rendered if state is Loaded and `noFoundFiles` is set to true", () => {
+    const { queryByTestId } = render({
+      state: State.Loaded,
+      noFoundFiles: true,
+    })
+
+    expect(queryByTestId(FilesStorageListTestIds.NoFound)).toBeInTheDocument()
+    expect(queryByTestId(FilesStorageListTestIds.Empty)).not.toBeInTheDocument()
     expect(
       queryByTestId(FilesStorageListTestIds.Loaded)
     ).not.toBeInTheDocument()
@@ -120,6 +150,9 @@ describe("`FilesStorageList` component", () => {
     expect(queryByTestId(FilesStorageListTestIds.Error)).not.toBeInTheDocument()
     expect(
       queryByTestId(FilesStorageListTestIds.Loading)
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId(FilesStorageListTestIds.NoFound)
     ).not.toBeInTheDocument()
   })
 })

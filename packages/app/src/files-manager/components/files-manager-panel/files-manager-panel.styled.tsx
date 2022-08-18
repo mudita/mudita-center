@@ -29,9 +29,6 @@ export const Panel = styled.div<{
       grid-template-columns: 62.4rem auto;
       padding-left: 0.6rem;
     `};
-  label {
-    width: auto;
-  }
   button {
     padding: 0 0.8rem;
   }

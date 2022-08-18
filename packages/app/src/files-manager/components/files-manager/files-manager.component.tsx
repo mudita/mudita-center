@@ -24,6 +24,7 @@ import FilesStorage from "App/files-manager/components/files-storage/files-stora
 import { DeleteFilesModals } from "App/files-manager/components/delete-files-modals/delete-files-modals.component"
 import { useLoadingState } from "App/ui"
 import { UploadFilesModals } from "App/files-manager/components/upload-files-modals/upload-files-modals.component"
+import { useFilesFilter } from "App/files-manager/helpers/use-files-filter.hook"
 
 const FilesManager: FunctionComponent<FilesManagerProps> = ({
   memorySpace = {
@@ -48,6 +49,8 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   resetUploadingState,
   uploadingFileLength,
 }) => {
+  const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
+    useFilesFilter({ files })
   const { states, updateFieldState } = useLoadingState<FileServiceState>({
     deletingFailed: false,
     deleting: false,
@@ -236,7 +239,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
       />
       <FilesStorage
         state={loading}
-        files={files}
+        files={filteredFiles}
         selectAllItems={selectAllItems}
         resetAllItems={resetAllItems}
         selectedItems={selectedItems}
@@ -245,6 +248,9 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         onDeleteClick={handleDeleteClick}
         onManagerDeleteClick={handleManagerDeleteClick}
         uploadFiles={uploadFile}
+        searchValue={searchValue}
+        onSearchValueChange={handleSearchValueChange}
+        noFoundFiles={noFoundFiles}
       />
     </FilesManagerContainer>
   )

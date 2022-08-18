@@ -9,6 +9,9 @@ import { State } from "App/core/constants"
 export interface FilesStorageProps {
   state: State
   files: File[]
+  noFoundFiles: boolean
+  searchValue: string
+  onSearchValueChange: (value: string) => void
   resetAllItems: () => void
   selectAllItems: () => void
   toggleItem: (id: string) => void

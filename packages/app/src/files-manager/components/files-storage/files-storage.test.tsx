@@ -17,16 +17,19 @@ import { ReduxRootState } from "App/__deprecated__/renderer/store"
 type Props = ComponentProps<typeof FilesStorage>
 
 const defaultProps: Props = {
+  noFoundFiles: false,
+  searchValue: "",
+  allItemsSelected: false,
   state: State.Initial,
   files: [],
+  selectedItems: [],
   resetAllItems: jest.fn(),
   selectAllItems: jest.fn(),
   toggleItem: jest.fn(),
-  selectedItems: [],
-  allItemsSelected: false,
   onDeleteClick: jest.fn(),
   onManagerDeleteClick: jest.fn(),
   uploadFiles: jest.fn(),
+  onSearchValueChange: jest.fn()
 }
 
 const defaultState = {

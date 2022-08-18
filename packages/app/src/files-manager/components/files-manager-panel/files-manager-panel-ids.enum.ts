@@ -6,5 +6,6 @@
 export enum FilesManagerPanelTestIds {
   Wrapper = "files-manager-panel-wrapper",
   Button = "files-manager-panel-button",
+  SearchInput = "files-manager-search-input",
   SelectionManager = "files-manager-selection-manager",
 }
