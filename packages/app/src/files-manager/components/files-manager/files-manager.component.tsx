@@ -49,7 +49,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   resetUploadingState,
   uploadingFileLength,
 }) => {
-  const { searchValue, filteredFiles, handleSearchValueChange } =
+  const { noFoundFiles, searchValue, filteredFiles, handleSearchValueChange } =
     useFilesFilter({ files })
   const { states, updateFieldState } = useLoadingState<FileServiceState>({
     deletingFailed: false,
@@ -155,8 +155,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [states.uploadingInfo])
-
-  const noFoundFiles = filteredFiles.length === 0 && files.length !== 0
 
   const getDiskSpaceCategories = (element: DiskSpaceCategory) => {
     const elements = {

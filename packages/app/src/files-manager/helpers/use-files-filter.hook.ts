@@ -13,6 +13,7 @@ export interface InitialFilesFilterState {
 }
 
 export interface UseFilesFilterResult {
+  noFoundFiles: boolean
   searchValue: string
   filteredFiles: File[]
   handleSearchValueChange: (value: string) => void
@@ -27,6 +28,8 @@ export const useFilesFilter = (
   const [searchValue, setSearchValue] = useState(initialSearchValue)
   const [filteredFiles, setFilteredFiles] = useState<File[]>(files)
 
+  const noFoundFiles = filteredFiles.length === 0 && files.length !== 0
+
   useEffect(() => {
     setFilteredFiles(files.filter((file) => isFileMatch(file, searchValue)))
   }, [searchValue, files])
@@ -36,6 +39,7 @@ export const useFilesFilter = (
   }
 
   return {
+    noFoundFiles,
     searchValue,
     filteredFiles,
     handleSearchValueChange,

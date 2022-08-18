@@ -66,4 +66,23 @@ describe("`useFilesFilter` hook", () => {
       ]
     `)
   })
+
+  test("`noFoundFiles` is false as default", () => {
+    const { result } = renderHook(() => useFilesFilter(defaultState))
+    expect(result.current.noFoundFiles).toBeFalsy()
+  })
+
+  test("`noFoundFiles` is false when `searchValue` is match", () => {
+    const { result } = renderHook(() =>
+      useFilesFilter({ ...defaultState, searchValue: "wav" })
+    )
+    expect(result.current.noFoundFiles).toBeFalsy()
+  })
+
+  test("`noFoundFiles` is true when `searchValue` isn't match", () => {
+    const { result } = renderHook(() =>
+      useFilesFilter({ ...defaultState, searchValue: "Luke, you can't find me" })
+    )
+    expect(result.current.noFoundFiles).toBeTruthy()
+  })
 })
