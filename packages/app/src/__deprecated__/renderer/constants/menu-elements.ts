@@ -83,7 +83,7 @@ const YOUR_PURE_BUTTONS = [
     icon: IconType.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,
     hidden: !flags.get(Feature.FilesManagerEnabled),
-    visibleOn: [DeviceType.MuditaPure, DeviceType.MuditaHarmony],
+    visibleOn: [DeviceType.MuditaPure],
     viewKey: View.FilesManager,
   },
   {
