@@ -7,6 +7,7 @@ import { MuditaPureDescriptor, MuditaHarmonyDescriptor } from "../descriptors"
 import { Device } from "../device"
 import { MuditaDevice } from "../device.types"
 import { PortInfo } from "serialport"
+import { SerialPortParser } from "../serial-port-parser/serial-port-parser"
 
 export class DeviceResolverService {
   private eligibleDevices = [MuditaPureDescriptor, MuditaHarmonyDescriptor]
@@ -24,6 +25,6 @@ export class DeviceResolverService {
       return
     }
 
-    return new Device(new descriptor.strategy(path, descriptor.deviceType))
+    return new Device(new descriptor.strategy(path, descriptor.deviceType, new SerialPortParser()))
   }
 }
