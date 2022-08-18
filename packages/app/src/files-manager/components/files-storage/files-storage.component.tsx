@@ -39,6 +39,7 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
   uploadFiles,
   searchValue,
   onSearchValueChange,
+  noFoundFiles,
 }) => {
   return (
     <>
@@ -69,6 +70,7 @@ const FilesStorage: FunctionComponent<FilesStorageProps> = ({
         toggleRow={toggleItem}
         onDelete={onDeleteClick}
         state={state}
+        noFoundFiles={noFoundFiles}
       />
     </>
   )

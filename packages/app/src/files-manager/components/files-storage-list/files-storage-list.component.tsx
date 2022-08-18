@@ -58,6 +58,12 @@ const messages = defineMessages({
   emptyStateDescription: {
     id: "component.filesManagerFilesStorageEmptyStateDescription",
   },
+  noFoundStateTitle: {
+    id: "component.filesManagerFilesStorageNoFoundStateTitle",
+  },
+  noFoundStateDescription: {
+    id: "component.filesManagerFilesStorageNoFoundStateDescription",
+  },
   errorTitle: {
     id: "component.filesManagerFilesStorageErrorStateTitle",
   },
@@ -72,6 +78,7 @@ const messages = defineMessages({
 interface Props {
   state: State
   files: File[]
+  noFoundFiles: boolean
   toggleRow: (id: string) => void
   selectedItems: string[]
   onDelete: (ids: string[]) => void
@@ -83,9 +90,15 @@ const FilesStorageList: FunctionComponent<Props> = ({
   selectedItems,
   toggleRow,
   onDelete,
+  noFoundFiles,
   ...rest
 }) => {
   const { enableScroll, disableScroll } = useTableScrolling()
+
+  const loadedOrInitialState = state === State.Initial || state === State.Loaded
+  const noFoundFilesState = loadedOrInitialState && noFoundFiles
+  const noFilesState =
+    loadedOrInitialState && files.length === 0 && !noFoundFiles
 
   return (
     <FilesStorageContainer {...rest}>
@@ -160,12 +173,18 @@ const FilesStorageList: FunctionComponent<Props> = ({
           data-testid={FilesStorageListTestIds.Error}
         />
       )}
-      {(state === State.Initial ||
-        (state === State.Loaded && files.length === 0)) && (
+      {noFilesState && (
         <EmptyState
           data-testid={FilesStorageListTestIds.Empty}
           title={messages.emptyStateTitle}
           description={messages.emptyStateDescription}
+        />
+      )}
+      {noFoundFilesState && (
+        <EmptyState
+          data-testid={FilesStorageListTestIds.NoFound}
+          title={messages.noFoundStateTitle}
+          description={messages.noFoundStateDescription}
         />
       )}
     </FilesStorageContainer>

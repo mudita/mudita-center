@@ -12,6 +12,7 @@ export interface FilesStorageProps
   extends ComponentProps<typeof FilesManagerSearchInput> {
   state: State
   files: File[]
+  noFoundFiles: boolean
   resetAllItems: () => void
   selectAllItems: () => void
   toggleItem: (id: string) => void

@@ -135,34 +135,32 @@ describe("`FilesManagerPanel` component", () => {
       expect(queryByTestId(FilesManagerPanelTestIds.Button)).toBeInTheDocument()
     })
   })
-  describe("when Mudita Pure connected with default properties", () => {
-    describe("when Mudita Pure connected with `selectedFiles`", () => {
-      test("`FilesManagerSelectionManager` is displayed", () => {
-        const { queryByTestId } = render({
-          selectedFiles: ["1"],
-        })
-        expect(
-          queryByTestId(FilesManagerPanelTestIds.SelectionManager)
-        ).toBeInTheDocument()
+  describe("when Mudita Pure connected with `selectedFiles`", () => {
+    test("`FilesManagerSelectionManager` is displayed", () => {
+      const { queryByTestId } = render({
+        selectedFiles: ["1"],
       })
+      expect(
+        queryByTestId(FilesManagerPanelTestIds.SelectionManager)
+      ).toBeInTheDocument()
+    })
 
-      test("`SearchInput` isn't displayed", () => {
-        const { queryByTestId } = render({
-          selectedFiles: ["1"],
-        })
-        expect(
-          queryByTestId(FilesManagerPanelTestIds.SearchInput)
-        ).not.toBeInTheDocument()
+    test("`SearchInput` isn't displayed", () => {
+      const { queryByTestId } = render({
+        selectedFiles: ["1"],
       })
+      expect(
+        queryByTestId(FilesManagerPanelTestIds.SearchInput)
+      ).not.toBeInTheDocument()
+    })
 
-      test("`Button` isn't displayed", () => {
-        const { queryByTestId } = render({
-          selectedFiles: ["1"],
-        })
-        expect(
-          queryByTestId(FilesManagerPanelTestIds.Button)
-        ).not.toBeInTheDocument()
+    test("`Button` isn't displayed", () => {
+      const { queryByTestId } = render({
+        selectedFiles: ["1"],
       })
+      expect(
+        queryByTestId(FilesManagerPanelTestIds.Button)
+      ).not.toBeInTheDocument()
     })
   })
 })

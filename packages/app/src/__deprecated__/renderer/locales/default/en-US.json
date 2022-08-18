@@ -75,6 +75,8 @@
   "component.filesManagerFilesStorageEmptyStateDescription": "Files storage is empty",
   "component.filesManagerFilesStorageEmptyStateTitle": "No files found",
   "component.filesManagerFilesStorageErrorStateDescription": "Please reconnect your device and try again",
+  "component.filesManagerFilesStorageNoFoundStateTitle": "No results found",
+  "component.filesManagerFilesStorageNoFoundStateDescription": "Search results do not match any file.",
   "component.filesManagerFilesStorageErrorStateTitle": "An error occurred",
   "component.filesManagerFilesStorageName": "Name",
   "component.filesManagerFilesStorageSize": "Size",

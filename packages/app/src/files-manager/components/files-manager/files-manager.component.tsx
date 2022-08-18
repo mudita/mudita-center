@@ -156,6 +156,8 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [states.uploadingInfo])
 
+  const noFoundFiles = filteredFiles.length === 0 && files.length !== 0
+
   const getDiskSpaceCategories = (element: DiskSpaceCategory) => {
     const elements = {
       [DiskSpaceCategoryType.Free]: {
@@ -250,6 +252,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         uploadFiles={uploadFile}
         searchValue={searchValue}
         onSearchValueChange={handleSearchValueChange}
+        noFoundFiles={noFoundFiles}
       />
     </FilesManagerContainer>
   )
