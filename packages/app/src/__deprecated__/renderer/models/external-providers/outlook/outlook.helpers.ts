@@ -6,6 +6,7 @@
 import {
   Days,
   OutlookCalendar,
+  OutlookContactResource,
   OutlookContactResourceItem,
   OutlookEvent,
   OutlookFreq,
@@ -54,19 +55,34 @@ export const mapContact = (contact: OutlookContactResourceItem): Contact => {
     .build()
 }
 
-// AUTO DISABLED - fix me if you like :)
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const fetchContacts = async (accessToken: string) => {
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { data } = await axios.get(`${baseGraphUrl}/me/contacts`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
-  // AUTO DISABLED - fix me if you like :)
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  return data.value.map(mapContact)
+const getAllOutlookContactResourceItems = async (
+  url: string,
+  accessToken: string,
+  prevItems: OutlookContactResourceItem[] = []
+): Promise<OutlookContactResourceItem[]> => {
+  const headers = { Authorization: `Bearer ${accessToken}` }
+  const { data } = await axios.get<OutlookContactResource>(url, { headers })
+  const items = [...prevItems, ...data.value]
+
+  if (data["@odata.nextLink"] !== undefined) {
+    return getAllOutlookContactResourceItems(
+      data["@odata.nextLink"],
+      accessToken,
+      items
+    )
+  } else {
+    return items
+  }
+}
+
+export const fetchContacts = async (
+  accessToken: string
+): Promise<Contact[]> => {
+  const items = await getAllOutlookContactResourceItems(
+    `${baseGraphUrl}/me/contacts`,
+    accessToken
+  )
+  return items.map(mapContact)
 }
 
 export const mapCalendars = (calendars: OutlookCalendar[]): Calendar[] => {
