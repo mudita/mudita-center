@@ -55,12 +55,13 @@ import {
   GetThreadsBody,
 } from "../../endpoints"
 import { Formatter, FormatterFactory } from "../../formatter"
+import { SerialPortParser } from "../serial-port-parser/serial-port-parser"
 
 export class PureStrategy extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
 
-  constructor(path: string, public deviceType: DeviceType) {
-    super(path, deviceType)
+  constructor(public path: string, public deviceType: DeviceType, parser: SerialPortParser) {
+    super(path, deviceType, parser)
   }
 
   public async connect(): Promise<Response> {
@@ -208,5 +209,6 @@ export class PureStrategy extends BaseDevice {
 
 export const createPureStrategy: CreateDeviceStrategy = (
   path: string,
-  deviceType: DeviceType
-) => new PureStrategy(path, deviceType)
+  deviceType: DeviceType,
+  parser: SerialPortParser
+) => new PureStrategy(path, deviceType, parser)

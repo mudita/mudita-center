@@ -4,6 +4,7 @@
  */
 
 import { DeviceType } from "./constants"
+import { SerialPortParser } from "./serial-port-parser/serial-port-parser"
 
 export interface MuditaDevice {
   path: string
@@ -19,7 +20,8 @@ export interface MuditaDevice {
 
 export type CreateDeviceStrategy = (
   path: string,
-  deviceType: DeviceType
+  deviceType: DeviceType,
+  parser: SerialPortParser
 ) => MuditaDevice
 
 export enum ResponseStatus {
