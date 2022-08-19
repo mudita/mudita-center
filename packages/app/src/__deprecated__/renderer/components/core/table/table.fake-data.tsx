@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import Faker from "faker"
+import { faker } from "@faker-js/faker"
 import { groupBy, random, sample, times } from "lodash"
 import {
   Call,
@@ -22,20 +22,20 @@ const createCall = (): Call => {
     CallStatus.Conference,
   ]) as CallStatus
   return {
-    id: Faker.datatype.uuid(),
+    id: faker.datatype.uuid(),
     caller: {
-      id: Faker.datatype.uuid(),
-      firstName: Math.random() < 0.6 ? Faker.name.firstName() : "",
-      lastName: Math.random() < 0.6 ? Faker.name.lastName() : "",
-      phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+      id: faker.datatype.uuid(),
+      firstName: Math.random() < 0.6 ? faker.name.firstName() : "",
+      lastName: Math.random() < 0.6 ? faker.name.lastName() : "",
+      phoneNumber: faker.phone.phoneNumber("+## ### ### ###"),
     },
-    duration: status === CallStatus.Missed ? 0 : Faker.datatype.number(500),
-    date: Math.random() < 0.6 ? Faker.date.past() : Faker.date.recent(),
+    duration: status === CallStatus.Missed ? 0 : faker.datatype.number(500),
+    date: Math.random() < 0.6 ? faker.date.past() : faker.date.recent(),
     status,
     ...resolveCallType(status),
     timesMissed:
       status === CallStatus.Missed
-        ? Faker.datatype.number({
+        ? faker.datatype.number({
             min: 2,
             max: 20,
           })
@@ -52,20 +52,20 @@ export const unknownCalls = calls.map(
 )
 
 const createText = () => ({
-  id: Faker.datatype.uuid(),
-  content: Faker.lorem.paragraphs(random(1, 3)),
+  id: faker.datatype.uuid(),
+  content: faker.lorem.paragraphs(random(1, 3)),
 })
 
 export const templates = times(random(15, 25), createText)
 
 const createMessage = ({ id }: Thread): Message => {
   return {
-    id: Faker.datatype.uuid(),
-    date: Faker.date.past(),
-    content: Faker.lorem.sentences(2),
+    id: faker.datatype.uuid(),
+    date: faker.date.past(),
+    content: faker.lorem.sentences(2),
     threadId: id,
     phoneNumber: id,
-    messageType: Faker.datatype.boolean()
+    messageType: faker.datatype.boolean()
       ? MessageType.OUTBOX
       : MessageType.INBOX,
   }
@@ -79,10 +79,10 @@ const createThread = (): Thread => {
   return {
     id: threadId,
     phoneNumber: threadId,
-    unread: Faker.datatype.boolean(),
-    lastUpdatedAt: Faker.date.past(),
-    messageSnippet: Faker.lorem.paragraphs(random(1, 3)),
-    messageType: Faker.datatype.boolean()
+    unread: faker.datatype.boolean(),
+    lastUpdatedAt: faker.date.past(),
+    messageSnippet: faker.lorem.paragraphs(random(1, 3)),
+    messageType: faker.datatype.boolean()
       ? MessageType.OUTBOX
       : MessageType.INBOX,
   }
@@ -96,15 +96,15 @@ export const rowMessages: Message[] = rowThreads.reduce((prev, thread) => {
 export const basicRows = Array.from({
   length: Math.round(15 + Math.random() * 25),
 }).map(() => {
-  const firstName = Faker.name.firstName()
+  const firstName = faker.name.firstName()
   return {
     firstName,
-    lastName: Faker.name.lastName(),
-    phoneNumber: Faker.phone.phoneNumber(),
+    lastName: faker.name.lastName(),
+    phoneNumber: faker.phone.phoneNumber(),
     address: {
-      zip: Faker.address.zipCode(),
-      city: Faker.address.city(),
-      country: Faker.address.country(),
+      zip: faker.address.zipCode(),
+      city: faker.address.city(),
+      country: faker.address.country(),
     },
   }
 })
@@ -112,61 +112,61 @@ export const basicRows = Array.from({
 export const nestedRows = [
   {
     fileType: "Messages",
-    lastBackup: Faker.date.past(),
-    size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
+    lastBackup: faker.date.past(),
+    size: `${faker.datatype.number(64)}.${faker.datatype.number(
       9
-    )}${Faker.datatype.number(9)} MB`,
+    )}${faker.datatype.number(9)} MB`,
   },
   {
     fileType: "Contacts",
-    lastBackup: Faker.date.past(),
-    size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
+    lastBackup: faker.date.past(),
+    size: `${faker.datatype.number(64)}.${faker.datatype.number(
       9
-    )}${Faker.datatype.number(9)} MB`,
+    )}${faker.datatype.number(9)} MB`,
   },
   {
     fileType: "Files",
-    lastBackup: Faker.date.past(),
-    size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
+    lastBackup: faker.date.past(),
+    size: `${faker.datatype.number(64)}.${faker.datatype.number(
       9
-    )}${Faker.datatype.number(9)} MB`,
+    )}${faker.datatype.number(9)} MB`,
     _children: [
       {
         fileType: "Music files",
-        lastBackup: Faker.date.past(),
-        size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
+        lastBackup: faker.date.past(),
+        size: `${faker.datatype.number(64)}.${faker.datatype.number(
           9
-        )}${Faker.datatype.number(9)} MB`,
+        )}${faker.datatype.number(9)} MB`,
       },
       {
         fileType: "Recorded files",
-        lastBackup: Faker.date.past(),
-        size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
+        lastBackup: faker.date.past(),
+        size: `${faker.datatype.number(64)}.${faker.datatype.number(
           9
-        )}${Faker.datatype.number(9)} MB`,
+        )}${faker.datatype.number(9)} MB`,
       },
       {
         fileType: "Storage files",
-        lastBackup: Faker.date.past(),
-        size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
+        lastBackup: faker.date.past(),
+        size: `${faker.datatype.number(64)}.${faker.datatype.number(
           9
-        )}${Faker.datatype.number(9)} MB`,
+        )}${faker.datatype.number(9)} MB`,
       },
     ],
   },
   {
     fileType: "Notes",
-    lastBackup: Faker.date.past(),
-    size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
+    lastBackup: faker.date.past(),
+    size: `${faker.datatype.number(64)}.${faker.datatype.number(
       9
-    )}${Faker.datatype.number(9)} MB`,
+    )}${faker.datatype.number(9)} MB`,
   },
   {
     fileType: "Meditation timer data",
-    lastBackup: Faker.date.past(),
-    size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
+    lastBackup: faker.date.past(),
+    size: `${faker.datatype.number(64)}.${faker.datatype.number(
       9
-    )}${Faker.datatype.number(9)} MB`,
+    )}${faker.datatype.number(9)} MB`,
   },
 ]
 

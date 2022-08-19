@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import Faker from "faker"
+import { faker } from "@faker-js/faker"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const makeNewNote = (
-  id: string = Faker.datatype.uuid(),
+  id: string = faker.datatype.uuid(),
   content = ""
 ) => ({
   id,
