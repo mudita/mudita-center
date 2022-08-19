@@ -30,6 +30,7 @@ import {
 } from "App/__deprecated__/renderer/models/external-providers/outlook/outlook.helpers"
 
 import { TokenRequester } from "App/__deprecated__/renderer/models/external-providers/outlook/token-requester"
+import { Contact } from "App/contacts/reducers"
 
 // AUTO DISABLED - fix me if you like :)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -135,13 +136,11 @@ const outlook = createModel<ExternalProvidersModels>({
     const getContacts = async (
       _: undefined,
       rootState: ExternalProvidersState
-    ) => {
+    ): Promise<Contact[]> => {
       logger.info("Getting Outlook contacts")
       const accessToken = rootState.outlook[OutLookScope.Contacts].accessToken
       const refreshToken = rootState.outlook[OutLookScope.Contacts].refreshToken
       try {
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return await fetchContacts(accessToken)
       } catch ({ error }) {
         if (error === "invalid_grant") {
@@ -156,9 +155,9 @@ const outlook = createModel<ExternalProvidersModels>({
             scope: OutLookScope.Contacts,
             data: regeneratedTokens,
           })
-          // AUTO DISABLED - fix me if you like :)
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return await fetchContacts(regeneratedTokens.accessToken)
+        } else {
+          return []
         }
       }
     }
