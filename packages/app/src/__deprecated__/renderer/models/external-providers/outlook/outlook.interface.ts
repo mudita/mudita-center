@@ -117,3 +117,8 @@ export interface OutlookEvent {
     }
   }
 }
+
+export interface OutlookContactResource {
+  value: OutlookContactResourceItem[]
+  "@odata.nextLink"?: string
+}
