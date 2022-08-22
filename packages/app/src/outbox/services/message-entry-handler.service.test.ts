@@ -10,10 +10,10 @@ import {
   SuccessRequestResponse,
 } from "App/core/types/request-response.interface"
 import { MessageEntryHandlerService } from "App/outbox/services/message-entry-handler.service"
-import { Message } from "App/messages/dto"
+import { Message, Thread } from "App/messages/dto"
 import { MessageType } from "App/messages/constants"
 import { MessageService } from "App/messages/services"
-import { MessageRepository } from "App/messages/repositories"
+import { MessageRepository, ThreadRepository } from "App/messages/repositories"
 import { ThreadEntryHandlerService } from "App/outbox/services/thread-entry-handler.service"
 
 const messageMock: Message = {
@@ -25,6 +25,17 @@ const messageMock: Message = {
   phoneNumber: "+48 755 853 216",
   messageType: MessageType.INBOX,
 }
+
+const threadMock: Thread = {
+  id: "1",
+  phoneNumber: "+48 755 853 216",
+  lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+  messageSnippet:
+    "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
+  unread: true,
+  messageType: MessageType.INBOX,
+}
+
 const successResponse: SuccessRequestResponse<Message> = {
   status: RequestResponseStatus.Ok,
   data: messageMock,
@@ -43,6 +54,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     let subject: MessageEntryHandlerService
     let messageService: MessageService
     let messageRepository: MessageRepository
+    let threadRepository: ThreadRepository
     let threadEntryHandlerService: ThreadEntryHandlerService
     const entry: OutboxEntry = {
       uid: 1,
@@ -61,9 +73,13 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       messageService = {
         getMessage: jest.fn().mockReturnValue(successResponse),
       } as unknown as MessageService
+      threadRepository = {
+        findById: jest.fn().mockReturnValue(threadMock),
+      } as unknown as ThreadRepository
       subject = new MessageEntryHandlerService(
         messageService,
         messageRepository,
+        threadRepository,
         threadEntryHandlerService
       )
     })
@@ -85,6 +101,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     let subject: MessageEntryHandlerService
     let messageService: MessageService
     let messageRepository: MessageRepository
+    let threadRepository: ThreadRepository
     let threadEntryHandlerService: ThreadEntryHandlerService
     const entry: OutboxEntry = {
       uid: 1,
@@ -103,9 +120,13 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       messageService = {
         getMessage: jest.fn().mockReturnValue(successResponse),
       } as unknown as MessageService
+      threadRepository = {
+        findById: jest.fn().mockReturnValue(threadMock),
+      } as unknown as ThreadRepository
       subject = new MessageEntryHandlerService(
         messageService,
         messageRepository,
+        threadRepository,
         threadEntryHandlerService
       )
     })
@@ -127,6 +148,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     let subject: MessageEntryHandlerService
     let messageService: MessageService
     let messageRepository: MessageRepository
+    let threadRepository: ThreadRepository
     let threadEntryHandlerService: ThreadEntryHandlerService
     const entry: OutboxEntry = {
       uid: 1,
@@ -145,9 +167,13 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       messageService = {
         getMessage: jest.fn().mockReturnValue(successResponse),
       } as unknown as MessageService
+      threadRepository = {
+        findById: jest.fn().mockReturnValue(threadMock),
+      } as unknown as ThreadRepository
       subject = new MessageEntryHandlerService(
         messageService,
         messageRepository,
+        threadRepository,
         threadEntryHandlerService
       )
     })
@@ -169,6 +195,7 @@ describe("MessageEntryHandlerService: handleEntry", () => {
     let subject: MessageEntryHandlerService
     let messageService: MessageService
     let messageRepository: MessageRepository
+    let threadRepository: ThreadRepository
     let threadEntryHandlerService: ThreadEntryHandlerService
     const entry: OutboxEntry = {
       uid: 1,
@@ -187,9 +214,13 @@ describe("MessageEntryHandlerService: handleEntry", () => {
       messageService = {
         getMessage: jest.fn().mockReturnValue(errorResponse),
       } as unknown as MessageService
+      threadRepository = {
+        findById: jest.fn().mockReturnValue(threadMock),
+      } as unknown as ThreadRepository
       subject = new MessageEntryHandlerService(
         messageService,
         messageRepository,
+        threadRepository,
         threadEntryHandlerService
       )
     })

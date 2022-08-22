@@ -13,10 +13,10 @@ import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-
 
 const fakeData: DiskSpaceCategory[] = [
   {
-    type: DiskSpaceCategoryType.UsedSpace,
+    type: DiskSpaceCategoryType.Music,
     color: "#DFEFDE",
     icon: IconType.MuditaLogo,
-    label: "Used space",
+    label: "Music",
     size: 41943040,
   },
   {
@@ -38,7 +38,7 @@ storiesOf("Views|Files Manager/Files Summary", module).add(
     return (
       <Container>
         <FilesSummary
-          systemMemory={62914560}
+          usedMemory={62914560}
           totalMemorySpace={104857600}
           diskSpaceCategories={fakeData}
         />

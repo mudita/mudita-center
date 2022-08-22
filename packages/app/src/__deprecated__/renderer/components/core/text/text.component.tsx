@@ -118,6 +118,7 @@ export interface TextProps {
   readonly displayStyle?: TextDisplayStyle
   readonly color?: keyof Theme["color"]["text"]
   readonly onClick?: () => void
+  readonly testId?: string
 }
 
 export enum TextDisplayStyle {
@@ -165,12 +166,14 @@ const Text: FunctionComponent<TextProps> = ({
   element,
   className = "",
   color = "primary",
+  testId,
   ...rest
 }) => (
   <TextWrapper
     className={className}
     as={element || mapping[displayStyle]}
     displayStyle={displayStyle}
+    data-testid={testId}
     {...rest}
     color={color}
   >

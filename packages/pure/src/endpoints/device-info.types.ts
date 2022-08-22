@@ -76,9 +76,9 @@ export interface DeviceInfo {
   batteryLevel: string
   batteryState: BatteryState
   currentRTCTime: string
-  fsFree: string
-  fsFreePercent: string
-  fsTotal: string
+  systemReservedSpace: string
+  usedUserSpace: string
+  deviceSpaceTotal: string
   gitBranch: string
   gitRevision: string
   version: string

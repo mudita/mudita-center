@@ -15,12 +15,11 @@ import {
   ResponseStatus,
 } from "./device.types"
 import { DeviceType } from "./constants"
-import { createValidRequest, getNewUUID, parseData } from "../parser"
+import { SerialPortParser } from "./serial-port-parser/serial-port-parser"
 import { isApiRequestPayload } from "./device-helper"
 import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator"
 import { timeout } from "../timeout"
-
 export const timeoutMs = 30000
 
 class BaseDevice implements MuditaDevice {
@@ -28,7 +27,11 @@ class BaseDevice implements MuditaDevice {
   #eventEmitter = new EventEmitter()
   #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
-  constructor(public path: string, public deviceType: DeviceType) {}
+  constructor(
+    public path: string,
+    public deviceType: DeviceType,
+    private parser: SerialPortParser
+  ) {}
 
   @log("==== serial port: connect ====")
   public connect(): Promise<Response> {
@@ -45,18 +48,16 @@ class BaseDevice implements MuditaDevice {
       })
 
       this.#port.on("data", (event) => {
-        void (async () => {
-          try {
-            // AUTO DISABLED - fix me if you like :)
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            const data = await parseData(event)
+        try {
+          const data = this.parser.parseData(event)
+          if (data !== undefined) {
             this.emitDataReceivedEvent(data)
-          } catch (error) {
-            this.emitDataReceivedEvent({
-              status: ResponseStatus.ParserError,
-            })
           }
-        })()
+        } catch (error) {
+          this.emitDataReceivedEvent({
+            status: ResponseStatus.ParserError,
+          })
+        }
       })
 
       this.#port.on("close", (event) => {
@@ -115,7 +116,7 @@ class BaseDevice implements MuditaDevice {
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Promise<Response<any>>((resolve) => {
-      const uuid = getNewUUID()
+      const uuid = SerialPortParser.getNewUUID()
       const payload: RequestPayload = { ...config, uuid }
 
       // AUTO DISABLED - fix me if you like :)
@@ -193,7 +194,7 @@ class BaseDevice implements MuditaDevice {
   // AUTO DISABLED - fix me if you like :)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private mapPayloadToRequest(payload: RequestPayload<any>): string {
-    return createValidRequest(payload)
+    return SerialPortParser.createValidRequest(payload)
   }
 
   @log("==== serial port: close event ====", LogConfig.Args)

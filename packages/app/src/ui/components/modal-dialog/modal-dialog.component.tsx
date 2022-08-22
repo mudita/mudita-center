@@ -138,10 +138,7 @@ export const ModalDialog: FunctionComponent<ModalDialogProps> = withTheme(
             ...getModalSize(size),
           },
         }}
-        shouldCloseOnOverlayClick
-        // AUTO DISABLED - fix me if you like :)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        onRequestClose={closeModal}
+        shouldCloseOnOverlayClick={false}
         // AUTO DISABLED - fix me if you like :)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         onAfterClose={onClose}

@@ -17,9 +17,7 @@ import BackupDeviceFlow, {
   BackupDeviceFlowState,
 } from "App/overview/components/backup-device-flow/backup-device-flow.component"
 import isVersionGreater from "App/overview/helpers/is-version-greater"
-import UpdatingForceModalFlow, {
-  UpdatingForceModalFlowState,
-} from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
+import UpdatingForceModalFlow from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
 import { BackupDeviceDataState } from "App/backup-device/reducers"
 import { Backup } from "App/backup/reducers"
 import RestoreDeviceFlow, {
@@ -31,6 +29,7 @@ import { StartRestoreOption } from "App/restore-device/actions"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { MemorySpace } from "App/files-manager/components/files-manager/files-manager.interface"
 import ErrorSyncModal from "App/connecting/components/error-sync-modal/error-sync-modal"
+import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 
 interface PureOverviewProps {
   readonly lowestSupportedOsVersion: string | undefined
@@ -41,7 +40,7 @@ interface PureOverviewProps {
   readonly networkName: string
   readonly networkLevel: number
   readonly pureOsBackupLocation: string
-  readonly updatingState: UpdatingState
+  readonly updatingState: UpdatingState | null
   readonly caseColour: CaseColour
   readonly lastBackupDate: Date
   readonly backupDeviceState: BackupDeviceDataState
@@ -69,8 +68,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
   lastAvailableOsVersion,
   updatePhoneOsInfo = noop,
   memorySpace = {
-    free: 0,
-    full: 16000000000,
+    reservedSpace: 0,
+    usedUserSpace: 16000000000,
     total: 16000000000,
   },
   networkName,
@@ -198,6 +197,8 @@ export const PureOverview: FunctionComponent<PureOverviewProps> = ({
       return UpdatingForceModalFlowState.Success
     } else if (updatingState === UpdatingState.Fail) {
       return UpdatingForceModalFlowState.Fail
+    } else if (updatingState === UpdatingState.Updating) {
+      return UpdatingForceModalFlowState.Updating
     } else if (!osVersionSupported) {
       return UpdatingForceModalFlowState.Info
     } else {

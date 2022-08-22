@@ -19,6 +19,9 @@ import { BackupDeviceDataState } from "App/backup-device/reducers"
 import { RestoreDeviceDataState } from "App/restore-device/reducers"
 import { SynchronizationState } from "App/data-sync/reducers"
 import { ErrorSyncModalTestIds } from "App/connecting/components/error-sync-modal/error-sync-modal-test-ids.enum"
+import * as UpdatingForceModalFlowModule from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.component"
+import { UpdatingForceModalFlowProps } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.interface"
+import { UpdatingForceModalFlowState } from "App/overview/components/updating-force-modal-flow/updating-force-modal-flow.enum"
 
 jest.mock("@electron/remote", () => ({
   Menu: () => ({
@@ -56,8 +59,8 @@ const defaultProps: Props = {
   updatePhoneOsInfo: jest.fn(),
   updatingState: UpdatingState.Standby,
   memorySpace: {
-    free: 100,
-    full: 200,
+    reservedSpace: 100,
+    usedUserSpace: 200,
     total: 200,
   },
   syncState: SynchronizationState.Loaded,
@@ -77,6 +80,10 @@ const render = (extraProps?: Partial<Props>) => {
     </Router>
   )
 }
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
 
 test("Renders Mudita pure data", () => {
   const { getByTestId, queryByText } = render()
@@ -130,4 +137,61 @@ describe("`ErrorSyncModal` logic", () => {
       queryByTestId(ErrorSyncModalTestIds.Container)
     ).not.toBeInTheDocument()
   })
+})
+
+describe("update state", () => {
+  type TestCase = [
+    updatingStateKeyValue: keyof typeof UpdatingState | undefined, // passing as key to improve test title readability
+    isOsSupported: boolean,
+    updatingForceModalState: UpdatingForceModalFlowState
+  ]
+
+  const testCases: TestCase[] = [
+    ["Success", true, UpdatingForceModalFlowState.Success],
+    ["Fail", true, UpdatingForceModalFlowState.Fail],
+    ["Updating", true, UpdatingForceModalFlowState.Updating],
+    ["Updating", false, UpdatingForceModalFlowState.Updating],
+    [undefined, false, UpdatingForceModalFlowState.Info],
+  ]
+
+  let updateForceModalSpy: jest.SpyInstance<
+    unknown,
+    UpdatingForceModalFlowProps[]
+  >
+
+  beforeEach(() => {
+    updateForceModalSpy = jest.spyOn(UpdatingForceModalFlowModule, "default")
+  })
+
+  describe.each(testCases)(
+    "when updating state from store equals to %p and os support state equal to %p",
+    (updatingStateKeyValue, isOsSupported, updatingForceModalState) => {
+      test(`update force modal should receive ${updatingForceModalState}`, () => {
+        const updatingState = updatingStateKeyValue
+          ? UpdatingState[updatingStateKeyValue]
+          : undefined
+
+        if (isOsSupported) {
+          render({
+            osVersion: "1.1.0",
+            lowestSupportedOsVersion: "1.0.0",
+            updatingState,
+          })
+        } else {
+          render({
+            updatingState,
+            osVersion: "0.1.0",
+            lowestSupportedOsVersion: "1.0.0",
+          })
+        }
+
+        expect(updateForceModalSpy).toHaveBeenLastCalledWith(
+          expect.objectContaining({
+            state: updatingForceModalState,
+          }),
+          expect.anything()
+        )
+      })
+    }
+  )
 })

@@ -43,8 +43,8 @@ const defaultProps: Props = {
   caseColour: CaseColour.Gray,
   disconnectDevice: noop,
   memorySpace: {
-    free: 0,
-    full: 16000000000,
+    reservedSpace: 0,
+    usedUserSpace: 16000000000,
     total: 16000000000,
   },
   networkName: "Orange",

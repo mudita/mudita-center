@@ -51,9 +51,10 @@ export interface ContactInput {
   [ContactTable.Names]: DBQueryResult<keyof ContactNameEntity, string[]>
   [ContactTable.Numbers]: DBQueryResult<keyof ContactNumberEntity, string[]>
   [ContactTable.Addresses]: DBQueryResult<keyof ContactAddressEntity, string[]>
-  [ContactTable.Group]: DBQueryResult<keyof ContactGroupEntity, string[]>
-  [ContactTable.MatchGroup]: DBQueryResult<
-    keyof ContactMatchGroupEntity,
-    string[]
-  >
+  [ContactTable.Group]:
+    | DBQueryResult<keyof ContactGroupEntity, string[]>
+    | undefined
+  [ContactTable.MatchGroup]:
+    | DBQueryResult<keyof ContactMatchGroupEntity, string[]>
+    | undefined
 }

@@ -94,6 +94,8 @@ require("dotenv").config()
 // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
 //  There is almost always a better way to accomplish your task than using this module.
 //  You can read more in https://github.com/electron/remote#migrating-from-remote
+// AUTO DISABLED - fix me if you like :)
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 require("@electron/remote/main").initialize()
 
 logger.info("Starting the app")
@@ -182,6 +184,8 @@ const createWindow = async () => {
   // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
   //  There is almost always a better way to accomplish your task than using this module.
   //  You can read more in https://github.com/electron/remote#migrating-from-remote
+  // AUTO DISABLED - fix me if you like :)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   require("@electron/remote/main").enable(win.webContents)
   new MetadataInitializer(metadataStore).init()
 
@@ -294,6 +298,8 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
     // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
     //  There is almost always a better way to accomplish your task than using this module.
     //  You can read more in https://github.com/electron/remote#migrating-from-remote
+    // AUTO DISABLED - fix me if you like :)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     require("@electron/remote/main").enable(helpWindow.webContents)
     // AUTO DISABLED - fix me if you like :)
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -342,6 +348,8 @@ const createOpenWindowListener = (
       // FIXME: electron v12 added changes to the remote module. This module has many subtle pitfalls.
       //  There is almost always a better way to accomplish your task than using this module.
       //  You can read more in https://github.com/electron/remote#migrating-from-remote
+      // AUTO DISABLED - fix me if you like :)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       require("@electron/remote/main").enable(newWindow.webContents)
       await newWindow.loadURL(
         !productionEnvironment

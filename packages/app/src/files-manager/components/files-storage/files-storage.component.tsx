@@ -5,15 +5,16 @@
 
 import React from "react"
 import styled from "styled-components"
-import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
-import { ResultState } from "App/files-manager/reducers/files-manager.interface"
-import { File } from "App/files-manager/dto"
-import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
 import { defineMessages } from "react-intl"
+import { FunctionComponent } from "App/__deprecated__/renderer/types/function-component.interface"
+import { FilesStorageTestIds } from "App/files-manager/components/files-storage/files-storage-test-ids.enum"
 import Text, {
   TextDisplayStyle,
 } from "App/__deprecated__/renderer/components/core/text/text.component"
 import FilesStorageList from "App/files-manager/components/files-storage-list/files-storage-list.component"
+import { Feature, flags } from "App/feature-flags"
+import { FilesManagerPanel } from "App/files-manager/components/files-manager-panel"
+import { FilesStorageProps } from "App/files-manager/components/files-storage/files-storage.interface"
 
 const TitleWrapper = styled.div`
   margin: 1.6rem 3.2rem 1rem;
@@ -24,14 +25,21 @@ const messages = defineMessages({
     id: "component.filesManagerFilesStorageTitle",
   },
 })
-interface Props {
-  resultState: ResultState
-  files: File[]
-}
 
-const FilesStorage: FunctionComponent<Props> = ({
-  resultState,
+const FilesStorage: FunctionComponent<FilesStorageProps> = ({
+  state,
   files = [],
+  resetAllItems,
+  selectAllItems,
+  toggleItem,
+  selectedItems,
+  allItemsSelected,
+  onDeleteClick,
+  onManagerDeleteClick,
+  uploadFiles,
+  searchValue,
+  onSearchValueChange,
+  noFoundFiles,
 }) => {
   return (
     <>
@@ -42,10 +50,27 @@ const FilesStorage: FunctionComponent<Props> = ({
           message={messages.title}
         />
       </TitleWrapper>
+      {flags.get(Feature.FilesManagerActionsEnabled) && (
+        <FilesManagerPanel
+          onUploadFile={uploadFiles}
+          disabled={false}
+          toggleAll={selectAllItems}
+          resetRows={resetAllItems}
+          onDeleteClick={onManagerDeleteClick}
+          selectedFiles={selectedItems}
+          allItemsSelected={allItemsSelected}
+          searchValue={searchValue}
+          onSearchValueChange={onSearchValueChange}
+        />
+      )}
       <FilesStorageList
         data-testid={FilesStorageTestIds.List}
         files={files}
-        resultState={resultState}
+        selectedItems={selectedItems}
+        toggleRow={toggleItem}
+        onDelete={onDeleteClick}
+        state={state}
+        noFoundFiles={noFoundFiles}
       />
     </>
   )

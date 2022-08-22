@@ -307,14 +307,14 @@ class PurePhone extends PurePhoneAdapter {
   private async waitUntilDeviceRestart(
     index = 0,
     deviceType = this.deviceService.currentDevice?.deviceType,
-    timeout = 5000,
+    timeout = 10000,
     callsMax = 60
   ): Promise<RequestResponse> {
     if (index === callsMax) {
       return {
         status: RequestResponseStatus.Error,
         error: {
-          message: "updateOs: device no restart successful in 5 minutes",
+          message: "updateOs: device no restart successful in 10 minutes",
         },
       }
     }

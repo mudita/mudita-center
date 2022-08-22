@@ -27,4 +27,5 @@ export enum Size {
   FixedSmall,
   FixedMedium,
   FixedBig,
+  Auto,
 }

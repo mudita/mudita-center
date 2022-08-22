@@ -9,22 +9,30 @@ import { intl } from "App/__deprecated__/renderer/utils/intl"
 import { IconType } from "App/__deprecated__/renderer/components/core/icon/icon-type"
 
 export const filesSummaryElements: DiskSpaceCategory[] = [
-  // Ready for CP-970
-  // {
-  //   type: DiskSpaceCategoryType.Music,
-  //   color: "#E3F3FF",
-  //   icon: Type.MenuMusic,
-  // label: intl.formatMessage({
-  //   id: "component.filesManagerSummaryMusic",
-  // }),
-  //   size: 0,
-  // },
   {
-    type: DiskSpaceCategoryType.UsedSpace,
+    type: DiskSpaceCategoryType.Music,
+    color: "#E3F3FF",
+    icon: IconType.MenuMusic,
+    label: intl.formatMessage({
+      id: "component.filesManagerSummaryMusic",
+    }),
+    size: 0,
+  },
+  {
+    type: DiskSpaceCategoryType.OtherSpace,
+    color: "#F8EBD2",
+    icon: IconType.FilesManager,
+    label: intl.formatMessage({
+      id: "component.filesManagerSummaryOtherSpace",
+    }),
+    size: 0,
+  },
+  {
+    type: DiskSpaceCategoryType.System,
     color: "#DFEFDE",
     icon: IconType.MuditaLogo,
     label: intl.formatMessage({
-      id: "component.filesManagerSummaryUsedSpace",
+      id: "component.filesManagerSummarySystem",
     }),
     size: 0,
   },

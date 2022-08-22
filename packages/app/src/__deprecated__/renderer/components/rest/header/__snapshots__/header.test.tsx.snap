@@ -85,7 +85,7 @@ exports[`matches snapshot with tabs 1`] = `
   overflow: hidden;
   -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
   transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
-  width: 17.6rem;
+  width: "auto";
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -94,7 +94,6 @@ exports[`matches snapshot with tabs 1`] = `
   padding: 0.8rem 0;
   border: none;
   position: relative;
-  width: 100%;
 }
 
 .c4:after {
@@ -175,7 +174,7 @@ exports[`matches snapshot with tabs 1`] = `
       class="c4 c5 active"
       displaystyle="8"
       href="/phone"
-      size="1"
+      size="3"
     >
       <span
         class="c6 c7"
@@ -198,7 +197,7 @@ exports[`matches snapshot with tabs 1`] = `
       class="c4 c5"
       displaystyle="8"
       href="/phone/dial"
-      size="1"
+      size="3"
     >
       <span
         class="c6 c7"
